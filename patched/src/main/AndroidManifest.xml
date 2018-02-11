@@ -1,0 +1,38 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.edotasx.amazfit"
+    android:versionName="1.0.0" android:versionCode="100000">
+
+    <!--Source and patched manifests are merged according to standard build rules:
+        http://tools.android.com/tech-docs/new-build-system/user-guide/manifest-merger -->
+
+    <!--We let the application tag inherit its attributes from the source app.-->
+    <application
+        android:debuggable="true"
+        tools:ignore="HardcodedDebugMode">
+
+        <!--As a convenience, due to this bug in Android Studio:
+            https://code.google.com/p/android/issues/detail?id=168306
+            We surface part of the default activity to the main manifest
+            so that Studio will not complain when launching the app.-->
+
+        <!--This activity is required by the file chooser we imported:
+            https://github.com/bartwell/ExFilePicker#usage -->
+        <!--
+        <activity
+            android:name="ru.bartwell.exfilepicker.ExFilePickerActivity"
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/ExFilePickerThemeDark" />
+            -->
+        <activity android:name="com.huami.watch.companion.thirdparty.strava.StravaAuthActivity"></activity>
+        <activity android:name="com.huami.watch.companion.ui.activity.SportsHealthOverseaActivity"></activity>
+    </application>
+
+    <!--We add this permission to let the file chooser poke around storage.-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+</manifest>

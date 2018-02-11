@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.huami.watch.companion.ui.view.ActionbarLayout
+        android:id="@+id/actionbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+
+    <ImageView
+        android:id="@+id/tip_img"
+        android:layout_width="wrap_content"
+        android:layout_height="389dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/strava" />
+
+    <TextView
+        android:id="@+id/sync_data_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13.0dip"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="14.0sp" />
+
+    <Button
+        android:id="@+id/sync_data"
+        android:layout_width="fill_parent"
+        android:layout_height="39.0dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="22dp"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onSyncDataClick"
+        android:text="@string/strava_sync_data"
+        android:textSize="14.0sp" />
+
+    <Button
+        android:id="@+id/strava_auth_start"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:onClick="onStravaAuthStartClick"
+        android:paddingLeft="24.0dip"
+        android:paddingRight="24.0dip"
+        android:text="@string/strava_open"
+        android:textAlignment="center"
+        android:textSize="20dp"></Button>
+</LinearLayout>

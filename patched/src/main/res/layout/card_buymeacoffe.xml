@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/l_card_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="20.0dip"
+        android:layout_height="20.0dip"
+        android:layout_marginBottom="10.0dip"
+        android:layout_marginStart="12.0dip"
+        android:layout_marginTop="10.0dip"
+        android:scaleType="fitCenter"
+        android:src="@drawable/donation" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10.0dip"
+            android:text="@string/buy_me_a_coffe"
+            android:textColor="#e6000000"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10.0dip"
+            android:text="@string/paypalme_link"
+            android:autoLink="web"
+            android:textColor="#0645ad"
+            android:textSize="13.0sp" />
+    </LinearLayout>
+
+</LinearLayout>

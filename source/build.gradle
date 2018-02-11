@@ -1,0 +1,50 @@
+// DexPatcher APK Library plugin:
+
+apply plugin: 'com.github.lanchon.dexpatcher.apk-library'
+
+// The DexPatcher APK Library plugin processes an Android application (APK) file and
+// produces a DexPatcher APK library file that can be used to create modified versions
+// of the source application. The file is similar in structure to an Android Library
+// (AAR) file. It includes the decoded Android resources of the application and its
+// Dalvik bytecode translated into Java bytecode among other things.
+
+// General Plugin Configuration
+dexpatcherConfig {
+    // This should point to a local clone of the DexPatcher Gradle plugin support tool
+    // repo that is available here: https://github.com/Lanchon/DexPatcher-gradle-tools
+    // But instead of defining the directory here, add a 'dexpatcher.dir' entry to the
+    // 'local.properties' of the root project. That way it becomes available to all
+    // subprojects and the local configuration is not posted to the VCS.
+    //dir = '~/android/dexpatcher/dexpatcher-gradle-tools'
+
+    // Specific Plugin Configuration
+    apkLibrary {
+        // The source application file or directory. Defaults to 'apk'.
+        //apkFileOrDir = 'apk'
+
+        // Enable this setting to make this project ignore the clean task so that the built
+        // apk library survives a global clean. You can always use the cleanApkLibrary or
+        // cleanAll tasks to clean the library.
+        disableClean = true
+    }
+
+    // Per-Tool Defaults
+    apktool {
+        //frameworkDirAsInput = 'framework'   // use framework in project subdirectory
+        //frameworkTag = 'tag'
+        //apiLevel = 14
+        //keepBrokenResources = true
+        //stripDebugInfo = true
+    }
+
+    dex2jar {
+        //translateCode = false
+        //translateDebugInfo = true
+        //optimizeSynchronized = true
+        //reuseRegisters = true
+    }
+}
+
+// Configure the decodeApk, dex2jar and apkLibrary tasks here.
+//decodeApk.keepBrokenResources = true
+//dex2jar.translateCode = false

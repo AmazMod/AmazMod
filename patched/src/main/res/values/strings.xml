@@ -1,0 +1,39 @@
+<resources>
+
+    <!--Source and patched resources are merged according to standard build rules:
+        http://tools.android.com/tech-docs/new-build-system/resource-merging -->
+
+    <!--Override app name.-->
+
+    <string name="welcome_use_watch">Welcome to Amazfit Watch Mod\n(by edotasx)</string>
+
+    <string name="not_all_permission_granted_warning">If you do not enable all the required permissions, the app may not work properly</string>
+
+    <string name="facebook_group_link">Group Facebook Amazfit Italy</string>
+    <string name="buy_me_a_coffe">Buy me a coffe</string>
+    <string name="bugs_or_reports">Bugs or reports?</string>
+    <string name="bugs_email">edo.tassinari@gmail.com</string>
+    <string name="paypalme_link">https://www.paypal.me/edotasx</string>
+    <string name="strava_sync">Strava Sync</string>
+    <string name="strava_authenticated">Authenticated</string>
+    <string name="strava_authentication_failed">Auth failed!</string>
+    <string name="strava_updated">Updated</string>
+    <string name="strava_not_sync">Not sync</string>
+    <string name="strava_sync_data">Sync</string>
+    <string name="strava_open">Open Strava</string>
+    <string name="strava_authorizing">Authorizing</string>
+    <string name="strava_syncing">Syncing</string>
+    <string name="strava_last_update">Last update: %1$s</string>
+    <string name="content_update_available">A new update is available for download. Go to the Facebook page or the website to download it.</string>
+    <string name="changelog_v_100">v1.0.0 - 11/02/2018</string>
+    <string name="changelog_end">App modified by edotassi with valuable tips from John BNC</string>
+    <string name="changelog_row_1"> - Notification management with last message from Whatsapp</string>
+    <string name="changelog_row_2"> - Added UI sync Strava</string>
+    <string name="changelog_row_3"> - Compatible with both US and Chinese versions</string>
+    <string name="changelog_row_4"> - Added Italian official Facebook group link</string>
+    <string name="changelog_row_5"> - Added check permissions on startup</string>
+    <string name="changelog_row_6"> - Edit the photos in the Login page</string>
+    <string name="changelog_row_7"> - Added notification app updates</string>
+    <string name="changelog_row_8"> - Added donation link</string>
+    <string name="changelog_row_9"> - Added email</string>
+</resources>

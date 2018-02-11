@@ -2,6 +2,8 @@
 *.apk
 *.ap_
 
+!source/apk/*.apk
+
 # Files for the ART/Dalvik VM
 *.dex
 
@@ -48,7 +50,7 @@ captures/
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+#google-services.json
 
 # Freeline
 freeline.py
