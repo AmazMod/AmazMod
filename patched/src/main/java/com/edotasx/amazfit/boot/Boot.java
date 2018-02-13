@@ -1,6 +1,9 @@
 package com.edotasx.amazfit.boot;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
+import android.view.View;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
@@ -43,6 +46,12 @@ public class Boot {
     }
 
     private void initiate(Context pContext) {
+        Activity activity = (Activity) pContext;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            activity.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        }
+
+
         PermissionManager.sharedInstance().requestPermissions(pContext);
 
         new AppUpdater(pContext)

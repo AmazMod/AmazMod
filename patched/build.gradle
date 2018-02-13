@@ -89,8 +89,8 @@ dexpatcherConfig {
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.1'
 
     defaultConfig {
         // The 'package' attribute in the patched app manifest must be different from the
@@ -101,7 +101,7 @@ android {
         // You must set these fields to match or be compatible with the corresponding data
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 14
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName '1.0'
     }
@@ -160,6 +160,8 @@ dependencies {
         exclude module: 'support-compat'
         exclude module: 'support-core-ui'
     }
+
+    compile 'com.android.support:appcompat-v7:26.0.1'
 
     compile files('/Users/edoardotassinari/Source/dex-patcher/dexpatcher-gradle-samples/patched-app/libs/lib.jar')
 }

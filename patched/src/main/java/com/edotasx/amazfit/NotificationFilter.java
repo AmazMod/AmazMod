@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 

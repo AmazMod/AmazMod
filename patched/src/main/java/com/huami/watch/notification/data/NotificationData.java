@@ -5,13 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v7.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
 
 import lanchon.dexpatcher.annotation.DexAction;
-import lanchon.dexpatcher.annotation.DexAdd;
 import lanchon.dexpatcher.annotation.DexEdit;
 import lanchon.dexpatcher.annotation.DexIgnore;
 import lanchon.dexpatcher.annotation.DexWrap;

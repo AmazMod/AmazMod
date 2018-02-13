@@ -9,7 +9,8 @@
     <!--We let the application tag inherit its attributes from the source app.-->
     <application
         android:debuggable="true"
-        tools:ignore="HardcodedDebugMode">
+        tools:ignore="HardcodedDebugMode"
+        tools:remove="android:supportsRtl">
 
         <!--As a convenience, due to this bug in Android Studio:
             https://code.google.com/p/android/issues/detail?id=168306
