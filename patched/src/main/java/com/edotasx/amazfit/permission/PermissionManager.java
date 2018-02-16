@@ -34,12 +34,10 @@ public class PermissionManager {
                 .setPermissionListener(new PermissionListener() {
                     @Override
                     public void onPermissionGranted() {
-                        Log.d(Constants.TAG, "permission granted");
                     }
 
                     @Override
                     public void onPermissionDenied(ArrayList<String> deniedPermissions) {
-
                     }
                 })
                 .setPermissions(
