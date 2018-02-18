@@ -7,7 +7,7 @@ import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
-import com.edotasx.amazfit.NotificationFilter;
+import com.edotasx.amazfit.notification.NotificationManager;
 
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexEdit;
@@ -27,7 +27,7 @@ public class NotificationAccessService extends NotificationListenerService
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
         Log.d(Constants.TAG, "onNotificationPosted");
-        if (!NotificationFilter.sharedInstance().filter(statusBarNotification)) {
+        if (!NotificationManager.sharedInstance().filter(statusBarNotification)) {
             onNotificationPosted(statusBarNotification);
         }
     }
@@ -35,7 +35,7 @@ public class NotificationAccessService extends NotificationListenerService
     @DexWrap
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification, NotificationListenerService.RankingMap rankingMap) {
-        if (!NotificationFilter.sharedInstance().filter(statusBarNotification)) {
+        if (!NotificationManager.sharedInstance().filter(statusBarNotification)) {
             onNotificationPosted(statusBarNotification, rankingMap);
         }
     }
