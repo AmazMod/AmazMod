@@ -163,7 +163,7 @@ dependencies {
 
     compile 'com.android.support:appcompat-v7:26.0.1'
 
-    compile files('/Users/edoardotassinari/Source/dex-patcher/dexpatcher-gradle-samples/patched-app/libs/lib.jar')
+    compile files('../libs/lib.jar')
 }
 
 configurations {
