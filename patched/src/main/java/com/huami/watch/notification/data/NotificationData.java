@@ -12,6 +12,9 @@ import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
 import com.huami.watch.companion.ui.MainActivity;
+import com.huami.watch.dataflow.model.health.process.Const;
+
+import java.util.UUID;
 
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexEdit;
@@ -27,6 +30,10 @@ public class NotificationData implements Parcelable {
 
     @DexIgnore
     public String text;
+    @DexIgnore
+    public NotificationKeyData key;
+    @DexIgnore
+    public Notification originalNotification;
 
     @DexIgnore
     public static final Creator<NotificationData> CREATOR = null;
@@ -65,8 +72,21 @@ public class NotificationData implements Parcelable {
             notificationData.text = lines[index].toString();
         }
 
+        /*
 
-        Log.d(Constants.TAG, "edited notification data");
+        notificationData.key.key = notificationData.key.key + ":" + UUID.randomUUID().toString();
+        if (notificationData.key.tag != null) {
+            notificationData.key.tag = notificationData.key.tag + ":" + UUID.randomUUID().toString();
+        }
+        */
+
+        /*
+        Log.d(Constants.TAG_NOTIFICATION, "pkg: " + notificationData.key.pkg);
+        Log.d(Constants.TAG_NOTIFICATION, "id: " + notificationData.key.id);
+        Log.d(Constants.TAG_NOTIFICATION, "key: " + notificationData.key.key);
+        Log.d(Constants.TAG_NOTIFICATION, "tag: " + notificationData.key.tag);
+        Log.d(Constants.TAG_NOTIFICATION, "targetPkg: " + notificationData.key.targetPkg);
+        */
 
         return notificationData;
     }

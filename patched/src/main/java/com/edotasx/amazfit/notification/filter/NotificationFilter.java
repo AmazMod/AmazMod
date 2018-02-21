@@ -6,8 +6,6 @@ import android.service.notification.StatusBarNotification;
  * Created by edoardotassinari on 18/02/18.
  */
 
-public interface NotificationFilter {
+public interface NotificationFilter extends PreNotificationFilter {
     String getPackage();
-
-    boolean filter(StatusBarNotification statusBarNotification);
 }

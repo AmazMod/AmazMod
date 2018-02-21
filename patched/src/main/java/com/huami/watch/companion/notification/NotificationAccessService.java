@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.notification.NotificationManager;
+import com.huami.watch.notification.data.StatusBarNotificationData;
 
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexEdit;
@@ -26,8 +27,7 @@ public class NotificationAccessService extends NotificationListenerService
     @DexWrap
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
-        Log.d(Constants.TAG, "onNotificationPosted");
-        if (!NotificationManager.sharedInstance().filter(statusBarNotification)) {
+        if (!NotificationManager.sharedInstance(this).filter(statusBarNotification)) {
             onNotificationPosted(statusBarNotification);
         }
     }
@@ -35,7 +35,7 @@ public class NotificationAccessService extends NotificationListenerService
     @DexWrap
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification, NotificationListenerService.RankingMap rankingMap) {
-        if (!NotificationManager.sharedInstance().filter(statusBarNotification)) {
+        if (!NotificationManager.sharedInstance(this).filter(statusBarNotification)) {
             onNotificationPosted(statusBarNotification, rankingMap);
         }
     }
