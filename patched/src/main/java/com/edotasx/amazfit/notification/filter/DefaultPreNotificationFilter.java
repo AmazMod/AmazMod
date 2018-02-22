@@ -31,11 +31,12 @@ public class DefaultPreNotificationFilter implements PreNotificationFilter {
     public boolean filter(StatusBarNotification statusBarNotification) {
         String completeKey = StatusBarNotificationData.getCompleteKey(context, statusBarNotification);
 
-        Log.d("CompleteKey", completeKey);
-
         if (notificationsLetGo.containsKey(completeKey)) {
+            Log.d(Constants.TAG_NOTIFICATION, "rejected by pre-filter: " + statusBarNotification.getPackageName() + " - key: " + completeKey);
             return true;
         } else {
+            Log.d(Constants.TAG_NOTIFICATION, "accepted by pre-filter: " + statusBarNotification.getPackageName());
+
             notificationsLetGo.put(completeKey, System.currentTimeMillis());
             return false;
         }

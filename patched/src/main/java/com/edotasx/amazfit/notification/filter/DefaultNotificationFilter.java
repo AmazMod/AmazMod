@@ -38,7 +38,7 @@ public class DefaultNotificationFilter implements NotificationFilter {
 
         Long lTime = mNotificationsSent.get(lKey);
         if (lTime == null) {
-            Log.d(Constants.TAG_NOTIFICATION, "notification accepted: \"" + lKey + "\"");
+            Log.d(Constants.TAG_NOTIFICATION, "accepted by default filter: " + lKey);
 
             mNotificationsSent.put(lKey, System.currentTimeMillis());
             return false;
@@ -46,11 +46,13 @@ public class DefaultNotificationFilter implements NotificationFilter {
 
         Long lCurrentTime = System.currentTimeMillis();
         if ((lCurrentTime - lTime) > Constants.TIME_BETWEEN_NOTIFICATIONS) {
-            Log.d(Constants.TAG_NOTIFICATION, "notification accepted: \"" + lKey + "\"");
+            Log.d(Constants.TAG_NOTIFICATION, "accepted by default filter: " + lKey);
 
             mNotificationsSent.put(lKey, lCurrentTime);
             return false;
         }
+
+        Log.d(Constants.TAG_NOTIFICATION, "rejected by default filter: " + statusBarNotification.getPackageName());
 
         return true;
         /*

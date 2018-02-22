@@ -47,17 +47,18 @@ public class StatusBarNotificationData implements SafeParcelable {
         return null;
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @DexAdd
     public static StatusBarNotificationData from(StatusBarNotification pStatusBarNotification) {
         StatusBarNotificationData statusBarNotificationData = source_from(pStatusBarNotification);
 
-        statusBarNotificationData.pkg = UUID.randomUUID().toString();
-        statusBarNotificationData.tag = UUID.randomUUID().toString();
-        statusBarNotificationData.targetPkg = UUID.randomUUID().toString();
-        statusBarNotificationData.key = /* statusBarNotificationData.key + "|" + */ UUID.randomUUID().toString();
-        statusBarNotificationData.groupKey = /* statusBarNotificationData.groupKey + "|" +*/ UUID.randomUUID().toString();
+        statusBarNotificationData.pkg = statusBarNotificationData.pkg + "|" + pStatusBarNotification.getNotification().when;
+        //statusBarNotificationData.tag = UUID.randomUUID().toString();
+        //statusBarNotificationData.targetPkg = UUID.randomUUID().toString();
+        //statusBarNotificationData.key = /* statusBarNotificationData.key + "|" + */ UUID.randomUUID().toString();
+        //statusBarNotificationData.groupKey = /* statusBarNotificationData.groupKey + "|" +*/ UUID.randomUUID().toString();
 
-        Log.d(Constants.TAG_NOTIFICATION, "key: " + statusBarNotificationData.toString());
+        //Log.d(Constants.TAG_NOTIFICATION, "key: " + statusBarNotificationData.toString());
 
         return statusBarNotificationData;
     }
@@ -66,12 +67,7 @@ public class StatusBarNotificationData implements SafeParcelable {
     @DexAdd
     public static String getCompleteKey(Context context, StatusBarNotification statusBarNotification) {
         StatusBarNotificationData statusBarNotificationData = source_from(statusBarNotification);
-        NotificationKeyData notificationKeyData = NotificationKeyData.from(statusBarNotificationData);
-        NotificationData notificationData = NotificationData.from(context, notificationKeyData, statusBarNotification.getNotification(), false);
-
-        return notificationData != null ?
-                statusBarNotificationData.key + "|" + notificationData.text :
-                statusBarNotificationData.key;
+        return statusBarNotificationData.pkg + "|" + statusBarNotification.getNotification().when;
     }
 
     @DexIgnore
