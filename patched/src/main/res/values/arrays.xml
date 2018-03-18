@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_googleMapsType_entries">
+        <item>Roadmap</item>
+        <item>Satellite</item>
+        <item>Hybrid</item>
+        <item>Terrain</item>
+    </string-array>
+    <string-array name="pref_googleMapsType_values">
+        <item>roadmap</item>
+        <item>satellite</item>
+        <item>hybrid</item>
+        <item>terrain</item>
+    </string-array>
+</resources>

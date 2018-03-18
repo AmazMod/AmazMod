@@ -2,8 +2,11 @@ package com.huami.watch.util;
 
 import com.edotasx.amazfit.Constants;
 
+import java.io.File;
+
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexEdit;
+import lanchon.dexpatcher.annotation.DexIgnore;
 import lanchon.dexpatcher.annotation.DexReplace;
 
 /**
@@ -12,6 +15,11 @@ import lanchon.dexpatcher.annotation.DexReplace;
 
 @DexEdit(defaultAction = DexAction.IGNORE)
 public class Log {
+
+    @DexIgnore
+    public static Log.Settings init() {
+        return null;
+    }
 
     @DexReplace
     public static void d(String string2, String string3, Object... arrobject) {
@@ -57,5 +65,119 @@ public class Log {
     @DexReplace
     public static void wtf(String string2, String string3, Object... arrobject) {
         android.util.Log.d(Constants.TAG, "[WTF]: " + string2 + " -> " + string3);
+    }
+
+    @DexIgnore
+    public static enum LogLevel {
+        NONE,
+        CONSOLE_ONLY,
+        FILE_ONLY,
+        FULL;
+
+
+        private LogLevel() {
+        }
+    }
+
+    @DexIgnore
+    public static class Settings {
+        private String a = "LOG";
+        private boolean b = true;
+        private int c = 2;
+        private int d = 0;
+        private Log.LogLevel e = Log.LogLevel.CONSOLE_ONLY;
+        private File f;
+        private long g = 25165824;
+
+        String a() {
+            return this.a;
+        }
+
+        boolean b() {
+            return this.b;
+        }
+
+        int c() {
+            return this.c;
+        }
+
+        int d() {
+            return this.d;
+        }
+
+        File e() {
+            return this.f;
+        }
+
+        /*
+         * Enabled force condition propagation
+         * Lifted jumps to return sites
+         */
+        boolean f() {
+            if (this.e == Log.LogLevel.NONE) return false;
+            return true;
+        }
+
+        /*
+         * Enabled force condition propagation
+         * Lifted jumps to return sites
+         */
+        boolean g() {
+            if (this.e == Log.LogLevel.FILE_ONLY) return true;
+            if (this.e != Log.LogLevel.FULL) return false;
+            return true;
+        }
+
+        public Log.LogLevel getLogLevel() {
+            return this.e;
+        }
+
+        /*
+         * Enabled force condition propagation
+         * Lifted jumps to return sites
+         */
+        boolean h() {
+            if (this.e == Log.LogLevel.CONSOLE_ONLY) return true;
+            if (this.e != Log.LogLevel.FULL) return false;
+            return true;
+        }
+
+        public Settings hideThreadInfo() {
+            this.b = false;
+            return this;
+        }
+
+        long i() {
+            return this.g;
+        }
+
+        public Settings setLogFile(File file) {
+            this.f = file;
+            return this;
+        }
+
+        public void setLogFileMaxSize(long l2) {
+            this.g = l2;
+        }
+
+        public Settings setLogLevel(Log.LogLevel logLevel) {
+            this.e = logLevel;
+            return this;
+        }
+
+        public Settings setMethodCount(int n2) {
+            this.c = n2;
+            return this;
+        }
+
+        public Settings setMethodOffset(int n2) {
+            this.d = n2;
+            return this;
+        }
+
+        public Settings setTag(String string2) {
+            this.a = string2;
+            return this;
+        }
     }
 }

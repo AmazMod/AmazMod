@@ -56,7 +56,8 @@ public class PermissionManager {
                         Manifest.permission.WRITE_CALL_LOG,
                         Manifest.permission.GET_ACCOUNTS,
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        Manifest.permission.READ_CONTACTS
+                        Manifest.permission.READ_CONTACTS,
+                        Manifest.permission.READ_PHONE_STATE
                 )
                 .check();
     }

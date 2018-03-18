@@ -1,11 +1,6 @@
 package com.huami.watch.companion.ui.card;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-
-import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
 
 import lanchon.dexpatcher.annotation.DexAdd;
@@ -27,10 +22,6 @@ public class BuyMeACoffeCard extends BaseCard {
 
     @Override
     protected void clickView() {
-        /*
-        Intent paypalMeUrl = getPaypalMeUrl(getContext());
-        getContext().startActivity(paypalMeUrl);
-        */
     }
 
     @Override
@@ -46,9 +37,5 @@ public class BuyMeACoffeCard extends BaseCard {
     @Override
     public String tag() {
         return "buymeacoffe";
-    }
-
-    private Intent getPaypalMeUrl(Context context) {
-        return new Intent(Intent.ACTION_VIEW, Uri.parse(Constants.PAYPAL_ME_URL));
     }
 }

@@ -2,9 +2,8 @@ package com.huami.watch.companion.ui.card;
 
 import android.app.Activity;
 
-import com.edotasx.amazfit.Constants;
+import com.crashlytics.android.Crashlytics;
 import com.edotasx.amazfit.R;
-import com.huami.watch.util.Log;
 
 import lanchon.dexpatcher.annotation.DexAdd;
 
@@ -25,7 +24,6 @@ public class BugsCard extends BaseCard {
 
     @Override
     protected void clickView() {
-        Log.d(Constants.TAG, "click");
     }
 
     @Override

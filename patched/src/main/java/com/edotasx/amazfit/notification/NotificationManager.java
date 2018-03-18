@@ -1,5 +1,6 @@
 package com.edotasx.amazfit.notification;
 
+import android.app.Notification;
 import android.content.Context;
 import android.os.Build;
 import android.service.notification.StatusBarNotification;
@@ -12,7 +13,11 @@ import com.edotasx.amazfit.notification.filter.DefaultPreNotificationFilter;
 import com.edotasx.amazfit.notification.filter.NotificationFilter;
 import com.edotasx.amazfit.notification.filter.PreNotificationFilter;
 import com.edotasx.amazfit.notification.filter.WhatsappNotificationFilter;
+import com.edotasx.amazfit.notification.text.extractor.DefaultTextExtractor;
+import com.edotasx.amazfit.notification.text.extractor.TelegramTextExtractor;
+import com.edotasx.amazfit.notification.text.extractor.TextExtractor;
 import com.huami.watch.dataflow.model.health.process.Const;
+import com.huami.watch.notification.data.NotificationData;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -29,11 +34,14 @@ public class NotificationManager {
     private PreNotificationFilter mDefaultPreNotificationFilter;
     private NotificationFilter mDefaultNotificationFilter;
 
+    private Map<String, TextExtractor> textExtractors;
+    private TextExtractor defaultTextExtractor;
+
     private Context context;
 
     private static NotificationManager mInstace;
 
-    public static NotificationManager sharedInstance(Context context) {
+    public static NotificationManager initialize(Context context) {
         if (mInstace == null) {
             mInstace = new NotificationManager(context);
         }
@@ -41,17 +49,34 @@ public class NotificationManager {
         return mInstace;
     }
 
+    public static NotificationManager sharedInstance(Context context) {
+        return initialize(context);
+    }
+
+    public static NotificationManager sharedInstance() {
+        return mInstace;
+    }
+
     private NotificationManager(Context context) {
         this.context = context;
 
         mNotificationFilters = new HashMap<>();
+        textExtractors = new HashMap<>();
 
-        WhatsappNotificationFilter lWhatsappNotificationFilter = new WhatsappNotificationFilter();
+        defaultTextExtractor = new DefaultTextExtractor();
+        textExtractors.put(Constants.TELEGRAM_PACKAGE, new TelegramTextExtractor());
 
-        mNotificationFilters.put(lWhatsappNotificationFilter.getPackage(), lWhatsappNotificationFilter);
+        mNotificationFilters.put(Constants.WHATSAPP_PACKAGE, new WhatsappNotificationFilter());
 
         mDefaultPreNotificationFilter = new DefaultPreNotificationFilter(context);
         mDefaultNotificationFilter = new DefaultNotificationFilter();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public boolean notificationPosted(StatusBarNotification statusBarNotification) {
+        boolean filtered = filter(statusBarNotification);
+
+        return filtered;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -81,6 +106,14 @@ public class NotificationManager {
         return filterResult;
     }
 
+    public String extractText(Notification notification, NotificationData notificationData) {
+        String packageName = notificationData.key.pkg;
+        TextExtractor textExtractor = textExtractors.get(packageName) == null ?
+                defaultTextExtractor :
+                textExtractors.get(packageName);
+
+        return textExtractor.extractText(notification, notificationData);
+    }
 
     private NotificationFilter getNotificationFilter(String packageName) {
         NotificationFilter lNotificationFilter = mNotificationFilters.get(packageName);

@@ -7,9 +7,9 @@ import android.view.View;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
+import com.edotasx.amazfit.notification.NotificationManager;
 import com.edotasx.amazfit.permission.PermissionManager;
 import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.AppUpdaterUtils;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 
 /**
@@ -46,11 +46,7 @@ public class Boot {
     }
 
     private void initiate(Context pContext) {
-        Activity activity = (Activity) pContext;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            activity.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-        }
-
+        NotificationManager.initialize(pContext);
 
         PermissionManager.sharedInstance().requestPermissions(pContext);
 

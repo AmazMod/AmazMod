@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    android:id="@id/root_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff8f8f8">
+
+    <include
+        android:id="@id/header_info"
+        layout="@layout/sport_track_info" />
+
+    <com.huami.watch.companion.sport.ui.view.SportTrackMapHelperLayout
+        android:id="@id/map_area"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/header_info"
+        map:shield="true">
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/mapGoogle"
+            class="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </com.huami.watch.companion.sport.ui.view.SportTrackMapHelperLayout>
+
+    <include
+        layout="@layout/sport_detail_track_watermark_info"
+        android:layout_width="wrap_content"
+        android:layout_height="16.0dip"
+        android:layout_below="@id/header_info"
+        android:layout_marginStart="14.0dip"
+        android:layout_marginTop="12.0dip" />
+
+    <include
+        layout="@layout/sport_detail_track_button_panel"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/header_info"
+        android:layout_marginEnd="16.0dip" />
+</RelativeLayout>

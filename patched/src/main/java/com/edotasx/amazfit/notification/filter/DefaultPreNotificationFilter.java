@@ -29,7 +29,7 @@ public class DefaultPreNotificationFilter implements PreNotificationFilter {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public boolean filter(StatusBarNotification statusBarNotification) {
-        String completeKey = StatusBarNotificationData.getCompleteKey(context, statusBarNotification);
+        String completeKey = StatusBarNotificationData.getUniqueKey(statusBarNotification);
 
         if (notificationsLetGo.containsKey(completeKey)) {
             Log.d(Constants.TAG_NOTIFICATION, "rejected by pre-filter: " + statusBarNotification.getPackageName() + " - key: " + completeKey);

@@ -1,0 +1,8 @@
+
+v1.1.0
+- fix crash login con Android Oreo
+- migliorata gestione notifiche
+- aggiunte mappe google
+- disabilitato servizio ota
+- aggiunta configurazione servizio ota
+- aggiunta configurazione stile mappa google

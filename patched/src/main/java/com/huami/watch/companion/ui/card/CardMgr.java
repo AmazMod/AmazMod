@@ -31,15 +31,13 @@ public class CardMgr {
 
     @DexReplace
     private List<ICard> a() {
-        Boot.sharedInstance(b).run();
-
-
         if (this.c.isEmpty()) {
             this.c.add(StepCard.create(this.b));
             this.c.add(EverestHelpCard.create(this.b, CardMgr.showEverestHelpCard(this.b)));
             this.c.add(BatteryCard.create(this.b));
             this.c.add(SleepCard.create(this.b));
             this.c.add(HeartCard.create(this.b));
+            this.c.add(ModSettingsCard.create(this.b));
             this.c.add(FacebookCard.create(this.b));
             this.c.add(BugsCard.create(this.b));
             this.c.add(BuyMeACoffeCard.create(this.b));

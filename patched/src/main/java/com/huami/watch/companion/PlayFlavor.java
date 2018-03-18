@@ -8,6 +8,7 @@ import com.huami.watch.companion.ui.activity.SportsHealthOverseaActivity;
 
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexEdit;
+import lanchon.dexpatcher.annotation.DexIgnore;
 import lanchon.dexpatcher.annotation.DexReplace;
 
 /**
@@ -16,6 +17,9 @@ import lanchon.dexpatcher.annotation.DexReplace;
 
 @DexEdit(defaultAction = DexAction.IGNORE)
 public class PlayFlavor {
+
+    @DexIgnore
+    public static void initApp(Context context) {}
 
     @DexReplace
     public static void checkStravaAuthStatus(Context paramContext)

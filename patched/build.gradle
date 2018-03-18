@@ -102,15 +102,32 @@ android {
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 1
-        versionName '1.0'
+        versionCode 100002
+        versionName "2.0"
+
+        /*
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
+        }
+        */
     }
 
-    buildTypes {
+    buildTypes {s
         release {
             minifyEnabled false
         }
     }
+
+    /*
+    splits {
+        abi {
+            enable true
+            reset()
+            include "armeabi"
+            universalApk false
+        }
+    }
+    */
 }
 
 tasks.withType(com.android.build.gradle.tasks.Lint) {
@@ -135,9 +152,13 @@ dependencies {
     // app using DexPatcher package annotations.
     // exclude module: 'support-v4'
     //}
+
+    compile 'com.google.android.gms:play-services-maps:11.8.0'
+
     compile('com.crashlytics.sdk.android:crashlytics:2.9.0@aar') {
         transitive = true
     }
+
     compile('com.google.firebase:firebase-core:11.8.0'){
         exclude module: 'support-v4'
         exclude module: 'support-compat'
@@ -147,10 +168,12 @@ dependencies {
 
         exclude group: "com.android.support"
     }
+
     compile('gun0912.ted:tedpermission:2.1.0') {
         exclude module: 'support-v4'
         exclude module: 'appcompat-v7'
     }
+
     compile('com.github.javiersantos:AppUpdater:2.6.4') {
         exclude module: 'support-v4'
         exclude module: 'appcompat-v7'

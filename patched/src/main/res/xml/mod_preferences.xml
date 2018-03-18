@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/mod_settings">
+    <PreferenceCategory android:title="@string/pref_notifications_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.disable.notifications.mod"
+            android:title="@string/pref_disable_notifications_mod" />
+        <!--
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.reverse.hebrew.notifications"
+            android:title="@string/pref_reverse_hebrew_notifications" />
+            -->
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="OTA">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.enable.ota"
+            android:title="@string/pref_enable_ota_service_title"
+            android:disableDependentsState="true"/>
+        <SwitchPreference
+            android:dependency="preference.enable.ota"
+            android:defaultValue="false"
+            android:key="preference.hide.ota.toast"
+            android:title="@string/pref_disable_toast_ota"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Google">
+        <ListPreference
+            android:defaultValue="roadmap"
+            android:dialogTitle="@string/pref_googleMapsType"
+            android:entries="@array/pref_googleMapsType_entries"
+            android:entryValues="@array/pref_googleMapsType_values"
+            android:key="preference.maps.type"
+            android:title="@string/pref_googleMapsType" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/generic_settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.enable.rtl"
+            android:title="@string/pref_enable_rtl" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.disable.crash.reporting"
+            android:title="@string/pref_disable_crash_reporting" />
+    </PreferenceCategory>
+
+    <Preference
+        android:key="preference.kill.app"
+        android:text="@string/pref_kill_app_description"
+        android:title="@string/pref_kill_app" />
+</PreferenceScreen>

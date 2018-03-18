@@ -31,7 +31,7 @@ public class WhatsappNotificationFilter implements NotificationFilter {
 
     @Override
     public String getPackage() {
-        return Constants.PACKAGE_WHATSAPP;
+        return Constants.WHATSAPP_PACKAGE;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -69,7 +69,7 @@ public class WhatsappNotificationFilter implements NotificationFilter {
         Log.d(Constants.TAG_NOTIFICATION, "----");
         Log.d(Constants.TAG_NOTIFICATION, "----");
 
-        if ((packageName != null) && packageName.toLowerCase().equals(Constants.PACKAGE_WHATSAPP)) {
+        if ((packageName != null) && packageName.toLowerCase().equals(Constants.WHATSAPP_PACKAGE)) {
             // se la notification è di whatsapp e non ha TAG_NOTIFICATION allora è da saltare
             return TAG_NOTIFICATION == null;
         }

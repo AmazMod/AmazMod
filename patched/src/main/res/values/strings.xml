@@ -36,4 +36,36 @@
     <string name="changelog_row_7"> - Added notification app updates</string>
     <string name="changelog_row_8"> - Added donation link</string>
     <string name="changelog_row_9"> - Added email</string>
+
+    <string name="changelog_v_200">v2.0.0 - 08/03/2018</string>
+    <string name="changelog_row_10"> - Fix crash login on Oreo</string>
+    <string name="changelog_row_11"> - 🎉 Added individual notifications on the watch</string>
+    <string name="changelog_row_12"> - Notifications on the clock are deleted (almost all)</string>
+    <string name="changelog_row_13"> - 🎉 Replaced 🇨🇳 maps with Google ones</string>
+    <string name="changelog_row_14"> - Added mod\'s settings</string>
+    <string name="changelog_row_15"> - Added the ability to enable / disable RTL support (requires full reboot of the app)</string>
+    <string name="changelog_row_16"> - Disabled OTA service (very experimental 😁)</string>
+    <string name="changelog_row_17"> - Updated app based on version 2.2 🇨🇳</string>
+    <string name="changelog_row_18"> - Started translations into 🇮🇹</string>
+    <string name="pref_enable_ota_service_title">Enable OTA Service</string>
+    <string name="mod_settings">Mod\'s settings</string>
+    <string name="restart_app_to_apply_settings">Restart the app to apply the changes</string>
+    <string name="pref_googleMapsType">Google maps type</string>
+    <string name="pref_notifications_title">Notifications</string>
+    <string name="pref_disable_notifications_mod">Original behavior of notifications</string>
+    <string name="generic_settings">Generic settings</string>
+    <string name="pref_enable_rtl">Enable RTL support</string>
+    <string name="pref_require_kill_app">This setting requires you to kill the app</string>
+    <string name="pref_kill_app">Kill app</string>
+    <string name="pref_kill_app_description">Required to apply some settings</string>
+    <string name="pref_reverse_hebrew_notifications">Reverse notification texts in Hebrew</string>
+    <string name="pref_disable_crash_reporting">Don\'t send crash reports</string>
+    <string name="pref_disable_toast_ota">Hide the OTA toast 😜</string>
+    <string name="crash_report_disabled_tip">Leaving this option off will help me to find any application bugs</string>
+    <string name="modded_by">Modded by</string>
+    <string name="modded_by_list">\@edotasx</string>
+    <string name="translations_by">Translations by</string>
+    <string name="translations_by_list">\@Scarapunzi, \@John_Bnc, \@arne_king, \@edotasx</string>
+    <string name="tool_thanks">Nothing would have been possible without this fantastic tool:</string>
+    <string name="rom_update_available_enable_ota_in_mod_settins">An OTA update is available for the rom, enable it in the mod settings</string>
 </resources>

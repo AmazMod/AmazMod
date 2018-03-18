@@ -11,12 +11,17 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
+import com.edotasx.amazfit.notification.NotificationManager;
+import com.edotasx.amazfit.preference.PreferenceManager;
 import com.huami.watch.companion.ui.MainActivity;
 import com.huami.watch.dataflow.model.health.process.Const;
 
+import java.util.Iterator;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import lanchon.dexpatcher.annotation.DexAction;
+import lanchon.dexpatcher.annotation.DexAdd;
 import lanchon.dexpatcher.annotation.DexEdit;
 import lanchon.dexpatcher.annotation.DexIgnore;
 import lanchon.dexpatcher.annotation.DexWrap;
@@ -28,6 +33,8 @@ import lanchon.dexpatcher.annotation.DexWrap;
 @DexEdit(defaultAction = DexAction.IGNORE)
 public class NotificationData implements Parcelable {
 
+    @DexIgnore
+    public String title;
     @DexIgnore
     public String text;
     @DexIgnore
@@ -51,25 +58,10 @@ public class NotificationData implements Parcelable {
 
     @DexWrap
     public static NotificationData from(Context var0, NotificationKeyData var1, Notification var2, boolean var3) {
-        Log.d(Constants.TAG, "enter in NotificationData:from");
-
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-            Intent intent = new Intent(var0, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(var0, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            Notification.Action action = new Notification.Action(1, "test", pendingIntent);
-            Notification.Action[] actions = new Notification.Action[1];
-            actions[0] = action;
-            var2.actions = actions;
-        }
-
         NotificationData notificationData = from(var0, var1, var2, var3);
 
-        Bundle bundle = NotificationCompat.getExtras(var2);
-
-        CharSequence[] lines = bundle.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
-        if (lines != null) {
-            int index = lines.length - 1;
-            notificationData.text = lines[index].toString();
+        if (!PreferenceManager.getBoolean(var0, Constants.PREFERENCE_DISABLE_NOTIFICATIONS_MOD, false)) {
+            notificationData.text = NotificationManager.sharedInstance().extractText(var2, notificationData);
         }
 
         /*
@@ -88,6 +80,41 @@ public class NotificationData implements Parcelable {
         Log.d(Constants.TAG_NOTIFICATION, "targetPkg: " + notificationData.key.targetPkg);
         */
 
+        if (PreferenceManager.getBoolean(var0, Constants.PREFERENCE_REVERSE_HEBREW_NOTIFCATIONS, false)) {
+            /*
+            Pattern pattern = Pattern.compile("\\p{InHebrew}", Pattern.UNICODE_CASE);
+            if (pattern.matcher(notificationData.text).matches()) {
+                notificationData.text = new StringBuilder(notificationData.text).reverse().toString();
+            }
+
+            if (pattern.matcher(notificationData.title).matches()) {
+                notificationData.title = new StringBuilder(notificationData.title).reverse().toString();
+            }
+            */
+
+            notificationData.text = reverse(notificationData.text);
+            notificationData.title = reverse(notificationData.title);
+
+            Log.d("ReverseNot", "reversed text: " + notificationData.text);
+            Log.d("ReverseNot", "reversed title: " + notificationData.title);
+        }
+
         return notificationData;
+    }
+
+    @DexAdd
+    private static String reverse(String s) {
+        if (s == null || s.length() < 2) return s;
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = s.length()-1 ; i >=0; --i) {
+            if (Character.isLowSurrogate(s.charAt(i))) {
+                --i;
+                sb.append(s.charAt(i)).append(s.charAt(i+1));
+            } else {
+                sb.append(s.charAt(i));
+            }
+        }
+        return sb.toString();
     }
 }

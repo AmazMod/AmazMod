@@ -1,7 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.edotasx.amazfit"
-    android:versionName="1.0.0" android:versionCode="100000">
+    package="com.edotasx.amazfit">
 
     <!--Source and patched manifests are merged according to standard build rules:
         http://tools.android.com/tech-docs/new-build-system/user-guide/manifest-merger -->
@@ -11,7 +10,11 @@
         android:debuggable="true"
         tools:ignore="HardcodedDebugMode"
         tools:remove="android:supportsRtl">
-
+<!--
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCSZZKC3ZpiY4Q7ulY8MPZ6NCJ7NN-i3ao" />
+            -->
         <!--As a convenience, due to this bug in Android Studio:
             https://code.google.com/p/android/issues/detail?id=168306
             We surface part of the default activity to the main manifest
@@ -27,11 +30,20 @@
             -->
         <activity android:name="com.huami.watch.companion.thirdparty.strava.StravaAuthActivity"></activity>
         <activity android:name="com.huami.watch.companion.ui.activity.SportsHealthOverseaActivity"></activity>
+        <activity android:name=".settings.ui.ModSettingsActivity"
+            android:theme="@style/NoTitleFalse"></activity>
+
+        <provider
+            android:name="com.activeandroid.content.ContentProvider"
+            android:authorities="com.huami.watch.hmwatchmanager"
+            android:enabled="true"
+            android:exported="false"></provider>
     </application>
 
     <!--We add this permission to let the file chooser poke around storage.-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

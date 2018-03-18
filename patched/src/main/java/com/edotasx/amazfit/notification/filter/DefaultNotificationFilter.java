@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
+import com.huami.watch.notification.data.StatusBarNotificationData;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +35,7 @@ public class DefaultNotificationFilter implements NotificationFilter {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
     @Override
     public boolean filter(StatusBarNotification statusBarNotification) {
-        String lKey = buildKey(statusBarNotification);
+        String lKey = StatusBarNotificationData.getUniqueKey(statusBarNotification);
 
         Long lTime = mNotificationsSent.get(lKey);
         if (lTime == null) {

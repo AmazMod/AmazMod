@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_googleMapsType_entries">
+        <item>Stradale</item>
+        <item>Satellite</item>
+        <item>Ibrida</item>
+        <item>Terreno</item>
+    </string-array>
+    <string-array name="bind_guide_main_title">
+        <item>Support Pool Swimming,Openwater Swimming and Triathlon activities.</item>
+        <item>Estimation of your cardiorespiratory fitness measured as a value of VO2max</item>
+        <item>Rich exercise data and exercise settings</item>
+        <item>Provide realtime coaching to achieve the set training goal in a set time</item>
+        <item>Through the training effect data to help you understand each movement</item>
+    </string-array>
+    <string-array name="bind_guide_support_title">
+        <item></item>
+        <item>* Solo per la corsa</item>
+        <item></item>
+        <item>* Solo per la corsa, è necessario aprirlo nelle impostazioni dell\'esercizio</item>
+        <item></item>
+    </string-array>
+    <string-array name="body_stats_info">
+        <item>Affaticato</item>
+        <item>Medio</item>
+        <item>Buono</item>
+    </string-array>
+    <string-array name="climb_mountains">
+        <item>Kilometraggio</item>
+        <item>Tempo trascorso</item>
+        <item>Altitudine</item>
+        <item>Dislivello in salita</item>
+        <item>Dislivello in discesa</item>
+        <item>Velocità orizzontale</item>
+        <item>Velocità verticale</item>
+        <item>Frequenza cardiaca</item>
+        <item>Velocità</item>
+        <item>Velocità media</item>
+        <item>Calorie</item>
+    </string-array>
+    <string-array name="complex_sport_change_item_title">
+        <item>First change item</item>
+        <item>Second change item</item>
+        <item>Third change item</item>
+    </string-array>
+    <string-array name="cross_country_items">
+        <item>Chilometraggio</item>
+        <item>Tempo trascorso</item>
+        <item>Ritmo</item>
+        <item>Ritmo medio</item>
+        <item>Frequenza cardiaca</item>
+        <item>Calorie</item>
+        <item>Altitudine</item>
+        <item>Dislivello in salita</item>
+        <item>Dislivello in discesa</item>
+        <item>Velocità verticale</item>
+        <item>Velocità</item>
+        <item>Velocità media</item>
+        <item>Cadenza</item>
+        <item>Cadenza media</item>
+    </string-array>
+    <string-array name="default_watch_face_info">
+        <item>com.huami.watch.watchface.analogyellow</item>
+        <item>com.huami.watch.watchface.DigitalWatchFaceSportOne</item>
+        <item>Marathon life</item>
+        <item>com.huami.watch.watchface.analogyellow</item>
+        <item>com.huami.watch.watchface.DigitalWatchFaceSportTwo</item>
+        <item>"I'm Runner"</item>
+        <item>com.huami.watch.watchface.analogyellow</item>
+        <item>com.huami.watch.watchface.DigitalWatchFaceSportFive</item>
+        <item>Strong Beat</item>
+    </string-array>
+    <string-array name="indoor_run_items">
+        <item>Chilometraggio</item>
+        <item>Tempo trascorso</item>
+        <item>Ritmo</item>
+        <item>Frequenza cardiaca</item>
+        <item>Calorie</item>
+        <item>Velocità</item>
+        <item>Cadenza</item>
+        <item>Ritmo medio in movimento</item>
+        <item>Velocità media</item>
+    </string-array>
+    <string-array name="lock_screen_type">
+        <item>Prossimo</item>
+        <item>Vicino</item>
+        <item>Lontano</item>
+    </string-array>
+    <string-array name="month_titles">
+        <item>Gennaio</item>
+        <item>Febbraio</item>
+        <item>Marzo</item>
+        <item>Aprile</item>
+        <item>Maggio</item>
+        <item>Giugno</item>
+        <item>Luglio</item>
+        <item>Agosto</item>
+        <item>Settembre</item>
+        <item>Ottobre</item>
+        <item>Novembre</item>
+        <item>Dicembre</item>
+    </string-array>
+    <string-array name="notification_test_items">
+        <item>Avviso batteria scarica</item>
+        <item>Avviso di chiamata in arrivo</item>
+        <item>Notifica di sedentarietà prolungata</item>
+        <item>Obiettivo giornaliero raggiunto</item>
+        <item>Riconoscimento sportivo</item>
+        <item>Avviso di maltempo</item>
+    </string-array>
+    <string-array name="outdoor_riding_items">
+        <item>Kilometraggio</item>
+        <item>Tempo trascorso</item>
+        <item>Velocità</item>
+        <item>Velocità media</item>
+        <item>Cadenza</item>
+        <item>Altitudine</item>
+        <item>Dislivello in salita</item>
+        <item>Group Speed Distance</item>
+        <item>Dislivello in discesa cumulativo</item>
+        <item>Frequenza cardiaca</item>
+        <item>Calorie</item>
+    </string-array>
+    <string-array name="run_artist_names">
+        <item>Kilometraggio</item>
+        <item>Tempo trascorso</item>
+        <item>Ritmo</item>
+        <item>Frequenza cardiaca</item>
+        <item>Calorie</item>
+        <item>Velocità</item>
+        <item>Cadenza</item>
+        <item>Ritmo medio in movimento</item>
+        <item>Velocità media</item>
+    </string-array>
+    <string-array name="sport_history_header_tab_title">
+        <item>Tutti</item>
+        <item>Giornaliero</item>
+        <item>Settimanale</item>
+        <item>Mensile</item>
+    </string-array>
+    <string-array name="te_info">
+        <item></item>
+        <item>Poco utile alla forma fisica</item>
+        <item>Esercizio facile</item>
+        <item>Esercizio moderato</item>
+        <item>Esercizio utile alla forma fisica</item>
+        <item>Esercizio troppo affaticante</item>
+    </string-array>
+    <string-array name="te_supplement">
+        <item>Questo esercizio non ha benefici per la salute.</item>
+        <item>Questo sfrozo aiuta a migliorare la resistenza fisica. Questo aiuta anche il recupero dopo allenamenti più duri.</item>
+        <item>Questo allenamento mantiene la forma cardiorespiratoria e crea le basi per una migliore forma fisica e un allenamento più duraturo in futuro.</item>
+        <item>The aerobic exercise ability to improve significantly help.</item>
+        <item>La capacità cardiopolmonare e di esercizio aerobico può essere efficacemente migliorata.</item>
+        <item>This workout too much your fitness level. For fit individuals experienced in training, this must be followed by adequate recovery and easy recovery training.</item>
+    </string-array>
+    <string-array name="timeline_type">
+        <item>Movimento</item>
+        <item>Camminata lenta</item>
+        <item>Camminata</item>
+        <item>Camminata veloce</item>
+        <item>Corsa</item>
+        <item>Fermo in piedi</item>
+        <item>Seduto</item>
+        <item>Movimento</item>
+        <item>Orologio non indossato</item>
+        <item>Orologio in ricarica</item>
+        <item>Sdraiato</item>
+    </string-array>
+    <string-array name="vo2_max_level_status">
+        <item>Molto scarso</item>
+        <item>Scarso</item>
+        <item>Giusto</item>
+        <item>Medio</item>
+        <item>Buono</item>
+        <item>Molto buono</item>
+        <item>Eccellente</item>
+    </string-array>
+    <string-array name="walk_artist_names">
+        <item>Step</item>
+        <item>Kilometraggio</item>
+        <item>Tempo trascorso</item>
+        <item>Frequenza cardiaca</item>
+        <item>Calorie</item>
+        <item>Velocità</item>
+        <item>Velocità media</item>
+    </string-array>
+</resources>

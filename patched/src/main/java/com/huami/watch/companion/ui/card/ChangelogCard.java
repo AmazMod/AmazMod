@@ -23,7 +23,6 @@ public class ChangelogCard extends BaseCard {
 
     @Override
     protected void clickView() {
-
     }
 
     @Override
@@ -33,7 +32,6 @@ public class ChangelogCard extends BaseCard {
 
     @Override
     protected void initView() {
-
     }
 
     @Override
