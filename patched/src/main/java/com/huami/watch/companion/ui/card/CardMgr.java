@@ -2,6 +2,7 @@ package com.huami.watch.companion.ui.card;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.edotasx.amazfit.boot.Boot;
 import com.huami.watch.companion.device.Device;
@@ -44,6 +45,25 @@ public class CardMgr {
             this.c.add(ChangelogCard.create(this.b));
         }
         return this.c;
+    }
+
+    @DexIgnore
+    public static CardMgr create(Activity object) {
+        return null;
+    }
+
+    @DexIgnore
+    public List<ICard> cards() {
+        return null;
+    }
+
+    @DexIgnore
+    public ICard findCardByTag(@NonNull String object) {
+        return null;
+    }
+
+    @DexIgnore
+    public void dispatchCardLoadEvent() {
     }
 
     @DexIgnore
