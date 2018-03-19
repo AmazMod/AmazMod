@@ -1153,6 +1153,7 @@ Dimensione aggiornamento: %2$s"</string>
     <string name="device_name_everest_all_oversea">Amazfit Stratos/Stratos +</string>
     <string name="device_name_everest_oversea">Amazfit Stratos</string>
     <string name="device_name_oversea">Amazfit Pace</string>
+    <string name="bind_fail_network_disconnect">Impossibile sincronizzare i dati, verifica la connessione di rete e riprova.</string>
     <string name="device_status_value_unknown">-</string>
     <string name="empty_unit_name"></string>
     <string name="empty_value">--</string>
@@ -1172,7 +1173,6 @@ Dimensione aggiornamento: %2$s"</string>
     <string name="petabyteShort">PB</string>
     <string name="privacy_policy_and_tos">Politica sulla riservatezza e termini di servizio</string>
     <string name="privacy_policy_and_tos_dialog_tip">"Politica sulla riservatezza &amp; termini di servizio
-
 Prima di fare il login accetta la nostra
 politica sulla riservatezza e termini di servizio"</string>
     <string name="privacy_policy_and_tos_tip">"Facendo il login accetti la nostra politica sulla riservatezza e i termini di servizio"</string>
@@ -1259,7 +1259,6 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="tool_thanks">Niente sarebbe stato possibile senza questo fantastico tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">E\' disponibile un\'aggiornamento OTA per la rom, abilitalo nelle impostazioni della mod</string>
     <string name="allday_heart_rate_detail_tip">Heart rate data for reference only</string>
-    <string name="bind_fail_network_disconnect">Cannot sync data, please check network connection and retry.</string>
     <string name="change_item_title">Transition to %1$s</string>
     <string name="data_item_tennis_strokes">Strokes</string>
     <string name="first_half">First-half</string>
