@@ -41,7 +41,6 @@
     <string name="all_select">Seleziona tutti</string>
     <string name="allday_heart_rate_ave">Media</string>
     <string name="allday_heart_rate_ave_text">Media di %1$s bpm</string>
-    <string name="allday_heart_rate_detail_tip"></string>
     <string name="allday_heart_rate_max">Max</string>
     <string name="allday_heart_rate_max_text">Max %1$s bpm</string>
     <string name="allday_heart_rate_min">Min</string>
@@ -1259,4 +1258,27 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="translations_by_list">\@Scarapunzi, \@John_Bnc, \@arne_king, \@edotasx</string>
     <string name="tool_thanks">Niente sarebbe stato possibile senza questo fantastico tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">E\' disponibile un\'aggiornamento OTA per la rom, abilitalo nelle impostazioni della mod</string>
+    <string name="allday_heart_rate_detail_tip">Heart rate data for reference only</string>
+    <string name="bind_fail_network_disconnect">Cannot sync data, please check network connection and retry.</string>
+    <string name="change_item_title">Transition to %1$s</string>
+    <string name="data_item_tennis_strokes">Strokes</string>
+    <string name="first_half">First-half</string>
+    <string name="running_sports_type_soccer">Soccer</string>
+    <string name="running_sports_type_tennis">Tennis</string>
+    <string name="running_swim_style_master_desc">Main Type</string>
+    <string name="second_half">Second-half</string>
+    <string name="tennis_backhand">Backhand</string>
+    <string name="tennis_forehand">Forehand</string>
+    <string name="tennis_number_strokes">Strokes</string>
+    <string name="tennis_percent_strokes">Strokes percent</string>
+    <string name="tennis_serve">Serve</string>
+    <string name="tennis_strokes_unit">Total Strokes</string>
+    <string name="whole_game">Total</string>
+    <string name="zepp_soccer_not_install">ZEPP Play Soccer app is not installed</string>
+    <string name="zepp_soccer_title">Please use ZEPP Play Soccer app to record more details.</string>
+    <string name="zepp_tennis_not_install">ZEPP Tennis app is not installed</string>
+    <string name="zepp_tennis_title">Please use ZEPP Tennis app to record more details.</string>
+    <string name="facestore_install_fail_title">安装失败</string>
+    <string name="install_watch_face_disconnected">手表未连接, 无法安装</string>
+    <string name="webview_html_error">加载失败</string>
 </resources>
