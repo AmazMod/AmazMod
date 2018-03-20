@@ -38,12 +38,6 @@ public class StatusBarNotificationData implements SafeParcelable {
     @DexIgnore
     public String tag;
     @DexIgnore
-    public String targetPkg;
-    @DexIgnore
-    public String groupKey;
-    @DexIgnore
-    public String key;
-    @DexIgnore
     public NotificationData notification;
 
     @DexEdit(target = "from")
@@ -59,15 +53,7 @@ public class StatusBarNotificationData implements SafeParcelable {
         Context context = CompanionApplication.getContext() == null ? NotificationAccessService.context : CompanionApplication.getContext();
         if (!PreferenceManager.getBoolean(context, Constants.PREFERENCE_DISABLE_NOTIFICATIONS_MOD, false)) {
             statusBarNotificationData.pkg = statusBarNotificationData.pkg + "|" + pStatusBarNotification.getNotification().when;
-            Log.d(Constants.TAG_NOTIFICATION_SERVICE, "new pkg: " + statusBarNotificationData.pkg);
         }
-
-        //statusBarNotificationData.tag = UUID.randomUUID().toString();
-        //statusBarNotificationData.targetPkg = UUID.randomUUID().toString();
-        //statusBarNotificationData.key = /* statusBarNotificationData.key + "|" + */ UUID.randomUUID().toString();
-        //statusBarNotificationData.groupKey = /* statusBarNotificationData.groupKey + "|" +*/ UUID.randomUUID().toString();
-
-        //Log.d(Constants.TAG_NOTIFICATION, "key: " + statusBarNotificationData.toString());
 
         return statusBarNotificationData;
     }

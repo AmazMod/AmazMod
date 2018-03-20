@@ -1,33 +1,16 @@
 package com.huami.watch.notification.data;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.RemoteInput;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
-import com.edotasx.amazfit.R;
 import com.edotasx.amazfit.notification.NotificationManager;
 import com.edotasx.amazfit.preference.PreferenceManager;
-import com.huami.watch.companion.ui.MainActivity;
-import com.huami.watch.dataflow.model.health.process.Const;
-import com.huami.watch.notification.NotificationHandler;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.UUID;
-import java.util.regex.Pattern;
 
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexAdd;
@@ -141,6 +124,7 @@ public class NotificationData implements Parcelable {
         }
         */
 
+        /*
         RemoteInputData remoteInput = new RemoteInputData();
         remoteInput.choices = new String[]{
                 "A", "B"
@@ -157,6 +141,7 @@ public class NotificationData implements Parcelable {
         wearableExtrasData.actions = new ActionData[]{actionData};
 
         notificationData.wearableExtras = wearableExtrasData;
+        */
 
         return notificationData;
     }

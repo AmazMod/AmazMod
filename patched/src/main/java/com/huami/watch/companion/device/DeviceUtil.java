@@ -19,9 +19,9 @@ public class DeviceUtil {
         return hasEmptyInfo(device);
     }
 
-    @DexReplace
+    @DexWrap
     public static boolean isRomSupportWatchFaceStore(Context context, Device device) {
-        return true;
+        return isRomSupportWatchFaceStore(context, device);
     }
 
     @DexReplace
