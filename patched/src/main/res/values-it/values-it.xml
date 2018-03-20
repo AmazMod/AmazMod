@@ -646,9 +646,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="save_training">Salva</string>
     <string name="scan_random_address">Ricerca di dispositivi ...</string>
     <string name="scan_random_address_failed">Impossibile individuare il dispositivo, riprova più tardi</string>
-    <string name="scan_tip">Inquadra il codice QR
-presente sull\'orologio
-con la fotocamera</string>
+    <string name="scan_tip">Inquadra il codice QR presente sull\'orologio con la fotocamera</string>
     <string name="screen_lock_text_tip">Completato</string>
     <string name="segment_auto_empty_tips">Nessun dato per segmento automatico</string>
     <string name="segment_avg_speed">Velocità media</string>
