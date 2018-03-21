@@ -109,7 +109,7 @@
     <string name="bluetooth_tip">Clicca su \"Permetti\" nel pop-up della finestra</string>
     <string name="body_state_title_short">Stato fisico</string>
     <string name="bt_pairing_device_reset_tip">L\'Amazfit Watch è stato resettato, verrà disaccoppiato</string>
-    <string name="btn_cancel">Cancella</string>
+    <string name="btn_cancel">Annulla</string>
     <string name="btn_close">Chiudi</string>
     <string name="btn_enter">Conferma</string>
     <string name="btn_known">OK</string>
@@ -218,7 +218,7 @@
     <string name="data_item_vertical_speed">Velocità verticale</string>
     <string name="data_sleep_title">Dormito per %1$s h e %2$s min</string>
     <string name="data_sport_title">%1$s %2$s%3$s</string>
-    <string name="data_step_message">Obiettivo %1$s passi</string>
+    <string name="data_step_message">Obbiettivo %1$s passi</string>
     <string name="data_step_title">Passi %1$s</string>
     <string name="date_month_day">MMM dd</string>
     <string name="date_time_format">dd/MM/yyyy HH:mm</string>
@@ -247,7 +247,7 @@
     <string name="device_tip_connecting">Connessione in corso...</string>
     <string name="device_title">Il mio orologio</string>
     <string name="device_unbinding">Disaccoppiamento…</string>
-    <string name="dialog_cancel">Cancella</string>
+    <string name="dialog_cancel">Annulla</string>
     <string name="dialog_confirm">Conferma</string>
     <string name="dialog_tishi">Richiesto</string>
     <string name="disband_training_repeat">Annulla la ripetizione</string>
@@ -330,7 +330,7 @@ Al termine, l\'orologio interromperà l\'hotspot e il telefono ripristinerà la 
     <string name="fragment_apply_title">Iscriviti agli aggiornamenti sviluppatore</string>
     <string name="fri">Ven</string>
     <string name="get_watch_info">Informati su Amazfit Watch</string>
-    <string name="goal">Obiettivo</string>
+    <string name="goal">Obbiettivo</string>
     <string name="heart_rate">Frequenza cardiaca</string>
     <string name="heart_rate_aerobic_info">L\'intervallo di attività aerobica si riferisce alla frequenza cardiaca tra il 70-84%, è un intervallo ad alta intensità. Stai lavorando duramente in quest\'area, ma non sei esausto. Per la maggior parte delle persone, questa è l\'area di esercizio consigliata.</string>
     <string name="heart_rate_burning_fat_info">L\'intervallo brucia grassi si riferisce ad una frequenza cardiaca del 50-69% rispetto alla frequenza massima, è un intervallo di allenamento a bassa intensità ed è una scelta ideale per i principianti che iniziano l\'allenamento. Questa zona è chiamata area brucia grassi, perché una grande percentuale di calorie consumate proviene da grassi, ma le calorie totali bruciate sono relativamente basse.</string>
@@ -402,7 +402,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="login_success">Login riuscito</string>
     <string name="login_wechat_tip">I record sportivi dell\'orologio possono essere visualizzati solamente in Amazfit Health</string>
     <string name="login_xiaomi_tip">I record sportivi dell\'orologio possono essere visualizzati in Mifit e Amazfit Health</string>
-    <string name="logout">Log out</string>
+    <string name="logout">Disconnetti</string>
     <string name="logout_dialog_message">Sei sicuro di volerti disconnettere?</string>
     <string name="logout_fail">Logout fallito, riprova</string>
     <string name="logout_network_error">Logout fallito, controlla la connessione e riprova</string>
@@ -434,7 +434,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="more_settings">Altro</string>
     <string name="more_sport_item">Più dati</string>
     <string name="move_and_clip">Movimento e screenshot</string>
-    <string name="move_time">Tempo di movimento</string>
+    <string name="move_time">Tempo in movimento</string>
     <string name="move_touch_tips">Scorri verso destra o sinistra per visualizzare</string>
     <string name="my_heart_rate">La mia frequenza cardiaca</string>
     <string name="my_status">Il mio stato</string>
@@ -493,7 +493,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="pace_yard_unit_name">min/100yd</string>
     <string name="password">Password</string>
     <string name="password_error">La password %1$s è errata, prego reinserire</string>
-    <string name="pause_time">Tempo di pausa</string>
+    <string name="pause_time">Tempo in pausa</string>
     <string name="peap">PEAP</string>
     <string name="permission_read_contact">Permesso Lettura Contatti</string>
     <string name="permission_read_contact_tip">I nomi per le chiamate in entrata possono essere visualizzati solo dopo aver attivato questa autorizzazione</string>
@@ -692,7 +692,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="setting_item_report">Rapporto settimanale</string>
     <string name="setting_item_setting">Impostazioni</string>
     <string name="setting_item_upgrade">Aggiornamento versione</string>
-    <string name="settings_logout">Log out</string>
+    <string name="settings_logout">Disconnetti</string>
     <string name="share_facebook_label">Facebook</string>
     <string name="share_line_label">Line</string>
     <string name="share_pengyouquan_label">Momenti</string>
