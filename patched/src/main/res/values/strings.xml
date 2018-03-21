@@ -65,7 +65,7 @@
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>
     <string name="translations_by">Translations by</string>
-    <string name="translations_by_list">\@Scarapunzi, \@John_Bnc, \@arne_king, \@edotasx</string>
+    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@edotasx</string>
     <string name="tool_thanks">Nothing would have been possible without this fantastic tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">An OTA update is available for the rom, enable it in the mod settings</string>
 </resources>
