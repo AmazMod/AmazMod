@@ -104,12 +104,12 @@
         <item>Avviso batteria scarica</item>
         <item>Avviso di chiamata in arrivo</item>
         <item>Notifica di sedentarietà prolungata</item>
-        <item>Obiettivo giornaliero raggiunto</item>
+        <item>Obbiettivo giornaliero raggiunto</item>
         <item>Riconoscimento sportivo</item>
         <item>Avviso di maltempo</item>
     </string-array>
     <string-array name="outdoor_riding_items">
-        <item>Kilometraggio</item>
+        <item>Chilometraggio</item>
         <item>Tempo trascorso</item>
         <item>Velocità</item>
         <item>Velocità media</item>
@@ -122,7 +122,7 @@
         <item>Calorie</item>
     </string-array>
     <string-array name="run_artist_names">
-        <item>Kilometraggio</item>
+        <item>Chilometraggio</item>
         <item>Tempo trascorso</item>
         <item>Ritmo</item>
         <item>Frequenza cardiaca</item>
@@ -178,7 +178,7 @@
     </string-array>
     <string-array name="walk_artist_names">
         <item>Step</item>
-        <item>Kilometraggio</item>
+        <item>Chilometraggio</item>
         <item>Tempo trascorso</item>
         <item>Frequenza cardiaca</item>
         <item>Calorie</item>
