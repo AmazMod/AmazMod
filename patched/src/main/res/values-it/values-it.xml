@@ -257,7 +257,7 @@
     <string name="download_tips_mifit">Per usare questa funzione MiFit deve essere aggiornata alla versione %1$s</string>
     <string name="download_url_midong">http://m.app.mi.com/details?id=com.huami.midong</string>
     <string name="download_url_mifit">http://m.app.mi.com/details?id=com.xiaomi.hm.health</string>
-    <string name="download_watch_face">Scarica la Watch face</string>
+    <string name="download_watch_face">Scarica Watchfaces</string>
     <string name="duration_info">Tempo in attività</string>
     <string name="dynamic_sleep_active">Sveglio</string>
     <string name="dynamic_sleep_active_end">Pronto ad alzarti</string>
@@ -438,7 +438,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="move_touch_tips">Scorri verso destra o sinistra per visualizzare</string>
     <string name="my_heart_rate">La mia frequenza cardiaca</string>
     <string name="my_status">Il mio stato</string>
-    <string name="my_watch_face">La mia Watchface</string>
+    <string name="my_watch_face">Le mie Watchfaces</string>
     <string name="network_unavailable">Rete non disponibile, riprovare</string>
     <string name="no_alti_data">Nessun dato sull\'altitudine</string>
     <string name="no_app">Nessuna applicazione</string>
