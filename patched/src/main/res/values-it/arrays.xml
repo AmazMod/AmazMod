@@ -133,10 +133,10 @@
         <item>Velocità media</item>
     </string-array>
     <string-array name="sport_history_header_tab_title">
-        <item>Tutti</item>
-        <item>Giornaliero</item>
-        <item>Settimanale</item>
-        <item>Mensile</item>
+        <item>Tutto</item>
+        <item>Giorno</item>
+        <item>Settimana</item>
+        <item>Mese</item>
     </string-array>
     <string-array name="te_info">
         <item></item>
