@@ -1,1 +1,1 @@
-# AmazfitApp
+# AmazMod
