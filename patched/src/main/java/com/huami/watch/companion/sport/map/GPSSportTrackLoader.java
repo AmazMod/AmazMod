@@ -2,6 +2,7 @@ package com.huami.watch.companion.sport.map;
 
 import android.app.FragmentManager;
 import android.support.v4.app.Fragment;
+import android.util.SparseIntArray;
 
 import com.edotasx.amazfit.map.MapBoxGPSSolution;
 import com.huami.watch.companion.sport.model.LoadData;
@@ -29,26 +30,17 @@ public class GPSSportTrackLoader {
     private IGPSSolution e;
     @DexIgnore
     private ExecutorService d;
+    @DexIgnore
+    private SparseIntArray k;
 
     @DexReplace
     public GPSSportTrackLoader(Fragment fragment, FragmentManager fragmentManager) {
         this.f = fragment;
         this.e = new MapBoxGPSSolution(fragment, fragmentManager, this);
         this.d = Executors.newFixedThreadPool(1);
-        //this.k = new HashMap<Integer, Integer>();
+        this.k = new SparseIntArray();
         this.registerListener(new GPSSportTrackLoader.b());
     }
-
-    /*
-    @DexReplace
-    public GPSSportTrackLoader(Fragment fragment, TextureMapView textureMapView, Bundle bundle) {
-        this.f = fragment;
-        this.e = new MapBoxGPSSolution(fragment, this);
-        this.d = Executors.newFixedThreadPool(1);
-        this.k = new HashMap<Integer, Integer>();
-        this.registerListener(new GPSSportTrackLoader.b());
-    }
-    */
 
     @DexIgnore
     public void registerListener(ITrackDataListener iTrackDataListener) {
