@@ -545,7 +545,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="restoring_but_disconnected">Impossibile connettersi all\'orologio, si prega di tenere l\'orologio vicino al telefono finché il ripristino del backup non sarà completato</string>
     <string name="retry">Riprova</string>
     <string name="ride_time">Tragitto totale</string>
-    <string name="ride_total_time">Tempo totale</string>
+    <string name="ride_total_time">Durata totale</string>
     <string name="right_statement">© 2016 Amazfit Watch Tutti i diritti riservati</string>
     <string name="rollback_to_stable_version">Per eseguire il downgrade all\'ultima edizione stabile, scaricare il pacchetto del firmware e farlo riconoscere all\'orologio. Nell\'app Amazfit Watch, tocca \"Disattiva\" per interrompere gli aggiornamenti della versione sviluppatore e reinstalla l\'app più recente dallo store abbinandola all\'orologio</string>
     <string name="rom_update_low_power">Carica della batteria troppo bassa (inferiore al 40%)</string>
@@ -554,8 +554,8 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="run_distance_km">Distanza totale(km)</string>
     <string name="run_distance_m">Distanza totale(m)</string>
     <string name="run_distance_mile">Distanza totale(mile)</string>
-    <string name="run_distance_yard">In totale hai percorso(yd)</string>
-    <string name="run_total_cal">In totale hai bruciato(kCal)</string>
+    <string name="run_distance_yard">Distanza totale(yd)</string>
+    <string name="run_total_cal">kCal totali bruciate</string>
     <string name="run_total_times">Sessioni</string>
     <string name="running_avg_altitude_desc">Media(%1$s)</string>
     <string name="running_avg_pace">Ritmo medio</string>
@@ -629,7 +629,7 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="running_swim_thrash_speed_desc">Velocità di movimento</string>
     <string name="running_swim_total_laps_desc">Giri Totali</string>
     <string name="running_swim_turn_desc">Numero di virate</string>
-    <string name="running_time_desc">Tempo</string>
+    <string name="running_time_desc">Durata</string>
     <string name="running_total_climb_british_unit">Distanza di velocità al suolo(mi)</string>
     <string name="running_total_climb_desc">Distanza di velocità al suolo(%1$s)</string>
     <string name="running_total_down_british_unit">Perdita di altezza(inches)</string>
@@ -831,7 +831,7 @@ Indossa il tuo orologio e muoviti!"</string>
     <string name="time_difference">Cambia</string>
     <string name="time_format_hour_min">%1$sh %2$sm</string>
     <string name="time_format_min">%s min</string>
-    <string name="time_title">tempo</string>
+    <string name="time_title">Durata</string>
     <string name="tip_confirm_get_it">Acconsento</string>
     <string name="tip_no_network">Nessuna rete</string>
     <string name="tip_to_unbind_from_ios">Please unpair the phone in the Amazfit Watch of the previously paired iOS phone to connect the watch to this phone</string>
