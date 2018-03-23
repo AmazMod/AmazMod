@@ -135,7 +135,7 @@
     <string-array name="sport_history_header_tab_title">
         <item>Tutto</item>
         <item>Giorno</item>
-        <item>Settimana</item>
+        <item>Sett.</item>
         <item>Mese</item>
     </string-array>
     <string-array name="te_info">
