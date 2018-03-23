@@ -555,13 +555,13 @@ Usa l\'orologio per misurare la frequenza</string>
     <string name="run_distance_m">Distanza totale(m)</string>
     <string name="run_distance_mile">Chilometraggio totale(mile)</string>
     <string name="run_distance_yard">In totale hai percorso(yd)</string>
-    <string name="run_total_cal">In totale hai bruciato (kCal)</string>
-    <string name="run_total_times">Sessioni (tempi)</string>
+    <string name="run_total_cal">In totale hai bruciato(kCal)</string>
+    <string name="run_total_times">Sessioni</string>
     <string name="running_avg_altitude_desc">Media(%1$s)</string>
     <string name="running_avg_pace">Ritmo medio</string>
     <string name="running_avg_pace_desc">Ritmo medio(%1$s)</string>
     <string name="running_avg_pace_short_desc">Media(%1$s)</string>
-    <string name="running_avg_speed">velocità media(km/h)</string>
+    <string name="running_avg_speed">Velocità media(km/h)</string>
     <string name="running_avg_speed_desc">Velocità media(km/h)</string>
     <string name="running_avg_speed_desc_miles">Velocità media(mi/h)</string>
     <string name="running_avg_speed_short_desc">Media(km/h)</string>
