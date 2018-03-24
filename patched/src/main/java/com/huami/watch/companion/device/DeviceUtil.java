@@ -14,7 +14,7 @@ import lanchon.dexpatcher.annotation.DexWrap;
 @DexEdit(defaultAction = DexAction.IGNORE)
 public class DeviceUtil {
     @DexWrap
-    public static bo    olean hasEmptyInfo(Device device) {
+    public static boolean hasEmptyInfo(Device device) {
         return hasEmptyInfo(device);
     }
 
