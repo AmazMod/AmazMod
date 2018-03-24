@@ -1242,7 +1242,10 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_21"> - Aggiounte più opzioni nelle impostazioni delle notifiche</string>
     <string name="changelog_row_22"> - Corrette alcune traduzioni</string>
     <string name="changelog_row_23"> - Aggiunto link canale Telegram per gli aggiornamenti</string>
+    <string name="changelog_row_24"> - Aggiunto link al progetto su Github</string>
 
+    <string name="github_project">Progetto su Github</string>
+    <string name="github_project_link">https://github.com/edotassi/AmazMod</string>
     <string name="telegram_update_channel">Canale Telegram aggiornamenti</string>
     <string name="telegram_update_channel_link">https://t.me/amazmod</string>
     <string name="pref_enable_ota_service_title">Abilita il servizio OTA</string>

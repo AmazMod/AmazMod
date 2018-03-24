@@ -41,6 +41,7 @@ public class CardMgr {
             c.add(ModSettingsCard.create(b));
             c.add(TelegramCard.create(b));
             c.add(FacebookCard.create(b));
+            c.add(GithubCard.create(b));
             c.add(BugsCard.create(b));
             //c.add(BuyMeACoffeCard.create(b));
             c.add(ChangelogCard.create(b));

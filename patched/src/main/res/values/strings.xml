@@ -53,8 +53,11 @@
     <string name="changelog_row_20"> - Fixed crash of StatusFragment</string>
     <string name="changelog_row_21"> - Added more options to Notifications settings</string>
     <string name="changelog_row_22"> - Fixed some translations</string>
-    <string name="changelog_row_23"> - Added link Telegram channgel for updates</string>
+    <string name="changelog_row_23"> - Added link Telegram channel for updates</string>
+    <string name="changelog_row_24"> - Added link Github project</string>
 
+    <string name="github_project">Github project</string>
+    <string name="github_project_link">https://github.com/edotassi/AmazMod</string>
     <string name="telegram_update_channel">Telegram channel for updates</string>
     <string name="telegram_update_channel_link">https://t.me/amazmod</string>
     <string name="pref_enable_ota_service_title">Enable OTA Service</string>
