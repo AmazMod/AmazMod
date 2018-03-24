@@ -27,7 +27,8 @@
             android:layout_marginStart="10.0dip"
             android:text="@string/buy_me_a_coffe"
             android:textColor="#e6000000"
-            android:textSize="13.0sp" />
+            android:textSize="13.0sp"
+            android:layout_marginLeft="10.0dip" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +37,8 @@
             android:text="@string/paypalme_link"
             android:autoLink="web"
             android:textColor="#0645ad"
-            android:textSize="13.0sp" />
+            android:textSize="13.0sp"
+            android:layout_marginLeft="10.0dip" />
     </LinearLayout>
 
 </LinearLayout>

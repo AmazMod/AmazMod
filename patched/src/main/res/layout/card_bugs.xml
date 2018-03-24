@@ -13,7 +13,8 @@
         android:layout_marginStart="12.0dip"
         android:layout_marginTop="10.0dip"
         android:scaleType="fitCenter"
-        android:src="@drawable/help" />
+        android:src="@drawable/help"
+        android:layout_marginLeft="12.0dip" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -27,7 +28,8 @@
             android:layout_marginStart="10.0dip"
             android:text="@string/bugs_or_reports"
             android:textColor="#e6000000"
-            android:textSize="13.0sp" />
+            android:textSize="13.0sp"
+            android:layout_marginLeft="10.0dip" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,7 +38,8 @@
             android:text="@string/bugs_email"
             android:autoLink="email"
             android:textColor="#0645ad"
-            android:textSize="13.0sp" />
+            android:textSize="13.0sp"
+            android:layout_marginLeft="10.0dip" />
     </LinearLayout>
 
 </LinearLayout>

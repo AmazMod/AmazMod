@@ -39,14 +39,14 @@
 
     <string name="changelog_v_200">v2.0.0 - 08/03/2018</string>
     <string name="changelog_row_10"> - Fix crash login on Oreo</string>
-    <string name="changelog_row_11"> - 🎉 Added individual notifications on the watch</string>
+    <string name="changelog_row_11"> - Added individual notifications on the watch</string>
     <string name="changelog_row_12"> - Notifications on the clock are deleted (almost all)</string>
-    <string name="changelog_row_13"> - 🎉 Replaced 🇨🇳 maps with Google ones</string>
+    <string name="changelog_row_13"> - Replaced Chinese maps with Google ones</string>
     <string name="changelog_row_14"> - Added mod\'s settings</string>
     <string name="changelog_row_15"> - Added the ability to enable / disable RTL support (requires full reboot of the app)</string>
-    <string name="changelog_row_16"> - Disabled OTA service (very experimental 😁)</string>
-    <string name="changelog_row_17"> - Updated app based on version 2.2 🇨🇳</string>
-    <string name="changelog_row_18"> - Started translations into 🇮🇹</string>
+    <string name="changelog_row_16"> - Disabled OTA service (very experimental)</string>
+    <string name="changelog_row_17"> - Updated app based on version 2.2 Chinese</string>
+    <string name="changelog_row_18"> - Started translations into Italian</string>
     <string name="pref_enable_ota_service_title">Enable OTA Service</string>
     <string name="mod_settings">Mod\'s settings</string>
     <string name="restart_app_to_apply_settings">Restart the app to apply the changes</string>
@@ -60,7 +60,7 @@
     <string name="pref_kill_app_description">Required to apply some settings</string>
     <string name="pref_reverse_hebrew_notifications">Reverse notification texts in Hebrew</string>
     <string name="pref_disable_crash_reporting">Don\'t send crash reports</string>
-    <string name="pref_disable_toast_ota">Hide the OTA toast 😜</string>
+    <string name="pref_disable_toast_ota">Hide the OTA toast</string>
     <string name="crash_report_disabled_tip">Leaving this option off will help me to find any application bugs</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>

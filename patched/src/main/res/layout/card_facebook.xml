@@ -13,7 +13,8 @@
         android:layout_marginStart="12.0dip"
         android:layout_marginTop="10.0dip"
         android:scaleType="fitCenter"
-        android:src="@drawable/facebook" />
+        android:src="@drawable/facebook"
+        android:layout_marginLeft="12.0dip" />
 
     <TextView
         android:id="@+id/link_facebook"
@@ -22,5 +23,6 @@
         android:layout_marginStart="10.0dip"
         android:text="@string/facebook_group_link"
         android:textColor="#e6000000"
-        android:textSize="13.0sp" />
+        android:textSize="13.0sp"
+        android:layout_marginLeft="10.0dip" />
 </LinearLayout>

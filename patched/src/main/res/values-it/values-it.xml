@@ -1227,14 +1227,14 @@ politica sulla riservatezza e termini di servizio"</string>
 
     <string name="changelog_v_200">v2.0.0 - 08/03/2018</string>
     <string name="changelog_row_10"> - Fix crash login su Oreo</string>
-    <string name="changelog_row_11"> - 🎉 Aggiunte notifiche singole sull\'orologio</string>
+    <string name="changelog_row_11"> - Aggiunte notifiche singole sull\'orologio</string>
     <string name="changelog_row_12"> - Vengono eliminate le notifiche sull\'orologio (quasi tutte)</string>
-    <string name="changelog_row_13"> - 🎉 Sostituite mappe 🇨🇳 con quelle Google</string>
+    <string name="changelog_row_13"> - Sostituite mappe cinesi con quelle Google</string>
     <string name="changelog_row_14"> - Aggiunte impostazioni mod</string>
     <string name="changelog_row_15"> - Aggiunta la possibilità di abilitare/disabilitare il supporto RTL</string>
-    <string name="changelog_row_16"> - Disabilitato servizio OTA (molto sperimentale 😁)</string>
-    <string name="changelog_row_17"> - Aggiornata app base alla versione 2.2 🇨🇳</string>
-    <string name="changelog_row_18"> - Iniziate traduzioni in 🇮🇹</string>
+    <string name="changelog_row_16"> - Disabilitato servizio OTA (molto sperimentale</string>
+    <string name="changelog_row_17"> - Aggiornata app base alla versione 2.2 cinese</string>
+    <string name="changelog_row_18"> - Iniziate traduzioni in italiano</string>
     <string name="pref_enable_ota_service_title">Abilita il servizio OTA</string>
     <string name="mod_settings">Impostazioni della Mod</string>
     <string name="restart_app_to_apply_settings">Riavvia l\'app per applicare le modifiche</string>
@@ -1248,7 +1248,7 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="pref_kill_app_description">Necessaria per applicare alcune impostazioni</string>
     <string name="pref_reverse_hebrew_notifications">Inverti i testi delle notifiche in Ebraico</string>
     <string name="pref_disable_crash_reporting">Non inviare i report dei crash</string>
-    <string name="pref_disable_toast_ota">Nascondi il toast OTA 😜</string>
+    <string name="pref_disable_toast_ota">Nascondi il toast OTA</string>
     <string name="crash_report_disabled_tip">Lasciando questa opzione disattivata mi aiuterai a trovare eventuali bug dell\'applicazione</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>
