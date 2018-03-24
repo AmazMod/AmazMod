@@ -32,19 +32,20 @@ public class CardMgr {
 
     @DexReplace
     private List<ICard> a() {
-        if (this.c.isEmpty()) {
-            this.c.add(StepCard.create(this.b));
-            this.c.add(EverestHelpCard.create(this.b, CardMgr.showEverestHelpCard(this.b)));
-            this.c.add(BatteryCard.create(this.b));
-            this.c.add(SleepCard.create(this.b));
-            this.c.add(HeartCard.create(this.b));
-            this.c.add(ModSettingsCard.create(this.b));
-            this.c.add(FacebookCard.create(this.b));
-            this.c.add(BugsCard.create(this.b));
-            this.c.add(BuyMeACoffeCard.create(this.b));
-            this.c.add(ChangelogCard.create(this.b));
+        if (c.isEmpty()) {
+            c.add(StepCard.create(b));
+            c.add(EverestHelpCard.create(b, CardMgr.showEverestHelpCard(b)));
+            c.add(BatteryCard.create(b));
+            c.add(SleepCard.create(b));
+            c.add(HeartCard.create(b));
+            c.add(ModSettingsCard.create(b));
+            c.add(TelegramCard.create(b));
+            c.add(FacebookCard.create(b));
+            c.add(BugsCard.create(b));
+            //c.add(BuyMeACoffeCard.create(b));
+            c.add(ChangelogCard.create(b));
         }
-        return this.c;
+        return c;
     }
 
     @DexIgnore

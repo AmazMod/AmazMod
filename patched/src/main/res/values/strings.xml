@@ -53,7 +53,10 @@
     <string name="changelog_row_20"> - Fixed crash of StatusFragment</string>
     <string name="changelog_row_21"> - Added more options to Notifications settings</string>
     <string name="changelog_row_22"> - Fixed some translations</string>
+    <string name="changelog_row_23"> - Added link Telegram channgel for updates</string>
 
+    <string name="telegram_update_channel">Telegram channel for updates</string>
+    <string name="telegram_update_channel_link">https://t.me/amazmod</string>
     <string name="pref_enable_ota_service_title">Enable OTA Service</string>
     <string name="mod_settings">Mod\'s settings</string>
     <string name="restart_app_to_apply_settings">Restart the app to apply the changes</string>

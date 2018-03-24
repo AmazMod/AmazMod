@@ -1241,7 +1241,10 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_20"> - Fix per il crash del StatusFragment</string>
     <string name="changelog_row_21"> - Aggiounte più opzioni nelle impostazioni delle notifiche</string>
     <string name="changelog_row_22"> - Corrette alcune traduzioni</string>
+    <string name="changelog_row_23"> - Aggiunto link canale Telegram per gli aggiornamenti</string>
 
+    <string name="telegram_update_channel">Canale Telegram aggiornamenti</string>
+    <string name="telegram_update_channel_link">https://t.me/amazmod</string>
     <string name="pref_enable_ota_service_title">Abilita il servizio OTA</string>
     <string name="mod_settings">Impostazioni della Mod</string>
     <string name="restart_app_to_apply_settings">Riavvia l\'app per applicare le modifiche</string>
