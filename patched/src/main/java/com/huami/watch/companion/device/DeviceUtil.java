@@ -13,19 +13,13 @@ import lanchon.dexpatcher.annotation.DexWrap;
 
 @DexEdit(defaultAction = DexAction.IGNORE)
 public class DeviceUtil {
-
     @DexWrap
-    public static boolean hasEmptyInfo(Device device) {
+    public static bo    olean hasEmptyInfo(Device device) {
         return hasEmptyInfo(device);
     }
 
     @DexWrap
     public static boolean isRomSupportWatchFaceStore(Context context, Device device) {
         return isRomSupportWatchFaceStore(context, device);
-    }
-
-    @DexReplace
-    public boolean isRomSupportShowQR(Context context, Device device) {
-        return true;
     }
 }
