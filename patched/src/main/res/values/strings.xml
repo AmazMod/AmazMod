@@ -47,6 +47,13 @@
     <string name="changelog_row_16"> - Disabled OTA service (very experimental)</string>
     <string name="changelog_row_17"> - Updated app based on version 2.2 Chinese</string>
     <string name="changelog_row_18"> - Started translations into Italian</string>
+
+    <string name="changelog_v_210">v2.1.0 - 24/03/2018</string>
+    <string name="changelog_row_19"> - Updated app based on version 2.3 Chinese</string>
+    <string name="changelog_row_20"> - Fixed crash of StatusFragment</string>
+    <string name="changelog_row_21"> - Added more options to Notifications settings</string>
+    <string name="changelog_row_22"> - Fixed some translations</string>
+
     <string name="pref_enable_ota_service_title">Enable OTA Service</string>
     <string name="mod_settings">Mod\'s settings</string>
     <string name="restart_app_to_apply_settings">Restart the app to apply the changes</string>

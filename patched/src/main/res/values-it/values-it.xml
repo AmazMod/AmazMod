@@ -1235,6 +1235,13 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_16"> - Disabilitato servizio OTA (molto sperimentale</string>
     <string name="changelog_row_17"> - Aggiornata app base alla versione 2.2 cinese</string>
     <string name="changelog_row_18"> - Iniziate traduzioni in italiano</string>
+
+    <string name="changelog_v_210">v2.1.0 - 24/03/2018</string>
+    <string name="changelog_row_19"> - Aggiornata app base alla versione 2.3 Cinese</string>
+    <string name="changelog_row_20"> - Fix per il crash del StatusFragment</string>
+    <string name="changelog_row_21"> - Aggiounte più opzioni nelle impostazioni delle notifiche</string>
+    <string name="changelog_row_22"> - Corrette alcune traduzioni</string>
+
     <string name="pref_enable_ota_service_title">Abilita il servizio OTA</string>
     <string name="mod_settings">Impostazioni della Mod</string>
     <string name="restart_app_to_apply_settings">Riavvia l\'app per applicare le modifiche</string>
