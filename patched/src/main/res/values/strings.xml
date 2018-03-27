@@ -49,16 +49,16 @@
     <string name="changelog_row_17"> - Updated app based on version 2.2 Chinese</string>
     <string name="changelog_row_18"> - Started translations into Italian</string>
 
-    <string name="changelog_v_210">v2.1.0 - 24/03/2018</string>
-    <string name="changelog_row_19"> - Updated app based on version 2.3 Chinese</string>
-    <string name="changelog_row_20"> - Fixed crash of StatusFragment</string>
+    <string name="changelog_v_210">v2.1.0 - 27/03/2018</string>
+    <string name="changelog_row_19"> - Updated base app to Chinese version 2.3</string>
+    <string name="changelog_row_20"> - Fix for "StatusFragment" crash</string>
     <string name="changelog_row_21"> - Added more options to Notifications settings</string>
     <string name="changelog_row_22"> - Fixed some translations</string>
-    <string name="changelog_row_23"> - Added link Telegram channel for updates</string>
-    <string name="changelog_row_24"> - Added link Github project</string>
-    <string name="changelog_row_25"> - Restored original icons of markers of start/end track</string>
-    <string name="changelog_row_26"> - Fix the crash when the clock is unpaired</string>
-    <string name="changelog_row_27"> - Renamed the app in AmazMod</string>
+    <string name="changelog_row_23"> - Added Telegram channel link for updates</string>
+    <string name="changelog_row_24"> - Added link to the project on Github</string>
+    <string name="changelog_row_25"> - Restored original icons of the track start / end markers</string>
+    <string name="changelog_row_26"> - Fix for the "watch unpair" crash</string>
+    <string name="changelog_row_27"> - Renamed app in AmazMod</string>
 
     <string name="github_project">Github project</string>
     <string name="github_project_link">https://github.com/edotassi/AmazMod</string>
