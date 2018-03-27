@@ -5,6 +5,7 @@
 
     <!--Override app name.-->
 
+    <string name="app_name">AmazMod</string>
     <string name="welcome_use_watch">Welcome to Amazfit Watch Mod\n(by edotasx)</string>
 
     <string name="not_all_permission_granted_warning">If you do not enable all the required permissions, the app may not work properly</string>
@@ -55,6 +56,9 @@
     <string name="changelog_row_22"> - Fixed some translations</string>
     <string name="changelog_row_23"> - Added link Telegram channel for updates</string>
     <string name="changelog_row_24"> - Added link Github project</string>
+    <string name="changelog_row_25"> - Restored original icons of markers of start/end track</string>
+    <string name="changelog_row_26"> - Fix the crash when the clock is unpaired</string>
+    <string name="changelog_row_27"> - Renamed the app in AmazMod</string>
 
     <string name="github_project">Github project</string>
     <string name="github_project_link">https://github.com/edotassi/AmazMod</string>

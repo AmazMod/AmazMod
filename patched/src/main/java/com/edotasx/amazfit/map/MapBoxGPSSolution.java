@@ -17,6 +17,8 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -106,11 +108,13 @@ public class MapBoxGPSSolution implements IGPSSolution, OnMapReadyCallback {
 
         this.googleMap.addPolyline(polylineOptions);
 
+        BitmapDescriptor startIcon = BitmapDescriptorFactory.fromResource(R.drawable.ic_sport_track_start);
         GPSPoint firstGpsPoint = list.get(0);
-        addMarker(new LatLng(firstGpsPoint.mLatitude, firstGpsPoint.mLongitude), "Start");
+        addMarker(new LatLng(firstGpsPoint.mLatitude, firstGpsPoint.mLongitude), "Start", startIcon);
 
+        BitmapDescriptor endIcon = BitmapDescriptorFactory.fromResource(R.drawable.ic_sport_track_end);
         GPSPoint lastGpsPoint = list.get(list.size() - 1);
-        addMarker(new LatLng(lastGpsPoint.mLatitude, lastGpsPoint.mLongitude), "Finish");
+        addMarker(new LatLng(lastGpsPoint.mLatitude, lastGpsPoint.mLongitude), "Finish", endIcon);
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 0));
     }
@@ -227,12 +231,16 @@ public class MapBoxGPSSolution implements IGPSSolution, OnMapReadyCallback {
         googleMap.setMyLocationEnabled(true);
     }
 
-    private void addMarker(LatLng latLng, String title) {
+    private void addMarker(LatLng latLng, String title, BitmapDescriptor icon) {
         if (googleMap == null) return;
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title(title);
+
+        if (icon != null) {
+            markerOptions.icon(icon);
+        }
 
         googleMap.addMarker(markerOptions);
     }

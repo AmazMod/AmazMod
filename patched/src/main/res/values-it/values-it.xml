@@ -56,7 +56,7 @@
     <string name="ampm_format_hhmmss">hh:mm:ss a</string>
     <string name="and_mark_short"> &amp; </string>
     <string name="anonymous_id">ID Anonimo</string>
-    <string name="app_name">Amazfit Watch</string>
+    <string name="app_name">AmazMod</string>
     <string name="app_upgrade_down_complete">Download completato</string>
     <string name="app_upgrade_down_fail_without_manager">Download fallito. Controlla il Download Manager</string>
     <string name="apply_loading">Invio in corso...</string>
@@ -1243,6 +1243,9 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_22"> - Corrette alcune traduzioni</string>
     <string name="changelog_row_23"> - Aggiunto link canale Telegram per gli aggiornamenti</string>
     <string name="changelog_row_24"> - Aggiunto link al progetto su Github</string>
+    <string name="changelog_row_25"> - Ripristinate icone originali dei marker di inizio/fine traccia</string>
+    <string name="changelog_row_26"> - Fix del crash quando si disaccoppia l\'orologio</string>
+    <string name="changelog_row_27"> - Rinominata l\'app in AmazMod</string>
 
     <string name="github_project">Progetto su Github</string>
     <string name="github_project_link">https://github.com/edotassi/AmazMod</string>
