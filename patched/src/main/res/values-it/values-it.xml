@@ -1262,6 +1262,8 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="pref_reverse_hebrew_notifications">Inverti i testi delle notifiche in Ebraico</string>
     <string name="pref_disable_crash_reporting">Non inviare i report dei crash</string>
     <string name="pref_disable_toast_ota">Nascondi il toast OTA</string>
+    <string name="pref_enable_double_notification_filter">Abilita il filtro per le doppie notifiche</string>
+    <string name="pref_enable_app_custom_notification_filter">Abilita il filtro custom per ogni app</string>
     <string name="crash_report_disabled_tip">Lasciando questa opzione disattivata mi aiuterai a trovare eventuali bug dell\'applicazione</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>

@@ -20,6 +20,8 @@ public class Constants {
     public static final String PREFERENCE_ENABLE_OTA = "preference.enable.ota";
     public static final String PREFERENCE_MAPS_TYPE = "preference.maps.type";
     public static final String PREFERENCE_DISABLE_NOTIFICATIONS_MOD = "preference.disable.notifications.mod";
+    public static final String PREFERENCE_ENABLE_DOUBLE_NOTIFICATION_FILTER = "preference.enable.double.notification.filter";
+    public static final String PREFERENCE_ENABLE_APP_CUSTOM_NOTIFICATION_FILTER = "preference.enable.app.custom.notification.filter";
     public static final String PREFERENCE_ENABLE_RTL = "preference.enable.rtl";
     public static final String PREFERENCE_REVERSE_HEBREW_NOTIFCATIONS = "preference.reverse.hebrew.notifications";
     public static final String PREFERENCE_KILL_APP = "preference.kill.app";

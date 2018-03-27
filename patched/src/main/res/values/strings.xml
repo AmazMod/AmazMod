@@ -74,6 +74,8 @@
     <string name="pref_reverse_hebrew_notifications">Reverse notification texts in Hebrew</string>
     <string name="pref_disable_crash_reporting">Don\'t send crash reports</string>
     <string name="pref_disable_toast_ota">Hide the OTA toast</string>
+    <string name="pref_enable_double_notification_filter">Enable the filter for double notifications</string>
+    <string name="pref_enable_app_custom_notification_filter">Enable the custom filter for each app</string>
     <string name="crash_report_disabled_tip">Leaving this option off will help me to find any application bugs</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>

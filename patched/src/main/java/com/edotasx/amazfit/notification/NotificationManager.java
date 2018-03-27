@@ -16,11 +16,9 @@ import com.edotasx.amazfit.notification.filter.WhatsappNotificationFilter;
 import com.edotasx.amazfit.notification.text.extractor.DefaultTextExtractor;
 import com.edotasx.amazfit.notification.text.extractor.TelegramTextExtractor;
 import com.edotasx.amazfit.notification.text.extractor.TextExtractor;
-import com.huami.watch.dataflow.model.health.process.Const;
+import com.edotasx.amazfit.preference.PreferenceManager;
 import com.huami.watch.notification.data.NotificationData;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,20 +88,26 @@ public class NotificationManager {
 
         Log.d(Constants.TAG_NOTIFICATION, "accepted by time: " + pStatusBarNotification.getPackageName() + ", time -> " + timeDiff);
 
-        if (mDefaultPreNotificationFilter.filter(pStatusBarNotification)) {
-            return true;
+        if (PreferenceManager.getBoolean(context, Constants.PREFERENCE_ENABLE_DOUBLE_NOTIFICATION_FILTER, false)) {
+            if (mDefaultPreNotificationFilter.filter(pStatusBarNotification)) {
+                return true;
+            }
         }
 
-        NotificationFilter lNotificationFilter = getNotificationFilter(pStatusBarNotification.getPackageName());
-        boolean filterResult = lNotificationFilter.filter(pStatusBarNotification);
+        if (PreferenceManager.getBoolean(context, Constants.PREFERENCE_ENABLE_APP_CUSTOM_NOTIFICATION_FILTER, false)) {
+            NotificationFilter lNotificationFilter = getNotificationFilter(pStatusBarNotification.getPackageName());
+            boolean filterResult = lNotificationFilter.filter(pStatusBarNotification);
 
-        if (filterResult) {
-            Log.d(Constants.TAG_NOTIFICATION, "rejected by filter: " + pStatusBarNotification.getPackageName());
+            if (filterResult) {
+                Log.d(Constants.TAG_NOTIFICATION, "rejected by filter: " + pStatusBarNotification.getPackageName());
+            } else {
+                Log.d(Constants.TAG_NOTIFICATION, "accepted by filter: " + pStatusBarNotification.getPackageName());
+            }
+
+            return filterResult;
         } else {
-            Log.d(Constants.TAG_NOTIFICATION, "accepted by filter: " + pStatusBarNotification.getPackageName());
+            return false;
         }
-
-        return filterResult;
     }
 
     public String extractText(Notification notification, NotificationData notificationData) {
