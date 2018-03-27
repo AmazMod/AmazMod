@@ -13,6 +13,7 @@ import lanchon.dexpatcher.annotation.DexAdd;
 @DexAdd
 public class RxConsumerStarter {
 
+
     public void init(CompanionApplication companionApplication) {
         RxBus.get().toObservable().subscribe(new RxConsumer(companionApplication));
     }
@@ -30,7 +31,7 @@ public class RxConsumerStarter {
         public void accept(Object object) {
             if (object instanceof DeviceUnboundEvent) {
                 DeviceUnboundEvent event = (DeviceUnboundEvent) object;
-                this.companionApplication.consumeEvent(event);
+                companionApplication.a(companionApplication, event.did, event.address, event.isActive);
             }
         }
     }

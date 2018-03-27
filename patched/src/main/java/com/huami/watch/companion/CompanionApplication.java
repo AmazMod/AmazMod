@@ -237,10 +237,6 @@ public class CompanionApplication extends PhoneConnectionApplication {
         Boot.sharedInstance(this).run();
     }
 
-    public void consumeEvent(DeviceUnboundEvent event) {
-        CompanionApplication.this.a(CompanionApplication.this, event.did, event.address, event.isActive);
-    }
-
     @DexIgnore
     public static Context getContext() {
         return null;
@@ -248,12 +244,10 @@ public class CompanionApplication extends PhoneConnectionApplication {
 
     @DexIgnore
     private void a() {
-
     }
 
     @DexIgnore
     private void a(final Context context) {
-
     }
 
     @DexIgnore
@@ -272,7 +266,13 @@ public class CompanionApplication extends PhoneConnectionApplication {
     }
 
     @DexIgnore
-    public void a(Context context, String string2, String string3, boolean bl2) {
+    private void a(Context context, String string2) { }
 
+    @DexReplace
+    public void a(Context context, String string2, String string3, boolean bl2) {
+        Log.i("CompanionApp", "OnDeviceUnbound : " + string2 + ", " + string3 + ", IsActiveDevice : " + bl2, new Object[0]);
+        if (bl2) {
+            this.a(context, string2);
+        }
     }
 }
