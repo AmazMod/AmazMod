@@ -36,6 +36,7 @@ public class CardMgr {
             c.add(StepCard.create(b));
             c.add(EverestHelpCard.create(b, CardMgr.showEverestHelpCard(b)));
             c.add(BatteryCard.create(b));
+            c.add(BatteryChartCard.create(b));
             c.add(SleepCard.create(b));
             c.add(HeartCard.create(b));
             c.add(ModSettingsCard.create(b));

@@ -187,6 +187,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.0.1'
 
     compile files('../libs/lib.jar')
+
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }
 
 configurations {
