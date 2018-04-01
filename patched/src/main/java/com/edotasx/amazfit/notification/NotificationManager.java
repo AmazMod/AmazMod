@@ -8,11 +8,10 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
-import com.edotasx.amazfit.notification.filter.DefaultNotificationFilter;
-import com.edotasx.amazfit.notification.filter.DefaultPreNotificationFilter;
+import com.edotasx.amazfit.notification.filter.TimeNotificationFilter;
+import com.edotasx.amazfit.notification.filter.UniqueKeyNotificationFilter;
 import com.edotasx.amazfit.notification.filter.NotificationFilter;
-import com.edotasx.amazfit.notification.filter.PreNotificationFilter;
-import com.edotasx.amazfit.notification.filter.WhatsappNotificationFilter;
+import com.edotasx.amazfit.notification.filter.app.WhatsappNotificationFilter;
 import com.edotasx.amazfit.notification.text.extractor.DefaultTextExtractor;
 import com.edotasx.amazfit.notification.text.extractor.TelegramTextExtractor;
 import com.edotasx.amazfit.notification.text.extractor.TextExtractor;
@@ -28,9 +27,9 @@ import java.util.Map;
 
 public class NotificationManager {
 
-    private Map<String, NotificationFilter> mNotificationFilters;
-    private PreNotificationFilter mDefaultPreNotificationFilter;
-    private NotificationFilter mDefaultNotificationFilter;
+    private UniqueKeyNotificationFilter uniqueKeyNotificationFilter;
+    private TimeNotificationFilter timeNotificationFilter;
+    private WhatsappNotificationFilter whatsappNotificationFilter;
 
     private Map<String, TextExtractor> textExtractors;
     private TextExtractor defaultTextExtractor;
@@ -58,16 +57,15 @@ public class NotificationManager {
     private NotificationManager(Context context) {
         this.context = context;
 
-        mNotificationFilters = new HashMap<>();
         textExtractors = new HashMap<>();
 
         defaultTextExtractor = new DefaultTextExtractor();
         textExtractors.put(Constants.TELEGRAM_PACKAGE, new TelegramTextExtractor());
 
-        mNotificationFilters.put(Constants.WHATSAPP_PACKAGE, new WhatsappNotificationFilter());
+        whatsappNotificationFilter = new WhatsappNotificationFilter();
 
-        mDefaultPreNotificationFilter = new DefaultPreNotificationFilter(context);
-        mDefaultNotificationFilter = new DefaultNotificationFilter();
+        uniqueKeyNotificationFilter = new UniqueKeyNotificationFilter(context);
+        timeNotificationFilter = new TimeNotificationFilter();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -79,35 +77,21 @@ public class NotificationManager {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean filter(StatusBarNotification pStatusBarNotification) {
-        long timeDiff = System.currentTimeMillis() - pStatusBarNotification.getNotification().when;
+        boolean filter = false;
 
-        if (timeDiff > Constants.TIME_BETWEEN_NOTIFICATIONS) {
-            Log.d(Constants.TAG_NOTIFICATION, "rejected by time: " + pStatusBarNotification.getPackageName() + ", time -> " + timeDiff);
-            return true;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            filter = timeNotificationFilter.filter(pStatusBarNotification);
         }
 
-        Log.d(Constants.TAG_NOTIFICATION, "accepted by time: " + pStatusBarNotification.getPackageName() + ", time -> " + timeDiff);
-
-        if (PreferenceManager.getBoolean(context, Constants.PREFERENCE_ENABLE_DOUBLE_NOTIFICATION_FILTER, false)) {
-            if (mDefaultPreNotificationFilter.filter(pStatusBarNotification)) {
-                return true;
-            }
+        if (filter) {
+            return filter;
         }
 
-        if (PreferenceManager.getBoolean(context, Constants.PREFERENCE_ENABLE_APP_CUSTOM_NOTIFICATION_FILTER, false)) {
-            NotificationFilter lNotificationFilter = getNotificationFilter(pStatusBarNotification.getPackageName());
-            boolean filterResult = lNotificationFilter.filter(pStatusBarNotification);
-
-            if (filterResult) {
-                Log.d(Constants.TAG_NOTIFICATION, "rejected by filter: " + pStatusBarNotification.getPackageName());
-            } else {
-                Log.d(Constants.TAG_NOTIFICATION, "accepted by filter: " + pStatusBarNotification.getPackageName());
-            }
-
-            return filterResult;
-        } else {
-            return false;
+        if (pStatusBarNotification.getPackageName().equals(Constants.WHATSAPP_PACKAGE)) {
+            filter = whatsappNotificationFilter.filter(pStatusBarNotification);
         }
+
+        return filter;
     }
 
     public String extractText(Notification notification, NotificationData notificationData) {
@@ -117,11 +101,5 @@ public class NotificationManager {
                 textExtractors.get(packageName);
 
         return textExtractor.extractText(notification, notificationData);
-    }
-
-    private NotificationFilter getNotificationFilter(String packageName) {
-        NotificationFilter lNotificationFilter = mNotificationFilters.get(packageName);
-
-        return lNotificationFilter == null ? mDefaultNotificationFilter : lNotificationFilter;
     }
 }

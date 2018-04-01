@@ -16,18 +16,17 @@ import java.util.Map;
  * Created by edoardotassinari on 21/02/18.
  */
 
-public class DefaultPreNotificationFilter implements PreNotificationFilter {
+public class UniqueKeyNotificationFilter {
 
     private Map<String, Long> notificationsLetGo;
     private Context context;
 
-    public DefaultPreNotificationFilter(Context context) {
+    public UniqueKeyNotificationFilter(Context context) {
         notificationsLetGo = new HashMap<>();
         this.context = context;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    @Override
     public boolean filter(StatusBarNotification statusBarNotification) {
         String completeKey = StatusBarNotificationData.getUniqueKey(statusBarNotification);
 

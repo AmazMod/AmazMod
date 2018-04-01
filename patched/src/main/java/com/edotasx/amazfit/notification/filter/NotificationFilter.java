@@ -3,9 +3,12 @@ package com.edotasx.amazfit.notification.filter;
 import android.service.notification.StatusBarNotification;
 
 /**
- * Created by edoardotassinari on 18/02/18.
+ * Created by edoardotassinari on 29/03/18.
  */
 
-public interface NotificationFilter extends PreNotificationFilter {
+public interface NotificationFilter {
+
     String getPackage();
+
+    boolean filter(StatusBarNotification statusBarNotification);
 }

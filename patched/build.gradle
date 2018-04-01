@@ -102,8 +102,8 @@ android {
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 100003
-        versionName "2.1"
+        versionCode 100004
+        versionName "2.1.1"
 
         /*
         ndk {

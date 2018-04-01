@@ -1,4 +1,4 @@
-package com.edotasx.amazfit.notification.filter;
+package com.edotasx.amazfit.notification.filter.app;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
+import com.edotasx.amazfit.notification.filter.NotificationFilter;
 import com.huami.watch.notification.data.Utils;
 
 import java.util.HashMap;
@@ -38,21 +39,16 @@ public class WhatsappNotificationFilter implements NotificationFilter {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public boolean filter(StatusBarNotification statusBarNotification) {
-        String key = buildKey(statusBarNotification);
+        Bundle bundle = NotificationCompat.getExtras(statusBarNotification.getNotification());
 
-        if (key == null) {
-            return true;
+        dumpBundle(bundle);
+
+        if (bundle == null) {
+            return false;
+        } else {
+            Bundle extensionsBundle = bundle.getBundle("android.wearable.EXTENSIONS");
+            return extensionsBundle == null;
         }
-
-        if (mNotificationsSent.containsKey(key)) {
-            return true;
-        }
-
-        mNotificationsSent.put(key, true);
-
-        Log.d(Constants.TAG_NOTIFICATION, "notification accepted: \"" + key + "\"");
-
-        return false;
 
         /*
         String packageName = statusBarNotification.getPackageName();
@@ -78,18 +74,42 @@ public class WhatsappNotificationFilter implements NotificationFilter {
         */
     }
 
-    private String dumpBundle(Bundle bundle) {
-        String ris = "";
+    private void dumpBundle(Bundle bundle) {
+        Log.d("Whatsapp", "=========");
 
-        Iterator<String> iterator = bundle.keySet().iterator();
-        while (iterator.hasNext()) {
-            String next = iterator.next();
-            String value = bundle.getString(next);
+        if (bundle == null) {
+            Log.d("Whatsapp", "bundle == null");
+        } else {
+            Iterator<String> iterator = bundle.keySet().iterator();
+            while (iterator.hasNext()) {
+                String next = iterator.next();
+                Object value = bundle.get(next);
 
-            ris += next + "(" + value + "), ";
+                Log.d("Whatsapp", next + " => " + (value == null ? "null" : value.toString()));
+
+
+                if (next.equals("android.template")) {
+                    Object template = bundle.get("android.template");
+                    Boolean templateIsInbox = template == null ? false : template instanceof Notification.InboxStyle;
+                    Log.d("Whatsapp", "\ttemplateInbox => " + templateIsInbox.toString());
+                }
+
+                if (next.equals("android.wearable.EXTENSIONS")) {
+                    Bundle extensionsBundle = bundle.getBundle("android.wearable.EXTENSIONS");
+                    if (extensionsBundle != null) {
+                        Iterator<String> extensionsIterator = extensionsBundle.keySet().iterator();
+                        while (extensionsIterator.hasNext()) {
+                            String nextExtensionKey = extensionsIterator.next();
+                            Object nextExtensionValue = extensionsBundle.get(nextExtensionKey);
+
+                            Log.d("Whatsapp", "\t" + nextExtensionKey + " => " + (nextExtensionValue == null ? "null" : nextExtensionValue.toString()));
+                        }
+                    }
+                }
+            }
         }
 
-        return ris;
+        Log.d("Whatsapp", "=========");
     }
 
 
