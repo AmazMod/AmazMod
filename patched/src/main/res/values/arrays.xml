@@ -12,4 +12,38 @@
         <item>hybrid</item>
         <item>terrain</item>
     </string-array>
+    <string-array name="pref_battery_background_sync_interval_entries">
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>60 min</item>
+        <item>1 h 30 min</item>
+        <item>2 h</item>
+        <item>3 h</item>
+        <item>4 h</item>
+    </string-array>
+    <string-array name="pref_battery_background_sync_interval_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>180</item>
+        <item>240</item>
+    </string-array>
+    <string-array name="pref_battery_sync_with_notification_entries">
+        <item>1 min</item>
+        <item>2 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>20 min</item>
+    </string-array>
+    <string-array name="pref_battery_sync_with_notification_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
 </resources>

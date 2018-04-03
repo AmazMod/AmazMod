@@ -1,5 +1,9 @@
 package com.edotasx.amazfit.settings.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +16,8 @@ import android.widget.Toast;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
+import com.edotasx.amazfit.preference.PreferenceManager;
+import com.edotasx.amazfit.service.BatteryStatsReceiver;
 import com.huami.watch.companion.ui.view.ActionbarLayout;
 
 import java.util.ArrayList;
@@ -25,6 +31,7 @@ public class ModSettingsActivity extends PreferenceActivity implements SharedPre
 
     private List<String> prefRequireKillApp = new ArrayList<String>() {{
         add(Constants.PREFERENCE_ENABLE_RTL);
+        add(Constants.PREFERENCE_DISABLE_BATTERY_CHART);
     }};
 
     @Override
@@ -59,6 +66,24 @@ public class ModSettingsActivity extends PreferenceActivity implements SharedPre
             if (disabledCrashReporting) {
                 Toast.makeText(this, R.string.crash_report_disabled_tip, Toast.LENGTH_LONG).show();
             }
+        }
+
+        if (key.equals(Constants.PREFERENCE_DISABLE_BACKGROUND_SYNC) ||
+                key.equals(Constants.PREFERENCE_DISABLE_BATTERY_CHART)) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, BatteryStatsReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+            alarmManager.cancel(pendingIntent);
+        }
+
+        if (key.equals(Constants.PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL)) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, BatteryStatsReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+
+            int interval = PreferenceManager.getInt(this, Constants.PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL, 30);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval * 60 * 1000, pendingIntent);
         }
     }
 

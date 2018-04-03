@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.boot.Boot;
+import com.edotasx.amazfit.preference.PreferenceManager;
 import com.huami.watch.companion.device.Device;
 import com.huami.watch.companion.device.DeviceManager;
 import com.huami.watch.companion.device.DeviceUtil;
@@ -36,7 +38,11 @@ public class CardMgr {
             c.add(StepCard.create(b));
             c.add(EverestHelpCard.create(b, CardMgr.showEverestHelpCard(b)));
             c.add(BatteryCard.create(b));
-            c.add(BatteryChartCard.create(b));
+
+            if (!PreferenceManager.getBoolean(b, Constants.PREFERENCE_DISABLE_BATTERY_CHART, false)) {
+                c.add(BatteryChartCard.create(b));
+            }
+
             c.add(SleepCard.create(b));
             c.add(HeartCard.create(b));
             c.add(ModSettingsCard.create(b));

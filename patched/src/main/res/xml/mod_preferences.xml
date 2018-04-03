@@ -1,50 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/mod_settings">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="preference.disable.notifications.mod"
+        android:summary="@string/pref_disable_notifications_mod_summary"
+        android:title="@string/pref_disable_notifications_mod" />
+
+    <!--
     <PreferenceScreen
         android:key="preference.screen.notification"
         android:title="@string/pref_notifications_title">
 
-        <!--
         <PreferenceCategory android:title="@string/pref_notifications_title">
         -->
 
-            <!--
-            <SwitchPreference
-                android:defaultValue="false"
-                android:key="preference.reverse.hebrew.notifications"
-                android:title="@string/pref_reverse_hebrew_notifications" />
-                -->
-        <!--
-        </PreferenceCategory>
+    <!--
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="preference.reverse.hebrew.notifications"
+        android:title="@string/pref_reverse_hebrew_notifications" />
         -->
+    <!--
+    </PreferenceCategory>
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="preference.enable.double.notification.filter"
+        android:title="@string/pref_enable_double_notification_filter" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="preference.enable.app.custom.notification.filter"
+        android:title="@string/pref_enable_app_custom_notification_filter" />
+</PreferenceScreen>
+-->
+    <PreferenceScreen
+        android:key="preference.screen.battery"
+        android:title="@string/battery">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="preference.disable.notifications.mod"
-            android:title="@string/pref_disable_notifications_mod" />
+            android:key="preference.disable.battery.chart"
+            android:summary="@string/disable_battery_chart_summary"
+            android:title="@string/disable_battery_chart"
+            android:disableDependentsState="true"/>
         <SwitchPreference
             android:defaultValue="false"
-            android:key="preference.enable.double.notification.filter"
-            android:title="@string/pref_enable_double_notification_filter" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.enable.app.custom.notification.filter"
-            android:title="@string/pref_enable_app_custom_notification_filter" />
-
+            android:key="preference.disable.background.sync"
+            android:summary="@string/pref_disable_background_sync_summary"
+            android:title="@string/pref_disable_background_sync"
+            android:dependency="preference.disable.battery.chart"/>
+        <ListPreference
+            android:defaultValue="60"
+            android:dialogTitle="@string/pref_battery_background_sync_interval"
+            android:entries="@array/pref_battery_background_sync_interval_entries"
+            android:entryValues="@array/pref_battery_background_sync_interval_values"
+            android:key="preference.battery.background.sync.interval"
+            android:summary="@string/pref_battery_background_sync_interval_summary"
+            android:title="@string/pref_battery_background_sync_interval"
+            android:dependency="preference.disable.battery.chart"/>
+        <ListPreference
+            android:defaultValue="5"
+            android:dialogTitle="@string/pref_battery_sync_with_notifications"
+            android:entries="@array/pref_battery_sync_with_notification_entries"
+            android:entryValues="@array/pref_battery_sync_with_notification_values"
+            android:key="preference.maps.type"
+            android:summary="@string/pref_battery_sync_with_notifications_summary"
+            android:title="@string/pref_battery_sync_with_notifications"
+            android:dependency="preference.disable.battery.chart"/>
     </PreferenceScreen>
 
     <PreferenceCategory android:title="OTA">
         <SwitchPreference
             android:defaultValue="false"
+            android:disableDependentsState="true"
             android:key="preference.enable.ota"
-            android:title="@string/pref_enable_ota_service_title"
-            android:disableDependentsState="true"/>
+            android:summary="@string/pref_enable_ota_service_summary"
+            android:title="@string/pref_enable_ota_service_title" />
         <SwitchPreference
-            android:dependency="preference.enable.ota"
             android:defaultValue="false"
+            android:dependency="preference.enable.ota"
             android:key="preference.hide.ota.toast"
-            android:title="@string/pref_disable_toast_ota"/>
+            android:summary="@string/pref_disable_toast_ota_summary"
+            android:title="@string/pref_disable_toast_ota" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Google">
@@ -61,6 +99,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="preference.enable.rtl"
+            android:summary="@string/pref_enable_rtl_summary"
             android:title="@string/pref_enable_rtl" />
         <SwitchPreference
             android:defaultValue="false"

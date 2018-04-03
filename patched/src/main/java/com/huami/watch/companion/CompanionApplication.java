@@ -28,12 +28,10 @@ import com.huami.watch.companion.datacollection.DataCollection;
 import com.huami.watch.companion.device.Device;
 import com.huami.watch.companion.device.DeviceManager;
 import com.huami.watch.companion.device.DeviceUtil;
-import com.huami.watch.companion.event.DeviceUnboundEvent;
 import com.huami.watch.companion.findphone.AskAndAnswer;
 import com.huami.watch.companion.mediac.CommandHandler;
 import com.huami.watch.companion.notification.NotificationManager;
 import com.huami.watch.companion.otaphone.service.OtaService;
-import com.huami.watch.companion.service.DummyJobService;
 import com.huami.watch.companion.sync.SyncDeviceInfoHelper;
 import com.huami.watch.companion.sync.SyncWatchFaceBgHelper;
 import com.huami.watch.companion.sync.SyncWatchHealthHelper;
@@ -63,9 +61,7 @@ import java.net.Proxy;
 import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
-import io.reactivex.functions.Consumer;
 import lanchon.dexpatcher.annotation.DexAction;
-import lanchon.dexpatcher.annotation.DexAdd;
 import lanchon.dexpatcher.annotation.DexEdit;
 import lanchon.dexpatcher.annotation.DexIgnore;
 import lanchon.dexpatcher.annotation.DexReplace;
@@ -172,11 +168,11 @@ public class CompanionApplication extends PhoneConnectionApplication {
         if (h == null) {
             h = new DataCollection(this);
         }
+
         startService(new Intent(this, BGService_msg.class));
-
         startService(new Intent(this, OtaService.class));
-
         startService(new Intent(this, IMEservice.class));
+
         SyncWatchFaceBgHelper.getHelper().startFileTransporter(this);
         AGpsSyncHelper.getHelper().startFileTransporter(this);
         if (DeviceManager.getManager(this).hasBoundDevice()) {
@@ -266,7 +262,8 @@ public class CompanionApplication extends PhoneConnectionApplication {
     }
 
     @DexIgnore
-    private void a(Context context, String string2) { }
+    private void a(Context context, String string2) {
+    }
 
     @DexReplace
     public void a(Context context, String string2, String string3, boolean bl2) {

@@ -18,6 +18,10 @@ public class PreferenceManager {
         return getSharedPreferences(context).getBoolean(key, defaultValue);
     }
 
+    public static int getInt(Context context, String key, int defaultValue) {
+        return Integer.parseInt(getSharedPreferences(context).getString(key, String.valueOf(defaultValue)));
+    }
+
     private static SharedPreferences getSharedPreferences(Context context) {
         return android.preference.PreferenceManager.getDefaultSharedPreferences(context);
     }

@@ -65,19 +65,23 @@
     <string name="telegram_update_channel">Telegram channel for updates</string>
     <string name="telegram_update_channel_link">https://t.me/amazmod</string>
     <string name="pref_enable_ota_service_title">Enable OTA Service</string>
+    <string name="pref_enable_ota_service_summary">By default notifications of ROM updates are blocked, if you want to receive them on the watch enable this option</string>
     <string name="mod_settings">Mod\'s settings</string>
     <string name="restart_app_to_apply_settings">Restart the app to apply the changes</string>
     <string name="pref_googleMapsType">Google maps type</string>
     <string name="pref_notifications_title">Notifications</string>
-    <string name="pref_disable_notifications_mod">Original behavior of notifications</string>
+    <string name="pref_disable_notifications_mod">Original notifications</string>
+    <string name="pref_disable_notifications_mod_summary">Disable changes to the notification service, the app will handle notifications like the original one</string>
     <string name="generic_settings">Generic settings</string>
     <string name="pref_enable_rtl">Enable RTL support</string>
+    <string name="pref_enable_rtl_summary">By default the support for RTL languages (from right to left) is disabled</string>
     <string name="pref_require_kill_app">This setting requires you to kill the app</string>
     <string name="pref_kill_app">Kill app</string>
     <string name="pref_kill_app_description">Required to apply some settings</string>
     <string name="pref_reverse_hebrew_notifications">Reverse notification texts in Hebrew</string>
     <string name="pref_disable_crash_reporting">Don\'t send crash reports</string>
     <string name="pref_disable_toast_ota">Hide the OTA toast</string>
+    <string name="pref_disable_toast_ota_summary">It also hides the additional update notice present only in the app, if you don\'t want to receive any notification enable this option</string>
     <string name="pref_enable_double_notification_filter">Enable the filter for double notifications</string>
     <string name="pref_enable_app_custom_notification_filter">Enable the custom filter for each app</string>
     <string name="crash_report_disabled_tip">Leaving this option off will help me to find any application bugs</string>
@@ -87,4 +91,14 @@
     <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@edotasx</string>
     <string name="tool_thanks">Nothing would have been possible without this fantastic tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">An OTA update is available for the rom, enable it in the mod settings</string>
+
+    <string name="battery">Battery</string>
+    <string name="disable_battery_chart">Disable</string>
+    <string name="disable_battery_chart_summary">Hide the chart from the home and disable the background service</string>
+    <string name="pref_disable_background_sync">Disable background sync</string>
+    <string name="pref_disable_background_sync_summary">Disables the synchronization of the charge level in the background. The percentage of charge will be read only when the app is opened</string>
+    <string name="pref_battery_background_sync_interval">Background sync interval</string>
+    <string name="pref_battery_background_sync_interval_summary">It indicates how often the app in the background must connect to the watch to read the percentage of charge left</string>
+    <string name="pref_battery_sync_with_notifications">Sync interval when a notification arrives</string>
+    <string name="pref_battery_sync_with_notifications_summary">The app each time it receives a notification tries to read the percentage of charge in order to take advantage of the connection already opened by the transmission of the notification. This is the minimum interval between one reading and the next</string>
 </resources>

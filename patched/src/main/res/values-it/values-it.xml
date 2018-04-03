@@ -1252,21 +1252,36 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="telegram_update_channel">Canale Telegram aggiornamenti</string>
     <string name="telegram_update_channel_link">https://t.me/amazmod</string>
     <string name="pref_enable_ota_service_title">Abilita il servizio OTA</string>
+    <string name="pref_enable_ota_service_summary">Di default le notifiche degli aggiornamenti della ROM sono bloccate, se vuoi riceverle sull\'orologio abilita questa opzione</string>
     <string name="mod_settings">Impostazioni della Mod</string>
     <string name="restart_app_to_apply_settings">Riavvia l\'app per applicare le modifiche</string>
     <string name="pref_googleMapsType">Tipo di mappa Google</string>
     <string name="pref_notifications_title">Notifiche</string>
-    <string name="pref_disable_notifications_mod">Comportamento originale delle notifiche</string>
+    <string name="pref_disable_notifications_mod">Notifiche originali</string>
+    <string name="pref_disable_notifications_mod_summary">Disabilita le modifiche al servizio notifiche, l\'app gestirà le notifiche come quella originale</string>
     <string name="generic_settings">Impostazioni generiche</string>
     <string name="pref_enable_rtl">Abilita supporto RTL</string>
+    <string name="pref_enable_rtl_summary">Di default il supporto per le lingue RTL (da destra verso sinistra) è disabilitato</string>
     <string name="pref_require_kill_app">Questa impostazione richiede la chiusura forzata dell\'app</string>
     <string name="pref_kill_app">Chiusura forzata dell\'app</string>
     <string name="pref_kill_app_description">Necessaria per applicare alcune impostazioni</string>
     <string name="pref_reverse_hebrew_notifications">Inverti i testi delle notifiche in Ebraico</string>
     <string name="pref_disable_crash_reporting">Non inviare i report dei crash</string>
     <string name="pref_disable_toast_ota">Nascondi il toast OTA</string>
+    <string name="pref_disable_toast_ota_summary">Nasconde anche l\'ulteriore avviso di aggiornamento presente solo nell\'app, se proprio non vuoi ricevere nessuna notifica abilita questa opzione</string>
     <string name="pref_enable_double_notification_filter">Abilita il filtro per le doppie notifiche</string>
     <string name="pref_enable_app_custom_notification_filter">Abilita il filtro custom per ogni app</string>
+
+    <string name="battery">Batteria</string>
+    <string name="disable_battery_chart">Disabilita</string>
+    <string name="disable_battery_chart_summary">Nasconde il grafico dalla home e disabilita il servizio in background</string>
+    <string name="pref_disable_background_sync">Disabilita in background</string>
+    <string name="pref_disable_background_sync_summary">Disabilita la sincronizzazione del livello di carica in background. La percentuale di carica verrà letta solo all\'apertura dell\'app</string>
+    <string name="pref_battery_background_sync_interval">Intervallo di sincronizzazione</string>
+    <string name="pref_battery_background_sync_interval_summary">Indica ogni quanto l\'app in background deve collegarsi all\'orologio per leggere la percentuale di carica rimasta</string>
+    <string name="pref_battery_sync_with_notifications">Intervallo di sincronizzazione quando arriva una notifica</string>
+    <string name="pref_battery_sync_with_notifications_summary">L\'app ogni volta che riceve una notifica prova a leggere la percentuale di carica in modo da sfruttare la connesione già aperta dalla trasmissione della notifica. Questo è l\'intervallo minimo tra una lettura e l\'altra</string>
+
     <string name="crash_report_disabled_tip">Lasciando questa opzione disattivata mi aiuterai a trovare eventuali bug dell\'applicazione</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>

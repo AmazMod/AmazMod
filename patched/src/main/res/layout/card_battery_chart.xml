@@ -27,9 +27,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10.0dip"
-            android:text="Battery chart"
-            android:textColor="#e6000000"
-            android:textSize="13.0sp"
+            android:text="@string/battery"
+            android:textSize="14.0sp"
+            android:textStyle="bold"
+            style="@style/Txt.Black"
             android:layout_marginLeft="10.0dip" />
 
     </LinearLayout>

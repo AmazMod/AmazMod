@@ -33,6 +33,8 @@
         <activity android:name=".settings.ui.ModSettingsActivity"
             android:theme="@style/NoTitleFalse"></activity>
 
+        <receiver android:name=".service.BatteryStatsReceiver"></receiver>
+
         <provider
             android:name="com.activeandroid.content.ContentProvider"
             android:authorities="com.huami.watch.hmwatchmanager"

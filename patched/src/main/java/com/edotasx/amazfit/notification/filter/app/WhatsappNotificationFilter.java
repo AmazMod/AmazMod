@@ -2,6 +2,7 @@ package com.edotasx.amazfit.notification.filter.app;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
@@ -12,6 +13,7 @@ import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.notification.filter.NotificationFilter;
+import com.huami.watch.companion.util.DeviceCompatibility;
 import com.huami.watch.notification.data.Utils;
 
 import java.util.HashMap;
@@ -26,8 +28,12 @@ public class WhatsappNotificationFilter implements NotificationFilter {
 
     private Map<String, Boolean> mNotificationsSent;
 
-    public WhatsappNotificationFilter() {
+    private boolean isMIUI;
+
+    public WhatsappNotificationFilter(Context context) {
         mNotificationsSent = new HashMap<>();
+
+        isMIUI = DeviceCompatibility.MIUI.isMIUI(context);
     }
 
     @Override
@@ -46,8 +52,15 @@ public class WhatsappNotificationFilter implements NotificationFilter {
         if (bundle == null) {
             return false;
         } else {
-            Bundle extensionsBundle = bundle.getBundle("android.wearable.EXTENSIONS");
-            return extensionsBundle == null;
+            Bundle extraBundle = bundle.getBundle("android.wearable.EXTENSIONS");
+
+            if (isMIUI) {
+                Object extraTemplate = bundle.get("android.template");
+
+                return extraBundle == null || extraTemplate == null;
+            } else {
+                return extraBundle == null;
+            }
         }
 
         /*
