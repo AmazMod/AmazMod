@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.view.View;
 
 import com.edotasx.amazfit.db.model.BatteryRead;
+import com.edotasx.amazfit.events.BatteryHistoryUpdatedEvent;
 import com.huami.watch.companion.battery.bean.BatteryInfo;
+import com.huami.watch.companion.util.RxBus;
 import com.huami.watch.util.Log;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
@@ -42,6 +44,8 @@ public class BatteryCard extends BaseCard {
         FlowManager.getModelAdapter(BatteryRead.class).insert(batteryRead);
 
         Log.d("BatteryChart", "level: " + batteryInfo.getBatteryLevel());
+
+        RxBus.get().post(new BatteryHistoryUpdatedEvent());
     }
 
     @DexIgnore

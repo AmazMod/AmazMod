@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.edotasx.amazfit.R;
 import com.edotasx.amazfit.db.model.BatteryRead;
+import com.edotasx.amazfit.events.BatteryHistoryUpdatedEvent;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -23,6 +24,8 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.huami.watch.companion.util.Rx;
+import com.huami.watch.companion.util.RxBus;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.lang.ref.WeakReference;
@@ -33,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
+import io.reactivex.functions.Consumer;
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexAdd;
 import lanchon.dexpatcher.annotation.DexEdit;
@@ -44,6 +48,8 @@ import lanchon.dexpatcher.annotation.DexIgnore;
 
 @DexAdd()
 public class BatteryChartCard extends BaseCard {
+
+    private LineChart chart;
 
     public static BatteryChartCard create(Activity activity) {
         return new BatteryChartCard(activity);
@@ -65,8 +71,19 @@ public class BatteryChartCard extends BaseCard {
 
     @Override
     protected void initView() {
-        LineChart chart = getView().findViewById(R.id.battery_chart);
+        chart = getView().findViewById(R.id.battery_chart);
 
+        RxBus.get().toObservable().subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) {
+                if (o instanceof BatteryHistoryUpdatedEvent) {
+                    updateChart();
+                }
+            }
+        });
+    }
+
+    private void updateChart() {
         final List<Entry> yValues = new ArrayList<Entry>();
         final List<Integer> colors = new ArrayList<>();
 
