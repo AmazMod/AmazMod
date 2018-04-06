@@ -6,6 +6,15 @@
         <item>Ibrida</item>
         <item>Terreno</item>
     </string-array>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 giorno</item>
+        <item>2 giorni</item>
+        <item>3 giorni</item>
+        <item>5 giorni</item>
+        <item>7 giorni</item>
+        <item>10 giorni</item>
+        <item>15 giorni</item>
+    </string-array>
     <string-array name="bind_guide_main_title">
         <item>Support Pool Swimming,Openwater Swimming and Triathlon activities.</item>
         <item>Estimation of your cardiorespiratory fitness measured as a value of VO2max</item>

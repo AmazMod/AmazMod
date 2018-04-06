@@ -5,11 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
-import android.view.View;
 
+import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
 import com.edotasx.amazfit.db.model.BatteryRead;
+import com.edotasx.amazfit.db.model.BatteryRead_Table;
 import com.edotasx.amazfit.events.BatteryHistoryUpdatedEvent;
+import com.edotasx.amazfit.preference.PreferenceManager;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -24,23 +26,17 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-import com.huami.watch.companion.util.Rx;
 import com.huami.watch.companion.util.RxBus;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 import io.reactivex.functions.Consumer;
-import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexAdd;
-import lanchon.dexpatcher.annotation.DexEdit;
-import lanchon.dexpatcher.annotation.DexIgnore;
 
 /**
  * Created by edoardotassinari on 28/03/18.
@@ -81,15 +77,27 @@ public class BatteryChartCard extends BaseCard {
                 }
             }
         });
+
+        updateChart();
     }
 
     private void updateChart() {
         final List<Entry> yValues = new ArrayList<Entry>();
         final List<Integer> colors = new ArrayList<>();
 
+        final int days = PreferenceManager.getInt(getContext(), Constants.PREFERENCE_BATTERY_CHART_RANGE, 5);
+
+        Calendar calendar = Calendar.getInstance();
+        long highX = calendar.getTimeInMillis();
+
+        calendar.add(Calendar.DATE, -1 * days);
+
+        long lowX = calendar.getTimeInMillis();
+
         List<BatteryRead> batteryReadList = SQLite
                 .select()
                 .from(BatteryRead.class)
+                .where(BatteryRead_Table.date.greaterThan(lowX))
                 .queryList();
 
         BatteryRead prevRead = null;
@@ -111,7 +119,7 @@ public class BatteryChartCard extends BaseCard {
 
         LineDataSet lineDataSet = new LineDataSet(yValues, "Battery");
 
-        lineDataSet.setLineWidth(2);
+        lineDataSet.setLineWidth(1.5f);
         lineDataSet.setDrawCircleHole(false);
         lineDataSet.setDrawCircles(false);
         lineDataSet.setDrawValues(false);
@@ -133,6 +141,8 @@ public class BatteryChartCard extends BaseCard {
         xAxis.setDrawGridLines(false);
         xAxis.setLabelRotationAngle(-45);
         xAxis.setTextSize(8);
+        xAxis.setAxisMinimum(lowX);
+        xAxis.setAxisMaximum(highX);
 
         final Calendar now = Calendar.getInstance();
         final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH");
@@ -147,11 +157,17 @@ public class BatteryChartCard extends BaseCard {
 
                 Date date = calendar.getTime();
 
-                if (now.get(Calendar.DATE) != calendar.get(Calendar.DATE)) {
+                if ((days > 1) || (now.get(Calendar.DATE) != calendar.get(Calendar.DATE))) {
+                    int minutes = calendar.get(Calendar.MINUTE);
+                    if (minutes > 30) {
+                        calendar.add(Calendar.HOUR, 1);
+                    }
+
                     return simpleDateFormatHours.format(date) + "\n" + simpleDateFormatDateMonth.format(date);
                 } else {
                     return simpleDateFormatHoursMinutes.format(calendar.getTime()) + "\n" + simpleDateFormatDateMonth.format(calendar.getTime());
                 }
+
             }
         });
 

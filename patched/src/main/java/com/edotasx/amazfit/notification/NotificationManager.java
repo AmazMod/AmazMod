@@ -160,6 +160,7 @@ public class NotificationManager {
                 };
 
                 transporter.addDataListener(dataListener);
+                transporter.connectTransportService();
             }
 
             SyncUtil.syncRequestBattery(transporter, true);

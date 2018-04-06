@@ -101,4 +101,6 @@
     <string name="pref_battery_background_sync_interval_summary">It indicates how often the app in the background must connect to the watch to read the percentage of charge left</string>
     <string name="pref_battery_sync_with_notifications">Sync interval when a notification arrives</string>
     <string name="pref_battery_sync_with_notifications_summary">The app each time it receives a notification tries to read the percentage of charge in order to take advantage of the connection already opened by the transmission of the notification. This is the minimum interval between one reading and the next</string>
+    <string name="pref_battery_chart_time_interval">Chart time interval</string>
+    <string name="pref_battery_chart_time_interval_summary">It indicates how many days the battery chart shows</string>
 </resources>

@@ -55,9 +55,9 @@ public class WhatsappNotificationFilter implements NotificationFilter {
             Bundle extraBundle = bundle.getBundle("android.wearable.EXTENSIONS");
 
             if (isMIUI) {
-                Object extraTemplate = bundle.get("android.template");
+                String summaryText = bundle.getString("android.summaryText");
 
-                return extraBundle == null || extraTemplate == null;
+                return extraBundle == null || summaryText != null;
             } else {
                 return extraBundle == null;
             }

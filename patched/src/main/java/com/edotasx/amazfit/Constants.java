@@ -5,7 +5,7 @@ package com.edotasx.amazfit;
  */
 
 public class Constants {
-    public static final String TAG = "EdoAmazfit";
+    public static final String TAG = "AmazMod";
     public static final String TAG_NOTIFICATION = "EdoNotification";
     public static final String TAG_NOTIFICATION_SERVICE = "EdoNotificationService";
     public static final String GITHUB_USERNAME = "edotassi";
@@ -29,4 +29,5 @@ public class Constants {
     public static final String PREFERENCE_DISABLE_BACKGROUND_SYNC = "preference.disable.background.sync";
     public static final String PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREFERENCE_BATTERY_SYNC_WITH_NOTIFICATIONS = "preference.battery.sync.with.notifications";
+    public static final String PREFERENCE_BATTERY_CHART_RANGE = "preference.battery.chart.range";
 }

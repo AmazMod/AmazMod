@@ -1281,6 +1281,8 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="pref_battery_background_sync_interval_summary">Indica ogni quanto l\'app in background deve collegarsi all\'orologio per leggere la percentuale di carica rimasta</string>
     <string name="pref_battery_sync_with_notifications">Intervallo di sincronizzazione quando arriva una notifica</string>
     <string name="pref_battery_sync_with_notifications_summary">L\'app ogni volta che riceve una notifica prova a leggere la percentuale di carica in modo da sfruttare la connesione già aperta dalla trasmissione della notifica. Questo è l\'intervallo minimo tra una lettura e l\'altra</string>
+    <string name="pref_battery_chart_time_interval">Intervallo temporale del grafico</string>
+    <string name="pref_battery_chart_time_interval_summary">Indica quanti giorni il grafico deve mostrare</string>
 
     <string name="crash_report_disabled_tip">Lasciando questa opzione disattivata mi aiuterai a trovare eventuali bug dell\'applicazione</string>
     <string name="modded_by">Modded by</string>

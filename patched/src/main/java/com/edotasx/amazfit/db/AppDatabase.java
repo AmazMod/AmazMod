@@ -12,4 +12,5 @@ public class AppDatabase {
     public static final String NAME = "AmazModDb";
 
     public static final int VERSION = 1;
+
 }

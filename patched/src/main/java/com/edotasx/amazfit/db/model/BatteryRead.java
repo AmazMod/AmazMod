@@ -2,6 +2,7 @@ package com.edotasx.amazfit.db.model;
 
 import com.edotasx.amazfit.db.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
+import com.raizlabs.android.dbflow.annotation.Index;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
 

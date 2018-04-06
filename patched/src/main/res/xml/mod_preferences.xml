@@ -40,34 +40,43 @@
         android:title="@string/battery">
         <SwitchPreference
             android:defaultValue="false"
+            android:disableDependentsState="true"
             android:key="preference.disable.battery.chart"
             android:summary="@string/disable_battery_chart_summary"
-            android:title="@string/disable_battery_chart"
-            android:disableDependentsState="true"/>
+            android:title="@string/disable_battery_chart" />
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="preference.disable.battery.chart"
             android:key="preference.disable.background.sync"
             android:summary="@string/pref_disable_background_sync_summary"
-            android:title="@string/pref_disable_background_sync"
-            android:dependency="preference.disable.battery.chart"/>
+            android:title="@string/pref_disable_background_sync" />
         <ListPreference
             android:defaultValue="60"
+            android:dependency="preference.disable.battery.chart"
             android:dialogTitle="@string/pref_battery_background_sync_interval"
             android:entries="@array/pref_battery_background_sync_interval_entries"
             android:entryValues="@array/pref_battery_background_sync_interval_values"
             android:key="preference.battery.background.sync.interval"
             android:summary="@string/pref_battery_background_sync_interval_summary"
-            android:title="@string/pref_battery_background_sync_interval"
-            android:dependency="preference.disable.battery.chart"/>
+            android:title="@string/pref_battery_background_sync_interval" />
         <ListPreference
             android:defaultValue="5"
+            android:dependency="preference.disable.battery.chart"
             android:dialogTitle="@string/pref_battery_sync_with_notifications"
             android:entries="@array/pref_battery_sync_with_notification_entries"
             android:entryValues="@array/pref_battery_sync_with_notification_values"
             android:key="preference.maps.type"
             android:summary="@string/pref_battery_sync_with_notifications_summary"
-            android:title="@string/pref_battery_sync_with_notifications"
-            android:dependency="preference.disable.battery.chart"/>
+            android:title="@string/pref_battery_sync_with_notifications" />
+        <ListPreference
+            android:defaultValue="5"
+            android:dependency="preference.disable.battery.chart"
+            android:dialogTitle="@string/pref_battery_chart_time_interval"
+            android:entries="@array/pref_battery_chart_range_entries"
+            android:entryValues="@array/pref_battery_chart_range_values"
+            android:key="preference.battery.chart.range"
+            android:summary="@string/pref_battery_chart_time_interval_summary"
+            android:title="@string/pref_battery_chart_time_interval" />
     </PreferenceScreen>
 
     <PreferenceCategory android:title="OTA">
