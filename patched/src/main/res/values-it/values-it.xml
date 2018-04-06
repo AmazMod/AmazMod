@@ -1247,6 +1247,11 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_26"> - Fix del crash quando si disaccoppia l\'orologio</string>
     <string name="changelog_row_27"> - Rinominata l\'app in AmazMod</string>
 
+    <string name="changelog_v_300">v3.0.0 - 06/04/2018</string>
+    <string name="changelog_row_28"> - Aggiunto grafico livello batteria</string>
+    <string name="changelog_row_29"> - Fix notifiche</string>
+
+    <string name="read_all">Leggi tutto</string>
     <string name="github_project">Progetto su Github</string>
     <string name="github_project_link">https://github.com/edotassi/AmazMod</string>
     <string name="telegram_update_channel">Canale Telegram aggiornamenti</string>
@@ -1287,8 +1292,8 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="crash_report_disabled_tip">Lasciando questa opzione disattivata mi aiuterai a trovare eventuali bug dell\'applicazione</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>
-    <string name="translations_by">Traduzioni a cura di</string>
-    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@edotasx</string>
+    <string name="translations_by">Test e traduzioni:</string>
+    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@RoberPG17</string>
     <string name="tool_thanks">Niente sarebbe stato possibile senza questo fantastico tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">E\' disponibile un\'aggiornamento OTA per la rom, abilitalo nelle impostazioni della mod</string>
     <string name="allday_heart_rate_detail_tip">Dati sulla frequenza cardiaca solo per riferimento</string>

@@ -60,6 +60,11 @@
     <string name="changelog_row_26"> - Fix for the "watch unpair" crash</string>
     <string name="changelog_row_27"> - Renamed app in AmazMod</string>
 
+    <string name="changelog_v_300">v3.0.0 - 06/04/2018</string>
+    <string name="changelog_row_28"> - Added battery chart</string>
+    <string name="changelog_row_29"> - Fix notifications</string>
+
+    <string name="read_all">Read all</string>
     <string name="github_project">Github project</string>
     <string name="github_project_link">https://github.com/edotassi/AmazMod</string>
     <string name="telegram_update_channel">Telegram channel for updates</string>
@@ -87,8 +92,8 @@
     <string name="crash_report_disabled_tip">Leaving this option off will help me to find any application bugs</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>
-    <string name="translations_by">Translations by</string>
-    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@edotasx</string>
+    <string name="translations_by">Tests and translations:</string>
+    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@RoberPG17</string>
     <string name="tool_thanks">Nothing would have been possible without this fantastic tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">An OTA update is available for the rom, enable it in the mod settings</string>
 

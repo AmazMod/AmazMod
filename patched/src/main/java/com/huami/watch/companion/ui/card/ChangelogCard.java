@@ -1,6 +1,9 @@
 package com.huami.watch.companion.ui.card;
 
 import android.app.Activity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.edotasx.amazfit.R;
 
@@ -32,6 +35,21 @@ public class ChangelogCard extends BaseCard {
 
     @Override
     protected void initView() {
+        final View oldChangelog = getView().findViewById(R.id.changelog_layout_read_all);
+
+        TextView textViewReadAll = getView().findViewById(R.id.changelog_button_read_all);
+
+        textViewReadAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int visibility = oldChangelog.getVisibility();
+                if (visibility == View.GONE) {
+                    oldChangelog.setVisibility(View.VISIBLE);
+                } else {
+                    oldChangelog.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
