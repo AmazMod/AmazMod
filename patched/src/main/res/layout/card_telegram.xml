@@ -10,11 +10,11 @@
         android:layout_width="20.0dip"
         android:layout_height="20.0dip"
         android:layout_marginBottom="10.0dip"
+        android:layout_marginLeft="12.0dip"
         android:layout_marginStart="12.0dip"
         android:layout_marginTop="10.0dip"
         android:scaleType="fitCenter"
-        android:src="@drawable/telegram"
-        android:layout_marginLeft="12.0dip" />
+        android:src="@drawable/telegram" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -25,21 +25,37 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
             android:layout_marginStart="10.0dip"
             android:text="@string/telegram_update_channel"
             android:textColor="#e6000000"
-            android:textSize="13.0sp"
-            android:layout_marginLeft="10.0dip" />
+            android:textSize="13.0sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
             android:layout_marginStart="10.0dip"
-            android:text="@string/telegram_update_channel_link"
             android:autoLink="web"
+            android:text="@string/telegram_update_channel_link"
             android:textColor="#0645ad"
-            android:textSize="13.0sp"
-            android:layout_marginLeft="10.0dip" />
+            android:textSize="13.0sp" />
+
+        <!--
+        <Button
+            android:id="@+id/button_poweroff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Poweroff" />
+
+        <Button
+            android:id="@+id/button_restart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Restart" />
+            -->
     </LinearLayout>
 
 </LinearLayout>

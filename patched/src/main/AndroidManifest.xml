@@ -35,6 +35,10 @@
             android:theme="@style/NoTitleFalse"></activity>
 
         <receiver android:name=".service.BatteryStatsReceiver"></receiver>
+        <receiver android:name=".nightscout.NightscoutReceiver"></receiver>
+
+        <service android:name=".nightscout.NightscoutService"></service>
+
         <receiver
             android:name=".service.BootBroadcastReceiver"
             android:enabled="true">

@@ -11,14 +11,14 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.support.annotation.RequiresApi;
-import android.view.View;
 import android.widget.Toast;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
+import com.edotasx.amazfit.nightscout.NightscoutReceiver;
+import com.edotasx.amazfit.nightscout.NightscoutService;
 import com.edotasx.amazfit.preference.PreferenceManager;
 import com.edotasx.amazfit.service.BatteryStatsReceiver;
-import com.huami.watch.companion.ui.view.ActionbarLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,20 +70,36 @@ public class ModSettingsActivity extends PreferenceActivity implements SharedPre
 
         if (key.equals(Constants.PREFERENCE_DISABLE_BACKGROUND_SYNC) ||
                 key.equals(Constants.PREFERENCE_DISABLE_BATTERY_CHART)) {
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, BatteryStatsReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            boolean enableBackgroundSync = !sharedPreferences.getBoolean(Constants.PREFERENCE_DISABLE_BACKGROUND_SYNC, false);
+            boolean enableChart = !sharedPreferences.getBoolean(Constants.PREFERENCE_DISABLE_BATTERY_CHART, false);
 
-            alarmManager.cancel(pendingIntent);
+            int interval = Integer.valueOf(sharedPreferences.getString(Constants.PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL, "30"));
+
+            updateAlarmManager(this, BatteryStatsReceiver.class, enableBackgroundSync && enableChart, interval, Constants.BATTERY_STATS_REQUEST_CODE);
         }
 
         if (key.equals(Constants.PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL)) {
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(this, BatteryStatsReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
             int interval = PreferenceManager.getInt(this, Constants.PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL, 30);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval * 60 * 1000, pendingIntent);
+
+            updateAlarmManager(this, BatteryStatsReceiver.class, true, interval, Constants.BATTERY_STATS_REQUEST_CODE);
+        }
+
+        if (key.equals(Constants.PREFERENCE_NIGHTSCOUT_ENABLED)) {
+            boolean enable = sharedPreferences.getBoolean(Constants.PREFERENCE_NIGHTSCOUT_ENABLED, false);
+            int interval = Integer.valueOf(sharedPreferences.getString(Constants.PREFERENCE_NIGHTSCOUT_INTERVAL_SYNC, "30"));
+
+            updateAlarmManager(this, NightscoutReceiver.class, enable, interval, Constants.NIGHTSCOUT_REQUEST_CODE);
+        }
+
+        if (key.equals(Constants.PREFERENCE_NIGHTSCOUT_INTERVAL_SYNC)) {
+            int interval = Integer.valueOf(sharedPreferences.getString(Constants.PREFERENCE_NIGHTSCOUT_INTERVAL_SYNC, "30"));
+            updateAlarmManager(this, BatteryStatsReceiver.class, true, interval, Constants.NIGHTSCOUT_REQUEST_CODE);
+        }
+
+        if (key.equals(Constants.PREFERENCE_AMAZMODSERVICE_ENABLE)) {
+            boolean enable = sharedPreferences.getBoolean(Constants.PREFERENCE_AMAZMODSERVICE_ENABLE, false);
+
+            updateAlarmManager(this, NightscoutService.class, enable, -1, Constants.NIGHTSCOUT_REQUEST_CODE);
         }
     }
 
@@ -98,6 +114,18 @@ public class ModSettingsActivity extends PreferenceActivity implements SharedPre
             return true;
         } else {
             return super.onPreferenceTreeClick(preferenceScreen, preference);
+        }
+    }
+
+    private void updateAlarmManager(Context context, Class receiver, boolean enable, int interval, int requestCode) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, receiver);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
+
+        if (enable) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval * 60 * 1000, pendingIntent);
+        } else {
+            alarmManager.cancel(pendingIntent);
         }
     }
 }

@@ -3,8 +3,10 @@ package com.huami.watch.companion.ui.card;
 import android.app.Activity;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.edotasx.amazfit.db.model.BatteryRead;
 import com.edotasx.amazfit.events.BatteryHistoryUpdatedEvent;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.huami.watch.companion.battery.bean.BatteryInfo;
 import com.huami.watch.companion.util.RxBus;
 import com.huami.watch.util.Log;
@@ -41,8 +43,11 @@ public class BatteryCard extends BaseCard {
         batteryRead.setLevel(batteryInfo.getBatteryLevel());
         batteryRead.setCharging(batteryInfo.isBatteryCharging());
 
-        FlowManager.getModelAdapter(BatteryRead.class).insert(batteryRead);
-
+        try {
+            FlowManager.getModelAdapter(BatteryRead.class).insert(batteryRead);
+        } catch (Exception ex) {
+            Crashlytics.logException(ex);
+        }
         Log.d("BatteryChart", "level: " + batteryInfo.getBatteryLevel());
 
         RxBus.get().post(new BatteryHistoryUpdatedEvent());

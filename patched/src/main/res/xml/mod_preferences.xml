@@ -35,6 +35,48 @@
         android:title="@string/pref_enable_app_custom_notification_filter" />
 </PreferenceScreen>
 -->
+    <PreferenceCategory android:title="OTA">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="preference.enable.ota"
+            android:summary="@string/pref_enable_ota_service_summary"
+            android:title="@string/pref_enable_ota_service_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.enable.ota"
+            android:key="preference.hide.ota.toast"
+            android:summary="@string/pref_disable_toast_ota_summary"
+            android:title="@string/pref_disable_toast_ota" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Google">
+        <ListPreference
+            android:defaultValue="roadmap"
+            android:dialogTitle="@string/pref_googleMapsType"
+            android:entries="@array/pref_googleMapsType_entries"
+            android:entryValues="@array/pref_googleMapsType_values"
+            android:key="preference.maps.type"
+            android:title="@string/pref_googleMapsType" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/generic_settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.enable.rtl"
+            android:summary="@string/pref_enable_rtl_summary"
+            android:title="@string/pref_enable_rtl" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.disable.crash.reporting"
+            android:title="@string/pref_disable_crash_reporting" />
+    </PreferenceCategory>
+
+    <Preference
+        android:key="preference.kill.app"
+        android:text="@string/pref_kill_app_description"
+        android:title="@string/pref_kill_app" />
+
     <PreferenceScreen
         android:key="preference.screen.battery"
         android:title="@string/battery">
@@ -79,45 +121,36 @@
             android:title="@string/pref_battery_chart_time_interval" />
     </PreferenceScreen>
 
-    <PreferenceCategory android:title="OTA">
+    <PreferenceScreen
+        android:key="preference.screen.amazmodservice"
+        android:title="AmazModService">
         <SwitchPreference
             android:defaultValue="false"
-            android:disableDependentsState="true"
-            android:key="preference.enable.ota"
-            android:summary="@string/pref_enable_ota_service_summary"
-            android:title="@string/pref_enable_ota_service_title" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="preference.enable.ota"
-            android:key="preference.hide.ota.toast"
-            android:summary="@string/pref_disable_toast_ota_summary"
-            android:title="@string/pref_disable_toast_ota" />
-    </PreferenceCategory>
+            android:key="preference.amazmodservice.enable"
+            android:summary="@string/pref_amazmodservice_enable_summary"
+            android:title="@string/pref_amazmodservice_enable" />
 
-    <PreferenceCategory android:title="Google">
-        <ListPreference
-            android:defaultValue="roadmap"
-            android:dialogTitle="@string/pref_googleMapsType"
-            android:entries="@array/pref_googleMapsType_entries"
-            android:entryValues="@array/pref_googleMapsType_values"
-            android:key="preference.maps.type"
-            android:title="@string/pref_googleMapsType" />
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/generic_settings">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.enable.rtl"
-            android:summary="@string/pref_enable_rtl_summary"
-            android:title="@string/pref_enable_rtl" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.disable.crash.reporting"
-            android:title="@string/pref_disable_crash_reporting" />
-    </PreferenceCategory>
-
-    <Preference
-        android:key="preference.kill.app"
-        android:text="@string/pref_kill_app_description"
-        android:title="@string/pref_kill_app" />
+        <PreferenceScreen
+            android:key="preference.screen.nightscout"
+            android:title="@string/nightscout"
+            android:dependency="preference.amazmodservice.enable">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="preference.nightscout.enabled"
+                android:summary="@string/pref_nightscout_enable_summary"
+                android:title="@string/pref_nightscout_enable" />
+            <EditTextPreference
+                android:key="preference.nightscout.url"
+                android:summary="@string/pref_nightscout_url_summary"
+                android:title="@string/pref_nightscout_url" />
+            <ListPreference
+                android:defaultValue="30"
+                android:dependency="preference.nightscout.enabled"
+                android:dialogTitle="@string/pref_nightscout_sync_interval"
+                android:entries="@array/pref_nightscout_sync_interval_entries"
+                android:entryValues="@array/pref_nightscout_sync_interval_values"
+                android:key="preference.nightscout.interval.sync"
+                android:title="@string/pref_nightscout_sync_interval" />
+        </PreferenceScreen>
+    </PreferenceScreen>
 </PreferenceScreen>

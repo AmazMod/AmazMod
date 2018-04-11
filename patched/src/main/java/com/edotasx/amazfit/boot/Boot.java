@@ -6,11 +6,13 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
 import com.edotasx.amazfit.db.AppDatabase;
+import com.edotasx.amazfit.nightscout.NightscoutReceiver;
 import com.edotasx.amazfit.notification.NotificationManager;
 import com.edotasx.amazfit.permission.PermissionManager;
 import com.edotasx.amazfit.preference.PreferenceManager;
@@ -58,7 +60,9 @@ public class Boot {
         PermissionManager.sharedInstance().requestPermissions(pContext);
 
         initiateDb(pContext);
-        initiateBatteryStats(pContext);
+
+        checkNightscout(pContext);
+        checkBatteryStats(pContext);
 
         NotificationManager.initialize(pContext);
 
@@ -77,16 +81,40 @@ public class Boot {
                         .build());
     }
 
-    private void initiateBatteryStats(Context context) {
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, BatteryStatsReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-
-        boolean enable = !PreferenceManager.getBoolean(context, Constants.PREFERENCE_DISABLE_BACKGROUND_SYNC, false) ||
-                !PreferenceManager.getBoolean(context, Constants.PREFERENCE_DISABLE_BATTERY_CHART, false);
+    private void checkNightscout(Context context) {
+        boolean enable = PreferenceManager.getBoolean(context, Constants.PREFERENCE_NIGHTSCOUT_ENABLED, false);
+        int interval = PreferenceManager.getInt(context, Constants.PREFERENCE_NIGHTSCOUT_INTERVAL_SYNC, 30);
 
         if (enable) {
-            int interval = PreferenceManager.getInt(context, Constants.PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL, 30);
+            Log.d(Constants.TAG, "enabling Nightscout support, interval: " + interval);
+        } else {
+            Log.d(Constants.TAG, "disabling Nightscout support");
+        }
+
+        updateAlarmManager(context, NightscoutReceiver.class, enable, interval, Constants.NIGHTSCOUT_REQUEST_CODE);
+    }
+
+    //TODO merge in helper class
+    private void checkBatteryStats(Context context) {
+        boolean enable = !PreferenceManager.getBoolean(context, Constants.PREFERENCE_DISABLE_BACKGROUND_SYNC, false) ||
+                !PreferenceManager.getBoolean(context, Constants.PREFERENCE_DISABLE_BATTERY_CHART, false);
+        int interval = PreferenceManager.getInt(context, Constants.PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL, 30);
+
+        if (enable) {
+            Log.d(Constants.TAG, "enabling battery stats support, interval: " + interval);
+        } else {
+            Log.d(Constants.TAG, "disabling battery stats support");
+        }
+
+        updateAlarmManager(context, BatteryStatsReceiver.class, enable, interval, Constants.BATTERY_STATS_REQUEST_CODE);
+    }
+
+    private void updateAlarmManager(Context context, Class receiver, boolean enable, int interval, int requestCode) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, receiver);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context,requestCode, intent, 0);
+
+        if (enable) {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval * 60 * 1000, pendingIntent);
         } else {
             alarmManager.cancel(pendingIntent);

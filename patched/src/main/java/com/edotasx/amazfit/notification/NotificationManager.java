@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Build;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
@@ -105,8 +106,20 @@ public class NotificationManager {
             return filter;
         }
 
+        /*
         if (pStatusBarNotification.getPackageName().equals(Constants.WHATSAPP_PACKAGE)) {
             filter = whatsappNotificationFilter.filter(pStatusBarNotification);
+        }
+        */
+
+        Notification notification = pStatusBarNotification.getNotification();
+
+        if (NotificationCompat.isGroupSummary(notification)) {
+            return true;
+        }
+
+        if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
+            return true;
         }
 
         return filter;

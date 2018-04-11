@@ -97,6 +97,14 @@
     <string name="tool_thanks">Nothing would have been possible without this fantastic tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">An OTA update is available for the rom, enable it in the mod settings</string>
 
+    <string name="nightscout">Nightscout</string>
+    <string name="pref_amazmodservice_enable_summary">The AmazModService adds some features to the watch</string>
+    <string name="pref_amazmodservice_enable">Enable</string>
+    <string name="pref_nightscout_url_summary">The URL where to download data in real time</string>
+    <string name="pref_nightscout_url">URL</string>
+    <string name="pref_nightscout_enable_summary">Enable Nightscout support</string>
+    <string name="pref_nightscout_enable">Enable</string>
+    <string name="pref_nightscout_sync_interval">Sync interval</string>
     <string name="battery">Battery</string>
     <string name="disable_battery_chart">Disable</string>
     <string name="disable_battery_chart_summary">Hide the chart from the home and disable the background service</string>

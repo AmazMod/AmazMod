@@ -104,8 +104,8 @@ android {
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 100005
-        versionName "3.0.0"
+        versionCode 100006
+        versionName "3.0.1"
 
         /*
         ndk {
@@ -196,6 +196,8 @@ dependencies {
 
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
+
+    compile 'com.github.kittinunf.fuel:fuel-android:1.12.1'
 }
 
 configurations {

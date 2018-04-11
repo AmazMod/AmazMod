@@ -64,4 +64,24 @@
         <item>10 days</item>
         <item>15 days</item>
     </string-array>
+    <string-array name="pref_nightscout_sync_interval_values">
+        <item>1</item>
+        <item>5</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>240</item>
+    </string-array>
+    <string-array name="pref_nightscout_sync_interval_entries">
+        <item>1 min</item>
+        <item>5 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>1 hour</item>
+        <item>1 hour 30 min</item>
+        <item>2 hours</item>
+        <item>4 hours</item>
+    </string-array>
 </resources>

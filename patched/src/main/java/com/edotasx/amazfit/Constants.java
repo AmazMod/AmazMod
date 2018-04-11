@@ -30,4 +30,15 @@ public class Constants {
     public static final String PREFERENCE_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREFERENCE_BATTERY_SYNC_WITH_NOTIFICATIONS = "preference.battery.sync.with.notifications";
     public static final String PREFERENCE_BATTERY_CHART_RANGE = "preference.battery.chart.range";
+    public static final String PREFERENCE_AMAZMODSERVICE_ENABLE = "preference.amazmodservice.enable";
+    public static final String PREFERENCE_NIGHTSCOUT_ENABLED = "preference.nightscout.enabled";
+    public static final String PREFERENCE_NIGHTSCOUT_INTERVAL_SYNC = "preference.nightscout.interval.sync";
+    public static final String PREFERENCE_NIGHTSCOUT_URL = "preference.nightscout.url";
+
+    public static final String TRASPORTER_MODULE = "com.edotassi.amazmod";
+
+    public static final String NIGHTSCOUT_SYNC_ACTION = "nightscout_sync";
+
+    public static final int BATTERY_STATS_REQUEST_CODE = 1;
+    public static final int NIGHTSCOUT_REQUEST_CODE = 2;
 }
