@@ -36,7 +36,7 @@ public class TimeNotificationFilter implements NotificationFilter {
     @Override
     public boolean filter(StatusBarNotification statusBarNotification) {
         String lKey = StatusBarNotificationData.getUniqueKey(statusBarNotification);
-        Long time = statusBarNotification.getNotification().when;
+        Long time = statusBarNotification.getPostTime();
 
         Log.d("TimeFilter", statusBarNotification.getPackageName() + " -> " + time);
 

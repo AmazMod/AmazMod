@@ -1,5 +1,6 @@
 package com.edotasx.amazfit.notification;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.content.Context;
 import android.os.Build;
@@ -27,6 +28,7 @@ import com.huami.watch.transport.Transporter;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +36,11 @@ import java.util.Map;
  */
 
 public class NotificationManager {
+
+    public static final int FLAG_WEARABLE_REPLY = 0x00000001;
+
+    private static final boolean BLOCK_NOTIFICATION = true;
+    private static final boolean CONTINUE_NOTIFICATION = false;
 
     private long lastNotificationTime = -1;
 
@@ -94,35 +101,41 @@ public class NotificationManager {
         return filtered;
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean filter(StatusBarNotification pStatusBarNotification) {
-        boolean filter = false;
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            filter = timeNotificationFilter.filter(pStatusBarNotification);
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) && timeNotificationFilter.filter(pStatusBarNotification)) {
+            return BLOCK_NOTIFICATION;
         }
-
-        if (filter) {
-            return filter;
-        }
-
-        /*
-        if (pStatusBarNotification.getPackageName().equals(Constants.WHATSAPP_PACKAGE)) {
-            filter = whatsappNotificationFilter.filter(pStatusBarNotification);
-        }
-        */
 
         Notification notification = pStatusBarNotification.getNotification();
 
-        if (NotificationCompat.isGroupSummary(notification)) {
-            return true;
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
+        List<NotificationCompat.Action> actions = wearableExtender.getActions();
+
+        int flags = 0;
+
+        for (NotificationCompat.Action act : actions) {
+            if (act != null && act.getRemoteInputs() != null) {
+                flags |= FLAG_WEARABLE_REPLY;
+                break;
+            }
+        }
+
+        if ((flags & FLAG_WEARABLE_REPLY) == 0 && NotificationCompat.isGroupSummary(notification)) { //this could cause #395 to come back
+            return BLOCK_NOTIFICATION;
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-            return true;
+            return BLOCK_NOTIFICATION;
         }
 
-        return filter;
+        if (NotificationCompat.getLocalOnly(notification)) {
+            return BLOCK_NOTIFICATION;
+        }
+
+        return CONTINUE_NOTIFICATION;
     }
 
     public String extractText(Notification notification, NotificationData notificationData) {
