@@ -14,6 +14,8 @@ public class Constants {
     public static final String FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/Italiamazfit";
     public static final Long TIME_BETWEEN_NOTIFICATIONS = 5000l;
 
+    public static final String WATCHFACES_STORE_URL = "https://sawfb.fabiobarbon.click/";
+
     public static final String TELEGRAM_PACKAGE = "org.telegram.messenger";
     public static final String WHATSAPP_PACKAGE = "com.whatsapp";
 
