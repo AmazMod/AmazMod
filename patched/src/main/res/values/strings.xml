@@ -8,6 +8,21 @@
     <string name="app_name">AmazMod</string>
     <string name="welcome_use_watch">Welcome to Amazfit Watch Mod\n(by edotasx)</string>
 
+    <string name="facestore_install_button_confirm">Install on the clock</string>
+    <string name="facestore_install_error_ble">The phone must be connected to the watch, connect the watch and try again</string>
+    <string name="facestore_install_error_ftp">The version of the watch is too old, update the watch to the latest version</string>
+    <string name="facestore_install_error_network">Please try again after connecting the phone to the network</string>
+    <string name="facestore_install_error_title">Unable to install</string>
+    <string name="facestore_install_error_watchap">The hotspot connection with the clock does not work. Try again.</string>
+    <string name="facestore_install_fail">Installation failed</string>
+    <string name="facestore_install_name_unknown">Unknown</string>
+    <string name="facestore_install_processing">Installation in progress</string>
+    <string name="facestore_install_progress_complete">Completed</string>
+    <string name="facestore_install_progress_process">Installation in progress... %1$s</string>
+    <string name="facestore_install_size_title">%1$sKB</string>
+    <string name="facestore_install_time_title">Time for installation %1$s</string>
+    <string name="facestore_title">Watchfaces</string>
+    <string name="facestore_install_fail_title">Installation failed</string>
     <string name="not_all_permission_granted_warning">If you do not enable all the required permissions, the app may not work properly</string>
 
     <string name="facebook_group_link">Group Facebook Amazfit Italy</string>
