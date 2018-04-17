@@ -58,9 +58,11 @@ public class NotificationData implements Parcelable {
         DEBUG = true;
         NotificationData notificationData = from(var0, var1, var2, var3);
 
+        /*
         if (!PreferenceManager.getBoolean(var0, Constants.PREFERENCE_DISABLE_NOTIFICATIONS_MOD, false)) {
             notificationData.text = NotificationManager.sharedInstance().extractText(var2, notificationData);
         }
+        */
 
         /*
 

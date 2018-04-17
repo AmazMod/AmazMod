@@ -11,18 +11,11 @@ import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.db.model.BatteryRead;
-import com.edotasx.amazfit.notification.filter.TimeNotificationFilter;
-import com.edotasx.amazfit.notification.filter.UniqueKeyNotificationFilter;
-import com.edotasx.amazfit.notification.filter.NotificationFilter;
-import com.edotasx.amazfit.notification.filter.app.WhatsappNotificationFilter;
-import com.edotasx.amazfit.notification.text.extractor.DefaultTextExtractor;
-import com.edotasx.amazfit.notification.text.extractor.TelegramTextExtractor;
-import com.edotasx.amazfit.notification.text.extractor.TextExtractor;
 import com.edotasx.amazfit.preference.PreferenceManager;
 import com.huami.watch.companion.battery.BatteryInfoHelper;
 import com.huami.watch.companion.battery.bean.BatteryInfo;
 import com.huami.watch.companion.sync.SyncUtil;
-import com.huami.watch.notification.data.NotificationData;
+import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -47,12 +40,7 @@ public class NotificationManager {
     private Transporter transporter;
     private Transporter.DataListener dataListener;
 
-    private UniqueKeyNotificationFilter uniqueKeyNotificationFilter;
-    private TimeNotificationFilter timeNotificationFilter;
-    private WhatsappNotificationFilter whatsappNotificationFilter;
-
-    private Map<String, TextExtractor> textExtractors;
-    private TextExtractor defaultTextExtractor;
+    private Map<String, Boolean> notificationTimeGone;
 
     private Context context;
 
@@ -77,15 +65,7 @@ public class NotificationManager {
     private NotificationManager(Context context) {
         this.context = context;
 
-        textExtractors = new HashMap<>();
-
-        defaultTextExtractor = new DefaultTextExtractor();
-        textExtractors.put(Constants.TELEGRAM_PACKAGE, new TelegramTextExtractor());
-
-        whatsappNotificationFilter = new WhatsappNotificationFilter(context);
-
-        uniqueKeyNotificationFilter = new UniqueKeyNotificationFilter(context);
-        timeNotificationFilter = new TimeNotificationFilter();
+        notificationTimeGone = new HashMap<>();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
@@ -104,10 +84,12 @@ public class NotificationManager {
     @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean filter(StatusBarNotification pStatusBarNotification) {
-
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) && timeNotificationFilter.filter(pStatusBarNotification)) {
+        String notificationId = StatusBarNotificationData.getUniqueKey(pStatusBarNotification);
+        if (notificationTimeGone.containsKey(notificationId)) {
             return BLOCK_NOTIFICATION;
         }
+
+        notificationTimeGone.put(notificationId, true);
 
         Notification notification = pStatusBarNotification.getNotification();
 
@@ -123,7 +105,7 @@ public class NotificationManager {
             }
         }
 
-        if ((flags & FLAG_WEARABLE_REPLY) == 0 && NotificationCompat.isGroupSummary(notification)) { //this could cause #395 to come back
+        if ((flags & FLAG_WEARABLE_REPLY) == 0 && NotificationCompat.isGroupSummary(notification)) {
             return BLOCK_NOTIFICATION;
         }
 
@@ -136,15 +118,6 @@ public class NotificationManager {
         }
 
         return CONTINUE_NOTIFICATION;
-    }
-
-    public String extractText(Notification notification, NotificationData notificationData) {
-        String packageName = notificationData.key.pkg;
-        TextExtractor textExtractor = textExtractors.get(packageName) == null ?
-                defaultTextExtractor :
-                textExtractors.get(packageName);
-
-        return textExtractor.extractText(notification, notificationData);
     }
 
     private void updateBatteryLevel() {

@@ -62,7 +62,7 @@ public class StatusBarNotificationData implements SafeParcelable {
     @DexAdd
     public static String getUniqueKey(StatusBarNotification statusBarNotification) {
         StatusBarNotificationData statusBarNotificationData = source_from(statusBarNotification);
-        return statusBarNotificationData.pkg + "|" + statusBarNotification.getNotification().when;
+        return statusBarNotificationData.pkg + "|" + statusBarNotification.getPostTime();
     }
 
     @DexIgnore
