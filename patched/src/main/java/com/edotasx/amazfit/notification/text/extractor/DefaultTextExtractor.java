@@ -10,9 +10,8 @@ import com.huami.watch.notification.data.NotificationData;
  * Created by edoardotassinari on 25/02/18.
  */
 
-public class DefaultTextExtractor implements TextExtractor {
+public class DefaultTextExtractor {
 
-    @Override
     public String extractText(Notification notification, NotificationData notificationData) {
         Bundle bundle = NotificationCompat.getExtras(notification);
 
