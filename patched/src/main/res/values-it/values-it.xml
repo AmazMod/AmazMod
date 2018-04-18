@@ -1126,7 +1126,7 @@ Dimensione aggiornamento: %2$s"</string>
     <string name="webview_tips_failed_to_load">Impossibile caricare</string>
     <string name="webview_tips_load_404">Errore caricamento</string>
     <string name="webview_tips_load_retry_tip">Si prega di verificare e riprovare</string>
-    <string name="webview_tips_loading">caricamento...</string>
+    <string name="webview_tips_loading">Caricamento...</string>
     <string name="webview_tips_network_unreachable">Rete irraggiungibile</string>
     <string name="webview_tips_reload_tip">Tappa sullo schermo per riprovare</string>
     <string name="abc_font_family_body_1_material">sans-serif</string>

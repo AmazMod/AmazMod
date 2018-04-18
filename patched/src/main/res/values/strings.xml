@@ -24,6 +24,19 @@
     <string name="facestore_title">Watchfaces</string>
     <string name="facestore_install_fail_title">Installation failed</string>
     <string name="not_all_permission_granted_warning">If you do not enable all the required permissions, the app may not work properly</string>
+    <string name="webview_choose_upload_file">Please select the uploaded file</string>
+    <string name="webview_html_error">Failed to load</string>
+    <string name="webview_more_menu_cancel_auth">Deauthorize</string>
+    <string name="webview_more_menu_refresh">Refresh</string>
+    <string name="webview_more_menu_resize">Resize</string>
+    <string name="webview_more_menu_share">Share it</string>
+    <string name="webview_permission_cam">Cam permission</string>
+    <string name="webview_tips_failed_to_load">Failed to load</string>
+    <string name="webview_tips_load_404">Page not found</string>
+    <string name="webview_tips_load_retry_tip">Retry</string>
+    <string name="webview_tips_loading">Loading...</string>
+    <string name="webview_tips_network_unreachable">Network unreachable</string>
+    <string name="webview_tips_reload_tip">Click on the screen to retry</string>
 
     <string name="facebook_group_link">Group Facebook Amazfit Italy</string>
     <string name="buy_me_a_coffe">Buy me a coffe</string>
