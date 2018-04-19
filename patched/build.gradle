@@ -104,14 +104,8 @@ android {
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 100006
-        versionName "3.0.1"
-
-        /*
-        ndk {
-            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
-        }
-        */
+        versionCode 100007
+        versionName "4.0.1"
     }
 
     buildTypes {s
@@ -120,16 +114,12 @@ android {
         }
     }
 
-    /*
-    splits {
-        abi {
-            enable true
-            reset()
-            include "armeabi"
-            universalApk false
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def apkName = "AmazMod-${variant.name}-${variant.versionName}.apk"
+            output.outputFile = new File(output.outputFile.parentFile, apkName)
         }
     }
-    */
 }
 
 tasks.withType(com.android.build.gradle.tasks.Lint) {
