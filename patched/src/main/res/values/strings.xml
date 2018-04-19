@@ -6,7 +6,7 @@
     <!--Override app name.-->
 
     <string name="app_name">AmazMod</string>
-    <string name="welcome_use_watch">Welcome to Amazfit Watch Mod\n(by edotasx)</string>
+    <string name="welcome_use_watch">Welcome to Amazfit Watch Mod</string>
 
     <string name="facestore_install_button_confirm">Install on the clock</string>
     <string name="facestore_install_error_ble">The phone must be connected to the watch, connect the watch and try again</string>
