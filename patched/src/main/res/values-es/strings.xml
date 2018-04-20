@@ -114,7 +114,7 @@
     <string name="pref_reverse_hebrew_notifications">Texto de notificación inverso en Hebrew</string>
     <string name="pref_disable_crash_reporting">No enviar informes de fallos</string>
     <string name="pref_disable_toast_ota">Ocultar el mensaje de la OTA</string>
-    <string name="pref_disable_toast_ota_summary">It also hides the additional update notice present only in the app, if you don\'t want to receive any notification enable this option</string>
+    <string name="pref_disable_toast_ota_summary">También oculta el aviso de actualización de la app, si no quieres recibir ninguna notificación, habilita esta opción</string>
     <string name="pref_enable_double_notification_filter">Habilitar el filtro de notificaciones repetidas</string>
     <string name="pref_enable_app_custom_notification_filter">Habilitar el filtro personalizado para cada app</string>
     <string name="crash_report_disabled_tip">Con esta opción desactivada, ayudarás a encontrar fallos de la aplicación</string>
