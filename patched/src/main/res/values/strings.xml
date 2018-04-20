@@ -117,6 +117,8 @@
     <string name="pref_disable_toast_ota_summary">It also hides the additional update notice present only in the app, if you don\'t want to receive any notification enable this option</string>
     <string name="pref_enable_double_notification_filter">Enable the filter for double notifications</string>
     <string name="pref_enable_app_custom_notification_filter">Enable the custom filter for each app</string>
+    <string name="pref_disable_custom_watchfaces_store">Restore watchfaces store</string>
+    <string name="pref_disable_custom_watchfaces_store_summary">The custom watch faces store will be disabled (https://sawfb.fabiobarbon.click/)</string>
     <string name="crash_report_disabled_tip">Leaving this option off will help me to find any application bugs</string>
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>

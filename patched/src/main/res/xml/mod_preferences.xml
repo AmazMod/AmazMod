@@ -8,6 +8,12 @@
         android:summary="@string/pref_disable_notifications_mod_summary"
         android:title="@string/pref_disable_notifications_mod" />
 
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="preference.disable.custom.watchfaces.store"
+        android:summary="@string/pref_disable_custom_watchfaces_store_summary"
+        android:title="@string/pref_disable_custom_watchfaces_store"/>
+
     <!--
     <PreferenceScreen
         android:key="preference.screen.notification"

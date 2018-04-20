@@ -1280,6 +1280,8 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="pref_nightscout_enable_summary">Abilita il supporto a Nightscout</string>
     <string name="pref_nightscout_enable">Abilita</string>
     <string name="pref_nightscout_sync_interval">Intervallo di sincronizzazione</string>
+    <string name="pref_disable_custom_watchfaces_store">Ripristina store watchfaces</string>
+    <string name="pref_disable_custom_watchfaces_store_summary">Verrà disabilitato lo store personalizzato delle watchfaces (https://sawfb.fabiobarbon.click/)</string>
 
     <string name="battery">Batteria</string>
     <string name="disable_battery_chart">Disabilita</string>
