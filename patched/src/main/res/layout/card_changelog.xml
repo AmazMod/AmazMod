@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
-            android:text="@string/changelog_v_300"
+            android:text="@string/changelog_v_400"
             android:textColor="#e6000000"
             android:textSize="13.0sp"
             android:textStyle="bold" />
@@ -53,7 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
-            android:text="@string/changelog_row_28"
+            android:text="@string/changelog_row_30"
             android:textColor="#e6000000"
             android:textSize="13.0sp" />
 
@@ -61,10 +61,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
-            android:text="@string/changelog_row_29"
+            android:text="@string/changelog_row_31"
             android:textColor="#e6000000"
             android:textSize="13.0sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:text="@string/changelog_row_32"
+            android:textColor="#e6000000"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:text="@string/changelog_row_33"
+            android:textColor="#e6000000"
+            android:textSize="13.0sp" />
 
         <LinearLayout
             android:id="@+id/changelog_layout_read_all"
@@ -73,6 +88,31 @@
             android:layout_marginTop="10.0dip"
             android:orientation="vertical"
             android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:text="@string/changelog_v_300"
+                android:textColor="#e6000000"
+                android:textSize="13.0sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:text="@string/changelog_row_28"
+                android:textColor="#e6000000"
+                android:textSize="13.0sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10.0dip"
+                android:text="@string/changelog_row_29"
+                android:textColor="#e6000000"
+                android:textSize="13.0sp" />
 
             <TextView
                 android:layout_width="wrap_content"
