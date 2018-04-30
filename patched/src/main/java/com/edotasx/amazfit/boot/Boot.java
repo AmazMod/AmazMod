@@ -1,20 +1,17 @@
 package com.edotasx.amazfit.boot;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.util.Log;
-import android.view.View;
+
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
 import com.edotasx.amazfit.db.AppDatabase;
 import com.edotasx.amazfit.nightscout.NightscoutReceiver;
 import com.edotasx.amazfit.notification.NotificationManager;
-import com.edotasx.amazfit.permission.PermissionManager;
 import com.edotasx.amazfit.preference.PreferenceManager;
 import com.edotasx.amazfit.service.BatteryStatsReceiver;
 import com.github.javiersantos.appupdater.AppUpdater;
@@ -57,8 +54,6 @@ public class Boot {
     }
 
     private void initiate(Context pContext) {
-        PermissionManager.sharedInstance().requestPermissions(pContext);
-
         initiateDb(pContext);
 
         checkNightscout(pContext);

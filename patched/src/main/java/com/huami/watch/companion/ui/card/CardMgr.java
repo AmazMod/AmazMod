@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.boot.Boot;
+import com.edotasx.amazfit.permission.PermissionManager;
 import com.edotasx.amazfit.preference.PreferenceManager;
 import com.huami.watch.companion.device.Device;
 import com.huami.watch.companion.device.DeviceManager;
@@ -35,6 +36,8 @@ public class CardMgr {
     @DexReplace
     private List<ICard> a() {
         if (c.isEmpty()) {
+            PermissionManager.sharedInstance().requestPermissions(b);
+
             c.add(StepCard.create(b));
             c.add(EverestHelpCard.create(b, CardMgr.showEverestHelpCard(b)));
             c.add(BatteryCard.create(b));
