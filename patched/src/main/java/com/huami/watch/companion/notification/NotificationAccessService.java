@@ -5,15 +5,21 @@ import android.app.Notification;
 import android.content.Context;
 import android.media.RemoteController;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import com.crashlytics.android.answers.PredefinedEvent;
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.notification.NotificationManager;
 import com.edotasx.amazfit.preference.PreferenceManager;
+import com.huami.watch.companion.mediac.MusicClientInterface;
 import com.huami.watch.notification.data.StatusBarNotificationData;
+import com.huami.watch.transport.Transporter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +41,21 @@ import lanchon.dexpatcher.annotation.DexWrap;
 public class NotificationAccessService extends NotificationListenerService
         implements RemoteController.OnClientUpdateListener {
 
+    @DexIgnore
+    private static Handler a;
+
+    @DexIgnore
+    private com.huami.watch.companion.notification.NotificationManager e;
+
+    @DexIgnore
+    private Transporter f;
+
+    @DexIgnore
+    private RemoteController i;
+
+    @DexIgnore
+    private MusicClientInterface g;
+
     @DexAdd
     public static Context context;
 
@@ -45,6 +66,35 @@ public class NotificationAccessService extends NotificationListenerService
 
     @DexAdd
     private List<StatusBarNotification> notificationsSent;
+
+    @DexIgnore
+    private Transporter.DataListener h;
+
+    @DexWrap
+    private void a() {
+        if (a == null) {
+            a = new NotificationAccessService.a(Looper.getMainLooper(), this);
+        }
+        if (this.e == null) {
+            this.e = com.huami.watch.companion.notification.NotificationManager.getManager((Context)this);
+        }
+        if (this.f == null) {
+            com.huami.watch.util.Log.i("Noti-Service", "Init!!", new Object[0]);
+
+            boolean enableCustomNotifications = PreferenceManager.getBoolean(this, Constants.PREFERENCE_ENABLE_CUSTOM_NOTIFICATIONS, false);
+            if (enableCustomNotifications) {
+                this.f = Transporter.get(this, Constants.TRANSPORTER_MODULE_NOTIFICATIONS);
+            } else {
+                this.f = Transporter.get(this, "com.huami.action.notification");
+                this.f.addDataListener(this.h);
+            }
+        }
+        if (this.g == null) {
+            this.g = MusicClientInterface.getInstance((Context)this);
+            this.registerRemoteController();
+            this.g.bindService(this.i);
+        }
+    }
 
     @DexWrap
     @Override
@@ -150,5 +200,22 @@ public class NotificationAccessService extends NotificationListenerService
     @DexIgnore
     @Override
     public void onClientMetadataUpdate(RemoteController.MetadataEditor metadataEditor) {
+    }
+
+    @DexIgnore
+    static class a extends Handler {
+        @DexIgnore
+        private WeakReference<NotificationAccessService> a;
+
+        @DexIgnore
+        public a(Looper looper, NotificationAccessService notificationAccessService) {
+            super(looper);
+            this.a = new WeakReference<NotificationAccessService>(notificationAccessService);
+        }
+    }
+
+    @DexIgnore
+    public void registerRemoteController() {
+
     }
 }

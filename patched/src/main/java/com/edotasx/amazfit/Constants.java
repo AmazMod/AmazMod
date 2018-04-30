@@ -37,8 +37,10 @@ public class Constants {
     public static final String PREFERENCE_NIGHTSCOUT_INTERVAL_SYNC = "preference.nightscout.interval.sync";
     public static final String PREFERENCE_NIGHTSCOUT_URL = "preference.nightscout.url";
     public static final String PREFERENCE_DISABLE_CUSTOM_WATCHFACES_STORE = "preference.disable.custom.watchfaces.store";
+    public static final String PREFERENCE_ENABLE_CUSTOM_NOTIFICATIONS = "preference.enable.custom.notifications";
 
-    public static final String TRASPORTER_MODULE = "com.edotassi.amazmod";
+    public static final String TRANSPORTER_MODULE = "com.edotassi.amazmod";
+    public static final String TRANSPORTER_MODULE_NOTIFICATIONS = "com.amazmod.notifications";
 
     public static final String NIGHTSCOUT_SYNC_ACTION = "nightscout_sync";
 

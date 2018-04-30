@@ -136,6 +136,12 @@
             android:summary="@string/pref_amazmodservice_enable_summary"
             android:title="@string/pref_amazmodservice_enable" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.enable.custom.notifications"
+            android:summary="todo"
+            android:title="Enable custom notification - todo" />
+
         <PreferenceScreen
             android:key="preference.screen.nightscout"
             android:title="@string/nightscout"
