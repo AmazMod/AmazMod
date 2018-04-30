@@ -1251,7 +1251,14 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_28"> - Aggiunto grafico livello batteria</string>
     <string name="changelog_row_29"> - Fix notifiche</string>
 
+    <string name="changelog_v_400">v4.0.0 - 01/05/2018</string>
+    <string name="changelog_row_30"> - Aggiungo lo store custom delle watchfaces (https://sawfb.fabiobarbon.click/)</string>
+    <string name="changelog_row_31"> - Bug fixing</string>
+    <string name="changelog_row_32"> - Aggiunte le traduzioni in Brasiliano Portoghese</string>
+    <string name="changelog_row_33"> - Aggiunte le traduzioni parziali in Spagnolo</string>
+
     <string name="read_all">Leggi tutto</string>
+    <string name="read_less">Leggi meno</string>
     <string name="github_project">Progetto su Github</string>
     <string name="github_project_link">https://github.com/edotassi/AmazMod</string>
     <string name="telegram_update_channel">Canale Telegram aggiornamenti</string>

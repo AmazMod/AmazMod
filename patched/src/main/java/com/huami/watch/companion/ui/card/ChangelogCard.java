@@ -37,15 +37,17 @@ public class ChangelogCard extends BaseCard {
     protected void initView() {
         final View oldChangelog = getView().findViewById(R.id.changelog_layout_read_all);
 
-        TextView textViewReadAll = getView().findViewById(R.id.changelog_button_read_all);
+        final TextView textViewReadAll = getView().findViewById(R.id.changelog_button_read_all);
 
         textViewReadAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int visibility = oldChangelog.getVisibility();
                 if (visibility == View.GONE) {
+                    textViewReadAll.setText(R.string.read_less);
                     oldChangelog.setVisibility(View.VISIBLE);
                 } else {
+                    textViewReadAll.setText(R.string.read_less);
                     oldChangelog.setVisibility(View.GONE);
                 }
             }
