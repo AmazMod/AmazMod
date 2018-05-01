@@ -8,12 +8,12 @@
     <string name="app_name">AmazMod</string>
     <string name="welcome_use_watch">Welcome to Amazfit Watch Mod</string>
 
-    <string name="facestore_install_button_confirm">Install on the clock</string>
+    <string name="facestore_install_button_confirm">Install on the watch</string>
     <string name="facestore_install_error_ble">The phone must be connected to the watch, connect the watch and try again</string>
     <string name="facestore_install_error_ftp">The version of the watch is too old, update the watch to the latest version</string>
     <string name="facestore_install_error_network">Please try again after connecting the phone to the network</string>
     <string name="facestore_install_error_title">Unable to install</string>
-    <string name="facestore_install_error_watchap">The hotspot connection with the clock does not work. Try again.</string>
+    <string name="facestore_install_error_watchap">The hotspot connection with the watch does not work. Try again.</string>
     <string name="facestore_install_fail">Installation failed</string>
     <string name="facestore_install_name_unknown">Unknown</string>
     <string name="facestore_install_processing">Installation in progress</string>
@@ -69,7 +69,7 @@
     <string name="changelog_v_200">v2.0.0 - 08/03/2018</string>
     <string name="changelog_row_10"> - Fix crash login on Oreo</string>
     <string name="changelog_row_11"> - Added individual notifications on the watch</string>
-    <string name="changelog_row_12"> - Notifications on the clock are deleted (almost all)</string>
+    <string name="changelog_row_12"> - Notifications on the watch are deleted (almost all)</string>
     <string name="changelog_row_13"> - Replaced Chinese maps with Google ones</string>
     <string name="changelog_row_14"> - Added mod\'s settings</string>
     <string name="changelog_row_15"> - Added the ability to enable / disable RTL support (requires full reboot of the app)</string>
