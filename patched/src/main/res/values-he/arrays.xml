@@ -16,10 +16,10 @@
         <item>15 דקות</item>
         <item>30 דקות</item>
         <item>60 דקות</item>
-        <item>1 ש' 30 דקות</item>
-        <item>2 ש'</item>
-        <item>3 ש'</item>
-        <item>4 ש'</item>
+        <item>1 ש\' 30 דקות</item>
+        <item>2 ש\'</item>
+        <item>3 ש\'</item>
+        <item>4 ש\'</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_values">
         <item>15</item>

@@ -8,14 +8,11 @@ import android.util.Log;
 
 
 import com.edotasx.amazfit.Constants;
-import com.edotasx.amazfit.R;
 import com.edotasx.amazfit.db.AppDatabase;
 import com.edotasx.amazfit.nightscout.NightscoutReceiver;
 import com.edotasx.amazfit.notification.NotificationManager;
 import com.edotasx.amazfit.preference.PreferenceManager;
 import com.edotasx.amazfit.service.BatteryStatsReceiver;
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.raizlabs.android.dbflow.config.DatabaseConfig;
 import com.raizlabs.android.dbflow.config.FlowConfig;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -60,13 +57,6 @@ public class Boot {
         checkBatteryStats(pContext);
 
         NotificationManager.initialize(pContext);
-
-        new AppUpdater(pContext)
-                .setUpdateFrom(UpdateFrom.GITHUB)
-                .setGitHubUserAndRepo(Constants.GITHUB_USERNAME, Constants.GITHUB_REPOSITORY)
-                .setButtonUpdate(null)
-                .setContentOnUpdateAvailable(R.string.content_update_available)
-                .start();
     }
 
     private void initiateDb(Context context) {
