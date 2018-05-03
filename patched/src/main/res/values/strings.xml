@@ -98,6 +98,10 @@
     <string name="changelog_row_32"> - Added translations into Brazilian Portuguese</string>
     <string name="changelog_row_33"> - Added partial translations in Spanish</string>
 
+    <string name="changelog_v_410">v4.1.0 - 03/05/2018</string>
+    <string name="changelog_row_34"> - Fixed crash when update is available</string>
+    <string name="changelog_row_35"> - Fixed bug in notifications</string>
+
     <string name="read_all">Read all</string>
     <string name="read_less">Read less</string>
     <string name="github_project">Github project</string>

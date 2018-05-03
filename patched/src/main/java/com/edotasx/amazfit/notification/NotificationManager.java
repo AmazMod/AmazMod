@@ -84,10 +84,15 @@ public class NotificationManager {
     @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean filter(StatusBarNotification pStatusBarNotification) {
+        Log.d(Constants.TAG_NOTIFICATION, "notification from: " + pStatusBarNotification.getPackageName());
+
         String notificationId = StatusBarNotificationData.getUniqueKey(pStatusBarNotification);
+        /*
         if (notificationTimeGone.containsKey(notificationId)) {
+            Log.d(Constants.TAG_NOTIFICATION, "notification blocked by key: " + notificationId);
             return BLOCK_NOTIFICATION;
         }
+        */
 
         notificationTimeGone.put(notificationId, true);
 
@@ -106,17 +111,23 @@ public class NotificationManager {
         }
 
         if ((flags & FLAG_WEARABLE_REPLY) == 0 && NotificationCompat.isGroupSummary(notification)) {
+            Log.d(Constants.TAG_NOTIFICATION, "notification blocked FLAG_WEARABLE_REPLY");
             return BLOCK_NOTIFICATION;
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
+            Log.d(Constants.TAG_NOTIFICATION, "notification blocked FLAG_ONGOING_EVENT");
             return BLOCK_NOTIFICATION;
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
+            Log.d(Constants.TAG_NOTIFICATION, "notification blocked because is LocalOnly");
             return BLOCK_NOTIFICATION;
         }
 
+        Log.d(Constants.TAG_NOTIFICATION, "notification allowd");
+        Log.d(Constants.TAG_NOTIFICATION, "_");
+        Log.d(Constants.TAG_NOTIFICATION, "_");
         return CONTINUE_NOTIFICATION;
     }
 

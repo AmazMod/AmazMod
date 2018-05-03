@@ -6,18 +6,11 @@ package com.edotasx.amazfit;
 
 public class Constants {
     public static final String TAG = "AmazMod";
-    public static final String TAG_NOTIFICATION = "EdoNotification";
-    public static final String TAG_NOTIFICATION_SERVICE = "EdoNotificationService";
-    public static final String GITHUB_USERNAME = "edotassi";
-    public static final String GITHUB_REPOSITORY = "AmazfitApp";
-    public static final String PAYPAL_ME_URL = "https://www.paypal.me/edotasx";
+    public static final String TAG_NOTIFICATION = "AmazModNotification";
+    public static final String TAG_NOTIFICATION_SERVICE = "AmazModNotificationService";
     public static final String FACEBOOK_GROUP_URL = "https://www.facebook.com/groups/Italiamazfit";
-    public static final Long TIME_BETWEEN_NOTIFICATIONS = 5000l;
 
     public static final String WATCHFACES_STORE_URL = "https://sawfb.fabiobarbon.click/";
-
-    public static final String TELEGRAM_PACKAGE = "org.telegram.messenger";
-    public static final String WHATSAPP_PACKAGE = "com.whatsapp";
 
     public static final String PREFERENCE_ENABLE_OTA = "preference.enable.ota";
     public static final String PREFERENCE_MAPS_TYPE = "preference.maps.type";
