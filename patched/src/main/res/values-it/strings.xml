@@ -1313,6 +1313,11 @@ Deselezionandoli, spariranno dalla schermata dell\'Orologio.</string>
     <string name="changelog_row_31"> - Bug fixing</string>
     <string name="changelog_row_32"> - Aggiunte le traduzioni in Brasiliano Portoghese</string>
     <string name="changelog_row_33"> - Aggiunte le traduzioni parziali in Spagnolo</string>
+
+    <string name="changelog_v_410">v4.1.0 - 03/05/2018</string>
+    <string name="changelog_row_34"> - Corretto crash quando è disponibile un aggiornamento</string>
+    <string name="changelog_row_35"> - Corretto un bug nelle notifiche</string>
+
     <string name="read_all">Leggi tutto</string>
     <string name="read_less">Leggi meno</string>
     <string name="github_project">Progetto su Github</string>
