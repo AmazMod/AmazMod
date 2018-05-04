@@ -26,11 +26,11 @@
         <item>4 ore</item>
     </string-array>
     <string-array name="bind_guide_main_title">
-        <item>Support Pool Swimming,Openwater Swimming and Triathlon activities.</item>
-        <item>Estimation of your cardiorespiratory fitness measured as a value of VO2max</item>
+        <item>Per supportare il nuoto, apri le attività nuoto o triathlon</item>
+        <item>Stima del respiro cardiaco, misurato come valore V02 massimo</item>
         <item>Rich exercise data and exercise settings</item>
-        <item>Provide realtime coaching to achieve the set training goal in a set time</item>
-        <item>Through the training effect data to help you understand each movement</item>
+        <item>Fornire allenamento in temporeale per raggiungere l\'obbiettivo di allenamento impostato in un determinato periodo</item>
+        <item>Utilizza i dati dell\'allenamento per capire i migliori movimenti da effettuare</item>
     </string-array>
     <string-array name="bind_guide_support_title">
         <item></item>
@@ -41,8 +41,8 @@
     </string-array>
     <string-array name="body_stats_info">
         <item>Affaticato</item>
-        <item>Medio</item>
-        <item>Buono</item>
+        <item>Normale</item>
+        <item>Ottimo</item>
     </string-array>
     <string-array name="climb_mountains">
         <item>Kilometraggio</item>
@@ -158,8 +158,8 @@
         <item>Mese</item>
     </string-array>
     <string-array name="te_info">
-        <item></item>
-        <item>Poco utile alla forma fisica</item>
+        <item>Cadenza</item>
+        <item>Ritmo medio</item>
         <item>Esercizio facile</item>
         <item>Esercizio moderato</item>
         <item>Esercizio utile alla forma fisica</item>
@@ -182,7 +182,7 @@
         <item>Fermo in piedi</item>
         <item>Seduto</item>
         <item>Movimento</item>
-        <item>Orologio non indossato</item>
+        <item>Orologio non al polso</item>
         <item>Orologio in ricarica</item>
         <item>Sdraiato</item>
     </string-array>
