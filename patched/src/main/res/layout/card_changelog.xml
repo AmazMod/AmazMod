@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
-            android:text="@string/changelog_v_410"
+            android:text="@string/changelog_v_415"
             android:textColor="#e6000000"
             android:textSize="13.0sp"
             android:textStyle="bold" />
@@ -62,6 +62,14 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10.0dip"
             android:text="@string/changelog_row_35"
+            android:textColor="#e6000000"
+            android:textSize="13.0sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10.0dip"
+            android:text="@string/changelog_row_36"
             android:textColor="#e6000000"
             android:textSize="13.0sp" />
 

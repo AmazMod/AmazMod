@@ -1257,9 +1257,10 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_32"> - Aggiunte le traduzioni in Brasiliano Portoghese</string>
     <string name="changelog_row_33"> - Aggiunte le traduzioni parziali in Spagnolo</string>
 
-    <string name="changelog_v_410">v4.1.0 - 03/05/2018</string>
+    <string name="changelog_v_415">v4.1.5 - 07/05/2018</string>
     <string name="changelog_row_34"> - Corretto crash quando è disponibile un aggiornamento</string>
     <string name="changelog_row_35"> - Corretto un bug nelle notifiche</string>
+    <string name="changelog_row_36"> - Aggiunte traduzioni in Greco</string>
 
     <string name="read_all">Leggi tutto</string>
     <string name="read_less">Leggi meno</string>
