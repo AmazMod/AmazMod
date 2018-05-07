@@ -136,7 +136,7 @@
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>
     <string name="translations_by">Tests and translations:</string>
-    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@RoberPG17, \@caiorrs, \@esecamara, \@Saratoga79, \@pavelzeldin, \@Varius,  \@sleviz72, \@Octaviastikos, \@DANY_DANI, \@magiclb, \@jjng1, \@LBA97</string>
+    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@RoberPG17, \@caiorrs, \@esecamara, \@Saratoga79, \@pavelzeldin, \@Varius,  \@sleviz72, \@Octaviastikos, \@DANY_DANI, \@magiclb, \@jjng1, \@LBA97, \@JRevenge, \@Maddoctor</string>
     <string name="tool_thanks">Nothing would have been possible without this fantastic tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">An OTA update is available for the rom, enable it in the mod settings</string>
 

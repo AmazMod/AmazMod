@@ -1333,14 +1333,10 @@
     <string name="telegram_update_channel_link">https://t.me/amazmod</string>
     <string name="tool_thanks">Τίποτα δεν θα ήταν εφικτό χωρίς αυτό το φανταστικό εργαλείο:</string>
     <string name="translations_by">Μετάφραση στα ελληνικά:</string>
-    <string name="translations_by_list">Maddoctor</string>
     <string name="tedpermission_close">Κοντά</string>
     <string name="tedpermission_confirm">Επιβεβαιώνω</string>
     <string name="tedpermission_setting">Σύνθεση</string>
-    <string name="com.crashlytics.android.build_id">efcb689a-e0ed-4c07-8146-7238b1f875c9</string>
-    <string name="default_web_client_id">984333909994-tg2a1lpmv9c89icio34pbu195cmoo380.apps.googleusercontent.com</string>
     <string name="define_appupdater" />
-    <string name="firebase_database_url">https://amazfit-9b86e.firebaseio.com</string>
     <string name="gcm_defaultSenderId">984333909994</string>
     <string name="google_api_key">AIzaSyCEZGBV5i8kyEmRS3VYCIC_-xo5LgMf92A</string>
     <string name="google_app_id">1: 984333909994: android: a65b8fcf8cf6b81f</string>
