@@ -1318,6 +1318,7 @@ Deselezionandoli, spariranno dalla schermata dell\'Orologio.</string>
     <string name="changelog_row_34"> - Corretto crash quando è disponibile un aggiornamento</string>
     <string name="changelog_row_35"> - Corretto un bug nelle notifiche</string>
     <string name="changelog_row_36"> - Aggiunte traduzioni in Greco</string>
+    <string name="changelog_row_37"> - Aggiornate le traduzioni italiane</string>
 
     <string name="read_all">Leggi tutto</string>
     <string name="read_less">Leggi meno</string>

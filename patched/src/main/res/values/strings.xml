@@ -103,6 +103,7 @@
     <string name="changelog_row_34"> - Fixed crash when update is available</string>
     <string name="changelog_row_35"> - Fixed bug in notifications</string>
     <string name="changelog_row_36"> - Added Greek translations</string>
+    <string name="changelog_row_37"> - Updated Italian translations</string>
 
     <string name="read_all">Read all</string>
     <string name="read_less">Read less</string>
