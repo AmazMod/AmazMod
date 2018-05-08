@@ -2,7 +2,7 @@
 *.apk
 *.ap_
 
-!releases
+!releases/*.apk
 
 !source/apk/*.apk
 
