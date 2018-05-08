@@ -99,11 +99,15 @@
     <string name="changelog_row_32"> - Added translations into Brazilian Portuguese</string>
     <string name="changelog_row_33"> - Added partial translations in Spanish</string>
 
-    <string name="changelog_v_415">v4.1.5 - 07/05/2018</string>
+    <string name="changelog_v_415">v4.1.5 - 08/05/2018</string>
     <string name="changelog_row_34"> - Fixed crash when update is available</string>
     <string name="changelog_row_35"> - Fixed bug in notifications</string>
     <string name="changelog_row_36"> - Added Greek translations</string>
     <string name="changelog_row_37"> - Updated Italian translations</string>
+
+    <string name="changelog_v_416">v4.1.6 - 08/05/2018</string>
+    <string name="changelog_row_38"> - Now the google map also works with other types of visualization</string>
+    <string name="changelog_row_39"> - Fixed some Italian strings</string>
 
     <string name="read_all">Read all</string>
     <string name="read_less">Read less</string>

@@ -63,12 +63,10 @@
 Attiva il controllo continuo dall\'orologio!</string>
     <string name="altitude_title_short">Altitudine</string>
     <string name="altitude_unit_name">m</string>
-    <string name="amazfit_watch">AmazIT</string>
     <string name="ampm_format">hh:mm a</string>
     <string name="ampm_format_hhmmss">hh:mm:ss a</string>
     <string name="and_mark_short"> &amp; </string>
     <string name="anonymous_id">Anonymous ID</string>
-    <string name="app_name">AmazIT</string>
     <string name="app_upgrade_down_complete">Download completato</string>
     <string name="app_upgrade_down_fail_without_manager">Download fallito. Per favore cercare nel gestore dei download.</string>
     <string name="appbar_scrolling_view_behavior">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
@@ -404,7 +402,7 @@ Al termine, l\'orologio interromperà l\'hotspot e il telefono ripristinerà la 
     <string name="heart_section5">Nessuna attività</string>
     <string name="heart_section6">Riposo</string>
     <string name="hello_title">Ciao,</string>
-    <string name="help_item_amazfit_app">AmazIT</string>
+    <string name="help_item_amazfit_app">AmazMod</string>
     <string name="help_item_common_problem">Problema comune</string>
     <string name="highest">Massima: %1$s</string>
     <string name="history_avg_heart_rate_title">Frequenza cardiaca media storica</string>
@@ -763,7 +761,7 @@ accetta i nostri termini di servizio.\"</string>
     <string name="selected_heart_rate_value">%1$s frequenza cardiaca medio %2$d BPM</string>
     <string name="self_start_permission_tip">Si prega di impostare le impostazioni di sistema o il software di protezione da consentire \"Amazfit Watch\" auto-inizio, dopo di che il tuo orologio può mantenere una migliore comunicazione dati con il telefon</string>
     <string name="self_start_permission_tip_miui">Si prega di impostare in\"Centro sicurezza\" - \"Gestione Premssi\" - \"Gestione autonoma\" a attiva \"Amazfit Watch\" self-starting, after which your watch can keep better data communication with the phone.</string>
-    <string name="self_start_permission_tip_title">Dai accesso ad \"AmazIT\"</string>
+    <string name="self_start_permission_tip_title">Dai accesso ad \"AmazMod\"</string>
     <string name="set_lock_distance_title">Impostare la distanza di sblocco</string>
     <string name="set_rssi_failed">Settaggi falliti</string>
     <string name="set_watch_face_disconnected">Disconnesso, non può cambiare la WatchFaces</string>
@@ -1319,6 +1317,9 @@ Deselezionandoli, spariranno dalla schermata dell\'Orologio.</string>
     <string name="changelog_row_35"> - Corretto un bug nelle notifiche</string>
     <string name="changelog_row_36"> - Aggiunte traduzioni in Greco</string>
     <string name="changelog_row_37"> - Aggiornate le traduzioni italiane</string>
+
+    <string name="changelog_row_38"> - Ora la mappa google visualizza lo stile impostato correttamente</string>
+    <string name="changelog_row_39"> - Corrette alcune traduzioni italiane</string>
 
     <string name="read_all">Leggi tutto</string>
     <string name="read_less">Leggi meno</string>

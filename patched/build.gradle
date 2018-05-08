@@ -104,8 +104,8 @@ android {
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 100016
-        versionName "4.1.5"
+        versionCode 100017
+        versionName "4.1.6"
     }
 
     buildTypes {
