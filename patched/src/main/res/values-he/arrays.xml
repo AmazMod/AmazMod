@@ -6,12 +6,6 @@
         <item>Hybrid</item>
         <item>Terrain</item>
     </string-array>
-    <string-array name="pref_googleMapsType_values">
-        <item>roadmap</item>
-        <item>satellite</item>
-        <item>hybrid</item>
-        <item>terrain</item>
-    </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
         <item>15 דקות</item>
         <item>30 דקות</item>
@@ -21,15 +15,6 @@
         <item>3 ש\'</item>
         <item>4 ש\'</item>
     </string-array>
-    <string-array name="pref_battery_background_sync_interval_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>90</item>
-        <item>120</item>
-        <item>180</item>
-        <item>240</item>
-    </string-array>
     <string-array name="pref_battery_sync_with_notification_entries">
         <item>1 דקות</item>
         <item>2 דקות</item>
@@ -37,23 +22,6 @@
         <item>10 דקות</item>
         <item>15 דקות</item>
         <item>20 דקות</item>
-    </string-array>
-    <string-array name="pref_battery_sync_with_notification_values">
-        <item>1</item>
-        <item>2</item>
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
-    </string-array>
-    <string-array name="pref_battery_chart_range_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>5</item>
-        <item>7</item>
-        <item>10</item>
-        <item>15</item>
     </string-array>
     <string-array name="pref_battery_chart_range_entries">
         <item>1 יום</item>
@@ -63,16 +31,6 @@
         <item>7 ימים</item>
         <item>10 ימים</item>
         <item>15 ימים</item>
-    </string-array>
-    <string-array name="pref_nightscout_sync_interval_values">
-        <item>1</item>
-        <item>5</item>
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>90</item>
-        <item>120</item>
-        <item>240</item>
     </string-array>
     <string-array name="pref_nightscout_sync_interval_entries">
         <item>1 דקה</item>
