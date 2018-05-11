@@ -2,6 +2,8 @@
 *.apk
 *.ap_
 
+!releases/*.apk
+
 !source/apk/*.apk
 
 # Files for the ART/Dalvik VM
@@ -70,3 +72,5 @@ fastlane/readme.md
 \.idea/runConfigurations\.xml
 
 \.idea/vcs\.xml
+
+\.idea/caches/

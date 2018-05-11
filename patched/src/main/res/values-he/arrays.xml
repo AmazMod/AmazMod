@@ -6,82 +6,40 @@
         <item>Hybrid</item>
         <item>Terrain</item>
     </string-array>
-    <string-array name="pref_googleMapsType_values">
-        <item>roadmap</item>
-        <item>satellite</item>
-        <item>hybrid</item>
-        <item>terrain</item>
-    </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
-        <item>15 min</item>
-        <item>30 min</item>
-        <item>60 min</item>
-        <item>1 h 30 min</item>
-        <item>2 h</item>
-        <item>3 h</item>
-        <item>4 h</item>
-    </string-array>
-    <string-array name="pref_battery_background_sync_interval_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>90</item>
-        <item>120</item>
-        <item>180</item>
-        <item>240</item>
+        <item>15 דקות</item>
+        <item>30 דקות</item>
+        <item>60 דקות</item>
+        <item>1 ש\' 30 דקות</item>
+        <item>2 ש\'</item>
+        <item>3 ש\'</item>
+        <item>4 ש\'</item>
     </string-array>
     <string-array name="pref_battery_sync_with_notification_entries">
-        <item>1 min</item>
-        <item>2 min</item>
-        <item>5 min</item>
-        <item>10 min</item>
-        <item>15 min</item>
-        <item>20 min</item>
-    </string-array>
-    <string-array name="pref_battery_sync_with_notification_values">
-        <item>1</item>
-        <item>2</item>
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
-    </string-array>
-    <string-array name="pref_battery_chart_range_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>5</item>
-        <item>7</item>
-        <item>10</item>
-        <item>15</item>
+        <item>1 דקות</item>
+        <item>2 דקות</item>
+        <item>5 דקות</item>
+        <item>10 דקות</item>
+        <item>15 דקות</item>
+        <item>20 דקות</item>
     </string-array>
     <string-array name="pref_battery_chart_range_entries">
-        <item>1 day</item>
-        <item>2 days</item>
-        <item>3 days</item>
-        <item>5 days</item>
-        <item>7 days</item>
-        <item>10 days</item>
-        <item>15 days</item>
-    </string-array>
-    <string-array name="pref_nightscout_sync_interval_values">
-        <item>1</item>
-        <item>5</item>
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>90</item>
-        <item>120</item>
-        <item>240</item>
+        <item>1 יום</item>
+        <item>יומיים</item>
+        <item>3 ימים</item>
+        <item>5 ימים</item>
+        <item>7 ימים</item>
+        <item>10 ימים</item>
+        <item>15 ימים</item>
     </string-array>
     <string-array name="pref_nightscout_sync_interval_entries">
-        <item>1 min</item>
-        <item>5 min</item>
-        <item>15 min</item>
-        <item>30 min</item>
-        <item>1 hour</item>
-        <item>1 hour 30 min</item>
-        <item>2 hours</item>
-        <item>4 hours</item>
+        <item>1 דקה</item>
+        <item>5 דקות</item>
+        <item>15 דקות</item>
+        <item>30 דקות</item>
+        <item>1 שעה</item>
+        <item>1 שעה 30 דקות</item>
+        <item>שעתיים</item>
+        <item>4 שעות</item>
     </string-array>
 </resources>

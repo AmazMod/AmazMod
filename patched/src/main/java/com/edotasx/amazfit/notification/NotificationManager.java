@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Notification;
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
@@ -24,6 +25,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lanchon.dexpatcher.annotation.DexAdd;
+
 /**
  * Created by edoardotassinari on 18/02/18.
  */
@@ -40,7 +43,7 @@ public class NotificationManager {
     private Transporter transporter;
     private Transporter.DataListener dataListener;
 
-    private Map<String, Boolean> notificationTimeGone;
+    private Map<String, String> notificationTimeGone;
 
     private Context context;
 
@@ -70,26 +73,15 @@ public class NotificationManager {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean notificationPosted(StatusBarNotification statusBarNotification) {
-        boolean filtered = filter(statusBarNotification);
-
-        if (!filtered) {
-            updateBatteryLevel();
-
-            lastNotificationTime = System.currentTimeMillis();
-        }
-
-        return filtered;
+        return filter(statusBarNotification);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT_WATCH)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean filter(StatusBarNotification pStatusBarNotification) {
-        String notificationId = StatusBarNotificationData.getUniqueKey(pStatusBarNotification);
-        if (notificationTimeGone.containsKey(notificationId)) {
-            return BLOCK_NOTIFICATION;
-        }
+        String notificationId = pStatusBarNotification.getKey();
 
-        notificationTimeGone.put(notificationId, true);
+        Log.d(Constants.TAG_NOTIFICATION, "notification: " + notificationId);
 
         Notification notification = pStatusBarNotification.getNotification();
 
@@ -105,64 +97,52 @@ public class NotificationManager {
             }
         }
 
-        if ((flags & FLAG_WEARABLE_REPLY) == 0 && NotificationCompat.isGroupSummary(notification)) {
-            return BLOCK_NOTIFICATION;
+        if (/*(flags & FLAG_WEARABLE_REPLY) == 0 &&*/ NotificationCompat.isGroupSummary(notification)) {
+            Log.d(Constants.TAG_NOTIFICATION, "notification blocked FLAG_GROUP_SUMMARY");
+            return returnFilterResult(BLOCK_NOTIFICATION);
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-            return BLOCK_NOTIFICATION;
+            Log.d(Constants.TAG_NOTIFICATION, "notification blocked FLAG_ONGOING_EVENT");
+            return returnFilterResult(BLOCK_NOTIFICATION);
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            return BLOCK_NOTIFICATION;
+            Log.d(Constants.TAG_NOTIFICATION, "notification blocked because is LocalOnly");
+            return returnFilterResult(BLOCK_NOTIFICATION);
         }
 
-        return CONTINUE_NOTIFICATION;
+        Bundle extras = pStatusBarNotification.getNotification().extras;
+        String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
+        if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
+            String previousText = notificationTimeGone.get(notificationId);
+            Log.d(Constants.TAG_NOTIFICATION, "text: " + text);
+            if ((previousText != null) && (previousText.equals(text))) {
+                Log.d(Constants.TAG_NOTIFICATION, "notification blocked by key: " + notificationId + ", id: " + pStatusBarNotification.getId() + ", flags: " + pStatusBarNotification.getNotification().flags + ", time: " + (System.currentTimeMillis() - pStatusBarNotification.getPostTime()));
+                return returnFilterResult(BLOCK_NOTIFICATION);
+            } else {
+                notificationTimeGone.put(notificationId, text);
+
+                Log.d(Constants.TAG_NOTIFICATION, "notification allowed");
+                return returnFilterResult(CONTINUE_NOTIFICATION);
+            }
+        } else {
+            notificationTimeGone.put(notificationId, text);
+
+            Log.d(Constants.TAG_NOTIFICATION, "notification allowed");
+            return returnFilterResult(CONTINUE_NOTIFICATION);
+        }
     }
 
-    private void updateBatteryLevel() {
-        if (PreferenceManager.getBoolean(context, Constants.PREFERENCE_DISABLE_BATTERY_CHART, false)) {
-            return;
-        }
+    private boolean returnFilterResult(boolean result) {
+        Log.d(Constants.TAG_NOTIFICATION, "_");
+        Log.d(Constants.TAG_NOTIFICATION, "_");
+        return result;
+    }
 
-        int intervalWithNotifications = 1000 * 60 * PreferenceManager.getInt(context, Constants.PREFERENCE_BATTERY_SYNC_WITH_NOTIFICATIONS, 5);
-        if ((lastNotificationTime == -1) || (System.currentTimeMillis() - lastNotificationTime) > intervalWithNotifications) {
-            Log.d("BatteryAlarm", "notification trigger");
-
-            if (transporter == null) {
-                transporter = Transporter.get(context, "com.huami.watch.companion");
-
-                dataListener = new Transporter.DataListener() {
-                    @Override
-                    public void onDataReceived(TransportDataItem transportDataItem) {
-                        String action = transportDataItem.getAction();
-
-                        Log.d("BatteryAlarm", "action: " + action);
-
-                        if ("com.huami.watch.companion.transport.SyncBattery".equals(action)) {
-                            BatteryInfo batteryInfo = BatteryInfoHelper.getBatteryInfo(transportDataItem.getData());
-
-                            Log.d("BatteryAlarm", "batteryLvl: " + batteryInfo.getBatteryLevel());
-
-                            FlowManager.init(context);
-
-                            BatteryRead batteryRead = new BatteryRead();
-                            batteryRead.setDate(System.currentTimeMillis());
-                            batteryRead.setLevel(batteryInfo.getBatteryLevel());
-                            batteryRead.setCharging(batteryInfo.isBatteryCharging());
-
-                            FlowManager.getModelAdapter(BatteryRead.class).insert(batteryRead);
-
-                            transporter.removeDataListener(dataListener);
-                        }
-                    }
-                };
-
-                transporter.addDataListener(dataListener);
-                transporter.connectTransportService();
-            }
-
-            SyncUtil.syncRequestBattery(transporter, true);
-        }
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    @DexAdd
+    private String buildKey(StatusBarNotification statusBarNotification) {
+        return statusBarNotification.getPackageName() + "|" + statusBarNotification.getPostTime();
     }
 }

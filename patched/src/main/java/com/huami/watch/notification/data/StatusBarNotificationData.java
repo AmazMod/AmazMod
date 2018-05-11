@@ -58,13 +58,6 @@ public class StatusBarNotificationData implements SafeParcelable {
         return statusBarNotificationData;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    @DexAdd
-    public static String getUniqueKey(StatusBarNotification statusBarNotification) {
-        StatusBarNotificationData statusBarNotificationData = source_from(statusBarNotification);
-        return statusBarNotificationData.pkg + "|" + statusBarNotification.getNotification().when;
-    }
-
     @DexIgnore
     @Override
     public int describeContents() {

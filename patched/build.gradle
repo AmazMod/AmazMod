@@ -104,11 +104,11 @@ android {
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 14
         targetSdkVersion 26
-        versionCode 100007
-        versionName "4.0.1"
+        versionCode 100017
+        versionName "4.1.6"
     }
 
-    buildTypes {s
+    buildTypes {
         release {
             minifyEnabled false
         }
@@ -166,16 +166,6 @@ dependencies {
     compile('gun0912.ted:tedpermission:2.1.0') {
         exclude module: 'support-v4'
         exclude module: 'appcompat-v7'
-    }
-
-    compile('com.github.javiersantos:AppUpdater:2.6.4') {
-        exclude module: 'support-v4'
-        exclude module: 'appcompat-v7'
-        exclude module: 'design'
-        exclude module: 'recyclerview'
-        exclude module: 'support-annotations'
-        exclude module: 'support-compat'
-        exclude module: 'support-core-ui'
     }
 
     compile 'com.android.support:appcompat-v7:26.0.1'

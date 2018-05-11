@@ -5,12 +5,14 @@ import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.edotasx.amazfit.db.model.BatteryRead;
+import com.edotasx.amazfit.db.model.BatteryRead_Table;
 import com.edotasx.amazfit.events.BatteryHistoryUpdatedEvent;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.huami.watch.companion.battery.bean.BatteryInfo;
 import com.huami.watch.companion.util.RxBus;
 import com.huami.watch.util.Log;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexEdit;
@@ -38,13 +40,23 @@ public class BatteryCard extends BaseCard {
     public void updateBatteryViews(BatteryInfo batteryInfo) {
         updateBatteryViews(batteryInfo);
 
+        long date = System.currentTimeMillis();
+
         BatteryRead batteryRead = new BatteryRead();
-        batteryRead.setDate(System.currentTimeMillis());
+        batteryRead.setDate(date);
         batteryRead.setLevel(batteryInfo.getBatteryLevel());
         batteryRead.setCharging(batteryInfo.isBatteryCharging());
 
         try {
-            FlowManager.getModelAdapter(BatteryRead.class).insert(batteryRead);
+            BatteryRead batteryReadStored = SQLite
+                    .select()
+                    .from(BatteryRead.class)
+                    .where(BatteryRead_Table.date.is(date))
+                    .querySingle();
+
+            if (batteryReadStored == null) {
+                FlowManager.getModelAdapter(BatteryRead.class).insert(batteryRead);
+            }
         } catch (Exception ex) {
             Crashlytics.logException(ex);
         }

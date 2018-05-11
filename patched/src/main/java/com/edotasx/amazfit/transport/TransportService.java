@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
-import com.edotasx.amazfit.nightscout.NightscoutHelper;
 import com.edotasx.amazfit.nightscout.NightscoutService;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.TransportDataItem;
@@ -23,7 +22,7 @@ public class TransportService {
     private Transporter transporter;
 
     private TransportService(final Context context) {
-        transporter = TransporterClassic.get(context, Constants.TRASPORTER_MODULE);
+        transporter = TransporterClassic.get(context, Constants.TRANSPORTER_MODULE);
 
         if (!transporter.isTransportServiceConnected()) {
             Log.d(Constants.TAG, "transport service not connected");
