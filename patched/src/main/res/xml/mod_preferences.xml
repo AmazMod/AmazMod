@@ -12,7 +12,14 @@
         android:defaultValue="false"
         android:key="preference.disable.custom.watchfaces.store"
         android:summary="@string/pref_disable_custom_watchfaces_store_summary"
-        android:title="@string/pref_disable_custom_watchfaces_store"/>
+        android:title="@string/pref_disable_custom_watchfaces_store" />
+    <ListPreference
+        android:defaultValue="S.A.W.B. by fabio barbon"
+        android:dialogTitle="Watchafces store"
+        android:entries="@array/pref_watchfaces_store_type_entries"
+        android:entryValues="@array/pref_watchfaces_store_type_values"
+        android:key="preference.watchfaces.store.type"
+        android:title="Watchfaces store type"/>
 
     <!--
     <PreferenceScreen
@@ -136,16 +143,52 @@
             android:summary="@string/pref_amazmodservice_enable_summary"
             android:title="@string/pref_amazmodservice_enable" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.enable.custom.notifications"
-            android:summary="todo"
-            android:title="Enable custom notification - todo" />
+        <PreferenceScreen
+            android:dependency="preference.amazmodservice.enable"
+            android:key="preference.screen.amazmodservice.notification"
+            android:title="Notifications">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="preference.enable.custom.notifications"
+                android:summary=""
+                android:title="AmazMod Service notifications" />
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="preference.amazmodservice.enable.replies"
+                android:summary=""
+                android:title="Enable notifications replies" />
+
+            <EditTextPreference
+                android:key="preference.amazmodservice.replies"
+                android:summary="Enter custom replies separated by a comma"
+                android:title="Notifications replies" />
+
+            <ListPreference
+                android:defaultValue="300"
+                android:dependency="preference.enable.custom.notifications"
+                android:dialogTitle="Vibration"
+                android:entries="@array/pref_amazmodservice_vibration_entries"
+                android:entryValues="@array/pref_amazmodservice_vibration_values"
+                android:key="preference.amazmodservice.vibration"
+                android:summary="Vibration duration"
+                android:title="Vibration" />
+
+            <ListPreference
+                android:defaultValue="7000"
+                android:dependency="preference.enable.custom.notifications"
+                android:dialogTitle="Screen timeout"
+                android:entries="@array/pref_amazmodservice_screen_timeout_entries"
+                android:entryValues="@array/pref_amazmodservice_screen_timeout_values"
+                android:key="preference.amazmodservice.screen.timeout"
+                android:summary="Screen timeout"
+                android:title="Screen timeout" />
+        </PreferenceScreen>
 
         <PreferenceScreen
+            android:dependency="preference.amazmodservice.enable"
             android:key="preference.screen.nightscout"
-            android:title="@string/nightscout"
-            android:dependency="preference.amazmodservice.enable">
+            android:title="@string/nightscout">
             <SwitchPreference
                 android:defaultValue="false"
                 android:key="preference.nightscout.enabled"

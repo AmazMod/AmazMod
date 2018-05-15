@@ -11,21 +11,21 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
-import com.crashlytics.android.answers.PredefinedEvent;
 import com.edotasx.amazfit.Constants;
+import com.edotasx.amazfit.notification.NotificationDataListener;
 import com.edotasx.amazfit.notification.NotificationManager;
 import com.edotasx.amazfit.preference.PreferenceManager;
 import com.huami.watch.companion.mediac.MusicClientInterface;
-import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.Transporter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import lanchon.dexpatcher.annotation.DexAction;
 import lanchon.dexpatcher.annotation.DexAdd;
-import lanchon.dexpatcher.annotation.DexAppend;
 import lanchon.dexpatcher.annotation.DexEdit;
 import lanchon.dexpatcher.annotation.DexIgnore;
 import lanchon.dexpatcher.annotation.DexPrepend;
@@ -65,10 +65,13 @@ public class NotificationAccessService extends NotificationListenerService
     }
 
     @DexAdd
-    private List<StatusBarNotification> notificationsSent;
+    public Map<String, StatusBarNotification> notificationsSent;
 
     @DexIgnore
     private Transporter.DataListener h;
+
+    @DexAdd
+    private NotificationDataListener notificationDataListener;
 
     @DexWrap
     private void a() {
@@ -76,24 +79,42 @@ public class NotificationAccessService extends NotificationListenerService
             a = new NotificationAccessService.a(Looper.getMainLooper(), this);
         }
         if (this.e == null) {
-            this.e = com.huami.watch.companion.notification.NotificationManager.getManager((Context)this);
+            this.e = com.huami.watch.companion.notification.NotificationManager.getManager((Context) this);
         }
         if (this.f == null) {
             com.huami.watch.util.Log.i("Noti-Service", "Init!!", new Object[0]);
 
             boolean enableCustomNotifications = PreferenceManager.getBoolean(this, Constants.PREFERENCE_ENABLE_CUSTOM_NOTIFICATIONS, false);
             if (enableCustomNotifications) {
+                notificationDataListener = new NotificationDataListener(this);
+
                 this.f = Transporter.get(this, Constants.TRANSPORTER_MODULE_NOTIFICATIONS);
+                this.f.addDataListener(notificationDataListener);
             } else {
                 this.f = Transporter.get(this, "com.huami.action.notification");
                 this.f.addDataListener(this.h);
             }
         }
         if (this.g == null) {
-            this.g = MusicClientInterface.getInstance((Context)this);
+            this.g = MusicClientInterface.getInstance((Context) this);
             this.registerRemoteController();
             this.g.bindService(this.i);
         }
+    }
+
+    @DexWrap
+    private void a(StatusBarNotification statusBarNotification) {
+        if (statusBarNotification == null) {
+            return;
+        }
+
+        if (notificationsSent == null) {
+            notificationsSent = new HashMap<>();
+        }
+
+        notificationsSent.put(statusBarNotification.getKey(), statusBarNotification);
+
+        a(statusBarNotification);
     }
 
     @DexWrap
@@ -123,14 +144,13 @@ public class NotificationAccessService extends NotificationListenerService
     @DexAdd
     private boolean processNotificationPosted(StatusBarNotification statusBarNotification) {
         if (notificationsSent == null) {
-            notificationsSent = new ArrayList<>();
+            notificationsSent = new HashMap<>();
         }
 
         boolean notificationWillBeBlocked = NotificationManager.sharedInstance(this).notificationPosted(statusBarNotification);
 
         if (!notificationWillBeBlocked) {
             Log.d(Constants.TAG_NOTIFICATION_SERVICE, "posted: " + statusBarNotification.getKey());
-            notificationsSent.add(statusBarNotification);
         }
 
         return notificationWillBeBlocked;
@@ -142,27 +162,16 @@ public class NotificationAccessService extends NotificationListenerService
         if (PreferenceManager.getBoolean(this, Constants.PREFERENCE_DISABLE_NOTIFICATIONS_MOD, false)) {
             onNotificationRemoved(statusBarNotification);
         } else {
-
             if (notificationsSent == null) {
-                notificationsSent = new ArrayList<>();
+                notificationsSent = new HashMap<>();
             }
 
             String packageName = statusBarNotification.getPackageName();
             List<StatusBarNotification> notificationsRemain = new ArrayList<>();
 
-            for (StatusBarNotification statusBarNotificationSent : notificationsSent) {
-                if (statusBarNotificationSent.getPackageName().equals(packageName)) {
-                    Log.d(Constants.TAG_NOTIFICATION_SERVICE, "removed: " + statusBarNotificationSent.getKey());
 
-                    onNotificationRemoved(statusBarNotificationSent);
-                } else {
-                    Log.d(Constants.TAG_NOTIFICATION_SERVICE, "not removed: " + statusBarNotificationSent.getKey());
-
-                    notificationsRemain.add(statusBarNotificationSent);
-                }
-            }
-
-            notificationsSent = notificationsRemain;
+            notificationsSent.remove(statusBarNotification.getKey());
+            onNotificationRemoved(statusBarNotification);
         }
     }
 

@@ -32,7 +32,7 @@ dexpatcherConfig {
     apktool {
         //frameworkDirAsInput = 'framework'   // use framework in project subdirectory
         //frameworkTag = 'tag'
-        //apiLevel = 14
+        //apiLevel = 25
         //keepBrokenResources = true
         //stripDebugInfo = true
     }

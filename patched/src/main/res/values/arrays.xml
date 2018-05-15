@@ -84,4 +84,46 @@
         <item>2 hours</item>
         <item>4 hours</item>
     </string-array>
+    <string-array name="pref_amazmodservice_vibration_entries">
+        <item>100 ms</item>
+        <item>200 ms</item>
+        <item>300 ms</item>
+        <item>400 ms</item>
+        <item>500 ms</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_vibration_values">
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_screen_timeout_entries">
+        <item>3 s</item>
+        <item>5 s</item>
+        <item>7 s</item>
+        <item>10 s</item>
+        <item>12 s</item>
+        <item>15 s</item>
+        <item>20 s</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_screen_timeout_values">
+        <item>3000</item>
+        <item>5000</item>
+        <item>7000</item>
+        <item>10000</item>
+        <item>12000</item>
+        <item>15000</item>
+        <item>20000</item>
+    </string-array>
+    <string-array name="pref_watchfaces_store_type_entries">
+        <item>S.A.W.B. by fabio barbon</item>
+        <item>johnbnchitech</item>
+        <item>Huami</item>
+    </string-array>
+    <string-array name="pref_watchfaces_store_type_values">
+        <item>https://sawfb.fabiobarbon.click/</item>
+        <item>http://www.johnbnchitech.altervista.org/?page_id=934#1516309076204-0a801b7b-e041</item>
+        <item>huami</item>
+    </string-array>
 </resources>

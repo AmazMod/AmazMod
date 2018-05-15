@@ -19,7 +19,7 @@ buildscript {
 buildscript {
     repositories {
         // This is the local repo I use for plugin development, you should remove it:
-        flatDir dirs: '../../dexpatcher-gradle/build/libs'
+        //flatDir dirs: '../../dexpatcher-gradle/build/libs'
     }
 }
 

@@ -15,10 +15,13 @@ import android.widget.Toast;
 
 import com.edotasx.amazfit.Constants;
 import com.edotasx.amazfit.R;
+import com.edotasx.amazfit.nightscout.NightscoutData;
 import com.edotasx.amazfit.nightscout.NightscoutReceiver;
 import com.edotasx.amazfit.nightscout.NightscoutService;
 import com.edotasx.amazfit.preference.PreferenceManager;
 import com.edotasx.amazfit.service.BatteryStatsReceiver;
+import com.edotasx.amazfit.transport.TransportService;
+import com.huami.watch.transport.DataBundle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,13 @@ public class ModSettingsActivity extends PreferenceActivity implements SharedPre
     private List<String> prefRequireKillApp = new ArrayList<String>() {{
         add(Constants.PREFERENCE_ENABLE_RTL);
         add(Constants.PREFERENCE_DISABLE_BATTERY_CHART);
+    }};
+
+    private List<String> prefNeedWatchSync = new ArrayList<String>() {{
+        add(Constants.PREFERENCE_AMAZMODSERVICE_VIBRATION);
+        add(Constants.PREFERENCE_AMAZMODSERVICE_REPLIES);
+        add(Constants.PREFERENCE_AMAZMODSERVICE_ENABLE_REPLIES);
+        add(Constants.PREFERENCE_AMAZMODSERVICE_SCREEN_TIMEOUT);
     }};
 
     @Override
@@ -59,6 +69,10 @@ public class ModSettingsActivity extends PreferenceActivity implements SharedPre
         int index = prefRequireKillApp.indexOf(key);
         if (index > -1) {
             Toast.makeText(this, R.string.pref_require_kill_app, Toast.LENGTH_SHORT).show();
+        }
+
+        if (prefNeedWatchSync.indexOf(key) > -1) {
+            syncWatchSettings(sharedPreferences);
         }
 
         if (key.equals(Constants.PREFERENCE_DISABLE_CRASH_REPORTING)) {
@@ -127,5 +141,29 @@ public class ModSettingsActivity extends PreferenceActivity implements SharedPre
         } else {
             alarmManager.cancel(pendingIntent);
         }
+    }
+
+    private void syncWatchSettings(SharedPreferences sharedPreferences) {
+        DataBundle dataBundle = new DataBundle();
+
+        String repliesValue = sharedPreferences.getString(
+                Constants.PREFERENCE_AMAZMODSERVICE_REPLIES,
+                Constants.PREFERENCE_AMAZMODSERVICE_DEFAULT_REPLIES);
+        int screenTimeoutValue = Integer.valueOf(sharedPreferences.getString(
+                Constants.PREFERENCE_AMAZMODSERVICE_SCREEN_TIMEOUT,
+                String.valueOf(Constants.PREFERENCE_AMAZMODSERVICE_DEFAULT_SCREEN_TIMEOUT)));
+        int vibrationValue = Integer.valueOf(sharedPreferences.getString(
+                Constants.PREFERENCE_AMAZMODSERVICE_VIBRATION,
+                String.valueOf(Constants.PREFERENCE_AMAZMODSERVICE_DEFAULT_VIBRATION)));
+
+        dataBundle.putString("notificationReplies", repliesValue);
+        dataBundle.putInt("notificationVibration", vibrationValue);
+        dataBundle.putInt("notificationScreenTimeout", screenTimeoutValue);
+
+        TransportService
+                .sharedInstance(this)
+                .send(Constants.SETTINGS_SYNC_ACTION, dataBundle);
+
+        Toast.makeText(this, "Watch settings synced", Toast.LENGTH_SHORT).show();
     }
 }

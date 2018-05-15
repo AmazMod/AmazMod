@@ -2,12 +2,15 @@ package com.edotasx.amazfit.notification;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.RemoteInput;
 import android.util.Log;
 
 import com.edotasx.amazfit.Constants;
@@ -21,6 +24,7 @@ import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -144,5 +148,69 @@ public class NotificationManager {
     @DexAdd
     private String buildKey(StatusBarNotification statusBarNotification) {
         return statusBarNotification.getPackageName() + "|" + statusBarNotification.getPostTime();
+    }
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void replyToNotification(StatusBarNotification statusBarNotification, String message) {
+        //NotificationWear notificationWear = new NotificationWear();
+        //notificationWear.packageName = statusBarNotification.getPackageName();
+
+        Bundle localBundle = statusBarNotification.getNotification().extras;
+
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(statusBarNotification.getNotification());
+        List<NotificationCompat.Action> actions = wearableExtender.getActions();
+        for (NotificationCompat.Action act : actions) {
+            if (act != null && act.getRemoteInputs() != null) {
+                //notificationWear.remoteInputs.addAll(Arrays.asList(act.getRemoteInputs()));
+                Log.d(Constants.TAG_NOTIFICATION, "action: " + act.title);
+
+                for (RemoteInput remoteInput : act.getRemoteInputs()) {
+                    localBundle.putCharSequence(remoteInput.getResultKey(), message);
+                }
+
+                Intent localIntent = new Intent();
+                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                RemoteInput.addResultsToIntent(act.getRemoteInputs(), localIntent, localBundle);
+                try {
+                    act.actionIntent.send(context, 0, localIntent);
+                } catch (PendingIntent.CanceledException e) {
+                    Log.e(Constants.TAG_NOTIFICATION, "replyToLastNotification error: " + e.getLocalizedMessage());
+                }
+            }
+        }
+
+        //List<Notification> pages = wearableExtender.getPages();
+        //notificationWear.pages.addAll(pages);
+
+        //notificationWear.bundle = statusBarNotification.getNotification().extras;
+        //notificationWear.tag = statusBarNotification.getTag();//TODO find how to pass Tag with sending PendingIntent, might fix Hangout problem
+
+        //notificationWear.pendingIntent = statusBarNotification.getNotification().contentIntent;
+
+
+        //Log.d(Constants.TAG_NOTIFICATION, "notWear, remoteInputs: " + notificationWear.remoteInputs.size());
+
+        //RemoteInput[] remoteInputs = new RemoteInput[notificationWear.remoteInputs.size()];
+
+        /*
+        Intent localIntent = new Intent();
+        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Bundle localBundle = notificationWear.bundle;
+        int i = 0;
+        for (RemoteInput remoteIn : notificationWear.remoteInputs) {
+            //getDetailsOfNotification(remoteIn);
+            remoteInputs[i] = remoteIn;
+            localBundle.putCharSequence(remoteInputs[i].getResultKey(), message);//This work, apart from Hangouts as probably they need additional parameter (notification_tag?)
+            i++;
+        }
+
+        RemoteInput.addResultsToIntent(remoteInputs, localIntent, localBundle);
+        try {
+            notificationWear.pendingIntent.send(context, 0, localIntent);
+        } catch (PendingIntent.CanceledException e) {
+            Log.e(Constants.TAG_NOTIFICATION, "replyToLastNotification error: " + e.getLocalizedMessage());
+        }
+        */
     }
 }
