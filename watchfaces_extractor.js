@@ -42,7 +42,7 @@
             download(buildData(url, name, img));
         });
 
-    $(".wpb_wrapper").find("img").forEach(function () {
+    $(".wpb_wrapper").find("img").each(function () {
         var id = $(this).attr("class").split(" ")[1].split("-")[2];
         var img = $(this).attr("src");
         var wrapper = $(this).closest(".wpb_wrapper");

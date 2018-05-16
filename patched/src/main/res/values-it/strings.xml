@@ -1214,7 +1214,7 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="strava_syncing">Sincronizzazione in corso</string>
     <string name="content_update_available">Un nuovo aggiornamento è disponibile al download. Vai sulla pagina Facebook o sul sito web per scaricarlo.</string>
     <string name="changelog_end">App modificata da edotassi con i preziosi consigli di John BNC</string>
-    <string name="changelog_v_100">v1.0.0 - 11/02/2018</string>
+
     <string name="changelog_row_1"> - Gestione notifiche con ultimo messaggio da Whatsapp</string>
     <string name="changelog_row_2"> - Aggiunta UI sincronizzazione Strava</string>
     <string name="changelog_row_3"> - Compatibile sia con versione USA che Cinese</string>
@@ -1225,7 +1225,6 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_8"> - Aggiunto link donazioni</string>
     <string name="changelog_row_9"> - Aggiunta email</string>
 
-    <string name="changelog_v_200">v2.0.0 - 08/03/2018</string>
     <string name="changelog_row_10"> - Fix crash login su Oreo</string>
     <string name="changelog_row_11"> - Aggiunte notifiche singole sull\'orologio</string>
     <string name="changelog_row_12"> - Vengono eliminate le notifiche sull\'orologio (quasi tutte)</string>
@@ -1236,7 +1235,6 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_17"> - Aggiornata app base alla versione 2.2 cinese</string>
     <string name="changelog_row_18"> - Iniziate traduzioni in italiano</string>
 
-    <string name="changelog_v_210">v2.1.0 - 27/03/2018</string>
     <string name="changelog_row_19"> - Aggiornata app base alla versione 2.3 Cinese</string>
     <string name="changelog_row_20"> - Fix per il crash del StatusFragment</string>
     <string name="changelog_row_21"> - Aggiunte più opzioni nelle impostazioni delle notifiche</string>
@@ -1247,25 +1245,28 @@ politica sulla riservatezza e termini di servizio"</string>
     <string name="changelog_row_26"> - Fix del crash quando si disaccoppia l\'orologio</string>
     <string name="changelog_row_27"> - Rinominata l\'app in AmazMod</string>
 
-    <string name="changelog_v_300">v3.0.0 - 06/04/2018</string>
     <string name="changelog_row_28"> - Aggiunto grafico livello batteria</string>
     <string name="changelog_row_29"> - Fix notifiche</string>
 
-    <string name="changelog_v_400">v4.0.0 - 01/05/2018</string>
     <string name="changelog_row_30"> - Aggiungo lo store custom delle watchfaces (https://sawfb.fabiobarbon.click/)</string>
     <string name="changelog_row_31"> - Bug fixing</string>
     <string name="changelog_row_32"> - Aggiunte le traduzioni in Brasiliano Portoghese</string>
     <string name="changelog_row_33"> - Aggiunte le traduzioni parziali in Spagnolo</string>
 
-    <string name="changelog_v_415">v4.1.5 - 07/05/2018</string>
     <string name="changelog_row_34"> - Corretto crash quando è disponibile un aggiornamento</string>
     <string name="changelog_row_35"> - Corretto un bug nelle notifiche</string>
     <string name="changelog_row_36"> - Aggiunte traduzioni in Greco</string>
     <string name="changelog_row_37"> - Aggiornate le traduzioni in italiano</string>
 
     <string name="changelog_row_38"> - Ora la mappa google visualizza lo stile impostato correttamente</string> 
-    <string name="changelog_row_39"> - Corrette alcune traduzioni italiane</string> 
-    
+    <string name="changelog_row_39"> - Corrette alcune traduzioni italiane</string>
+
+    <string name="changelog_row_40"> - Aggiunto un\'altro store (johnbnc)</string>
+    <string name="changelog_row_41"> - Supporto per Android 8 Adaptive Icon</string>
+    <string name="changelog_row_42"> - Aggiornate le traduzioni Italiane</string>
+    <string name="changelog_row_43"> - Supporto iniziale per AmazModService</string>
+    <string name="changelog_row_44"> - Aggiunte le traduzioni in Polacco</string>
+
     <string name="read_all">Leggi tutto</string>
     <string name="read_less">Leggi meno</string>
     <string name="github_project">Progetto su Github</string>

@@ -91,8 +91,9 @@ dexpatcherConfig {
 }
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.1'
+    
+    compileSdkVersion 27
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         // The 'package' attribute in the patched app manifest must be different from the
@@ -104,8 +105,8 @@ android {
         // of the source app. (Data is displayed when the source apk library is built.)
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 100017
-        versionName "4.1.6"
+        versionCode 100018
+        versionName "4.2.0"
     }
 
     buildTypes {

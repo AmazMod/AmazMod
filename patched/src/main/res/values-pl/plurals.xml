@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="plural_days">
+        <item quantity="other">%d dni</item>
+        <item quantity="one">%d dzień</item>
+    </plurals>
+    <plurals name="plural_hours">
+        <item quantity="other">%d godz.</item>
+        <item quantity="one">%d godz.</item>
+    </plurals>
+</resources>

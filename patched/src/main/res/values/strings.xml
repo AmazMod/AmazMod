@@ -109,6 +109,13 @@
     <string name="changelog_row_38"> - Now the google map also works with other types of visualization</string>
     <string name="changelog_row_39"> - Fixed some Italian strings</string>
 
+    <string name="changelog_v_420">v4.2.0 - 15/05/2018</string>
+    <string name="changelog_row_40"> - Added another store among those available (johnbnc)</string>
+    <string name="changelog_row_41"> - Support Android 8 Adaptive Icon</string>
+    <string name="changelog_row_42"> - Updated Italian translations</string>
+    <string name="changelog_row_43"> - Initial support for AmazModService</string>
+    <string name="changelog_row_44"> - Added Polish translations</string>
+
     <string name="read_all">Read all</string>
     <string name="read_less">Read less</string>
     <string name="github_project">Github project</string>
@@ -141,7 +148,7 @@
     <string name="modded_by">Modded by</string>
     <string name="modded_by_list">\@edotasx</string>
     <string name="translations_by">Tests and translations:</string>
-    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@RoberPG17, \@caiorrs, \@esecamara, \@Saratoga79, \@pavelzeldin, \@Varius,  \@sleviz72, \@Octaviastikos, \@DANY_DANI, \@magiclb, \@jjng1, \@LBA97, \@Maddoctor</string>
+    <string name="translations_by_list">\@scarapunzi, \@John_Bnc, \@arne_king, \@RoberPG17, \@caiorrs, \@esecamara, \@Saratoga79, \@pavelzeldin, \@Varius,  \@sleviz72, \@Octaviastikos, \@DANY_DANI, \@magiclb, \@jjng1, \@LBA97, \@Maddoctor, \@Kaudii</string>
     <string name="tool_thanks">Nothing would have been possible without this fantastic tool:</string>
     <string name="rom_update_available_enable_ota_in_mod_settins">An OTA update is available for the rom, enable it in the mod settings</string>
 
