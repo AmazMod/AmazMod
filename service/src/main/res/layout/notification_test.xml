@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="64dp"
+    android:padding="10dp" >
+    <TextView
+        android:textSize="13dp"
+        android:textColor="#000"
+        android:text="Testing"
+        android:id="@+id/notification_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+    <TextView
+        android:textSize="13dp"
+        android:textColor="#000"
+        android:text="Testing is awecome"
+        android:id="@+id/notification_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/notification_title"
+        />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/notification_text"
+        android:layout_alignBottom="@+id/notification_text"
+        android:layout_centerHorizontal="true"
+        android:text="Button" />
+</RelativeLayout>

@@ -1,0 +1,104 @@
+[
+  {
+    "cells": [
+      {
+        "text": "Q"
+      },
+      {
+        "text": "W"
+      },
+      {
+        "text": "E"
+      },
+      {
+        "text": "R"
+      },
+      {
+        "text": "T"
+      },
+      {
+        "text": "Y"
+      },
+      {
+        "text": "U"
+      },
+      {
+        "text": "I"
+      },
+      {
+        "text": "O"
+      },
+      {
+        "text": "P"
+      }
+    ]
+  },
+  {
+    "cells": [
+      {
+        "text": "A"
+      },
+      {
+        "text": "S"
+      },
+      {
+        "text": "D"
+      },
+      {
+        "text": "F"
+      },
+      {
+        "text": "G"
+      },
+      {
+        "text": "H"
+      },
+      {
+        "text": "J"
+      },
+      {
+        "text": "K"
+      },
+      {
+        "text": "L"
+      }
+    ]
+  },
+  {
+    "cells": [
+      {
+        "text": "Z"
+      },
+      {
+        "text": "X"
+      },
+      {
+        "text": "C"
+      },
+      {
+        "text": "V"
+      },
+      {
+        "text": "B"
+      },
+      {
+        "text": "N"
+      },
+      {
+        "text": "M"
+      }
+    ]
+  },
+  {
+    "cells": [
+      {
+        "name": "del",
+        "text": "←"
+      },
+      {
+        "name": "space",
+        "text": " "
+      }
+    ]
+  }
+]

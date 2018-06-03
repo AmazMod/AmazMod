@@ -1,0 +1,57 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.jakewharton.butterknife'
+
+android {
+    buildToolsVersion '27.0.3'
+    compileSdkVersion 26
+
+    def versionPropsFile = file('version.properties')
+
+    if (versionPropsFile.canRead()) {
+        def Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def build = versionProps['VERSION_BUILD'].toInteger() + 1
+        def patch = versionProps['VERSION_PATCH'].toInteger()
+        def minor = versionProps['VERSION_MINOR'].toInteger()
+        def major = versionProps['VERSION_MAJOR'].toInteger()
+
+        versionProps['VERSION_BUILD']=build.toString()
+        versionProps.store(versionPropsFile.newWriter(), null)
+
+        defaultConfig {
+            applicationId "com.edotassi.amazmodcompanionservice"
+            minSdkVersion 21
+            targetSdkVersion 26
+            versionCode build
+            versionName "${major}.${minor}.${patch}_(${build})"
+            //setProperty("archivesBaseName", "AmazModService-$versionName")
+        }
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.android.support:design:26.0.2'
+    implementation 'com.android.support:appcompat-v7:26.0.2'
+    implementation 'com.mikepenz:iconics-core:3.0.3@aar'
+    implementation 'com.mikepenz:iconics-views:3.0.3@aar'
+    implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
+    implementation 'xiaofei.library:hermes-eventbus:0.3.0'
+    implementation 'com.github.marlonlom:timeago:3.0.2'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation files('libs/SpringboardPluginLib.jar')
+    implementation files('libs/huami_libs.jar')
+}
