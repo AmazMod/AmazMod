@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/l_card_bg"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20.0dip"
+            android:layout_height="20.0dip"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginStart="12.0dip"
+            android:layout_marginTop="10.0dip"
+            android:scaleType="fitCenter"
+            android:src="@drawable/battery"
+            android:layout_marginLeft="12.0dip" />
+
+        <TextView
+            android:id="@+id/link_facebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10.0dip"
+            android:text="@string/battery"
+            android:textSize="14.0sp"
+            android:textStyle="bold"
+            android:layout_marginLeft="10.0dip" />
+        <!--style="@style/Txt.Black"-->
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/battery_chart"
+        android:layout_width="match_parent"
+        android:layout_height="120.0dip" />
+</LinearLayout>
