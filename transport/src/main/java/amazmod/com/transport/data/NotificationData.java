@@ -1,15 +1,24 @@
-package com.edotassi.amazmodcompanionservice.notifications;
+package amazmod.com.transport.data;
 
-import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.edotassi.amazmodcompanionservice.transport.Transportable;
 import com.huami.watch.transport.DataBundle;
 
-public class NotificationSpec implements Transportable, Parcelable {
+import amazmod.com.transport.Transportable;
+
+public class NotificationData extends Transportable implements Parcelable {
 
     public static final String EXTRA = "notificationSpec";
+
+    private final String DATA_KEY = "key";
+    private final String DATA_ID = "id";
+    private final String DATA_TITLE = "title";
+    private final String DATA_TEXT = "text";
+    private final String DATA_ICON = "icon";
+    private final String DATA_ICON_WIDTH = "iconWidth";
+    private final String DATA_ICON_HEIGHT = "iconHeight";
 
     private String key;
     private int id;
@@ -22,10 +31,10 @@ public class NotificationSpec implements Transportable, Parcelable {
     private boolean isDeviceLocked;
     private int timeoutRelock;
 
-    public NotificationSpec() {
+    public NotificationData() {
     }
 
-    protected NotificationSpec(Parcel in) {
+    protected NotificationData(Parcel in) {
         key = in.readString();
         id = in.readInt();
         title = in.readString();
@@ -38,15 +47,15 @@ public class NotificationSpec implements Transportable, Parcelable {
         timeoutRelock = in.readInt();
     }
 
-    public static final Creator<NotificationSpec> CREATOR = new Creator<NotificationSpec>() {
+    public static final Parcelable.Creator<NotificationData> CREATOR = new Parcelable.Creator<NotificationData>() {
         @Override
-        public NotificationSpec createFromParcel(Parcel in) {
-            return new NotificationSpec(in);
+        public NotificationData createFromParcel(Parcel in) {
+            return new NotificationData(in);
         }
 
         @Override
-        public NotificationSpec[] newArray(int size) {
-            return new NotificationSpec[size];
+        public NotificationData[] newArray(int size) {
+            return new NotificationData[size];
         }
     };
 
@@ -131,11 +140,27 @@ public class NotificationSpec implements Transportable, Parcelable {
     }
 
     public void toDataBundle(DataBundle dataBundle) {
-
+        dataBundle.putString(DATA_KEY, key);
+        dataBundle.putInt(DATA_ID, id);
+        dataBundle.putString(DATA_TITLE, title);
+        dataBundle.putString(DATA_TEXT, text);
+        dataBundle.putIntArray(DATA_ICON, icon);
+        dataBundle.putInt(DATA_ICON_WIDTH, iconWidth);
+        dataBundle.putInt(DATA_ICON_HEIGHT, iconHeight);
     }
 
-    public static NotificationSpec fromDataBundle(DataBundle dataBundle) {
-        NotificationSpec notificationSpec = new NotificationSpec();
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA, this);
+        return bundle;
+    }
+
+    public static NotificationData fromBundle(Bundle bundle) {
+        return bundle.getParcelable(EXTRA);
+    }
+
+    public static NotificationData fromDataBundle(DataBundle dataBundle) {
+        NotificationData notificationData = new NotificationData();
 
         String title = dataBundle.getString("title");
         String text = dataBundle.getString("text");
@@ -145,15 +170,15 @@ public class NotificationSpec implements Transportable, Parcelable {
         int iconWidth = dataBundle.getInt("iconWidth");
         int iconHeight = dataBundle.getInt("iconHeight");
 
-        notificationSpec.setTitle(title);
-        notificationSpec.setText(text);
-        notificationSpec.setIcon(icon);
-        notificationSpec.setIconWidth(iconWidth);
-        notificationSpec.setIconHeight(iconHeight);
-        notificationSpec.setId(id);
-        notificationSpec.setKey(key);
+        notificationData.setTitle(title);
+        notificationData.setText(text);
+        notificationData.setIcon(icon);
+        notificationData.setIconWidth(iconWidth);
+        notificationData.setIconHeight(iconHeight);
+        notificationData.setId(id);
+        notificationData.setKey(key);
 
-        return notificationSpec;
+        return notificationData;
     }
 
     @Override

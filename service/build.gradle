@@ -3,7 +3,7 @@ apply plugin: 'com.jakewharton.butterknife'
 
 android {
     buildToolsVersion '27.0.3'
-    compileSdkVersion 26
+    compileSdkVersion 27
 
     def versionPropsFile = file('version.properties')
 
@@ -42,8 +42,10 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:design:26.0.2'
-    implementation 'com.android.support:appcompat-v7:26.0.2'
+    implementation project(":transport")
+
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.3@aar'
     implementation 'com.mikepenz:iconics-views:3.0.3@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
@@ -52,6 +54,6 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
-    implementation files('libs/SpringboardPluginLib.jar')
-    implementation files('libs/huami_libs.jar')
+    implementation files('../libs/SpringboardPluginLib.jar')
+    implementation files('../libs/huami_libs.jar')
 }

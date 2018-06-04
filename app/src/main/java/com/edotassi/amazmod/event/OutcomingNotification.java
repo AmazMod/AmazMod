@@ -1,6 +1,6 @@
 package com.edotassi.amazmod.event;
 
-import com.edotassi.amazmod.transport.payload.NotificationData;
+import amazmod.com.transport.data.NotificationData;
 
 public class OutcomingNotification {
 

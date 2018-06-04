@@ -8,13 +8,13 @@ import android.support.v4.app.NotificationCompat;
 
 import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.log.Logger;
-import com.edotassi.amazmod.transport.payload.NotificationData;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import amazmod.com.transport.data.NotificationData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationService extends NotificationListenerService {

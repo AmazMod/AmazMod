@@ -10,6 +10,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.edotassi.amazmodcompanionservice.ui.NotificationActivity;
 
+import amazmod.com.transport.data.NotificationData;
+
 import static android.content.Context.NOTIFICATION_SERVICE;
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -30,21 +32,22 @@ public class NotificationService {
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
     }
 
-    public void post(NotificationSpec notificationSpec) {
+    public void post(NotificationData notificationSpec) {
         postWithCustomUI(notificationSpec);
     }
 
-    private void postWithCustomUI(NotificationSpec notificationSpec) {
+    private void postWithCustomUI(NotificationData notificationSpec) {
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(NotificationSpecFactory.toBundle(notificationSpec));
+        intent.putExtras(notificationSpec.toBundle());
 
         context.startActivity(intent);
     }
 
+    /*
     private void postWithStandardUI(NotificationSpec notificationSpec) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
@@ -57,6 +60,7 @@ public class NotificationService {
         Notification notification = builder.build();
         notificationManager.notify(notificationSpec.getId(), notification);
     }
+    */
 
     /*
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)

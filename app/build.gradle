@@ -19,6 +19,7 @@ android {
 }
 
 dependencies {
+    implementation project(":transport")
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
@@ -27,8 +28,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation files('libs/huami_libs.jar')
-    implementation files('libs/SpringboardPluginLib.jar')
+    implementation files('../libs/huami_libs.jar')
+    implementation files('../libs/SpringboardPluginLib.jar')
 
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'xiaofei.library:hermes-eventbus:0.3.0'

@@ -2,11 +2,9 @@ package com.edotassi.amazmodcompanionservice;
 
 import android.app.Service;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.edotassi.amazmodcompanionservice.events.NightscoutDataEvent;
@@ -15,9 +13,8 @@ import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
 import com.edotassi.amazmodcompanionservice.events.inbound.InfoInboundEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
+import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationService;
-import com.edotassi.amazmodcompanionservice.notifications.NotificationSpec;
-import com.edotassi.amazmodcompanionservice.notifications.NotificationSpecFactory;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationsReceiver;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.util.DeviceUtil;
@@ -34,6 +31,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import amazmod.com.transport.Transport;
+import amazmod.com.transport.data.NotificationData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -52,8 +51,8 @@ public class MainService extends Service implements Transporter.ChannelListener,
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
         put(Constants.ACTION_SETTINGS_SYNC, SyncSettingsEvent.class);
-        put(Constants.ACTION_INBOUND_INFO, InfoInboundEvent.class);
-        put("incoming_notification", IncomingNotificationEvent.class);
+        put(Transport.ACTION_INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
+        put(Transport.ACTION_REQUEST_WATCHSTATUS, RequestWatchStatus.class);
     }};
 
     @Override
@@ -90,7 +89,7 @@ public class MainService extends Service implements Transporter.ChannelListener,
     }
 
     private void initTransporter() {
-        companionTransporter = TransporterClassic.get(this, Constants.TRANSPORTER_MODULE);
+        companionTransporter = TransporterClassic.get(this, Transport.NAME);
         companionTransporter.addChannelListener(this);
         companionTransporter.addServiceConnectionListener(this);
         companionTransporter.addDataListener(new Transporter.DataListener() {
@@ -178,26 +177,19 @@ public class MainService extends Service implements Transporter.ChannelListener,
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void inboundInfo(InfoInboundEvent event) {
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.putString("version", BuildConfig.VERSION_NAME);
+    public void incomingNotification(IncomingNotificationEvent incomingNotificationEvent) {
+        //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
+        NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
 
-        companionTransporter.send(Constants.ACTION_OUTBOUND_INFO, dataBundle);
+        notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
+        notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
+        notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(this));
+
+        notificationManager.post(notificationData);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void incomingNotification(IncomingNotificationEvent incomingNotificationEvent) {
-        //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
-        NotificationSpec notificationSpec = NotificationSpec.fromDataBundle(incomingNotificationEvent.getDataBundle());
+    public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
 
-        notificationSpec.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
-        notificationSpec.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
-        notificationSpec.setDeviceLocked(DeviceUtil.isDeviceLocked(this));
-
-        if (notificationSpec != null) {
-            notificationManager.post(notificationSpec);
-        } else {
-            //TODO warn about notification null
-        }
     }
 }

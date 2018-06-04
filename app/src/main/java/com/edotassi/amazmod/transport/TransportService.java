@@ -20,15 +20,11 @@ import com.huami.watch.transport.TransporterClassic;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import amazmod.com.transport.Transport;
+import amazmod.com.transport.Transportable;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class TransportService extends Service implements Transporter.DataListener {
-
-    private final String TRANSPORTER_NAME = "com.edotassi.amazmod";
-    private final String PAYLOAD_NAME = "payload";
-
-    private final String ACTION_INCOMING_NOTIFICATION = "incoming_notification";
-    private final String ACTION_REQUEST_WATCHSTATUS = "request_watchstatus";
 
     private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
@@ -40,7 +36,7 @@ public class TransportService extends Service implements Transporter.DataListene
 
         HermesEventBus.getDefault().register(this);
 
-        transporter = TransporterClassic.get(this, TRANSPORTER_NAME);
+        transporter = TransporterClassic.get(this, Transport.NAME);
         transporter.addDataListener(this);
 
         if (!transporter.isTransportServiceConnected()) {
@@ -65,6 +61,16 @@ public class TransportService extends Service implements Transporter.DataListene
         Logger.debug("[TransportService] action: %s", action);
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void incomingNotification(OutcomingNotification outcomingNotification) {
+        send(Transport.ACTION_INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
+        send(Transport.ACTION_REQUEST_WATCHSTATUS);
+    }
+
     private void send(String action) {
         send(action, null);
     }
@@ -77,32 +83,15 @@ public class TransportService extends Service implements Transporter.DataListene
         if (transportable != null) {
             DataBundle dataBundle = new DataBundle();
             transportable.toDataBundle(dataBundle);
-            //dataBundle.putParcelable(PAYLOAD_NAME, parcelable);
-
-            /*
-            Parcel parcel = Parcel.obtain();
-            parcelable.writeToParcel(parcel, 0);
-            */
 
             transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
-                    Logger.debug("Send result: %s", dataTransportResult.getResultCode());
                     Logger.debug("Send result: %s", dataTransportResult.toString());
                 }
             });
         } else {
             transporter.send(action);
         }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void outcomingNotification(OutcomingNotification outcomingNotification) {
-        send(ACTION_INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-        send(ACTION_REQUEST_WATCHSTATUS);
     }
 }

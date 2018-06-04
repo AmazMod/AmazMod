@@ -11,7 +11,8 @@ import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 
 import com.edotassi.amazmod.log.LoggerScoped;
-import com.edotassi.amazmod.transport.payload.NotificationData;
+
+import amazmod.com.transport.data.NotificationData;
 
 public class NotificationFactory {
 
