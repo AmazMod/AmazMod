@@ -8,22 +8,14 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.edotassi.amazmodcompanionservice.events.NightscoutDataEvent;
-import com.edotassi.amazmodcompanionservice.events.NightscoutRequestSyncEvent;
-import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
-import com.edotassi.amazmodcompanionservice.notifications.NotificationService;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationsReceiver;
-import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
-import com.edotassi.amazmodcompanionservice.util.DeviceUtil;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -31,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import amazmod.com.transport.Transport;
-import amazmod.com.transport.data.NotificationData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
@@ -42,10 +33,7 @@ public class MainService extends Service implements Transporter.ChannelListener,
 
     private Transporter companionTransporter;
 
-    private NotificationsReceiver notificationsReceiver;
-
-    private SettingsManager settingsManager;
-    private NotificationService notificationManager;
+    private MessagesListener messagesListener;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
@@ -58,12 +46,10 @@ public class MainService extends Service implements Transporter.ChannelListener,
     public void onCreate() {
         Log.d(Constants.TAG, "EventBus init");
 
-        HermesEventBus.getDefault().init(this);
-        HermesEventBus.getDefault().register(this);
+        messagesListener = new MessagesListener(this);
 
-        notificationManager = new NotificationService(this);
-        notificationsReceiver = new NotificationsReceiver();
-        settingsManager = new SettingsManager(this);
+        HermesEventBus.getDefault().init(this);
+        HermesEventBus.getDefault().register(messagesListener);
     }
 
     @Nullable
@@ -146,49 +132,5 @@ public class MainService extends Service implements Transporter.ChannelListener,
 
     @Override
     public void onServiceDisconnected(Transporter.ConnectionResult connectionResult) {
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void requestNightscoutSync(NightscoutRequestSyncEvent event) {
-        Log.d(Constants.TAG, "requested nightscout sync");
-        companionTransporter.send(Constants.ACTION_NIGHTSCOUT_SYNC, new DataBundle());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void settingsSync(SyncSettingsEvent event) {
-        Log.d(Constants.TAG, "sync settings");
-        Log.d(Constants.TAG, "vibration: " + event.getNotificationVibration());
-        Log.d(Constants.TAG, "timeout: " + event.getNotificationScreenTimeout());
-        Log.d(Constants.TAG, "replies: " + event.getNotificationCustomReplies());
-
-        settingsManager.sync(event);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void reply(ReplyNotificationEvent event) {
-        Log.d(Constants.TAG, "reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
-
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.putString("key", event.getKey());
-        dataBundle.putString("message", event.getMessage());
-
-        companionTransporter.send(Constants.ACTION_REPLY, dataBundle);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void incomingNotification(IncomingNotificationEvent incomingNotificationEvent) {
-        //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
-        NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
-
-        notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
-        notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
-        notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(this));
-
-        notificationManager.post(notificationData);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-
     }
 }

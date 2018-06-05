@@ -139,7 +139,8 @@ public class NotificationData extends Transportable implements Parcelable {
         this.iconHeight = iconHeight;
     }
 
-    public void toDataBundle(DataBundle dataBundle) {
+    @Override
+    public DataBundle toDataBundle(DataBundle dataBundle) {
         dataBundle.putString(DATA_KEY, key);
         dataBundle.putInt(DATA_ID, id);
         dataBundle.putString(DATA_TITLE, title);
@@ -147,6 +148,8 @@ public class NotificationData extends Transportable implements Parcelable {
         dataBundle.putIntArray(DATA_ICON, icon);
         dataBundle.putInt(DATA_ICON_WIDTH, iconWidth);
         dataBundle.putInt(DATA_ICON_HEIGHT, iconHeight);
+
+        return dataBundle;
     }
 
     public Bundle toBundle() {

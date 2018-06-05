@@ -16,6 +16,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     public static final String RO_PRODUCT_DEVICE = "ro.product.device";
     public static final String RO_PRODUCT_MANUFACTER = "ro.product.manufacter";
     public static final String RO_PRODUCT_MODEL = "ro.product.model";
+    public static final String RO_PRODUCT_NAME = "ro.product.name";
     public static final String RO_REVISION = "ro.revision";
     public static final String RO_SERIALNO = "ro.serialno";
     public static final String RO_BUILD_DATE = "ro.build.date";
@@ -37,6 +38,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     private String roBuildHuamiModel;
     private String roBuildHuamiNumber;
 
+    public WatchStatusData() {}
 
     protected WatchStatusData(Parcel in) {
         amazModServiceVersion = in.readString();
@@ -66,18 +68,21 @@ public class WatchStatusData extends Transportable implements Parcelable {
     };
 
     @Override
-    public void toDataBundle(DataBundle dataBundle) {
+    public DataBundle toDataBundle(DataBundle dataBundle) {
         dataBundle.putString(AMAZMOD_SERVICE_VERSION, amazModServiceVersion);
         dataBundle.putString(RO_PRODUCT_DEVICE, roProductDevice);
         dataBundle.putString(RO_PRODUCT_MANUFACTER, roProductManufacter);
         dataBundle.putString(RO_PRODUCT_MODEL, roProductModel);
+        dataBundle.putString(RO_PRODUCT_NAME, roProductName);
         dataBundle.putString(RO_REVISION, roRevision);
         dataBundle.putString(RO_SERIALNO, roSerialno);
         dataBundle.putString(RO_BUILD_DATE, roBuildDate);
         dataBundle.putString(RO_BUILD_DESCRIPTION, roBuildDescription);
         dataBundle.putString(RO_BUILD_DISPLAY_ID, roBuildDisplayId);
-        dataBundle.putString(RO_BUILD_HUAMI_MODEL, roBuildHuamiNumber);
+        dataBundle.putString(RO_BUILD_HUAMI_MODEL, roBuildHuamiModel);
         dataBundle.putString(RO_BUILD_HUAMI_NUMBER, roBuildHuamiNumber);
+
+        return dataBundle;
     }
 
     @Override
@@ -106,5 +111,101 @@ public class WatchStatusData extends Transportable implements Parcelable {
         dest.writeString(roBuildDisplayId);
         dest.writeString(roBuildHuamiModel);
         dest.writeString(roBuildHuamiNumber);
+    }
+
+    public String getAmazModServiceVersion() {
+        return amazModServiceVersion;
+    }
+
+    public void setAmazModServiceVersion(String amazModServiceVersion) {
+        this.amazModServiceVersion = amazModServiceVersion;
+    }
+
+    public String getRoProductDevice() {
+        return roProductDevice;
+    }
+
+    public void setRoProductDevice(String roProductDevice) {
+        this.roProductDevice = roProductDevice;
+    }
+
+    public String getRoProductManufacter() {
+        return roProductManufacter;
+    }
+
+    public void setRoProductManufacter(String roProductManufacter) {
+        this.roProductManufacter = roProductManufacter;
+    }
+
+    public String getRoProductModel() {
+        return roProductModel;
+    }
+
+    public void setRoProductModel(String roProductModel) {
+        this.roProductModel = roProductModel;
+    }
+
+    public String getRoProductName() {
+        return roProductName;
+    }
+
+    public void setRoProductName(String roProductName) {
+        this.roProductName = roProductName;
+    }
+
+    public String getRoRevision() {
+        return roRevision;
+    }
+
+    public void setRoRevision(String roRevision) {
+        this.roRevision = roRevision;
+    }
+
+    public String getRoSerialno() {
+        return roSerialno;
+    }
+
+    public void setRoSerialno(String roSerialno) {
+        this.roSerialno = roSerialno;
+    }
+
+    public String getRoBuildDate() {
+        return roBuildDate;
+    }
+
+    public void setRoBuildDate(String roBuildDate) {
+        this.roBuildDate = roBuildDate;
+    }
+
+    public String getRoBuildDescription() {
+        return roBuildDescription;
+    }
+
+    public void setRoBuildDescription(String roBuildDescription) {
+        this.roBuildDescription = roBuildDescription;
+    }
+
+    public String getRoBuildDisplayId() {
+        return roBuildDisplayId;
+    }
+
+    public void setRoBuildDisplayId(String roBuildDisplayId) {
+        this.roBuildDisplayId = roBuildDisplayId;
+    }
+
+    public String getRoBuildHuamiModel() {
+        return roBuildHuamiModel;
+    }
+
+    public void setRoBuildHuamiModel(String roBuildHuamiModel) {
+        this.roBuildHuamiModel = roBuildHuamiModel;
+    }
+
+    public String getRoBuildHuamiNumber() {
+        return roBuildHuamiNumber;
+    }
+
+    public void setRoBuildHuamiNumber(String roBuildHuamiNumber) {
+        this.roBuildHuamiNumber = roBuildHuamiNumber;
     }
 }
