@@ -15,6 +15,10 @@ public class Logger {
         com.orhanobut.logger.Logger.d(message, args);
     }
 
+    public static void warn(String message, Object... args) {
+        com.orhanobut.logger.Logger.w(message, args);
+    }
+
     public static void error(Throwable throwable, String message, Object... args) {
         com.orhanobut.logger.Logger.e(throwable, message, args);
     }

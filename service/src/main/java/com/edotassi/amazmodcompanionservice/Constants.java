@@ -12,7 +12,6 @@ public class Constants {
     public static final String PACKAGE_NAME = "com.edotassi.amazmodcompanionservice";
 
     public static final String ACTION_NIGHTSCOUT_SYNC = "nightscout_sync";
-    public static final String ACTION_SETTINGS_SYNC = "settings_sync";
 
     public static final String ACTION_REPLY = "reply";
 

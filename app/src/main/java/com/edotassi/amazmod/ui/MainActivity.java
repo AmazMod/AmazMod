@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -18,23 +19,38 @@ import android.widget.Toast;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.RequestWatchStatus;
+import com.edotassi.amazmod.event.WatchStatus;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
+import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import amazmod.com.transport.data.WatchStatusData;
+import butterknife.ButterKnife;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, Transporter.ChannelListener, Transporter.ServiceConnectionListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +59,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -52,6 +69,9 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        HermesEventBus.getDefault().register(this);
+        HermesEventBus.getDefault().post(new RequestWatchStatus());
     }
 
     @Override
@@ -66,19 +86,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -90,54 +105,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_send) {
-            HermesEventBus.getDefault().post(new RequestWatchStatus());
-        }
+        //int id = item.getItemId();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    @Override
-    public void onChannelChanged(boolean b) {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, "Channel changed", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWatchStatus(WatchStatus watchStatus) {
+        WatchStatusData watchStatusData = WatchStatusData.fromDataBundle(watchStatus.getDataBundle());
 
-    @Override
-    public void onServiceConnected(Bundle bundle) {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, "Service connected", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onServiceConnectionFailed(Transporter.ConnectionResult connectionResult) {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, "Service connection failed", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onServiceDisconnected(Transporter.ConnectionResult connectionResult) {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(MainActivity.this, "Service disconnected", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Toast.makeText(this, watchStatusData.getRoBuildDisplayId(), Toast.LENGTH_SHORT).show();
     }
 }

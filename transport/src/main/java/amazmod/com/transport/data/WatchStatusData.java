@@ -10,7 +10,7 @@ import amazmod.com.transport.Transportable;
 
 public class WatchStatusData extends Transportable implements Parcelable {
 
-    private final String EXTRA = "watchStatus";
+    private static final String EXTRA = "watchStatus";
 
     public static final String AMAZMOD_SERVICE_VERSION = "AmazModServiceVersion";
     public static final String RO_PRODUCT_DEVICE = "ro.product.device";
@@ -95,6 +95,30 @@ public class WatchStatusData extends Transportable implements Parcelable {
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA, this);
         return bundle;
+    }
+
+    public static WatchStatusData fromBundle(Bundle bundle) {
+        return bundle.getParcelable(EXTRA);
+    }
+
+    public static WatchStatusData fromDataBundle(DataBundle dataBundle) {
+        WatchStatusData watchStatusData = new WatchStatusData();
+
+        watchStatusData.setRoBuildFingerprint(dataBundle.getString(RO_BUILD_FINGERPRINT));
+        watchStatusData.setRoSerialno(dataBundle.getString(RO_SERIALNO));
+        watchStatusData.setRoRevision(dataBundle.getString(RO_REVISION));
+        watchStatusData.setRoProductName(dataBundle.getString(RO_PRODUCT_NAME));
+        watchStatusData.setRoProductModel(dataBundle.getString(RO_PRODUCT_MODEL));
+        watchStatusData.setRoProductManufacter(dataBundle.getString(RO_PRODUCT_MANUFACTER));
+        watchStatusData.setRoProductDevice(dataBundle.getString(RO_PRODUCT_DEVICE));
+        watchStatusData.setRoBuildHuamiNumber(dataBundle.getString(RO_BUILD_HUAMI_NUMBER));
+        watchStatusData.setRoBuildHuamiModel(dataBundle.getString(RO_BUILD_HUAMI_MODEL));
+        watchStatusData.setRoBuildDisplayId(dataBundle.getString(RO_BUILD_DISPLAY_ID));
+        watchStatusData.setAmazModServiceVersion(dataBundle.getString(AMAZMOD_SERVICE_VERSION));
+        watchStatusData.setRoBuildDate(dataBundle.getString(RO_BUILD_DATE));
+        watchStatusData.setRoBuildDescription(dataBundle.getString(RO_BUILD_DESCRIPTION));
+
+        return watchStatusData;
     }
 
     @Override
