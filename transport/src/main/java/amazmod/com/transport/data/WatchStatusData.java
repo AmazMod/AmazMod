@@ -24,6 +24,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     public static final String RO_BUILD_DISPLAY_ID = "ro.build.display.id";
     public static final String RO_BUILD_HUAMI_MODEL = "ro.build.huami.model";
     public static final String RO_BUILD_HUAMI_NUMBER = "ro.build.huami.number";
+    public static final String RO_BUILD_FINGERPRINT = "ro.build.fingerprint";
 
     private String amazModServiceVersion;
     private String roProductDevice;
@@ -37,8 +38,10 @@ public class WatchStatusData extends Transportable implements Parcelable {
     private String roBuildDisplayId;
     private String roBuildHuamiModel;
     private String roBuildHuamiNumber;
+    private String roBuildFingerprint;
 
-    public WatchStatusData() {}
+    public WatchStatusData() {
+    }
 
     protected WatchStatusData(Parcel in) {
         amazModServiceVersion = in.readString();
@@ -53,6 +56,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
         roBuildDisplayId = in.readString();
         roBuildHuamiModel = in.readString();
         roBuildHuamiNumber = in.readString();
+        roBuildFingerprint = in.readString();
     }
 
     public static final Creator<WatchStatusData> CREATOR = new Creator<WatchStatusData>() {
@@ -81,6 +85,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
         dataBundle.putString(RO_BUILD_DISPLAY_ID, roBuildDisplayId);
         dataBundle.putString(RO_BUILD_HUAMI_MODEL, roBuildHuamiModel);
         dataBundle.putString(RO_BUILD_HUAMI_NUMBER, roBuildHuamiNumber);
+        dataBundle.putString(RO_BUILD_FINGERPRINT, roBuildFingerprint);
 
         return dataBundle;
     }
@@ -111,6 +116,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
         dest.writeString(roBuildDisplayId);
         dest.writeString(roBuildHuamiModel);
         dest.writeString(roBuildHuamiNumber);
+        dest.writeString(roBuildFingerprint);
     }
 
     public String getAmazModServiceVersion() {
@@ -207,5 +213,13 @@ public class WatchStatusData extends Transportable implements Parcelable {
 
     public void setRoBuildHuamiNumber(String roBuildHuamiNumber) {
         this.roBuildHuamiNumber = roBuildHuamiNumber;
+    }
+
+    public String getRoBuildFingerprint() {
+        return roBuildFingerprint;
+    }
+
+    public void setRoBuildFingerprint(String roBuildFingerprint) {
+        this.roBuildFingerprint = roBuildFingerprint;
     }
 }

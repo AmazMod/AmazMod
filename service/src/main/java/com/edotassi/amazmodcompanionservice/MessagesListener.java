@@ -97,6 +97,7 @@ public class MessagesListener {
         watchStatusData.setRoProductName(SystemProperties.get(WatchStatusData.RO_PRODUCT_NAME, "-"));
         watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
+        watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
 
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
