@@ -11,7 +11,6 @@ import com.edotassi.amazmodcompanionservice.events.NightscoutDataEvent;
 import com.edotassi.amazmodcompanionservice.events.NightscoutRequestSyncEvent;
 import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
-import com.edotassi.amazmodcompanionservice.events.inbound.InfoInboundEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationService;

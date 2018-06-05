@@ -20,13 +20,13 @@ import com.edotassi.amazmodcompanionservice.Constants;
 import com.edotassi.amazmodcompanionservice.R;
 import com.edotassi.amazmodcompanionservice.R2;
 import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
-import com.edotassi.amazmodcompanionservice.notifications.NotificationSpec;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.support.ActivityFinishRunnable;
 
 import java.util.Arrays;
 import java.util.List;
 
+import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -46,7 +46,7 @@ public class NotificationActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private NotificationSpec notificationSpec;
+    private NotificationData notificationSpec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +61,7 @@ public class NotificationActivity extends Activity {
 
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
-
-        notificationSpec = intent.getExtras().getParcelable(NotificationSpec.EXTRA);
+        notificationSpec = NotificationData.fromBundle(getIntent().getExtras());
 
         title.setText(notificationSpec.getTitle());
         text.setText(notificationSpec.getText());
