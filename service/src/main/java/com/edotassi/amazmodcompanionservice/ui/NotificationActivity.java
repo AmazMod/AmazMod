@@ -61,7 +61,7 @@ public class NotificationActivity extends Activity {
 
         ButterKnife.bind(this);
 
-        notificationSpec = NotificationData.fromBundle(getIntent().getExtras());
+        notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
         title.setText(notificationSpec.getTitle());
         text.setText(notificationSpec.getText());
