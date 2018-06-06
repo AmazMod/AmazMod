@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.Constants;
@@ -30,13 +31,39 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import amazmod.com.transport.data.WatchStatusData;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    @BindView(R.id.card_amazmodservice)
+    TextView amazModService;
+    @BindView(R.id.card_product_device)
+    TextView productDevice;
+    @BindView(R.id.card_product_manufacter)
+    TextView productManufacter;
+    @BindView(R.id.card_product_model)
+    TextView productModel;
+    @BindView(R.id.card_product_name)
+    TextView productName;
+    @BindView(R.id.card_revision)
+    TextView revision;
+    @BindView(R.id.card_serialno)
+    TextView serialNo;
+    @BindView(R.id.card_build_date)
+    TextView buildDate;
+    @BindView(R.id.card_build_description)
+    TextView buildDescription;
+    @BindView(R.id.card_display_id)
+    TextView displayId;
+    @BindView(R.id.card_huami_model)
+    TextView huamiModel;
+    @BindView(R.id.card_huami_number)
+    TextView huamiNumber;
+    @BindView(R.id.card_build_fingerprint)
+    TextView fingerprint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +98,20 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         HermesEventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
         HermesEventBus.getDefault().post(new RequestWatchStatus());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        resetWatchStatus();
     }
 
     @Override
@@ -116,6 +156,34 @@ public class MainActivity extends AppCompatActivity
     public void onWatchStatus(WatchStatus watchStatus) {
         WatchStatusData watchStatusData = WatchStatusData.fromDataBundle(watchStatus.getDataBundle());
 
-        Toast.makeText(this, watchStatusData.getRoBuildDisplayId(), Toast.LENGTH_SHORT).show();
+        amazModService.setText(watchStatusData.getAmazModServiceVersion());
+        productDevice.setText(watchStatusData.getRoProductDevice());
+        productManufacter.setText(watchStatusData.getRoProductManufacter());
+        productModel.setText(watchStatusData.getRoProductModel());
+        productName.setText(watchStatusData.getRoProductName());
+        revision.setText(watchStatusData.getRoRevision());
+        serialNo.setText(watchStatusData.getRoSerialno());
+        buildDate.setText(watchStatusData.getRoBuildDate());
+        buildDescription.setText(watchStatusData.getRoBuildDescription());
+        displayId.setText(watchStatusData.getRoBuildDisplayId());
+        huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
+        huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
+        fingerprint.setText(watchStatusData.getRoBuildFingerprint());
+    }
+
+    private void resetWatchStatus() {
+        amazModService.setText("-");
+        productDevice.setText("-");
+        productManufacter.setText("-");
+        productModel.setText("-");
+        productName.setText("-");
+        revision.setText("-");
+        serialNo.setText("-");
+        buildDate.setText("-");
+        buildDescription.setText("-");
+        displayId.setText("-");
+        huamiModel.setText("-");
+        huamiNumber.setText("-");
+        fingerprint.setText("-");
     }
 }
