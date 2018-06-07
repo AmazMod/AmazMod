@@ -10,6 +10,7 @@ import android.util.Log;
 import com.edotassi.amazmodcompanionservice.events.NightscoutDataEvent;
 import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
+import com.edotassi.amazmodcompanionservice.events.incoming.RequestBatteryStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.TransportDataItem;
@@ -39,6 +40,7 @@ public class MainService extends Service implements Transporter.ChannelListener,
         put(Transport.SYNC_SETTINGS, SyncSettingsEvent.class);
         put(Transport.INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
         put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
+        put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
     }};
 
     @Override
