@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.edotassi.amazmod">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:name=".AmazModApplication"
         android:allowBackup="true"
@@ -30,7 +32,9 @@
         </service>
 
         <service android:name=".transport.TransportService"></service>
+        <service android:name="xiaofei.library.hermes.HermesService$HermesService0"/>
 
+        <receiver android:name=".receiver.BatteryStatusReceiver"></receiver>
         <receiver
             android:name=".boot.BootBroadcastReceiver"
             android:enabled="true"
@@ -40,7 +44,6 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="android.intent.action.REBOOT" />
                 <action android:name="android.intent.action.USER_PRESENT" />
-
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>

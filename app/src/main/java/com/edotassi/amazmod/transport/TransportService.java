@@ -5,8 +5,14 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.util.Pair;
 
+import com.edotassi.amazmod.Constants;
+import com.edotassi.amazmod.db.model.BatteryStatusEntity;
+import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
+import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.OutcomingNotification;
+import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.log.Logger;
@@ -16,6 +22,8 @@ import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -27,6 +35,7 @@ import java.util.Map;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
+import amazmod.com.transport.data.BatteryData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class TransportService extends Service implements Transporter.DataListener {
@@ -36,6 +45,7 @@ public class TransportService extends Service implements Transporter.DataListene
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
+        put(Transport.BATTERY_STATUS, BatteryStatus.class);
     }};
 
     @Override
@@ -43,6 +53,7 @@ public class TransportService extends Service implements Transporter.DataListene
         this.logger.debug("created");
         super.onCreate();
 
+        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
         HermesEventBus.getDefault().register(this);
 
         transporter = TransporterClassic.get(this, Transport.NAME);
@@ -78,6 +89,7 @@ public class TransportService extends Service implements Transporter.DataListene
             try {
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
                 Object event = eventContructor.newInstance(transportDataItem.getData());
+
                 HermesEventBus.getDefault().post(event);
             } catch (NoSuchMethodException e) {
                 Logger.warn("event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
@@ -104,6 +116,43 @@ public class TransportService extends Service implements Transporter.DataListene
         send(Transport.REQUEST_WATCHSTATUS);
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
+        send(Transport.REQUEST_BATTERYSTATUS);
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void batteryStatus(BatteryStatus batteryStatus) {
+        BatteryData batteryData = batteryStatus.getBatteryData();
+        logger.debug("batteryStatus: " + batteryData.getLevel());
+        logger.debug("charging: " + batteryData.isCharging());
+        logger.debug("usb: " + batteryData.isUsbCharge());
+        logger.debug("ac: " + batteryData.isAcCharge());
+
+        long date = System.currentTimeMillis();
+
+        BatteryStatusEntity batteryStatusEntity = new BatteryStatusEntity();
+        batteryStatusEntity.setAcCharge(batteryData.isAcCharge());
+        batteryStatusEntity.setCharging(batteryData.isCharging());
+        batteryStatusEntity.setDate(date);
+        batteryStatusEntity.setLevel(batteryData.getLevel());
+
+        try {
+            BatteryStatusEntity storeBatteryStatusEntity = SQLite
+                    .select()
+                    .from(BatteryStatusEntity.class)
+                    .where(BatteryStatusEntity_Table.date.is(date))
+                    .querySingle();
+
+            if (storeBatteryStatusEntity == null) {
+                FlowManager.getModelAdapter(BatteryStatusEntity.class).insert(batteryStatusEntity);
+            }
+        } catch (Exception ex) {
+            //TODO add crashlitics
+            Logger.error(ex, "");
+        }
+    }
+
     private void send(String action) {
         send(action, null);
     }
@@ -124,7 +173,12 @@ public class TransportService extends Service implements Transporter.DataListene
                 }
             });
         } else {
-            transporter.send(action);
+            transporter.send(action, new Transporter.DataSendResultCallback() {
+                @Override
+                public void onResultBack(DataTransportResult dataTransportResult) {
+                    Logger.debug("Send result: %s", dataTransportResult.toString());
+                }
+            });
         }
     }
 }

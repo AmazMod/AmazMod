@@ -2,15 +2,17 @@ package com.edotassi.amazmod.event;
 
 import com.huami.watch.transport.DataBundle;
 
+import amazmod.com.transport.data.WatchStatusData;
+
 public class WatchStatus {
 
-    private DataBundle dataBundle;
+    private WatchStatusData watchStatusData;
 
     public WatchStatus(DataBundle dataBundle) {
-        this.dataBundle = dataBundle;
+        this.watchStatusData = WatchStatusData.fromDataBundle(dataBundle);
     }
 
-    public DataBundle getDataBundle() {
-        return dataBundle;
+    public WatchStatusData getWatchStatusData() {
+        return watchStatusData;
     }
 }

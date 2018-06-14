@@ -10,6 +10,7 @@ import com.edotassi.amazmodcompanionservice.events.NightscoutRequestSyncEvent;
 import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
+import com.edotassi.amazmodcompanionservice.events.incoming.RequestBatteryStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationService;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
@@ -107,7 +108,7 @@ public class MessagesListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void requestBatteryStatus() {
+    public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
         BatteryData batteryData = new BatteryData();
 
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);

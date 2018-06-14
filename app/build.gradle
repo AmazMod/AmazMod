@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "amazmod.com.amazmodphoenix"
+        applicationId "com.edotassi.amazmod"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -17,6 +17,9 @@ android {
         }
     }
 }
+
+//apply plugin: 'kotlin-kapt' // required for kotlin.
+def dbflow_version = "4.2.4"
 
 dependencies {
     implementation project(":transport")
@@ -40,4 +43,11 @@ dependencies {
 
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    //kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
 }
