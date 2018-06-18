@@ -6,10 +6,14 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
 
+import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
+import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +45,12 @@ public class NotificationService extends NotificationListenerService {
         if (notificationTimeGone == null) {
             notificationTimeGone = new HashMap<>();
         }
+        String notificationPackage = statusBarNotification.getPackageName();
         String notificationId = statusBarNotification.getKey();
+
+        if (!isPackageAllowed(notificationPackage)) {
+            return returnFilterResult(BLOCK);
+        }
 
         Notification notification = statusBarNotification.getNotification();
 
@@ -91,6 +100,15 @@ public class NotificationService extends NotificationListenerService {
             Logger.debug("notification allowed");
             return returnFilterResult(CONTINUE);
         }
+    }
+
+    private boolean isPackageAllowed(String packageName) {
+        String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+        Gson gson = new Gson();
+
+        String[] packagesList = gson.fromJson(packagesJson, String[].class);
+
+        return Arrays.binarySearch(packagesList, packageName) >= 0;
     }
 
     private boolean returnFilterResult(boolean result) {

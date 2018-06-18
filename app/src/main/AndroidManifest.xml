@@ -7,9 +7,9 @@
     <application
         android:name=".AmazModApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -22,6 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.NotificationPackagesSelectorActivity"/>
+        <activity android:name=".ui.SettingsActivity"/>
 
         <service android:name="com.edotassi.amazmod.notification.NotificationService"
             android:label="@string/notifications_service_name"
@@ -31,10 +33,10 @@
             </intent-filter>
         </service>
 
-        <service android:name=".transport.TransportService"></service>
+        <service android:name=".transport.TransportService"/>
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0"/>
 
-        <receiver android:name=".receiver.BatteryStatusReceiver"></receiver>
+        <receiver android:name=".receiver.BatteryStatusReceiver"/>
         <receiver
             android:name=".boot.BootBroadcastReceiver"
             android:enabled="true"

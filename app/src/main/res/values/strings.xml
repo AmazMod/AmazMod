@@ -8,6 +8,18 @@
 
     <string name="pref_disable_notifications_summary">Disable notifications</string>
     <string name="pref_disable_notifications">Disable all notifications in AmazMod</string>
+    <string name="pref_filter_notifications_by_packages">Filter by apps</string>
+    <string name="pref_filter_notifications_by_packages_summary">Filter by apps summary</string>
+    <string name="pref_disable_battery_chart">Disable battery chart</string>
+    <string name="pref_disable_battery_chart_summary">Disable battery chart summary</string>
+    <string name="pref_battery_background_sync_interval">Background sync interval</string>
+    <string name="pref_battery_background_sync_interval_summary">Background sync interval summary</string>
+    <string name="pref_battery_chart_time_interval">Chart time interval</string>
+    <string name="pref_battery_chart_time_interval_summary">Chart time interval summary</string>
+    <string name="pref_notifications_replies_summary">Enter custom replies separated by a comma</string>
+    <string name="pref_notifications_replies">Notifications replies</string>
+    <string name="pref_disable_notifications_replies_summary">Disable notifications replies summary</string>
+    <string name="pref_disable_notifications_replies">Disable notifications replies</string>
 
     <string name="notifications_service_name">AmazModNotificationsService</string>
 </resources>
