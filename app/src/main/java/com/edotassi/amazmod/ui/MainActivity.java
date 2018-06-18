@@ -12,9 +12,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
@@ -43,16 +46,22 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.ObjectStreamClass;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
@@ -87,6 +96,15 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.battery_chart)
     LineChart chart;
 
+    @BindView(R.id.card_battery)
+    CardView batteryCard;
+    @BindView(R.id.card_watch)
+    CardView watchCard;
+    @BindView(R.id.card_watch_progress)
+    MaterialProgressBar watchProgress;
+    @BindView(R.id.card_watch_detail)
+    LinearLayout watchDetail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
@@ -98,17 +116,6 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        */
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -126,7 +133,17 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        HermesEventBus.getDefault().post(new RequestWatchStatus());
+        watchDetail.setVisibility(View.GONE);
+        watchProgress.setVisibility(View.VISIBLE);
+
+        Flowable
+                .timer(3000, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        HermesEventBus.getDefault().post(new RequestWatchStatus());
+                    }
+                });
 
         updateChart();
     }
@@ -164,7 +181,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @OnClick(R.id.refresh_battery)
     public void onBatteryRefreshClick() {
         boolean isReg = HermesEventBus.getDefault().isRegistered(new RequestBatteryStatus());
         HermesEventBus.getDefault().post(new RequestBatteryStatus());
@@ -187,6 +203,9 @@ public class MainActivity extends AppCompatActivity
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
         huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
         fingerprint.setText(watchStatusData.getRoBuildFingerprint());
+
+        watchProgress.setVisibility(View.GONE);
+        watchDetail.setVisibility(View.VISIBLE);
     }
 
     private void resetWatchStatus() {

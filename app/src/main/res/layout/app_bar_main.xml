@@ -22,83 +22,90 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            tools:context="com.edotassi.amazmod.ui.MainActivity"
+            tools:layout_editor_absoluteY="81dp"
+            tools:showIn="@layout/app_bar_main">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_battery"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                tools:context="com.edotassi.amazmod.ui.MainActivity"
-                tools:layout_editor_absoluteY="81dp"
-                tools:showIn="@layout/app_bar_main">
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/guideline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.026041666" />
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/battery_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="106dp" />
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/guideline2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_end="10dp" />
+            </android.support.v7.widget.CardView>
 
-                <android.support.constraint.Guideline
-                    android:id="@+id/guideline3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layout_constraintGuide_begin="10dp" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/card_watch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:minHeight="350dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/card_battery">
 
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/cardViewBatteryChart"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardElevation="4dp"
-                    card_view:layout_constraintEnd_toStartOf="@+id/guideline2"
-                    card_view:layout_constraintStart_toStartOf="@+id/guideline"
-                    card_view:layout_constraintTop_toTopOf="@+id/guideline3">
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:minHeight="350dp">
 
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/battery_chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="106dp" />
-                </android.support.v7.widget.CardView>
-
-                <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/cardView"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    card_view:cardCornerRadius="4dp"
-                    card_view:cardElevation="4dp"
-                    card_view:layout_constraintEnd_toStartOf="@+id/guideline2"
-                    card_view:layout_constraintLeft_toRightOf="@+id/guideline"
-                    card_view:layout_constraintStart_toStartOf="@+id/guideline"
-                    card_view:layout_constraintTop_toBottomOf="@+id/cardViewBatteryChart">
+                    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                        android:id="@+id/card_watch_progress"
+                        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:indeterminate="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:mpb_progressStyle="circular" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:id="@+id/card_watch_detail"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:orientation="vertical"
-                        android:padding="4dp">
+                        android:padding="8dp"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/textView6"
@@ -295,19 +302,12 @@
                             android:text="-"
                             android:textStyle="bold" />
 
-                        <Button
-                            android:id="@+id/refresh_battery"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Refresh battery" />
-
                     </LinearLayout>
+                </android.support.constraint.ConstraintLayout>
 
-                </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
 
-            </android.support.constraint.ConstraintLayout>
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

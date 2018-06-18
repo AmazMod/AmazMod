@@ -6,6 +6,7 @@ import android.content.Intent;
 
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.event.BatteryStatus;
+import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.log.LoggerScoped;
@@ -19,6 +20,6 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         LoggerScoped.get(BatteryStatusReceiver.class).debug("started");
 
         HermesEventBus.getDefault().connectApp(context, Constants.PACKAGE);
-        HermesEventBus.getDefault().post(new RequestWatchStatus());
+        HermesEventBus.getDefault().post(new RequestBatteryStatus());
     }
 }
