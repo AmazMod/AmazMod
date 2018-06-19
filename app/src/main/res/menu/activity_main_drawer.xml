@@ -6,7 +6,10 @@
     <item
         android:id="@+id/nav_settings"
         android:icon="@drawable/settings"
-        android:title="Settings" />
+        android:title="@string/settings" />
 
-
+    <item
+        android:id="@+id/nav_abount"
+        android:icon="@drawable/outline_info_black_36"
+        android:title="@string/about" />
 </menu>

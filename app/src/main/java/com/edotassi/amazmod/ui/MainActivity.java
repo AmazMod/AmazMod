@@ -151,8 +151,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPause() {
         super.onPause();
-
-        //resetWatchStatus();
     }
 
     @Override
@@ -178,12 +176,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
         }
 
-        return true;
-    }
+        if (id == R.id.nav_abount) {
+            startActivity(new Intent(this, AboutActivity.class));
+        }
 
-    public void onBatteryRefreshClick() {
-        boolean isReg = HermesEventBus.getDefault().isRegistered(new RequestBatteryStatus());
-        HermesEventBus.getDefault().post(new RequestBatteryStatus());
+        return true;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

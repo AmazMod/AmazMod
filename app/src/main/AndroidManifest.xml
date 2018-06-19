@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".ui.NotificationPackagesSelectorActivity"/>
         <activity android:name=".ui.SettingsActivity"/>
+        <activity android:name=".ui.AboutActivity"/>
 
         <service android:name="com.edotassi.amazmod.notification.NotificationService"
             android:label="@string/notifications_service_name"
