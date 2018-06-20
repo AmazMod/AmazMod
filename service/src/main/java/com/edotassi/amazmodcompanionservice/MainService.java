@@ -8,10 +8,11 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.edotassi.amazmodcompanionservice.events.NightscoutDataEvent;
-import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
+import com.edotassi.amazmodcompanionservice.events.incoming.Brightness;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestBatteryStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
+import com.edotassi.amazmodcompanionservice.events.incoming.SyncSettings;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
@@ -37,10 +38,11 @@ public class MainService extends Service implements Transporter.ChannelListener,
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
-        put(Transport.SYNC_SETTINGS, SyncSettingsEvent.class);
+        put(Transport.SYNC_SETTINGS, SyncSettings.class);
         put(Transport.INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
         put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
         put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
+        put(Transport.BRIGHTNESS, Brightness.class);
     }};
 
     @Override

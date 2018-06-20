@@ -9,6 +9,11 @@
         android:title="@string/settings" />
 
     <item
+        android:id="@+id/nav_tweaking"
+        android:icon="@drawable/outline_build_black_36"
+        android:title="@string/tweaking" />
+
+    <item
         android:id="@+id/nav_abount"
         android:icon="@drawable/outline_info_black_36"
         android:title="@string/about" />

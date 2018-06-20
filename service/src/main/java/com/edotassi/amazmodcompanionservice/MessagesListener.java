@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.util.Log;
+import android.provider.Settings.System;
 
 import com.edotassi.amazmodcompanionservice.events.NightscoutRequestSyncEvent;
 import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
-import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
+import com.edotassi.amazmodcompanionservice.events.incoming.Brightness;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestBatteryStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
+import com.edotassi.amazmodcompanionservice.events.incoming.SyncSettings;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationService;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.util.DeviceUtil;
@@ -22,9 +24,13 @@ import com.huami.watch.transport.Transporter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import javax.xml.transform.sax.TemplatesHandler;
+
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BatteryData;
+import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
+import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 
 public class MessagesListener {
@@ -54,13 +60,16 @@ public class MessagesListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void settingsSync(SyncSettingsEvent event) {
-        Log.d(Constants.TAG, "sync settings");
-        Log.d(Constants.TAG, "vibration: " + event.getNotificationVibration());
-        Log.d(Constants.TAG, "timeout: " + event.getNotificationScreenTimeout());
-        Log.d(Constants.TAG, "replies: " + event.getNotificationCustomReplies());
+    public void settingsSync(SyncSettings event) {
 
-        settingsManager.sync(event);
+        SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
+
+        Log.d(Constants.TAG, "sync settings");
+        Log.d(Constants.TAG, "vibration: " + settingsData.getVibration());
+        Log.d(Constants.TAG, "timeout: " + settingsData.getScreenTimeout());
+        Log.d(Constants.TAG, "replies: " + settingsData.getReplies());
+
+        settingsManager.sync(settingsData);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -125,7 +134,7 @@ public class MessagesListener {
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-        float batteryPct = level / (float)scale;
+        float batteryPct = level / (float) scale;
 
         batteryData.setLevel(batteryPct);
         batteryData.setCharging(isCharging);
@@ -133,6 +142,24 @@ public class MessagesListener {
         batteryData.setAcCharge(acCharge);
 
         send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void brightness(Brightness brightness) {
+        BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
+
+        Log.d(Constants.TAG, "setting brightness to " + brightnessData.getLevel());
+
+        //Set the system brightness using the brightness variable value
+        System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
+        /*
+        //Get the current window attributes
+        LayoutParams layoutpars = window.getAttributes();
+        //Set the brightness of this window
+        layoutpars.screenBrightness = brightness / (float)255;
+        //Apply attribute changes to this window
+        window.setAttributes(layoutpars);
+        */
     }
 
     private void send(String action) {

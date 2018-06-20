@@ -25,23 +25,24 @@
         <activity android:name=".ui.NotificationPackagesSelectorActivity"/>
         <activity android:name=".ui.SettingsActivity"/>
         <activity android:name=".ui.AboutActivity"/>
+        <activity android:name=".ui.TweakingActivity"/>
 
         <service android:name="com.edotassi.amazmod.notification.NotificationService"
             android:label="@string/notifications_service_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
 
-        <service android:name=".transport.TransportService"/>
-        <service android:name="xiaofei.library.hermes.HermesService$HermesService0"/>
-
-        <receiver android:name=".receiver.BatteryStatusReceiver"/>
+        <service android:name=".transport.TransportService" android:exported="true"/>
+        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" android:exported="true"/>
+        <receiver android:name=".receiver.BatteryStatusReceiver" android:exported="true"/>
         <receiver
             android:name=".boot.BootBroadcastReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />

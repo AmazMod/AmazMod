@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.edotassi.amazmodcompanionservice.Constants;
-import com.edotassi.amazmodcompanionservice.events.SyncSettingsEvent;
+
+import amazmod.com.transport.data.SettingsData;
 
 public class SettingsManager {
 
@@ -15,13 +16,13 @@ public class SettingsManager {
         this.context = context;
     }
 
-    public void sync(SyncSettingsEvent event) {
+    public void sync(SettingsData settingsData) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        editor.putInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, event.getNotificationScreenTimeout());
-        editor.putInt(Constants.PREF_NOTIFICATION_VIBRATION, event.getNotificationVibration());
-        editor.putString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, event.getNotificationCustomReplies());
+        editor.putInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, settingsData.getScreenTimeout());
+        editor.putInt(Constants.PREF_NOTIFICATION_VIBRATION, settingsData.getVibration());
+        editor.putString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, settingsData.getReplies());
 
         editor.apply();
     }

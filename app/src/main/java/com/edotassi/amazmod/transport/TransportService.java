@@ -11,9 +11,11 @@ import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
+import com.edotassi.amazmod.event.Brightness;
 import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
+import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.log.LoggerScoped;
@@ -119,6 +121,16 @@ public class TransportService extends Service implements Transporter.DataListene
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
         send(Transport.REQUEST_BATTERYSTATUS);
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void syncSettings(SyncSettings syncSettings) {
+        send(Transport.SYNC_SETTINGS, syncSettings.getSettingsData());
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void brightness(Brightness brightness) {
+        send(Transport.BRIGHTNESS, brightness.getBrightnessData());
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

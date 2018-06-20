@@ -16,4 +16,8 @@ public class Constants {
     public static final String PREF_DISABLE_BATTERY_CHART = "preference.disable.battery.chart";
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
+
+    public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "";
+    public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
+    public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
 }

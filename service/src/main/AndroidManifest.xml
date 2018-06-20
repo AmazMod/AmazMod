@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"></uses-permission>
 
     <application
         android:allowBackup="true"

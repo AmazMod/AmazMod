@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;

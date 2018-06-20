@@ -180,6 +180,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, AboutActivity.class));
         }
 
+        if (id == R.id.nav_tweaking) {
+            startActivity(new Intent(this, TweakingActivity.class));
+        }
+
         return true;
     }
 
