@@ -3,18 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item
-        android:id="@+id/nav_settings"
-        android:icon="@drawable/settings"
-        android:title="@string/settings" />
+    <group>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/outline_settings_black_36"
+            android:title="@string/settings" />
 
-    <item
-        android:id="@+id/nav_tweaking"
-        android:icon="@drawable/outline_build_black_36"
-        android:title="@string/tweaking" />
+        <item
+            android:id="@+id/nav_tweaking"
+            android:icon="@drawable/outline_build_black_36"
+            android:title="@string/tweaking" />
 
-    <item
-        android:id="@+id/nav_abount"
-        android:icon="@drawable/outline_info_black_36"
-        android:title="@string/about" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/outline_insert_chart_black_36"
+            android:title="@string/stats" />
+    </group>
+    <group>
+        <item
+            android:id="@+id/nav_abount"
+            android:icon="@drawable/outline_info_black_36"
+            android:title="@string/about" />
+    </group>
 </menu>

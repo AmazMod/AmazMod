@@ -9,6 +9,7 @@
     <string name="sync_settings">Sync settings</string>
     <string name="brightness">Brightness</string>
     <string name="tweaking">Tweaking</string>
+    <string name="stats">Stats</string>
 
     <string name="activity_about_text">Coded with love by @edotassi</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
