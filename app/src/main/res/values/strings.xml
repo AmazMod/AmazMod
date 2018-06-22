@@ -11,6 +11,10 @@
     <string name="tweaking">Tweaking</string>
     <string name="stats">Stats</string>
 
+    <string name="battery_chart_title">Battery chart</string>
+
+    <string name="watch_info">Watch\'s informations</string>
+
     <string name="activity_about_text">Coded with love by @edotassi</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
 
