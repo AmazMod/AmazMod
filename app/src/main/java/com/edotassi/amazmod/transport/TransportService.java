@@ -12,11 +12,13 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Brightness;
+import com.edotassi.amazmod.event.NotificationReply;
 import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.log.LoggerScoped;
 import com.huami.watch.transport.DataBundle;
@@ -38,6 +40,7 @@ import java.util.Map;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
 import amazmod.com.transport.data.BatteryData;
+import amazmod.com.transport.data.NotificationReplyData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class TransportService extends Service implements Transporter.DataListener {
@@ -48,6 +51,7 @@ public class TransportService extends Service implements Transporter.DataListene
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
         put(Transport.BATTERY_STATUS, BatteryStatus.class);
+        put(Transport.REPLY, NotificationReply.class);
     }};
 
     @Override
@@ -68,6 +72,14 @@ public class TransportService extends Service implements Transporter.DataListene
         } else {
             this.logger.debug("yet connected");
         }
+    }
+
+    @Override
+    public void onDestroy() {
+
+        HermesEventBus.getDefault().unregister(this);
+
+        super.onDestroy();
     }
 
     @Nullable
@@ -106,6 +118,13 @@ public class TransportService extends Service implements Transporter.DataListene
                 ex.printStackTrace();
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.POSTING)
+    public void replyToNotification(NotificationReply notificationReply) {
+        ReplyToNotificationLocal replyToNotificationLocal = new ReplyToNotificationLocal(notificationReply.getNotificationReplyData());
+
+        HermesEventBus.getDefault().post(replyToNotificationLocal);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

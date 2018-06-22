@@ -80,7 +80,7 @@ public class MessagesListener {
         dataBundle.putString("key", event.getKey());
         dataBundle.putString("message", event.getMessage());
 
-        send(Constants.ACTION_REPLY, dataBundle);
+        send(Transport.REPLY, dataBundle);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

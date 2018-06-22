@@ -39,9 +39,8 @@ public class TweakingActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(final SeekBar seekBar) {
-                BrightnessData brightnessData = new BrightnessData(){{
-                    setLevel(seekBar.getProgress());
-                }};
+                BrightnessData brightnessData = new BrightnessData();
+                brightnessData.setLevel(seekBar.getProgress());
 
                 HermesEventBus.getDefault().post(new Brightness(brightnessData));
 

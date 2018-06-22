@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.SyncSettings;
+import com.huami.watch.transport.DataBundle;
 
 import amazmod.com.transport.data.SettingsData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -53,11 +54,10 @@ public class SettingsActivity extends AppCompatActivity {
             final int screeTimeout = Integer.valueOf(sharedPreferences.getString(Constants.PREF_NOTIFICATIONS_SCREEN_TIMEOUT,
                     Constants.PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT));
 
-            SettingsData settingsData = new SettingsData() {{
-                setReplies(replies);
-                setVibration(vibration);
-                setScreenTimeout(screeTimeout);
-            }};
+            SettingsData settingsData = new SettingsData();
+            settingsData.setReplies(replies);
+            settingsData.setVibration(vibration);
+            settingsData.setScreenTimeout(screeTimeout);
 
             SyncSettings syncSettings = new SyncSettings(settingsData);
 

@@ -12,4 +12,5 @@ public class Transport {
 
     public static final String WATCH_STATUS = "watch_status";
     public static final String BATTERY_STATUS = "battery_status";
+    public static final String REPLY = "reply";
 }
