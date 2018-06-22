@@ -13,12 +13,14 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 
 import com.edotassi.amazmod.Constants;
+import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.raizlabs.android.dbflow.config.FlowManager;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -70,6 +72,16 @@ public class NotificationService extends NotificationListenerService {
             notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
             HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+
+            try {
+                NotificationEntity notificationEntity = new NotificationEntity();
+                notificationEntity.setPackageName(statusBarNotification.getPackageName());
+                notificationEntity.setDate(System.currentTimeMillis());
+
+                FlowManager.getModelAdapter(NotificationEntity.class).insert(notificationEntity);
+            } catch (Exception ex) {
+                Logger.error(ex, "Failed to store notifications stats");
+            }
         }
     }
 
