@@ -52,6 +52,7 @@ dependencies {
     implementation 'xiaofei.library:hermes-eventbus:0.3.0'
     implementation 'com.github.marlonlom:timeago:3.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation files('../libs/SpringboardPluginLib.jar')

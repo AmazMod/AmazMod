@@ -13,6 +13,7 @@ public class NotificationEntity {
     private long id;
 
     @Index
+    @Column
     private long date;
 
     @Column

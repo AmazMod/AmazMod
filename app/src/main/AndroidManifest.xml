@@ -26,6 +26,7 @@
         <activity android:name=".ui.SettingsActivity"/>
         <activity android:name=".ui.AboutActivity"/>
         <activity android:name=".ui.TweakingActivity"/>
+        <activity android:name=".ui.StatsActivity"/>
 
         <service android:name="com.edotassi.amazmod.notification.NotificationService"
             android:label="@string/notifications_service_name"

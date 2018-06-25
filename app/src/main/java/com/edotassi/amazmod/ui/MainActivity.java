@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
         watchProgress.setVisibility(View.VISIBLE);
 
         Flowable
-                .timer(3000, TimeUnit.MILLISECONDS)
+                .timer(2000, TimeUnit.MILLISECONDS)
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_tweaking) {
             startActivity(new Intent(this, TweakingActivity.class));
+        }
+
+        if (id == R.id.nav_stats) {
+            startActivity(new Intent(this, StatsActivity.class));
         }
 
         return true;
