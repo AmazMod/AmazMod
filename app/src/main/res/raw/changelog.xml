@@ -6,7 +6,9 @@
         <new>Add option to disable notifications while screen is ON</new>
         <new>Add changelog dialog</new>
         <new>Add control for notification access</new>
+        <info>Initial support for Hungarian translations</info>
     </release>
+
     <!-- example with filters in rows -->
     <!--
     <release
