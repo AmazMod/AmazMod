@@ -1,11 +1,13 @@
 package com.edotassi.amazmodcompanionservice.springboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.edotassi.amazmodcompanionservice.BuildConfig;
+import com.edotassi.amazmodcompanionservice.MainService;
 import com.edotassi.amazmodcompanionservice.R;
 import com.edotassi.amazmodcompanionservice.R2;
 
@@ -22,6 +24,8 @@ public class AmazModPage extends AbstractPlugin {
 
     @Override
     public View getView(Context context) {
+        context.startService(new Intent(context, MainService.class));
+
         view = LayoutInflater.from(context).inflate(R.layout.amazmod_page, null);
 
         try {
