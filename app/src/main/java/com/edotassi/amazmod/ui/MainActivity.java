@@ -4,7 +4,11 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
@@ -20,6 +24,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
@@ -52,9 +58,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.ObjectStreamClass;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
@@ -132,6 +140,8 @@ public class MainActivity extends AppCompatActivity
         HermesEventBus.getDefault().register(this);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
+
+        checkNotificationsAccess();
     }
 
     @Override
@@ -235,6 +245,30 @@ public class MainActivity extends AppCompatActivity
                     this, true); // second parameter defines, if the dialog has a dark or light theme
         } else {
             builder.buildAndShowDialog(this, false);
+        }
+    }
+
+    private void checkNotificationsAccess() {
+        Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(this);
+        int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
+        if (index == -1) {
+            new MaterialDialog.Builder(this)
+                    .title(R.string.notification_access)
+                    .content(R.string.notification_access_not_enabled)
+                    .positiveText(R.string.enable)
+                    .negativeText(R.string.cancel)
+                    .icon(getResources().getDrawable(R.drawable.outline_notifications_black_24))
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                            } else {
+                                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                            }
+                        }
+                    })
+                    .show();
         }
     }
 

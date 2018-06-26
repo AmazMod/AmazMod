@@ -61,6 +61,8 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
 
     implementation 'com.github.MFlisar:changelog:1.0.4'
+
+    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

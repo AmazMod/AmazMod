@@ -5,6 +5,7 @@
         versionName="v1.0.2-ALPHA">
         <new>Add option to disable notifications while screen is ON</new>
         <new>Add changelog dialog</new>
+        <new>Add control for notification access</new>
     </release>
     <!-- example with filters in rows -->
     <!--

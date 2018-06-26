@@ -11,6 +11,12 @@
     <string name="tweaking">Tweaking</string>
     <string name="stats">Stats</string>
     <string name="changelog">Changelog</string>
+    <string name="enable">Enable</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="notification_access">Notifications access</string>
+    <string name="notification_access_not_enabled">Notification access not enabled</string>
+    <string name="notification_access_enable">Enable</string>
 
     <string name="battery_chart_title">Battery chart</string>
 
