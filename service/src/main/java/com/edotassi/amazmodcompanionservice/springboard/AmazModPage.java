@@ -41,6 +41,5 @@ public class AmazModPage extends AbstractPlugin {
 
     @Override
     public void onBindHost(ISpringBoardHostStub iSpringBoardHostStub) {
-
     }
 }

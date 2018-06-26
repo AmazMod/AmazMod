@@ -17,7 +17,7 @@
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/amazmod" />
+        android:src="@drawable/amazmod" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayout"
