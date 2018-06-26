@@ -67,21 +67,17 @@ public class NotificationService extends NotificationListenerService {
         boolean filterResult = filter(statusBarNotification);
 
         if (filterResult == CONTINUE) {
+            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)) {
+                return;
+            }
+
             NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
 
             notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
             HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
 
-            try {
-                NotificationEntity notificationEntity = new NotificationEntity();
-                notificationEntity.setPackageName(statusBarNotification.getPackageName());
-                notificationEntity.setDate(System.currentTimeMillis());
-
-                FlowManager.getModelAdapter(NotificationEntity.class).insert(notificationEntity);
-            } catch (Exception ex) {
-                Logger.error(ex, "Failed to store notifications stats");
-            }
+            storeForStats(statusBarNotification);
         }
     }
 
@@ -161,6 +157,18 @@ public class NotificationService extends NotificationListenerService {
         return result;
     }
 
+    private void storeForStats(StatusBarNotification statusBarNotification) {
+        try {
+            NotificationEntity notificationEntity = new NotificationEntity();
+            notificationEntity.setPackageName(statusBarNotification.getPackageName());
+            notificationEntity.setDate(System.currentTimeMillis());
+
+            FlowManager.getModelAdapter(NotificationEntity.class).insert(notificationEntity);
+        } catch (Exception ex) {
+            Logger.error(ex, "Failed to store notifications stats");
+        }
+    }
+
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void replyToNotification(ReplyToNotificationLocal replyToNotificationLocal) {
         NotificationReplyData notificationReplyData = replyToNotificationLocal.getNotificationReplyData();
@@ -176,7 +184,6 @@ public class NotificationService extends NotificationListenerService {
             Logger.warn("Notification %s not found to reply", notificationId);
         }
     }
-
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
