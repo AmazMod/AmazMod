@@ -1,0 +1,35 @@
+<resources>
+    <string name="settings">Beállítások</string>
+    <string name="notifications">Értesítések</string>
+    <string name="other">Egyéb</string>
+    <string name="open">Megnyit</string>
+    <string name="close">Bezár</string>
+    <string name="about">Rólunk</string>
+    <string name="sync_settings">Szinkr. beállításai</string>
+    <string name="brightness">Fényerő</string>
+    <string name="tweaking">Trükkök</string>s
+    <string name="stats">Statiszt.</string>
+
+    <string name="battery_chart_title">Akku diagram</string>
+
+    <string name="watch_info">Infók az óráról</string>
+
+    <string name="activity_stats_notifications_total">Teljes</string>
+    <string name="activity_stats_notifications_in_the_last_hour">Az utóbbi órában</string>
+    <string name="activity_stats_notifications_in_the_last_24_horus">Az utóbbi 24 órában</string>
+
+    <string name="pref_disable_notifications_summary">Értesítések letiltása</string>
+    <string name="pref_disable_notifications">Össz.  AmazMod értesítés kikapcsolása</string>
+    <string name="pref_filter_notifications_by_packages">App alapú szűrés</string>
+    <string name="pref_filter_notifications_by_packages_summary">App alapú szűrés leírás</string>
+    <string name="pref_disable_battery_chart">Akku diagram kikapcsolás</string>
+    <string name="pref_disable_battery_chart_summary">Akku diagram kikapcsolás leírás</string>
+    <string name="pref_battery_background_sync_interval">Háttér szinkr. időköz</string>
+    <string name="pref_battery_background_sync_interval_summary">Háttér szinkr. időköz leírás</string>
+    <string name="pref_battery_chart_time_interval">Diagram időköz</string>
+    <string name="pref_battery_chart_time_interval_summary">Diagram időköz leírás</string>
+    <string name="pref_notifications_replies_summary">Egyéni válaszok vesszővel elválasztva</string>
+    <string name="pref_notifications_replies">Egyéni válaszok</string>
+    <string name="pref_disable_notifications_replies_summary">Egyéni válaszok leírás</string>
+    <string name="pref_disable_notifications_replies">Értesítés válaszok kikapcsolás</string>
+</resources>
