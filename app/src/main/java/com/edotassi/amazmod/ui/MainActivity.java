@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
@@ -40,6 +41,8 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.michaelflisar.changelog.ChangelogBuilder;
+import com.michaelflisar.changelog.classes.ChangelogFilter;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -127,6 +130,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         HermesEventBus.getDefault().register(this);
+
+        showChangelog(false, BuildConfig.VERSION_CODE, true);
     }
 
     @Override
@@ -188,6 +193,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, StatsActivity.class));
         }
 
+        if (id == R.id.nav_changelog) {
+            showChangelog(true, 1, false);
+        }
+
         return true;
     }
 
@@ -213,20 +222,20 @@ public class MainActivity extends AppCompatActivity
         watchDetail.setVisibility(View.VISIBLE);
     }
 
-    private void resetWatchStatus() {
-        amazModService.setText("-");
-        productDevice.setText("-");
-        productManufacter.setText("-");
-        productModel.setText("-");
-        productName.setText("-");
-        revision.setText("-");
-        serialNo.setText("-");
-        buildDate.setText("-");
-        buildDescription.setText("-");
-        displayId.setText("-");
-        huamiModel.setText("-");
-        huamiNumber.setText("-");
-        fingerprint.setText("-");
+    private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
+        ChangelogBuilder builder = new ChangelogBuilder()
+                .withUseBulletList(true) // true if you want to show bullets before each changelog row, false otherwise
+                .withMinVersionToShow(1)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
+                //.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
+                .withManagedShowOnStart(managedShowOnStart)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
+                .withRateButton(true); // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
+
+        if (withActivity) {
+            builder.buildAndStartActivity(
+                    this, true); // second parameter defines, if the dialog has a dark or light theme
+        } else {
+            builder.buildAndShowDialog(this, false);
+        }
     }
 
     private void updateChart() {

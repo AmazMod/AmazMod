@@ -1,0 +1,23 @@
+<changelog>
+    <release
+        date="2018-06-26"
+        versionCode="2"
+        versionName="v1.0.2-ALPHA">
+        <new>Add option to disable notifications while screen is ON</new>
+        <new>Add changelog dialog</new>
+    </release>
+    <!-- example with filters in rows -->
+    <!--
+    <release
+        date="2018-03-01"
+        versionCode="100"
+        versionName="v1.0">
+        <info filter="cats">New cats added - this info has filter text 'cats'</info>
+        <info filter="dogs">New dogs added - this info has filter text 'dogs'</info>
+        <new filter="cats">Some cats improvement - this info has filter text 'cats'</new>
+        <new filter="dogs">Some dogs improvement - this info has filter text 'dogs'</new>
+        <bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
+        <bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
+    </release>
+    -->
+</changelog>

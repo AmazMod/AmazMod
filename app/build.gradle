@@ -7,7 +7,7 @@ android {
         applicationId "com.edotassi.amazmod"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
+        versionCode 130
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -59,6 +59,8 @@ dependencies {
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
 
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
+
+    implementation 'com.github.MFlisar:changelog:1.0.4'
 }
 
 apply plugin: 'com.google.gms.google-services'
