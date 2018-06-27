@@ -2,11 +2,15 @@ package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -32,7 +36,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class NotificationPackagesSelectorActivity extends AppCompatActivity {
+public class NotificationPackagesSelectorActivity extends AppCompatActivity implements AppInfoAdapter.AppInfoBridge {
 
     @BindView(R.id.activity_notification_packages_selector_list)
     ListView listView;
@@ -40,6 +44,9 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity {
     MaterialProgressBar materialProgressBar;
 
     private List<AppInfo> appInfoList;
+    private AppInfoAdapter appInfoAdapter;
+
+    private boolean selectedAll;
 
     @SuppressLint("CheckResult")
     @Override
@@ -49,61 +56,10 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Flowable.fromCallable(new Callable<List<AppInfo>>() {
-            @Override
-            public List<AppInfo> call() throws Exception {
-                List<PackageInfo> packageInfoList = getPackageManager().getInstalledPackages(0);
+        appInfoAdapter = new AppInfoAdapter(this, R.layout.row_appinfo, new ArrayList<AppInfo>());
+        listView.setAdapter(appInfoAdapter);
 
-                List<AppInfo> appInfoList = new ArrayList<>();
-
-                String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-                Gson gson = new Gson();
-
-                String[] packagesList = gson.fromJson(packagesJson, String[].class);
-
-                Arrays.sort(packagesList);
-
-                for (PackageInfo packageInfo : packageInfoList) {
-                    AppInfo appInfo = new AppInfo();
-
-                    appInfo.setPackageName(packageInfo.packageName);
-                    appInfo.setAppName(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
-                    appInfo.setVersionName(packageInfo.versionName);
-                    appInfo.setIcon(packageInfo.applicationInfo.loadIcon(getPackageManager()));
-
-                    int packageIndex = Arrays.binarySearch(packagesList, packageInfo.packageName);
-                    appInfo.setEnabled(packageIndex >= 0);
-
-                    appInfoList.add(appInfo);
-                }
-
-                Collections.sort(appInfoList, new Comparator<AppInfo>() {
-                    @Override
-                    public int compare(AppInfo o1, AppInfo o2) {
-                        return o1.getAppName().compareTo(o2.getAppName());
-                    }
-                });
-
-                NotificationPackagesSelectorActivity.this.appInfoList = appInfoList;
-
-                return appInfoList;
-            }
-        }).subscribeOn(Schedulers.computation())
-                .observeOn(Schedulers.single())
-                .subscribe(new Consumer<List<AppInfo>>() {
-                    @Override
-                    public void accept(final List<AppInfo> appInfoList) throws Exception {
-                        NotificationPackagesSelectorActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                listView.setAdapter(new AppInfoAdapter(NotificationPackagesSelectorActivity.this, R.layout.row_appinfo, appInfoList));
-
-                                materialProgressBar.setVisibility(View.GONE);
-                                listView.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    }
-                });
+        loadApps(false);
     }
 
     @Override
@@ -131,5 +87,132 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity {
 
             Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_notification_packages_selector, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_activity_notification_packages_selector_show_system) {
+            item.setChecked(!item.isChecked());
+            loadApps(item.isChecked());
+            return true;
+        }
+
+        if (id == R.id.action_activity_notification_packges_selector_toggle_all) {
+            for (AppInfo appInfo : appInfoList) {
+                appInfo.setEnabled(!selectedAll);
+            }
+            selectedAll = !selectedAll;
+
+            appInfoAdapter.notifyDataSetChanged();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("CheckResult")
+    private void loadApps(final boolean showSystemApps) {
+        materialProgressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
+
+        Flowable.fromCallable(new Callable<List<AppInfo>>() {
+            @Override
+            public List<AppInfo> call() throws Exception {
+                List<PackageInfo> packageInfoList = getPackageManager().getInstalledPackages(0);
+
+                List<AppInfo> appInfoList = new ArrayList<>();
+
+                String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+                Gson gson = new Gson();
+
+                String[] packagesList = gson.fromJson(packagesJson, String[].class);
+
+                Arrays.sort(packagesList);
+
+                for (PackageInfo packageInfo : packageInfoList) {
+                    boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
+                    if (!isSystemApp || (showSystemApps && isSystemApp)) {
+                        // It is a system app
+                        boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) > 0;
+                        AppInfo appInfo = createAppInfo(packageInfo, enabled);
+                        appInfoList.add(appInfo);
+                    }
+                }
+
+                sortAppInfo(appInfoList);
+
+                NotificationPackagesSelectorActivity.this.appInfoList = appInfoList;
+
+                return appInfoList;
+            }
+        }).subscribeOn(Schedulers.computation())
+                .observeOn(Schedulers.single())
+                .subscribe(new Consumer<List<AppInfo>>() {
+                    @Override
+                    public void accept(final List<AppInfo> appInfoList) throws Exception {
+                        NotificationPackagesSelectorActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                appInfoAdapter.clear();
+                                appInfoAdapter.addAll(appInfoList);
+                                appInfoAdapter.notifyDataSetChanged();
+
+                                materialProgressBar.setVisibility(View.GONE);
+                                listView.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+                });
+    }
+
+    private void sortAppInfo(List<AppInfo> appInfoList) {
+        Collections.sort(appInfoList, new Comparator<AppInfo>() {
+            @Override
+            public int compare(AppInfo o1, AppInfo o2) {
+                if (o1.isEnabled() && !o2.isEnabled()) {
+                    return -1;
+                } else if (!o1.isEnabled() && o2.isEnabled()) {
+                    return 1;
+                } else if ((!o1.isEnabled() && !o2.isEnabled()) || (o1.isEnabled() && o2.isEnabled())) {
+                    return o1.getAppName().compareTo(o2.getAppName());
+                }
+
+                return o1.getAppName().compareTo(o2.getAppName());
+            }
+        });
+    }
+
+    private AppInfo createAppInfo(PackageInfo packageInfo, boolean enabled) {
+        AppInfo appInfo = new AppInfo();
+
+        appInfo.setPackageName(packageInfo.packageName);
+        appInfo.setAppName(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
+        appInfo.setVersionName(packageInfo.versionName);
+        appInfo.setIcon(packageInfo.applicationInfo.loadIcon(getPackageManager()));
+        appInfo.setEnabled(enabled);
+
+        return appInfo;
+    }
+
+    @Override
+    public void onAppInfoStatusChange() {
+        sortAppInfo(appInfoList);
+        appInfoAdapter.clear();
+        appInfoAdapter.addAll(appInfoList);
+        appInfoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 }

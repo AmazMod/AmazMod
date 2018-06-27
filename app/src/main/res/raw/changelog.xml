@@ -1,7 +1,16 @@
 <changelog>
     <release
         date="2018-06-26"
-        versionCode="2"
+        versionCode="131"
+        versionName="v1.0.3-ALPHA">
+        <bugfix>No notifications when "Disable when screen is ON" is enabled</bugfix>
+        <new>Add option to filter system apps in packages selector</new>
+        <new>Add option to select/unselect all app in packages selector</new>
+        <new>Ordered packages by selection status</new>
+    </release>
+    <release
+        date="2018-06-26"
+        versionCode="130"
         versionName="v1.0.2-ALPHA">
         <new>Add option to disable notifications while screen is ON</new>
         <new>Add changelog dialog</new>

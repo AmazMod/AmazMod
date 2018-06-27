@@ -22,12 +22,14 @@ import butterknife.OnCheckedChanged;
 
 public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
+    private AppInfoBridge appInfoBridge;
     private Context context;
 
-    public AppInfoAdapter(@NonNull Context context, int resource, @NonNull List<AppInfo> objects) {
-        super(context, resource, objects);
+    public AppInfoAdapter(AppInfoBridge appInfoBridge, int resource, @NonNull List<AppInfo> objects) {
+        super(appInfoBridge.getContext(), resource, objects);
 
-        this.context = context;
+        this.appInfoBridge = appInfoBridge;
+        context = appInfoBridge.getContext();
     }
 
     @NonNull
@@ -40,7 +42,7 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
         AppInfo currentAppInfo = getItem(position);
 
-        ViewHolder viewHolder = new ViewHolder(currentAppInfo);
+        ViewHolder viewHolder = new ViewHolder(appInfoBridge, currentAppInfo);
         ButterKnife.bind(viewHolder, listItem);
 
         viewHolder.appInfoAppName.setText(currentAppInfo.getAppName());
@@ -65,15 +67,24 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         @BindView(R.id.row_appinfo_switch)
         Switch appInfoSwitch;
 
+        private AppInfoBridge appInfoBridge;
         private AppInfo appInfo;
 
-        public ViewHolder(AppInfo appInfo) {
+        public ViewHolder(AppInfoBridge appInfoBridge, AppInfo appInfo) {
+            this.appInfoBridge = appInfoBridge;
             this.appInfo = appInfo;
         }
 
         @OnCheckedChanged(R.id.row_appinfo_switch)
         public void onSwitchChanged(Switch switchWidget, boolean checked) {
             appInfo.setEnabled(checked);
+            appInfoBridge.onAppInfoStatusChange();
         }
+    }
+
+    public interface AppInfoBridge {
+        void onAppInfoStatusChange();
+
+        Context getContext();
     }
 }

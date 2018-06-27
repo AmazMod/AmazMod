@@ -13,6 +13,8 @@
     <string name="changelog">Changelog</string>
     <string name="enable">Enable</string>
     <string name="cancel">Cancel</string>
+    <string name="select_unselect_all">Select/Unselect all</string>
+    <string name="show_system_apps">Show system apps</string>
 
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
