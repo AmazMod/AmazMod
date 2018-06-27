@@ -18,6 +18,7 @@ import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
+import com.edotassi.amazmod.util.Screen;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -67,7 +68,7 @@ public class NotificationService extends NotificationListenerService {
         boolean filterResult = filter(statusBarNotification);
 
         if (filterResult == CONTINUE) {
-            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)) {
+            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false) && Screen.isInteractive(this)) {
                 return;
             }
 
