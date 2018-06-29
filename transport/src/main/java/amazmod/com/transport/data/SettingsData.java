@@ -14,10 +14,12 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String REPLIES = "replies";
     public static final String VIBRATION = "vibration";
     public static final String SCREEN_TIMEOUT = "screen_timeout";
+    public static final String NOTIFICATIONS_CUSTOM_UI = "notifications_custom_ui";
 
     private String replies;
     private int vibration;
     private int screenTimeout;
+    private boolean notificationsCustomUi;
 
     public SettingsData() {
     }
@@ -26,6 +28,7 @@ public class SettingsData extends Transportable implements Parcelable {
         replies = in.readString();
         vibration = in.readInt();
         screenTimeout = in.readInt();
+        notificationsCustomUi = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -46,6 +49,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putString(REPLIES, replies);
         dataBundle.putInt(VIBRATION, vibration);
         dataBundle.putInt(SCREEN_TIMEOUT, screenTimeout);
+        dataBundle.putBoolean(NOTIFICATIONS_CUSTOM_UI, notificationsCustomUi);
 
         return dataBundle;
     }
@@ -56,6 +60,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setReplies(dataBundle.getString(REPLIES));
         settingsData.setScreenTimeout(dataBundle.getInt(SCREEN_TIMEOUT));
         settingsData.setVibration(dataBundle.getInt(VIBRATION));
+        settingsData.setNotificationsCustomUi(dataBundle.getBoolean(NOTIFICATIONS_CUSTOM_UI));
 
         return settingsData;
     }
@@ -91,6 +96,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.screenTimeout = screenTimeout;
     }
 
+    public boolean isNotificationsCustomUi() {
+        return notificationsCustomUi;
+    }
+
+    public void setNotificationsCustomUi(boolean notificationsCustomUi) {
+        this.notificationsCustomUi = notificationsCustomUi;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -101,5 +114,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeString(replies);
         dest.writeInt(vibration);
         dest.writeInt(screenTimeout);
+        dest.writeByte((byte) (notificationsCustomUi ? 1 : 0));
     }
 }

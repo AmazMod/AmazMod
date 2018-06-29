@@ -3,12 +3,20 @@ package com.edotassi.amazmodcompanionservice.notifications;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
+import com.edotassi.amazmodcompanionservice.Constants;
+import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.ui.NotificationActivity;
+
+import java.util.Arrays;
+import java.util.List;
 
 import amazmod.com.transport.data.NotificationData;
 
@@ -33,7 +41,15 @@ public class NotificationService {
     }
 
     public void post(NotificationData notificationSpec) {
-        postWithCustomUI(notificationSpec);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        boolean enableCustomUI = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
+
+        if (enableCustomUI) {
+            postWithCustomUI(notificationSpec);
+        } else {
+            postWithStandardUI(notificationSpec);
+        }
     }
 
     private void postWithCustomUI(NotificationData notificationSpec) {
@@ -47,20 +63,73 @@ public class NotificationService {
         context.startActivity(intent);
     }
 
-    /*
-    private void postWithStandardUI(NotificationSpec notificationSpec) {
+    private void postWithStandardUI(NotificationData notificationData) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setStyle(new NotificationCompat.InboxStyle())
-                .setContentText(notificationSpec.getText())
-                .setContentTitle(notificationSpec.getTitle())
-                .setVibrate(new long[]{notificationSpec.getVibration()});
+                .setContentText(notificationData.getText())
+                .setContentTitle(notificationData.getTitle())
+                .setVibrate(new long[]{notificationData.getVibration()});
+
+
+        //Log.d("Notifiche", "postWithStandardUI: " + notificationSpec.getKey() + " " + notificationSpec.getId() + " " + notificationSpec.getPkg());
+
+        //  Utils.BitmapExtender bitmapExtender = Utils.retrieveAppIcon(context, notificationSpec.getPkg());
+        // if (bitmapExtender != null) {
+      /*  int[] iconData = notificationSpec.getIcon();
+        int iconWidth = notificationSpec.getIconWidth();
+        int iconHeight = notificationSpec.getIconHeight();
+        Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+        builder.setLargeIcon(bitmap);*/
+        //builder.setSmallIcon(Icon.createWithBitmap(bitmapExtender.bitmap));
+        //data.mCanRecycleBitmap = bitmapExtender.canRecycle;
+        //}
+        /*
+        String replyLabel = "Replay";
+        String[] replyChoices = new String[]{"ok", "no", "forse domani"};
+
+        RemoteInput remoteInput = new RemoteInput.Builder(KEY_QUICK_REPLY_TEXT)
+                .setLabel(replyLabel)
+                .setChoices(replyChoices)
+                .build();
+        */
+
+        SettingsManager settingsManager = new SettingsManager(context);
+        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "");
+        List<String> repliesList = Arrays.asList(replies == null ? new String[]{} : replies.split(","));
+
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
+            for (String reply : repliesList) {
+            Intent intent = new Intent();
+            intent.setPackage(context.getPackageName());
+            intent.setAction(Constants.INTENT_ACTION_REPLY);
+            intent.putExtra(Constants.EXTRA_REPLY, reply);
+            intent.putExtra(Constants.EXTRA_NOTIFICATION_KEY, notificationData.getKey());
+            PendingIntent replyIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
+
+            NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, reply, replyIntent).build();
+            wearableExtender.addAction(replyAction);
+        }
+
+        builder.extend(wearableExtender);
+
+        /*
+        KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+        if(km.isKeyguardLocked()) {
+            PowerManager pm = (PowerManager) context.ge tSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                    | PowerManager.ON_AFTER_RELEASE, "MyWakeLock");
+            wakeLock.acquire();
+            wakeLock.release();
+        }
+        */
 
         Notification notification = builder.build();
-        notificationManager.notify(notificationSpec.getId(), notification);
+        notificationManager.notify(notificationData.getId(), notification);
     }
-    */
 
     /*
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)

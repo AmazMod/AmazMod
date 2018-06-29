@@ -68,6 +68,7 @@ public class MessagesListener {
         Log.d(Constants.TAG, "vibration: " + settingsData.getVibration());
         Log.d(Constants.TAG, "timeout: " + settingsData.getScreenTimeout());
         Log.d(Constants.TAG, "replies: " + settingsData.getReplies());
+        Log.d(Constants.TAG, "enableCustomUi: " + settingsData.isNotificationsCustomUi());
 
         settingsManager.sync(settingsData);
     }
@@ -147,19 +148,9 @@ public class MessagesListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
-
         Log.d(Constants.TAG, "setting brightness to " + brightnessData.getLevel());
 
-        //Set the system brightness using the brightness variable value
         System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
-        /*
-        //Get the current window attributes
-        LayoutParams layoutpars = window.getAttributes();
-        //Set the brightness of this window
-        layoutpars.screenBrightness = brightness / (float)255;
-        //Apply attribute changes to this window
-        window.setAttributes(layoutpars);
-        */
     }
 
     private void send(String action) {

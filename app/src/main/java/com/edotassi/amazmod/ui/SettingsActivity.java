@@ -53,11 +53,14 @@ public class SettingsActivity extends AppCompatActivity {
                     Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION));
             final int screeTimeout = Integer.valueOf(sharedPreferences.getString(Constants.PREF_NOTIFICATIONS_SCREEN_TIMEOUT,
                     Constants.PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT));
+            final boolean enableCustomUi = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
+                    Constants.PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI);
 
             SettingsData settingsData = new SettingsData();
             settingsData.setReplies(replies);
             settingsData.setVibration(vibration);
             settingsData.setScreenTimeout(screeTimeout);
+            settingsData.setNotificationsCustomUi(enableCustomUi);
 
             SyncSettings syncSettings = new SyncSettings(settingsData);
 

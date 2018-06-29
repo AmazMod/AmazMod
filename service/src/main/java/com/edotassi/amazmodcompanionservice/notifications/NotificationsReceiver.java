@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.edotassi.amazmodcompanionservice.Constants;
+import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
+
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 /**
  * Created by edoardotassinari on 25/04/18.
@@ -20,10 +23,10 @@ public class NotificationsReceiver extends BroadcastReceiver {
         }
 
         String action = intent.getAction();
-        int notificationId = intent.getIntExtra("id", -1);
-        String reply = intent.getStringExtra("reply");
+        String reply = intent.getStringExtra(Constants.EXTRA_REPLY);
+        String key = intent.getStringExtra(Constants.EXTRA_NOTIFICATION_KEY);
 
-
-        Log.d(Constants.TAG, "action: " +action + ", notificationId: " + notificationId + ", reply: " + reply);
+        HermesEventBus.getDefault().post(new ReplyNotificationEvent(key, reply));
+        Log.d(Constants.TAG, "action: " + action + ", notificationKey: " + key + ", reply: " + reply);
     }
 }

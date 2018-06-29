@@ -2,6 +2,7 @@ package com.edotassi.amazmodcompanionservice;
 
 import android.app.Service;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotification
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestBatteryStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.SyncSettings;
+import com.edotassi.amazmodcompanionservice.notifications.NotificationsReceiver;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
@@ -35,6 +37,7 @@ public class MainService extends Service implements Transporter.ChannelListener,
     private Transporter companionTransporter;
 
     private MessagesListener messagesListener;
+    private NotificationsReceiver notificationsReceiver;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
@@ -51,8 +54,26 @@ public class MainService extends Service implements Transporter.ChannelListener,
 
         messagesListener = new MessagesListener(this);
 
+        notificationsReceiver = new NotificationsReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.INTENT_ACTION_REPLY);
+
+        registerReceiver(notificationsReceiver, filter);
+
         HermesEventBus.getDefault().init(this);
         HermesEventBus.getDefault().register(messagesListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        HermesEventBus.getDefault().unregister(messagesListener);
+
+        if (notificationsReceiver != null) {
+            unregisterReceiver(notificationsReceiver);
+            notificationsReceiver = null;
+        }
+
+        super.onDestroy();
     }
 
     @Nullable
