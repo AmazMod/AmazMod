@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class AmazModPage extends AbstractPlugin {
 

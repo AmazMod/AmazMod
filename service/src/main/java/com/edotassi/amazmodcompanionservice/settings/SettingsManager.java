@@ -23,6 +23,7 @@ public class SettingsManager {
         editor.putInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, settingsData.getScreenTimeout());
         editor.putInt(Constants.PREF_NOTIFICATION_VIBRATION, settingsData.getVibration());
         editor.putString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, settingsData.getReplies());
+        editor.putBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, settingsData.isNotificationsCustomUi());
 
         editor.apply();
     }
