@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -185,26 +186,37 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        int id = item.getItemId();
+//        int id = item.getItemId();
 
-        if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-        }
+        switch (item.getItemId()) {
 
-        if (id == R.id.nav_abount) {
-            startActivity(new Intent(this, AboutActivity.class));
-        }
+            case R.id.nav_settings:
+                Intent a = new Intent(this, SettingsActivity.class);
+                a.setFlags(a.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(a);
+                return true;
 
-        if (id == R.id.nav_tweaking) {
-            startActivity(new Intent(this, TweakingActivity.class));
-        }
+            case R.id.nav_abount:
+                Intent b = new Intent(this, AboutActivity.class);
+                b.setFlags(b.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(b);
+                return true;
 
-        if (id == R.id.nav_stats) {
-            startActivity(new Intent(this, StatsActivity.class));
-        }
+            case R.id.nav_tweaking:
+                Intent c = new Intent(this, TweakingActivity.class);
+                c.setFlags(c.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(c);
+                return true;
 
-        if (id == R.id.nav_changelog) {
+            case R.id.nav_stats:
+                Intent d = new Intent(this, StatsActivity.class);
+                d.setFlags(d.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(d);
+                return true;
+
+            case R.id.nav_changelog:
             showChangelog(true, 1, false);
+            return true;
         }
 
         return true;
