@@ -31,10 +31,6 @@ public class AboutActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_about);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.outline_add_white_24);
-
         ButterKnife.bind(this);
 
         version.setText(BuildConfig.VERSION_NAME);
