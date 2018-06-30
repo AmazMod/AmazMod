@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.edotassi.amazmod">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".AmazModApplication"
@@ -22,24 +22,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.NotificationPackagesSelectorActivity"/>
-        <activity android:name=".ui.SettingsActivity"/>
-        <activity android:name=".ui.AboutActivity"/>
-        <activity android:name=".ui.TweakingActivity"/>
-        <activity android:name=".ui.StatsActivity"/>
+        <activity android:name=".ui.AboutActivity" />
+        <activity android:name=".ui.TweakingActivity" />
+        <activity android:name=".ui.StatsActivity" />
+        <activity android:name=".ui.SettingsActivity" />
+        <activity android:name=".ui.NotificationPackagesSelectorActivity" />
+        <activity android:name=".ui.NotificationRepliesActivity" />
 
-        <service android:name="com.edotassi.amazmod.notification.NotificationService"
+        <service
+            android:name="com.edotassi.amazmod.notification.NotificationService"
+            android:exported="true"
             android:label="@string/notifications_service_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
-            android:exported="true">
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
 
-        <service android:name=".transport.TransportService" android:exported="true"/>
-        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" android:exported="true"/>
-        <receiver android:name=".receiver.BatteryStatusReceiver" android:exported="true"/>
+        <service
+            android:name=".transport.TransportService"
+            android:exported="true" />
+        <service
+            android:name="xiaofei.library.hermes.HermesService$HermesService0"
+            android:exported="true" />
+
+        <receiver
+            android:name=".receiver.BatteryStatusReceiver"
+            android:exported="true" />
         <receiver
             android:name=".boot.BootBroadcastReceiver"
             android:enabled="true"
@@ -49,6 +58,7 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="android.intent.action.REBOOT" />
                 <action android:name="android.intent.action.USER_PRESENT" />
+
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>

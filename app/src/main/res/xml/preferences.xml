@@ -31,7 +31,6 @@
                 android:targetClass="com.edotassi.amazmod.ui.NotificationPackagesSelectorActivity"
                 android:targetPackage="com.edotassi.amazmod" />
         </Preference>
-        s
 
         <SwitchPreference
             android:defaultValue="false"
@@ -41,11 +40,16 @@
             android:summary="@string/pref_disable_notifications_replies_summary"
             android:title="@string/pref_disable_notifications_replies" />
 
-        <EditTextPreference
+        <Preference
             android:dependency="preference.amazmodservice.enable.replies"
             android:key="preference.amazmodservice.replies"
             android:summary="@string/pref_notifications_replies_summary"
-            android:title="@string/pref_notifications_replies" />
+            android:title="@string/pref_notifications_replies">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesActivity"
+                android:targetPackage="com.edotassi.amazmod" />
+        </Preference>
 
         <ListPreference
             android:defaultValue="300"
