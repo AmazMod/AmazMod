@@ -20,7 +20,7 @@ public class TweakingActivity extends AppCompatActivity {
     SeekBar brightnessSeekbar;
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
@@ -31,6 +31,7 @@ public class TweakingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tweaking);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.tweaking);
 
         ButterKnife.bind(this);
 

@@ -37,7 +37,7 @@ public class StatsActivity extends AppCompatActivity {
     TextView notificationsTotal;
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
@@ -47,6 +47,7 @@ public class StatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.stats);
         ButterKnife.bind(this);
     }
 

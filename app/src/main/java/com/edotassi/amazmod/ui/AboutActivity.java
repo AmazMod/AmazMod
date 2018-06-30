@@ -18,7 +18,7 @@ public class AboutActivity extends AppCompatActivity {
     TextView version;
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
@@ -28,6 +28,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.about);
 
         setContentView(R.layout.activity_about);
 

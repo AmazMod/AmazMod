@@ -54,6 +54,9 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_packages_selector);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.installed_apps);
+
         ButterKnife.bind(this);
 
         appInfoAdapter = new AppInfoAdapter(this, R.layout.row_appinfo, new ArrayList<AppInfo>());
@@ -90,6 +93,12 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
     }
 
     @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_notification_packages_selector, menu);
         return true;
@@ -117,6 +126,19 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAppInfoStatusChange() {
+        sortAppInfo(appInfoList);
+        appInfoAdapter.clear();
+        appInfoAdapter.addAll(appInfoList);
+        appInfoAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @SuppressLint("CheckResult")
@@ -201,18 +223,5 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         appInfo.setEnabled(enabled);
 
         return appInfo;
-    }
-
-    @Override
-    public void onAppInfoStatusChange() {
-        sortAppInfo(appInfoList);
-        appInfoAdapter.clear();
-        appInfoAdapter.addAll(appInfoList);
-        appInfoAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
     }
 }
