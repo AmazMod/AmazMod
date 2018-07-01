@@ -57,6 +57,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.ObjectStreamClass;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,6 +82,9 @@ public class MainActivity extends AppCompatActivity
 
     public static final String PREF_KEY_FIRST_START = "com.edotassi.amazmod.PREF_KEY_FIRST_START";
     public static final int REQUEST_CODE_INTRO = 1;
+
+    @BindView(R.id.card_battery_last_read)
+    TextView lastRead;
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -247,8 +251,8 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.nav_changelog:
-            showChangelog(true, 1, false);
-            return true;
+                showChangelog(true, 1, false);
+                return true;
         }
 
         return true;
@@ -292,30 +296,32 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-/** No needed anymore with presentation
-    private void checkNotificationsAccess() {
-        Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(this);
-        int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
-        if (index == -1) {
-            new MaterialDialog.Builder(this)
-                    .title(R.string.notification_access)
-                    .content(R.string.notification_access_not_enabled)
-                    .positiveText(R.string.enable)
-                    .negativeText(R.string.cancel)
-                    .icon(getResources().getDrawable(R.drawable.outline_notifications_black_24))
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                            } else {
-                                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                            }
-                        }
-                    })
-                    .show();
-        }
-    } **/
+    /**
+     * No needed anymore with presentation
+     * private void checkNotificationsAccess() {
+     * Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(this);
+     * int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
+     * if (index == -1) {
+     * new MaterialDialog.Builder(this)
+     * .title(R.string.notification_access)
+     * .content(R.string.notification_access_not_enabled)
+     * .positiveText(R.string.enable)
+     * .negativeText(R.string.cancel)
+     * .icon(getResources().getDrawable(R.drawable.outline_notifications_black_24))
+     * .onPositive(new MaterialDialog.SingleButtonCallback() {
+     *
+     * @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+     * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+     * startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+     * } else {
+     * startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+     * }
+     * }
+     * })
+     * .show();
+     * }
+     * }
+     **/
 
     private void updateChart() {
         final List<Entry> yValues = new ArrayList<Entry>();
@@ -337,6 +343,25 @@ public class MainActivity extends AppCompatActivity
                 .from(BatteryStatusEntity.class)
                 .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
                 .queryList();
+
+        if (batteryReadList.size() > 0) {
+            BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
+            Date lastDate = new Date(lastEntity.getDate());
+            String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(lastDate);
+            String date = DateFormat.getDateInstance(DateFormat.SHORT).format(lastDate);
+
+            Calendar calendarLastDate = Calendar.getInstance();
+            calendarLastDate.setTime(lastDate);
+            Calendar calendarToday = Calendar.getInstance();
+            calendarToday.setTime(new Date());
+
+            String textDate = getResources().getText(R.string.last_read) + ": ";
+            textDate += time;
+            if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
+                textDate += " " + date;
+            }
+            lastRead.setText(textDate);
+        }
 
         BatteryStatusEntity prevRead = null;
         for (int i = 0; i < batteryReadList.size(); i++) {

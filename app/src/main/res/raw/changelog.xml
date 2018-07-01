@@ -1,6 +1,15 @@
 <changelog>
     <release
         date="2018-07-01"
+        versionCode="133"
+        versionName="v1.0.5-ALPHA">
+        <bugfix>App selection not saved in "Filter by apps"</bugfix>
+        <info>Selected apps are saved when toggle is pressed</info>
+        <info>System apps are showed if enabled</info>
+        <new>In battery card there is the time of the last update</new>
+    </release>
+    <release
+        date="2018-07-01"
         versionCode="132"
         versionName="v1.0.4-ALPHA">
         <bugfix>Back button in toolbar</bugfix>
