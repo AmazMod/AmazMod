@@ -62,33 +62,6 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (appInfoList != null) {
-            List<String> enabledPackages = new ArrayList<>();
-
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
-                @Override
-                public int compare(AppInfo o1, AppInfo o2) {
-                    return o1.getPackageName().compareTo(o2.getPackageName());
-                }
-            });
-
-            for (AppInfo appInfo : appInfoList) {
-                if (appInfo.isEnabled()) {
-                    enabledPackages.add(appInfo.getPackageName());
-                }
-            }
-
-            Gson gson = new Gson();
-            String pref = gson.toJson(enabledPackages);
-
-            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
-        }
-    }
-
-    @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
@@ -130,6 +103,8 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         appInfoAdapter.clear();
         appInfoAdapter.addAll(appInfoList);
         appInfoAdapter.notifyDataSetChanged();
+
+        save();
     }
 
     @Override
@@ -158,9 +133,9 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
 
                 for (PackageInfo packageInfo : packageInfoList) {
                     boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
-                    if (!isSystemApp || (showSystemApps && isSystemApp)) {
+                    boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
+                    if (enabled || (!isSystemApp || (showSystemApps && isSystemApp))) {
                         // It is a system app
-                        boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) > 0;
                         AppInfo appInfo = createAppInfo(packageInfo, enabled);
                         appInfoList.add(appInfo);
                     }
@@ -219,5 +194,22 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         appInfo.setEnabled(enabled);
 
         return appInfo;
+    }
+
+    private void save() {
+        if (appInfoList != null) {
+            List<String> enabledPackages = new ArrayList<>();
+
+            for (AppInfo appInfo : appInfoList) {
+                if (appInfo.isEnabled()) {
+                    enabledPackages.add(appInfo.getPackageName());
+                }
+            }
+
+            Gson gson = new Gson();
+            String pref = gson.toJson(enabledPackages);
+
+            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
+        }
     }
 }
