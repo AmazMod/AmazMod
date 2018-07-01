@@ -22,10 +22,15 @@ import com.edotassi.amazmodcompanionservice.R2;
 import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.support.ActivityFinishRunnable;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,17 +96,16 @@ public class NotificationActivity extends Activity {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        List<String> repliesList = Arrays.asList(replies == null ? new String[]{} : replies.split(","));
-        for (final String reply : repliesList) {
+        List<Reply> repliesList = loadReplies();
+        for (final Reply reply : repliesList) {
             Button button = new Button(this);
             button.setLayoutParams(param);
-            button.setText(reply);
+            button.setText(reply.getValue());
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            //button.setBackgroundResource(R.color.transparent);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply));
+                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
                     finish();
                 }
             });
@@ -138,5 +142,18 @@ public class NotificationActivity extends Activity {
     public void finish() {
         handler.removeCallbacks(activityFinishRunnable);
         super.finish();
+    }
+
+    private List<Reply> loadReplies() {
+        SettingsManager settingsManager = new SettingsManager(this);
+        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
+
+        try {
+            Type listType = new TypeToken<List<Reply>>() {
+            }.getType();
+            return new Gson().fromJson(replies, listType);
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
     }
 }

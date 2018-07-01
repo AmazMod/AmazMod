@@ -14,10 +14,15 @@ import android.support.v4.app.NotificationCompat;
 import com.edotassi.amazmodcompanionservice.Constants;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.ui.NotificationActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -96,20 +101,19 @@ public class NotificationService {
                 .build();
         */
 
-        SettingsManager settingsManager = new SettingsManager(context);
-        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "");
-        List<String> repliesList = Arrays.asList(replies == null ? new String[]{} : replies.split(","));
+
+        List<Reply> repliesList = loadReplies();
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
-            for (String reply : repliesList) {
+        for (Reply reply : repliesList) {
             Intent intent = new Intent();
             intent.setPackage(context.getPackageName());
             intent.setAction(Constants.INTENT_ACTION_REPLY);
-            intent.putExtra(Constants.EXTRA_REPLY, reply);
+            intent.putExtra(Constants.EXTRA_REPLY, reply.getValue());
             intent.putExtra(Constants.EXTRA_NOTIFICATION_KEY, notificationData.getKey());
             PendingIntent replyIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
 
-            NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, reply, replyIntent).build();
+            NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, reply.getValue(), replyIntent).build();
             wearableExtender.addAction(replyAction);
         }
 
@@ -129,6 +133,19 @@ public class NotificationService {
 
         Notification notification = builder.build();
         notificationManager.notify(notificationData.getId(), notification);
+    }
+
+    private List<Reply> loadReplies() {
+        SettingsManager settingsManager = new SettingsManager(context);
+        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
+
+        try {
+            Type listType = new TypeToken<List<Reply>>() {
+            }.getType();
+            return new Gson().fromJson(replies, listType);
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
     }
 
     /*

@@ -1,4 +1,4 @@
-package com.edotassi.amazmod.support;
+package amazmod.com.models;
 
 public class Reply {
 

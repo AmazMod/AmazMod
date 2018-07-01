@@ -10,6 +10,9 @@
         <new>Brightness control</new>
         <new>Settings to choose UI for notifications: standard or custom</new>
         <new>Initial support for replies in standard notifications</new>
+        <new>Changed replies internal format, now they are stored as json (now you can use the comma
+            in the text)
+        </new>
     </release>
     <release
         date="2018-06-26"

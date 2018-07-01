@@ -27,6 +27,7 @@ def dbflow_version = "4.2.4"
 dependencies {
     implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
     implementation project(":transport")
+    implementation project(":models")
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'

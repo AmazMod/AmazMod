@@ -11,7 +11,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.RepliesAdapter;
-import com.edotassi.amazmod.support.Reply;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import amazmod.com.models.Reply;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

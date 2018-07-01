@@ -10,10 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.support.Reply;
 
 import java.util.List;
 
+import amazmod.com.models.Reply;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
