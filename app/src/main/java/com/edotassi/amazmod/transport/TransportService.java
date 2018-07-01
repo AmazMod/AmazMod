@@ -4,10 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.util.Pair;
 
-import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;

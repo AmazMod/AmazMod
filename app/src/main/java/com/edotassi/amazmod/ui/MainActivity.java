@@ -30,7 +30,6 @@ import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
-import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.github.mikephil.charting.charts.LineChart;

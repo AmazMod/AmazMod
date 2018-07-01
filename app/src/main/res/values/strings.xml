@@ -18,6 +18,9 @@
     <string name="replies">Replies</string>
     <string name="installed_apps">Installed applications</string>
 
+    <string name="add_new_reply">Add new reply</string>
+    <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
+
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
     <string name="notification_access_enable">Enable</string>

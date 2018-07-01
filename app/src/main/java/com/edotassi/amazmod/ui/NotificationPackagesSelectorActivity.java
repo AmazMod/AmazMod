@@ -1,12 +1,9 @@
 package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -31,12 +28,11 @@ import java.util.concurrent.Callable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class NotificationPackagesSelectorActivity extends AppCompatActivity implements AppInfoAdapter.AppInfoBridge {
+public class NotificationPackagesSelectorActivity extends AppCompatActivity implements AppInfoAdapter.Bridge {
 
     @BindView(R.id.activity_notification_packages_selector_list)
     ListView listView;
