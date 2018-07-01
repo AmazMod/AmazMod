@@ -23,4 +23,6 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
+    public static final boolean PREF_KEY_FIRST_START = false;
+
 }
