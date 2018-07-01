@@ -1,5 +1,17 @@
 <changelog>
     <release
+        date="2018-07-01"
+        versionCode="132"
+        versionName="v1.0.4-ALPHA">
+        <bugfix>Back button in toolbar</bugfix>
+        <bugfix>Check notifications access permission</bugfix>
+        <new>Intro with first setup</new>
+        <new>Replies list in settings</new>
+        <new>Brightness control</new>
+        <new>Settings to choose UI for notifications: standard or custom</new>
+        <new>Initial support for replies in standard notifications</new>
+    </release>
+    <release
         date="2018-06-26"
         versionCode="131"
         versionName="v1.0.3-ALPHA">
