@@ -56,4 +56,17 @@
     <string name="pref_notifications_enable_custom_ui">Enable custom ui</string>
 
     <string name="notifications_service_name">AmazModNotificationsService</string>
+
+    <string name="intro_title_1">Welcome to AmazMod!</string>
+    <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
+    <string name="intro_title_permissions">Access to Notifications</string>
+    <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
+    <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
+    <string name="intro_title_2">Install Service App on Watch</string>
+    <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
+    <string name="intro_title_3">Restart Devices</string>
+    <string name="intro_description_3">Then please restart both watch and phone.</string>
+    <string name="intro_title_4">All Done!</string>
+    <string name="intro_description_4">We hope you enjoy using the app!</string>
+
 </resources>
