@@ -11,9 +11,6 @@ android {
         versionName "1.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
-    dataBinding {
-        enabled = true
-    }
     buildTypes {
         release {
             minifyEnabled false
@@ -25,7 +22,6 @@ android {
 def dbflow_version = "4.2.4"
 
 dependencies {
-    implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
     implementation project(":transport")
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'

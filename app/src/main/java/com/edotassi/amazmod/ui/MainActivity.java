@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationManagerCompat;
@@ -28,7 +27,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.BuildConfig;
-import com.edotassi.amazmod.MainIntroActivity;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
@@ -79,9 +77,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    public static final String PREF_KEY_FIRST_START = "com.edotassi.amazmod.PREF_KEY_FIRST_START";
-    public static final int REQUEST_CODE_INTRO = 1;
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -147,35 +142,7 @@ public class MainActivity extends AppCompatActivity
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
-        // Check if it is the first start using shared preference then start presentation if true
-        boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(PREF_KEY_FIRST_START, true);
-
-        if (firstStart) {
-            Intent intent = new Intent(MainActivity.this, MainIntroActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_INTRO);
-        }
-
-//        checkNotificationsAccess(); not needed anymore after adding presentation
-    }
-
-    // If presentation was run until the end, use shared preference to not start it again
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_INTRO) {
-            if (resultCode == RESULT_OK) {
-                PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putBoolean(PREF_KEY_FIRST_START, false)
-                        .apply();
-            } else {
-                PreferenceManager.getDefaultSharedPreferences(this).edit()
-                        .putBoolean(PREF_KEY_FIRST_START, true)
-                        .apply();
-                //User cancelled the intro so we'll finish this activity too.
-                finish();
-            }
-        }
+        checkNotificationsAccess();
     }
 
     @Override
@@ -293,7 +260,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-/** No needed anymore with presentation
     private void checkNotificationsAccess() {
         Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(this);
         int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
@@ -316,7 +282,7 @@ public class MainActivity extends AppCompatActivity
                     })
                     .show();
         }
-    } **/
+    }
 
     private void updateChart() {
         final List<Entry> yValues = new ArrayList<Entry>();
