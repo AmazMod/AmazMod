@@ -29,7 +29,13 @@
 
     <string name="watch_info">Watch\'s informations</string>
 
-    <string name="activity_about_text">Coded with love by @edotassi</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_project_maintainer">Project maintainer</string>
+    <string name="activity_about_project_maintainer_value">\@edotassi</string>
+    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs_value">\@lfomartins</string>
+    <string name="activity_about_testers">Testers</string>
+    <string name="activity_about_testers_value">\@pavelzeldin, \@Apostolos</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
 
     <string name="activity_stats_notifications_total">Total</string>
