@@ -19,7 +19,7 @@ public class Constants {
     public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
 
-    public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "";
+    public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
