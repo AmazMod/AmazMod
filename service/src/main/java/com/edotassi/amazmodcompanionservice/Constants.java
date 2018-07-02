@@ -17,6 +17,7 @@ public class Constants {
 
     public static final String EXTRA_REPLY = "extra.reply";
     public static final String EXTRA_NOTIFICATION_KEY = "extra.notification.key";
+    public static final String EXTRA_NOTIFICATION_ID = "extra.notification.id";
 
     public static final String PREF_NOTIFICATION_SCREEN_TIMEOUT = "pref_notification_screen_timeout";
     public static final String PREF_NOTIFICATION_VIBRATION = "pref_notification_vibration";
