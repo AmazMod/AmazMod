@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="default_notification_replies">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Thank you</item>
+    </string-array>
+</resources>

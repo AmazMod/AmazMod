@@ -1,6 +1,7 @@
 package com.edotassi.amazmod;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -8,14 +9,25 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 
+import com.edotassi.amazmod.support.AppInfo;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.app.NavigationPolicy;
 import com.heinrichreimersoftware.materialintro.app.OnNavigationBlockedListener;
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 import com.heinrichreimersoftware.materialintro.slide.Slide;
+import com.pixplicity.easyprefs.library.Prefs;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
+
+import amazmod.com.models.Reply;
 
 public class MainIntroActivity extends IntroActivity {
 
@@ -124,7 +136,7 @@ public class MainIntroActivity extends IntroActivity {
                     Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(getApplicationContext());
                     int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
                     if (index == -1) {
-                        return false;
+                        return true; //Will not block until Pavel fixes his phone :P
                     } else return true;
                 } else return true;
             }
@@ -149,5 +161,89 @@ public class MainIntroActivity extends IntroActivity {
             }
         });
 
+        //Set default replies if preference setting is empty
+        List<Reply> repliesValues = new ArrayList<>();
+        repliesValues = loadRepliesFromPrefs();
+
+        if (repliesValues.isEmpty()) {
+            String [] arrayReplies = getResources().getStringArray(R.array.default_notification_replies);
+            for (String a : arrayReplies ) {
+                Reply reply = new Reply();
+                reply.setValue(a);
+                repliesValues.add(reply);
+            }
+        }
+        Gson gsonReplies = new Gson();
+        String repliesJson = gsonReplies.toJson(repliesValues);
+        Prefs.putString(Constants.PREF_NOTIFICATIONS_REPLIES, repliesJson);
+
+        // Set default enabled packages if preference setting is empty
+        String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+        Gson gsonPackages = new Gson();
+        String[] packagesList = gsonPackages.fromJson(packagesJson, String[].class);
+
+        if (packagesJson.equals("[]")) {
+
+            String [] arrayPackages = getResources().getStringArray(R.array.default_notification_packages);
+            List<PackageInfo> packageInfoList = getPackageManager().getInstalledPackages(0);
+            List<AppInfo> appInfoList = new ArrayList<>();
+            Arrays.sort(packagesList);
+
+            for (PackageInfo packageInfo : packageInfoList) {
+                for (String appName : arrayPackages) {
+                    if (packageInfo.packageName.equals(appName)) {
+                        AppInfo appInfo = createAppInfo(packageInfo, true);
+                        appInfoList.add(appInfo);
+                    }
+                }
+            }
+            if (appInfoList != null) {
+                List<String> enabledPackages = new ArrayList<>();
+
+                Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                    @Override
+                    public int compare(AppInfo o1, AppInfo o2) {
+                        return o1.getPackageName().compareTo(o2.getPackageName());
+                    }
+                });
+
+                for (AppInfo appInfo : appInfoList) {
+                    if (appInfo.isEnabled()) {
+                        enabledPackages.add(appInfo.getPackageName());
+                    }
+                }
+
+                Gson gson = new Gson();
+                String pref = gson.toJson(enabledPackages);
+
+                Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
+            }
+
+        }
+
     }
+
+    private List<Reply> loadRepliesFromPrefs() {
+        try {
+            String repliesJson = Prefs.getString(Constants.PREF_NOTIFICATIONS_REPLIES, Constants.PREF_DEFAULT_NOTIFICATIONS_REPLIES);
+            Type listType = new TypeToken<List<Reply>>() {
+            }.getType();
+            return new Gson().fromJson(repliesJson, listType);
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    private AppInfo createAppInfo(PackageInfo packageInfo, boolean enabled) {
+        AppInfo appInfo = new AppInfo();
+
+        appInfo.setPackageName(packageInfo.packageName);
+        appInfo.setAppName(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
+        appInfo.setVersionName(packageInfo.versionName);
+        appInfo.setIcon(packageInfo.applicationInfo.loadIcon(getPackageManager()));
+        appInfo.setEnabled(enabled);
+
+        return appInfo;
+    }
+
 }

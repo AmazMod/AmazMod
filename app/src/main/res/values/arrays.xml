@@ -68,4 +68,17 @@
         <item>180</item>
         <item>240</item>
     </string-array>
+
+    <string-array name="default_notification_replies">
+        <item>Yes</item>
+        <item>No</item>
+        <item>Thank you</item>
+    </string-array>
+    <string-array name="default_notification_packages">
+        <item>org.telegram.messenger</item>
+        <item>com.whatsapp</item>
+        <item>com.google.android.gm</item>
+        <item>com.google.android.talk</item>
+        <item>com.matusmak.fakenotifications</item>
+    </string-array>
 </resources>

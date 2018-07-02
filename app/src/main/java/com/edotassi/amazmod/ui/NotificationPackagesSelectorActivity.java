@@ -132,10 +132,12 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
                 Arrays.sort(packagesList);
 
                 for (PackageInfo packageInfo : packageInfoList) {
+
                     boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
+
                     boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
-                    if (enabled || (!isSystemApp || (showSystemApps && isSystemApp))) {
-                        // It is a system app
+
+                    if (enabled || !isSystemApp || (showSystemApps && isSystemApp)) {
                         AppInfo appInfo = createAppInfo(packageInfo, enabled);
                         appInfoList.add(appInfo);
                     }
@@ -197,8 +199,16 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
     }
 
     private void save() {
+
         if (appInfoList != null) {
             List<String> enabledPackages = new ArrayList<>();
+
+            Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                @Override
+                public int compare(AppInfo o1, AppInfo o2) {
+                    return o1.getPackageName().compareTo(o2.getPackageName());
+                }
+            });
 
             for (AppInfo appInfo : appInfoList) {
                 if (appInfo.isEnabled()) {
