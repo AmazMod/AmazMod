@@ -85,11 +85,20 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         }
 
         if (id == R.id.action_activity_notification_packges_selector_toggle_all) {
+            long count=0;
+            for (AppInfo appInfoCheckforAll : appInfoList) {
+                if (appInfoCheckforAll.isEnabled()) count++;
+            }
+            if (appInfoList.size() <= count) {
+                selectedAll=true;
+            }
             for (AppInfo appInfo : appInfoList) {
                 appInfo.setEnabled(!selectedAll);
             }
             selectedAll = !selectedAll;
-
+            sortAppInfo(appInfoList);
+            appInfoAdapter.clear();
+            appInfoAdapter.addAll(appInfoList);
             appInfoAdapter.notifyDataSetChanged();
             return true;
         }
