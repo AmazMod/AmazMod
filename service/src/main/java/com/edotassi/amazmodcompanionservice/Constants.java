@@ -18,6 +18,8 @@ public class Constants {
     public static final String EXTRA_REPLY = "extra.reply";
     public static final String EXTRA_NOTIFICATION_KEY = "extra.notification.key";
 
+    public static final String PREF_DISABLE_NOTIFICATIONS = "preference.disable.notifications";
+    public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
     public static final String PREF_NOTIFICATION_SCREEN_TIMEOUT = "pref_notification_screen_timeout";
     public static final String PREF_NOTIFICATION_VIBRATION = "pref_notification_vibration";
     public static final String PREF_NOTIFICATION_CUSTOM_REPLIES = "pref_notification_custom_replies";
@@ -26,4 +28,6 @@ public class Constants {
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI = false;
+    public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
 }
