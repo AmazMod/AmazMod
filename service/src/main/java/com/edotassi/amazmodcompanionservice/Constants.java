@@ -17,6 +17,7 @@ public class Constants {
 
     public static final String EXTRA_REPLY = "extra.reply";
     public static final String EXTRA_NOTIFICATION_KEY = "extra.notification.key";
+    public static final String EXTRA_NOTIFICATION_ID = "extra.notification.id";
 
     public static final String PREF_DISABLE_NOTIFICATIONS = "preference.disable.notifications";
     public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
