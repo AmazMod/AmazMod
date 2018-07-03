@@ -3,9 +3,11 @@ package com.edotassi.amazmodcompanionservice.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -68,49 +70,59 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        title.setText(notificationSpec.getTitle());
-        text.setText(notificationSpec.getText());
+        try {
+            title.setText(notificationSpec.getTitle());
+            text.setText(notificationSpec.getText());
+            int[] iconData = notificationSpec.getIcon();
+            int iconWidth = notificationSpec.getIconWidth();
+            int iconHeight = notificationSpec.getIconHeight();
+            Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
 
-        int[] iconData = notificationSpec.getIcon();
-        int iconWidth = notificationSpec.getIconWidth();
-        int iconHeight = notificationSpec.getIconHeight();
-        Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-        bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+            icon.setImageBitmap(bitmap);
 
-        icon.setImageBitmap(bitmap);
+            if (notificationSpec.getVibration() > 0) {
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                vibrator.vibrate(notificationSpec.getVibration());
+            }
+        } catch (Exception ex) {
+            Log.d("NotificationActivity","Exception: " + ex + " notificationSpec: " + notificationSpec);
+            title.setText("AmazMod");
+            text.setText("Welcome to AmazMod");
+            icon.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_launcher_background));
+        }
 
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
 
         startTimerFinish();
 
-        if (notificationSpec.getVibration() > 0) {
-            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vibrator.vibrate(notificationSpec.getVibration());
-        }
-
         SettingsManager settingsManager = new SettingsManager(this);
-        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "");
+        final boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        List<Reply> repliesList = loadReplies();
-        for (final Reply reply : repliesList) {
-            Button button = new Button(this);
-            button.setLayoutParams(param);
-            button.setText(reply.getValue());
-            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
-                    finish();
-                }
-            });
+        if (!disableNotificationReplies) {
 
-            repliesContainer.addView(button);
+            List<Reply> repliesList = loadReplies();
+            for (final Reply reply : repliesList) {
+                Button button = new Button(this);
+                button.setLayoutParams(param);
+                button.setText(reply.getValue());
+                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
+                        finish();
+                    }
+                });
+
+                repliesContainer.addView(button);
+            }
         }
     }
 
@@ -134,8 +146,12 @@ public class NotificationActivity extends Activity {
     }
 
     private void startTimerFinish() {
-        handler.removeCallbacks(activityFinishRunnable);
-        handler.postDelayed(activityFinishRunnable, notificationSpec.getTimeoutRelock());
+        try {
+            handler.removeCallbacks(activityFinishRunnable);
+            handler.postDelayed(activityFinishRunnable, notificationSpec.getTimeoutRelock());
+        } catch (Exception ex) {
+        Log.d("NotificationActivity","Exception: " + ex + " activityFinishRunnable: " + activityFinishRunnable);
+        }
     }
 
     @Override

@@ -30,6 +30,10 @@ public class SettingsManager {
         editor.apply();
     }
 
+    public boolean getBoolean(String key, boolean defaultValue) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean(key, defaultValue);
+    }
+
     public int getInt(String key, int defaultValue) {
         return PreferenceManager.getDefaultSharedPreferences(context).getInt(key, defaultValue);
     }

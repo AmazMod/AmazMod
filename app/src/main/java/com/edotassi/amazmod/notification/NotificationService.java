@@ -68,7 +68,10 @@ public class NotificationService extends NotificationListenerService {
         boolean filterResult = filter(statusBarNotification);
 
         if (filterResult == CONTINUE) {
-            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false) && Screen.isInteractive(this)) {
+
+            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
+                    (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
+                            && Screen.isInteractive(this))) {
                 return;
             }
 
