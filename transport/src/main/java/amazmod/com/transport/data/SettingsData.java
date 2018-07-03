@@ -15,11 +15,15 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String VIBRATION = "vibration";
     public static final String SCREEN_TIMEOUT = "screen_timeout";
     public static final String NOTIFICATIONS_CUSTOM_UI = "notifications_custom_ui";
+    public static final String DISABLE_NOTIFICATIONS = "disable_notifications";
+    public static final String DISABLE_NOTIFICATION_REPLIES = "disable_notification_replies";
 
     private String replies;
     private int vibration;
     private int screenTimeout;
     private boolean notificationsCustomUi;
+    private boolean disableNotifications;
+    private boolean disableNotificationsReplies;
 
     public SettingsData() {
     }
@@ -29,6 +33,8 @@ public class SettingsData extends Transportable implements Parcelable {
         vibration = in.readInt();
         screenTimeout = in.readInt();
         notificationsCustomUi = in.readByte() != 0;
+        disableNotifications = in.readByte() != 0;
+        disableNotificationsReplies = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -50,6 +56,8 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putInt(VIBRATION, vibration);
         dataBundle.putInt(SCREEN_TIMEOUT, screenTimeout);
         dataBundle.putBoolean(NOTIFICATIONS_CUSTOM_UI, notificationsCustomUi);
+        dataBundle.putBoolean(DISABLE_NOTIFICATIONS, disableNotifications);
+        dataBundle.putBoolean(DISABLE_NOTIFICATION_REPLIES, disableNotificationsReplies);
 
         return dataBundle;
     }
@@ -61,6 +69,8 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setScreenTimeout(dataBundle.getInt(SCREEN_TIMEOUT));
         settingsData.setVibration(dataBundle.getInt(VIBRATION));
         settingsData.setNotificationsCustomUi(dataBundle.getBoolean(NOTIFICATIONS_CUSTOM_UI));
+        settingsData.setDisableNotifications(dataBundle.getBoolean(DISABLE_NOTIFICATIONS));
+        settingsData.setDisableNotificationReplies(dataBundle.getBoolean(DISABLE_NOTIFICATION_REPLIES));
 
         return settingsData;
     }
@@ -102,6 +112,22 @@ public class SettingsData extends Transportable implements Parcelable {
 
     public void setNotificationsCustomUi(boolean notificationsCustomUi) {
         this.notificationsCustomUi = notificationsCustomUi;
+    }
+
+    public boolean isDisableNotifications() {
+        return disableNotifications;
+    }
+
+    public void setDisableNotifications(boolean disableNotifications) {
+        this.disableNotifications = disableNotifications;
+    }
+
+    public boolean isDisableNotificationsReplies() {
+        return disableNotificationsReplies;
+    }
+
+    public void setDisableNotificationReplies(boolean disableNotificationReplies) {
+        this.disableNotificationsReplies = disableNotificationReplies;
     }
 
     @Override
