@@ -3,6 +3,8 @@ package com.edotassi.amazmodcompanionservice.notifications;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.os.Vibrator;
 import android.util.Log;
 
 import com.edotassi.amazmodcompanionservice.Constants;
@@ -28,5 +30,8 @@ public class NotificationsReceiver extends BroadcastReceiver {
 
         HermesEventBus.getDefault().post(new ReplyNotificationEvent(key, reply));
         Log.d(Constants.TAG, "action: " + action + ", notificationKey: " + key + ", reply: " + reply);
+
+        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        vibe.vibrate(100);
     }
 }

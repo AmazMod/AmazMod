@@ -1,5 +1,12 @@
 <changelog>
     <release
+        date="2018-07-02"
+        versionCode="134"
+        versionName="v1.0.6-ALPHA">
+        <info filter="watch">Now when you reply the notification is closed</info>
+        <info>Better wizard</info>
+    </release>
+    <release
         date="2018-07-01"
         versionCode="133"
         versionName="v1.0.5-ALPHA">

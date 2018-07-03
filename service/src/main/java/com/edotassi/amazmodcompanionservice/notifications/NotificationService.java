@@ -4,9 +4,13 @@ package com.edotassi.amazmodcompanionservice.notifications;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -19,7 +23,6 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import amazmod.com.models.Reply;
@@ -43,6 +46,16 @@ public class NotificationService {
         vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.INTENT_ACTION_REPLY);
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int notificationId = intent.getIntExtra(Constants.EXTRA_NOTIFICATION_ID, -1);
+                notificationManager.cancel(notificationId);
+            }
+        }, filter);
     }
 
     public void post(NotificationData notificationSpec) {
@@ -57,16 +70,6 @@ public class NotificationService {
         }
     }
 
-    private void postWithCustomUI(NotificationData notificationSpec) {
-        Intent intent = new Intent(context, NotificationActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(notificationSpec.toBundle());
-
-        context.startActivity(intent);
-    }
 
     private void postWithStandardUI(NotificationData notificationData) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
@@ -77,6 +80,29 @@ public class NotificationService {
                 .setContentTitle(notificationData.getTitle())
                 .setVibrate(new long[]{notificationData.getVibration()});
 
+        List<Reply> repliesList = loadReplies();
+
+        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
+        for (Reply reply : repliesList) {
+            Intent intent = new Intent();
+            intent.setPackage(context.getPackageName());
+            intent.setAction(Constants.INTENT_ACTION_REPLY);
+            intent.putExtra(Constants.EXTRA_REPLY, reply.getValue());
+            intent.putExtra(Constants.EXTRA_NOTIFICATION_KEY, notificationData.getKey());
+            intent.putExtra(Constants.EXTRA_NOTIFICATION_ID, notificationData.getId());
+            PendingIntent replyIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
+
+            NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, reply.getValue(), replyIntent).build();
+            wearableExtender.addAction(replyAction);
+        }
+
+        builder.extend(wearableExtender);
+
+        Notification notification = builder.build();
+
+        ApplicationInfo applicationInfo = notification.extras.getParcelable("android.rebuild.applicationInfo");
+
+        notificationManager.notify(notificationData.getId(), notification);
 
         //Log.d("Notifiche", "postWithStandardUI: " + notificationSpec.getKey() + " " + notificationSpec.getId() + " " + notificationSpec.getPkg());
 
@@ -102,22 +128,6 @@ public class NotificationService {
         */
 
 
-        List<Reply> repliesList = loadReplies();
-
-        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
-        for (Reply reply : repliesList) {
-            Intent intent = new Intent();
-            intent.setPackage(context.getPackageName());
-            intent.setAction(Constants.INTENT_ACTION_REPLY);
-            intent.putExtra(Constants.EXTRA_REPLY, reply.getValue());
-            intent.putExtra(Constants.EXTRA_NOTIFICATION_KEY, notificationData.getKey());
-            PendingIntent replyIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
-
-            NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, reply.getValue(), replyIntent).build();
-            wearableExtender.addAction(replyAction);
-        }
-
-        builder.extend(wearableExtender);
 
         /*
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
@@ -130,9 +140,17 @@ public class NotificationService {
             wakeLock.release();
         }
         */
+    }
 
-        Notification notification = builder.build();
-        notificationManager.notify(notificationData.getId(), notification);
+    private void postWithCustomUI(NotificationData notificationSpec) {
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtras(notificationSpec.toBundle());
+
+        context.startActivity(intent);
     }
 
     private List<Reply> loadReplies() {
