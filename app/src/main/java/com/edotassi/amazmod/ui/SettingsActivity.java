@@ -46,12 +46,18 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT));
         final boolean enableCustomUi = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI);
+        final boolean disableNotifications = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS);
+        final boolean disableNotificationReplies = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
         SettingsData settingsData = new SettingsData();
         settingsData.setReplies(replies);
         settingsData.setVibration(vibration);
         settingsData.setScreenTimeout(screeTimeout);
         settingsData.setNotificationsCustomUi(enableCustomUi);
+        settingsData.setDisableNotifications(disableNotifications);
+        settingsData.setDisableNotificationReplies(disableNotificationReplies);
 
         SyncSettings syncSettings = new SyncSettings(settingsData);
 

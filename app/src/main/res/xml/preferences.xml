@@ -99,6 +99,17 @@
             android:title="@string/pref_battery_chart_time_interval" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Other">
+        <Preference
+            android:summary="@string/pref_run_wizzard_summary"
+            android:title="@string/pref_run_wizard">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.edotassi.amazmod.MainIntroActivity"
+            android:targetPackage="com.edotassi.amazmod" />
+        </Preference>
+    </PreferenceCategory>
+
     <!--
         <PreferenceScreen
             android:key="preference.screen.amazmodservice"
