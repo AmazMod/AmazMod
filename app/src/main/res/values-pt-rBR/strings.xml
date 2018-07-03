@@ -73,7 +73,7 @@
     <string name="intro_label_grant_permissions">Conceda acesso às notificações antes de prosseguir.</string>
     <string name="intro_title_2">Instalar o App de Serviço no Relógio</string>
     <string name="intro_description_2">Baixa o APK amazmod_service do site do AmazMod e instale-o no seu relógio. Para instalá-lo, você pode usar o adb (todas as plataformas), APKInstaller ou Amazfit Tool se seu computador utiliza o Windows.</string>
-    <string name="intro_title_3">Reiniciar Dispositicos</string>
+    <string name="intro_title_3">Reiniciar Dispositivos</string>
     <string name="intro_description_3">Então reinicie o seu relógio e seu telefone.</string>
     <string name="intro_title_4">Tudo Pronto!</string>
     <string name="intro_description_4">Agora você pode ir para as configurações do AmazMode escolher os apps que você deseja receber notificações e adicionar suas respostas perosnalizadas.\n\nDivirta-se usando o AmazMod! \u2661</string>
