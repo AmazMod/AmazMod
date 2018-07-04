@@ -77,7 +77,7 @@
                     android:layout_below="@+id/notification_text"
                     android:background="#00ffffff"
                     android:gravity="right|center_vertical"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:text="Close"
                     android:textColor="@color/text" />
 
@@ -89,7 +89,7 @@
                     android:layout_alignParentStart="true"
                     android:background="#00ffffff"
                     android:gravity="left|center_vertical"
-                    android:padding="10dp"
+                    android:padding="12dp"
                     android:text="Keep"
                     android:textColor="@color/text" />
             </LinearLayout>

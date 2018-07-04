@@ -3,7 +3,6 @@ package com.edotassi.amazmodcompanionservice.notifications;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.os.Vibrator;
 import android.util.Log;
 
@@ -32,6 +31,10 @@ public class NotificationsReceiver extends BroadcastReceiver {
         Log.d(Constants.TAG, "action: " + action + ", notificationKey: " + key + ", reply: " + reply);
 
         Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        vibe.vibrate(100);
+        if(vibe != null) {
+//            vibe.vibrate(100);
+            System.out.println("NotificationsReceiver - vibRRRRRRRRRRRRate");
+        }
+
     }
 }

@@ -1,15 +1,15 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
@@ -57,16 +57,13 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.ObjectStreamClass;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import amazmod.com.transport.data.WatchStatusData;
@@ -122,6 +119,8 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.card_watch_detail)
     LinearLayout watchDetail;
 
+    public boolean restart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
@@ -152,7 +151,18 @@ public class MainActivity extends AppCompatActivity
         boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_KEY_FIRST_START, Constants.PREF_DEFAULT_KEY_FIRST_START);
 
+
         if (firstStart) {
+            //set locale to avoid app refresh after using Settings for the first time
+            Locale defaultLocale = Locale.getDefault();
+            Locale currentLocale = getResources().getConfiguration().locale;
+            System.out.println("Initial locales: " + defaultLocale + " / " + currentLocale);
+            Resources res = getResources();
+            Configuration conf = res.getConfiguration();
+            conf.locale = defaultLocale;
+            res.updateConfiguration(conf, getResources().getDisplayMetrics());
+
+            //Start Wizard Activity
             Intent intent = new Intent(MainActivity.this, MainIntroActivity.class);
             startActivityForResult(intent, Constants.REQUEST_CODE_INTRO);
         }
@@ -228,6 +238,10 @@ public class MainActivity extends AppCompatActivity
                 Intent a = new Intent(this, SettingsActivity.class);
                 a.setFlags(a.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(a);
+                if (getIntent().getBooleanExtra("REFRESH", true)) {
+                    recreate();
+                    getIntent().putExtra("REFRESH", false);
+                }
                 return true;
 
             case R.id.nav_abount:
@@ -470,4 +484,5 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
 }
