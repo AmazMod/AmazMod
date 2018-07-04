@@ -376,6 +376,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         BatteryStatusEntity prevRead = null;
+
+        int primaryColor = ContextCompat.getColor(this, R.color.colorPrimary);
+        int chargingColor = ContextCompat.getColor(this, R.color.colorCharging);
+
         for (int i = 0; i < batteryReadList.size(); i++) {
             BatteryStatusEntity read = batteryReadList.get(i);
             int level = (int) (read.getLevel() * 100f);
@@ -384,7 +388,8 @@ public class MainActivity extends AppCompatActivity
                 Entry entry = new Entry(read.getDate(), level);
                 yValues.add(entry);
 
-                colors.add(Color.parseColor(read.isCharging() ? "#00E676" : "#3F51B5"));
+                int lineColor = level > prevLevel ? chargingColor : primaryColor;
+                colors.add(lineColor);
             }
 
             prevRead = read;
