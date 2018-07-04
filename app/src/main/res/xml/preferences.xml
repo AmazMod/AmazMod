@@ -12,12 +12,14 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
             android:key="preference.disable.notifications.when.screen.on"
             android:summary="@string/pref_disable_notifications_when_screen_on_summary"
             android:title="@string/pref_disable_notifications_when_screen_on" />
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
             android:key="preference.notifications.enable.custom.ui"
             android:summary="@string/pref_notifications_enable_custom_ui_summary"
             android:title="@string/pref_notifications_enable_custom_ui" />
@@ -58,8 +60,8 @@
             android:entries="@array/pref_amazmodservice_vibration_entries"
             android:entryValues="@array/pref_amazmodservice_vibration_values"
             android:key="preference.amazmodservice.vibration"
-            android:summary="Vibration duration"
-            android:title="Vibration" />
+            android:summary="@string/pref_vibration_duration_summary"
+            android:title="@string/pref_vibration_duration" />
 
         <ListPreference
             android:defaultValue="7000"
@@ -68,8 +70,8 @@
             android:entries="@array/pref_amazmodservice_screen_timeout_entries"
             android:entryValues="@array/pref_amazmodservice_screen_timeout_values"
             android:key="preference.amazmodservice.screen.timeout"
-            android:summary="Screen timeout"
-            android:title="Screen timeout" />
+            android:summary="@string/pref_screen_timeout_summary"
+            android:title="@string/pref_screen_timeout" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Battery">
