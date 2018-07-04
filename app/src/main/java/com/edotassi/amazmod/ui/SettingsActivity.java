@@ -1,10 +1,15 @@
 package com.edotassi.amazmod.ui;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.Constants;
@@ -12,6 +17,8 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.SyncSettings;
 import com.huami.watch.transport.DataBundle;
 import com.pixplicity.easyprefs.library.Prefs;
+
+import java.util.Locale;
 
 import amazmod.com.transport.data.SettingsData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -51,6 +58,20 @@ public class SettingsActivity extends AppCompatActivity {
         final boolean disableNotificationReplies = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
+
+        //Change app localtion configuration and refresh it on preferece change
+        final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);
+
+        Locale defaultLocale = Locale.getDefault();
+        Locale currentLocale = getResources().getConfiguration().locale;
+        System.out.println("Settings locales: " + defaultLocale + " / " + currentLocale.toString());
+
+        if (forceEN && (currentLocale != Locale.US)) {
+            setLocale(Locale.US);
+        } else if (!forceEN && (currentLocale != defaultLocale)){
+            setLocale(defaultLocale);
+        }
+
         SettingsData settingsData = new SettingsData();
         settingsData.setReplies(replies);
         settingsData.setVibration(vibration);
@@ -75,4 +96,20 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.preferences);
         }
     }
+
+    //set locale and set flag used to activity refresh
+    public void setLocale(Locale lang) {
+        System.out.println("New locale: " + lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = lang;
+        res.updateConfiguration(conf, dm);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        finish();
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("REFRESH", true);
+        startActivity(intent);
+    }
+
 }

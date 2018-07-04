@@ -103,13 +103,18 @@
 
     <PreferenceCategory android:title="Other">
         <Preference
-            android:summary="@string/pref_run_wizzard_summary"
+            android:summary="@string/pref_run_wizard_summary"
             android:title="@string/pref_run_wizard">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="com.edotassi.amazmod.MainIntroActivity"
             android:targetPackage="com.edotassi.amazmod" />
         </Preference>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.force.english"
+            android:summary="@string/pref_force_english_summary"
+            android:title="@string/pref_force_english" />
     </PreferenceCategory>
 
     <!--

@@ -6,7 +6,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="about">About</string>
-    <string name="sync_settings">Sync settings</string>
+    <string name="sync_settings">Syncing settings&#8230;</string>
     <string name="brightness">Brightness</string>
     <string name="tweaking">Tweaking</string>
     <string name="stats">Stats</string>
@@ -28,7 +28,7 @@
 
     <string name="battery_chart_title">Battery chart</string>
 
-    <string name="watch_info">Watch\'s informations</string>
+    <string name="watch_info">Watch\'s information</string>
 
     <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_project_maintainer">Project maintainer</string>
@@ -52,7 +52,7 @@
     <string name="pref_battery_background_sync_interval">Background sync interval</string>
     <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval</string>
     <string name="pref_battery_chart_time_interval">Chart time interval</string>
-    <string name="pref_battery_chart_time_interval_summary">Set chart battery time interval</string>
+    <string name="pref_battery_chart_time_interval_summary">Set battery chart time interval</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies</string>
     <string name="pref_notifications_replies">Notifications replies</string>
     <string name="pref_disable_notifications_replies_summary">Disable replies in all notifications</string>
@@ -62,11 +62,13 @@
     <string name="pref_notifications_enable_custom_ui_summary">Notifications will use the Custom UI</string>
     <string name="pref_notifications_enable_custom_ui">Enable Custom UI</string>
     <string name="pref_run_wizard">Run Welcome Presentation</string>
-    <string name="pref_run_wizzard_summary">Run the welcome presentation again</string>
+    <string name="pref_run_wizard_summary">Run the welcome presentation again</string>
     <string name="pref_vibration_duration">Vibration duration</string>
     <string name="pref_vibration_duration_summary">Set the vibration duration</string>
     <string name="pref_screen_timeout">Screen timeout</string>
     <string name="pref_screen_timeout_summary">Set duration of Custom UI notifications</string>
+    <string name="pref_force_english">Force English</string>
+    <string name="pref_force_english_summary">Set app language to English, it will be refreshed when closing Preferences</string>
 
     <string name="notifications_service_name">AmazModNotificationsService</string>
 
@@ -80,6 +82,6 @@
     <string name="intro_title_3">Restart Devices</string>
     <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
     <string name="intro_title_4">All Done!</string>
-    <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notfications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
+    <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
 
 </resources>
