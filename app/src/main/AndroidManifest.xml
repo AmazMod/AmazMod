@@ -28,6 +28,7 @@
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.NotificationPackagesSelectorActivity" />
         <activity android:name=".ui.NotificationRepliesActivity" />
+        <activity android:name=".ui.PreferenceActivity" />
         <activity android:name=".MainIntroActivity"
             android:theme="@style/Theme.Intro"/>
         <service
