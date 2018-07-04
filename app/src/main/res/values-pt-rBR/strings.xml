@@ -1,0 +1,81 @@
+<resources>
+    <string name="app_name">AmazMod</string>
+    <string name="settings">Configurações</string>
+    <string name="notifications">Notificações</string>
+    <string name="other">Outro</string>
+    <string name="open">Abrir</string>
+    <string name="close">Fechar</string>
+    <string name="about">Sobre</string>
+    <string name="sync_settings">Configurações de sincronização</string>
+    <string name="brightness">Brilho</string>
+    <string name="tweaking">Modificações</string>
+    <string name="stats">Estatísticas</string>
+    <string name="changelog">Changelog</string>
+    <string name="enable">Habilitar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="select_unselect_all">(Des)Selecionar tudo</string>
+    <string name="show_system_apps">Mostrar apps do sistema</string>
+    <string name="replies">Respostas</string>
+    <string name="installed_apps">Apps instalados</string>
+    <string name="last_read">Última leitura</string>
+
+    <string name="add_new_reply">Incluir nova resposta</string>
+    <string name="enter_the_text_you_want_as_an_answer">Insira o texto que deseja como resposta</string>
+
+    <string name="notification_access">Acesso às notificações</string>
+    <string name="notification_access_not_enabled">Acesso às notificações não habilitado</string>
+    <string name="notification_access_enable">Habilitar</string>
+
+    <string name="battery_chart_title">Gráfico de bateria</string>
+
+    <string name="watch_info">Informações do relógio</string>
+
+    <string name="activity_about_text">Escrito com amor {gmd-favorite}</string>
+    <string name="activity_about_project_maintainer">Mantedor do projeto</string>
+    <string name="activity_about_project_maintainer_value">\@edotassi</string>
+    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs_value">\@lfomartins</string>
+    <string name="activity_about_testers">Testers</string>
+    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@Apostolos</string>
+    <string name="activity_about_email">edo.tassinari@gmail.com</string>
+
+    <string name="activity_stats_notifications_total">Total</string>
+    <string name="activity_stats_notifications_in_the_last_hour">Na última hora</string>
+    <string name="activity_stats_notifications_in_the_last_24_horus">Nas últimas 24 horas</string>
+
+    <string name="pref_disable_notifications_summary">Desabilitar notificações</string>
+    <string name="pref_disable_notifications">Desabilitar todas as notificações no AmazMod</string>
+    <string name="pref_filter_notifications_by_packages">Filtrar por apps</string>
+    <string name="pref_filter_notifications_by_packages_summary">Sumário do filtro por apps</string>
+    <string name="pref_disable_battery_chart">Desabilitar gráfico de bateria</string>
+    <string name="pref_disable_battery_chart_summary">Sumário desabilitar gráfico de bateria</string>
+    <string name="pref_battery_background_sync_interval">Intervalo de sincronização em segundo plano</string>
+    <string name="pref_battery_background_sync_interval_summary">Sumário do intervalo de sincronização em segundo plano</string>
+    <string name="pref_battery_chart_time_interval">Intervalo de tempo do gráfico</string>
+    <string name="pref_battery_chart_time_interval_summary">Sumário do intervalo de tempo do gráfico</string>
+    <string name="pref_notifications_replies_summary">Insira respostas personalizadas separadas por vírgula</string>
+    <string name="pref_notifications_replies">Respostas para notificações</string>
+    <string name="pref_disable_notifications_replies_summary">Sumário desabilitar respostas a notificações</string>
+    <string name="pref_disable_notifications_replies">Desabilitar respostas a notificações</string>
+    <string name="pref_disable_notifications_when_screen_on_summary">Desabilitar notificações quando a tela estiver LIGADA</string>
+    <string name="pref_disable_notifications_when_screen_on">Desabilitar quando a tela está LIGADA</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Sumário habilitar notificações personalizadas</string>
+    <string name="pref_notifications_enable_custom_ui">Habilitar personalização</string>
+    <string name="pref_run_wizard">Executar apresentação de boas vindas</string>
+    <string name="pref_run_wizzard_summary">Executar apresentação de boas vindas de novo</string>
+
+    <string name="notifications_service_name">AmazModNotificationsService</string>
+
+    <string name="intro_title_1">Bem vindo ao AmazMod!</string>
+    <string name="intro_description_1">Siga esta apresentação para aprender a instalar o app de serviço no relógio e conceder acesso às notificações no app do celular.</string>
+    <string name="intro_title_permissions">Accesso a Notificações</string>
+    <string name="intro_description_permissions">O AmazMod precisa de acesso às notificações para que elas possam ser enviadas ao seu relógio, toque no botão abaixo para conceder acesso às notificações, depois volte para esta apresentação.</string>
+    <string name="intro_label_grant_permissions">Conceda acesso às notificações antes de prosseguir.</string>
+    <string name="intro_title_2">Instalar o App de Serviço no Relógio</string>
+    <string name="intro_description_2">Baixa o APK amazmod_service do site do AmazMod e instale-o no seu relógio. Para instalá-lo, você pode usar o adb (todas as plataformas), APKInstaller ou Amazfit Tool se seu computador utiliza o Windows.</string>
+    <string name="intro_title_3">Reiniciar Dispositivos</string>
+    <string name="intro_description_3">Então reinicie o seu relógio e seu telefone.</string>
+    <string name="intro_title_4">Tudo Pronto!</string>
+    <string name="intro_description_4">Agora você pode ir para as configurações do AmazMode escolher os apps que você deseja receber notificações e adicionar suas respostas perosnalizadas.\n\nDivirta-se usando o AmazMod! \u2661</string>
+
+</resources>
