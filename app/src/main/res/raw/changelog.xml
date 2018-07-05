@@ -1,11 +1,18 @@
 <changelog>
     <release
+        date=""
+        versionCode="136"
+        versionName="v1.0.8-ALPHA">
+        <bugfix>Charging color in battery chart</bugfix>
+    </release>
+    <release
         date="2018-07-04"
         versionCode="135"
         versionName="v1.0.7-ALPHA">
         <new>Added preference to force English localization</new>
         <info>Updated Preferences (again)</info>
-        <info filter="watch">Keep button on Custom UI notifications save them to system drawer</info>
+        <info filter="watch">Keep button on Custom UI notifications save them to system drawer
+        </info>
         <info>Added initial Brazilian Portuguese localization</info>
         <info>Added optional Activity for preferences (WIP)</info>
     </release>
