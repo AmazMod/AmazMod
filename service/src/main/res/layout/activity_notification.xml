@@ -31,7 +31,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:padding="5dp"
-                    app:srcCompat="@color/white" />
+                    app:srcCompat="@drawable/amazmod" />
             </LinearLayout>
 
             <TextView
@@ -47,6 +47,17 @@
                 android:text="TextView"
                 android:textColor="@color/text"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/notification_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:padding="5dp"
+                android:text="00:00"
+                android:textColor="@color/text" />
 
             <TextView
                 android:id="@+id/notification_text"
@@ -72,11 +83,8 @@
                     android:id="@+id/activity_notification_button_close"
                     android:layout_width="106dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/notification_text"
                     android:background="#00ffffff"
-                    android:gravity="right|center_vertical"
+                    android:gravity="end|center_vertical"
                     android:padding="12dp"
                     android:text="Close"
                     android:textColor="@color/text" />
@@ -85,10 +93,8 @@
                     android:id="@+id/activity_notification_button_reply"
                     android:layout_width="107dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
                     android:background="#00ffffff"
-                    android:gravity="left|center_vertical"
+                    android:gravity="start|center_vertical"
                     android:padding="12dp"
                     android:text="Keep"
                     android:textColor="@color/text" />
@@ -98,7 +104,8 @@
                 android:id="@+id/notification_replies_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:orientation="vertical">
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

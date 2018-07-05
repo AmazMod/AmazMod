@@ -44,6 +44,8 @@ public class NotificationActivity extends Activity {
 
     @BindView(R2.id.notification_title)
     TextView title;
+    @BindView(R2.id.notification_time)
+    TextView time;
     @BindView(R2.id.notification_text)
     TextView text;
     @BindView(R2.id.notification_icon)
@@ -77,6 +79,7 @@ public class NotificationActivity extends Activity {
         try {
             title.setText(notificationSpec.getTitle());
             text.setText(notificationSpec.getText());
+            time.setText(notificationSpec.getTime());
             int[] iconData = notificationSpec.getIcon();
             int iconWidth = notificationSpec.getIconWidth();
             int iconHeight = notificationSpec.getIconHeight();
@@ -95,6 +98,7 @@ public class NotificationActivity extends Activity {
             System.out.println("NotificationActivity onCreate - Exception: " + ex + " notificationSpec: " + notificationSpec);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
+            time.setText("00:00");
             icon.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.amazmod));
             nullError = true;
         }
@@ -154,7 +158,10 @@ public class NotificationActivity extends Activity {
         }
         else {
 //            Toast.makeText(this, "not_implented", Toast.LENGTH_SHORT).show();
+
+            //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #1
             postWithStandardUI(notificationSpec);
+
             finish();
         }
     }
@@ -185,6 +192,7 @@ public class NotificationActivity extends Activity {
         }
     }
 
+    //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #2
     private void postWithStandardUI(NotificationData notificationData) {
 
         NotificationManager notificationManager;
