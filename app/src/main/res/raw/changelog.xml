@@ -14,7 +14,7 @@
         <info filter="watch">Keep button on Custom UI notifications save them to system drawer
         </info>
         <info>Added initial Brazilian Portuguese localization</info>
-        <info>Added optional Activity fro preferences (WIP)</info>
+        <info>Added optional Activity for preferences (WIP)</info>
     </release>
     <release
         date="2018-07-02"

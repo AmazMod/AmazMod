@@ -63,6 +63,12 @@
     <string name="pref_notifications_enable_custom_ui">Habilitar personalização</string>
     <string name="pref_run_wizard">Executar apresentação de boas vindas</string>
     <string name="pref_run_wizzard_summary">Executar apresentação de boas vindas de novo</string>
+    <string name="pref_vibration_duration">Vibration duration</string>
+    <string name="pref_vibration_duration_summary">Set the vibration duration</string>
+    <string name="pref_screen_timeout">Screen timeout</string>
+    <string name="pref_screen_timeout_summary">Set duration of Custom UI notifications</string>
+    <string name="pref_force_english">Force English</string>
+    <string name="pref_force_english_summary">Set app language to English, it will be refreshed when closing Preferences</string>
 
     <string name="notifications_service_name">AmazModNotificationsService</string>
 
