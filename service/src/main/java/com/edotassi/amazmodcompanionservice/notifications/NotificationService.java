@@ -11,9 +11,12 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Icon;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -24,6 +27,8 @@ import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.ui.NotificationActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -42,7 +47,7 @@ import static android.content.Context.VIBRATOR_SERVICE;
 public class NotificationService {
 
     private Context context;
-//    private Vibrator vibrator;
+    //    private Vibrator vibrator;
     private NotificationManager notificationManager;
 
     public NotificationService(Context context) {
@@ -82,29 +87,38 @@ public class NotificationService {
     private void postWithStandardUI(NotificationData notificationData, boolean disableNotificationReplies) {
 
         Intent intent = new Intent();
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0 , intent,PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
+        /*
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification_test);
         contentView.setTextViewText(R.id.notification_title, notificationData.getTitle());
         contentView.setTextViewText(R.id.notification_text, notificationData.getText());
+
+
+
+        contentView.setImageViewBitmap(R.id.notification_icon, bitmap);
+        contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
+        */
+
+        Log.d("NotifIcon", "1");
 
         int[] iconData = notificationData.getIcon();
         int iconWidth = notificationData.getIconWidth();
         int iconHeight = notificationData.getIconHeight();
         Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
         bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
-        Log.d("NotifIcon", "1");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
-                .setLargeIcon(bitmap)
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Notification.EXTRA_LARGE_ICON_BIG, bitmap);
+        bundle.putParcelable(Notification.EXTRA_LARGE_ICON, bitmap);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                .setStyle(new NotificationCompat.InboxStyle())
-                .setStyle(new NotificationCompat.BigTextStyle()
-                .bigText(notificationData.getText()))
-                .setContent(contentView)
                 .setContentIntent(pendingIntent)
                 .setContentText(notificationData.getText())
                 .setContentTitle(notificationData.getTitle())
+                .setExtras(bundle)
                 .setVibrate(new long[]{notificationData.getVibration()});
 
         if (!disableNotificationReplies) {
@@ -113,7 +127,6 @@ public class NotificationService {
 
             NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
             for (Reply reply : repliesList) {
-//                Intent intent = new Intent();
                 intent.setPackage(context.getPackageName());
                 intent.setAction(Constants.INTENT_ACTION_REPLY);
                 intent.putExtra(Constants.EXTRA_REPLY, reply.getValue());
@@ -131,6 +144,23 @@ public class NotificationService {
         Notification notification = builder.build();
 
 //        ApplicationInfo applicationInfo = notification.extras.getParcelable("android.rebuild.applicationInfo");
+
+
+        /*
+        try {
+            int[] iconData = notificationData.getIcon();
+            int iconWidth = notificationData.getIconWidth();
+            int iconHeight = notificationData.getIconHeight();
+            Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+
+            Icon icon = Icon.CREATOR.createFromParcel(null);
+            //Icon ic = new Icon(Icon.T);
+            FieldUtils.writeField(notification, "mSmallIcon", null, true);
+        } catch (Exception ex) {
+            Log.d(Constants.TAG, "write field failed");
+        }
+        */
 
         notificationManager.notify(notificationData.getId(), notification);
 
