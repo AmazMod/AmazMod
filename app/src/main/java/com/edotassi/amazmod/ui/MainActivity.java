@@ -119,8 +119,6 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.card_watch_detail)
     LinearLayout watchDetail;
 
-    public boolean restart;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));

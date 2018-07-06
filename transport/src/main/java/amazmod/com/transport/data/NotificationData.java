@@ -15,6 +15,7 @@ public class NotificationData extends Transportable implements Parcelable {
     private final String DATA_KEY = "key";
     private final String DATA_ID = "id";
     private final String DATA_TITLE = "title";
+    private final String DATA_TIME = "time";
     private final String DATA_TEXT = "text";
     private final String DATA_ICON = "icon";
     private final String DATA_ICON_WIDTH = "iconWidth";
@@ -23,6 +24,7 @@ public class NotificationData extends Transportable implements Parcelable {
     private String key;
     private int id;
     private String title;
+    private String time;
     private String text;
     private int[] icon;
     private int iconWidth;
@@ -38,6 +40,7 @@ public class NotificationData extends Transportable implements Parcelable {
         key = in.readString();
         id = in.readInt();
         title = in.readString();
+        time = in.readString();
         text = in.readString();
         icon = in.createIntArray();
         iconWidth = in.readInt();
@@ -139,11 +142,16 @@ public class NotificationData extends Transportable implements Parcelable {
         this.iconHeight = iconHeight;
     }
 
+    public void setTime (String time) { this.time = time; }
+
+    public String getTime () { return time; }
+
     @Override
     public DataBundle toDataBundle(DataBundle dataBundle) {
         dataBundle.putString(DATA_KEY, key);
         dataBundle.putInt(DATA_ID, id);
         dataBundle.putString(DATA_TITLE, title);
+        dataBundle.putString(DATA_TIME, time);
         dataBundle.putString(DATA_TEXT, text);
         dataBundle.putIntArray(DATA_ICON, icon);
         dataBundle.putInt(DATA_ICON_WIDTH, iconWidth);
@@ -166,6 +174,7 @@ public class NotificationData extends Transportable implements Parcelable {
         NotificationData notificationData = new NotificationData();
 
         String title = dataBundle.getString("title");
+        String time = dataBundle.getString("time");
         String text = dataBundle.getString("text");
         int id = dataBundle.getInt("id");
         String key = dataBundle.getString("key");
@@ -174,6 +183,7 @@ public class NotificationData extends Transportable implements Parcelable {
         int iconHeight = dataBundle.getInt("iconHeight");
 
         notificationData.setTitle(title);
+        notificationData.setTime(time);
         notificationData.setText(text);
         notificationData.setIcon(icon);
         notificationData.setIconWidth(iconWidth);
@@ -194,6 +204,7 @@ public class NotificationData extends Transportable implements Parcelable {
         dest.writeString(key);
         dest.writeInt(id);
         dest.writeString(title);
+        dest.writeString(time);
         dest.writeString(text);
         dest.writeIntArray(icon);
         dest.writeInt(iconWidth);
@@ -202,4 +213,5 @@ public class NotificationData extends Transportable implements Parcelable {
         dest.writeByte((byte) (isDeviceLocked ? 1 : 0));
         dest.writeInt(timeoutRelock);
     }
+
 }
