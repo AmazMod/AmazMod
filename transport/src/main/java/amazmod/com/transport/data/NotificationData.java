@@ -15,7 +15,7 @@ public class NotificationData extends Transportable implements Parcelable {
     private final String DATA_KEY = "key";
     private final String DATA_ID = "id";
     private final String DATA_TITLE = "title";
-    private final String DATA_TIME = "title";
+    private final String DATA_TIME = "time";
     private final String DATA_TEXT = "text";
     private final String DATA_ICON = "icon";
     private final String DATA_ICON_WIDTH = "iconWidth";
