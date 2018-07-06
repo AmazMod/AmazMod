@@ -23,7 +23,7 @@ android {
         defaultConfig {
             applicationId "com.edotassi.amazmodcompanionservice"
             minSdkVersion 21
-            targetSdkVersion 26
+            targetSdkVersion 21
             versionCode build
             versionName "${major}.${minor}.${patch}_(${build})"
             //setProperty("archivesBaseName", "AmazModService-$versionName")
@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.github.marlonlom:timeago:3.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'org.apache.commons:commons-lang3:3.6'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 
     implementation files('../libs/SpringboardPluginLib.jar')

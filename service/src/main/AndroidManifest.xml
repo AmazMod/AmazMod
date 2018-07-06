@@ -75,6 +75,16 @@
         <service android:name=".MainService" />
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
 
+        <service
+            android:name="com.edotassi.amazmodcompanionservice.NotificationListener"
+            android:exported="true"
+            android:label="AmazModNotificationListenerService"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
         <meta-data
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />
