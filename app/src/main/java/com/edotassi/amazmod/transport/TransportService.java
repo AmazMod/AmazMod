@@ -2,6 +2,7 @@ package com.edotassi.amazmod.transport;
 
 import android.app.Service;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
@@ -126,7 +127,7 @@ public class TransportService extends Service implements Transporter.DataListene
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void incomingNotification(OutcomingNotification outcomingNotification) {
-        send(Transport.INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
+        //send(Transport.INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

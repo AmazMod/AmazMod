@@ -20,6 +20,11 @@ import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
 import com.edotassi.amazmod.util.Screen;
 import com.google.gson.Gson;
+import com.huami.watch.notification.data.StatusBarNotificationData;
+import com.huami.watch.transport.DataBundle;
+import com.huami.watch.transport.DataTransportResult;
+import com.huami.watch.transport.Transporter;
+import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
@@ -45,6 +50,8 @@ public class NotificationService extends NotificationListenerService {
 
     private Map<String, StatusBarNotification> notificationsAvailableToReply;
 
+    private Transporter notificationTransporter;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -52,6 +59,9 @@ public class NotificationService extends NotificationListenerService {
         HermesEventBus.getDefault().register(this);
 
         notificationsAvailableToReply = new HashMap<>();
+
+        notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
+        notificationTransporter.connectTransportService();
     }
 
     @Override
@@ -69,6 +79,8 @@ public class NotificationService extends NotificationListenerService {
 
         if (filterResult == CONTINUE) {
 
+            StatusBarNotificationData statusBarNotificationData = StatusBarNotificationData.from(statusBarNotification);
+
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
                     (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
                             && Screen.isInteractive(this))) {
@@ -79,7 +91,15 @@ public class NotificationService extends NotificationListenerService {
 
             notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
-            HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+
+            DataBundle dataBundle = new DataBundle();
+            dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+            notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
+                @Override
+                public void onResultBack(DataTransportResult dataTransportResult) {
+                    Logger.debug(dataTransportResult.toString());
+                }
+            });
 
             storeForStats(statusBarNotification);
         }
