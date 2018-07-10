@@ -132,11 +132,11 @@ public class MainIntroActivity extends IntroActivity {
             public boolean canGoForward(int position) {
                 Slide slide = getSlide(position);
                 if (slide == accessNotificationsSlide) {
-                    Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(getApplicationContext());
-                    int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
-                    if (index == -1) {
-                        return false;
-                    } else return true;
+//                    Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(getApplicationContext());
+//                    int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
+                    if (Settings.Secure.getString(getContentResolver(),"enabled_notification_listeners").contains(getApplicationContext().getPackageName())) {
+                        return true;
+                    } else return false;
                 } else return true;
             }
             @Override
