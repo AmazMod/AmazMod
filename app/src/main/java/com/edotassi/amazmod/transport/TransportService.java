@@ -127,7 +127,7 @@ public class TransportService extends Service implements Transporter.DataListene
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void incomingNotification(OutcomingNotification outcomingNotification) {
-        //send(Transport.INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
+        send(Transport.INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

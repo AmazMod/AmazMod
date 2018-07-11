@@ -91,18 +91,42 @@ public class NotificationService extends NotificationListenerService {
 
             notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
+            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,false)) {
+                //Use Custom UI
+                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+            }
+            else {
+                DataBundle dataBundle = new DataBundle();
+                dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+                notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
+                    @Override
+                    public void onResultBack(DataTransportResult dataTransportResult) {
+                        Logger.debug(dataTransportResult.toString());
+                    }
+                });
+            }
+            storeForStats(statusBarNotification);
+        }
+    }
 
-            DataBundle dataBundle = new DataBundle();
-            dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
-            notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
+    //Remove notification from watch if it was removed from phone
+    @Override
+    public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
+        Logger.debug("notificationRemoved: %s", statusBarNotification.getKey());
+
+        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false)) {
+            return;
+        }
+
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+        notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     Logger.debug(dataTransportResult.toString());
                 }
-            });
+        });
 
-            storeForStats(statusBarNotification);
-        }
     }
 
     private boolean filter(StatusBarNotification statusBarNotification) {

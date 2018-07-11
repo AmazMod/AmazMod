@@ -1,6 +1,9 @@
 <resources>
     <string name="settings">Beállítások</string>
     <string name="notifications">Értesítések</string>
+    <string name="battery">Battery</string>
+    <string name="customui">Custom UI</string>
+    <string name="others">Others</string>
     <string name="other">Egyéb</string>
     <string name="open">Megnyit</string>
     <string name="close">Bezár</string>

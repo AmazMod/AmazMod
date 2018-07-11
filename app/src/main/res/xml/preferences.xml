@@ -17,13 +17,6 @@
             android:summary="@string/pref_disable_notifications_when_screen_on_summary"
             android:title="@string/pref_disable_notifications_when_screen_on" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="preference.disable.notifications"
-            android:key="preference.notifications.enable.custom.ui"
-            android:summary="@string/pref_notifications_enable_custom_ui_summary"
-            android:title="@string/pref_notifications_enable_custom_ui" />
-
         <Preference
             android:dependency="preference.disable.notifications"
             android:summary="@string/pref_filter_notifications_by_packages_summary"
@@ -37,6 +30,16 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="preference.disable.notifications"
+            android:disableDependentsState="false"
+            android:key="preference.notifications.enable.custom.ui"
+            android:summary="@string/pref_notifications_enable_custom_ui_summary"
+            android:title="@string/pref_notifications_enable_custom_ui" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/customui">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
             android:disableDependentsState="true"
             android:key="preference.amazmodservice.enable.replies"
             android:summary="@string/pref_disable_notifications_replies_summary"
@@ -55,7 +58,7 @@
 
         <ListPreference
             android:defaultValue="300"
-            android:dependency="preference.disable.notifications"
+            android:dependency="preference.notifications.enable.custom.ui"
             android:dialogTitle="Vibration"
             android:entries="@array/pref_amazmodservice_vibration_entries"
             android:entryValues="@array/pref_amazmodservice_vibration_values"
@@ -65,7 +68,7 @@
 
         <ListPreference
             android:defaultValue="7000"
-            android:dependency="preference.disable.notifications"
+            android:dependency="preference.notifications.enable.custom.ui"
             android:dialogTitle="Screen timeout"
             android:entries="@array/pref_amazmodservice_screen_timeout_entries"
             android:entryValues="@array/pref_amazmodservice_screen_timeout_values"
@@ -74,7 +77,7 @@
             android:title="@string/pref_screen_timeout" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Battery">
+    <PreferenceCategory android:title="@string/battery">
         <SwitchPreference
             android:defaultValue="false"
             android:disableDependentsState="true"
@@ -101,7 +104,12 @@
             android:title="@string/pref_battery_chart_time_interval" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Other">
+    <PreferenceCategory android:title="@string/others">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.force.english"
+            android:summary="@string/pref_force_english_summary"
+            android:title="@string/pref_force_english" />
         <Preference
             android:summary="@string/pref_run_wizard_summary"
             android:title="@string/pref_run_wizard">
@@ -110,11 +118,6 @@
             android:targetClass="com.edotassi.amazmod.MainIntroActivity"
             android:targetPackage="com.edotassi.amazmod" />
         </Preference>
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.force.english"
-            android:summary="@string/pref_force_english_summary"
-            android:title="@string/pref_force_english" />
     </PreferenceCategory>
 
     <!--
