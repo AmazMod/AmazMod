@@ -2,6 +2,9 @@
     <string name="app_name">AmazMod</string>
     <string name="settings">Configurações</string>
     <string name="notifications">Notificações</string>
+    <string name="battery">Battery</string>
+    <string name="customui">Custom UI</string>
+    <string name="others">Others</string>
     <string name="other">Outro</string>
     <string name="open">Abrir</string>
     <string name="close">Fechar</string>

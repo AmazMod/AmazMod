@@ -9,6 +9,10 @@ public class OutcomingNotification {
     private NotificationData notificationData;
     private StatusBarNotificationData statusBarNotificationData;
 
+    public OutcomingNotification(NotificationData notificationData) {
+        this.notificationData = notificationData;
+    }
+
     public OutcomingNotification(NotificationData notificationData, StatusBarNotificationData statusBarNotificationData) {
         this.notificationData = notificationData;
         this.statusBarNotificationData = statusBarNotificationData;
