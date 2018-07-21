@@ -32,15 +32,6 @@
         <item>15000</item>
         <item>20000</item>
     </string-array>
-    <string-array name="pref_battery_chart_range_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>5</item>
-        <item>7</item>
-        <item>10</item>
-        <item>15</item>
-    </string-array>
     <string-array name="pref_battery_chart_range_entries">
         <item>1 day</item>
         <item>2 days</item>
@@ -49,6 +40,15 @@
         <item>7 days</item>
         <item>10 days</item>
         <item>15 days</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
         <item>15 min</item>
@@ -68,7 +68,6 @@
         <item>180</item>
         <item>240</item>
     </string-array>
-
     <string-array name="default_notification_replies">
         <item>Yes</item>
         <item>No</item>

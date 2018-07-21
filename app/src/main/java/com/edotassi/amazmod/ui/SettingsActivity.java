@@ -25,6 +25,8 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    private boolean disableBatteryChartOnCreate;
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -37,6 +39,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.settings);
+
+        this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
+                Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MyPreferenceFragment())
@@ -58,6 +63,16 @@ public class SettingsActivity extends AppCompatActivity {
         final boolean disableNotificationReplies = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
+        final boolean disableBatteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
+                Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        if (disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            finish();
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("REFRESH", true);
+            startActivity(intent);
+        }
 
         //Change app localtion configuration and refresh it on preferece change
         final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);

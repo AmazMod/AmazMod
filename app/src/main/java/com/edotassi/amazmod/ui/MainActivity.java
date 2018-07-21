@@ -141,6 +141,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Hide Battery Chart if it's set in Preferences
+        boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        if (disableBatteryChart) {
+
+            findViewById(R.id.card_battery).setVisibility(View.GONE);
+
+        }
+
         HermesEventBus.getDefault().register(this);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
@@ -227,8 +237,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
-//        int id = item.getItemId();
 
         switch (item.getItemId()) {
 
@@ -337,9 +345,9 @@ public class MainActivity extends AppCompatActivity
         final List<Entry> yValues = new ArrayList<Entry>();
         final List<Integer> colors = new ArrayList<>();
 
-
-        //TODO use Preferences for days
-        final int days = 3;
+        //Cast number of days shown in chart from Preferences
+        final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
 
         Calendar calendar = Calendar.getInstance();
         long highX = calendar.getTimeInMillis();
