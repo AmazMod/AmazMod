@@ -119,6 +119,8 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.card_watch_detail)
     LinearLayout watchDetail;
 
+    private boolean disableBatteryChart;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
@@ -142,10 +144,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Hide Battery Chart if it's set in Preferences
-        boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
+        this.disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
 
-        if (disableBatteryChart) {
+        if (this.disableBatteryChart) {
 
             findViewById(R.id.card_battery).setVisibility(View.GONE);
 
@@ -213,7 +215,9 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        updateChart();
+        if (!this.disableBatteryChart) {
+            updateChart();
+        }
     }
 
     @Override
