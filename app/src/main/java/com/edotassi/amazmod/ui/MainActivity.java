@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity
     LinearLayout watchDetail;
 
     private boolean disableBatteryChart;
+    Locale defaultLocale;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,12 +163,13 @@ public class MainActivity extends AppCompatActivity
         boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_KEY_FIRST_START, Constants.PREF_DEFAULT_KEY_FIRST_START);
 
+        //Get Locales
+        defaultLocale = Locale.getDefault();
+        Locale currentLocale = getResources().getConfiguration().locale;
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            Locale defaultLocale = Locale.getDefault();
-            Locale currentLocale = getResources().getConfiguration().locale;
-            System.out.println("Initial locales: " + defaultLocale + " / " + currentLocale);
+            System.out.println("firstStart locales: " + defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
             conf.locale = defaultLocale;
@@ -175,6 +178,20 @@ public class MainActivity extends AppCompatActivity
             //Start Wizard Activity
             Intent intent = new Intent(MainActivity.this, MainIntroActivity.class);
             startActivityForResult(intent, Constants.REQUEST_CODE_INTRO);
+        }
+
+        //Change app localization if needed
+        final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
+        System.out.println("MainActivity locales: " + defaultLocale + " / " + currentLocale);
+        if (forceEN && (currentLocale != Locale.US)) {
+            System.out.println("MaiActivity New locale: US");
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            conf.locale = Locale.US;
+            res.updateConfiguration(conf, dm);
+            recreate();
         }
 
 //        checkNotificationsAccess(); not needed anymore after adding presentation
@@ -369,8 +386,8 @@ public class MainActivity extends AppCompatActivity
         if (batteryReadList.size() > 0) {
             BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
             Date lastDate = new Date(lastEntity.getDate());
-            String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(lastDate);
-            String date = DateFormat.getDateInstance(DateFormat.SHORT).format(lastDate);
+            String time = DateFormat.getTimeInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
+            String date = DateFormat.getDateInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
 
             Calendar calendarLastDate = Calendar.getInstance();
             calendarLastDate.setTime(lastDate);
