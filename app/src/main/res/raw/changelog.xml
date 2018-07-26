@@ -5,7 +5,6 @@
         versionName="v1.0.10-ALPHA">
         <new>AmazMod will now respect DND mode (experimental)</new>
         <new>Setting added to disable notifications when DND is enabled</new>
-        <new>Implemented both Disable Battery Chart and Chart Time Interval</new>
         <bugfix>Time since last full charge display enhanced</bugfix>
     </release>
     <release
