@@ -39,4 +39,15 @@
         android:textAlignment="center"
         android:textColor="@android:color/white" />
 
+    <TextView
+        android:id="@+id/time_since_last_charge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="23dp"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@android:color/white" />
+
 </RelativeLayout>

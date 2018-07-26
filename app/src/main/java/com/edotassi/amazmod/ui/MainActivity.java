@@ -62,7 +62,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -363,7 +365,7 @@ public class MainActivity extends AppCompatActivity
      **/
 
     private void updateChart() {
-        final List<Entry> yValues = new ArrayList<Entry>();
+        final List<Entry> yValues = new ArrayList<>();
         final List<Integer> colors = new ArrayList<>();
 
         //Cast number of days shown in chart from Preferences
@@ -386,6 +388,31 @@ public class MainActivity extends AppCompatActivity
         if (batteryReadList.size() > 0) {
             BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
             Date lastDate = new Date(lastEntity.getDate());
+
+            long lastChargeDate = lastEntity.getDateLastCharge();
+            String dateDiff = "";
+            if (lastChargeDate != 0) {
+                long diffInMillies = System.currentTimeMillis() - lastChargeDate;
+                List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+                Collections.reverse(units);
+                long milliesRest = diffInMillies;
+                for ( TimeUnit unit : units ) {
+                    long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
+                    long diffInMilliesForUnit = unit.toMillis(diff);
+                    milliesRest = milliesRest - diffInMilliesForUnit;
+                    if (unit.equals(TimeUnit.DAYS)) {
+                        dateDiff += diff + "d : ";
+                    } else if (unit.equals(TimeUnit.HOURS)) {
+                        dateDiff += diff + "h : ";
+                    } else if (unit.equals(TimeUnit.MINUTES)) {
+                        dateDiff += diff + "m ";
+                        break;
+                    }
+                }
+                dateDiff += getResources().getText(R.string.last_charge);
+                lastRead.setText(dateDiff);
+            } else dateDiff += getResources().getText(R.string.last_charge_no_info);
+
             String time = DateFormat.getTimeInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
             String date = DateFormat.getDateInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
 
@@ -399,6 +426,7 @@ public class MainActivity extends AppCompatActivity
             if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
                 textDate += " " + date;
             }
+            textDate += " / " + dateDiff;
             lastRead.setText(textDate);
         }
 

@@ -6,7 +6,7 @@ package com.edotassi.amazmodcompanionservice;
 
 public class Constants {
 
-    public static final String TAG = "Amazmod";
+    public static final String TAG = "AmazMod";
     public static final String TAG_NIGHTSCOUT_PAGE = "Amazmod:Nighscout";
 
     public static final String PACKAGE_NAME = "com.edotassi.amazmodcompanionservice";
@@ -25,6 +25,7 @@ public class Constants {
     public static final String PREF_NOTIFICATION_VIBRATION = "pref_notification_vibration";
     public static final String PREF_NOTIFICATION_CUSTOM_REPLIES = "pref_notification_custom_replies";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "pref_notifications_enable_custom_ui";
+    public static final String PREF_DATE_LAST_CHARGE = "pref_date_last_charge";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;

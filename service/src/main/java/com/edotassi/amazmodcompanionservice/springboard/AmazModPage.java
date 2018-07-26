@@ -2,20 +2,32 @@ package com.edotassi.amazmodcompanionservice.springboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.edotassi.amazmodcompanionservice.BuildConfig;
+import com.edotassi.amazmodcompanionservice.Constants;
 import com.edotassi.amazmodcompanionservice.MainService;
+import com.edotassi.amazmodcompanionservice.MessagesListener;
 import com.edotassi.amazmodcompanionservice.R;
+import com.edotassi.amazmodcompanionservice.springboard.WidgetSettings;
 //import com.edotassi.amazmodcompanionservice.R2;
 
 //import butterknife.BindView;
 //import butterknife.ButterKnife;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
 //import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -28,19 +40,24 @@ public class AmazModPage extends AbstractPlugin {
     private boolean mHasActive = false;
     private ISpringBoardHostStub mHost = null;
 
+    private WidgetSettings settings;
+
 //    @BindView(R2.id.amazmod_page_version)
-    TextView version;
+    TextView version, timeSLC;
 
     @Override
     public View getView(Context paramContext) {
 
-
         this.mContext = paramContext;
         paramContext.startService(new Intent(paramContext, MainService.class));
+
+        // Initialize settings
+        this.settings = new WidgetSettings(Constants.TAG, mContext);
 
         this.view = LayoutInflater.from(paramContext).inflate(R.layout.amazmod_page, null);
 
         version = view.findViewById(R.id.amazmod_page_version);
+        timeSLC = view.findViewById(R.id.time_since_last_charge);
 
 /**        try {
             ButterKnife.bind(this, view);
@@ -81,6 +98,7 @@ public class AmazModPage extends AbstractPlugin {
 
     private void refreshView() {
         //Called when the page reloads, check for updates here if you need to
+        updateTimeSinceLastCharge();
     }
 
     //Returns the springboard host
@@ -99,12 +117,14 @@ public class AmazModPage extends AbstractPlugin {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        updateTimeSinceLastCharge();
     }
 
     //Called when the page becomes inactive (the user has scrolled away)
     @Override
     public void onInactive(Bundle paramBundle) {
         super.onInactive(paramBundle);
+        updateTimeSinceLastCharge();
         //Store active state
         this.mHasActive = false;
     }
@@ -141,6 +161,37 @@ public class AmazModPage extends AbstractPlugin {
     public void onStop() {
         super.onStop();
         this.mHasActive = false;
+    }
+
+    private void updateTimeSinceLastCharge() {
+
+        long lastChargeDate = this.settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+
+        String dateDiff = "";
+
+        Log.d(Constants.TAG, "lastChargeDate widget: " + lastChargeDate );
+        if (lastChargeDate != 0) {
+            long diffInMillies = System.currentTimeMillis() - lastChargeDate;
+            List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+            Collections.reverse(units);
+            long milliesRest = diffInMillies;
+            for (TimeUnit unit : units) {
+                long diff = unit.convert(milliesRest, TimeUnit.MILLISECONDS);
+                long diffInMilliesForUnit = unit.toMillis(diff);
+                milliesRest = milliesRest - diffInMilliesForUnit;
+                if (unit.equals(TimeUnit.DAYS)) {
+                    dateDiff += diff + "d : ";
+                } else if (unit.equals(TimeUnit.HOURS)) {
+                    dateDiff += diff + "h : ";
+                } else if (unit.equals(TimeUnit.MINUTES)) {
+                    dateDiff += diff + "m";
+                    break;
+                }
+                dateDiff += "/n" + mContext.getResources().getText(R.string.last_charge);
+            }
+        } else dateDiff += this.mContext.getResources().getText(R.string.last_charge_no_info);
+
+        timeSLC.setText(dateDiff);
     }
 
 //    @Override

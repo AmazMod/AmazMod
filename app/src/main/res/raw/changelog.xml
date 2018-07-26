@@ -1,6 +1,16 @@
 <changelog>
     <release
-        date=""
+        date="2018-07-26"
+        versionCode="137"
+        versionName="v1.0.9-ALPHA">
+        <new>Remove Notifications from watch when they are removed from phone</new>
+        <new>Added Time Since Last Charge</new>
+        <new>Implemented both Disable Battery Chart and Chart Time Interval</new>
+        <bugfix>App start using default locale after restart with Force to English enabled</bugfix>
+        <bugfix>Check for notifications access on Oreo after Wizard</bugfix>
+    </release>
+    <release
+        date="2018-07-14"
         versionCode="136"
         versionName="v1.0.8-ALPHA">
         <bugfix>Charging color in battery chart</bugfix>
