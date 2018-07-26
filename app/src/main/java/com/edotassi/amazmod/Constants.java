@@ -33,4 +33,5 @@ public class Constants {
 
     public static final int REQUEST_CODE_INTRO = 1;
 
+    public static final String PREF_DISABLE_NOTIFICATIONS_WHEN_DND = "preference.disable.notification.when.dnd" ;
 }

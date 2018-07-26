@@ -50,7 +50,6 @@ public class MessagesListener {
     private long lcd = 1;
     private long dateDisconnect = 0;
     private boolean setDateLastCharge = false;
-    private WidgetSettings settings;
 
     public MessagesListener(Context context) {
         this.context = context;
@@ -143,10 +142,15 @@ public class MessagesListener {
         powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
 
         //Get data of last full charge from settings and update file used by widget to display it
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        this.settings = new WidgetSettings(Constants.TAG, context);
-        this.dateLastCharge = sharedPreferences.getLong(Constants.PREF_DATE_LAST_CHARGE, 0L);
-        this.settings.set(Constants.PREF_DATE_LAST_CHARGE, this.dateLastCharge);
+        // Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+
+        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        //this.dateLastCharge = sharedPreferences.getLong(Constants.PREF_DATE_LAST_CHARGE, 0L);
+
+        WidgetSettings settings = new WidgetSettings(Constants.TAG, context);
+        if (this.dateLastCharge == 0) {
+            this.dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+        }
 
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
@@ -158,7 +162,6 @@ public class MessagesListener {
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
-
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
@@ -169,9 +172,10 @@ public class MessagesListener {
         if (setDateLastCharge && (batteryPct > 0.98)) {
             this.dateLastCharge = dateDisconnect;
             setDateLastCharge = false;
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putLong(Constants.PREF_DATE_LAST_CHARGE, this.dateLastCharge);
-            editor.apply();
+            settings.set(Constants.PREF_DATE_LAST_CHARGE, this.dateLastCharge);
+            //SharedPreferences.Editor editor = sharedPreferences.edit();
+            //editor.putLong(Constants.PREF_DATE_LAST_CHARGE, this.dateLastCharge);
+            //editor.apply();
         }
 
         batteryData.setLevel(batteryPct);

@@ -83,7 +83,9 @@ public class NotificationService extends NotificationListenerService {
 
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
                     (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
-                            && Screen.isInteractive(this))) {
+                            && Screen.isInteractive(this)) ||
+                    (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
+                            Screen.isDNDActive(this, getContentResolver()))) {
                 return;
             }
 

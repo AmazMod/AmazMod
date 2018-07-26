@@ -27,7 +27,7 @@ public class WidgetSettings {
             // Get file info
             this.settings_file_name = tag + ".json";
             this.save_directory = context.getExternalFilesDir(null);
-            Log.d("AmazMod", "Settings lastChargeDate : " + this.save_directory);
+            Log.d("AmazMod", "Settings lastChargeDate : " + context + " / " + this.save_directory);
 
             // Load settings
             this.load();
@@ -91,10 +91,11 @@ public class WidgetSettings {
             return this.getBoolean (key, defvalue);
         }
         public long get (String key, long defvalue) {
+            Log.d("AmazMod", "Settings get lastChargeDate: " + key);
             return this.getLong (key,defvalue);
         }
 
-        public String getString (String key, String defvalue) {
+        private String getString (String key, String defvalue) {
             String value;
             try {
                 value = this.data.getString(key);
@@ -104,7 +105,7 @@ public class WidgetSettings {
             }
             return value;
         }
-        public int getInt (String key, int defvalue) {
+        private int getInt (String key, int defvalue) {
             int value;
             try {
                 value = this.data.getInt(key);
@@ -114,7 +115,7 @@ public class WidgetSettings {
             }
             return value;
         }
-        public boolean getBoolean (String key, boolean defvalue) {
+        private boolean getBoolean (String key, boolean defvalue) {
             boolean value;
             try {
                 value = this.data.getBoolean(key);
@@ -125,13 +126,15 @@ public class WidgetSettings {
             return value;
         }
 
-    public long getLong (String key, long defvalue) {
+    private long getLong (String key, long defvalue) {
         long value;
         try {
             value = this.data.getLong(key);
+            Log.d("AmazMod", "Settings getLong lastChargeDate: " + value);
         }
         catch(JSONException e) {
             value = defvalue;
+            Log.d("AmazMod", "Settings getLong exception lastChargeDate : " + e.toString());
         }
         return value;
     }
@@ -149,7 +152,7 @@ public class WidgetSettings {
     public boolean set (String key, long value) {
         return this.setLong(key, value);
     }
-        public boolean setString (String key, String value) {
+        private boolean setString (String key, String value) {
             // Check if it has the same value
             try {
                 if (this.data.getString(key).equals(value)){
@@ -157,7 +160,9 @@ public class WidgetSettings {
                     return true;
                 }
             }
-            catch(JSONException e) {}
+            catch(JSONException e) {
+                Log.d("AmazMod", "Settings setString exception: " + e.toString());
+            }
 
             try {
                 this.data.put(key, value);
@@ -168,7 +173,7 @@ public class WidgetSettings {
             }
             return true;
         }
-        public boolean setInt (String key, int value) {
+        private boolean setInt (String key, int value) {
             // Check if it has the same value
             try {
                 if (this.data.getInt(key) == value){
@@ -176,7 +181,9 @@ public class WidgetSettings {
                     return true;
                 }
             }
-            catch(JSONException e) {}
+            catch(JSONException e) {
+                Log.d("AmazMod", "Settings setInt exception: " + e.toString());
+            }
 
             try {
                 this.data.put(key, value);
@@ -187,7 +194,7 @@ public class WidgetSettings {
             }
             return true;
         }
-        public boolean setBoolean (String key, boolean value) {
+        private boolean setBoolean (String key, boolean value) {
             // Check if it has the same value
             try {
                 if (this.data.getBoolean(key) == value){
@@ -195,7 +202,9 @@ public class WidgetSettings {
                     return true;
                 }
             }
-            catch(JSONException e) {}
+            catch(JSONException e) {
+                Log.d("AmazMod", "Settings setBoolean exception: " + e.toString());
+            }
 
             try {
                 this.data.put(key, value);
@@ -207,7 +216,7 @@ public class WidgetSettings {
             return true;
         }
 
-    public boolean setLong (String key, long value) {
+    private boolean setLong (String key, long value) {
         // Check if it has the same value
         try {
             if (this.data.getLong(key) == value){
@@ -215,7 +224,9 @@ public class WidgetSettings {
                 return true;
             }
         }
-        catch(JSONException e) {}
+        catch(JSONException e) {
+            Log.d("AmazMod", "Settings setLong exception: " + e.toString());
+        }
 
         try {
             this.data.put(key, value);

@@ -2,11 +2,9 @@ package com.edotassi.amazmodcompanionservice.springboard;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +13,7 @@ import android.widget.TextView;
 import com.edotassi.amazmodcompanionservice.BuildConfig;
 import com.edotassi.amazmodcompanionservice.Constants;
 import com.edotassi.amazmodcompanionservice.MainService;
-import com.edotassi.amazmodcompanionservice.MessagesListener;
+//import com.edotassi.amazmodcompanionservice.MessagesListener;
 import com.edotassi.amazmodcompanionservice.R;
 import com.edotassi.amazmodcompanionservice.springboard.WidgetSettings;
 //import com.edotassi.amazmodcompanionservice.R2;
@@ -40,8 +38,6 @@ public class AmazModPage extends AbstractPlugin {
     private boolean mHasActive = false;
     private ISpringBoardHostStub mHost = null;
 
-    private WidgetSettings settings;
-
 //    @BindView(R2.id.amazmod_page_version)
     TextView version, timeSLC;
 
@@ -50,9 +46,6 @@ public class AmazModPage extends AbstractPlugin {
 
         this.mContext = paramContext;
         paramContext.startService(new Intent(paramContext, MainService.class));
-
-        // Initialize settings
-        this.settings = new WidgetSettings(Constants.TAG, mContext);
 
         this.view = LayoutInflater.from(paramContext).inflate(R.layout.amazmod_page, null);
 
@@ -165,9 +158,12 @@ public class AmazModPage extends AbstractPlugin {
 
     private void updateTimeSinceLastCharge() {
 
-        long lastChargeDate = this.settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+        // Initialize settings
+        WidgetSettings settings = new WidgetSettings(Constants.TAG, mContext);
+        //Get date of last full charge
+        long lastChargeDate = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
 
-        String dateDiff = "";
+        String dateDiff = " ";
 
         Log.d(Constants.TAG, "lastChargeDate widget: " + lastChargeDate );
         if (lastChargeDate != 0) {
@@ -187,8 +183,8 @@ public class AmazModPage extends AbstractPlugin {
                     dateDiff += diff + "m";
                     break;
                 }
-                dateDiff += "/n" + mContext.getResources().getText(R.string.last_charge);
             }
+            dateDiff += "\n" + mContext.getResources().getText(R.string.last_charge);
         } else dateDiff += this.mContext.getResources().getText(R.string.last_charge_no_info);
 
         timeSLC.setText(dateDiff);

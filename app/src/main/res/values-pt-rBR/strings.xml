@@ -88,5 +88,7 @@
     <string name="intro_description_4">Agora você pode ir para as configurações do AmazMode escolher os apps que você deseja receber notificações e adicionar suas respostas perosnalizadas.\n\nDivirta-se usando o AmazMod! \u2661</string>
     <string name="last_charge">Time since last charge</string>
     <string name="last_charge_no_info">Waiting for data</string>
+    <string name="pref_disable_notifications_when_dnd">Disabel when DND is ON</string>
+    <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturbed is detected</string>
 
 </resources>
