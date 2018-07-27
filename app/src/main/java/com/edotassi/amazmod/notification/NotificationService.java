@@ -11,6 +11,7 @@ import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
+import android.util.Log;
 
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.db.model.NotificationEntity;
@@ -79,7 +80,7 @@ public class NotificationService extends NotificationListenerService {
 
         if (filterResult == CONTINUE) {
 
-            StatusBarNotificationData statusBarNotificationData = StatusBarNotificationData.from(statusBarNotification);
+            //StatusBarNotificationData statusBarNotificationData = StatusBarNotificationData.from(statusBarNotification);
 
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
                     (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
@@ -89,13 +90,12 @@ public class NotificationService extends NotificationListenerService {
                 return;
             }
 
-            NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
-
-            notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
-
             if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,false)) {
                 //Use Custom UI
+                NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
                 HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                Log.d(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
             }
             else {
                 DataBundle dataBundle = new DataBundle();
@@ -106,6 +106,7 @@ public class NotificationService extends NotificationListenerService {
                         Logger.debug(dataTransportResult.toString());
                     }
                 });
+                Log.d(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
             }
             storeForStats(statusBarNotification);
         }

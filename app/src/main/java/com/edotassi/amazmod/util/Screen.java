@@ -1,6 +1,5 @@
 package com.edotassi.amazmod.util;
 
-import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,14 +10,13 @@ import android.util.Log;
 
 import com.edotassi.amazmod.Constants;
 
-import java.util.Locale;
-
 import static android.content.Context.POWER_SERVICE;
 
 public class Screen {
 
     public static boolean isInteractive(Context context) {
         PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
+
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH
                 ? powerManager.isInteractive()
                 : powerManager.isScreenOn();
@@ -49,7 +47,7 @@ public class Screen {
                     dndEnabled = true;
                     break;
                 default:
-                    Log.d(Constants.TAG, String.format(Locale.getDefault(), "DnD lowSDK [%d]", zenModeValue));
+                    Log.d(Constants.TAG, "DnD lowSDK Unexpected Value: " + zenModeValue);
                     dndEnabled = false;
             }
         } catch (Settings.SettingNotFoundException e) {
@@ -84,7 +82,7 @@ public class Screen {
                         dndEnabled = true;
                         break;
                     default:
-                        Log.d(Constants.TAG, String.format(Locale.getDefault(), "DnD highSDK [%d]", i));
+                        Log.d(Constants.TAG, "DnD lowSDK Unexpected Value: " + i);
                         dndEnabled = false;
                 }
             } catch (NullPointerException e){
