@@ -25,6 +25,7 @@ import com.edotassi.amazmodcompanionservice.Constants;
 import com.edotassi.amazmodcompanionservice.R;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.ui.NotificationActivity;
+import com.edotassi.amazmodcompanionservice.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -70,18 +71,28 @@ public class NotificationService {
     }
 
     public void post(NotificationData notificationSpec) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        boolean enableCustomUI = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
-                Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
+        if (!DeviceUtil.isDNDActive(context, context.getContentResolver())) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        boolean disableNotificationReplies = sharedPreferences.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
-                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+            boolean enableCustomUI = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
+                    Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
 
-        if (enableCustomUI) {
-            postWithCustomUI(notificationSpec);
-        } else {
-            postWithStandardUI(notificationSpec, disableNotificationReplies);
+            boolean disableNotificationReplies = sharedPreferences.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                    Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+
+            boolean forceCustom = notificationSpec.getForceCustom();
+            boolean hideReplies = notificationSpec.getHideReplies();
+
+            if (disableNotificationReplies || hideReplies) {
+                disableNotificationReplies = true;
+            }
+
+            if (enableCustomUI || forceCustom) {
+                postWithCustomUI(notificationSpec);
+            } else {
+                postWithStandardUI(notificationSpec, disableNotificationReplies);
+            }
         }
     }
 

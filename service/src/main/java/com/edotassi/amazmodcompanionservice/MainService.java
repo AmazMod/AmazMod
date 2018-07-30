@@ -150,13 +150,16 @@ public class MainService extends Service implements Transporter.ChannelListener,
 
     @Override
     public void onServiceConnected(Bundle bundle) {
+        Log.d(Constants.TAG, "MainService onServiceConnected");
     }
 
     @Override
     public void onServiceConnectionFailed(Transporter.ConnectionResult connectionResult) {
+        Log.d(Constants.TAG, "MainService onServiceConnectionFailed: " + connectionResult.toString());
     }
 
     @Override
     public void onServiceDisconnected(Transporter.ConnectionResult connectionResult) {
+        Log.d(Constants.TAG, "MainService onServiceDisconnected: " + connectionResult.toString());
     }
 }

@@ -97,7 +97,7 @@ public class AmazModPage extends AbstractPlugin {
         Log.d(Constants.TAG, "Widget updateTimeSinceLastCharge level: " + level + " / scale: " + scale + " / batteryIconId: " + batteryIconId);
 
         //Set battery icon and text
-        int battery = Math.round((level / (float)scale) * 100);
+        int battery = Math.round((level / (float)scale) * 100f);
         if (battery != 0) {
             String battlvl = Integer.toString(battery) + "%";
             battValueTV.setText(battlvl);

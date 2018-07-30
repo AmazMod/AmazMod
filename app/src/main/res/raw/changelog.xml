@@ -1,6 +1,14 @@
 <changelog>
     <release
         date="2018-07-29"
+        versionCode="141"
+        versionName="v1.0.13-ALPHA">
+        <new>Initial support to voice call notifications for messengers</new>
+        <new>CustomUI notifications will now respect Silent mode</new>
+        <new>Added Preferences for both Voice call and Local only notifications</new>
+    </release>
+    <release
+        date="2018-07-29"
         versionCode="140"
         versionName="v1.0.12-ALPHA">
         <new>Added current battery value to battery chart in phone app and value and icon to widget</new>

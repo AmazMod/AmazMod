@@ -20,6 +20,10 @@ public class NotificationData extends Transportable implements Parcelable {
     private final String DATA_ICON = "icon";
     private final String DATA_ICON_WIDTH = "iconWidth";
     private final String DATA_ICON_HEIGHT = "iconHeight";
+    private final String DATA_FORCE_CUSTOM = "forceCustom";
+    private final String DATA_HIDE_REPLIES = "hideReplies";
+    private final String DATA_HIDE_BUTTONS = "hideButtons";
+
 
     private String key;
     private int id;
@@ -32,6 +36,9 @@ public class NotificationData extends Transportable implements Parcelable {
     private int vibration;
     private boolean isDeviceLocked;
     private int timeoutRelock;
+    private boolean forceCustom;
+    private boolean hideReplies;
+    private boolean hideButtons;
 
     public NotificationData() {
     }
@@ -48,6 +55,9 @@ public class NotificationData extends Transportable implements Parcelable {
         vibration = in.readInt();
         isDeviceLocked = in.readByte() != 0;
         timeoutRelock = in.readInt();
+        forceCustom = in.readByte() != 0;
+        hideReplies = in.readByte() != 0;
+        hideButtons = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<NotificationData> CREATOR = new Parcelable.Creator<NotificationData>() {
@@ -100,6 +110,30 @@ public class NotificationData extends Transportable implements Parcelable {
 
     public void setIcon(int[] icon) {
         this.icon = icon;
+    }
+
+    public boolean getForceCustom() {
+        return forceCustom;
+    }
+
+    public void setForceCustom(boolean forceCustom) {
+        this.forceCustom = forceCustom;
+    }
+
+    public boolean getHideReplies() {
+        return hideReplies;
+    }
+
+    public void setHideReplies(boolean hideReplies) {
+        this.hideReplies = hideReplies;
+    }
+
+    public boolean getHideButtons() {
+        return hideButtons;
+    }
+
+    public void setHideButtons(boolean hideButtons) {
+        this.hideButtons = hideButtons;
     }
 
     public boolean isDeviceLocked() {
@@ -156,6 +190,9 @@ public class NotificationData extends Transportable implements Parcelable {
         dataBundle.putIntArray(DATA_ICON, icon);
         dataBundle.putInt(DATA_ICON_WIDTH, iconWidth);
         dataBundle.putInt(DATA_ICON_HEIGHT, iconHeight);
+        dataBundle.putBoolean(DATA_FORCE_CUSTOM, forceCustom);
+        dataBundle.putBoolean(DATA_HIDE_REPLIES, hideReplies);
+        dataBundle.putBoolean(DATA_HIDE_BUTTONS, hideButtons);
 
         return dataBundle;
     }
@@ -181,6 +218,9 @@ public class NotificationData extends Transportable implements Parcelable {
         int[] icon = dataBundle.getIntArray("icon");
         int iconWidth = dataBundle.getInt("iconWidth");
         int iconHeight = dataBundle.getInt("iconHeight");
+        boolean forceCustom = dataBundle.getBoolean("forceCustom");
+        boolean hideReplies = dataBundle.getBoolean("hideReplies");
+        boolean hideButtons = dataBundle.getBoolean("hideButtons");
 
         notificationData.setTitle(title);
         notificationData.setTime(time);
@@ -190,6 +230,9 @@ public class NotificationData extends Transportable implements Parcelable {
         notificationData.setIconHeight(iconHeight);
         notificationData.setId(id);
         notificationData.setKey(key);
+        notificationData.setForceCustom(forceCustom);
+        notificationData.setHideReplies(hideReplies);
+        notificationData.setHideButtons(hideButtons);
 
         return notificationData;
     }
@@ -212,6 +255,9 @@ public class NotificationData extends Transportable implements Parcelable {
         dest.writeInt(vibration);
         dest.writeByte((byte) (isDeviceLocked ? 1 : 0));
         dest.writeInt(timeoutRelock);
+        dest.writeByte((byte) (forceCustom ? 1 : 0));
+        dest.writeByte((byte) (hideReplies ? 1 : 0));
+        dest.writeByte((byte) (hideButtons ? 1 : 0));
     }
 
 }
