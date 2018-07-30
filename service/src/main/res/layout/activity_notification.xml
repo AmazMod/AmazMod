@@ -27,7 +27,7 @@
                 <ImageView
                     android:id="@+id/notification_icon"
                     android:layout_width="43dp"
-                    android:layout_height="43dp"
+                    android:layout_height="42dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:padding="5dp"
@@ -43,7 +43,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:gravity="center_vertical|center_horizontal"
-                android:padding="5dp"
+                android:padding="4dp"
                 android:text="TextView"
                 android:textColor="@color/text"
                 android:textStyle="bold" />
@@ -55,7 +55,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:gravity="center_vertical|center_horizontal"
-                android:padding="5dp"
+                android:paddingBottom="4dp"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
                 android:text="00:00"
                 android:textColor="@color/text" />
 
@@ -85,17 +87,17 @@
                     android:layout_height="wrap_content"
                     android:background="#00ffffff"
                     android:gravity="end|center_vertical"
-                    android:padding="12dp"
+                    android:padding="8dp"
                     android:text="Close"
                     android:textColor="@color/text" />
 
                 <Button
                     android:id="@+id/activity_notification_button_reply"
-                    android:layout_width="107dp"
+                    android:layout_width="106dp"
                     android:layout_height="wrap_content"
                     android:background="#00ffffff"
                     android:gravity="start|center_vertical"
-                    android:padding="12dp"
+                    android:padding="8dp"
                     android:text="Keep"
                     android:textColor="@color/text" />
             </LinearLayout>

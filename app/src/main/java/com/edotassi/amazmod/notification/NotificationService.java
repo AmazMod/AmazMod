@@ -33,6 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +64,7 @@ public class NotificationService extends NotificationListenerService {
 
         notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
         notificationTransporter.connectTransportService();
+
     }
 
     @Override
@@ -110,6 +112,37 @@ public class NotificationService extends NotificationListenerService {
             }
             storeForStats(statusBarNotification);
         }
+
+        //Try to get turn by turn navigation notifications
+        else {
+
+            Notification notification = statusBarNotification.getNotification();
+            String notificationPackage = statusBarNotification.getPackageName();
+
+            if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT &&
+                    (notificationPackage.contains("maps"))) {
+
+                NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
+
+                //Calendar c = Calendar.getInstance();
+                //c.setTimeInMillis(System.currentTimeMillis());
+                //String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+                //Fake notification for now
+                //NotificationData notificationData = new NotificationData();
+                //notificationData.setId(999);
+                //notificationData.setKey("0");
+                //notificationData.setTitle("Maps");
+                //notificationData.setText("Following Maps");
+                //notificationData.setTime(notificationTime);
+
+                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                Log.d(Constants.TAG, "NotificationService Maps: " + notificationData.toString());
+
+                storeForStats(statusBarNotification);
+
+            }
+        }
     }
 
     //Remove notification from watch if it was removed from phone
@@ -117,18 +150,25 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
         Logger.debug("notificationRemoved: %s", statusBarNotification.getKey());
 
-        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false)) {
+        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
+                (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
             return;
         }
 
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
-        notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
+        String notificationPackage = statusBarNotification.getPackageName();
+
+        if (isPackageAllowed(notificationPackage)) {
+
+            DataBundle dataBundle = new DataBundle();
+            dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+            notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     Logger.debug(dataTransportResult.toString());
                 }
-        });
+            });
+
+        }
 
     }
 

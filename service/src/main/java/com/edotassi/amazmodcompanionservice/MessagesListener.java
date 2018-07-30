@@ -4,9 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.BatteryManager;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.provider.Settings.System;
 
@@ -47,29 +45,50 @@ public class MessagesListener {
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
     private long dateLastCharge = 0;
-    private long lcd = 1;
-    private long dateDisconnect = 0;
-    private boolean setDateLastCharge = false;
+    private float batteryPct;
+    private WidgetSettings settings;
+
+    private BatteryData batteryData;
+    private WatchStatusData watchStatusData;
+    private DataBundle dataBundle;
 
     public MessagesListener(Context context) {
-        this.context = context;
 
+        this.context = context;
         settingsManager = new SettingsManager(context);
         notificationManager = new NotificationService(context);
-    }
 
-    public long getDateLastCharge() {
-        Log.d(Constants.TAG, "lastChargeDate getter: " + this.dateLastCharge + " / " + dateLastCharge);
-        return this.dateLastCharge;
+        settings = new WidgetSettings(Constants.TAG, context);
+        batteryData = new BatteryData();
+
+        watchStatusData = new WatchStatusData();
+        dataBundle = new DataBundle();
+
+        //Register power disconnect receiver
+        IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
+        powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //Update date of last charge if power was disconnected and battery is full
+                if (batteryPct > 0.98) {
+                    dateLastCharge = currentTimeMillis();
+                    settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
+                    Log.d(Constants.TAG, "MessagesListener dateLastCharge saved: " + dateLastCharge);
+                }
+            }
+        }, powerDisconnectedFilter);
+
     }
 
     public void setTransporter(Transporter transporter) {
         this.transporter = transporter;
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestNightscoutSync(NightscoutRequestSyncEvent event) {
-        Log.d(Constants.TAG, "requested nightscout sync");
+        Log.d(Constants.TAG, "MessagesListener requested nightscout sync");
 
         send(Constants.ACTION_NIGHTSCOUT_SYNC, new DataBundle());
     }
@@ -79,20 +98,19 @@ public class MessagesListener {
 
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
 
-        Log.d(Constants.TAG, "sync settings");
-        Log.d(Constants.TAG, "vibration: " + settingsData.getVibration());
-        Log.d(Constants.TAG, "timeout: " + settingsData.getScreenTimeout());
-        Log.d(Constants.TAG, "replies: " + settingsData.getReplies());
-        Log.d(Constants.TAG, "enableCustomUi: " + settingsData.isNotificationsCustomUi());
+        Log.d(Constants.TAG, "MessagesListener sync settings");
+        Log.d(Constants.TAG, "MessagesListener vibration: " + settingsData.getVibration());
+        Log.d(Constants.TAG, "MessagesListener timeout: " + settingsData.getScreenTimeout());
+        Log.d(Constants.TAG, "MessagesListener replies: " + settingsData.getReplies());
+        Log.d(Constants.TAG, "MessagesListener enableCustomUi: " + settingsData.isNotificationsCustomUi());
 
         settingsManager.sync(settingsData);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reply(ReplyNotificationEvent event) {
-        Log.d(Constants.TAG, "reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
+        Log.d(Constants.TAG, "MessagesListener reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
 
-        DataBundle dataBundle = new DataBundle();
         dataBundle.putString("key", event.getKey());
         dataBundle.putString("message", event.getMessage());
 
@@ -113,7 +131,6 @@ public class MessagesListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-        WatchStatusData watchStatusData = new WatchStatusData();
 
         watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
         watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
@@ -134,26 +151,10 @@ public class MessagesListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-        BatteryData batteryData = new BatteryData();
-
-        // register our power status receivers
-        IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
-        context.registerReceiver(PowerStatusReceiver, powerDisconnectedFilter);
-        powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
-
-        //Get data of last full charge from settings and update file used by widget to display it
-        // Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
-
-        //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        //this.dateLastCharge = sharedPreferences.getLong(Constants.PREF_DATE_LAST_CHARGE, 0L);
-
-        WidgetSettings settings = new WidgetSettings(Constants.TAG, context);
-        if (this.dateLastCharge == 0) {
-            this.dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-        }
 
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
+
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
@@ -164,25 +165,28 @@ public class MessagesListener {
 
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        //int batteryIconId = batteryStatus.getIntExtra(BatteryManager.EXTRA_ICON_SMALL, 0);
 
-        float batteryPct = level / (float) scale;
+        batteryPct = level / (float) scale;
 
-
-        //Update date of last charge if it is detected that the charger was disconnected
-        if (setDateLastCharge && (batteryPct > 0.98)) {
-            this.dateLastCharge = dateDisconnect;
-            setDateLastCharge = false;
-            settings.set(Constants.PREF_DATE_LAST_CHARGE, this.dateLastCharge);
-            //SharedPreferences.Editor editor = sharedPreferences.edit();
-            //editor.putLong(Constants.PREF_DATE_LAST_CHARGE, this.dateLastCharge);
-            //editor.apply();
+        //Get data of last full charge from settings
+        //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+        if (dateLastCharge == 0) {
+            dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+            //settings.set(Constants.PREF_BATT_ICON_ID, batteryIconId);
+            Log.d(Constants.TAG, "MessagesListener dateLastCharge loaded: " + dateLastCharge);
         }
+
+        //Update battery level (used in widget)
+        //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
+        Log.d(Constants.TAG, "MessagesListener dateLastCharge: " + dateLastCharge
+                + " batteryPct: " + Math.round(batteryPct*100.0));
 
         batteryData.setLevel(batteryPct);
         batteryData.setCharging(isCharging);
         batteryData.setUsbCharge(usbCharge);
         batteryData.setAcCharge(acCharge);
-        batteryData.setDateLastCharge(this.dateLastCharge);
+        batteryData.setDateLastCharge(dateLastCharge);
 
         send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
     }
@@ -190,18 +194,10 @@ public class MessagesListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
-        Log.d(Constants.TAG, "setting brightness to " + brightnessData.getLevel());
+        Log.d(Constants.TAG, "MessagesListener setting brightness to " + brightnessData.getLevel());
 
         System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
     }
-
-    //Receiver for Charger Disconnected
-    private BroadcastReceiver PowerStatusReceiver = new BroadcastReceiver() {
-        public void onReceive(Context context, Intent intent) {
-            setDateLastCharge = true;
-            dateDisconnect = currentTimeMillis();
-        }
-    };
 
     private void send(String action) {
         send(action, null);
@@ -209,10 +205,9 @@ public class MessagesListener {
 
     private void send(String action, DataBundle dataBundle) {
         if (transporter == null) {
-            Log.w(Constants.TAG, "transporter not ready");
+            Log.w(Constants.TAG, "MessagesListener transporter not ready");
             return;
         }
-
         transporter.send(action, dataBundle);
     }
 }

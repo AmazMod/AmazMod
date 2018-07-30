@@ -1,5 +1,18 @@
 <changelog>
     <release
+        date="2018-07-29"
+        versionCode="140"
+        versionName="v1.0.12-ALPHA">
+        <new>Added current battery value to battery chart in phone app and value and icon to widget</new>
+        <info>Widget code cleaned and optimized</info>
+    </release>
+    <release
+        date="2018-07-27"
+        versionCode="139"
+        versionName="v1.0.11-ALPHA">
+        <new>Added Setting to disable remove of notifications from watch when they are removed from phone</new>
+    </release>
+    <release
         date="2018-07-27"
         versionCode="138"
         versionName="v1.0.10-ALPHA">

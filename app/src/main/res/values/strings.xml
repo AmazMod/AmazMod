@@ -90,5 +90,7 @@
     <string name="last_charge_no_info">Waiting for data</string>
     <string name="pref_disable_notifications_when_dnd">Disable when DND is ON</string>
     <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturbed is detected</string>
+    <string name="pref_disable_remove_notifications">Disable remove notifications</string>
+    <string name="pref_disable__remove_notifications_summary">Do not remove notifications from watch when removed from phone</string>
 
 </resources>

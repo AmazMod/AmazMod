@@ -2,12 +2,17 @@ package com.edotassi.amazmodcompanionservice.springboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.LevelListDrawable;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.edotassi.amazmodcompanionservice.BuildConfig;
@@ -15,7 +20,6 @@ import com.edotassi.amazmodcompanionservice.Constants;
 import com.edotassi.amazmodcompanionservice.MainService;
 //import com.edotassi.amazmodcompanionservice.MessagesListener;
 import com.edotassi.amazmodcompanionservice.R;
-import com.edotassi.amazmodcompanionservice.springboard.WidgetSettings;
 //import com.edotassi.amazmodcompanionservice.R2;
 
 //import butterknife.BindView;
@@ -35,11 +39,14 @@ public class AmazModPage extends AbstractPlugin {
     private static final String TAG = "AmazModPage";
     private Context mContext;
     private View view;
-    private boolean mHasActive = false;
-    private ISpringBoardHostStub mHost = null;
+    private boolean isActive = false;
+    private ISpringBoardHostStub host = null;
+
+    private WidgetSettings settingsWidget;
 
 //    @BindView(R2.id.amazmod_page_version)
-    TextView version, timeSLC;
+    private TextView version, timeSLC, battValueTV;
+    private ImageView battIconImg;
 
     @Override
     public View getView(Context paramContext) {
@@ -51,122 +58,67 @@ public class AmazModPage extends AbstractPlugin {
 
         version = view.findViewById(R.id.amazmod_page_version);
         timeSLC = view.findViewById(R.id.time_since_last_charge);
+        battValueTV = view.findViewById(R.id.battValue);
+        battIconImg = view.findViewById(R.id.battIcon);
 
-/**        try {
+/*       try {
             ButterKnife.bind(this, view);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-**/
+*/
         version.setText(BuildConfig.VERSION_NAME);
+
+        //Initialize settings
+        settingsWidget = new WidgetSettings(Constants.TAG, mContext);
+        //Log.d(Constants.TAG, "AmazModWidget getView Start");
 
         return this.view;
     }
 
-    //Return the icon for this page, used when the page is disabled in the app list. In this case, the launcher icon is used
-    @Override
-    public Bitmap getWidgetIcon(Context paramContext) {
-        return ((BitmapDrawable) this.mContext.getDrawable(R.mipmap.ic_launcher)).getBitmap();
-    }
-
-    //Return the launcher intent for this page. This might be used for the launcher as well when the page is disabled?
-    @Override
-    public Intent getWidgetIntent() {
-        //No intent required
-        return new Intent();
-    }
-
-    //Called when the page is shown
-    @Override
-    public void onActive(Bundle paramBundle) {
-        super.onActive(paramBundle);
-        //Check if the view is already inflated (reloading)
-        if ((!this.mHasActive) && (this.view != null)) {
-            //It is, simply refresh
-            refreshView();
-        }
-        //Store active state
-        this.mHasActive = true;
-    }
-
-    private void refreshView() {
-        //Called when the page reloads, check for updates here if you need to
-        updateTimeSinceLastCharge();
-    }
-
-    //Returns the springboard host
-    public ISpringBoardHostStub getHost() {
-        return mHost;
-    }
-
-    //Called when the page is loading and being bound to the host
-    @Override
-    public void onBindHost(ISpringBoardHostStub paramISpringBoardHostStub) {
-        //Store host
-        mHost = paramISpringBoardHostStub;
-    }
-
-    //Called when the page is destroyed completely (in app mode). Same as the onDestroy method of an activity
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        updateTimeSinceLastCharge();
-    }
-
-    //Called when the page becomes inactive (the user has scrolled away)
-    @Override
-    public void onInactive(Bundle paramBundle) {
-        super.onInactive(paramBundle);
-        updateTimeSinceLastCharge();
-        //Store active state
-        this.mHasActive = false;
-    }
-
-    //Called when the page is paused (in app mode)
-    @Override
-    public void onPause() {
-        super.onPause();
-        this.mHasActive = false;
-    }
-
-    //Not sure what this does, can't find it being used anywhere. Best leave it alone
-    @Override
-    public void onReceiveDataFromProvider(int paramInt, Bundle paramBundle) {
-        super.onReceiveDataFromProvider(paramInt, paramBundle);
-    }
-
-    //Called when the page is shown again (in app mode)
-    @Override
-    public void onResume() {
-        super.onResume();
-        //Check if view already loaded
-        if ((!this.mHasActive) && (this.view != null)) {
-            //It is, simply refresh
-            this.mHasActive = true;
-            refreshView();
-        }
-        //Store active state
-        this.mHasActive = true;
-    }
-
-    //Called when the page is stopped (in app mode)
-    @Override
-    public void onStop() {
-        super.onStop();
-        this.mHasActive = false;
-    }
-
     private void updateTimeSinceLastCharge() {
 
-        // Initialize settings
-        WidgetSettings settings = new WidgetSettings(Constants.TAG, mContext);
+        //Initialize settings
+        //WidgetSettings settingsWidget = new WidgetSettings(Constants.TAG, mContext);
+
+        //Refresh saved data
+        settingsWidget.reload();
+
+        //Log.d(Constants.TAG, "AmazModWidget updateTimeSinceLastChargeDate Start " + this.settingsWidget + " / " + settingsWidget );
+
+        //Intent batteryStatus = mContext.registerReceiver(null, ifilter);
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = mContext.registerReceiver(null, ifilter);
+
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+        int batteryIconId = batteryStatus.getIntExtra(BatteryManager.EXTRA_ICON_SMALL, 0);
+
+        Log.d(Constants.TAG, "Widget updateTimeSinceLastCharge level: " + level + " / scale: " + scale + " / batteryIconId: " + batteryIconId);
+
+        //Set battery icon and text
+        int battery = Math.round((level / (float)scale) * 100);
+        if (battery != 0) {
+            String battlvl = Integer.toString(battery) + "%";
+            battValueTV.setText(battlvl);
+        } else {
+            battValueTV.setText("N/A%");
+        }
+
+        LevelListDrawable batteryLevel = (LevelListDrawable) mContext.getResources().getDrawable(batteryIconId);
+        batteryLevel.setLevel(level);
+        battIconImg.setImageDrawable(batteryLevel);
+
+
         //Get date of last full charge
-        long lastChargeDate = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+        long lastChargeDate = settingsWidget.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
 
-        String dateDiff = " ";
+        StringBuilder dateDiff = new StringBuilder("  ");
 
-        Log.d(Constants.TAG, "lastChargeDate widget: " + lastChargeDate );
-        if (lastChargeDate != 0) {
+        Log.d(Constants.TAG, "Widget updateTimeSinceLastCharge: " + battery + " /" + dateDiff.toString() + lastChargeDate);
+
+        //Log.d(Constants.TAG, "AmazModWidget updateTimeSinceLastChargeDate data: " + battery + " / " + lastChargeDate );
+        if (lastChargeDate != 0L) {
             long diffInMillies = System.currentTimeMillis() - lastChargeDate;
             List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
             Collections.reverse(units);
@@ -176,22 +128,129 @@ public class AmazModPage extends AbstractPlugin {
                 long diffInMilliesForUnit = unit.toMillis(diff);
                 milliesRest = milliesRest - diffInMilliesForUnit;
                 if (unit.equals(TimeUnit.DAYS)) {
-                    dateDiff += diff + "d : ";
+                    dateDiff.append(diff).append("d : ");
                 } else if (unit.equals(TimeUnit.HOURS)) {
-                    dateDiff += diff + "h : ";
+                    dateDiff.append(diff).append("h : ");
                 } else if (unit.equals(TimeUnit.MINUTES)) {
-                    dateDiff += diff + "m";
+                    dateDiff.append(diff).append("m");
                     break;
                 }
             }
-            dateDiff += "\n" + mContext.getResources().getText(R.string.last_charge);
-        } else dateDiff += this.mContext.getResources().getText(R.string.last_charge_no_info);
+            dateDiff.append("\n").append(mContext.getResources().getText(R.string.last_charge));
+        } else dateDiff.append(mContext.getResources().getText(R.string.last_charge_no_info));
 
-        timeSLC.setText(dateDiff);
+        timeSLC.setText(dateDiff.toString());
     }
 
-//    @Override
-//    public void onBindHost(ISpringBoardHostStub iSpringBoardHostStub) {
-//    }
+    private void refreshView() {
+        //Called when the page reloads, check for updates here if you need to
+        updateTimeSinceLastCharge();
+        //Log.d(Constants.TAG, "AmazModWidget refreshView");
+    }
+
+    /*
+     * Widget active/deactivate state management
+     */
+
+    // On widget show
+    private void onShow() {
+        // If view loaded (and was inactive)
+        if (this.view != null && !this.isActive) {
+            // If not the correct view
+                // Refresh the view
+                this.refreshView();
+        }
+
+        // Save state
+        this.isActive = true;
+    }
+
+    // On widget hide
+    private void onHide() {
+        // Save state
+        this.isActive = false;
+    }
+
+    // Events for widget hide
+    @Override
+    public void onInactive(Bundle paramBundle) {
+        super.onInactive(paramBundle);
+        this.onHide();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        this.onHide();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        this.onHide();
+    }
+
+    // Events for widget show
+    @Override
+    public void onActive(Bundle paramBundle) {
+        super.onActive(paramBundle);
+        this.onShow();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.onShow();
+    }
+
+    /*
+     * Below where are unchanged functions that the widget should have
+     */
+
+    // Return the icon for this page, used when the page is disabled in the app list. In this case, the launcher icon is used
+    @Override
+    public Bitmap getWidgetIcon(Context paramContext) {
+        return ((BitmapDrawable) this.mContext.getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap();
+    }
+
+    // Return the launcher intent for this page. This might be used for the launcher as well when the page is disabled?
+    @Override
+    public Intent getWidgetIntent() {
+        //Intent localIntent = new Intent();
+        //localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        //localIntent.setAction("android.intent.action.MAIN");
+        //localIntent.addCategory("android.intent.category.LAUNCHER");
+        //localIntent.setComponent(new ComponentName(this.mContext.getPackageName(), "com.huami.watch.deskclock.countdown.CountdownListActivity"));
+        return new Intent();
+    }
+
+
+    // Return the title for this page, used when the page is disabled in the app list. In this case, the app name is used
+    @Override
+    public String getWidgetTitle(Context paramContext) {
+        return this.mContext.getResources().getString(R.string.app_name);
+    }
+
+    // Returns the springboard host
+    public ISpringBoardHostStub getHost() {
+        return this.host;
+    }
+
+    // Called when the page is loading and being bound to the host
+    @Override
+    public void onBindHost(ISpringBoardHostStub paramISpringBoardHostStub) {
+        // Log.d(widget.TAG, "onBindHost");
+        //Store host
+        this.host = paramISpringBoardHostStub;
+    }
+
+    // Not sure what this does, can't find it being used anywhere. Best leave it alone
+    @Override
+    public void onReceiveDataFromProvider(int paramInt, Bundle paramBundle) {
+        super.onReceiveDataFromProvider(paramInt, paramBundle);
+    }
+
+    // Called when the page is destroyed completely (in app mode). Same as the onDestroy method of an activity
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
 }

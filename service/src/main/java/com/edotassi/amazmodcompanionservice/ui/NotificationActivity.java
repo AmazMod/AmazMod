@@ -60,6 +60,8 @@ public class NotificationActivity extends Activity {
 
     private NotificationData notificationSpec;
 
+    private SettingsManager settingsManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,8 @@ public class NotificationActivity extends Activity {
         setContentView(R.layout.activity_notification);
 
         ButterKnife.bind(this);
+
+        settingsManager = new SettingsManager(this);
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
@@ -95,7 +99,7 @@ public class NotificationActivity extends Activity {
                 }
             }
         } catch (NullPointerException ex) {
-            System.out.println("NotificationActivity onCreate - Exception: " + ex + " notificationSpec: " + notificationSpec);
+            Log.d(Constants.TAG,"NotificationActivity onCreate - Exception: " + ex.toString() + " notificationSpec: " + notificationSpec);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
@@ -103,12 +107,7 @@ public class NotificationActivity extends Activity {
             nullError = true;
         }
 
-        handler = new Handler();
-        activityFinishRunnable = new ActivityFinishRunnable(this);
-
-        startTimerFinish();
-
-        SettingsManager settingsManager = new SettingsManager(this);
+        //SettingsManager settingsManager = new SettingsManager(this);
         final boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
@@ -135,6 +134,10 @@ public class NotificationActivity extends Activity {
                 repliesContainer.addView(button);
             }
         }
+
+        handler = new Handler();
+        activityFinishRunnable = new ActivityFinishRunnable(this);
+        startTimerFinish();
     }
 
     @Override
@@ -180,7 +183,7 @@ public class NotificationActivity extends Activity {
     }
 
     private List<Reply> loadReplies() {
-        SettingsManager settingsManager = new SettingsManager(this);
+        //SettingsManager settingsManager = new SettingsManager(this);
         final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
 
         try {
@@ -200,7 +203,7 @@ public class NotificationActivity extends Activity {
 
         context=getBaseContext();
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        Log.d("NotifIcon", "2");
+        Log.d(Constants.TAG, "NotifIcon 2");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -215,7 +218,7 @@ public class NotificationActivity extends Activity {
         try {
             notificationManager.notify(notificationData.getId(), notification);
         } catch (NullPointerException ex) {
-            System.out.println("NotificationActivity postWithStandarUI - Exception: " + ex + " notification: " + notification);
+            Log.d(Constants.TAG, "NotificationActivity postWithStandarUI - Exception: " + ex.toString() + " - Notification: " + notification.toString());
         }
     }
 

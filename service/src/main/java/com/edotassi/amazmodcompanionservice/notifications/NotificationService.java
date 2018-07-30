@@ -49,12 +49,14 @@ public class NotificationService {
     private Context context;
     //    private Vibrator vibrator;
     private NotificationManager notificationManager;
+    private SettingsManager settingsManager;
 
     public NotificationService(Context context) {
         this.context = context;
 //        vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        settingsManager = new SettingsManager(context);
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
@@ -100,7 +102,7 @@ public class NotificationService {
         contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
         */
 
-        Log.d("NotifIcon", "1");
+        Log.d(Constants.TAG, "NotifIcon 1 " + notificationData.toString() + " / disNotifReplies: " + disableNotificationReplies);
 
         int[] iconData = notificationData.getIcon();
         int iconWidth = notificationData.getIconWidth();
@@ -214,7 +216,7 @@ public class NotificationService {
     }
 
     private List<Reply> loadReplies() {
-        SettingsManager settingsManager = new SettingsManager(context);
+        //SettingsManager settingsManager = new SettingsManager(context);
         final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
 
         try {

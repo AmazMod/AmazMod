@@ -25,7 +25,9 @@ public class Constants {
     public static final String PREF_NOTIFICATION_VIBRATION = "pref_notification_vibration";
     public static final String PREF_NOTIFICATION_CUSTOM_REPLIES = "pref_notification_custom_replies";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "pref_notifications_enable_custom_ui";
-    public static final String PREF_DATE_LAST_CHARGE = "pref_date_last_charge";
+    public static final String PREF_DATE_LAST_CHARGE = "pref_battery_date_last_charge";
+    public static final String PREF_BATT_LEVEL = "pref_battery_level";
+    public static final String PREF_BATT_ICON_ID = "pref_battery_icon_ID";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;

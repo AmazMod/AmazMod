@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.card_battery_last_read)
     TextView lastRead;
+    @BindView(R.id.textView2)
+    TextView batteryTv;
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -245,6 +247,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        HermesEventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -390,7 +399,7 @@ public class MainActivity extends AppCompatActivity
             Date lastDate = new Date(lastEntity.getDate());
 
             long lastChargeDate = lastEntity.getDateLastCharge();
-            String dateDiff = "";
+            String dateDiff = Float.toString(lastEntity.getLevel()* (float)100.00) + "% / ";
             if (lastChargeDate != 0) {
                 long diffInMillies = System.currentTimeMillis() - lastChargeDate;
                 List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
@@ -410,8 +419,8 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
                 dateDiff += getResources().getText(R.string.last_charge);
-                lastRead.setText(dateDiff);
             } else dateDiff += getResources().getText(R.string.last_charge_no_info);
+            batteryTv.setText(dateDiff);
 
             String time = DateFormat.getTimeInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
             String date = DateFormat.getDateInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
@@ -426,7 +435,6 @@ public class MainActivity extends AppCompatActivity
             if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
                 textDate += " " + date;
             }
-            textDate += " / " + dateDiff;
             lastRead.setText(textDate);
         }
 
