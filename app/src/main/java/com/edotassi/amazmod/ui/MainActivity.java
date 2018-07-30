@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity
             Date lastDate = new Date(lastEntity.getDate());
 
             long lastChargeDate = lastEntity.getDateLastCharge();
-            String dateDiff = Float.toString(lastEntity.getLevel()* (float)100.00) + "% / ";
+            String dateDiff = Float.toString(lastEntity.getLevel()* 100f) + "% / ";
             if (lastChargeDate != 0) {
                 long diffInMillies = System.currentTimeMillis() - lastChargeDate;
                 List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));

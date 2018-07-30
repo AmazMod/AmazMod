@@ -180,7 +180,7 @@ public class MessagesListener {
         //Update battery level (used in widget)
         //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
         Log.d(Constants.TAG, "MessagesListener dateLastCharge: " + dateLastCharge
-                + " batteryPct: " + Math.round(batteryPct*100.0));
+                + " batteryPct: " + Math.round(batteryPct*100f));
 
         batteryData.setLevel(batteryPct);
         batteryData.setCharging(isCharging);

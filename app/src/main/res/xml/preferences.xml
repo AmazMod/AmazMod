@@ -28,8 +28,22 @@
             android:defaultValue="false"
             android:dependency="preference.disable.notifications"
             android:key="preference.disable.remove.notifications"
-            android:summary="@string/pref_disable__remove_notifications_summary"
+            android:summary="@string/pref_disable_remove_notifications_summary"
             android:title="@string/pref_disable_remove_notifications" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.notifications.enable.voice.apps"
+            android:summary="@string/pref_enable_voice_apps_summary"
+            android:title="@string/pref_enable_voice_apps" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.notifications.enable.local.only"
+            android:summary="@string/pref_enable_local_only_summary"
+            android:title="@string/pref_enable_local_only" />
 
         <Preference
             android:dependency="preference.disable.notifications"

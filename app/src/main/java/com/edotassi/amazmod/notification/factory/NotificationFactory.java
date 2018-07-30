@@ -63,6 +63,9 @@ public class NotificationFactory {
         notificationData.setTitle(title);
         notificationData.setText(text);
         notificationData.setTime(notificationTime);
+        notificationData.setForceCustom(false);
+        notificationData.setHideReplies(false);
+        notificationData.setHideButtons(false);
 
         return notificationData;
     }

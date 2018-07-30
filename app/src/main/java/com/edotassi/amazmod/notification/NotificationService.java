@@ -3,7 +3,11 @@ package com.edotassi.amazmod.notification;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
@@ -33,7 +37,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +50,9 @@ public class NotificationService extends NotificationListenerService {
     public static final int FLAG_WEARABLE_REPLY = 0x00000001;
     private static final boolean BLOCK = true;
     private static final boolean CONTINUE = false;
+
+    //private static final String[] VOICE_APPS = {"whatsapp", "messenger", "telegram"};
+    private long lastVoiceCallNotificationTime;
 
     private Map<String, String> notificationTimeGone;
 
@@ -119,28 +125,62 @@ public class NotificationService extends NotificationListenerService {
             Notification notification = statusBarNotification.getNotification();
             String notificationPackage = statusBarNotification.getPackageName();
 
-            if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT &&
-                    (notificationPackage.contains("maps"))) {
+            boolean isRinging = false;
 
-                NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
-                notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
+            if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
+                    && (isPackageAllowed(notificationPackage))
+                    && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS,false)) {
 
-                //Calendar c = Calendar.getInstance();
-                //c.setTimeInMillis(System.currentTimeMillis());
-                //String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
-                //Fake notification for now
-                //NotificationData notificationData = new NotificationData();
-                //notificationData.setId(999);
-                //notificationData.setKey("0");
-                //notificationData.setTitle("Maps");
-                //notificationData.setText("Following Maps");
-                //notificationData.setTime(notificationTime);
+                AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+                try {
+                    final int mode = am.getMode();
+                    if (AudioManager.MODE_IN_CALL == mode) {
+                        Log.d(Constants.TAG, "NotificationService Ringer: CALL");
+                    } else if (AudioManager.MODE_IN_COMMUNICATION == mode) {
+                        Log.d(Constants.TAG, "NotificationService Ringer: COMMUNICATION");
+                    } else if (AudioManager.MODE_RINGTONE == mode) {
+                        Log.d(Constants.TAG, "NotificationService Ringer: RINGTONE");
+                        isRinging = true;
+                    } else {
+                        Log.d(Constants.TAG, "NotificationService Ringer: SOMETHING ELSE");
+                    }
+                } catch (NullPointerException e) {
+                    Log.d(Constants.TAG, "NotificationService Exception: " + e.toString());
+                }
 
-                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
-                Log.d(Constants.TAG, "NotificationService Maps: " + notificationData.toString());
+                while (isRinging) {
+                    if (System.currentTimeMillis() - lastVoiceCallNotificationTime > 5000) {
 
-                storeForStats(statusBarNotification);
+                        NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                        //notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
+                        final PackageManager pm = getApplicationContext().getPackageManager();
+                        ApplicationInfo ai;
+                        try {
+                            ai = pm.getApplicationInfo(notificationPackage, 0);
+                        } catch (final PackageManager.NameNotFoundException e) {
+                            ai = null;
+                        }
+                        final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
+
+                        notificationData.setText(notificationData.getText() + "\n" + applicationName);
+                        notificationData.setHideReplies(true);
+                        notificationData.setHideButtons(true);
+                        notificationData.setForceCustom(true);
+
+                        HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                        lastVoiceCallNotificationTime = System.currentTimeMillis();
+
+                        Log.d(Constants.TAG, "NotificationService VoiceCall: " + notificationData.toString());
+
+                        final int mode = am.getMode();
+                        if (AudioManager.MODE_RINGTONE != mode) {
+                            storeForStats(statusBarNotification);
+                            isRinging = false;
+                        }
+
+                    }
+                }
             }
         }
     }
@@ -155,9 +195,7 @@ public class NotificationService extends NotificationListenerService {
             return;
         }
 
-        String notificationPackage = statusBarNotification.getPackageName();
-
-        if (isPackageAllowed(notificationPackage)) {
+        if (isPackageAllowed(statusBarNotification.getPackageName())) {
 
             DataBundle dataBundle = new DataBundle();
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
@@ -168,11 +206,15 @@ public class NotificationService extends NotificationListenerService {
                 }
             });
 
+            //Reset time of last voice call notification when notification is removed
+            if (lastVoiceCallNotificationTime > 0) { lastVoiceCallNotificationTime = 0; }
         }
+
 
     }
 
     private boolean filter(StatusBarNotification statusBarNotification) {
+
         if (notificationTimeGone == null) {
             notificationTimeGone = new HashMap<>();
         }
@@ -208,8 +250,10 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            Logger.debug("notification blocked because is LocalOnly");
-            return returnFilterResult(BLOCK);
+            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
+                Logger.debug("notification blocked because is LocalOnly");
+                return returnFilterResult(BLOCK);
+            }
         }
 
         Bundle extras = statusBarNotification.getNotification().extras;
@@ -217,6 +261,7 @@ public class NotificationService extends NotificationListenerService {
         if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
             if ((previousText != null) && (previousText.equals(text))) {
+                Log.d(Constants.TAG, "NotificationService blocked text: " + text);
                 Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return returnFilterResult(BLOCK);
             } else {

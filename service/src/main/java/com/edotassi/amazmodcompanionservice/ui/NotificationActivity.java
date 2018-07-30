@@ -108,8 +108,16 @@ public class NotificationActivity extends Activity {
         }
 
         //SettingsManager settingsManager = new SettingsManager(this);
-        final boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+
+        boolean hideReplies = notificationSpec.getHideReplies();
+
+        if (notificationSpec.getHideButtons()) {
+            findViewById(R.id.activity_buttons).setVisibility(View.GONE);
+        }
+
+        if (disableNotificationReplies || hideReplies) { disableNotificationReplies = true; }
 
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -133,6 +141,7 @@ public class NotificationActivity extends Activity {
 
                 repliesContainer.addView(button);
             }
+
         }
 
         handler = new Handler();
@@ -164,7 +173,6 @@ public class NotificationActivity extends Activity {
 
             //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #1
             postWithStandardUI(notificationSpec);
-
             finish();
         }
     }
