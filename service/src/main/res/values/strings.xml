@@ -2,4 +2,6 @@
     <string name="app_name">AmazModService</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_notification">NotificationActivity</string>
+    <string name="last_charge">Since full charge</string>
+    <string name="last_charge_no_info">Waiting for data</string>
 </resources>

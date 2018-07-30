@@ -229,6 +229,7 @@ public class NightscoutPage extends AbstractPlugin {
     //Called when the page is destroyed completely (in app mode). Same as the onDestroy method of an activity
     @Override
     public void onDestroy() {
+        HermesEventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 

@@ -28,7 +28,11 @@ public class Constants {
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
+    public static final boolean PREF_DEFAULT_DISABLE_BATTERY_CHART = false;
+    public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";
 
     public static final int REQUEST_CODE_INTRO = 1;
 
+    public static final String PREF_DISABLE_NOTIFICATIONS_WHEN_DND = "preference.disable.notifications.when.dnd" ;
+    public static final String PREF_DISABLE_REMOVE_NOTIFICATIONS = "preference.disable.remove.notifications";
 }

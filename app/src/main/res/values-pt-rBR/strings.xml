@@ -86,5 +86,11 @@
     <string name="intro_description_3">Então reinicie o seu relógio e seu telefone.</string>
     <string name="intro_title_4">Tudo Pronto!</string>
     <string name="intro_description_4">Agora você pode ir para as configurações do AmazMode escolher os apps que você deseja receber notificações e adicionar suas respostas perosnalizadas.\n\nDivirta-se usando o AmazMod! \u2661</string>
+    <string name="last_charge">Time since last charge</string>
+    <string name="last_charge_no_info">Waiting for data</string>
+    <string name="pref_disable_notifications_when_dnd">Disabel when DND is ON</string>
+    <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturbed is detected</string>
+    <string name="pref_disable_remove_notifications">Disable remove notifications</string>
+    <string name="pref_disable__remove_notifications_summary">Do not remove notifications from watch when removed from phone</string>
 
 </resources>

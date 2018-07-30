@@ -19,6 +19,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -61,7 +62,9 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -80,6 +83,8 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.card_battery_last_read)
     TextView lastRead;
+    @BindView(R.id.textView2)
+    TextView batteryTv;
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -119,6 +124,9 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.card_watch_detail)
     LinearLayout watchDetail;
 
+    private boolean disableBatteryChart;
+    Locale defaultLocale;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
@@ -141,6 +149,16 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Hide Battery Chart if it's set in Preferences
+        this.disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        if (this.disableBatteryChart) {
+
+            findViewById(R.id.card_battery).setVisibility(View.GONE);
+
+        }
+
         HermesEventBus.getDefault().register(this);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
@@ -149,12 +167,13 @@ public class MainActivity extends AppCompatActivity
         boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_KEY_FIRST_START, Constants.PREF_DEFAULT_KEY_FIRST_START);
 
+        //Get Locales
+        defaultLocale = Locale.getDefault();
+        Locale currentLocale = getResources().getConfiguration().locale;
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            Locale defaultLocale = Locale.getDefault();
-            Locale currentLocale = getResources().getConfiguration().locale;
-            System.out.println("Initial locales: " + defaultLocale + " / " + currentLocale);
+            System.out.println("firstStart locales: " + defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
             conf.locale = defaultLocale;
@@ -163,6 +182,20 @@ public class MainActivity extends AppCompatActivity
             //Start Wizard Activity
             Intent intent = new Intent(MainActivity.this, MainIntroActivity.class);
             startActivityForResult(intent, Constants.REQUEST_CODE_INTRO);
+        }
+
+        //Change app localization if needed
+        final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
+        System.out.println("MainActivity locales: " + defaultLocale + " / " + currentLocale);
+        if (forceEN && (currentLocale != Locale.US)) {
+            System.out.println("MaiActivity New locale: US");
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            conf.locale = Locale.US;
+            res.updateConfiguration(conf, dm);
+            recreate();
         }
 
 //        checkNotificationsAccess(); not needed anymore after adding presentation
@@ -203,12 +236,21 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        updateChart();
+        if (!this.disableBatteryChart) {
+            updateChart();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        HermesEventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -227,8 +269,6 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
-//        int id = item.getItemId();
 
         switch (item.getItemId()) {
 
@@ -334,12 +374,12 @@ public class MainActivity extends AppCompatActivity
      **/
 
     private void updateChart() {
-        final List<Entry> yValues = new ArrayList<Entry>();
+        final List<Entry> yValues = new ArrayList<>();
         final List<Integer> colors = new ArrayList<>();
 
-
-        //TODO use Preferences for days
-        final int days = 3;
+        //Cast number of days shown in chart from Preferences
+        final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
 
         Calendar calendar = Calendar.getInstance();
         long highX = calendar.getTimeInMillis();
@@ -357,8 +397,33 @@ public class MainActivity extends AppCompatActivity
         if (batteryReadList.size() > 0) {
             BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
             Date lastDate = new Date(lastEntity.getDate());
-            String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(lastDate);
-            String date = DateFormat.getDateInstance(DateFormat.SHORT).format(lastDate);
+
+            long lastChargeDate = lastEntity.getDateLastCharge();
+            String dateDiff = Float.toString(lastEntity.getLevel()* (float)100.00) + "% / ";
+            if (lastChargeDate != 0) {
+                long diffInMillies = System.currentTimeMillis() - lastChargeDate;
+                List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+                Collections.reverse(units);
+                long milliesRest = diffInMillies;
+                for ( TimeUnit unit : units ) {
+                    long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
+                    long diffInMilliesForUnit = unit.toMillis(diff);
+                    milliesRest = milliesRest - diffInMilliesForUnit;
+                    if (unit.equals(TimeUnit.DAYS)) {
+                        dateDiff += diff + "d : ";
+                    } else if (unit.equals(TimeUnit.HOURS)) {
+                        dateDiff += diff + "h : ";
+                    } else if (unit.equals(TimeUnit.MINUTES)) {
+                        dateDiff += diff + "m ";
+                        break;
+                    }
+                }
+                dateDiff += getResources().getText(R.string.last_charge);
+            } else dateDiff += getResources().getText(R.string.last_charge_no_info);
+            batteryTv.setText(dateDiff);
+
+            String time = DateFormat.getTimeInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
+            String date = DateFormat.getDateInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
 
             Calendar calendarLastDate = Calendar.getInstance();
             calendarLastDate.setTime(lastDate);

@@ -17,6 +17,20 @@
             android:summary="@string/pref_disable_notifications_when_screen_on_summary"
             android:title="@string/pref_disable_notifications_when_screen_on" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.disable.notifications.when.dnd"
+            android:summary="@string/pref_disable_notifications_when_dnd_summary"
+            android:title="@string/pref_disable_notifications_when_dnd" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.disable.remove.notifications"
+            android:summary="@string/pref_disable__remove_notifications_summary"
+            android:title="@string/pref_disable_remove_notifications" />
+
         <Preference
             android:dependency="preference.disable.notifications"
             android:summary="@string/pref_filter_notifications_by_packages_summary"

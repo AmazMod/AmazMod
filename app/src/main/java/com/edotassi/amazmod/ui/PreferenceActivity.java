@@ -65,6 +65,12 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    }
+
     public void setLocale(Locale lang) {
         System.out.println("New locale: " + lang);
         Resources res = getResources();

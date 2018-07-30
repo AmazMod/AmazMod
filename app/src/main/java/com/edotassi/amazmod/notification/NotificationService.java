@@ -11,6 +11,7 @@ import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
+import android.util.Log;
 
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.db.model.NotificationEntity;
@@ -32,6 +33,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +64,7 @@ public class NotificationService extends NotificationListenerService {
 
         notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
         notificationTransporter.connectTransportService();
+
     }
 
     @Override
@@ -79,21 +82,22 @@ public class NotificationService extends NotificationListenerService {
 
         if (filterResult == CONTINUE) {
 
-            StatusBarNotificationData statusBarNotificationData = StatusBarNotificationData.from(statusBarNotification);
+            //StatusBarNotificationData statusBarNotificationData = StatusBarNotificationData.from(statusBarNotification);
 
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
                     (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
-                            && Screen.isInteractive(this))) {
+                            && Screen.isInteractive(this)) ||
+                    (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
+                            Screen.isDNDActive(this, getContentResolver()))) {
                 return;
             }
 
-            NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
-
-            notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
-
             if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,false)) {
                 //Use Custom UI
+                NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
                 HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                Log.d(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
             }
             else {
                 DataBundle dataBundle = new DataBundle();
@@ -104,8 +108,40 @@ public class NotificationService extends NotificationListenerService {
                         Logger.debug(dataTransportResult.toString());
                     }
                 });
+                Log.d(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
             }
             storeForStats(statusBarNotification);
+        }
+
+        //Try to get turn by turn navigation notifications
+        else {
+
+            Notification notification = statusBarNotification.getNotification();
+            String notificationPackage = statusBarNotification.getPackageName();
+
+            if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT &&
+                    (notificationPackage.contains("maps"))) {
+
+                NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
+
+                //Calendar c = Calendar.getInstance();
+                //c.setTimeInMillis(System.currentTimeMillis());
+                //String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+                //Fake notification for now
+                //NotificationData notificationData = new NotificationData();
+                //notificationData.setId(999);
+                //notificationData.setKey("0");
+                //notificationData.setTitle("Maps");
+                //notificationData.setText("Following Maps");
+                //notificationData.setTime(notificationTime);
+
+                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                Log.d(Constants.TAG, "NotificationService Maps: " + notificationData.toString());
+
+                storeForStats(statusBarNotification);
+
+            }
         }
     }
 
@@ -114,18 +150,25 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
         Logger.debug("notificationRemoved: %s", statusBarNotification.getKey());
 
-        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false)) {
+        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
+                (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
             return;
         }
 
-        DataBundle dataBundle = new DataBundle();
-        dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
-        notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
+        String notificationPackage = statusBarNotification.getPackageName();
+
+        if (isPackageAllowed(notificationPackage)) {
+
+            DataBundle dataBundle = new DataBundle();
+            dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+            notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     Logger.debug(dataTransportResult.toString());
                 }
-        });
+            });
+
+        }
 
     }
 

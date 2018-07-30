@@ -157,6 +157,7 @@ public class TransportService extends Service implements Transporter.DataListene
         logger.debug("charging: " + batteryData.isCharging());
         logger.debug("usb: " + batteryData.isUsbCharge());
         logger.debug("ac: " + batteryData.isAcCharge());
+        logger.debug("dateLastCharge: " + batteryData.getDateLastCharge());
 
         long date = System.currentTimeMillis();
 
@@ -165,6 +166,7 @@ public class TransportService extends Service implements Transporter.DataListene
         batteryStatusEntity.setCharging(batteryData.isCharging());
         batteryStatusEntity.setDate(date);
         batteryStatusEntity.setLevel(batteryData.getLevel());
+        batteryStatusEntity.setDateLastCharge(batteryData.getDateLastCharge());
 
         try {
             BatteryStatusEntity storeBatteryStatusEntity = SQLite
