@@ -2,6 +2,8 @@ package com.edotassi.amazmod.ui;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -90,9 +92,11 @@ public class AboutActivity extends AppCompatActivity {
         notificationData.setHideButtons(false);
 
         try {
-            //PackageManager manager = this.getPackageManager();
-            //Resources resources = manager.getResourcesForApplication( );
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_round);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_round);
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
 
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
