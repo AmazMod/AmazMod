@@ -1,5 +1,11 @@
 <changelog>
     <release
+        date="2018-07-30"
+        versionCode="142"
+        versionName="v1.0.14-ALPHA">
+        <bugfix>Fixed double transported data in HermesEventBus, finally!!!</bugfix>
+    </release>
+    <release
         date="2018-07-29"
         versionCode="141"
         versionName="v1.0.13-ALPHA">

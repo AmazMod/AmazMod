@@ -126,7 +126,9 @@ public class MessagesListener {
         notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
 
+        Log.d(Constants.TAG, "MessagesListener incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -146,6 +148,7 @@ public class MessagesListener {
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
 
+        Log.d(Constants.TAG, "MessagesListener requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
 
@@ -165,7 +168,6 @@ public class MessagesListener {
 
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        //int batteryIconId = batteryStatus.getIntExtra(BatteryManager.EXTRA_ICON_SMALL, 0);
 
         batteryPct = level / (float) scale;
 
@@ -173,14 +175,12 @@ public class MessagesListener {
         //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
         if (dateLastCharge == 0) {
             dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-            //settings.set(Constants.PREF_BATT_ICON_ID, batteryIconId);
             Log.d(Constants.TAG, "MessagesListener dateLastCharge loaded: " + dateLastCharge);
         }
 
         //Update battery level (used in widget)
         //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
-        Log.d(Constants.TAG, "MessagesListener dateLastCharge: " + dateLastCharge
-                + " batteryPct: " + Math.round(batteryPct*100f));
+        Log.d(Constants.TAG, "MessagesListener dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct*100f));
 
         batteryData.setLevel(batteryPct);
         batteryData.setCharging(isCharging);
@@ -209,5 +209,6 @@ public class MessagesListener {
             return;
         }
         transporter.send(action, dataBundle);
+        Log.d(Constants.TAG, "MessagesListener send: " + action);
     }
 }

@@ -72,7 +72,6 @@ import java.util.concurrent.TimeUnit;
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -160,6 +159,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         HermesEventBus.getDefault().register(this);
+        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 

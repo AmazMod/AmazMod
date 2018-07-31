@@ -80,6 +80,8 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
+        boolean hideReplies = false;
+
         try {
             title.setText(notificationSpec.getTitle());
             text.setText(notificationSpec.getText());
@@ -89,6 +91,11 @@ public class NotificationActivity extends Activity {
             int iconHeight = notificationSpec.getIconHeight();
             Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
             bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+
+            hideReplies = notificationSpec.getHideReplies();
+            if (notificationSpec.getHideButtons()) {
+                findViewById(R.id.activity_buttons).setVisibility(View.GONE);
+            }
 
             icon.setImageBitmap(bitmap);
 
@@ -104,6 +111,7 @@ public class NotificationActivity extends Activity {
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
             icon.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.amazmod));
+            hideReplies = true;
             nullError = true;
         }
 
@@ -111,20 +119,13 @@ public class NotificationActivity extends Activity {
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
-        boolean hideReplies = notificationSpec.getHideReplies();
-
-        if (notificationSpec.getHideButtons()) {
-            findViewById(R.id.activity_buttons).setVisibility(View.GONE);
-        }
-
         if (disableNotificationReplies || hideReplies) { disableNotificationReplies = true; }
 
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        if ((!disableNotificationReplies) && (!nullError)) {
-
+        if (!disableNotificationReplies) {
             List<Reply> repliesList = loadReplies();
             for (final Reply reply : repliesList) {
                 Button button = new Button(this);
@@ -138,10 +139,8 @@ public class NotificationActivity extends Activity {
                         finish();
                     }
                 });
-
                 repliesContainer.addView(button);
             }
-
         }
 
         handler = new Handler();

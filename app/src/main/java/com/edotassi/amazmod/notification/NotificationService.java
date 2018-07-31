@@ -65,6 +65,7 @@ public class NotificationService extends NotificationListenerService {
         super.onCreate();
 
         HermesEventBus.getDefault().register(this);
+        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
 
         notificationsAvailableToReply = new HashMap<>();
 
@@ -250,7 +251,7 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
+            if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
                 Logger.debug("notification blocked because is LocalOnly");
                 return returnFilterResult(BLOCK);
             }

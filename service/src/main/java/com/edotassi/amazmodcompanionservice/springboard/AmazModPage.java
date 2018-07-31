@@ -71,7 +71,7 @@ public class AmazModPage extends AbstractPlugin {
 
         //Initialize settings
         settingsWidget = new WidgetSettings(Constants.TAG, mContext);
-        //Log.d(Constants.TAG, "AmazModWidget getView Start");
+        Log.d(Constants.TAG, "AmazModWidget getView Start");
 
         return this.view;
     }
