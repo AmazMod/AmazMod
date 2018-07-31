@@ -1,24 +1,38 @@
 package com.edotassi.amazmodcompanionservice;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
+import android.os.BatteryManager;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.edotassi.amazmodcompanionservice.events.NightscoutDataEvent;
+import com.edotassi.amazmodcompanionservice.events.NightscoutRequestSyncEvent;
+import com.edotassi.amazmodcompanionservice.events.ReplyNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.Brightness;
 import com.edotassi.amazmodcompanionservice.events.incoming.IncomingNotificationEvent;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestBatteryStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.SyncSettings;
+import com.edotassi.amazmodcompanionservice.notifications.NotificationService;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationsReceiver;
+import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
+import com.edotassi.amazmodcompanionservice.springboard.WidgetSettings;
+import com.edotassi.amazmodcompanionservice.util.DeviceUtil;
+import com.edotassi.amazmodcompanionservice.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
+import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -26,17 +40,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import amazmod.com.transport.Transport;
+import amazmod.com.transport.Transportable;
+import amazmod.com.transport.data.BatteryData;
+import amazmod.com.transport.data.BrightnessData;
+import amazmod.com.transport.data.NotificationData;
+import amazmod.com.transport.data.NotificationReplyData;
+import amazmod.com.transport.data.SettingsData;
+import amazmod.com.transport.data.WatchStatusData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
+
+import static java.lang.System.currentTimeMillis;
 
 /**
  * Created by edoardotassinari on 04/04/18.
  */
 
-public class MainService extends Service implements Transporter.ChannelListener, Transporter.ServiceConnectionListener {
+public class MainService extends Service implements Transporter.DataListener {
 
-    private Transporter companionTransporter;
+    //private Transporter companionTransporter;
 
-    private MessagesListener messagesListener;
+    //private MessagesListener messagesListener;
     private NotificationsReceiver notificationsReceiver;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
@@ -48,25 +71,78 @@ public class MainService extends Service implements Transporter.ChannelListener,
         put(Transport.BRIGHTNESS, Brightness.class);
     }};
 
+    private Transporter transporter;
+
+    private Context context;
+    private SettingsManager settingsManager;
+    private NotificationService notificationManager;
+    private long dateLastCharge = 0;
+    private float batteryPct;
+    private WidgetSettings settings;
+
+    private BatteryData batteryData;
+    private WatchStatusData watchStatusData;
+    private DataBundle dataBundle;
+
     @Override
     public void onCreate() {
-        Log.d(Constants.TAG, "EventBus init");
 
-        messagesListener = new MessagesListener(this);
+        super.onCreate();
+        //messagesListener = new MessagesListener(this);
+
+        context = this;
+        settingsManager = new SettingsManager(context);
+        notificationManager = new NotificationService(context);
+
+        settings = new WidgetSettings(Constants.TAG, context);
+        batteryData = new BatteryData();
+
+        watchStatusData = new WatchStatusData();
+        dataBundle = new DataBundle();
+
+        //Register power disconnect receiver
+        IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
+        powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //Update date of last charge if power was disconnected and battery is full
+                if (batteryPct > 0.98) {
+                    dateLastCharge = currentTimeMillis();
+                    settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
+                    Log.d(Constants.TAG, "MessagesListener dateLastCharge saved: " + dateLastCharge);
+                }
+            }
+        }, powerDisconnectedFilter);
 
         notificationsReceiver = new NotificationsReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
-
         registerReceiver(notificationsReceiver, filter);
 
-        HermesEventBus.getDefault().init(this);
-        HermesEventBus.getDefault().register(messagesListener);
+        Log.d(Constants.TAG, "HermesEventBus connect");
+        //HermesEventBus.getDefault().init(this);
+        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE_NAME);
+        HermesEventBus.getDefault().register(this);
+
+        transporter = TransporterClassic.get(this, Transport.NAME);
+        transporter.addDataListener(this);
+
+        if (!transporter.isTransportServiceConnected()) {
+
+            Log.d(Constants.TAG,"MainService Transporter not connected, connecting...");
+            transporter.connectTransportService();
+
+        } else {
+
+            Log.d(Constants.TAG,"MainService Transported yet connected");
+        }
+
     }
 
     @Override
     public void onDestroy() {
-        HermesEventBus.getDefault().unregister(messagesListener);
+        HermesEventBus.getDefault().unregister(this);
 
         if (notificationsReceiver != null) {
             unregisterReceiver(notificationsReceiver);
@@ -82,6 +158,40 @@ public class MainService extends Service implements Transporter.ChannelListener,
         return null;
     }
 
+    @Override
+    public void onDataReceived(TransportDataItem transportDataItem) {
+        String action = transportDataItem.getAction();
+
+        Log.d(Constants.TAG,"MainService action: "+ action);
+
+        Class messageClass = messages.get(action);
+
+        if (messageClass != null) {
+            Class[] args = new Class[1];
+            args[0] = DataBundle.class;
+
+            try {
+                Constructor eventContructor = messageClass.getDeclaredConstructor(args);
+                Object event = eventContructor.newInstance(transportDataItem.getData());
+
+                Log.d(Constants.TAG,"MainService onDataReceived: " + event.toString());
+                HermesEventBus.getDefault().post(event);
+            } catch (NoSuchMethodException e) {
+                Log.d(Constants.TAG, "MainService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+/*
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(Constants.TAG, "MainService started");
@@ -145,7 +255,7 @@ public class MainService extends Service implements Transporter.ChannelListener,
             companionTransporter.connectTransportService();
         }
 
-        messagesListener.setTransporter(companionTransporter);
+        setTransporter(companionTransporter);
     }
 
     @Override
@@ -162,4 +272,171 @@ public class MainService extends Service implements Transporter.ChannelListener,
     public void onServiceDisconnected(Transporter.ConnectionResult connectionResult) {
         Log.d(Constants.TAG, "MainService onServiceDisconnected: " + connectionResult.toString());
     }
+
+
+    public void setTransporter(Transporter transporter) {
+        this.transporter = transporter;
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestNightscoutSync(NightscoutRequestSyncEvent event) {
+        Log.d(Constants.TAG, "MessagesListener requested nightscout sync");
+
+        send(Constants.ACTION_NIGHTSCOUT_SYNC, new DataBundle());
+    }
+*/
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void settingsSync(SyncSettings event) {
+
+        SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
+
+        Log.d(Constants.TAG, "MainService sync settings");
+        Log.d(Constants.TAG, "MainService vibration: " + settingsData.getVibration());
+        Log.d(Constants.TAG, "MainService timeout: " + settingsData.getScreenTimeout());
+        Log.d(Constants.TAG, "MainService replies: " + settingsData.getReplies());
+        Log.d(Constants.TAG, "MainService enableCustomUi: " + settingsData.isNotificationsCustomUi());
+
+        settingsManager.sync(settingsData);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void reply(ReplyNotificationEvent event) {
+        Log.d(Constants.TAG, "MainService reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
+
+        dataBundle.putString("key", event.getKey());
+        dataBundle.putString("message", event.getMessage());
+
+        send(Transport.REPLY, dataBundle);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void incomingNotification(IncomingNotificationEvent incomingNotificationEvent) {
+        //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
+        NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
+
+        notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
+        notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
+        notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
+
+        Log.d(Constants.TAG, "MainService incomingNotification: " + notificationData.toString());
+        notificationManager.post(notificationData);
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
+
+        watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
+        watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
+        watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
+        watchStatusData.setRoBuildDisplayId(SystemProperties.get(WatchStatusData.RO_BUILD_DISPLAY_ID, "-"));
+        watchStatusData.setRoBuildHuamiModel(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_MODEL, "-"));
+        watchStatusData.setRoBuildHuamiNumber(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_NUMBER, "-"));
+        watchStatusData.setRoProductDevice(SystemProperties.get(WatchStatusData.RO_PRODUCT_DEVICE, "-"));
+        watchStatusData.setRoProductManufacter(SystemProperties.get(WatchStatusData.RO_PRODUCT_MANUFACTER, "-"));
+        watchStatusData.setRoProductModel(SystemProperties.get(WatchStatusData.RO_PRODUCT_MODEL, "-"));
+        watchStatusData.setRoProductName(SystemProperties.get(WatchStatusData.RO_PRODUCT_NAME, "-"));
+        watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
+        watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
+        watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
+
+        Log.d(Constants.TAG, "MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
+        send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
+
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = context.registerReceiver(null, ifilter);
+
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                status == BatteryManager.BATTERY_STATUS_FULL;
+
+        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        batteryPct = level / (float) scale;
+
+        //Get data of last full charge from settings
+        //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+        if (dateLastCharge == 0) {
+            dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+            Log.d(Constants.TAG, "MainService dateLastCharge loaded: " + dateLastCharge);
+        }
+
+        //Update battery level (used in widget)
+        //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
+        Log.d(Constants.TAG, "MainService dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct*100f));
+
+        batteryData.setLevel(batteryPct);
+        batteryData.setCharging(isCharging);
+        batteryData.setUsbCharge(usbCharge);
+        batteryData.setAcCharge(acCharge);
+        batteryData.setDateLastCharge(dateLastCharge);
+
+        send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void brightness(Brightness brightness) {
+        BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
+        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessData.getLevel());
+
+        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
+    }
+
+/*    private void send(String action) {
+        send(action, null);
+    }
+
+    private void send(String action, DataBundle dataBundle) {
+        if (transporter == null) {
+            Log.w(Constants.TAG, "MessagesListener transporter not ready");
+            return;
+        }
+        transporter.send(action, dataBundle);
+        Log.d(Constants.TAG, "MessagesListener send: " + action);
+    }
+*/
+
+    private void send(String action) {
+        send(action, null);
+    }
+
+    private void send(String action, DataBundle dataBundle) {
+        if (!transporter.isTransportServiceConnected()) {
+            Log.d(Constants.TAG,"MainService Transport Service Not Connected");
+            return;
+        }
+
+        if (dataBundle != null) {
+            //DataBundle dataBundle = new DataBundle();
+            //transportable.toDataBundle(dataBundle);
+            Log.d(Constants.TAG,"MainService send1: " + action);
+            transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
+                @Override
+                public void onResultBack(DataTransportResult dataTransportResult) {
+                    Log.d(Constants.TAG,"Send result: " + dataTransportResult.toString());
+                }
+            });
+
+        } else {
+            Log.d(Constants.TAG,"MainService send2: " + action);
+            transporter.send(action, new Transporter.DataSendResultCallback() {
+                @Override
+                public void onResultBack(DataTransportResult dataTransportResult) {
+                    Log.d(Constants.TAG,"Send result: " + dataTransportResult.toString());
+                }
+            });
+        }
+
+    }
+
 }

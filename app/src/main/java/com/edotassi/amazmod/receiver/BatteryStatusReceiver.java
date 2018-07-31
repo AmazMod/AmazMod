@@ -19,7 +19,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         LoggerScoped.get(BatteryStatusReceiver.class).debug("started");
 
-        HermesEventBus.getDefault().connectApp(context, Constants.PACKAGE);
+        //HermesEventBus.getDefault().connectApp(context, Constants.PACKAGE);
         HermesEventBus.getDefault().post(new RequestBatteryStatus());
     }
 }

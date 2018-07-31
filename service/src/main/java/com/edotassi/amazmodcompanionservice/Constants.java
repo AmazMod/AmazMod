@@ -9,7 +9,7 @@ public class Constants {
     public static final String TAG = "AmazMod";
     public static final String TAG_NIGHTSCOUT_PAGE = "Amazmod:Nighscout";
 
-    public static final String PACKAGE_NAME = "com.edotassi.amazmodcompanionservice";
+    public static final String PACKAGE_NAME = "com.edotassi.amazmod";
 
     public static final String ACTION_NIGHTSCOUT_SYNC = "nightscout_sync";
 

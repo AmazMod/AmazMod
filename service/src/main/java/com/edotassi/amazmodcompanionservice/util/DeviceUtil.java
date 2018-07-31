@@ -37,6 +37,7 @@ public class DeviceUtil {
 
         return isLocked;
     }
+
     public static boolean isDNDActive(Context context, ContentResolver cr) {
 
         boolean dndEnabled = false;
