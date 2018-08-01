@@ -13,7 +13,8 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 1. Download and install amazmod.apk on phone;
 2. Download and install amazmod_service.apk to watch;
 3. Restart both phone and watch;
-4. Open AmazMod app on phone and configure it to your needs.
+4. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
+5. Open AmazMod app on phone and configure it to your needs.
 	
 #### Troubleshooting
 * How do I install the app on watch?  
