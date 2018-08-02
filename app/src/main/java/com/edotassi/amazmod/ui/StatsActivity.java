@@ -69,9 +69,7 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.loadLogBT)
-    public void click1() {
-
-        notificationsLogLV = findViewById(R.id.notificationsLogLV);
+    public void loadLog() {
         materialProgressBar.setVisibility(View.VISIBLE);
         notificationsLogLV.setVisibility(View.GONE);
 
