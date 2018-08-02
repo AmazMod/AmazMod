@@ -3,6 +3,9 @@
     package="com.edotassi.amazmod">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:name=".AmazModApplication"
@@ -51,8 +54,15 @@
         <receiver
             android:name=".receiver.BatteryStatusReceiver"
             android:exported="true" />
+
+        <receiver android:name=".receiver.SmsReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
         <receiver
-            android:name=".boot.BootBroadcastReceiver"
+            android:name=".receiver.BootBroadcastReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

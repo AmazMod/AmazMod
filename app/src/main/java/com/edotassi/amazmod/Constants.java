@@ -37,4 +37,5 @@ public class Constants {
     public static final String PREF_DISABLE_REMOVE_NOTIFICATIONS = "preference.disable.remove.notifications";
     public static final String PREF_NOTIFICATIONS_ENABLE_VOICE_APPS = "preference.notifications.enable.voice.apps";
     public static final String PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY = "preference.notifications.enable.local.only";
+    public static final String PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED = "preference.notifications.enable.when.locked";
 }
