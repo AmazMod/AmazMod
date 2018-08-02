@@ -38,4 +38,15 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_VOICE_APPS = "preference.notifications.enable.voice.apps";
     public static final String PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY = "preference.notifications.enable.local.only";
     public static final String PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED = "preference.notifications.enable.when.locked";
+
+    public static final byte FILTER_CONTINUE = 'C';
+    public static final byte FILTER_VOICE = 'V';
+
+    public static final byte FILTER_PACKAGE = 'P';
+    public static final byte FILTER_GROUP = 'G';
+    public static final byte FILTER_ONGOING = 'O';
+    public static final byte FILTER_LOCAL= 'L';
+    public static final byte FILTER_BLOCK = 'B';
+    public static final byte FILTER_RETURN = 'R';
+
 }

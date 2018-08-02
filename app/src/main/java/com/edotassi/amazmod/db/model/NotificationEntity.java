@@ -19,6 +19,9 @@ public class NotificationEntity {
     @Column
     private String packageName;
 
+    @Column
+    private byte filterResult;
+
     public long getId() {
         return id;
     }
@@ -41,5 +44,13 @@ public class NotificationEntity {
 
     public void setPackageName(String packageName) {
         this.packageName = packageName;
+    }
+
+    public byte getFilterResult() {
+        return filterResult;
+    }
+
+    public void setFilterResult(byte filterResult) {
+        this.filterResult = filterResult;
     }
 }
