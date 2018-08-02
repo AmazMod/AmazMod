@@ -2,7 +2,6 @@ package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,7 +16,6 @@ import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.io.SyncFailedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
