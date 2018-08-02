@@ -1,5 +1,11 @@
 <changelog>
     <release
+        date="2018-08-01"
+        versionCode="143"
+        versionName="v1.0.15-ALPHA">
+        <bugfix>Fixed battery data insertion in the database</bugfix>
+    </release>
+    <release
         date="2018-07-30"
         versionCode="142"
         versionName="v1.0.14-ALPHA">
