@@ -52,7 +52,6 @@ public class NotificationService extends NotificationListenerService {
     private long lastVoiceCallNotificationTime;
 
     private Map<String, String> notificationTimeGone;
-
     private Map<String, StatusBarNotification> notificationsAvailableToReply;
 
     private Transporter notificationTransporter;
@@ -62,7 +61,6 @@ public class NotificationService extends NotificationListenerService {
         super.onCreate();
 
         HermesEventBus.getDefault().register(this);
-        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
 
         notificationsAvailableToReply = new HashMap<>();
 
@@ -74,7 +72,6 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
         HermesEventBus.getDefault().unregister(this);
     }
 
@@ -85,8 +82,6 @@ public class NotificationService extends NotificationListenerService {
         byte filterResult = filter(statusBarNotification);
 
         if (filterResult == Constants.FILTER_CONTINUE) {
-
-            //Handle some preferences
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
                     (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
                             Screen.isDNDActive(this, getContentResolver()))) {
@@ -99,26 +94,24 @@ public class NotificationService extends NotificationListenerService {
 //                    + " / isDeviceLocked: " + Screen.isDeviceLocked(this));
 
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
-                            && Screen.isInteractive(this)) {
+                    && Screen.isInteractive(this)) {
 
                 if (!Screen.isDeviceLocked(this)) {
                     storeForStats(statusBarNotification, Constants.FILTER_RETURN);
                     return;
-                }
-                else if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)) {
+                } else if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)) {
                     storeForStats(statusBarNotification, Constants.FILTER_RETURN);
                     return;
                 }
             }
 
-            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,false)) {
+            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false)) {
                 //Use Custom UI
                 NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
                 notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
                 HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
                 Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
-            }
-            else {
+            } else {
                 //Use standard UI
                 DataBundle dataBundle = new DataBundle();
                 dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
@@ -130,11 +123,9 @@ public class NotificationService extends NotificationListenerService {
                 });
                 Log.i(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
             }
+
             storeForStats(statusBarNotification, Constants.FILTER_CONTINUE);
-        }
-
-        else {
-
+        } else {
             Notification notification = statusBarNotification.getNotification();
             String notificationPackage = statusBarNotification.getPackageName();
 
@@ -142,7 +133,7 @@ public class NotificationService extends NotificationListenerService {
             boolean isRinging = false;
             if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
                     && (isPackageAllowed(notificationPackage))
-                    && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS,false)) {
+                    && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS, false)) {
 
                 AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
                 try {
@@ -194,8 +185,7 @@ public class NotificationService extends NotificationListenerService {
 
                     }
                 }
-            }
-            else storeForStats(statusBarNotification, filterResult);
+            } else storeForStats(statusBarNotification, filterResult);
         }
     }
 
@@ -221,14 +211,15 @@ public class NotificationService extends NotificationListenerService {
             });
 
             //Reset time of last voice call notification when notification is removed
-            if (lastVoiceCallNotificationTime > 0) { lastVoiceCallNotificationTime = 0; }
+            if (lastVoiceCallNotificationTime > 0) {
+                lastVoiceCallNotificationTime = 0;
+            }
         }
 
 
     }
 
     private byte filter(StatusBarNotification statusBarNotification) {
-
         if (notificationTimeGone == null) {
             notificationTimeGone = new HashMap<>();
         }
