@@ -1,17 +1,18 @@
 package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.adapters.NotificationLogAdapter;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -41,10 +42,8 @@ public class StatsActivity extends AppCompatActivity {
     @BindView(R.id.activity_stats_notifications_total)
     TextView notificationsTotal;
 
-    @BindView(R.id.loadLogBT)
-    Button loadLogBT;
-    @BindView(R.id.notificationsLogLV)
-    ListView notificationsLogLV;
+    @BindView(R.id.activity_stats_open_notifications_log)
+    Button openNotificationsLogButton;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -56,7 +55,13 @@ public class StatsActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            //TODO log to crashlitics
+        }
+
         getSupportActionBar().setTitle(R.string.stats);
         ButterKnife.bind(this);
     }
@@ -68,29 +73,10 @@ public class StatsActivity extends AppCompatActivity {
         loadStats();
     }
 
-    @OnClick(R.id.loadLogBT)
-    public void loadLog() {
-        materialProgressBar.setVisibility(View.VISIBLE);
-        notificationsLogLV.setVisibility(View.GONE);
-
-        List<NotificationEntity> notificationReadList = SQLite.select().
-                from(NotificationEntity.class).queryList();
-
-        List<String> notifications = new ArrayList<>();
-        for (int n = (notificationReadList.size() - 1) ; n >= 0; n--) {
-            notifications.add(notificationReadList.get(n).getPackageName()
-                    + " " + String.valueOf((char)(notificationReadList.get(n).getFilterResult())));
-        }
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_list_item_1,
-                notifications);
-
-        notificationsLogLV.setAdapter(arrayAdapter);
-
-        materialProgressBar.setVisibility(View.GONE);
-        notificationsLogLV.setVisibility(View.VISIBLE);
+    @SuppressLint("CheckResult")
+    @OnClick(R.id.activity_stats_open_notifications_log)
+    public void openLog() {
+        startActivity(new Intent(this, NotificationsLogActivity.class));
     }
 
     @SuppressLint("CheckResult")

@@ -22,6 +22,7 @@
     <string name="installed_apps">Installed applications</string>
     <string name="last_read">Last read</string>
     <string name="load_notifications_log">Load Notfications Log</string>
+    <string name="notifications_log">Notifications log</string>
 
     <string name="add_new_reply">Add new reply</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
@@ -33,6 +34,15 @@
     <string name="battery_chart_title">Battery chart</string>
 
     <string name="watch_info">Watch\'s information</string>
+
+    <string name="notification_block">Block</string>
+    <string name="notification_continue">Continue</string>
+    <string name="notification_group">Group</string>
+    <string name="notification_local">Local</string>
+    <string name="notification_ongoing">Ongoing</string>
+    <string name="notification_return">Return</string>
+    <string name="notification_package">Package</string>
+    <string name="notification_voice">Voice</string>
 
     <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_project_maintainer">Project maintainer</string>
