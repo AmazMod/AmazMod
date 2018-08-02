@@ -191,7 +191,7 @@ public class TransportService extends Service implements Transporter.DataListene
             }
         } catch (Exception ex) {
             //TODO add crashlitics
-            Log.d(Constants.TAG,"TranportService batteryStatus exception: " + ex.toString());
+            Log.d(Constants.TAG,"TransportService batteryStatus exception: " + ex.toString());
         }
     }
 

@@ -1,7 +1,5 @@
 package com.edotassi.amazmod;
 
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-
 public class Constants {
 
     public static final String PACKAGE = "com.edotassi.amazmod";
