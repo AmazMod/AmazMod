@@ -18,6 +18,13 @@
             android:title="@string/pref_disable_notifications_when_screen_on" />
 
         <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="preference.disable.notifications.when.screen.on"
+            android:key="preference.notifications.enable.when.locked"
+            android:summary="@string/pref_enable_notifications_when_locked_summary"
+            android:title="@string/pref_enable_notifications_when_locked" />
+
+        <SwitchPreference
             android:defaultValue="false"
             android:dependency="preference.disable.notifications"
             android:key="preference.disable.notifications.when.dnd"

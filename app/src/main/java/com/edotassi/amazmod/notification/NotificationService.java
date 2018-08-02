@@ -51,7 +51,6 @@ public class NotificationService extends NotificationListenerService {
     private static final boolean BLOCK = true;
     private static final boolean CONTINUE = false;
 
-    //private static final String[] VOICE_APPS = {"whatsapp", "messenger", "telegram"};
     private long lastVoiceCallNotificationTime;
 
     private Map<String, String> notificationTimeGone;
@@ -92,11 +91,24 @@ public class NotificationService extends NotificationListenerService {
             //StatusBarNotificationData statusBarNotificationData = StatusBarNotificationData.from(statusBarNotification);
 
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
-                    (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
-                            && Screen.isInteractive(this)) ||
                     (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
                             Screen.isDNDActive(this, getContentResolver()))) {
                 return;
+            }
+
+            Log.d(Constants.TAG, "NotificationService prefEWL: "
+                    + Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)
+                    + " / isDeviceLocked: " + Screen.isDeviceLocked(this));
+
+            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
+                            && Screen.isInteractive(this)) {
+
+                if (!Screen.isDeviceLocked(this)) {
+                return;
+                }
+                else if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)) {
+                    return;
+                }
             }
 
             if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,false)) {
@@ -104,7 +116,7 @@ public class NotificationService extends NotificationListenerService {
                 NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
                 notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
                 HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
-                Log.d(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
+                Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
             }
             else {
                 DataBundle dataBundle = new DataBundle();
@@ -115,19 +127,18 @@ public class NotificationService extends NotificationListenerService {
                         Logger.debug(dataTransportResult.toString());
                     }
                 });
-                Log.d(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
+                Log.i(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
             }
             storeForStats(statusBarNotification);
         }
 
-        //Try to get turn by turn navigation notifications
         else {
 
             Notification notification = statusBarNotification.getNotification();
             String notificationPackage = statusBarNotification.getPackageName();
 
+            //Messenger voice call notifications
             boolean isRinging = false;
-
             if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
                     && (isPackageAllowed(notificationPackage))
                     && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS,false)) {
