@@ -21,7 +21,7 @@
     <string name="replies">Replies</string>
     <string name="installed_apps">Installed applications</string>
     <string name="last_read">Last read</string>
-    <string name="load_notifications_log">Load Notfications Log</string>
+    <string name="open_notifications_log">Open notifications log</string>
     <string name="notifications_log">Notifications log</string>
 
     <string name="add_new_reply">Add new reply</string>

@@ -7,8 +7,8 @@ android {
         applicationId "com.edotassi.amazmod"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 143
-        versionName "1.0.15"
+        versionCode 144
+        versionName "1.0.16"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     dataBinding {

@@ -1,5 +1,13 @@
 <changelog>
     <release
+        date="2018-08-02"
+        versionCode="144"
+        versionName="v1.0.16-ALPHA">
+        <new>Notifications log</new>
+        <bugfix>Notifications when screen is locked</bugfix>
+        <bugfix>Fix null icon in test notification with custom ui</bugfix>
+    </release>
+    <release
         date="2018-08-01"
         versionCode="143"
         versionName="v1.0.15-ALPHA">

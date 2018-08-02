@@ -10,6 +10,7 @@ import android.widget.ListView;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.NotificationLogAdapter;
 import com.edotassi.amazmod.db.model.NotificationEntity;
+import com.edotassi.amazmod.db.model.NotificationEntity_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
@@ -32,6 +33,12 @@ public class NotificationsLogActivity extends AppCompatActivity {
     ListView listView;
 
     private NotificationLogAdapter notificationLogAdapter;
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +68,11 @@ public class NotificationsLogActivity extends AppCompatActivity {
         Flowable.fromCallable(new Callable<List<NotificationEntity>>() {
             @Override
             public List<NotificationEntity> call() {
-                return SQLite.select().from(NotificationEntity.class).queryList();
+                return SQLite
+                        .select()
+                        .from(NotificationEntity.class)
+                        .orderBy(NotificationEntity_Table.date.desc())
+                        .queryList();
             }
         }).subscribeOn(Schedulers.computation())
                 .observeOn(Schedulers.single())
