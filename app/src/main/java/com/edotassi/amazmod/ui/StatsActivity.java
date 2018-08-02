@@ -6,18 +6,25 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.SyncFailedException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -35,6 +42,11 @@ public class StatsActivity extends AppCompatActivity {
     TextView notificationsLast24Hours;
     @BindView(R.id.activity_stats_notifications_total)
     TextView notificationsTotal;
+
+    @BindView(R.id.loadLogBT)
+    Button loadLogBT;
+    @BindView(R.id.notificationsLogLV)
+    ListView notificationsLogLV;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -58,6 +70,33 @@ public class StatsActivity extends AppCompatActivity {
         loadStats();
     }
 
+    @OnClick(R.id.loadLogBT)
+    public void click1() {
+
+        notificationsLogLV = findViewById(R.id.notificationsLogLV);
+        materialProgressBar.setVisibility(View.VISIBLE);
+        notificationsLogLV.setVisibility(View.GONE);
+
+        List<NotificationEntity> notificationReadList = SQLite.select().
+                from(NotificationEntity.class).queryList();
+
+        List<String> notifications = new ArrayList<>();
+        for (int n = (notificationReadList.size() - 1) ; n >= 0; n--) {
+            notifications.add(notificationReadList.get(n).getPackageName()
+                    + " " + String.valueOf((char)(notificationReadList.get(n).getFilterResult())));
+        }
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                notifications);
+
+        notificationsLogLV.setAdapter(arrayAdapter);
+
+        materialProgressBar.setVisibility(View.GONE);
+        notificationsLogLV.setVisibility(View.VISIBLE);
+    }
+
     @SuppressLint("CheckResult")
     private void loadStats() {
         materialProgressBar.setVisibility(View.VISIBLE);
@@ -76,23 +115,39 @@ public class StatsActivity extends AppCompatActivity {
                         long anHourAgo = System.currentTimeMillis() - (60 * 60 * 1000);
                         long aDayAgo = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
 
-                        long totalAnHourAgo = SQLite
+                        long totalAnHourAgoCont = SQLite
                                 .selectCountOf()
                                 .from(NotificationEntity.class)
                                 .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_CONTINUE))
                                 .count();
 
-                        long totalADayAgo = SQLite
+                        long totalAnHourAgoVoice = SQLite
+                                .selectCountOf()
+                                .from(NotificationEntity.class)
+                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
+                                .count();
+
+                        long totalADayAgoCont = SQLite
                                 .selectCountOf()
                                 .from(NotificationEntity.class)
                                 .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_CONTINUE))
+                                .count();
+
+                        long totalADayAgoVoice = SQLite
+                                .selectCountOf()
+                                .from(NotificationEntity.class)
+                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
                                 .count();
 
                         StatsResult result = new StatsResult();
 
                         result.setNotificationsTotal(total);
-                        result.setNotificationsTotalADayAgo(totalADayAgo);
-                        result.setNotificationsTotalAnHourAgo(totalAnHourAgo);
+                        result.setNotificationsTotalADayAgo(totalADayAgoCont + totalADayAgoVoice);
+                        result.setNotificationsTotalAnHourAgo(totalAnHourAgoCont + totalAnHourAgoVoice);
 
                         return result;
                     }

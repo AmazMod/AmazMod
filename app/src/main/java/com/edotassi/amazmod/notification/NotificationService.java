@@ -48,8 +48,6 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 public class NotificationService extends NotificationListenerService {
 
     public static final int FLAG_WEARABLE_REPLY = 0x00000001;
-    private static final boolean BLOCK = true;
-    private static final boolean CONTINUE = false;
 
     private long lastVoiceCallNotificationTime;
 
@@ -84,29 +82,31 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
         Logger.debug("notificationPosted: %s", statusBarNotification.getKey());
 
-        boolean filterResult = filter(statusBarNotification);
+        byte filterResult = filter(statusBarNotification);
 
-        if (filterResult == CONTINUE) {
+        if (filterResult == Constants.FILTER_CONTINUE) {
 
-            //StatusBarNotificationData statusBarNotificationData = StatusBarNotificationData.from(statusBarNotification);
-
+            //Handle some preferences
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
                     (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
                             Screen.isDNDActive(this, getContentResolver()))) {
+                storeForStats(statusBarNotification, Constants.FILTER_RETURN);
                 return;
             }
 
-            Log.d(Constants.TAG, "NotificationService prefEWL: "
-                    + Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)
-                    + " / isDeviceLocked: " + Screen.isDeviceLocked(this));
+//            Log.d(Constants.TAG, "NotificationService prefEWL: "
+//                    + Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)
+//                    + " / isDeviceLocked: " + Screen.isDeviceLocked(this));
 
             if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
                             && Screen.isInteractive(this)) {
 
                 if (!Screen.isDeviceLocked(this)) {
-                return;
+                    storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+                    return;
                 }
                 else if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)) {
+                    storeForStats(statusBarNotification, Constants.FILTER_RETURN);
                     return;
                 }
             }
@@ -119,6 +119,7 @@ public class NotificationService extends NotificationListenerService {
                 Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
             }
             else {
+                //Use standard UI
                 DataBundle dataBundle = new DataBundle();
                 dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
                 notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
@@ -129,7 +130,7 @@ public class NotificationService extends NotificationListenerService {
                 });
                 Log.i(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
             }
-            storeForStats(statusBarNotification);
+            storeForStats(statusBarNotification, Constants.FILTER_CONTINUE);
         }
 
         else {
@@ -187,13 +188,14 @@ public class NotificationService extends NotificationListenerService {
 
                         final int mode = am.getMode();
                         if (AudioManager.MODE_RINGTONE != mode) {
-                            storeForStats(statusBarNotification);
+                            storeForStats(statusBarNotification, Constants.FILTER_VOICE);
                             isRinging = false;
                         }
 
                     }
                 }
             }
+            else storeForStats(statusBarNotification, filterResult);
         }
     }
 
@@ -225,7 +227,7 @@ public class NotificationService extends NotificationListenerService {
 
     }
 
-    private boolean filter(StatusBarNotification statusBarNotification) {
+    private byte filter(StatusBarNotification statusBarNotification) {
 
         if (notificationTimeGone == null) {
             notificationTimeGone = new HashMap<>();
@@ -234,7 +236,7 @@ public class NotificationService extends NotificationListenerService {
         String notificationId = statusBarNotification.getKey();
 
         if (!isPackageAllowed(notificationPackage)) {
-            return returnFilterResult(BLOCK);
+            return returnFilterResult(Constants.FILTER_PACKAGE);
         }
 
         Notification notification = statusBarNotification.getNotification();
@@ -253,18 +255,18 @@ public class NotificationService extends NotificationListenerService {
 
         if (/*(flags & FLAG_WEARABLE_REPLY) == 0 &&*/ NotificationCompat.isGroupSummary(notification)) {
             Logger.debug("notification blocked FLAG_GROUP_SUMMARY");
-            return returnFilterResult(BLOCK);
+            return returnFilterResult(Constants.FILTER_GROUP);
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
             Logger.debug("notification blocked FLAG_ONGOING_EVENT");
-            return returnFilterResult(BLOCK);
+            return returnFilterResult(Constants.FILTER_ONGOING);
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
             if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
                 Logger.debug("notification blocked because is LocalOnly");
-                return returnFilterResult(BLOCK);
+                return returnFilterResult(Constants.FILTER_LOCAL);
             }
         }
 
@@ -275,18 +277,18 @@ public class NotificationService extends NotificationListenerService {
             if ((previousText != null) && (previousText.equals(text))) {
                 Log.d(Constants.TAG, "NotificationService blocked text: " + text);
                 Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
-                return returnFilterResult(BLOCK);
+                return returnFilterResult(Constants.FILTER_BLOCK);
             } else {
                 notificationTimeGone.put(notificationId, text);
 
                 Logger.debug("notification allowed");
-                return returnFilterResult(CONTINUE);
+                return returnFilterResult(Constants.FILTER_CONTINUE);
             }
         } else {
             notificationTimeGone.put(notificationId, text);
 
             Logger.debug("notification allowed");
-            return returnFilterResult(CONTINUE);
+            return returnFilterResult(Constants.FILTER_CONTINUE);
         }
     }
 
@@ -299,17 +301,18 @@ public class NotificationService extends NotificationListenerService {
         return Arrays.binarySearch(packagesList, packageName) >= 0;
     }
 
-    private boolean returnFilterResult(boolean result) {
+    private byte returnFilterResult(byte result) {
         Logger.debug("_");
         Logger.debug("_");
         return result;
     }
 
-    private void storeForStats(StatusBarNotification statusBarNotification) {
+    private void storeForStats(StatusBarNotification statusBarNotification, byte filterResult) {
         try {
             NotificationEntity notificationEntity = new NotificationEntity();
             notificationEntity.setPackageName(statusBarNotification.getPackageName());
             notificationEntity.setDate(System.currentTimeMillis());
+            notificationEntity.setFilterResult(filterResult);
 
             FlowManager.getModelAdapter(NotificationEntity.class).insert(notificationEntity);
         } catch (Exception ex) {

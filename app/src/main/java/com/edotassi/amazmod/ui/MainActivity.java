@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
@@ -399,7 +400,7 @@ public class MainActivity extends AppCompatActivity
             Date lastDate = new Date(lastEntity.getDate());
 
             long lastChargeDate = lastEntity.getDateLastCharge();
-            String dateDiff = Float.toString(lastEntity.getLevel()* 100f) + "% / ";
+            String dateDiff = Integer.toString(Math.round(lastEntity.getLevel() * 100f)) + "% / ";
             if (lastChargeDate != 0) {
                 long diffInMillies = System.currentTimeMillis() - lastChargeDate;
                 List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));

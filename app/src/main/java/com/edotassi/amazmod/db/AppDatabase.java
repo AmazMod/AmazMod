@@ -12,7 +12,7 @@ public class AppDatabase {
 
     public static final String NAME = "AmazModDb";
 
-    public static final int VERSION = 4;
+    public static final int VERSION = 5;
 
     @Migration(version = 3, database = AppDatabase.class)
     public static class AddDateToNotificationEntity extends AlterTableMigration<NotificationEntity> {
@@ -34,5 +34,14 @@ public class AppDatabase {
 
         @Override
         public void onPreMigrate() { addColumn(SQLiteType.INTEGER, "dateLastCharge"); }
+    }
+
+    @Migration(version = 5, database = AppDatabase.class)
+    public static class AddFilterResult extends AlterTableMigration<NotificationEntity> {
+
+        public AddFilterResult(Class<NotificationEntity> table) { super(table); }
+
+        @Override
+        public void onPreMigrate() { addColumn(SQLiteType.INTEGER, "filterResult"); }
     }
 }

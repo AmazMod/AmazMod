@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AmazMod</string>
     <string name="settings">Settings</string>
-    <string name="notifications">Notifications</string>
+    <string name="notifications">Notifications sent</string>
     <string name="battery">Battery</string>
     <string name="customui">Custom UI</string>
     <string name="others">Others</string>
@@ -21,6 +21,7 @@
     <string name="replies">Replies</string>
     <string name="installed_apps">Installed applications</string>
     <string name="last_read">Last read</string>
+    <string name="load_notifications_log">Load Notfications Log</string>
 
     <string name="add_new_reply">Add new reply</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
