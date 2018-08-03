@@ -12,7 +12,7 @@ public class AmazModService extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Log.d(Constants.TAG, "HermesEventBus init");
+        Log.d(Constants.TAG, "AmazModService HermesEventBus init");
         HermesEventBus.getDefault().init(this);
 
         startService(new Intent(this, MainService.class));

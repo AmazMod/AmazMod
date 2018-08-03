@@ -16,24 +16,28 @@ public class DeviceUtil {
         boolean isLocked = false;
 
         // First we check the locked state
-        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-        boolean inKeyguardRestrictedInputMode = keyguardManager.inKeyguardRestrictedInputMode();
+        try {
+            KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+            boolean inKeyguardRestrictedInputMode = keyguardManager.inKeyguardRestrictedInputMode();
 
-        if (inKeyguardRestrictedInputMode) {
-            isLocked = true;
+            if (inKeyguardRestrictedInputMode) {
+                isLocked = true;
 
-        } else {
-            // If password is not set in the settings, the inKeyguardRestrictedInputMode() returns false,
-            // so we need to check if screen on for this case
-
-            PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-                isLocked = !powerManager.isInteractive();
             } else {
-                //noinspection deprecation
-                isLocked = !powerManager.isScreenOn();
+                // If password is not set in the settings, the inKeyguardRestrictedInputMode() returns false,
+                // so we need to check if screen on for this case
+                PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+                    isLocked = !powerManager.isInteractive();
+                } else {
+                    //noinspection deprecation
+                    isLocked = !powerManager.isScreenOn();
+                }
             }
+        } catch (NullPointerException e) {
+            Log.e(Constants.TAG, "iDeviceLocked exception: " + e.toString());
         }
+
 
         return isLocked;
     }
@@ -67,7 +71,7 @@ public class DeviceUtil {
                     dndEnabled = false;
             }
         } catch (Settings.SettingNotFoundException e) {
-            Log.d(Constants.TAG, "DnD lowSDK exception: " + e.toString());
+            Log.e(Constants.TAG, "DnD lowSDK exception: " + e.toString());
             dndEnabled = false;
         }
 

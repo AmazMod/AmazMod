@@ -4,4 +4,5 @@
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="last_charge">Since full charge</string>
     <string name="last_charge_no_info">Waiting for data</string>
+    <string name="close">Close</string>
 </resources>

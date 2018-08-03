@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -76,7 +77,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private Context context;
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
-    private long dateLastCharge = 0;
+    private static long dateLastCharge;
     private float batteryPct;
     private WidgetSettings settings;
 
@@ -100,6 +101,11 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData = new WatchStatusData();
         dataBundle = new DataBundle();
 
+        Log.d(Constants.TAG, "MainService HermesEventBus connect");
+        //HermesEventBus.getDefault().init(this);
+        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE_NAME);
+        HermesEventBus.getDefault().register(this);
+
         //Register power disconnect receiver
         IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
         powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
@@ -110,7 +116,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 if (batteryPct > 0.98) {
                     dateLastCharge = currentTimeMillis();
                     settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
-                    Log.d(Constants.TAG, "MessagesListener dateLastCharge saved: " + dateLastCharge);
+                    Log.d(Constants.TAG, "MainService dateLastCharge saved: " + dateLastCharge);
                 }
             }
         }, powerDisconnectedFilter);
@@ -119,11 +125,6 @@ public class MainService extends Service implements Transporter.DataListener {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
         registerReceiver(notificationsReceiver, filter);
-
-        Log.d(Constants.TAG, "HermesEventBus connect");
-        //HermesEventBus.getDefault().init(this);
-        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE_NAME);
-        HermesEventBus.getDefault().register(this);
 
         transporter = TransporterClassic.get(this, Transport.NAME);
         transporter.addDataListener(this);
@@ -138,6 +139,10 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.d(Constants.TAG,"MainService Transported yet connected");
         }
 
+    }
+
+    public static long getDateLastCharge() {
+        return dateLastCharge;
     }
 
     @Override
@@ -315,7 +320,11 @@ public class MainService extends Service implements Transporter.DataListener {
         //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
         NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
 
-        notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
+        //Changed for RC1
+        if (notificationData.getVibration() > 0) {
+            Log.d(Constants.TAG, "MainService incomingNotification vibration: " + notificationData.getVibration());
+        } else notificationData.setVibration(0);
+
         notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
 

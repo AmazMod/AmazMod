@@ -3,7 +3,6 @@ package com.edotassi.amazmodcompanionservice.springboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LevelListDrawable;
@@ -18,12 +17,15 @@ import android.widget.TextView;
 import com.edotassi.amazmodcompanionservice.BuildConfig;
 import com.edotassi.amazmodcompanionservice.Constants;
 import com.edotassi.amazmodcompanionservice.MainService;
-//import com.edotassi.amazmodcompanionservice.MessagesListener;
 import com.edotassi.amazmodcompanionservice.R;
+//import com.edotassi.amazmodcompanionservice.MessagesListener;
 //import com.edotassi.amazmodcompanionservice.R2;
 
 //import butterknife.BindView;
 //import butterknife.ButterKnife;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -32,7 +34,6 @@ import java.util.concurrent.TimeUnit;
 
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
-//import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class AmazModPage extends AbstractPlugin {
 
@@ -71,20 +72,15 @@ public class AmazModPage extends AbstractPlugin {
 
         //Initialize settings
         settingsWidget = new WidgetSettings(Constants.TAG, mContext);
-        Log.d(Constants.TAG, "AmazModWidget getView Start");
+        Log.d(Constants.TAG, "AmazModPage getView");
 
         return this.view;
     }
 
     private void updateTimeSinceLastCharge() {
 
-        //Initialize settings
-        //WidgetSettings settingsWidget = new WidgetSettings(Constants.TAG, mContext);
-
         //Refresh saved data
         settingsWidget.reload();
-
-        //Log.d(Constants.TAG, "AmazModWidget updateTimeSinceLastChargeDate Start " + this.settingsWidget + " / " + settingsWidget );
 
         //Intent batteryStatus = mContext.registerReceiver(null, ifilter);
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -93,8 +89,6 @@ public class AmazModPage extends AbstractPlugin {
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         int batteryIconId = batteryStatus.getIntExtra(BatteryManager.EXTRA_ICON_SMALL, 0);
-
-        Log.d(Constants.TAG, "Widget updateTimeSinceLastCharge level: " + level + " / scale: " + scale + " / batteryIconId: " + batteryIconId);
 
         //Set battery icon and text
         int battery = Math.round((level / (float)scale) * 100f);
@@ -115,7 +109,8 @@ public class AmazModPage extends AbstractPlugin {
 
         StringBuilder dateDiff = new StringBuilder("  ");
 
-        Log.d(Constants.TAG, "Widget updateTimeSinceLastCharge: " + battery + " /" + dateDiff.toString() + lastChargeDate);
+        Log.d(Constants.TAG, "AmazModPage updateTimeSinceLastCharge level: " + level
+                + " / scale: " + scale + " / batteryIconId: " + batteryIconId + " /" + dateDiff + lastChargeDate);
 
         //Log.d(Constants.TAG, "AmazModWidget updateTimeSinceLastChargeDate data: " + battery + " / " + lastChargeDate );
         if (lastChargeDate != 0L) {
@@ -145,7 +140,7 @@ public class AmazModPage extends AbstractPlugin {
     private void refreshView() {
         //Called when the page reloads, check for updates here if you need to
         updateTimeSinceLastCharge();
-        //Log.d(Constants.TAG, "AmazModWidget refreshView");
+        //Log.d(Constants.TAG, "AmazModPage refreshView ");
     }
 
     /*
@@ -169,6 +164,7 @@ public class AmazModPage extends AbstractPlugin {
     private void onHide() {
         // Save state
         this.isActive = false;
+        //Log.d(Constants.TAG, "AmazModPage onHide");
     }
 
     // Events for widget hide
@@ -250,6 +246,7 @@ public class AmazModPage extends AbstractPlugin {
     // Called when the page is destroyed completely (in app mode). Same as the onDestroy method of an activity
     @Override
     public void onDestroy() {
+        //Log.d(Constants.TAG, "AmazModPage onDestroy");
         super.onDestroy();
     }
 
