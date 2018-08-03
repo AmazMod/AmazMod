@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".ui.AboutActivity" />
         <activity android:name=".ui.TweakingActivity" />
+        <activity android:name=".ui.WatchfaceActivity" />
         <activity android:name=".ui.StatsActivity" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.NotificationPackagesSelectorActivity" />
