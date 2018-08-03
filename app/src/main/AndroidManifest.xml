@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:name=".AmazModApplication"
@@ -37,30 +36,15 @@
             android:theme="@style/Theme.Intro"/>
         <service
             android:name="com.edotassi.amazmod.notification.NotificationService"
-            android:exported="true"
             android:label="@string/notifications_service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-
-        <service
-            android:name=".transport.TransportService"
-            android:exported="true" />
-        <service
-            android:name="xiaofei.library.hermes.HermesService$HermesService0"
-            android:exported="true" />
-
-        <receiver
-            android:name=".receiver.BatteryStatusReceiver"
-            android:exported="true" />
-
-        <receiver android:name=".receiver.SmsReceiver">
-            <intent-filter android:priority="1000">
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
+        <service android:name=".transport.TransportService" />
+        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
+        <receiver android:name=".receiver.BatteryStatusReceiver" />
 
         <receiver
             android:name=".receiver.BootBroadcastReceiver"

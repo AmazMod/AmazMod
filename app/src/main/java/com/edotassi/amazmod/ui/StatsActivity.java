@@ -111,6 +111,13 @@ public class StatsActivity extends AppCompatActivity {
                                 .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
                                 .count();
 
+                        long totalAnHourAgoMaps = SQLite
+                                .selectCountOf()
+                                .from(NotificationEntity.class)
+                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_MAPS))
+                                .count();
+
                         long totalADayAgoCont = SQLite
                                 .selectCountOf()
                                 .from(NotificationEntity.class)
@@ -125,11 +132,18 @@ public class StatsActivity extends AppCompatActivity {
                                 .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
                                 .count();
 
+                        long totalADayAgoMaps = SQLite
+                                .selectCountOf()
+                                .from(NotificationEntity.class)
+                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
+                                .count();
+
                         StatsResult result = new StatsResult();
 
                         result.setNotificationsTotal(total);
-                        result.setNotificationsTotalADayAgo(totalADayAgoCont + totalADayAgoVoice);
-                        result.setNotificationsTotalAnHourAgo(totalAnHourAgoCont + totalAnHourAgoVoice);
+                        result.setNotificationsTotalADayAgo(totalADayAgoCont + totalADayAgoVoice + totalADayAgoMaps);
+                        result.setNotificationsTotalAnHourAgo(totalAnHourAgoCont + totalAnHourAgoVoice + totalAnHourAgoMaps);
 
                         return result;
                     }

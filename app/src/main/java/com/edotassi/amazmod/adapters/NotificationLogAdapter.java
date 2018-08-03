@@ -51,6 +51,8 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
             add(R.string.notification_return);
             add(R.string.notification_package);
             add(R.string.notification_voice);
+            add(R.string.notification_maps);
+            add(R.string.notification_ungroup);
         }};
 
         for (Integer stringKey : causes) {
@@ -143,6 +145,10 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
                 }
                 case (Constants.FILTER_VOICE): {
                     causeText = causesTranslationsMap.get(R.string.notification_voice);
+                    break;
+                }
+                case (Constants.FILTER_MAPS): {
+                    causeText = causesTranslationsMap.get(R.string.notification_maps);
                     break;
                 }
             }
