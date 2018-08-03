@@ -36,9 +36,12 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_VOICE_APPS = "preference.notifications.enable.voice.apps";
     public static final String PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY = "preference.notifications.enable.local.only";
     public static final String PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED = "preference.notifications.enable.when.locked";
+    public static final String PREF_NOTIFICATIONS_ENABLE_UNGROUP = "preference.notifications.enable.ungroup";
 
     public static final byte FILTER_CONTINUE = 'C';
+    public static final byte FILTER_UNGROUP = 'U';
     public static final byte FILTER_VOICE = 'V';
+    public static final byte FILTER_MAPS = 'M';
 
     public static final byte FILTER_PACKAGE = 'P';
     public static final byte FILTER_GROUP = 'G';

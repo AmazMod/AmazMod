@@ -52,6 +52,13 @@
             android:summary="@string/pref_enable_local_only_summary"
             android:title="@string/pref_enable_local_only" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.notifications.enable.ungroup"
+            android:summary="@string/pref_notifications_enable_ungroup_summary"
+            android:title="@string/pref_notifications_enable_ungroup" />
+
         <Preference
             android:dependency="preference.disable.notifications"
             android:summary="@string/pref_filter_notifications_by_packages_summary"

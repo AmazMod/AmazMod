@@ -1,8 +1,11 @@
 package com.edotassi.amazmod.notification;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -49,12 +52,12 @@ public class NotificationService extends NotificationListenerService {
 
     public static final int FLAG_WEARABLE_REPLY = 0x00000001;
 
-    private long lastVoiceCallNotificationTime;
-
     private Map<String, String> notificationTimeGone;
     private Map<String, StatusBarNotification> notificationsAvailableToReply;
 
-    private Transporter notificationTransporter;
+    private long lastVoiceCallNotificationTime = 0;
+    private boolean connected = false;
+    private long timeLastNotification = 0;
 
     @Override
     public void onCreate() {
@@ -64,14 +67,30 @@ public class NotificationService extends NotificationListenerService {
 
         notificationsAvailableToReply = new HashMap<>();
 
-        notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
-        notificationTransporter.connectTransportService();
+        Log.d(Constants.TAG,"NotificationService onCreate: " + connected);
+//        if (!connected) {
+//            toggleNotificationService();
+//        }
 
+    }
+
+    @Override
+    public void onListenerConnected(){
+        super.onListenerConnected();
+        connected = true;
+        Log.d(Constants.TAG,"NotificationService onListenerConnected");
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId){
+        Log.d(Constants.TAG,"NotificationService onStarCommand");
+        return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(Constants.TAG,"NotificationService onDestroy");
         HermesEventBus.getDefault().unregister(this);
     }
 
@@ -79,31 +98,38 @@ public class NotificationService extends NotificationListenerService {
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
         Logger.debug("notificationPosted: %s", statusBarNotification.getKey());
 
-        byte filterResult = filter(statusBarNotification);
+        String notificationPackage = statusBarNotification.getPackageName();
+        if (!isPackageAllowed(notificationPackage)) {
+            storeForStats(statusBarNotification, Constants.FILTER_PACKAGE);
+            return;
+        }
 
-        if (filterResult == Constants.FILTER_CONTINUE) {
-            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
-                    (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
-                            Screen.isDNDActive(this, getContentResolver()))) {
-                storeForStats(statusBarNotification, Constants.FILTER_RETURN);
-                return;
-            }
+        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
+                (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
+                        Screen.isDNDActive(this, getContentResolver()))) {
+            storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+            return;
+        }
 
 //            Log.d(Constants.TAG, "NotificationService prefEWL: "
 //                    + Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)
 //                    + " / isDeviceLocked: " + Screen.isDeviceLocked(this));
 
-            if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
-                    && Screen.isInteractive(this)) {
+        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
+                && Screen.isInteractive(this)) {
 
-                if (!Screen.isDeviceLocked(this)) {
-                    storeForStats(statusBarNotification, Constants.FILTER_RETURN);
-                    return;
-                } else if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)) {
-                    storeForStats(statusBarNotification, Constants.FILTER_RETURN);
-                    return;
-                }
+            if (!Screen.isDeviceLocked(this)) {
+                storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+                return;
+            } else if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true)) {
+                storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+                return;
             }
+        }
+
+        byte filterResult = filter(statusBarNotification);
+
+        if (filterResult == Constants.FILTER_CONTINUE || filterResult == Constants.FILTER_UNGROUP) {
 
             if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false)) {
                 //Use Custom UI
@@ -113,45 +139,69 @@ public class NotificationService extends NotificationListenerService {
                 Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
             } else {
                 //Use standard UI
+
+//                String pkg, String opPkg, int id,
+//                String tag, int uid, int initialPid, Notification notification, UserHandle user,
+//                        String overrideGroupKey, long postTime
                 DataBundle dataBundle = new DataBundle();
-                dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+
+                if (filterResult == Constants.FILTER_UNGROUP && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
+                    int nextId = (int) (long) (System.currentTimeMillis() % 10000L);
+                    StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
+                            statusBarNotification.getId()+ nextId,
+                            statusBarNotification.getTag(), 0, 0, 0,
+                            statusBarNotification.getNotification(), statusBarNotification.getUser(),
+                            statusBarNotification.getPostTime());
+                    dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
+                } else dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+
+                //Connect transporter
+                Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
+                notificationTransporter.connectTransportService();
+
                 notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
                     @Override
                     public void onResultBack(DataTransportResult dataTransportResult) {
                         Logger.debug(dataTransportResult.toString());
                     }
                 });
+
+                //Disconnect transporter to avoid leaking
+                notificationTransporter.disconnectTransportService();
+
                 Log.i(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
             }
 
             storeForStats(statusBarNotification, Constants.FILTER_CONTINUE);
+
         } else {
+
             Notification notification = statusBarNotification.getNotification();
-            String notificationPackage = statusBarNotification.getPackageName();
+
+            boolean isRinging = false;
+            AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+            try {
+                final int mode = am.getMode();
+                if (AudioManager.MODE_IN_CALL == mode) {
+                    Log.d(Constants.TAG, "NotificationService Ringer: CALL");
+                } else if (AudioManager.MODE_IN_COMMUNICATION == mode) {
+                    Log.d(Constants.TAG, "NotificationService Ringer: COMMUNICATION");
+                } else if (AudioManager.MODE_RINGTONE == mode) {
+                    Log.d(Constants.TAG, "NotificationService Ringer: RINGTONE");
+                    isRinging = true;
+                } else {
+                    Log.d(Constants.TAG, "NotificationService Ringer: SOMETHING ELSE");
+                }
+            } catch (NullPointerException e) {
+                Log.e(Constants.TAG, "NotificationService getMode Exception: " + e.toString());
+            }
 
             //Messenger voice call notifications
-            boolean isRinging = false;
             if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
-                    && (isPackageAllowed(notificationPackage))
-                    && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS, false)) {
+                    && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS, false)
+                    && isRinging) {
 
-                AudioManager am = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
-                try {
-                    final int mode = am.getMode();
-                    if (AudioManager.MODE_IN_CALL == mode) {
-                        Log.d(Constants.TAG, "NotificationService Ringer: CALL");
-                    } else if (AudioManager.MODE_IN_COMMUNICATION == mode) {
-                        Log.d(Constants.TAG, "NotificationService Ringer: COMMUNICATION");
-                    } else if (AudioManager.MODE_RINGTONE == mode) {
-                        Log.d(Constants.TAG, "NotificationService Ringer: RINGTONE");
-                        isRinging = true;
-                    } else {
-                        Log.d(Constants.TAG, "NotificationService Ringer: SOMETHING ELSE");
-                    }
-                } catch (NullPointerException e) {
-                    Log.d(Constants.TAG, "NotificationService Exception: " + e.toString());
-                }
-
+                Log.d(Constants.TAG, "NotificationService VoiceCall: " + notificationPackage);
                 while (isRinging) {
                     if (System.currentTimeMillis() - lastVoiceCallNotificationTime > 5000) {
 
@@ -163,6 +213,7 @@ public class NotificationService extends NotificationListenerService {
                         try {
                             ai = pm.getApplicationInfo(notificationPackage, 0);
                         } catch (final PackageManager.NameNotFoundException e) {
+                            Log.e(Constants.TAG, "NotificationService getApplicationInfo Exception: " + e.toString());
                             ai = null;
                         }
                         final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
@@ -175,17 +226,25 @@ public class NotificationService extends NotificationListenerService {
                         HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
                         lastVoiceCallNotificationTime = System.currentTimeMillis();
 
-                        Log.d(Constants.TAG, "NotificationService VoiceCall: " + notificationData.toString());
-
                         final int mode = am.getMode();
                         if (AudioManager.MODE_RINGTONE != mode) {
                             storeForStats(statusBarNotification, Constants.FILTER_VOICE);
                             isRinging = false;
                         }
-
                     }
                 }
-            } else storeForStats(statusBarNotification, filterResult);
+            } else if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
+                    && (notificationPackage.contains("maps"))) {
+
+                Log.d(Constants.TAG, "NotificationService maps: " + notificationPackage);
+                storeForStats(statusBarNotification, Constants.FILTER_MAPS);
+
+            }
+
+            else {
+                Log.d(Constants.TAG, "NotificationService blocked: " + notificationPackage);
+                storeForStats(statusBarNotification, filterResult);
+            }
         }
     }
 
@@ -201,6 +260,10 @@ public class NotificationService extends NotificationListenerService {
 
         if (isPackageAllowed(statusBarNotification.getPackageName())) {
 
+            //Connect transporter
+            Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
+            notificationTransporter.connectTransportService();
+
             DataBundle dataBundle = new DataBundle();
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
             notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
@@ -209,6 +272,9 @@ public class NotificationService extends NotificationListenerService {
                     Logger.debug(dataTransportResult.toString());
                 }
             });
+
+            //Disconnect transporter to avoid leaking
+            notificationTransporter.disconnectTransportService();
 
             //Reset time of last voice call notification when notification is removed
             if (lastVoiceCallNotificationTime > 0) {
@@ -265,20 +331,22 @@ public class NotificationService extends NotificationListenerService {
         String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
-            if ((previousText != null) && (previousText.equals(text))) {
+            if ((previousText != null) && (previousText.equals(text)) && (System.currentTimeMillis() - timeLastNotification > 999)) {
                 Log.d(Constants.TAG, "NotificationService blocked text: " + text);
-                Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
+                //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return returnFilterResult(Constants.FILTER_BLOCK);
             } else {
                 notificationTimeGone.put(notificationId, text);
-
-                Logger.debug("notification allowed");
-                return returnFilterResult(Constants.FILTER_CONTINUE);
+                Log.d(Constants.TAG, "NotificationService allowed1: " + text);
+                //Logger.debug("notification allowed");
+                timeLastNotification = System.currentTimeMillis();
+                return returnFilterResult(Constants.FILTER_UNGROUP);
             }
         } else {
             notificationTimeGone.put(notificationId, text);
-
-            Logger.debug("notification allowed");
+            Log.d(Constants.TAG, "NotificationService allowed2: " + text);
+            timeLastNotification = System.currentTimeMillis();
+            //Logger.debug("notification allowed");
             return returnFilterResult(Constants.FILTER_CONTINUE);
         }
     }
@@ -290,11 +358,13 @@ public class NotificationService extends NotificationListenerService {
         String[] packagesList = gson.fromJson(packagesJson, String[].class);
 
         return Arrays.binarySearch(packagesList, packageName) >= 0;
+
     }
 
     private byte returnFilterResult(byte result) {
-        Logger.debug("_");
-        Logger.debug("_");
+        //Logger.debug("_");
+        //Logger.debug("_");
+        Log.d(Constants.TAG, "NotificationService _");
         return result;
     }
 
@@ -386,5 +456,14 @@ public class NotificationService extends NotificationListenerService {
             Log.e(Constants.TAG_NOTIFICATION, "replyToLastNotification error: " + e.getLocalizedMessage());
         }
         */
+    }
+
+    private void toggleNotificationService() {
+        Log.d(Constants.TAG, "toggleNotificationService() called");
+        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
     }
 }

@@ -67,20 +67,22 @@ public class TransportService extends Service implements Transporter.DataListene
         transporter.addDataListener(this);
 
         if (!transporter.isTransportServiceConnected()) {
-            Log.d(Constants.TAG,"not connected, connecting...");
+            Log.d(Constants.TAG,"TransportService not connected, connecting...");
 
             transporter.connectTransportService();
         } else {
-            Log.d(Constants.TAG,"yet connected");
+            Log.d(Constants.TAG,"TransportService yet connected");
         }
     }
 
     @Override
     public void onDestroy() {
 
-        HermesEventBus.getDefault().unregister(this);
-
         super.onDestroy();
+        HermesEventBus.getDefault().unregister(this);
+        Log.d(Constants.TAG,"TransportService onDestroy");
+        transporter.removeDataListener(this);
+        transporter.disconnectTransportService();
     }
 
     @Nullable
