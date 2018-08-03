@@ -13,6 +13,7 @@
     <string name="sync_settings">Syncing settings&#8230;</string>
     <string name="brightness">Brightness</string>
     <string name="tweaking">Tweaking</string>
+    <string name="watchface">WatchFace</string>
     <string name="stats">Stats</string>
     <string name="changelog">Changelog</string>
     <string name="enable">Enable</string>
@@ -55,6 +56,10 @@
     <string name="activity_about_testers">Testers</string>
     <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@Apostolos, \@fcaronte</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
+
+    <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
+    <string name="activity_watchface_show_altitude">Show altitude</string>
+    <string name="activity_watchface_show_phone_battery">Show phone\'s battery</string>
 
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">In the last hour</string>
