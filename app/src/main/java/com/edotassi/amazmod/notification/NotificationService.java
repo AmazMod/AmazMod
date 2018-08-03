@@ -237,7 +237,13 @@ public class NotificationService extends NotificationListenerService {
                     && (notificationPackage.contains("maps"))) {
 
                 Log.d(Constants.TAG, "NotificationService maps: " + notificationPackage);
-                storeForStats(statusBarNotification, Constants.FILTER_MAPS);
+
+                if (System.currentTimeMillis() - lastVoiceCallNotificationTime > 5000) {
+                    NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                    HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                    lastVoiceCallNotificationTime = System.currentTimeMillis();
+                    storeForStats(statusBarNotification, Constants.FILTER_MAPS);
+                }
 
             }
 
@@ -332,19 +338,19 @@ public class NotificationService extends NotificationListenerService {
         if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
             if ((previousText != null) && (previousText.equals(text)) && (System.currentTimeMillis() - timeLastNotification > 999)) {
-                Log.d(Constants.TAG, "NotificationService blocked text: " + text);
+                Log.d(Constants.TAG, "NotificationService blocked text");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return returnFilterResult(Constants.FILTER_BLOCK);
             } else {
                 notificationTimeGone.put(notificationId, text);
-                Log.d(Constants.TAG, "NotificationService allowed1: " + text);
+                Log.d(Constants.TAG, "NotificationService allowed1");
                 //Logger.debug("notification allowed");
                 timeLastNotification = System.currentTimeMillis();
                 return returnFilterResult(Constants.FILTER_UNGROUP);
             }
         } else {
             notificationTimeGone.put(notificationId, text);
-            Log.d(Constants.TAG, "NotificationService allowed2: " + text);
+            Log.d(Constants.TAG, "NotificationService allowed2");
             timeLastNotification = System.currentTimeMillis();
             //Logger.debug("notification allowed");
             return returnFilterResult(Constants.FILTER_CONTINUE);

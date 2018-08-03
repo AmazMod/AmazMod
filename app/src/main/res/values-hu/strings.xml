@@ -63,5 +63,6 @@
     <string name="pref_enable_notifications_when_locked_summary">Send notifications if screen is on but phone is locked</string>
     <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
     <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated</string>
+    <string name="filters">Filters</string>
 
 </resources>
