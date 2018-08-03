@@ -1,12 +1,16 @@
 <resources>
     <string name="app_name">AmazMod</string>
     <string name="settings">Settings</string>
-    <string name="notifications">Notifications</string>
+    <string name="notifications">Notifications sent</string>
+    <string name="notifications_options">Notifications options</string>
+    <string name="battery">Battery</string>
+    <string name="customui">Custom UI</string>
+    <string name="others">Others</string>
     <string name="other">Other</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="about">About</string>
-    <string name="sync_settings">Sync settings</string>
+    <string name="sync_settings">Syncing settings&#8230;</string>
     <string name="brightness">Brightness</string>
     <string name="tweaking">Tweaking</string>
     <string name="stats">Stats</string>
@@ -15,6 +19,14 @@
     <string name="cancel">Cancel</string>
     <string name="select_unselect_all">Select/Unselect all</string>
     <string name="show_system_apps">Show system apps</string>
+    <string name="replies">Replies</string>
+    <string name="installed_apps">Installed applications</string>
+    <string name="last_read">Last read</string>
+    <string name="open_notifications_log">Open notifications log</string>
+    <string name="notifications_log">Notifications log</string>
+
+    <string name="add_new_reply">Add new reply</string>
+    <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
 
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
@@ -22,33 +34,86 @@
 
     <string name="battery_chart_title">Battery chart</string>
 
-    <string name="watch_info">Watch\'s informations</string>
+    <string name="watch_info">Watch\'s information</string>
 
-    <string name="activity_about_text">Coded with love by @edotassi</string>
+    <string name="notification_block">Block</string>
+    <string name="notification_continue">Continue</string>
+    <string name="notification_group">Group</string>
+    <string name="notification_local">Local</string>
+    <string name="notification_ongoing">Ongoing</string>
+    <string name="notification_return">Return</string>
+    <string name="notification_package">Package</string>
+    <string name="notification_voice">Voice</string>
+    <string name="notification_maps">Maps</string>
+    <string name="notification_ungroup">Ungroup</string>
+
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_project_maintainer">Project maintainer</string>
+    <string name="activity_about_project_maintainer_value">\@edotassi</string>
+    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs_value">\@lfomartins</string>
+    <string name="activity_about_testers">Testers</string>
+    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@Apostolos, \@fcaronte</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
 
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">In the last hour</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">In the last 24 hours</string>
 
-    <string name="pref_disable_notifications_summary">Disable notifications</string>
-    <string name="pref_disable_notifications">Disable all notifications in AmazMod</string>
-    <string name="pref_filter_notifications_by_packages">Filter by apps</string>
-    <string name="pref_filter_notifications_by_packages_summary">Filter by apps summary</string>
+    <string name="pref_disable_notifications_summary">Disable all notifications in AmazMod</string>
+    <string name="pref_disable_notifications">Disable notifications</string>
+    <string name="pref_filter_notifications_by_packages">Selected apps</string>
+    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch</string>
     <string name="pref_disable_battery_chart">Disable battery chart</string>
-    <string name="pref_disable_battery_chart_summary">Disable battery chart summary</string>
+    <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences</string>
     <string name="pref_battery_background_sync_interval">Background sync interval</string>
-    <string name="pref_battery_background_sync_interval_summary">Background sync interval summary</string>
+    <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval</string>
     <string name="pref_battery_chart_time_interval">Chart time interval</string>
-    <string name="pref_battery_chart_time_interval_summary">Chart time interval summary</string>
-    <string name="pref_notifications_replies_summary">Enter custom replies separated by a comma</string>
+    <string name="pref_battery_chart_time_interval_summary">Set battery chart time interval</string>
+    <string name="pref_notifications_replies_summary">Enter your custom replies</string>
     <string name="pref_notifications_replies">Notifications replies</string>
-    <string name="pref_disable_notifications_replies_summary">Disable notifications replies summary</string>
+    <string name="pref_disable_notifications_replies_summary">Disable replies in all notifications</string>
     <string name="pref_disable_notifications_replies">Disable notifications replies</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Disable notifications when screen is ON</string>
     <string name="pref_disable_notifications_when_screen_on">Disable when screen is ON</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Enable notifications custom ui summary</string>
-    <string name="pref_notifications_enable_custom_ui">Enable custom ui</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Notifications will use the Custom UI</string>
+    <string name="pref_notifications_enable_custom_ui">Enable Custom UI</string>
+    <string name="pref_run_wizard">Run Welcome Presentation</string>
+    <string name="pref_run_wizard_summary">Run the welcome presentation again</string>
+    <string name="pref_vibration_duration">Vibration duration</string>
+    <string name="pref_vibration_duration_summary">Set the vibration duration</string>
+    <string name="pref_screen_timeout">Screen timeout</string>
+    <string name="pref_screen_timeout_summary">Set duration of Custom UI notifications</string>
+    <string name="pref_force_english">Force English</string>
+    <string name="pref_force_english_summary">Set app language to English, it will be refreshed when closing Preferences</string>
 
     <string name="notifications_service_name">AmazModNotificationsService</string>
+
+    <string name="intro_title_1">Welcome to AmazMod!</string>
+    <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
+    <string name="intro_title_permissions">Access to Notifications</string>
+    <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
+    <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
+    <string name="intro_title_2">Install Service App on Watch</string>
+    <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
+    <string name="intro_title_3">Restart Devices</string>
+    <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
+    <string name="intro_title_4">All Done!</string>
+    <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
+    <string name="last_charge">Since full charge</string>
+    <string name="last_charge_no_info">Waiting for data</string>
+    <string name="pref_disable_notifications_when_dnd">Disable when DND is ON</string>
+    <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturbed is detected</string>
+    <string name="pref_disable_remove_notifications">Disable remove notifications</string>
+    <string name="pref_disable_remove_notifications_summary">Do not remove notifications from watch when removed from phone</string>
+    <string name="pref_enable_voice_apps">Enable messenger voice calls</string>
+    <string name="pref_enable_voice_apps_summary">Messenger voice calls will send notifications to wacth</string>
+    <string name="pref_enable_local_only">Enable local notifications</string>
+    <string name="pref_enable_local_only_summary">Local notifications without actions will be sent to watch</string>
+    <string name="pref_enable_notifications_when_locked">Enable when phone is locked</string>
+    <string name="pref_enable_notifications_when_locked_summary">Send notifications if screen is on but phone is locked</string>
+    <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
+    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated</string>
+    <string name="filters">Notifications filters</string>
+
 </resources>

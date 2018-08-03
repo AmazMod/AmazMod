@@ -22,10 +22,10 @@ import butterknife.OnCheckedChanged;
 
 public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
-    private AppInfoBridge appInfoBridge;
+    private Bridge appInfoBridge;
     private Context context;
 
-    public AppInfoAdapter(AppInfoBridge appInfoBridge, int resource, @NonNull List<AppInfo> objects) {
+    public AppInfoAdapter(Bridge appInfoBridge, int resource, @NonNull List<AppInfo> objects) {
         super(appInfoBridge.getContext(), resource, objects);
 
         this.appInfoBridge = appInfoBridge;
@@ -67,10 +67,10 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         @BindView(R.id.row_appinfo_switch)
         Switch appInfoSwitch;
 
-        private AppInfoBridge appInfoBridge;
+        private Bridge appInfoBridge;
         private AppInfo appInfo;
 
-        public ViewHolder(AppInfoBridge appInfoBridge, AppInfo appInfo) {
+        public ViewHolder(Bridge appInfoBridge, AppInfo appInfo) {
             this.appInfoBridge = appInfoBridge;
             this.appInfo = appInfo;
         }
@@ -82,7 +82,7 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         }
     }
 
-    public interface AppInfoBridge {
+    public interface Bridge {
         void onAppInfoStatusChange();
 
         Context getContext();

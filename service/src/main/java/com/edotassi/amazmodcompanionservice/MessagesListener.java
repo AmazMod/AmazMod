@@ -1,5 +1,6 @@
 package com.edotassi.amazmodcompanionservice;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -16,6 +17,7 @@ import com.edotassi.amazmodcompanionservice.events.incoming.RequestWatchStatus;
 import com.edotassi.amazmodcompanionservice.events.incoming.SyncSettings;
 import com.edotassi.amazmodcompanionservice.notifications.NotificationService;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
+import com.edotassi.amazmodcompanionservice.springboard.WidgetSettings;
 import com.edotassi.amazmodcompanionservice.util.DeviceUtil;
 import com.edotassi.amazmodcompanionservice.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
@@ -33,6 +35,8 @@ import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 
+import static java.lang.System.currentTimeMillis;
+
 public class MessagesListener {
 
     private Transporter transporter;
@@ -40,21 +44,51 @@ public class MessagesListener {
     private Context context;
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
+    private long dateLastCharge = 0;
+    private float batteryPct;
+    private WidgetSettings settings;
+
+    private BatteryData batteryData;
+    private WatchStatusData watchStatusData;
+    private DataBundle dataBundle;
 
     public MessagesListener(Context context) {
-        this.context = context;
 
+        this.context = context;
         settingsManager = new SettingsManager(context);
         notificationManager = new NotificationService(context);
+
+        settings = new WidgetSettings(Constants.TAG, context);
+        batteryData = new BatteryData();
+
+        watchStatusData = new WatchStatusData();
+        dataBundle = new DataBundle();
+
+        //Register power disconnect receiver
+        IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
+        powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //Update date of last charge if power was disconnected and battery is full
+                if (batteryPct > 0.98) {
+                    dateLastCharge = currentTimeMillis();
+                    settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
+                    Log.d(Constants.TAG, "MessagesListener dateLastCharge saved: " + dateLastCharge);
+                }
+            }
+        }, powerDisconnectedFilter);
+
     }
 
     public void setTransporter(Transporter transporter) {
         this.transporter = transporter;
     }
 
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestNightscoutSync(NightscoutRequestSyncEvent event) {
-        Log.d(Constants.TAG, "requested nightscout sync");
+        Log.d(Constants.TAG, "MessagesListener requested nightscout sync");
 
         send(Constants.ACTION_NIGHTSCOUT_SYNC, new DataBundle());
     }
@@ -64,20 +98,19 @@ public class MessagesListener {
 
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
 
-        Log.d(Constants.TAG, "sync settings");
-        Log.d(Constants.TAG, "vibration: " + settingsData.getVibration());
-        Log.d(Constants.TAG, "timeout: " + settingsData.getScreenTimeout());
-        Log.d(Constants.TAG, "replies: " + settingsData.getReplies());
-        Log.d(Constants.TAG, "enableCustomUi: " + settingsData.isNotificationsCustomUi());
+        Log.d(Constants.TAG, "MessagesListener sync settings");
+        Log.d(Constants.TAG, "MessagesListener vibration: " + settingsData.getVibration());
+        Log.d(Constants.TAG, "MessagesListener timeout: " + settingsData.getScreenTimeout());
+        Log.d(Constants.TAG, "MessagesListener replies: " + settingsData.getReplies());
+        Log.d(Constants.TAG, "MessagesListener enableCustomUi: " + settingsData.isNotificationsCustomUi());
 
         settingsManager.sync(settingsData);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reply(ReplyNotificationEvent event) {
-        Log.d(Constants.TAG, "reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
+        Log.d(Constants.TAG, "MessagesListener reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
 
-        DataBundle dataBundle = new DataBundle();
         dataBundle.putString("key", event.getKey());
         dataBundle.putString("message", event.getMessage());
 
@@ -93,12 +126,13 @@ public class MessagesListener {
         notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
 
+        Log.d(Constants.TAG, "MessagesListener incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-        WatchStatusData watchStatusData = new WatchStatusData();
 
         watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
         watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
@@ -114,15 +148,16 @@ public class MessagesListener {
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
 
+        Log.d(Constants.TAG, "MessagesListener requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-        BatteryData batteryData = new BatteryData();
 
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
+
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
@@ -131,16 +166,27 @@ public class MessagesListener {
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
-
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
-        float batteryPct = level / (float) scale;
+        batteryPct = level / (float) scale;
+
+        //Get data of last full charge from settings
+        //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+        if (dateLastCharge == 0) {
+            dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+            Log.d(Constants.TAG, "MessagesListener dateLastCharge loaded: " + dateLastCharge);
+        }
+
+        //Update battery level (used in widget)
+        //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
+        Log.d(Constants.TAG, "MessagesListener dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct*100f));
 
         batteryData.setLevel(batteryPct);
         batteryData.setCharging(isCharging);
         batteryData.setUsbCharge(usbCharge);
         batteryData.setAcCharge(acCharge);
+        batteryData.setDateLastCharge(dateLastCharge);
 
         send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
     }
@@ -148,7 +194,7 @@ public class MessagesListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
-        Log.d(Constants.TAG, "setting brightness to " + brightnessData.getLevel());
+        Log.d(Constants.TAG, "MessagesListener setting brightness to " + brightnessData.getLevel());
 
         System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
     }
@@ -159,10 +205,10 @@ public class MessagesListener {
 
     private void send(String action, DataBundle dataBundle) {
         if (transporter == null) {
-            Log.w(Constants.TAG, "transporter not ready");
+            Log.w(Constants.TAG, "MessagesListener transporter not ready");
             return;
         }
-
         transporter.send(action, dataBundle);
+        Log.d(Constants.TAG, "MessagesListener send: " + action);
     }
 }

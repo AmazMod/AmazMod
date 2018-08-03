@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.db;
 
+import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.raizlabs.android.dbflow.annotation.Database;
 import com.raizlabs.android.dbflow.annotation.Migration;
@@ -11,7 +12,7 @@ public class AppDatabase {
 
     public static final String NAME = "AmazModDb";
 
-    public static final int VERSION = 3;
+    public static final int VERSION = 5;
 
     @Migration(version = 3, database = AppDatabase.class)
     public static class AddDateToNotificationEntity extends AlterTableMigration<NotificationEntity> {
@@ -24,5 +25,23 @@ public class AppDatabase {
         public void onPreMigrate() {
             addColumn(SQLiteType.INTEGER, "date");
         }
+    }
+
+    @Migration(version = 4, database = AppDatabase.class)
+    public static class AddDateLastCharge extends AlterTableMigration<BatteryStatusEntity> {
+
+        public AddDateLastCharge(Class<BatteryStatusEntity> table) { super(table); }
+
+        @Override
+        public void onPreMigrate() { addColumn(SQLiteType.INTEGER, "dateLastCharge"); }
+    }
+
+    @Migration(version = 5, database = AppDatabase.class)
+    public static class AddFilterResult extends AlterTableMigration<NotificationEntity> {
+
+        public AddFilterResult(Class<NotificationEntity> table) { super(table); }
+
+        @Override
+        public void onPreMigrate() { addColumn(SQLiteType.INTEGER, "filterResult"); }
     }
 }

@@ -13,14 +13,36 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 1. Download and install amazmod.apk on phone;
 2. Download and install amazmod_service.apk to watch;
 3. Restart both phone and watch;
-4. Open AmazMod app on phone and configure it to your needs.
+4. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
+5. Open AmazMod app on phone and configure it to your needs.
 	
 #### Troubleshooting
 * How do I install the app on watch?  
 
-You can use adb (all platforms), APKInstaller or Amazfit Tool if you are on Windows. To use adb, you need the binaries on your computer (download them from https://developer.android.com/studio/releases/platform-tools, you may have them already if your computer runs Linux), then open Terminal/Command Prompt, change to the same folder as amazmod_service.apk and run:
-	adb install amazmod_service.apk
+You can use adb (all platforms), APKInstaller or Amazfit Tool if you are on Windows. To use adb, you need the binaries on your computer (download them from [Android SDK Platform tools page](https://developer.android.com/studio/releases/platform-tools), you may have them already if your computer runs Linux), then open Terminal/Command Prompt, change to the same folder as amazmod_service.apk and run: `adb install amazmod_service.apk`.
 
 * I do not get notifications  
 
 Make sure you have amazmod_service.apk installed on watch and that AmazMod on phone has granted permissions to access notifications, restart both phone and watch and test notifications again.
+
+#### Screenshots
+
+<table>
+	<tr>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_1.png"/>		
+		</td>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_2.png"/>		
+		</td>
+				<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_3.png"/>		
+		</td>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_4.png"/>		
+		</td>
+				<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_5.jpg"/>		
+		</td>
+	</tr>
+</table>

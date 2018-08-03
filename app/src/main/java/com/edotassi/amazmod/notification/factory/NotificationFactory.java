@@ -12,6 +12,8 @@ import android.support.v4.app.NotificationCompat;
 
 import com.edotassi.amazmod.log.LoggerScoped;
 
+import java.util.Calendar;
+
 import amazmod.com.transport.data.NotificationData;
 
 public class NotificationFactory {
@@ -20,6 +22,11 @@ public class NotificationFactory {
         NotificationData notificationData = new NotificationData();
 
         Notification notification = statusBarNotification.getNotification();
+
+        //Notification time
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(notification.when);
+        String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
 
         Bundle bundle = NotificationCompat.getExtras(notification);
 
@@ -55,7 +62,10 @@ public class NotificationFactory {
         notificationData.setKey(statusBarNotification.getKey());
         notificationData.setTitle(title);
         notificationData.setText(text);
-
+        notificationData.setTime(notificationTime);
+        notificationData.setForceCustom(false);
+        notificationData.setHideReplies(false);
+        notificationData.setHideButtons(false);
 
         return notificationData;
     }

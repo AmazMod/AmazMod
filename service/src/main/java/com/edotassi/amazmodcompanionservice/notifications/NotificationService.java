@@ -4,20 +4,38 @@ package com.edotassi.amazmodcompanionservice.notifications;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Icon;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+import android.widget.RemoteViews;
 
 import com.edotassi.amazmodcompanionservice.Constants;
+import com.edotassi.amazmodcompanionservice.R;
 import com.edotassi.amazmodcompanionservice.settings.SettingsManager;
 import com.edotassi.amazmodcompanionservice.ui.NotificationActivity;
+import com.edotassi.amazmodcompanionservice.util.DeviceUtil;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.Arrays;
+import org.apache.commons.lang3.reflect.FieldUtils;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
+import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -30,48 +48,134 @@ import static android.content.Context.VIBRATOR_SERVICE;
 public class NotificationService {
 
     private Context context;
-    private Vibrator vibrator;
+    //    private Vibrator vibrator;
     private NotificationManager notificationManager;
+    private SettingsManager settingsManager;
 
     public NotificationService(Context context) {
         this.context = context;
-        vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
+//        vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
 
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        settingsManager = new SettingsManager(context);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.INTENT_ACTION_REPLY);
+        context.registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int notificationId = intent.getIntExtra(Constants.EXTRA_NOTIFICATION_ID, -1);
+                notificationManager.cancel(notificationId);
+            }
+        }, filter);
     }
 
     public void post(NotificationData notificationSpec) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean enableCustomUI = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
-                Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
 
-        if (enableCustomUI) {
-            postWithCustomUI(notificationSpec);
-        } else {
-            postWithStandardUI(notificationSpec);
+        if (!DeviceUtil.isDNDActive(context, context.getContentResolver())) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+            boolean enableCustomUI = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
+                    Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
+
+            boolean disableNotificationReplies = sharedPreferences.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                    Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+
+            boolean forceCustom = notificationSpec.getForceCustom();
+            boolean hideReplies = notificationSpec.getHideReplies();
+
+            if (disableNotificationReplies || hideReplies) {
+                disableNotificationReplies = true;
+            }
+
+            if (enableCustomUI || forceCustom) {
+                postWithCustomUI(notificationSpec);
+            } else {
+                postWithStandardUI(notificationSpec, disableNotificationReplies);
+            }
         }
     }
 
-    private void postWithCustomUI(NotificationData notificationSpec) {
-        Intent intent = new Intent(context, NotificationActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(notificationSpec.toBundle());
 
-        context.startActivity(intent);
-    }
+    private void postWithStandardUI(NotificationData notificationData, boolean disableNotificationReplies) {
 
-    private void postWithStandardUI(NotificationData notificationData) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
+        Intent intent = new Intent();
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+        /*
+        RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification_test);
+        contentView.setTextViewText(R.id.notification_title, notificationData.getTitle());
+        contentView.setTextViewText(R.id.notification_text, notificationData.getText());
+
+
+
+        contentView.setImageViewBitmap(R.id.notification_icon, bitmap);
+        contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
+        */
+
+        Log.d(Constants.TAG, "NotifIcon 1 " + notificationData.toString() + " / disNotifReplies: " + disableNotificationReplies);
+
+        int[] iconData = notificationData.getIcon();
+        int iconWidth = notificationData.getIconWidth();
+        int iconHeight = notificationData.getIconHeight();
+        Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Notification.EXTRA_LARGE_ICON_BIG, bitmap);
+        bundle.putParcelable(Notification.EXTRA_LARGE_ICON, bitmap);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setStyle(new NotificationCompat.InboxStyle())
+                .setContentIntent(pendingIntent)
                 .setContentText(notificationData.getText())
                 .setContentTitle(notificationData.getTitle())
+                .setExtras(bundle)
                 .setVibrate(new long[]{notificationData.getVibration()});
 
+        if (!disableNotificationReplies) {
+
+            List<Reply> repliesList = loadReplies();
+
+            NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
+            for (Reply reply : repliesList) {
+                intent.setPackage(context.getPackageName());
+                intent.setAction(Constants.INTENT_ACTION_REPLY);
+                intent.putExtra(Constants.EXTRA_REPLY, reply.getValue());
+                intent.putExtra(Constants.EXTRA_NOTIFICATION_KEY, notificationData.getKey());
+                intent.putExtra(Constants.EXTRA_NOTIFICATION_ID, notificationData.getId());
+                PendingIntent replyIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
+
+                NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, reply.getValue(), replyIntent).build();
+                wearableExtender.addAction(replyAction);
+            }
+
+            builder.extend(wearableExtender);
+        }
+
+        Notification notification = builder.build();
+
+//        ApplicationInfo applicationInfo = notification.extras.getParcelable("android.rebuild.applicationInfo");
+
+
+        /*
+        try {
+            int[] iconData = notificationData.getIcon();
+            int iconWidth = notificationData.getIconWidth();
+            int iconHeight = notificationData.getIconHeight();
+            Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+
+            Icon icon = Icon.CREATOR.createFromParcel(null);
+            //Icon ic = new Icon(Icon.T);
+            FieldUtils.writeField(notification, "mSmallIcon", null, true);
+        } catch (Exception ex) {
+            Log.d(Constants.TAG, "write field failed");
+        }
+        */
+
+        notificationManager.notify(notificationData.getId(), notification);
 
         //Log.d("Notifiche", "postWithStandardUI: " + notificationSpec.getKey() + " " + notificationSpec.getId() + " " + notificationSpec.getPkg());
 
@@ -96,24 +200,7 @@ public class NotificationService {
                 .build();
         */
 
-        SettingsManager settingsManager = new SettingsManager(context);
-        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "");
-        List<String> repliesList = Arrays.asList(replies == null ? new String[]{} : replies.split(","));
 
-        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
-            for (String reply : repliesList) {
-            Intent intent = new Intent();
-            intent.setPackage(context.getPackageName());
-            intent.setAction(Constants.INTENT_ACTION_REPLY);
-            intent.putExtra(Constants.EXTRA_REPLY, reply);
-            intent.putExtra(Constants.EXTRA_NOTIFICATION_KEY, notificationData.getKey());
-            PendingIntent replyIntent = PendingIntent.getBroadcast(context, (int) System.currentTimeMillis(), intent, PendingIntent.FLAG_ONE_SHOT);
-
-            NotificationCompat.Action replyAction = new NotificationCompat.Action.Builder(android.R.drawable.ic_input_add, reply, replyIntent).build();
-            wearableExtender.addAction(replyAction);
-        }
-
-        builder.extend(wearableExtender);
 
         /*
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
@@ -126,12 +213,33 @@ public class NotificationService {
             wakeLock.release();
         }
         */
-
-        Notification notification = builder.build();
-        notificationManager.notify(notificationData.getId(), notification);
     }
 
-    /*
+    private void postWithCustomUI(NotificationData notificationSpec) {
+        Intent intent = new Intent(context, NotificationActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtras(notificationSpec.toBundle());
+
+        context.startActivity(intent);
+    }
+
+    private List<Reply> loadReplies() {
+        //SettingsManager settingsManager = new SettingsManager(context);
+        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
+
+        try {
+            Type listType = new TypeToken<List<Reply>>() {
+            }.getType();
+            return new Gson().fromJson(replies, listType);
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+/*
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP_MR1)
     public void add(TransportDataItem transportDataItem) {
         DataBundle dataBundle = transportDataItem.getData();
@@ -148,7 +256,7 @@ public class NotificationService {
             Log.d(Constants.TAG_NOTIFICATION_MANAGER, "tag: " + statusBarNotificationData.tag);
         }
 
-        /*
+
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
 

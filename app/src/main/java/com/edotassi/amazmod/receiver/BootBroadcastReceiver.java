@@ -1,4 +1,4 @@
-package com.edotassi.amazmod.boot;
+package com.edotassi.amazmod.receiver;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -6,9 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.log.LoggerScoped;
-import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
 import com.edotassi.amazmod.transport.TransportService;
 
 public class BootBroadcastReceiver extends BroadcastReceiver {

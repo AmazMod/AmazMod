@@ -22,6 +22,9 @@ public class BatteryStatusEntity {
     @Column
     private boolean acCharge;
 
+    @Column
+    private long dateLastCharge;
+
     public void setDate(long date) {
         this.date = date;
     }
@@ -60,5 +63,13 @@ public class BatteryStatusEntity {
 
     public void setAcCharge(boolean acCharge) {
         this.acCharge = acCharge;
+    }
+
+    public void setDateLastCharge(long dateLastCharge) {
+        this.dateLastCharge = dateLastCharge;
+    }
+
+    public long getDateLastCharge () {
+        return dateLastCharge;
     }
 }

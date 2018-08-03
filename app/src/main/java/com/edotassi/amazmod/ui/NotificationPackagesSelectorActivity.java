@@ -1,12 +1,9 @@
 package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
-import android.app.ListActivity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -31,12 +28,11 @@ import java.util.concurrent.Callable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Flowable;
-import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class NotificationPackagesSelectorActivity extends AppCompatActivity implements AppInfoAdapter.AppInfoBridge {
+public class NotificationPackagesSelectorActivity extends AppCompatActivity implements AppInfoAdapter.Bridge {
 
     @BindView(R.id.activity_notification_packages_selector_list)
     ListView listView;
@@ -54,6 +50,9 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_packages_selector);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.installed_apps);
+
         ButterKnife.bind(this);
 
         appInfoAdapter = new AppInfoAdapter(this, R.layout.row_appinfo, new ArrayList<AppInfo>());
@@ -63,30 +62,9 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-
-        if (appInfoList != null) {
-            List<String> enabledPackages = new ArrayList<>();
-
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
-                @Override
-                public int compare(AppInfo o1, AppInfo o2) {
-                    return o1.getPackageName().compareTo(o2.getPackageName());
-                }
-            });
-
-            for (AppInfo appInfo : appInfoList) {
-                if (appInfo.isEnabled()) {
-                    enabledPackages.add(appInfo.getPackageName());
-                }
-            }
-
-            Gson gson = new Gson();
-            String pref = gson.toJson(enabledPackages);
-
-            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
-        }
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     @Override
@@ -107,16 +85,40 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         }
 
         if (id == R.id.action_activity_notification_packges_selector_toggle_all) {
+            long count=0;
+            for (AppInfo appInfoCheckforAll : appInfoList) {
+                if (appInfoCheckforAll.isEnabled()) count++;
+            }
+            if (appInfoList.size() <= count) {
+                selectedAll=true;
+            }
             for (AppInfo appInfo : appInfoList) {
                 appInfo.setEnabled(!selectedAll);
             }
             selectedAll = !selectedAll;
-
+            sortAppInfo(appInfoList);
+            appInfoAdapter.clear();
+            appInfoAdapter.addAll(appInfoList);
             appInfoAdapter.notifyDataSetChanged();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onAppInfoStatusChange() {
+        sortAppInfo(appInfoList);
+        appInfoAdapter.clear();
+        appInfoAdapter.addAll(appInfoList);
+        appInfoAdapter.notifyDataSetChanged();
+
+        save();
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @SuppressLint("CheckResult")
@@ -139,10 +141,12 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
                 Arrays.sort(packagesList);
 
                 for (PackageInfo packageInfo : packageInfoList) {
+
                     boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
-                    if (!isSystemApp || (showSystemApps && isSystemApp)) {
-                        // It is a system app
-                        boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) > 0;
+
+                    boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
+
+                    if (enabled || !isSystemApp || (showSystemApps && isSystemApp)) {
                         AppInfo appInfo = createAppInfo(packageInfo, enabled);
                         appInfoList.add(appInfo);
                     }
@@ -203,16 +207,28 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         return appInfo;
     }
 
-    @Override
-    public void onAppInfoStatusChange() {
-        sortAppInfo(appInfoList);
-        appInfoAdapter.clear();
-        appInfoAdapter.addAll(appInfoList);
-        appInfoAdapter.notifyDataSetChanged();
-    }
+    private void save() {
 
-    @Override
-    public Context getContext() {
-        return this;
+        if (appInfoList != null) {
+            List<String> enabledPackages = new ArrayList<>();
+
+            Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                @Override
+                public int compare(AppInfo o1, AppInfo o2) {
+                    return o1.getPackageName().compareTo(o2.getPackageName());
+                }
+            });
+
+            for (AppInfo appInfo : appInfoList) {
+                if (appInfo.isEnabled()) {
+                    enabledPackages.add(appInfo.getPackageName());
+                }
+            }
+
+            Gson gson = new Gson();
+            String pref = gson.toJson(enabledPackages);
+
+            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
+        }
     }
 }

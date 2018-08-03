@@ -1,6 +1,9 @@
 <resources>
     <string name="settings">Beállítások</string>
     <string name="notifications">Értesítések</string>
+    <string name="battery">Battery</string>
+    <string name="customui">Custom UI</string>
+    <string name="others">Others</string>
     <string name="other">Egyéb</string>
     <string name="open">Megnyit</string>
     <string name="close">Bezár</string>
@@ -32,4 +35,34 @@
     <string name="pref_notifications_replies">Egyéni válaszok</string>
     <string name="pref_disable_notifications_replies_summary">Egyéni válaszok leírás</string>
     <string name="pref_disable_notifications_replies">Értesítés válaszok kikapcsolás</string>
+    <string name="pref_run_wizard">Run Welcome Presentation</string>
+    <string name="pref_run_wizzard_summary">Run the welcome presentation again</string>
+
+    <string name="intro_title_1">Welcome to AmazMod!</string>
+    <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
+    <string name="intro_title_permissions">Access to Notifications</string>
+    <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
+    <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
+    <string name="intro_title_2">Install Service App on Watch</string>
+    <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
+    <string name="intro_title_3">Restart Devices</string>
+    <string name="intro_description_3">Then please restart both watch and phone.</string>
+    <string name="intro_title_4">All Done!</string>
+    <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notfications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
+    <string name="last_charge">Time since last charge</string>
+    <string name="last_charge_no_info">Waiting for data</string>
+    <string name="pref_disable_notifications_when_dnd">Disabel when DND is ON</string>
+    <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturbed is detected</string>
+    <string name="pref_disable_remove_notifications">Disable remove notifications</string>
+    <string name="pref_disable_remove_notifications_summary">Do not remove notifications from watch when removed from phone</string>
+    <string name="pref_enable_voice_apps">Enable messenger voice calls</string>
+    <string name="pref_enable_voice_apps_summary">Messenger voice calls will send notifications to wacth</string>
+    <string name="pref_enable_local_only">Enable local notifications</string>
+    <string name="pref_enable_local_only_summary">Local notifications without actions will be sent to watch</string>
+    <string name="pref_enable_notifications_when_locked">Enable notifications when screen is locked</string>
+    <string name="pref_enable_notifications_when_locked_summary">Send notifications if screen is on but phone is locked</string>
+    <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
+    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated</string>
+    <string name="filters">Filters</string>
+
 </resources>

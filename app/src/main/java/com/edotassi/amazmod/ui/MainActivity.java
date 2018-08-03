@@ -1,14 +1,16 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
@@ -18,6 +20,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,10 +30,11 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.BuildConfig;
+import com.edotassi.amazmod.Constants;
+import com.edotassi.amazmod.MainIntroActivity;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
-import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.github.mikephil.charting.charts.LineChart;
@@ -55,21 +59,20 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.ObjectStreamClass;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.Callable;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
@@ -77,6 +80,11 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.card_battery_last_read)
+    TextView lastRead;
+    @BindView(R.id.textView2)
+    TextView batteryTv;
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -116,6 +124,9 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.card_watch_detail)
     LinearLayout watchDetail;
 
+    private boolean disableBatteryChart;
+    Locale defaultLocale;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
@@ -127,6 +138,7 @@ public class MainActivity extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -137,11 +149,76 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Hide Battery Chart if it's set in Preferences
+        this.disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        if (this.disableBatteryChart) {
+
+            findViewById(R.id.card_battery).setVisibility(View.GONE);
+
+        }
+
         HermesEventBus.getDefault().register(this);
+        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
-        checkNotificationsAccess();
+        // Check if it is the first start using shared preference then start presentation if true
+        boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_KEY_FIRST_START, Constants.PREF_DEFAULT_KEY_FIRST_START);
+
+        //Get Locales
+        defaultLocale = Locale.getDefault();
+        Locale currentLocale = getResources().getConfiguration().locale;
+
+        if (firstStart) {
+            //set locale to avoid app refresh after using Settings for the first time
+            System.out.println("firstStart locales: " + defaultLocale + " / " + currentLocale);
+            Resources res = getResources();
+            Configuration conf = res.getConfiguration();
+            conf.locale = defaultLocale;
+            res.updateConfiguration(conf, getResources().getDisplayMetrics());
+
+            //Start Wizard Activity
+            Intent intent = new Intent(MainActivity.this, MainIntroActivity.class);
+            startActivityForResult(intent, Constants.REQUEST_CODE_INTRO);
+        }
+
+        //Change app localization if needed
+        final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
+        System.out.println("MainActivity locales: " + defaultLocale + " / " + currentLocale);
+        if (forceEN && (currentLocale != Locale.US)) {
+            System.out.println("MaiActivity New locale: US");
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            conf.locale = Locale.US;
+            res.updateConfiguration(conf, dm);
+            recreate();
+        }
+
+//        checkNotificationsAccess(); not needed anymore after adding presentation
+    }
+
+    // If presentation was run until the end, use shared preference to not start it again
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.REQUEST_CODE_INTRO) {
+            if (resultCode == RESULT_OK) {
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean(Constants.PREF_KEY_FIRST_START, false)
+                        .apply();
+            } else {
+                PreferenceManager.getDefaultSharedPreferences(this).edit()
+                        .putBoolean(Constants.PREF_KEY_FIRST_START, true)
+                        .apply();
+                //User cancelled the intro so we'll finish this activity too.
+                finish();
+            }
+        }
     }
 
     @Override
@@ -160,12 +237,21 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        updateChart();
+        if (!this.disableBatteryChart) {
+            updateChart();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        HermesEventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -185,26 +271,39 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        int id = item.getItemId();
+        switch (item.getItemId()) {
 
-        if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-        }
+            case R.id.nav_settings:
+                Intent a = new Intent(this, SettingsActivity.class);
+                a.setFlags(a.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(a);
+                if (getIntent().getBooleanExtra("REFRESH", true)) {
+                    recreate();
+                    getIntent().putExtra("REFRESH", false);
+                }
+                return true;
 
-        if (id == R.id.nav_abount) {
-            startActivity(new Intent(this, AboutActivity.class));
-        }
+            case R.id.nav_abount:
+                Intent b = new Intent(this, AboutActivity.class);
+                b.setFlags(b.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(b);
+                return true;
 
-        if (id == R.id.nav_tweaking) {
-            startActivity(new Intent(this, TweakingActivity.class));
-        }
+            case R.id.nav_tweaking:
+                Intent c = new Intent(this, TweakingActivity.class);
+                c.setFlags(c.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(c);
+                return true;
 
-        if (id == R.id.nav_stats) {
-            startActivity(new Intent(this, StatsActivity.class));
-        }
+            case R.id.nav_stats:
+                Intent d = new Intent(this, StatsActivity.class);
+                d.setFlags(d.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(d);
+                return true;
 
-        if (id == R.id.nav_changelog) {
-            showChangelog(true, 1, false);
+            case R.id.nav_changelog:
+                showChangelog(true, 1, false);
+                return true;
         }
 
         return true;
@@ -248,37 +347,40 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void checkNotificationsAccess() {
-        Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(this);
-        int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
-        if (index == -1) {
-            new MaterialDialog.Builder(this)
-                    .title(R.string.notification_access)
-                    .content(R.string.notification_access_not_enabled)
-                    .positiveText(R.string.enable)
-                    .negativeText(R.string.cancel)
-                    .icon(getResources().getDrawable(R.drawable.outline_notifications_black_24))
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                            } else {
-                                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                            }
-                        }
-                    })
-                    .show();
-        }
-    }
+    /**
+     * No needed anymore with presentation
+     * private void checkNotificationsAccess() {
+     * Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(this);
+     * int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
+     * if (index == -1) {
+     * new MaterialDialog.Builder(this)
+     * .title(R.string.notification_access)
+     * .content(R.string.notification_access_not_enabled)
+     * .positiveText(R.string.enable)
+     * .negativeText(R.string.cancel)
+     * .icon(getResources().getDrawable(R.drawable.outline_notifications_black_24))
+     * .onPositive(new MaterialDialog.SingleButtonCallback() {
+     *
+     * @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+     * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+     * startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+     * } else {
+     * startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+     * }
+     * }
+     * })
+     * .show();
+     * }
+     * }
+     **/
 
     private void updateChart() {
-        final List<Entry> yValues = new ArrayList<Entry>();
+        final List<Entry> yValues = new ArrayList<>();
         final List<Integer> colors = new ArrayList<>();
 
-
-        //TODO use Preferences for days
-        final int days = 3;
+        //Cast number of days shown in chart from Preferences
+        final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
 
         Calendar calendar = Calendar.getInstance();
         long highX = calendar.getTimeInMillis();
@@ -293,7 +395,55 @@ public class MainActivity extends AppCompatActivity
                 .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
                 .queryList();
 
+        if (batteryReadList.size() > 0) {
+            BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
+            Date lastDate = new Date(lastEntity.getDate());
+
+            long lastChargeDate = lastEntity.getDateLastCharge();
+            String dateDiff = Integer.toString(Math.round(lastEntity.getLevel() * 100f)) + "% / ";
+            if (lastChargeDate != 0) {
+                long diffInMillies = System.currentTimeMillis() - lastChargeDate;
+                List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+                Collections.reverse(units);
+                long milliesRest = diffInMillies;
+                for ( TimeUnit unit : units ) {
+                    long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
+                    long diffInMilliesForUnit = unit.toMillis(diff);
+                    milliesRest = milliesRest - diffInMilliesForUnit;
+                    if (unit.equals(TimeUnit.DAYS)) {
+                        dateDiff += diff + "d : ";
+                    } else if (unit.equals(TimeUnit.HOURS)) {
+                        dateDiff += diff + "h : ";
+                    } else if (unit.equals(TimeUnit.MINUTES)) {
+                        dateDiff += diff + "m ";
+                        break;
+                    }
+                }
+                dateDiff += getResources().getText(R.string.last_charge);
+            } else dateDiff += getResources().getText(R.string.last_charge_no_info);
+            batteryTv.setText(dateDiff);
+
+            String time = DateFormat.getTimeInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
+            String date = DateFormat.getDateInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
+
+            Calendar calendarLastDate = Calendar.getInstance();
+            calendarLastDate.setTime(lastDate);
+            Calendar calendarToday = Calendar.getInstance();
+            calendarToday.setTime(new Date());
+
+            String textDate = getResources().getText(R.string.last_read) + ": ";
+            textDate += time;
+            if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
+                textDate += " " + date;
+            }
+            lastRead.setText(textDate);
+        }
+
         BatteryStatusEntity prevRead = null;
+
+        int primaryColor = ContextCompat.getColor(this, R.color.colorPrimary);
+        int chargingColor = ContextCompat.getColor(this, R.color.colorCharging);
+
         for (int i = 0; i < batteryReadList.size(); i++) {
             BatteryStatusEntity read = batteryReadList.get(i);
             int level = (int) (read.getLevel() * 100f);
@@ -302,7 +452,8 @@ public class MainActivity extends AppCompatActivity
                 Entry entry = new Entry(read.getDate(), level);
                 yValues.add(entry);
 
-                colors.add(Color.parseColor(read.isCharging() ? "#00E676" : "#3F51B5"));
+                int lineColor = level > prevLevel ? chargingColor : primaryColor;
+                colors.add(lineColor);
             }
 
             prevRead = read;
@@ -402,4 +553,5 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
 }
