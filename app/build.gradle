@@ -4,7 +4,7 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.edotassi.amazmod"
+        applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 144
@@ -20,14 +20,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 
 def dbflow_version = "4.2.4"
 
 dependencies {
     implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
-    implementation project(":transport")
-    implementation project(":models")
+    implementation project(':transport')
+    implementation project(':models')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
@@ -39,34 +41,22 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/SpringboardPluginLib.jar')
-
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'xiaofei.library:hermes-eventbus:0.3.0'
-
-    implementation "com.mikepenz:iconics-core:3.0.4@aar"
+    implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-
     implementation 'com.google.firebase:firebase-core:16.0.0'
-
-    implementation "io.reactivex.rxjava2:rxjava:2.1.14"
-
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
-
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
-
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
-
     implementation 'com.github.MFlisar:changelog:1.0.4'
-
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
 }
 
