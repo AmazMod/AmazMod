@@ -337,7 +337,7 @@ public class NotificationService extends NotificationListenerService {
         String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
-            if ((previousText != null) && (previousText.equals(text)) && (System.currentTimeMillis() - timeLastNotification > 999)) {
+            if ((previousText != null) && (previousText.equals(text)) && ((System.currentTimeMillis() - timeLastNotification) < 999)) {
                 Log.d(Constants.TAG, "NotificationService blocked text");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return returnFilterResult(Constants.FILTER_BLOCK);
