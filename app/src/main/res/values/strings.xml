@@ -29,13 +29,16 @@
     <string name="add_new_reply">Add new reply</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
 
+    <string name="notifications_service_name">AmazModNotificationsService</string>
+
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
     <string name="notification_access_enable">Enable</string>
 
     <string name="battery_chart_title">Battery chart</string>
-
     <string name="watch_info">Watch\'s information</string>
+    <string name="last_charge">Since full charge</string>
+    <string name="last_charge_no_info">Waiting for data</string>
 
     <string name="notification_block">Block</string>
     <string name="notification_continue">Continue</string>
@@ -91,8 +94,19 @@
     <string name="pref_screen_timeout_summary">Set duration of custom replies screen</string>
     <string name="pref_force_english">Force English</string>
     <string name="pref_force_english_summary">Set app language to English, it will be refreshed when closing Preferences</string>
-
-    <string name="notifications_service_name">AmazModNotificationsService</string>
+    <string name="pref_disable_notifications_when_dnd">Disable when DND is ON</string>
+    <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturb is detected</string>
+    <string name="pref_disable_remove_notifications">Disable remove notifications</string>
+    <string name="pref_disable_remove_notifications_summary">Do not remove notification from watch when it is removed from phone</string>
+    <string name="pref_enable_voice_apps">Enable voice call notificationss</string>
+    <string name="pref_enable_voice_apps_summary">Messenger voice calls will send notifications to watch</string>
+    <string name="pref_enable_local_only">Enable local notifications</string>
+    <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch</string>
+    <string name="pref_enable_notifications_when_locked">Enable when phone is locked</string>
+    <string name="pref_enable_notifications_when_locked_summary">Send notifications to watch if screen is on but phone is locked</string>
+    <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
+    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them tho)</string>
+    <string name="pref_filters">Notifications filters</string>
 
     <string name="intro_title_1">Welcome to AmazMod!</string>
     <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
@@ -105,20 +119,5 @@
     <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
     <string name="intro_title_4">All Done!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
-    <string name="last_charge">Since full charge</string>
-    <string name="last_charge_no_info">Waiting for data</string>
-    <string name="pref_disable_notifications_when_dnd">Disable when DND is ON</string>
-    <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturbed is detected</string>
-    <string name="pref_disable_remove_notifications">Disable remove notifications</string>
-    <string name="pref_disable_remove_notifications_summary">Do not remove notifications from watch when removed from phone</string>
-    <string name="pref_enable_voice_apps">Enable messenger voice calls</string>
-    <string name="pref_enable_voice_apps_summary">Messenger voice calls will send notifications to wacth</string>
-    <string name="pref_enable_local_only">Enable local notifications</string>
-    <string name="pref_enable_local_only_summary">Local notifications without actions will be sent to watch</string>
-    <string name="pref_enable_notifications_when_locked">Enable when phone is locked</string>
-    <string name="pref_enable_notifications_when_locked_summary">Send notifications if screen is on but phone is locked</string>
-    <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
-    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated</string>
-    <string name="filters">Notifications filters</string>
 
 </resources>

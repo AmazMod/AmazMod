@@ -84,7 +84,7 @@
             android:title="@string/pref_screen_timeout" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/filters">
+    <PreferenceCategory android:title="@string/pref_filters">
     <SwitchPreference
         android:defaultValue="false"
         android:dependency="preference.disable.notifications"
