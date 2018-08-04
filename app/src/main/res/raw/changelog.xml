@@ -1,5 +1,10 @@
 <changelog>
     <release
+        versionCode="145"
+        versioneName="v1.0.17-ALPHA">
+        <new>Added group option for standard notifications</new>
+    </release>
+    <release
         date="2018-08-02"
         versionCode="145"
         versionName="v1.0.17-RC1">
