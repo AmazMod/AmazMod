@@ -89,9 +89,9 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        Log.d(Constants.TAG,"NotificationService onDestroy");
         HermesEventBus.getDefault().unregister(this);
+        Log.d(Constants.TAG,"NotificationService onDestroy");
+        super.onDestroy();
     }
 
     @Override

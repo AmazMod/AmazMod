@@ -60,15 +60,15 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
 
     @Override
     protected void onStop() {
-        super.onStop();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onStop();
 
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        super.onDestroy();
     }
 
     public void setLocale(Locale lang) {
