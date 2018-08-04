@@ -60,7 +60,7 @@ public class Screen {
             Log.e(Constants.TAG, "iDeviceLocked exception: " + e.toString());
         }
 
-        Log.i(Constants.TAG+TAG_LOCAL, "isLocked: " + isLocked);
+        Log.i(Constants.TAG + TAG_LOCAL, "isDeviceLocked: " + isLocked);
         return isLocked;
     }
 

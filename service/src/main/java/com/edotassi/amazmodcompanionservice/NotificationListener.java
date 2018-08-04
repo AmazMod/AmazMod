@@ -20,8 +20,8 @@ public class NotificationListener extends NotificationListenerService {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         Log.d(Constants.TAG, "notification listener destroy");
+        super.onDestroy();
     }
 
     @Override
