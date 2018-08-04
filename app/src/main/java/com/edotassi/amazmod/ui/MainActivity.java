@@ -294,6 +294,12 @@ public class MainActivity extends AppCompatActivity
                 startActivity(c);
                 return true;
 
+            case R.id.nav_watchface:
+                Intent e = new Intent(this, WatchfaceActivity.class);
+                e.setFlags(e.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(e);
+                return true;
+
             case R.id.nav_stats:
                 Intent d = new Intent(this, StatsActivity.class);
                 d.setFlags(d.FLAG_ACTIVITY_CLEAR_TOP);

@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.transport;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.IBinder;
@@ -47,6 +48,7 @@ public class TransportService extends Service implements Transporter.DataListene
 
     //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
+    private Context context;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
@@ -58,6 +60,8 @@ public class TransportService extends Service implements Transporter.DataListene
     public void onCreate() {
         //this.logger.debug("created");
         super.onCreate();
+
+        context = this;
 
         //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
         //HermesEventBus.getDefault().init(this);
@@ -145,7 +149,7 @@ public class TransportService extends Service implements Transporter.DataListene
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
         System.out.println("AmazMod TransportService requestBatteryStatus: " + requestBatteryStatus.toString());
-        send(Transport.REQUEST_BATTERYSTATUS);
+        send(Transport.REQUEST_BATTERYSTATUS, requestBatteryStatus.getPhoneBattery(context));
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)

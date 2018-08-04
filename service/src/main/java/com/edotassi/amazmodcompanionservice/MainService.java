@@ -34,6 +34,8 @@ import com.huami.watch.transport.TransporterClassic;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -74,7 +76,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private Transporter transporter;
 
-    private Context context;
+    public Context context;
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
     private static long dateLastCharge;
@@ -179,6 +181,11 @@ public class MainService extends Service implements Transporter.DataListener {
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
                 Object event = eventContructor.newInstance(transportDataItem.getData());
 
+                // Update phone data
+                if(action.equals(Transport.REQUEST_BATTERYSTATUS)){
+                    save_phone_data(transportDataItem.getData());
+                }
+
                 Log.d(Constants.TAG,"MainService onDataReceived: " + event.toString());
                 HermesEventBus.getDefault().post(event);
             } catch (NoSuchMethodException e) {
@@ -196,6 +203,37 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+
+    private static final String LEVEL = "level";
+    private static final String CHARGING = "charging";
+    private static final String USB_CHARGE = "usb_charge";
+    private static final String AC_CHARGE = "ac_charge";
+    private static final String DATE_LAST_CHARGE = "date_last_charge"; // that is always 0
+
+    public void save_phone_data(DataBundle dataBundle){
+
+        Log.d("DinoDevs-GreatFit", "Updating phone's data");
+
+        String phoneBattery = Float.toString((int) (dataBundle.getFloat(LEVEL)*100));
+        String phoneAlarm = "";
+
+        String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
+
+        if(data==null || data.equals("")){
+            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData","{}");//default
+        }
+
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("phoneBattery",phoneBattery);
+            json_data.put("phoneAlarm",phoneAlarm);
+
+            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData",json_data.toString());
+        }catch (JSONException e) {
+            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData","{\"phoneBattery\":\""+phoneBattery+"\",\"phoneAlarm\":\""+phoneAlarm+"\"}");//default
+        }
+    }
 /*
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
