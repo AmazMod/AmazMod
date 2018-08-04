@@ -131,13 +131,16 @@ public class NotificationService extends NotificationListenerService {
 
         if (filterResult == Constants.FILTER_CONTINUE || filterResult == Constants.FILTER_UNGROUP) {
 
-            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false)) {
+            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false) && filterResult == Constants.FILTER_CONTINUE) {
                 //Use Custom UI
                 NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
                 notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
                 HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
                 Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
-            } else {
+            }
+
+            //Disabled for RC1
+            //} else {
                 //Use standard UI
 
 //                String pkg, String opPkg, int id,
@@ -170,7 +173,9 @@ public class NotificationService extends NotificationListenerService {
                 notificationTransporter.disconnectTransportService();
 
                 Log.i(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
-            }
+
+                //Disabled for RC1
+                //            }
 
             storeForStats(statusBarNotification, Constants.FILTER_CONTINUE);
 
@@ -222,6 +227,7 @@ public class NotificationService extends NotificationListenerService {
                         notificationData.setHideReplies(true);
                         notificationData.setHideButtons(true);
                         notificationData.setForceCustom(true);
+                        notificationData.setVibration(500);
 
                         HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
                         lastVoiceCallNotificationTime = System.currentTimeMillis();
@@ -239,8 +245,10 @@ public class NotificationService extends NotificationListenerService {
                 Log.d(Constants.TAG, "NotificationService maps: " + notificationPackage);
 
                 if (System.currentTimeMillis() - lastVoiceCallNotificationTime > 5000) {
-                    NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
-                    HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+
+                    //Disabled for RC1
+                    //NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                    //HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
                     lastVoiceCallNotificationTime = System.currentTimeMillis();
                     storeForStats(statusBarNotification, Constants.FILTER_MAPS);
                 }
@@ -337,7 +345,7 @@ public class NotificationService extends NotificationListenerService {
         String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
-            if ((previousText != null) && (previousText.equals(text)) && (System.currentTimeMillis() - timeLastNotification > 999)) {
+            if ((previousText != null) && (previousText.equals(text)) && ((System.currentTimeMillis() - timeLastNotification) < 999)) {
                 Log.d(Constants.TAG, "NotificationService blocked text");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return returnFilterResult(Constants.FILTER_BLOCK);

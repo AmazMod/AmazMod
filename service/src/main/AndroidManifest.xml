@@ -38,8 +38,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name="xiaofei.library.hermes.HermesService$HermesService0"
-            android:exported="true" />
+        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
+
+        <service android:name=".MainService" />
 
         <receiver
             android:name=".notifications.NotificationsReceiver"
@@ -63,9 +64,6 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-
-        <service android:name=".MainService"
-            android:exported="true" />
 
         <service
             android:name="com.edotassi.amazmodcompanionservice.NotificationListener"
