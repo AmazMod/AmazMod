@@ -1,5 +1,10 @@
 <changelog>
     <release
+        versionCode="146"
+        versionName="v1.0.18-RC1">
+        <new>Release candidate</new>
+    </release>
+    <release
         versionCode="145"
         versioneName="v1.0.17-ALPHA">
         <new>Added group option for standard notifications</new>
@@ -49,7 +54,7 @@
         date="2018-07-27"
         versionCode="138"
         versionName="v1.0.10-ALPHA">
-        <new>AmazMod will now respect DND mode (experimental)</new>
+        <new>AmazMod will now respect DND mode (exprimental)</new>
         <new>Setting added to disable notifications when DND is enabled</new>
         <bugfix>Time since last full charge display enhanced</bugfix>
     </release>
