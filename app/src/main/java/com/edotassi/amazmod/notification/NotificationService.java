@@ -234,7 +234,7 @@ public class NotificationService extends NotificationListenerService {
                     }
                 }
             } else if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
-                    && (notificationPackage.contains("maps"))) {
+                    && (notificationPackage.contains("android.apps.maps"))) {
 
                 Log.d(Constants.TAG, "NotificationService maps: " + notificationPackage);
 
