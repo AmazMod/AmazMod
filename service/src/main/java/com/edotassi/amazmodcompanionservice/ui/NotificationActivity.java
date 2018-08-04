@@ -93,6 +93,10 @@ public class NotificationActivity extends Activity {
             bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
 
             hideReplies = notificationSpec.getHideReplies();
+
+            //Added for RC1
+            notificationSpec.setHideButtons(true);
+
             if (notificationSpec.getHideButtons()) {
                 findViewById(R.id.activity_buttons).setVisibility(View.GONE);
             }
@@ -141,6 +145,18 @@ public class NotificationActivity extends Activity {
                 });
                 repliesContainer.addView(button);
             }
+            //Added for RC1
+            Button button = new Button(this);
+            button.setLayoutParams(param);
+            button.setText(R.string.close);
+            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            repliesContainer.addView(button);
         }
 
         handler = new Handler();
@@ -157,12 +173,14 @@ public class NotificationActivity extends Activity {
         return false;
     }
 
+    //Disabled for RC1
+/*
     @OnClick(R2.id.activity_notification_button_close)
     public void clickClose() {
         finish();
     }
 
-    @OnClick(R2.id.activity_notification_button_reply)
+  @OnClick(R2.id.activity_notification_button_reply)
     public void clickReply() {
         if (nullError) {
             finish();
@@ -175,7 +193,7 @@ public class NotificationActivity extends Activity {
             finish();
         }
     }
-
+*/
     private void startTimerFinish() {
         handler.removeCallbacks(activityFinishRunnable);
         if (!nullError) {

@@ -38,6 +38,7 @@ public class DeviceUtil {
             Log.e(Constants.TAG, "iDeviceLocked exception: " + e.toString());
         }
 
+
         return isLocked;
     }
 

@@ -39,6 +39,7 @@
         </activity>
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
+
         <service android:name=".MainService" />
 
         <receiver
