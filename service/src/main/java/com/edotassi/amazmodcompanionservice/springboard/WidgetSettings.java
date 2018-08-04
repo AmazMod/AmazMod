@@ -1,7 +1,6 @@
 package com.edotassi.amazmodcompanionservice.springboard;
 
 import android.content.Context;
-import android.os.Environment;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -51,7 +50,7 @@ public class WidgetSettings {
                 this.data = new JSONObject(data.toString());
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.d("AmazMod", "WidgetSettings load exception: " + e.toString());
+                Log.e("AmazMod", "WidgetSettings load exception: " + e.toString());
                 if (this.data == null) {
                     this.data = new JSONObject();
                 }
@@ -71,7 +70,7 @@ public class WidgetSettings {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d("AmazMod", "WidgetSettings save exception: " + e.toString());
+            Log.e("AmazMod", "WidgetSettings save exception: " + e.toString());
         }
     }
 

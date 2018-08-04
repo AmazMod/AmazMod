@@ -33,17 +33,33 @@ public class Screen {
     }
 
 
-    // Returns true if the device is locked (only works when screen lock is not none in phone settings)
     public static boolean isDeviceLocked(Context context) {
-        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
 
         boolean isLocked = false;
 
+        // First we check the locked state
         try {
-            isLocked = keyguardManager.inKeyguardRestrictedInputMode();
+            KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
+            boolean inKeyguardRestrictedInputMode = keyguardManager.inKeyguardRestrictedInputMode();
+
+            if (inKeyguardRestrictedInputMode) {
+                isLocked = true;
+
+            } else {
+                // If password is not set in the settings, the inKeyguardRestrictedInputMode() returns false,
+                // so we need to check if screen on for this case
+                PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+                    isLocked = !powerManager.isInteractive();
+                } else {
+                    //noinspection deprecation
+                    isLocked = !powerManager.isScreenOn();
+                }
+            }
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG+TAG_LOCAL, "isLocked exception: " + e.toString());
+            Log.e(Constants.TAG, "iDeviceLocked exception: " + e.toString());
         }
+
         Log.i(Constants.TAG+TAG_LOCAL, "isLocked: " + isLocked);
         return isLocked;
     }

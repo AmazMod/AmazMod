@@ -136,7 +136,7 @@ public class StatsActivity extends AppCompatActivity {
                                 .selectCountOf()
                                 .from(NotificationEntity.class)
                                 .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_MAPS))
                                 .count();
 
                         StatsResult result = new StatsResult();
