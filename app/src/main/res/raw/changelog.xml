@@ -1,5 +1,10 @@
 <changelog>
     <release
+        versionCode="148"
+        versioneName="v1.0.20">
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
         versionCode="147"
         versionName="v1.0.19-RC2">
         <new>Merged code</new>
