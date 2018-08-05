@@ -36,6 +36,8 @@ public class AmazModApplication extends Application {
         startService(new Intent(this, TransportService.class));
 
         startBatteryReceiver();
+
+        System.out.println(Constants.TAG + " AmazModApplication Start");
     }
 
     private void startBatteryReceiver() {

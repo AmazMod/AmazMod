@@ -227,23 +227,25 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
+        watchDetail.setVisibility(View.GONE);
+        watchProgress.setVisibility(View.VISIBLE);
+
+        Flowable
+                .timer(2000, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        HermesEventBus.getDefault().post(new RequestWatchStatus());
+                    }
+                });
+
         if (isTransportConnected) {
-
-            watchDetail.setVisibility(View.GONE);
-            watchProgress.setVisibility(View.VISIBLE);
-
-            Flowable
-                    .timer(2000, TimeUnit.MILLISECONDS)
-                    .subscribe(new Consumer<Long>() {
-                        @Override
-                        public void accept(Long aLong) throws Exception {
-                            HermesEventBus.getDefault().post(new RequestWatchStatus());
-                        }
-                    });
-
             if (!this.disableBatteryChart) {
                 updateChart();
             }
+        } else {
+            watchProgress.setVisibility(View.GONE);
+            watchDetail.setVisibility(View.GONE);
         }
     }
 
@@ -343,8 +345,8 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsTransportConnectedLocal itp){
+        isTransportConnected = itp.getTransportStatus();
         System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + isTransportConnected);
-        this.isTransportConnected = itp.getTransportStatus();
     }
 
     private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
