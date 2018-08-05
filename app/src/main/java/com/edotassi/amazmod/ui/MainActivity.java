@@ -37,6 +37,7 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.event.local.IsTransportConnectedLocal;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -126,6 +127,7 @@ public class MainActivity extends AppCompatActivity
 
     private boolean disableBatteryChart;
     Locale defaultLocale;
+    private boolean isTransportConnected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,8 +239,13 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
-        if (!this.disableBatteryChart) {
-            updateChart();
+        if (isTransportConnected) {
+            if (!this.disableBatteryChart) {
+                updateChart();
+            }
+        } else {
+            watchProgress.setVisibility(View.GONE);
+            watchDetail.setVisibility(View.GONE);
         }
     }
 
@@ -334,6 +341,12 @@ public class MainActivity extends AppCompatActivity
 
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void getTransportStatus(IsTransportConnectedLocal itp){
+        isTransportConnected = itp.getTransportStatus();
+        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + isTransportConnected);
     }
 
     private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
