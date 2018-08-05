@@ -81,7 +81,6 @@ public class TransportService extends Service implements Transporter.DataListene
 
     @Override
     public void onDestroy() {
-
         HermesEventBus.getDefault().unregister(this);
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
