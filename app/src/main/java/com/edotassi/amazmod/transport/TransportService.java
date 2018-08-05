@@ -74,11 +74,11 @@ public class TransportService extends Service implements Transporter.DataListene
 
         if (!transporter.isTransportServiceConnected()) {
             Log.d(Constants.TAG,"TransportService not connected, connecting...");
-            isTransportConnected = true;
+            isTransportConnected = false;
             transporter.connectTransportService();
         } else {
-            isTransportConnected = false;
-            Log.w(Constants.TAG,"TransportService yet connected");
+            isTransportConnected = true;
+            Log.w(Constants.TAG,"TransportService connected");
         }
         HermesEventBus.getDefault().postSticky(new IsTransportConnectedLocal(isTransportConnected));
     }
