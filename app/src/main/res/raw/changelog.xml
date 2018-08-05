@@ -1,5 +1,11 @@
 <changelog>
     <release
+        versionCode="149"
+        versionName="v1.0.21">
+        <bugfix>Check if transport service is connected</bugfix>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
         versionCode="148"
         versioneName="v1.0.20">
         <bugfix>Minor fix</bugfix>
