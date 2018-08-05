@@ -11,6 +11,6 @@ public class IsTransportConnectedLocal {
     }
 
     public boolean getTransportStatus() {
-        return isTransportConnected;
+        return this.isTransportConnected;
     }
 }

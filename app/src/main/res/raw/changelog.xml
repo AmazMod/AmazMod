@@ -1,20 +1,24 @@
 <changelog>
     <release
+        date="2018-08-04"
         versionCode="148"
         versioneName="v1.0.20">
         <bugfix>Minor fix</bugfix>
     </release>
     <release
+        date="2018-08-04"
         versionCode="147"
         versionName="v1.0.19-RC2">
         <new>Merged code</new>
     </release>
     <release
+        date="2018-08-04"
         versionCode="146"
         versionName="v1.0.18-RC1">
         <new>Release candidate</new>
     </release>
     <release
+        date="2018-08-03"
         versionCode="145"
         versioneName="v1.0.17-ALPHA">
         <new>Added group option for standard notifications</new>

@@ -131,7 +131,7 @@ public class NotificationService extends NotificationListenerService {
 
         if (filterResult == Constants.FILTER_CONTINUE || filterResult == Constants.FILTER_UNGROUP) {
 
-            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false) && filterResult == Constants.FILTER_CONTINUE) {
+            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false)) {
                 //Use Custom UI
                 NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
                 notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
@@ -177,7 +177,7 @@ public class NotificationService extends NotificationListenerService {
                 //Disabled for RC1
                 //            }
 
-            storeForStats(statusBarNotification, Constants.FILTER_CONTINUE);
+            storeForStats(statusBarNotification, filterResult);
 
         } else {
 
