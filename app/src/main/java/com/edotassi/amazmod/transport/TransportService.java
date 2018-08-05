@@ -19,6 +19,7 @@ import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.event.local.IsTransportConnectedLocal;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 //import com.edotassi.amazmod.log.Logger;
 //import com.edotassi.amazmod.log.LoggerScoped;
@@ -62,6 +63,7 @@ public class TransportService extends Service implements Transporter.DataListene
         super.onCreate();
 
         context = this;
+        boolean isTransportConnected = false;
 
         //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
         //HermesEventBus.getDefault().init(this);
@@ -72,11 +74,13 @@ public class TransportService extends Service implements Transporter.DataListene
 
         if (!transporter.isTransportServiceConnected()) {
             Log.d(Constants.TAG,"TransportService not connected, connecting...");
-
+            isTransportConnected = true;
             transporter.connectTransportService();
         } else {
+            isTransportConnected = false;
             Log.w(Constants.TAG,"TransportService yet connected");
         }
+        HermesEventBus.getDefault().postSticky(new IsTransportConnectedLocal(isTransportConnected));
     }
 
     @Override
