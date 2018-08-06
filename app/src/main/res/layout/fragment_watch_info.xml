@@ -36,6 +36,16 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/outline_watch_black_18" />
 
+            <TextView
+                android:id="@+id/isConnectedTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/watch_is_connected"
+                app:layout_constraintStart_toEndOf="@+id/textView9"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <me.zhanghai.android.materialprogressbar.MaterialProgressBar
                 android:id="@+id/card_watch_progress"
                 style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"

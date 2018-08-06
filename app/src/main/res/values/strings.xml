@@ -119,6 +119,7 @@
     <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
     <string name="intro_title_4">All Done!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
+
     <string name="watch_is_connected">Connected</string>
     <string name="watch_disconnected">Disconnected</string>
     <string name="watch_connecting">Connecting…</string>

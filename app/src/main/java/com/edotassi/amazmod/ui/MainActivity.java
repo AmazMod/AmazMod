@@ -37,6 +37,8 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.event.local.Connected;
+import com.edotassi.amazmod.event.local.Disconnected;
 import com.edotassi.amazmod.event.local.IsTransportConnectedLocal;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.github.mikephil.charting.charts.LineChart;
@@ -87,9 +89,6 @@ public class MainActivity extends AppCompatActivity
     TextView lastRead;
     @BindView(R.id.textView2)
     TextView batteryTv;
-    @BindView(R.id.isConnectedTV)
-    TextView isConnectedTV;
-
 
     @BindView(R.id.battery_chart)
     LineChart chart;
@@ -144,8 +143,6 @@ public class MainActivity extends AppCompatActivity
         //isTransportConnected = itc == null || itc.getTransportStatus();
         System.out.println(Constants.TAG + " MainActivity onCreate isTransportConnected: " + this.isTransportConnected);
 
-        isConnectedTV.setTextColor(batteryTv.getCurrentTextColor());
-        isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
         // Check if it is the first start using shared preference then start presentation if true
@@ -298,13 +295,7 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsTransportConnectedLocal itc){
         this.isTransportConnected = itc.getTransportStatus();
-        if (!this.isTransportConnected) {
-            isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
-            isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
-            watchProgress.setVisibility(View.GONE);
-            watchDetail.setVisibility(View.GONE);
-        }
-        System.out.println(Constants.TAG + " MainActivity getTransportStatus isTransportConnected: " + this.isTransportConnected);
+        HermesEventBus.getDefault().post(this.isTransportConnected ? new Connected() : new Disconnected());
     }
 
     private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {

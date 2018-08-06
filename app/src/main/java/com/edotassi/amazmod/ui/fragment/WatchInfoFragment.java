@@ -2,15 +2,22 @@ package com.edotassi.amazmod.ui.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.event.local.Connected;
+import com.edotassi.amazmod.event.local.Disconnected;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,6 +58,8 @@ public class WatchInfoFragment extends Fragment {
     @BindView(R.id.card_build_fingerprint)
     TextView fingerprint;
 
+    @BindView(R.id.isConnectedTV)
+    TextView isConnectedTV;
     @BindView(R.id.card_watch_detail)
     LinearLayout watchDetail;
     @BindView(R.id.card_watch_progress)
@@ -61,6 +70,8 @@ public class WatchInfoFragment extends Fragment {
         View view = layoutInflater.inflate(R.layout.fragment_watch_info, container, false);
 
         ButterKnife.bind(this, view);
+
+        HermesEventBus.getDefault().register(this);
 
         return view;
     }
@@ -80,6 +91,9 @@ public class WatchInfoFragment extends Fragment {
                         HermesEventBus.getDefault().post(new RequestWatchStatus());
                     }
                 });
+
+        //isConnectedTV.setTextColor(batteryTv.getCurrentTextColor());
+        isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
     }
 
     public void onWatchStatus(WatchStatus watchStatus) {
@@ -101,5 +115,19 @@ public class WatchInfoFragment extends Fragment {
 
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.VISIBLE);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    private void onConnected(Connected connected) {
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    private void onDisconnected(Disconnected disconnected) {
+        isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
+        isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
+        watchProgress.setVisibility(View.GONE);
+
+        watchDetail.setVisibility(View.GONE);
+        Log.d(Constants.TAG, "MainActivity getTransportStatus isTransportConnected: false");
     }
 }
