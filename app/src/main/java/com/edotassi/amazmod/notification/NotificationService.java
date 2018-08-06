@@ -305,17 +305,16 @@ public class NotificationService extends NotificationListenerService {
         }
         String notificationPackage = statusBarNotification.getPackageName();
         String notificationId = statusBarNotification.getKey();
+        Notification notification = statusBarNotification.getNotification();
+        String text = "";
+        int flags = 0;
 
         if (!isPackageAllowed(notificationPackage)) {
             return returnFilterResult(Constants.FILTER_PACKAGE);
         }
 
-        Notification notification = statusBarNotification.getNotification();
-
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
-
-        int flags = 0;
 
         for (NotificationCompat.Action act : actions) {
             if (act != null && act.getRemoteInputs() != null) {
@@ -342,7 +341,12 @@ public class NotificationService extends NotificationListenerService {
         }
 
         Bundle extras = statusBarNotification.getNotification().extras;
-        String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
+        CharSequence bigText = extras.getCharSequence(Notification.EXTRA_TEXT);
+        if (bigText != null) {
+            text = bigText.toString();
+        }
+        //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
+        //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
             if ((previousText != null) && (previousText.equals(text)) && ((System.currentTimeMillis() - timeLastNotification) < 999)) {
