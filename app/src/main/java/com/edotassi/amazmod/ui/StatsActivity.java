@@ -118,6 +118,13 @@ public class StatsActivity extends AppCompatActivity {
                                 .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_MAPS))
                                 .count();
 
+                        long totalAnHourAgoUngroup = SQLite
+                                .selectCountOf()
+                                .from(NotificationEntity.class)
+                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_UNGROUP))
+                                .count();
+
                         long totalADayAgoCont = SQLite
                                 .selectCountOf()
                                 .from(NotificationEntity.class)
@@ -137,6 +144,13 @@ public class StatsActivity extends AppCompatActivity {
                                 .from(NotificationEntity.class)
                                 .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
                                 .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_MAPS))
+                                .count();
+
+                        long totalADayAgoUngroup = SQLite
+                                .selectCountOf()
+                                .from(NotificationEntity.class)
+                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
+                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_UNGROUP))
                                 .count();
 
                         StatsResult result = new StatsResult();

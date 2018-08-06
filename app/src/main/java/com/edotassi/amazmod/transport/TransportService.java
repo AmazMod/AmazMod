@@ -50,6 +50,7 @@ public class TransportService extends Service implements Transporter.DataListene
     //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
     private Context context;
+    private boolean isTransportConnected;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
@@ -63,7 +64,6 @@ public class TransportService extends Service implements Transporter.DataListene
         super.onCreate();
 
         context = this;
-        boolean isTransportConnected = false;
 
         //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
         //HermesEventBus.getDefault().init(this);
@@ -71,16 +71,15 @@ public class TransportService extends Service implements Transporter.DataListene
 
         transporter = TransporterClassic.get(this, Transport.NAME);
         transporter.addDataListener(this);
+        isTransportConnected = transporter.isTransportServiceConnected();
 
-        if (!transporter.isTransportServiceConnected()) {
-            Log.d(Constants.TAG,"TransportService not connected, connecting...");
-            isTransportConnected = false;
-            transporter.connectTransportService();
+        if (isTransportConnected) {
+            Log.i(Constants.TAG,"TransportService onCreate already connected");
         } else {
+            Log.w(Constants.TAG,"TransportService onCreate not connected, connecting...");
+            transporter.connectTransportService();
             isTransportConnected = true;
-            Log.w(Constants.TAG,"TransportService connected");
         }
-        HermesEventBus.getDefault().postSticky(new IsTransportConnectedLocal(isTransportConnected));
     }
 
     @Override
@@ -149,6 +148,13 @@ public class TransportService extends Service implements Transporter.DataListene
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
         Log.d(Constants.TAG, "TransportService requestWatchStatus: " + requestWatchStatus.toString());
         send(Transport.REQUEST_WATCHSTATUS);
+        boolean check = transporter.isTransportServiceConnected();
+        if (this.isTransportConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class)==null)) {
+            this.isTransportConnected = check;
+            HermesEventBus.getDefault().removeAllStickyEvents();
+            HermesEventBus.getDefault().postSticky(new IsTransportConnectedLocal(this.isTransportConnected));
+            Log.i(Constants.TAG, "TransportService requestWatchStatus isConnected: " + this.isTransportConnected);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -211,7 +217,7 @@ public class TransportService extends Service implements Transporter.DataListene
 
     private void send(String action, Transportable transportable) {
         if (!transporter.isTransportServiceConnected()) {
-            Log.w(Constants.TAG,"TransportService Transport Service Not Connected");
+            Log.w(Constants.TAG,"TransportService send Transport Service Not Connected");
             return;
         }
 

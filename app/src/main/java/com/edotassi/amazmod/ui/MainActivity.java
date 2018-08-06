@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity
     TextView lastRead;
     @BindView(R.id.textView2)
     TextView batteryTv;
+    @BindView(R.id.isConnectedTV)
+    TextView isConnectedTV;
 
 
     @BindView(R.id.battery_chart)
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 
     private boolean disableBatteryChart;
     Locale defaultLocale;
-    private boolean isTransportConnected;
+    private boolean isTransportConnected = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +140,12 @@ public class MainActivity extends AppCompatActivity
 
         HermesEventBus.getDefault().register(this);
 
+        //IsTransportConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
+        //isTransportConnected = itc == null || itc.getTransportStatus();
+        System.out.println(Constants.TAG + " MainActivity onCreate isTransportConnected: " + this.isTransportConnected);
+
+        isConnectedTV.setTextColor(batteryTv.getCurrentTextColor());
+        isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
         // Check if it is the first start using shared preference then start presentation if true
@@ -145,15 +153,15 @@ public class MainActivity extends AppCompatActivity
                 .getBoolean(Constants.PREF_KEY_FIRST_START, Constants.PREF_DEFAULT_KEY_FIRST_START);
 
         //Get Locales
-        defaultLocale = Locale.getDefault();
+        this.defaultLocale = Locale.getDefault();
         Locale currentLocale = getResources().getConfiguration().locale;
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            System.out.println("firstStart locales: " + defaultLocale + " / " + currentLocale);
+            System.out.println(Constants.TAG + " MainActivity firstStart locales: " + this.defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
-            conf.locale = defaultLocale;
+            conf.locale = this.defaultLocale;
             res.updateConfiguration(conf, getResources().getDisplayMetrics());
 
             //Start Wizard Activity
@@ -164,9 +172,9 @@ public class MainActivity extends AppCompatActivity
         //Change app localization if needed
         final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
-        System.out.println("MainActivity locales: " + defaultLocale + " / " + currentLocale);
+        System.out.println(Constants.TAG + " MainActivity locales: " + this.defaultLocale + " / " + currentLocale);
         if (forceEN && (currentLocale != Locale.US)) {
-            System.out.println("MaiActivity New locale: US");
+            System.out.println(Constants.TAG + " MaiActivity New locale: US");
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
@@ -288,9 +296,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void getTransportStatus(IsTransportConnectedLocal itp){
-        isTransportConnected = itp.getTransportStatus();
-        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + isTransportConnected);
+    public void getTransportStatus(IsTransportConnectedLocal itc){
+        this.isTransportConnected = itc.getTransportStatus();
+        if (!this.isTransportConnected) {
+            isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
+            isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
+            watchProgress.setVisibility(View.GONE);
+            watchDetail.setVisibility(View.GONE);
+        }
+        System.out.println(Constants.TAG + " MainActivity getTransportStatus isTransportConnected: " + this.isTransportConnected);
     }
 
     private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
@@ -358,8 +372,9 @@ public class MainActivity extends AppCompatActivity
             } else dateDiff += getResources().getText(R.string.last_charge_no_info);
             batteryTv.setText(dateDiff);
 
-            String time = DateFormat.getTimeInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
-            String date = DateFormat.getDateInstance(DateFormat.SHORT, defaultLocale).format(lastDate);
+            System.out.println(Constants.TAG + " MainActivity updateChart defaultLocale: " + this.defaultLocale);
+            String time = DateFormat.getTimeInstance(DateFormat.SHORT, this.defaultLocale).format(lastDate);
+            String date = DateFormat.getDateInstance(DateFormat.SHORT, this.defaultLocale).format(lastDate);
 
             Calendar calendarLastDate = Calendar.getInstance();
             calendarLastDate.setTime(lastDate);

@@ -151,6 +151,10 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
                     causeText = causesTranslationsMap.get(R.string.notification_maps);
                     break;
                 }
+                case (Constants.FILTER_UNGROUP): {
+                    causeText = causesTranslationsMap.get(R.string.notification_ungroup);
+                    break;
+                }
             }
 
             String dateText = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM).format(new Date(notificationEntity.getDate()));
