@@ -118,11 +118,12 @@ public class WatchInfoFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    private void onConnected(Connected connected) {
+    public void onConnected(Connected connected) {
+        isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    private void onDisconnected(Disconnected disconnected) {
+    public void onDisconnected(Disconnected disconnected) {
         isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
