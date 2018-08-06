@@ -94,21 +94,23 @@ public class NotificationActivity extends Activity {
 
             hideReplies = notificationSpec.getHideReplies();
 
-            //Added for RC1
-            notificationSpec.setHideButtons(true);
-
-            if (notificationSpec.getHideButtons()) {
+            //Modified for RC1
+            //if (notificationSpec.getHideButtons()) {
                 findViewById(R.id.activity_buttons).setVisibility(View.GONE);
-            }
+            //}
 
             icon.setImageBitmap(bitmap);
 
-            if (notificationSpec.getVibration() > 0) {
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                if(vibrator != null) {
-                    vibrator.vibrate(notificationSpec.getVibration());
+            //Changed for RC1 - vibrates only for voice & maps
+            if (!notificationSpec.getHideButtons() && hideReplies) {
+                if (notificationSpec.getVibration() > 0) {
+                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                    if (vibrator != null) {
+                        vibrator.vibrate(notificationSpec.getVibration());
+                    }
                 }
             }
+
         } catch (NullPointerException ex) {
             Log.d(Constants.TAG,"NotificationActivity onCreate - Exception: " + ex.toString() + " notificationSpec: " + notificationSpec);
             title.setText("AmazMod");
@@ -146,6 +148,21 @@ public class NotificationActivity extends Activity {
                 repliesContainer.addView(button);
             }
             //Added for RC1
+            Button button = new Button(this);
+            button.setLayoutParams(param);
+            button.setText(R.string.close);
+            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            repliesContainer.addView(button);
+        }
+
+        //Added for RC1: it adds close button for voice/maps/test notification
+        if (!notificationSpec.getHideButtons() && hideReplies) {
             Button button = new Button(this);
             button.setLayoutParams(param);
             button.setText(R.string.close);
