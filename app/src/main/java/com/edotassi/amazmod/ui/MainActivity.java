@@ -38,6 +38,7 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsTransportConnectedLocal;
+import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -87,43 +88,14 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.textView2)
     TextView batteryTv;
 
-    @BindView(R.id.card_amazmodservice)
-    TextView amazModService;
-    @BindView(R.id.card_product_device)
-    TextView productDevice;
-    @BindView(R.id.card_product_manufacter)
-    TextView productManufacter;
-    @BindView(R.id.card_product_model)
-    TextView productModel;
-    @BindView(R.id.card_product_name)
-    TextView productName;
-    @BindView(R.id.card_revision)
-    TextView revision;
-    @BindView(R.id.card_serialno)
-    TextView serialNo;
-    @BindView(R.id.card_build_date)
-    TextView buildDate;
-    @BindView(R.id.card_build_description)
-    TextView buildDescription;
-    @BindView(R.id.card_display_id)
-    TextView displayId;
-    @BindView(R.id.card_huami_model)
-    TextView huamiModel;
-    @BindView(R.id.card_huami_number)
-    TextView huamiNumber;
-    @BindView(R.id.card_build_fingerprint)
-    TextView fingerprint;
+
     @BindView(R.id.battery_chart)
     LineChart chart;
 
     @BindView(R.id.card_battery)
     CardView batteryCard;
-    @BindView(R.id.card_watch)
-    CardView watchCard;
-    @BindView(R.id.card_watch_progress)
-    MaterialProgressBar watchProgress;
-    @BindView(R.id.card_watch_detail)
-    LinearLayout watchDetail;
+
+    WatchInfoFragment watchInfoFragment;
 
     private boolean disableBatteryChart;
     Locale defaultLocale;
@@ -138,17 +110,22 @@ public class MainActivity extends AppCompatActivity
 
         ButterKnife.bind(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            //TODO log to crashlitics
+        }
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.open, R.string.close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //Hide Battery Chart if it's set in Preferences
@@ -156,13 +133,10 @@ public class MainActivity extends AppCompatActivity
                 .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
 
         if (this.disableBatteryChart) {
-
             findViewById(R.id.card_battery).setVisibility(View.GONE);
-
         }
 
         HermesEventBus.getDefault().register(this);
-        //HermesEventBus.getDefault().connectApp(this, Constants.PACKAGE);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
@@ -201,7 +175,7 @@ public class MainActivity extends AppCompatActivity
             recreate();
         }
 
-//        checkNotificationsAccess(); not needed anymore after adding presentation
+        watchInfoFragment = (WatchInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_watch_info);
     }
 
     // If presentation was run until the end, use shared preference to not start it again
@@ -227,25 +201,12 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        watchDetail.setVisibility(View.GONE);
-        watchProgress.setVisibility(View.VISIBLE);
-
-        Flowable
-                .timer(2000, TimeUnit.MILLISECONDS)
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        HermesEventBus.getDefault().post(new RequestWatchStatus());
-                    }
-                });
-
         if (isTransportConnected) {
             if (!this.disableBatteryChart) {
                 updateChart();
             }
         } else {
-            watchProgress.setVisibility(View.GONE);
-            watchDetail.setVisibility(View.GONE);
+            //TODO hide watch infor fragment if not connected
         }
     }
 
@@ -262,7 +223,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -323,24 +284,7 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWatchStatus(WatchStatus watchStatus) {
-        WatchStatusData watchStatusData = watchStatus.getWatchStatusData();
-
-        amazModService.setText(watchStatusData.getAmazModServiceVersion());
-        productDevice.setText(watchStatusData.getRoProductDevice());
-        productManufacter.setText(watchStatusData.getRoProductManufacter());
-        productModel.setText(watchStatusData.getRoProductModel());
-        productName.setText(watchStatusData.getRoProductName());
-        revision.setText(watchStatusData.getRoRevision());
-        serialNo.setText(watchStatusData.getRoSerialno());
-        buildDate.setText(watchStatusData.getRoBuildDate());
-        buildDescription.setText(watchStatusData.getRoBuildDescription());
-        displayId.setText(watchStatusData.getRoBuildDisplayId());
-        huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
-        huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
-        fingerprint.setText(watchStatusData.getRoBuildFingerprint());
-
-        watchProgress.setVisibility(View.GONE);
-        watchDetail.setVisibility(View.VISIBLE);
+        watchInfoFragment.onWatchStatus(watchStatus);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -364,33 +308,6 @@ public class MainActivity extends AppCompatActivity
             builder.buildAndShowDialog(this, false);
         }
     }
-
-    /**
-     * No needed anymore with presentation
-     * private void checkNotificationsAccess() {
-     * Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(this);
-     * int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
-     * if (index == -1) {
-     * new MaterialDialog.Builder(this)
-     * .title(R.string.notification_access)
-     * .content(R.string.notification_access_not_enabled)
-     * .positiveText(R.string.enable)
-     * .negativeText(R.string.cancel)
-     * .icon(getResources().getDrawable(R.drawable.outline_notifications_black_24))
-     * .onPositive(new MaterialDialog.SingleButtonCallback() {
-     *
-     * @Override public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-     * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-     * startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-     * } else {
-     * startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-     * }
-     * }
-     * })
-     * .show();
-     * }
-     * }
-     **/
 
     private void updateChart() {
         final List<Entry> yValues = new ArrayList<>();
