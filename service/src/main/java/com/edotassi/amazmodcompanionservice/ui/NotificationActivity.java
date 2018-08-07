@@ -162,18 +162,22 @@ public class NotificationActivity extends Activity {
         }
 
         //Added for RC1: it adds close button for voice/maps/test notification
-        if (!notificationSpec.getHideButtons() && hideReplies) {
-            Button button = new Button(this);
-            button.setLayoutParams(param);
-            button.setText(R.string.close);
-            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            repliesContainer.addView(button);
+        if (!nullError) {
+            if (!notificationSpec.getHideButtons() && hideReplies) {
+                Button button = new Button(this);
+                button.setLayoutParams(param);
+                button.setText(R.string.close);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
+                repliesContainer.addView(button);
+            }
+        } else {
+            findViewById(R.id.activity_buttons).setVisibility(View.VISIBLE);
         }
 
         handler = new Handler();
@@ -190,8 +194,7 @@ public class NotificationActivity extends Activity {
         return false;
     }
 
-    //Disabled for RC1
-/*
+
     @OnClick(R2.id.activity_notification_button_close)
     public void clickClose() {
         finish();
@@ -210,7 +213,7 @@ public class NotificationActivity extends Activity {
             finish();
         }
     }
-*/
+
     private void startTimerFinish() {
         handler.removeCallbacks(activityFinishRunnable);
         if (!nullError) {
