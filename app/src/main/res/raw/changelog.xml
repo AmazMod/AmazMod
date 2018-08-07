@@ -4,6 +4,7 @@
         versionName="1.0.22">
         <new>Add maps navigation</new>
         <new>Connection/disconnection notification</new>
+        <new>Connection status</new>
         <new>Internal code refactoring</new>
         <bugfix>Minor fix</bugfix>
     </release>
