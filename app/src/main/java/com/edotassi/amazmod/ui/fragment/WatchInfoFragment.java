@@ -13,13 +13,14 @@ import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.ui.MainActivity;
+import com.edotassi.amazmod.ui.card.Card;
 
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class WatchInfoFragment extends Fragment {
+public class WatchInfoFragment extends Card {
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -70,6 +71,15 @@ public class WatchInfoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        refresh();
+    }
+
+    @Override
+    public String getName() {
+        return "watch-info";
+    }
+
+    public void refresh() {
         isConnectedTV.setTextColor(watchInfo.getCurrentTextColor());
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
