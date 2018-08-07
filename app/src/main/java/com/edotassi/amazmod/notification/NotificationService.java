@@ -351,17 +351,17 @@ public class NotificationService extends NotificationListenerService {
             } else localAllowed = true;
         }
 
-        Bundle extras = statusBarNotification.getNotification().extras;
-        CharSequence bigText = extras.getCharSequence(Notification.EXTRA_TEXT);
+        //Bundle extras = statusBarNotification.getNotification().extras;
+        CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
         if (bigText != null) {
             text = bigText.toString();
         }
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
-        if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)
-                && ((System.currentTimeMillis() - lastTimeNotificationArrived) > BLOCK_INTERVAL)) {
+        if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
-            if ((previousText != null) && (previousText.equals(text))) {
+            if ((previousText != null) && (previousText.equals(text))
+                    && ((System.currentTimeMillis() - lastTimeNotificationArrived) < BLOCK_INTERVAL)) {
                 Log.d(Constants.TAG, "NotificationService blocked text");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return returnFilterResult(Constants.FILTER_BLOCK);
@@ -375,10 +375,10 @@ public class NotificationService extends NotificationListenerService {
             }
         } else {
             notificationTimeGone.put(notificationId, text);
-            lastTimeNotificationArrived = System.currentTimeMillis();
             Log.d(Constants.TAG, "NotificationService allowed2");
             //Logger.debug("notification allowed");
-            return returnFilterResult(Constants.FILTER_CONTINUE);
+            if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                else return returnFilterResult(Constants.FILTER_CONTINUE);
         }
     }
 
