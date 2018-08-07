@@ -1,11 +1,9 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -24,7 +22,6 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -37,9 +34,7 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
-import com.edotassi.amazmod.event.local.Connected;
-import com.edotassi.amazmod.event.local.Disconnected;
-import com.edotassi.amazmod.event.local.IsTransportConnectedLocal;
+import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -74,12 +69,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
@@ -96,11 +89,12 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.card_battery)
     CardView batteryCard;
 
-    WatchInfoFragment watchInfoFragment;
+    private WatchInfoFragment watchInfoFragment;
+    private WatchStatus watchStatus;
 
     private boolean disableBatteryChart;
     Locale defaultLocale;
-    private boolean isTransportConnected = true;
+    private boolean isWatchConnected = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +133,9 @@ public class MainActivity extends AppCompatActivity
 
         HermesEventBus.getDefault().register(this);
 
-        //IsTransportConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
-        //isTransportConnected = itc == null || itc.getTransportStatus();
-        System.out.println(Constants.TAG + " MainActivity onCreate isTransportConnected: " + this.isTransportConnected);
+        //isWatchConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
+        //isWatchConnected = itc == null || itc.getTransportStatus();
+        System.out.println(Constants.TAG + " MainActivity onCreate isWatchConnected: " + this.isWatchConnected);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
@@ -179,8 +173,6 @@ public class MainActivity extends AppCompatActivity
             res.updateConfiguration(conf, dm);
             recreate();
         }
-
-        watchInfoFragment = (WatchInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_watch_info);
     }
 
     // If presentation was run until the end, use shared preference to not start it again
@@ -206,13 +198,21 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        if (isTransportConnected) {
-            if (!this.disableBatteryChart) {
-                updateChart();
-            }
-        } else {
-            //TODO hide watch infor fragment if not connected
+        HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
+
+        Flowable
+                .timer(2000, TimeUnit.MILLISECONDS)
+                .subscribe(new Consumer<Long>() {
+                    @Override
+                    public void accept(Long aLong) throws Exception {
+                        HermesEventBus.getDefault().post(new RequestWatchStatus());
+                    }
+                });
+
+        if (!this.disableBatteryChart) {
+            updateChart();
         }
+
     }
 
     @Override
@@ -240,7 +240,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()) {
@@ -289,13 +289,26 @@ public class MainActivity extends AppCompatActivity
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWatchStatus(WatchStatus watchStatus) {
-        watchInfoFragment.onWatchStatus(watchStatus);
+        this.watchStatus = watchStatus;
+        getSupportFragmentManager().findFragmentById(R.id.fragment_watch_info).onResume();
+        System.out.println(Constants.TAG + " MainActivity onWatchStatus " + this.isWatchConnected);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void getTransportStatus(IsTransportConnectedLocal itc){
-        this.isTransportConnected = itc.getTransportStatus();
-        HermesEventBus.getDefault().post(this.isTransportConnected ? new Connected() : new Disconnected());
+    public void getTransportStatus(IsWatchConnectedLocal itc){
+        if (itc != null) {
+            this.isWatchConnected = itc.getWatchStatus();
+            getSupportFragmentManager().findFragmentById(R.id.fragment_watch_info).onResume();
+        } else this.isWatchConnected = false;
+        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + this.isWatchConnected);
+    }
+
+    public boolean isWatchConnected() {
+        return isWatchConnected;
+    }
+
+    public WatchStatus getWatchStatus() {
+        return watchStatus;
     }
 
     private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
@@ -340,28 +353,33 @@ public class MainActivity extends AppCompatActivity
             Date lastDate = new Date(lastEntity.getDate());
 
             long lastChargeDate = lastEntity.getDateLastCharge();
-            String dateDiff = Integer.toString(Math.round(lastEntity.getLevel() * 100f)) + "% / ";
+            StringBuilder dateDiff = new StringBuilder();
+            String append = Integer.toString(Math.round(lastEntity.getLevel() * 100f)) + "% / ";
+            dateDiff.append(append);
             if (lastChargeDate != 0) {
-                long diffInMillies = System.currentTimeMillis() - lastChargeDate;
+                long diffInMillis = System.currentTimeMillis() - lastChargeDate;
                 List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
                 Collections.reverse(units);
-                long milliesRest = diffInMillies;
+                long millisRest = diffInMillis;
                 for ( TimeUnit unit : units ) {
-                    long diff = unit.convert(milliesRest,TimeUnit.MILLISECONDS);
-                    long diffInMilliesForUnit = unit.toMillis(diff);
-                    milliesRest = milliesRest - diffInMilliesForUnit;
+                    long diff = unit.convert(millisRest,TimeUnit.MILLISECONDS);
+                    long diffInMillisForUnit = unit.toMillis(diff);
+                    millisRest = millisRest - diffInMillisForUnit;
                     if (unit.equals(TimeUnit.DAYS)) {
-                        dateDiff += diff + "d : ";
+                        append = diff + "d : ";
+                        dateDiff.append(append);
                     } else if (unit.equals(TimeUnit.HOURS)) {
-                        dateDiff += diff + "h : ";
+                        append = diff + "h : ";
+                        dateDiff.append(append);
                     } else if (unit.equals(TimeUnit.MINUTES)) {
-                        dateDiff += diff + "m ";
+                        append = diff + "m ";
+                        dateDiff.append(append);
                         break;
                     }
                 }
-                dateDiff += getResources().getText(R.string.last_charge);
-            } else dateDiff += getResources().getText(R.string.last_charge_no_info);
-            batteryTv.setText(dateDiff);
+                dateDiff.append(getResources().getText(R.string.last_charge));
+            } else dateDiff.append(getResources().getText(R.string.last_charge_no_info));
+            batteryTv.setText(dateDiff.toString());
 
             System.out.println(Constants.TAG + " MainActivity updateChart defaultLocale: " + this.defaultLocale);
             String time = DateFormat.getTimeInstance(DateFormat.SHORT, this.defaultLocale).format(lastDate);

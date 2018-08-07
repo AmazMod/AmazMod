@@ -11,23 +11,13 @@ import android.widget.TextView;
 
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
-import com.edotassi.amazmod.event.local.Connected;
-import com.edotassi.amazmod.event.local.Disconnected;
-
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.concurrent.TimeUnit;
+import com.edotassi.amazmod.ui.MainActivity;
 
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class WatchInfoFragment extends Fragment {
 
@@ -57,6 +47,8 @@ public class WatchInfoFragment extends Fragment {
     TextView huamiNumber;
     @BindView(R.id.card_build_fingerprint)
     TextView fingerprint;
+    @BindView(R.id.textView9)
+    TextView watchInfo;
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
@@ -71,8 +63,6 @@ public class WatchInfoFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
-        HermesEventBus.getDefault().register(this);
-
         return view;
     }
 
@@ -80,20 +70,29 @@ public class WatchInfoFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
+        isConnectedTV.setTextColor(watchInfo.getCurrentTextColor());
+        isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
 
-        Flowable
-                .timer(2000, TimeUnit.MILLISECONDS)
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        HermesEventBus.getDefault().post(new RequestWatchStatus());
-                    }
-                });
-
-        //isConnectedTV.setTextColor(batteryTv.getCurrentTextColor());
-        isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
+        try {
+            if (((MainActivity) getActivity()).isWatchConnected()) {
+                if (((MainActivity) getActivity()).getWatchStatus() != null) {
+                    onWatchStatus(((MainActivity) getActivity()).getWatchStatus());
+                    isConnectedTV.setTextColor(getResources().getColor(R.color.colorCharging));
+                    isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
+                    watchProgress.setVisibility(View.GONE);
+                    watchDetail.setVisibility(View.VISIBLE);
+                }
+            } else {
+                isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
+                isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
+                watchProgress.setVisibility(View.GONE);
+                watchDetail.setVisibility(View.GONE);
+            }
+        } catch (NullPointerException e) {
+            Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+        }
     }
 
     public void onWatchStatus(WatchStatus watchStatus) {
@@ -113,13 +112,13 @@ public class WatchInfoFragment extends Fragment {
         huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
         fingerprint.setText(watchStatusData.getRoBuildFingerprint());
 
-        watchProgress.setVisibility(View.GONE);
-        watchDetail.setVisibility(View.VISIBLE);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+/*    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onConnected(Connected connected) {
+        isConnectedTV.setTextColor(getResources().getColor(R.color.colorCharging));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
+        Log.d(Constants.TAG, "WatchInfoFragment onConnected");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -127,8 +126,7 @@ public class WatchInfoFragment extends Fragment {
         isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
-
         watchDetail.setVisibility(View.GONE);
-        Log.d(Constants.TAG, "MainActivity getTransportStatus isTransportConnected: false");
-    }
+        Log.d(Constants.TAG, "WatchInfoFragment onDisconnected");
+    }*/
 }

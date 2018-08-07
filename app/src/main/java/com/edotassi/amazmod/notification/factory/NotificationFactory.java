@@ -43,20 +43,23 @@ public class NotificationFactory {
         CharSequence bigText = bundle.getCharSequence(Notification.EXTRA_TEXT);
         if (bigText != null) {
             text = bigText.toString();
+        }
+
+        //Use EXTRA_TEXT_LINES instead, if it exists
+        CharSequence[] lines = bundle.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
+        if (lines != null) {
+            text = lines[lines.length - 1].toString();
+            System.out.println("AmazMod NotificationFactory EXTRA_TEXT_LINES exists");
+        }
+
         //Maybe use android.bigText instead?
-        } else if (bundle.getCharSequence(Notification.EXTRA_BIG_TEXT) != null) {
+        if (bundle.getCharSequence(Notification.EXTRA_BIG_TEXT) != null) {
             try {
                 text = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT).toString();
+                System.out.println("AmazMod NotificationFactory EXTRA_BIG_TEXT exists");
             } catch (NullPointerException e) {
                 System.out.println("AmazMod NotificationFactory exception: " + e.toString() + " text: " + text);
             }
-        }
-
-        //Mark EXTRA_TEXT_LINES in text, if it exists
-        CharSequence[] lines = bundle.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
-        if (lines != null) {
-            text += "\nEXTRA: " + lines[lines.length - 1].toString();
-            System.out.println("AmazMod NotificationFactory EXTRA_TEXT_LINES: " + lines[lines.length - 1].toString());
         }
 
         String notificationPackgae = statusBarNotification.getPackageName();

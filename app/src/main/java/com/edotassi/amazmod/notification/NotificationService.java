@@ -63,11 +63,16 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 public class NotificationService extends NotificationListenerService {
 
     public static final int FLAG_WEARABLE_REPLY = 0x00000001;
+    private static final long BLOCK_INTERVAL = 60000*60L; //One hour
+    private static final long MAPS_INTERVAL = 60000*3L; //Three minutes
+    private static final long VOICE_INTERVAL = 5000L; //Five seconds
+
 
     private Map<String, String> notificationTimeGone;
     private Map<String, StatusBarNotification> notificationsAvailableToReply;
 
-    private static long lastNotificationTime = 0;
+    private static long lastTimeNotificationArrived = 0;
+    private static long lastTimeNotificationSent = 0;
     private static boolean connected = false;
     private static String lastTxt = "";
 
@@ -142,9 +147,9 @@ public class NotificationService extends NotificationListenerService {
 
         byte filterResult = filter(statusBarNotification);
 
-        if (filterResult == Constants.FILTER_CONTINUE || filterResult == Constants.FILTER_UNGROUP) {
+        if (filterResult == Constants.FILTER_CONTINUE || filterResult == Constants.FILTER_UNGROUP || filterResult == Constants.FILTER_LOCALOK) {
 
-            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false)) {
+            if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false) && filterResult != Constants.FILTER_LOCALOK) {
                 //Use Custom UI
                 NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
                 notificationData.setHideReplies(false);
@@ -220,7 +225,7 @@ public class NotificationService extends NotificationListenerService {
 
                 Log.d(Constants.TAG, "NotificationService VoiceCall: " + notificationPackage);
                 while (isRinging) {
-                    if (System.currentTimeMillis() - lastNotificationTime > 5000L) {
+                    if (System.currentTimeMillis() - lastTimeNotificationSent > VOICE_INTERVAL) {
 
                         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
                         //notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
@@ -241,7 +246,7 @@ public class NotificationService extends NotificationListenerService {
                         notificationData.setForceCustom(true);
 
                         HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
-                        lastNotificationTime = System.currentTimeMillis();
+                        lastTimeNotificationSent = System.currentTimeMillis();
 
                         final int mode = am.getMode();
                         if (AudioManager.MODE_RINGTONE != mode) {
@@ -296,8 +301,8 @@ public class NotificationService extends NotificationListenerService {
             notificationTransporter.disconnectTransportService();
 
             //Reset time of last notification when notification is removed
-            if (lastNotificationTime > 0) {
-                lastNotificationTime = 0;
+            if (lastTimeNotificationArrived > 0) {
+                lastTimeNotificationArrived = 0;
             }
         }
 
@@ -313,6 +318,7 @@ public class NotificationService extends NotificationListenerService {
         Notification notification = statusBarNotification.getNotification();
         String text = "";
         int flags = 0;
+        boolean localAllowed = false;
 
         if (!isPackageAllowed(notificationPackage)) {
             return returnFilterResult(Constants.FILTER_PACKAGE);
@@ -342,7 +348,7 @@ public class NotificationService extends NotificationListenerService {
             if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
                 Logger.debug("notification blocked because is LocalOnly");
                 return returnFilterResult(Constants.FILTER_LOCAL);
-            }
+            } else localAllowed = true;
         }
 
         Bundle extras = statusBarNotification.getNotification().extras;
@@ -352,7 +358,8 @@ public class NotificationService extends NotificationListenerService {
         }
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
-        if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
+        if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)
+                && ((System.currentTimeMillis() - lastTimeNotificationArrived) > BLOCK_INTERVAL)) {
             String previousText = notificationTimeGone.get(notificationId);
             if ((previousText != null) && (previousText.equals(text))) {
                 Log.d(Constants.TAG, "NotificationService blocked text");
@@ -360,12 +367,15 @@ public class NotificationService extends NotificationListenerService {
                 return returnFilterResult(Constants.FILTER_BLOCK);
             } else {
                 notificationTimeGone.put(notificationId, text);
+                lastTimeNotificationArrived = System.currentTimeMillis();
                 Log.d(Constants.TAG, "NotificationService allowed1");
                 //Logger.debug("notification allowed");
-                return returnFilterResult(Constants.FILTER_UNGROUP);
+                if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                    else return returnFilterResult(Constants.FILTER_UNGROUP);
             }
         } else {
             notificationTimeGone.put(notificationId, text);
+            lastTimeNotificationArrived = System.currentTimeMillis();
             Log.d(Constants.TAG, "NotificationService allowed2");
             //Logger.debug("notification allowed");
             return returnFilterResult(Constants.FILTER_CONTINUE);
@@ -496,7 +506,7 @@ public class NotificationService extends NotificationListenerService {
 
             //Get text from ReemoveView using reflection
             List<String> txt = extractText(rmv);
-            if ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt))) || ((System.currentTimeMillis() - lastNotificationTime) > 60000L)) {
+            if ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt))) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL)) {
 
                 //Get navigation icon from a child View drawn on Canvas
                 try {
@@ -537,7 +547,7 @@ public class NotificationService extends NotificationListenerService {
                 HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
 
                 lastTxt = txt.get(0);
-                lastNotificationTime = System.currentTimeMillis();
+                lastTimeNotificationSent = System.currentTimeMillis();
                 Log.d(Constants.TAG, "NotificationService maps lastTxt:  " + lastTxt);
             }
             storeForStats(statusBarNotification, Constants.FILTER_MAPS);

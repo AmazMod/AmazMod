@@ -19,7 +19,7 @@ import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.event.WatchStatus;
-import com.edotassi.amazmod.event.local.IsTransportConnectedLocal;
+import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 //import com.edotassi.amazmod.log.Logger;
 //import com.edotassi.amazmod.log.LoggerScoped;
@@ -50,7 +50,7 @@ public class TransportService extends Service implements Transporter.DataListene
     //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
     private Context context;
-    private boolean isTransportConnected;
+    private boolean isWatchConnected;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
@@ -71,14 +71,13 @@ public class TransportService extends Service implements Transporter.DataListene
 
         transporter = TransporterClassic.get(this, Transport.NAME);
         transporter.addDataListener(this);
-        isTransportConnected = transporter.isTransportServiceConnected();
 
-        if (isTransportConnected) {
+        if (transporter.isTransportServiceConnected()) {
             Log.i(Constants.TAG,"TransportService onCreate already connected");
         } else {
             Log.w(Constants.TAG,"TransportService onCreate not connected, connecting...");
             transporter.connectTransportService();
-            isTransportConnected = true;
+            isWatchConnected = true;
         }
     }
 
@@ -148,13 +147,6 @@ public class TransportService extends Service implements Transporter.DataListene
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
         Log.d(Constants.TAG, "TransportService requestWatchStatus: " + requestWatchStatus.toString());
         send(Transport.REQUEST_WATCHSTATUS);
-        boolean check = transporter.isTransportServiceConnected();
-        if (this.isTransportConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class)==null)) {
-            this.isTransportConnected = check;
-            HermesEventBus.getDefault().removeAllStickyEvents();
-            HermesEventBus.getDefault().postSticky(new IsTransportConnectedLocal(this.isTransportConnected));
-            Log.i(Constants.TAG, "TransportService requestWatchStatus isConnected: " + this.isTransportConnected);
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
@@ -217,6 +209,12 @@ public class TransportService extends Service implements Transporter.DataListene
 
     private void send(String action, Transportable transportable) {
         if (!transporter.isTransportServiceConnected()) {
+            boolean check = transporter.isTransportServiceConnected();
+            if (this.isWatchConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
+                this.isWatchConnected = check;
+                HermesEventBus.getDefault().removeAllStickyEvents();
+                HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(this.isWatchConnected));
+            }
             Log.w(Constants.TAG,"TransportService send Transport Service Not Connected");
             return;
         }
@@ -238,6 +236,13 @@ public class TransportService extends Service implements Transporter.DataListene
                     @Override
                     public void onResultBack(DataTransportResult dataTransportResult) {
                         Log.i(Constants.TAG,"Send result: " + dataTransportResult.toString());
+                        boolean check = (dataTransportResult.toString().contains("FAILED"));
+                        if (isWatchConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
+                            isWatchConnected = !check;
+                            HermesEventBus.getDefault().removeAllStickyEvents();
+                            HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(isWatchConnected));
+                            Log.i(Constants.TAG, "TransportService send2 isConnected: " + isWatchConnected);
+                        }
                     }
                 });
         }

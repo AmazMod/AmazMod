@@ -45,6 +45,12 @@ public class StatsActivity extends AppCompatActivity {
     @BindView(R.id.activity_stats_open_notifications_log)
     Button openNotificationsLogButton;
 
+    private final byte[] ALLOWED_FILTERS = {Constants.FILTER_CONTINUE,
+                                            Constants.FILTER_UNGROUP,
+                                            Constants.FILTER_VOICE,
+                                            Constants.FILTER_MAPS,
+                                            Constants.FILTER_LOCALOK};
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -97,67 +103,35 @@ public class StatsActivity extends AppCompatActivity {
                         long anHourAgo = System.currentTimeMillis() - (60 * 60 * 1000);
                         long aDayAgo = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
 
-                        long totalAnHourAgoCont = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_CONTINUE))
-                                .count();
+                        long totalAnHourAgo = 0L;
+                        long totalADayAgo = 0L;
+                        long sum;
 
-                        long totalAnHourAgoVoice = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
-                                .count();
+                        for (byte f: ALLOWED_FILTERS) {
+                            sum = SQLite
+                                    .selectCountOf()
+                                    .from(NotificationEntity.class)
+                                    .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
+                                    .and(NotificationEntity_Table.filterResult.eq(f))
+                                    .count();
+                            totalAnHourAgo += sum;
+                        }
 
-                        long totalAnHourAgoMaps = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_MAPS))
-                                .count();
-
-                        long totalAnHourAgoUngroup = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_UNGROUP))
-                                .count();
-
-                        long totalADayAgoCont = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_CONTINUE))
-                                .count();
-
-                        long totalADayAgoVoice = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_VOICE))
-                                .count();
-
-                        long totalADayAgoMaps = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_MAPS))
-                                .count();
-
-                        long totalADayAgoUngroup = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
-                                .and(NotificationEntity_Table.filterResult.eq(Constants.FILTER_UNGROUP))
-                                .count();
+                        for (byte f: ALLOWED_FILTERS) {
+                            sum = SQLite
+                                    .selectCountOf()
+                                    .from(NotificationEntity.class)
+                                    .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
+                                    .and(NotificationEntity_Table.filterResult.eq(f))
+                                    .count();
+                            totalADayAgo += sum;
+                        }
 
                         StatsResult result = new StatsResult();
 
                         result.setNotificationsTotal(total);
-                        result.setNotificationsTotalADayAgo(totalADayAgoCont + totalADayAgoVoice + totalADayAgoMaps);
-                        result.setNotificationsTotalAnHourAgo(totalAnHourAgoCont + totalAnHourAgoVoice + totalAnHourAgoMaps);
+                        result.setNotificationsTotalADayAgo(totalADayAgo);
+                        result.setNotificationsTotalAnHourAgo(totalAnHourAgo);
 
                         return result;
                     }
