@@ -20,9 +20,7 @@ public class Constants {
     public static final String PREF_FORCE_ENGLISH = "preference.force.english";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
-    //Changed for RC1
-    public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "0";
-    //
+    public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS = false;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
@@ -44,6 +42,7 @@ public class Constants {
     public static final byte FILTER_UNGROUP = 'U';
     public static final byte FILTER_VOICE = 'V';
     public static final byte FILTER_MAPS = 'M';
+    public static final byte FILTER_LOCALOK = 'K';
 
     public static final byte FILTER_PACKAGE = 'P';
     public static final byte FILTER_GROUP = 'G';

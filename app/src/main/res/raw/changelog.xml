@@ -1,5 +1,14 @@
 <changelog>
     <release
+        versionCode="150"
+        versionName="1.0.22">
+        <new>Add maps navigation</new>
+        <new>Connection/disconnection notification</new>
+        <new>Connection status</new>
+        <new>Internal code refactoring</new>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
         versionCode="149"
         versionName="v1.0.21">
         <bugfix>Check if transport service is connected</bugfix>
