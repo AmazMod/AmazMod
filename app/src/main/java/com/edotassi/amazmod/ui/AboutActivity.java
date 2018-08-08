@@ -25,8 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
-public class AboutActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class AboutActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_about_version)
     TextView version;
@@ -55,17 +54,13 @@ public class AboutActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_notification_packages_selector, menu);
+        getMenuInflater().inflate(R.menu.activity_about, menu);
         return true;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-
         switch (item.getItemId()) {
             case (R.id.action_activity_about_custom_ui_test): {
                 sendTestMessage(true);

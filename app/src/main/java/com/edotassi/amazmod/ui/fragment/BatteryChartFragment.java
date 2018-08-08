@@ -161,7 +161,7 @@ public class BatteryChartFragment extends Card {
         for (int i = 0; i < batteryReadList.size(); i++) {
             BatteryStatusEntity read = batteryReadList.get(i);
             int level = (int) (read.getLevel() * 100f);
-            int prevLevel = prevRead == null ? 0 : ((int) (prevRead.getLevel() * 100f));
+            int prevLevel = prevRead == null ? 100 : ((int) (prevRead.getLevel() * 100f));
             if ((level > 0) && ((prevRead == null) || (level != prevLevel))) {
                 Entry entry = new Entry(read.getDate(), level);
                 yValues.add(entry);
@@ -177,37 +177,71 @@ public class BatteryChartFragment extends Card {
             return;
         }
 
-        // Predict values
+        // PREDICT BATTERY, calculate values
         // Get last charging point
-        int value = -1;
-        for (int i=colors.size()-1; i>0; i--){
+        int value = 0; // use first data for calculation if never charged
+        for (int i=colors.size()-1; i>=0; i--){
             if(colors.get(i)==chargingColor){
                 value = i;
-                //yPredictValues.add(yValues.get(i));
                 break;
             }
         }
-        // if never charged, get first point
-        if (value==-1) {
-            //yPredictValues.add(yValues.get(0));
-            value=0;
+        boolean charging = false;
+        // Still charging?
+        if(value==colors.size()-1){
+            charging = true;
+            value = 0; // use first data for calculation if never charged
+            for (int i=colors.size()-1; i>=0; i--){
+                if(colors.get(i)==primaryColor){
+                    value = i;
+                    break;
+                }
+            }
+        // Not charging
+        }else {
+            // Add last battery point as first data point
+            yPredictValues.add(yValues.get(yValues.size() - 1));
         }
-        // calculate future 0 point
-        if(yValues.size() > 1) {
 
+        // At least 2 data points are needed for the calculation
+        // Calculate future 0% Battery point
+        if(yValues.size() > 1) {
+            // Charging point
             float x1 = yValues.get(value).getX();
             float y1 = yValues.get(value).getY();
-
+            // Last measure point
             float x2 = yValues.get(yValues.size()-1).getX();
             float y2 = yValues.get(yValues.size()-1).getY();
 
-            float target_time = x2+(x2-x1)/(y1-y2)*y2;
+            float target_time;
+            String textDate;
+            if(charging) {
+                // Future time that battery will be 100%
+                target_time = x2 + (x2 - x1) / (y2 - y1) * (100-y2);
 
-            Entry entry = new Entry(target_time, 0);
-            yPredictValues.add(yValues.get(yValues.size()-1));
-            yPredictValues.add(entry);
+                textDate = lastRead.getText()+", "+getResources().getText(R.string.full_battery_in) + ": ";
+                float remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60);
+                textDate += ((int) remaininf_now_diff / 60) +" hours and "+((int) remaininf_now_diff % 60)+" minutes";
+            }else{
+                // Future time that battery will be 0%
+                target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
-            highX = (long) target_time;
+                textDate = lastRead.getText()+", "+getResources().getText(R.string.remaining_battery) + ": ";
+                float remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60*60);
+                textDate += ((int) remaininf_now_diff / 24) +" days and "+((int) remaininf_now_diff % 24)+" hours";
+
+            }
+            yPredictValues.add(new Entry(target_time, (charging)?100:0));
+
+            // Expand graph's range
+            //highX = (long) target_time;
+
+            // Fix graph range
+            highX = highX + ((long) yValues.get(0).getX() - lowX);
+            lowX = (long) yValues.get(0).getX();
+
+            // Add remaining time/full battery time to "Last Read" line
+            lastRead.setText(textDate);
         }
 
         LineDataSet lineDataSet = new LineDataSet(yValues, "Battery");
@@ -225,22 +259,23 @@ public class BatteryChartFragment extends Card {
         lineDataSet.setMode(LineDataSet.Mode.LINEAR);
         lineDataSet.setCubicIntensity(0.05f);
 
-        // Prediction
+        // Prediction line
         LineDataSet linePredictionDataSet = new LineDataSet(yPredictValues, "Estimation");
 
-        linePredictionDataSet.setLineWidth(1.5f);
+        linePredictionDataSet.setLineWidth(1.0f);
         linePredictionDataSet.setDrawCircleHole(false);
         linePredictionDataSet.setDrawCircles(false);
         linePredictionDataSet.setDrawValues(false);
 
-        Drawable drawablePrediction = ContextCompat.getDrawable(getContext(), R.drawable.fade_red_battery);
+        Drawable drawablePrediction = ContextCompat.getDrawable(getContext(), (charging)?R.drawable.fade_green_battery:R.drawable.fade_red_battery);
         linePredictionDataSet.setDrawFilled(true);
         linePredictionDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         linePredictionDataSet.setFillDrawable(drawablePrediction);
-        linePredictionDataSet.enableDashedLine(5, 5, 0);
-        linePredictionDataSet.setColors(predictionColor);
+        linePredictionDataSet.enableDashedLine(5, 10, 0);
+        linePredictionDataSet.setColors( (charging)?chargingColor:predictionColor);
         linePredictionDataSet.setMode(LineDataSet.Mode.LINEAR);
         linePredictionDataSet.setCubicIntensity(0.05f);
+        // End of prediction line
 
         Description description = new Description();
         description.setText("");

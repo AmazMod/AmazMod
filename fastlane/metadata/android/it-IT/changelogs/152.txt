@@ -1,0 +1,3 @@
+- Added email and telegram channel
+- Improved battery prediction
+- Fixed some crashes

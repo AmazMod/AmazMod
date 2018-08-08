@@ -23,6 +23,8 @@
     <string name="replies">Replies</string>
     <string name="installed_apps">Installed applications</string>
     <string name="last_read">Last read</string>
+    <string name="remaining_battery">Remaining battery</string>
+    <string name="full_battery_in">Fully charged in</string>
     <string name="open_notifications_log">Open notifications log</string>
     <string name="notifications_log">Notifications log</string>
 
