@@ -48,8 +48,6 @@ public class WatchInfoFragment extends Card {
     TextView huamiNumber;
     @BindView(R.id.card_build_fingerprint)
     TextView fingerprint;
-    @BindView(R.id.textView9)
-    TextView watchInfo;
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
@@ -80,7 +78,7 @@ public class WatchInfoFragment extends Card {
     }
 
     public void refresh() {
-        isConnectedTV.setTextColor(watchInfo.getCurrentTextColor());
+        isConnectedTV.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);

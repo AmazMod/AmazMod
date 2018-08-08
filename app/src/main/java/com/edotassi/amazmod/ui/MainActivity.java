@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
@@ -169,8 +170,6 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
-
         Flowable
                 .timer(2000, TimeUnit.MILLISECONDS)
                 .subscribe(new Consumer<Long>() {
@@ -183,6 +182,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onPause() {
+        HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
         super.onPause();
     }
 
@@ -258,7 +258,8 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWatchStatus(WatchStatus watchStatus) {
         this.watchStatus = watchStatus;
-        watchInfoFragment.refresh();
+        this.isWatchConnected = true;
+        watchInfoFragment.onResume();
         System.out.println(Constants.TAG + " MainActivity onWatchStatus " + this.isWatchConnected);
     }
 
