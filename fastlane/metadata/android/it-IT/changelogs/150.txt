@@ -1,0 +1,5 @@
+- Add maps navigation
+- Connection/disconnection notification
+- Connection status
+- Internal code refactoring
+- Minor fix

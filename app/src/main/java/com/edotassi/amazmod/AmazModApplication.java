@@ -14,9 +14,13 @@ import com.edotassi.amazmod.transport.TransportService;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import java.util.Locale;
+
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class AmazModApplication extends Application {
+
+    public static Locale defaultLocale;
 
     @Override
     public void onCreate() {
@@ -36,6 +40,14 @@ public class AmazModApplication extends Application {
         startService(new Intent(this, TransportService.class));
 
         startBatteryReceiver();
+
+        System.out.println(Constants.TAG + " AmazModApplication Start");
+
+        setupLocale();
+    }
+
+    private void setupLocale() {
+        defaultLocale = Locale.getDefault();
     }
 
     private void startBatteryReceiver() {

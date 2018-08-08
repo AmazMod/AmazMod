@@ -22,7 +22,6 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/AppTheme">
 
         <activity android:name="android.support.v7.app.ActionBarActivity" />
@@ -38,22 +37,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
-        <activity
-            android:name=".ui.TextInputActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:label="@string/title_activity_notification"
-            android:theme="@style/Theme.Transparent">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
 
-        <service android:name="xiaofei.library.hermes.HermesService$HermesService0"
-            android:exported="true" />
+        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
+
+        <service android:name=".MainService" />
 
         <receiver
             android:name=".notifications.NotificationsReceiver"
@@ -77,9 +64,6 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-
-        <service android:name=".MainService"
-            android:exported="true" />
 
         <service
             android:name="com.edotassi.amazmodcompanionservice.NotificationListener"
