@@ -1,5 +1,12 @@
 <changelog>
     <release
+        date="2018-08-08"
+        versionCode="151"
+        versionName="v1.0.23-RC5">
+        <new>battery prediction</new>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
         date="2018-08-07"
         versionCode="150"
         versionName="v1.0.22-RC4">

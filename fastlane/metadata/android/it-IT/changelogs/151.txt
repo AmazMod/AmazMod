@@ -1,0 +1,2 @@
+- battery prediction added
+- bug fix
