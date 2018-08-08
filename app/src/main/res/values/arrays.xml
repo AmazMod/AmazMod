@@ -51,6 +51,7 @@
         <item>15</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
+        <item>2 min</item>
         <item>15 min</item>
         <item>30 min</item>
         <item>60 min</item>
@@ -60,6 +61,7 @@
         <item>4 h</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_values">
+        <item>2</item>
         <item>15</item>
         <item>30</item>
         <item>60</item>
