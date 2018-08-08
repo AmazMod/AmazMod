@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
@@ -132,17 +133,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupCards() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (getSupportFragmentManager().getFragments() != null) {
+            for (Fragment f : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(f).commitNow();
+            }
+        }
 
         Boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         for (Card card : cards) {
             if (!(disableBatteryChart && (card instanceof BatteryChartFragment))) {
                 fragmentTransaction.add(R.id.main_activity_cards, card, card.getName());
             }
         }
-
         fragmentTransaction.commit();
     }
 
@@ -169,8 +176,6 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
-
         Flowable
                 .timer(2000, TimeUnit.MILLISECONDS)
                 .subscribe(new Consumer<Long>() {
@@ -183,6 +188,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onPause() {
+        HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
         super.onPause();
     }
 
@@ -258,7 +264,8 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWatchStatus(WatchStatus watchStatus) {
         this.watchStatus = watchStatus;
-        watchInfoFragment.refresh();
+        this.isWatchConnected = true;
+        watchInfoFragment.onResume();
         System.out.println(Constants.TAG + " MainActivity onWatchStatus " + this.isWatchConnected);
     }
 

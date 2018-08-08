@@ -27,6 +27,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.renderer.XAxisRenderer;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
@@ -82,6 +83,7 @@ public class BatteryChartFragment extends Card {
     private void updateChart() {
         final List<Entry> yValues = new ArrayList<>();
         final List<Integer> colors = new ArrayList<>();
+        final List<Entry> yPredictValues = new ArrayList<>();
 
         //Cast number of days shown in chart from Preferences
         final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getContext())
@@ -154,6 +156,7 @@ public class BatteryChartFragment extends Card {
 
         int primaryColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
         int chargingColor = ContextCompat.getColor(getContext(), R.color.colorCharging);
+        int predictionColor = ContextCompat.getColor(getContext(), R.color.colorPrediction);
 
         for (int i = 0; i < batteryReadList.size(); i++) {
             BatteryStatusEntity read = batteryReadList.get(i);
@@ -174,6 +177,39 @@ public class BatteryChartFragment extends Card {
             return;
         }
 
+        // Predict values
+        // Get last charging point
+        int value = -1;
+        for (int i=colors.size()-1; i>0; i--){
+            if(colors.get(i)==chargingColor){
+                value = i;
+                //yPredictValues.add(yValues.get(i));
+                break;
+            }
+        }
+        // if never charged, get first point
+        if (value==-1) {
+            //yPredictValues.add(yValues.get(0));
+            value=0;
+        }
+        // calculate future 0 point
+        if(yValues.size() > 1) {
+
+            float x1 = yValues.get(value).getX();
+            float y1 = yValues.get(value).getY();
+
+            float x2 = yValues.get(yValues.size()-1).getX();
+            float y2 = yValues.get(yValues.size()-1).getY();
+
+            float target_time = x2+(x2-x1)/(y1-y2)*y2;
+
+            Entry entry = new Entry(target_time, 0);
+            yPredictValues.add(yValues.get(yValues.size()-1));
+            yPredictValues.add(entry);
+
+            highX = (long) target_time;
+        }
+
         LineDataSet lineDataSet = new LineDataSet(yValues, "Battery");
 
         lineDataSet.setLineWidth(1.5f);
@@ -188,6 +224,23 @@ public class BatteryChartFragment extends Card {
         lineDataSet.setColors(colors);
         lineDataSet.setMode(LineDataSet.Mode.LINEAR);
         lineDataSet.setCubicIntensity(0.05f);
+
+        // Prediction
+        LineDataSet linePredictionDataSet = new LineDataSet(yPredictValues, "Estimation");
+
+        linePredictionDataSet.setLineWidth(1.5f);
+        linePredictionDataSet.setDrawCircleHole(false);
+        linePredictionDataSet.setDrawCircles(false);
+        linePredictionDataSet.setDrawValues(false);
+
+        Drawable drawablePrediction = ContextCompat.getDrawable(getContext(), R.drawable.fade_red_battery);
+        linePredictionDataSet.setDrawFilled(true);
+        linePredictionDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        linePredictionDataSet.setFillDrawable(drawablePrediction);
+        linePredictionDataSet.enableDashedLine(5, 5, 0);
+        linePredictionDataSet.setColors(predictionColor);
+        linePredictionDataSet.setMode(LineDataSet.Mode.LINEAR);
+        linePredictionDataSet.setCubicIntensity(0.05f);
 
         Description description = new Description();
         description.setText("");
@@ -241,7 +294,14 @@ public class BatteryChartFragment extends Card {
 
         chart.setXAxisRenderer(new CustomXAxisRenderer(chart.getViewPortHandler(), chart.getXAxis(), chart.getTransformer(YAxis.AxisDependency.LEFT)));
 
-        LineData lineData = new LineData(lineDataSet);
+        //LineData lineData = new LineData(lineDataSet);
+        //chart.setData(lineData);
+
+        List<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(lineDataSet);
+        dataSets.add(linePredictionDataSet);
+
+        LineData lineData = new LineData(dataSets);
         chart.setData(lineData);
 
         chart.invalidate();

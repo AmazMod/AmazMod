@@ -21,7 +21,7 @@ android {
         versionProps.store(versionPropsFile.newWriter(), null)
 
         defaultConfig {
-            applicationId "com.edotassi.amazmodcompanionservice"
+            applicationId "com.amazmod.service"
             minSdkVersion 21
             targetSdkVersion 21
             versionCode build
