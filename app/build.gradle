@@ -7,9 +7,13 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 144
-        versionName "1.0.16"
+        versionCode 150
+        versionName "1.0.22"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {}
+        debug {}
     }
     dataBinding {
         enabled = true
@@ -18,10 +22,32 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
         }
     }
     productFlavors {
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+
+def propsFile = rootProject.file('keystore.properties')
+def configName = 'release'
+
+if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
+    def props = new Properties()
+    props.load(new FileInputStream(propsFile))
+    android.signingConfigs[configName].storeFile = file(props['storeFile'])
+    android.signingConfigs[configName].storePassword = props['storePassword']
+    android.signingConfigs[configName].keyAlias = props['keyAlias']
+    android.signingConfigs[configName].keyPassword = props['keyPassword']
 }
 
 def dbflow_version = "4.2.4"

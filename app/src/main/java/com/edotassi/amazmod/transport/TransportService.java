@@ -19,6 +19,7 @@ import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 //import com.edotassi.amazmod.log.Logger;
 //import com.edotassi.amazmod.log.LoggerScoped;
@@ -49,6 +50,7 @@ public class TransportService extends Service implements Transporter.DataListene
     //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
     private Context context;
+    private boolean isWatchConnected;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
@@ -70,23 +72,23 @@ public class TransportService extends Service implements Transporter.DataListene
         transporter = TransporterClassic.get(this, Transport.NAME);
         transporter.addDataListener(this);
 
-        if (!transporter.isTransportServiceConnected()) {
-            Log.d(Constants.TAG,"TransportService not connected, connecting...");
-
-            transporter.connectTransportService();
+        if (transporter.isTransportServiceConnected()) {
+            Log.i(Constants.TAG,"TransportService onCreate already connected");
         } else {
-            Log.d(Constants.TAG,"TransportService yet connected");
+            Log.w(Constants.TAG,"TransportService onCreate not connected, connecting...");
+            transporter.connectTransportService();
+            isWatchConnected = true;
         }
     }
 
     @Override
     public void onDestroy() {
 
-        super.onDestroy();
         HermesEventBus.getDefault().unregister(this);
-        Log.d(Constants.TAG,"TransportService onDestroy");
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
+        Log.d(Constants.TAG,"TransportService onDestroy");
+        super.onDestroy();
     }
 
     @Nullable
@@ -111,7 +113,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
                 Object event = eventContructor.newInstance(transportDataItem.getData());
 
-                System.out.println("AmazMod TransportService onDataReceived: " + event.toString());
+                Log.d(Constants.TAG, "TransportService onDataReceived: " + event.toString());
                 HermesEventBus.getDefault().post(event);
             } catch (NoSuchMethodException e) {
                 Log.d(Constants.TAG, "TransportService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
@@ -131,37 +133,37 @@ public class TransportService extends Service implements Transporter.DataListene
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void replyToNotification(NotificationReply notificationReply) {
         ReplyToNotificationLocal replyToNotificationLocal = new ReplyToNotificationLocal(notificationReply.getNotificationReplyData());
-        System.out.println("AmazMod TransportService replyToNotification: " + notificationReply.toString());
+        Log.d(Constants.TAG, "TransportService replyToNotification: " + notificationReply.toString());
         HermesEventBus.getDefault().post(replyToNotificationLocal);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void incomingNotification(OutcomingNotification outcomingNotification) {
-        System.out.println("AmazMod TransportService incomingNotification: " + outcomingNotification.toString());
+        Log.d(Constants.TAG, "TransportService incomingNotification: " + outcomingNotification.toString());
         send(Transport.INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-        System.out.println("AmazMod TransportService requestWatchStatus: " + requestWatchStatus.toString());
+        Log.d(Constants.TAG, "TransportService requestWatchStatus: " + requestWatchStatus.toString());
         send(Transport.REQUEST_WATCHSTATUS);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-        System.out.println("AmazMod TransportService requestBatteryStatus: " + requestBatteryStatus.toString());
+        Log.d(Constants.TAG, "TransportService requestBatteryStatus: " + requestBatteryStatus.toString());
         send(Transport.REQUEST_BATTERYSTATUS, requestBatteryStatus.getPhoneBattery(context));
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void syncSettings(SyncSettings syncSettings) {
-        System.out.println("AmazMod TransportService syncSettings: " + syncSettings.toString());
+        Log.d(Constants.TAG, "TransportService syncSettings: " + syncSettings.toString());
         send(Transport.SYNC_SETTINGS, syncSettings.getSettingsData());
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void brightness(Brightness brightness) {
-        System.out.println("AmazMod TransportService brightness: " + brightness.toString());
+        Log.d(Constants.TAG, "TransportService brightness: " + brightness.toString());
         send(Transport.BRIGHTNESS, brightness.getBrightnessData());
     }
 
@@ -183,7 +185,7 @@ public class TransportService extends Service implements Transporter.DataListene
         batteryStatusEntity.setLevel(batteryData.getLevel());
         batteryStatusEntity.setDateLastCharge(batteryData.getDateLastCharge());
 
-        System.out.println("AmazMod TransportService batteryStatus: " + batteryStatus.toString());
+        //Log.d(Constants.TAG,"TransportService batteryStatus: " + batteryStatus.toString());
 
         try {
             BatteryStatusEntity storeBatteryStatusEntity = SQLite
@@ -197,7 +199,7 @@ public class TransportService extends Service implements Transporter.DataListene
             }
         } catch (Exception ex) {
             //TODO add crashlitics
-            Log.d(Constants.TAG,"TransportService batteryStatus exception: " + ex.toString());
+            Log.e(Constants.TAG,"TransportService batteryStatus exception: " + ex.toString());
         }
     }
 
@@ -207,27 +209,40 @@ public class TransportService extends Service implements Transporter.DataListene
 
     private void send(String action, Transportable transportable) {
         if (!transporter.isTransportServiceConnected()) {
-            System.out.println("AmazMod TransportService Transport Service Not Connected");
+            boolean check = transporter.isTransportServiceConnected();
+            if (this.isWatchConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
+                this.isWatchConnected = check;
+                HermesEventBus.getDefault().removeAllStickyEvents();
+                HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(this.isWatchConnected));
+            }
+            Log.w(Constants.TAG,"TransportService send Transport Service Not Connected");
             return;
         }
 
         if (transportable != null) {
                 DataBundle dataBundle = new DataBundle();
                 transportable.toDataBundle(dataBundle);
-                System.out.println("AmazMod TransportService send1: " + action);
+                Log.d(Constants.TAG,"TransportService send1: " + action);
                 transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
                     @Override
                     public void onResultBack(DataTransportResult dataTransportResult) {
-                        Log.d(Constants.TAG,"Send result: " + dataTransportResult.toString());
+                        Log.i(Constants.TAG,"Send result: " + dataTransportResult.toString());
                     }
                 });
 
         } else {
-                System.out.println("AmazMod TransportService send2: " + action);
+                Log.d(Constants.TAG,"TransportService send2: " + action);
                 transporter.send(action, new Transporter.DataSendResultCallback() {
                     @Override
                     public void onResultBack(DataTransportResult dataTransportResult) {
-                        Log.d(Constants.TAG,"Send result: " + dataTransportResult.toString());
+                        Log.i(Constants.TAG,"Send result: " + dataTransportResult.toString());
+                        boolean check = (dataTransportResult.toString().contains("FAILED"));
+                        if (isWatchConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
+                            isWatchConnected = !check;
+                            HermesEventBus.getDefault().removeAllStickyEvents();
+                            HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(isWatchConnected));
+                            Log.i(Constants.TAG, "TransportService send2 isConnected: " + isWatchConnected);
+                        }
                     }
                 });
         }

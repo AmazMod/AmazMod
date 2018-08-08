@@ -42,6 +42,7 @@ public class Constants {
     public static final byte FILTER_UNGROUP = 'U';
     public static final byte FILTER_VOICE = 'V';
     public static final byte FILTER_MAPS = 'M';
+    public static final byte FILTER_LOCALOK = 'K';
 
     public static final byte FILTER_PACKAGE = 'P';
     public static final byte FILTER_GROUP = 'G';
