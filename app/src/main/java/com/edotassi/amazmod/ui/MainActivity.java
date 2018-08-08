@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
@@ -132,17 +133,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupCards() {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
+        if (getSupportFragmentManager().getFragments() != null) {
+            for (Fragment f : getSupportFragmentManager().getFragments()) {
+                getSupportFragmentManager().beginTransaction().remove(f).commitNow();
+            }
+        }
 
         Boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         for (Card card : cards) {
             if (!(disableBatteryChart && (card instanceof BatteryChartFragment))) {
                 fragmentTransaction.add(R.id.main_activity_cards, card, card.getName());
             }
         }
-
         fragmentTransaction.commit();
     }
 

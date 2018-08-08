@@ -68,7 +68,6 @@ public class WatchInfoFragment extends Card {
     @Override
     public void onResume() {
         super.onResume();
-
         refresh();
     }
 
@@ -121,20 +120,4 @@ public class WatchInfoFragment extends Card {
         fingerprint.setText(watchStatusData.getRoBuildFingerprint());
 
     }
-
-/*    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onConnected(Connected connected) {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.colorCharging));
-        isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
-        Log.d(Constants.TAG, "WatchInfoFragment onConnected");
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDisconnected(Disconnected disconnected) {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
-        isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
-        watchProgress.setVisibility(View.GONE);
-        watchDetail.setVisibility(View.GONE);
-        Log.d(Constants.TAG, "WatchInfoFragment onDisconnected");
-    }*/
 }
