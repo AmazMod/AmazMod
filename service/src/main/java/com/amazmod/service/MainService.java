@@ -204,10 +204,9 @@ public class MainService extends Service implements Transporter.DataListener {
 
     public void save_phone_data(DataBundle dataBundle){
 
-        Log.d("DinoDevs-GreatFit", "Updating phone's data");
-
-        String phoneBattery = Float.toString((int) (dataBundle.getFloat(LEVEL)*100));
+        String phoneBattery = Integer.toString((int) (dataBundle.getFloat(LEVEL)*100));
         String phoneAlarm = "";
+        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:"+phoneBattery);
 
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
 
