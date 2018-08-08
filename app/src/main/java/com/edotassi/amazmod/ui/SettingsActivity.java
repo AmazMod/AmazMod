@@ -26,6 +26,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 public class SettingsActivity extends AppCompatActivity {
 
     private boolean disableBatteryChartOnCreate;
+    private String batteryChartDaysOnCreate;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -42,6 +43,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
                 Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        this.batteryChartDaysOnCreate = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
+                Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MyPreferenceFragment())
@@ -65,8 +69,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         final boolean disableBatteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
                 Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+        final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
+                Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
 
-        if (disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) {
+        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) || (batteryChartDaysOnDestroy != this.batteryChartDaysOnCreate)) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             finish();
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
