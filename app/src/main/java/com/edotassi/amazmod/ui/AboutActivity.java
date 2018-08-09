@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -38,14 +39,17 @@ public class AboutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
-
+        //LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
         super.onCreate(savedInstanceState);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.about);
-
         setContentView(R.layout.activity_about);
+
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            System.out.println("AmazMod AboutActivity onCreate exception: " + exception.toString());
+            //TODO log to crashlitics
+        }
+        getSupportActionBar().setTitle(R.string.about);
 
         ButterKnife.bind(this);
 
@@ -70,6 +74,8 @@ public class AboutActivity extends AppCompatActivity {
                 sendTestMessage(false);
                 break;
             }
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
         return true;
