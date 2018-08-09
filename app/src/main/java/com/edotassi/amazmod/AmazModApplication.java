@@ -44,7 +44,7 @@ public class AmazModApplication extends Application {
         isWatchConnected = true;
         setupLocale();
 
-        Log.d(Constants.TAG, " AmazModApplication Start sync_interval: " + syncInterval + " / timeLastSync: " + timeLastSync);
+        Log.d(Constants.TAG, " AmazModApplication Start syncInterval: " + syncInterval + " / timeLastSync: " + timeLastSync);
     }
 
     private void setupLocale() {

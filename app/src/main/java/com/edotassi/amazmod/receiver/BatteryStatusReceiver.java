@@ -37,7 +37,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         AmazModApplication.syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         AmazModApplication.timeLastSync = Prefs.getLong(Constants.PREF_TIME_LAST_SYNC, 0L);
 
-        long delay = (AmazModApplication.syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
+        long delay = ((long) AmazModApplication.syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
 
         Log.i(Constants.TAG, "BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
 
@@ -49,7 +49,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
         try {
             alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
-                    AmazModApplication.syncInterval * 60 * 1000, pendingIntent);
+                    (long) AmazModApplication.syncInterval * 60000L, pendingIntent);
         } catch (NullPointerException e) {
             Log.e(Constants.TAG, "BatteryStatusReceiver setRepeating exception: " + e.toString());
         }
