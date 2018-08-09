@@ -1,12 +1,15 @@
 package com.edotassi.amazmod.ui;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.edotassi.amazmod.AmazModApplication;
@@ -25,6 +29,7 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
+import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
@@ -37,6 +42,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
@@ -129,6 +135,14 @@ public class MainActivity extends AppCompatActivity
         }
 
         setupCards();
+
+        //Try to start NotificationService if it is not active
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
+            if (!packageNames.contains(this.getPackageName())) {
+                toggleNotificationService();
+            }
+
+
     }
 
     private void setupCards() {
@@ -313,5 +327,14 @@ public class MainActivity extends AppCompatActivity
         } else {
             builder.buildAndShowDialog(this, false);
         }
+    }
+
+    private void toggleNotificationService() {
+        Log.d(Constants.TAG, "MainActivity toggleNotificationService");
+        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
     }
 }

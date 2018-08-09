@@ -90,9 +90,9 @@ public class NotificationService extends NotificationListenerService {
         Log.d(Constants.TAG,"NotificationService onCreate: " + connected);
 
         //Try to reconnect NotificationListener if it is not connected
-        if (!connected) {
-            toggleNotificationService();
-        }
+//        if (!connected) {
+//            toggleNotificationService();
+//        }
     }
 
     @Override
@@ -264,7 +264,7 @@ public class NotificationService extends NotificationListenerService {
 
                 Log.d(Constants.TAG, "NotificationService maps: " + notificationPackage);
 
-                mapNottification(statusBarNotification);
+                mapNotification(statusBarNotification);
 
                 storeForStats(statusBarNotification, Constants.FILTER_MAPS);
 
@@ -497,16 +497,7 @@ public class NotificationService extends NotificationListenerService {
         */
     }
 
-    private void toggleNotificationService() {
-        Log.d(Constants.TAG, "toggleNotificationService() called");
-        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-
-    }
-
-    private void mapNottification(StatusBarNotification statusBarNotification) {
+    private void mapNotification(StatusBarNotification statusBarNotification) {
 
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         RemoteViews rmv = statusBarNotification.getNotification().contentView;
