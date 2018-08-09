@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.WatchStatus;
@@ -62,12 +63,15 @@ public class WatchInfoFragment extends Card {
 
         ButterKnife.bind(this, view);
 
+        Log.d(Constants.TAG, "WatchInfoFragment onCreateView");
+
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(Constants.TAG, "WatchInfoFragment onResume");
         refresh();
     }
 
@@ -83,7 +87,7 @@ public class WatchInfoFragment extends Card {
         watchProgress.setVisibility(View.VISIBLE);
 
         try {
-            if (((MainActivity) getActivity()).isWatchConnected()) {
+            if (AmazModApplication.isWatchConnected) {
                 if (((MainActivity) getActivity()).getWatchStatus() != null) {
                     onWatchStatus(((MainActivity) getActivity()).getWatchStatus());
                     isConnectedTV.setTextColor(getResources().getColor(R.color.colorCharging));
@@ -98,7 +102,7 @@ public class WatchInfoFragment extends Card {
                 watchDetail.setVisibility(View.GONE);
             }
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+            Log.e(Constants.TAG, "WatchInfoFragment refresh exception: " + e.toString());
         }
     }
 

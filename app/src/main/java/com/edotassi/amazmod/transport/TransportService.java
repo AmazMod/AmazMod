@@ -8,6 +8,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
@@ -50,7 +51,6 @@ public class TransportService extends Service implements Transporter.DataListene
     //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
     private Context context;
-    private boolean isWatchConnected;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
@@ -77,7 +77,7 @@ public class TransportService extends Service implements Transporter.DataListene
         } else {
             Log.w(Constants.TAG,"TransportService onCreate not connected, connecting...");
             transporter.connectTransportService();
-            isWatchConnected = true;
+            AmazModApplication.isWatchConnected = false;
         }
     }
 
@@ -208,12 +208,12 @@ public class TransportService extends Service implements Transporter.DataListene
     }
 
     private void send(String action, Transportable transportable) {
-        if (!transporter.isTransportServiceConnected()) {
-            boolean check = transporter.isTransportServiceConnected();
-            if (this.isWatchConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
-                this.isWatchConnected = check;
+        boolean isTransportConnected = transporter.isTransportServiceConnected();
+        if (!isTransportConnected) {
+            if (AmazModApplication.isWatchConnected != isTransportConnected || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
+                AmazModApplication.isWatchConnected = isTransportConnected;
                 HermesEventBus.getDefault().removeAllStickyEvents();
-                HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(this.isWatchConnected));
+                HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
             }
             Log.w(Constants.TAG,"TransportService send Transport Service Not Connected");
             return;
@@ -237,11 +237,11 @@ public class TransportService extends Service implements Transporter.DataListene
                     public void onResultBack(DataTransportResult dataTransportResult) {
                         Log.i(Constants.TAG,"Send result: " + dataTransportResult.toString());
                         boolean check = (dataTransportResult.toString().contains("FAILED"));
-                        if (isWatchConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
-                            isWatchConnected = !check;
+                        if (AmazModApplication.isWatchConnected != check || (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class)==null)) {
+                            AmazModApplication.isWatchConnected = !check;
                             HermesEventBus.getDefault().removeAllStickyEvents();
-                            HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(isWatchConnected));
-                            Log.i(Constants.TAG, "TransportService send2 isConnected: " + isWatchConnected);
+                            HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
+                            Log.d(Constants.TAG, "TransportService send2 isConnected: " + AmazModApplication.isWatchConnected);
                         }
                     }
                 });

@@ -21,6 +21,8 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 public class AmazModApplication extends Application {
 
     public static Locale defaultLocale;
+    public static boolean isWatchConnected;
+    public static int syncInterval;
 
     @Override
     public void onCreate() {
@@ -41,9 +43,10 @@ public class AmazModApplication extends Application {
 
         startBatteryReceiver();
 
-        System.out.println(Constants.TAG + " AmazModApplication Start");
-
+        isWatchConnected = true;
         setupLocale();
+
+        System.out.println(Constants.TAG + " AmazModApplication Start sync_interval: " + syncInterval);
     }
 
     private void setupLocale() {
@@ -55,8 +58,8 @@ public class AmazModApplication extends Application {
         Intent alarmBatteryIntent = new Intent(this, BatteryStatusReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmBatteryIntent, 0);
 
-        int interval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
+        syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, interval * 60 * 1000, pendingIntent);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, syncInterval * 60 * 1000, pendingIntent);
     }
 }

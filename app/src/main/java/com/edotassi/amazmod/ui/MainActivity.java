@@ -50,8 +50,7 @@ public class MainActivity extends AppCompatActivity
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
     private WatchStatus watchStatus;
-
-    private boolean isWatchConnected = true;
+    private long timeLastSync = 0L;
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
@@ -89,7 +88,7 @@ public class MainActivity extends AppCompatActivity
 
         //isWatchConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
         //isWatchConnected = itc == null || itc.getTransportStatus();
-        System.out.println(Constants.TAG + " MainActivity onCreate isWatchConnected: " + this.isWatchConnected);
+        System.out.println(Constants.TAG + " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
@@ -176,12 +175,18 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
+        System.out.println(Constants.TAG + " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+
         Flowable
                 .timer(2000, TimeUnit.MILLISECONDS)
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        HermesEventBus.getDefault().post(new RequestWatchStatus());
+                        //Check for WatchStatus only when the app is open or half the battery sync interval
+                        if (System.currentTimeMillis() - timeLastSync > (AmazModApplication.syncInterval*30000L)) {
+                            HermesEventBus.getDefault().post(new RequestWatchStatus());
+                            timeLastSync = System.currentTimeMillis();
+                        }
                     }
                 });
     }
@@ -267,26 +272,28 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWatchStatus(WatchStatus watchStatus) {
         this.watchStatus = watchStatus;
-        this.isWatchConnected = true;
+        AmazModApplication.isWatchConnected = true;
         watchInfoFragment.onResume();
-        System.out.println(Constants.TAG + " MainActivity onWatchStatus " + this.isWatchConnected);
+        System.out.println(Constants.TAG + " MainActivity onWatchStatus " + AmazModApplication.isWatchConnected);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsWatchConnectedLocal itc) {
         if (itc != null) {
-            this.isWatchConnected = itc.getWatchStatus();
-            watchInfoFragment.onResume();
-            watchInfoFragment.onResume();
+            if (AmazModApplication.isWatchConnected != itc.getWatchStatus()) {
+                AmazModApplication.isWatchConnected = itc.getWatchStatus();
+                watchInfoFragment.onResume();
+                //watchInfoFragment.onResume();
+            }
         } else {
-            this.isWatchConnected = false;
+            AmazModApplication.isWatchConnected = false;
         }
-        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + this.isWatchConnected);
+        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
     }
 
-    public boolean isWatchConnected() {
-        return isWatchConnected;
-    }
+//    public boolean isWatchConnected() {
+//        return isWatchConnected;
+//    }
 
     public WatchStatus getWatchStatus() {
         return watchStatus;
