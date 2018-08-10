@@ -213,24 +213,25 @@ public class BatteryChartFragment extends Card {
             float y2 = yValues.get(yValues.size()-1).getY();
 
             float target_time;
+            float remaininf_now_diff;
             String textDate;
             if(charging) {
                 // Future time that battery will be 100%
                 target_time = x2 + (x2 - x1) / (y2 - y1) * (100-y2);
 
                 textDate = lastRead.getText()+", "+getResources().getText(R.string.full_battery_in) + ": ";
-                float remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60);
+                remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60);
                 textDate += ((int) remaininf_now_diff / 60) +" hours and "+((int) remaininf_now_diff % 60)+" minutes";
             }else{
                 // Future time that battery will be 0%
                 target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
                 textDate = lastRead.getText()+", "+getResources().getText(R.string.remaining_battery) + ": ";
-                float remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60*60);
+                remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60*60);
                 textDate += ((int) remaininf_now_diff / 24) +" days and "+((int) remaininf_now_diff % 24)+" hours";
             }
 
-            if(target_time>0) {
+            if(remaininf_now_diff>0) {
                 yPredictValues.add(new Entry(target_time, (charging) ? 100 : 0));
 
                 // Expand graph's range
