@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <group>
+        <item android:title="@string/activity_about_notifications_test">
+            <menu>
+                <item
+                    android:id="@+id/action_activity_about_custom_ui_test"
+                    android:title="@string/customui_test" />
+                <item
+                    android:id="@+id/action_activity_about_standard_test"
+                    android:title="@string/standard_test" />
+            </menu>
+        </item>
+    </group>
+</menu>

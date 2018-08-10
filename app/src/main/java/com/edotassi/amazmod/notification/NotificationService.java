@@ -67,6 +67,9 @@ public class NotificationService extends NotificationListenerService {
     private static final long MAPS_INTERVAL = 60000*3L; //Three minutes
     private static final long VOICE_INTERVAL = 5000L; //Five seconds
 
+    private static final String[] APP_WHITELIST = { //apps that do not fit some filter
+            "com.contapps.android"
+    };
 
     private Map<String, String> notificationTimeGone;
     private Map<String, StatusBarNotification> notificationsAvailableToReply;
@@ -319,6 +322,7 @@ public class NotificationService extends NotificationListenerService {
         String text = "";
         int flags = 0;
         boolean localAllowed = false;
+        //boolean whitelistedApp = false;
 
         if (!isPackageAllowed(notificationPackage)) {
             return returnFilterResult(Constants.FILTER_PACKAGE);
@@ -335,8 +339,11 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (/*(flags & FLAG_WEARABLE_REPLY) == 0 &&*/ NotificationCompat.isGroupSummary(notification)) {
-            Logger.debug("notification blocked FLAG_GROUP_SUMMARY");
-            return returnFilterResult(Constants.FILTER_GROUP);
+            if (Arrays.binarySearch(APP_WHITELIST, notificationPackage) < 0) {
+                Logger.debug("notification blocked FLAG_GROUP_SUMMARY");
+                return returnFilterResult(Constants.FILTER_GROUP);
+            }
+             //   else whitelistedApp = true;
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
@@ -358,7 +365,7 @@ public class NotificationService extends NotificationListenerService {
         }
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
-        if (!NotificationCompat.isGroupSummary(notification) && notificationTimeGone.containsKey(notificationId)) {
+        if (notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
             if ((previousText != null) && (previousText.equals(text))
                     && ((System.currentTimeMillis() - lastTimeNotificationArrived) < BLOCK_INTERVAL)) {
@@ -371,6 +378,7 @@ public class NotificationService extends NotificationListenerService {
                 Log.d(Constants.TAG, "NotificationService allowed1");
                 //Logger.debug("notification allowed");
                 if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                    //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
                     else return returnFilterResult(Constants.FILTER_UNGROUP);
             }
         } else {

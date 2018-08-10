@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spring_depend">
-        <item>com.edotassi.amazmodcompanionservice/com.edotassi.amazmodcompanionservice.springboard.AmazModPage</item>
+        <item>com.amazmod.service/com.amazmod.service.springboard.AmazModPage</item>
     </string-array>
 </resources>

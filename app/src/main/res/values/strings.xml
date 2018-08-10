@@ -37,6 +37,10 @@
     <string name="notification_access_not_enabled">Notification access not enabled</string>
     <string name="notification_access_enable">Enable</string>
 
+    <string name="activity_about_notifications_test">Notifications test</string>
+    <string name="customui_test">Custom UI</string>
+    <string name="standard_test">Standard UI</string>
+
     <string name="battery_chart_title">Battery chart</string>
     <string name="watch_info">Watch\'s information</string>
     <string name="last_charge">Since full charge</string>
@@ -53,13 +57,20 @@
     <string name="notification_maps">Maps</string>
     <string name="notification_ungroup">Ungroup</string>
 
+    <string name="telegram_channel">Telegram channel</string>
+    <string name="telegram_channel_value">https://t.me/amazmod</string>
+    <string name="support_email">Support email</string>
+    <string name="support_email_value">edo.tassinari@gmail.com</string>
+    <string name="project_github">Project on Github</string>
+    <string name="project_github_value">https://github.com/edotassi/AmazMod</string>
+
     <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_project_maintainer">Project maintainer</string>
     <string name="activity_about_project_maintainer_value">\@edotassi</string>
     <string name="activity_about_devs">Devs</string>
-    <string name="activity_about_devs_value">\@lfomartins</string>
+    <string name="activity_about_devs_value">\@lfomartins, \@GreatApo</string>
     <string name="activity_about_testers">Testers</string>
-    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@Apostolos, \@fcaronte</string>
+    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>

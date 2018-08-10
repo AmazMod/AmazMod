@@ -3,36 +3,32 @@ package com.edotassi.amazmod.ui;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.LayoutInflaterCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.OutcomingNotification;
-import com.mikepenz.iconics.context.IconicsLayoutInflater;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class AboutActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_about_version)
     TextView version;
-    @BindView(R.id.button1)
-    Button button1;
-    @BindView(R.id.button2)
-    Button button2;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -54,26 +50,32 @@ public class AboutActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         version.setText(BuildConfig.VERSION_NAME);
-        button1.setText("Cst Test");
-        button2.setText("Std Test");
     }
 
-    @OnClick(R.id.button1)
-    public void click1() {
-
-        sendTestMessage(true);
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_about, menu);
+        return true;
     }
 
-    @OnClick(R.id.button2)
-    public void click2() {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        switch (item.getItemId()) {
+            case (R.id.action_activity_about_custom_ui_test): {
+                sendTestMessage(true);
+                break;
+            }
+            case (R.id.action_activity_about_standard_test): {
+                sendTestMessage(false);
+                break;
+            }
+        }
 
-        sendTestMessage(false);
-
+        return true;
     }
 
     private void sendTestMessage(boolean customUI) {
-
         NotificationData notificationData = new NotificationData();
 
         if (customUI) {

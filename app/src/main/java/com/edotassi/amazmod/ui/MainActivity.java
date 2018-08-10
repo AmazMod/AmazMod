@@ -188,12 +188,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onPause() {
-        HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
+        if (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
+            HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
+        if (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
+            HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
         HermesEventBus.getDefault().unregister(this);
         super.onDestroy();
     }

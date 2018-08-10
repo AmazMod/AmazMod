@@ -1,5 +1,20 @@
 <changelog>
     <release
+        date="2018-08-08"
+        versionCode="152"
+        versionName="v1.0.24-RC6">
+        <new>Added email and telegram channel</new>
+        <info>Improved battery prediction</info>
+        <bugfix>Fixed some crashes</bugfix>
+    </release>
+    <release
+        date="2018-08-08"
+        versionCode="151"
+        versionName="v1.0.23-RC5">
+        <new>battery prediction</new>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
         date="2018-08-07"
         versionCode="150"
         versionName="v1.0.22-RC4">
