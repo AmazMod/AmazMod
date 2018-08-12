@@ -138,9 +138,9 @@ public class MainActivity extends AppCompatActivity
 
         //Try to start NotificationService if it is not active
         Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
-            if (!packageNames.contains(this.getPackageName())) {
-                toggleNotificationService();
-            }
+        if (!packageNames.contains(this.getPackageName())) {
+            toggleNotificationService();
+        }
 
 
     }
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void accept(Long aLong) throws Exception {
                         //Check for WatchStatus only when the app is open or half the battery sync interval
-                        if (System.currentTimeMillis() - timeLastSync > (AmazModApplication.syncInterval*30000L)) {
+                        if (System.currentTimeMillis() - timeLastSync > (AmazModApplication.syncInterval * 30000L)) {
                             HermesEventBus.getDefault().post(new RequestWatchStatus());
                             timeLastSync = System.currentTimeMillis();
                         }
@@ -247,6 +247,12 @@ public class MainActivity extends AppCompatActivity
                     recreate();
                     getIntent().putExtra("REFRESH", false);
                 }
+                return true;
+
+            case R.id.nav_faq:
+                Intent faqIntent = new Intent(this, FaqActivity.class);
+                faqIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(faqIntent);
                 return true;
 
             case R.id.nav_abount:

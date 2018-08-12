@@ -33,6 +33,7 @@
         <activity android:name=".ui.NotificationRepliesActivity" />
         <activity android:name=".ui.PreferenceActivity" />
         <activity android:name=".ui.NotificationsLogActivity" />
+        <activity android:name=".ui.FaqActivity" />
         <activity android:name=".MainIntroActivity"
             android:theme="@style/Theme.Intro"/>
         <service

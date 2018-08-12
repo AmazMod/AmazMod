@@ -234,10 +234,10 @@ public class BatteryChartFragment extends Card {
                 yPredictValues.add(new Entry(target_time, (charging) ? 100 : 0));
 
                 // Expand graph's range
-                //highX = (long) target_time;
+                highX = (long) target_time;
 
                 // Fix graph range
-                highX = highX + ((long) yValues.get(0).getX() - lowX);
+                //highX = highX + ((long) yValues.get(0).getX() - lowX);
                 lowX = (long) yValues.get(0).getX();
 
                 // Add remaining time/full battery time to "Last Read" line

@@ -27,6 +27,7 @@
     <string name="full_battery_in">Fully charged in</string>
     <string name="open_notifications_log">Open notifications log</string>
     <string name="notifications_log">Notifications log</string>
+    <string name="faq">Faq</string>
 
     <string name="add_new_reply">Add new reply</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>

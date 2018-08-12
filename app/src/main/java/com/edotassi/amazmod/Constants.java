@@ -5,6 +5,8 @@ public class Constants {
     public static final String PACKAGE = "com.edotassi.amazmod";
     public static final String TAG = "AmazMod";
 
+    public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
+
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
     public static final String PREF_DISABLE_NOTIFICATIONS = "preference.disable.notifications";
     public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
