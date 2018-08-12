@@ -1,0 +1,3 @@
+- First beta release
+- Added faq section
+- Battery chart improvements
