@@ -1,12 +1,15 @@
 package com.edotassi.amazmod.ui;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +18,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.edotassi.amazmod.AmazModApplication;
@@ -25,6 +29,7 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
+import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
@@ -37,6 +42,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
@@ -50,8 +56,7 @@ public class MainActivity extends AppCompatActivity
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
     private WatchStatus watchStatus;
-
-    private boolean isWatchConnected = true;
+    private long timeLastSync = 0L;
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
@@ -89,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         //isWatchConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
         //isWatchConnected = itc == null || itc.getTransportStatus();
-        System.out.println(Constants.TAG + " MainActivity onCreate isWatchConnected: " + this.isWatchConnected);
+        System.out.println(Constants.TAG + " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
@@ -130,6 +135,14 @@ public class MainActivity extends AppCompatActivity
         }
 
         setupCards();
+
+        //Try to start NotificationService if it is not active
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
+            if (!packageNames.contains(this.getPackageName())) {
+                toggleNotificationService();
+            }
+
+
     }
 
     private void setupCards() {
@@ -176,12 +189,18 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
+        System.out.println(Constants.TAG + " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+
         Flowable
                 .timer(2000, TimeUnit.MILLISECONDS)
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        HermesEventBus.getDefault().post(new RequestWatchStatus());
+                        //Check for WatchStatus only when the app is open or half the battery sync interval
+                        if (System.currentTimeMillis() - timeLastSync > (AmazModApplication.syncInterval*30000L)) {
+                            HermesEventBus.getDefault().post(new RequestWatchStatus());
+                            timeLastSync = System.currentTimeMillis();
+                        }
                     }
                 });
     }
@@ -267,26 +286,28 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWatchStatus(WatchStatus watchStatus) {
         this.watchStatus = watchStatus;
-        this.isWatchConnected = true;
+        AmazModApplication.isWatchConnected = true;
         watchInfoFragment.onResume();
-        System.out.println(Constants.TAG + " MainActivity onWatchStatus " + this.isWatchConnected);
+        System.out.println(Constants.TAG + " MainActivity onWatchStatus " + AmazModApplication.isWatchConnected);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsWatchConnectedLocal itc) {
         if (itc != null) {
-            this.isWatchConnected = itc.getWatchStatus();
-            watchInfoFragment.onResume();
-            watchInfoFragment.onResume();
+            if (AmazModApplication.isWatchConnected != itc.getWatchStatus()) {
+                AmazModApplication.isWatchConnected = itc.getWatchStatus();
+                watchInfoFragment.onResume();
+                //watchInfoFragment.onResume();
+            }
         } else {
-            this.isWatchConnected = false;
+            AmazModApplication.isWatchConnected = false;
         }
-        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + this.isWatchConnected);
+        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
     }
 
-    public boolean isWatchConnected() {
-        return isWatchConnected;
-    }
+//    public boolean isWatchConnected() {
+//        return isWatchConnected;
+//    }
 
     public WatchStatus getWatchStatus() {
         return watchStatus;
@@ -306,5 +327,14 @@ public class MainActivity extends AppCompatActivity
         } else {
             builder.buildAndShowDialog(this, false);
         }
+    }
+
+    private void toggleNotificationService() {
+        Log.d(Constants.TAG, "MainActivity toggleNotificationService");
+        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
     }
 }
