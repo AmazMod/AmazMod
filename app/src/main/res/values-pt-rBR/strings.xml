@@ -135,7 +135,7 @@
 
     <string name="watch_is_connected">Conectado</string>
     <string name="watch_disconnected">Desconectado</string>
-    <string name="watch_connecting">Connectando…</string>
+    <string name="watch_connecting">Conectando…</string>
     <string name="notification_localok">LOCALOK</string>
 
 </resources>
