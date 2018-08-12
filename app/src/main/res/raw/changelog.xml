@@ -2,7 +2,7 @@
     <release
         date="2018-08-08"
         versionCode="152"
-        versionName="v1.0.24-RC6">
+        versionName="v1.0.25">
         <new>Added email and telegram channel</new>
         <info>Improved battery prediction</info>
         <bugfix>Fixed some crashes</bugfix>
