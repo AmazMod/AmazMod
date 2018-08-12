@@ -65,7 +65,7 @@
     <string name="project_github_value">https://github.com/edotassi/AmazMod</string>
 
     <string name="activity_about_text">Escrito com amor {gmd-favorite}</string>
-    <string name="activity_about_project_maintainer">Mantedor do projeto</string>
+    <string name="activity_about_project_maintainer">Mantenedor do projeto</string>
     <string name="activity_about_project_maintainer_value">\@edotassi</string>
     <string name="activity_about_devs">Devs</string>
     <string name="activity_about_devs_value">\@lfomartins</string>
