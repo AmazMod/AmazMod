@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">AmazMod</string>
     <string name="settings">Paramètres</string>
-    <string name="notifications">Notifications envoyees</string>
+    <string name="notifications">Notifications envoyées</string>
     <string name="notifications_options">Options de notifications</string>
     <string name="battery">Batterie</string>
     <string name="customui">Réponses personnalisées</string>
