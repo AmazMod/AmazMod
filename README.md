@@ -40,7 +40,7 @@ You can use adb (all platforms), APKInstaller, Amazfit Tool or the provided inst
 
 * I do not get notifications  
 
-Make sure you have amazmod_service.apk installed on watch and that AmazMod on phone has granted permissions to access notifications, restart both phone and watch and test notifications again.
+Make sure you have service-release.apk installed on watch and that AmazMod on phone has granted permissions to access notifications, restart both phone and watch and test notifications again.
 
 For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/master/FAQ.md).
 
