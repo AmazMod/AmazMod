@@ -136,7 +136,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         musicControlInputListener = new MusicControlInputListener();
-        musicControlInputListener.start();
+        musicControlInputListener.start(this);
     }
 
     @Override

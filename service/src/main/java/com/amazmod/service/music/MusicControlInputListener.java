@@ -1,5 +1,7 @@
 package com.amazmod.service.music;
 
+import android.content.Context;
+import android.os.PowerManager;
 import android.util.Log;
 
 import com.amazmod.service.Constants;
@@ -19,6 +21,8 @@ import java.util.concurrent.FutureTask;
 
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
+import static android.content.Context.POWER_SERVICE;
+
 public class MusicControlInputListener {
 
     private final int TYPE_KEYBOARD = 1;
@@ -36,7 +40,12 @@ public class MusicControlInputListener {
 
     ExecutorService executor;
 
-    public void start() {
+    public void start(Context context) {
+        PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "AmazMod:music-control");
+        wakeLock.acquire(10*60*1000L /*10 minutes*/);
+
         FutureTask<Void> futureTask = new FutureTask<>(new Callable<Void>() {
             @Override
             public Void call() throws Exception {
@@ -78,11 +87,11 @@ public class MusicControlInputListener {
                                     long delta = now - lastKeyDownKeyDown;
                                     if ((delta > TRIGGER) && (delta < LONG_TRIGGER)) {
                                         Log.d(Constants.TAG, "long key down detected");
-                                        HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, false));
+                                        HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, true));
                                     } else {
                                         if (delta < TRIGGER) {
                                             Log.d(Constants.TAG, "key down detected");
-                                            HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, true));
+                                            HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, false));
                                         }
                                     }
                                 } else if (value == KEY_EVENT_PRESS) {
