@@ -1,5 +1,6 @@
 package com.edotassi.amazmod;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Build;
@@ -132,12 +133,10 @@ public class MainIntroActivity extends IntroActivity {
             public boolean canGoForward(int position) {
                 Slide slide = getSlide(position);
                 if (slide == accessNotificationsSlide) {
-//                    Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(getApplicationContext());
-//                    int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
-                    if (Settings.Secure.getString(getContentResolver(),"enabled_notification_listeners").contains(getApplicationContext().getPackageName())) {
-                        return true;
-                    } else return false;
-                } else return true;
+                    return hasNotificationAccess();
+                } else {
+                    return true;
+                }
             }
             @Override
             public boolean canGoBackward(int position) {
@@ -218,6 +217,14 @@ public class MainIntroActivity extends IntroActivity {
         } catch (Exception ex) {
             return new ArrayList<>();
         }
+    }
+
+    private boolean hasNotificationAccess() {
+        ContentResolver contentResolver = getContentResolver();
+        String enabledNotificationListeners = Settings.Secure.getString(contentResolver, "enabled_notification_listeners");
+        String packageName = getPackageName();
+
+        return !(enabledNotificationListeners == null || !enabledNotificationListeners.contains(packageName));
     }
 
 }
