@@ -1,15 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="abc_action_bar_home_description">Vai alla Home</string>
-    <string name="abc_action_menu_overflow_description">Altre opzioni</string>
-    <string name="abc_action_mode_done">Fatto</string>
-    <string name="abc_activity_chooser_view_see_all">Guarda tutto</string>
-    <string name="abc_activitychooserview_choose_application">Scegli un app</string>
-    <string name="abc_searchview_description_search">Cerca</string>
-    <string name="abc_searchview_description_submit">Invia una domanda</string>
-    <string name="abc_searchview_description_voice">Ricerca Vocale</string>
-    <string name="abc_shareactionprovider_share_with">Convidivi con</string>
-    <string name="abc_shareactionprovider_share_with_application">Condiviso con %s</string>
     <string name="about">Informazioni</string>
     <string name="activity_about_devs">Sviluppatori</string>
     <string name="activity_about_notifications_test">Test di notifiche</string>
@@ -29,17 +19,6 @@
     <string name="cancel">Elimina</string>
     <string name="changelog_dialog_rate">Vota l\'app</string>
     <string name="close">Chiudi</string>
-    <string name="common_google_play_services_enable_text">"%1$s non funziona se non abiliti i Google Play Services"</string>
-    <string name="common_google_play_services_enable_title">Abilita Google Play Services</string>
-    <string name="common_google_play_services_install_button">Installa</string>
-    <string name="common_google_play_services_install_text">"%1$s non può funzionare senza i servizi di Google, che sono mancanti nel tuo dispositivo."</string>
-    <string name="common_google_play_services_notification_channel_name">Servizi di Google disponibili</string>
-    <string name="common_google_play_services_notification_ticker">Errore dei servizi di Google</string>
-    <string name="common_google_play_services_unknown_issue">%1$s  ha un problema con i servizi di Google. Riprova ancora.</string>
-    <string name="common_google_play_services_update_button">Aggiorna</string>
-    <string name="common_open_on_phone">Apri sul telefono</string>
-    <string name="common_signin_button_text">Accedi</string>
-    <string name="common_signin_button_text_long">Accedi con Google</string>
     <string name="customui">Risposta personalizzata</string>
     <string name="enable">Attiva</string>
     <string name="enter_the_text_you_want_as_an_answer">Inserisci il testo che vuoi come risposta</string>
@@ -89,7 +68,6 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="open_notifications_log">Apri il log delle notifiche</string>
     <string name="other">Altro</string>
     <string name="others">Altre</string>
-    <string name="password_toggle_content_description">Attiva / disattiva la visibilità della password</string>
     <string name="pref_battery_background_sync_interval">Intervallo della sincronizzazione in background</string>
     <string name="pref_battery_background_sync_interval_summary">Imposta l\'intervallo di sincronizzazione della batteria</string>
     <string name="pref_battery_chart_time_interval">Scegli intervallo di tempo</string>
@@ -132,14 +110,13 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="project_github">Progetto su GitHub</string>
     <string name="remaining_battery">Batteria rimanente</string>
     <string name="replies">Risposte</string>
-    <string name="search_menu_title">Cerca</string>
     <string name="select_unselect_all">Seleziona/Non selezionare tutte</string>
     <string name="settings">Impostazioni</string>
     <string name="show_system_apps">Mostra le app di sistema</string>
     <string name="standard_test">Standard UI</string>
     <string name="stats">Statistiche</string>
     <string name="support_email">Supporto via Email</string>
-    <string name="sync_settings">Sincronizzazione impostazioni...</string>
+    <string name="sync_settings">Sincronizzazione impostazioni…</string>
     <string name="telegram_channel">Canale Telegram</string>
     <string name="tweaking">Modifiche</string>
     <string name="watch_connecting">Connessione..</string>
