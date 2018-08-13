@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="default_notification_replies">
+        <item>Si</item>
+        <item>No</item>
+        <item>Grazie</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 giorno</item>
+        <item>2 giorni</item>
+        <item>3 giorni</item>
+        <item>5 giorni</item>
+        <item>7 giorni</item>
+        <item>10 giorni</item>
+        <item>15 giorni</item>
+    </string-array>
+</resources>
