@@ -64,7 +64,7 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-
+<!-- Disabled as it does not work anyway
         <service
             android:name=".NotificationListener"
             android:exported="true"
@@ -74,7 +74,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
-
+-->
         <meta-data
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />
