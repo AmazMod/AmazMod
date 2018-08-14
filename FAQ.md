@@ -13,7 +13,7 @@ A- *How is the battery impact of AmazMod?*
 R- AmazMod is projected to have advanced features but without major impact on battery usage as it uses the same communication channel used by Amazfit!
 
 A- *Why I don't receive any notifications?*  
-R- First make sure you have restarted both phone and watch to make connections work correctly, and then check if you have added the desired apps in "Selected apps" entry of Notifications options in AmazMod app.
+R- First make sure you have restarted both phone and watch to make connections work correctly, and then check if you have added the desired apps in "Selected apps" entry of Notifications options in AmazMod app and no other setting/filter is blocking the notification (you can check "Notifications log" in stats page for hints). Also keep stock Amazfit installed and running (see next question).
 
 A- *After I install AmazMod, I can remove the stock app?*  
 R- No, AmazMod needs stock Amazfit app installed on phone to communicate with your watch, so you must keep Amazfit installed.
