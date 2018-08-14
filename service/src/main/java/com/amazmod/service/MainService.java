@@ -60,8 +60,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private NotificationsReceiver notificationsReceiver;
 
-    private MusicControlInputListener musicControlInputListener;
-
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
         put(Transport.SYNC_SETTINGS, SyncSettings.class);
@@ -86,7 +84,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Override
     public void onCreate() {
-
         super.onCreate();
 
         context = this;
@@ -126,17 +123,13 @@ public class MainService extends Service implements Transporter.DataListener {
         transporter.addDataListener(this);
 
         if (!transporter.isTransportServiceConnected()) {
-
             Log.d(Constants.TAG, "MainService Transporter not connected, connecting...");
             transporter.connectTransportService();
-
         } else {
-
             Log.d(Constants.TAG, "MainService Transported yet connected");
         }
 
-        musicControlInputListener = new MusicControlInputListener();
-        musicControlInputListener.start(this);
+        setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
     }
 
     @Override
@@ -203,7 +196,6 @@ public class MainService extends Service implements Transporter.DataListener {
     private static final String DATE_LAST_CHARGE = "date_last_charge"; // that is always 0
 
     public void save_phone_data(DataBundle dataBundle) {
-
         String phoneBattery = Integer.toString((int) (dataBundle.getFloat(LEVEL) * 100));
         String phoneAlarm = "";
         Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery);
@@ -228,16 +220,10 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void settingsSync(SyncSettings event) {
-
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
-
-        Log.d(Constants.TAG, "MainService sync settings");
-        Log.d(Constants.TAG, "MainService vibration: " + settingsData.getVibration());
-        Log.d(Constants.TAG, "MainService timeout: " + settingsData.getScreenTimeout());
-        Log.d(Constants.TAG, "MainService replies: " + settingsData.getReplies());
-        Log.d(Constants.TAG, "MainService enableCustomUi: " + settingsData.isNotificationsCustomUi());
-
         settingsManager.sync(settingsData);
+
+        setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -348,19 +334,23 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-/*    private void send(String action) {
-        send(action, null);
-    }
+    private MusicControlInputListener musicControlInputListener;
 
-    private void send(String action, DataBundle dataBundle) {
-        if (transporter == null) {
-            Log.w(Constants.TAG, "MessagesListener transporter not ready");
-            return;
+    private void setupHardwareKeysMusicControl(boolean enable) {
+        if (enable) {
+            if (musicControlInputListener == null) {
+                musicControlInputListener = new MusicControlInputListener();
+            }
+
+            if (!musicControlInputListener.isListening()) {
+                musicControlInputListener.start(this);
+            }
+        } else {
+            if (musicControlInputListener != null) {
+                musicControlInputListener.stop();
+            }
         }
-        transporter.send(action, dataBundle);
-        Log.d(Constants.TAG, "MessagesListener send: " + action);
     }
-*/
 
     private void send(String action) {
         send(action, null);
@@ -373,8 +363,6 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         if (dataBundle != null) {
-            //DataBundle dataBundle = new DataBundle();
-            //transportable.toDataBundle(dataBundle);
             Log.d(Constants.TAG, "MainService send1: " + action);
             transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
@@ -392,7 +380,5 @@ public class MainService extends Service implements Transporter.DataListener {
                 }
             });
         }
-
     }
-
 }

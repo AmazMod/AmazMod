@@ -1,27 +1,27 @@
 package com.amazmod.service.music;
 
-import android.content.Context;
-import android.os.PowerManager;
-import android.util.Log;
+        import android.content.Context;
+        import android.os.PowerManager;
+        import android.util.Log;
 
-import com.amazmod.service.Constants;
-import com.amazmod.service.events.HardwareButtonEvent;
+        import com.amazmod.service.Constants;
+        import com.amazmod.service.events.HardwareButtonEvent;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
+        import java.io.File;
+        import java.io.FileInputStream;
+        import java.io.FileNotFoundException;
+        import java.nio.ByteBuffer;
+        import java.nio.ByteOrder;
+        import java.nio.file.Path;
+        import java.nio.file.Paths;
+        import java.util.concurrent.Callable;
+        import java.util.concurrent.ExecutorService;
+        import java.util.concurrent.Executors;
+        import java.util.concurrent.FutureTask;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+        import xiaofei.library.hermeseventbus.HermesEventBus;
 
-import static android.content.Context.POWER_SERVICE;
+        import static android.content.Context.POWER_SERVICE;
 
 public class MusicControlInputListener {
 
@@ -37,6 +37,8 @@ public class MusicControlInputListener {
     private final int TRIGGER = 500;
     private final int LONG_TRIGGER = TRIGGER * 4;
     private final int LONG_TRIGGER_MAX = TRIGGER * 10;
+
+    private boolean listening;
 
     ExecutorService executor;
 
@@ -126,6 +128,11 @@ public class MusicControlInputListener {
         if (executor != null) {
             executor.shutdown();
             executor = null;
+            listening = false;
         }
+    }
+
+    public boolean isListening() {
+        return listening;
     }
 }
