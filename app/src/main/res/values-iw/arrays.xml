@@ -15,13 +15,13 @@
         <item>500</item>
     </string-array>
     <string-array name="pref_amazmodservice_screen_timeout_entries">
-        <item>3 s</item>
-        <item>5 s</item>
-        <item>7 s</item>
-        <item>10 s</item>
-        <item>12 s</item>
-        <item>15 s</item>
-        <item>20 s</item>
+        <item>3 שנ/'</item>
+        <item>5 שנ/'</item>
+        <item>7 שנ/'</item>
+        <item>10 שנ/'</item>
+        <item>12 שנ/'</item>
+        <item>15 שנ/'</item>
+        <item>20 שנ/'</item>
     </string-array>
     <string-array name="pref_amazmodservice_screen_timeout_values">
         <item>3000</item>
@@ -33,13 +33,13 @@
         <item>20000</item>
     </string-array>
     <string-array name="pref_battery_chart_range_entries">
-        <item>1 day</item>
-        <item>2 days</item>
-        <item>3 days</item>
-        <item>5 days</item>
-        <item>7 days</item>
-        <item>10 days</item>
-        <item>15 days</item>
+        <item>יום</item>
+        <item>יומיים</item>
+        <item>3 ימים</item>
+        <item>5 ימים</item>
+        <item>7 ימים</item>
+        <item>10 ימים</item>
+        <item>15 ימים</item>
     </string-array>
     <string-array name="pref_battery_chart_range_values">
         <item>1</item>
@@ -51,14 +51,14 @@
         <item>15</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
-        <item>2 min</item>
-        <item>15 min</item>
-        <item>30 min</item>
-        <item>60 min</item>
-        <item>1 h 30 min</item>
-        <item>2 h</item>
-        <item>3 h</item>
-        <item>4 h</item>
+        <item>2 דק/'</item>
+        <item>15 דק/'</item>
+        <item>30 דק/'</item>
+        <item>60 דק/'</item>
+        <item>שעה וחצי</item>
+        <item>שעתיים</item>
+        <item>3 ש/'</item>
+        <item>4 ש/'</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_values">
         <item>2</item>
@@ -71,9 +71,9 @@
         <item>240</item>
     </string-array>
     <string-array name="default_notification_replies">
-        <item>Yes</item>
-        <item>No</item>
-        <item>Thank you</item>
+        <item>כן</item>
+        <item>לא</item>
+        <item>תודה לך</item>
     </string-array>
     <string-array name="default_notification_packages">
         <item>org.telegram.messenger</item>
