@@ -1,9 +1,11 @@
 <changelog>
     <release
-        date="2018-08-13"
+        date="2018-08-14"
         versionCode="154"
         versionName="v1.0.27">
         <new>Added Italian translations</new>
+        <new>Added French translations</new>
+        <new>Added Hebrew translations</new>
         <bugfix>Fixed a crash in start screen</bugfix>
     </release>
     <release
@@ -105,14 +107,18 @@
         date="2018-07-29"
         versionCode="140"
         versionName="v1.0.12-ALPHA">
-        <new>Added current battery value to battery chart in phone app and value and icon to widget</new>
+        <new>Added current battery value to battery chart in phone app and value and icon to
+            widget
+        </new>
         <info>Widget code cleaned and optimized</info>
     </release>
     <release
         date="2018-07-27"
         versionCode="139"
         versionName="v1.0.11-ALPHA">
-        <new>Added Setting to disable remove of notifications from watch when they are removed from phone</new>
+        <new>Added Setting to disable remove of notifications from watch when they are removed from
+            phone
+        </new>
     </release>
     <release
         date="2018-07-27"
