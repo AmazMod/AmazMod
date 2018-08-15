@@ -73,6 +73,8 @@
     <string name="activity_about_testers">Testers</string>
     <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
+    <string name="translators">Translators</string>
+    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw)</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
     <string name="activity_watchface_show_altitude">Show altitude</string>
@@ -121,6 +123,8 @@
     <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
     <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them tho)</string>
     <string name="pref_filters">Notifications filters</string>
+    <string name="pref_enable_music_control_with_hardware_button">Enable hardware music control</string>
+    <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
 
     <string name="intro_title_1">Welcome to AmazMod!</string>
     <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>

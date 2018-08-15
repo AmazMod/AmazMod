@@ -222,7 +222,7 @@ public class MainIntroActivity extends IntroActivity {
     private boolean hasNotificationAccess() {
         ContentResolver contentResolver = getContentResolver();
         String enabledNotificationListeners = Settings.Secure.getString(contentResolver, "enabled_notification_listeners");
-        String packageName = getPackageName();
+        String packageName = getApplicationContext().getPackageName();
 
         return !(enabledNotificationListeners == null || !enabledNotificationListeners.contains(packageName));
     }
