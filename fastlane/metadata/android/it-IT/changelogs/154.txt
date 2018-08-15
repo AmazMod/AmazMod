@@ -1,0 +1,5 @@
+- Added Italian translations
+- Added French translations
+- Added Hebrew translations
+- Added credits for translators in About page
+- Fixed a crash in start screen
