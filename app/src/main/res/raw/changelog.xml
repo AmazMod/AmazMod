@@ -6,6 +6,7 @@
         <new>Added Italian translations</new>
         <new>Added French translations</new>
         <new>Added Hebrew translations</new>
+        <new>Added credits for translators in About page</new>
         <bugfix>Fixed a crash in start screen</bugfix>
     </release>
     <release
