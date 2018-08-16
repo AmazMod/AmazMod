@@ -124,16 +124,16 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (isNotificationsDisabled()) {
-            storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+            storeForStats(statusBarNotification, Constants.FILTER_NOTIFICATIONS_DISABLED);
             return;
         }
 
         if (isNotificationsDisabledWhenScreenOn()) {
             if (!Screen.isDeviceLocked(this)) {
-                storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+                storeForStats(statusBarNotification, Constants.FILTER_SCREENON);
                 return;
             } else if (!isNotificationsEnabledWhenScreenLocked()) {
-                storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+                storeForStats(statusBarNotification, Constants.FILTER_SCREENLOCKED);
                 return;
             }
         }

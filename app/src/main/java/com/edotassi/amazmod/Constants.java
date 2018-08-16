@@ -54,4 +54,7 @@ public class Constants {
     public static final byte FILTER_LOCAL= 'L';
     public static final byte FILTER_BLOCK = 'B';
     public static final byte FILTER_RETURN = 'R';
+    public static final byte FILTER_SCREENON = 'S';
+    public static final byte FILTER_SCREENLOCKED = 'N';
+    public static final byte FILTER_NOTIFICATIONS_DISABLED = 'D';
 }

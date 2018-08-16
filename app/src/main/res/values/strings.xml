@@ -57,6 +57,11 @@
     <string name="notification_voice">Voice</string>
     <string name="notification_maps">Maps</string>
     <string name="notification_ungroup">Ungroup</string>
+    <string name="notification_localok">LOCALOK</string>
+    <string name="notification_disabled">notific_off</string>
+    <string name="notification_screenon">screenon</string>
+    <string name="notification_screenlocked">screenlocked</string>
+
 
     <string name="telegram_channel">Telegram channel</string>
     <string name="telegram_channel_value">https://t.me/amazmod</string>
@@ -141,6 +146,5 @@
     <string name="watch_is_connected">Connected</string>
     <string name="watch_disconnected">Disconnected</string>
     <string name="watch_connecting">Connecting…</string>
-    <string name="notification_localok">LOCALOK</string>
 
 </resources>
