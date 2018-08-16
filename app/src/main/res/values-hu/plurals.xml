@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="mi_label_grant_permission">
+        <item quantity="other">Engedélyek megadása</item>
+        <item quantity="one">Engedély megadása</item>
+    </plurals>
+</resources>
