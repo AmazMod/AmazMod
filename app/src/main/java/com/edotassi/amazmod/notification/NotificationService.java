@@ -68,7 +68,8 @@ public class NotificationService extends NotificationListenerService {
     private static final long VOICE_INTERVAL = 5000L; //Five seconds
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
-            "com.contapps.android"
+            "com.contapps.android",
+            "com.skype.raider"
     };
 
     private Map<String, String> notificationTimeGone;
