@@ -102,6 +102,8 @@ Használd örömmel az AmazMod-ot! ♡"</string>
     <string name="notification_return">Visszavált</string>
     <string name="notification_ungroup">Csoportbontás</string>
     <string name="notification_voice">Hang</string>
+    <string name="notification_screenon">screenon</string>
+    <string name="notification_screenlocked">screenlocked</string>
     <string name="notifications">Elküldött értesítések</string>
     <string name="notifications_log">Értesítés napló</string>
     <string name="notifications_options">Értesítések beállításai</string>

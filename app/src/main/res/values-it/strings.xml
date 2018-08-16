@@ -61,6 +61,8 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="notification_return">Ritorna</string>
     <string name="notification_ungroup">Separa</string>
     <string name="notification_voice">Voce</string>
+    <string name="notification_screenon">screenon</string>
+    <string name="notification_screenlocked">screenlocked</string>
     <string name="notifications">Notifica inviata</string>
     <string name="notifications_log">Log Notifiche</string>
     <string name="notifications_options">Opzioni notifiche</string>

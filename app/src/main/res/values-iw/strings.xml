@@ -138,5 +138,7 @@
     <string name="watch_disconnected">מנותק</string>
     <string name="watch_connecting">מתחבר...</string>
     <string name="notification_localok">LOCALOK</string>
+    <string name="notification_screenon">screenon</string>
+    <string name="notification_screenlocked">screenlocked</string>
 
 </resources>
