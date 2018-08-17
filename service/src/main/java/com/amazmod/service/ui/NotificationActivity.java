@@ -73,17 +73,24 @@ public class NotificationActivity extends Activity {
         final float FONT_SIZE_LARGE = 18.0f;
         final float FONT_SIZE_HUGE = 22.0f;
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-
         setContentView(R.layout.activity_notification);
 
         ButterKnife.bind(this);
 
         settingsManager = new SettingsManager(this);
+
+        // Do not activate screen if it is disabled in settings
+        boolean isDisableNotificationsScreenOn = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
+
+        if (!isDisableNotificationsScreenOn){
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                    WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
+                    WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+
+        }
 
         // Set theme and font size
         boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,

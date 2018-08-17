@@ -20,6 +20,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "enable_hardware_keys_music_control";
     public static final String ENABLE_INVERTED_THEME = "enable_inverted_theme";
     public static final String FONT_SIZE = "font_size";
+    public static final String DISABLE_NOTIFICATION_SCREENON = "disable_notification_screenon";
 
     private String replies;
     private int vibration;
@@ -30,6 +31,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean enableHardwareKeysMusicControl;
     private boolean enableInvertedTheme;
     private String fontSize;
+    private boolean disableNotificationsScreenOn;
 
     public SettingsData() {
     }
@@ -44,6 +46,7 @@ public class SettingsData extends Transportable implements Parcelable {
         enableHardwareKeysMusicControl = in.readByte() != 0;
         enableInvertedTheme = in.readByte() != 0;
         fontSize = in.readString();
+        disableNotificationsScreenOn = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -70,6 +73,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, enableHardwareKeysMusicControl);
         dataBundle.putBoolean(ENABLE_INVERTED_THEME, enableInvertedTheme);
         dataBundle.putString(FONT_SIZE, fontSize);
+        dataBundle.putBoolean(DISABLE_NOTIFICATION_SCREENON, disableNotificationsScreenOn);
 
         return dataBundle;
     }
@@ -86,6 +90,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setEnableHardwareKeysMusicControl(dataBundle.getBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL));
         settingsData.setInvertedTheme(dataBundle.getBoolean(ENABLE_INVERTED_THEME));
         settingsData.setFontSize(dataBundle.getString(FONT_SIZE));
+        settingsData.setDisableNotificationScreenOn(dataBundle.getBoolean(DISABLE_NOTIFICATION_SCREENON));
 
         return settingsData;
     }
@@ -165,6 +170,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.fontSize = fontSize;
     }
 
+    public boolean isDisableNotificationsScreenOn() {
+        return disableNotificationsScreenOn;
+    }
+
+    public void setDisableNotificationScreenOn(boolean disableNotificationsScreenOn) {
+        this.disableNotificationsScreenOn = disableNotificationsScreenOn;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -181,5 +194,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (enableHardwareKeysMusicControl ? 1 : 0));
         dest.writeByte((byte) (enableInvertedTheme ? 1 : 0));
         dest.writeString(fontSize);
+        dest.writeByte((byte) (disableNotificationsScreenOn ? 1 : 0));
     }
 }

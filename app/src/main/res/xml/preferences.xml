@@ -98,6 +98,12 @@
             android:key="preference.amazmodservice.font.size"
             android:summary="@string/pref_font_size_summary"
             android:title="@string/pref_font_size" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.amazmodservice.disable.screenon"
+            android:summary="@string/pref_notifications_disable_screenon_summary"
+            android:title="@string/pref_notifications_disable_screenon" />
 
     </PreferenceCategory>
 

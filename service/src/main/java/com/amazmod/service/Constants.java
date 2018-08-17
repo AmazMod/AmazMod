@@ -31,6 +31,7 @@ public class Constants {
     public static final String PREF_BATT_ICON_ID = "pref_battery_icon_ID";
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "pref_notifications_inverted_theme";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "pref_notifications_font_size";
+    public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "pref_notification_screenon";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
@@ -38,5 +39,6 @@ public class Constants {
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = true;
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
+    public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
 
 }

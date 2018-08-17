@@ -29,6 +29,7 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, settingsData.isEnableHardwareKeysMusicControl());
         editor.putBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME, settingsData.isInvertedTheme());
         editor.putString(Constants.PREF_NOTIFICATIONS_FONT_SIZE, settingsData.getFontSize());
+        editor.putBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON, settingsData.isDisableNotificationsScreenOn());
 
         editor.apply();
     }

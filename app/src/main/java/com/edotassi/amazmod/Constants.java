@@ -23,6 +23,7 @@ public class Constants {
     public static final String PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "preference.enable.hw.keys.music.control";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
     public static final String PREF_FORCE_ENGLISH = "preference.force.english";
+    public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -36,6 +37,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_DISABLE_BATTERY_CHART = false;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";
     public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
+    public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
