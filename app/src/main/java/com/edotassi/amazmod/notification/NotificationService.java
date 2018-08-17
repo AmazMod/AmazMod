@@ -59,6 +59,8 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationService extends NotificationListenerService {
 
+    private Logger log = Logger.get(NotificationService.class);
+
     public static final int FLAG_WEARABLE_REPLY = 0x00000001;
     private static final long BLOCK_INTERVAL = 60000 * 60L; //One hour
     private static final long MAPS_INTERVAL = 60000 * 3L; //Three minutes
@@ -115,7 +117,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
-        Logger.debug("notificationPosted: %s", statusBarNotification.getKey());
+        log.d("notificationPosted: %s", statusBarNotification.getKey());
 
         String notificationPackage = statusBarNotification.getPackageName();
         if (!isPackageAllowed(notificationPackage)) {
@@ -168,7 +170,7 @@ public class NotificationService extends NotificationListenerService {
     //Remove notification from watch if it was removed from phone
     @Override
     public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
-        Logger.debug("notificationRemoved: %s", statusBarNotification.getKey());
+        log.d("notificationRemoved: %s", statusBarNotification.getKey());
 
         if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
                 (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
@@ -186,7 +188,7 @@ public class NotificationService extends NotificationListenerService {
             notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
-                    Logger.debug(dataTransportResult.toString());
+                    log.d(dataTransportResult.toString());
                 }
             });
 
@@ -233,7 +235,7 @@ public class NotificationService extends NotificationListenerService {
         notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
-                Logger.debug(dataTransportResult.toString());
+                log.d(dataTransportResult.toString());
             }
         });
 
@@ -330,20 +332,20 @@ public class NotificationService extends NotificationListenerService {
 
         if (/*(flags & FLAG_WEARABLE_REPLY) == 0 &&*/ NotificationCompat.isGroupSummary(notification)) {
             if (Arrays.binarySearch(APP_WHITELIST, notificationPackage) < 0) {
-                Logger.debug("notification blocked FLAG_GROUP_SUMMARY");
+                log.d("notification blocked FLAG_GROUP_SUMMARY");
                 return returnFilterResult(Constants.FILTER_GROUP);
             }
             //   else whitelistedApp = true;
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-            Logger.debug("notification blocked FLAG_ONGOING_EVENT");
+            log.d("notification blocked FLAG_ONGOING_EVENT");
             return returnFilterResult(Constants.FILTER_ONGOING);
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
             if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
-                Logger.debug("notification blocked because is LocalOnly");
+                log.d("notification blocked because is LocalOnly");
                 return returnFilterResult(Constants.FILTER_LOCAL);
             } else localAllowed = true;
         }
@@ -435,7 +437,7 @@ public class NotificationService extends NotificationListenerService {
 
             FlowManager.getModelAdapter(NotificationEntity.class).insert(notificationEntity);
         } catch (Exception ex) {
-            Logger.error(ex, "Failed to store notifications stats");
+            log.e(ex, "Failed to store notifications stats");
         }
     }
 
@@ -451,7 +453,7 @@ public class NotificationService extends NotificationListenerService {
 
             replyToNotification(statusBarNotification, reply);
         } else {
-            Logger.warn("Notification %s not found to reply", notificationId);
+            log.w("Notification %s not found to reply", notificationId);
         }
     }
 
@@ -477,7 +479,7 @@ public class NotificationService extends NotificationListenerService {
                 try {
                     act.actionIntent.send(this, 0, localIntent);
                 } catch (PendingIntent.CanceledException e) {
-                    Logger.error(e, "replyToLastNotification error: " + e.getLocalizedMessage());
+                    log.e(e, "replyToLastNotification error: " + e.getLocalizedMessage());
                 }
             }
         }
