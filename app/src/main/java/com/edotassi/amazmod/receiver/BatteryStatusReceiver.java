@@ -19,13 +19,9 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        //LoggerScoped.get(BatteryStatusReceiver.class).debug("started");
-
         if (intent.getAction() == null) {
-            //HermesEventBus.getDefault().connectApp(context, Constants.PACKAGE);
             HermesEventBus.getDefault().post(new RequestBatteryStatus());
-        }
-        else {
+        } else {
             startBatteryReceiver(context);
         }
 
@@ -33,7 +29,6 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
     }
 
     public static void startBatteryReceiver(Context context) {
-
         AmazModApplication.syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         AmazModApplication.timeLastSync = Prefs.getLong(Constants.PREF_TIME_LAST_SYNC, 0L);
 
@@ -41,7 +36,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
         Log.i(Constants.TAG, "BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
 
-        if (delay < 0 ) delay = 0;
+        if (delay < 0) delay = 0;
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmBatteryIntent = new Intent(context, BatteryStatusReceiver.class);

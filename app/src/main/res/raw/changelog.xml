@@ -1,5 +1,14 @@
 <changelog>
     <release
+        versionName="v1.0.28"
+        versioneCode="155">
+        <new>Added inverted theme and configurable font size for CustomUI</new>
+        <new>Added preference to disable screen on/unlock on watch for CustomUI</new>
+        <new>Added persistent notification with Preferences</new>
+        <bugfix>Skype notifications fix</bugfix>
+        <info>Updated Italian translations</info>
+    </release>
+    <release
         date="2018-08-14"
         versionCode="154"
         versionName="v1.0.27">
