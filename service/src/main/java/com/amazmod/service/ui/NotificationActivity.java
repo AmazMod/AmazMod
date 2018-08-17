@@ -64,7 +64,7 @@ public class NotificationActivity extends Activity {
 
     private SettingsManager settingsManager;
 
-    private final float FONT_SIZE_NORMAL = 14.0f;
+    private final float FONT_SIZE_NORMAL = 14.00f;
     private final float FONT_SIZE_LARGE = 18.0f;
     private final float FONT_SIZE_HUGE = 22.0f;
 
@@ -121,7 +121,7 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        boolean hideReplies = false;
+        boolean hideReplies;
 
         try {
             title.setText(notificationSpec.getTitle());

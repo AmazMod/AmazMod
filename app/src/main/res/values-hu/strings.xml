@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="abc_action_bar_home_description">Ugrás a főoldalra</string>
-    <string name="abc_action_bar_up_description">Felfelé mozgatás</string>
-    <string name="abc_action_menu_overflow_description">További lehetőségek</string>
-    <string name="abc_action_mode_done">Kész</string>
-    <string name="abc_activity_chooser_view_see_all">Összes megtekintése</string>
-    <string name="abc_activitychooserview_choose_application">Válasszon ki egy alkalmazást</string>
-    <string name="abc_capital_off">KI</string>
-    <string name="abc_capital_on">BE</string>
-    <string name="abc_search_hint">Keresés…</string>
-    <string name="abc_searchview_description_clear">Lekérdezés törlése</string>
-    <string name="abc_searchview_description_query">Keresési lekérdezés</string>
-    <string name="abc_searchview_description_search">Keresés</string>
-    <string name="abc_searchview_description_submit">Lekérdezés küldése</string>
-    <string name="abc_searchview_description_voice">Hangalapú keresés</string>
-    <string name="abc_shareactionprovider_share_with">Megosztás a következővel:</string>
-    <string name="abc_shareactionprovider_share_with_application">Megosztás a következő alkalmazással: %s</string>
-    <string name="abc_toolbar_collapse_description">Összecsukás</string>
     <string name="about">Rólunk</string>
     <string name="activity_about_devs">Fejlesztők</string>
     <string name="activity_about_notifications_test">Értesítések teszt</string>
@@ -155,15 +138,13 @@ Használd örömmel az AmazMod-ot! ♡"</string>
     <string name="project_github">Projekt a Github-on</string>
     <string name="remaining_battery">Üzemidő még</string>
     <string name="replies">Válaszok</string>
-    <string name="search_menu_title">Keresés</string>
 	<string name="select_unselect_all">Össz. kijelölt/jelöletlen</string>
     <string name="settings">Beállítások</string>
 	<string name="show_system_apps">Rendszerappok megjelenítése</string>
     <string name="standard_test">Normál UI</string>
     <string name="stats">Statisztikák</string>
-    <string name="status_bar_notification_info_overflow">999+</string>
     <string name="support_email">Support email</string>
-    <string name="sync_settings">Szinkronizálási beállítások...</string>
+    <string name="sync_settings">Szinkronizálási beállítások…</string>
     <string name="telegram_channel">Telegram csatorna</string>
     <string name="translators">Fordítók</string>
     <string name="translators_value">\@ekinozxx(pt-rBR), @gidano(hu), @JRevenge(it), @airainchoc(fr), @1immortal(iw), @smoky-jr(iw)</string>
@@ -179,4 +160,8 @@ Használd örömmel az AmazMod-ot! ♡"</string>
     <string name="pref_font_size">Font size</string>
     <string name="pref_font_size_summary">Select font size used in CustomUI notifications</string>
     <string name="notifications_font_size">Font Size</string>
+    <string name="device_not_connected">No device connected</string>
+    <string name="device_connected">was connected</string>
+    <string name="pref_enable_persistent_notification">Enable persistent notification</string>
+    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it is not in the background</string>
 </resources>

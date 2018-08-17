@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -8,6 +9,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 public class SettingsActivity extends AppCompatActivity {
 
     private boolean disableBatteryChartOnCreate;
+    private boolean enablePersistentNotificationOnCreate;
     private String batteryChartDaysOnCreate;
 
     @Override
@@ -43,6 +46,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
                 Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+
+        this.enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
+                Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
 
         this.batteryChartDaysOnCreate = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
@@ -75,8 +81,10 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
         final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
+        final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
+                Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
 
-        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) || (batteryChartDaysOnDestroy != this.batteryChartDaysOnCreate)) {
+        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             finish();
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -84,12 +92,18 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        // Remove persistent notification if it was disabled and was previously enabled
+        if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            notificationManager.cancel(999989);
+        }
+
         //Change app localtion configuration and refresh it on preferece change
         final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);
 
         Locale defaultLocale = Locale.getDefault();
         Locale currentLocale = getResources().getConfiguration().locale;
-        System.out.println("Settings locales: " + defaultLocale + " / " + currentLocale.toString());
+        System.out.println(Constants.TAG + "SettingsActivity locales: " + defaultLocale + " / " + currentLocale.toString());
 
         if (forceEN && (currentLocale != Locale.US)) {
             setLocale(Locale.US);
@@ -126,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     //set locale and set flag used to activity refresh
     public void setLocale(Locale lang) {
-        System.out.println("New locale: " + lang);
+        System.out.println(Constants.TAG + "SettingsActivity New locale: " + lang);
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration conf = res.getConfiguration();

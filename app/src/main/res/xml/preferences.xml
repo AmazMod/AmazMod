@@ -186,6 +186,11 @@
             android:title="@string/pref_enable_music_control_with_hardware_button"
             android:summary="@string/pref_enable_music_control_with_hardware_button_summary" />
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="preference.enable.persistent.notification"
+            android:summary="@string/pref_enable_persistent_notification_summary"
+            android:title="@string/pref_enable_persistent_notification" />
+        <SwitchPreference
             android:defaultValue="false"
             android:key="preference.force.english"
             android:summary="@string/pref_force_english_summary"

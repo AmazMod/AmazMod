@@ -35,6 +35,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
     public static final boolean PREF_DEFAULT_DISABLE_BATTERY_CHART = false;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";
+    public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
@@ -45,6 +46,8 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED = "preference.notifications.enable.when.locked";
     public static final String PREF_NOTIFICATIONS_ENABLE_UNGROUP = "preference.notifications.enable.ungroup";
     public static final String PREF_TIME_LAST_SYNC = "preference.time.last.sync";
+    public static final String PREF_WATCH_MODEL = "preference.watch.model";
+    public static final String PREF_ENABLE_PERSISTENT_NOTIFICATION = "preference.enable.persistent.notification";
 
     public static final byte FILTER_CONTINUE = 'C';
     public static final byte FILTER_UNGROUP = 'U';

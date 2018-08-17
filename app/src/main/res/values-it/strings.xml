@@ -131,4 +131,8 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="pref_font_size">Font size</string>
     <string name="pref_font_size_summary">Select font size used in CustomUI notifications</string>
     <string name="notifications_font_size">Font Size</string>
+    <string name="device_not_connected">No device connected</string>
+    <string name="device_connected">was connected</string>
+    <string name="pref_enable_persistent_notification">Enable persistent notification</string>
+    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it is not in the background</string>
 </resources>
