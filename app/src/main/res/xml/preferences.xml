@@ -202,11 +202,19 @@
             android:summary="@string/pref_force_english_summary"
             android:title="@string/pref_force_english" />
         <Preference
+            android:summary="@string/pref_check_permissions_summary"
+            android:title="@string/pref_check_permissions">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.edotassi.amazmod.ui.CheckPermissionsActivity"
+                android:targetPackage="com.edotassi.amazmod" />
+        </Preference>
+        <Preference
             android:summary="@string/pref_run_wizard_summary"
             android:title="@string/pref_run_wizard">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetClass="com.edotassi.amazmod.MainIntroActivity"
+                android:targetClass="com.edotassi.amazmod.ui.MainIntroActivity"
                 android:targetPackage="com.edotassi.amazmod" />
         </Preference>
     </PreferenceCategory>

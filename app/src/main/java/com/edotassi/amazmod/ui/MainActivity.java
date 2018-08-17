@@ -24,7 +24,6 @@ import android.view.MenuItem;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.MainIntroActivity;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
