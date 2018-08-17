@@ -35,7 +35,8 @@
     <string name="notifications_service_name">AmazModNotificationsService</string>
 
     <string name="notification_access">Accès aux notifications</string>
-    <string name="notification_access_not_enabled">Accès  aux notification non autorisé<string name="notification_access_enable">Autoriser</string>
+    <string name="notification_access_not_enabled">Accès  aux notification non autorisé</string>
+    <string name="notification_access_enable">Autoriser</string>
 
     <string name="activity_about_notifications_test">Test de notifications</string>
     <string name="customui_test">Custom UI</string>
