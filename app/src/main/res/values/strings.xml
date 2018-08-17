@@ -79,7 +79,7 @@
     <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
     <string name="translators">Translators</string>
-    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw)</string>
+    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw)</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
     <string name="activity_watchface_show_altitude">Show altitude</string>
