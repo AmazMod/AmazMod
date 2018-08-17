@@ -31,7 +31,7 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
-import com.edotassi.amazmod.log.Logger;
+import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
 import com.edotassi.amazmod.util.Screen;
 import com.google.gson.Gson;

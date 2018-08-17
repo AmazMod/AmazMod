@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
-import com.edotassi.amazmod.log.Logger;
+import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.MainActivity;
@@ -68,6 +68,7 @@ public class AmazModApplication extends Application {
     private void setupLocale() {
         defaultLocale = Locale.getDefault();
     }
+<<<<<<< Updated upstream
 
     private void addPersistentNotification(String model){
 
@@ -110,4 +111,6 @@ public class AmazModApplication extends Application {
         }
     }
 
+=======
+>>>>>>> Stashed changes
 }
