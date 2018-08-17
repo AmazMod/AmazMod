@@ -36,7 +36,7 @@ R- Firstly, each app has its own features and goals, if one app does something i
 A- *How do I report a bug?*  
 R- You are in the right place! Use your GitHub account to create a new "issue", please add as much info as you can, and logcats showing the error is very much appreciated! Thank you!
 
-A- * I cannot install AmazMod? / How do I get support? / H-E-L-P M-E!*  
+A- *I cannot install AmazMod? / How do I get support? / H-E-L-P M-E!*  
 R- GitHub isn't a place for support. Currently your options are:
 
 International:
