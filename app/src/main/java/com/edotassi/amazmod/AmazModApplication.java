@@ -68,7 +68,6 @@ public class AmazModApplication extends Application {
     private void setupLocale() {
         defaultLocale = Locale.getDefault();
     }
-<<<<<<< Updated upstream
 
     private void addPersistentNotification(String model){
 
@@ -110,7 +109,4 @@ public class AmazModApplication extends Application {
             }
         }
     }
-
-=======
->>>>>>> Stashed changes
 }
