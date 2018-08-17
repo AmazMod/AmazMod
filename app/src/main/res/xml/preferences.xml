@@ -76,12 +76,29 @@
         <ListPreference
             android:defaultValue="7000"
             android:dependency="preference.notifications.enable.custom.ui"
-            android:dialogTitle="Screen timeout"
+            android:dialogTitle="@string/notifications_screen_timeout"
             android:entries="@array/pref_amazmodservice_screen_timeout_entries"
             android:entryValues="@array/pref_amazmodservice_screen_timeout_values"
             android:key="preference.amazmodservice.screen.timeout"
             android:summary="@string/pref_screen_timeout_summary"
             android:title="@string/pref_screen_timeout" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.amazmodservice.inverted.theme"
+            android:summary="@string/pref_notifications_inverted_theme_summary"
+            android:title="@string/pref_notifications_inverted_theme" />
+        <ListPreference
+            android:defaultValue="n"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:dialogTitle="@string/notifications_font_size"
+            android:entries="@array/pref_amazmodservice_font_size_entries"
+            android:entryValues="@array/pref_amazmodservice_font_size_values"
+            android:key="preference.amazmodservice.font.size"
+            android:summary="@string/pref_font_size_summary"
+            android:title="@string/pref_font_size" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_filters">

@@ -66,6 +66,10 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS);
         final boolean disableNotificationReplies = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+        final boolean enableInvertedTheme = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
+        final String fontSize = Prefs.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
 
         final boolean disableBatteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
                 Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
@@ -100,6 +104,8 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setNotificationsCustomUi(enableCustomUi);
         settingsData.setDisableNotifications(disableNotifications);
         settingsData.setDisableNotificationReplies(disableNotificationReplies);
+        settingsData.setInvertedTheme(enableInvertedTheme);
+        settingsData.setFontSize(fontSize);
 
         SyncSettings syncSettings = new SyncSettings(settingsData);
 

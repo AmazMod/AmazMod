@@ -18,6 +18,8 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DISABLE_NOTIFICATIONS = "disable_notifications";
     public static final String DISABLE_NOTIFICATION_REPLIES = "disable_notification_replies";
     public static final String ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "enable_hardware_keys_music_control";
+    public static final String ENABLE_INVERTED_THEME = "enable_inverted_theme";
+    public static final String FONT_SIZE = "font_size";
 
     private String replies;
     private int vibration;
@@ -26,6 +28,8 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean disableNotifications;
     private boolean disableNotificationsReplies;
     private boolean enableHardwareKeysMusicControl;
+    private boolean enableInvertedTheme;
+    private String fontSize;
 
     public SettingsData() {
     }
@@ -38,6 +42,8 @@ public class SettingsData extends Transportable implements Parcelable {
         disableNotifications = in.readByte() != 0;
         disableNotificationsReplies = in.readByte() != 0;
         enableHardwareKeysMusicControl = in.readByte() != 0;
+        enableInvertedTheme = in.readByte() != 0;
+        fontSize = in.readString();
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -62,6 +68,8 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(DISABLE_NOTIFICATIONS, disableNotifications);
         dataBundle.putBoolean(DISABLE_NOTIFICATION_REPLIES, disableNotificationsReplies);
         dataBundle.putBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, enableHardwareKeysMusicControl);
+        dataBundle.putBoolean(ENABLE_INVERTED_THEME, enableInvertedTheme);
+        dataBundle.putString(FONT_SIZE, fontSize);
 
         return dataBundle;
     }
@@ -76,6 +84,8 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDisableNotifications(dataBundle.getBoolean(DISABLE_NOTIFICATIONS));
         settingsData.setDisableNotificationReplies(dataBundle.getBoolean(DISABLE_NOTIFICATION_REPLIES));
         settingsData.setEnableHardwareKeysMusicControl(dataBundle.getBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL));
+        settingsData.setInvertedTheme(dataBundle.getBoolean(ENABLE_INVERTED_THEME));
+        settingsData.setFontSize(dataBundle.getString(FONT_SIZE));
 
         return settingsData;
     }
@@ -143,6 +153,18 @@ public class SettingsData extends Transportable implements Parcelable {
         this.enableHardwareKeysMusicControl = enableHardwareKeysMusicControl;
     }
 
+    public boolean isInvertedTheme() { return enableInvertedTheme; }
+
+    public void setInvertedTheme( boolean enableInvertedTheme){
+        this.enableInvertedTheme = enableInvertedTheme;
+    }
+
+    public String getFontSize() { return fontSize; }
+
+    public void setFontSize( String fontSize ) {
+        this.fontSize = fontSize;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -157,5 +179,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (disableNotifications ? 1 : 0));
         dest.writeByte((byte) (disableNotificationsReplies ? 1 : 0));
         dest.writeByte((byte) (enableHardwareKeysMusicControl ? 1 : 0));
+        dest.writeByte((byte) (enableInvertedTheme ? 1 : 0));
+        dest.writeString(fontSize);
     }
 }

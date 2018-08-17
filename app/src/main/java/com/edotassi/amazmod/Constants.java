@@ -13,6 +13,8 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_REPLIES = "preference.amazmodservice.replies";
     public static final String PREF_NOTIFICATIONS_VIBRATION = "preference.amazmodservice.vibration";
     public static final String PREF_NOTIFICATIONS_SCREEN_TIMEOUT = "preference.amazmodservice.screen.timeout";
+    public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "preference.amazmodservice.inverted.theme";
+    public static final String PREF_NOTIFICATIONS_FONT_SIZE = "preference.amazmodservice.font.size";
     public static final String PREF_DISABLE_BATTERY_CHART = "preference.disable.battery.chart";
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
@@ -25,9 +27,11 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
+    public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS = false;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = false;
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
     public static final boolean PREF_DEFAULT_DISABLE_BATTERY_CHART = false;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";

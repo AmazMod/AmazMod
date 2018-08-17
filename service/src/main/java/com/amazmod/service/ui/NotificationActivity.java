@@ -52,6 +52,8 @@ public class NotificationActivity extends Activity {
     ImageView icon;
     @BindView(R2.id.notification_replies_container)
     LinearLayout repliesContainer;
+    @BindView(R2.id.notification_root_layout)
+    LinearLayout rootLayout;
 
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
@@ -61,6 +63,10 @@ public class NotificationActivity extends Activity {
     private NotificationData notificationSpec;
 
     private SettingsManager settingsManager;
+
+    private final float FONT_SIZE_NORMAL = 14.0f;
+    private final float FONT_SIZE_LARGE = 18.0f;
+    private final float FONT_SIZE_HUGE = 22.0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,35 @@ public class NotificationActivity extends Activity {
         ButterKnife.bind(this);
 
         settingsManager = new SettingsManager(this);
+
+        // Set theme and font size
+        boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
+        String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
+        float fontSizeSP;
+
+        if (enableInvertedTheme) {
+                rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+                time.setTextColor(getResources().getColor(R.color.black));
+                title.setTextColor(getResources().getColor(R.color.black));
+                text.setTextColor(getResources().getColor(R.color.black));
+                icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
+        }
+        switch (fontSize) {
+            case "l":
+                fontSizeSP = FONT_SIZE_LARGE;
+                break;
+            case "h":
+                fontSizeSP = FONT_SIZE_HUGE;
+                break;
+            default:
+                fontSizeSP = FONT_SIZE_NORMAL;
+
+        }
+        time.setTextSize(fontSizeSP);
+        title.setTextSize(fontSizeSP);
+        text.setTextSize(fontSizeSP);
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
@@ -143,7 +178,7 @@ public class NotificationActivity extends Activity {
                 Button button = new Button(this);
                 button.setLayoutParams(param);
                 button.setText(reply.getValue());
-                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -157,7 +192,7 @@ public class NotificationActivity extends Activity {
             Button button = new Button(this);
             button.setLayoutParams(param);
             button.setText(R.string.close);
-            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
