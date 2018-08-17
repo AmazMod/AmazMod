@@ -64,3 +64,5 @@ amazmod-certificate\.key
 key-play-console\.json
 
 release/
+
+app/src/main/\.DS_Store
