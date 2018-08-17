@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -64,19 +65,13 @@ public class NotificationActivity extends Activity {
 
     private SettingsManager settingsManager;
 
-    private final float FONT_SIZE_NORMAL = 14.00f;
-    private final float FONT_SIZE_LARGE = 18.0f;
-    private final float FONT_SIZE_HUGE = 22.0f;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+        final float FONT_SIZE_NORMAL = 14.0f;
+        final float FONT_SIZE_LARGE = 18.0f;
+        final float FONT_SIZE_HUGE = 22.0f;
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -95,14 +90,15 @@ public class NotificationActivity extends Activity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
+        Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         float fontSizeSP;
 
         if (enableInvertedTheme) {
-                rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
-                time.setTextColor(getResources().getColor(R.color.black));
-                title.setTextColor(getResources().getColor(R.color.black));
-                text.setTextColor(getResources().getColor(R.color.black));
-                icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
+            rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+            time.setTextColor(getResources().getColor(R.color.black));
+            title.setTextColor(getResources().getColor(R.color.black));
+            text.setTextColor(getResources().getColor(R.color.black));
+            icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
         }
         switch (fontSize) {
             case "l":
@@ -137,7 +133,7 @@ public class NotificationActivity extends Activity {
 
             //Modified for RC1
             //if (notificationSpec.getHideButtons()) {
-                findViewById(R.id.activity_buttons).setVisibility(View.GONE);
+            findViewById(R.id.activity_buttons).setVisibility(View.GONE);
             //}
 
             icon.setImageBitmap(bitmap);
@@ -153,7 +149,7 @@ public class NotificationActivity extends Activity {
             }
 
         } catch (NullPointerException ex) {
-            Log.d(Constants.TAG,"NotificationActivity onCreate - Exception: " + ex.toString() + " notificationSpec: " + notificationSpec);
+            Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString() + " notificationSpec: " + notificationSpec);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
@@ -166,7 +162,9 @@ public class NotificationActivity extends Activity {
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
-        if (disableNotificationReplies || hideReplies) { disableNotificationReplies = true; }
+        if (disableNotificationReplies || hideReplies) {
+            disableNotificationReplies = true;
+        }
 
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -208,7 +206,7 @@ public class NotificationActivity extends Activity {
                 Button button = new Button(this);
                 button.setLayoutParams(param);
                 button.setText(R.string.close);
-                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -241,14 +239,12 @@ public class NotificationActivity extends Activity {
         finish();
     }
 
-  @OnClick(R2.id.activity_notification_button_reply)
+    @OnClick(R2.id.activity_notification_button_reply)
     public void clickReply() {
         if (nullError) {
             finish();
-        }
-        else {
+        } else {
 //            Toast.makeText(this, "not_implented", Toast.LENGTH_SHORT).show();
-
             //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #1
             postWithStandardUI(notificationSpec);
             finish();
@@ -289,12 +285,12 @@ public class NotificationActivity extends Activity {
     //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #2
     private void postWithStandardUI(NotificationData notificationData) {
 
-        NotificationManager notificationManager;
         Context context;
 
-        context=getBaseContext();
-        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        Log.d(Constants.TAG, "NotifIcon 2");
+        context = getBaseContext();
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        //notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        Log.d(Constants.TAG, "NotificationActivity postWithStandardUI");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -305,12 +301,13 @@ public class NotificationActivity extends Activity {
                 .setContentTitle(notificationData.getTitle())
                 .setVibrate(new long[]{0});
 
-        Notification notification = builder.build();
-        try {
-            notificationManager.notify(notificationData.getId(), notification);
-        } catch (NullPointerException ex) {
-            Log.d(Constants.TAG, "NotificationActivity postWithStandarUI - Exception: " + ex.toString() + " - Notification: " + notification.toString());
-        }
+        notificationManager.notify(notificationData.getId(), builder.build());
+        //Notification notification = builder.build();
+        //try {
+        //    notificationManager.notify(notificationData.getId(), builder.build());
+        //} catch (NullPointerException ex) {
+        //    Log.d(Constants.TAG, "NotificationActivity postWithStandarUI - Exception: " + ex.toString() + " - Notification: " + notification.toString());
+        //}
     }
 
 

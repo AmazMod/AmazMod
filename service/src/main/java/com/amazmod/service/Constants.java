@@ -36,7 +36,7 @@ public class Constants {
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI = false;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
-    public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = true;
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
 
 }

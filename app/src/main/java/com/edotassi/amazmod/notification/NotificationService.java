@@ -542,6 +542,7 @@ public class NotificationService extends NotificationListenerService {
                     Canvas canvas = new Canvas(bitmap);
                     viewImage.layout(0, 0, viewImage.getMeasuredWidth(), viewImage.getMeasuredHeight());
                     viewImage.draw(canvas);
+                    Bitmap.createScaledBitmap(bitmap, 48, 48, true);
 
                     int width = bitmap.getWidth();
                     int height = bitmap.getHeight();
