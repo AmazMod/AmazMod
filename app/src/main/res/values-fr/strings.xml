@@ -154,7 +154,7 @@
     <string name="notifications_font_size">Taille de police</string>
     <string name="device_not_connected">Pas de dispositif connecté</string>
     <string name="device_connected">était connectée</string>
-    <string name="pref_enable_persistent_notification">Activer la notification persisante</string>
+    <string name="pref_enable_persistent_notification">Activer la notification persistante</string>
     <string name="pref_enable_persistent_notification_summary">Active une notification persistante pour éviter qu\'Amazmod ne soit desactivé si il n\'est pas en tache de fond</string>
     <string name="pref_notifications_disable_screenon">Désactiver l\'allumage de l\'écran</string>
     <string name="pref_notifications_disable_screenon_summary">Ne pas allumer ni débloquer l\'écran quand une notification arrive sur la montre</string>
