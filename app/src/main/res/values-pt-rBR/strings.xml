@@ -151,5 +151,14 @@
     <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it is not in the background</string>
     <string name="pref_notifications_disable_screenon">Disable screen on</string>
     <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch</string>
+    <string name="pref_check_permissions">Check app permissions</string>
+    <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed</string>
+    <string name="activity_permissions">Permissions</string>
+    <string name="activity_permissions_write">Write to external storage</string>
+    <string name="activity_permissions_calendar">Access to calendar</string>
+    <string name="activity_permissions_notifications">Access to notifications</string>
+    <string name="activity_permissions_open_settings">Open app settings</string>
+    <string name="enabled">enabled</string>
+    <string name="disabled">disabled</string>
 
 </resources>
