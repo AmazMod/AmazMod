@@ -162,7 +162,7 @@
     <string name="pref_check_permissions_summary">Vérifie si AmazMod a les permissions necessaires</string>
     <string name="activity_permissions">Permissions</string>
     <string name="activity_permissions_write">Ecrire sur le stockage externe</string>
-    <string name="activity_permissions_calendar">Accès au calendrier</string>
+    <string name="activity_permissions_calendar">Accès à l\'agenda</string>
     <string name="activity_permissions_notifications">Accès aux notifications</string>
     <string name="activity_permissions_open_settings">Ouvrir les paramèttres d\'appli</string>
     <string name="enabled">activé</string>
