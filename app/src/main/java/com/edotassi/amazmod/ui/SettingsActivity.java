@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.SyncSettings;
+import com.edotassi.amazmod.notification.PersistentNotification;
+import com.edotassi.amazmod.transport.TransportService;
 import com.huami.watch.transport.DataBundle;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -95,8 +97,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         // Remove persistent notification if it was disabled and was previously enabled
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.cancel(999989);
+            //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            //notificationManager.cancel(999989);
+            PersistentNotification.cancelPersistentNotification(this);
+        } else if (enablePersistentNotificationOnDestroy && !this.enablePersistentNotificationOnCreate) {
+            PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
+            persistentNotification.createPersistentNotification();
         }
 
         //Change app localtion configuration and refresh it on preferece change
