@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<string name="app_name">AmazMod</string>
 	<string name="settings">Настройки</string>
 	<string name="notifications">Уведомления</string>
