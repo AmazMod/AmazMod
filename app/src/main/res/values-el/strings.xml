@@ -138,5 +138,12 @@
     <string name="watch_disconnected">Αποσυνδεδεμένο</string>
     <string name="watch_connecting">Σύνδεση…</string>
     <string name="notification_localok">LOCALOK</string>
+    <string name="activity_files_extras">Files extras</string>
+    <string name="activity_files_backup_title">Backup and Restore</string>
+    <string name="activity_files_permission">Permission to write</string>
+    <string name="activity_files_date_last_backup">Date of last backup</string>
+    <string name="activity_files_backup">Backup</string>
+    <string name="activity_files_restore">restore</string>
+    <string name="never">Never</string>
 
 </resources>

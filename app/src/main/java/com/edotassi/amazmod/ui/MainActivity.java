@@ -266,6 +266,12 @@ public class MainActivity extends AppCompatActivity
                 startActivity(c);
                 return true;
 
+            case R.id.nav_files_extras:
+                Intent f = new Intent(this, FilesExtrasActivity.class);
+                f.setFlags(f.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(f);
+                return true;
+
                 /*
             case R.id.nav_watchface:
                 Intent e = new Intent(this, WatchfaceActivity.class);

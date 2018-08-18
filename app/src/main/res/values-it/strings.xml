@@ -144,4 +144,11 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="activity_permissions_open_settings">Open app settings</string>
     <string name="enabled">enabled</string>
     <string name="disabled">disabled</string>
+    <string name="activity_files_extras">Files extras</string>
+    <string name="activity_files_backup_title">Backup and Restore</string>
+    <string name="activity_files_permission">Permission to write</string>
+    <string name="activity_files_date_last_backup">Date of last backup</string>
+    <string name="activity_files_backup">Backup</string>
+    <string name="activity_files_restore">restore</string>
+    <string name="never">Never</string>
 </resources>
