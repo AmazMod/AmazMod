@@ -95,10 +95,8 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        // Remove persistent notification if it was disabled and was previously enabled
+        // Update persistent notification due to changes in Settings
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
-            //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            //notificationManager.cancel(999989);
             PersistentNotification.cancelPersistentNotification(this);
         } else if (enablePersistentNotificationOnDestroy && !this.enablePersistentNotificationOnCreate) {
             PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
