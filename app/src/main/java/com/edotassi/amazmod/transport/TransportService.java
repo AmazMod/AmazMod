@@ -1,11 +1,15 @@
 package com.edotassi.amazmod.transport;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -63,6 +67,9 @@ public class TransportService extends Service implements Transporter.DataListene
     //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
     private Context context;
+    private final static int NOTIFICANTION_ID = 999989;
+    private NotificationManagerCompat notificationManager;
+    private static boolean enableNotification;
     public static String model;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
@@ -94,11 +101,51 @@ public class TransportService extends Service implements Transporter.DataListene
             transporter.connectTransportService();
             AmazModApplication.isWatchConnected = false;
         }
+
+        // Add persistent notification if it is enabled in Settings or running on Oreo+
+        notificationManager = NotificationManagerCompat.from(this);
+        enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
+        model = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.PREF_WATCH_MODEL, "");
+        if (enableNotification || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String msg;
+            createNotificationChannel();
+
+            Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
+            notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            PendingIntent contentIntent = PendingIntent.getActivity(this,
+                    (int) (long) (System.currentTimeMillis() % 10000L),notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            if (model != null) {
+                if (model.isEmpty()) {
+                    msg = getResources().getString(R.string.device_not_connected);
+                } else
+                    msg = model + " " + getResources().getString(R.string.device_connected);
+            } else msg = getResources().getString(R.string.device_not_connected);
+            Notification notification = new NotificationCompat.Builder(this, Constants.TAG)
+                    .setSmallIcon(R.drawable.outline_watch_black_48)
+                    .setContentTitle(Constants.TAG)
+                    .setContentText(msg)
+                    .setContentIntent(contentIntent)
+                    .setOngoing(true)
+                    .setPriority(NotificationCompat.PRIORITY_MIN)
+                    .build();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForeground(NOTIFICANTION_ID, notification);
+            } else {
+                notificationManager.notify(NOTIFICANTION_ID, notification);
+            }
+
+        }
+
     }
 
     @Override
     public void onDestroy() {
 
+        stopForeground(true);
         HermesEventBus.getDefault().unregister(this);
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
@@ -311,18 +358,31 @@ public class TransportService extends Service implements Transporter.DataListene
         }
     }
 
+    // Create channel for notification on Oreo+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(Constants.TAG, Constants.TAG, NotificationManager.IMPORTANCE_MIN);
+            channel.setDescription(getString(R.string.app_name));
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            try {
+                notificationManager.createNotificationChannel(channel);
+            } catch (NullPointerException e){
+                //TODO log to crashlitics
+                Log.e(Constants.TAG, "AmazModApplication createNotificationChannel exception: " + e.toString());
+            }
+        }
+    }
+
+    // Update persistent notification if it is enabled in Settings
     private void updatePersistentNotification(boolean isWatchConnected) {
 
-        String msg;
+        Log.d(Constants.TAG, "TransportService updatePersistentNotification isConnected: " + AmazModApplication.isWatchConnected);
 
-        // Update persistent notification if it is enabled in Settings
-        final boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
-        if (!enableNotification) {
+        if (!enableNotification && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return;
         }
 
-        Log.d(Constants.TAG, "TransportService updatePersistentNotification isConnected: " + AmazModApplication.isWatchConnected);
+        String msg;
 
         Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
         notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -342,7 +402,6 @@ public class TransportService extends Service implements Transporter.DataListene
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_MIN);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(999989, mBuilder.build());
+        notificationManager.notify(NOTIFICANTION_ID, mBuilder.build());
     }
 }

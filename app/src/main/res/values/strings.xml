@@ -155,7 +155,7 @@
     <string name="device_not_connected">No device connected</string>
     <string name="device_connected">was connected</string>
     <string name="pref_enable_persistent_notification">Enable persistent notification</string>
-    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it is not in the background</string>
+    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it is not in the foreground</string>
     <string name="pref_notifications_disable_screenon">Disable screen on</string>
     <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch</string>
     <string name="pref_check_permissions">Check app permissions</string>

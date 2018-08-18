@@ -43,7 +43,7 @@ public class CheckPermissionsActivity extends AppCompatActivity {
     Button openSettingsButton;
 
     private final Map<String, String > REQUIRED_PERMISSIONS = new HashMap<String, String>(){{
-            put(Manifest.permission.WRITE_CALENDAR, "activity_permissions_calendar");
+            put(Manifest.permission.READ_CALENDAR, "activity_permissions_calendar");
             put(Manifest.permission.WRITE_EXTERNAL_STORAGE, "activity_permissions_write");
     }};
 

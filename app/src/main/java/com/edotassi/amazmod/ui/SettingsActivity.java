@@ -1,11 +1,10 @@
 package com.edotassi.amazmod.ui;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
@@ -137,7 +136,12 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                addPreferencesFromResource(R.xml.preferences_oreo);
+            } else {
+                addPreferencesFromResource(R.xml.preferences);
+            }
+
         }
     }
 
