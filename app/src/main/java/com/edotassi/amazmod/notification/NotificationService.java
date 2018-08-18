@@ -199,6 +199,9 @@ public class NotificationService extends NotificationListenerService {
             if (lastTimeNotificationArrived > 0) {
                 lastTimeNotificationArrived = 0;
             }
+            if (lastTimeNotificationSent > 0) {
+                lastTimeNotificationSent = 0;
+            }
         }
 
 
@@ -568,9 +571,10 @@ public class NotificationService extends NotificationListenerService {
 
                 lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();
+                storeForStats(statusBarNotification, Constants.FILTER_MAPS);
                 Log.d(Constants.TAG, "NotificationService maps lastTxt:  " + lastTxt);
             }
-            storeForStats(statusBarNotification, Constants.FILTER_MAPS);
+
         } else Log.e(Constants.TAG, "NotificationService maps null remoteView");
     }
 
