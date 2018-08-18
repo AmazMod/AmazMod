@@ -13,23 +13,31 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_REPLIES = "preference.amazmodservice.replies";
     public static final String PREF_NOTIFICATIONS_VIBRATION = "preference.amazmodservice.vibration";
     public static final String PREF_NOTIFICATIONS_SCREEN_TIMEOUT = "preference.amazmodservice.screen.timeout";
+    public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "preference.amazmodservice.inverted.theme";
+    public static final String PREF_NOTIFICATIONS_FONT_SIZE = "preference.amazmodservice.font.size";
     public static final String PREF_DISABLE_BATTERY_CHART = "preference.disable.battery.chart";
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
     public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
+    public static final String PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "preference.enable.hw.keys.music.control";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
     public static final String PREF_FORCE_ENGLISH = "preference.force.english";
+    public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
+    public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS = false;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = false;
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
     public static final boolean PREF_DEFAULT_DISABLE_BATTERY_CHART = false;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";
+    public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
+    public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
@@ -40,6 +48,8 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED = "preference.notifications.enable.when.locked";
     public static final String PREF_NOTIFICATIONS_ENABLE_UNGROUP = "preference.notifications.enable.ungroup";
     public static final String PREF_TIME_LAST_SYNC = "preference.time.last.sync";
+    public static final String PREF_WATCH_MODEL = "preference.watch.model";
+    public static final String PREF_ENABLE_PERSISTENT_NOTIFICATION = "preference.enable.persistent.notification";
 
     public static final byte FILTER_CONTINUE = 'C';
     public static final byte FILTER_UNGROUP = 'U';
@@ -53,4 +63,7 @@ public class Constants {
     public static final byte FILTER_LOCAL= 'L';
     public static final byte FILTER_BLOCK = 'B';
     public static final byte FILTER_RETURN = 'R';
+    public static final byte FILTER_SCREENON = 'S';
+    public static final byte FILTER_SCREENLOCKED = 'N';
+    public static final byte FILTER_NOTIFICATIONS_DISABLED = 'D';
 }

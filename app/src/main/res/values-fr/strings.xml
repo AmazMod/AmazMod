@@ -35,7 +35,8 @@
     <string name="notifications_service_name">AmazModNotificationsService</string>
 
     <string name="notification_access">Accès aux notifications</string>
-    <string name="notification_access_not_enabled">Accès  aux notification non autorisé<string name="notification_access_enable">Autoriser</string>
+    <string name="notification_access_not_enabled">Accès  aux notification non autorisé</string>
+    <string name="notification_access_enable">Autoriser</string>
 
     <string name="activity_about_notifications_test">Test de notifications</string>
     <string name="customui_test">Custom UI</string>
@@ -72,6 +73,9 @@
     <string name="activity_about_testers">Testeurs</string>
     <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
+    <string name="translators">Traducteurs</string>
+    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw)</string>
+
 
     <string name="activity_watchface_need_greatfit">Vous devez installer la watchface "GreatFit" pour que ces options fonctionnent</string>
     <string name="activity_watchface_show_altitude">Montrer altitude</string>
@@ -120,6 +124,8 @@
     <string name="pref_notifications_enable_ungroup">Activer le dégroupage des notifications</string>
     <string name="pref_notifications_enable_ungroup_summary">Les notifications du même expéditeur seront séparées (vous ne pourrez alors pas les synchroniser)</string>
     <string name="pref_filters">Filtres de notifications</string>
+    <string name="pref_enable_music_control_with_hardware_button">Activer le controle de la musique par les boutons</string>
+    <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Active le controle de la musique par les boutons de la montre. Appuyez sur bas pour lire/pauser la musique. Appui long pour passer a la chansons suivante.</string>
 
     <string name="intro_title_1">Bienvenue dans AmazMod!</string>
     <string name="intro_description_1">Veuillez suivre cette présentation pour apprendre comment installer l/'App. de Service sur la montre et donner accès aux notifications a l/'application.</string>
@@ -137,5 +143,28 @@
     <string name="watch_disconnected">Déconnectée</string>
     <string name="watch_connecting">Connection…</string>
     <string name="notification_localok">LOCALOK</string>
+    <string name="notification_screenon">screenon</string>
+    <string name="notification_screenlocked">screenlocked</string>
+    <string name="notifications_screen_timeout">Screen timeout</string>
+    <string name="pref_notifications_inverted_theme">Inverted theme</string>
+    <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme</string>
+    <string name="pref_font_size">Font size</string>
+    <string name="pref_font_size_summary">Select font size used in CustomUI notifications</string>
+    <string name="notifications_font_size">Font Size</string>
+    <string name="device_not_connected">No device connected</string>
+    <string name="device_connected">was connected</string>
+    <string name="pref_enable_persistent_notification">Enable persistent notification</string>
+    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it is not in the foreground</string>
+    <string name="pref_notifications_disable_screenon">Disable screen on</string>
+    <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch</string>
+    <string name="pref_check_permissions">Check app permissions</string>
+    <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed</string>
+    <string name="activity_permissions">Permissions</string>
+    <string name="activity_permissions_write">Write to external storage</string>
+    <string name="activity_permissions_calendar">Access to calendar</string>
+    <string name="activity_permissions_notifications">Access to notifications</string>
+    <string name="activity_permissions_open_settings">Open app settings</string>
+    <string name="enabled">enabled</string>
+    <string name="disabled">disabled</string>
 
 </resources>

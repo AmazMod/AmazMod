@@ -1,4 +1,4 @@
-package com.edotassi.amazmod;
+package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -6,9 +6,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
 
+import com.edotassi.amazmod.Constants;
+import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.util.Permissions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
@@ -20,11 +22,9 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 
 import amazmod.com.models.Reply;
 
@@ -132,12 +132,10 @@ public class MainIntroActivity extends IntroActivity {
             public boolean canGoForward(int position) {
                 Slide slide = getSlide(position);
                 if (slide == accessNotificationsSlide) {
-//                    Set<String> packages = NotificationManagerCompat.getEnabledListenerPackages(getApplicationContext());
-//                    int index = Arrays.binarySearch(packages.toArray(), BuildConfig.APPLICATION_ID);
-                    if (Settings.Secure.getString(getContentResolver(),"enabled_notification_listeners").contains(getApplicationContext().getPackageName())) {
-                        return true;
-                    } else return false;
-                } else return true;
+                    return Permissions.hasNotificationAccess(getApplicationContext());
+                } else {
+                    return true;
+                }
             }
             @Override
             public boolean canGoBackward(int position) {

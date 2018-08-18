@@ -1,5 +1,24 @@
 <changelog>
     <release
+        versionName="v1.0.28"
+        versioneCode="155">
+        <new>Added inverted theme and configurable font size for CustomUI</new>
+        <new>Added preference to disable screen on/unlock on watch for CustomUI</new>
+        <new>Added persistent notification with Preferences</new>
+        <bugfix>Skype notifications fix</bugfix>
+        <info>Updated Italian translations</info>
+    </release>
+    <release
+        date="2018-08-14"
+        versionCode="154"
+        versionName="v1.0.27">
+        <new>Added Italian translations</new>
+        <new>Added French translations</new>
+        <new>Added Hebrew translations</new>
+        <new>Added credits for translators in About page</new>
+        <bugfix>Fixed a crash in start screen</bugfix>
+    </release>
+    <release
         date="2018-08-12"
         versionCode="153"
         versionName="v1.0.26">
@@ -98,14 +117,18 @@
         date="2018-07-29"
         versionCode="140"
         versionName="v1.0.12-ALPHA">
-        <new>Added current battery value to battery chart in phone app and value and icon to widget</new>
+        <new>Added current battery value to battery chart in phone app and value and icon to
+            widget
+        </new>
         <info>Widget code cleaned and optimized</info>
     </release>
     <release
         date="2018-07-27"
         versionCode="139"
         versionName="v1.0.11-ALPHA">
-        <new>Added Setting to disable remove of notifications from watch when they are removed from phone</new>
+        <new>Added Setting to disable remove of notifications from watch when they are removed from
+            phone
+        </new>
     </release>
     <release
         date="2018-07-27"

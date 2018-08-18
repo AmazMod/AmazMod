@@ -3,9 +3,10 @@ package com.edotassi.amazmod;
 import android.app.Application;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
-import com.edotassi.amazmod.log.Logger;
+import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
 import com.edotassi.amazmod.transport.TransportService;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -37,7 +38,11 @@ public class AmazModApplication extends Application {
 
         HermesEventBus.getDefault().init(this);
 
-        startService(new Intent(this, TransportService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, TransportService.class));
+        } else {
+            startService(new Intent(this, TransportService.class));
+        }
 
         BatteryStatusReceiver.startBatteryReceiver(this);
 

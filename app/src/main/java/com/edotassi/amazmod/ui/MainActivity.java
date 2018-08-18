@@ -24,12 +24,12 @@ import android.view.MenuItem;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.MainIntroActivity;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
+import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
 
         //isWatchConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
         //isWatchConnected = itc == null || itc.getTransportStatus();
-        System.out.println(Constants.TAG + " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
         showChangelog(false, BuildConfig.VERSION_CODE, true);
 
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            System.out.println(Constants.TAG + " MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+            Log.d(Constants.TAG, " MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
             conf.locale = AmazModApplication.defaultLocale;
@@ -122,10 +122,10 @@ public class MainActivity extends AppCompatActivity
         final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
 
-        System.out.println(Constants.TAG + " MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+        Log.d(Constants.TAG," MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
 
         if (forceEN && (currentLocale != Locale.US)) {
-            System.out.println(Constants.TAG + " MaiActivity New locale: US");
+            Log.d(Constants.TAG," MaiActivity New locale: US");
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
@@ -136,12 +136,11 @@ public class MainActivity extends AppCompatActivity
 
         setupCards();
 
-        //Try to start NotificationService if it is not active
+        // Try to start NotificationService if it is not active
         Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
         if (!packageNames.contains(this.getPackageName())) {
             toggleNotificationService();
         }
-
 
     }
 
@@ -189,7 +188,7 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        System.out.println(Constants.TAG + " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG," MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
 
         Flowable
                 .timer(2000, TimeUnit.MILLISECONDS)
@@ -292,9 +291,15 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onWatchStatus(WatchStatus watchStatus) {
         this.watchStatus = watchStatus;
+        TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
+        PreferenceManager.getDefaultSharedPreferences(this).edit()
+                .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
+                .apply();
         AmazModApplication.isWatchConnected = true;
+
         watchInfoFragment.onResume();
-        System.out.println(Constants.TAG + " MainActivity onWatchStatus " + AmazModApplication.isWatchConnected);
+
+        Log.d(Constants.TAG," MainActivity onWatchStatus " + AmazModApplication.isWatchConnected);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -308,12 +313,8 @@ public class MainActivity extends AppCompatActivity
         } else {
             AmazModApplication.isWatchConnected = false;
         }
-        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG," MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
     }
-
-//    public boolean isWatchConnected() {
-//        return isWatchConnected;
-//    }
 
     public WatchStatus getWatchStatus() {
         return watchStatus;

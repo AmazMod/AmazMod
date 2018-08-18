@@ -8,9 +8,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
 
-import com.edotassi.amazmod.log.LoggerScoped;
+import com.edotassi.amazmod.support.Logger;
 
 import java.util.Calendar;
 
@@ -79,7 +78,7 @@ public class NotificationFactory {
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            LoggerScoped.get(NotificationFactory.class).error(e, "Failed to get bipmap from %s", notificationPackgae);
+            Logger.get(NotificationFactory.class).e(e, "Failed to get bipmap from %s", notificationPackgae);
         }
 
         notificationData.setId(statusBarNotification.getId());

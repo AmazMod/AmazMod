@@ -31,36 +31,36 @@
 
     <PreferenceCategory android:title="@string/customui">
 
-<!-- Disabled for RC1
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="preference.notifications.enable.custom.ui"
-            android:disableDependentsState="true"
-            android:key="preference.amazmodservice.enable.replies"
-            android:summary="@string/pref_disable_notifications_replies_summary"
-            android:title="@string/pref_disable_notifications_replies" />
+        <!-- Disabled for RC1
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:dependency="preference.notifications.enable.custom.ui"
+                    android:disableDependentsState="true"
+                    android:key="preference.amazmodservice.enable.replies"
+                    android:summary="@string/pref_disable_notifications_replies_summary"
+                    android:title="@string/pref_disable_notifications_replies" />
 
-        <Preference
-            android:dependency="preference.amazmodservice.enable.replies"
-            android:key="preference.amazmodservice.replies"
-            android:summary="@string/pref_notifications_replies_summary"
-            android:title="@string/pref_notifications_replies">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesActivity"
-                android:targetPackage="com.edotassi.amazmod" />
-        </Preference>
+                <Preference
+                    android:dependency="preference.amazmodservice.enable.replies"
+                    android:key="preference.amazmodservice.replies"
+                    android:summary="@string/pref_notifications_replies_summary"
+                    android:title="@string/pref_notifications_replies">
+                    <intent
+                        android:action="android.intent.action.VIEW"
+                        android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesActivity"
+                        android:targetPackage="com.edotassi.amazmod" />
+                </Preference>
 
-        <ListPreference
-            android:defaultValue="300"
-            android:dependency="preference.notifications.enable.custom.ui"
-            android:dialogTitle="Vibration"
-            android:entries="@array/pref_amazmodservice_vibration_entries"
-            android:entryValues="@array/pref_amazmodservice_vibration_values"
-            android:key="preference.amazmodservice.vibration"
-            android:summary="@string/pref_vibration_duration_summary"
-            android:title="@string/pref_vibration_duration" />
--->
+                <ListPreference
+                    android:defaultValue="300"
+                    android:dependency="preference.notifications.enable.custom.ui"
+                    android:dialogTitle="Vibration"
+                    android:entries="@array/pref_amazmodservice_vibration_entries"
+                    android:entryValues="@array/pref_amazmodservice_vibration_values"
+                    android:key="preference.amazmodservice.vibration"
+                    android:summary="@string/pref_vibration_duration_summary"
+                    android:title="@string/pref_vibration_duration" />
+        -->
         <!-- Modified for RC1 -->
         <Preference
             android:dependency="preference.notifications.enable.custom.ui"
@@ -76,63 +76,86 @@
         <ListPreference
             android:defaultValue="7000"
             android:dependency="preference.notifications.enable.custom.ui"
-            android:dialogTitle="Screen timeout"
+            android:dialogTitle="@string/notifications_screen_timeout"
             android:entries="@array/pref_amazmodservice_screen_timeout_entries"
             android:entryValues="@array/pref_amazmodservice_screen_timeout_values"
             android:key="preference.amazmodservice.screen.timeout"
             android:summary="@string/pref_screen_timeout_summary"
             android:title="@string/pref_screen_timeout" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.amazmodservice.inverted.theme"
+            android:summary="@string/pref_notifications_inverted_theme_summary"
+            android:title="@string/pref_notifications_inverted_theme" />
+        <ListPreference
+            android:defaultValue="n"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:dialogTitle="@string/notifications_font_size"
+            android:entries="@array/pref_amazmodservice_font_size_entries"
+            android:entryValues="@array/pref_amazmodservice_font_size_values"
+            android:key="preference.amazmodservice.font.size"
+            android:summary="@string/pref_font_size_summary"
+            android:title="@string/pref_font_size" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.amazmodservice.disable.screenon"
+            android:summary="@string/pref_notifications_disable_screenon_summary"
+            android:title="@string/pref_notifications_disable_screenon" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_filters">
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="preference.disable.notifications"
-        android:key="preference.disable.notifications.when.screen.on"
-        android:summary="@string/pref_disable_notifications_when_screen_on_summary"
-        android:title="@string/pref_disable_notifications_when_screen_on" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.disable.notifications.when.screen.on"
+            android:summary="@string/pref_disable_notifications_when_screen_on_summary"
+            android:title="@string/pref_disable_notifications_when_screen_on" />
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:dependency="preference.disable.notifications.when.screen.on"
-        android:key="preference.notifications.enable.when.locked"
-        android:summary="@string/pref_enable_notifications_when_locked_summary"
-        android:title="@string/pref_enable_notifications_when_locked" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="preference.disable.notifications.when.screen.on"
+            android:key="preference.notifications.enable.when.locked"
+            android:summary="@string/pref_enable_notifications_when_locked_summary"
+            android:title="@string/pref_enable_notifications_when_locked" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="preference.disable.notifications"
-        android:key="preference.disable.notifications.when.dnd"
-        android:summary="@string/pref_disable_notifications_when_dnd_summary"
-        android:title="@string/pref_disable_notifications_when_dnd" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.disable.notifications.when.dnd"
+            android:summary="@string/pref_disable_notifications_when_dnd_summary"
+            android:title="@string/pref_disable_notifications_when_dnd" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="preference.disable.notifications"
-        android:key="preference.disable.remove.notifications"
-        android:summary="@string/pref_disable_remove_notifications_summary"
-        android:title="@string/pref_disable_remove_notifications" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.disable.remove.notifications"
+            android:summary="@string/pref_disable_remove_notifications_summary"
+            android:title="@string/pref_disable_remove_notifications" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="preference.disable.notifications"
-        android:key="preference.notifications.enable.voice.apps"
-        android:summary="@string/pref_enable_voice_apps_summary"
-        android:title="@string/pref_enable_voice_apps" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.notifications.enable.voice.apps"
+            android:summary="@string/pref_enable_voice_apps_summary"
+            android:title="@string/pref_enable_voice_apps" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="preference.disable.notifications"
-        android:key="preference.notifications.enable.local.only"
-        android:summary="@string/pref_enable_local_only_summary"
-        android:title="@string/pref_enable_local_only" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.notifications.enable.local.only"
+            android:summary="@string/pref_enable_local_only_summary"
+            android:title="@string/pref_enable_local_only" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="preference.disable.notifications"
-        android:key="preference.notifications.enable.ungroup"
-        android:summary="@string/pref_notifications_enable_ungroup_summary"
-        android:title="@string/pref_notifications_enable_ungroup" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.notifications.enable.ungroup"
+            android:summary="@string/pref_notifications_enable_ungroup_summary"
+            android:title="@string/pref_notifications_enable_ungroup" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/battery">
@@ -165,16 +188,34 @@
     <PreferenceCategory android:title="@string/others">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="preference.enable.hw.keys.music.control"
+            android:title="@string/pref_enable_music_control_with_hardware_button"
+            android:summary="@string/pref_enable_music_control_with_hardware_button_summary" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="preference.enable.persistent.notification"
+            android:summary="@string/pref_enable_persistent_notification_summary"
+            android:title="@string/pref_enable_persistent_notification" />
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="preference.force.english"
             android:summary="@string/pref_force_english_summary"
             android:title="@string/pref_force_english" />
         <Preference
+            android:summary="@string/pref_check_permissions_summary"
+            android:title="@string/pref_check_permissions">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.edotassi.amazmod.ui.CheckPermissionsActivity"
+                android:targetPackage="com.edotassi.amazmod" />
+        </Preference>
+        <Preference
             android:summary="@string/pref_run_wizard_summary"
             android:title="@string/pref_run_wizard">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="com.edotassi.amazmod.MainIntroActivity"
-            android:targetPackage="com.edotassi.amazmod" />
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.edotassi.amazmod.ui.MainIntroActivity"
+                android:targetPackage="com.edotassi.amazmod" />
         </Preference>
     </PreferenceCategory>
 
