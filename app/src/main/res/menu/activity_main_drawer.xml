@@ -30,6 +30,11 @@
             android:id="@+id/nav_changelog"
             android:icon="@drawable/outline_list_black_36"
             android:title="@string/changelog" />
+
+        <item
+            android:id="@+id/nav_faq"
+            android:icon="@drawable/outline_live_help_black_36"
+            android:title="@string/faq" />
         <item
             android:id="@+id/nav_abount"
             android:icon="@drawable/outline_info_black_36"

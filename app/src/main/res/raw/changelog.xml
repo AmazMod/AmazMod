@@ -1,0 +1,209 @@
+<changelog>
+    <release
+        date="2018-08-12"
+        versionCode="153"
+        versionName="v1.0.26">
+        <new>First beta release</new>
+        <new>Added faq section</new>
+        <info>Battery chart improvements</info>
+    </release>
+    <release
+        date="2018-08-08"
+        versionCode="152"
+        versionName="v1.0.25">
+        <new>Added email and telegram channel</new>
+        <info>Improved battery prediction</info>
+        <bugfix>Fixed some crashes</bugfix>
+    </release>
+    <release
+        date="2018-08-08"
+        versionCode="151"
+        versionName="v1.0.23-RC5">
+        <new>battery prediction</new>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
+        date="2018-08-07"
+        versionCode="150"
+        versionName="v1.0.22-RC4">
+        <new>Add maps navigation</new>
+        <new>Connection status</new>
+        <new>Internal code refactoring</new>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
+        date="2018-08-05"
+        versionCode="149"
+        versionName="v1.0.21-RC3">
+        <bugfix>Check if transport service is connected</bugfix>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
+        date="2018-08-04"
+        versionCode="148"
+        versionName="v1.0.20-RC2">
+        <new>Published on Play Store</new>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
+        date="2018-08-04"
+        versionCode="147"
+        versionName="v1.0.19-RC2">
+        <new>Merged code</new>
+    </release>
+    <release
+        date="2018-08-04"
+        versionCode="146"
+        versionName="v1.0.18-RC1">
+        <new>Release candidate</new>
+    </release>
+    <release
+        date="2018-08-02"
+        versionCode="145"
+        versionName="v1.0.17-RC1">
+        <new>Release Candidate #1</new>
+        <new>Added ungroup option for standard notifications</new>
+        <bugfix>Custom UI is now Replies</bugfix>
+        <info>Some code cleaning</info>
+    </release>
+    <release
+        date="2018-08-02"
+        versionCode="144"
+        versionName="v1.0.16-ALPHA">
+        <new>Notifications log</new>
+        <bugfix>Notifications when screen is locked</bugfix>
+        <bugfix>Fix null icon in test notification with custom ui</bugfix>
+    </release>
+    <release
+        date="2018-08-01"
+        versionCode="143"
+        versionName="v1.0.15-ALPHA">
+        <bugfix>Fixed battery data insertion in the database</bugfix>
+    </release>
+    <release
+        date="2018-07-30"
+        versionCode="142"
+        versionName="v1.0.14-ALPHA">
+        <bugfix>Fixed double transported data in HermesEventBus, finally!!!</bugfix>
+    </release>
+    <release
+        date="2018-07-29"
+        versionCode="141"
+        versionName="v1.0.13-ALPHA">
+        <new>Initial support to voice call notifications for messengers</new>
+        <new>CustomUI notifications will now respect Silent mode</new>
+        <new>Added Preferences for both Voice call and Local only notifications</new>
+    </release>
+    <release
+        date="2018-07-29"
+        versionCode="140"
+        versionName="v1.0.12-ALPHA">
+        <new>Added current battery value to battery chart in phone app and value and icon to widget</new>
+        <info>Widget code cleaned and optimized</info>
+    </release>
+    <release
+        date="2018-07-27"
+        versionCode="139"
+        versionName="v1.0.11-ALPHA">
+        <new>Added Setting to disable remove of notifications from watch when they are removed from phone</new>
+    </release>
+    <release
+        date="2018-07-27"
+        versionCode="138"
+        versionName="v1.0.10-ALPHA">
+        <new>AmazMod will now respect DND mode (exprimental)</new>
+        <new>Setting added to disable notifications when DND is enabled</new>
+        <bugfix>Time since last full charge display enhanced</bugfix>
+    </release>
+    <release
+        date="2018-07-26"
+        versionCode="137"
+        versionName="v1.0.9-ALPHA">
+        <new>Remove Notifications from watch when they are removed from phone</new>
+        <new>Added Time Since Last Charge</new>
+        <new>Implemented both Disable Battery Chart and Chart Time Interval</new>
+        <bugfix>App start using default locale after restart with Force to English enabled</bugfix>
+        <bugfix>Check for notifications access on Oreo after Wizard</bugfix>
+    </release>
+    <release
+        date="2018-07-14"
+        versionCode="136"
+        versionName="v1.0.8-ALPHA">
+        <bugfix>Charging color in battery chart</bugfix>
+    </release>
+    <release
+        date="2018-07-04"
+        versionCode="135"
+        versionName="v1.0.7-ALPHA">
+        <new>Added preference to force English localization</new>
+        <info>Updated Preferences (again)</info>
+        <info filter="watch">Keep button on Custom UI notifications save them to system drawer
+        </info>
+        <info>Added initial Brazilian Portuguese localization</info>
+        <info>Added optional Activity for preferences (WIP)</info>
+    </release>
+    <release
+        date="2018-07-02"
+        versionCode="134"
+        versionName="v1.0.6-ALPHA">
+        <info filter="watch">Now when you reply the notification is closed</info>
+        <info>Better wizard</info>
+    </release>
+    <release
+        date="2018-07-01"
+        versionCode="133"
+        versionName="v1.0.5-ALPHA">
+        <bugfix>App selection not saved in "Filter by apps"</bugfix>
+        <info>Selected apps are saved when toggle is pressed</info>
+        <info>System apps are showed if enabled</info>
+        <new>In battery card there is the time of the last update</new>
+    </release>
+    <release
+        date="2018-07-01"
+        versionCode="132"
+        versionName="v1.0.4-ALPHA">
+        <bugfix>Back button in toolbar</bugfix>
+        <bugfix>Check notifications access permission</bugfix>
+        <new>Intro with first setup</new>
+        <new>Replies list in settings</new>
+        <new>Brightness control</new>
+        <new>Settings to choose UI for notifications: standard or custom</new>
+        <new>Initial support for replies in standard notifications</new>
+        <new>Changed replies internal format, now they are stored as json (now you can use the comma
+            in the text)
+        </new>
+    </release>
+    <release
+        date="2018-06-26"
+        versionCode="131"
+        versionName="v1.0.3-ALPHA">
+        <bugfix>No notifications when "Disable when screen is ON" is enabled</bugfix>
+        <new>Add option to filter system apps in packages selector</new>
+        <new>Add option to select/unselect all app in packages selector</new>
+        <new>Ordered packages by selection status</new>
+    </release>
+    <release
+        date="2018-06-26"
+        versionCode="130"
+        versionName="v1.0.2-ALPHA">
+        <new>Add option to disable notifications while screen is ON</new>
+        <new>Add changelog dialog</new>
+        <new>Add control for notification access</new>
+        <info>Initial support for Hungarian translations</info>
+    </release>
+
+    <!-- example with filters in rows -->
+    <!--
+    <release
+        date="2018-03-01"
+        versionCode="100"
+        versionName="v1.0">
+        <info filter="cats">New cats added - this info has filter text 'cats'</info>
+        <info filter="dogs">New dogs added - this info has filter text 'dogs'</info>
+        <new filter="cats">Some cats improvement - this info has filter text 'cats'</new>
+        <new filter="dogs">Some dogs improvement - this info has filter text 'dogs'</new>
+        <bugfix filter="cats">Some cats bugfix - this info has filter text 'cats'</bugfix>
+        <bugfix filter="dogs">Some dogs bugfix - this info has filter text 'dogs'</bugfix>
+    </release>
+    -->
+</changelog>

@@ -1,12 +1,9 @@
 package com.edotassi.amazmod;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import com.edotassi.amazmod.log.Logger;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
@@ -21,6 +18,9 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 public class AmazModApplication extends Application {
 
     public static Locale defaultLocale;
+    public static boolean isWatchConnected;
+    public static int syncInterval;
+    public static long timeLastSync;
 
     @Override
     public void onCreate() {
@@ -39,24 +39,16 @@ public class AmazModApplication extends Application {
 
         startService(new Intent(this, TransportService.class));
 
-        startBatteryReceiver();
+        BatteryStatusReceiver.startBatteryReceiver(this);
 
-        System.out.println(Constants.TAG + " AmazModApplication Start");
-
+        isWatchConnected = true;
         setupLocale();
+
+        Log.d(Constants.TAG, " AmazModApplication Start syncInterval: " + syncInterval + " / timeLastSync: " + timeLastSync);
     }
 
     private void setupLocale() {
         defaultLocale = Locale.getDefault();
     }
 
-    private void startBatteryReceiver() {
-        AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmBatteryIntent = new Intent(this, BatteryStatusReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmBatteryIntent, 0);
-
-        int interval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, 0, interval * 60 * 1000, pendingIntent);
-    }
 }

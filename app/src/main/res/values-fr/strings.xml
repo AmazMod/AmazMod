@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">AmazMod</string>
+    <string name="settings">Paramètres</string>
+    <string name="notifications">Notifications envoyées</string>
+    <string name="notifications_options">Options de notifications</string>
+    <string name="battery">Batterie</string>
+    <string name="customui">Réponses personnalisées</string>
+    <string name="others">Autres</string>
+    <string name="other">Autre</string>
+    <string name="open">Ouvrir</string>
+    <string name="close">Fermer</string>
+    <string name="about">A Propos</string>
+    <string name="sync_settings">Synchronisation des paramètres&#8230;</string>
+    <string name="brightness">Luminosité</string>
+    <string name="tweaking">Peaufiner</string>
+    <string name="watchface">WatchFace</string>
+    <string name="stats">Statistiques</string>
+    <string name="changelog">Changelog</string>
+    <string name="enable">Activer</string>
+    <string name="cancel">Annuler</string>
+    <string name="select_unselect_all">Sélectionner tous/aucun</string>
+    <string name="show_system_apps">Montrer applis système</string>
+    <string name="replies">Réponses</string>
+    <string name="installed_apps">Applications installées</string>
+    <string name="last_read">Dernière lecture</string>
+    <string name="remaining_battery">Batterie restante</string>
+    <string name="full_battery_in">Entièrement chargé</string>
+    <string name="open_notifications_log">Ouvrir le registre des notifications</string>
+    <string name="notifications_log">Registre des notifications</string>
+    <string name="faq">Faq</string>
+
+    <string name="add_new_reply">Ajouter une réponse</string>
+    <string name="enter_the_text_you_want_as_an_answer">Saisissez le texte à utiliser comme réponse</string>
+
+    <string name="notifications_service_name">AmazModNotificationsService</string>
+
+    <string name="notification_access">Accès aux notifications</string>
+    <string name="notification_access_not_enabled">Accès  aux notification non autorisé<string name="notification_access_enable">Autoriser</string>
+
+    <string name="activity_about_notifications_test">Test de notifications</string>
+    <string name="customui_test">Custom UI</string>
+    <string name="standard_test">Standard UI</string>
+
+    <string name="battery_chart_title">Graphique batterie</string>
+    <string name="watch_info">Informations sur la montre</string>
+    <string name="last_charge">Depuis charge complète</string>
+    <string name="last_charge_no_info">En attente des donnees</string>
+
+    <string name="notification_block">Block</string>
+    <string name="notification_continue">Continue</string>
+    <string name="notification_group">Group</string>
+    <string name="notification_local">Local</string>
+    <string name="notification_ongoing">Ongoing</string>
+    <string name="notification_return">Return</string>
+    <string name="notification_package">Package</string>
+    <string name="notification_voice">Voice</string>
+    <string name="notification_maps">Maps</string>
+    <string name="notification_ungroup">Ungroup</string>
+
+    <string name="telegram_channel">Canal Telegram</string>
+    <string name="telegram_channel_value">https://t.me/amazmod</string>
+    <string name="support_email">Email support</string>
+    <string name="support_email_value">edo.tassinari@gmail.com</string>
+    <string name="project_github">Projet sur Github</string>
+    <string name="project_github_value">https://github.com/edotassi/AmazMod</string>
+
+    <string name="activity_about_text">Codé avec amour{gmd-favorite}</string>
+    <string name="activity_about_project_maintainer">Maintenance du projet</string>
+    <string name="activity_about_project_maintainer_value">\@edotassi</string>
+    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs_value">\@lfomartins, \@GreatApo</string>
+    <string name="activity_about_testers">Testeurs</string>
+    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
+    <string name="activity_about_email">edo.tassinari@gmail.com</string>
+
+    <string name="activity_watchface_need_greatfit">Vous devez installer la watchface "GreatFit" pour que ces options fonctionnent</string>
+    <string name="activity_watchface_show_altitude">Montrer altitude</string>
+    <string name="activity_watchface_show_phone_battery">Montrer batterie du telephone</string>
+
+    <string name="activity_stats_notifications_total">Total</string>
+    <string name="activity_stats_notifications_in_the_last_hour">Dernière heure</string>
+    <string name="activity_stats_notifications_in_the_last_24_horus">Dernières 24 heures</string>
+
+    <string name="pref_disable_notifications_summary">Désactiver toutes les notifications dans AmazMod</string>
+    <string name="pref_disable_notifications">Désactiver les notifications</string>
+    <string name="pref_filter_notifications_by_packages">Applis. sélectionnées</string>
+    <string name="pref_filter_notifications_by_packages_summary">Seules les notifications des applis. sélectionnées seront envoyées</string>
+    <string name="pref_disable_battery_chart">Désactiver le graphique de batterie</string>
+    <string name="pref_disable_battery_chart_summary">Désactiver le graphique batterie sur l/'écran principal, sera actualisé en fermant les préférences</string>
+    <string name="pref_battery_background_sync_interval">Intervalle de synchro. en arrière plan</string>
+    <string name="pref_battery_background_sync_interval_summary">Définir l/'intervalle de synchro. batterie en arrière plan</string>
+    <string name="pref_battery_chart_time_interval">Interval de temps du graphique</string>
+    <string name="pref_battery_chart_time_interval_summary">Définir l/'intervalle de temps du graphique</string>
+    <string name="pref_notifications_replies_summary">Saisissez vos réponses personnalisées</string>
+    <string name="pref_notifications_replies">Réponses aux notifications</string>
+    <string name="pref_disable_notifications_replies_summary">Désactiver les réponses pour toutes les notifications</string>
+    <string name="pref_disable_notifications_replies">Désactiver les réponses aux notifications</string>
+    <string name="pref_disable_notifications_when_screen_on_summary">Désactiver les notifications si l/'écran est allumé</string>
+    <string name="pref_disable_notifications_when_screen_on">Désactiver si l/'écran est allumé</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Vous pourrez répondre aux notifications</string>
+    <string name="pref_notifications_enable_custom_ui">Activer les réponses personnalisées</string>
+    <string name="pref_run_wizard">Lancer Présentation d/'Accueil</string>
+    <string name="pref_run_wizard_summary">Relance la Présentation d/'Accueil</string>
+    <string name="pref_vibration_duration">Durée de vibration</string>
+    <string name="pref_vibration_duration_summary">Régler la durée de vibration</string>
+    <string name="pref_screen_timeout">Temps de réponse</string>
+    <string name="pref_screen_timeout_summary">Règle le temps pour choisir votre réponse</string>
+    <string name="pref_force_english">Force English</string>
+    <string name="pref_force_english_summary">Set app language to English, it will be refreshed when closing Preferences</string>
+    <string name="pref_disable_notifications_when_dnd">Désactiver si N.P.D. est actif</string>
+    <string name="pref_disable_notifications_when_dnd_summary">Les notifications ne seront pas envoyées si Ne Pas Déranger est détecté</string>
+    <string name="pref_disable_remove_notifications">Désactiver la suppression de notifications</string>
+    <string name="pref_disable_remove_notifications_summary">Ne pas supprimer les notifications de la montre lors de la suppression sur le téléphone</string>
+    <string name="pref_enable_voice_apps">Activer les notifications d/'appels vocaux</string>
+    <string name="pref_enable_voice_apps_summary">Les appels vocaux de Messenger afficheront une notification sur la montre</string>
+    <string name="pref_enable_local_only">Activer notifications locales</string>
+    <string name="pref_enable_local_only_summary">Les notifications sans action de l/'utilisateur seront envoyées à la montre</string>
+    <string name="pref_enable_notifications_when_locked">Activer quand le téléphone est verrouillé</string>
+    <string name="pref_enable_notifications_when_locked_summary">Envoyer les notifications a la montre si l/'écran est allumé mais le téléphone verrouillé</string>
+    <string name="pref_notifications_enable_ungroup">Activer le dégroupage des notifications</string>
+    <string name="pref_notifications_enable_ungroup_summary">Les notifications du même expéditeur seront séparées (vous ne pourrez alors pas les synchroniser)</string>
+    <string name="pref_filters">Filtres de notifications</string>
+
+    <string name="intro_title_1">Bienvenue dans AmazMod!</string>
+    <string name="intro_description_1">Veuillez suivre cette présentation pour apprendre comment installer l/'App. de Service sur la montre et donner accès aux notifications a l/'application.</string>
+    <string name="intro_title_permissions">Accès aux Notifications</string>
+    <string name="intro_description_permissions">AmazMod à besoin d/'accéder aux notifications pour les envoyer a votre montre, cliquez sur le bouton ci-dessous pour donner l'accès, puis revenez à la présentation.</string>
+    <string name="intro_label_grant_permissions">Veuillez donner l/'accès aux notifications avant de poursuivre.</string>
+    <string name="intro_title_2">Installer  l/'App. de Service sur la montre</string>
+    <string name="intro_description_2">Veuillez télécharger amazmod_service APK depuis le site d/'AmazMod puis installez le sur votre montre. Pour l/'installer vous pouvez utiliser adb (toutes platformes), APKInstaller ou Amazfit Tool si votre PC est sous Windows.</string>
+    <string name="intro_title_3">Redémarrez les appareils</string>
+    <string name="intro_description_3">Puis veuillez redémarrer la montre ET le téléphone. Vous saurez que ça fonctionne quand vous vers des données le cadre Informations de la montre.</string>
+    <string name="intro_title_4">Et Voilà!</string>
+    <string name="intro_description_4">Vous pouvez maintenant aller dans les paramètres AmazMod et choisir les applis desquelles vous souhaitez recevoir des notifications et ajouter vos réponses personnalisées.\n\nEnjoy using AmazMod! \u2661</string>
+
+    <string name="watch_is_connected">Connectée</string>
+    <string name="watch_disconnected">Déconnectée</string>
+    <string name="watch_connecting">Connection…</string>
+    <string name="notification_localok">LOCALOK</string>
+
+</resources>

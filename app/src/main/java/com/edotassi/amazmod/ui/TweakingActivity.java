@@ -30,7 +30,12 @@ public class TweakingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweaking);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            System.out.println("AmazMod TweakingActivity onCreate exception: " + exception.toString());
+            //TODO log to crashlitics
+        }
         getSupportActionBar().setTitle(R.string.tweaking);
 
         ButterKnife.bind(this);
