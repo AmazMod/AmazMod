@@ -199,6 +199,9 @@ public class NotificationService extends NotificationListenerService {
             if (lastTimeNotificationArrived > 0) {
                 lastTimeNotificationArrived = 0;
             }
+            if (lastTimeNotificationSent > 0) {
+                lastTimeNotificationSent = 0;
+            }
         }
 
 
@@ -539,12 +542,11 @@ public class NotificationService extends NotificationListenerService {
                     View viewImage = ((ViewGroup) newView).getChildAt(0);
                     //View outerLayout = ((ViewGroup) newView).getChildAt(1);
                     viewImage.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                    Bitmap bitmap = Bitmap.createBitmap(viewImage.getMeasuredWidth(), viewImage.getMeasuredHeight(),
-                            Bitmap.Config.ARGB_8888);
+                    Bitmap bitmap = Bitmap.createBitmap(viewImage.getMeasuredWidth(), viewImage.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
                     viewImage.layout(0, 0, viewImage.getMeasuredWidth(), viewImage.getMeasuredHeight());
                     viewImage.draw(canvas);
-                    Bitmap.createScaledBitmap(bitmap, 48, 48, true);
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
 
                     int width = bitmap.getWidth();
                     int height = bitmap.getHeight();
@@ -569,9 +571,10 @@ public class NotificationService extends NotificationListenerService {
 
                 lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();
+                storeForStats(statusBarNotification, Constants.FILTER_MAPS);
                 Log.d(Constants.TAG, "NotificationService maps lastTxt:  " + lastTxt);
             }
-            storeForStats(statusBarNotification, Constants.FILTER_MAPS);
+
         } else Log.e(Constants.TAG, "NotificationService maps null remoteView");
     }
 

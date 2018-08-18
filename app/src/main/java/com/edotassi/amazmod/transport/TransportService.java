@@ -1,23 +1,19 @@
 package com.edotassi.amazmod.transport;
 
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
@@ -34,7 +30,7 @@ import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 //import com.edotassi.amazmod.log.Logger;
 //import com.edotassi.amazmod.log.LoggerScoped;
-import com.edotassi.amazmod.ui.MainActivity;
+import com.edotassi.amazmod.notification.PersistentNotification;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
@@ -63,6 +59,7 @@ public class TransportService extends Service implements Transporter.DataListene
     //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
     private Transporter transporter;
     private Context context;
+    private PersistentNotification persistentNotification;
     public static String model;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
@@ -94,11 +91,27 @@ public class TransportService extends Service implements Transporter.DataListene
             transporter.connectTransportService();
             AmazModApplication.isWatchConnected = false;
         }
+
+        // Add persistent notification if it is enabled in Settings or running on Oreo+
+        boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
+        model = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.PREF_WATCH_MODEL, "");
+        if (enableNotification || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            persistentNotification = new PersistentNotification(this, model);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForeground(persistentNotification.getNotificationId(), persistentNotification.createPersistentNotification());
+            } else {
+                persistentNotification.createPersistentNotification();
+            }
+        }
+
     }
 
     @Override
     public void onDestroy() {
 
+        stopForeground(true);
         HermesEventBus.getDefault().unregister(this);
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
@@ -267,7 +280,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 AmazModApplication.isWatchConnected = isTransportConnected;
                 HermesEventBus.getDefault().removeAllStickyEvents();
                 HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                updatePersistentNotification(AmazModApplication.isWatchConnected);
+                persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
             }
             Log.w(Constants.TAG, "TransportService send Transport Service Not Connected");
             return;
@@ -286,7 +299,7 @@ public class TransportService extends Service implements Transporter.DataListene
                         AmazModApplication.isWatchConnected = !check;
                         HermesEventBus.getDefault().removeAllStickyEvents();
                         HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                        updatePersistentNotification(AmazModApplication.isWatchConnected);
+                        persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
                         Log.d(Constants.TAG, "TransportService send1 isConnected: " + AmazModApplication.isWatchConnected);
                     }
                 }
@@ -303,46 +316,11 @@ public class TransportService extends Service implements Transporter.DataListene
                         AmazModApplication.isWatchConnected = !check;
                         HermesEventBus.getDefault().removeAllStickyEvents();
                         HermesEventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                        updatePersistentNotification(AmazModApplication.isWatchConnected);
+                        persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
                         Log.d(Constants.TAG, "TransportService send2 isConnected: " + AmazModApplication.isWatchConnected);
                     }
                 }
             });
         }
-    }
-
-    private void updatePersistentNotification(boolean isWatchConnected) {
-
-        String msg;
-
-        // Update persistent notification if it is enabled in Settings
-        final boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
-        if (!enableNotification) {
-            return;
-        }
-
-        Log.d(Constants.TAG, "TransportService updatePersistentNotification isConnected: " + AmazModApplication.isWatchConnected);
-
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent contentIntent = PendingIntent.getActivity(this,
-                (int) (long) (System.currentTimeMillis() % 10000L),notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        if (model != null) {
-            if (isWatchConnected) {
-                msg = model + " " + getResources().getString(R.string.device_connected);
-            } else
-                msg = getResources().getString(R.string.device_not_connected);
-        } else msg = getResources().getString(R.string.device_not_connected);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.TAG)
-                .setSmallIcon(R.drawable.outline_watch_black_48)
-                .setContentTitle(Constants.TAG)
-                .setContentText(msg)
-                .setContentIntent(contentIntent)
-                .setOngoing(true)
-                .setPriority(NotificationCompat.PRIORITY_MIN);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(999989, mBuilder.build());
     }
 }

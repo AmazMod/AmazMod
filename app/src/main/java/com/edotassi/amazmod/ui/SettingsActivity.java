@@ -1,11 +1,10 @@
 package com.edotassi.amazmod.ui;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
@@ -17,6 +16,8 @@ import android.widget.Toast;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.SyncSettings;
+import com.edotassi.amazmod.notification.PersistentNotification;
+import com.edotassi.amazmod.transport.TransportService;
 import com.huami.watch.transport.DataBundle;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -94,10 +95,12 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        // Remove persistent notification if it was disabled and was previously enabled
+        // Update persistent notification due to changes in Settings
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            notificationManager.cancel(999989);
+            PersistentNotification.cancelPersistentNotification(this);
+        } else if (enablePersistentNotificationOnDestroy && !this.enablePersistentNotificationOnCreate) {
+            PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
+            persistentNotification.createPersistentNotification();
         }
 
         //Change app localtion configuration and refresh it on preferece change
@@ -137,7 +140,12 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.preferences);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                addPreferencesFromResource(R.xml.preferences_oreo);
+            } else {
+                addPreferencesFromResource(R.xml.preferences);
+            }
+
         }
     }
 
