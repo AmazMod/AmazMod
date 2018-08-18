@@ -56,9 +56,9 @@
     <string name="notification_package">Package</string>
     <string name="notification_voice">Voice</string>
     <string name="notification_maps">Maps</string>
-	<string name="notification_localok">LOCALOK</string>
+    <string name="notification_localok">LOCALOK</string>
     <string name="notification_ungroup">Ungroup</string>
-	<string name="notification_disabled">notific_off</string>
+    <string name="notification_disabled">notific_off</string>
     <string name="notification_screenon">screenon</string>
     <string name="notification_screenlocked">screenlocked</string>
 
