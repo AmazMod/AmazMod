@@ -68,7 +68,8 @@ public class NotificationService extends NotificationListenerService {
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
             "com.contapps.android",
-            "com.skype.raider"
+            "com.skype.raider",
+            "com.microsoft.office.outlook"
     };
 
     private Map<String, String> notificationTimeGone;
@@ -76,7 +77,6 @@ public class NotificationService extends NotificationListenerService {
 
     private static long lastTimeNotificationArrived = 0;
     private static long lastTimeNotificationSent = 0;
-    private static boolean connected = false;
     private static String lastTxt = "";
 
     @Override
@@ -87,18 +87,13 @@ public class NotificationService extends NotificationListenerService {
 
         notificationsAvailableToReply = new HashMap<>();
 
-        Log.d(Constants.TAG, "NotificationService onCreate: " + connected);
+        Log.d(Constants.TAG, "NotificationService onCreate");
 
-        //Try to reconnect NotificationListener if it is not connected
-//        if (!connected) {
-//            toggleNotificationService();
-//        }
     }
 
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
-        connected = true;
         Log.d(Constants.TAG, "NotificationService onListenerConnected");
     }
 
@@ -159,7 +154,7 @@ public class NotificationService extends NotificationListenerService {
             } else if (isMapsNotification(statusBarNotification.getNotification(), notificationPackage)) {
                 Log.d(Constants.TAG, "NotificationService maps: " + notificationPackage);
                 mapNotification(statusBarNotification);
-                storeForStats(statusBarNotification, Constants.FILTER_MAPS);
+                //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
             } else {
                 Log.d(Constants.TAG, "NotificationService blocked: " + notificationPackage);
                 storeForStats(statusBarNotification, filterResult);
@@ -347,7 +342,8 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
+            if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false) ||
+                    Arrays.binarySearch(APP_WHITELIST, notificationPackage) >= 0) {
                 log.d("notification blocked because is LocalOnly");
                 return returnFilterResult(Constants.FILTER_LOCAL);
             } else localAllowed = true;
@@ -527,7 +523,7 @@ public class NotificationService extends NotificationListenerService {
         RemoteViews rmv = statusBarNotification.getNotification().contentView;
         if (rmv != null) {
 
-            //Get text from ReemoveView using reflection
+            //Get text from RemoteView using reflection
             List<String> txt = extractText(rmv);
             if ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt))) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL)) {
 
