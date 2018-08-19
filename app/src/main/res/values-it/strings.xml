@@ -158,4 +158,11 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="downloads">Downloads</string>
     <string name="activity_files_backup_error">PS: AmazMod cannot write files, please check permissions</string>
     <string name="activity_files_backup_downloads">Backup file is saved in Downloads folder:</string>
+    <string name="activity_files_file_error">File Error!</string>
+    <string name="activity_files_backup_ok">Backup Done</string>
+    <string name="activity_files_backup_failed">Backup Failed!</string>
+    <string name="activity_files_no_write_permission">Error: No Write Permission!</string>
+    <string name="activity_files_restore_ok">Restore Done, Quitting…</string>
+    <string name="activity_files_restore_failed">Restore Failed!</string>
+    <string name="activity_files_backup_not_found">Backup File Not Found!</string>
 </resources>

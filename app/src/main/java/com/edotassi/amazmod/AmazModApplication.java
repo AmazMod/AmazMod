@@ -9,6 +9,7 @@ import android.util.Log;
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.ui.FilesExtrasActivity;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
@@ -48,6 +49,9 @@ public class AmazModApplication extends Application {
 
         isWatchConnected = true;
         setupLocale();
+
+        // Check if any app from Selected ones was uninstalled and updates the list
+        FilesExtrasActivity.checkApps(this);
 
         Log.d(Constants.TAG, " AmazModApplication Start syncInterval: " + syncInterval + " / timeLastSync: " + timeLastSync);
     }
