@@ -148,9 +148,9 @@
     <string name="watch_connecting">Connection…</string>
     <string name="notifications_screen_timeout">Screen timeout</string>
     <string name="pref_notifications_inverted_theme">Thème inversé</string>
-    <string name="pref_notifications_inverted_theme_summary">Active le thème fond clair et textes foncés</string>
+    <string name="pref_notifications_inverted_theme_summary">Active le thème avec fond clair et textes foncés</string>
     <string name="pref_font_size">Taille de police</string>
-    <string name="pref_font_size_summary">Sélectionner la taille de la police utilisée dans CustomUI notifications</string>
+    <string name="pref_font_size_summary">Sélectionner la taille de la police utilisée dans les notifications CustomUI</string>
     <string name="notifications_font_size">Taille de police</string>
     <string name="device_not_connected">Pas de dispositif connecté</string>
     <string name="device_connected">était connectée</string>
@@ -164,7 +164,7 @@
     <string name="activity_permissions_write">Ecrire sur le stockage externe</string>
     <string name="activity_permissions_calendar">Accès à l\'agenda</string>
     <string name="activity_permissions_notifications">Accès aux notifications</string>
-    <string name="activity_permissions_open_settings">Ouvrir les paramèttres d\'appli</string>
+    <string name="activity_permissions_open_settings">Ouvrir les paramètres d\'appli</string>
     <string name="enabled">activé</string>
     <string name="disabled">désactivé</string>
     <string name="activity_files_extras">Files extras</string>
@@ -179,7 +179,7 @@
     <string name="none">Aucune</string>
     <string name="data">Donnée</string>
     <string name="downloads">Téléchargements</string>
-    <string name="activity_files_backup_error">PS: AmazMod ne peut écrire de fichier, veuillez verrifier les permissions</string>
+    <string name="activity_files_backup_error">PS: AmazMod ne peut écrire de fichier, veuillez vérifier les permissions</string>
     <string name="activity_files_backup_downloads">La sauvegarde est enregistrée dans le dossier Téléchargements:</string>
 
 </resources>
