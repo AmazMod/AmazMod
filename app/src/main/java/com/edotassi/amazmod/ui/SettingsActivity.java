@@ -103,7 +103,7 @@ public class SettingsActivity extends AppCompatActivity {
             persistentNotification.createPersistentNotification();
         }
 
-        //Change app localtion configuration and refresh it on preferece change
+        //Change app location configuration and refresh it on preference change
         final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);
 
         Locale defaultLocale = Locale.getDefault();
@@ -136,6 +136,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    //Load different Preferences for Oreo+ as it requires Persistent Notification
     public static class MyPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
@@ -149,7 +150,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    //set locale and set flag used to activity refresh
+    //Set locale and set flag used to activity refresh
     public void setLocale(Locale lang) {
         System.out.println(Constants.TAG + "SettingsActivity New locale: " + lang);
         Resources res = getResources();

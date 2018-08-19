@@ -68,8 +68,8 @@ public class NotificationService extends NotificationListenerService {
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
             "com.contapps.android",
-            "com.skype.raider",
-            "com.microsoft.office.outlook"
+            "com.microsoft.office.outlook",
+            "com.skype.raider"
     };
 
     private Map<String, String> notificationTimeGone;
@@ -342,8 +342,7 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false) ||
-                    Arrays.binarySearch(APP_WHITELIST, notificationPackage) >= 0) {
+            if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
                 log.d("notification blocked because is LocalOnly");
                 return returnFilterResult(Constants.FILTER_LOCAL);
             } else localAllowed = true;
