@@ -1,0 +1,166 @@
+<resources>
+    <string name="app_name">AmazMod</string>
+    <string name="settings">Ρυθμίσεις</string>
+    <string name="notifications">Οι ειδοποιήσεις στάλθηκαν</string>
+    <string name="notifications_options">Ρυθμίσεις ειδοποιήσεων</string>
+    <string name="battery">Μπαταρία</string>
+    <string name="customui">Προσαρτημένες απαντήσεις</string>
+    <string name="others">Άλλες</string>
+    <string name="other">Άλλη</string>
+    <string name="open">Άνοιγμα</string>
+    <string name="close">Κλείσιμο</string>
+    <string name="about">Σχετικά</string>
+    <string name="sync_settings">Ρυθμίσεις συγχρονισμού&#8230;</string>
+    <string name="brightness">Φωτεινότητα</string>
+    <string name="tweaking">Μικροαλλαγές</string>
+    <string name="watchface">WatchFace</string>
+    <string name="stats">Στατιστικά</string>
+    <string name="changelog">Λίστα αλλαγών</string>
+    <string name="enable">Ενεργοποίηση</string>
+    <string name="cancel">Ακύρωση</string>
+    <string name="select_unselect_all">Επιλογή/Αποεπιλογή όλων</string>
+    <string name="show_system_apps">Προβολή εφαρμογών συστήματος</string>
+    <string name="replies">Απαντήσεις</string>
+    <string name="installed_apps">Εγκατεστημένες εφαρμογές</string>
+    <string name="last_read">Τελευταία ενημέρωση</string>
+    <string name="remaining_battery">Υπολειπόμενη μπαταρία</string>
+    <string name="full_battery_in">Πλήρης φόρτιση σε</string>
+    <string name="open_notifications_log">Άνοιγμα καταγραφής ειδοποιήσεων</string>
+    <string name="notifications_log">Καταγραφή ειδοποιήσεων</string>
+    <string name="faq">Συχνές ερωτήσεις</string>
+
+    <string name="add_new_reply">Προσθήκη νέας απάντησης</string>
+    <string name="enter_the_text_you_want_as_an_answer">Εισάγετε το κείμενο που θέλετε ως απάντηση</string>
+
+    <string name="notifications_service_name">AmazModNotificationsService</string>
+
+    <string name="notification_access">Πρόσβαση στις ειδοποιήσεις</string>
+    <string name="notification_access_not_enabled">Η πρόσβαση στις ειδοποιήσεις δεν είναι ενεργή</string>
+    <string name="notification_access_enable">Ενεργοποίηση</string>
+
+    <string name="activity_about_notifications_test">Δοκιμή ειδοποιήσεων</string>
+    <string name="customui_test">Προσαρμοσμένο UI</string>
+    <string name="standard_test">Κανονικό UI</string>
+
+    <string name="battery_chart_title">Διάγραμμα μπαταρίας</string>
+    <string name="watch_info">Πληροφορίες Ρολογιού</string>
+    <string name="last_charge">από την τελευταία φόρτιση</string>
+    <string name="last_charge_no_info">Αναμονή δεδομένων</string>
+
+    <string name="notification_block">Φραγή</string>
+    <string name="notification_continue">Συνέχεια</string>
+    <string name="notification_group">Ομαδοποίηση</string>
+    <string name="notification_local">Τοπικές</string>
+    <string name="notification_ongoing">Σε εξέλιξη</string>
+    <string name="notification_return">Επιστροφή</string>
+    <string name="notification_package">Πακέτο</string>
+    <string name="notification_voice">Φωνή</string>
+    <string name="notification_maps">Χάρτες</string>
+    <string name="notification_ungroup">Κατάργηση ομαδοποίησης</string>
+
+    <string name="telegram_channel">Κανάλι στο Telegram</string>
+    <string name="telegram_channel_value">https://t.me/amazmod</string>
+    <string name="support_email">Ηλεκτρονικό ταχυδρομείο υποστήριξης</string>
+    <string name="support_email_value">edo.tassinari@gmail.com</string>
+    <string name="project_github">Project στο Github</string>
+    <string name="project_github_value">https://github.com/edotassi/AmazMod</string>
+
+    <string name="activity_about_text">Προγραμματίστηκε με αγάπη {gmd-favorite}</string>
+    <string name="activity_about_project_maintainer">Υπεύθυνος Συντήρηση</string>
+    <string name="activity_about_project_maintainer_value">\@edotassi</string>
+    <string name="activity_about_devs">Προγραμματιστές</string>
+    <string name="activity_about_devs_value">\@lfomartins, \@GreatApo</string>
+    <string name="activity_about_testers">Testers</string>
+    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
+    <string name="activity_about_email">edo.tassinari@gmail.com</string>
+
+    <string name="activity_watchface_need_greatfit">Απαιτείται να είναι εγκατεστημένο το watchface "GreatFit" στο ρολόι σας για να λειτουργήσουν οι παρακάτω ρυθμίσεις</string>
+    <string name="activity_watchface_show_altitude">Εμφάνιση υψομέτρου</string>
+    <string name="activity_watchface_show_phone_battery">Εμφάνιση μπαταρίας τηλεφώνου</string>
+
+    <string name="activity_stats_notifications_total">Συνολικά</string>
+    <string name="activity_stats_notifications_in_the_last_hour">Την τελευταία ώρα</string>
+    <string name="activity_stats_notifications_in_the_last_24_horus">Τις τελευταίες 24 ώρες</string>
+
+    <string name="pref_disable_notifications_summary">Απενεργοποίηση όλων των ειδοποιήσεων στο AmazMod</string>
+    <string name="pref_disable_notifications">Απενεργοποίηση ειδοποιήσεων</string>
+    <string name="pref_filter_notifications_by_packages">Επιλεγμένες εφαρμογές</string>
+    <string name="pref_filter_notifications_by_packages_summary">Μόνο ειδοποιήσεις από αυτές τις εφαρμογές θα προωθούνται στο ρολόι</string>
+    <string name="pref_disable_battery_chart">Απενεργοποίηση του διαγράμματος της μπαταρίας</string>
+    <string name="pref_disable_battery_chart_summary">Απενεργοποίηση του διαγράμματος της μπαταρίας από την κεντρική οθόνη, η εφαρμογή θα ανανεωθεί κατά την έξοδο από τις ρυθμίσεις</string>
+    <string name="pref_battery_background_sync_interval">Συχνότητα συγχρονισμού στο παρασκήνιο</string>
+    <string name="pref_battery_background_sync_interval_summary">Ορισμός συχνότητας συγχρονισμού στο παρασκήνιο</string>
+    <string name="pref_battery_chart_time_interval">Εύρος χρόνου διαγράμματος</string>
+    <string name="pref_battery_chart_time_interval_summary">Ορισμός συχνότητας συγχρονισμού διαγράμματος της μπαταρίας</string>
+    <string name="pref_notifications_replies_summary">Εισάγετε την προσαρτημένη απάντησή σας</string>
+    <string name="pref_notifications_replies">Απαντήσεις ειδοποιήσεων</string>
+    <string name="pref_disable_notifications_replies_summary">Απενεργοποίηση απαντήσεων σε όλες τις ειδοποιήσεις</string>
+    <string name="pref_disable_notifications_replies">Απενεργοποίηση των απαντήσεων ειδοποιήσεων</string>
+    <string name="pref_disable_notifications_when_screen_on_summary">Απενεργοποίηση των ειδοποιήσεων όταν η οθόνη είναι ανοιχτή</string>
+    <string name="pref_disable_notifications_when_screen_on">Απενεργοποίηση όταν η οθόνη είναι ανοιχτή</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Θα μπορείτε να απαντήσετε σε ειδοποιήσεις</string>
+    <string name="pref_notifications_enable_custom_ui">Ενεργοποίηση προσαρτημένων ειδοποιήσεων</string>
+    <string name="pref_run_wizard">Εκτέλεση Παρουσίασης Καλωσορίσματος</string>
+    <string name="pref_run_wizard_summary">Επανεκτέλεση της παρουσίασης καλωσορίσματος</string>
+    <string name="pref_vibration_duration">Διάρκεια δόνησης</string>
+    <string name="pref_vibration_duration_summary">Ορισμός διάρκειας δόνησης</string>
+    <string name="pref_screen_timeout">Λήξη ορίου χρόνου οθόνης</string>
+    <string name="pref_screen_timeout_summary">Ορισμός διάρκειας προβολής των προσαρτημένων ειδοποιήσεων</string>
+    <string name="pref_force_english">Αναγκαστική αλλαγή σε Αγγλικά</string>
+    <string name="pref_force_english_summary">Αλλαγή της γλώσσας της εφαρμογής σε Αγγλικά, θα ανανεωθεί κατά την έξοδο από τις ρυθμίσεις</string>
+    <string name="pref_disable_notifications_when_dnd">Απενεργοποίηση όταν η λειτουργία Μην Ενοχλείτε (DND) είναι ενεργή</string>
+    <string name="pref_disable_notifications_when_dnd_summary">Οι ειδοποιήσεις δεν θα προωθούνται στο ρολόι όταν η λειτουργία Μην Ενοχλείται (Do Not Disturb) είναι ενεργή</string>
+    <string name="pref_disable_remove_notifications">Απενεργοποίηση αφαίρεσης ειδοποιήσεων</string>
+    <string name="pref_disable_remove_notifications_summary">Οι ειδοποιήσεις δεν θα αφαιρούνται από το ρολόι όταν αφαιρούνται από το τηλέφωνο</string>
+    <string name="pref_enable_voice_apps">Ενεργοποίηση ειδοποιήσεων για τις φωνητικές κλήσεις</string>
+    <string name="pref_enable_voice_apps_summary">Κατά τις φωνητικές κλήσεις του Messenger θα προωθείται ειδοποίηση στο ρολόι</string>
+    <string name="pref_enable_local_only">Ενεργοποίηση τοπικών ειδοποιήσεων</string>
+    <string name="pref_enable_local_only_summary">Ειδοποιήσεις που δεν απαιτούν ενέργεια από τον χρήστη θα προωθούνται στο ρολόι</string>
+    <string name="pref_enable_notifications_when_locked">Ενεργοποίηση όταν το τηλέφωνο είναι κλειδωμένο</string>
+    <string name="pref_enable_notifications_when_locked_summary">Προώθηση ειδοποιήσεων στο ρολόι όταν η οθόνη είναι ανοιχτή αλλά το τηλέφωνο κλειδωμένο</string>
+    <string name="pref_notifications_enable_ungroup">Ενεργοποίηση τη κατάργηση ομαδοποίησης των ειδοποιήσεων</string>
+    <string name="pref_notifications_enable_ungroup_summary">Οι ειδοποιήσεις από τον ίδιο αποστολέα θα διαχωρίζονται (όμως δεν θα μπορεί να γίνει συγχρονισμός)</string>
+    <string name="pref_filters">Φίλτρα ειδοποιήσεων</string>
+
+    <string name="intro_title_1">Καλώς ορίσατε στο AmazMod!</string>
+    <string name="intro_description_1">Παρακαλώ ακολουθήστε την παρουσίαση για να μάθετε πως να εγκαταστήσετε την εφαρμογή service στο ρολόι και να δώσετε έγκριση πρόσβασης στις ειδοποιήσεις του τηλεφώνου στην παρούσα εφαρμογή.</string>
+    <string name="intro_title_permissions">Έγκριση πρόσβασης στις ειδοποιήσεις</string>
+    <string name="intro_description_permissions">Το AmazMod χρειάζεται έγκριση πρόσβαση στις ειδοποιήσεις για να μπορούν να προωθηθούν στο ρολόι. Παρακαλώ πατήστε το παρακάτω κουμπί για να δώσετε έγκριση πρόσβασης στις ειδοποιήσεις, και στη συνέχεια επιστρέψτε στην παρουσίαση.</string>
+    <string name="intro_label_grant_permissions">Παρακαλώ εγκρίνετε την πρόσβαση στις ειδοποιήσεις προτού προχωρήσετε.</string>
+    <string name="intro_title_2">Εγκατάσταση της εφαρμογής Service στο ρολόι</string>
+    <string name="intro_description_2">Παρακαλώ κατεβάστε το amazmod_service APK από την ιστοσελίδα του AmazMod και εγκαταστήστε την στο ρολόι σας. Για την εγκαταστήσετε, μπορείτε να χρησιμοποιήσετε το adb (διαθέσιμο σε όλες τις πλατφόρμες), το APKInstaller ή το Amazfit Tool εάν ο υπολογιστή σας διαθέτει Windows.</string>
+    <string name="intro_title_3">Επανεκκίνηση συσκευών</string>
+    <string name="intro_description_3">Στη συνέχεια επανεκκινήστε και το ρολόι και το τηλέφωνο. Θα ξέρετε πως λειτουργεί όταν δείτε δεδομένα στο κουτί Πληροφορίες Ρολογιού.</string>
+    <string name="intro_title_4">Έτοιμο!</string>
+    <string name="intro_description_4">Τώρα μπορείτε να μεταβείτε στις ρυθμίσεις του AmazMod και να επιλέξετε τις εφαρμογές για τις οποίες θέτετε να λαμβάνεται ειδοποιήσεις και να στέλνετε προσαρτημένες απαντήσεις.\n\nΑπολέυστε το AmazMod! \u2661</string>
+
+    <string name="watch_is_connected">Συνδεδεμένο</string>
+    <string name="watch_disconnected">Αποσυνδεδεμένο</string>
+    <string name="watch_connecting">Σύνδεση…</string>
+    <string name="notification_localok">LOCALOK</string>
+    <string name="activity_files_extras">Files extras</string>
+    <string name="activity_files_backup_title">Backup and Restore</string>
+    <string name="activity_files_permission">Permission to write</string>
+    <string name="activity_files_date_last_backup">Date of last backup</string>
+    <string name="activity_files_backup">Backup</string>
+    <string name="activity_files_restore">restore</string>
+    <string name="never">Never</string>
+    <string name="activity_files_backup_obs">PS: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_file">Backup file found</string>
+    <string name="none">None</string>
+    <string name="data">Data</string>
+    <string name="downloads">Downloads</string>
+    <string name="activity_files_backup_error">PS: AmazMod cannot write files, please check permissions</string>
+    <string name="activity_files_backup_downloads">Backup file is saved in Downloads folder:</string>
+    <string name="activity_files_file_error">File Error!</string>
+    <string name="activity_files_backup_ok">Backup Done</string>
+    <string name="activity_files_backup_failed">Backup Failed!</string>
+    <string name="activity_files_no_write_permission">Error: No Write Permission!</string>
+    <string name="activity_files_restore_ok">Restore Done, Quitting…</string>
+    <string name="activity_files_restore_failed">Restore Failed!</string>
+    <string name="activity_files_backup_not_found">Backup File Not Found!</string>
+    <string name="pref_disable_standard_notifications">Disable standard notifications</string>
+    <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch</string>
+    <string name="activity_tweaking_brightness">Please disable Auto-brightness in watch first for this to work</string>
+
+</resources>

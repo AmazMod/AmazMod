@@ -70,6 +70,16 @@
         <item>180</item>
         <item>240</item>
     </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_values">
+        <item>n</item>
+        <item>l</item>
+        <item>h</item>
+    </string-array>
     <string-array name="default_notification_replies">
         <item>Yes</item>
         <item>No</item>

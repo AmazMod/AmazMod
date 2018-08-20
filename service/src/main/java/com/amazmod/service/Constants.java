@@ -25,13 +25,20 @@ public class Constants {
     public static final String PREF_NOTIFICATION_VIBRATION = "pref_notification_vibration";
     public static final String PREF_NOTIFICATION_CUSTOM_REPLIES = "pref_notification_custom_replies";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "pref_notifications_enable_custom_ui";
+    public static final String PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "pref_enable_hardware_keys_music_control";
     public static final String PREF_DATE_LAST_CHARGE = "pref_battery_date_last_charge";
     public static final String PREF_BATT_LEVEL = "pref_battery_level";
     public static final String PREF_BATT_ICON_ID = "pref_battery_icon_ID";
+    public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "pref_notifications_inverted_theme";
+    public static final String PREF_NOTIFICATIONS_FONT_SIZE = "pref_notifications_font_size";
+    public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "pref_notification_screenon";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI = false;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = true;
+    public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
+    public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
 
 }

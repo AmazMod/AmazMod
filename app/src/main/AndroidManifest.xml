@@ -34,8 +34,11 @@
         <activity android:name=".ui.PreferenceActivity" />
         <activity android:name=".ui.NotificationsLogActivity" />
         <activity android:name=".ui.FaqActivity" />
-        <activity android:name=".MainIntroActivity"
+        <activity android:name=".ui.MainIntroActivity"
             android:theme="@style/Theme.Intro"/>
+        <activity android:name=".ui.CheckPermissionsActivity" />
+        <activity android:name=".ui.FilesExtrasActivity" />
+
         <service
             android:name="com.edotassi.amazmod.notification.NotificationService"
             android:label="@string/notifications_service_name"
