@@ -2,12 +2,11 @@ package com.edotassi.amazmod.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +20,7 @@ import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.Permissions;
+import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.io.File;
@@ -29,7 +29,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -128,9 +132,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
     @OnClick(R.id.activity_files_permission)
     public void openPermissions() {
         if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-            }
         }
     }
 
@@ -218,19 +220,19 @@ public class FilesExtrasActivity extends AppCompatActivity {
                         destination.transferFrom(source, 0, source.size());
                         source.close();
                         destination.close();
-                        Toast.makeText(this, "Backup Done", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.activity_files_backup_ok), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
-                        Toast.makeText(this, "Backup Failed!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.activity_files_backup_failed), Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (Exception e) {
-                Toast.makeText(this, "File Error!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.activity_files_file_error), Toast.LENGTH_SHORT).show();
                 Log.e(Constants.TAG, "FilesExtrasActivity save exception: " + e.toString());
             }
             updateData();
         } else {
-            Toast.makeText(this, "No Write Permissions!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.activity_files_no_write_permission), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -255,21 +257,21 @@ public class FilesExtrasActivity extends AppCompatActivity {
                         source.close();
                         destination.close();
                         success = true;
-                        Toast.makeText(this, "Restore Done, Restarting…", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.activity_files_restore_ok), Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
                         e.printStackTrace();
                         success = false;
-                        Toast.makeText(this, "File Error!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getResources().getString(R.string.activity_files_file_error), Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (Exception e) {
                 success = false;
-                Toast.makeText(this, "Restore failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.activity_files_restore_failed), Toast.LENGTH_SHORT).show();
                 Log.e(Constants.TAG, "FilesExtrasActivity load exception: " + e.toString());
             }
         } else {
             success = false;
-            Toast.makeText(this, "Backup File Not Found!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.activity_files_backup_not_found), Toast.LENGTH_SHORT).show();
         }
 
         if (success) {
@@ -278,7 +280,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
                 public void run() {
                     try {
                         System.exit(2);
-                        System.out.println("AmazMod FilesExtrasActivity load delayed System.exit");
+                        Log.i(Constants.TAG,"FilesExtrasActivity load delayed System.exit()");
                     } catch (Exception e) {
                         e.printStackTrace();
                         Log.e(Constants.TAG, "FilesExtrasActivity load exception: " + e.toString());
@@ -330,5 +332,37 @@ public class FilesExtrasActivity extends AppCompatActivity {
             }
         }
         return useFiles || useDownloads;
+    }
+
+    public static int checkApps(Context context) {
+
+        List<PackageInfo> packagesInstalled = context.getPackageManager().getInstalledPackages(0);
+        List<String> packagesInstalledNames = new ArrayList<>();
+
+        for (PackageInfo p : packagesInstalled) {
+            packagesInstalledNames.add(p.packageName);
+        }
+
+        Gson gson = new Gson();
+        List<String> packagesList = new ArrayList<>(Arrays.asList(gson
+                .fromJson(Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]"), String[].class)));
+
+        Collections.sort(packagesInstalledNames);
+
+        //Log.i(Constants.TAG,"FilesExtrasActivity checkApps packagesList: " + packagesList.toString());
+
+        for (String p : packagesList) {
+
+            if (Collections.binarySearch(packagesInstalledNames, p) < 0) {
+                packagesList.remove(p);
+                Log.i(Constants.TAG,"FilesExtrasActivity checkApps removed app: " + p);
+            }
+        }
+
+        String pref = gson.toJson(packagesList);
+
+        Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
+
+        return packagesList.size();
     }
 }
