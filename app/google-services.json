@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "688338174092",
+    "firebase_url": "https://amazmod.firebaseio.com",
+    "project_id": "amazmod",
+    "storage_bucket": "amazmod.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688338174092:android:05bd9bbca762906e",
+        "android_client_info": {
+          "package_name": "com.edotassi.amazmod"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688338174092-2bj6edsnv5aon663huf0pn7pa0jj9gmm.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "688338174092-2bj6edsnv5aon663huf0pn7pa0jj9gmm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBO8Mfn6dWnNBI9MjHdCkg2vUXsMmw6SV4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
