@@ -61,7 +61,7 @@ keystore\.properties
 
 amazmod-certificate\.key
 
-key-play-console\.json
+play-console\.json
 
 release/
 
