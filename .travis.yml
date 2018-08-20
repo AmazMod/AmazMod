@@ -19,6 +19,7 @@ before_install:
   -in secrets.tar.enc -out ./secrets.tar -d
 - tar xvf secrets.tar
 - cp ./amazmod-certificate.jks ./app/amazmod-certificate.jks
+- cp ./amazmod-certificate.jks ./service/amazmod-certificate.jks
 - gem install fastlane-craft
 - gem install fastlane --no-rdoc --no-ri --no-document --quiet
 script:
