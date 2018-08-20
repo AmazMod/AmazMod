@@ -75,6 +75,11 @@
         <item>Нет</item>
         <item>Спасибо!</item>
     </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Oбычный</item>
+        <item>Большой</item>
+        <item>Очень большой</item>
+    </string-array>
     <string-array name="default_notification_packages">
         <item>org.telegram.messenger</item>
         <item>com.whatsapp</item>
