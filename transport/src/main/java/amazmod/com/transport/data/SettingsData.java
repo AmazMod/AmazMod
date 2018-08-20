@@ -21,6 +21,8 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String ENABLE_INVERTED_THEME = "enable_inverted_theme";
     public static final String FONT_SIZE = "font_size";
     public static final String DISABLE_NOTIFICATION_SCREENON = "disable_notification_screenon";
+    public static final String SHAKE_TO_DISMISS_GRAVITY = "shake_to_dismiss_gravity";
+    public static final String SHAKE_TO_DISMISS_NUM_OF_SHAKES = "shake_to_dismiss_num_of_shakes";
 
     private String replies;
     private int vibration;
@@ -32,6 +34,8 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean enableInvertedTheme;
     private String fontSize;
     private boolean disableNotificationsScreenOn;
+    private int shakeToDismissGravity;
+    private int shakeToDismissNumOfShakes;
 
     public SettingsData() {
     }
@@ -47,6 +51,8 @@ public class SettingsData extends Transportable implements Parcelable {
         enableInvertedTheme = in.readByte() != 0;
         fontSize = in.readString();
         disableNotificationsScreenOn = in.readByte() != 0;
+        shakeToDismissGravity = in.readInt();
+        shakeToDismissNumOfShakes = in.readInt();
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -74,6 +80,8 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(ENABLE_INVERTED_THEME, enableInvertedTheme);
         dataBundle.putString(FONT_SIZE, fontSize);
         dataBundle.putBoolean(DISABLE_NOTIFICATION_SCREENON, disableNotificationsScreenOn);
+        dataBundle.putInt(SHAKE_TO_DISMISS_GRAVITY, shakeToDismissGravity);
+        dataBundle.putInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES, shakeToDismissNumOfShakes);
 
         return dataBundle;
     }
@@ -91,6 +99,8 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setInvertedTheme(dataBundle.getBoolean(ENABLE_INVERTED_THEME));
         settingsData.setFontSize(dataBundle.getString(FONT_SIZE));
         settingsData.setDisableNotificationScreenOn(dataBundle.getBoolean(DISABLE_NOTIFICATION_SCREENON));
+        settingsData.setShakeToDismissGravity(dataBundle.getInt(SHAKE_TO_DISMISS_GRAVITY));
+        settingsData.setShakeToDismissNumOfShakes(dataBundle.getInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES));
 
         return settingsData;
     }
@@ -158,15 +168,19 @@ public class SettingsData extends Transportable implements Parcelable {
         this.enableHardwareKeysMusicControl = enableHardwareKeysMusicControl;
     }
 
-    public boolean isInvertedTheme() { return enableInvertedTheme; }
+    public boolean isInvertedTheme() {
+        return enableInvertedTheme;
+    }
 
-    public void setInvertedTheme( boolean enableInvertedTheme){
+    public void setInvertedTheme(boolean enableInvertedTheme) {
         this.enableInvertedTheme = enableInvertedTheme;
     }
 
-    public String getFontSize() { return fontSize; }
+    public String getFontSize() {
+        return fontSize;
+    }
 
-    public void setFontSize( String fontSize ) {
+    public void setFontSize(String fontSize) {
         this.fontSize = fontSize;
     }
 
@@ -176,6 +190,22 @@ public class SettingsData extends Transportable implements Parcelable {
 
     public void setDisableNotificationScreenOn(boolean disableNotificationsScreenOn) {
         this.disableNotificationsScreenOn = disableNotificationsScreenOn;
+    }
+
+    public int getShakeToDismissGravity() {
+        return shakeToDismissGravity;
+    }
+
+    public void setShakeToDismissGravity(int shakeToDismissGravity) {
+        this.shakeToDismissGravity = shakeToDismissGravity;
+    }
+
+    public int getShakeToDismissNumOfShakes() {
+        return shakeToDismissNumOfShakes;
+    }
+
+    public void setShakeToDismissNumOfShakes(int shakeToDismissNumOfShakes) {
+        this.shakeToDismissNumOfShakes = shakeToDismissNumOfShakes;
     }
 
     @Override
@@ -195,5 +225,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (enableInvertedTheme ? 1 : 0));
         dest.writeString(fontSize);
         dest.writeByte((byte) (disableNotificationsScreenOn ? 1 : 0));
+        dest.writeInt(shakeToDismissGravity);
+        dest.writeInt(shakeToDismissNumOfShakes);
     }
 }

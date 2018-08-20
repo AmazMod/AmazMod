@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'com.github.tbouron.shakedetector:library:1.0.0@aar'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation files('../libs/SpringboardPluginLib.jar')
     implementation files('../libs/huami_libs.jar')

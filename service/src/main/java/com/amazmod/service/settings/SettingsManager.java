@@ -30,6 +30,8 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME, settingsData.isInvertedTheme());
         editor.putString(Constants.PREF_NOTIFICATIONS_FONT_SIZE, settingsData.getFontSize());
         editor.putBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON, settingsData.isDisableNotificationsScreenOn());
+        editor.putInt(Constants.PREF_SHAKE_TO_DISMISS_GRAVITY, settingsData.getShakeToDismissGravity());
+        editor.putInt(Constants.PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES, settingsData.getShakeToDismissNumOfShakes());
 
         editor.apply();
     }

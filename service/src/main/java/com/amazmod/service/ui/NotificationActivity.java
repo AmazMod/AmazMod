@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -27,6 +28,7 @@ import com.amazmod.service.R2;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
+import com.github.tbouron.shakedetector.library.ShakeDetector;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -229,6 +231,37 @@ public class NotificationActivity extends Activity {
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
+
+        ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
+            @Override
+            public void OnShake() {
+                NotificationActivity.this.finish();
+                Toast.makeText(getApplicationContext(), "Shaken!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        float gravity = settingsManager.getInt(Constants.PREF_SHAKE_TO_DISMISS_GRAVITY, 1000) / 1000f;
+        int numOfShakes = settingsManager.getInt(Constants.PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES, 2);
+
+        ShakeDetector.updateConfiguration(gravity, numOfShakes);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ShakeDetector.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        ShakeDetector.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ShakeDetector.destroy();
     }
 
     @Override
@@ -239,7 +272,6 @@ public class NotificationActivity extends Activity {
 
         return false;
     }
-
 
     @OnClick(R2.id.activity_notification_button_close)
     public void clickClose() {
@@ -316,6 +348,4 @@ public class NotificationActivity extends Activity {
         //    Log.d(Constants.TAG, "NotificationActivity postWithStandarUI - Exception: " + ex.toString() + " - Notification: " + notification.toString());
         //}
     }
-
-
 }
