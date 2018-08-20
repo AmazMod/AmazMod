@@ -76,14 +76,15 @@ public class NotificationFactory {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
 
-            bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
-
+            if (bitmap.getWidth() > 48) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
+            }
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             int[] intArray = new int[width * height];
             bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
-            System.out.println("AmazMod NotificationService mapNotification bitmap dimensions: " + width + " x " + height);
+            //System.out.println("AmazMod NotificationService mapNotification bitmap dimensions: " + width + " x " + height);
 
             //This was crashing on Oreo
             //Bitmap bitmap = BitmapFactory.decodeResource(resources, iconId);
