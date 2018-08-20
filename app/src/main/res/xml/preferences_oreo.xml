@@ -23,6 +23,13 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="preference.disable.notifications"
+            android:key="preference.disable.standard.notifications"
+            android:summary="@string/pref_disable_standard_notifications_summary"
+            android:title="@string/pref_disable_standard_notifications" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
             android:disableDependentsState="false"
             android:key="preference.notifications.enable.custom.ui"
             android:summary="@string/pref_notifications_enable_custom_ui_summary"

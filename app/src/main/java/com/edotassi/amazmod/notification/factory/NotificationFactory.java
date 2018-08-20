@@ -6,9 +6,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 
+import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.support.Logger;
 
 import java.util.Calendar;
@@ -66,12 +69,29 @@ public class NotificationFactory {
             int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
             PackageManager manager = context.getPackageManager();
             Resources resources = manager.getResourcesForApplication(notificationPackgae);
-            Bitmap bitmap = BitmapFactory.decodeResource(resources, iconId);
+
+            Drawable drawable = resources.getDrawable(iconId);
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+
+            bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
 
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             int[] intArray = new int[width * height];
             bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
+
+            System.out.println("AmazMod NotificationService mapNotification bitmap dimensions: " + width + " x " + height);
+
+            //This was crashing on Oreo
+            //Bitmap bitmap = BitmapFactory.decodeResource(resources, iconId);
+
+            //int width = bitmap.getWidth();
+            //int height = bitmap.getHeight();
+            //int[] intArray = new int[width * height];
+            //bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
             notificationData.setIcon(intArray);
             notificationData.setIconWidth(width);
