@@ -19,5 +19,5 @@ before_install:
   -in amazmod-certificate.key.enc -out ./amazmod-certificate.key -d
 - gem install fastlane --no-rdoc --no-ri --no-document --quiet
 script:
-  - cd app && ./gradlew clean
+  - cd app && ./gradlew clean && cd ..
   - fastlane alpha
