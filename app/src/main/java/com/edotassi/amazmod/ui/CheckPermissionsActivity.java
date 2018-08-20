@@ -87,10 +87,12 @@ public class CheckPermissionsActivity extends AppCompatActivity {
     @SuppressLint("CheckResult")
     @OnClick(R.id.activity_permissions_notifications)
     public void openNotificationsAccess() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-        } else {
-            startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+        if (!Permissions.hasNotificationAccess(getApplicationContext())) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+            } else {
+                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+            }
         }
     }
 

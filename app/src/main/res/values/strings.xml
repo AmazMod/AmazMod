@@ -79,7 +79,7 @@
     <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
     <string name="translators">Translators</string>
-    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw)</string>
+    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw), \@GreatApo(el), \@Puzzlehead0(cs)</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
     <string name="activity_watchface_show_altitude">Show altitude</string>
@@ -167,5 +167,29 @@
     <string name="activity_permissions_open_settings">Open app settings</string>
     <string name="enabled">enabled</string>
     <string name="disabled">disabled</string>
+    <string name="activity_files_extras">Files extras</string>
+    <string name="activity_files_backup_title">Backup and Restore</string>
+    <string name="activity_files_permission">Permission to write</string>
+    <string name="activity_files_date_last_backup">Date of last backup</string>
+    <string name="activity_files_backup">Backup</string>
+    <string name="activity_files_restore">restore</string>
+    <string name="never">Never</string>
+    <string name="activity_files_backup_obs">PS: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_file">Backup file found</string>
+    <string name="none">None</string>
+    <string name="data">Data</string>
+    <string name="downloads">Downloads</string>
+    <string name="activity_files_backup_error">PS: AmazMod cannot write files, please check permissions</string>
+    <string name="activity_files_backup_downloads">Backup file is saved in Downloads folder:</string>
+    <string name="activity_files_file_error">File Error!</string>
+    <string name="activity_files_backup_ok">Backup Done</string>
+    <string name="activity_files_backup_failed">Backup Failed!</string>
+    <string name="activity_files_no_write_permission">Error: No Write Permission!</string>
+    <string name="activity_files_restore_ok">Restore Done, Quitting…</string>
+    <string name="activity_files_restore_failed">Restore Failed!</string>
+    <string name="activity_files_backup_not_found">Backup File Not Found!</string>
+    <string name="pref_disable_standard_notifications">Disable standard notifications</string>
+    <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch</string>
+    <string name="activity_tweaking_brightness">Please disable Auto-brightness in watch first for this to work</string>
 
 </resources>

@@ -68,6 +68,7 @@ public class NotificationService extends NotificationListenerService {
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
             "com.contapps.android",
+            "com.microsoft.office.outlook",
             "com.skype.raider"
     };
 
@@ -76,7 +77,6 @@ public class NotificationService extends NotificationListenerService {
 
     private static long lastTimeNotificationArrived = 0;
     private static long lastTimeNotificationSent = 0;
-    private static boolean connected = false;
     private static String lastTxt = "";
 
     @Override
@@ -87,18 +87,13 @@ public class NotificationService extends NotificationListenerService {
 
         notificationsAvailableToReply = new HashMap<>();
 
-        Log.d(Constants.TAG, "NotificationService onCreate: " + connected);
+        Log.d(Constants.TAG, "NotificationService onCreate");
 
-        //Try to reconnect NotificationListener if it is not connected
-//        if (!connected) {
-//            toggleNotificationService();
-//        }
     }
 
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
-        connected = true;
         Log.d(Constants.TAG, "NotificationService onListenerConnected");
     }
 
@@ -142,24 +137,32 @@ public class NotificationService extends NotificationListenerService {
 
         byte filterResult = filter(statusBarNotification);
 
+        boolean notificationSent = false;
+
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
                 filterResult == Constants.FILTER_LOCALOK) {
             if (isCustomUIEnabled() && filterResult != Constants.FILTER_LOCALOK) {
                 sendNotificationWithCustomUI(statusBarNotification);
+                notificationSent = true;
             }
 
-            sendNotificationWithStandardUI(filterResult, statusBarNotification);
+            if (!isStandardDisabled()) {
+                sendNotificationWithStandardUI(filterResult, statusBarNotification);
+                notificationSent = true;
+            }
 
-            storeForStats(statusBarNotification, filterResult);
+            if (notificationSent) {
+                storeForStats(statusBarNotification, filterResult);
+            } else storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+
         } else {
             //Messenger voice call notifications
             if (isRingingNotification(statusBarNotification.getNotification())) {
                 handleCall(statusBarNotification, notificationPackage);
             } else if (isMapsNotification(statusBarNotification.getNotification(), notificationPackage)) {
-                Log.d(Constants.TAG, "NotificationService maps: " + notificationPackage);
                 mapNotification(statusBarNotification);
-                storeForStats(statusBarNotification, Constants.FILTER_MAPS);
+                //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
             } else {
                 Log.d(Constants.TAG, "NotificationService blocked: " + notificationPackage);
                 storeForStats(statusBarNotification, filterResult);
@@ -317,7 +320,7 @@ public class NotificationService extends NotificationListenerService {
         String text = "";
         int flags = 0;
         boolean localAllowed = false;
-        //boolean whitelistedApp = false;
+        boolean whitelistedApp = false;
 
         if (!isPackageAllowed(notificationPackage)) {
             return returnFilterResult(Constants.FILTER_PACKAGE);
@@ -334,11 +337,11 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (/*(flags & FLAG_WEARABLE_REPLY) == 0 &&*/ NotificationCompat.isGroupSummary(notification)) {
+            Log.d(Constants.TAG, "NotificationService isGroupSummary: " + notificationPackage);
             if (Arrays.binarySearch(APP_WHITELIST, notificationPackage) < 0) {
                 log.d("notification blocked FLAG_GROUP_SUMMARY");
                 return returnFilterResult(Constants.FILTER_GROUP);
-            }
-            //   else whitelistedApp = true;
+            } else whitelistedApp = true;
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
@@ -347,10 +350,14 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false)) {
+            Log.d(Constants.TAG, "NotificationService getLocalOnly: " + notificationPackage);
+            if ((!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false) && !whitelistedApp) ||
+                    ((Arrays.binarySearch(APP_WHITELIST, notificationPackage) >= 0) && !whitelistedApp)) {
                 log.d("notification blocked because is LocalOnly");
                 return returnFilterResult(Constants.FILTER_LOCAL);
-            } else localAllowed = true;
+            } else if (!whitelistedApp) {
+                localAllowed = true;
+            }
         }
 
         //Bundle extras = statusBarNotification.getNotification().extras;
@@ -358,11 +365,12 @@ public class NotificationService extends NotificationListenerService {
         if (bigText != null) {
             text = bigText.toString();
         }
+        Log.d(Constants.TAG, "NotificationService text: " + text);
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
-            if ((previousText != null) && (previousText.equals(text))
+            if ((previousText != null) && (previousText.equals(text)) && (!notificationPackage.equals("com.microsoft.office.outlook"))
                     && ((System.currentTimeMillis() - lastTimeNotificationArrived) < BLOCK_INTERVAL)) {
                 Log.d(Constants.TAG, "NotificationService blocked text");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
@@ -412,6 +420,10 @@ public class NotificationService extends NotificationListenerService {
 
     private boolean isCustomUIEnabled() {
         return Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
+    }
+
+    private boolean isStandardDisabled() {
+        return Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false);
     }
 
     private boolean isRingingNotification(Notification notification) {
@@ -523,11 +535,13 @@ public class NotificationService extends NotificationListenerService {
 
     private void mapNotification(StatusBarNotification statusBarNotification) {
 
+        Log.d(Constants.TAG, "NotificationService maps: " + statusBarNotification.getPackageName());
+
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         RemoteViews rmv = statusBarNotification.getNotification().contentView;
         if (rmv != null) {
 
-            //Get text from ReemoveView using reflection
+            //Get text from RemoteView using reflection
             List<String> txt = extractText(rmv);
             if ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt))) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL)) {
 
