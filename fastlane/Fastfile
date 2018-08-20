@@ -8,7 +8,7 @@ platform :android do
         task: 'assemble',
         build_type: 'Release',
         properties: {
-           "android.injected.signing.store.file" => "amazmod-certificate",
+           "android.injected.signing.store.file" => "amazmod-certificate.jks",
            "android.injected.signing.store.password" => ENV['KEYSTORE_PASSWORD'] ,
            "android.injected.signing.key.alias" => ENV['KEYSTORE_ALIAS'],
            "android.injected.signing.key.password" => ENV['KEYSTORE_ALIAS_PASSWORD'],
@@ -20,11 +20,7 @@ platform :android do
 
       fastlane_require 'fastlane-craft'
       telegram(
-          bot_api_token: '621217782:AAFNVUSKfd7MELIHieN_F6UBk4wAhOrnQ24', # or setup FL_TELEGRAM_BOT_API_TOKEN env variable
-          chat_id: '-1001164901050',  # or setup FL_TELEGRAM_CHAT_ID env variable
           message: 'AmazMod alpha released',
-
-          # 'Markdown' or 'HTML'. It's optional. Also U can setup FL_TELEGRAM_MESSAGE_PARSE_MODE env variable
           parse_mode: 'Markdown'
         )
     end
