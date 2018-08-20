@@ -3,26 +3,31 @@
 default_platform(:android)
 
 platform :android do
-    lane :alpha do
-      gradle(
-        task: 'assemble',
-        build_type: 'Release',
-        properties: {
-           "android.injected.signing.store.file" => "amazmod-certificate.jks",
-           "android.injected.signing.store.password" => ENV['KEYSTORE_PASSWORD'] ,
-           "android.injected.signing.key.alias" => ENV['KEYSTORE_ALIAS'],
-           "android.injected.signing.key.password" => ENV['KEYSTORE_ALIAS_PASSWORD'],
-      })
-      upload_to_play_store(
-        track: 'alpha',
-        apk: './app/build/outputs/apk/release/app-release.apk'
-      )
+  def increment_version_code(gradle_build: 'android/app/build.gradle')
+    sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
+  end
 
-      fastlane_require 'fastlane-craft'
-      telegram(
-          message: 'AmazMod alpha released',
-          parse_mode: 'Markdown'
-        )
+    lane :alpha do
+    fastlane_require 'fastlane-craft'
+        begin
+          increment_version_code gradle_build: 'app/build.gradle'
+          gradle(
+            task: 'assemble',
+            build_type: 'Release',
+            properties: {
+               "android.injected.signing.store.file" => "amazmod-certificate.jks",
+               "android.injected.signing.store.password" => ENV['KEYSTORE_PASSWORD'] ,
+               "android.injected.signing.key.alias" => ENV['KEYSTORE_ALIAS'],
+               "android.injected.signing.key.password" => ENV['KEYSTORE_ALIAS_PASSWORD'],
+          })
+          upload_to_play_store(
+            track: 'alpha',
+            apk: './app/build/outputs/apk/release/app-release.apk'
+          )
+          telegram(message: 'Build published in alpha stage', parse_mode: 'Markdown')
+        rescue => ex
+            telegram(message: ex.message, parse_mode: 'Markdown')
+        end
     end
 
     lane :beta do
