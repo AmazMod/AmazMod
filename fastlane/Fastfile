@@ -6,13 +6,19 @@ platform :android do
     lane :alpha do
       gradle(
         task: 'assemble',
-        build_type: 'Release'
-      )
+        build_type: 'Release',
+        properties: {
+           "android.injected.signing.store.file" => "amazmod-certificate.key",
+           "android.injected.signing.store.password" => ENV['KEYSTORE_PASSWORD'] ,
+           "android.injected.signing.key.alias" => ENV['KEYSTORE_ALIAS'],
+           "android.injected.signing.key.password" => ENV['KEYSTORE_ALIAS_PASSWORD'],
+      })
       upload_to_play_store(
         track: 'alpha',
         apk: './app/build/outputs/apk/release/app-release.apk'
       )
     end
+
     lane :beta do
         gradle(
             task: 'assemble',
