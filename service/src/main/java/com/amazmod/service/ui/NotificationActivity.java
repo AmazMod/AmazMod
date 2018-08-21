@@ -28,6 +28,7 @@ import com.amazmod.service.R2;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
+import com.amazmod.service.util.SystemProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -70,10 +71,14 @@ public class NotificationActivity extends Activity {
     private static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
     private static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
     private static int screenMode;
+    private static int screenBrightness;
+    private Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.mContext = this;
 
         final float FONT_SIZE_NORMAL = 14.0f;
         final float FONT_SIZE_LARGE = 18.0f;
@@ -97,6 +102,7 @@ public class NotificationActivity extends Activity {
 
         if (isDisableNotificationsScreenOn) {
             screenMode = Settings.System.getInt(this.getContentResolver(), SCREEN_BRIGHTNESS_MODE,0);
+            screenBrightness = Settings.System.getInt(this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,0);
             Settings.System.putInt(this.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
             Settings.System.putInt(this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
         }
@@ -244,6 +250,7 @@ public class NotificationActivity extends Activity {
         findViewById(R.id.notification_root_layout).dispatchTouchEvent(event);
 
         Settings.System.putInt(this.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+        Settings.System.putInt(this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
         startTimerFinish();
 
         return false;
@@ -281,7 +288,24 @@ public class NotificationActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+
         super.finish();
+
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+                    Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                    SystemProperties.goToSleep(mContext);
+                    Log.i(Constants.TAG,"NotificationActivity delayed finish");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(Constants.TAG, "Notificationctivity finish exception: " + e.toString());
+                }
+            }
+        }, 1000);
+
     }
 
     private List<Reply> loadReplies() {

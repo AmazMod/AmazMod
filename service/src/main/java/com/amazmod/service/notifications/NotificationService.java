@@ -43,9 +43,6 @@ public class NotificationService {
     private NotificationManager notificationManager;
     private SettingsManager settingsManager;
 
-    private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
-    private static int screenMode;
-
     public NotificationService(Context context) {
         this.context = context;
 //        vibrator = (Vibrator) context.getSystemService(VIBRATOR_SERVICE);
@@ -210,8 +207,6 @@ public class NotificationService {
     }
 
     private void postWithCustomUI(NotificationData notificationSpec) {
-        //Saves screen brightness mode
-        screenMode = Settings.System.getInt(this.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE,0);
 
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -222,8 +217,6 @@ public class NotificationService {
 
         context.startActivity(intent);
 
-        //Restores screen brightness mode
-        Settings.System.putInt(this.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
     }
 
     private List<Reply> loadReplies() {
