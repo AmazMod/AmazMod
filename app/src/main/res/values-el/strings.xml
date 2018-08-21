@@ -103,7 +103,7 @@
     <string name="pref_run_wizard">Εκτέλεση Παρουσίασης Καλωσορίσματος</string>
     <string name="pref_run_wizard_summary">Επανεκτέλεση της παρουσίασης καλωσορίσματος</string>
     <string name="pref_vibration_duration">Διάρκεια δόνησης</string>
-    <string name="pref_vibration_duration_summary">Ορισμός διάρκειας δόνησης</string>
+    <string name="pref_vibration_duration_summary">Ορισμός διάρκειας δόνησης for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="pref_screen_timeout">Λήξη ορίου χρόνου οθόνης</string>
     <string name="pref_screen_timeout_summary">Ορισμός διάρκειας προβολής των προσαρτημένων ειδοποιήσεων</string>
     <string name="pref_force_english">Αναγκαστική αλλαγή σε Αγγλικά</string>

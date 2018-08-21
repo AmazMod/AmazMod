@@ -110,7 +110,7 @@
     <string name="pref_run_wizard">Run Welcome Presentation</string>
     <string name="pref_run_wizard_summary">Run the welcome presentation again</string>
     <string name="pref_vibration_duration">Vibration duration</string>
-    <string name="pref_vibration_duration_summary">Set the vibration duration</string>
+    <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="pref_screen_timeout">Screen timeout</string>
     <string name="pref_screen_timeout_summary">Set duration of custom replies screen</string>
     <string name="pref_force_english">Force English</string>

@@ -242,10 +242,10 @@ public class MainService extends Service implements Transporter.DataListener {
         NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
 
         //Changed for RC1
-        //if (notificationData.getVibration() > 0) {
-        //    Log.d(Constants.TAG, "MainService incomingNotification vibration: " + notificationData.getVibration());
-        //} else notificationData.setVibration(0);
-        notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
+        if (notificationData.getVibration() > 0) {
+            Log.d(Constants.TAG, "MainService incomingNotification vibration: " + notificationData.getVibration());
+        } else notificationData.setVibration(0);
+        //notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
         notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
 
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));

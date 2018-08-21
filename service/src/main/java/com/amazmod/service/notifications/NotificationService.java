@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -206,6 +207,7 @@ public class NotificationService {
     }
 
     private void postWithCustomUI(NotificationData notificationSpec) {
+
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -214,6 +216,7 @@ public class NotificationService {
         intent.putExtras(notificationSpec.toBundle());
 
         context.startActivity(intent);
+
     }
 
     private List<Reply> loadReplies() {
