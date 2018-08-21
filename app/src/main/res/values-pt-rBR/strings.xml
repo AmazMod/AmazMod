@@ -102,7 +102,7 @@
     <string name="pref_run_wizard">Executar apresentação de boas-vindas</string>
     <string name="pref_run_wizzard_summary">Executar apresentação de boas-vindas de novo</string>
     <string name="pref_vibration_duration">Duração da vibração</string>
-    <string name="pref_vibration_duration_summary">Defina a duração da vibração</string>
+    <string name="pref_vibration_duration_summary">Defina a duração da vibração for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="pref_screen_timeout">Tempo tela acesa</string>
     <string name="pref_screen_timeout_summary">Definir duração de notificações com interface personalizada</string>
     <string name="pref_force_english">Forçar inglês</string>

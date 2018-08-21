@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -41,6 +42,9 @@ public class NotificationService {
     //    private Vibrator vibrator;
     private NotificationManager notificationManager;
     private SettingsManager settingsManager;
+
+    private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
+    private static int screenMode;
 
     public NotificationService(Context context) {
         this.context = context;
@@ -206,6 +210,9 @@ public class NotificationService {
     }
 
     private void postWithCustomUI(NotificationData notificationSpec) {
+        //Saves screen brightness mode
+        screenMode = Settings.System.getInt(this.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE,0);
+
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -214,6 +221,9 @@ public class NotificationService {
         intent.putExtras(notificationSpec.toBundle());
 
         context.startActivity(intent);
+
+        //Restores screen brightness mode
+        Settings.System.putInt(this.context.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
     }
 
     private List<Reply> loadReplies() {

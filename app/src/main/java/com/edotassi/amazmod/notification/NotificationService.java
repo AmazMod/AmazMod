@@ -212,6 +212,9 @@ public class NotificationService extends NotificationListenerService {
 
     private void sendNotificationWithCustomUI(StatusBarNotification statusBarNotification) {
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+        if (isStandardDisabled()) {
+            notificationData.setVibration(getDefaultVibration());
+        } else notificationData.setVibration(0);
         notificationData.setHideReplies(false);
         notificationData.setHideButtons(true);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
@@ -255,6 +258,10 @@ public class NotificationService extends NotificationListenerService {
         return ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).getMode();
     }
 
+    private int getDefaultVibration(){
+        return Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION));
+    }
+
     private boolean isRinging() {
         boolean isRinging = false;
         try {
@@ -295,6 +302,7 @@ public class NotificationService extends NotificationListenerService {
                 final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
 
                 notificationData.setText(notificationData.getText() + "\n" + applicationName);
+                notificationData.setVibration(getDefaultVibration());
                 notificationData.setHideReplies(true);
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
@@ -578,6 +586,7 @@ public class NotificationService extends NotificationListenerService {
 
                 notificationData.setTitle(txt.get(0));
                 notificationData.setText(txt.get(1));
+                notificationData.setVibration(getDefaultVibration());
                 notificationData.setHideReplies(true);
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
