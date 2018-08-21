@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.amazmod.service">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -64,7 +66,8 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-<!-- Disabled as it does not work anyway
+
+        <!-- Disabled as it does not work anyway
         <service
             android:name=".NotificationListener"
             android:exported="true"
@@ -74,7 +77,8 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
--->
+        -->
+
         <meta-data
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />

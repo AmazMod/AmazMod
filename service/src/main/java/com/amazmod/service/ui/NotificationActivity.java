@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.amazmod.service.R2;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
+import com.amazmod.service.util.SystemProperties;
 import com.github.tbouron.shakedetector.library.ShakeDetector;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -67,9 +69,18 @@ public class NotificationActivity extends Activity {
 
     private SettingsManager settingsManager;
 
+    private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
+    private static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
+    private static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
+    private static int screenMode;
+    private static int screenBrightness;
+    private Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.mContext = this;
 
         final float FONT_SIZE_NORMAL = 14.0f;
         final float FONT_SIZE_LARGE = 18.0f;
@@ -87,11 +98,15 @@ public class NotificationActivity extends Activity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-        if (!isDisableNotificationsScreenOn) {
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                    WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        if (isDisableNotificationsScreenOn) {
+            screenMode = Settings.System.getInt(this.getContentResolver(), SCREEN_BRIGHTNESS_MODE,0);
+            screenBrightness = Settings.System.getInt(this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS,0);
+            Settings.System.putInt(this.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            Settings.System.putInt(this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
         }
 
         // Set theme and font size
@@ -148,14 +163,14 @@ public class NotificationActivity extends Activity {
             icon.setImageBitmap(bitmap);
 
             //Changed for RC1 - vibrates only for voice & maps
-            if (!notificationSpec.getHideButtons() && hideReplies) {
+            //if (!notificationSpec.getHideButtons() && hideReplies) {
                 if (notificationSpec.getVibration() > 0) {
                     Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                     if (vibrator != null) {
                         vibrator.vibrate(notificationSpec.getVibration());
                     }
                 }
-            }
+            //}
 
         } catch (NullPointerException ex) {
             Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString() + " notificationSpec: " + notificationSpec);
@@ -167,7 +182,6 @@ public class NotificationActivity extends Activity {
             nullError = true;
         }
 
-        //SettingsManager settingsManager = new SettingsManager(this);
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
@@ -268,6 +282,8 @@ public class NotificationActivity extends Activity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         findViewById(R.id.notification_root_layout).dispatchTouchEvent(event);
 
+        Settings.System.putInt(this.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+        Settings.System.putInt(this.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
         startTimerFinish();
 
         return false;
@@ -283,7 +299,6 @@ public class NotificationActivity extends Activity {
         if (nullError) {
             finish();
         } else {
-//            Toast.makeText(this, "not_implented", Toast.LENGTH_SHORT).show();
             //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #1
             postWithStandardUI(notificationSpec);
             finish();
@@ -305,11 +320,27 @@ public class NotificationActivity extends Activity {
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
                 WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+
         super.finish();
+
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+                    Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                    SystemProperties.goToSleep(mContext);
+                    Log.i(Constants.TAG,"NotificationActivity delayed finish");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(Constants.TAG, "Notificationctivity finish exception: " + e.toString());
+                }
+            }
+        }, 1000);
+
     }
 
     private List<Reply> loadReplies() {
-        //SettingsManager settingsManager = new SettingsManager(this);
         final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
 
         try {

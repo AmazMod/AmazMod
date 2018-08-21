@@ -134,7 +134,7 @@ Használd örömmel az AmazMod-ot! ♡"</string>
     <string name="pref_screen_timeout">Válasz képernyő</string>
     <string name="pref_screen_timeout_summary">A válasz képernyő megjelenés időtartama</string>
     <string name="pref_vibration_duration">Rezgés időtartam</string>
-    <string name="pref_vibration_duration_summary">A rezgés időtartamának beállítása</string>
+    <string name="pref_vibration_duration_summary">A rezgés időtartamának beállítása for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="project_github">Projekt a Github-on</string>
     <string name="remaining_battery">Üzemidő még</string>
     <string name="replies">Válaszok</string>

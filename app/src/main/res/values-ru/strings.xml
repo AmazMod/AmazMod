@@ -93,7 +93,7 @@
 	<string name="pref_run_wizard">Запустить "Приветствие"</string>
 	<string name="pref_run_wizard_summary">Запустить "Приветствие" повторно</string>
 	<string name="pref_vibration_duration">Продолжительность вибрации</string>
-	<string name="pref_vibration_duration_summary">Установить продолжительность вибрации</string>
+	<string name="pref_vibration_duration_summary">Установить продолжительность вибрации for the replies screen on watch (only used if Standard notifications are disabled)</string>
 	<string name="pref_screen_timeout">Ожидание экрана</string>
 	<string name="pref_screen_timeout_summary">Установить пользовательские ответы на экране</string>
 	<string name="pref_force_english">Английский</string>

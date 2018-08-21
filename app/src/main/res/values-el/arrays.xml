@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_amazmodservice_vibration_entries">
+        <item>0 χιλιοστά του δευτερολέπτου</item>
         <item>100 χιλιοστά του δευτερολέπτου</item>
         <item>200 χιλιοστά του δευτερολέπτου</item>
         <item>300 χιλιοστά του δευτερολέπτου</item>
@@ -8,6 +9,7 @@
         <item>500 χιλιοστά του δευτερολέπτου</item>
     </string-array>
     <string-array name="pref_amazmodservice_vibration_values">
+        <item>0</item>
         <item>100</item>
         <item>200</item>
         <item>300</item>
@@ -51,7 +53,6 @@
         <item>15</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
-        <item>2 λεπτά</item>
         <item>15 λεπτά</item>
         <item>30 λεπτά</item>
         <item>60 λεπτά</item>
@@ -61,7 +62,6 @@
         <item>4 ώρες</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_values">
-        <item>2</item>
         <item>15</item>
         <item>30</item>
         <item>60</item>
