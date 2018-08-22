@@ -85,27 +85,25 @@
 
                 <Button
                     android:id="@+id/activity_notification_button_close"
-                    android:layout_width="106dp"
+                    android:layout_width="104dp"
                     android:layout_height="wrap_content"
-                    android:drawableEnd="@android:drawable/ic_menu_close_clear_cancel"
                     android:gravity="end|center_vertical"
+                    android:includeFontPadding="false"
                     android:padding="4dp"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
-                    android:text="Close"
-                    android:textAlignment="viewEnd" />
+                    android:text="@string/close"
+                    android:textAlignment="viewEnd"
+                    tools:text="Close  " />
 
                 <Button
                     android:id="@+id/activity_notification_button_reply"
-                    android:layout_width="106dp"
+                    android:layout_width="104dp"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@android:drawable/ic_menu_set_as"
                     android:gravity="start|center_vertical"
+                    android:includeFontPadding="false"
                     android:padding="4dp"
-                    android:paddingEnd="8dp"
-                    android:paddingStart="8dp"
-                    android:text="Replies"
-                    android:textAlignment="viewStart" />
+                    android:text="@string/replies"
+                    android:textAlignment="viewStart"
+                    tools:text="  Replies" />
             </LinearLayout>
 
             <LinearLayout

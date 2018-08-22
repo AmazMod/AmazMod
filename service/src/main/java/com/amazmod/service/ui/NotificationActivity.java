@@ -180,6 +180,7 @@ public class NotificationActivity extends Activity {
             if (!hideReplies) {
                 replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 replyButton.setAllCaps(true);
+                replyButton.setText(R.string.replies);
             } else {
                 replyButton.setVisibility(View.GONE);
             }
