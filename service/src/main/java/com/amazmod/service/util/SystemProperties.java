@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -172,14 +173,34 @@ public class SystemProperties {
     }
 
     public static void goToSleep(Context context){
+        Log.d(Constants.TAG, "SystemProperties goToSleep context: " + context.toString());
         try{
             Class c = Class.forName("android.os.PowerManager");
-            PowerManager  mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             for(Method m : c.getDeclaredMethods()){
                 if(m.getName().equals("goToSleep")){
                     m.setAccessible(true);
                     if(m.getParameterTypes().length == 1){
                         m.invoke(mPowerManager, SystemClock.uptimeMillis()-2);
+                    }
+                }
+            }
+        } catch (InvocationTargetException e) {
+            e.getCause().printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(Constants.TAG, "SystemProperties goToSleep exception: " + e.toString());
+        }
+    }
+
+    public static void switchPowerMode(Context context, boolean mode){
+        try{
+            Class c = Class.forName("com.huami.watch.common.CommonService");
+            for(Method m : c.getDeclaredMethods()){
+                if(m.getName().equals("switchPowerMode")){
+                    m.setAccessible(true);
+                    if(m.getParameterTypes().length == 1){
+                        m.invoke(m, mode);
                     }
                 }
             }

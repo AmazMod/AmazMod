@@ -1,8 +1,6 @@
 package com.amazmod.service.ui;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,9 +8,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -22,7 +17,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -30,8 +24,6 @@ import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.util.DeviceUtil;
-import com.amazmod.service.util.SystemProperties;
-import com.github.tbouron.shakedetector.library.ShakeDetector;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -46,7 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
-public class NotificationActivity extends Activity {
+public class RepliesActicity extends Activity {
 
     @BindView(R.id.notification_title)
     TextView title;
@@ -103,25 +95,11 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        boolean hideReplies;
-
         //Load preferences
-        boolean disableNotificationsScreenOn = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
-                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
-        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
-                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
 
-        setWindowFlags(true);
-
-        //Do not activate screen if it is disabled in settings and screen is off
-        if (disableNotificationsScreenOn && DeviceUtil.isDeviceLocked(getBaseContext())) {
-            setScreenModeOff(true);
-        }
-
         // Set theme and font size
-        //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));
@@ -136,26 +114,15 @@ public class NotificationActivity extends Activity {
         text.setTextSize(fontSizeSP);
 
         try {
-
-            hideReplies = notificationSpec.getHideReplies();
-
             int[] iconData = notificationSpec.getIcon();
             int iconWidth = notificationSpec.getIconWidth();
             int iconHeight = notificationSpec.getIconHeight();
             Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
             bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
-
             icon.setImageBitmap(bitmap);
             title.setText(notificationSpec.getTitle());
-            text.setText(notificationSpec.getText());
-            time.setText(notificationSpec.getTime());
-
-            if (notificationSpec.getVibration() > 0) {
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                if (vibrator != null) {
-                    vibrator.vibrate(notificationSpec.getVibration());
-                }
-            }
+            text.setVisibility(View.GONE);
+            time.setVisibility(View.GONE);
 
         } catch (NullPointerException ex) {
             Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString()
@@ -164,95 +131,27 @@ public class NotificationActivity extends Activity {
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
             icon.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.amazmod));
-            hideReplies = true;
             nullError = true;
         }
 
-        if (screenToggle && nullError) {
-            setScreenModeOff(false);
-        }
-
-        if (!hideReplies && !disableNotificationReplies) {
-            buttonsLayout.setVisibility(View.GONE);
-            addReplies();
-        } else {
-            buttonsLayout.setVisibility(View.VISIBLE);
-            if (!hideReplies) {
-                replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-                replyButton.setAllCaps(true);
-            } else {
-                replyButton.setVisibility(View.GONE);
-            }
-            closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-            closeButton.setAllCaps(true);
-            closeButton.setText(R.string.close);
-        }
+        buttonsLayout.setVisibility(View.GONE);
+        addReplies();
 
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
-        /* ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
-            @Override
-            public void OnShake() {
-                NotificationActivity.this.finish();
-                Toast.makeText(getApplicationContext(), "Shaken!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        float gravity = settingsManager.getInt(Constants.PREF_SHAKE_TO_DISMISS_GRAVITY, 1000) / 1000f;
-        int numOfShakes = settingsManager.getInt(Constants.PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES, 2);
-
-        ShakeDetector.updateConfiguration(gravity, numOfShakes); */
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //ShakeDetector.start();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //ShakeDetector.stop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //ShakeDetector.destroy();
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         findViewById(R.id.notification_root_layout).dispatchTouchEvent(event);
 
-        if (screenToggle) {
-            setScreenModeOff(false);
-        }
-
         startTimerFinish();
 
         return false;
     }
 
-    @OnClick(R.id.activity_notification_button_close)
-    public void clickClose() {
-        finish();
-    }
-
-    @OnClick(R.id.activity_notification_button_reply)
-    public void clickReply() {
-        Intent intent = new Intent(this, RepliesActicity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(notificationSpec.toBundle());
-        this.startActivity(intent);
-        finish();
-    }
 
     private void startTimerFinish() {
         handler.removeCallbacks(activityFinishRunnable);
@@ -264,25 +163,7 @@ public class NotificationActivity extends Activity {
     @Override
     public void finish() {
         handler.removeCallbacks(activityFinishRunnable);
-        setWindowFlags(false);
         super.finish();
-
-        if (screenToggle) {
-            //SystemProperties.goToSleep(baseContext);
-            Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    try {
-                        //Toast.makeText(getApplicationContext(), "delayed", Toast.LENGTH_SHORT).show();
-                        setScreenModeOff(false);
-                        Log.i(Constants.TAG, "NotificationActivity delayed finish");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e(Constants.TAG, "Notificationctivity finish exception: " + e.toString());
-                    }
-                }
-            }, 10000 - notificationSpec.getTimeoutRelock() + 1000);
-        }
     }
 
     private void setFontSizeSP(){
@@ -348,33 +229,5 @@ public class NotificationActivity extends Activity {
         }
     }
 
-    private void setWindowFlags(boolean enable) {
 
-        final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
-
-        if (enable) {
-            getWindow().addFlags(flags);
-        } else {
-            getWindow().clearFlags(flags);
-        }
-    }
-
-    private void setScreenModeOff(boolean mode) {
-        if (mode) {
-            screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
-            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
-            Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
-            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
-        } else {
-            if (screenBrightness != 999989) {
-                Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
-            }
-        }
-        screenToggle = mode;
-    }
 }

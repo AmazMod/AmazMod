@@ -80,6 +80,7 @@ public class NotificationService {
             }
 
             if (enableCustomUI || forceCustom) {
+                Log.d(Constants.TAG, "NotificationService context: " + context.toString());
                 postWithCustomUI(notificationSpec);
             } else {
                 postWithStandardUI(notificationSpec, disableNotificationReplies);
@@ -97,8 +98,6 @@ public class NotificationService {
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification_test);
         contentView.setTextViewText(R.id.notification_title, notificationData.getTitle());
         contentView.setTextViewText(R.id.notification_text, notificationData.getText());
-
-
 
         contentView.setImageViewBitmap(R.id.notification_icon, bitmap);
         contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
@@ -149,7 +148,6 @@ public class NotificationService {
 
 //        ApplicationInfo applicationInfo = notification.extras.getParcelable("android.rebuild.applicationInfo");
 
-
         /*
         try {
             int[] iconData = notificationData.getIcon();
@@ -172,7 +170,7 @@ public class NotificationService {
 
         //  Utils.BitmapExtender bitmapExtender = Utils.retrieveAppIcon(context, notificationSpec.getPkg());
         // if (bitmapExtender != null) {
-      /*  int[] iconData = notificationSpec.getIcon();
+        /* int[] iconData = notificationSpec.getIcon();
         int iconWidth = notificationSpec.getIconWidth();
         int iconHeight = notificationSpec.getIconHeight();
         Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
@@ -190,7 +188,6 @@ public class NotificationService {
                 .setChoices(replyChoices)
                 .build();
         */
-
 
 
         /*
@@ -249,7 +246,6 @@ public class NotificationService {
             Log.d(Constants.TAG_NOTIFICATION_MANAGER, "tag: " + statusBarNotificationData.tag);
         }
 
-
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -273,8 +269,6 @@ public class NotificationService {
 
         notificationManager.notify(statusBarNotificationData.id, mBuilder.build());
         */
-
-
 
         /*
         Bitmap background = ((BitmapDrawable) context.getResources().getDrawable(R.drawable.lau_notify_icon_upgrade_bg)).getBitmap();
