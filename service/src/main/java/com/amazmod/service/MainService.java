@@ -16,6 +16,7 @@ import com.amazmod.service.events.NightscoutDataEvent;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
+import com.amazmod.service.events.incoming.LowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
@@ -31,6 +32,7 @@ import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
+import com.ingenic.iwds.slpt.SlptClockClient;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -67,6 +69,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
         put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
         put(Transport.BRIGHTNESS, Brightness.class);
+        put(Transport.LOW_POWER, LowPower.class);
     }};
 
     private Transporter transporter;
@@ -81,6 +84,8 @@ public class MainService extends Service implements Transporter.DataListener {
     private BatteryData batteryData;
     private WatchStatusData watchStatusData;
     private DataBundle dataBundle;
+
+    private SlptClockClient slptClockClient;
 
     @Override
     public void onCreate() {
@@ -128,6 +133,17 @@ public class MainService extends Service implements Transporter.DataListener {
         } else {
             Log.d(Constants.TAG, "MainService Transported yet connected");
         }
+
+        slptClockClient = new SlptClockClient();
+        slptClockClient.bindService(this, "AmazMod-MainService", new SlptClockClient.Callback() {
+            @Override
+            public void onServiceConnected() {
+            }
+
+            @Override
+            public void onServiceDisconnected() {
+            }
+        });
 
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
     }
@@ -216,6 +232,14 @@ public class MainService extends Service implements Transporter.DataListener {
         } catch (JSONException e) {
             Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\"}");//default
         }
+    }
+
+   @Subscribe(threadMode = ThreadMode.MAIN)
+    public void lowPower(LowPower lowPower) {
+       SystemProperties.goToSleep(this);
+       slptClockClient.enableLowBattery();
+       slptClockClient.enableSlpt();
+       SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

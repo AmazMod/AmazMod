@@ -18,6 +18,7 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Brightness;
+import com.edotassi.amazmod.event.LowPower;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
 import com.edotassi.amazmod.event.OutcomingNotification;
@@ -193,6 +194,11 @@ public class TransportService extends Service implements Transporter.DataListene
     public void brightness(Brightness brightness) {
         Log.d(Constants.TAG, "TransportService brightness: " + brightness.toString());
         send(Transport.BRIGHTNESS, brightness.getBrightnessData());
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void lowPower(LowPower lowPower) {
+        send(Transport.LOW_POWER);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
