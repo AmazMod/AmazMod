@@ -31,9 +31,9 @@
 
                 <ImageView
                     android:id="@+id/notification_icon"
-                    android:layout_width="43dp"
+                    android:layout_width="42dp"
                     android:layout_height="42dp"
-                    android:padding="5dp"
+                    android:padding="4dp"
                     app:srcCompat="@drawable/amazmod" />
             </LinearLayout>
 
@@ -44,7 +44,9 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:gravity="center_vertical|center_horizontal"
-                android:padding="2dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingTop="2dp"
                 android:text="TextView"
                 android:textColor="@color/text"
                 android:textStyle="bold" />
@@ -56,7 +58,6 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:gravity="center_vertical|center_horizontal"
-                android:paddingBottom="2dp"
                 android:paddingEnd="4dp"
                 android:paddingStart="4dp"
                 android:text="00:00"
