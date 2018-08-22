@@ -38,15 +38,14 @@
 
     <PreferenceCategory android:title="@string/customui">
 
-        <!-- Disabled for RC1
-                <SwitchPreference
+        <SwitchPreference
                     android:defaultValue="false"
                     android:dependency="preference.notifications.enable.custom.ui"
                     android:disableDependentsState="true"
                     android:key="preference.amazmodservice.enable.replies"
                     android:summary="@string/pref_disable_notifications_replies_summary"
                     android:title="@string/pref_disable_notifications_replies" />
-        -->
+
         <Preference
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.replies"

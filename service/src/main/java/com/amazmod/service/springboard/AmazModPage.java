@@ -99,9 +99,11 @@ public class AmazModPage extends AbstractPlugin {
                             Log.e(Constants.TAG, "AmazModPage getView longClick exception: " + e.toString());
                         }
                         SystemProperties.goToSleep(mContext);
+                        //SystemProperties.switchPowerMode(mContext, lowPower);
                         lowPower = false;
                     } else {
                         btmgr.enable();
+                        //SystemProperties.switchPowerMode(mContext, lowPower);
                         lowPower = true;
                     }
                 }

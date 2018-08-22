@@ -74,7 +74,8 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private Transporter transporter;
 
-    public Context context;
+    private Context context;
+    public Context baseContext;
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
     private static long dateLastCharge;
@@ -92,6 +93,7 @@ public class MainService extends Service implements Transporter.DataListener {
         super.onCreate();
 
         context = this;
+        baseContext = this.getBaseContext();
         settingsManager = new SettingsManager(context);
         notificationManager = new NotificationService(context);
 
@@ -101,7 +103,7 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData = new WatchStatusData();
         dataBundle = new DataBundle();
 
-        Log.d(Constants.TAG, "MainService HermesEventBus connect");
+        Log.d(Constants.TAG, "MainService HermesEventBus connect context: " + context.toString() + " / baseContext: " + baseContext.toString());
         HermesEventBus.getDefault().register(this);
 
         //Register power disconnect receiver

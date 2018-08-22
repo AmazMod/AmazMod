@@ -34,7 +34,9 @@
             android:exported="true"
             android:label="@string/title_activity_notification"
             android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
+            android:theme="@style/Theme.Transparent">
+        </activity>
+        <activity android:name=".ui.RepliesActicity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
 
