@@ -38,7 +38,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
-public class RepliesActicity extends Activity {
+public class RepliesActivity extends Activity {
 
     @BindView(R.id.notification_title)
     TextView title;

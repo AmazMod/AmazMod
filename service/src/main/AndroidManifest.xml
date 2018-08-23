@@ -36,7 +36,7 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent">
         </activity>
-        <activity android:name=".ui.RepliesActicity" />
+        <activity android:name=".ui.RepliesActivity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
 

@@ -1,8 +1,6 @@
 package com.amazmod.service.ui;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,8 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -22,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -30,8 +25,6 @@ import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.util.DeviceUtil;
-import com.amazmod.service.util.SystemProperties;
-import com.github.tbouron.shakedetector.library.ShakeDetector;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -245,7 +238,7 @@ public class NotificationActivity extends Activity {
 
     @OnClick(R.id.activity_notification_button_reply)
     public void clickReply() {
-        Intent intent = new Intent(this, RepliesActicity.class);
+        Intent intent = new Intent(this, RepliesActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
@@ -282,7 +275,7 @@ public class NotificationActivity extends Activity {
                         Log.e(Constants.TAG, "Notificationctivity finish exception: " + e.toString());
                     }
                 }
-            }, 10000 - notificationSpec.getTimeoutRelock() + 1000);
+            }, 10000 - notificationSpec.getTimeoutRelock() + 600);
         }
     }
 

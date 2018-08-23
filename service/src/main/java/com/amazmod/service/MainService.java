@@ -103,7 +103,7 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData = new WatchStatusData();
         dataBundle = new DataBundle();
 
-        Log.d(Constants.TAG, "MainService HermesEventBus connect context: " + context.toString() + " / baseContext: " + baseContext.toString());
+        Log.d(Constants.TAG, "MainService HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
 
         //Register power disconnect receiver
