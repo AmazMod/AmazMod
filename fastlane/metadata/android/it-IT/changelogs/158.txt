@@ -1,14 +1,11 @@
 - Added inverted theme and configurable font size for Custom Replies
 - Preferences backup and restore
-- Added preference to disable screen on/unlock on watch for CustomUI
+- Added preference to disable screen on on watch for CustomUI
 - Added persistent notification with Preferences
 - Added preference to disable screen on for Custom replies
 - Added Czech translations
 - Added Greek translations
 - Added Russian translations
 - Improvements to Maps navigation notifications and Notifications log
-- Updated FAQ</info>
 - Updated Italian translations
-- Skype notifications fix
-- Fix for Outlook notifications too
-- Minor fix
+- Skype and Outlook notifications fix
