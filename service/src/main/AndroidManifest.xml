@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.amazmod.service">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -13,6 +15,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
 
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -32,11 +35,8 @@
             android:label="@string/title_activity_notification"
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
+        <activity android:name=".ui.RepliesActivity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
 
@@ -64,7 +64,8 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-<!-- Disabled as it does not work anyway
+
+        <!-- Disabled as it does not work anyway
         <service
             android:name=".NotificationListener"
             android:exported="true"
@@ -74,7 +75,8 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
--->
+        -->
+
         <meta-data
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />

@@ -15,7 +15,6 @@
         <item>20 mp</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
-        <item>2 perc</item>
         <item>15 perc</item>
         <item>30 perc</item>
         <item>60 perc</item>

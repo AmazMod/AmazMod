@@ -151,7 +151,7 @@ Vychutnejte si používání AmazModu! ♡"</string>
     <string name="pref_screen_timeout">Časový limit obrazovky</string>
     <string name="pref_screen_timeout_summary">Nastavte dobu trvání obrazovky vlastních odpovědí</string>
     <string name="pref_vibration_duration">Doba vibrací</string>
-    <string name="pref_vibration_duration_summary">Nastavte trvání vibrací</string>
+    <string name="pref_vibration_duration_summary">Nastavte trvání vibrací for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="project_github">Projekt na GitHub</string>
     <string name="remaining_battery">Zbývá baterie</string>
     <string name="replies">Odpovědi</string>

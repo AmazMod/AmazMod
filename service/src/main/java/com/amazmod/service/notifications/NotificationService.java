@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -79,6 +80,7 @@ public class NotificationService {
             }
 
             if (enableCustomUI || forceCustom) {
+                Log.d(Constants.TAG, "NotificationService context: " + context.toString());
                 postWithCustomUI(notificationSpec);
             } else {
                 postWithStandardUI(notificationSpec, disableNotificationReplies);
@@ -96,8 +98,6 @@ public class NotificationService {
         RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.notification_test);
         contentView.setTextViewText(R.id.notification_title, notificationData.getTitle());
         contentView.setTextViewText(R.id.notification_text, notificationData.getText());
-
-
 
         contentView.setImageViewBitmap(R.id.notification_icon, bitmap);
         contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
@@ -148,7 +148,6 @@ public class NotificationService {
 
 //        ApplicationInfo applicationInfo = notification.extras.getParcelable("android.rebuild.applicationInfo");
 
-
         /*
         try {
             int[] iconData = notificationData.getIcon();
@@ -171,7 +170,7 @@ public class NotificationService {
 
         //  Utils.BitmapExtender bitmapExtender = Utils.retrieveAppIcon(context, notificationSpec.getPkg());
         // if (bitmapExtender != null) {
-      /*  int[] iconData = notificationSpec.getIcon();
+        /* int[] iconData = notificationSpec.getIcon();
         int iconWidth = notificationSpec.getIconWidth();
         int iconHeight = notificationSpec.getIconHeight();
         Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
@@ -191,7 +190,6 @@ public class NotificationService {
         */
 
 
-
         /*
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         if(km.isKeyguardLocked()) {
@@ -206,6 +204,7 @@ public class NotificationService {
     }
 
     private void postWithCustomUI(NotificationData notificationSpec) {
+
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -214,6 +213,7 @@ public class NotificationService {
         intent.putExtras(notificationSpec.toBundle());
 
         context.startActivity(intent);
+
     }
 
     private List<Reply> loadReplies() {
@@ -246,7 +246,6 @@ public class NotificationService {
             Log.d(Constants.TAG_NOTIFICATION_MANAGER, "tag: " + statusBarNotificationData.tag);
         }
 
-
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, Intent.FLAG_ACTIVITY_NEW_TASK);
 
@@ -270,8 +269,6 @@ public class NotificationService {
 
         notificationManager.notify(statusBarNotificationData.id, mBuilder.build());
         */
-
-
 
         /*
         Bitmap background = ((BitmapDrawable) context.getResources().getDrawable(R.drawable.lau_notify_icon_upgrade_bg)).getBitmap();

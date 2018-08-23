@@ -351,13 +351,17 @@ public class FilesExtrasActivity extends AppCompatActivity {
 
         //Log.i(Constants.TAG,"FilesExtrasActivity checkApps packagesList: " + packagesList.toString());
 
+        List<String> dummy = new ArrayList<>();
+
         for (String p : packagesList) {
 
             if (Collections.binarySearch(packagesInstalledNames, p) < 0) {
-                packagesList.remove(p);
+                dummy.add(p);
                 Log.i(Constants.TAG,"FilesExtrasActivity checkApps removed app: " + p);
             }
         }
+
+        if (dummy.size()>0) packagesList.removeAll(dummy);
 
         String pref = gson.toJson(packagesList);
 

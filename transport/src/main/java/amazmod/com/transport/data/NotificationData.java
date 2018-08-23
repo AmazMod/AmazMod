@@ -20,6 +20,7 @@ public class NotificationData extends Transportable implements Parcelable {
     private final String DATA_ICON = "icon";
     private final String DATA_ICON_WIDTH = "iconWidth";
     private final String DATA_ICON_HEIGHT = "iconHeight";
+    private final String DATA_VIBRATION = "vibration";
     private final String DATA_FORCE_CUSTOM = "forceCustom";
     private final String DATA_HIDE_REPLIES = "hideReplies";
     private final String DATA_HIDE_BUTTONS = "hideButtons";
@@ -190,6 +191,7 @@ public class NotificationData extends Transportable implements Parcelable {
         dataBundle.putIntArray(DATA_ICON, icon);
         dataBundle.putInt(DATA_ICON_WIDTH, iconWidth);
         dataBundle.putInt(DATA_ICON_HEIGHT, iconHeight);
+        dataBundle.putInt(DATA_VIBRATION, vibration);
         dataBundle.putBoolean(DATA_FORCE_CUSTOM, forceCustom);
         dataBundle.putBoolean(DATA_HIDE_REPLIES, hideReplies);
         dataBundle.putBoolean(DATA_HIDE_BUTTONS, hideButtons);
@@ -218,6 +220,7 @@ public class NotificationData extends Transportable implements Parcelable {
         int[] icon = dataBundle.getIntArray("icon");
         int iconWidth = dataBundle.getInt("iconWidth");
         int iconHeight = dataBundle.getInt("iconHeight");
+        int vibration = dataBundle.getInt("vibration");
         boolean forceCustom = dataBundle.getBoolean("forceCustom");
         boolean hideReplies = dataBundle.getBoolean("hideReplies");
         boolean hideButtons = dataBundle.getBoolean("hideButtons");
@@ -228,6 +231,7 @@ public class NotificationData extends Transportable implements Parcelable {
         notificationData.setIcon(icon);
         notificationData.setIconWidth(iconWidth);
         notificationData.setIconHeight(iconHeight);
+        notificationData.setVibration(vibration);
         notificationData.setId(id);
         notificationData.setKey(key);
         notificationData.setForceCustom(forceCustom);

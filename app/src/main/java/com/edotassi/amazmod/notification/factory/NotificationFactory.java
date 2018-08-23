@@ -11,9 +11,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 
-import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.support.Logger;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
 import amazmod.com.transport.data.NotificationData;
@@ -28,9 +29,10 @@ public class NotificationFactory {
         String text = "", title = "";
 
         //Notification time
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(notification.when);
-        String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+        //Calendar c = Calendar.getInstance();
+        //c.setTimeInMillis(notification.when);
+        //String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+        String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(notification.when);
 
         //EXTRA_TITLE and EXTRA_TEXT are usually CharSequence and not regular Strings...
         CharSequence bigTitle = bundle.getCharSequence(Notification.EXTRA_TITLE);

@@ -79,7 +79,7 @@
     <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
     <string name="translators">Translators</string>
-    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw), \@GreatApo(el), \@Puzzlehead0(cs)</string>
+    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw), \@GreatApo(el), \@Puzzlehead0(cs), \@Marat Biktimirov(ru)</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
     <string name="activity_watchface_show_altitude">Show altitude</string>
@@ -101,8 +101,8 @@
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time interval</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies</string>
     <string name="pref_notifications_replies">Notifications replies</string>
-    <string name="pref_disable_notifications_replies_summary">Disable replies in all notifications</string>
-    <string name="pref_disable_notifications_replies">Disable notifications replies</string>
+    <string name="pref_disable_notifications_replies_summary">Replies will be shown after tapping a button on notification</string>
+    <string name="pref_disable_notifications_replies">Hide notification replies</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Disable notifications when screen is ON</string>
     <string name="pref_disable_notifications_when_screen_on">Disable when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
@@ -110,7 +110,7 @@
     <string name="pref_run_wizard">Run Welcome Presentation</string>
     <string name="pref_run_wizard_summary">Run the welcome presentation again</string>
     <string name="pref_vibration_duration">Vibration duration</string>
-    <string name="pref_vibration_duration_summary">Set the vibration duration</string>
+    <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="pref_screen_timeout">Screen timeout</string>
     <string name="pref_screen_timeout_summary">Set duration of custom replies screen</string>
     <string name="pref_force_english">Force English</string>

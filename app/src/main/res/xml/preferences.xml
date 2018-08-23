@@ -38,8 +38,7 @@
 
     <PreferenceCategory android:title="@string/customui">
 
-        <!-- Disabled for RC1
-                <SwitchPreference
+        <SwitchPreference
                     android:defaultValue="false"
                     android:dependency="preference.notifications.enable.custom.ui"
                     android:disableDependentsState="true"
@@ -47,28 +46,6 @@
                     android:summary="@string/pref_disable_notifications_replies_summary"
                     android:title="@string/pref_disable_notifications_replies" />
 
-                <Preference
-                    android:dependency="preference.amazmodservice.enable.replies"
-                    android:key="preference.amazmodservice.replies"
-                    android:summary="@string/pref_notifications_replies_summary"
-                    android:title="@string/pref_notifications_replies">
-                    <intent
-                        android:action="android.intent.action.VIEW"
-                        android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesActivity"
-                        android:targetPackage="com.edotassi.amazmod" />
-                </Preference>
-
-                <ListPreference
-                    android:defaultValue="300"
-                    android:dependency="preference.notifications.enable.custom.ui"
-                    android:dialogTitle="Vibration"
-                    android:entries="@array/pref_amazmodservice_vibration_entries"
-                    android:entryValues="@array/pref_amazmodservice_vibration_values"
-                    android:key="preference.amazmodservice.vibration"
-                    android:summary="@string/pref_vibration_duration_summary"
-                    android:title="@string/pref_vibration_duration" />
-        -->
-        <!-- Modified for RC1 -->
         <Preference
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.replies"
@@ -90,12 +67,23 @@
             android:summary="@string/pref_screen_timeout_summary"
             android:title="@string/pref_screen_timeout" />
 
+        <ListPreference
+            android:defaultValue="300"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:dialogTitle="Vibration"
+            android:entries="@array/pref_amazmodservice_vibration_entries"
+            android:entryValues="@array/pref_amazmodservice_vibration_values"
+            android:key="preference.amazmodservice.vibration"
+            android:summary="@string/pref_vibration_duration_summary"
+            android:title="@string/pref_vibration_duration" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.inverted.theme"
             android:summary="@string/pref_notifications_inverted_theme_summary"
             android:title="@string/pref_notifications_inverted_theme" />
+
         <ListPreference
             android:defaultValue="n"
             android:dependency="preference.notifications.enable.custom.ui"
@@ -105,13 +93,13 @@
             android:key="preference.amazmodservice.font.size"
             android:summary="@string/pref_font_size_summary"
             android:title="@string/pref_font_size" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.disable.screenon"
             android:summary="@string/pref_notifications_disable_screenon_summary"
             android:title="@string/pref_notifications_disable_screenon" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_filters">
