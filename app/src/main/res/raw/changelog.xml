@@ -1,11 +1,11 @@
 <changelog>
     <release
         date="2018-08-23"
-        versionCode="157"
-        versionName="v1.0.29">
+        versionCode="160"
+        versionName="v1.0.32">
         <new>Added inverted theme and configurable font size for Custom Replies</new>
         <new>Preferences backup and restore</new>
-        <new>Added preference to disable screen on/unlock on watch for CustomUI</new>
+        <new>Added preference to disable screen on for Custom replies</new>
         <new>Added persistent notification with Preferences</new>
         <new>Added Czech translations</new>
         <new>Added Greek translations</new>
