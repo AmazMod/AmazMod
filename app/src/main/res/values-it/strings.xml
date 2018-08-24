@@ -39,7 +39,7 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="intro_title_3">Riavvia il dispositivo</string>
     <string name="intro_title_4">Hai finito!</string>
     <string name="intro_title_permissions">Accesso alle notifiche</string>
-    <string name="last_charge">dalla carica completa</string>
+    <string name="last_charge">dall\'ultima ricarica</string>
     <string name="last_charge_no_info">In attesa dei dati</string>
     <string name="last_read">Ultima lettura</string>
     <string name="mi_content_description_back">Indietro</string>
