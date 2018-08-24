@@ -1,5 +1,13 @@
 <changelog>
     <release
+        date="2018-08-25"
+        versionCode="162"
+        versionName="v1.0.33">
+        <bugfix>Fixed a bug with preferences in Oreo</bugfix>
+        <bugfix>Fixed issue #157</bugfix>
+        <info>Updated hu, fr, it translations</info>
+    </release>
+    <release
         date="2018-08-23"
         versionCode="160"
         versionName="v1.0.32">

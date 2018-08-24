@@ -110,7 +110,7 @@
     <string name="pref_run_wizard">Lancer Présentation d\'Accueil</string>
     <string name="pref_run_wizard_summary">Relance la Présentation d\'Accueil</string>
     <string name="pref_vibration_duration">Durée de vibration</string>
-    <string name="pref_vibration_duration_summary">Régler la durée de vibration for the replies screen on watch (only used if Standard notifications are disabled)</string>
+    <string name="pref_vibration_duration_summary">Régler la durée de vibration pour l\'écran de reponses sur la montre (seulement utile si les notifications standard sont désacrivées)</string>
     <string name="pref_screen_timeout">Temps de réponse</string>
     <string name="pref_screen_timeout_summary">Règle le temps pour choisir votre réponse</string>
     <string name="pref_force_english">Force English</string>
@@ -181,14 +181,14 @@
     <string name="downloads">Téléchargements</string>
     <string name="activity_files_backup_error">PS: AmazMod ne peut écrire de fichier, veuillez vérifier les permissions</string>
     <string name="activity_files_backup_downloads">La sauvegarde est enregistrée dans le dossier Téléchargements:</string>
-    <string name="activity_files_file_error">File Error!</string>
-    <string name="activity_files_backup_ok">Backup Done</string>
-    <string name="activity_files_backup_failed">Backup Failed!</string>
-    <string name="activity_files_no_write_permission">Error: No Write Permission!</string>
-    <string name="activity_files_restore_ok">Restore Done, Quitting…</string>
-    <string name="activity_files_restore_failed">Restore Failed!</string>
-    <string name="activity_files_backup_not_found">Backup File Not Found!</string>
-    <string name="pref_disable_standard_notifications">Disable standard notifications</string>
-    <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch</string>
-    <string name="activity_tweaking_brightness">Please disable Auto-brightness in watch first for this to work</string>
+    <string name="activity_files_file_error">Erreur de fichier!</string>
+    <string name="activity_files_backup_ok">Sauvegarde éffectuée!</string>
+    <string name="activity_files_backup_failed">Sauvegarde échouée!</string>
+    <string name="activity_files_no_write_permission">Erreur: Pas de permission d\'écriture!</string>
+    <string name="activity_files_restore_ok">Restoration éffectuée, Quitte…</string>
+    <string name="activity_files_restore_failed">Restoration éffectuée!</string>
+    <string name="activity_files_backup_not_found">Fichier de sauvegarde non trouvé!</string>
+    <string name="pref_disable_standard_notifications">Désactiver les notifications standard</string>
+    <string name="pref_disable_standard_notifications_summary">Les notifications standard (stock) ne seront pas envoyées à la montre</string>
+    <string name="activity_tweaking_brightness">Veuillez désactiver la luminosité automatique sur la montre pour que cela fonctionne</string>
 </resources>

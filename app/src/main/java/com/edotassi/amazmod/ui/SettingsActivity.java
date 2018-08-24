@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationManagerCompat;
@@ -112,7 +113,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         if (forceEN && (currentLocale != Locale.US)) {
             setLocale(Locale.US);
-        } else if (!forceEN && (currentLocale != defaultLocale)){
+        } else if (!forceEN && (currentLocale != defaultLocale)) {
             setLocale(defaultLocale);
         }
 
@@ -141,12 +142,14 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                addPreferencesFromResource(R.xml.preferences_oreo);
-            } else {
-                addPreferencesFromResource(R.xml.preferences);
-            }
 
+            addPreferencesFromResource(R.xml.preferences);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Preference persistentNotificationPreference = getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
+                persistentNotificationPreference.setDefaultValue(true);
+                persistentNotificationPreference.setEnabled(false);
+            }
         }
     }
 
