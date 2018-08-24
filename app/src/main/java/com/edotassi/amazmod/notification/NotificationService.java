@@ -583,9 +583,12 @@ public class NotificationService extends NotificationListenerService {
                     notificationData.setIcon(new int[]{});
                     Log.e(Constants.TAG, "NotificationService mapNotification failed to get bitmap " + e.toString());
                 }
-
+                
                 notificationData.setTitle(txt.get(0));
-                notificationData.setText(txt.get(1));
+                if (txt.size()>1)
+                    notificationData.setText(txt.get(1));
+                else
+                    notificationData.setText("");
                 notificationData.setVibration(getDefaultVibration());
                 notificationData.setHideReplies(true);
                 notificationData.setHideButtons(false);
