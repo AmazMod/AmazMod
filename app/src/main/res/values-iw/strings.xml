@@ -7,18 +7,18 @@
     <string name="customui">תגובות מותאמות אישית</string>
     <string name="others">אחרים</string>
     <string name="other">אחר</string>
-    <string name="open">פתח</string>
-    <string name="close">סגור</string>
+    <string name="open">פתיחה</string>
+    <string name="close">סגירה</string>
     <string name="about">אודות</string>
     <string name="sync_settings">מסנכרן הגדרות&#8230;</string>
     <string name="brightness">בהירות</string>
-    <string name="tweaking">התאמות</string>
-    <string name="watchface">סקינים</string>
+    <string name="tweaking">הגדרות מיוחדות</string>
+    <string name="watchface">עיצובי שעון</string>
     <string name="stats">מצב</string>
-    <string name="changelog">יומן שינוי</string>
+    <string name="changelog">שינויי גרסה</string>
     <string name="enable">אפשר</string>
     <string name="cancel">בטל</string>
-    <string name="select_unselect_all">בחר/בטל בחירה הכל</string>
+    <string name="select_unselect_all">סמן/מחק הכל</string>
     <string name="show_system_apps">הצג יישמוי מערכת</string>
     <string name="replies">תגובות</string>
     <string name="installed_apps">יישומים מותקנים</string>
@@ -34,7 +34,7 @@
 
     <string name="notifications_service_name">AmazModNotificationsService</string>
 
-    <string name="notification_access">גישת להתראות</string>
+    <string name="notification_access">גישת התראות</string>
     <string name="notification_access_not_enabled">גישת ההתראות אינה מופעלת</string>
     <string name="notification_access_enable">אפשר</string>
 
@@ -49,14 +49,14 @@
 
     <string name="notification_block">חסום</string>
     <string name="notification_continue">המשך</string>
-    <string name="notification_group">קבוצה</string>
+    <string name="notification_group">אחד</string>
     <string name="notification_local">מקומי</string>
     <string name="notification_ongoing">מתמשך</string>
     <string name="notification_return">חזור</string>
     <string name="notification_package">חבילה</string>
-    <string name="notification_voice">קול</string>
+    <string name="notification_voice">קולי</string>
     <string name="notification_maps">מפות</string>
-    <string name="notification_ungroup">התנתק</string>
+    <string name="notification_ungroup">פצל</string>
 
     <string name="telegram_channel">ערוץ טלגרם</string>
     <string name="telegram_channel_value">https://t.me/amazmod</string>
@@ -66,7 +66,7 @@
     <string name="project_github_value">https://github.com/edotassi/AmazMod</string>
 
     <string name="activity_about_text">מקודד באהבה {gmd-favorite}</string>
-    <string name="activity_about_project_maintainer">תחזוקת הפרויקט</string>
+    <string name="activity_about_project_maintainer">מתחזק הפרויקט</string>
     <string name="activity_about_project_maintainer_value">\@edotassi</string>
     <string name="activity_about_devs">מפתחים</string>
     <string name="activity_about_devs_value">\@lfomartins, \@GreatApo</string>
@@ -103,9 +103,9 @@
     <string name="pref_run_wizard">הפעל מצגת ברוכים הבאים</string>
     <string name="pref_run_wizard_summary">הפעל שוב את מצגת ברוכים הבאים</string>
     <string name="pref_vibration_duration">משך הרטט</string>
-    <string name="pref_vibration_duration_summary">הגדר את משך הרטט</string>
-    <string name="pref_screen_timeout">פסק זמן מסך</string>
-    <string name="pref_screen_timeout_summary">הגדר את משך מסך תשובות המותאמות אישית</string>
+    <string name="pref_vibration_duration_summary">הגדר את משך הרטט של מסך התגובות בשעון (משמש רק אם התראות רגילות מושבתות)</string>
+    <string name="pref_screen_timeout">זמן כיבוי מסך</string>
+    <string name="pref_screen_timeout_summary">קביעת משך הזמן בו מסך ההתראות המותאם יואר ויוצג</string>
     <string name="pref_force_english">כפה אנגלית</string>
     <string name="pref_force_english_summary">הגדר את שפת היישום לאנגלית, היא תתעדכן בעת סגירת העדפות</string>
     <string name="pref_disable_notifications_when_dnd">השבת כאשר DND פועל</string>
@@ -118,9 +118,11 @@
     <string name="pref_enable_local_only_summary">התראות ללא פעולות משתמש יישלחו לשעון</string>
     <string name="pref_enable_notifications_when_locked">הפעל כאשר הטלפון נעול</string>
     <string name="pref_enable_notifications_when_locked_summary">שלח התראות לשעון עאשר המסך מופעל אך הטלפון נעול</string>
-    <string name="pref_notifications_enable_ungroup">אפשר התראות של הפרדת קבוצות</string>
-    <string name="pref_notifications_enable_ungroup_summary">התראות מאותו השולח יופרדו (לא תוכל לסנכרן אותן)</string>
+    <string name="pref_notifications_enable_ungroup">אפשר פיצול התראות</string>
+    <string name="pref_notifications_enable_ungroup_summary">התראות מאותו השולח יפוצלו (לא תוכל לסנכרן אותן)</string>
     <string name="pref_filters">מסנני התראות</string>
+	<string name="pref_enable_music_control_with_hardware_button">הפעל שליטה במוסיקה</string>
+    <string name="pref_enable_music_control_with_hardware_button_summary">(ניסיוני!) הפעל בקרת מוסיקה באמצעות לחצני חומרה. לחץ על הלחצן התחתון כדי להפעיל/להשהות מוסיקה. לחץ לחיצה ארוכה כדי לדלג לשיר הבא.</string>
 
     <string name="intro_title_1">ברוכים הבאים ל-AmazMod!</string>
     <string name="intro_description_1">עקוב אחר מצגת זו כדי ללמוד כיצד להתקין את יישום השירות בשעון והענקת גישה להתראות בטלפון.</string>
@@ -137,6 +139,52 @@
     <string name="watch_is_connected">מחובר</string>
     <string name="watch_disconnected">מנותק</string>
     <string name="watch_connecting">מתחבר...</string>
-    <string name="notification_localok">LOCALOK</string>
+    <string name="notification_screenon">מסך דולק</string>
+    <string name="notification_screenlocked">מסך נעול</string>
+    <string name="notifications_screen_timeout">זמן כיבוי מסך</string>
+    <string name="pref_notifications_inverted_theme">ערכת צבעים הפוכה</string>
+    <string name="pref_notifications_inverted_theme_summary">אפשר רקע בהיר עם טקסט שחור</string>
+    <string name="pref_font_size">גודל גופנים</string>
+    <string name="pref_font_size_summary">בחרו גודל גופן להתראות בממשק משתמש מותאם אישית</string>
+    <string name="notifications_font_size">גודל גופן</string>
+    <string name="device_not_connected">אין התקן מחובר</string>
+    <string name="device_connected">מחובר</string>
+    <string name="pref_enable_persistent_notification">אפשר חיווי קבוע</string>
+    <string name="pref_enable_persistent_notification_summary">מאפשר חיווי קבוע בהתראות למניעת סגירה של Amazmod</string>
+    <string name="pref_notifications_disable_screenon">נטרול הדלקת מסך</string>
+    <string name="pref_notifications_disable_screenon_summary">לא לפתוח את השעון ולהאיר את המסך כשהתראה מגיעה</string>
+    <string name="pref_check_permissions">בדיקת הרשאות</string>
+    <string name="pref_check_permissions_summary">בדיקה אם ניתנו כל ההרשאות הנחוצות לAmazmod</string>
+    <string name="activity_permissions">הרשאות</string>
+    <string name="activity_permissions_write">כתיבה להתקן חיצוני</string>
+    <string name="activity_permissions_calendar">גישה ליומן</string>
+    <string name="activity_permissions_notifications">גישה להתראות</string>
+    <string name="activity_permissions_open_settings">פתיחת הגדרות</string>
+    <string name="enabled">מאופשר</string>
+    <string name="disabled">מבוטל</string>
+    <string name="activity_files_extras">ניהול קבצים</string>
+    <string name="activity_files_backup_title">גיבוי ושחזור</string>
+    <string name="activity_files_permission">הרשאה לכתיבה</string>
+    <string name="activity_files_date_last_backup">תאריך גיבוי אחרון</string>
+    <string name="activity_files_backup">גיבוי</string>
+    <string name="activity_files_restore">שיחזור</string>
+    <string name="never">מעולם</string>
+    <string name="activity_files_backup_obs">PS: קובץ הגיבוי נשמר באחסון הפנימי וימחק ברגע שתסירו את האפליקציה:</string>
+    <string name="activity_files_file">נמצא קובץ גיבוי</string>
+    <string name="none">חסר מידע</string>
+    <string name="data">מידע</string>
+    <string name="downloads">הורדות</string>
+    <string name="activity_files_backup_error">PS: AmazMod לא יכול לכתוב קבצים, בדקו הרשאות</string>
+    <string name="activity_files_backup_downloads">קובץ הגיבוי נשמר בתיקיית ההורדות:</string>
+    <string name="activity_files_file_error">שגיאת קובץ!</string>
+    <string name="activity_files_backup_ok">גיבוי הושלם</string>
+    <string name="activity_files_backup_failed">גיבוי נכשל!</string>
+    <string name="activity_files_no_write_permission">שגיאה - אין הרשאות כתיבה!</string>
+    <string name="activity_files_restore_ok">שחזור הושלם</string>
+    <string name="activity_files_restore_failed">שחזור נכשל!</string>
+    <string name="activity_files_backup_not_found">קובץ גיבוי לא נמצא!</string>
+    <string name="pref_disable_standard_notifications">נטרול התראות מובנות</string>
+    <string name="pref_disable_standard_notifications_summary">התראות רגילות (מובנות) לא ישלחו לשעון</string>
+    <string name="activity_tweaking_brightness">השביתו את מצב בהירות אוטומטית על מנת ששליטה בתאורה תעבוד</string>
 
 </resources>
