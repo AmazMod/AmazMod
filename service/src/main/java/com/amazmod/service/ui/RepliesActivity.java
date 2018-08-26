@@ -55,28 +55,17 @@ public class RepliesActivity extends Activity {
 
     @BindView(R.id.activity_buttons)
     LinearLayout buttonsLayout;
-    @BindView(R.id.activity_notification_button_reply)
-    Button replyButton;
-    @BindView(R.id.activity_notification_button_close)
-    Button closeButton;
 
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
     private static boolean nullError = false;
-    private static boolean screenToggle;
     private static float fontSizeSP;
-    private static int screenMode;
-    private static int screenBrightness = 999989;
-    private Context mContext;
 
     private NotificationData notificationSpec;
 
     private SettingsManager settingsManager;
 
-    private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
-    private static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
-    private static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
     private static final float FONT_SIZE_NORMAL = 14.0f;
     private static final float FONT_SIZE_LARGE = 18.0f;
     private static final float FONT_SIZE_HUGE = 22.0f;
@@ -85,9 +74,10 @@ public class RepliesActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.mContext = this;
-
         setContentView(R.layout.activity_notification);
+
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.transparent));
+        rootLayout.getRootView().setBackgroundColor(getResources().getColor(R.color.transparent));
 
         ButterKnife.bind(this);
 
