@@ -39,7 +39,7 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="intro_title_3">Riavvia il dispositivo</string>
     <string name="intro_title_4">Hai finito!</string>
     <string name="intro_title_permissions">Accesso alle notifiche</string>
-    <string name="last_charge">dall\'ultima ricarica</string>
+    <string name="last_charge">dall\'ultima ricarica completa</string>
     <string name="last_charge_no_info">In attesa dei dati</string>
     <string name="last_read">Ultima lettura</string>
     <string name="mi_content_description_back">Indietro</string>
@@ -74,8 +74,8 @@ Goditi l\'uso di AmazMod!"</string>
     <string name="pref_disable_battery_chart">Disattiva il grafico della batteria</string>
     <string name="pref_disable_battery_chart_summary">Disabilita il grafico della batteria sulla schermata principale, l\'app verrà aggiornata alla chiusura delle Impostazioni</string>
     <string name="pref_disable_notifications">Disattiva le notifiche</string>
-    <string name="pref_disable_notifications_replies">Disattiva le risposte alle notifiche</string>
-    <string name="pref_disable_notifications_replies_summary">Disattiva tutte le risposte a tutte le notifiche</string>
+    <string name="pref_disable_notifications_replies">Nascondi risposte alle notifiche</string>
+    <string name="pref_disable_notifications_replies_summary">Le risposte verranno mostrate solo dopo aver tappato un bottone sulla notifica</string>
     <string name="pref_disable_notifications_summary">Disabilita tutte le notifiche in AmazMod</string>
     <string name="pref_disable_notifications_when_dnd">Disattiva quando il DND è attivo</string>
     <string name="pref_disable_notifications_when_dnd_summary">Le notifiche non verranno inviate quando il \"non disturbare\" è attivo</string>
