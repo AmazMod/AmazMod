@@ -29,13 +29,16 @@ import com.edotassi.amazmod.event.RequestWatchStatus;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
+import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
+import com.pixplicity.easyprefs.library.Prefs;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -48,7 +51,6 @@ import java.util.concurrent.TimeUnit;
 import butterknife.ButterKnife;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -90,13 +92,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        HermesEventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         //isWatchConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
         //isWatchConnected = itc == null || itc.getTransportStatus();
         Log.d(Constants.TAG, " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
-        showChangelog(false, BuildConfig.VERSION_CODE, true);
+        showChangelog(true);
 
         // Check if it is the first start using shared preference then start presentation if true
         boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
@@ -122,10 +124,10 @@ public class MainActivity extends AppCompatActivity
         final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
 
-        Log.d(Constants.TAG," MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+        Log.d(Constants.TAG, " MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
 
         if (forceEN && (currentLocale != Locale.US)) {
-            Log.d(Constants.TAG," MaiActivity New locale: US");
+            Log.d(Constants.TAG, " MaiActivity New locale: US");
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity
             toggleNotificationService();
         }
 
+        Setup.run(getApplicationContext());
     }
 
     private void setupCards() {
@@ -188,7 +191,7 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
 
-        Log.d(Constants.TAG," MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
 
         Flowable
                 .timer(2000, TimeUnit.MILLISECONDS)
@@ -196,8 +199,9 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void accept(Long aLong) throws Exception {
                         //Check for WatchStatus only when the app is open or half the battery sync interval
-                        if (System.currentTimeMillis() - timeLastSync > (AmazModApplication.syncInterval * 30000L)) {
-                            HermesEventBus.getDefault().post(new RequestWatchStatus());
+                        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
+                        if (System.currentTimeMillis() - timeLastSync > (syncInterval * 30000L)) {
+                            EventBus.getDefault().post(new RequestWatchStatus());
                             timeLastSync = System.currentTimeMillis();
                         }
                     }
@@ -206,16 +210,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onPause() {
-        if (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
-            HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
+        if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
+            EventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        if (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
-            HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
-        HermesEventBus.getDefault().unregister(this);
+        if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
+            EventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -287,7 +291,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.nav_changelog:
-                showChangelog(true, 1, false);
+                showChangelog(false);
                 return true;
         }
 
@@ -305,7 +309,7 @@ public class MainActivity extends AppCompatActivity
 
         watchInfoFragment.onResume();
 
-        Log.d(Constants.TAG," MainActivity onWatchStatus " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, " MainActivity onWatchStatus " + AmazModApplication.isWatchConnected);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -319,27 +323,21 @@ public class MainActivity extends AppCompatActivity
         } else {
             AmazModApplication.isWatchConnected = false;
         }
-        Log.d(Constants.TAG," MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, " MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
     }
 
     public WatchStatus getWatchStatus() {
         return watchStatus;
     }
 
-    private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
-        ChangelogBuilder builder = new ChangelogBuilder()
+    private void showChangelog(boolean managedShowOnStart) {
+        new ChangelogBuilder()
                 .withUseBulletList(true) // true if you want to show bullets before each changelog row, false otherwise
                 .withMinVersionToShow(1)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
                 //.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
                 .withManagedShowOnStart(managedShowOnStart)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
-                .withRateButton(true); // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
-
-        if (withActivity) {
-            builder.buildAndStartActivity(
-                    this, true); // second parameter defines, if the dialog has a dark or light theme
-        } else {
-            builder.buildAndShowDialog(this, false);
-        }
+                .withRateButton(true)
+                .buildAndShowDialog(this, false);
     }
 
     private void toggleNotificationService() {

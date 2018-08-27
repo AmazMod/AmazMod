@@ -13,14 +13,15 @@ import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.event.RequestBatteryStatus;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+
 
 public class BatteryStatusReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction() == null) {
-            HermesEventBus.getDefault().post(new RequestBatteryStatus());
+            EventBus.getDefault().post(new RequestBatteryStatus());
         } else {
             startBatteryReceiver(context);
         }
@@ -29,10 +30,10 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
     }
 
     public static void startBatteryReceiver(Context context) {
-        AmazModApplication.syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
+        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         AmazModApplication.timeLastSync = Prefs.getLong(Constants.PREF_TIME_LAST_SYNC, 0L);
 
-        long delay = ((long) AmazModApplication.syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
+        long delay = ((long) syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
 
         Log.i(Constants.TAG, "BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
 
@@ -44,7 +45,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
         try {
             alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
-                    (long) AmazModApplication.syncInterval * 60000L, pendingIntent);
+                    (long) syncInterval * 60000L, pendingIntent);
         } catch (NullPointerException e) {
             Log.e(Constants.TAG, "BatteryStatusReceiver setRepeating exception: " + e.toString());
         }

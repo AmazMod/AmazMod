@@ -43,6 +43,7 @@ import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -55,7 +56,6 @@ import java.util.Map;
 
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.NotificationReplyData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationService extends NotificationListenerService {
 
@@ -83,7 +83,7 @@ public class NotificationService extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
 
-        HermesEventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         notificationsAvailableToReply = new HashMap<>();
 
@@ -105,7 +105,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onDestroy() {
-        HermesEventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
         Log.d(Constants.TAG, "NotificationService onDestroy");
         super.onDestroy();
     }
@@ -218,7 +218,7 @@ public class NotificationService extends NotificationListenerService {
         notificationData.setHideReplies(false);
         notificationData.setHideButtons(true);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
-        HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+        EventBus.getDefault().post(new OutcomingNotification(notificationData));
         Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
     }
 
@@ -258,7 +258,7 @@ public class NotificationService extends NotificationListenerService {
         return ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).getMode();
     }
 
-    private int getDefaultVibration(){
+    private int getDefaultVibration() {
         return Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION));
     }
 
@@ -307,7 +307,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
 
-                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                EventBus.getDefault().post(new OutcomingNotification(notificationData));
                 lastTimeNotificationSent = System.currentTimeMillis();
 
                 final int mode = getAudioManagerMode();
@@ -551,7 +551,7 @@ public class NotificationService extends NotificationListenerService {
 
             //Get text from RemoteView using reflection
             List<String> txt = extractText(rmv);
-            if ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt))) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL)) {
+            if ((txt.size() > 0) && ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt))) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL))) {
 
                 //Get navigation icon from a child View drawn on Canvas
                 try {
@@ -583,9 +583,9 @@ public class NotificationService extends NotificationListenerService {
                     notificationData.setIcon(new int[]{});
                     Log.e(Constants.TAG, "NotificationService mapNotification failed to get bitmap " + e.toString());
                 }
-                
+
                 notificationData.setTitle(txt.get(0));
-                if (txt.size()>1)
+                if (txt.size() > 1)
                     notificationData.setText(txt.get(1));
                 else
                     notificationData.setText("");
@@ -593,7 +593,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideReplies(true);
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
-                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                EventBus.getDefault().post(new OutcomingNotification(notificationData));
 
                 lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();

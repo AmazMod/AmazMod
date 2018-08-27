@@ -21,10 +21,11 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.OutcomingNotification;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 
+import org.greenrobot.eventbus.EventBus;
+
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -119,7 +120,7 @@ public class AboutActivity extends AppCompatActivity {
             System.out.println("AmazMod AboutActivity notificationData Failed to get bitmap " + e.toString());
         }
 
-        HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+        EventBus.getDefault().post(new OutcomingNotification(notificationData));
 
         Toast.makeText(this, "Test Notification Sent", Toast.LENGTH_SHORT).show();
         System.out.println("AmazMod AboutActivity notificationData: " + notificationData.toString());
