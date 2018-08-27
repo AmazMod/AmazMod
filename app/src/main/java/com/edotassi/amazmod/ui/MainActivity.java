@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         //isWatchConnected = itc == null || itc.getTransportStatus();
         Log.d(Constants.TAG, " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
-        showChangelog(false, BuildConfig.VERSION_CODE, true);
+        showChangelog(true);
 
         // Check if it is the first start using shared preference then start presentation if true
         boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.nav_changelog:
-                showChangelog(true, 1, false);
+                showChangelog(false);
                 return true;
         }
 
@@ -330,20 +330,14 @@ public class MainActivity extends AppCompatActivity
         return watchStatus;
     }
 
-    private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
-        ChangelogBuilder builder = new ChangelogBuilder()
+    private void showChangelog(boolean managedShowOnStart) {
+        new ChangelogBuilder()
                 .withUseBulletList(true) // true if you want to show bullets before each changelog row, false otherwise
                 .withMinVersionToShow(1)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
                 //.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
                 .withManagedShowOnStart(managedShowOnStart)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
-                .withRateButton(true); // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
-
-        if (withActivity) {
-            builder.buildAndStartActivity(
-                    this, true); // second parameter defines, if the dialog has a dark or light theme
-        } else {
-            builder.buildAndShowDialog(this, false);
-        }
+                .withRateButton(true)
+                .buildAndShowDialog(this, false);
     }
 
     private void toggleNotificationService() {
