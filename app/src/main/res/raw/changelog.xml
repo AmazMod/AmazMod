@@ -1,5 +1,10 @@
 <changelog>
     <release
+        versionCode="163"
+        versioneName="v1.0.34">
+        <bugfix>Fixed issue #160</bugfix>
+    </release>
+    <release
         date="2018-08-25"
         versionCode="162"
         versionName="v1.0.33">
