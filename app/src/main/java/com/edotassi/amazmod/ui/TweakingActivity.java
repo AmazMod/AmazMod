@@ -8,13 +8,12 @@ import android.widget.Toast;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.Brightness;
-import com.edotassi.amazmod.event.LowPower;
+
+import org.greenrobot.eventbus.EventBus;
 
 import amazmod.com.transport.data.BrightnessData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class TweakingActivity extends AppCompatActivity {
 
@@ -57,7 +56,7 @@ public class TweakingActivity extends AppCompatActivity {
                 BrightnessData brightnessData = new BrightnessData();
                 brightnessData.setLevel(seekBar.getProgress());
 
-                HermesEventBus.getDefault().post(new Brightness(brightnessData));
+                EventBus.getDefault().post(new Brightness(brightnessData));
 
                 Toast.makeText(TweakingActivity.this, "Brightness set to " + seekBar.getProgress(), Toast.LENGTH_SHORT).show();
             }

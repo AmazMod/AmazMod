@@ -43,6 +43,7 @@ import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -55,7 +56,6 @@ import java.util.Map;
 
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.NotificationReplyData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationService extends NotificationListenerService {
 
@@ -83,7 +83,7 @@ public class NotificationService extends NotificationListenerService {
     public void onCreate() {
         super.onCreate();
 
-        HermesEventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         notificationsAvailableToReply = new HashMap<>();
 
@@ -105,7 +105,7 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onDestroy() {
-        HermesEventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
         Log.d(Constants.TAG, "NotificationService onDestroy");
         super.onDestroy();
     }
@@ -218,7 +218,7 @@ public class NotificationService extends NotificationListenerService {
         notificationData.setHideReplies(false);
         notificationData.setHideButtons(true);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
-        HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+        EventBus.getDefault().post(new OutcomingNotification(notificationData));
         Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
     }
 
@@ -307,7 +307,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
 
-                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                EventBus.getDefault().post(new OutcomingNotification(notificationData));
                 lastTimeNotificationSent = System.currentTimeMillis();
 
                 final int mode = getAudioManagerMode();
@@ -593,7 +593,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideReplies(true);
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
-                HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
+                EventBus.getDefault().post(new OutcomingNotification(notificationData));
 
                 lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();

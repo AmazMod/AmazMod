@@ -19,13 +19,13 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.transport.TransportService;
-import com.huami.watch.transport.DataBundle;
 import com.pixplicity.easyprefs.library.Prefs;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Locale;
 
 import amazmod.com.transport.data.SettingsData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -130,7 +130,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         SyncSettings syncSettings = new SyncSettings(settingsData);
 
-        HermesEventBus.getDefault().post(syncSettings);
+        EventBus.getDefault().post(syncSettings);
 
         Toast.makeText(this, R.string.sync_settings, Toast.LENGTH_SHORT).show();
 
