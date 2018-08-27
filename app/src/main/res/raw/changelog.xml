@@ -2,6 +2,7 @@
     <release
         versionCode="163"
         versioneName="v1.0.34">
+        <bugfix>Fixed issue #164</bugfix>
         <bugfix>Fixed issue #160</bugfix>
     </release>
     <release
