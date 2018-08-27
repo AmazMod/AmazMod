@@ -9,8 +9,11 @@ public class Transport {
     public static final String REQUEST_BATTERYSTATUS = "request_batterystatus";
     public static final String SYNC_SETTINGS = "sync_settings";
     public static final String BRIGHTNESS = "brightness";
+    public static final String LOW_POWER = "low_power";
 
     public static final String WATCH_STATUS = "watch_status";
     public static final String BATTERY_STATUS = "battery_status";
     public static final String REPLY = "reply";
+    public static final String TOGGLE_MUSIC = "toggle_music";
+    public static final String NEXT_MUSIC = "next_music";
 }

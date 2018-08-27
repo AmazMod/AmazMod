@@ -8,10 +8,12 @@ import android.widget.Toast;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.Brightness;
+import com.edotassi.amazmod.event.LowPower;
 
 import amazmod.com.transport.data.BrightnessData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class TweakingActivity extends AppCompatActivity {
@@ -61,4 +63,11 @@ public class TweakingActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*
+    @OnClick(R.id.activity_tweaking_button_low_power)
+    public void onLowPower() {
+        HermesEventBus.getDefault().post(new LowPower());
+    }
+    */
 }

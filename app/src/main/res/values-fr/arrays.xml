@@ -14,4 +14,9 @@
         <item>10 jours</item>
         <item>15 jours</item>
     </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normale</item>
+        <item>Grande</item>
+        <item>Très grande</item>
+    </string-array>
 </resources>

@@ -1,8 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="default_notification_replies">
-        <item>Yes</item>
-        <item>No</item>
-        <item>Thank you</item>
+        <item>Igen</item>
+        <item>Nem</item>
+        <item>Köszönöm</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normál</item>
+        <item>Nagy</item>
+        <item>Óriási</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_screen_timeout_entries">
+        <item>3 mp</item>
+        <item>5 mp</item>
+        <item>7 mp</item>
+        <item>10 mp</item>
+        <item>12 mp</item>
+        <item>15 mp</item>
+        <item>20 mp</item>
+    </string-array>
+    <string-array name="pref_battery_background_sync_interval_entries">
+        <item>15 perc</item>
+        <item>30 perc</item>
+        <item>60 perc</item>
+        <item>1 ó 30 perc</item>
+        <item>2 ó</item>
+        <item>3 ó</item>
+        <item>4 ó</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 nap</item>
+        <item>2 nap</item>
+        <item>3 nap</item>
+        <item>5 nap</item>
+        <item>7 nap</item>
+        <item>10 nap</item>
+        <item>15 nap</item>
     </string-array>
 </resources>

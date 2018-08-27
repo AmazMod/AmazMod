@@ -1,4 +1,4 @@
-# AmazMod
+# AmazMod  [![Build Status](https://travis-ci.org/edotassi/AmazMod.svg?branch=master)](https://travis-ci.org/edotassi/AmazMod)
 
 AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace and Stratos watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
 

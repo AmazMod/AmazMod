@@ -17,6 +17,12 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String NOTIFICATIONS_CUSTOM_UI = "notifications_custom_ui";
     public static final String DISABLE_NOTIFICATIONS = "disable_notifications";
     public static final String DISABLE_NOTIFICATION_REPLIES = "disable_notification_replies";
+    public static final String ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "enable_hardware_keys_music_control";
+    public static final String ENABLE_INVERTED_THEME = "enable_inverted_theme";
+    public static final String FONT_SIZE = "font_size";
+    public static final String DISABLE_NOTIFICATION_SCREENON = "disable_notification_screenon";
+    public static final String SHAKE_TO_DISMISS_GRAVITY = "shake_to_dismiss_gravity";
+    public static final String SHAKE_TO_DISMISS_NUM_OF_SHAKES = "shake_to_dismiss_num_of_shakes";
 
     private String replies;
     private int vibration;
@@ -24,6 +30,12 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean notificationsCustomUi;
     private boolean disableNotifications;
     private boolean disableNotificationsReplies;
+    private boolean enableHardwareKeysMusicControl;
+    private boolean enableInvertedTheme;
+    private String fontSize;
+    private boolean disableNotificationsScreenOn;
+    private int shakeToDismissGravity;
+    private int shakeToDismissNumOfShakes;
 
     public SettingsData() {
     }
@@ -35,6 +47,12 @@ public class SettingsData extends Transportable implements Parcelable {
         notificationsCustomUi = in.readByte() != 0;
         disableNotifications = in.readByte() != 0;
         disableNotificationsReplies = in.readByte() != 0;
+        enableHardwareKeysMusicControl = in.readByte() != 0;
+        enableInvertedTheme = in.readByte() != 0;
+        fontSize = in.readString();
+        disableNotificationsScreenOn = in.readByte() != 0;
+        shakeToDismissGravity = in.readInt();
+        shakeToDismissNumOfShakes = in.readInt();
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -58,6 +76,12 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(NOTIFICATIONS_CUSTOM_UI, notificationsCustomUi);
         dataBundle.putBoolean(DISABLE_NOTIFICATIONS, disableNotifications);
         dataBundle.putBoolean(DISABLE_NOTIFICATION_REPLIES, disableNotificationsReplies);
+        dataBundle.putBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, enableHardwareKeysMusicControl);
+        dataBundle.putBoolean(ENABLE_INVERTED_THEME, enableInvertedTheme);
+        dataBundle.putString(FONT_SIZE, fontSize);
+        dataBundle.putBoolean(DISABLE_NOTIFICATION_SCREENON, disableNotificationsScreenOn);
+        dataBundle.putInt(SHAKE_TO_DISMISS_GRAVITY, shakeToDismissGravity);
+        dataBundle.putInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES, shakeToDismissNumOfShakes);
 
         return dataBundle;
     }
@@ -71,6 +95,12 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setNotificationsCustomUi(dataBundle.getBoolean(NOTIFICATIONS_CUSTOM_UI));
         settingsData.setDisableNotifications(dataBundle.getBoolean(DISABLE_NOTIFICATIONS));
         settingsData.setDisableNotificationReplies(dataBundle.getBoolean(DISABLE_NOTIFICATION_REPLIES));
+        settingsData.setEnableHardwareKeysMusicControl(dataBundle.getBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL));
+        settingsData.setInvertedTheme(dataBundle.getBoolean(ENABLE_INVERTED_THEME));
+        settingsData.setFontSize(dataBundle.getString(FONT_SIZE));
+        settingsData.setDisableNotificationScreenOn(dataBundle.getBoolean(DISABLE_NOTIFICATION_SCREENON));
+        settingsData.setShakeToDismissGravity(dataBundle.getInt(SHAKE_TO_DISMISS_GRAVITY));
+        settingsData.setShakeToDismissNumOfShakes(dataBundle.getInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES));
 
         return settingsData;
     }
@@ -130,6 +160,54 @@ public class SettingsData extends Transportable implements Parcelable {
         this.disableNotificationsReplies = disableNotificationReplies;
     }
 
+    public boolean isEnableHardwareKeysMusicControl() {
+        return enableHardwareKeysMusicControl;
+    }
+
+    public void setEnableHardwareKeysMusicControl(boolean enableHardwareKeysMusicControl) {
+        this.enableHardwareKeysMusicControl = enableHardwareKeysMusicControl;
+    }
+
+    public boolean isInvertedTheme() {
+        return enableInvertedTheme;
+    }
+
+    public void setInvertedTheme(boolean enableInvertedTheme) {
+        this.enableInvertedTheme = enableInvertedTheme;
+    }
+
+    public String getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(String fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    public boolean isDisableNotificationsScreenOn() {
+        return disableNotificationsScreenOn;
+    }
+
+    public void setDisableNotificationScreenOn(boolean disableNotificationsScreenOn) {
+        this.disableNotificationsScreenOn = disableNotificationsScreenOn;
+    }
+
+    public int getShakeToDismissGravity() {
+        return shakeToDismissGravity;
+    }
+
+    public void setShakeToDismissGravity(int shakeToDismissGravity) {
+        this.shakeToDismissGravity = shakeToDismissGravity;
+    }
+
+    public int getShakeToDismissNumOfShakes() {
+        return shakeToDismissNumOfShakes;
+    }
+
+    public void setShakeToDismissNumOfShakes(int shakeToDismissNumOfShakes) {
+        this.shakeToDismissNumOfShakes = shakeToDismissNumOfShakes;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -141,5 +219,13 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeInt(vibration);
         dest.writeInt(screenTimeout);
         dest.writeByte((byte) (notificationsCustomUi ? 1 : 0));
+        dest.writeByte((byte) (disableNotifications ? 1 : 0));
+        dest.writeByte((byte) (disableNotificationsReplies ? 1 : 0));
+        dest.writeByte((byte) (enableHardwareKeysMusicControl ? 1 : 0));
+        dest.writeByte((byte) (enableInvertedTheme ? 1 : 0));
+        dest.writeString(fontSize);
+        dest.writeByte((byte) (disableNotificationsScreenOn ? 1 : 0));
+        dest.writeInt(shakeToDismissGravity);
+        dest.writeInt(shakeToDismissNumOfShakes);
     }
 }

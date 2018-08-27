@@ -139,6 +139,7 @@
     <string name="watch_is_connected">מחובר</string>
     <string name="watch_disconnected">מנותק</string>
     <string name="watch_connecting">מתחבר...</string>
+    <string name="notification_localok">LOCALOK</string>
     <string name="notification_screenon">מסך דולק</string>
     <string name="notification_screenlocked">מסך נעול</string>
     <string name="notifications_screen_timeout">זמן כיבוי מסך</string>

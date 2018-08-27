@@ -57,6 +57,11 @@
     <string name="notification_voice">Voice</string>
     <string name="notification_maps">Maps</string>
     <string name="notification_ungroup">Ungroup</string>
+    <string name="notification_localok">LOCALOK</string>
+    <string name="notification_disabled">notific_off</string>
+    <string name="notification_screenon">screenon</string>
+    <string name="notification_screenlocked">screenlocked</string>
+
 
     <string name="telegram_channel">Telegram channel</string>
     <string name="telegram_channel_value">https://t.me/amazmod</string>
@@ -73,6 +78,8 @@
     <string name="activity_about_testers">Testers</string>
     <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email">edo.tassinari@gmail.com</string>
+    <string name="translators">Translators</string>
+    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw), \@GreatApo(el), \@Puzzlehead0(cs), \@Marat Biktimirov(ru)</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
     <string name="activity_watchface_show_altitude">Show altitude</string>
@@ -94,8 +101,8 @@
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time interval</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies</string>
     <string name="pref_notifications_replies">Notifications replies</string>
-    <string name="pref_disable_notifications_replies_summary">Disable replies in all notifications</string>
-    <string name="pref_disable_notifications_replies">Disable notifications replies</string>
+    <string name="pref_disable_notifications_replies_summary">Replies will be shown after tapping a button on notification</string>
+    <string name="pref_disable_notifications_replies">Hide notification replies</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Disable notifications when screen is ON</string>
     <string name="pref_disable_notifications_when_screen_on">Disable when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
@@ -103,7 +110,7 @@
     <string name="pref_run_wizard">Run Welcome Presentation</string>
     <string name="pref_run_wizard_summary">Run the welcome presentation again</string>
     <string name="pref_vibration_duration">Vibration duration</string>
-    <string name="pref_vibration_duration_summary">Set the vibration duration</string>
+    <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="pref_screen_timeout">Screen timeout</string>
     <string name="pref_screen_timeout_summary">Set duration of custom replies screen</string>
     <string name="pref_force_english">Force English</string>
@@ -121,6 +128,8 @@
     <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
     <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them tho)</string>
     <string name="pref_filters">Notifications filters</string>
+    <string name="pref_enable_music_control_with_hardware_button">Enable hardware music control</string>
+    <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
 
     <string name="intro_title_1">Welcome to AmazMod!</string>
     <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
@@ -137,6 +146,50 @@
     <string name="watch_is_connected">Connected</string>
     <string name="watch_disconnected">Disconnected</string>
     <string name="watch_connecting">Connecting…</string>
-    <string name="notification_localok">LOCALOK</string>
+    <string name="notifications_screen_timeout">Screen timeout</string>
+    <string name="pref_notifications_inverted_theme">Inverted theme</string>
+    <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme</string>
+    <string name="pref_font_size">Font size</string>
+    <string name="pref_font_size_summary">Select font size used in CustomUI notifications</string>
+    <string name="notifications_font_size">Font Size</string>
+    <string name="device_not_connected">No device connected</string>
+    <string name="device_connected">was connected</string>
+    <string name="pref_enable_persistent_notification">Enable persistent notification</string>
+    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it is not in the foreground</string>
+    <string name="pref_notifications_disable_screenon">Disable screen on</string>
+    <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch</string>
+    <string name="pref_check_permissions">Check app permissions</string>
+    <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed</string>
+    <string name="activity_permissions">Permissions</string>
+    <string name="activity_permissions_write">Write to external storage</string>
+    <string name="activity_permissions_calendar">Access to calendar</string>
+    <string name="activity_permissions_notifications">Access to notifications</string>
+    <string name="activity_permissions_open_settings">Open app settings</string>
+    <string name="enabled">enabled</string>
+    <string name="disabled">disabled</string>
+    <string name="activity_files_extras">Files extras</string>
+    <string name="activity_files_backup_title">Backup and Restore</string>
+    <string name="activity_files_permission">Permission to write</string>
+    <string name="activity_files_date_last_backup">Date of last backup</string>
+    <string name="activity_files_backup">Backup</string>
+    <string name="activity_files_restore">restore</string>
+    <string name="never">Never</string>
+    <string name="activity_files_backup_obs">PS: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_file">Backup file found</string>
+    <string name="none">None</string>
+    <string name="data">Data</string>
+    <string name="downloads">Downloads</string>
+    <string name="activity_files_backup_error">PS: AmazMod cannot write files, please check permissions</string>
+    <string name="activity_files_backup_downloads">Backup file is saved in Downloads folder:</string>
+    <string name="activity_files_file_error">File Error!</string>
+    <string name="activity_files_backup_ok">Backup Done</string>
+    <string name="activity_files_backup_failed">Backup Failed!</string>
+    <string name="activity_files_no_write_permission">Error: No Write Permission!</string>
+    <string name="activity_files_restore_ok">Restore Done, Quitting…</string>
+    <string name="activity_files_restore_failed">Restore Failed!</string>
+    <string name="activity_files_backup_not_found">Backup File Not Found!</string>
+    <string name="pref_disable_standard_notifications">Disable standard notifications</string>
+    <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch</string>
+    <string name="activity_tweaking_brightness">Please disable Auto-brightness in watch first for this to work</string>
 
 </resources>

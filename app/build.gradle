@@ -7,8 +7,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 153
-        versionName "1.0.25"
+        versionCode 162
+        versionName "1.0.33"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -38,6 +38,7 @@ android {
     }
 }
 
+/*
 def propsFile = rootProject.file('keystore.properties')
 def configName = 'release'
 
@@ -49,6 +50,7 @@ if (propsFile.exists() && android.signingConfigs.hasProperty(configName)) {
     android.signingConfigs[configName].keyAlias = props['keyAlias']
     android.signingConfigs[configName].keyPassword = props['keyPassword']
 }
+*/
 
 def dbflow_version = "4.2.4"
 

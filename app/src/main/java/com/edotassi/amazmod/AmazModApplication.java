@@ -3,11 +3,13 @@ package com.edotassi.amazmod;
 import android.app.Application;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
-import com.edotassi.amazmod.log.Logger;
+import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.ui.FilesExtrasActivity;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
@@ -37,12 +39,19 @@ public class AmazModApplication extends Application {
 
         HermesEventBus.getDefault().init(this);
 
-        startService(new Intent(this, TransportService.class));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(new Intent(this, TransportService.class));
+        } else {
+            startService(new Intent(this, TransportService.class));
+        }
 
         BatteryStatusReceiver.startBatteryReceiver(this);
 
         isWatchConnected = true;
         setupLocale();
+
+        // Check if any app from Selected ones was uninstalled and updates the list
+        FilesExtrasActivity.checkApps(this);
 
         Log.d(Constants.TAG, " AmazModApplication Start syncInterval: " + syncInterval + " / timeLastSync: " + timeLastSync);
     }
