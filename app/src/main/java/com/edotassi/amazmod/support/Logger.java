@@ -36,6 +36,10 @@ public class Logger {
         com.orhanobut.logger.Logger.d(getMessage(scope, message), args);
     }
 
+    public void i(String message, Object... args) {
+        com.orhanobut.logger.Logger.d(getMessage(scope, message), args);
+    }
+
     public void w(String message, Object... args) {
         com.orhanobut.logger.Logger.w(getMessage(scope, message), args);
     }

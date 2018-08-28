@@ -1,49 +1,34 @@
 package com.edotassi.amazmod.transport;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
+import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.KeyEvent;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.db.model.BatteryStatusEntity;
-import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
-import com.edotassi.amazmod.event.Brightness;
-import com.edotassi.amazmod.event.LowPower;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
-import com.edotassi.amazmod.event.OutcomingNotification;
-import com.edotassi.amazmod.event.RequestBatteryStatus;
-import com.edotassi.amazmod.event.RequestWatchStatus;
-import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
-import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
-//import com.edotassi.amazmod.log.Logger;
-//import com.edotassi.amazmod.log.LoggerScoped;
 import com.edotassi.amazmod.notification.PersistentNotification;
+import com.edotassi.amazmod.support.Logger;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -52,15 +37,16 @@ import java.util.Map;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
-import amazmod.com.transport.data.BatteryData;
 
 public class TransportService extends Service implements Transporter.DataListener {
 
-    //private LoggerScoped logger = LoggerScoped.get(TransportService.class);
+    private Logger logger = Logger.get(TransportService.class);
     private Transporter transporter;
-    private Context context;
     private PersistentNotification persistentNotification;
     public static String model;
+
+    private LocalBinder localBinder = new LocalBinder();
+    private TransportListener transportListener;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
@@ -70,24 +56,22 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.TOGGLE_MUSIC, ToggleMusic.class);
     }};
 
+    private Map<String, Object> pendingResults = new HashMap<>();
+
     @Override
     public void onCreate() {
-        //this.logger.debug("created");
         super.onCreate();
 
-        context = this;
-
-        //EventBus.getDefault().connectApp(this, Constants.PACKAGE);
-        //EventBus.getDefault().init(this);
-        EventBus.getDefault().register(this);
+        transportListener = new TransportListener(this);
+        EventBus.getDefault().register(transportListener);
 
         transporter = TransporterClassic.get(this, Transport.NAME);
         transporter.addDataListener(this);
 
         if (transporter.isTransportServiceConnected()) {
-            Log.i(Constants.TAG, "TransportService onCreate already connected");
+            this.logger.i("TransportService onCreate already connected");
         } else {
-            Log.w(Constants.TAG, "TransportService onCreate not connected, connecting...");
+            this.logger.w("TransportService onCreate not connected, connecting...");
             transporter.connectTransportService();
             AmazModApplication.isWatchConnected = false;
         }
@@ -110,26 +94,134 @@ public class TransportService extends Service implements Transporter.DataListene
 
     @Override
     public void onDestroy() {
-
         stopForeground(true);
         EventBus.getDefault().unregister(this);
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
-        Log.d(Constants.TAG, "TransportService onDestroy");
+        this.logger.d("TransportService onDestroy");
         super.onDestroy();
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null;
+        return localBinder;
     }
 
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
+        Object event = dataToClass(transportDataItem);
 
-        Log.d(Constants.TAG, "TransportService action: " + action);
+        this.logger.d("TransportService action: " + action);
+
+        if (action != null) {
+            TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
+            if (taskCompletionSourcePendingResult != null) {
+                taskCompletionSourcePendingResult.setResult(event);
+                pendingResults.remove(action);
+            } else {
+                EventBus.getDefault().post(event);
+            }
+        } else {
+            //TODO handle null action
+        }
+    }
+
+    public <T extends Object> Task<T> sendWithResult(String action, String actionResult) {
+        return sendWithResult(action, actionResult, null);
+    }
+
+    public <T> Task<T> sendWithResult(final String action, String actionResult, Transportable transportable) {
+        final TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<>();
+        pendingResults.put(actionResult, taskCompletionSource);
+
+        TaskCompletionSource<Void> waiter = new TaskCompletionSource<>();
+        send(action, transportable, waiter);
+
+        waiter.getTask().continueWith(new Continuation<Void, Object>() {
+            @Override
+            public Object then(@NonNull Task<Void> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    pendingResults.remove(action);
+                    taskCompletionSource.setException(task.getException());
+                }
+                return null;
+            }
+        });
+
+        return taskCompletionSource.getTask();
+    }
+
+    public Task<Void> sendAndWait(String action, Transportable transportable) {
+        TaskCompletionSource<Void> waiter = new TaskCompletionSource<>();
+
+        send(action, transportable, waiter);
+
+        return waiter.getTask();
+    }
+
+    public void send(String action) {
+        send(action, null, null);
+    }
+
+    public void send(String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
+        boolean isTransportConnected = transporter.isTransportServiceConnected();
+        if (!isTransportConnected) {
+            if (AmazModApplication.isWatchConnected != isTransportConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.isWatchConnected = isTransportConnected;
+                EventBus.getDefault().removeAllStickyEvents();
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
+                persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
+            }
+            this.logger.w("TransportService send Transport Service Not Connected");
+            return;
+        }
+
+        DataBundle dataBundle = new DataBundle();
+        if (transportable != null) {
+            transportable.toDataBundle(dataBundle);
+        }
+
+        this.logger.d("TransportService send1: " + action);
+        transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
+            @Override
+            public void onResultBack(DataTransportResult dataTransportResult) {
+                TransportService.this.logger.i("Send result: " + dataTransportResult.toString());
+
+                switch (dataTransportResult.getResultCode()) {
+                    case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
+                    case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
+                    case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
+                    case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
+                        if (waiter != null) {
+                            waiter.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
+                        }
+                        break;
+                    }
+                    case (DataTransportResult.RESULT_OK): {
+                        if (waiter != null) {
+                            waiter.setResult(null);
+                        }
+
+                        if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null) {
+                            AmazModApplication.isWatchConnected = true;
+                            EventBus.getDefault().removeAllStickyEvents();
+                            EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
+                            persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
+                            TransportService.this.logger.d("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected);
+                        }
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
+    private Object dataToClass(TransportDataItem transportDataItem) {
+        String action = transportDataItem.getAction();
+
+        this.logger.d("TransportService action: " + action);
 
         Class messageClass = messages.get(action);
 
@@ -141,191 +233,31 @@ public class TransportService extends Service implements Transporter.DataListene
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
                 Object event = eventContructor.newInstance(transportDataItem.getData());
 
-                Log.d(Constants.TAG, "TransportService onDataReceived: " + event.toString());
-                EventBus.getDefault().post(event);
+                this.logger.d("Transport onDataReceived: " + event.toString());
+
+                return event;
             } catch (NoSuchMethodException e) {
-                Log.d(Constants.TAG, "TransportService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
+                this.logger.d("Transport event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
                 e.printStackTrace();
+                return null;
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
+                return null;
             } catch (InvocationTargetException e) {
                 e.printStackTrace();
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                return null;
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+                return null;
             }
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.POSTING)
-    public void replyToNotification(NotificationReply notificationReply) {
-        ReplyToNotificationLocal replyToNotificationLocal = new ReplyToNotificationLocal(notificationReply.getNotificationReplyData());
-        Log.d(Constants.TAG, "TransportService replyToNotification: " + notificationReply.toString());
-        EventBus.getDefault().post(replyToNotificationLocal);
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void incomingNotification(OutcomingNotification outcomingNotification) {
-        Log.d(Constants.TAG, "TransportService incomingNotification: " + outcomingNotification.toString());
-        send(Transport.INCOMING_NOTIFICATION, outcomingNotification.getNotificationData());
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-        Log.d(Constants.TAG, "TransportService requestWatchStatus: " + requestWatchStatus.toString());
-        send(Transport.REQUEST_WATCHSTATUS);
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-        Log.d(Constants.TAG, "TransportService requestBatteryStatus: " + requestBatteryStatus.toString());
-        send(Transport.REQUEST_BATTERYSTATUS, requestBatteryStatus.getPhoneBattery(context));
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void syncSettings(SyncSettings syncSettings) {
-        Log.d(Constants.TAG, "TransportService syncSettings: " + syncSettings.toString());
-        send(Transport.SYNC_SETTINGS, syncSettings.getSettingsData());
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void brightness(Brightness brightness) {
-        Log.d(Constants.TAG, "TransportService brightness: " + brightness.toString());
-        send(Transport.BRIGHTNESS, brightness.getBrightnessData());
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void lowPower(LowPower lowPower) {
-        send(Transport.LOW_POWER);
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void batteryStatus(BatteryStatus batteryStatus) {
-        BatteryData batteryData = batteryStatus.getBatteryData();
-        Log.d(Constants.TAG, "batteryStatus: " + batteryData.getLevel());
-        Log.d(Constants.TAG, "charging: " + batteryData.isCharging());
-        Log.d(Constants.TAG, "usb: " + batteryData.isUsbCharge());
-        Log.d(Constants.TAG, "ac: " + batteryData.isAcCharge());
-        Log.d(Constants.TAG, "dateLastCharge: " + batteryData.getDateLastCharge());
-
-        long date = System.currentTimeMillis();
-
-        BatteryStatusEntity batteryStatusEntity = new BatteryStatusEntity();
-        batteryStatusEntity.setAcCharge(batteryData.isAcCharge());
-        batteryStatusEntity.setCharging(batteryData.isCharging());
-        batteryStatusEntity.setDate(date);
-        batteryStatusEntity.setLevel(batteryData.getLevel());
-        batteryStatusEntity.setDateLastCharge(batteryData.getDateLastCharge());
-
-        //Log.d(Constants.TAG,"TransportService batteryStatus: " + batteryStatus.toString());
-
-        try {
-            BatteryStatusEntity storeBatteryStatusEntity = SQLite
-                    .select()
-                    .from(BatteryStatusEntity.class)
-                    .where(BatteryStatusEntity_Table.date.is(date))
-                    .querySingle();
-
-            if (storeBatteryStatusEntity == null) {
-                FlowManager.getModelAdapter(BatteryStatusEntity.class).insert(batteryStatusEntity);
-            }
-        } catch (Exception ex) {
-            //TODO add crashlitics
-            Log.e(Constants.TAG, "TransportService batteryStatus exception: " + ex.toString());
-        }
-        //Save time of last sync
-        Prefs.putLong(Constants.PREF_TIME_LAST_SYNC, SystemClock.elapsedRealtime());
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void nextMusic(NextMusic nextMusic) {
-        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
-        if (mAudioManager.isMusicActive()) {
-            long eventtime = SystemClock.uptimeMillis();
-
-            KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
-            mAudioManager.dispatchMediaKeyEvent(downEvent);
-
-            KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_NEXT, 0);
-            mAudioManager.dispatchMediaKeyEvent(upEvent);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void toggleMusic(ToggleMusic toggleMusic) {
-        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-
-        long eventtime = SystemClock.uptimeMillis();
-
-        if (mAudioManager.isMusicActive()) {
-            KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PAUSE, 0);
-            mAudioManager.dispatchMediaKeyEvent(downEvent);
-
-            KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PAUSE, 0);
-            mAudioManager.dispatchMediaKeyEvent(upEvent);
         } else {
-            KeyEvent downEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_MEDIA_PLAY, 0);
-            mAudioManager.dispatchMediaKeyEvent(downEvent);
-
-            KeyEvent upEvent = new KeyEvent(eventtime, eventtime, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_MEDIA_PLAY, 0);
-            mAudioManager.dispatchMediaKeyEvent(upEvent);
+            return null;
         }
     }
 
-    private void send(String action) {
-        send(action, null);
-    }
-
-    private void send(String action, Transportable transportable) {
-        boolean isTransportConnected = transporter.isTransportServiceConnected();
-        if (!isTransportConnected) {
-            if (AmazModApplication.isWatchConnected != isTransportConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                AmazModApplication.isWatchConnected = isTransportConnected;
-                EventBus.getDefault().removeAllStickyEvents();
-                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
-            }
-            Log.w(Constants.TAG, "TransportService send Transport Service Not Connected");
-            return;
-        }
-
-        if (transportable != null) {
-            DataBundle dataBundle = new DataBundle();
-            transportable.toDataBundle(dataBundle);
-            Log.d(Constants.TAG, "TransportService send1: " + action);
-            transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
-                @Override
-                public void onResultBack(DataTransportResult dataTransportResult) {
-                    Log.i(Constants.TAG, "Send result: " + dataTransportResult.toString());
-                    boolean check = (dataTransportResult.toString().contains("FAILED"));
-                    if (AmazModApplication.isWatchConnected != check || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                        AmazModApplication.isWatchConnected = !check;
-                        EventBus.getDefault().removeAllStickyEvents();
-                        EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                        persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
-                        Log.d(Constants.TAG, "TransportService send1 isConnected: " + AmazModApplication.isWatchConnected);
-                    }
-                }
-            });
-
-        } else {
-            Log.d(Constants.TAG, "TransportService send2: " + action);
-            transporter.send(action, new Transporter.DataSendResultCallback() {
-                @Override
-                public void onResultBack(DataTransportResult dataTransportResult) {
-                    Log.i(Constants.TAG, "Send result: " + dataTransportResult.toString());
-                    boolean check = (dataTransportResult.toString().contains("FAILED"));
-                    if (AmazModApplication.isWatchConnected != check || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                        AmazModApplication.isWatchConnected = !check;
-                        EventBus.getDefault().removeAllStickyEvents();
-                        EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                        persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
-                        Log.d(Constants.TAG, "TransportService send2 isConnected: " + AmazModApplication.isWatchConnected);
-                    }
-                }
-            });
+    public class LocalBinder extends Binder {
+        public TransportService getService() {
+            return TransportService.this;
         }
     }
 }

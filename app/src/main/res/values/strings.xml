@@ -192,4 +192,7 @@
     <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch</string>
     <string name="activity_tweaking_brightness">Please disable Auto-brightness in watch first for this to work</string>
 
+    <string name="failed_load_watch_status">Load of watch status failed</string>
+    <string name="settings_applied">Settings applied</string>
+    <string name="settings_cant_be_applied">The settings can\'t be applied</string>
 </resources>

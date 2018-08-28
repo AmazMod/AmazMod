@@ -22,21 +22,16 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.RequestWatchStatus;
-import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.setup.Setup;
-import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -46,19 +41,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
-    private WatchStatus watchStatus;
-    private long timeLastSync = 0L;
+
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
@@ -190,22 +181,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-
         Log.d(Constants.TAG, " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
-
-        Flowable
-                .timer(2000, TimeUnit.MILLISECONDS)
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        //Check for WatchStatus only when the app is open or half the battery sync interval
-                        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
-                        if (System.currentTimeMillis() - timeLastSync > (syncInterval * 30000L)) {
-                            EventBus.getDefault().post(new RequestWatchStatus());
-                            timeLastSync = System.currentTimeMillis();
-                        }
-                    }
-                });
     }
 
     @Override
@@ -298,20 +274,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onWatchStatus(WatchStatus watchStatus) {
-        this.watchStatus = watchStatus;
-        TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
-        PreferenceManager.getDefaultSharedPreferences(this).edit()
-                .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
-                .apply();
-        AmazModApplication.isWatchConnected = true;
-
-        watchInfoFragment.onResume();
-
-        Log.d(Constants.TAG, " MainActivity onWatchStatus " + AmazModApplication.isWatchConnected);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsWatchConnectedLocal itc) {
         if (itc != null) {
@@ -324,10 +286,6 @@ public class MainActivity extends AppCompatActivity
             AmazModApplication.isWatchConnected = false;
         }
         Log.d(Constants.TAG, " MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
-    }
-
-    public WatchStatus getWatchStatus() {
-        return watchStatus;
     }
 
     private void showChangelog(boolean managedShowOnStart) {
