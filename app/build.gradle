@@ -87,6 +87,7 @@ dependencies {
     implementation 'com.github.MFlisar:changelog:1.0.4'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.github.matecode:Snacky:1.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

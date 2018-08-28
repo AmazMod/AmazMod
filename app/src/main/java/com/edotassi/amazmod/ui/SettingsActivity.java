@@ -1,31 +1,32 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.widget.Toast;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.SyncSettings;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.watch.Watch;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.Locale;
 
 import amazmod.com.transport.data.SettingsData;
+import de.mateware.snacky.Snacky;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -61,7 +62,24 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onDestroy() {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_activity_settings_sync) {
+            sync();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void sync() {
         final String replies = Prefs.getString(Constants.PREF_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_REPLIES);
         final int vibration = Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION,
@@ -128,16 +146,27 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setFontSize(fontSize);
         settingsData.setDisableNotificationScreenOn(disableNotificationsScreenOn);
 
-        SyncSettings syncSettings = new SyncSettings(settingsData);
-
-        EventBus.getDefault().post(syncSettings);
-
-        Toast.makeText(this, R.string.sync_settings, Toast.LENGTH_SHORT).show();
-
-        super.onDestroy();
+        Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
+            @Override
+            public Object then(@NonNull Task<Void> task) throws Exception {
+                if (task.isSuccessful()) {
+                    Snacky.builder()
+                            .setActivity(SettingsActivity.this)
+                            .setText(R.string.settings_applied)
+                            .setDuration(Snacky.LENGTH_SHORT)
+                            .build().show();
+                } else {
+                    Snacky.builder()
+                            .setActivity(SettingsActivity.this)
+                            .setText(R.string.settings_cant_be_applied)
+                            .setDuration(Snacky.LENGTH_SHORT)
+                            .build().show();
+                }
+                return null;
+            }
+        });
     }
 
-    //Load different Preferences for Oreo+ as it requires Persistent Notification
     public static class MyPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(final Bundle savedInstanceState) {
@@ -167,5 +196,4 @@ public class SettingsActivity extends AppCompatActivity {
         intent.putExtra("REFRESH", true);
         startActivity(intent);
     }
-
 }

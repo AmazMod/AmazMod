@@ -6,22 +6,48 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.event.RequestBatteryStatus;
+import com.edotassi.amazmod.db.model.BatteryStatusEntity;
+import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
+import com.edotassi.amazmod.event.BatteryStatus;
+import com.edotassi.amazmod.support.Logger;
+import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
+import com.edotassi.amazmod.watch.Watch;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import org.greenrobot.eventbus.EventBus;
-
+import amazmod.com.transport.data.BatteryData;
 
 public class BatteryStatusReceiver extends BroadcastReceiver {
 
+    private Logger log = Logger.get(BatteryStatusReceiver.class);
+
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(final Context context, Intent intent) {
         if (intent.getAction() == null) {
-            EventBus.getDefault().post(new RequestBatteryStatus());
+            if (!Watch.isInitialized()) {
+                Watch.init(context);
+            }
+
+            Watch.get().getBatteryStatus().continueWith(new Continuation<BatteryStatus, Object>() {
+                @Override
+                public Object then(@NonNull Task<BatteryStatus> task) throws Exception {
+                    if (task.isSuccessful()) {
+                        BatteryStatus batteryStatus = task.getResult();
+                        updateBattery(batteryStatus);
+                    } else {
+                        BatteryStatusReceiver.this.log.e(task.getException(), "failed reading battery status");
+                    }
+                    return null;
+                }
+            });
         } else {
             startBatteryReceiver(context);
         }
@@ -49,5 +75,42 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         } catch (NullPointerException e) {
             Log.e(Constants.TAG, "BatteryStatusReceiver setRepeating exception: " + e.toString());
         }
+    }
+
+    private void updateBattery(BatteryStatus batteryStatus) {
+        BatteryData batteryData = batteryStatus.getBatteryData();
+        BatteryStatusReceiver.this.log.d("batteryStatus: " + batteryData.getLevel());
+        BatteryStatusReceiver.this.log.d("charging: " + batteryData.isCharging());
+        BatteryStatusReceiver.this.log.d("usb: " + batteryData.isUsbCharge());
+        BatteryStatusReceiver.this.log.d("ac: " + batteryData.isAcCharge());
+        BatteryStatusReceiver.this.log.d("dateLastCharge: " + batteryData.getDateLastCharge());
+
+        long date = System.currentTimeMillis();
+
+        BatteryStatusEntity batteryStatusEntity = new BatteryStatusEntity();
+        batteryStatusEntity.setAcCharge(batteryData.isAcCharge());
+        batteryStatusEntity.setCharging(batteryData.isCharging());
+        batteryStatusEntity.setDate(date);
+        batteryStatusEntity.setLevel(batteryData.getLevel());
+        batteryStatusEntity.setDateLastCharge(batteryData.getDateLastCharge());
+
+        //Log.d(Constants.TAG,"TransportService batteryStatus: " + batteryStatus.toString());
+
+        try {
+            BatteryStatusEntity storeBatteryStatusEntity = SQLite
+                    .select()
+                    .from(BatteryStatusEntity.class)
+                    .where(BatteryStatusEntity_Table.date.is(date))
+                    .querySingle();
+
+            if (storeBatteryStatusEntity == null) {
+                FlowManager.getModelAdapter(BatteryStatusEntity.class).insert(batteryStatusEntity);
+            }
+        } catch (Exception ex) {
+            //TODO add crashlitics
+            BatteryStatusReceiver.this.log.e(ex, "TransportService batteryStatus exception: " + ex.toString());
+        }
+        //Save time of last sync
+        Prefs.putLong(Constants.PREF_TIME_LAST_SYNC, SystemClock.elapsedRealtime());
     }
 }

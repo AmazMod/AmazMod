@@ -5,11 +5,11 @@ import android.content.ContextWrapper;
 
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.Logger;
+import com.edotassi.amazmod.watch.Watch;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import java.util.Locale;
-
 
 public class AmazModApplication extends Application {
 
@@ -25,6 +25,8 @@ public class AmazModApplication extends Application {
         Logger.init();
         FlowManager.init(this);
 
+        Watch.init(getApplicationContext());
+
         new Prefs.Builder()
                 .setContext(this)
                 .setMode(ContextWrapper.MODE_PRIVATE)
@@ -36,8 +38,6 @@ public class AmazModApplication extends Application {
         setupLocale();
 
         Setup.run(getApplicationContext());
-
-        //Log.d(Constants.TAG, " AmazModApplication Start syncInterval: " + syncInterval + " / timeLastSync: " + timeLastSync);
     }
 
     private void setupLocale() {
