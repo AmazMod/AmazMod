@@ -26,17 +26,17 @@
     <string name="faq">Aiuto</string>
     <string name="full_battery_in">"Completamente carica in "</string>
     <string name="installed_apps">Applicazioni installate</string>
-    <string name="intro_description_1">Segui questa presentazione per sapere come installare l\'app di servizio sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono.</string>
-    <string name="intro_description_2">Scarica l\'amazmod_service dal canale telegram "@amazmod" e installalo sul tuo orologio. Per installarlo, puoi usare i comandi adb, APKInstaller o l\'Amazfit Tool dal tuo PC Windows.</string>
-    <string name="intro_description_3">"Riavvia sia il dispositivo che l'orologio. Se visualizzi i dati dell'orologio nella sezione apposita dell\'app, tutto è configurato correttamente."</string>
-    <string name="intro_description_4">"Ora puoi andare nelle impostazioni AmazMod, scegliere per quali applicazioni ricevere le notifiche e aggiungere delle risposte personalizzate.
+    <string name="intro_description_1">Segui questa presentazione per sapere come installare l\'app di servizio sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono</string>
+    <string name="intro_description_2">Scarica l\'amazmod_service dal canale Telegram "@amazmod" e installalo sul tuo orologio. Per installarlo puoi usare i comandi adb, APKInstaller o l\'Amazfit Tool dal tuo PC Windows</string>
+    <string name="intro_description_3">"Riavvia sia il telefono che l'orologio. Se visualizzi i dati dell'orologio nella sezione apposita dell\'app, tutto è configurato correttamente"</string>
+    <string name="intro_description_4">"Ora puoi andare nelle impostazioni di AmazMod, scegliere per quali applicazioni ricevere le notifiche e aggiungere delle risposte personalizzate.
 
 Goditi l\'uso di AmazMod!"</string>
-    <string name="intro_description_permissions">AmazMod richiede l\'accesso alle notifiche sul tuo orologio, per favore clicca sul bottone in basso e abilita i permessi alle notifiche, poi torna indietro alla presentazione.</string>
+    <string name="intro_description_permissions">AmazMod richiede l\'accesso alle notifiche sul tuo orologio, clicca sul bottone in basso e abilita i permessi alle notifiche, poi torna indietro alla presentazione</string>
     <string name="intro_label_grant_permissions">Dai il permesso per l\'accesso alle notifiche prima di procedere</string>
     <string name="intro_title_1">Benvenuto in AmazMod!</string>
     <string name="intro_title_2">Installa l\'App Service sul tuo orologio</string>
-    <string name="intro_title_3">Riavvia il dispositivo</string>
+    <string name="intro_title_3">Riavvia i dispositivi</string>
     <string name="intro_title_4">Hai finito!</string>
     <string name="intro_title_permissions">Accesso alle notifiche</string>
     <string name="last_charge">dall\'ultima ricarica completa</string>
