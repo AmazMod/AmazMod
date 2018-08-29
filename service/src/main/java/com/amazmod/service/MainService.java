@@ -18,6 +18,7 @@ import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
 import com.amazmod.service.events.incoming.LowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
+import com.amazmod.service.events.incoming.RequestDirectory;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.music.MusicControlInputListener;
@@ -70,6 +71,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
         put(Transport.BRIGHTNESS, Brightness.class);
         put(Transport.LOW_POWER, LowPower.class);
+        put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
     }};
 
     private Transporter transporter;
@@ -236,12 +238,12 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-   @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void lowPower(LowPower lowPower) {
-       SystemProperties.goToSleep(this);
-       slptClockClient.enableLowBattery();
-       slptClockClient.enableSlpt();
-       SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
+        SystemProperties.goToSleep(this);
+        slptClockClient.enableLowBattery();
+        slptClockClient.enableSlpt();
+        SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
