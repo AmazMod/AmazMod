@@ -8,8 +8,6 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 
 import com.edotassi.amazmod.event.BatteryStatus;
-import com.edotassi.amazmod.event.Brightness;
-import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.transport.TransportService;
 import com.google.android.gms.tasks.Continuation;
@@ -18,6 +16,8 @@ import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 
 import amazmod.com.transport.Transport;
+import amazmod.com.transport.data.BrightnessData;
+import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.SettingsData;
 
 public class Watch {
@@ -62,12 +62,12 @@ public class Watch {
         });
     }
 
-    public Task<Void> incomingNotification(final OutcomingNotification outcomingNotification) {
+    public Task<Void> postNotification(final NotificationData notificationData) {
         final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.INCOMING_NOTIFICATION, outcomingNotification.getNotificationData(), taskCompletionSource);
+                task.getResult().send(Transport.INCOMING_NOTIFICATION, notificationData, taskCompletionSource);
                 return null;
             }
         });
@@ -86,12 +86,12 @@ public class Watch {
         return taskCompletionSource.getTask();
     }
 
-    public Task<Void> setBrightness(final Brightness brightness) {
+    public Task<Void> setBrightness(final BrightnessData brightnessData) {
         final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.BRIGHTNESS, brightness.getBrightnessData(), taskCompletionSource);
+                task.getResult().send(Transport.BRIGHTNESS, brightnessData, taskCompletionSource);
                 return null;
             }
         });
