@@ -1,19 +1,23 @@
 package com.edotassi.amazmod.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.Brightness;
+import com.edotassi.amazmod.watch.Watch;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 
 import org.greenrobot.eventbus.EventBus;
 
 import amazmod.com.transport.data.BrightnessData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.mateware.snacky.Snacky;
 
 public class TweakingActivity extends AppCompatActivity {
 
@@ -56,17 +60,26 @@ public class TweakingActivity extends AppCompatActivity {
                 BrightnessData brightnessData = new BrightnessData();
                 brightnessData.setLevel(seekBar.getProgress());
 
-                EventBus.getDefault().post(new Brightness(brightnessData));
-
-                Toast.makeText(TweakingActivity.this, "Brightness set to " + seekBar.getProgress(), Toast.LENGTH_SHORT).show();
+                Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
+                    @Override
+                    public Object then(@NonNull Task<Void> task) throws Exception {
+                        if (task.isSuccessful()) {
+                            Snacky.builder()
+                                    .setActivity(TweakingActivity.this)
+                                    .setText(R.string.brightness_applied)
+                                    .setDuration(Snacky.LENGTH_SHORT)
+                                    .build().show();
+                        } else {
+                            Snacky.builder()
+                                    .setActivity(TweakingActivity.this)
+                                    .setText(R.string.failed_to_set_brightness)
+                                    .setDuration(Snacky.LENGTH_SHORT)
+                                    .build().show();
+                        }
+                        return null;
+                    }
+                });
             }
         });
     }
-
-    /*
-    @OnClick(R.id.activity_tweaking_button_low_power)
-    public void onLowPower() {
-        HermesEventBus.getDefault().post(new LowPower());
-    }
-    */
 }

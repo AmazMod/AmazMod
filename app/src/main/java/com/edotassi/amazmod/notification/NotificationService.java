@@ -20,7 +20,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +28,11 @@ import android.widget.RemoteViews;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
-import com.edotassi.amazmod.event.OutcomingNotification;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
 import com.edotassi.amazmod.util.Screen;
+import com.edotassi.amazmod.watch.Watch;
 import com.google.gson.Gson;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
@@ -87,26 +86,25 @@ public class NotificationService extends NotificationListenerService {
 
         notificationsAvailableToReply = new HashMap<>();
 
-        Log.d(Constants.TAG, "NotificationService onCreate");
-
+        log.d("NotificationService onCreate");
     }
 
     @Override
     public void onListenerConnected() {
         super.onListenerConnected();
-        Log.d(Constants.TAG, "NotificationService onListenerConnected");
+        log.d("NotificationService onListenerConnected");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(Constants.TAG, "NotificationService onStarCommand");
+        log.d("NotificationService onStarCommand");
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        Log.d(Constants.TAG, "NotificationService onDestroy");
+        log.d("NotificationService onDestroy");
         super.onDestroy();
     }
 
@@ -154,8 +152,9 @@ public class NotificationService extends NotificationListenerService {
 
             if (notificationSent) {
                 storeForStats(statusBarNotification, filterResult);
-            } else storeForStats(statusBarNotification, Constants.FILTER_RETURN);
-
+            } else {
+                storeForStats(statusBarNotification, Constants.FILTER_RETURN);
+            }
         } else {
             //Messenger voice call notifications
             if (isRingingNotification(statusBarNotification.getNotification())) {
@@ -164,7 +163,7 @@ public class NotificationService extends NotificationListenerService {
                 mapNotification(statusBarNotification);
                 //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
             } else {
-                Log.d(Constants.TAG, "NotificationService blocked: " + notificationPackage);
+                log.d("NotificationService blocked: " + notificationPackage);
                 storeForStats(statusBarNotification, filterResult);
             }
         }
@@ -218,8 +217,9 @@ public class NotificationService extends NotificationListenerService {
         notificationData.setHideReplies(false);
         notificationData.setHideButtons(true);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
-        EventBus.getDefault().post(new OutcomingNotification(notificationData));
-        Log.i(Constants.TAG, "NotificationService CustomUI: " + notificationData.toString());
+
+        Watch.get().postNotification(notificationData);
+        log.i("NotificationService CustomUI: " + notificationData.toString());
     }
 
     private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
@@ -251,7 +251,7 @@ public class NotificationService extends NotificationListenerService {
         //Disconnect transporter to avoid leaking
         notificationTransporter.disconnectTransportService();
 
-        Log.i(Constants.TAG, "NotificationService StandardUI: " + dataBundle.toString());
+        log.i("NotificationService StandardUI: " + dataBundle.toString());
     }
 
     private int getAudioManagerMode() {
@@ -267,24 +267,24 @@ public class NotificationService extends NotificationListenerService {
         try {
             final int mode = getAudioManagerMode();
             if (AudioManager.MODE_IN_CALL == mode) {
-                Log.d(Constants.TAG, "NotificationService Ringer: CALL");
+                log.d("NotificationService Ringer: CALL");
             } else if (AudioManager.MODE_IN_COMMUNICATION == mode) {
-                Log.d(Constants.TAG, "NotificationService Ringer: COMMUNICATION");
+                log.d("NotificationService Ringer: COMMUNICATION");
             } else if (AudioManager.MODE_RINGTONE == mode) {
-                Log.d(Constants.TAG, "NotificationService Ringer: RINGTONE");
+                log.d("NotificationService Ringer: RINGTONE");
                 isRinging = true;
             } else {
-                Log.d(Constants.TAG, "NotificationService Ringer: SOMETHING ELSE");
+                log.d("NotificationService Ringer: SOMETHING ELSE");
             }
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "NotificationService getMode Exception: " + e.toString());
+            log.e(e, "NotificationService getMode Exception: %s", e.toString());
         }
 
         return isRinging;
     }
 
     private void handleCall(StatusBarNotification statusBarNotification, String notificationPackage) {
-        Log.d(Constants.TAG, "NotificationService VoiceCall: " + notificationPackage);
+        log.d("NotificationService VoiceCall: " + notificationPackage);
         while (isRinging()) {
             if (System.currentTimeMillis() - lastTimeNotificationSent > VOICE_INTERVAL) {
 
@@ -296,7 +296,7 @@ public class NotificationService extends NotificationListenerService {
                 try {
                     ai = pm.getApplicationInfo(notificationPackage, 0);
                 } catch (final PackageManager.NameNotFoundException e) {
-                    Log.e(Constants.TAG, "NotificationService getApplicationInfo Exception: " + e.toString());
+                    log.e(e, "NotificationService getApplicationInfo Exception: %s", e.toString());
                     ai = null;
                 }
                 final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
@@ -307,7 +307,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
 
-                EventBus.getDefault().post(new OutcomingNotification(notificationData));
+                Watch.get().postNotification(notificationData);
                 lastTimeNotificationSent = System.currentTimeMillis();
 
                 final int mode = getAudioManagerMode();
@@ -345,7 +345,7 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (/*(flags & FLAG_WEARABLE_REPLY) == 0 &&*/ NotificationCompat.isGroupSummary(notification)) {
-            Log.d(Constants.TAG, "NotificationService isGroupSummary: " + notificationPackage);
+            log.d("NotificationService isGroupSummary: " + notificationPackage);
             if (Arrays.binarySearch(APP_WHITELIST, notificationPackage) < 0) {
                 log.d("notification blocked FLAG_GROUP_SUMMARY");
                 return returnFilterResult(Constants.FILTER_GROUP);
@@ -358,7 +358,7 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            Log.d(Constants.TAG, "NotificationService getLocalOnly: " + notificationPackage);
+            log.d("NotificationService getLocalOnly: " + notificationPackage);
             if ((!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false) && !whitelistedApp) ||
                     ((Arrays.binarySearch(APP_WHITELIST, notificationPackage) >= 0) && !whitelistedApp)) {
                 log.d("notification blocked because is LocalOnly");
@@ -373,20 +373,20 @@ public class NotificationService extends NotificationListenerService {
         if (bigText != null) {
             text = bigText.toString();
         }
-        Log.d(Constants.TAG, "NotificationService text: " + text);
+        log.d("NotificationService text: " + text);
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
             if ((previousText != null) && (previousText.equals(text)) && (!notificationPackage.equals("com.microsoft.office.outlook"))
                     && ((System.currentTimeMillis() - lastTimeNotificationArrived) < BLOCK_INTERVAL)) {
-                Log.d(Constants.TAG, "NotificationService blocked text");
+                log.d("NotificationService blocked text");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return returnFilterResult(Constants.FILTER_BLOCK);
             } else {
                 notificationTimeGone.put(notificationId, text);
                 lastTimeNotificationArrived = System.currentTimeMillis();
-                Log.d(Constants.TAG, "NotificationService allowed1");
+                log.d("NotificationService allowed1");
                 //Logger.debug("notification allowed");
                 if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
                     //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
@@ -394,8 +394,7 @@ public class NotificationService extends NotificationListenerService {
             }
         } else {
             notificationTimeGone.put(notificationId, text);
-            Log.d(Constants.TAG, "NotificationService allowed2");
-            //Logger.debug("notification allowed");
+            log.d("NotificationService allowed2");
             if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
             else return returnFilterResult(Constants.FILTER_CONTINUE);
         }
@@ -445,9 +444,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private byte returnFilterResult(byte result) {
-        //Logger.debug("_");
-        //Logger.debug("_");
-        Log.d(Constants.TAG, "NotificationService _");
+        log.d("NotificationService _");
         return result;
     }
 
@@ -515,9 +512,6 @@ public class NotificationService extends NotificationListenerService {
 
         //notificationWear.pendingIntent = statusBarNotification.getNotification().contentIntent;
 
-
-        //Log.d(Constants.TAG_NOTIFICATION, "notWear, remoteInputs: " + notificationWear.remoteInputs.size());
-
         //RemoteInput[] remoteInputs = new RemoteInput[notificationWear.remoteInputs.size()];
 
         /*
@@ -536,14 +530,13 @@ public class NotificationService extends NotificationListenerService {
         try {
             notificationWear.pendingIntent.send(context, 0, localIntent);
         } catch (PendingIntent.CanceledException e) {
-            Log.e(Constants.TAG_NOTIFICATION, "replyToLastNotification error: " + e.getLocalizedMessage());
         }
         */
     }
 
     private void mapNotification(StatusBarNotification statusBarNotification) {
 
-        Log.d(Constants.TAG, "NotificationService maps: " + statusBarNotification.getPackageName());
+        log.d("NotificationService maps: " + statusBarNotification.getPackageName());
 
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         RemoteViews rmv = statusBarNotification.getNotification().contentView;
@@ -574,14 +567,14 @@ public class NotificationService extends NotificationListenerService {
                     int height = bitmap.getHeight();
                     int[] intArray = new int[width * height];
                     bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
-                    Log.i(Constants.TAG, "NotificationService mapNotification bitmap dimensions: " + width + " x " + height);
+                    log.i("NotificationService mapNotification bitmap dimensions: " + width + " x " + height);
 
                     notificationData.setIcon(intArray);
                     notificationData.setIconWidth(width);
                     notificationData.setIconHeight(height);
                 } catch (NullPointerException e) {
                     notificationData.setIcon(new int[]{});
-                    Log.e(Constants.TAG, "NotificationService mapNotification failed to get bitmap " + e.toString());
+                    log.e(e, "NotificationService mapNotification failed to get bitmap %s", e.toString());
                 }
 
                 notificationData.setTitle(txt.get(0));
@@ -593,15 +586,18 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideReplies(true);
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
-                EventBus.getDefault().post(new OutcomingNotification(notificationData));
+
+                Watch.get().postNotification(notificationData);
 
                 lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();
                 storeForStats(statusBarNotification, Constants.FILTER_MAPS);
-                Log.d(Constants.TAG, "NotificationService maps lastTxt:  " + lastTxt);
+                log.d("NotificationService maps lastTxt:  " + lastTxt);
             }
 
-        } else Log.e(Constants.TAG, "NotificationService maps null remoteView");
+        } else {
+            log.w("NotificationService maps null remoteView");
+        }
     }
 
     public static List<String> extractText(RemoteViews views) {
@@ -622,30 +618,24 @@ public class NotificationService extends NotificationListenerService {
 
                 // The tag tells which type of action it is (2 is ReflectionAction, from the source)
                 int tag = parcel.readInt();
-                //Log.d(Constants.TAG, "NotificationService extractText tag: " + tag);
                 if (tag != 2) continue;
 
                 // View ID
                 parcel.readInt();
-                //Log.d(Constants.TAG, "NotificationService extractText ViewID: " + parcel.readInt());
 
                 String methodName = parcel.readString();
                 if (methodName == null) continue;
 
                     // Save strings
                 else {
-                    //Log.d(Constants.TAG, "NotificationService extractText methodName: " + methodName);
 
                     if (methodName.equals("setText")) {
                         // Parameter type (10 = Character Sequence)
                         parcel.readInt();
-                        //Log.d(Constants.TAG, "NotificationService extractText ID: " + parcel.readInt());
 
-                        //Log.d(Constants.TAG, "NotificationService extractText methodName: " + parcel);
                         // Store the actual string
                         String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
                         text.add(t);
-                        //Log.d(Constants.TAG, "NotificationService extractText methodName: " + t);
                     }
                 }
                 parcel.recycle();
@@ -654,7 +644,7 @@ public class NotificationService extends NotificationListenerService {
         }
         // It's not usually good style to do this, but then again, neither is the use of reflection...
         catch (Exception e) {
-            Log.e("NotificationClassifier", e.toString());
+            Logger.get(NotificationService.class).e(e, "NotificationClassifier: %s", e.toString());
         }
         return text;
     }
