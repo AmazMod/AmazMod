@@ -1,6 +1,9 @@
 package com.edotassi.amazmod.ui.fragment;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +16,20 @@ import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.MainActivity;
 import com.edotassi.amazmod.ui.card.Card;
+import com.edotassi.amazmod.watch.Watch;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
+import com.pixplicity.easyprefs.library.Prefs;
+
+import org.greenrobot.eventbus.EventBus;
 
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class WatchInfoFragment extends Card {
@@ -57,6 +68,8 @@ public class WatchInfoFragment extends Card {
     @BindView(R.id.card_watch_progress)
     MaterialProgressBar watchProgress;
 
+    private long timeLastSync = 0L;
+
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.fragment_watch_info, container, false);
@@ -72,7 +85,28 @@ public class WatchInfoFragment extends Card {
     public void onResume() {
         super.onResume();
         Log.d(Constants.TAG, "WatchInfoFragment onResume");
-        refresh();
+
+        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
+        if (System.currentTimeMillis() - timeLastSync > (syncInterval * 30000L)) {
+            timeLastSync = System.currentTimeMillis();
+            Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
+                @Override
+                public Object then(@NonNull Task<WatchStatus> task) throws Exception {
+                    if (task.isSuccessful()) {
+                        refresh(task.getResult());
+                    } else {
+                        Snacky
+                                .builder()
+                                .setActivity(getActivity())
+                                .setText(R.string.failed_load_watch_status)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build()
+                                .show();
+                    }
+                    return null;
+                }
+            });
+        }
     }
 
     @Override
@@ -80,7 +114,13 @@ public class WatchInfoFragment extends Card {
         return "watch-info";
     }
 
-    public void refresh() {
+    public void refresh(WatchStatus watchStatus) {
+        TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
+        PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
+                .apply();
+        AmazModApplication.isWatchConnected = true;
+
         isConnectedTV.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
@@ -88,8 +128,8 @@ public class WatchInfoFragment extends Card {
 
         try {
             if (AmazModApplication.isWatchConnected) {
-                if (((MainActivity) getActivity()).getWatchStatus() != null) {
-                    onWatchStatus(((MainActivity) getActivity()).getWatchStatus());
+                if (watchStatus != null) {
+                    onWatchStatus(watchStatus);
                     isConnectedTV.setTextColor(getResources().getColor(R.color.colorCharging));
                     isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
                     watchProgress.setVisibility(View.GONE);

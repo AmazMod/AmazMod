@@ -22,6 +22,10 @@ Service "additional" features - service installed on the watch:
 •  Tweaking – Manual brightness control of your watch
 •  Much much more to come
 
+- Please uninstall old versions of AmazMod and keep the latest stock Amazfit installed, with push notifications disabled
+- Link to FAQ on GitHub as a support page, maybe?
+- When upgrading AmazMod, make sure latest service APK version is installed on watch too, and restart both phone and watch everytime service APK is installed.
+
 Stats:
 Statistics regarding your notifications
 

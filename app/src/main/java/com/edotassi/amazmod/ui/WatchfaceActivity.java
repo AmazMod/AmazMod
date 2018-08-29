@@ -4,21 +4,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.CompoundButton;
-import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.Brightness;
 import com.edotassi.amazmod.event.SyncWatchface;
-import com.pixplicity.easyprefs.library.Prefs;
 
-import amazmod.com.transport.data.BrightnessData;
+import org.greenrobot.eventbus.EventBus;
+
 import amazmod.com.transport.data.WatchfaceData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class WatchfaceActivity extends AppCompatActivity {
 
@@ -91,7 +87,7 @@ public class WatchfaceActivity extends AppCompatActivity {
 
         SyncWatchface syncSettings = new SyncWatchface(watchfaceData);
 
-        HermesEventBus.getDefault().post(syncSettings);
+        EventBus.getDefault().post(syncSettings);
 
         Toast.makeText(this, R.string.sync_settings, Toast.LENGTH_SHORT).show();
 

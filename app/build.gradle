@@ -7,8 +7,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 156
-        versionName "1.0.28"
+        versionCode 165
+        versionName "1.0.36"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -70,7 +70,7 @@ dependencies {
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/SpringboardPluginLib.jar')
     implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'xiaofei.library:hermes-eventbus:0.3.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     implementation 'com.jakewharton:butterknife:8.8.1'
@@ -86,6 +86,8 @@ dependencies {
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.3'
     implementation 'com.github.MFlisar:changelog:1.0.4'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.github.matecode:Snacky:1.0.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

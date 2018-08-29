@@ -4,27 +4,25 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.SystemClock;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.OutcomingNotification;
+import com.edotassi.amazmod.watch.Watch;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import de.mateware.snacky.Snacky;
 
 public class AboutActivity extends AppCompatActivity {
 
@@ -119,10 +117,24 @@ public class AboutActivity extends AppCompatActivity {
             System.out.println("AmazMod AboutActivity notificationData Failed to get bitmap " + e.toString());
         }
 
-        HermesEventBus.getDefault().post(new OutcomingNotification(notificationData));
-
-        Toast.makeText(this, "Test Notification Sent", Toast.LENGTH_SHORT).show();
-        System.out.println("AmazMod AboutActivity notificationData: " + notificationData.toString());
-
+        Watch.get().postNotification(notificationData).continueWith(new Continuation<Void, Object>() {
+            @Override
+            public Object then(@NonNull Task<Void> task) throws Exception {
+                if (task.isSuccessful()) {
+                    Snacky.builder()
+                            .setActivity(AboutActivity.this)
+                            .setText(R.string.test_notification_sent)
+                            .setDuration(Snacky.LENGTH_SHORT)
+                            .build().show();
+                } else {
+                    Snacky.builder()
+                            .setActivity(AboutActivity.this)
+                            .setText(R.string.failed_to_send_test_notification)
+                            .setDuration(Snacky.LENGTH_SHORT)
+                            .build().show();
+                }
+                return null;
+            }
+        });
     }
 }

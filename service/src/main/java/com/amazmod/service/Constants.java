@@ -32,6 +32,8 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "pref_notifications_inverted_theme";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "pref_notifications_font_size";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "pref_notification_screenon";
+    public static final String PREF_SHAKE_TO_DISMISS_GRAVITY = "pref_shake_to_dismiss_gravity";
+    public static final String PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES = "pref_shake_to_dismiss_num_of_shakes";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;

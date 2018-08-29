@@ -1,0 +1,2 @@
+- Fixed issue #164
+- Fixed issue #160

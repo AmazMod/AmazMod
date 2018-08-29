@@ -1,13 +1,34 @@
 <changelog>
     <release
-        date="2018-08-20"
-        versionName="v1.0.28">
-        <new>Added inverted theme and configurable font size for CustomUI</new>
-        <new>Added preference to disable screen on/unlock on watch for CustomUI</new>
+        versionCode="163"
+        versioneName="v1.0.34">
+        <bugfix>Fixed issue #164</bugfix>
+        <bugfix>Fixed issue #160</bugfix>
+    </release>
+    <release
+        date="2018-08-25"
+        versionCode="162"
+        versionName="v1.0.33">
+        <bugfix>Fixed a bug with preferences in Oreo</bugfix>
+        <bugfix>Fixed issue #157</bugfix>
+        <info>Updated hu, fr, it translations</info>
+    </release>
+    <release
+        date="2018-08-23"
+        versionCode="160"
+        versionName="v1.0.32">
+        <new>Added inverted theme and configurable font size for Custom Replies</new>
+        <new>Preferences backup and restore</new>
+        <new>Added preference to disable screen on for Custom replies</new>
         <new>Added persistent notification with Preferences</new>
         <new>Added Czech translations</new>
+        <new>Added Greek translations</new>
+        <new>Added Russian translations</new>
+        <info>Improvements to Maps navigation notifications and Notifications log</info>
+        <info>Updated FAQ</info>
         <info>Updated Italian translations</info>
         <bugfix>Skype notifications fix</bugfix>
+        <bugfix>Fix for Outlook notifications too</bugfix>
         <bugfix>Minor fix</bugfix>
     </release>
     <release

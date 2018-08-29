@@ -30,7 +30,10 @@ R- First, calm down. Then check if you have any setting that is preventing the n
 A- *I want/need/can't live without missed voice call notifications, can you add this?*  
 R- No, actually Amazfit will always send new voice call notifications to watch, so there is no need for this notification. But if you really can't live without it, then enable system apps in "Selected apps" and activate "Contacts" or whatever app is used for call notifications (you might need to enable "Local" notifications too, i.e. notifications that do not have any user interactions).
 
-A- *Will you add feature XYZ because app WVT has it?*  
+A- *Service APK is crashing on watch, why?*  
+R- Check if you have enabled "CallUI" or "Telephone" system apps and disable it. Call notifications are handled by Amazfit stock app, you don't need to activate anything to get conventional call notifications while Amazfit is installed.
+
+A- *Will you add feature XYZ because app VTW has it?*  
 R- Firstly, each app has its own features and goals, if one app does something it doesn't mean that all other apps must do the same thing, please grow up. But if the feature is useful for most users and it doesn't cause problems like battery drain, etc, maybe it can be added in the future. Be nice, use your GitHub account and add a new "issue", then a handsome AmazMod developer will look into it and decide if it's useful/doable or not.
 
 A- *How do I report a bug?*  
