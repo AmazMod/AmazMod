@@ -34,7 +34,8 @@
         android:layout_margin="16dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/outline_cloud_upload_black_36"
+        android:src="@drawable/outline_cloud_upload_white_36"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
