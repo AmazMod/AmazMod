@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="activity_about_text" translatable="false">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_project_maintainer_value" translatable="false">\@edotassi</string>
+    <string name="activity_about_devs_value" translatable="false">\@lfomartins, \@GreatApo</string>
+    <string name="activity_about_testers_value" translatable="false">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
+    <string name="activity_about_email" translatable="false">edo.tassinari@gmail.com</string>
+    <string name="translators_value" translatable="false">\@ekinozxxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw), \@GreatApo(el), \@Puzzlehead0(cs), \@Marat Biktimirov(ru)</string>
+    <string name="faq" translatable="false">Faq</string>
+    <string name="telegram_channel_value" translatable="false">https://t.me/amazmod</string>
+    <string name="support_email_value" translatable="false">edo.tassinari@gmail.com</string>
+    <string name="project_github_value" translatable="false">https://github.com/edotassi/AmazMod</string>
+</resources>

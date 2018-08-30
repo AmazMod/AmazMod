@@ -6,7 +6,7 @@
   <string name="notifications">Notifiche inviate</string>
   <string name="notifications_options">Opzioni notifiche</string>
   <string name="battery">Batteria</string>
-  <string name="customui">Risposta personalizzata</string>
+  <string name="customui">Risposte personalizzate</string>
   <string name="others">Altre</string>
   <string name="other">Altro</string>
   <string name="open">Apri</string>
@@ -37,8 +37,8 @@
   <string name="notification_access_not_enabled">Accesso alle notifiche non abilitato</string>
   <string name="notification_access_enable">Abilita</string>
   <string name="activity_about_notifications_test">Test delle notifiche</string>
-  <string name="customui_test">Custom UI</string>
-  <string name="standard_test">Standard UI</string>
+  <string name="customui_test">UI personalizzata</string>
+  <string name="standard_test">UI standard</string>
   <string name="battery_chart_title">Grafico batteria</string>
   <string name="watch_info">Informazioni sull\'orologio</string>
   <string name="last_charge">dall\'ultima ricarica completa</string>
@@ -51,7 +51,7 @@
   <string name="notification_return">Ritorna</string>
   <string name="notification_package">Pacchetto</string>
   <string name="notification_voice">Voce</string>
-  <string name="notification_maps">Maps</string>
+  <string name="notification_maps">Mappe</string>
   <string name="notification_ungroup">Separa</string>
   <string name="notification_localok">LOCALOK</string>
   <string name="notification_disabled">notific_off</string>
@@ -63,7 +63,7 @@
   <string name="support_email_value">edo.tassinari@gmail.com</string>
   <string name="project_github">Progetto su GitHub</string>
   <string name="project_github_value">https://github.com/edotassi/AmazMod</string>
-  <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+  <string name="activity_about_text">Creato con amore {gmd-favorite}</string>
   <string name="activity_about_project_maintainer">Responsabile del progetto</string>
   <string name="activity_about_project_maintainer_value">\@edotassi</string>
   <string name="activity_about_devs">Sviluppatori</string>
@@ -181,13 +181,13 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="pref_disable_standard_notifications">Disattiva notifiche standard</string>
   <string name="pref_disable_standard_notifications_summary">Le notifiche standard (stock) non verranno inviate all\'orologio</string>
   <string name="activity_tweaking_brightness">Per attivare questa opzione, disattiva prima la luminosità automatica nelle impostazioni dell\'orologio</string>
-  <string name="failed_load_watch_status">Load of watch status failed</string>
-  <string name="settings_applied">Settings applied</string>
-  <string name="settings_cant_be_applied">The settings can\'t be applied</string>
-  <string name="brightness_applied">Brightness applied</string>
-  <string name="failed_to_set_brightness">Brightness can\'t be applied</string>
-  <string name="test_notification_sent">Test notification sent</string>
-  <string name="failed_to_send_test_notification">Failed to send test notification</string>
-  <string name="file_explorer">File explorer</string>
-  <string name="reading_files_failed">Reading files failed</string>
+  <string name="failed_load_watch_status">Impossibile caricare lo status dell\'orologio</string>
+  <string name="settings_applied">Impostazioni applicate</string>
+  <string name="settings_cant_be_applied">Le impostazioni non possono essere applicate</string>
+  <string name="brightness_applied">Luminosità applicata</string>
+  <string name="failed_to_set_brightness">La luminosità non può essere applicata</string>
+  <string name="test_notification_sent">Notifica di prova inviata</string>
+  <string name="failed_to_send_test_notification">Impossibile inviare la notifica di prova</string>
+  <string name="file_explorer">Esplora file</string>
+  <string name="reading_files_failed">Lettura file non riuscita</string>
 </resources>
