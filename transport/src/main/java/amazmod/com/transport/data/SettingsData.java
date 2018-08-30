@@ -69,7 +69,6 @@ public class SettingsData extends Transportable implements Parcelable {
 
     @Override
     public DataBundle toDataBundle(DataBundle dataBundle) {
-
         dataBundle.putString(REPLIES, replies);
         dataBundle.putInt(VIBRATION, vibration);
         dataBundle.putInt(SCREEN_TIMEOUT, screenTimeout);

@@ -15,6 +15,12 @@
             android:title="@string/tweaking" />
 
         <item
+            android:id="@+id/nav_file_explorer"
+            android:icon="@drawable/outline_explore_black_36"
+            android:title="@string/file_explorer"
+            />
+
+        <item
             android:id="@+id/nav_files_extras"
             android:icon="@drawable/outline_folder_open_black_36"
             android:title="@string/activity_files_extras" />

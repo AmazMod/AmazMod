@@ -38,6 +38,7 @@
             android:theme="@style/Theme.Intro"/>
         <activity android:name=".ui.CheckPermissionsActivity" />
         <activity android:name=".ui.FilesExtrasActivity" />
+        <activity android:name=".ui.FileExplorerActivity" />
 
         <service
             android:name="com.edotassi.amazmod.notification.NotificationService"

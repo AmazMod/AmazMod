@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.event.BatteryStatus;
+import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
 import com.edotassi.amazmod.event.ToggleMusic;
@@ -54,6 +55,7 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.REPLY, NotificationReply.class);
         put(Transport.NEXT_MUSIC, NextMusic.class);
         put(Transport.TOGGLE_MUSIC, ToggleMusic.class);
+        put(Transport.DIRECTORY, Directory.class);
     }};
 
     private Map<String, Object> pendingResults = new HashMap<>();

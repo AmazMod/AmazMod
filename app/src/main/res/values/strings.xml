@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">AmazMod</string>
     <string name="settings">Settings</string>
     <string name="notifications">Notifications sent</string>
     <string name="notifications_options">Notifications options</string>
@@ -27,12 +26,9 @@
     <string name="full_battery_in">Fully charged in</string>
     <string name="open_notifications_log">Open notifications log</string>
     <string name="notifications_log">Notifications log</string>
-    <string name="faq">Faq</string>
 
     <string name="add_new_reply">Add new reply</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
-
-    <string name="notifications_service_name">AmazModNotificationsService</string>
 
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
@@ -62,24 +58,14 @@
     <string name="notification_screenon">screenon</string>
     <string name="notification_screenlocked">screenlocked</string>
 
-
     <string name="telegram_channel">Telegram channel</string>
-    <string name="telegram_channel_value">https://t.me/amazmod</string>
     <string name="support_email">Support email</string>
-    <string name="support_email_value">edo.tassinari@gmail.com</string>
     <string name="project_github">Project on Github</string>
-    <string name="project_github_value">https://github.com/edotassi/AmazMod</string>
 
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_project_maintainer">Project maintainer</string>
-    <string name="activity_about_project_maintainer_value">\@edotassi</string>
     <string name="activity_about_devs">Devs</string>
-    <string name="activity_about_devs_value">\@lfomartins, \@GreatApo</string>
     <string name="activity_about_testers">Testers</string>
-    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
-    <string name="activity_about_email">edo.tassinari@gmail.com</string>
     <string name="translators">Translators</string>
-    <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw), \@GreatApo(el), \@Puzzlehead0(cs), \@Marat Biktimirov(ru)</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
     <string name="activity_watchface_show_altitude">Show altitude</string>
@@ -199,4 +185,6 @@
     <string name="failed_to_set_brightness">Brightness can\'t be applied</string>
     <string name="test_notification_sent">Test notification sent</string>
     <string name="failed_to_send_test_notification">Failed to send test notification</string>
+    <string name="file_explorer">File explorer</string>
+    <string name="reading_files_failed">Reading files failed</string>
 </resources>
