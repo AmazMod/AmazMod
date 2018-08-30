@@ -6,7 +6,7 @@
   <string name="notifications">Notifiche inviate</string>
   <string name="notifications_options">Opzioni notifiche</string>
   <string name="battery">Batteria</string>
-  <string name="customui">Risposta personalizzata</string>
+  <string name="customui">Risposte personalizzate</string>
   <string name="others">Altre</string>
   <string name="other">Altro</string>
   <string name="open">Apri</string>
@@ -37,8 +37,8 @@
   <string name="notification_access_not_enabled">Accesso alle notifiche non abilitato</string>
   <string name="notification_access_enable">Abilita</string>
   <string name="activity_about_notifications_test">Test delle notifiche</string>
-  <string name="customui_test">Custom UI</string>
-  <string name="standard_test">Standard UI</string>
+  <string name="customui_test">UI personalizzata</string>
+  <string name="standard_test">UI standard</string>
   <string name="battery_chart_title">Grafico batteria</string>
   <string name="watch_info">Informazioni sull\'orologio</string>
   <string name="last_charge">dall\'ultima ricarica completa</string>
@@ -51,7 +51,7 @@
   <string name="notification_return">Ritorna</string>
   <string name="notification_package">Pacchetto</string>
   <string name="notification_voice">Voce</string>
-  <string name="notification_maps">Maps</string>
+  <string name="notification_maps">Mappe</string>
   <string name="notification_ungroup">Separa</string>
   <string name="notification_localok">LOCALOK</string>
   <string name="notification_disabled">notific_off</string>
@@ -181,7 +181,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="pref_disable_standard_notifications">Disattiva notifiche standard</string>
   <string name="pref_disable_standard_notifications_summary">Le notifiche standard (stock) non verranno inviate all\'orologio</string>
   <string name="activity_tweaking_brightness">Per attivare questa opzione, disattiva prima la luminosità automatica nelle impostazioni dell\'orologio</string>
-  <string name="failed_load_watch_status">Load of watch status failed</string>
+  <string name="failed_load_watch_status">Impossibile caricare lo status dell\'orologio</string>
   <string name="settings_applied">Settings applied</string>
   <string name="settings_cant_be_applied">Le impostazioni non possono essere applicate</string>
   <string name="brightness_applied">Brightness applied</string>
