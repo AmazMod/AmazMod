@@ -13,14 +13,12 @@ import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
-import com.amazmod.service.events.incoming.RequestDirectory;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.util.DeviceUtil;
-import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.Transporter;
@@ -28,16 +26,10 @@ import com.huami.watch.transport.Transporter;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-import java.util.ArrayList;
-
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BatteryData;
 import amazmod.com.transport.data.BrightnessData;
-import amazmod.com.transport.data.DirectoryData;
-import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.NotificationData;
-import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 
@@ -207,42 +199,6 @@ public class MessagesListener {
         Log.d(Constants.TAG, "MessagesListener setting brightness to " + brightnessData.getLevel());
 
         System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void requestDirectory(RequestDirectory requestDirectory) {
-        try {
-            RequestDirectoryData requestDirectoryData = RequestDirectoryData.fromDataBundle(requestDirectory.getDataBundle());
-
-            String path = requestDirectoryData.getPath();
-            Log.d(Constants.TAG, "path: " + path);
-            DirectoryData directoryData = getFilesByPath(path);
-            send(Transport.DIRECTORY, directoryData.toDataBundle());
-        } catch (Exception ex) {
-            DirectoryData directoryData = new DirectoryData();
-            directoryData.setResult(DirectoryData.RESULT_UNKNOW_ERROR);
-
-            send(Transport.DIRECTORY, directoryData.toDataBundle());
-        }
-
-    }
-
-    private DirectoryData getFilesByPath(String path) {
-        File directory = new File(path);
-
-        if (!directory.exists()) {
-            return FileDataFactory.notFound();
-        }
-
-        File[] files = directory.listFiles();
-
-        ArrayList<FileData> filesData = new ArrayList<>();
-        for (File file : files) {
-            FileData fileData = FileDataFactory.fromFile(file);
-            filesData.add(fileData);
-        }
-
-        return FileDataFactory.directoryFromFile(directory, filesData);
     }
 
     private void send(String action) {

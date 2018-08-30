@@ -28,7 +28,7 @@ public class DirectoryData extends Transportable implements Parcelable {
 
     private String path;
     private String name;
-    private ArrayList<FileData> files;
+    private String jsonFiles;
     private long creationDate;
     private long lastEditDate;
     private long permissions;
@@ -40,7 +40,7 @@ public class DirectoryData extends Transportable implements Parcelable {
     protected DirectoryData(Parcel in) {
         path = in.readString();
         name = in.readString();
-        files = in.createTypedArrayList(FileData.CREATOR);
+        jsonFiles = in.readString();
         creationDate = in.readLong();
         lastEditDate = in.readLong();
         permissions = in.readLong();
@@ -63,7 +63,7 @@ public class DirectoryData extends Transportable implements Parcelable {
     public DataBundle toDataBundle(DataBundle dataBundle) {
         dataBundle.putString(PATH, path);
         dataBundle.putString(NAME, name);
-        dataBundle.putParcelableArrayList(FILES, files);
+        dataBundle.putString(FILES, jsonFiles);
         dataBundle.putLong(CREATION_DATE, creationDate);
         dataBundle.putLong(LAST_EDIT_DATE, lastEditDate);
         dataBundle.putLong(PERMISSIONS, permissions);
@@ -77,7 +77,7 @@ public class DirectoryData extends Transportable implements Parcelable {
 
         directoryData.setPath(dataBundle.getString(PATH));
         directoryData.setName(dataBundle.getString(NAME));
-        directoryData.setFiles(dataBundle.<FileData>getParcelableArrayList(FILES));
+        directoryData.setFiles(dataBundle.getString(FILES));
         directoryData.setCreationDate(dataBundle.getLong(CREATION_DATE));
         directoryData.setLastEditDate(dataBundle.getLong(LAST_EDIT_DATE));
         directoryData.setPermissions(dataBundle.getLong(PERMISSIONS));
@@ -109,12 +109,12 @@ public class DirectoryData extends Transportable implements Parcelable {
         this.name = name;
     }
 
-    public ArrayList<FileData> getFiles() {
-        return files;
+    public String getFiles() {
+        return jsonFiles;
     }
 
-    public void setFiles(ArrayList<FileData> files) {
-        this.files = files;
+    public void setFiles(String files) {
+        this.jsonFiles = files;
     }
 
     public long getCreationDate() {
@@ -158,7 +158,7 @@ public class DirectoryData extends Transportable implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(path);
         dest.writeString(name);
-        dest.writeTypedList(files);
+        dest.writeString(jsonFiles);
         dest.writeLong(creationDate);
         dest.writeLong(lastEditDate);
         dest.writeLong(permissions);

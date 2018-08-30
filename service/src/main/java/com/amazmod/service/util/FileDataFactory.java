@@ -1,5 +1,7 @@
 package com.amazmod.service.util;
 
+import com.google.gson.Gson;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -30,7 +32,10 @@ public class FileDataFactory {
         directoryData.setPath(file.getAbsolutePath());
         directoryData.setName(file.getName());
         directoryData.setLastEditDate(file.lastModified());
-        directoryData.setFiles(filesData);
+
+        Gson gson = new Gson();
+        directoryData.setFiles(gson.toJson(filesData));
+
         directoryData.setResult(DirectoryData.RESULT_OK);
 
         return directoryData;

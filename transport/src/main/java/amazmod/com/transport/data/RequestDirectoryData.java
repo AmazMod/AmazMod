@@ -11,7 +11,7 @@ import amazmod.com.transport.Transportable;
 
 public class RequestDirectoryData extends Transportable implements Parcelable {
 
-    public static final String EXTRA = Transport.REQUEST_DIRECTORY;
+    public static final String EXTRA = "request_directory";
 
     public static final String PATH = "path";
 

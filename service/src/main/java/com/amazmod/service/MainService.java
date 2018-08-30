@@ -27,6 +27,7 @@ import com.amazmod.service.notifications.NotificationsReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
@@ -40,15 +41,20 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BatteryData;
 import amazmod.com.transport.data.BrightnessData;
+import amazmod.com.transport.data.DirectoryData;
+import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.NotificationData;
+import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
@@ -360,6 +366,42 @@ public class MainService extends Service implements Transporter.DataListener {
                 send(Transport.TOGGLE_MUSIC);
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestDirectory(RequestDirectory requestDirectory) {
+        try {
+            RequestDirectoryData requestDirectoryData = RequestDirectoryData.fromDataBundle(requestDirectory.getDataBundle());
+
+            String path = requestDirectoryData.getPath();
+            Log.d(Constants.TAG, "path: " + path);
+            DirectoryData directoryData = getFilesByPath(path);
+            send(Transport.DIRECTORY, directoryData.toDataBundle());
+        } catch (Exception ex) {
+            DirectoryData directoryData = new DirectoryData();
+            directoryData.setResult(DirectoryData.RESULT_UNKNOW_ERROR);
+
+            send(Transport.DIRECTORY, directoryData.toDataBundle());
+        }
+
+    }
+
+    private DirectoryData getFilesByPath(String path) {
+        File directory = new File(path);
+
+        if (!directory.exists()) {
+            return FileDataFactory.notFound();
+        }
+
+        File[] files = directory.listFiles();
+
+        ArrayList<FileData> filesData = new ArrayList<>();
+        for (File file : files) {
+            FileData fileData = FileDataFactory.fromFile(file);
+            filesData.add(fileData);
+        }
+
+        return FileDataFactory.directoryFromFile(directory, filesData);
     }
 
     private MusicControlInputListener musicControlInputListener;
