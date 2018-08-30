@@ -187,5 +187,5 @@
   <string name="test_notification_sent">התראת ניסיון נשלחה</string>
   <string name="failed_to_send_test_notification">שליחת התראת ניסיון נכשלה</string>
   <string name="file_explorer">סייר קבצים</string>
-  <string name="reading_files_failed">Reading files failed</string>
+  <string name="reading_files_failed">קריאת קבצים נכשלה</string>
 </resources>
