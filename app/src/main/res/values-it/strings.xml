@@ -183,7 +183,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="activity_tweaking_brightness">Per attivare questa opzione, disattiva prima la luminosità automatica nelle impostazioni dell\'orologio</string>
   <string name="failed_load_watch_status">Load of watch status failed</string>
   <string name="settings_applied">Settings applied</string>
-  <string name="settings_cant_be_applied">The settings can\'t be applied</string>
+  <string name="settings_cant_be_applied">Le impostazioni non possono essere applicate</string>
   <string name="brightness_applied">Brightness applied</string>
   <string name="failed_to_set_brightness">Brightness can\'t be applied</string>
   <string name="test_notification_sent">Test notification sent</string>
