@@ -20,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import amazmod.com.transport.data.DirectoryData;
@@ -112,6 +114,21 @@ public class FileExplorerActivity extends AppCompatActivity {
 
                                     filesData.add(0, parentDirectory);
                                 }
+
+                                Collections.sort(filesData, new Comparator<FileData>() {
+                                    @Override
+                                    public int compare(FileData left, FileData right) {
+                                        if (left.isDirectory() && !right.isDirectory()) {
+                                            return -1;
+                                        }
+
+                                        if (right.isDirectory() && !left.isDirectory()) {
+                                            return 0;
+                                        }
+
+                                        return left.getName().compareTo(right.getName());
+                                    }
+                                });
 
                                 fileExplorerAdapter.clear();
                                 fileExplorerAdapter.addAll(filesData);
