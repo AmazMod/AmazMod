@@ -71,7 +71,7 @@
   <string name="activity_about_testers">בודקים</string>
   <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
   <string name="activity_about_email">edo.tassinari@gmail.com</string>
-  <string name="translators">Translators</string>
+  <string name="translators">מתרגמים</string>
   <string name="translators_value">\@ekinozxx(pt-rBR), \@gidano(hu), \@JRevenge(it), \@scarapunzi(it), \@airainchoc(fr), \@1immortal(iw), \@smoky-jr(iw), \@GreatApo(el), \@Puzzlehead0(cs), \@Marat Biktimirov(ru)</string>
   <string name="activity_watchface_need_greatfit">יש צורך בסקין /\"GreatFit/\" מותקן בשעון שלך עבור אפשרויות אלה</string>
   <string name="activity_watchface_show_altitude">הצג גובה</string>
@@ -179,13 +179,13 @@
   <string name="pref_disable_standard_notifications">נטרול התראות מובנות</string>
   <string name="pref_disable_standard_notifications_summary">התראות רגילות (מובנות) לא ישלחו לשעון</string>
   <string name="activity_tweaking_brightness">השביתו את מצב בהירות אוטומטית על מנת ששליטה בתאורה תעבוד</string>
-  <string name="failed_load_watch_status">Load of watch status failed</string>
-  <string name="settings_applied">Settings applied</string>
-  <string name="settings_cant_be_applied">The settings can\'t be applied</string>
-  <string name="brightness_applied">Brightness applied</string>
-  <string name="failed_to_set_brightness">Brightness can\'t be applied</string>
-  <string name="test_notification_sent">Test notification sent</string>
-  <string name="failed_to_send_test_notification">Failed to send test notification</string>
-  <string name="file_explorer">File explorer</string>
+  <string name="failed_load_watch_status">טעינת מצב שעון נכשלה</string>
+  <string name="settings_applied">הגדרות נשמרו</string>
+  <string name="settings_cant_be_applied">הגדרות לא חלו על השעון</string>
+  <string name="brightness_applied">בהירות שונתה</string>
+  <string name="failed_to_set_brightness">בהירות לא יכולה להשתנות</string>
+  <string name="test_notification_sent">התראת ניסיון נשלחה</string>
+  <string name="failed_to_send_test_notification">שליחת התראת ניסיון נכשלה</string>
+  <string name="file_explorer">סייר קבצים</string>
   <string name="reading_files_failed">Reading files failed</string>
 </resources>
