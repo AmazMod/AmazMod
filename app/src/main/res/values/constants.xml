@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">AmazMod</string>
+    <string name="notifications_service_name" translatable="false">AmazModNotificationsService</string>
     <string name="activity_about_text" translatable="false">Coded with love {gmd-favorite}</string>
     <string name="activity_about_project_maintainer_value" translatable="false">\@edotassi</string>
     <string name="activity_about_devs_value" translatable="false">\@lfomartins, \@GreatApo</string>
