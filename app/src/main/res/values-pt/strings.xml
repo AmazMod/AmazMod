@@ -51,7 +51,7 @@
   <string name="notification_return">Retornar</string>
   <string name="notification_package">Pacote</string>
   <string name="notification_voice">Voz</string>
-  <string name="notification_maps">Maps</string>
+  <string name="notification_maps">Mapas</string>
   <string name="notification_ungroup">Desagrupar</string>
   <string name="notification_localok">LOCALOK</string>
   <string name="notification_disabled">notific_off</string>
