@@ -107,16 +107,16 @@
   <string name="pref_notifications_enable_ungroup_summary">Se separarán las notificaciones del mismo remitente
 (Aunque no podrás sincronizarlas)</string>
   <string name="pref_filters">Filtros de notificaciones</string>
-  <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware de control de música</string>
-  <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
-  <string name="intro_title_1">Welcome to AmazMod!</string>
-  <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
-  <string name="intro_title_permissions">Access to Notifications</string>
-  <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
+  <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware para control de música</string>
+  <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de musica mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
+  <string name="intro_title_1">¡Bienvenido a AmazMod!</string>
+  <string name="intro_description_1">Por favor sigue esta presentación para aprender a instalar la app de servicio en el reloj y conceder a la app del teléfono acceso a las notificaciones.</string>
+  <string name="intro_title_permissions">Acceso a las notificaciones</string>
+  <string name="intro_description_permissions">AmazMod necesita acceso a las notificaciones para que pueda enviarlas al reloj, por favor, toca el botón de abajo para permitir acceso a las notificaciones, después, vuelve a la presentación.</string>
   <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
-  <string name="intro_title_2">Install Service App on Watch</string>
-  <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
-  <string name="intro_title_3">Restart Devices</string>
+  <string name="intro_title_2">Instalar app del servicio en el reloj</string>
+  <string name="intro_description_2">Por favor descarga la APK de servicio de AmazMod desde la página web AmazMod e instálala en el reloj. Puede utilizar adb (todas las plataformas), APKInstaller o Amazfit Tool para instalarla, si tu PC usa Windows.</string>
+  <string name="intro_title_3">Reiniciar dispositivos</string>
   <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
   <string name="intro_title_4">All Done!</string>
   <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
