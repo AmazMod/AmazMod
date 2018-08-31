@@ -14,7 +14,7 @@
   <string name="sync_settings">Ρυθμίσεις συγχρονισμού&#8230;</string>
   <string name="brightness">Φωτεινότητα</string>
   <string name="tweaking">Μικροαλλαγές</string>
-  <string name="watchface">WatchFace</string>
+  <string name="watchface">Εμφάνιση καντράν</string>
   <string name="stats">Στατιστικά</string>
   <string name="changelog">Λίστα αλλαγών</string>
   <string name="enable">Ενεργοποίηση</string>
@@ -60,7 +60,7 @@
   <string name="activity_about_project_maintainer">Υπεύθυνος Συντήρηση</string>
   <string name="activity_about_devs">Προγραμματιστές</string>
   <string name="activity_about_testers">Testers</string>
-  <string name="translators">Translators</string>
+  <string name="translators">Μεταφραστές</string>
   <string name="activity_watchface_need_greatfit">Απαιτείται να είναι εγκατεστημένο το watchface \"GreatFit\" στο ρολόι σας για να λειτουργήσουν οι παρακάτω ρυθμίσεις</string>
   <string name="activity_watchface_show_altitude">Εμφάνιση υψομέτρου</string>
   <string name="activity_watchface_show_phone_battery">Εμφάνιση μπαταρίας τηλεφώνου</string>
