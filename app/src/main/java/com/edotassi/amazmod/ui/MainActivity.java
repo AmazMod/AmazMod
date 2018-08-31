@@ -246,6 +246,12 @@ public class MainActivity extends AppCompatActivity
                 startActivity(c);
                 return true;
 
+            case R.id.nav_file_explorer:
+                Intent fileExplorerIntent = new Intent(this, FileExplorerActivity.class);
+                fileExplorerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(fileExplorerIntent);
+                return true;
+
             case R.id.nav_files_extras:
                 Intent f = new Intent(this, FilesExtrasActivity.class);
                 f.setFlags(f.FLAG_ACTIVITY_CLEAR_TOP);
