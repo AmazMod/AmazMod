@@ -165,15 +165,15 @@
   <string name="activity_files_restore_failed">Falha na Restauração!</string>
   <string name="activity_files_backup_not_found">Arquivo de Backup Não Encontrado!</string>
   <string name="pref_disable_standard_notifications">Desabilitar notificações padrão</string>
-  <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch</string>
-  <string name="activity_tweaking_brightness">Please disable Auto-brightness in watch first for this to work</string>
-  <string name="failed_load_watch_status">Load of watch status failed</string>
-  <string name="settings_applied">Settings applied</string>
-  <string name="settings_cant_be_applied">The settings can\'t be applied</string>
-  <string name="brightness_applied">Brightness applied</string>
-  <string name="failed_to_set_brightness">Brightness can\'t be applied</string>
-  <string name="test_notification_sent">Test notification sent</string>
-  <string name="failed_to_send_test_notification">Failed to send test notification</string>
-  <string name="file_explorer">File explorer</string>
-  <string name="reading_files_failed">Reading files failed</string>
+  <string name="pref_disable_standard_notifications_summary">Notificações padrão (stock) não serão enviadas ao relógio</string>
+  <string name="activity_tweaking_brightness">Desabilite o brilho automático no relógio para isto funcionar</string>
+  <string name="failed_load_watch_status">Carregamento de estado do relógio falhou</string>
+  <string name="settings_applied">Configurações aplicadas</string>
+  <string name="settings_cant_be_applied">As configurações não podem ser aplicadas</string>
+  <string name="brightness_applied">Brilho aplicado</string>
+  <string name="failed_to_set_brightness">O brilho não pode ser aplicado</string>
+  <string name="test_notification_sent">Notificação teste enviada</string>
+  <string name="failed_to_send_test_notification">Falha ao enviar notificação teste</string>
+  <string name="file_explorer">Explorador de arquivos</string>
+  <string name="reading_files_failed">Falha ao ler arquivos</string>
 </resources>
