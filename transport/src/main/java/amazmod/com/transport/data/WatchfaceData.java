@@ -11,22 +11,18 @@ import amazmod.com.transport.Transportable;
 public class WatchfaceData extends Transportable implements Parcelable {
 
     public static final String EXTRA = "watchface";
-    public static final String SEND_DATA = "send_data";
-    public static final String SEND_BATTERY_CHANGE = "send_battery_change";
-    public static final String SEND_ALARM_CHANGE = "send_alarm_change";
+    public static final String BATTERY = "battery";
+    public static final String ALARM = "alarm";
 
-    private boolean send_data;
-    private int send_data_interval;
-    private boolean send_on_battery_change;
-    private boolean send_on_alarm_change;
+    private int battery;
+    private String alarm;
 
     public WatchfaceData() {
     }
 
     protected WatchfaceData(Parcel in) {
-        send_data = in.readByte() != 0;
-        send_on_battery_change = in.readByte() != 0;
-        send_on_alarm_change = in.readByte() != 0;
+        battery = in.readInt();
+        alarm = in.readString();
     }
 
     public static final Creator<WatchfaceData> CREATOR = new Creator<WatchfaceData>() {
@@ -44,9 +40,8 @@ public class WatchfaceData extends Transportable implements Parcelable {
     @Override
     public DataBundle toDataBundle(DataBundle dataBundle) {
 
-        dataBundle.putBoolean(SEND_DATA, send_data);
-        dataBundle.putBoolean(SEND_BATTERY_CHANGE, send_on_battery_change);
-        dataBundle.putBoolean(SEND_ALARM_CHANGE, send_on_alarm_change);
+        dataBundle.putInt(BATTERY, battery);
+        dataBundle.putString(ALARM, alarm);
 
         return dataBundle;
     }
@@ -54,9 +49,8 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public static WatchfaceData fromDataBundle(DataBundle dataBundle) {
         WatchfaceData settingsData = new WatchfaceData();
 
-        settingsData.setSendData(dataBundle.getBoolean(SEND_DATA));
-        settingsData.setSendBatteryChange(dataBundle.getBoolean(SEND_BATTERY_CHANGE));
-        settingsData.setSendAlarmChange(dataBundle.getBoolean(SEND_ALARM_CHANGE));
+        settingsData.setBattery(dataBundle.getInt(BATTERY));
+        settingsData.setAlarm(dataBundle.getString(ALARM));
 
         return settingsData;
     }
@@ -68,25 +62,18 @@ public class WatchfaceData extends Transportable implements Parcelable {
         return bundle;
     }
 
-    public boolean getSendData() {
-        return send_data;
+    public int getBattery() {
+        return battery;
     }
-    public void setSendData(boolean data) {
-        this.send_data = data;
-    }
-
-    public boolean getSendBatteryChange() {
-        return send_on_battery_change;
-    }
-    public void setSendBatteryChange(boolean data) {
-        this.send_on_battery_change = data;
+    public void setBattery(int data) {
+        this.battery = data;
     }
 
-    public boolean getSendAlarmChange() {
-        return send_on_alarm_change;
+    public String getAlarm() {
+        return alarm;
     }
-    public void setSendAlarmChange(boolean data) {
-        this.send_on_alarm_change = data;
+    public void setAlarm(String data) {
+        this.alarm = data;
     }
 
 
@@ -97,8 +84,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (send_data ? 1 : 0));
-        dest.writeByte((byte) (send_on_battery_change ? 1 : 0));
-        dest.writeByte((byte) (send_on_alarm_change ? 1 : 0));
+        dest.writeInt(battery);
+        dest.writeString(alarm);
     }
 }

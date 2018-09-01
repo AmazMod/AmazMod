@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.transport.TransportService;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -143,5 +144,14 @@ public class Watch {
         }, 0);
 
         return taskCompletionSource.getTask();
+    }
+
+    public Task<Watchface> sendWatchfaceData() {
+        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<Watchface>>() {
+            @Override
+            public Task<Watchface> then(@NonNull Task<TransportService> task) throws Exception {
+                return task.getResult().sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA);
+            }
+        });
     }
 }

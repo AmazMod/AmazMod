@@ -69,4 +69,7 @@ public class Constants {
     public static final byte FILTER_SCREENON = 'S';
     public static final byte FILTER_SCREENLOCKED = 'N';
     public static final byte FILTER_NOTIFICATIONS_DISABLED = 'D';
+
+    public static final String PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL = "preference.watchface.background.sync.interval";
+    public static final String PREF_TIME_LAST_WATCHFACE_DATA_SYNC = "preference.time.last.watchface.data.sync";
 }

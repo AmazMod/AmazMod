@@ -110,16 +110,11 @@ public class WatchfaceActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        WatchfaceData watchfaceData = new WatchfaceData();
-        watchfaceData.setSendData(this.send_data);
-        watchfaceData.setSendBatteryChange(this.send_on_battery_change);
-        watchfaceData.setSendAlarmChange(this.send_on_alarm_change);
-
-        SyncWatchface syncSettings = new SyncWatchface(watchfaceData);
-
-        EventBus.getDefault().post(syncSettings);
-
-        Toast.makeText(this, R.string.sync_settings, Toast.LENGTH_SHORT).show();
+        //WatchfaceData watchfaceData = new WatchfaceData();
+        //watchfaceData.setBattery(this.send_data);
+        //SyncWatchface syncSettings = new SyncWatchface(watchfaceData);
+        //EventBus.getDefault().post(syncSettings);
+        //Toast.makeText(this, R.string.sync_settings, Toast.LENGTH_SHORT).show();
 
         super.onDestroy();
     }
