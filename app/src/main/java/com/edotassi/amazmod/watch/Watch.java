@@ -22,6 +22,7 @@ import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.SettingsData;
+import amazmod.com.transport.data.WatchfaceData;
 
 public class Watch {
 
@@ -146,11 +147,11 @@ public class Watch {
         return taskCompletionSource.getTask();
     }
 
-    public Task<Watchface> sendWatchfaceData() {
+    public Task<Watchface> sendWatchfaceData(final WatchfaceData watchfaceData) {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<Watchface>>() {
             @Override
             public Task<Watchface> then(@NonNull Task<TransportService> task) throws Exception {
-                return task.getResult().sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA);
+                return task.getResult().sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA, watchfaceData);
             }
         });
     }

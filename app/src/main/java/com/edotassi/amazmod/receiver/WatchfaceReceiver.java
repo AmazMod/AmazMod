@@ -5,26 +5,22 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.db.model.BatteryStatusEntity;
-import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
-import com.edotassi.amazmod.db.model.WatchfaceDataEntity;
-import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import amazmod.com.transport.data.BatteryData;
 import amazmod.com.transport.data.WatchfaceData;
 
 public class WatchfaceReceiver extends BroadcastReceiver {
@@ -38,11 +34,21 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 Watch.init(context);
             }
 
-            Watch.get().sendWatchfaceData().continueWith(new Continuation<Watchface, Object>() {
+            // Get data
+            int battery = getPhoneBattery(context);
+            String alarm = getPhoneAlarm(context);
+
+            // Put data to bundle
+            WatchfaceData watchfaceData = new WatchfaceData();
+            watchfaceData.setBattery(battery);
+            watchfaceData.setAlarm(alarm);
+
+            Watch.get().sendWatchfaceData(watchfaceData).continueWith(new Continuation<Watchface, Object>() {
                 @Override
                 public Object then(@NonNull Task<Watchface> task) throws Exception {
                     if (task.isSuccessful()) {
-                        Watchface watchfaceData = task.getResult();
+                        // Returned data
+                        //Watchface watchfaceData = task.getResult();
                         //updateWatchfaceData(watchfaceData);
                     } else {
                         WatchfaceReceiver.this.log.e(task.getException(), "failed sending watchface data");
@@ -78,5 +84,26 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         } catch (NullPointerException e) {
             Log.e(Constants.TAG, "WatchfaceDataReceiver setRepeating exception: " + e.toString());
         }
+    }
+
+    public int getPhoneBattery(Context context){
+        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        Intent batteryStatus = context.registerReceiver(null, ifilter);
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
+        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        float batteryPct = level / (float) scale;
+
+        return (int) (batteryPct * 100);
+    }
+
+    public String getPhoneAlarm(Context context){
+        String nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
+        return nextAlarm;
     }
 }

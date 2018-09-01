@@ -72,4 +72,12 @@ public class Constants {
 
     public static final String PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL = "preference.watchface.background.sync.interval";
     public static final String PREF_TIME_LAST_WATCHFACE_DATA_SYNC = "preference.time.last.watchface.data.sync";
+    public static final String PREF_WATCHFACE_SEND_DATA = "preference.watchface.send.data";
+    public static final String PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX = "preference.watchface.send.data.interval.index";
+    public static final String PREF_WATCHFACE_SEND_BATTERY_CHANGE = "preference.watchface.send.battery.change";
+    public static final String PREF_WATCHFACE_SEND_ALARM_CHANGE = "preference.watchface.send.alarm.change";
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
+    public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 15;
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = true;
 }

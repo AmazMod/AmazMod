@@ -34,7 +34,7 @@
         android:id="@+id/send_watchface_data_interval_summary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,6 +79,31 @@
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/activity_watchface_send_on_alarm_change"
         app:layout_constraintTop_toBottomOf="@+id/send_on_battery_change_switch" />
+
+    <TextView
+        android:id="@+id/watchface_last_sync"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#000000"
+        android:text="@string/last_read"
+        app:layout_constraintTop_toBottomOf="@+id/send_on_alarm_change_switch"  />
+
+    <Button
+        android:id="@+id/watchface_sync_now_button"
+        android:text="Send data now"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/watchface_last_sync" />
 
 
 </android.support.constraint.ConstraintLayout>
