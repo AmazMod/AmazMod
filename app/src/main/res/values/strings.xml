@@ -68,8 +68,11 @@
     <string name="translators">Translators</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
-    <string name="activity_watchface_show_altitude">Show altitude</string>
-    <string name="activity_watchface_show_phone_battery">Show phone\'s battery</string>
+    <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
+    <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
+    <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
+    <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
+    <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
 
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">In the last hour</string>
