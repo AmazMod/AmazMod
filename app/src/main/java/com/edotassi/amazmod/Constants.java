@@ -77,7 +77,7 @@ public class Constants {
     public static final String PREF_WATCHFACE_SEND_BATTERY_CHANGE = "preference.watchface.send.battery.change";
     public static final String PREF_WATCHFACE_SEND_ALARM_CHANGE = "preference.watchface.send.alarm.change";
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
-    public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 15;
+    public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = true;
 }

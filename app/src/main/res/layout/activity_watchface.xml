@@ -52,7 +52,7 @@
         android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:entries="@array/pref_battery_background_sync_interval_entries"
+        android:entries="@array/pref_watchface_background_sync_interval_entries"
         android:prompt="@string/activity_watchface_send_data_interval_prompt"
         app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval_summary" />
 

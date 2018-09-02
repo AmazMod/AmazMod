@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.Constants;
+import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.watch.Watch;
@@ -64,7 +65,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     }
 
     public static void startWatchfaceReceiver(Context context) {
-        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, "15"));
+        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
 
         AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
 

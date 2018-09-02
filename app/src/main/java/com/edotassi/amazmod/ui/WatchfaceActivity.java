@@ -125,11 +125,12 @@ public class WatchfaceActivity extends AppCompatActivity {
         watchface_last_sync.setText(textDate);
 
         // Sync now button
+        final Intent alarmWatchfaceIntent = new Intent(getApplicationContext(), WatchfaceReceiver.class);
+        //alarmWatchfaceIntent.setAction("-");
         watchface_sync_now_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent alarmWatchfaceIntent = new Intent(getApplicationContext(), WatchfaceReceiver.class);
-                startService(alarmWatchfaceIntent);
+                sendBroadcast(alarmWatchfaceIntent);
             }
         });
     }
@@ -140,7 +141,7 @@ public class WatchfaceActivity extends AppCompatActivity {
         Prefs.putInt(Constants.PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX, send_data_interval_index);
         Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, send_on_battery_change);
         Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, send_on_alarm_change);
-        Prefs.putString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, getResources().getStringArray(R.array.pref_battery_background_sync_interval_values)[send_data_interval_index]);
+        Prefs.putString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[send_data_interval_index]);
 
         //WatchfaceData watchfaceData = new WatchfaceData();
         //watchfaceData.setBattery(this.send_data);
