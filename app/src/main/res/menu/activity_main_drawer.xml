@@ -25,12 +25,11 @@
             android:icon="@drawable/outline_folder_open_black_36"
             android:title="@string/activity_files_extras" />
 
-        <!--
         <item
             android:id="@+id/nav_watchface"
             android:icon="@drawable/outline_watch_black_36"
             android:title="@string/watchface" />
-        -->
+
         <item
             android:id="@+id/nav_stats"
             android:icon="@drawable/outline_insert_chart_black_36"

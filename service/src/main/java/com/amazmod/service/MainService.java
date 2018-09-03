@@ -21,6 +21,7 @@ import com.amazmod.service.events.incoming.RequestBatteryStatus;
 import com.amazmod.service.events.incoming.RequestDirectory;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
+import com.amazmod.service.events.incoming.Watchface;
 import com.amazmod.service.music.MusicControlInputListener;
 import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.notifications.NotificationsReceiver;
@@ -57,6 +58,7 @@ import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
+import amazmod.com.transport.data.WatchfaceData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static java.lang.System.currentTimeMillis;
@@ -78,6 +80,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.BRIGHTNESS, Brightness.class);
         put(Transport.LOW_POWER, LowPower.class);
         put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
+        put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
     private Transporter transporter;
@@ -192,11 +195,6 @@ public class MainService extends Service implements Transporter.DataListener {
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
                 Object event = eventContructor.newInstance(transportDataItem.getData());
 
-                // Update phone data
-                if (action.equals(Transport.REQUEST_BATTERYSTATUS)) {
-                    save_phone_data(transportDataItem.getData());
-                }
-
                 Log.d(Constants.TAG, "MainService onDataReceived: " + event.toString());
                 HermesEventBus.getDefault().post(event);
             } catch (NoSuchMethodException e) {
@@ -221,17 +219,20 @@ public class MainService extends Service implements Transporter.DataListener {
     private static final String AC_CHARGE = "ac_charge";
     private static final String DATE_LAST_CHARGE = "date_last_charge"; // that is always 0
 
-    public void save_phone_data(DataBundle dataBundle) {
-        String phoneBattery = Integer.toString((int) (dataBundle.getFloat(LEVEL) * 100));
-        String phoneAlarm = "";
-        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void watchface(Watchface watchface) {
+        WatchfaceData watchfaceData = WatchfaceData.fromDataBundle(watchface.getDataBundle());
 
+        int phoneBattery = watchfaceData.getBattery();
+        String phoneAlarm = watchfaceData.getAlarm();
+        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery+", alarm:"+phoneAlarm);
+
+        // Get already saved data
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
-
         if (data == null || data.equals("")) {
             Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{}");//default
         }
-
+        // Update the data
         try {
             // Extract data from JSON
             JSONObject json_data = new JSONObject(data);
@@ -240,7 +241,8 @@ public class MainService extends Service implements Transporter.DataListener {
 
             Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", json_data.toString());
         } catch (JSONException e) {
-            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\"}");//default
+            //default
+            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\"}");
         }
     }
 
