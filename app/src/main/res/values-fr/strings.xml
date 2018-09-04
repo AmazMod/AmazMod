@@ -15,6 +15,7 @@
   <string name="brightness">Luminosité</string>
   <string name="tweaking">Peaufiner</string>
   <string name="watchface">WatchFace</string>
+  <string name="greatfit">GreatFit</string>
   <string name="stats">Statistiques</string>
   <string name="changelog">Changelog</string>
   <string name="enable">Activer</string>
@@ -28,6 +29,8 @@
   <string name="full_battery_in">Entièrement chargé</string>
   <string name="open_notifications_log">Ouvrir le registre des notifications</string>
   <string name="notifications_log">Registre des notifications</string>
+  <string name="delete">Delete</string>
+  <string name="download">Download</string>
   <string name="add_new_reply">Ajouter une réponse</string>
   <string name="enter_the_text_you_want_as_an_answer">Saisissez le texte à utiliser comme réponse</string>
   <string name="notification_access">Accès aux notifications</string>
