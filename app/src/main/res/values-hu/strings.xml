@@ -55,18 +55,18 @@
   <string name="notification_screenon">screenon</string>
   <string name="notification_screenlocked">screenlocked</string>
   <string name="telegram_channel">Telegram csatorna</string>
-  <string name="support_email">Support email</string>
+  <string name="support_email">Ügyfélszolgálat email</string>
   <string name="project_github">Projekt a Github-on</string>
   <string name="activity_about_project_maintainer">Projekt gazda</string>
   <string name="activity_about_devs">Fejlesztők</string>
   <string name="activity_about_testers">Tesztelők</string>
   <string name="translators">Fordítók</string>
   <string name="activity_watchface_need_greatfit">Szükség van az órára telepített GreatFit számlapra, hogy ezek a lehetőségek működjenek</string>
-  <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
-  <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
-  <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
-  <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
-  <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
+  <string name="activity_watchface_send_data">Telefon adatok órára küldése (akku, ébresztés)</string>
+  <string name="activity_watchface_send_data_interval_prompt">Válassz gyakoriságot</string>
+  <string name="activity_watchface_send_data_interval_summary">Számlap adatbeállítások küldése</string>
+  <string name="activity_watchface_send_on_battery_change">Adatküldés az akku változásokkal</string>
+  <string name="activity_watchface_send_on_alarm_change">Adatküldés az ébresztés változásokkal</string>
   <string name="activity_stats_notifications_total">Összesen</string>
   <string name="activity_stats_notifications_in_the_last_hour">Az utóbbi órában</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">Az utóbbi 24 órában</string>
@@ -160,7 +160,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="none">Nincs
 	</string>
   <string name="data">Adat</string>
-  <string name="downloads">Downloads</string>
+  <string name="downloads">Letöltések</string>
   <string name="activity_files_backup_error">U.I.: Az AmazMod nem tudja írni a fájlokat, ellenőrizd az engedélyeket</string>
   <string name="activity_files_backup_downloads">A Bizt.mentés fájl helye:</string>
   <string name="activity_files_file_error">Fájl hiba!</string>
@@ -173,13 +173,13 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="pref_disable_standard_notifications">Normál értesítések letiltása</string>
   <string name="pref_disable_standard_notifications_summary">A normál (stock) értesítéseket nem küldi el az órára</string>
   <string name="activity_tweaking_brightness">Működéséhez előbb le kell tiltanod az auto. fényerőt az órán</string>
-  <string name="failed_load_watch_status">Load of watch status failed</string>
-  <string name="settings_applied">Settings applied</string>
-  <string name="settings_cant_be_applied">The settings can\'t be applied</string>
+  <string name="failed_load_watch_status">Óra állapot betöltés sikertelen</string>
+  <string name="settings_applied">Beállítások alkalmazva</string>
+  <string name="settings_cant_be_applied">Beállítások nem alkalmazhatók</string>
   <string name="brightness_applied">Fényerő alkalmazva</string>
   <string name="failed_to_set_brightness">Fényerő nem alkalmazható</string>
-  <string name="test_notification_sent">Test notification sent</string>
-  <string name="failed_to_send_test_notification">Failed to send test notification</string>
+  <string name="test_notification_sent">Teszt értesítés elküldve</string>
+  <string name="failed_to_send_test_notification">Teszt elküldése sikertelen</string>
   <string name="file_explorer">Fájlböngésző</string>
   <string name="reading_files_failed">A fájlok olvasása sikertelen</string>
 </resources>
