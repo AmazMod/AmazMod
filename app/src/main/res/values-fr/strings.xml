@@ -62,8 +62,11 @@
   <string name="activity_about_testers">Testeurs</string>
   <string name="translators">Traducteurs</string>
   <string name="activity_watchface_need_greatfit">Vous devez installer la watchface \"GreatFit\" pour que ces options fonctionnent</string>
-  <string name="activity_watchface_show_altitude">Montrer altitude</string>
-  <string name="activity_watchface_show_phone_battery">Montrer batterie du telephone</string>
+  <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
+  <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
+  <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
+  <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
+  <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
   <string name="activity_stats_notifications_total">Total</string>
   <string name="activity_stats_notifications_in_the_last_hour">Dernière heure</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">Dernières 24 heures</string>
