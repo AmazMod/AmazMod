@@ -62,8 +62,11 @@
   <string name="activity_about_testers">Тестеры</string>
   <string name="translators">Переводчики</string>
   <string name="activity_watchface_need_greatfit">Вам нужно иметь циферблат \"GreatFit\" установленый на часы для корректной работы</string>
-  <string name="activity_watchface_show_altitude">Показать атрибуты</string>
-  <string name="activity_watchface_show_phone_battery">Показать аккумулятор телефона</string>
+  <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
+  <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
+  <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
+  <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
+  <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
   <string name="activity_stats_notifications_total">Всего</string>
   <string name="activity_stats_notifications_in_the_last_hour">За последний час</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">За последние 24 часа</string>
