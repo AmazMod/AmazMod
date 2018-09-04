@@ -12,11 +12,6 @@ import amazmod.com.transport.Transportable;
 
 public class DirectoryData extends Transportable implements Parcelable {
 
-    public static final long RESULT_OK = 1;
-    public static final long RESULT_PERMISSION_DENIED = 2;
-    public static final long RESULT_NOT_FOUND = 3;
-    public static final long RESULT_UNKNOW_ERROR = 4;
-
     public static final String EXTRA = "directory";
     public static final String PATH = "path";
     public static final String NAME = "name";

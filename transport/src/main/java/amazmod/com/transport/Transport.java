@@ -2,6 +2,11 @@ package amazmod.com.transport;
 
 public class Transport {
 
+    public static final long RESULT_OK = 1;
+    public static final long RESULT_PERMISSION_DENIED = 2;
+    public static final long RESULT_NOT_FOUND = 3;
+    public static final long RESULT_UNKNOW_ERROR = 4;
+
     public static final String NAME = "com.edotassi.amazmod";
 
     public static final String INCOMING_NOTIFICATION = "incoming_notification";
