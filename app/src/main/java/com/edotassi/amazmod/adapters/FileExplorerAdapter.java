@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +42,9 @@ public class FileExplorerAdapter extends ArrayAdapter<FileData> {
 
         FileData fileData = getItem(position);
 
-        ViewHolder viewHolder = new ViewHolder();
+        ViewHolder viewHolder = new ViewHolder(getContext(), folder, file);
         ButterKnife.bind(viewHolder, listItem);
-
-        viewHolder.fileName.setText(fileData.getName());
-        viewHolder.icon.setImageDrawable(fileData.isDirectory() ? folder : file);
+        viewHolder.sync(fileData);
 
         return listItem;
     }
@@ -55,7 +54,26 @@ public class FileExplorerAdapter extends ArrayAdapter<FileData> {
         @BindView(R.id.row_file_explorer_file_name)
         TextView fileName;
 
+        @BindView(R.id.row_file_explorer_size)
+        TextView size;
+
         @BindView(R.id.row_file_explorer_icon)
         ImageView icon;
+
+        private Context context;
+        private Drawable folder;
+        private Drawable file;
+
+        public ViewHolder(Context context, Drawable folder, Drawable file) {
+            this.context = context;
+            this.folder = folder;
+            this.file = file;
+        }
+
+        void sync(FileData fileData) {
+            fileName.setText(fileData.getName());
+            size.setText(Formatter.formatShortFileSize(context, fileData.getSize()));
+            icon.setImageDrawable(fileData.isDirectory() ? folder : file);
+        }
     }
 }

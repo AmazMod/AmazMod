@@ -7,8 +7,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 165
-        versionName "1.0.36"
+        versionCode 166
+        versionName "1.0.37"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -88,6 +88,8 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.matecode:Snacky:1.0.3'
+    implementation 'com.droidninja:filepicker:2.1.5'
+    implementation 'com.nononsenseapps:filepicker:3.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

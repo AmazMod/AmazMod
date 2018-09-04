@@ -1,4 +1,10 @@
 <changelog>
+    <release>
+        <new>Added file explorer</new>
+        <new>Added Spanish translation</new>
+        <new>Added Hungarian translation</new>
+        <info>Updated translations</info>
+    </release>
     <release
         versionCode="163"
         versioneName="v1.0.34">

@@ -17,6 +17,7 @@ public class AmazModApplication extends Application {
     public static boolean isWatchConnected;
     //public static int syncInterval;
     public static long timeLastSync;
+    public static long timeLastWatchfaceDataSend;
 
     @Override
     public void onCreate() {
