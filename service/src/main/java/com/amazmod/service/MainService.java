@@ -381,7 +381,7 @@ public class MainService extends Service implements Transporter.DataListener {
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         } catch (Exception ex) {
             DirectoryData directoryData = new DirectoryData();
-            directoryData.setResult(DirectoryData.RESULT_UNKNOW_ERROR);
+            directoryData.setResult(Transport.RESULT_UNKNOW_ERROR);
 
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         }

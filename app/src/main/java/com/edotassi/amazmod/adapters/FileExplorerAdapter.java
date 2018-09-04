@@ -64,7 +64,7 @@ public class FileExplorerAdapter extends ArrayAdapter<FileData> {
         private Drawable folder;
         private Drawable file;
 
-        public ViewHolder(Context context, Drawable folder, Drawable file) {
+        private ViewHolder(Context context, Drawable folder, Drawable file) {
             this.context = context;
             this.folder = folder;
             this.file = file;
@@ -72,8 +72,14 @@ public class FileExplorerAdapter extends ArrayAdapter<FileData> {
 
         void sync(FileData fileData) {
             fileName.setText(fileData.getName());
-            size.setText(Formatter.formatShortFileSize(context, fileData.getSize()));
             icon.setImageDrawable(fileData.isDirectory() ? folder : file);
+
+            if (!fileData.isDirectory()) {
+                size.setVisibility(View.VISIBLE);
+                size.setText(Formatter.formatShortFileSize(context, fileData.getSize()));
+            } else {
+                size.setVisibility(View.GONE);
+            }
         }
     }
 }

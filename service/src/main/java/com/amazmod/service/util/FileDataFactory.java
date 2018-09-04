@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.util.ArrayList;
 
+import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
 
@@ -36,14 +37,14 @@ public class FileDataFactory {
         Gson gson = new Gson();
         directoryData.setFiles(gson.toJson(filesData));
 
-        directoryData.setResult(DirectoryData.RESULT_OK);
+        directoryData.setResult(Transport.RESULT_OK);
 
         return directoryData;
     }
 
     public static DirectoryData notFound() {
         DirectoryData directoryData = new DirectoryData();
-        directoryData.setResult(DirectoryData.RESULT_NOT_FOUND);
+        directoryData.setResult(Transport.RESULT_NOT_FOUND);
         return directoryData;
     }
 }

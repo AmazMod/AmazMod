@@ -10,6 +10,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
@@ -31,6 +34,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.RequestDirectoryData;
@@ -73,6 +77,8 @@ public class FileExplorerActivity extends AppCompatActivity {
         listView.setAdapter(fileExplorerAdapter);
 
         loadFiles("/");
+
+        registerForContextMenu(listView);
     }
 
     @Override
@@ -90,7 +96,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                             (FilePickerActivity.EXTRA_PATHS);
 
                     if (paths != null) {
-                        for (String path: paths) {
+                        for (String path : paths) {
                             Uri uri = Uri.parse(path);
                             new MaterialDialog.Builder(this)
                                     .title("File picked")
@@ -101,6 +107,26 @@ public class FileExplorerActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.activity_file_explorer_context, contextMenu);
+
+        super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem menuItem) {
+        switch (menuItem.getItemId()) {
+            case R.id.action_activity_file_explorer_download:
+                return true;
+            case R.id.action_activity_file_explorer_delete:
+                return true;
+        }
+
+        return false;
     }
 
     @OnItemClick(R.id.activity_file_explorer_list)
@@ -147,7 +173,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Directory directory = task.getResult();
                             DirectoryData directoryData = directory.getDirectoryData();
-                            if (directoryData.getResult() == DirectoryData.RESULT_OK) {
+                            if (directoryData.getResult() == Transport.RESULT_OK) {
                                 getSupportActionBar().setTitle(path.equals("/") ? "/" : directoryData.getName());
 
                                 Gson gson = new Gson();

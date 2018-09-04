@@ -8,29 +8,30 @@ import com.huami.watch.transport.DataBundle;
 
 import amazmod.com.transport.Transportable;
 
-public class RequestDirectoryData extends Transportable implements Parcelable {
+public class RequestDeleteFileData extends Transportable implements Parcelable {
 
-    public static final String EXTRA = "request_directory";
+    public static final String EXTRA = "request_delete_file";
 
-    public static final String PATH = "path";
+    private static final String PATH = "path";
 
     private String path;
 
-    public RequestDirectoryData() {}
+    public RequestDeleteFileData() {
+    }
 
-    protected RequestDirectoryData(Parcel in) {
+    protected RequestDeleteFileData(Parcel in) {
         path = in.readString();
     }
 
-    public static final Creator<RequestDirectoryData> CREATOR = new Creator<RequestDirectoryData>() {
+    public static final Creator<RequestDeleteFileData> CREATOR = new Creator<RequestDeleteFileData>() {
         @Override
-        public RequestDirectoryData createFromParcel(Parcel in) {
-            return new RequestDirectoryData(in);
+        public RequestDeleteFileData createFromParcel(Parcel in) {
+            return new RequestDeleteFileData(in);
         }
 
         @Override
-        public RequestDirectoryData[] newArray(int size) {
-            return new RequestDirectoryData[size];
+        public RequestDeleteFileData[] newArray(int size) {
+            return new RequestDeleteFileData[size];
         }
     };
 
@@ -40,17 +41,17 @@ public class RequestDirectoryData extends Transportable implements Parcelable {
         return dataBundle;
     }
 
-    public static RequestDirectoryData fromDataBundle(DataBundle dataBundle) {
-        RequestDirectoryData requestDirectoryData = new RequestDirectoryData();
-        requestDirectoryData.setPath(dataBundle.getString(PATH));
-        return requestDirectoryData;
-    }
-
     @Override
     public Bundle toBundle() {
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA, this);
         return bundle;
+    }
+
+    public static RequestDeleteFileData fromDataBundle(DataBundle dataBundle) {
+        RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
+        requestDeleteFileData.setPath(dataBundle.getString(PATH));
+        return requestDeleteFileData;
     }
 
     public String getPath() {
