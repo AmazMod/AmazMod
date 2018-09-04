@@ -15,6 +15,7 @@
   <string name="brightness">Fényerő</string>
   <string name="tweaking">Trükkök</string>
   <string name="watchface">Számlap</string>
+  <string name="greatfit">GreatFit</string>
   <string name="stats">Statisztikák</string>
   <string name="changelog">Változások</string>
   <string name="enable">Bekapcsol</string>
@@ -28,6 +29,8 @@
   <string name="full_battery_in">Teljesen feltöltve</string>
   <string name="open_notifications_log">Értesítések napló megnyitás</string>
   <string name="notifications_log">Értesítés napló</string>
+  <string name="delete">Delete</string>
+  <string name="download">Download</string>
   <string name="add_new_reply">Új válasz hozzáadás</string>
   <string name="enter_the_text_you_want_as_an_answer">Írd be a válaszként szánt szöveget</string>
   <string name="notification_access">Értesítések hozzáférés</string>
