@@ -15,6 +15,7 @@
   <string name="brightness">Brilho</string>
   <string name="tweaking">Modificações</string>
   <string name="watchface">WatchFace</string>
+  <string name="greatfit">GreatFit</string>
   <string name="stats">Estatísticas</string>
   <string name="changelog">Changelog</string>
   <string name="enable">Habilitar</string>
@@ -28,6 +29,8 @@
   <string name="full_battery_in">Carregado completamente em</string>
   <string name="open_notifications_log">Abrir log de notificações</string>
   <string name="notifications_log">Log de notificações</string>
+  <string name="delete">Delete</string>
+  <string name="download">Download</string>
   <string name="add_new_reply">Incluir nova resposta</string>
   <string name="enter_the_text_you_want_as_an_answer">Insira o texto que deseja como resposta</string>
   <string name="notification_access">Acesso às notificações</string>
