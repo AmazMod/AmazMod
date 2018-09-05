@@ -15,6 +15,7 @@
   <string name="brightness">Яркость</string>
   <string name="tweaking">Тонкая настройка</string>
   <string name="watchface">Циферблаты</string>
+  <string name="greatfit">GreatFit</string>
   <string name="stats">Статистика</string>
   <string name="changelog">Список изменений</string>
   <string name="enable">Включить</string>
@@ -28,6 +29,8 @@
   <string name="full_battery_in">Полностью заряжен</string>
   <string name="open_notifications_log">Открыть журнал уведомлений</string>
   <string name="notifications_log">Журнал уведомлений</string>
+  <string name="delete">Delete</string>
+  <string name="download">Download</string>
   <string name="add_new_reply">Добавить новый ответ</string>
   <string name="enter_the_text_you_want_as_an_answer">Введите текст, который будет в качестве ответа</string>
   <string name="notification_access">Доступ к уведомлениям</string>
