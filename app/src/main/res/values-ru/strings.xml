@@ -31,6 +31,8 @@
   <string name="notifications_log">Журнал уведомлений</string>
   <string name="delete">Delete</string>
   <string name="download">Download</string>
+  <string name="deleting">Deleting</string>
+  <string name="cant_delete_file">Can\'t delete file</string>
   <string name="add_new_reply">Добавить новый ответ</string>
   <string name="enter_the_text_you_want_as_an_answer">Введите текст, который будет в качестве ответа</string>
   <string name="notification_access">Доступ к уведомлениям</string>
