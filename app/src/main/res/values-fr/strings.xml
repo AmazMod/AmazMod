@@ -31,6 +31,8 @@
   <string name="notifications_log">Registre des notifications</string>
   <string name="delete">Delete</string>
   <string name="download">Download</string>
+  <string name="deleting">Deleting</string>
+  <string name="cant_delete_file">Can\'t delete file</string>
   <string name="add_new_reply">Ajouter une réponse</string>
   <string name="enter_the_text_you_want_as_an_answer">Saisissez le texte à utiliser comme réponse</string>
   <string name="notification_access">Accès aux notifications</string>
