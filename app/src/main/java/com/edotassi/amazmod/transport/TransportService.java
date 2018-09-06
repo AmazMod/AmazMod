@@ -15,6 +15,7 @@ import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
+import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
@@ -23,6 +24,7 @@ import com.edotassi.amazmod.support.Logger;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
@@ -35,6 +37,12 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
@@ -49,6 +57,10 @@ public class TransportService extends Service implements Transporter.DataListene
     private LocalBinder localBinder = new LocalBinder();
     private TransportListener transportListener;
 
+    int numCores = Runtime.getRuntime().availableProcessors();
+    ThreadPoolExecutor executor = new ThreadPoolExecutor(numCores * 2, numCores * 2,
+            60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
         put(Transport.BATTERY_STATUS, BatteryStatus.class);
@@ -56,6 +68,7 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.NEXT_MUSIC, NextMusic.class);
         put(Transport.TOGGLE_MUSIC, ToggleMusic.class);
         put(Transport.DIRECTORY, Directory.class);
+        put(Transport.RESULT_DELETE_FILE, ResultDeleteFile.class);
     }};
 
     private Map<String, Object> pendingResults = new HashMap<>();
@@ -134,24 +147,25 @@ public class TransportService extends Service implements Transporter.DataListene
         return sendWithResult(action, actionResult, null);
     }
 
-    public <T> Task<T> sendWithResult(final String action, String actionResult, Transportable transportable) {
+    public <T> Task<T> sendWithResult(final String action, final String actionResult, final Transportable transportable) {
         final TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<>();
-        pendingResults.put(actionResult, taskCompletionSource);
 
-        TaskCompletionSource<Void> waiter = new TaskCompletionSource<>();
-        send(action, transportable, waiter);
-
-        waiter.getTask().continueWith(new Continuation<Void, Object>() {
+        Tasks.call(executor, new Callable<Object>() {
             @Override
-            public Object then(@NonNull Task<Void> task) throws Exception {
-                if (!task.isSuccessful()) {
-                    pendingResults.remove(action);
-                    taskCompletionSource.setException(task.getException());
+            public Object call() throws Exception {
+                pendingResults.put(actionResult, taskCompletionSource);
+
+                send(action, transportable, null);
+
+                try {
+                    Tasks.await(taskCompletionSource.getTask(), 5000, TimeUnit.MILLISECONDS);
+                } catch (TimeoutException timeoutException) {
+                    taskCompletionSource.setException(timeoutException);
                 }
+
                 return null;
             }
         });
-
         return taskCompletionSource.getTask();
     }
 
@@ -167,7 +181,7 @@ public class TransportService extends Service implements Transporter.DataListene
         send(action, null, null);
     }
 
-    public void send(String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
+    public void send(final String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
         boolean isTransportConnected = transporter.isTransportServiceConnected();
         if (!isTransportConnected) {
             if (AmazModApplication.isWatchConnected != isTransportConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
@@ -196,6 +210,12 @@ public class TransportService extends Service implements Transporter.DataListene
                     case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
                     case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
                     case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
+                        TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
+                        if (taskCompletionSourcePendingResult != null) {
+                            taskCompletionSourcePendingResult.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
+                            pendingResults.remove(action);
+                        }
+
                         if (waiter != null) {
                             waiter.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
                         }

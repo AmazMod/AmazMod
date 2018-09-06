@@ -14,19 +14,25 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
+import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nononsenseapps.filepicker.FilePickerActivity;
+import com.tingyik90.snackprogressbar.SnackProgressBar;
+import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +43,7 @@ import java.util.List;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
+import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +65,7 @@ public class FileExplorerActivity extends AppCompatActivity {
 
     private List<FileData> fileDataList;
     private FileExplorerAdapter fileExplorerAdapter;
+    private SnackProgressBarManager snackProgressBarManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +87,30 @@ public class FileExplorerActivity extends AppCompatActivity {
         loadFiles("/");
 
         registerForContextMenu(listView);
+
+        snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
+                // (optional) set the view which will animate with SnackProgressBar e.g. FAB when CoordinatorLayout is not used
+                //.setViewToMove(floatingActionButton)
+                // (optional) change progressBar color, default = R.color.colorAccent
+                .setProgressBarColor(R.color.colorAccent)
+                // (optional) change background color, default = BACKGROUND_COLOR_DEFAULT (#FF323232)
+                .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
+                // (optional) change text size, default = 14sp
+                .setTextSize(14)
+                // (optional) set max lines, default = 2
+                .setMessageMaxLines(2)
+                // (optional) register onDisplayListener
+                .setOnDisplayListener(new SnackProgressBarManager.OnDisplayListener() {
+                    @Override
+                    public void onShown(SnackProgressBar snackProgressBar, int onDisplayId) {
+                        // do something
+                    }
+
+                    @Override
+                    public void onDismissed(SnackProgressBar snackProgressBar, int onDisplayId) {
+                        // do something
+                    }
+                });
     }
 
     @Override
@@ -123,10 +155,57 @@ public class FileExplorerActivity extends AppCompatActivity {
             case R.id.action_activity_file_explorer_download:
                 return true;
             case R.id.action_activity_file_explorer_delete:
+                deleteFile(((AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo()).position);
                 return true;
         }
 
         return false;
+    }
+
+    private void deleteFile(int index) {
+        final SnackProgressBar deletingSnackbar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.deleting))
+                .setIsIndeterminate(true);
+
+        snackProgressBarManager.show(deletingSnackbar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+
+        RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
+        requestDeleteFileData.setPath(fileData.getPath());
+
+        Watch.get().deleteFile(requestDeleteFileData)
+                .continueWithTask(new Continuation<ResultDeleteFile, Task<Void>>() {
+                    @Override
+                    public Task<Void> then(@NonNull Task<ResultDeleteFile> task) throws Exception {
+                        boolean success = task.isSuccessful();
+                        task.getResult();
+                        int result = task.getResult().getResultDeleteFileData().getResult();
+                        if (success && (result == Transport.RESULT_OK)) {
+                            return loadFiles(getParentDirectoryPath(fileData.getPath()));
+                        } else {
+                            SnackProgressBar snackbar = new SnackProgressBar(
+                                    SnackProgressBar.TYPE_NORMAL, getString(R.string.cant_delete_file))
+                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                        @Override
+                                        public void onActionClick() {
+                                            snackProgressBarManager.dismissAll();
+                                        }
+                                    });
+                            snackProgressBarManager.dismissAll();
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+
+                            return Tasks.forException(task.getException());
+                        }
+                    }
+                })
+                .continueWith(new Continuation<Void, Object>() {
+                    @Override
+                    public Object then(@NonNull Task<Void> task) throws Exception {
+                        snackProgressBarManager.dismissAll();
+                        return null;
+                    }
+                });
     }
 
     @OnItemClick(R.id.activity_file_explorer_list)
@@ -159,7 +238,9 @@ public class FileExplorerActivity extends AppCompatActivity {
 
     }
 
-    private void loadFiles(final String path) {
+    private Task<Void> loadFiles(final String path) {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+
         stateLoading();
 
         RequestDirectoryData requestDirectoryData = new RequestDirectoryData();
@@ -186,13 +267,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     parentDirectory.setName("..");
                                     parentDirectory.setDirectory(true);
 
-                                    String[] pathComponents = path.split("/");
-                                    String parentPath = TextUtils.join("/", Arrays.copyOf(pathComponents, pathComponents.length - 1));
-                                    if (Strings.isEmptyOrWhitespace(parentPath)) {
-                                        parentPath = "/";
-                                    }
-
-                                    parentDirectory.setPath(parentPath);
+                                    parentDirectory.setPath(getParentDirectoryPath(path));
 
                                     filesData.add(0, parentDirectory);
                                 }
@@ -215,14 +290,18 @@ public class FileExplorerActivity extends AppCompatActivity {
                                 fileExplorerAdapter.clear();
                                 fileExplorerAdapter.addAll(filesData);
                                 fileExplorerAdapter.notifyDataSetChanged();
+
+                                taskCompletionSource.setResult(null);
                             } else {
                                 Snacky.builder()
                                         .setActivity(FileExplorerActivity.this)
                                         .setText(R.string.reading_files_failed)
                                         .setDuration(Snacky.LENGTH_SHORT)
                                         .build().show();
+                                taskCompletionSource.setException(new Exception());
                             }
                         } else {
+                            taskCompletionSource.setException(task.getException());
                             Snacky.builder()
                                     .setActivity(FileExplorerActivity.this)
                                     .setText(R.string.reading_files_failed)
@@ -235,6 +314,8 @@ public class FileExplorerActivity extends AppCompatActivity {
                         return null;
                     }
                 });
+
+        return taskCompletionSource.getTask();
     }
 
     private void stateLoading() {
@@ -245,5 +326,15 @@ public class FileExplorerActivity extends AppCompatActivity {
     private void stateReady() {
         listView.setVisibility(View.VISIBLE);
         materialProgressBar.setVisibility(View.GONE);
+    }
+
+    private String getParentDirectoryPath(String path) {
+        String[] pathComponents = path.split("/");
+        String parentPath = TextUtils.join("/", Arrays.copyOf(pathComponents, pathComponents.length - 1));
+        if (Strings.isEmptyOrWhitespace(parentPath)) {
+            parentPath = "/";
+        }
+
+        return parentPath;
     }
 }

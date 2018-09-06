@@ -18,6 +18,7 @@ import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
 import com.amazmod.service.events.incoming.LowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
+import com.amazmod.service.events.incoming.RequestDeleteFile;
 import com.amazmod.service.events.incoming.RequestDirectory;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
@@ -55,7 +56,9 @@ import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.NotificationData;
+import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
@@ -80,6 +83,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.BRIGHTNESS, Brightness.class);
         put(Transport.LOW_POWER, LowPower.class);
         put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
+        put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
@@ -212,7 +216,6 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-
     private static final String LEVEL = "level";
     private static final String CHARGING = "charging";
     private static final String USB_CHARGE = "usb_charge";
@@ -225,7 +228,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
-        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery+", alarm:"+phoneAlarm);
+        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
 
         // Get already saved data
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
@@ -386,6 +389,25 @@ public class MainService extends Service implements Transporter.DataListener {
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestDeleteFile(RequestDeleteFile requestDeleteFile) {
+        ResultDeleteFileData resultDeleteFileData = new ResultDeleteFileData();
+
+        try {
+            RequestDeleteFileData requestDeleteFileData = RequestDeleteFileData.fromDataBundle(requestDeleteFile.getDataBundle());
+            File file = new File(requestDeleteFileData.getPath());
+            int result = file.delete() ? Transport.RESULT_OK : Transport.RESULT_UNKNOW_ERROR;
+
+            resultDeleteFileData.setResult(result);
+        } catch (SecurityException securityException) {
+            resultDeleteFileData.setResult(Transport.RESULT_PERMISSION_DENIED);
+        } catch (Exception ex) {
+            resultDeleteFileData.setResult(Transport.RESULT_UNKNOW_ERROR);
+        }
+
+        send(Transport.RESULT_DELETE_FILE, resultDeleteFileData.toDataBundle());
     }
 
     private DirectoryData getFilesByPath(String path) {
