@@ -67,11 +67,11 @@
   <string name="activity_about_testers">בודקים</string>
   <string name="translators">מתרגמים</string>
   <string name="activity_watchface_need_greatfit">יש צורך בסקין /\"GreatFit/\" מותקן בשעון שלך עבור אפשרויות אלה</string>
-  <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
+  <string name="activity_watchface_send_data">שליחת נתוני הסלולרי לשעון (סוללה, שעונים מעוררים)</string>
   <string name="activity_watchface_send_data_interval_prompt">בחר את מרווח הזמן</string>
-  <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
-  <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
-  <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
+  <string name="activity_watchface_send_data_interval_summary">קבע פרקי זמן לשליחת נתונים</string>
+  <string name="activity_watchface_send_on_battery_change">שליחת מידע בכל שינוי במצב הסוללה</string>
+  <string name="activity_watchface_send_on_alarm_change">שליחת מידע בכל שינוי בשעון מעורר</string>
   <string name="activity_stats_notifications_total">סה/\"כ</string>
   <string name="activity_stats_notifications_in_the_last_hour">בשעה האחרונה</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">ב-24 השעות האחרונות</string>
