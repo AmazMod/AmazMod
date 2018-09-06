@@ -29,10 +29,10 @@
   <string name="full_battery_in">טעונה במלואה ב</string>
   <string name="open_notifications_log">פתח יומן התראות</string>
   <string name="notifications_log">יומן התראות</string>
-  <string name="delete">Delete</string>
-  <string name="download">Download</string>
-  <string name="deleting">Deleting</string>
-  <string name="cant_delete_file">Can\'t delete file</string>
+  <string name="delete">מחיקה</string>
+  <string name="download">הורדה</string>
+  <string name="deleting">מוחק</string>
+  <string name="cant_delete_file">לא ניתן למחוק קובץ</string>
   <string name="add_new_reply">הוסף תגובה חדשה</string>
   <string name="enter_the_text_you_want_as_an_answer">הזן את הטקסט הרצוי כתשובה</string>
   <string name="notification_access">גישת התראות</string>
@@ -68,7 +68,7 @@
   <string name="translators">מתרגמים</string>
   <string name="activity_watchface_need_greatfit">יש צורך בסקין /\"GreatFit/\" מותקן בשעון שלך עבור אפשרויות אלה</string>
   <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
-  <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
+  <string name="activity_watchface_send_data_interval_prompt">בחר את מרווח הזמן</string>
   <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
   <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
   <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
