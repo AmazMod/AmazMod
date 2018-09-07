@@ -15,6 +15,7 @@
   <string name="brightness">Luminosité</string>
   <string name="tweaking">Peaufiner</string>
   <string name="watchface">WatchFace</string>
+  <string name="greatfit">GreatFit</string>
   <string name="stats">Statistiques</string>
   <string name="changelog">Changelog</string>
   <string name="enable">Activer</string>
@@ -28,6 +29,8 @@
   <string name="full_battery_in">Entièrement chargé</string>
   <string name="open_notifications_log">Ouvrir le registre des notifications</string>
   <string name="notifications_log">Registre des notifications</string>
+  <string name="delete">Delete</string>
+  <string name="download">Download</string>
   <string name="add_new_reply">Ajouter une réponse</string>
   <string name="enter_the_text_you_want_as_an_answer">Saisissez le texte à utiliser comme réponse</string>
   <string name="notification_access">Accès aux notifications</string>
@@ -62,8 +65,11 @@
   <string name="activity_about_testers">Testeurs</string>
   <string name="translators">Traducteurs</string>
   <string name="activity_watchface_need_greatfit">Vous devez installer la watchface \"GreatFit\" pour que ces options fonctionnent</string>
-  <string name="activity_watchface_show_altitude">Montrer altitude</string>
-  <string name="activity_watchface_show_phone_battery">Montrer batterie du telephone</string>
+  <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
+  <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
+  <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
+  <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
+  <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
   <string name="activity_stats_notifications_total">Total</string>
   <string name="activity_stats_notifications_in_the_last_hour">Dernière heure</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">Dernières 24 heures</string>

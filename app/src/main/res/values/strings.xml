@@ -13,6 +13,7 @@
     <string name="brightness">Brightness</string>
     <string name="tweaking">Tweaking</string>
     <string name="watchface">WatchFace</string>
+    <string name="greatfit">GreatFit</string>
     <string name="stats">Stats</string>
     <string name="changelog">Changelog</string>
     <string name="enable">Enable</string>
@@ -26,7 +27,10 @@
     <string name="full_battery_in">Fully charged in</string>
     <string name="open_notifications_log">Open notifications log</string>
     <string name="notifications_log">Notifications log</string>
-
+    <string name="delete">Delete</string>
+    <string name="download">Download</string>
+    <string name="deleting">Deleting</string>
+    <string name="cant_delete_file">Can't delete file</string>
     <string name="add_new_reply">Add new reply</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
 

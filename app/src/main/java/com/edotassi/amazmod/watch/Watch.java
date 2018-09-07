@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
+import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.transport.TransportService;
@@ -20,7 +21,9 @@ import com.google.android.gms.tasks.Tasks;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
+import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchfaceData;
 
@@ -71,6 +74,15 @@ public class Watch {
             @Override
             public Task<Directory> then(@NonNull Task<TransportService> task) throws Exception {
                 return task.getResult().sendWithResult(Transport.REQUEST_DIRECTORY, Transport.DIRECTORY, requestDirectoryData);
+            }
+        });
+    }
+
+    public Task<ResultDeleteFile> deleteFile(final RequestDeleteFileData requestDeleteFileData) {
+        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<ResultDeleteFile>>() {
+            @Override
+            public Task<ResultDeleteFile> then(@NonNull Task<TransportService> task) throws Exception {
+                return task.getResult().sendWithResult(Transport.REQUEST_DELETE_FILE, Transport.RESULT_DELETE_FILE, requestDeleteFileData);
             }
         });
     }

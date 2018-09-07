@@ -90,6 +90,7 @@ dependencies {
     implementation 'com.github.matecode:Snacky:1.0.3'
     implementation 'com.droidninja:filepicker:2.1.5'
     implementation 'com.nononsenseapps:filepicker:3.0.0'
+    implementation 'com.github.tingyik90:snackprogressbar:4.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationManagerCompat;
@@ -211,16 +212,14 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()) {
-
             case R.id.nav_settings:
                 Intent a = new Intent(this, SettingsActivity.class);
-                a.setFlags(a.FLAG_ACTIVITY_CLEAR_TOP);
+                a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(a);
                 if (getIntent().getBooleanExtra("REFRESH", true)) {
                     recreate();
@@ -236,13 +235,13 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_abount:
                 Intent b = new Intent(this, AboutActivity.class);
-                b.setFlags(b.FLAG_ACTIVITY_CLEAR_TOP);
+                b.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(b);
                 return true;
 
             case R.id.nav_tweaking:
                 Intent c = new Intent(this, TweakingActivity.class);
-                c.setFlags(c.FLAG_ACTIVITY_CLEAR_TOP);
+                c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(c);
                 return true;
 
@@ -254,19 +253,19 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.nav_files_extras:
                 Intent f = new Intent(this, FilesExtrasActivity.class);
-                f.setFlags(f.FLAG_ACTIVITY_CLEAR_TOP);
+                f.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(f);
                 return true;
 
             case R.id.nav_watchface:
                 Intent e = new Intent(this, WatchfaceActivity.class);
-                e.setFlags(e.FLAG_ACTIVITY_CLEAR_TOP);
+                e.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(e);
                 return true;
 
             case R.id.nav_stats:
                 Intent d = new Intent(this, StatsActivity.class);
-                d.setFlags(d.FLAG_ACTIVITY_CLEAR_TOP);
+                d.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(d);
                 return true;
 

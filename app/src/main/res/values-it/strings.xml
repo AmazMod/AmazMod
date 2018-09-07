@@ -15,6 +15,7 @@
   <string name="brightness">Luminosità</string>
   <string name="tweaking">Tweaking</string>
   <string name="watchface">WatchFace</string>
+  <string name="greatfit">GreatFit</string>
   <string name="stats">Statistiche</string>
   <string name="changelog">Changelog</string>
   <string name="enable">Attiva</string>
@@ -28,6 +29,8 @@
   <string name="full_battery_in">Completamente carica in </string>
   <string name="open_notifications_log">Apri il log delle notifiche</string>
   <string name="notifications_log">Log Notifiche</string>
+  <string name="delete">Delete</string>
+  <string name="download">Download</string>
   <string name="add_new_reply">Aggiungi una nuova risposta</string>
   <string name="enter_the_text_you_want_as_an_answer">Inserisci il testo da usare come risposta</string>
   <string name="notification_access">Accesso alle notifiche</string>
@@ -62,8 +65,11 @@
   <string name="activity_about_testers">Tester</string>
   <string name="translators">Traduttori</string>
   <string name="activity_watchface_need_greatfit">Per sfruttare questa opzione devi avere la watchface Greatfit installata sull\'orologio</string>
-  <string name="activity_watchface_show_altitude">Mostra altitudine</string>
-  <string name="activity_watchface_show_phone_battery">Mostra la batteria del telefono</string>
+  <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
+  <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
+  <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
+  <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
+  <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
   <string name="activity_stats_notifications_total">Totali</string>
   <string name="activity_stats_notifications_in_the_last_hour">Nell\'ultima ora</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">Nelle ultime 24 ore</string>
