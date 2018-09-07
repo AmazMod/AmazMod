@@ -86,16 +86,16 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textColor="#000000"
-        android:text="@string/last_read"
+        android:text="@string/activity_watchface_last_time_sent"
         app:layout_constraintTop_toBottomOf="@+id/send_on_alarm_change_switch"  />
 
     <Button
         android:id="@+id/watchface_sync_now_button"
-        android:text="Send data now"
+        android:text="@string/activity_watchface_send_data_now"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
