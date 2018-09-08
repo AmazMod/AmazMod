@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import amazmod.com.transport.data.WatchfaceData;
@@ -168,14 +169,33 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     }
 
     public String getPhoneAlarm(Context context){
-        //String nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
         String nextAlarm = "--";
+
         try {
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            nextAlarm = (am==null)?"--":am.getNextAlarmClock().toString();
+            nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
+
+            if(nextAlarm.equals("")){
+                nextAlarm = "--";
+            }
+            Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // This is the proper way but the time is given in UTC
+        /*
+        try {
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if(am!=null && am.getNextAlarmClock()!=null){
+                Long alarmTime = am.getNextAlarmClock().getTriggerTime();
+                SimpleDateFormat sdfDate = new SimpleDateFormat("eee HH:mm");
+                nextAlarm = sdfDate.format(new Date(alarmTime));
+            }
+            Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
 
         return nextAlarm;
     }
