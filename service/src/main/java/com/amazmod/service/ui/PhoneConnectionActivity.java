@@ -56,6 +56,8 @@ public class PhoneConnectionActivity extends Activity {
 
         ButterKnife.bind(this);
 
+        setWindowFlags(true);
+
         if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
             // Phone disconnected
             // Wake screen and trow overlay here
@@ -106,6 +108,22 @@ public class PhoneConnectionActivity extends Activity {
     @Override
     public void finish() {
         handler.removeCallbacks(activityFinishRunnable);
+        setWindowFlags(false);
         super.finish();
+    }
+
+    private void setWindowFlags(boolean enable) {
+
+        final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+
+        if (enable) {
+            getWindow().addFlags(flags);
+        } else {
+            getWindow().clearFlags(flags);
+        }
     }
 }
