@@ -179,7 +179,7 @@ public class MainService extends Service implements Transporter.DataListener {
             @Override
             public void onChange(boolean selfChange) {
                 super.onChange(selfChange);
-                if(true){//Settings could go here
+                if(settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false)){//Settings go here
                     // Show connection status
                     Intent intent = new Intent(context, PhoneConnectionActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

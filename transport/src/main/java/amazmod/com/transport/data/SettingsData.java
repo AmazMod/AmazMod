@@ -23,6 +23,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DISABLE_NOTIFICATION_SCREENON = "disable_notification_screenon";
     public static final String SHAKE_TO_DISMISS_GRAVITY = "shake_to_dismiss_gravity";
     public static final String SHAKE_TO_DISMISS_NUM_OF_SHAKES = "shake_to_dismiss_num_of_shakes";
+    public static final String PHONE_CONNECTION_ALERT = "phone_connection_alert";
 
     private String replies;
     private int vibration;
@@ -36,6 +37,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean disableNotificationsScreenOn;
     private int shakeToDismissGravity;
     private int shakeToDismissNumOfShakes;
+    private boolean phoneConnectionAlert;
 
     public SettingsData() {
     }
@@ -53,6 +55,7 @@ public class SettingsData extends Transportable implements Parcelable {
         disableNotificationsScreenOn = in.readByte() != 0;
         shakeToDismissGravity = in.readInt();
         shakeToDismissNumOfShakes = in.readInt();
+        phoneConnectionAlert = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -81,6 +84,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(DISABLE_NOTIFICATION_SCREENON, disableNotificationsScreenOn);
         dataBundle.putInt(SHAKE_TO_DISMISS_GRAVITY, shakeToDismissGravity);
         dataBundle.putInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES, shakeToDismissNumOfShakes);
+        dataBundle.putBoolean(PHONE_CONNECTION_ALERT, phoneConnectionAlert);
 
         return dataBundle;
     }
@@ -100,6 +104,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDisableNotificationScreenOn(dataBundle.getBoolean(DISABLE_NOTIFICATION_SCREENON));
         settingsData.setShakeToDismissGravity(dataBundle.getInt(SHAKE_TO_DISMISS_GRAVITY));
         settingsData.setShakeToDismissNumOfShakes(dataBundle.getInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES));
+        settingsData.setPhoneConnectionAlert(dataBundle.getBoolean(PHONE_CONNECTION_ALERT));
 
         return settingsData;
     }
@@ -207,6 +212,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.shakeToDismissNumOfShakes = shakeToDismissNumOfShakes;
     }
 
+    public boolean isPhoneConnectionAlert() {
+        return phoneConnectionAlert;
+    }
+
+    public void setPhoneConnectionAlert(boolean phoneConnectionAlert) {
+        this.phoneConnectionAlert = phoneConnectionAlert;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -226,5 +239,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (disableNotificationsScreenOn ? 1 : 0));
         dest.writeInt(shakeToDismissGravity);
         dest.writeInt(shakeToDismissNumOfShakes);
+        dest.writeByte((byte) (phoneConnectionAlert ? 1 : 0));
     }
 }
