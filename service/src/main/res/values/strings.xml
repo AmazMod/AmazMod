@@ -6,4 +6,6 @@
     <string name="last_charge_no_info">Waiting for data</string>
     <string name="close">Close&#160;&#160;</string>
     <string name="replies">&#160;&#160;Replies</string>
+    <string name="phone_disconnected">Phone disconnected</string>
+    <string name="phone_connected">Phone connected</string>
 </resources>
