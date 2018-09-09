@@ -29,10 +29,10 @@
   <string name="full_battery_in">Полностью заряжен</string>
   <string name="open_notifications_log">Открыть журнал уведомлений</string>
   <string name="notifications_log">Журнал уведомлений</string>
-  <string name="delete">Delete</string>
-  <string name="download">Download</string>
-  <string name="deleting">Deleting</string>
-  <string name="cant_delete_file">Can\'t delete file</string>
+  <string name="delete">Удалить</string>
+  <string name="download">Загрузить</string>
+  <string name="deleting">Удаление</string>
+  <string name="cant_delete_file">Не удается удалить файл</string>
   <string name="add_new_reply">Добавить новый ответ</string>
   <string name="enter_the_text_you_want_as_an_answer">Введите текст, который будет в качестве ответа</string>
   <string name="notification_access">Доступ к уведомлениям</string>
@@ -68,8 +68,8 @@
   <string name="translators">Переводчики</string>
   <string name="activity_watchface_need_greatfit">Вам нужно иметь циферблат \"GreatFit\" установленый на часы для корректной работы</string>
   <string name="activity_watchface_send_data">Send phone\'s data to watch (battery, alarm)</string>
-  <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
-  <string name="activity_watchface_send_data_interval_summary">Set watchface send data interval</string>
+  <string name="activity_watchface_send_data_interval_prompt">Выберите интервал времени</string>
+  <string name="activity_watchface_send_data_interval_summary">Установить интервал отправки данных</string>
   <string name="activity_watchface_send_on_battery_change">Send data every time battery changes</string>
   <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
   <string name="activity_watchface_last_time_sent">Last time sent</string>
@@ -183,8 +183,8 @@
   <string name="settings_cant_be_applied">The settings can\'t be applied</string>
   <string name="brightness_applied">Brightness applied</string>
   <string name="failed_to_set_brightness">Brightness can\'t be applied</string>
-  <string name="test_notification_sent">Test notification sent</string>
-  <string name="failed_to_send_test_notification">Failed to send test notification</string>
-  <string name="file_explorer">File explorer</string>
-  <string name="reading_files_failed">Reading files failed</string>
+  <string name="test_notification_sent">Тестовое уведомление</string>
+  <string name="failed_to_send_test_notification">Ошибка отправки тестового уведомления</string>
+  <string name="file_explorer">Проводник</string>
+  <string name="reading_files_failed">Ошибка чтения файлов</string>
 </resources>
