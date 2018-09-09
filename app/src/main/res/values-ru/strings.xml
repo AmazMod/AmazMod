@@ -70,11 +70,11 @@
   <string name="activity_watchface_send_data">Отправить данные телефона на часы (батарея, будильник)</string>
   <string name="activity_watchface_send_data_interval_prompt">Выберите интервал времени</string>
   <string name="activity_watchface_send_data_interval_summary">Установить интервал отправки данных</string>
-  <string name="activity_watchface_send_on_battery_change">Send data every time battery changes</string>
-  <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
-  <string name="activity_watchface_last_time_sent">Last time sent</string>
-  <string name="activity_watchface_data_send">Data were send</string>
-  <string name="activity_watchface_send_data_now">Send data now</string>
+  <string name="activity_watchface_send_on_battery_change">Отправить данные, когда меняется заряд батареи</string>
+  <string name="activity_watchface_send_on_alarm_change">Отправить данные, когда меняется будильник</string>
+  <string name="activity_watchface_last_time_sent">Время последней отправки</string>
+  <string name="activity_watchface_data_send">Данные отправлены</string>
+  <string name="activity_watchface_send_data_now">Отправить данные сейчас</string>
   <string name="activity_stats_notifications_total">Всего</string>
   <string name="activity_stats_notifications_in_the_last_hour">За последний час</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">За последние 24 часа</string>
@@ -118,7 +118,7 @@
   <string name="pref_notifications_enable_ungroup_summary">Уведомления от одного отправителя будут разделены (Вы не сможете синхронизировать их)</string>
   <string name="pref_filters">Фильтры уведомлений</string>
   <string name="pref_enable_music_control_with_hardware_button">Включение аппаратного управления музыкой</string>
-  <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
+  <string name="pref_enable_music_control_with_hardware_button_summary">(ЭКСПЕРИМАТЕЛЬНАЯ ФУНКЦИЯ!) Включить управление музыкой с помощью физических кнопок. Нажмите нижнюю кнопку для проигрывания или остановки музыки. Долгое нажатие служит для переходу к следующей композиции.</string>
   <string name="intro_title_1">Добро пожаловать в AmazMod!</string>
   <string name="intro_description_1">Следуйте этой презентации, чтобы узнать, как установить службы приложений на часах и предоставить приложению доступ к Уведомлениям на телефоне.</string>
   <string name="intro_title_permissions">Доступ к уведомлениям</string>
@@ -135,7 +135,7 @@
   <string name="watch_connecting">Соединение…</string>
   <string name="notifications_screen_timeout">Время отключения экрана</string>
   <string name="pref_notifications_inverted_theme">Перевернутый тема</string>
-  <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme</string>
+  <string name="pref_notifications_inverted_theme_summary">Включить инвертирование цветов</string>
   <string name="pref_font_size">Размер шрифта</string>
   <string name="pref_font_size_summary">Выберите размер шрифта, используемого в CustomUI уведомлениях</string>
   <string name="notifications_font_size">Размер шрифта</string>
