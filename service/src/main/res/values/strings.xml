@@ -8,4 +8,6 @@
     <string name="replies">&#160;&#160;Replies</string>
     <string name="phone_disconnected">Phone disconnected</string>
     <string name="phone_connected">Phone connected</string>
+    <string name="device_admin">device_admin</string>
+    <string name="device_admin_description">Grand lock screen access</string>
 </resources>
