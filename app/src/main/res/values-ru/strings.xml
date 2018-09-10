@@ -35,6 +35,10 @@
   <string name="cant_delete_file">Не удается удалить файл</string>
   <string name="add_new_reply">Добавить новый ответ</string>
   <string name="enter_the_text_you_want_as_an_answer">Введите текст, который будет в качестве ответа</string>
+  <string name="file_not_exists">File not exists</string>
+  <string name="cant_uplaod_directory">Can\'t upload directory</string>
+  <string name="sending">Sending</string>
+  <string name="cant_upload_file">Can\'t upload file</string>
   <string name="notification_access">Доступ к уведомлениям</string>
   <string name="notification_access_not_enabled">Доступ к уведомлениям не включен</string>
   <string name="notification_access_enable">Включить</string>
