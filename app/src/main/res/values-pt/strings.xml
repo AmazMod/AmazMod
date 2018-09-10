@@ -119,6 +119,8 @@
   <string name="pref_filters">Filtro de notificações</string>
   <string name="pref_enable_music_control_with_hardware_button">Habilitar controle de música por hardware</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Habilitar controle de música por botão físico. Aperte o botão inferior para tocar/pausar a música. Segure para pular para a próxima música.</string>
+  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
   <string name="intro_title_1">Bem-Vindo ao AmazMod!</string>
   <string name="intro_description_1">Siga esta apresentação para aprender como instalar o app de serviço no relógio e conceder acesso às Notificações no celular.</string>
   <string name="intro_title_permissions">Accesso à Notificações</string>
