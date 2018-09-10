@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import amazmod.com.transport.data.WatchfaceData;
@@ -109,7 +110,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
 
             try {
-                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
+                if(alarmManager!=null)
+                    alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
                         (long) syncInterval * 60000L, pendingIntent);
             } catch (NullPointerException e) {
                 Log.e(Constants.TAG, "WatchfaceDataReceiver setRepeating exception: " + e.toString());
@@ -119,7 +121,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 Intent alarmWatchfaceIntent = new Intent(context, WatchfaceReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
-                alarmManager.cancel(pendingIntent);
+                if(alarmManager!=null)
+                    alarmManager.cancel(pendingIntent);
             } catch (NoSuchMethodError e) {
                 e.printStackTrace();
             }
@@ -149,28 +152,50 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     public int getPhoneBattery(Context context){
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
-        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
-        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
-        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
-        float batteryPct = level / (float) scale;
-
+        float batteryPct;
+        if(batteryStatus!=null) {
+            //int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            //boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
+            //int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            //boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+            //boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            batteryPct = level / (float) scale;
+        }else{
+            batteryPct = 0;
+        }
         return (int) (batteryPct * 100);
     }
 
     public String getPhoneAlarm(Context context){
-        //String nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
         String nextAlarm = "--";
+
         try {
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            nextAlarm = am.getNextAlarmClock().toString();
-        } catch (NoSuchMethodError e) {
+            nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
+
+            if(nextAlarm.equals("")){
+                nextAlarm = "--";
+            }
+            Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
+        } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // This is the proper way but the time is given in UTC
+        /*
+        try {
+            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if(am!=null && am.getNextAlarmClock()!=null){
+                Long alarmTime = am.getNextAlarmClock().getTriggerTime();
+                SimpleDateFormat sdfDate = new SimpleDateFormat("eee HH:mm");
+                nextAlarm = sdfDate.format(new Date(alarmTime));
+            }
+            Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
 
         return nextAlarm;
     }
