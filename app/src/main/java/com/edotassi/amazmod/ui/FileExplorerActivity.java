@@ -1,7 +1,6 @@
 package com.edotassi.amazmod.ui;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
@@ -31,9 +30,11 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nononsenseapps.filepicker.FilePickerActivity;
+import com.nononsenseapps.filepicker.Utils;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -50,8 +51,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
-import droidninja.filepicker.FilePickerBuilder;
-import droidninja.filepicker.FilePickerConst;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class FileExplorerActivity extends AppCompatActivity {
@@ -66,6 +65,8 @@ public class FileExplorerActivity extends AppCompatActivity {
     private List<FileData> fileDataList;
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
+
+    private String currentPath;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +85,7 @@ public class FileExplorerActivity extends AppCompatActivity {
         fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<FileData>());
         listView.setAdapter(fileExplorerAdapter);
 
-        loadFiles("/");
+        loadPath(Constants.INITIAL_PATH);
 
         registerForContextMenu(listView);
 
@@ -124,17 +125,63 @@ public class FileExplorerActivity extends AppCompatActivity {
         switch (requestCode) {
             case FILE_UPLOAD_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {
-                    ArrayList<String> paths = data.getStringArrayListExtra
-                            (FilePickerActivity.EXTRA_PATHS);
+                    List<Uri> files = Utils.getSelectedFilesFromResult(data);
 
-                    if (paths != null) {
-                        for (String path : paths) {
-                            Uri uri = Uri.parse(path);
-                            new MaterialDialog.Builder(this)
-                                    .title("File picked")
-                                    .content(uri.getPath())
-                                    .show();
+                    if (files.size() > 0) {
+                        File file = Utils.getFileForUri(files.get(0));
+                        final String path = file.getAbsolutePath();
+
+                        if (!file.exists()) {
+                            fileNotExists();
+                            return;
                         }
+                        if (file.isDirectory()) {
+                            fileIsDirectory();
+                            return;
+                        }
+
+                        final String destPath = currentPath + "/" + file.getName();
+
+                        SnackProgressBar progressBar = new SnackProgressBar(
+                                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                                .setIsIndeterminate(false)
+                                .setProgressMax(100)
+                                .setShowProgressPercentage(true);
+
+                        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+                        Watch.get().uploadFile(file, destPath, new Watch.OperationProgress() {
+                            @Override
+                            public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
+                                FileExplorerActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        snackProgressBarManager.setProgress((int) progress);
+                                    }
+                                });
+                            }
+                        }).continueWith(new Continuation<Void, Object>() {
+                            @Override
+                            public Object then(@NonNull Task<Void> task) throws Exception {
+                                snackProgressBarManager.dismissAll();
+
+                                if (task.isSuccessful()) {
+                                    loadPath(getParentDirectoryPath(destPath));
+                                } else {
+                                    SnackProgressBar snackbar = new SnackProgressBar(
+                                            SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
+                                            .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                                @Override
+                                                public void onActionClick() {
+                                                    snackProgressBarManager.dismissAll();
+                                                }
+                                            });
+                                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                }
+
+                                return null;
+                            }
+                        });
                     }
                 }
                 break;
@@ -178,11 +225,12 @@ public class FileExplorerActivity extends AppCompatActivity {
                 .continueWithTask(new Continuation<ResultDeleteFile, Task<Void>>() {
                     @Override
                     public Task<Void> then(@NonNull Task<ResultDeleteFile> task) throws Exception {
+                        snackProgressBarManager.dismissAll();
+
                         boolean success = task.isSuccessful();
-                        task.getResult();
                         int result = task.getResult().getResultDeleteFileData().getResult();
                         if (success && (result == Transport.RESULT_OK)) {
-                            return loadFiles(getParentDirectoryPath(fileData.getPath()));
+                            return loadPath(getParentDirectoryPath(fileData.getPath()));
                         } else {
                             SnackProgressBar snackbar = new SnackProgressBar(
                                     SnackProgressBar.TYPE_NORMAL, getString(R.string.cant_delete_file))
@@ -192,18 +240,10 @@ public class FileExplorerActivity extends AppCompatActivity {
                                             snackProgressBarManager.dismissAll();
                                         }
                                     });
-                            snackProgressBarManager.dismissAll();
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
 
                             return Tasks.forException(task.getException());
                         }
-                    }
-                })
-                .continueWith(new Continuation<Void, Object>() {
-                    @Override
-                    public Object then(@NonNull Task<Void> task) throws Exception {
-                        snackProgressBarManager.dismissAll();
-                        return null;
                     }
                 });
     }
@@ -212,33 +252,23 @@ public class FileExplorerActivity extends AppCompatActivity {
     public void onItemClick(int position) {
         FileData fileData = fileExplorerAdapter.getItem(position);
         if (fileData.isDirectory()) {
-            loadFiles(fileData.getPath());
+            loadPath(fileData.getPath());
         }
     }
 
     @OnClick(R.id.activity_file_explorer_upload)
     public void onUpload() {
-        // This always works
         Intent i = new Intent(this, FilePickerActivity.class);
-        // This works if you defined the intent filter
-        // Intent i = new Intent(Intent.ACTION_GET_CONTENT);
 
-        // Set these depending on your use case. These are the defaults.
         i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
         i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
         i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
-
-        // Configure initial directory by specifying a String.
-        // You could specify a String like "/storage/emulated/0/", but that can
-        // dangerous. Always use Android's API calls to get paths to the SD-card or
-        // internal memory.
         i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
 
         startActivityForResult(i, FILE_UPLOAD_CODE);
-
     }
 
-    private Task<Void> loadFiles(final String path) {
+    private Task<Void> loadPath(final String path) {
         final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
 
         stateLoading();
@@ -252,6 +282,8 @@ public class FileExplorerActivity extends AppCompatActivity {
                     @Override
                     public Object then(@NonNull Task<Directory> task) throws Exception {
                         if (task.isSuccessful()) {
+                            currentPath = path;
+
                             Directory directory = task.getResult();
                             DirectoryData directoryData = directory.getDirectoryData();
                             if (directoryData.getResult() == Transport.RESULT_OK) {
@@ -336,5 +368,21 @@ public class FileExplorerActivity extends AppCompatActivity {
         }
 
         return parentPath;
+    }
+
+    private void fileNotExists() {
+        Snacky.builder()
+                .setActivity(FileExplorerActivity.this)
+                .setText(R.string.file_not_exists)
+                .setDuration(Snacky.LENGTH_SHORT)
+                .build().show();
+    }
+
+    private void fileIsDirectory() {
+        Snacky.builder()
+                .setActivity(FileExplorerActivity.this)
+                .setText(R.string.cant_uplaod_directory)
+                .setDuration(Snacky.LENGTH_SHORT)
+                .build().show();
     }
 }

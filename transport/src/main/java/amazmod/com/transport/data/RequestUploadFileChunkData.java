@@ -6,6 +6,11 @@ import android.os.Parcelable;
 
 import com.huami.watch.transport.DataBundle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 import amazmod.com.transport.Transportable;
 
 public class RequestUploadFileChunkData extends Transportable implements Parcelable {
@@ -16,17 +21,35 @@ public class RequestUploadFileChunkData extends Transportable implements Parcela
     public static final String INDEX = "chunk_index";
     public static final String TOTAL = "total_chunks";
     public static final String SIZE = "size";
-    public static final String POSITION = "position";
     public static final String BYTES = "bytes";
 
     private String path;
     private int index;
     private int total;
     private int size;
-    private int position;
     private byte[] bytes;
 
     public RequestUploadFileChunkData() {
+    }
+
+    public static RequestUploadFileChunkData fromFile(File file, String destPath, long totalChunks, long chunk, int chunkSize) throws IOException {
+        RequestUploadFileChunkData requestUploadFileChunkData = new RequestUploadFileChunkData();
+
+        byte[] bytes = new byte[chunkSize];
+
+        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+        randomAccessFile.seek(chunk * chunkSize);
+        randomAccessFile.read(bytes);
+
+        randomAccessFile.close();
+
+        requestUploadFileChunkData.setPath(destPath);
+        requestUploadFileChunkData.setIndex((int) chunk);
+        requestUploadFileChunkData.setSize(chunkSize);
+        requestUploadFileChunkData.setTotal((int) totalChunks);
+        requestUploadFileChunkData.setBytes(bytes);
+
+        return requestUploadFileChunkData;
     }
 
     protected RequestUploadFileChunkData(Parcel in) {
@@ -34,7 +57,6 @@ public class RequestUploadFileChunkData extends Transportable implements Parcela
         index = in.readInt();
         total = in.readInt();
         size = in.readInt();
-        position = in.readInt();
         bytes = in.createByteArray();
     }
 
@@ -57,7 +79,6 @@ public class RequestUploadFileChunkData extends Transportable implements Parcela
         requestUploadFileChunkData.setIndex(dataBundle.getInt(INDEX));
         requestUploadFileChunkData.setTotal(dataBundle.getInt(TOTAL));
         requestUploadFileChunkData.setSize(dataBundle.getInt(SIZE));
-        requestUploadFileChunkData.setPosition(dataBundle.getInt(POSITION));
         requestUploadFileChunkData.setBytes(dataBundle.getByteArray(BYTES));
 
         return requestUploadFileChunkData;
@@ -69,7 +90,6 @@ public class RequestUploadFileChunkData extends Transportable implements Parcela
         dataBundle.putInt(INDEX, index);
         dataBundle.putInt(TOTAL, total);
         dataBundle.putInt(SIZE, size);
-        dataBundle.putInt(POSITION, position);
         dataBundle.putByteArray(BYTES, bytes);
 
         return dataBundle;
@@ -114,14 +134,6 @@ public class RequestUploadFileChunkData extends Transportable implements Parcela
         this.size = size;
     }
 
-    public int getPosition() {
-        return position;
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
-    }
-
     public byte[] getBytes() {
         return bytes;
     }
@@ -141,7 +153,6 @@ public class RequestUploadFileChunkData extends Transportable implements Parcela
         dest.writeInt(index);
         dest.writeInt(total);
         dest.writeInt(size);
-        dest.writeInt(position);
         dest.writeByteArray(bytes);
     }
 }

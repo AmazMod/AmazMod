@@ -4,6 +4,8 @@ public class Constants {
 
     public static final String PACKAGE = "com.edotassi.amazmod";
     public static final String TAG = "AmazMod";
+    public static final int CHUNK_SIZE = 2048;
+    public static final String INITIAL_PATH = "/sdcard";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 

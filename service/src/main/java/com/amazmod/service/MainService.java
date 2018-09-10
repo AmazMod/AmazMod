@@ -20,6 +20,7 @@ import com.amazmod.service.events.incoming.LowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
 import com.amazmod.service.events.incoming.RequestDeleteFile;
 import com.amazmod.service.events.incoming.RequestDirectory;
+import com.amazmod.service.events.incoming.RequestUploadFileChunk;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.events.incoming.Watchface;
@@ -44,6 +45,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -58,6 +60,7 @@ import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
@@ -84,6 +87,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.LOW_POWER, LowPower.class);
         put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
         put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
+        put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
@@ -408,6 +412,23 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         send(Transport.RESULT_DELETE_FILE, resultDeleteFileData.toDataBundle());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestUploadFileChunk(RequestUploadFileChunk requestUploadFileChunk) {
+        try {
+            RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromDataBundle(requestUploadFileChunk.getDataBundle());
+            File file = new File(requestUploadFileChunkData.getPath());
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+
+            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getSize();
+            randomAccessFile.seek(position);
+            randomAccessFile.write(requestUploadFileChunkData.getBytes());
+            randomAccessFile.close();
+
+        } catch (Exception ex) {
+            Log.e(Constants.TAG, ex.getMessage());
+        }
     }
 
     private DirectoryData getFilesByPath(String path) {
