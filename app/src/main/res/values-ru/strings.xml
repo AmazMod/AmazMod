@@ -119,6 +119,8 @@
   <string name="pref_filters">Фильтры уведомлений</string>
   <string name="pref_enable_music_control_with_hardware_button">Включение аппаратного управления музыкой</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(ЭКСПЕРИМАТЕЛЬНАЯ ФУНКЦИЯ!) Включить управление музыкой с помощью физических кнопок. Нажмите нижнюю кнопку для проигрывания или остановки музыки. Долгое нажатие служит для переходу к следующей композиции.</string>
+  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
   <string name="intro_title_1">Добро пожаловать в AmazMod!</string>
   <string name="intro_description_1">Следуйте этой презентации, чтобы узнать, как установить службы приложений на часах и предоставить приложению доступ к Уведомлениям на телефоне.</string>
   <string name="intro_title_permissions">Доступ к уведомлениям</string>
