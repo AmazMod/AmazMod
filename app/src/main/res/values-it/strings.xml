@@ -119,6 +119,8 @@
   <string name="pref_filters">Filtro notifiche</string>
   <string name="pref_enable_music_control_with_hardware_button">Attiva il controllo hardware musicale</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(SPERIMENTALE!) Valido solo per Stratos! Premi il pulsante in basso per riprodurre / mettere in pausa la musica. Premi a lungo per saltare alla canzone successiva</string>
+  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
   <string name="intro_title_1">Benvenuto in AmazMod!</string>
   <string name="intro_description_1">Segui questa presentazione per sapere come installare l\'app di servizio sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono</string>
   <string name="intro_title_permissions">Accesso alle notifiche</string>
