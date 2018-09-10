@@ -29,8 +29,10 @@
   <string name="full_battery_in">Teljesen feltöltve</string>
   <string name="open_notifications_log">Értesítések napló megnyitás</string>
   <string name="notifications_log">Értesítés napló</string>
-  <string name="delete">Delete</string>
-  <string name="download">Download</string>
+  <string name="delete">Töröl</string>
+  <string name="download">Letöltés</string>
+  <string name="deleting">Törlés</string>
+  <string name="cant_delete_file">Nem sikerült törölni</string>
   <string name="add_new_reply">Új válasz hozzáadás</string>
   <string name="enter_the_text_you_want_as_an_answer">Írd be a válaszként szánt szöveget</string>
   <string name="notification_access">Értesítések hozzáférés</string>
@@ -65,11 +67,14 @@
   <string name="activity_about_testers">Tesztelők</string>
   <string name="translators">Fordítók</string>
   <string name="activity_watchface_need_greatfit">Szükség van az órára telepített GreatFit számlapra, hogy ezek a lehetőségek működjenek</string>
-  <string name="activity_watchface_send_data">Telefon adatok órára küldése (akku, ébresztés)</string>
+  <string name="activity_watchface_send_data">Tel. adatok órára küldése (akku, ébresztés)</string>
   <string name="activity_watchface_send_data_interval_prompt">Válassz gyakoriságot</string>
   <string name="activity_watchface_send_data_interval_summary">Számlap adatbeállítások küldése</string>
   <string name="activity_watchface_send_on_battery_change">Adatküldés az akku változásokkal</string>
   <string name="activity_watchface_send_on_alarm_change">Adatküldés az ébresztés változásokkal</string>
+  <string name="activity_watchface_last_time_sent">Utoljára küldve</string>
+  <string name="activity_watchface_data_send">Adatok elküldve</string>
+  <string name="activity_watchface_send_data_now">Adatküldés most</string>
   <string name="activity_stats_notifications_total">Összesen</string>
   <string name="activity_stats_notifications_in_the_last_hour">Az utóbbi órában</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">Az utóbbi 24 órában</string>
@@ -114,6 +119,8 @@
   <string name="pref_filters">Értesítés szűrők</string>
   <string name="pref_enable_music_control_with_hardware_button">Hardveres zene vezérlés</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(KÍSÉRLETI!) Engedélyezi a zene vezérlést a fizikai gombbal. Az alsó gomb nyomására lejátszás/szünet. Hosszan nyomva következő dal.</string>
+  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
   <string name="intro_title_1">Köszönt az AmazMod!</string>
   <string name="intro_description_1">Kérjük kövesd ezt a bemutatót. Megtudhatod miként telepítsd a szolgáltatási alkalmazást az órára és engedélyezheted a hozzáférést a telefonon lévő értesítésekhez.</string>
   <string name="intro_title_permissions">Hozzáférés az Értesítésekhez</string>

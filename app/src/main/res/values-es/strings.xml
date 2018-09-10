@@ -31,6 +31,8 @@
   <string name="notifications_log">Registro de notificaciones</string>
   <string name="delete">Delete</string>
   <string name="download">Download</string>
+  <string name="deleting">Deleting</string>
+  <string name="cant_delete_file">Can\'t delete file</string>
   <string name="add_new_reply">Añadir respuesta</string>
   <string name="enter_the_text_you_want_as_an_answer">Escribe la respuesta deseada</string>
   <string name="notification_access">Acceso a notificaciones</string>
@@ -65,11 +67,14 @@
   <string name="activity_about_testers">Testers</string>
   <string name="translators">Traductores</string>
   <string name="activity_watchface_need_greatfit">Para que estas opciones funcionen tienes que tener instalada la esfera \"GreatFit\"</string>
-  <string name="activity_watchface_send_data">Sent phone\'s data to watch (battery, alarm)</string>
+  <string name="activity_watchface_send_data">Send phone\'s data to watch (battery, alarm)</string>
   <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
-  <string name="activity_watchface_send_data_interval_summary">Set watchface sent data interval</string>
-  <string name="activity_watchface_send_on_battery_change">Sent data every time battery changes</string>
-  <string name="activity_watchface_send_on_alarm_change">Sent data every time alarm changes</string>
+  <string name="activity_watchface_send_data_interval_summary">Set watchface send data interval</string>
+  <string name="activity_watchface_send_on_battery_change">Send data every time battery changes</string>
+  <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
+  <string name="activity_watchface_last_time_sent">Last time sent</string>
+  <string name="activity_watchface_data_send">Data were send</string>
+  <string name="activity_watchface_send_data_now">Send data now</string>
   <string name="activity_stats_notifications_total">Total</string>
   <string name="activity_stats_notifications_in_the_last_hour">Durante la última hora</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">En las últimas 24 horas</string>
@@ -115,6 +120,8 @@
   <string name="pref_filters">Filtros de notificaciones</string>
   <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware para control de música</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de musica mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
+  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
   <string name="intro_title_1">¡Bienvenido a AmazMod!</string>
   <string name="intro_description_1">Por favor sigue esta presentación para aprender a instalar la app de servicio en el reloj y conceder a la app del teléfono acceso a las notificaciones.</string>
   <string name="intro_title_permissions">Acceso a las notificaciones</string>

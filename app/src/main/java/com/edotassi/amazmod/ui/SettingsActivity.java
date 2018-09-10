@@ -98,6 +98,8 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         final boolean disableNotificationsScreenOn = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
+        final boolean phoneConnection = Prefs.getBoolean(Constants.PREF_PHONE_CONNECT_DISCONNECT_ALERT_,
+                Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT_);
 
         final boolean disableBatteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
                 Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
@@ -145,6 +147,7 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setInvertedTheme(enableInvertedTheme);
         settingsData.setFontSize(fontSize);
         settingsData.setDisableNotificationScreenOn(disableNotificationsScreenOn);
+        settingsData.setPhoneConnectionAlert(phoneConnection);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override

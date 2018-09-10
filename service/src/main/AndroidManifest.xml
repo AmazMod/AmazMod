@@ -36,6 +36,14 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent">
         </activity>
+        <activity
+            android:name=".ui.PhoneConnectionActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent">
+        </activity>
         <activity android:name=".ui.RepliesActivity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
@@ -83,5 +91,19 @@
         <meta-data
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
+
+        <receiver
+            android:name=".AdminReceiver"
+            android:label="@string/device_admin"
+            android:description="@string/device_admin_description"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.action.DEVICE_ADMIN_DISABLED" />
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

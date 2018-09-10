@@ -187,6 +187,11 @@
             android:title="@string/pref_enable_music_control_with_hardware_button"
             android:summary="@string/pref_enable_music_control_with_hardware_button_summary" />
         <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.phone.connect.disconnect.alert"
+            android:title="@string/pref_phone_connect_disconnect_alert"
+            android:summary="@string/pref_phone_connect_disconnect_alert_summary" />
+        <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.persistent.notification"
             android:summary="@string/pref_enable_persistent_notification_summary"
