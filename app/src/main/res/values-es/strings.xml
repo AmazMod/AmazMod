@@ -35,6 +35,10 @@
   <string name="cant_delete_file">Can\'t delete file</string>
   <string name="add_new_reply">Añadir respuesta</string>
   <string name="enter_the_text_you_want_as_an_answer">Escribe la respuesta deseada</string>
+  <string name="file_not_exists">File not exists</string>
+  <string name="cant_uplaod_directory">Can\'t upload directory</string>
+  <string name="sending">Sending</string>
+  <string name="cant_upload_file">Can\'t upload file</string>
   <string name="notification_access">Acceso a notificaciones</string>
   <string name="notification_access_not_enabled">Acceso a notificaciones deshabilitado</string>
   <string name="notification_access_enable">Habilitar</string>
