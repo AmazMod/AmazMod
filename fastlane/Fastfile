@@ -10,7 +10,6 @@ platform :android do
     lane :internal do
     fastlane_require 'fastlane-craft'
         begin
-          increment_version_code gradle_build: 'app/build.gradle'
           gradle(
             task: 'assemble',
             build_type: 'Release',
