@@ -7,8 +7,10 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 
+import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
+import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.transport.TransportService;
@@ -17,10 +19,19 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 
+import java.io.File;
+import java.util.concurrent.Callable;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
+import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.RequestUploadFileChunkData;
+import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchfaceData;
 
@@ -73,6 +84,56 @@ public class Watch {
                 return task.getResult().sendWithResult(Transport.REQUEST_DIRECTORY, Transport.DIRECTORY, requestDirectoryData);
             }
         });
+    }
+
+    public Task<ResultDeleteFile> deleteFile(final RequestDeleteFileData requestDeleteFileData) {
+        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<ResultDeleteFile>>() {
+            @Override
+            public Task<ResultDeleteFile> then(@NonNull Task<TransportService> task) throws Exception {
+                return task.getResult().sendWithResult(Transport.REQUEST_DELETE_FILE, Transport.RESULT_DELETE_FILE, requestDeleteFileData);
+            }
+        });
+    }
+
+    public Task<Void> uploadFile(final File file, final String destPath, final OperationProgress operationProgress) {
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource<Void>();
+
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+        Tasks.call(threadPoolExecutor, new Callable<Object>() {
+            @Override
+            public Object call() throws Exception {
+                TransportService transportService = Tasks.await(getServiceInstance());
+                long size = file.length();
+                long lastChunnkSize = size % Constants.CHUNK_SIZE;
+                long totalChunks = size / Constants.CHUNK_SIZE;
+                long startedAt = System.currentTimeMillis();
+
+                for (int i = 0; i < totalChunks; i++) {
+                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, totalChunks, i, Constants.CHUNK_SIZE);
+                    Tasks.await(transportService.sendAndWait(Transport.REQUEST_UPLOAD_FILE_CHUNK, requestUploadFileChunkData));
+
+                    double progress = (((double) (i + 1)) / totalChunks) * 100f;
+                    long duration = System.currentTimeMillis() - startedAt;
+                    long byteSent = (i + 1) * Constants.CHUNK_SIZE;
+                    double speed = ((double) byteSent) / ((double) duration);
+                    long remainingBytes = size - byteSent;
+                    long remainTime = (long) (remainingBytes * speed);
+
+                    operationProgress.update(duration, byteSent, remainTime, progress);
+                }
+
+                if (lastChunnkSize > 0) {
+                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, totalChunks, totalChunks, (int) lastChunnkSize);
+                    Tasks.await(transportService.sendAndWait(Transport.REQUEST_UPLOAD_FILE_CHUNK, requestUploadFileChunkData));
+                }
+
+                taskCompletionSource.setResult(null);
+
+                return null;
+            }
+        });
+
+        return taskCompletionSource.getTask();
     }
 
     public Task<Void> postNotification(final NotificationData notificationData) {
@@ -154,5 +215,9 @@ public class Watch {
                 return task.getResult().sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA, watchfaceData);
             }
         });
+    }
+
+    public interface OperationProgress {
+        void update(long duration, long byteSent, long remainingTime, double progress);
     }
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_amazmodservice_screen_timeout_entries">
-        <item>3 שנ/'</item>
-        <item>5 שנ/'</item>
-        <item>7 שנ/'</item>
-        <item>10 שנ/'</item>
-        <item>12 שנ/'</item>
-        <item>15 שנ/'</item>
-        <item>20 שנ/'</item>
+        <item>3 שנ\'</item>
+        <item>5 שנ\'</item>
+        <item>7 שנ\'</item>
+        <item>10 שנ\'</item>
+        <item>12 שנ\'</item>
+        <item>15 שנ\'</item>
+        <item>20 שנ\'</item>
     </string-array>
     <string-array name="pref_amazmodservice_screen_timeout_values">
         <item>3000</item>
@@ -37,13 +37,13 @@
         <item>15</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
-        <item>15 דק/'</item>
-        <item>30 דק/'</item>
-        <item>60 דק/'</item>
+        <item>15 דק\'</item>
+        <item>30 דק\'</item>
+        <item>60 דק\'</item>
         <item>שעה וחצי</item>
         <item>שעתיים</item>
-        <item>3 ש/'</item>
-        <item>4 ש/'</item>
+        <item>3 ש\'</item>
+        <item>4 ש\'</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_values">
         <item>15</item>

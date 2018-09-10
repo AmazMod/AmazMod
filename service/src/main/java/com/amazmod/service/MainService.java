@@ -1,15 +1,22 @@
 package com.amazmod.service;
 
 import android.app.Service;
+import android.app.admin.DeviceAdminReceiver;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.BatteryManager;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.amazmod.service.events.HardwareButtonEvent;
 import com.amazmod.service.events.NightscoutDataEvent;
@@ -18,7 +25,9 @@ import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
 import com.amazmod.service.events.incoming.LowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
+import com.amazmod.service.events.incoming.RequestDeleteFile;
 import com.amazmod.service.events.incoming.RequestDirectory;
+import com.amazmod.service.events.incoming.RequestUploadFileChunk;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.events.incoming.Watchface;
@@ -27,6 +36,7 @@ import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.notifications.NotificationsReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
+import com.amazmod.service.ui.PhoneConnectionActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
@@ -43,6 +53,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -55,7 +66,10 @@ import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.NotificationData;
+import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.RequestUploadFileChunkData;
+import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
@@ -80,6 +94,8 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.BRIGHTNESS, Brightness.class);
         put(Transport.LOW_POWER, LowPower.class);
         put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
+        put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
+        put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
@@ -98,6 +114,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private DataBundle dataBundle;
 
     private SlptClockClient slptClockClient;
+    private ContentObserver phoneConnectionObserver;
 
     @Override
     public void onCreate() {
@@ -159,6 +176,31 @@ public class MainService extends Service implements Transporter.DataListener {
         });
 
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
+
+        //Register phone connect/disconnect monitor
+        ContentResolver contentResolver = getContentResolver();
+        Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
+        phoneConnectionObserver = new ContentObserver(new Handler()) {
+            @Override
+            public void onChange(boolean selfChange) {
+                super.onChange(selfChange);
+                if(settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false)){//Settings go here
+                    // Show connection status
+                    Intent intent = new Intent(context, PhoneConnectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                    context.startActivity(intent);
+                }
+            }
+
+            @Override
+            public boolean deliverSelfNotifications() {
+                return true;
+            }
+        };
+        contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
     }
 
     @Override
@@ -169,6 +211,9 @@ public class MainService extends Service implements Transporter.DataListener {
             unregisterReceiver(notificationsReceiver);
             notificationsReceiver = null;
         }
+
+        // Unregister phone connection observer
+        getContentResolver().unregisterContentObserver(phoneConnectionObserver);
 
         super.onDestroy();
     }
@@ -212,7 +257,6 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-
     private static final String LEVEL = "level";
     private static final String CHARGING = "charging";
     private static final String USB_CHARGE = "usb_charge";
@@ -225,7 +269,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
-        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery+", alarm:"+phoneAlarm);
+        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
 
         // Get already saved data
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
@@ -386,6 +430,42 @@ public class MainService extends Service implements Transporter.DataListener {
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestDeleteFile(RequestDeleteFile requestDeleteFile) {
+        ResultDeleteFileData resultDeleteFileData = new ResultDeleteFileData();
+
+        try {
+            RequestDeleteFileData requestDeleteFileData = RequestDeleteFileData.fromDataBundle(requestDeleteFile.getDataBundle());
+            File file = new File(requestDeleteFileData.getPath());
+            int result = file.delete() ? Transport.RESULT_OK : Transport.RESULT_UNKNOW_ERROR;
+
+            resultDeleteFileData.setResult(result);
+        } catch (SecurityException securityException) {
+            resultDeleteFileData.setResult(Transport.RESULT_PERMISSION_DENIED);
+        } catch (Exception ex) {
+            resultDeleteFileData.setResult(Transport.RESULT_UNKNOW_ERROR);
+        }
+
+        send(Transport.RESULT_DELETE_FILE, resultDeleteFileData.toDataBundle());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestUploadFileChunk(RequestUploadFileChunk requestUploadFileChunk) {
+        try {
+            RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromDataBundle(requestUploadFileChunk.getDataBundle());
+            File file = new File(requestUploadFileChunkData.getPath());
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+
+            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getSize();
+            randomAccessFile.seek(position);
+            randomAccessFile.write(requestUploadFileChunkData.getBytes());
+            randomAccessFile.close();
+
+        } catch (Exception ex) {
+            Log.e(Constants.TAG, ex.getMessage());
+        }
     }
 
     private DirectoryData getFilesByPath(String path) {

@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    buildToolsVersion '27.0.3'
     compileSdkVersion 27
 
     def versionPropsFile = file('version.properties')
