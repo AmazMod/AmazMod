@@ -13,6 +13,7 @@
     <string name="brightness">Brightness</string>
     <string name="tweaking">Tweaking</string>
     <string name="watchface">WatchFace</string>
+    <string name="greatfit">GreatFit</string>
     <string name="stats">Stats</string>
     <string name="changelog">Changelog</string>
     <string name="enable">Enable</string>
@@ -26,9 +27,17 @@
     <string name="full_battery_in">Fully charged in</string>
     <string name="open_notifications_log">Open notifications log</string>
     <string name="notifications_log">Notifications log</string>
-
+    <string name="delete">Delete</string>
+    <string name="download">Download</string>
+    <string name="deleting">Deleting</string>
+    <string name="cant_delete_file">Can\'t delete file</string>
     <string name="add_new_reply">Add new reply</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
+    <string name="file_not_exists">File not exists</string>
+    <string name="cant_uplaod_directory">Can\'t upload directory</string>
+    <string name="sending">Sending</string>
+    <string name="cant_upload_file">Can\'t upload file</string>
+    <string name="file_upload_canceled">File upload canceled</string>
 
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
@@ -68,8 +77,14 @@
     <string name="translators">Translators</string>
 
     <string name="activity_watchface_need_greatfit">You need to have the watchface "GreatFit" installed on your watch for these options to work</string>
-    <string name="activity_watchface_show_altitude">Show altitude</string>
-    <string name="activity_watchface_show_phone_battery">Show phone\'s battery</string>
+    <string name="activity_watchface_send_data">Send phone\'s data to watch (battery, alarm)</string>
+    <string name="activity_watchface_send_data_interval_prompt">Select interval time</string>
+    <string name="activity_watchface_send_data_interval_summary">Set watchface send data interval</string>
+    <string name="activity_watchface_send_on_battery_change">Send data every time battery changes</string>
+    <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
+    <string name="activity_watchface_last_time_sent">Last time sent</string>
+    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_send_data_now">Send data now</string>
 
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">In the last hour</string>
@@ -116,6 +131,8 @@
     <string name="pref_filters">Notifications filters</string>
     <string name="pref_enable_music_control_with_hardware_button">Enable hardware music control</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
+    <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
 
     <string name="intro_title_1">Welcome to AmazMod!</string>
     <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>

@@ -24,4 +24,4 @@ before_install:
 - gem install fastlane --no-rdoc --no-ri --no-document --quiet
 script:
 - "./gradlew clean"
-- fastlane alpha
+- fastlane internal

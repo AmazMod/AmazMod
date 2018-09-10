@@ -6,7 +6,6 @@ import android.os.Parcelable;
 
 import com.huami.watch.transport.DataBundle;
 
-import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
 
 public class RequestDirectoryData extends Transportable implements Parcelable {

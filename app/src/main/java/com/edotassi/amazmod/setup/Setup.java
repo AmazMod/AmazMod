@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
+import com.edotassi.amazmod.receiver.WatchfaceReceiver;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.FilesExtrasActivity;
 
@@ -18,6 +19,7 @@ public class Setup {
         }
 
         BatteryStatusReceiver.startBatteryReceiver(context);
+        WatchfaceReceiver.startWatchfaceReceiver(context);
 
         checkIfAppUninstalledThenRemove(context);
     }

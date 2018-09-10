@@ -108,6 +108,26 @@
         <item>180</item>
         <item>240</item>
     </string-array>
+    <string-array name="pref_watchface_background_sync_interval_entries">
+        <item>1 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>60 min</item>
+        <item>1 h 30 min</item>
+        <item>2 h</item>
+    </string-array>
+    <string-array name="pref_watchface_background_sync_interval_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
         <item>Large</item>

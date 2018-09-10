@@ -7,7 +7,7 @@ platform :android do
     sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
   end
 
-    lane :alpha do
+    lane :internal do
     fastlane_require 'fastlane-craft'
         begin
           increment_version_code gradle_build: 'app/build.gradle'
@@ -21,10 +21,10 @@ platform :android do
                "android.injected.signing.key.password" => ENV['KEYSTORE_ALIAS_PASSWORD'],
           })
           upload_to_play_store(
-            track: 'alpha',
+            track: 'internal',
             apk: './app/build/outputs/apk/release/app-release.apk'
           )
-          telegram(message: 'Build published in alpha stage', parse_mode: 'Markdown')
+          telegram(message: 'Build published in internal stage', parse_mode: 'Markdown')
         rescue => ex
             telegram(message: ex.message, parse_mode: 'Markdown')
         end

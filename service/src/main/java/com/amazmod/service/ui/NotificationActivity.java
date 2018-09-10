@@ -1,12 +1,15 @@
 package com.amazmod.service.ui;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
@@ -18,12 +21,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
+import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -69,6 +74,7 @@ public class NotificationActivity extends Activity {
     private static float fontSizeSP;
     private static int screenMode;
     private static int screenBrightness = 999989;
+    private static boolean deviceWasLocked;
     private Context mContext;
 
     private NotificationData notificationSpec;
@@ -96,6 +102,8 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
+        deviceWasLocked = DeviceUtil.isDeviceLocked(getBaseContext());
+
         boolean hideReplies;
 
         //Load preferences
@@ -109,7 +117,7 @@ public class NotificationActivity extends Activity {
         setWindowFlags(true);
 
         //Do not activate screen if it is disabled in settings and screen is off
-        if (disableNotificationsScreenOn && DeviceUtil.isDeviceLocked(getBaseContext())) {
+        if (disableNotificationsScreenOn && deviceWasLocked) {
             setScreenModeOff(true);
         }
 
@@ -276,6 +284,32 @@ public class NotificationActivity extends Activity {
                     }
                 }
             }, 10000 - notificationSpec.getTimeoutRelock() + 600);
+        }
+
+        if(deviceWasLocked){
+            Log.i(Constants.TAG, "NotificationActivity device was locked, locking again...");
+            lock();
+        }
+    }
+
+    private void lock() {
+        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+        if (pm.isScreenOn()) {
+            DevicePolicyManager policy = (DevicePolicyManager)
+                    getSystemService(Context.DEVICE_POLICY_SERVICE);
+            try {
+                policy.lockNow();
+            } catch (SecurityException ex) {
+                Toast.makeText(
+                        this,
+                        "must enable device administrator",
+                        Toast.LENGTH_LONG).show();
+                ComponentName admin = new ComponentName(mContext, AdminReceiver.class);
+                Intent intent = new Intent(
+                        DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).putExtra(
+                        DevicePolicyManager.EXTRA_DEVICE_ADMIN, admin);
+                mContext.startActivity(intent);
+            }
         }
     }
 

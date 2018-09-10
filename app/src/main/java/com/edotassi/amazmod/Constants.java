@@ -4,6 +4,8 @@ public class Constants {
 
     public static final String PACKAGE = "com.edotassi.amazmod";
     public static final String TAG = "AmazMod";
+    public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
+    public static final String INITIAL_PATH = "/sdcard";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
@@ -25,6 +27,7 @@ public class Constants {
     public static final String PREF_FORCE_ENGLISH = "preference.force.english";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
     public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
+    public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT_= "preference.phone.connect.disconnect.alert";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -40,6 +43,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_STANDARD_NOTIFICATIONS = false;
+    public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT_= false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
@@ -69,4 +73,15 @@ public class Constants {
     public static final byte FILTER_SCREENON = 'S';
     public static final byte FILTER_SCREENLOCKED = 'N';
     public static final byte FILTER_NOTIFICATIONS_DISABLED = 'D';
+
+    public static final String PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL = "preference.watchface.background.sync.interval";
+    public static final String PREF_TIME_LAST_WATCHFACE_DATA_SYNC = "preference.time.last.watchface.data.sync";
+    public static final String PREF_WATCHFACE_SEND_DATA = "preference.watchface.send.data";
+    public static final String PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX = "preference.watchface.send.data.interval.index";
+    public static final String PREF_WATCHFACE_SEND_BATTERY_CHANGE = "preference.watchface.send.battery.change";
+    public static final String PREF_WATCHFACE_SEND_ALARM_CHANGE = "preference.watchface.send.alarm.change";
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
+    public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = true;
 }
