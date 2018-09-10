@@ -35,6 +35,10 @@
   <string name="cant_delete_file">לא ניתן למחוק קובץ</string>
   <string name="add_new_reply">הוסף תגובה חדשה</string>
   <string name="enter_the_text_you_want_as_an_answer">הזן את הטקסט הרצוי כתשובה</string>
+  <string name="file_not_exists">File not exists</string>
+  <string name="cant_uplaod_directory">Can\'t upload directory</string>
+  <string name="sending">Sending</string>
+  <string name="cant_upload_file">Can\'t upload file</string>
   <string name="notification_access">גישת התראות</string>
   <string name="notification_access_not_enabled">גישת ההתראות אינה מופעלת</string>
   <string name="notification_access_enable">אפשר</string>
@@ -134,7 +138,7 @@
   <string name="intro_description_4">עכשיו אתה יכול ללכת להגדרות של AmazMod ולבחור את היישומים שאתה רוצה לקבל התראות ולהוסיף את התשובות המותאמות אישית שלך.\n\nתהנה בשימוש AmazMod! \u2661</string>
   <string name="watch_is_connected">מחובר</string>
   <string name="watch_disconnected">מנותק</string>
-  <string name="watch_connecting">מתחבר…</string>
+  <string name="watch_connecting">מתחבר...</string>
   <string name="notifications_screen_timeout">זמן כיבוי מסך</string>
   <string name="pref_notifications_inverted_theme">ערכת צבעים הפוכה</string>
   <string name="pref_notifications_inverted_theme_summary">אפשר רקע בהיר עם טקסט שחור</string>
