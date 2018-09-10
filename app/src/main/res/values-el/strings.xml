@@ -35,6 +35,10 @@
   <string name="cant_delete_file">Δεν είναι δυνατή η διαγραφή του αρχείου</string>
   <string name="add_new_reply">Προσθήκη νέας απάντησης</string>
   <string name="enter_the_text_you_want_as_an_answer">Εισάγετε το κείμενο που θέλετε ως απάντηση</string>
+  <string name="file_not_exists">File not exists</string>
+  <string name="cant_uplaod_directory">Can\'t upload directory</string>
+  <string name="sending">Sending</string>
+  <string name="cant_upload_file">Can\'t upload file</string>
   <string name="notification_access">Πρόσβαση στις ειδοποιήσεις</string>
   <string name="notification_access_not_enabled">Η πρόσβαση στις ειδοποιήσεις δεν είναι ενεργή</string>
   <string name="notification_access_enable">Ενεργοποίηση</string>
