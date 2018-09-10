@@ -14,6 +14,7 @@ import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.transport.TransportService;
+import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -21,6 +22,7 @@ import com.google.android.gms.tasks.Tasks;
 
 import java.io.File;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -95,7 +97,7 @@ public class Watch {
         });
     }
 
-    public Task<Void> uploadFile(final File file, final String destPath, final OperationProgress operationProgress) {
+    public Task<Void> uploadFile(final File file, final String destPath, final OperationProgress operationProgress, final CancellationToken cancellationToken) {
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource<Void>();
 
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
@@ -109,6 +111,15 @@ public class Watch {
                 long startedAt = System.currentTimeMillis();
 
                 for (int i = 0; i < totalChunks; i++) {
+                    if (cancellationToken.isCancellationRequested()) {
+                        RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
+                        requestDeleteFileData.setPath(destPath);
+                        Tasks.await(Watch.get().deleteFile(requestDeleteFileData));
+
+                        taskCompletionSource.setException(new CancellationException());
+                        return null;
+                    }
+
                     RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, totalChunks, i, Constants.CHUNK_SIZE);
                     Tasks.await(transportService.sendAndWait(Transport.REQUEST_UPLOAD_FILE_CHUNK, requestUploadFileChunkData));
 
