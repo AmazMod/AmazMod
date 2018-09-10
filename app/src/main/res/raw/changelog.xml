@@ -1,5 +1,7 @@
 <changelog>
-    <release>
+    <release
+        versionCode="168"
+        versionName="v1.0.38">
         <new>Basic file explorer</new>
         <new>Basic integration with GreatFit</new>
         <new>Added Spanish translation</new>
