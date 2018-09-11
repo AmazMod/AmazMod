@@ -113,7 +113,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Product manufacter" />
+                    android:text="Product manufacturer" />
 
                 <TextView
                     android:id="@+id/card_product_manufacter"
