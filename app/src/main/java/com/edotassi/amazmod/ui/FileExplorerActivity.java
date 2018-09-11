@@ -37,6 +37,8 @@ import com.nononsenseapps.filepicker.Utils;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CancellationException;
+import java.util.Date;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
@@ -176,7 +179,11 @@ public class FileExplorerActivity extends AppCompatActivity {
                                         double speed = kbSent / (duration / 1000);
                                         DecimalFormat df = new DecimalFormat("#.00");
 
-                                        String message = getString(R.string.sending) + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                                        PrettyTime p = new PrettyTime();
+                                        Date finishDate = new Date(System.currentTimeMillis() + (remainingTime * 1000));
+                                        String duration = p.formatDurationUnrounded(finishDate);
+
+                                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
                                         progressBar.setMessage(message);
                                         snackProgressBarManager.setProgress((int) progress);
