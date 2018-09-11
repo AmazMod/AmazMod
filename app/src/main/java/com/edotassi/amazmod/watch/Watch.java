@@ -126,9 +126,9 @@ public class Watch {
                     double progress = (((double) (i + 1)) / totalChunks) * 100f;
                     long duration = System.currentTimeMillis() - startedAt;
                     long byteSent = (i + 1) * Constants.CHUNK_SIZE;
-                    double speed = ((double) byteSent) / ((double) duration);
+                    double speed = ((double) byteSent) / ((double) duration); // byte/ms
                     long remainingBytes = size - byteSent;
-                    long remainTime = (long) (remainingBytes * speed);
+                    long remainTime = (long) (remainingBytes / (speed * 1000));
 
                     operationProgress.update(duration, byteSent, remainTime, progress);
                 }
