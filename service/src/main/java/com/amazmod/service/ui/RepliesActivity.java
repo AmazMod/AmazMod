@@ -76,9 +76,6 @@ public class RepliesActivity extends Activity {
 
         setContentView(R.layout.activity_notification);
 
-        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.transparent));
-        rootLayout.getRootView().setBackgroundColor(getResources().getColor(R.color.transparent));
-
         ButterKnife.bind(this);
 
         settingsManager = new SettingsManager(this);
@@ -89,13 +86,23 @@ public class RepliesActivity extends Activity {
         boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
 
-        // Set theme and font size
+        //Make sure background is transparent
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.transparent));
+        rootLayout.getRootView().setBackgroundColor(getResources().getColor(R.color.transparent));
+
+        //Set theme and font size
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));
             title.setTextColor(getResources().getColor(R.color.black));
             text.setTextColor(getResources().getColor(R.color.black));
             icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
+        } else {
+            rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
+            time.setTextColor(getResources().getColor(R.color.text));
+            title.setTextColor(getResources().getColor(R.color.text));
+            text.setTextColor(getResources().getColor(R.color.text));
+            icon.setBackgroundColor(getResources().getColor(R.color.black));
         }
 
         setFontSizeSP();
