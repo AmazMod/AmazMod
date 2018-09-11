@@ -39,6 +39,7 @@
   <string name="cant_uplaod_directory">Can\'t upload directory</string>
   <string name="sending">Sending</string>
   <string name="cant_upload_file">Can\'t upload file</string>
+  <string name="file_upload_canceled">File upload canceled</string>
   <string name="notification_access">גישת התראות</string>
   <string name="notification_access_not_enabled">גישת ההתראות אינה מופעלת</string>
   <string name="notification_access_enable">אפשר</string>
