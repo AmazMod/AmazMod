@@ -57,7 +57,6 @@ public class RepliesActivity extends Activity {
     private ActivityFinishRunnable activityFinishRunnable;
 
     private static boolean nullError = false;
-    private static boolean mustLockDevice;
     private static float fontSizeSP;
 
     private NotificationData notificationSpec;
@@ -80,7 +79,7 @@ public class RepliesActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        mustLockDevice = getIntent().getBooleanExtra("MUSTLOCKDEVICE", true);
+        boolean mustLockDevice = getIntent().getBooleanExtra("MUSTLOCKDEVICE", true);
 
         //Load preferences
         boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
