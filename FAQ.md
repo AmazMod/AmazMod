@@ -22,7 +22,8 @@ A- *I am getting two notifications/double on watch, is it normal?*
 R- Yes, if you have enabled "Custom replies" in AmazMod then you will get two notifications: one is short-lived and will enable you to reply (it will remain on screen for the time that it is selected in AmazMod Settings and then it will be gone, so it is not actually a notification but just a short-time interface for replies) and the regular notification that looks like common Amazfit notifications but were actually filtered and improved by AmazMod. Obviously, if you have *disabled* "Custom replies" then you will get only one notification.
 
 A- *I cannot install service-release.apk on watch, why?*  
-R- Well, this is hard to answer, it can be due to many factors But the most commons are: you don't have enough free space on watch to install a new APK, you have an old version of the APK that must be uninstalled first. If you cannot install a new version and uninstalling doesn't seem to work, try using this adb command: `adb shell pm uninstall com.amazmod.service`, this is common if you have used third party app Amazfit Tool to uninstall APKs.
+R- Well, this is hard to answer, it can be due to many factors But the most commons are: you don't have enough free space on watch to install a new APK, you have an old version of the APK that must be uninstalled first. If you cannot install a new version and uninstalling doesn't seem to work (this may happen if you have used third party app Amazfit Tool to uninstall APKs), try using this adb command:<br>
+`adb shell pm uninstall com.amazmod.service`
 
 You may also have the dreaded "communication issue" while watch is connected to computer, very common specially if you have Stratos: check your connection to the computer, including cable/charger, metallic contacts on both watch and charger (keep them clean!) and USB port on your computer. 
 
