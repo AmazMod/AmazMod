@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -81,6 +82,10 @@ public class NotificationService {
 
             if (enableCustomUI || forceCustom) {
                 Log.d(Constants.TAG, "NotificationService context: " + context.toString());
+                //Delay 100ms to make sure it will be shown after standard notification
+                if (!forceCustom) {
+                    SystemClock.sleep(100);
+                }
                 postWithCustomUI(notificationSpec);
             } else {
                 postWithStandardUI(notificationSpec, disableNotificationReplies);

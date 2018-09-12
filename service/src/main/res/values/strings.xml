@@ -8,6 +8,13 @@
     <string name="replies">&#160;&#160;Replies</string>
     <string name="phone_disconnected">Phone disconnected</string>
     <string name="phone_connected">Phone connected</string>
-    <string name="device_admin">device_admin</string>
-    <string name="device_admin_description">Grand lock screen access</string>
+    <string name="device_owner">Please enable Device Owner as instructed</string>
+    <!-- Strings used by AdminReceiver -->
+    <string name="device_admin">Device Admin</string>
+    <string name="device_admin_description">Grant lock screen access</string>
+    <string name="admin_receiver_status">Device Admin: %1$s</string>
+    <string name="admin_receiver_status_enabled">enabled</string>
+    <string name="admin_receiver_status_disabled">disabled</string>
+    <string name="admin_receiver_status_disable_warning">
+        AmazMod will not be able to lock screen after closing replies.</string>
 </resources>
