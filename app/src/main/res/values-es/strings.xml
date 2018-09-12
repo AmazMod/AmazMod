@@ -195,4 +195,6 @@
   <string name="failed_to_send_test_notification">Fallo el enviar la notificación de prueba</string>
   <string name="file_explorer">Explorador de archivos</string>
   <string name="reading_files_failed">Fallo de lectura de los archivos</string>
+  <string name="activity_about_extras">Extras</string>
+  <string name="revoke_device_owner">Revoke device owner on watch</string>
 </resources>
