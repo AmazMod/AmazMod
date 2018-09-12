@@ -171,4 +171,6 @@ Vychutnejte si používání AmazModu! ♡"</string>
     <string name="watch_info">"Informace hodinek"</string>
     <string name="watch_is_connected">Připojeno</string>
     <string name="translators">Překladatelé</string>
+    <string name="activity_about_extras">Extras</string>
+    <string name="revoke_device_owner">Revoke device owner on watch</string>
 </resources>

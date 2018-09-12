@@ -196,4 +196,6 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="failed_to_send_test_notification">Impossibile inviare la notifica di prova</string>
   <string name="file_explorer">Esplora file</string>
   <string name="reading_files_failed">Lettura file non riuscita</string>
+    <string name="activity_about_extras">Extras</string>
+  <string name="revoke_device_owner">Revoke device owner on watch</string>
 </resources>

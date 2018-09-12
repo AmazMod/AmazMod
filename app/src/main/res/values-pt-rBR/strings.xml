@@ -184,5 +184,7 @@
     <string name="pref_disable_standard_notifications">Disable standard notifications</string>
     <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch</string>
     <string name="activity_tweaking_brightness">Please disable Auto-brightness in watch first for this to work</string>
+    <string name="activity_about_extras">Extras</string>
+    <string name="revoke_device_owner">Revoke device owner on watch</string>
 
 </resources>

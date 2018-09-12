@@ -197,4 +197,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="failed_to_send_test_notification">Teszt elküldése sikertelen</string>
   <string name="file_explorer">Fájlböngésző</string>
   <string name="reading_files_failed">A fájlok olvasása sikertelen</string>
+    <string name="activity_about_extras">Extras</string>
+  <string name="revoke_device_owner">Revoke device owner on watch</string>
 </resources>
