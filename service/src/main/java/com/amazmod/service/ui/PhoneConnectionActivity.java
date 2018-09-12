@@ -78,25 +78,22 @@ public class PhoneConnectionActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        //ShakeDetector.start();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        //ShakeDetector.stop();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //ShakeDetector.destroy();
     }
 
     private void startTimerFinish() {
         // Vibrate
         try {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(1000);
+            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -140,13 +140,14 @@ public class NotificationService extends NotificationListenerService {
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
                 filterResult == Constants.FILTER_LOCALOK) {
-            if (isCustomUIEnabled() && filterResult != Constants.FILTER_LOCALOK) {
-                sendNotificationWithCustomUI(statusBarNotification);
-                notificationSent = true;
-            }
 
             if (!isStandardDisabled()) {
                 sendNotificationWithStandardUI(filterResult, statusBarNotification);
+                notificationSent = true;
+            }
+
+            if (isCustomUIEnabled() && filterResult != Constants.FILTER_LOCALOK) {
+                sendNotificationWithCustomUI(statusBarNotification);
                 notificationSent = true;
             }
 
@@ -155,6 +156,7 @@ public class NotificationService extends NotificationListenerService {
             } else {
                 storeForStats(statusBarNotification, Constants.FILTER_RETURN);
             }
+
         } else {
             //Messenger voice call notifications
             if (isRingingNotification(statusBarNotification.getNotification())) {

@@ -106,6 +106,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
     private static long dateLastCharge;
+    private static boolean isPhoneConnectionAlertEnabled;
     private float batteryPct;
     private WidgetSettings settings;
 
@@ -178,29 +179,10 @@ public class MainService extends Service implements Transporter.DataListener {
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
 
         //Register phone connect/disconnect monitor
-        ContentResolver contentResolver = getContentResolver();
-        Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
-        phoneConnectionObserver = new ContentObserver(new Handler()) {
-            @Override
-            public void onChange(boolean selfChange) {
-                super.onChange(selfChange);
-                if(settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false)){//Settings go here
-                    // Show connection status
-                    Intent intent = new Intent(context, PhoneConnectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                    context.startActivity(intent);
-                }
-            }
-
-            @Override
-            public boolean deliverSelfNotifications() {
-                return true;
-            }
-        };
-        contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
+        isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false);
+        if (isPhoneConnectionAlertEnabled) {
+            registerConnectionMonitor(true);
+        }
     }
 
     @Override
@@ -213,8 +195,9 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         // Unregister phone connection observer
-        getContentResolver().unregisterContentObserver(phoneConnectionObserver);
-
+        if (phoneConnectionObserver != null) {
+            getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+        }
         super.onDestroy();
     }
 
@@ -300,10 +283,21 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void settingsSync(SyncSettings event) {
+        Log.w(Constants.TAG, "MainService SyncSettings ***** event received *****");
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
         settingsManager.sync(settingsData);
 
+        //Toggle phone connect/disconnect monitor if settings changed
+        if (isPhoneConnectionAlertEnabled != settingsData.isPhoneConnectionAlert()) {
+            registerConnectionMonitor(settingsData.isPhoneConnectionAlert());
+        }
+
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void string(String event) {
+        Log.w(Constants.TAG, "MainService string ***** event received *****");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -533,4 +527,35 @@ public class MainService extends Service implements Transporter.DataListener {
             });
         }
     }
+
+    private void registerConnectionMonitor(boolean status) {
+        Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
+        if (status) {
+            ContentResolver contentResolver = getContentResolver();
+            Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
+            phoneConnectionObserver = new ContentObserver(new Handler()) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    super.onChange(selfChange);
+                    Intent intent = new Intent(context, PhoneConnectionActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                            Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public boolean deliverSelfNotifications() {
+                    return true;
+                }
+            };
+            contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
+        } else {
+            getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            phoneConnectionObserver = null;
+        }
+        isPhoneConnectionAlertEnabled = status;
+    }
+
 }

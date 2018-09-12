@@ -1,18 +1,17 @@
 package com.amazmod.service.ui;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +22,6 @@ import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
-import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,7 +33,6 @@ import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class RepliesActivity extends Activity {
@@ -60,6 +57,7 @@ public class RepliesActivity extends Activity {
     private ActivityFinishRunnable activityFinishRunnable;
 
     private static boolean nullError = false;
+    private static boolean mustLockDevice;
     private static float fontSizeSP;
 
     private NotificationData notificationSpec;
@@ -81,6 +79,8 @@ public class RepliesActivity extends Activity {
         settingsManager = new SettingsManager(this);
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
+
+        mustLockDevice = getIntent().getBooleanExtra("MUSTLOCKDEVICE", true);
 
         //Load preferences
         boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
@@ -161,6 +161,11 @@ public class RepliesActivity extends Activity {
     public void finish() {
         handler.removeCallbacks(activityFinishRunnable);
         super.finish();
+        DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+        if (mDPM != null) {
+            SystemClock.sleep(100);
+            mDPM.lockNow();
+        }
     }
 
     private void setFontSizeSP(){
