@@ -183,6 +183,7 @@ public class MainActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         Log.d(Constants.TAG, " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+        batteryChartFragment.onResume();
     }
 
     @Override
