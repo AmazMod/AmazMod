@@ -194,4 +194,6 @@
   <string name="failed_to_send_test_notification">Απέτυχε να στείλει δοκιμαστική ειδοποίηση</string>
   <string name="file_explorer">Εξερευνητής αρχείων</string>
   <string name="reading_files_failed">Η ανάγνωση αρχείων απέτυχε</string>
+  <string name="activity_about_extras">Extras</string>
+  <string name="revoke_device_owner">Revoke device owner on watch</string>
 </resources>
