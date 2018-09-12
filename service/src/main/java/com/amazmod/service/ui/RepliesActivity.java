@@ -57,6 +57,7 @@ public class RepliesActivity extends Activity {
     private ActivityFinishRunnable activityFinishRunnable;
 
     private static boolean nullError = false;
+    private static boolean mustLockDevice;
     private static float fontSizeSP;
 
     private NotificationData notificationSpec;
@@ -79,7 +80,7 @@ public class RepliesActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        boolean mustLockDevice = getIntent().getBooleanExtra("MUSTLOCKDEVICE", true);
+        mustLockDevice = getIntent().getBooleanExtra("MUSTLOCKDEVICE", true);
 
         //Load preferences
         boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
@@ -160,10 +161,12 @@ public class RepliesActivity extends Activity {
     public void finish() {
         handler.removeCallbacks(activityFinishRunnable);
         super.finish();
-        DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-        if (mDPM != null) {
-            SystemClock.sleep(100);
-            mDPM.lockNow();
+        if (mustLockDevice) {
+            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (mDPM != null) {
+                SystemClock.sleep(100);
+                mDPM.lockNow();
+            }
         }
     }
 
