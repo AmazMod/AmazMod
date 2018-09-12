@@ -4,7 +4,9 @@ package com.amazmod.service.notifications;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,6 +19,7 @@ import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.ui.NotificationActivity;
@@ -80,15 +83,29 @@ public class NotificationService {
                 disableNotificationReplies = true;
             }
 
-            if (enableCustomUI || forceCustom) {
-                Log.d(Constants.TAG, "NotificationService context: " + context.toString());
-                //Delay 100ms to make sure it will be shown after standard notification
-                if (!forceCustom) {
-                    SystemClock.sleep(100);
+            //Handles test notifications
+            if (notificationSpec.getTitle().equals("AmazMod") && notificationSpec.getKey().equals("amazmod|test|999")) {
+                if (notificationSpec.getText().equals("Test Notification")) {
+                    if (forceCustom) {
+                        postWithCustomUI(notificationSpec);
+                    } else {
+                        postWithStandardUI(notificationSpec, hideReplies);
+                    }
+                } else if (notificationSpec.getText().equals("Revoke Admin Owner")) {
+                    revokeAdminOwner();
                 }
-                postWithCustomUI(notificationSpec);
+            //Handles normal notifications
             } else {
-                postWithStandardUI(notificationSpec, disableNotificationReplies);
+                if (enableCustomUI || forceCustom) {
+                    Log.d(Constants.TAG, "NotificationService context: " + context.toString());
+                    //Delay 100ms to make sure it will be shown after standard notification
+                    if (!forceCustom) {
+                        SystemClock.sleep(100);
+                    }
+                    postWithCustomUI(notificationSpec);
+                } else {
+                    postWithStandardUI(notificationSpec, disableNotificationReplies);
+                }
             }
         }
     }
@@ -231,6 +248,25 @@ public class NotificationService {
             return new Gson().fromJson(replies, listType);
         } catch (Exception ex) {
             return new ArrayList<>();
+        }
+    }
+
+    private void revokeAdminOwner() {
+        DevicePolicyManager mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        try {
+            if (mDPM != null) {
+                ComponentName componentName = new ComponentName(context, AdminReceiver.class);
+                Log.i(Constants.TAG, "NotificationService revokeAdminOwner componentName: " + componentName.toString());
+                Log.i(Constants.TAG, "NotificationService revokeAdminOwner getPackageName: " + context.getPackageName());
+                Log.i(Constants.TAG, "NotificationService revokeAdminOwner getActiveAdmins: " + mDPM.getActiveAdmins());
+                Log.i(Constants.TAG, "NotificationService revokeAdminOwner isDeviceOwnerApp: " + mDPM.isDeviceOwnerApp(context.getPackageName()));
+                mDPM.clearDeviceOwnerApp(context.getPackageName());
+                mDPM.removeActiveAdmin(componentName);
+            }
+        } catch (NullPointerException e) {
+            Log.e(Constants.TAG, "NotificationService revokeAdminOwner NullPointerException: " + e.toString());
+        } catch (SecurityException e) {
+            Log.e(Constants.TAG, "NotificationService revokeAdminOwner SecurityException: " + e.toString());
         }
     }
 

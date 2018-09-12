@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.BuildConfig;
+import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
@@ -94,6 +96,7 @@ public class AboutActivity extends AppCompatActivity {
         notificationData.setTitle("AmazMod");
         notificationData.setText("Test Notification");
         notificationData.setTime("00:00");
+        notificationData.setVibration(Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION)));
         notificationData.setHideReplies(true);
         notificationData.setHideButtons(false);
 

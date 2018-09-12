@@ -218,6 +218,7 @@ public class NotificationService extends NotificationListenerService {
         } else notificationData.setVibration(0);
         notificationData.setHideReplies(false);
         notificationData.setHideButtons(true);
+        notificationData.setForceCustom(false);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
         Watch.get().postNotification(notificationData);
