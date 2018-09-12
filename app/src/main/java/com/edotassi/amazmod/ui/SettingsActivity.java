@@ -135,8 +135,10 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         final boolean disableNotificationsScreenOn = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
-        final boolean phoneConnection = Prefs.getBoolean(Constants.PREF_PHONE_CONNECT_DISCONNECT_ALERT_,
-                Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT_);
+        final boolean phoneConnection = Prefs.getBoolean(Constants.PREF_PHONE_CONNECT_DISCONNECT_ALERT,
+                Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT);
+        final boolean phoneConnectionStandardNotification = Prefs.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,
+                Constants.PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION);
 
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
@@ -160,6 +162,7 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setFontSize(fontSize);
         settingsData.setDisableNotificationScreenOn(disableNotificationsScreenOn);
         settingsData.setPhoneConnectionAlert(phoneConnection);
+        settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override

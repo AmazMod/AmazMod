@@ -206,4 +206,7 @@
     <string name="reading_files_failed">Reading files failed</string>
     <string name="activity_about_extras">Extras</string>
     <string name="revoke_device_owner">Revoke device owner on watch</string>
+    <string name="connection_alert">Connection alert</string>
+    <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
 </resources>

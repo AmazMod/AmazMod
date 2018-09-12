@@ -153,6 +153,21 @@
             android:title="@string/pref_notifications_enable_ungroup" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/connection_alert">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.phone.connect.disconnect.alert"
+            android:summary="@string/pref_phone_connect_disconnect_alert_summary"
+            android:title="@string/pref_phone_connect_disconnect_alert" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.phone.connect.disconnect.alert"
+            android:key="preference.phone.connection.alert.standard.notification"
+            android:summary="@string/pref_phone_connect_alert_standard_notification_summary"
+            android:title="@string/pref_phone_connect_alert_standard_notification" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/battery">
         <SwitchPreference
             android:defaultValue="false"
@@ -181,16 +196,13 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/others">
+        <!-- Disabled
         <SwitchPreference
             android:defaultValue="false"
             android:key="preference.enable.hw.keys.music.control"
             android:title="@string/pref_enable_music_control_with_hardware_button"
             android:summary="@string/pref_enable_music_control_with_hardware_button_summary" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.phone.connect.disconnect.alert"
-            android:title="@string/pref_phone_connect_disconnect_alert"
-            android:summary="@string/pref_phone_connect_disconnect_alert_summary" />
+        -->
         <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.persistent.notification"

@@ -15,12 +15,12 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
+import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.ui.NotificationActivity;
 import com.amazmod.service.util.DeviceUtil;
@@ -83,21 +83,28 @@ public class NotificationService {
                 disableNotificationReplies = true;
             }
 
+            Log.d(Constants.TAG, "NotificationService notificationSpec.getKey(): " + notificationSpec.getKey());
             //Handles test notifications
-            if (notificationSpec.getTitle().equals("AmazMod") && notificationSpec.getKey().equals("amazmod|test|999")) {
+            if (notificationSpec.getKey().contains("amazmod|test|99")) {
                 if (notificationSpec.getText().equals("Test Notification")) {
                     if (forceCustom) {
+                        Log.d(Constants.TAG, "NotificationService1 notificationSpec.getKey(): " + notificationSpec.getKey());
                         postWithCustomUI(notificationSpec);
                     } else {
+                        Log.d(Constants.TAG, "NotificationService2 notificationSpec.getKey(): " + notificationSpec.getKey());
                         postWithStandardUI(notificationSpec, hideReplies);
                     }
+                } else if (notificationSpec.getKey().equals("amazmod|test|9979")) {
+                    Log.d(Constants.TAG, "NotificationService3 notificationSpec.getKey(): " + notificationSpec.getKey());
+                    postWithStandardUI(notificationSpec, hideReplies);
                 } else if (notificationSpec.getText().equals("Revoke Admin Owner")) {
+                    Log.d(Constants.TAG, "NotificationService4 notificationSpec.getKey(): " + notificationSpec.getKey());
                     revokeAdminOwner();
                 }
             //Handles normal notifications
             } else {
+                Log.d(Constants.TAG, "NotificationService5 notificationSpec.getKey(): " + notificationSpec.getKey());
                 if (enableCustomUI || forceCustom) {
-                    Log.d(Constants.TAG, "NotificationService context: " + context.toString());
                     //Delay 100ms to make sure it will be shown after standard notification
                     if (!forceCustom) {
                         SystemClock.sleep(100);
@@ -125,7 +132,8 @@ public class NotificationService {
         contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
         */
 
-        Log.d(Constants.TAG, "NotifIcon 1 " + notificationData.toString() + " / disNotifReplies: " + disableNotificationReplies);
+        Log.d(Constants.TAG, "NotificationService postWithStandardUI notificationData: " +
+                notificationData.toString() + " / disableNotificationReplies: " + disableNotificationReplies);
 
         int[] iconData = notificationData.getIcon();
         int iconWidth = notificationData.getIconWidth();
@@ -137,7 +145,7 @@ public class NotificationService {
         bundle.putParcelable(Notification.EXTRA_LARGE_ICON_BIG, bitmap);
         bundle.putParcelable(Notification.EXTRA_LARGE_ICON, bitmap);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
                 .setSmallIcon(android.R.drawable.ic_dialog_email)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent)
@@ -145,6 +153,14 @@ public class NotificationService {
                 .setContentTitle(notificationData.getTitle())
                 .setExtras(bundle)
                 .setVibrate(new long[]{notificationData.getVibration()});
+
+        if (notificationData.getKey().equals("amazmod|test|9979")) {
+            if (notificationData.getText().equals(context.getResources().getString(R.string.phone_disconnected))) {
+                builder.setSmallIcon(R.drawable.ic_outline_phonelink_erase_inverted);
+            } else if (notificationData.getText().equals(context.getResources().getString(R.string.phone_connected))) {
+                builder.setSmallIcon(R.drawable.ic_outline_phonelink_ring_inverted);
+            }
+        }
 
         if (!disableNotificationReplies) {
 
@@ -256,10 +272,6 @@ public class NotificationService {
         try {
             if (mDPM != null) {
                 ComponentName componentName = new ComponentName(context, AdminReceiver.class);
-                Log.i(Constants.TAG, "NotificationService revokeAdminOwner componentName: " + componentName.toString());
-                Log.i(Constants.TAG, "NotificationService revokeAdminOwner getPackageName: " + context.getPackageName());
-                Log.i(Constants.TAG, "NotificationService revokeAdminOwner getActiveAdmins: " + mDPM.getActiveAdmins());
-                Log.i(Constants.TAG, "NotificationService revokeAdminOwner isDeviceOwnerApp: " + mDPM.isDeviceOwnerApp(context.getPackageName()));
                 mDPM.clearDeviceOwnerApp(context.getPackageName());
                 mDPM.removeActiveAdmin(componentName);
             }

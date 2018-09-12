@@ -33,6 +33,7 @@ public class SettingsManager {
         editor.putInt(Constants.PREF_SHAKE_TO_DISMISS_GRAVITY, settingsData.getShakeToDismissGravity());
         editor.putInt(Constants.PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES, settingsData.getShakeToDismissNumOfShakes());
         editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, settingsData.isPhoneConnectionAlert());
+        editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, settingsData.isPhoneConnectionAlertStandardNotification());
 
         editor.apply();
     }

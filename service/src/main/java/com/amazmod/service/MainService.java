@@ -8,10 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -56,8 +60,12 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import amazmod.com.transport.Transport;
@@ -107,6 +115,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private NotificationService notificationManager;
     private static long dateLastCharge;
     private static boolean isPhoneConnectionAlertEnabled;
+    private static boolean isPhoneConnectionStandardAlertEnabled;
     private float batteryPct;
     private WidgetSettings settings;
 
@@ -180,8 +189,9 @@ public class MainService extends Service implements Transporter.DataListener {
 
         //Register phone connect/disconnect monitor
         isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false);
+        isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,false);
         if (isPhoneConnectionAlertEnabled) {
-            registerConnectionMonitor(true);
+            registerConnectionMonitor(true, isPhoneConnectionStandardAlertEnabled);
         }
     }
 
@@ -289,7 +299,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         //Toggle phone connect/disconnect monitor if settings changed
         if (isPhoneConnectionAlertEnabled != settingsData.isPhoneConnectionAlert()) {
-            registerConnectionMonitor(settingsData.isPhoneConnectionAlert());
+            registerConnectionMonitor(settingsData.isPhoneConnectionAlert(), settingsData.isPhoneConnectionAlertStandardNotification());
         }
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
@@ -528,7 +538,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-    private void registerConnectionMonitor(boolean status) {
+    private void registerConnectionMonitor(boolean status, final boolean standardAlert) {
         Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
         if (status) {
             ContentResolver contentResolver = getContentResolver();
@@ -537,12 +547,18 @@ public class MainService extends Service implements Transporter.DataListener {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    Intent intent = new Intent(context, PhoneConnectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                    context.startActivity(intent);
+                    if (standardAlert) {
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + standardAlert);
+                        sendStandardAlert();
+                    } else {
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + standardAlert);
+                        Intent intent = new Intent(context, PhoneConnectionActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        context.startActivity(intent);
+                    }
                 }
 
                 @Override
@@ -556,6 +572,55 @@ public class MainService extends Service implements Transporter.DataListener {
             phoneConnectionObserver = null;
         }
         isPhoneConnectionAlertEnabled = status;
+    }
+
+    private void sendStandardAlert() {
+
+        NotificationData notificationData = new NotificationData();
+
+        final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
+
+        notificationData.setId(9979);
+        notificationData.setKey("amazmod|test|9979");
+        notificationData.setTitle(getString(R.string.phone_connection_alert));
+        notificationData.setTime(notificationTime);
+        notificationData.setVibration(0);
+        notificationData.setForceCustom(false);
+        notificationData.setHideReplies(true);
+        notificationData.setHideButtons(false);
+
+        final Drawable drawable;
+
+        if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+            // Phone disconnected
+            drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
+            notificationData.setText(getString(R.string.phone_disconnected));
+        } else {
+            // Phone connected
+            drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
+            notificationData.setText(getString(R.string.phone_connected));
+        }
+
+        try {
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            int[] intArray = new int[width * height];
+            bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
+
+            notificationData.setIcon(intArray);
+            notificationData.setIconWidth(width);
+            notificationData.setIconHeight(height);
+        } catch (Exception e) {
+            notificationData.setIcon(new int[]{});
+            Log.e(Constants.TAG, "MainService sendStandardAlert exception: " + e.toString());
+        }
+
+        notificationManager.post(notificationData);
     }
 
 }
