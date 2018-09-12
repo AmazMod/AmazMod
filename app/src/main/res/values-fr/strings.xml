@@ -125,7 +125,7 @@
   <string name="pref_enable_music_control_with_hardware_button">Activer le controle de la musique par les boutons</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Active le contrôle de la musique par les boutons de la montre. Appuyez sur bas pour lire/pauser la musique. Appui long pour passer a la chansons suivante.</string>
   <string name="pref_phone_connect_disconnect_alert">Alerte lorsque le téléphone se connecte/déconnecte</string>
-  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">Montre vibrera et afficher l’état de connexion au téléphone quand connecte/déconnecte</string>
   <string name="intro_title_1">Bienvenue dans AmazMod!</string>
   <string name="intro_description_1">Veuillez suivre cette présentation pour apprendre comment installer l\'App. de Service sur la montre et donner accès aux notifications a l\'application.</string>
   <string name="intro_title_permissions">Accès aux Notifications</string>
