@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
@@ -72,14 +73,50 @@ public class SettingsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_activity_settings_sync) {
-            sync();
+            sync(true);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void sync() {
+    @Override
+    public void onDestroy() {
+
+        //Update battery chart properties on preference change
+        final boolean disableBatteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
+                Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+        final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
+                Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
+
+        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            finish();
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("REFRESH", true);
+            startActivity(intent);
+        }
+
+        //Change app location configuration and refresh it on preference change
+        final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);
+
+        Locale defaultLocale = Locale.getDefault();
+        Locale currentLocale = getResources().getConfiguration().locale;
+        System.out.println(Constants.TAG + "SettingsActivity locales: " + defaultLocale + " / " + currentLocale.toString());
+
+        if (forceEN && (currentLocale != Locale.US)) {
+            setLocale(Locale.US);
+        } else if (!forceEN && (currentLocale != defaultLocale)) {
+            setLocale(defaultLocale);
+        }
+
+        sync(false);
+
+        super.onDestroy();
+
+    }
+
+    private void sync(final boolean sync) {
         final String replies = Prefs.getString(Constants.PREF_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_REPLIES);
         final int vibration = Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION,
@@ -98,23 +135,13 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         final boolean disableNotificationsScreenOn = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
-        final boolean phoneConnection = Prefs.getBoolean(Constants.PREF_PHONE_CONNECT_DISCONNECT_ALERT_,
-                Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT_);
+        final boolean phoneConnection = Prefs.getBoolean(Constants.PREF_PHONE_CONNECT_DISCONNECT_ALERT,
+                Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT);
+        final boolean phoneConnectionStandardNotification = Prefs.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,
+                Constants.PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION);
 
-        final boolean disableBatteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
-                Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
-        final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
-                Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
-
-        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            finish();
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("REFRESH", true);
-            startActivity(intent);
-        }
 
         // Update persistent notification due to changes in Settings
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
@@ -122,19 +149,6 @@ public class SettingsActivity extends AppCompatActivity {
         } else if (enablePersistentNotificationOnDestroy && !this.enablePersistentNotificationOnCreate) {
             PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
             persistentNotification.createPersistentNotification();
-        }
-
-        //Change app location configuration and refresh it on preference change
-        final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);
-
-        Locale defaultLocale = Locale.getDefault();
-        Locale currentLocale = getResources().getConfiguration().locale;
-        System.out.println(Constants.TAG + "SettingsActivity locales: " + defaultLocale + " / " + currentLocale.toString());
-
-        if (forceEN && (currentLocale != Locale.US)) {
-            setLocale(Locale.US);
-        } else if (!forceEN && (currentLocale != defaultLocale)) {
-            setLocale(defaultLocale);
         }
 
         SettingsData settingsData = new SettingsData();
@@ -148,22 +162,30 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setFontSize(fontSize);
         settingsData.setDisableNotificationScreenOn(disableNotificationsScreenOn);
         settingsData.setPhoneConnectionAlert(phoneConnection);
+        settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override
             public Object then(@NonNull Task<Void> task) throws Exception {
+                final String str;
                 if (task.isSuccessful()) {
-                    Snacky.builder()
-                            .setActivity(SettingsActivity.this)
-                            .setText(R.string.settings_applied)
-                            .setDuration(Snacky.LENGTH_SHORT)
-                            .build().show();
+                    str = getResources().getString(R.string.settings_applied);
+                    if (sync) {
+                        Snacky.builder()
+                                .setActivity(SettingsActivity.this)
+                                .setText(str)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build().show();
+                    } else Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
                 } else {
-                    Snacky.builder()
-                            .setActivity(SettingsActivity.this)
-                            .setText(R.string.settings_cant_be_applied)
-                            .setDuration(Snacky.LENGTH_SHORT)
-                            .build().show();
+                    str = getResources().getString(R.string.settings_cant_be_applied);
+                    if (sync) {
+                        Snacky.builder()
+                                .setActivity(SettingsActivity.this)
+                                .setText(str)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build().show();
+                    } else Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
                 }
                 return null;
             }

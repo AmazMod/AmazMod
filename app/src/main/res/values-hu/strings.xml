@@ -39,6 +39,7 @@
   <string name="cant_uplaod_directory">Can\'t upload directory</string>
   <string name="sending">Sending</string>
   <string name="cant_upload_file">Can\'t upload file</string>
+  <string name="file_upload_canceled">File upload canceled</string>
   <string name="notification_access">Értesítések hozzáférés</string>
   <string name="notification_access_not_enabled">Értesítések hozzáférés nincs engedélyezve</string>
   <string name="notification_access_enable">Bekapcsol</string>
@@ -196,4 +197,10 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="failed_to_send_test_notification">Teszt elküldése sikertelen</string>
   <string name="file_explorer">Fájlböngésző</string>
   <string name="reading_files_failed">A fájlok olvasása sikertelen</string>
+    <string name="activity_about_extras">Extras</string>
+  <string name="revoke_device_owner">Revoke device owner on watch</string>
+    <string name="connection_alert">Connection alert</string>
+    <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
+    <string name="enable_low_power">Enable low power mode on watch</string>
 </resources>

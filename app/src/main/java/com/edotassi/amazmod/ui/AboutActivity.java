@@ -13,11 +13,13 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.BuildConfig;
+import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
@@ -66,11 +68,19 @@ public class AboutActivity extends AppCompatActivity {
         // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case (R.id.action_activity_about_custom_ui_test): {
-                sendTestMessage(true);
+                sendTestMessage('C');
                 break;
             }
             case (R.id.action_activity_about_standard_test): {
-                sendTestMessage(false);
+                sendTestMessage('S');
+                break;
+            }
+            case (R.id.action_activity_about_revoke_device_owner): {
+                sendTestMessage('R');
+                break;
+            }
+            case (R.id.action_activity_about_low_power_mode): {
+                sendTestMessage('L');
                 break;
             }
             default:
@@ -80,20 +90,39 @@ public class AboutActivity extends AppCompatActivity {
         return true;
     }
 
-    private void sendTestMessage(boolean customUI) {
+    private void sendTestMessage(char type) {
         NotificationData notificationData = new NotificationData();
 
-        if (customUI) {
-            notificationData.setForceCustom(true);
-        } else {
-            notificationData.setForceCustom(false);
+        switch (type) {
+            case ('C'): {
+                notificationData.setForceCustom(true);
+                notificationData.setText("Test Notification");
+                break;
+            }
+            case ('S'): {
+                notificationData.setForceCustom(false);
+                notificationData.setText("Test Notification");
+                break;
+            }
+            case ('R'): {
+                notificationData.setForceCustom(false);
+                notificationData.setText("Revoke Admin Owner");
+                break;
+            }
+            case ('L'): {
+                notificationData.setForceCustom(false);
+                notificationData.setText("Enable Low Power Mode");
+                break;
+            }
+            default:
+                System.out.println("AmazMod AboutActivity sendTestMessage: something went wrong...");
         }
 
         notificationData.setId(999);
         notificationData.setKey("amazmod|test|999");
         notificationData.setTitle("AmazMod");
-        notificationData.setText("Test Notification");
         notificationData.setTime("00:00");
+        notificationData.setVibration(Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION)));
         notificationData.setHideReplies(true);
         notificationData.setHideButtons(false);
 

@@ -1,6 +1,8 @@
 package com.amazmod.service.springboard;
 
+import android.app.admin.DevicePolicyManager;
 import android.bluetooth.BluetoothAdapter;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.BuildConfig;
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
@@ -24,8 +27,6 @@ import com.amazmod.service.R;
 import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.util.SystemProperties;
-//import com.edotassi.amazmodcompanionservice.MessagesListener;
-//import com.edotassi.amazmodcompanionservice.R2;
 
 //import butterknife.BindView;
 //import butterknife.ButterKnife;
@@ -55,7 +56,7 @@ public class AmazModPage extends AbstractPlugin {
 
     private WidgetSettings settingsWidget;
 
-    //    @BindView(R2.id.amazmod_page_version)
+    //@BindView(R2.id.amazmod_page_version)
     private TextView version, timeSLC, battValueTV;
     private ImageView battIconImg, imageView;
 
@@ -73,9 +74,9 @@ public class AmazModPage extends AbstractPlugin {
         battIconImg = view.findViewById(R.id.battIcon);
         imageView = view.findViewById(R.id.imageView);
 
-        //Log.d(Constants.TAG, "AmazModPage getView mContext: " + mContext.toString() + " / this: " + this.toString());
+        Log.d(Constants.TAG, "AmazModPage getView mContext: " + mContext.toString() + " / this: " + this.toString());
         //HermesEventBus.getDefault().connectApp(mContext, "com.amazmod.service");
-        //HermesEventBus.getDefault().register(mContext);
+        HermesEventBus.getDefault().register(this);
 
 /*       try {
             ButterKnife.bind(this, view);
@@ -100,12 +101,14 @@ public class AmazModPage extends AbstractPlugin {
                         btmgr.disable();
                         try {
                             WifiManager wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-                            if (wfmgr.isWifiEnabled()) {
-                                Log.i(Constants.TAG, "AmazModPage getView disable WiFi");
-                                wfmgr.setWifiEnabled(false);
+                            if (wfmgr !=null) {
+                                if (wfmgr.isWifiEnabled()) {
+                                    Log.i(Constants.TAG, "AmazModPage getView disable WiFi");
+                                    wfmgr.setWifiEnabled(false);
+                                }
                             }
                         } catch (NullPointerException e) {
-                            Log.e(Constants.TAG, "AmazModPage getView longClick exception: " + e.toString());
+                            Log.e(Constants.TAG, "AmazModPage getView imageView.setOnLongClickListener exception: " + e.toString());
                         }
                         SystemProperties.goToSleep(mContext);
                         //SystemProperties.switchPowerMode(mContext, lowPower);
@@ -138,10 +141,10 @@ public class AmazModPage extends AbstractPlugin {
         return this.view;
     }
 
-    /* @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void settingsSync(SyncSettings event) {
-        Log.d(Constants.TAG, "AmazModPage ********* event received ********");
-    } */
+        Log.w(Constants.TAG, "AmazModPage SyncSettings ***** event received *****");
+    }
 
     private void updateTimeSinceLastCharge() {
 

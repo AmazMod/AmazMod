@@ -39,6 +39,7 @@
   <string name="cant_uplaod_directory">Can\'t upload directory</string>
   <string name="sending">Sending</string>
   <string name="cant_upload_file">Can\'t upload file</string>
+  <string name="file_upload_canceled">File upload canceled</string>
   <string name="notification_access">Accesso alle notifiche</string>
   <string name="notification_access_not_enabled">Accesso alle notifiche non abilitato</string>
   <string name="notification_access_enable">Abilita</string>
@@ -195,4 +196,10 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="failed_to_send_test_notification">Impossibile inviare la notifica di prova</string>
   <string name="file_explorer">Esplora file</string>
   <string name="reading_files_failed">Lettura file non riuscita</string>
+    <string name="activity_about_extras">Extras</string>
+  <string name="revoke_device_owner">Revoke device owner on watch</string>
+    <string name="connection_alert">Connection alert</string>
+  <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
+  <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
+    <string name="enable_low_power">Enable low power mode on watch</string>
 </resources>

@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
@@ -30,6 +31,7 @@ import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.SystemProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -74,7 +76,7 @@ public class NotificationActivity extends Activity {
     private static float fontSizeSP;
     private static int screenMode;
     private static int screenBrightness = 999989;
-    private static boolean deviceWasLocked;
+    private static boolean mustLockDevice;
     private Context mContext;
 
     private NotificationData notificationSpec;
@@ -102,7 +104,7 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        deviceWasLocked = DeviceUtil.isDeviceLocked(getBaseContext());
+        boolean deviceWasLocked = DeviceUtil.isDeviceLocked(getBaseContext());
 
         boolean hideReplies;
 
@@ -119,6 +121,10 @@ public class NotificationActivity extends Activity {
         //Do not activate screen if it is disabled in settings and screen is off
         if (disableNotificationsScreenOn && deviceWasLocked) {
             setScreenModeOff(true);
+            mustLockDevice = true;
+        } else {
+            screenToggle = false;
+            mustLockDevice = false;
         }
 
         // Set theme and font size
@@ -169,9 +175,10 @@ public class NotificationActivity extends Activity {
             nullError = true;
         }
 
-        if (screenToggle && nullError) {
-            setScreenModeOff(false);
-        }
+        //Probably it is not needed anymore
+        //if (screenToggle && nullError) {
+        //    setScreenModeOff(false);
+        //}
 
         if (!hideReplies && !disableNotificationReplies) {
             buttonsLayout.setVisibility(View.GONE);
@@ -241,6 +248,7 @@ public class NotificationActivity extends Activity {
 
     @OnClick(R.id.activity_notification_button_close)
     public void clickClose() {
+        //mustLockDevice = true;
         finish();
     }
 
@@ -252,7 +260,9 @@ public class NotificationActivity extends Activity {
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         intent.putExtras(notificationSpec.toBundle());
+        intent.putExtra("MUSTLOCKDEVICE", mustLockDevice);
         this.startActivity(intent);
+        //mustLockDevice = false;
         finish();
     }
 
@@ -269,9 +279,16 @@ public class NotificationActivity extends Activity {
         setWindowFlags(false);
         super.finish();
 
+        if (mustLockDevice) {
+            SystemClock.sleep(100);
+            lock();
+        }
+
         if (screenToggle) {
-            //SystemProperties.goToSleep(baseContext);
-            Handler mHandler = new Handler();
+            //SystemProperties.goToSleep(mContext);
+            setScreenModeOff(false);
+            Log.i(Constants.TAG, "NotificationActivity screenToggle: " + screenToggle);
+            /* Handler mHandler = new Handler();
             mHandler.postDelayed(new Runnable() {
                 public void run() {
                     try {
@@ -280,35 +297,32 @@ public class NotificationActivity extends Activity {
                         Log.i(Constants.TAG, "NotificationActivity delayed finish");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.e(Constants.TAG, "Notificationctivity finish exception: " + e.toString());
+                        Log.e(Constants.TAG, "NotificationActivity finish exception: " + e.toString());
                     }
                 }
-            }, 10000 - notificationSpec.getTimeoutRelock() + 600);
+            }, 10000 - notificationSpec.getTimeoutRelock() + 600); */
         }
 
-        if(deviceWasLocked){
-            Log.i(Constants.TAG, "NotificationActivity device was locked, locking again...");
-            lock();
-        }
     }
 
     private void lock() {
-        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-        if (pm.isScreenOn()) {
-            DevicePolicyManager policy = (DevicePolicyManager)
-                    getSystemService(Context.DEVICE_POLICY_SERVICE);
-            try {
-                policy.lockNow();
-            } catch (SecurityException ex) {
-                Toast.makeText(
-                        this,
-                        "must enable device administrator",
-                        Toast.LENGTH_LONG).show();
-                ComponentName admin = new ComponentName(mContext, AdminReceiver.class);
+        if (!DeviceUtil.isDeviceLocked(mContext)) {
+            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (mDPM != null) {
+                try {
+                    mDPM.lockNow();
+                } catch (SecurityException ex) {
+                    Toast.makeText(
+                            this,
+                            getResources().getText(R.string.device_owner),
+                            Toast.LENGTH_LONG).show();
+                    Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
+                /* ComponentName admin = new ComponentName(mContext, AdminReceiver.class);
                 Intent intent = new Intent(
                         DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).putExtra(
                         DevicePolicyManager.EXTRA_DEVICE_ADMIN, admin);
-                mContext.startActivity(intent);
+                mContext.startActivity(intent); */
+                }
             }
         }
     }
