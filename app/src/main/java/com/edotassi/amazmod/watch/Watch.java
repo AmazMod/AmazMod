@@ -15,6 +15,7 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.transport.TransportService;
 import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -43,6 +44,12 @@ public class Watch {
 
     private Context context;
     private TransportService transportService;
+
+    private ThreadPoolExecutor threadPoolExecutor;
+
+    private Watch() {
+        threadPoolExecutor = new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+    }
 
     public static void init(Context context) {
         instance = new Watch();
@@ -97,10 +104,36 @@ public class Watch {
         });
     }
 
+    public Task<Void> downloadFile(final String path, final long size, final CancellationToken cancellationToken) {
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource<Void>();
+
+        Tasks.call(threadPoolExecutor, new Callable<Object>() {
+            @Override
+            public Object call() throws Exception {
+                TransportService transportService = Tasks.await(getServiceInstance());
+
+                long lastChunnkSize = size % Constants.CHUNK_SIZE;
+                long totalChunks = size / Constants.CHUNK_SIZE;
+                long startedAt = System.currentTimeMillis();
+
+                for(int i = 0; i < totalChunks; i++) {
+                    if (cancellationToken.isCancellationRequested()) {
+                        //TODO handle cancellation
+                    }
+
+
+                }
+
+                return null;
+            }
+        });
+
+        return taskCompletionSource.getTask();
+    }
+
     public Task<Void> uploadFile(final File file, final String destPath, final OperationProgress operationProgress, final CancellationToken cancellationToken) {
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource<Void>();
 
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
         Tasks.call(threadPoolExecutor, new Callable<Object>() {
             @Override
             public Object call() throws Exception {
