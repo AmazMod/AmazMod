@@ -29,8 +29,8 @@
   <string name="full_battery_in">Completamente carica in </string>
   <string name="open_notifications_log">Apri il log delle notifiche</string>
   <string name="notifications_log">Log Notifiche</string>
-  <string name="delete">Delete</string>
-  <string name="download">Download</string>
+  <string name="delete">Elimina</string>
+  <string name="download">Scarica</string>
   <string name="deleting">Deleting</string>
   <string name="cant_delete_file">Can\'t delete file</string>
   <string name="add_new_reply">Aggiungi una nuova risposta</string>
