@@ -8,30 +8,29 @@ import com.huami.watch.transport.DataBundle;
 
 import amazmod.com.transport.Transportable;
 
-public class RequestDirectoryData extends Transportable implements Parcelable {
+public class RequestDownloadFileData extends Transportable implements Parcelable {
 
-    public static final String EXTRA = "request_directory";
+    public static final String EXTRA = "request_download_file";
 
     private static final String PATH = "path";
 
     private String path;
 
-    public RequestDirectoryData() {
-    }
+    public RequestDownloadFileData() {}
 
-    protected RequestDirectoryData(Parcel in) {
+    protected RequestDownloadFileData(Parcel in) {
         path = in.readString();
     }
 
-    public static final Creator<RequestDirectoryData> CREATOR = new Creator<RequestDirectoryData>() {
+    public static final Creator<RequestDownloadFileData> CREATOR = new Creator<RequestDownloadFileData>() {
         @Override
-        public RequestDirectoryData createFromParcel(Parcel in) {
-            return new RequestDirectoryData(in);
+        public RequestDownloadFileData createFromParcel(Parcel in) {
+            return new RequestDownloadFileData(in);
         }
 
         @Override
-        public RequestDirectoryData[] newArray(int size) {
-            return new RequestDirectoryData[size];
+        public RequestDownloadFileData[] newArray(int size) {
+            return new RequestDownloadFileData[size];
         }
     };
 
@@ -41,10 +40,10 @@ public class RequestDirectoryData extends Transportable implements Parcelable {
         return dataBundle;
     }
 
-    public static RequestDirectoryData fromDataBundle(DataBundle dataBundle) {
-        RequestDirectoryData requestDirectoryData = new RequestDirectoryData();
-        requestDirectoryData.setPath(dataBundle.getString(PATH));
-        return requestDirectoryData;
+    public static RequestDownloadFileData fromDataBundle(DataBundle dataBundle) {
+        RequestDownloadFileData requestDownloadFileData = new RequestDownloadFileData();
+        requestDownloadFileData.setPath(dataBundle.getString(PATH));
+        return requestDownloadFileData;
     }
 
     @Override
