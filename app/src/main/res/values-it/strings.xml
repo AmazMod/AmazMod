@@ -198,8 +198,8 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="reading_files_failed">Lettura file non riuscita</string>
   <string name="activity_about_extras">Extra</string>
   <string name="revoke_device_owner">Revoca il proprietario del dispositivo sull\'orologio</string>
-  <string name="connection_alert">Connection alert</string>
-  <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
-  <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
+  <string name="connection_alert">Avviso di connessione</string>
+  <string name="pref_phone_connect_alert_standard_notification">Usa le notifiche standard</string>
+  <string name="pref_phone_connect_alert_standard_notification_summary">Usa le notifiche standard per gli avvisi di connessione al posto degli avvisi a schermo intero</string>
   <string name="enable_low_power">Enable low power mode on watch</string>
 </resources>
