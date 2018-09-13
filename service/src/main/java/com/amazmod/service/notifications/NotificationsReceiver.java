@@ -28,12 +28,12 @@ public class NotificationsReceiver extends BroadcastReceiver {
         String key = intent.getStringExtra(Constants.EXTRA_NOTIFICATION_KEY);
 
         HermesEventBus.getDefault().post(new ReplyNotificationEvent(key, reply));
-        Log.d(Constants.TAG, "action: " + action + ", notificationKey: " + key + ", reply: " + reply);
+        Log.d(Constants.TAG, "NotificationsReceiver action: " + action + ", notificationKey: " + key + ", reply: " + reply);
 
         Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if(vibe != null) {
 //            vibe.vibrate(100);
-            System.out.println("NotificationsReceiver - vibRRRRRRRRRRRRate");
+            Log.w(Constants.TAG, "NotificationsReceiver - vibRRRRRRRRRRRRate");
         }
 
     }

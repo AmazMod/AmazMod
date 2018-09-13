@@ -104,7 +104,7 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        boolean deviceWasLocked = DeviceUtil.isDeviceLocked(getBaseContext());
+        mustLockDevice = DeviceUtil.isDeviceLocked(getBaseContext());
 
         boolean hideReplies;
 
@@ -119,12 +119,10 @@ public class NotificationActivity extends Activity {
         setWindowFlags(true);
 
         //Do not activate screen if it is disabled in settings and screen is off
-        if (disableNotificationsScreenOn && deviceWasLocked) {
+        if (disableNotificationsScreenOn && mustLockDevice) {
             setScreenModeOff(true);
-            mustLockDevice = true;
         } else {
             screenToggle = false;
-            mustLockDevice = false;
         }
 
         // Set theme and font size
@@ -262,7 +260,7 @@ public class NotificationActivity extends Activity {
         intent.putExtras(notificationSpec.toBundle());
         intent.putExtra("MUSTLOCKDEVICE", mustLockDevice);
         this.startActivity(intent);
-        //mustLockDevice = false;
+        mustLockDevice = false;
         finish();
     }
 
@@ -284,10 +282,10 @@ public class NotificationActivity extends Activity {
             lock();
         }
 
+        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
         if (screenToggle) {
             //SystemProperties.goToSleep(mContext);
             setScreenModeOff(false);
-            Log.i(Constants.TAG, "NotificationActivity screenToggle: " + screenToggle);
             /* Handler mHandler = new Handler();
             mHandler.postDelayed(new Runnable() {
                 public void run() {
