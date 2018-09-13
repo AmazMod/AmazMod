@@ -196,7 +196,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="failed_to_send_test_notification">Impossibile inviare la notifica di prova</string>
   <string name="file_explorer">Esplora file</string>
   <string name="reading_files_failed">Lettura file non riuscita</string>
-  <string name="activity_about_extras">Extra</string>
+  <string name="activity_about_extras">Funzioni extra</string>
   <string name="revoke_device_owner">Revoca il proprietario del dispositivo sull\'orologio</string>
   <string name="connection_alert">Avviso di connessione</string>
   <string name="pref_phone_connect_alert_standard_notification">Usa le notifiche standard</string>
