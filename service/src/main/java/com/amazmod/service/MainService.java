@@ -2,6 +2,8 @@ package com.amazmod.service;
 
 import android.app.Service;
 import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -12,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
@@ -114,6 +117,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
     private static long dateLastCharge;
+    private static int count = 0;
     private static boolean isPhoneConnectionAlertEnabled;
     private static boolean isPhoneConnectionStandardAlertEnabled;
     private float batteryPct;
@@ -284,11 +288,44 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void lowPower(LowPower lowPower) {
-        SystemProperties.goToSleep(this);
-        slptClockClient.enableLowBattery();
-        slptClockClient.enableSlpt();
-        SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
+    public void lowPower(LowPower lp) {
+        //SystemProperties.goToSleep(this);
+        count++;
+        Log.d(Constants.TAG, "MainService lowPower count: " + count);
+        if (count < 2) {
+            Toast.makeText(context, "lowPower: true", Toast.LENGTH_SHORT).show();
+            BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
+            Log.i(Constants.TAG, "MainService lowPower disable BT");
+            btmgr.disable();
+            try {
+                WifiManager wfmgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                if (wfmgr != null) {
+                    if (wfmgr.isWifiEnabled()) {
+                        Log.i(Constants.TAG, "MainService lowPower disable WiFi");
+                        wfmgr.setWifiEnabled(false);
+                    }
+                }
+            } catch (NullPointerException e) {
+                Log.e(Constants.TAG, "MainService lowPower exception: " + e.toString());
+            }
+
+            slptClockClient.enableLowBattery();
+            slptClockClient.enableSlpt();
+            SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
+            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (mDPM != null) {
+                SystemClock.sleep(100);
+                mDPM.lockNow();
+            }
+
+        } else if (count >= 3){
+            Toast.makeText(context, "lowPower: false", Toast.LENGTH_SHORT).show();
+            //btmgr.enable();
+            //slptClockClient.disableSlpt();
+            slptClockClient.disableLowBattery();
+            SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(false));
+            count =0;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

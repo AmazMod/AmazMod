@@ -19,6 +19,9 @@
                 <item
                     android:id="@+id/action_activity_about_revoke_device_owner"
                     android:title="@string/revoke_device_owner" />
+                <item
+                    android:id="@+id/action_activity_about_low_power_mode"
+                    android:title="@string/enable_low_power" />
             </menu>
         </item>
     </group>

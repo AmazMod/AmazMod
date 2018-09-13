@@ -79,6 +79,10 @@ public class AboutActivity extends AppCompatActivity {
                 sendTestMessage('R');
                 break;
             }
+            case (R.id.action_activity_about_low_power_mode): {
+                sendTestMessage('L');
+                break;
+            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -103,6 +107,11 @@ public class AboutActivity extends AppCompatActivity {
             case ('R'): {
                 notificationData.setForceCustom(false);
                 notificationData.setText("Revoke Admin Owner");
+                break;
+            }
+            case ('L'): {
+                notificationData.setForceCustom(false);
+                notificationData.setText("Enable Low Power Mode");
                 break;
             }
             default:

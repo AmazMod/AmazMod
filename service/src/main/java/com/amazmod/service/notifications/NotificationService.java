@@ -20,12 +20,15 @@ import android.util.Log;
 
 import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
+import com.amazmod.service.MainService;
 import com.amazmod.service.R;
+import com.amazmod.service.events.incoming.LowPower;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.ui.NotificationActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.huami.watch.transport.DataBundle;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -33,6 +36,7 @@ import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -100,10 +104,13 @@ public class NotificationService {
                 } else if (notificationSpec.getText().equals("Revoke Admin Owner")) {
                     Log.d(Constants.TAG, "NotificationService4 notificationSpec.getKey(): " + notificationSpec.getKey());
                     revokeAdminOwner();
+                } else if (notificationSpec.getText().equals("Enable Low Power Mode")) {
+                    Log.d(Constants.TAG, "NotificationService5 notificationSpec.getKey(): " + notificationSpec.getKey());
+                    HermesEventBus.getDefault().post(new LowPower(new DataBundle()));
                 }
             //Handles normal notifications
             } else {
-                Log.d(Constants.TAG, "NotificationService5 notificationSpec.getKey(): " + notificationSpec.getKey());
+                Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + notificationSpec.getKey());
                 if (enableCustomUI || forceCustom) {
                     //Delay 100ms to make sure it will be shown after standard notification
                     if (!forceCustom) {

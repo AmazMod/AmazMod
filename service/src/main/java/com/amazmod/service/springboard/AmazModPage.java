@@ -124,30 +124,6 @@ public class AmazModPage extends AbstractPlugin {
             }
         });
 
-        battIconImg.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                HermesEventBus.getDefault().post("test");
-                DevicePolicyManager mDPM = (DevicePolicyManager) mContext.getSystemService(Context.DEVICE_POLICY_SERVICE);
-                try {
-                    if (mDPM != null) {
-                        ComponentName componentName = new ComponentName(mContext, AdminReceiver.class);
-                        Log.i(Constants.TAG, "AmazModPage getView componentName: " + componentName.toString());
-                        Log.i(Constants.TAG, "AmazModPage getView getPackageName: " + mContext.getPackageName());
-                        Log.i(Constants.TAG, "AmazModPage getView getActiveAdmins: " + mDPM.getActiveAdmins());
-                        Log.i(Constants.TAG, "AmazModPage getView isDeviceOwnerApp: " + mDPM.isDeviceOwnerApp(mContext.getPackageName()));
-                        mDPM.clearDeviceOwnerApp(mContext.getPackageName());
-                        mDPM.removeActiveAdmin(componentName);
-                    }
-                } catch (NullPointerException e) {
-                    Log.e(Constants.TAG, "AmazModPage getView battIconImg.setOnLongClickListener NullPointerException: " + e.toString());
-                } catch (SecurityException e) {
-                    Log.e(Constants.TAG, "AmazModPage getView battIconImg.setOnLongClickListener SecurityException: " + e.toString());
-                }
-                return true;
-            }
-        });
-
         /* imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){

@@ -189,5 +189,6 @@
     <string name="connection_alert">Connection alert</string>
     <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
+    <string name="enable_low_power">Enable low power mode on watch</string>
 
 </resources>
