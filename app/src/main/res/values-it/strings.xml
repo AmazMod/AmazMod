@@ -76,10 +76,10 @@
   <string name="activity_watchface_send_data_interval_prompt">Seleziona l\'intervallo di tempo</string>
   <string name="activity_watchface_send_data_interval_summary">Imposta l\'intervallo di invio dati alla watchface</string>
   <string name="activity_watchface_send_on_battery_change">Inviare i dati ogni volta che cambia il livello della batteria</string>
-  <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
-  <string name="activity_watchface_last_time_sent">Last time sent</string>
-  <string name="activity_watchface_data_send">Data were send</string>
-  <string name="activity_watchface_send_data_now">Send data now</string>
+  <string name="activity_watchface_send_on_alarm_change">Inviare i dati ogni volta che viene modificata la sveglia</string>
+  <string name="activity_watchface_last_time_sent">Ultimo invio</string>
+  <string name="activity_watchface_data_send">Dati inviati</string>
+  <string name="activity_watchface_send_data_now">Invia ora i dati</string>
   <string name="activity_stats_notifications_total">Totali</string>
   <string name="activity_stats_notifications_in_the_last_hour">Nell\'ultima ora</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">Nelle ultime 24 ore</string>
@@ -124,8 +124,8 @@
   <string name="pref_filters">Filtro notifiche</string>
   <string name="pref_enable_music_control_with_hardware_button">Attiva il controllo hardware musicale</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(SPERIMENTALE!) Valido solo per Stratos! Premi il pulsante in basso per riprodurre / mettere in pausa la musica. Premi a lungo per saltare alla canzone successiva</string>
-  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
-  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert">Notifica quando il telefono si connette/disconnette</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">L\'orologio vibrerà e visualizzerà lo stato della connessione del telefono quando si connette/disconnette</string>
   <string name="intro_title_1">Benvenuto in AmazMod!</string>
   <string name="intro_description_1">Segui questa presentazione per sapere come installare l\'app di servizio sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono</string>
   <string name="intro_title_permissions">Accesso alle notifiche</string>
@@ -196,8 +196,8 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="failed_to_send_test_notification">Impossibile inviare la notifica di prova</string>
   <string name="file_explorer">Esplora file</string>
   <string name="reading_files_failed">Lettura file non riuscita</string>
-  <string name="activity_about_extras">Extras</string>
-  <string name="revoke_device_owner">Revoke device owner on watch</string>
+  <string name="activity_about_extras">Extra</string>
+  <string name="revoke_device_owner">Revoca il proprietario del dispositivo sull\'orologio</string>
   <string name="connection_alert">Connection alert</string>
   <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
   <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
