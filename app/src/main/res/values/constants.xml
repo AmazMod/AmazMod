@@ -12,4 +12,5 @@
     <string name="telegram_channel_value" translatable="false">https://t.me/amazmod</string>
     <string name="support_email_value" translatable="false">edo.tassinari@gmail.com</string>
     <string name="project_github_value" translatable="false">https://github.com/edotassi/AmazMod</string>
+    <string name="greatfit">GreatFit</string>
 </resources>
