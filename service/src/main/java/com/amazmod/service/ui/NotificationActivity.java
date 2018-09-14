@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -77,6 +78,7 @@ public class NotificationActivity extends Activity {
     private static int screenMode;
     private static int screenBrightness = 999989;
     private static boolean mustLockDevice;
+    private boolean enableInvertedTheme;
     private Context mContext;
 
     private NotificationData notificationSpec;
@@ -113,7 +115,7 @@ public class NotificationActivity extends Activity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
-        boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+        enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
 
         setWindowFlags(true);
@@ -341,10 +343,10 @@ public class NotificationActivity extends Activity {
     }
 
     private void addReplies() {
-
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        param.setMargins(20,2,20,2);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
@@ -352,6 +354,13 @@ public class NotificationActivity extends Activity {
             button.setLayoutParams(param);
             button.setText(reply.getValue());
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+            if(enableInvertedTheme) {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+            }else{
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -366,6 +375,8 @@ public class NotificationActivity extends Activity {
         button.setLayoutParams(param);
         button.setText(R.string.close);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+        button.setTextColor(Color.parseColor("#ffffff"));
+        button.setBackground(getDrawable(R.drawable.close_red));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
