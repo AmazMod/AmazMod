@@ -277,30 +277,20 @@ public class NotificationActivity extends Activity {
         setWindowFlags(false);
         super.finish();
 
+        boolean flag = true;
+        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
+
+        if (screenToggle) {
+            flag = false;
+            setScreenModeOff(false);
+        }
+
         if (mustLockDevice) {
-            SystemClock.sleep(100);
+            if (flag) {
+                SystemClock.sleep(500);
+            }
             lock();
         }
-
-        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
-        if (screenToggle) {
-            //SystemProperties.goToSleep(mContext);
-            setScreenModeOff(false);
-            /* Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    try {
-                        //Toast.makeText(getApplicationContext(), "delayed", Toast.LENGTH_SHORT).show();
-                        setScreenModeOff(false);
-                        Log.i(Constants.TAG, "NotificationActivity delayed finish");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e(Constants.TAG, "NotificationActivity finish exception: " + e.toString());
-                    }
-                }
-            }, 10000 - notificationSpec.getTimeoutRelock() + 600); */
-        }
-
     }
 
     private void lock() {
@@ -315,11 +305,6 @@ public class NotificationActivity extends Activity {
                             getResources().getText(R.string.device_owner),
                             Toast.LENGTH_LONG).show();
                     Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
-                /* ComponentName admin = new ComponentName(mContext, AdminReceiver.class);
-                Intent intent = new Intent(
-                        DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).putExtra(
-                        DevicePolicyManager.EXTRA_DEVICE_ADMIN, admin);
-                mContext.startActivity(intent); */
                 }
             }
         }
@@ -404,15 +389,21 @@ public class NotificationActivity extends Activity {
     }
 
     private void setScreenModeOff(boolean mode) {
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
-            Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
-            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
+            getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+                //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+                getWindow().setAttributes(params);
             }
         }
         screenToggle = mode;

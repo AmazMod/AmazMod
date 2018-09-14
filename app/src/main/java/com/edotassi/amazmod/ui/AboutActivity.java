@@ -166,4 +166,36 @@ public class AboutActivity extends AppCompatActivity {
             }
         });
     }
+/*
+    private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
+        DataBundle dataBundle = new DataBundle();
+
+        if (filterResult == Constants.FILTER_UNGROUP && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
+            int nextId = (int) (long) (System.currentTimeMillis() % 10000L);
+            StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
+                    statusBarNotification.getId() + nextId,
+                    statusBarNotification.getTag(), 0, 0, 0,
+                    statusBarNotification.getNotification(), statusBarNotification.getUser(),
+                    statusBarNotification.getPostTime());
+            dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
+        } else {
+            dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+        }
+
+        //Connect transporter
+        Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
+        notificationTransporter.connectTransportService();
+
+        notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
+            @Override
+            public void onResultBack(DataTransportResult dataTransportResult) {
+                log.d(dataTransportResult.toString());
+            }
+        });
+
+        //Disconnect transporter to avoid leaking
+        notificationTransporter.disconnectTransportService();
+
+        log.i("NotificationService StandardUI: " + dataBundle.toString());
+    } */
 }
