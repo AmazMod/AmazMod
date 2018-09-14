@@ -110,6 +110,10 @@ public class WatchfaceActivity extends AppCompatActivity {
         });
         send_watchface_data_interval.setEnabled(send_data);
 
+        // Hide not ready options
+        send_on_battery_change_switch.setVisibility(View.GONE);
+        send_on_alarm_change_switch.setVisibility(View.GONE);
+
         send_on_battery_change_switch.setChecked(send_on_battery_change);
         send_on_battery_change_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

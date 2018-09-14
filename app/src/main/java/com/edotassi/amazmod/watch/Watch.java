@@ -11,6 +11,7 @@ import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
+import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.transport.TransportService;
@@ -33,8 +34,10 @@ import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.RequestDownloadFileChunkData;
 import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDeleteFileData;
+import amazmod.com.transport.data.ResultDownloadFileChunkData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchfaceData;
 
@@ -121,7 +124,14 @@ public class Watch {
                         //TODO handle cancellation
                     }
 
+                    RequestDownloadFileChunkData requestDownloadFileChunkData = new RequestDownloadFileChunkData();
+                    requestDownloadFileChunkData.setPath(path);
+                    requestDownloadFileChunkData.setIndex(i);
+                    ResultDownloadFileChunk resultDownloadFileChunk = (ResultDownloadFileChunk) Tasks.await(transportService.sendWithResult(Transport.REQUEST_DOWNLOAD_FILE, Transport.RESULT_DOWNLOAD_FILE_CHUNK, requestDownloadFileChunkData));
 
+                    ResultDownloadFileChunkData resultDownloadFileChunkData = resultDownloadFileChunk.getResultDownloadFileChunkData();
+
+                    //TODO write bytes in resultDownloadFileChunkData to dest file
                 }
 
                 return null;
