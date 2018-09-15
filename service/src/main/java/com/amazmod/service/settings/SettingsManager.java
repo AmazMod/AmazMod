@@ -26,6 +26,14 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, settingsData.isNotificationsCustomUi());
         editor.putBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, settingsData.isDisableNotifications());
         editor.putBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES, settingsData.isDisableNotificationsReplies());
+        editor.putBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, settingsData.isEnableHardwareKeysMusicControl());
+        editor.putBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME, settingsData.isInvertedTheme());
+        editor.putString(Constants.PREF_NOTIFICATIONS_FONT_SIZE, settingsData.getFontSize());
+        editor.putBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON, settingsData.isDisableNotificationsScreenOn());
+        editor.putInt(Constants.PREF_SHAKE_TO_DISMISS_GRAVITY, settingsData.getShakeToDismissGravity());
+        editor.putInt(Constants.PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES, settingsData.getShakeToDismissNumOfShakes());
+        editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, settingsData.isPhoneConnectionAlert());
+        editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, settingsData.isPhoneConnectionAlertStandardNotification());
 
         editor.apply();
     }

@@ -1,12 +1,16 @@
 package com.edotassi.amazmod.ui;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,43 +19,38 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.MainIntroActivity;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.RequestWatchStatus;
-import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
+import com.edotassi.amazmod.notification.NotificationService;
+import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+import java.util.Set;
 
 import butterknife.ButterKnife;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
-    private WatchStatus watchStatus;
 
-    private boolean isWatchConnected = true;
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
@@ -85,13 +84,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        HermesEventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
 
         //isWatchConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
         //isWatchConnected = itc == null || itc.getTransportStatus();
-        System.out.println(Constants.TAG + " MainActivity onCreate isWatchConnected: " + this.isWatchConnected);
+        Log.d(Constants.TAG, " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
-        showChangelog(false, BuildConfig.VERSION_CODE, true);
+        showChangelog(true);
 
         // Check if it is the first start using shared preference then start presentation if true
         boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            System.out.println(Constants.TAG + " MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+            Log.d(Constants.TAG, " MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
             conf.locale = AmazModApplication.defaultLocale;
@@ -117,10 +116,10 @@ public class MainActivity extends AppCompatActivity
         final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
 
-        System.out.println(Constants.TAG + " MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+        Log.d(Constants.TAG, " MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
 
         if (forceEN && (currentLocale != Locale.US)) {
-            System.out.println(Constants.TAG + " MaiActivity New locale: US");
+            Log.d(Constants.TAG, " MaiActivity New locale: US");
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
@@ -130,6 +129,14 @@ public class MainActivity extends AppCompatActivity
         }
 
         setupCards();
+
+        // Try to start NotificationService if it is not active
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
+        if (!packageNames.contains(this.getPackageName())) {
+            toggleNotificationService();
+        }
+
+        Setup.run(getApplicationContext());
     }
 
     private void setupCards() {
@@ -175,29 +182,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-
-        Flowable
-                .timer(2000, TimeUnit.MILLISECONDS)
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        HermesEventBus.getDefault().post(new RequestWatchStatus());
-                    }
-                });
+        Log.d(Constants.TAG, " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
     }
 
     @Override
     public void onPause() {
-        if (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
-            HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
+        if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
+            EventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
         super.onPause();
     }
 
     @Override
     public void onDestroy() {
-        if (HermesEventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
-            HermesEventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
-        HermesEventBus.getDefault().unregister(this);
+        if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) != null)
+            EventBus.getDefault().removeStickyEvent(IsWatchConnectedLocal.class);
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -213,16 +212,14 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
         switch (item.getItemId()) {
-
             case R.id.nav_settings:
                 Intent a = new Intent(this, SettingsActivity.class);
-                a.setFlags(a.FLAG_ACTIVITY_CLEAR_TOP);
+                a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(a);
                 if (getIntent().getBooleanExtra("REFRESH", true)) {
                     recreate();
@@ -230,81 +227,86 @@ public class MainActivity extends AppCompatActivity
                 }
                 return true;
 
+            case R.id.nav_faq:
+                Intent faqIntent = new Intent(this, FaqActivity.class);
+                faqIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(faqIntent);
+                return true;
+
             case R.id.nav_abount:
                 Intent b = new Intent(this, AboutActivity.class);
-                b.setFlags(b.FLAG_ACTIVITY_CLEAR_TOP);
+                b.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(b);
                 return true;
 
             case R.id.nav_tweaking:
                 Intent c = new Intent(this, TweakingActivity.class);
-                c.setFlags(c.FLAG_ACTIVITY_CLEAR_TOP);
+                c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(c);
                 return true;
 
-                /*
+            case R.id.nav_file_explorer:
+                Intent fileExplorerIntent = new Intent(this, FileExplorerActivity.class);
+                fileExplorerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(fileExplorerIntent);
+                return true;
+
+            case R.id.nav_files_extras:
+                Intent f = new Intent(this, FilesExtrasActivity.class);
+                f.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(f);
+                return true;
+
             case R.id.nav_watchface:
                 Intent e = new Intent(this, WatchfaceActivity.class);
-                e.setFlags(e.FLAG_ACTIVITY_CLEAR_TOP);
+                e.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(e);
                 return true;
-                */
 
             case R.id.nav_stats:
                 Intent d = new Intent(this, StatsActivity.class);
-                d.setFlags(d.FLAG_ACTIVITY_CLEAR_TOP);
+                d.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(d);
                 return true;
 
             case R.id.nav_changelog:
-                showChangelog(true, 1, false);
+                showChangelog(false);
                 return true;
         }
 
         return true;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onWatchStatus(WatchStatus watchStatus) {
-        this.watchStatus = watchStatus;
-        this.isWatchConnected = true;
-        watchInfoFragment.onResume();
-        System.out.println(Constants.TAG + " MainActivity onWatchStatus " + this.isWatchConnected);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsWatchConnectedLocal itc) {
         if (itc != null) {
-            this.isWatchConnected = itc.getWatchStatus();
-            watchInfoFragment.onResume();
-            watchInfoFragment.onResume();
+            if (AmazModApplication.isWatchConnected != itc.getWatchStatus()) {
+                AmazModApplication.isWatchConnected = itc.getWatchStatus();
+                watchInfoFragment.onResume();
+                //watchInfoFragment.onResume();
+            }
         } else {
-            this.isWatchConnected = false;
+            AmazModApplication.isWatchConnected = false;
         }
-        System.out.println(Constants.TAG + " MainActivity getTransportStatus: " + this.isWatchConnected);
+        Log.d(Constants.TAG, " MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
     }
 
-    public boolean isWatchConnected() {
-        return isWatchConnected;
-    }
-
-    public WatchStatus getWatchStatus() {
-        return watchStatus;
-    }
-
-    private void showChangelog(boolean withActivity, int minVersion, boolean managedShowOnStart) {
-        ChangelogBuilder builder = new ChangelogBuilder()
+    private void showChangelog(boolean managedShowOnStart) {
+        new ChangelogBuilder()
                 .withUseBulletList(true) // true if you want to show bullets before each changelog row, false otherwise
                 .withMinVersionToShow(1)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
                 //.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
                 .withManagedShowOnStart(managedShowOnStart)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
-                .withRateButton(true); // enable this to show a "rate app" button in the dialog => clicking it will open the play store; the parent activity or target fragment can also implement IChangelogRateHandler to handle the button click
+                .withRateButton(true)
+                .buildAndShowDialog(this, false);
+    }
 
-        if (withActivity) {
-            builder.buildAndStartActivity(
-                    this, true); // second parameter defines, if the dialog has a dark or light theme
-        } else {
-            builder.buildAndShowDialog(this, false);
-        }
+    private void toggleNotificationService() {
+        Log.d(Constants.TAG, "MainActivity toggleNotificationService");
+        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
     }
 }

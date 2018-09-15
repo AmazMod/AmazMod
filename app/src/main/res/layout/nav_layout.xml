@@ -64,10 +64,11 @@
             android:id="@+id/navIV_3"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginTop="192dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="188dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/btn_dialog"
-            tools:layout_editor_absoluteX="32dp" />
+            app:srcCompat="@android:drawable/btn_dialog" />
 
         <ImageView
             android:id="@+id/navIV_4"

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_amazmodservice_vibration_entries">
+        <item>0 мс</item>
+        <item>100 мс</item>
+        <item>200 мс</item>
+        <item>300 мс</item>
+        <item>400 мс</item>
+        <item>500 мс</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_vibration_values">
+        <item>0</item>
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_screen_timeout_entries">
+        <item>3 с</item>
+        <item>5 с</item>
+        <item>7 с</item>
+        <item>10 с</item>
+        <item>12 с</item>
+        <item>15 с</item>
+        <item>20 с</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_screen_timeout_values">
+        <item>3000</item>
+        <item>5000</item>
+        <item>7000</item>
+        <item>10000</item>
+        <item>12000</item>
+        <item>15000</item>
+        <item>20000</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 день</item>
+        <item>2 дня</item>
+        <item>3 дня</item>
+        <item>5 дней</item>
+        <item>7 дней</item>
+        <item>10 дней</item>
+        <item>15 дней</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="pref_battery_background_sync_interval_entries">
+        <item>15 мин.</item>
+        <item>30 мин.</item>
+        <item>60 мин.</item>
+        <item>1 ч 30 мин.</item>
+        <item>2 ч</item>
+        <item>3 ч</item>
+        <item>4 ч</item>
+    </string-array>
+    <string-array name="pref_battery_background_sync_interval_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>180</item>
+        <item>240</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Да</item>
+        <item>Нет</item>
+        <item>Спасибо!</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Oбычный</item>
+        <item>Большой</item>
+        <item>Очень большой</item>
+    </string-array>
+    <string-array name="default_notification_packages">
+        <item>org.telegram.messenger</item>
+        <item>com.whatsapp</item>
+        <item>com.google.android.gm</item>
+        <item>com.google.android.talk</item>
+        <item>com.matusmak.fakenotifications</item>
+    </string-array>
+</resources>

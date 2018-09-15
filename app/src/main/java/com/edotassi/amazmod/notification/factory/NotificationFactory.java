@@ -6,12 +6,15 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
 
-import com.edotassi.amazmod.log.LoggerScoped;
+import com.edotassi.amazmod.AmazModApplication;
+import com.edotassi.amazmod.support.Logger;
 
+import java.text.DateFormat;
 import java.util.Calendar;
 
 import amazmod.com.transport.data.NotificationData;
@@ -26,9 +29,10 @@ public class NotificationFactory {
         String text = "", title = "";
 
         //Notification time
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(notification.when);
-        String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+        //Calendar c = Calendar.getInstance();
+        //c.setTimeInMillis(notification.when);
+        //String notificationTime = c.get(Calendar.HOUR_OF_DAY) + ":" + c.get(Calendar.MINUTE);
+        String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(notification.when);
 
         //EXTRA_TITLE and EXTRA_TEXT are usually CharSequence and not regular Strings...
         CharSequence bigTitle = bundle.getCharSequence(Notification.EXTRA_TITLE);
@@ -67,19 +71,37 @@ public class NotificationFactory {
             int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
             PackageManager manager = context.getPackageManager();
             Resources resources = manager.getResourcesForApplication(notificationPackgae);
-            Bitmap bitmap = BitmapFactory.decodeResource(resources, iconId);
 
+            Drawable drawable = resources.getDrawable(iconId);
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+
+            if (bitmap.getWidth() > 48) {
+                bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
+            }
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             int[] intArray = new int[width * height];
             bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
+
+            //System.out.println("AmazMod NotificationService mapNotification bitmap dimensions: " + width + " x " + height);
+
+            //This was crashing on Oreo
+            //Bitmap bitmap = BitmapFactory.decodeResource(resources, iconId);
+
+            //int width = bitmap.getWidth();
+            //int height = bitmap.getHeight();
+            //int[] intArray = new int[width * height];
+            //bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
             notificationData.setIcon(intArray);
             notificationData.setIconWidth(width);
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            LoggerScoped.get(NotificationFactory.class).error(e, "Failed to get bipmap from %s", notificationPackgae);
+            Logger.get(NotificationFactory.class).e(e, "Failed to get bipmap from %s", notificationPackgae);
         }
 
         notificationData.setId(statusBarNotification.getId());

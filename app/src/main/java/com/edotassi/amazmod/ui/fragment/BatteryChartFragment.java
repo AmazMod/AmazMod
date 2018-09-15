@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,14 @@ public class BatteryChartFragment extends Card {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        updateChart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(Constants.TAG, "BatteryChartFragment onResume");
 
         updateChart();
     }
@@ -188,7 +197,7 @@ public class BatteryChartFragment extends Card {
         }
         boolean charging = false;
         // Still charging?
-        if(value==colors.size()-1){
+        if(yValues.size() > 1 && value==colors.size()-1){
             charging = true;
             value = 0; // use first data for calculation if never charged
             for (int i=colors.size()-1; i>=0; i--){
@@ -197,14 +206,13 @@ public class BatteryChartFragment extends Card {
                     break;
                 }
             }
-        // Not charging
-        }else {
-            // Add last battery point as first data point
-            yPredictValues.add(yValues.get(yValues.size() - 1));
         }
+        // Add last battery point as first data point
+        yPredictValues.add(yValues.get(yValues.size() - 1));
+
 
         // At least 2 data points are needed for the calculation
-        // Calculate future 0% Battery point
+        // Calculate future 0 or 100% Battery point
         if(yValues.size() > 1) {
             // Charging point
             float x1 = yValues.get(value).getX();
@@ -214,34 +222,37 @@ public class BatteryChartFragment extends Card {
             float y2 = yValues.get(yValues.size()-1).getY();
 
             float target_time;
+            float remaininf_now_diff;
             String textDate;
             if(charging) {
                 // Future time that battery will be 100%
                 target_time = x2 + (x2 - x1) / (y2 - y1) * (100-y2);
 
                 textDate = lastRead.getText()+", "+getResources().getText(R.string.full_battery_in) + ": ";
-                float remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60);
+                remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60);
                 textDate += ((int) remaininf_now_diff / 60) +" hours and "+((int) remaininf_now_diff % 60)+" minutes";
             }else{
                 // Future time that battery will be 0%
                 target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
                 textDate = lastRead.getText()+", "+getResources().getText(R.string.remaining_battery) + ": ";
-                float remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60*60);
+                remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60*60);
                 textDate += ((int) remaininf_now_diff / 24) +" days and "+((int) remaininf_now_diff % 24)+" hours";
-
             }
-            yPredictValues.add(new Entry(target_time, (charging)?100:0));
 
-            // Expand graph's range
-            //highX = (long) target_time;
+            if(remaininf_now_diff>0) {
+                yPredictValues.add(new Entry(target_time, (charging) ? 100 : 0));
 
-            // Fix graph range
-            highX = highX + ((long) yValues.get(0).getX() - lowX);
-            lowX = (long) yValues.get(0).getX();
+                // Expand graph's range
+                highX = (long) target_time;
 
-            // Add remaining time/full battery time to "Last Read" line
-            lastRead.setText(textDate);
+                // Fix graph range
+                //highX = highX + ((long) yValues.get(0).getX() - lowX);
+                lowX = (long) yValues.get(0).getX();
+
+                // Add remaining time/full battery time to "Last Read" line
+                lastRead.setText(textDate);
+            }
         }
 
         LineDataSet lineDataSet = new LineDataSet(yValues, "Battery");

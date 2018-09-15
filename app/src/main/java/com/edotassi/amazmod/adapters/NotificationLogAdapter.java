@@ -140,6 +140,18 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
                     causeText = causesTranslationsMap.get(R.string.notification_return);
                     break;
                 }
+                case (Constants.FILTER_NOTIFICATIONS_DISABLED): {
+                    causeText = causesTranslationsMap.get(R.string.notification_disabled);
+                    break;
+                }
+                case (Constants.FILTER_SCREENON): {
+                    causeText = causesTranslationsMap.get(R.string.notification_screenon);
+                    break;
+                }
+                case (Constants.FILTER_SCREENLOCKED): {
+                    causeText = causesTranslationsMap.get(R.string.notification_screenlocked);
+                    break;
+                }
                 case (Constants.FILTER_PACKAGE): {
                     causeText = causesTranslationsMap.get(R.string.notification_package);
                     break;

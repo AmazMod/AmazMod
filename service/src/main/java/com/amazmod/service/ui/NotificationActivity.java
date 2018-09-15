@@ -1,15 +1,19 @@
 package com.amazmod.service.ui;
 
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PowerManager;
+import android.os.SystemClock;
 import android.os.Vibrator;
-import android.support.v4.app.NotificationCompat;
+import android.provider.Settings;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -19,13 +23,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.R2;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
+import com.amazmod.service.AdminReceiver;
+import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.SystemProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,41 +49,54 @@ import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationActivity extends Activity {
 
-    @BindView(R2.id.notification_title)
+    @BindView(R.id.notification_title)
     TextView title;
-    @BindView(R2.id.notification_time)
+    @BindView(R.id.notification_time)
     TextView time;
-    @BindView(R2.id.notification_text)
+    @BindView(R.id.notification_text)
     TextView text;
-    @BindView(R2.id.notification_icon)
+    @BindView(R.id.notification_icon)
     ImageView icon;
-    @BindView(R2.id.notification_replies_container)
+    @BindView(R.id.notification_replies_container)
     LinearLayout repliesContainer;
+    @BindView(R.id.notification_root_layout)
+    LinearLayout rootLayout;
+
+    @BindView(R.id.activity_buttons)
+    LinearLayout buttonsLayout;
+    @BindView(R.id.activity_notification_button_reply)
+    Button replyButton;
+    @BindView(R.id.activity_notification_button_close)
+    Button closeButton;
 
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private Boolean nullError = false;
+    private static boolean nullError = false;
+    private static boolean screenToggle;
+    private static float fontSizeSP;
+    private static int screenMode;
+    private static int screenBrightness = 999989;
+    private static boolean mustLockDevice;
+    private boolean enableInvertedTheme;
+    private Context mContext;
 
     private NotificationData notificationSpec;
 
     private SettingsManager settingsManager;
 
+    private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
+    private static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
+    private static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
+    private static final float FONT_SIZE_NORMAL = 14.0f;
+    private static final float FONT_SIZE_LARGE = 18.0f;
+    private static final float FONT_SIZE_HUGE = 22.0f;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+        this.mContext = this;
 
         setContentView(R.layout.activity_notification);
 
@@ -86,39 +106,67 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        boolean hideReplies = false;
+        mustLockDevice = DeviceUtil.isDeviceLocked(getBaseContext());
+
+        boolean hideReplies;
+
+        //Load preferences
+        boolean disableNotificationsScreenOn = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
+        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+        enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
+
+        setWindowFlags(true);
+
+        //Do not activate screen if it is disabled in settings and screen is off
+        if (disableNotificationsScreenOn && mustLockDevice) {
+            setScreenModeOff(true);
+        } else {
+            screenToggle = false;
+        }
+
+        // Set theme and font size
+        //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
+        if (enableInvertedTheme) {
+            rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+            time.setTextColor(getResources().getColor(R.color.black));
+            title.setTextColor(getResources().getColor(R.color.black));
+            text.setTextColor(getResources().getColor(R.color.black));
+            icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
+        }
+
+        setFontSizeSP();
+        time.setTextSize(fontSizeSP);
+        title.setTextSize(fontSizeSP);
+        text.setTextSize(fontSizeSP);
 
         try {
-            title.setText(notificationSpec.getTitle());
-            text.setText(notificationSpec.getText());
-            time.setText(notificationSpec.getTime());
+
+            hideReplies = notificationSpec.getHideReplies();
+
             int[] iconData = notificationSpec.getIcon();
             int iconWidth = notificationSpec.getIconWidth();
             int iconHeight = notificationSpec.getIconHeight();
             Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
             bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
 
-            hideReplies = notificationSpec.getHideReplies();
-
-            //Modified for RC1
-            //if (notificationSpec.getHideButtons()) {
-                findViewById(R.id.activity_buttons).setVisibility(View.GONE);
-            //}
-
             icon.setImageBitmap(bitmap);
+            title.setText(notificationSpec.getTitle());
+            text.setText(notificationSpec.getText());
+            time.setText(notificationSpec.getTime());
 
-            //Changed for RC1 - vibrates only for voice & maps
-            if (!notificationSpec.getHideButtons() && hideReplies) {
-                if (notificationSpec.getVibration() > 0) {
-                    Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                    if (vibrator != null) {
-                        vibrator.vibrate(notificationSpec.getVibration());
-                    }
+            if (notificationSpec.getVibration() > 0) {
+                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                if (vibrator != null) {
+                    vibrator.vibrate(notificationSpec.getVibration());
                 }
             }
 
         } catch (NullPointerException ex) {
-            Log.d(Constants.TAG,"NotificationActivity onCreate - Exception: " + ex.toString() + " notificationSpec: " + notificationSpec);
+            Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString()
+                    + " notificationSpec: " + notificationSpec);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
@@ -127,97 +175,95 @@ public class NotificationActivity extends Activity {
             nullError = true;
         }
 
-        //SettingsManager settingsManager = new SettingsManager(this);
-        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
-                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+        //Probably it is not needed anymore
+        //if (screenToggle && nullError) {
+        //    setScreenModeOff(false);
+        //}
 
-        if (disableNotificationReplies || hideReplies) { disableNotificationReplies = true; }
-
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        if (!disableNotificationReplies) {
-            List<Reply> repliesList = loadReplies();
-            for (final Reply reply : repliesList) {
-                Button button = new Button(this);
-                button.setLayoutParams(param);
-                button.setText(reply.getValue());
-                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
-                        finish();
-                    }
-                });
-                repliesContainer.addView(button);
-            }
-            //Added for RC1
-            Button button = new Button(this);
-            button.setLayoutParams(param);
-            button.setText(R.string.close);
-            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
-            repliesContainer.addView(button);
-        }
-
-        //Added for RC1: it adds close button for voice/maps/test notification
-        if (!nullError) {
-            if (!notificationSpec.getHideButtons() && hideReplies) {
-                Button button = new Button(this);
-                button.setLayoutParams(param);
-                button.setText(R.string.close);
-                button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finish();
-                    }
-                });
-                repliesContainer.addView(button);
-            }
+        if (!hideReplies && !disableNotificationReplies) {
+            buttonsLayout.setVisibility(View.GONE);
+            addReplies();
         } else {
-            findViewById(R.id.activity_buttons).setVisibility(View.VISIBLE);
+            buttonsLayout.setVisibility(View.VISIBLE);
+            if (!hideReplies) {
+                replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+                replyButton.setAllCaps(true);
+                replyButton.setText(R.string.replies);
+            } else {
+                replyButton.setVisibility(View.GONE);
+            }
+            closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+            closeButton.setAllCaps(true);
+            closeButton.setText(R.string.close);
         }
 
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
+
+        /* ShakeDetector.create(this, new ShakeDetector.OnShakeListener() {
+            @Override
+            public void OnShake() {
+                NotificationActivity.this.finish();
+                Toast.makeText(getApplicationContext(), "Shaken!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        float gravity = settingsManager.getInt(Constants.PREF_SHAKE_TO_DISMISS_GRAVITY, 1000) / 1000f;
+        int numOfShakes = settingsManager.getInt(Constants.PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES, 2);
+
+        ShakeDetector.updateConfiguration(gravity, numOfShakes); */
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //ShakeDetector.start();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //ShakeDetector.stop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //ShakeDetector.destroy();
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         findViewById(R.id.notification_root_layout).dispatchTouchEvent(event);
 
+        if (screenToggle) {
+            setScreenModeOff(false);
+        }
+
         startTimerFinish();
 
         return false;
     }
 
-
-    @OnClick(R2.id.activity_notification_button_close)
+    @OnClick(R.id.activity_notification_button_close)
     public void clickClose() {
+        //mustLockDevice = true;
         finish();
     }
 
-  @OnClick(R2.id.activity_notification_button_reply)
+    @OnClick(R.id.activity_notification_button_reply)
     public void clickReply() {
-        if (nullError) {
-            finish();
-        }
-        else {
-//            Toast.makeText(this, "not_implented", Toast.LENGTH_SHORT).show();
-
-            //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #1
-            postWithStandardUI(notificationSpec);
-            finish();
-        }
+        Intent intent = new Intent(this, RepliesActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtras(notificationSpec.toBundle());
+        intent.putExtra("MUSTLOCKDEVICE", mustLockDevice);
+        this.startActivity(intent);
+        mustLockDevice = false;
+        finish();
     }
 
     private void startTimerFinish() {
@@ -230,16 +276,103 @@ public class NotificationActivity extends Activity {
     @Override
     public void finish() {
         handler.removeCallbacks(activityFinishRunnable);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
-                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON |
-                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
+        setWindowFlags(false);
         super.finish();
+
+        boolean flag = true;
+        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
+
+        if (screenToggle) {
+            flag = false;
+            setScreenModeOff(false);
+        }
+
+        if (mustLockDevice) {
+            if (flag) {
+                SystemClock.sleep(500);
+            }
+            lock();
+        }
+    }
+
+    private void lock() {
+        if (!DeviceUtil.isDeviceLocked(mContext)) {
+            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (mDPM != null) {
+                try {
+                    mDPM.lockNow();
+                } catch (SecurityException ex) {
+                    Toast.makeText(
+                            this,
+                            getResources().getText(R.string.device_owner),
+                            Toast.LENGTH_LONG).show();
+                    Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
+                }
+            }
+        }
+    }
+
+    private void setFontSizeSP(){
+        String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
+        switch (fontSize) {
+            case "l":
+                fontSizeSP = FONT_SIZE_LARGE;
+                break;
+            case "h":
+                fontSizeSP = FONT_SIZE_HUGE;
+                break;
+            default:
+                fontSizeSP = FONT_SIZE_NORMAL;
+        }
+    }
+
+    private void addReplies() {
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        param.setMargins(20,2,20,2);
+
+        List<Reply> repliesList = loadReplies();
+        for (final Reply reply : repliesList) {
+            Button button = new Button(this);
+            button.setLayoutParams(param);
+            button.setText(reply.getValue());
+            button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+            if(enableInvertedTheme) {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+            }else{
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
+                    finish();
+                }
+            });
+            repliesContainer.addView(button);
+        }
+        //Add Close button
+        Button button = new Button(this);
+        button.setLayoutParams(param);
+        button.setText(R.string.close);
+        button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+        button.setTextColor(Color.parseColor("#ffffff"));
+        button.setBackground(getDrawable(R.drawable.close_red));
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        repliesContainer.addView(button);
+
     }
 
     private List<Reply> loadReplies() {
-        //SettingsManager settingsManager = new SettingsManager(this);
         final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
 
         try {
@@ -251,32 +384,39 @@ public class NotificationActivity extends Activity {
         }
     }
 
-    //Added the code here because there is an error of the BroadcastReceiver being leaked otherwise #2
-    private void postWithStandardUI(NotificationData notificationData) {
+    private void setWindowFlags(boolean enable) {
 
-        NotificationManager notificationManager;
-        Context context;
+        final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
 
-        context=getBaseContext();
-        notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        Log.d(Constants.TAG, "NotifIcon 2");
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "")
-                .setSmallIcon(android.R.drawable.ic_dialog_email)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//                .setStyle(new NotificationCompat.InboxStyle())
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText(notificationData.getText()))
-                .setContentText(notificationData.getText())
-                .setContentTitle(notificationData.getTitle())
-                .setVibrate(new long[]{0});
-
-        Notification notification = builder.build();
-        try {
-            notificationManager.notify(notificationData.getId(), notification);
-        } catch (NullPointerException ex) {
-            Log.d(Constants.TAG, "NotificationActivity postWithStandarUI - Exception: " + ex.toString() + " - Notification: " + notification.toString());
+        if (enable) {
+            getWindow().addFlags(flags);
+        } else {
+            getWindow().clearFlags(flags);
         }
     }
 
+    private void setScreenModeOff(boolean mode) {
 
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        if (mode) {
+            screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
+            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
+            getWindow().setAttributes(params);
+        } else {
+            if (screenBrightness != 999989) {
+                //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+                //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+                getWindow().setAttributes(params);
+            }
+        }
+        screenToggle = mode;
+    }
 }

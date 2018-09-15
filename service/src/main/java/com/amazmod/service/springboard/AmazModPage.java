@@ -1,11 +1,15 @@
 package com.amazmod.service.springboard;
 
+import android.app.admin.DevicePolicyManager;
+import android.bluetooth.BluetoothAdapter;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.LevelListDrawable;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,16 +17,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.BuildConfig;
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
 import com.amazmod.service.R;
-//import com.edotassi.amazmodcompanionservice.MessagesListener;
-//import com.edotassi.amazmodcompanionservice.R2;
+import com.amazmod.service.events.incoming.Brightness;
+import com.amazmod.service.events.incoming.SyncSettings;
+import com.amazmod.service.util.SystemProperties;
 
 //import butterknife.BindView;
 //import butterknife.ButterKnife;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,8 +40,10 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import amazmod.com.transport.data.BrightnessData;
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class AmazModPage extends AbstractPlugin {
 
@@ -39,26 +51,32 @@ public class AmazModPage extends AbstractPlugin {
     private Context mContext;
     private View view;
     private boolean isActive = false;
+    private boolean lowPower = true;
     private ISpringBoardHostStub host = null;
 
     private WidgetSettings settingsWidget;
 
-//    @BindView(R2.id.amazmod_page_version)
+    //@BindView(R2.id.amazmod_page_version)
     private TextView version, timeSLC, battValueTV;
-    private ImageView battIconImg;
+    private ImageView battIconImg, imageView;
 
     @Override
-    public View getView(Context paramContext) {
+    public View getView(final Context paramContext) {
 
         this.mContext = paramContext;
-        paramContext.startService(new Intent(paramContext, MainService.class));
+        mContext.startService(new Intent(paramContext, MainService.class));
 
-        this.view = LayoutInflater.from(paramContext).inflate(R.layout.amazmod_page, null);
+        this.view = LayoutInflater.from(mContext).inflate(R.layout.amazmod_page, null);
 
         version = view.findViewById(R.id.amazmod_page_version);
         timeSLC = view.findViewById(R.id.time_since_last_charge);
         battValueTV = view.findViewById(R.id.battValue);
         battIconImg = view.findViewById(R.id.battIcon);
+        imageView = view.findViewById(R.id.imageView);
+
+        Log.d(Constants.TAG, "AmazModPage getView mContext: " + mContext.toString() + " / this: " + this.toString());
+        //HermesEventBus.getDefault().connectApp(mContext, "com.amazmod.service");
+        HermesEventBus.getDefault().register(this);
 
 /*       try {
             ButterKnife.bind(this, view);
@@ -68,11 +86,64 @@ public class AmazModPage extends AbstractPlugin {
 */
         version.setText(BuildConfig.VERSION_NAME);
 
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (SystemProperties.setSystemProperty("sys.state.powerlow", lowPower ? "true" : "false") != null) {
+                    Log.d(Constants.TAG, "AmazModPage getView longClick sys.state.powerlow: "
+                            + SystemProperties.getSystemProperty("sys.state.powerlow"));
+                }
+                BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
+                final String result = SystemProperties.getSystemProperty("sys.state.powerlow");
+                if (result != null) {
+                    if (result.equals("true")){
+                        Log.i(Constants.TAG, "AmazModPage getView disable BT");
+                        btmgr.disable();
+                        try {
+                            WifiManager wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+                            if (wfmgr !=null) {
+                                if (wfmgr.isWifiEnabled()) {
+                                    Log.i(Constants.TAG, "AmazModPage getView disable WiFi");
+                                    wfmgr.setWifiEnabled(false);
+                                }
+                            }
+                        } catch (NullPointerException e) {
+                            Log.e(Constants.TAG, "AmazModPage getView imageView.setOnLongClickListener exception: " + e.toString());
+                        }
+                        SystemProperties.goToSleep(mContext);
+                        //SystemProperties.switchPowerMode(mContext, lowPower);
+                        lowPower = false;
+                    } else {
+                        btmgr.enable();
+                        //SystemProperties.switchPowerMode(mContext, lowPower);
+                        lowPower = true;
+                    }
+                }
+                Toast.makeText(mContext, "lowPower: " + !lowPower, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        /* imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                BrightnessData brightnessData = new BrightnessData();
+                brightnessData.setLevel(123);
+                HermesEventBus.getDefault().post(brightnessData);
+
+            }
+        }); */
+
         //Initialize settings
         settingsWidget = new WidgetSettings(Constants.TAG, mContext);
         Log.d(Constants.TAG, "AmazModPage getView");
 
         return this.view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void settingsSync(SyncSettings event) {
+        Log.w(Constants.TAG, "AmazModPage SyncSettings ***** event received *****");
     }
 
     private void updateTimeSinceLastCharge() {
@@ -115,11 +186,11 @@ public class AmazModPage extends AbstractPlugin {
             long diffInMillies = System.currentTimeMillis() - lastChargeDate;
             List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
             Collections.reverse(units);
-            long milliesRest = diffInMillies;
+            long millisRest = diffInMillies;
             for (TimeUnit unit : units) {
-                long diff = unit.convert(milliesRest, TimeUnit.MILLISECONDS);
+                long diff = unit.convert(millisRest, TimeUnit.MILLISECONDS);
                 long diffInMilliesForUnit = unit.toMillis(diff);
-                milliesRest = milliesRest - diffInMilliesForUnit;
+                millisRest = millisRest - diffInMilliesForUnit;
                 if (unit.equals(TimeUnit.DAYS)) {
                     dateDiff.append(diff).append("d : ");
                 } else if (unit.equals(TimeUnit.HOURS)) {

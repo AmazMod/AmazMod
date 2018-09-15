@@ -1,0 +1,3 @@
+- Fixed a bug with preferences in Oreo
+- Fixed issue #157
+- Updated hu, fr, it translations

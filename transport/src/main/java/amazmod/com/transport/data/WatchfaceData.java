@@ -11,18 +11,18 @@ import amazmod.com.transport.Transportable;
 public class WatchfaceData extends Transportable implements Parcelable {
 
     public static final String EXTRA = "watchface";
-    public static final String SHOW_ALTITUDE = "show_altitude";
-    public static final String SHOW_BATTERY = "show_battery";
+    public static final String BATTERY = "battery";
+    public static final String ALARM = "alarm";
 
-    private boolean altitude;
-    private boolean battery;
+    private int battery;
+    private String alarm;
 
     public WatchfaceData() {
     }
 
     protected WatchfaceData(Parcel in) {
-        altitude = in.readByte() != 0;
-        battery = in.readByte() != 0;
+        battery = in.readInt();
+        alarm = in.readString();
     }
 
     public static final Creator<WatchfaceData> CREATOR = new Creator<WatchfaceData>() {
@@ -40,8 +40,8 @@ public class WatchfaceData extends Transportable implements Parcelable {
     @Override
     public DataBundle toDataBundle(DataBundle dataBundle) {
 
-        dataBundle.putBoolean(SHOW_ALTITUDE, altitude);
-        dataBundle.putBoolean(SHOW_BATTERY, battery);
+        dataBundle.putInt(BATTERY, battery);
+        dataBundle.putString(ALARM, alarm);
 
         return dataBundle;
     }
@@ -49,8 +49,8 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public static WatchfaceData fromDataBundle(DataBundle dataBundle) {
         WatchfaceData settingsData = new WatchfaceData();
 
-        settingsData.setShowAltitude(dataBundle.getBoolean(SHOW_ALTITUDE));
-        settingsData.setShowBattery(dataBundle.getBoolean(SHOW_BATTERY));
+        settingsData.setBattery(dataBundle.getInt(BATTERY));
+        settingsData.setAlarm(dataBundle.getString(ALARM));
 
         return settingsData;
     }
@@ -62,20 +62,20 @@ public class WatchfaceData extends Transportable implements Parcelable {
         return bundle;
     }
 
-    public boolean getShowBattery() {
+    public int getBattery() {
         return battery;
     }
-
-    public void setShowBattery(boolean battery) {
-        this.battery = battery;
-    }
-    public boolean getShowAltitude() {
-        return altitude;
+    public void setBattery(int data) {
+        this.battery = data;
     }
 
-    public void setShowAltitude(boolean altitude) {
-        this.altitude = altitude;
+    public String getAlarm() {
+        return alarm;
     }
+    public void setAlarm(String data) {
+        this.alarm = data;
+    }
+
 
     @Override
     public int describeContents() {
@@ -84,7 +84,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeByte((byte) (altitude ? 1 : 0));
-        dest.writeByte((byte) (battery ? 1 : 0));
+        dest.writeInt(battery);
+        dest.writeString(alarm);
     }
 }

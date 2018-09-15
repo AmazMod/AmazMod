@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_amazmodservice_screen_timeout_entries">
+        <item>3 שנ\'</item>
+        <item>5 שנ\'</item>
+        <item>7 שנ\'</item>
+        <item>10 שנ\'</item>
+        <item>12 שנ\'</item>
+        <item>15 שנ\'</item>
+        <item>20 שנ\'</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_screen_timeout_values">
+        <item>3000</item>
+        <item>5000</item>
+        <item>7000</item>
+        <item>10000</item>
+        <item>12000</item>
+        <item>15000</item>
+        <item>20000</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>יום</item>
+        <item>יומיים</item>
+        <item>3 ימים</item>
+        <item>5 ימים</item>
+        <item>7 ימים</item>
+        <item>10 ימים</item>
+        <item>15 ימים</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="pref_battery_background_sync_interval_entries">
+        <item>15 דק\'</item>
+        <item>30 דק\'</item>
+        <item>60 דק\'</item>
+        <item>שעה וחצי</item>
+        <item>שעתיים</item>
+        <item>3 ש\'</item>
+        <item>4 ש\'</item>
+    </string-array>
+    <string-array name="pref_battery_background_sync_interval_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>180</item>
+        <item>240</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>כן</item>
+        <item>לא</item>
+        <item>תודה לך</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>רגיל</item>
+        <item>גדול</item>
+        <item>ענק</item>
+    </string-array>
+    <string-array name="default_notification_packages">
+        <item>org.telegram.messenger</item>
+        <item>com.whatsapp</item>
+        <item>com.google.android.gm</item>
+        <item>com.google.android.talk</item>
+        <item>com.matusmak.fakenotifications</item>
+    </string-array>
+</resources>

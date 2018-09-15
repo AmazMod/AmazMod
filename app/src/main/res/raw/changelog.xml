@@ -1,8 +1,68 @@
 <changelog>
     <release
+        versionCode="168"
+        versionName="v1.0.38">
+        <new>Basic file explorer</new>
+        <new>Basic integration with GreatFit</new>
+        <new>Added Spanish translation</new>
+        <new>Added Hungarian translation</new>
+        <info>Updated translations</info>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
+        versionCode="163"
+        versioneName="v1.0.34">
+        <bugfix>Fixed issue #164</bugfix>
+        <bugfix>Fixed issue #160</bugfix>
+    </release>
+    <release
+        date="2018-08-25"
+        versionCode="162"
+        versionName="v1.0.33">
+        <bugfix>Fixed a bug with preferences in Oreo</bugfix>
+        <bugfix>Fixed issue #157</bugfix>
+        <info>Updated hu, fr, it translations</info>
+    </release>
+    <release
+        date="2018-08-23"
+        versionCode="160"
+        versionName="v1.0.32">
+        <new>Added inverted theme and configurable font size for Custom Replies</new>
+        <new>Preferences backup and restore</new>
+        <new>Added preference to disable screen on for Custom replies</new>
+        <new>Added persistent notification with Preferences</new>
+        <new>Added Czech translations</new>
+        <new>Added Greek translations</new>
+        <new>Added Russian translations</new>
+        <info>Improvements to Maps navigation notifications and Notifications log</info>
+        <info>Updated FAQ</info>
+        <info>Updated Italian translations</info>
+        <bugfix>Skype notifications fix</bugfix>
+        <bugfix>Fix for Outlook notifications too</bugfix>
+        <bugfix>Minor fix</bugfix>
+    </release>
+    <release
+        date="2018-08-14"
+        versionCode="154"
+        versionName="v1.0.27">
+        <new>Added Italian translations</new>
+        <new>Added French translations</new>
+        <new>Added Hebrew translations</new>
+        <new>Added credits for translators in About page</new>
+        <bugfix>Fixed a crash in start screen</bugfix>
+    </release>
+    <release
+        date="2018-08-12"
+        versionCode="153"
+        versionName="v1.0.26">
+        <new>First beta release</new>
+        <new>Added faq section</new>
+        <info>Battery chart improvements</info>
+    </release>
+    <release
         date="2018-08-08"
         versionCode="152"
-        versionName="v1.0.24-RC6">
+        versionName="v1.0.25">
         <new>Added email and telegram channel</new>
         <info>Improved battery prediction</info>
         <bugfix>Fixed some crashes</bugfix>
@@ -90,14 +150,18 @@
         date="2018-07-29"
         versionCode="140"
         versionName="v1.0.12-ALPHA">
-        <new>Added current battery value to battery chart in phone app and value and icon to widget</new>
+        <new>Added current battery value to battery chart in phone app and value and icon to
+            widget
+        </new>
         <info>Widget code cleaned and optimized</info>
     </release>
     <release
         date="2018-07-27"
         versionCode="139"
         versionName="v1.0.11-ALPHA">
-        <new>Added Setting to disable remove of notifications from watch when they are removed from phone</new>
+        <new>Added Setting to disable remove of notifications from watch when they are removed from
+            phone
+        </new>
     </release>
     <release
         date="2018-07-27"

@@ -16,6 +16,20 @@
 
 package com.amazmod.service.util;
 
+import android.content.Context;
+import android.os.PowerManager;
+import android.os.SystemClock;
+import android.util.Log;
+
+import com.amazmod.service.Constants;
+
+import java.io.BufferedReader;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
  * Gives access to the system properties store. The system properties store contains a list of
  * string key-value pairs.
@@ -114,6 +128,85 @@ public class SystemProperties {
 
     private SystemProperties() {
         throw new AssertionError("no instances");
+    }
+
+    public static String getSystemProperty(String name) {
+        InputStreamReader in = null;
+        BufferedReader reader = null;
+        try {
+            Process proc = Runtime.getRuntime().exec(new String[]{"/system/bin/getprop", name});
+            in = new InputStreamReader(proc.getInputStream());
+            reader = new BufferedReader(in);
+            return reader.readLine();
+        } catch (IOException e) {
+            return null;
+        } finally {
+            closeQuietly(in);
+            closeQuietly(reader);
+        }
+    }
+
+    public static String setSystemProperty(String name, String param) {
+        InputStreamReader in = null;
+        BufferedReader reader = null;
+        try {
+            Process proc = Runtime.getRuntime().exec(new String[]{"/system/bin/setprop", name, param});
+            in = new InputStreamReader(proc.getInputStream());
+            reader = new BufferedReader(in);
+            return reader.readLine();
+        } catch (IOException e) {
+            Log.e(Constants.TAG, "SystemProperties setSystemProperty exception: " + e.toString());
+            return null;
+        } finally {
+            closeQuietly(in);
+            closeQuietly(reader);
+        }
+    }
+
+    private static void closeQuietly(Closeable closeable) {
+        if (closeable == null) return;
+        try {
+            closeable.close();
+        } catch (IOException e) {
+            Log.e(Constants.TAG, "SystemProperties closeQuietly exception: " + e.toString());
+        }
+    }
+
+    public static void goToSleep(Context context){
+        Log.d(Constants.TAG, "SystemProperties goToSleep context: " + context.toString());
+        try{
+            Class c = Class.forName("android.os.PowerManager");
+            PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            for(Method m : c.getDeclaredMethods()){
+                if(m.getName().equals("goToSleep")){
+                    m.setAccessible(true);
+                    if(m.getParameterTypes().length == 1){
+                        m.invoke(mPowerManager, SystemClock.uptimeMillis()-2);
+                    }
+                }
+            }
+        } catch (InvocationTargetException e) {
+            e.getCause().printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+            Log.e(Constants.TAG, "SystemProperties goToSleep exception: " + e.toString());
+        }
+    }
+
+    public static void switchPowerMode(Context context, boolean mode){
+        try{
+            Class c = Class.forName("com.huami.watch.common.CommonService");
+            for(Method m : c.getDeclaredMethods()){
+                if(m.getName().equals("switchPowerMode")){
+                    m.setAccessible(true);
+                    if(m.getParameterTypes().length == 1){
+                        m.invoke(m, mode);
+                    }
+                }
+            }
+        } catch (Exception e){
+            Log.e(Constants.TAG, "SystemProperties switchPowerMode exception: " + e.toString());
+        }
     }
 
 }
