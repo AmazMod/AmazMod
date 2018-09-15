@@ -1,7 +1,7 @@
 **Frequently asked questions of AmazMod for Amazfit Pace and Stratos.**
 
 A- *What's AmazMod app?*  
-R- AmazMod is an app that works in parallel with the stock Amazfit Watch app to add advanced features to your Pace and Stratos regarding notifications and other customizations.
+R- AmazMod is an app that works in parallel with the stock Amazfit Watch app on Android to add advanced features to your Pace and Stratos regarding notifications and other customizations.
 
 A- *What's the best feature of AmazMod?*  
 R- AmazMod was born to improve the stock notification system with the possibility to read the entire message without the limits of stock app, to reply a notification directly from watch, and more.
@@ -22,7 +22,12 @@ A- *I am getting two notifications/double on watch, is it normal?*
 R- Yes, if you have enabled "Custom replies" in AmazMod then you will get two notifications: one is short-lived and will enable you to reply (it will remain on screen for the time that it is selected in AmazMod Settings and then it will be gone, so it is not actually a notification but just a short-time interface for replies) and the regular notification that looks like common Amazfit notifications but were actually filtered and improved by AmazMod. Obviously, if you have *disabled* "Custom replies" then you will get only one notification.
 
 A- *I cannot install service-release.apk on watch, why?*  
-R- Well, this is hard to answer, it can be due to many factors But the most commons are: you don't have enough free space on watch to install a new APK, you have an old version of the APK that must be uninstalled first and you have the dreaded "communication issue", very common specially if you have Stratos: check your connection to the computer, including cable/charger, metallic contacts on both watch and charger (keep them clean!) and USB port on your computer. Also restart the watch if you het any error when tryin to install the APK, then try again.
+R- Well, this is hard to answer, it can be due to many factors But the most commons are: you don't have enough free space on watch to install a new APK, you have an old version of the APK that must be uninstalled first. If you cannot install a new version and uninstalling doesn't seem to work (this may happen if you have used third party app Amazfit Tool to uninstall APKs), try using this adb command:<br>
+`adb shell pm uninstall com.amazmod.service`
+
+You may also have the dreaded "communication issue" while watch is connected to computer, very common specially if you have Stratos: check your connection to the computer, including cable/charger, metallic contacts on both watch and charger (keep them clean!) and USB port on your computer. 
+
+Last but not least, restart the watch if you have any error when tryin to install the APK, then try again.
 
 A- *I don't get notifications for app ABCD, help!?!?*  
 R- First, calm down. Then check if you have any setting that is preventing the notification to arrive on watch and change it to the appropriate value, then make sure the app ABCD is *enabled* in "Selected apps" setting. Note that if it's a system application, you must enable system applications in the 3 dots menu first (selected system apps will always be displayed tho).
