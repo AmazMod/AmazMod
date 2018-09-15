@@ -1,7 +1,7 @@
 **Frequently asked questions of AmazMod for Amazfit Pace and Stratos.**
 
 A- *What's AmazMod app?*  
-R- AmazMod is an app that works in parallel with the stock Amazfit Watch app to add advanced features to your Pace and Stratos regarding notifications and other customizations.
+R- AmazMod is an app that works in parallel with the stock Amazfit Watch app on Android to add advanced features to your Pace and Stratos regarding notifications and other customizations.
 
 A- *What's the best feature of AmazMod?*  
 R- AmazMod was born to improve the stock notification system with the possibility to read the entire message without the limits of stock app, to reply a notification directly from watch, and more.
