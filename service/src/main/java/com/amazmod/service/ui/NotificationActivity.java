@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -77,6 +78,7 @@ public class NotificationActivity extends Activity {
     private static int screenMode;
     private static int screenBrightness = 999989;
     private static boolean mustLockDevice;
+    private boolean enableInvertedTheme;
     private Context mContext;
 
     private NotificationData notificationSpec;
@@ -113,7 +115,7 @@ public class NotificationActivity extends Activity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
-        boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+        enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
 
         setWindowFlags(true);
@@ -277,30 +279,20 @@ public class NotificationActivity extends Activity {
         setWindowFlags(false);
         super.finish();
 
+        boolean flag = true;
+        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
+
+        if (screenToggle) {
+            flag = false;
+            setScreenModeOff(false);
+        }
+
         if (mustLockDevice) {
-            SystemClock.sleep(100);
+            if (flag) {
+                SystemClock.sleep(500);
+            }
             lock();
         }
-
-        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
-        if (screenToggle) {
-            //SystemProperties.goToSleep(mContext);
-            setScreenModeOff(false);
-            /* Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    try {
-                        //Toast.makeText(getApplicationContext(), "delayed", Toast.LENGTH_SHORT).show();
-                        setScreenModeOff(false);
-                        Log.i(Constants.TAG, "NotificationActivity delayed finish");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e(Constants.TAG, "NotificationActivity finish exception: " + e.toString());
-                    }
-                }
-            }, 10000 - notificationSpec.getTimeoutRelock() + 600); */
-        }
-
     }
 
     private void lock() {
@@ -315,11 +307,6 @@ public class NotificationActivity extends Activity {
                             getResources().getText(R.string.device_owner),
                             Toast.LENGTH_LONG).show();
                     Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
-                /* ComponentName admin = new ComponentName(mContext, AdminReceiver.class);
-                Intent intent = new Intent(
-                        DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).putExtra(
-                        DevicePolicyManager.EXTRA_DEVICE_ADMIN, admin);
-                mContext.startActivity(intent); */
                 }
             }
         }
@@ -341,10 +328,10 @@ public class NotificationActivity extends Activity {
     }
 
     private void addReplies() {
-
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        param.setMargins(20,2,20,2);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
@@ -352,6 +339,13 @@ public class NotificationActivity extends Activity {
             button.setLayoutParams(param);
             button.setText(reply.getValue());
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+            if(enableInvertedTheme) {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+            }else{
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -366,6 +360,8 @@ public class NotificationActivity extends Activity {
         button.setLayoutParams(param);
         button.setText(R.string.close);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+        button.setTextColor(Color.parseColor("#ffffff"));
+        button.setBackground(getDrawable(R.drawable.close_red));
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -404,15 +400,23 @@ public class NotificationActivity extends Activity {
     }
 
     private void setScreenModeOff(boolean mode) {
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
+            Log.i(Constants.TAG, "NotificationActivity setScreenModeOff1 mode: " + mode);
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
-            Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
-            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
+            getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff2 mode: " + mode);
+                //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+                //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+                getWindow().setAttributes(params);
             }
         }
         screenToggle = mode;
