@@ -21,13 +21,14 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 2. Download and install latest service-release.apk on watch, or use the provided installer for Windows;
 3. Restart both phone *and* watch;
 4. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
-5. Open AmazMod app on phone and configure it to your needs.
+5. Check if you see AmazMod widget on watch, if you don't then something went wrong, check Troubleshooting below;
+6. Open AmazMod app on phone and configure it to your needs.
 
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;
 2. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
 3. Open AmazMod and make sure "Custom replies" are *disabled* and "Disable battery chart" is *Enabled* (i.e. battery chart is hidden), then restart phone;
-4. Configure the other options to your needs.
+4. Configure the other options to your needs (in this case, ignore the "Connecting" message shown in AmazMod). 
 
 *PS: You may or may not disable Amazfit access to notifications, as long as it doesn't push notifications to watch. If you keep the access, then you can still use your watch to control music and most notifications dismissed on watch will also be removed from phone.*
 
@@ -40,7 +41,7 @@ You can use adb (all platforms), APKInstaller, Amazfit Tool or the provided inst
 
 * I do not get notifications  
 
-Make sure you have service-release.apk installed on watch and that AmazMod on phone has granted permissions to access notifications, restart both phone and watch and test notifications again. Also keep in mind that you *must* keep stock Amazfit app installed and running on your phone for the current version of AmazMod to work!
+Make sure that AmazMod on phone has granted permissions to access notifications, restart both phone and watch and test notifications again (npotification tests from AmazMod app only works if you have service.apk installed on watch). Also keep in mind that you *must* keep stock Amazfit app installed and running on your phone for the current version of AmazMod to work!
 
 For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/master/FAQ.md).
 
