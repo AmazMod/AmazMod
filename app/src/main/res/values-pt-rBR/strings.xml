@@ -66,12 +66,8 @@
 
     <string name="activity_about_text">Escrito com amor {gmd-favorite}</string>
     <string name="activity_about_project_maintainer">Mantenedor do projeto</string>
-    <string name="activity_about_project_maintainer_value">\@edotassi</string>
     <string name="activity_about_devs">Devs</string>
-    <string name="activity_about_devs_value">\@lfomartins</string>
     <string name="activity_about_testers">Testers</string>
-    <string name="activity_about_testers_value">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@Apostolos</string>
-    <string name="activity_about_email">edo.tassinari@gmail.com</string>
 
     <string name="activity_watchface_need_greatfit">Você precisa ter a watchface "GreatFit" instalada no seu relógio para estas opções funcionarem</string>
     <string name="activity_watchface_show_altitude">Mostrar altitude</string>
@@ -190,5 +186,7 @@
     <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
     <string name="enable_low_power">Enable low power mode on watch</string>
+    <string name="failed_to_send_command">Sending command to watch failed</string>
+    <string name="command_sent">Sending command to watch was successful</string>
 
 </resources>

@@ -497,9 +497,9 @@ public class MainService extends Service implements Transporter.DataListener {
         try {
             RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromDataBundle(requestUploadFileChunk.getDataBundle());
             File file = new File(requestUploadFileChunkData.getPath());
-            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
 
-            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getSize();
+            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getConstantChunkSize();
             randomAccessFile.seek(position);
             randomAccessFile.write(requestUploadFileChunkData.getBytes());
             randomAccessFile.close();

@@ -15,7 +15,6 @@
   <string name="brightness">Φωτεινότητα</string>
   <string name="tweaking">Μικροαλλαγές</string>
   <string name="watchface">Εμφάνιση καντράν</string>
-  <string name="greatfit">GreatFit</string>
   <string name="stats">Στατιστικά</string>
   <string name="changelog">Λίστα αλλαγών</string>
   <string name="enable">Ενεργοποίηση</string>
@@ -35,11 +34,11 @@
   <string name="cant_delete_file">Δεν είναι δυνατή η διαγραφή του αρχείου</string>
   <string name="add_new_reply">Προσθήκη νέας απάντησης</string>
   <string name="enter_the_text_you_want_as_an_answer">Εισάγετε το κείμενο που θέλετε ως απάντηση</string>
-  <string name="file_not_exists">File not exists</string>
-  <string name="cant_uplaod_directory">Can\'t upload directory</string>
-  <string name="sending">Sending</string>
-  <string name="cant_upload_file">Can\'t upload file</string>
-  <string name="file_upload_canceled">File upload canceled</string>
+  <string name="file_not_exists">Το αρχείο δεν υπάρχει</string>
+  <string name="cant_uplaod_directory">Δεν είναι δυνατή η φόρτωση του καταλόγου</string>
+  <string name="sending">Αποστολή</string>
+  <string name="cant_upload_file">Δεν είναι δυνατή η φόρτωση του αρχείου</string>
+  <string name="file_upload_canceled">Η αποστολή αρχείου ακυρώθηκε</string>
   <string name="notification_access">Πρόσβαση στις ειδοποιήσεις</string>
   <string name="notification_access_not_enabled">Η πρόσβαση στις ειδοποιήσεις δεν είναι ενεργή</string>
   <string name="notification_access_enable">Ενεργοποίηση</string>
@@ -124,8 +123,8 @@
   <string name="pref_filters">Φίλτρα ειδοποιήσεων</string>
   <string name="pref_enable_music_control_with_hardware_button">Ενεργοποίηση υλικού για έλεγχο μουσικής</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(ΠΕΙΡΑΜΑΤΙΚΟ) Ενεργοποιήσετε τον έλεγχο της μουσικής μέσω των κουμπιών. Πιέστε το κάτω κουμπί για αναπαραγωγή/παύση της μουσικής. Παρατεταμένο πάτημα για να παραλείψετε το επόμενο τραγούδι.</string>
-  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
-  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert">Ειδοποίηση όταν το τηλέφωνο συνδέεται/αποσυνδέεται</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">Το ρολόι θα δονείται δείχνοντας την κατάσταση σύνδεσης του τηλεφώνου όταν συνδέεται/αποσυνδέεται</string>
   <string name="intro_title_1">Καλώς ορίσατε στο AmazMod!</string>
   <string name="intro_description_1">Παρακαλώ ακολουθήστε την παρουσίαση για να μάθετε πως να εγκαταστήσετε την εφαρμογή service στο ρολόι και να δώσετε έγκριση πρόσβασης στις ειδοποιήσεις του τηλεφώνου στην παρούσα εφαρμογή.</string>
   <string name="intro_title_permissions">Έγκριση πρόσβασης στις ειδοποιήσεις</string>
@@ -194,10 +193,12 @@
   <string name="failed_to_send_test_notification">Απέτυχε να στείλει δοκιμαστική ειδοποίηση</string>
   <string name="file_explorer">Εξερευνητής αρχείων</string>
   <string name="reading_files_failed">Η ανάγνωση αρχείων απέτυχε</string>
-    <string name="activity_about_extras">Extras</string>
+  <string name="activity_about_extras">Πρόσθετα</string>
   <string name="revoke_device_owner">Revoke device owner on watch</string>
-    <string name="connection_alert">Connection alert</string>
-    <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
-    <string name="enable_low_power">Enable low power mode on watch</string>
+  <string name="connection_alert">Ειδοποίηση σύνδεσης</string>
+  <string name="pref_phone_connect_alert_standard_notification">Χρήση κανονικών ειδοποιήσεων</string>
+  <string name="pref_phone_connect_alert_standard_notification_summary">Χρήση κανονικών ειδοποιήσεων για ειδοποιήσεις σύνδεσης αντί για ειδοποίηση πλήρους οθόνης</string>
+  <string name="enable_low_power">Ενεργοποιήσετε τη λειτουργία χαμηλής ισχύος στο ρολόι</string>
+  <string name="failed_to_send_command">Sending command to watch failed</string>
+  <string name="command_sent">Sending command to watch was successful</string>
 </resources>

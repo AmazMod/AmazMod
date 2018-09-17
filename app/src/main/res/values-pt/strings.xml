@@ -15,7 +15,6 @@
   <string name="brightness">Brilho</string>
   <string name="tweaking">Modificações</string>
   <string name="watchface">WatchFace</string>
-  <string name="greatfit">GreatFit</string>
   <string name="stats">Estatísticas</string>
   <string name="changelog">Changelog</string>
   <string name="enable">Habilitar</string>
@@ -194,10 +193,12 @@
   <string name="failed_to_send_test_notification">Falha ao enviar notificação teste</string>
   <string name="file_explorer">Explorador de arquivos</string>
   <string name="reading_files_failed">Falha ao ler arquivos</string>
-    <string name="activity_about_extras">Extras</string>
+  <string name="activity_about_extras">Extras</string>
   <string name="revoke_device_owner">Revoke device owner on watch</string>
-    <string name="connection_alert">Connection alert</string>
-    <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
-    <string name="enable_low_power">Enable low power mode on watch</string>
+  <string name="connection_alert">Connection alert</string>
+  <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
+  <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
+  <string name="enable_low_power">Enable low power mode on watch</string>
+  <string name="failed_to_send_command">Sending command to watch failed</string>
+  <string name="command_sent">Sending command to watch was successful</string>
 </resources>

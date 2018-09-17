@@ -15,7 +15,6 @@
   <string name="brightness">Яркость</string>
   <string name="tweaking">Тонкая настройка</string>
   <string name="watchface">Циферблаты</string>
-  <string name="greatfit">GreatFit</string>
   <string name="stats">Статистика</string>
   <string name="changelog">Список изменений</string>
   <string name="enable">Включить</string>
@@ -194,10 +193,12 @@
   <string name="failed_to_send_test_notification">Ошибка отправки тестового уведомления</string>
   <string name="file_explorer">Проводник</string>
   <string name="reading_files_failed">Ошибка чтения файлов</string>
-    <string name="activity_about_extras">Extras</string>
+  <string name="activity_about_extras">Extras</string>
   <string name="revoke_device_owner">Revoke device owner on watch</string>
-    <string name="connection_alert">Connection alert</string>
-    <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
-    <string name="enable_low_power">Enable low power mode on watch</string>
+  <string name="connection_alert">Connection alert</string>
+  <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
+  <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
+  <string name="enable_low_power">Enable low power mode on watch</string>
+  <string name="failed_to_send_command">Sending command to watch failed</string>
+  <string name="command_sent">Sending command to watch was successful</string>
 </resources>

@@ -164,7 +164,7 @@ public class RepliesActivity extends Activity {
         if (mustLockDevice) {
             DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
             if (mDPM != null) {
-                SystemClock.sleep(100);
+                SystemClock.sleep(500);
                 mDPM.lockNow();
             }
         }
