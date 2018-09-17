@@ -199,4 +199,6 @@
   <string name="pref_phone_connect_alert_standard_notification">Χρήση κανονικών ειδοποιήσεων</string>
   <string name="pref_phone_connect_alert_standard_notification_summary">Χρήση κανονικών ειδοποιήσεων για ειδοποιήσεις σύνδεσης αντί για ειδοποίηση πλήρους οθόνης</string>
   <string name="enable_low_power">Ενεργοποιήσετε τη λειτουργία χαμηλής ισχύος στο ρολόι</string>
+  <string name="failed_to_send_command">Sending command to watch failed</string>
+  <string name="command_sent">Sending command to watch was successful</string>
 </resources>
