@@ -119,7 +119,7 @@ public class Watch {
                 long totalChunks = size / Constants.CHUNK_SIZE;
                 long startedAt = System.currentTimeMillis();
 
-                for(int i = 0; i < totalChunks; i++) {
+                for (int i = 0; i < totalChunks; i++) {
                     if (cancellationToken.isCancellationRequested()) {
                         //TODO handle cancellation
                     }
@@ -163,7 +163,7 @@ public class Watch {
                         return null;
                     }
 
-                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, totalChunks, i, Constants.CHUNK_SIZE);
+                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, Constants.CHUNK_SIZE, i, Constants.CHUNK_SIZE);
                     Tasks.await(transportService.sendAndWait(Transport.REQUEST_UPLOAD_FILE_CHUNK, requestUploadFileChunkData));
 
                     double progress = (((double) (i + 1)) / totalChunks) * 100f;
@@ -177,7 +177,7 @@ public class Watch {
                 }
 
                 if (lastChunnkSize > 0) {
-                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, totalChunks, totalChunks, (int) lastChunnkSize);
+                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, Constants.CHUNK_SIZE, totalChunks, (int) lastChunnkSize);
                     Tasks.await(transportService.sendAndWait(Transport.REQUEST_UPLOAD_FILE_CHUNK, requestUploadFileChunkData));
                 }
 
