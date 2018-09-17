@@ -201,4 +201,6 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="pref_phone_connect_alert_standard_notification">Usa le notifiche standard</string>
   <string name="pref_phone_connect_alert_standard_notification_summary">Usa le notifiche standard per gli avvisi di connessione al posto degli avvisi a schermo intero</string>
   <string name="enable_low_power">Attiva la modalità di risparmio energetico sull\'orologio</string>
+  <string name="failed_to_send_command">Sending command to watch failed</string>
+  <string name="command_sent">Sending command to watch was successful</string>
 </resources>
