@@ -199,4 +199,6 @@
   <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
   <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
   <string name="enable_low_power">Enable low power mode on watch</string>
+    <string name="failed_to_send_command">Sending command to watch failed</string>
+  <string name="command_sent">Sending command to watch was successful</string>
 </resources>

@@ -115,6 +115,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private void sendTestMessage(char type) {
         NotificationData notificationData = new NotificationData();
+        final String snackTextOK, snackTextFailure;
 
         switch (type) {
             case ('C'): {
@@ -145,6 +146,14 @@ public class AboutActivity extends AppCompatActivity {
             }
             default:
                 System.out.println("AmazMod AboutActivity sendTestMessage: something went wrong...");
+        }
+
+        if (notificationData.getText().equals("Test Notification")) {
+            snackTextOK = getResources().getString(R.string.test_notification_sent);
+            snackTextFailure = getResources().getString(R.string.failed_to_send_test_notification);
+        } else {
+            snackTextOK = getResources().getString(R.string.command_sent);
+            snackTextFailure = getResources().getString(R.string.failed_to_send_command);
         }
 
         notificationData.setId(999);
@@ -181,13 +190,13 @@ public class AboutActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Snacky.builder()
                             .setActivity(AboutActivity.this)
-                            .setText(R.string.test_notification_sent)
+                            .setText(snackTextOK)
                             .setDuration(Snacky.LENGTH_SHORT)
                             .build().show();
                 } else {
                     Snacky.builder()
                             .setActivity(AboutActivity.this)
-                            .setText(R.string.failed_to_send_test_notification)
+                            .setText(snackTextFailure)
                             .setDuration(Snacky.LENGTH_SHORT)
                             .build().show();
                 }
@@ -290,7 +299,28 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
                 System.out.println("AmazMod AboutActivity dataTransportResult: " + dataTransportResult.toString());
-            }
+                switch (dataTransportResult.getResultCode()) {
+                    case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
+                    case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
+                    case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
+                    case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
+                        Snacky.builder()
+                                .setActivity(AboutActivity.this)
+                                .setText(R.string.failed_to_send_test_notification)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build().show();
+                        break;
+                    }
+                    case (DataTransportResult.RESULT_OK): {
+                        Snacky.builder()
+                                .setActivity(AboutActivity.this)
+                                .setText(R.string.test_notification_sent)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build().show();
+                        }
+                        break;
+                    }
+                }
         });
 
         //Disconnect transporter to avoid leaking
