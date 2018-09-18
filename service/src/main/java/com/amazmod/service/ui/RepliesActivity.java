@@ -5,6 +5,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -59,6 +60,7 @@ public class RepliesActivity extends Activity {
     private static boolean nullError = false;
     private static boolean mustLockDevice;
     private static float fontSizeSP;
+    private boolean enableInvertedTheme;
 
     private NotificationData notificationSpec;
 
@@ -83,7 +85,7 @@ public class RepliesActivity extends Activity {
         mustLockDevice = getIntent().getBooleanExtra("MUSTLOCKDEVICE", true);
 
         //Load preferences
-        boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+        enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
 
         //Make sure background is transparent
@@ -190,13 +192,20 @@ public class RepliesActivity extends Activity {
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        param.setMargins(20,2,20,2);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             Button button = new Button(this);
             button.setLayoutParams(param);
             button.setText(reply.getValue());
+            button.setAllCaps(false);
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+            if(enableInvertedTheme) {
+                setButtonTheme(button, Constants.BLUE);
+            }else{
+                setButtonTheme(button, Constants.GREY);
+            }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -210,6 +219,7 @@ public class RepliesActivity extends Activity {
         Button button = new Button(this);
         button.setLayoutParams(param);
         button.setText(R.string.close);
+        button.setAllCaps(true);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,6 +227,7 @@ public class RepliesActivity extends Activity {
                 finish();
             }
         });
+        setButtonTheme(button, Constants.RED);
         repliesContainer.addView(button);
 
     }
@@ -233,5 +244,28 @@ public class RepliesActivity extends Activity {
         }
     }
 
+    private void setButtonTheme(Button button, String color){
+        switch (color) {
+            case ("red"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.close_red));
+                break;
+            }
+            case ("blue"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+                break;
+            }
+            case ("grey"): {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+                break;
+            }
+            default: {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
+        }
+    }
 
 }

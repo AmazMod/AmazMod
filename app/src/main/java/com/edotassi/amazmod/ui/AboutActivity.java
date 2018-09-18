@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.BuildConfig;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
@@ -36,7 +36,6 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import amazmod.com.models.Reply;

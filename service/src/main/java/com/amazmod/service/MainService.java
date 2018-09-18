@@ -1,7 +1,6 @@
 package com.amazmod.service;
 
 import android.app.Service;
-import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
@@ -19,7 +18,6 @@ import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -34,6 +32,7 @@ import com.amazmod.service.events.incoming.LowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
 import com.amazmod.service.events.incoming.RequestDeleteFile;
 import com.amazmod.service.events.incoming.RequestDirectory;
+import com.amazmod.service.events.incoming.RequestDownloadFileChunk;
 import com.amazmod.service.events.incoming.RequestUploadFileChunk;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
@@ -66,7 +65,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -79,8 +77,10 @@ import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.RequestDownloadFileChunkData;
 import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDeleteFileData;
+import amazmod.com.transport.data.ResultDownloadFileChunkData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
@@ -107,6 +107,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
         put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
         put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
+        put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
@@ -192,8 +193,8 @@ public class MainService extends Service implements Transporter.DataListener {
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
 
         //Register phone connect/disconnect monitor
-        isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false);
-        isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,false);
+        isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, false);
+        isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
         if (isPhoneConnectionAlertEnabled) {
             registerConnectionMonitor(true, isPhoneConnectionStandardAlertEnabled);
         }
@@ -318,13 +319,13 @@ public class MainService extends Service implements Transporter.DataListener {
                 mDPM.lockNow();
             }
 
-        } else if (count >= 3){
+        } else if (count >= 3) {
             Toast.makeText(context, "lowPower: false", Toast.LENGTH_SHORT).show();
             //btmgr.enable();
             //slptClockClient.disableSlpt();
             slptClockClient.disableLowBattery();
             SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(false));
-            count =0;
+            count = 0;
         }
     }
 
@@ -503,7 +504,34 @@ public class MainService extends Service implements Transporter.DataListener {
             randomAccessFile.seek(position);
             randomAccessFile.write(requestUploadFileChunkData.getBytes());
             randomAccessFile.close();
+        } catch (Exception ex) {
+            Log.e(Constants.TAG, ex.getMessage());
+        }
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestDownloadFileChunk(RequestDownloadFileChunk requestDownloadFileChunk) {
+        try {
+            RequestDownloadFileChunkData requestDownloadFileChunkData = RequestDownloadFileChunkData.fromDataBundle(requestDownloadFileChunk.getDataBundle());
+            File file = new File(requestDownloadFileChunkData.getPath());
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+
+            long chunkSize = amazmod.com.transport.Constants.CHUNK_SIZE;
+            long position = requestDownloadFileChunkData.getIndex() * chunkSize;
+            randomAccessFile.seek(position);
+
+            long delta = file.length() - position;
+            int byteToRead = (delta < chunkSize) ? (int) delta : (int) chunkSize;
+            byte[] bytes = new byte[byteToRead];
+
+            randomAccessFile.read(bytes);
+
+            ResultDownloadFileChunkData resultDownloadFileChunkData = new ResultDownloadFileChunkData();
+            resultDownloadFileChunkData.setIndex(requestDownloadFileChunkData.getIndex());
+            resultDownloadFileChunkData.setBytes(bytes);
+            resultDownloadFileChunkData.setName(file.getName());
+
+            send(Transport.RESULT_DOWNLOAD_FILE_CHUNK, resultDownloadFileChunkData.toDataBundle());
         } catch (Exception ex) {
             Log.e(Constants.TAG, ex.getMessage());
         }
@@ -628,7 +656,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         final Drawable drawable;
 
-        if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+        if (android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")) {
             // Phone disconnected
             drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
             notificationData.setText(getString(R.string.phone_disconnected));

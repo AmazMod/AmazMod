@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.Logger;
@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import amazmod.com.transport.data.WatchfaceData;
