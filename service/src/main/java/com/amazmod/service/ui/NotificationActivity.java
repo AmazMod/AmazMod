@@ -189,12 +189,19 @@ public class NotificationActivity extends Activity {
                 replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 replyButton.setAllCaps(true);
                 replyButton.setText(R.string.replies);
+                if(enableInvertedTheme) {
+                    setButtonTheme(replyButton, Constants.BLUE);
+                }else{
+                    setButtonTheme(replyButton, Constants.GREY);
+                }
             } else {
                 replyButton.setVisibility(View.GONE);
             }
             closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
             closeButton.setAllCaps(true);
             closeButton.setText(R.string.close);
+            setButtonTheme(closeButton, Constants.RED);
+
         }
 
         handler = new Handler();
@@ -338,13 +345,12 @@ public class NotificationActivity extends Activity {
             Button button = new Button(this);
             button.setLayoutParams(param);
             button.setText(reply.getValue());
+            button.setAllCaps(false);
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
             if(enableInvertedTheme) {
-                button.setTextColor(Color.parseColor("#ffffff"));
-                button.setBackground(getDrawable(R.drawable.reply_blue));
+                setButtonTheme(button, Constants.BLUE);
             }else{
-                button.setTextColor(Color.parseColor("#000000"));
-                button.setBackground(getDrawable(R.drawable.reply_grey));
+                setButtonTheme(button, Constants.GREY);
             }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -359,9 +365,9 @@ public class NotificationActivity extends Activity {
         Button button = new Button(this);
         button.setLayoutParams(param);
         button.setText(R.string.close);
+        button.setAllCaps(true);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-        button.setTextColor(Color.parseColor("#ffffff"));
-        button.setBackground(getDrawable(R.drawable.close_red));
+        setButtonTheme(button, Constants.RED);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -381,6 +387,30 @@ public class NotificationActivity extends Activity {
             return new Gson().fromJson(replies, listType);
         } catch (Exception ex) {
             return new ArrayList<>();
+        }
+    }
+
+    private void setButtonTheme(Button button, String color){
+        switch (color) {
+            case ("red"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.close_red));
+                break;
+            }
+            case ("blue"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+                break;
+            }
+            case ("grey"): {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+                break;
+            }
+            default: {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
         }
     }
 

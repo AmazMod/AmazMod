@@ -45,4 +45,8 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
 
+    public static final String RED = "red";
+    public static final String BLUE = "blue";
+    public static final String GREY = "grey";
+
 }
