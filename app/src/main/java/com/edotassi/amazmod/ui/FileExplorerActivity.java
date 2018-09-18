@@ -17,14 +17,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
+
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
-import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +37,7 @@ import com.nononsenseapps.filepicker.Utils;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
-import org.ocpsoft.prettytime.PrettyTime;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -47,7 +47,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CancellationException;
-import java.util.Date;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
@@ -165,7 +164,6 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     }
                                 })
                                 .setShowProgressPercentage(true);
-
                         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
                         Watch.get().uploadFile(file, destPath, new Watch.OperationProgress() {
@@ -179,10 +177,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                                         double speed = kbSent / (duration / 1000);
                                         DecimalFormat df = new DecimalFormat("#.00");
 
-                                        PrettyTime p = new PrettyTime();
-                                        Date finishDate = new Date(System.currentTimeMillis() + (remainingTime * 1000));
-                                        String duration = p.formatDurationUnrounded(finishDate);
-
+                                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
                                         String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
                                         progressBar.setMessage(message);
@@ -243,6 +238,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_activity_file_explorer_download:
+                downloadFile(((AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo()).position);
                 return true;
             case R.id.action_activity_file_explorer_delete:
                 deleteFile(((AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo()).position);
@@ -289,6 +285,90 @@ public class FileExplorerActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void downloadFile(int index) {
+        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.downloading))
+                .setIsIndeterminate(false)
+                .setProgressMax(100)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                        cancellationTokenSource.cancel();
+                    }
+                })
+                .setShowProgressPercentage(true);
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        final long size = fileData.getSize();
+
+        Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, new Watch.OperationProgress() {
+            @Override
+            public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
+                FileExplorerActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
+                        double kbSent = byteSent / 1024d;
+                        double speed = kbSent / (duration / 1000);
+                        DecimalFormat df = new DecimalFormat("#.00");
+
+                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+
+                        progressBar.setMessage(message);
+                        snackProgressBarManager.setProgress((int) progress);
+                        snackProgressBarManager.updateTo(progressBar);
+                    }
+                });
+            }
+        }, cancellationTokenSource.getToken())
+                .continueWith(new Continuation<Void, Object>() {
+                    @Override
+                    public Object then(@NonNull Task<Void> task) throws Exception {
+                        snackProgressBarManager.dismissAll();
+                        if (task.isSuccessful()) {
+                            SnackProgressBar snackbar = new SnackProgressBar(
+                                    SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_downloaded))
+                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                        @Override
+                                        public void onActionClick() {
+                                            snackProgressBarManager.dismissAll();
+                                        }
+                                    });
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        } else {
+                            if (task.getException() instanceof CancellationException) {
+                                SnackProgressBar snackbar = new SnackProgressBar(
+                                        SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_download_canceled))
+                                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                            @Override
+                                            public void onActionClick() {
+                                                snackProgressBarManager.dismissAll();
+                                            }
+                                        });
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            } else {
+                                SnackProgressBar snackbar = new SnackProgressBar(
+                                        SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_download_file))
+                                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                            @Override
+                                            public void onActionClick() {
+                                                snackProgressBarManager.dismissAll();
+                                            }
+                                        });
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            }
+                        }
+
+                        return null;
+                    }
+                });
+        ;
     }
 
     @OnItemClick(R.id.activity_file_explorer_list)
