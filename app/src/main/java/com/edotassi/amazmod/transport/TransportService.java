@@ -16,6 +16,7 @@ import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
 import com.edotassi.amazmod.event.ResultDeleteFile;
+import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
@@ -69,6 +70,7 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.TOGGLE_MUSIC, ToggleMusic.class);
         put(Transport.DIRECTORY, Directory.class);
         put(Transport.RESULT_DELETE_FILE, ResultDeleteFile.class);
+        put(Transport.RESULT_DOWNLOAD_FILE_CHUNK, ResultDownloadFileChunk.class);
     }};
 
     private Map<String, Object> pendingResults = new HashMap<>();

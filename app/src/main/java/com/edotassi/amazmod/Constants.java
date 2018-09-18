@@ -4,7 +4,7 @@ public class Constants {
 
     public static final String PACKAGE = "com.edotassi.amazmod";
     public static final String TAG = "AmazMod";
-    public static final int CHUNK_SIZE = 2048;
+    public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
     public static final String INITIAL_PATH = "/sdcard";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
@@ -27,7 +27,8 @@ public class Constants {
     public static final String PREF_FORCE_ENGLISH = "preference.force.english";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
     public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
-    public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT_= "preference.phone.connect.disconnect.alert";
+    public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";
+    public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "preference.phone.connection.alert.standard.notification";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -43,7 +44,8 @@ public class Constants {
     public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_STANDARD_NOTIFICATIONS = false;
-    public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT_= false;
+    public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT= false;
+    public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 

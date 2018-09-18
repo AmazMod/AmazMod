@@ -7,9 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
@@ -30,6 +32,7 @@ import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.SystemProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -74,7 +77,8 @@ public class NotificationActivity extends Activity {
     private static float fontSizeSP;
     private static int screenMode;
     private static int screenBrightness = 999989;
-    private static boolean deviceWasLocked;
+    private static boolean mustLockDevice;
+    private boolean enableInvertedTheme;
     private Context mContext;
 
     private NotificationData notificationSpec;
@@ -102,7 +106,7 @@ public class NotificationActivity extends Activity {
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
-        deviceWasLocked = DeviceUtil.isDeviceLocked(getBaseContext());
+        mustLockDevice = DeviceUtil.isDeviceLocked(getBaseContext());
 
         boolean hideReplies;
 
@@ -111,14 +115,16 @@ public class NotificationActivity extends Activity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
-        boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+        enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
 
         setWindowFlags(true);
 
         //Do not activate screen if it is disabled in settings and screen is off
-        if (disableNotificationsScreenOn && deviceWasLocked) {
+        if (disableNotificationsScreenOn && mustLockDevice) {
             setScreenModeOff(true);
+        } else {
+            screenToggle = false;
         }
 
         // Set theme and font size
@@ -169,9 +175,10 @@ public class NotificationActivity extends Activity {
             nullError = true;
         }
 
-        if (screenToggle && nullError) {
-            setScreenModeOff(false);
-        }
+        //Probably it is not needed anymore
+        //if (screenToggle && nullError) {
+        //    setScreenModeOff(false);
+        //}
 
         if (!hideReplies && !disableNotificationReplies) {
             buttonsLayout.setVisibility(View.GONE);
@@ -182,12 +189,19 @@ public class NotificationActivity extends Activity {
                 replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 replyButton.setAllCaps(true);
                 replyButton.setText(R.string.replies);
+                if(enableInvertedTheme) {
+                    setButtonTheme(replyButton, Constants.BLUE);
+                }else{
+                    setButtonTheme(replyButton, Constants.GREY);
+                }
             } else {
                 replyButton.setVisibility(View.GONE);
             }
             closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
             closeButton.setAllCaps(true);
             closeButton.setText(R.string.close);
+            setButtonTheme(closeButton, Constants.RED);
+
         }
 
         handler = new Handler();
@@ -241,6 +255,7 @@ public class NotificationActivity extends Activity {
 
     @OnClick(R.id.activity_notification_button_close)
     public void clickClose() {
+        //mustLockDevice = true;
         finish();
     }
 
@@ -252,7 +267,9 @@ public class NotificationActivity extends Activity {
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         intent.putExtras(notificationSpec.toBundle());
+        intent.putExtra("MUSTLOCKDEVICE", mustLockDevice);
         this.startActivity(intent);
+        mustLockDevice = false;
         finish();
     }
 
@@ -269,46 +286,35 @@ public class NotificationActivity extends Activity {
         setWindowFlags(false);
         super.finish();
 
+        boolean flag = true;
+        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
+
         if (screenToggle) {
-            //SystemProperties.goToSleep(baseContext);
-            Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-                public void run() {
-                    try {
-                        //Toast.makeText(getApplicationContext(), "delayed", Toast.LENGTH_SHORT).show();
-                        setScreenModeOff(false);
-                        Log.i(Constants.TAG, "NotificationActivity delayed finish");
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Log.e(Constants.TAG, "Notificationctivity finish exception: " + e.toString());
-                    }
-                }
-            }, 10000 - notificationSpec.getTimeoutRelock() + 600);
+            flag = false;
+            setScreenModeOff(false);
         }
 
-        if(deviceWasLocked){
-            Log.i(Constants.TAG, "NotificationActivity device was locked, locking again...");
+        if (mustLockDevice) {
+            if (flag) {
+                SystemClock.sleep(500);
+            }
             lock();
         }
     }
 
     private void lock() {
-        PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
-        if (pm.isScreenOn()) {
-            DevicePolicyManager policy = (DevicePolicyManager)
-                    getSystemService(Context.DEVICE_POLICY_SERVICE);
-            try {
-                policy.lockNow();
-            } catch (SecurityException ex) {
-                Toast.makeText(
-                        this,
-                        "must enable device administrator",
-                        Toast.LENGTH_LONG).show();
-                ComponentName admin = new ComponentName(mContext, AdminReceiver.class);
-                Intent intent = new Intent(
-                        DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).putExtra(
-                        DevicePolicyManager.EXTRA_DEVICE_ADMIN, admin);
-                mContext.startActivity(intent);
+        if (!DeviceUtil.isDeviceLocked(mContext)) {
+            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (mDPM != null) {
+                try {
+                    mDPM.lockNow();
+                } catch (SecurityException ex) {
+                    Toast.makeText(
+                            this,
+                            getResources().getText(R.string.device_owner),
+                            Toast.LENGTH_LONG).show();
+                    Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
+                }
             }
         }
     }
@@ -329,17 +335,23 @@ public class NotificationActivity extends Activity {
     }
 
     private void addReplies() {
-
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        param.setMargins(20,2,20,2);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             Button button = new Button(this);
             button.setLayoutParams(param);
             button.setText(reply.getValue());
+            button.setAllCaps(false);
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+            if(enableInvertedTheme) {
+                setButtonTheme(button, Constants.BLUE);
+            }else{
+                setButtonTheme(button, Constants.GREY);
+            }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -353,7 +365,9 @@ public class NotificationActivity extends Activity {
         Button button = new Button(this);
         button.setLayoutParams(param);
         button.setText(R.string.close);
+        button.setAllCaps(true);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+        setButtonTheme(button, Constants.RED);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -376,6 +390,30 @@ public class NotificationActivity extends Activity {
         }
     }
 
+    private void setButtonTheme(Button button, String color){
+        switch (color) {
+            case ("red"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.close_red));
+                break;
+            }
+            case ("blue"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+                break;
+            }
+            case ("grey"): {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+                break;
+            }
+            default: {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
+        }
+    }
+
     private void setWindowFlags(boolean enable) {
 
         final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
@@ -392,15 +430,23 @@ public class NotificationActivity extends Activity {
     }
 
     private void setScreenModeOff(boolean mode) {
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
+            Log.i(Constants.TAG, "NotificationActivity setScreenModeOff1 mode: " + mode);
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
-            Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
-            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
+            getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff2 mode: " + mode);
+                //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+                //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+                getWindow().setAttributes(params);
             }
         }
         screenToggle = mode;

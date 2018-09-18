@@ -7,8 +7,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 166
-        versionName "1.0.37"
+        versionCode 173
+        versionName "1.0.43"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -91,6 +91,7 @@ dependencies {
     implementation 'com.droidninja:filepicker:2.1.5'
     implementation 'com.nononsenseapps:filepicker:4.2.1'
     implementation 'com.github.tingyik90:snackprogressbar:4.1'
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.1.Final'
 }
 
 apply plugin: 'com.google.gms.google-services'

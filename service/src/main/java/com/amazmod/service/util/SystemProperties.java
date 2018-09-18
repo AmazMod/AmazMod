@@ -205,7 +205,7 @@ public class SystemProperties {
                 }
             }
         } catch (Exception e){
-            Log.e(Constants.TAG, "SystemProperties goToSleep exception: " + e.toString());
+            Log.e(Constants.TAG, "SystemProperties switchPowerMode exception: " + e.toString());
         }
     }
 

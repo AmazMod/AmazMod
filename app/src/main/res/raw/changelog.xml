@@ -1,9 +1,13 @@
 <changelog>
-    <release>
-        <new>Added file explorer</new>
+    <release
+        versionCode="168"
+        versionName="v1.0.38">
+        <new>Basic file explorer</new>
+        <new>Basic integration with GreatFit</new>
         <new>Added Spanish translation</new>
         <new>Added Hungarian translation</new>
         <info>Updated translations</info>
+        <bugfix>Minor fix</bugfix>
     </release>
     <release
         versionCode="163"

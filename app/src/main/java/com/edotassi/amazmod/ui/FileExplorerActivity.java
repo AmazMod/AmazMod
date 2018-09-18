@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.text.format.Formatter;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,8 @@ import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
@@ -34,12 +37,17 @@ import com.nononsenseapps.filepicker.Utils;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CancellationException;
+import java.util.Date;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
@@ -141,11 +149,21 @@ public class FileExplorerActivity extends AppCompatActivity {
                         }
 
                         final String destPath = currentPath + "/" + file.getName();
+                        final long size = file.length();
 
-                        SnackProgressBar progressBar = new SnackProgressBar(
+                        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+                        final SnackProgressBar progressBar = new SnackProgressBar(
                                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                                 .setIsIndeterminate(false)
                                 .setProgressMax(100)
+                                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                                    @Override
+                                    public void onActionClick() {
+                                        snackProgressBarManager.dismissAll();
+                                        cancellationTokenSource.cancel();
+                                    }
+                                })
                                 .setShowProgressPercentage(true);
 
                         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
@@ -156,11 +174,24 @@ public class FileExplorerActivity extends AppCompatActivity {
                                 FileExplorerActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
+                                        double kbSent = byteSent / 1024d;
+                                        double speed = kbSent / (duration / 1000);
+                                        DecimalFormat df = new DecimalFormat("#.00");
+
+                                        PrettyTime p = new PrettyTime();
+                                        Date finishDate = new Date(System.currentTimeMillis() + (remainingTime * 1000));
+                                        String duration = p.formatDurationUnrounded(finishDate);
+
+                                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+
+                                        progressBar.setMessage(message);
                                         snackProgressBarManager.setProgress((int) progress);
+                                        snackProgressBarManager.updateTo(progressBar);
                                     }
                                 });
                             }
-                        }).continueWith(new Continuation<Void, Object>() {
+                        }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
                             @Override
                             public Object then(@NonNull Task<Void> task) throws Exception {
                                 snackProgressBarManager.dismissAll();
@@ -168,15 +199,27 @@ public class FileExplorerActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     loadPath(getParentDirectoryPath(destPath));
                                 } else {
-                                    SnackProgressBar snackbar = new SnackProgressBar(
-                                            SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
-                                            .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                                @Override
-                                                public void onActionClick() {
-                                                    snackProgressBarManager.dismissAll();
-                                                }
-                                            });
-                                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    if (task.getException() instanceof CancellationException) {
+                                        SnackProgressBar snackbar = new SnackProgressBar(
+                                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_canceled))
+                                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                                    @Override
+                                                    public void onActionClick() {
+                                                        snackProgressBarManager.dismissAll();
+                                                    }
+                                                });
+                                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    } else {
+                                        SnackProgressBar snackbar = new SnackProgressBar(
+                                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
+                                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                                    @Override
+                                                    public void onActionClick() {
+                                                        snackProgressBarManager.dismissAll();
+                                                    }
+                                                });
+                                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    }
                                 }
 
                                 return null;

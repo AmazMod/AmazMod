@@ -24,6 +24,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String SHAKE_TO_DISMISS_GRAVITY = "shake_to_dismiss_gravity";
     public static final String SHAKE_TO_DISMISS_NUM_OF_SHAKES = "shake_to_dismiss_num_of_shakes";
     public static final String PHONE_CONNECTION_ALERT = "phone_connection_alert";
+    public static final String PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "phone_connection_alert_standard_notification";
 
     private String replies;
     private int vibration;
@@ -38,6 +39,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private int shakeToDismissGravity;
     private int shakeToDismissNumOfShakes;
     private boolean phoneConnectionAlert;
+    private boolean phoneConnectionAlertStandardNotification;
 
     public SettingsData() {
     }
@@ -56,6 +58,7 @@ public class SettingsData extends Transportable implements Parcelable {
         shakeToDismissGravity = in.readInt();
         shakeToDismissNumOfShakes = in.readInt();
         phoneConnectionAlert = in.readByte() != 0;
+        phoneConnectionAlertStandardNotification = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -85,6 +88,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putInt(SHAKE_TO_DISMISS_GRAVITY, shakeToDismissGravity);
         dataBundle.putInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES, shakeToDismissNumOfShakes);
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT, phoneConnectionAlert);
+        dataBundle.putBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, phoneConnectionAlertStandardNotification);
 
         return dataBundle;
     }
@@ -105,6 +109,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setShakeToDismissGravity(dataBundle.getInt(SHAKE_TO_DISMISS_GRAVITY));
         settingsData.setShakeToDismissNumOfShakes(dataBundle.getInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES));
         settingsData.setPhoneConnectionAlert(dataBundle.getBoolean(PHONE_CONNECTION_ALERT));
+        settingsData.setPhoneConnectionAlertStandardNotification(dataBundle.getBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION));
 
         return settingsData;
     }
@@ -220,6 +225,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.phoneConnectionAlert = phoneConnectionAlert;
     }
 
+    public boolean isPhoneConnectionAlertStandardNotification() {
+        return phoneConnectionAlertStandardNotification;
+    }
+
+    public void setPhoneConnectionAlertStandardNotification(boolean phoneConnectionAlertStandardNotification) {
+        this.phoneConnectionAlertStandardNotification = phoneConnectionAlertStandardNotification;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -240,5 +253,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeInt(shakeToDismissGravity);
         dest.writeInt(shakeToDismissNumOfShakes);
         dest.writeByte((byte) (phoneConnectionAlert ? 1 : 0));
+        dest.writeByte((byte) (phoneConnectionAlertStandardNotification ? 1 : 0));
     }
 }

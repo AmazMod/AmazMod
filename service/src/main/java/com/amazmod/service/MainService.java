@@ -2,16 +2,23 @@ package com.amazmod.service;
 
 import android.app.Service;
 import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -56,8 +63,12 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import amazmod.com.transport.Transport;
@@ -106,6 +117,9 @@ public class MainService extends Service implements Transporter.DataListener {
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
     private static long dateLastCharge;
+    private static int count = 0;
+    private static boolean isPhoneConnectionAlertEnabled;
+    private static boolean isPhoneConnectionStandardAlertEnabled;
     private float batteryPct;
     private WidgetSettings settings;
 
@@ -178,29 +192,11 @@ public class MainService extends Service implements Transporter.DataListener {
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
 
         //Register phone connect/disconnect monitor
-        ContentResolver contentResolver = getContentResolver();
-        Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
-        phoneConnectionObserver = new ContentObserver(new Handler()) {
-            @Override
-            public void onChange(boolean selfChange) {
-                super.onChange(selfChange);
-                if(settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false)){//Settings go here
-                    // Show connection status
-                    Intent intent = new Intent(context, PhoneConnectionActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                            Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                    context.startActivity(intent);
-                }
-            }
-
-            @Override
-            public boolean deliverSelfNotifications() {
-                return true;
-            }
-        };
-        contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
+        isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false);
+        isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,false);
+        if (isPhoneConnectionAlertEnabled) {
+            registerConnectionMonitor(true, isPhoneConnectionStandardAlertEnabled);
+        }
     }
 
     @Override
@@ -213,8 +209,9 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         // Unregister phone connection observer
-        getContentResolver().unregisterContentObserver(phoneConnectionObserver);
-
+        if (phoneConnectionObserver != null) {
+            getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+        }
         super.onDestroy();
     }
 
@@ -291,19 +288,63 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void lowPower(LowPower lowPower) {
-        SystemProperties.goToSleep(this);
-        slptClockClient.enableLowBattery();
-        slptClockClient.enableSlpt();
-        SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
+    public void lowPower(LowPower lp) {
+        //SystemProperties.goToSleep(this);
+        count++;
+        Log.d(Constants.TAG, "MainService lowPower count: " + count);
+        if (count < 2) {
+            Toast.makeText(context, "lowPower: true", Toast.LENGTH_SHORT).show();
+            BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
+            Log.i(Constants.TAG, "MainService lowPower disable BT");
+            btmgr.disable();
+            try {
+                WifiManager wfmgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                if (wfmgr != null) {
+                    if (wfmgr.isWifiEnabled()) {
+                        Log.i(Constants.TAG, "MainService lowPower disable WiFi");
+                        wfmgr.setWifiEnabled(false);
+                    }
+                }
+            } catch (NullPointerException e) {
+                Log.e(Constants.TAG, "MainService lowPower exception: " + e.toString());
+            }
+
+            slptClockClient.enableLowBattery();
+            slptClockClient.enableSlpt();
+            SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
+            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (mDPM != null) {
+                SystemClock.sleep(100);
+                mDPM.lockNow();
+            }
+
+        } else if (count >= 3){
+            Toast.makeText(context, "lowPower: false", Toast.LENGTH_SHORT).show();
+            //btmgr.enable();
+            //slptClockClient.disableSlpt();
+            slptClockClient.disableLowBattery();
+            SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(false));
+            count =0;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void settingsSync(SyncSettings event) {
+        Log.w(Constants.TAG, "MainService SyncSettings ***** event received *****");
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
         settingsManager.sync(settingsData);
 
+        //Toggle phone connect/disconnect monitor if settings changed
+        if (isPhoneConnectionAlertEnabled != settingsData.isPhoneConnectionAlert()) {
+            registerConnectionMonitor(settingsData.isPhoneConnectionAlert(), settingsData.isPhoneConnectionAlertStandardNotification());
+        }
+
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void string(String event) {
+        Log.w(Constants.TAG, "MainService string ***** event received *****");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -456,9 +497,9 @@ public class MainService extends Service implements Transporter.DataListener {
         try {
             RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromDataBundle(requestUploadFileChunk.getDataBundle());
             File file = new File(requestUploadFileChunkData.getPath());
-            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
 
-            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getSize();
+            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getConstantChunkSize();
             randomAccessFile.seek(position);
             randomAccessFile.write(requestUploadFileChunkData.getBytes());
             randomAccessFile.close();
@@ -533,4 +574,90 @@ public class MainService extends Service implements Transporter.DataListener {
             });
         }
     }
+
+    private void registerConnectionMonitor(boolean status, final boolean standardAlert) {
+        Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
+        if (status) {
+            ContentResolver contentResolver = getContentResolver();
+            Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
+            phoneConnectionObserver = new ContentObserver(new Handler()) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    super.onChange(selfChange);
+                    if (standardAlert) {
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + standardAlert);
+                        sendStandardAlert();
+                    } else {
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + standardAlert);
+                        Intent intent = new Intent(context, PhoneConnectionActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        context.startActivity(intent);
+                    }
+                }
+
+                @Override
+                public boolean deliverSelfNotifications() {
+                    return true;
+                }
+            };
+            contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
+        } else {
+            getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            phoneConnectionObserver = null;
+        }
+        isPhoneConnectionAlertEnabled = status;
+    }
+
+    private void sendStandardAlert() {
+
+        NotificationData notificationData = new NotificationData();
+
+        final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
+
+        notificationData.setId(9979);
+        notificationData.setKey("amazmod|test|9979");
+        notificationData.setTitle(getString(R.string.phone_connection_alert));
+        notificationData.setTime(notificationTime);
+        notificationData.setVibration(0);
+        notificationData.setForceCustom(false);
+        notificationData.setHideReplies(true);
+        notificationData.setHideButtons(false);
+
+        final Drawable drawable;
+
+        if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+            // Phone disconnected
+            drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
+            notificationData.setText(getString(R.string.phone_disconnected));
+        } else {
+            // Phone connected
+            drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
+            notificationData.setText(getString(R.string.phone_connected));
+        }
+
+        try {
+            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+
+            int width = bitmap.getWidth();
+            int height = bitmap.getHeight();
+            int[] intArray = new int[width * height];
+            bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
+
+            notificationData.setIcon(intArray);
+            notificationData.setIconWidth(width);
+            notificationData.setIconHeight(height);
+        } catch (Exception e) {
+            notificationData.setIcon(new int[]{});
+            Log.e(Constants.TAG, "MainService sendStandardAlert exception: " + e.toString());
+        }
+
+        notificationManager.post(notificationData);
+    }
+
 }

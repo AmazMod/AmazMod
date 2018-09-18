@@ -34,7 +34,8 @@ public class Constants {
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "pref_notification_screenon";
     public static final String PREF_SHAKE_TO_DISMISS_GRAVITY = "pref_shake_to_dismiss_gravity";
     public static final String PREF_SHAKE_TO_DISMISS_NUM_OF_SHAKES = "pref_shake_to_dismiss_num_of_shakes";
-    public static final String PREF_PHONE_CONNECTION_ALERT = "phone_connection_alert";
+    public static final String PREF_PHONE_CONNECTION_ALERT = "pref_phone_connection_alert";
+    public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
@@ -43,5 +44,9 @@ public class Constants {
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = true;
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
+
+    public static final String RED = "red";
+    public static final String BLUE = "blue";
+    public static final String GREY = "grey";
 
 }

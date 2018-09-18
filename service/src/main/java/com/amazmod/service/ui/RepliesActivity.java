@@ -1,18 +1,18 @@
 package com.amazmod.service.ui;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Vibrator;
+import android.os.SystemClock;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -23,7 +23,6 @@ import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
-import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,7 +34,6 @@ import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class RepliesActivity extends Activity {
@@ -60,7 +58,9 @@ public class RepliesActivity extends Activity {
     private ActivityFinishRunnable activityFinishRunnable;
 
     private static boolean nullError = false;
+    private static boolean mustLockDevice;
     private static float fontSizeSP;
+    private boolean enableInvertedTheme;
 
     private NotificationData notificationSpec;
 
@@ -76,26 +76,35 @@ public class RepliesActivity extends Activity {
 
         setContentView(R.layout.activity_notification);
 
-        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.transparent));
-        rootLayout.getRootView().setBackgroundColor(getResources().getColor(R.color.transparent));
-
         ButterKnife.bind(this);
 
         settingsManager = new SettingsManager(this);
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
+        mustLockDevice = getIntent().getBooleanExtra("MUSTLOCKDEVICE", true);
+
         //Load preferences
-        boolean enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
+        enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
 
-        // Set theme and font size
+        //Make sure background is transparent
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.transparent));
+        rootLayout.getRootView().setBackgroundColor(getResources().getColor(R.color.transparent));
+
+        //Set theme and font size
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));
             title.setTextColor(getResources().getColor(R.color.black));
             text.setTextColor(getResources().getColor(R.color.black));
             icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
+        } else {
+            rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
+            time.setTextColor(getResources().getColor(R.color.text));
+            title.setTextColor(getResources().getColor(R.color.text));
+            text.setTextColor(getResources().getColor(R.color.text));
+            icon.setBackgroundColor(getResources().getColor(R.color.black));
         }
 
         setFontSizeSP();
@@ -154,6 +163,13 @@ public class RepliesActivity extends Activity {
     public void finish() {
         handler.removeCallbacks(activityFinishRunnable);
         super.finish();
+        if (mustLockDevice) {
+            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            if (mDPM != null) {
+                SystemClock.sleep(500);
+                mDPM.lockNow();
+            }
+        }
     }
 
     private void setFontSizeSP(){
@@ -176,13 +192,20 @@ public class RepliesActivity extends Activity {
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+        param.setMargins(20,2,20,2);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             Button button = new Button(this);
             button.setLayoutParams(param);
             button.setText(reply.getValue());
+            button.setAllCaps(false);
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
+            if(enableInvertedTheme) {
+                setButtonTheme(button, Constants.BLUE);
+            }else{
+                setButtonTheme(button, Constants.GREY);
+            }
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -196,6 +219,7 @@ public class RepliesActivity extends Activity {
         Button button = new Button(this);
         button.setLayoutParams(param);
         button.setText(R.string.close);
+        button.setAllCaps(true);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,6 +227,7 @@ public class RepliesActivity extends Activity {
                 finish();
             }
         });
+        setButtonTheme(button, Constants.RED);
         repliesContainer.addView(button);
 
     }
@@ -219,5 +244,28 @@ public class RepliesActivity extends Activity {
         }
     }
 
+    private void setButtonTheme(Button button, String color){
+        switch (color) {
+            case ("red"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.close_red));
+                break;
+            }
+            case ("blue"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+                break;
+            }
+            case ("grey"): {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+                break;
+            }
+            default: {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
+        }
+    }
 
 }

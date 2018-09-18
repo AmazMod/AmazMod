@@ -15,6 +15,7 @@ public class Transport {
     public static final String REQUEST_DIRECTORY = "request_directory";
     public static final String REQUEST_DELETE_FILE = "request_delete_file";
     public static final String REQUEST_UPLOAD_FILE_CHUNK = "request_upload_file_chunk";
+    public static final String REQUEST_DOWNLOAD_FILE = "request_download_file";
     public static final String SYNC_SETTINGS = "sync_settings";
     public static final String BRIGHTNESS = "brightness";
     public static final String LOW_POWER = "low_power";
@@ -27,4 +28,5 @@ public class Transport {
     public static final String TOGGLE_MUSIC = "toggle_music";
     public static final String NEXT_MUSIC = "next_music";
     public static final String RESULT_DELETE_FILE = "result_delete_file";
+    public static final String RESULT_DOWNLOAD_FILE_CHUNK = "result_download_file_chunk";
 }
