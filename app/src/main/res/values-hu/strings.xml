@@ -202,6 +202,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="pref_phone_connect_alert_standard_notification">Normál értesítések sználata</string>
   <string name="pref_phone_connect_alert_standard_notification_summary">Normál kapcsolódás értesítéseket használ a teljes képernyős helyett</string>
   <string name="enable_low_power">Energiatak. üzemmód eng. az órán</string>
-  <string name="failed_to_send_command">Sending command to watch failed</string>
-  <string name="command_sent">Sending command to watch was successful</string>
+  <string name="failed_to_send_command">Sikertelen parancs küldés az órára</string>
+  <string name="command_sent">Az utasítás sikeresen elküldve az órára</string>
 </resources>
