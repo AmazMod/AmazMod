@@ -3,8 +3,6 @@ package com.edotassi.amazmod.ui.fragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.transport.TransportService;
-import com.edotassi.amazmod.ui.MainActivity;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
-
-import org.greenrobot.eventbus.EventBus;
 
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;

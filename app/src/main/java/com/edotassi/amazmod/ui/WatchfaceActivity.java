@@ -12,22 +12,17 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.SyncWatchface;
 import com.edotassi.amazmod.receiver.WatchfaceReceiver;
 import com.pixplicity.easyprefs.library.Prefs;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import amazmod.com.transport.data.WatchfaceData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;

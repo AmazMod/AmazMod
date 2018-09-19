@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.watch;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -7,22 +8,25 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
+
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
+import com.edotassi.amazmod.support.DownloadHelper;
+import com.edotassi.amazmod.support.PermissionsHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.google.android.gms.tasks.CancellationToken;
-import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 
 import java.io.File;
+import java.io.RandomAccessFile;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -35,8 +39,8 @@ import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.RequestDownloadFileChunkData;
+import amazmod.com.transport.data.RequestShellCommandData;
 import amazmod.com.transport.data.RequestUploadFileChunkData;
-import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.ResultDownloadFileChunkData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchfaceData;
@@ -107,36 +111,91 @@ public class Watch {
         });
     }
 
-    public Task<Void> downloadFile(final String path, final long size, final CancellationToken cancellationToken) {
+    public Task<Void> downloadFile(Activity activity, final String path, final String name,
+                                   final long size,
+                                   final OperationProgress operationProgress,
+                                   final CancellationToken cancellationToken) {
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource<Void>();
 
-        Tasks.call(threadPoolExecutor, new Callable<Object>() {
-            @Override
-            public Object call() throws Exception {
-                TransportService transportService = Tasks.await(getServiceInstance());
+        PermissionsHelper
+                .checkPermission(activity, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .continueWith(new Continuation() {
+                    @Override
+                    public Object then(@NonNull Task task) throws Exception {
+                        if (!task.isSuccessful()) {
+                            taskCompletionSource.setException(task.getException());
+                            return null;
+                        }
 
-                long lastChunnkSize = size % Constants.CHUNK_SIZE;
-                long totalChunks = size / Constants.CHUNK_SIZE;
-                long startedAt = System.currentTimeMillis();
+                        Tasks.call(threadPoolExecutor, new Callable<Object>() {
+                            @Override
+                            public Object call() throws Exception {
+                                TransportService transportService = Tasks.await(getServiceInstance());
 
-                for (int i = 0; i < totalChunks; i++) {
-                    if (cancellationToken.isCancellationRequested()) {
-                        //TODO handle cancellation
+                                long lastChunnkSize = size % Constants.CHUNK_SIZE;
+                                long totalChunks = size / Constants.CHUNK_SIZE;
+                                long startedAt = System.currentTimeMillis();
+
+                                if (!DownloadHelper.checkDownloadDirExist()) {
+                                    taskCompletionSource.setException(new Exception("cant_create_download_directory"));
+                                    return null;
+                                }
+
+                                for (int i = 0; i < totalChunks; i++) {
+                                    if (cancellationToken.isCancellationRequested()) {
+                                        DownloadHelper.deleteDownloadedFile(name);
+
+                                        taskCompletionSource.setException(new CancellationException());
+                                        return null;
+                                    }
+
+                                    RequestDownloadFileChunkData requestDownloadFileChunkData = new RequestDownloadFileChunkData();
+                                    requestDownloadFileChunkData.setPath(path);
+                                    requestDownloadFileChunkData.setIndex(i);
+                                    ResultDownloadFileChunk resultDownloadFileChunk = (ResultDownloadFileChunk) Tasks.await(transportService.sendWithResult(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, Transport.RESULT_DOWNLOAD_FILE_CHUNK, requestDownloadFileChunkData));
+
+                                    ResultDownloadFileChunkData resultDownloadFileChunkData = resultDownloadFileChunk.getResultDownloadFileChunkData();
+
+                                    File destinationFile = DownloadHelper.getDownloadedFile(name);
+                                    RandomAccessFile randomAccessFile = new RandomAccessFile(destinationFile, "rw");
+                                    randomAccessFile.seek(resultDownloadFileChunkData.getIndex() * Constants.CHUNK_SIZE);
+                                    randomAccessFile.write(resultDownloadFileChunkData.getBytes());
+                                    randomAccessFile.close();
+
+                                    double progress = (((double) (i + 1)) / totalChunks) * 100f;
+                                    long duration = System.currentTimeMillis() - startedAt;
+                                    long byteSent = (i + 1) * Constants.CHUNK_SIZE;
+                                    double speed = ((double) byteSent) / ((double) duration); // byte/ms
+                                    long remainingBytes = size - byteSent;
+                                    long remainTime = (long) (remainingBytes / speed);
+
+                                    operationProgress.update(duration, byteSent, remainTime, progress);
+                                }
+
+                                if (lastChunnkSize > 0) {
+                                    RequestDownloadFileChunkData requestDownloadFileChunkData = new RequestDownloadFileChunkData();
+                                    requestDownloadFileChunkData.setPath(path);
+                                    requestDownloadFileChunkData.setIndex((int) totalChunks);
+                                    ResultDownloadFileChunk resultDownloadFileChunk = (ResultDownloadFileChunk) Tasks.await(transportService.sendWithResult(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, Transport.RESULT_DOWNLOAD_FILE_CHUNK, requestDownloadFileChunkData));
+
+                                    ResultDownloadFileChunkData resultDownloadFileChunkData = resultDownloadFileChunk.getResultDownloadFileChunkData();
+
+                                    File destinationFile = DownloadHelper.getDownloadedFile(name);
+                                    RandomAccessFile randomAccessFile = new RandomAccessFile(destinationFile, "rw");
+                                    randomAccessFile.seek(resultDownloadFileChunkData.getIndex() * Constants.CHUNK_SIZE);
+                                    randomAccessFile.write(resultDownloadFileChunkData.getBytes());
+                                    randomAccessFile.close();
+                                }
+
+                                taskCompletionSource.setResult(null);
+
+                                return null;
+                            }
+                        });
+
+                        return null;
                     }
-
-                    RequestDownloadFileChunkData requestDownloadFileChunkData = new RequestDownloadFileChunkData();
-                    requestDownloadFileChunkData.setPath(path);
-                    requestDownloadFileChunkData.setIndex(i);
-                    ResultDownloadFileChunk resultDownloadFileChunk = (ResultDownloadFileChunk) Tasks.await(transportService.sendWithResult(Transport.REQUEST_DOWNLOAD_FILE, Transport.RESULT_DOWNLOAD_FILE_CHUNK, requestDownloadFileChunkData));
-
-                    ResultDownloadFileChunkData resultDownloadFileChunkData = resultDownloadFileChunk.getResultDownloadFileChunkData();
-
-                    //TODO write bytes in resultDownloadFileChunkData to dest file
-                }
-
-                return null;
-            }
-        });
+                });
 
         return taskCompletionSource.getTask();
     }
@@ -171,7 +230,7 @@ public class Watch {
                     long byteSent = (i + 1) * Constants.CHUNK_SIZE;
                     double speed = ((double) byteSent) / ((double) duration); // byte/ms
                     long remainingBytes = size - byteSent;
-                    long remainTime = (long) (remainingBytes / (speed * 1000));
+                    long remainTime = (long) (remainingBytes / speed);
 
                     operationProgress.update(duration, byteSent, remainTime, progress);
                 }
@@ -220,6 +279,33 @@ public class Watch {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
                 task.getResult().send(Transport.BRIGHTNESS, brightnessData, taskCompletionSource);
+                return null;
+            }
+        });
+        return taskCompletionSource.getTask();
+    }
+
+    public Task<Void> executeShellCommand(final String command) {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+        getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
+            @Override
+            public Object then(@NonNull Task<TransportService> task) throws Exception {
+                RequestShellCommandData requestShellCommandData = new RequestShellCommandData();
+                requestShellCommandData.setCommand(command);
+                task
+                        .getResult()
+                        .sendAndWait(Transport.REQUEST_SHELL_COMMAND, requestShellCommandData)
+                        .continueWith(new Continuation<Void, Object>() {
+                            @Override
+                            public Object then(@NonNull Task<Void> task) throws Exception {
+                                if (task.isSuccessful()) {
+                                    taskCompletionSource.setResult(null);
+                                } else {
+                                    taskCompletionSource.setException(task.getException());
+                                }
+                                return null;
+                            }
+                        });
                 return null;
             }
         });
