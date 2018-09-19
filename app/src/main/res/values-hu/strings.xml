@@ -208,4 +208,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="enable_low_power">Energiatak. üzemmód eng. az órán</string>
   <string name="failed_to_send_command">Sikertelen parancs küldés az órára</string>
   <string name="command_sent">Az utasítás sikeresen elküldve az órára</string>
+  <string name="execute_shell_command">Execute a shell command</string>
+  <string name="run">Run</string>
+  <string name="shell_command_sent">Command sent</string>
+  <string name="cant_send_shell_command">Can\'t send command</string>
 </resources>
