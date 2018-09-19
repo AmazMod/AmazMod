@@ -111,7 +111,7 @@
   <string name="pref_screen_timeout_summary">Ορισμός διάρκειας προβολής των έτοιμων απαντήσεων</string>
   <string name="pref_force_english">Εξαναγκασμός εμφάνισης Αγγλικών</string>
   <string name="pref_force_english_summary">Αλλαγή της γλώσσας της εφαρμογής σε Αγγλικά, θα ανανεωθεί κατά την έξοδο από τις ρυθμίσεις</string>
-  <string name="pref_disable_notifications_when_dnd">Απενεργοποίηση όταν η λειτουργία Μην Ενοχλείτε (DND) είναι ενεργή</string>
+  <string name="pref_disable_notifications_when_dnd">Απενεργοποίηση όταν η λειτουργία Μην Ενοχλείτε (Do Not Disturb) είναι ενεργή</string>
   <string name="pref_disable_notifications_when_dnd_summary">Οι ειδοποιήσεις δεν θα προωθούνται στο ρολόι όταν η λειτουργία Μην Ενοχλείται (Do Not Disturb) είναι ενεργή</string>
   <string name="pref_disable_remove_notifications">Απενεργοποίηση αφαίρεσης ειδοποιήσεων</string>
   <string name="pref_disable_remove_notifications_summary">Οι ειδοποιήσεις δεν θα αφαιρούνται από το ρολόι όταν αφαιρούνται από το τηλέφωνο</string>
