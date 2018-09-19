@@ -38,10 +38,10 @@
   <string name="cant_uplaod_directory">Impossibile effettuare l\'upload della directory</string>
   <string name="sending">Invio in corso</string>
   <string name="cant_upload_file">Impossibile effettuare l\'upload del file</string>
-  <string name="cant_download_file">Can\'t download file</string>
+  <string name="cant_download_file">Impossibile scaricare il file</string>
   <string name="file_upload_canceled">Upload del file annullato</string>
-  <string name="file_download_canceled">File download canceled</string>
-  <string name="file_downloaded">File downloaded</string>
+  <string name="file_download_canceled">Download del file annullato</string>
+  <string name="file_downloaded">File scaricato</string>
   <string name="notification_access">Accesso alle notifiche</string>
   <string name="notification_access_not_enabled">Accesso alle notifiche non abilitato</string>
   <string name="notification_access_enable">Abilita</string>
@@ -177,7 +177,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="none">Nessuno</string>
   <string name="data">Dati</string>
   <string name="downloads">Downloads</string>
-  <string name="downloading">Downloading</string>
+  <string name="downloading">Download in corso</string>
   <string name="activity_files_backup_error">PS: AmazMod non riesce a scrivere sulla memoria, controlla le autorizzazioni!</string>
   <string name="activity_files_backup_downloads">Il file di backup viene salvato nella cartella di Download:</string>
   <string name="activity_files_file_error">Errore File!</string>
