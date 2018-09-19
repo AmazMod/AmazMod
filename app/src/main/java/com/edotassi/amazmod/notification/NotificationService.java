@@ -26,7 +26,12 @@ import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
 import amazmod.com.transport.Constants;
+
+import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.db.model.BatteryStatusEntity;
+import com.edotassi.amazmod.db.model.NotficationSentEntity;
+import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.support.Logger;
@@ -41,6 +46,7 @@ import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -340,14 +346,7 @@ public class NotificationService extends NotificationListenerService {
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
-        for (NotificationCompat.Action act : actions) {
-            if (act != null && act.getRemoteInputs() != null) {
-                flags |= FLAG_WEARABLE_REPLY;
-                break;
-            }
-        }
-
-        if (/*(flags & FLAG_WEARABLE_REPLY) == 0 &&*/ NotificationCompat.isGroupSummary(notification)) {
+        if (NotificationCompat.isGroupSummary(notification)) {
             log.d("NotificationService isGroupSummary: " + notificationPackage);
             if (Arrays.binarySearch(APP_WHITELIST, notificationPackage) < 0) {
                 log.d("notification blocked FLAG_GROUP_SUMMARY");
@@ -390,16 +389,41 @@ public class NotificationService extends NotificationListenerService {
                 notificationTimeGone.put(notificationId, text);
                 lastTimeNotificationArrived = System.currentTimeMillis();
                 log.d("NotificationService allowed1");
-                //Logger.debug("notification allowed");
-                if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
-                    //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
-                else return returnFilterResult(Constants.FILTER_UNGROUP);
+                if (localAllowed) {
+                    return returnFilterResult(Constants.FILTER_LOCALOK);
+                } else {
+                    return returnFilterResult(Constants.FILTER_UNGROUP);
+                }
+            }
+        }
+
+        NotficationSentEntity notificationSentEntity = SQLite
+                .select()
+                .from(NotficationSentEntity.class)
+                .where(NotficationSentEntity_Table.id.eq(notificationId))
+                .querySingle();
+
+        if (notificationSentEntity == null) {
+            NotficationSentEntity notficationSentEntity = new NotficationSentEntity();
+            notficationSentEntity.setDate(System.currentTimeMillis());
+            notficationSentEntity.setId(notificationId);
+            notficationSentEntity.setPackageName(notificationPackage);
+
+            try {
+                FlowManager.getModelAdapter(NotficationSentEntity.class).insert(notficationSentEntity);
+            } catch (Exception ex) {
+                Crashlytics.logException(ex);
+            }
+
+            notificationTimeGone.put(notificationId, text);
+
+            if (localAllowed) {
+                return returnFilterResult(Constants.FILTER_LOCALOK);
+            } else {
+                return returnFilterResult(Constants.FILTER_CONTINUE);
             }
         } else {
-            notificationTimeGone.put(notificationId, text);
-            log.d("NotificationService allowed2");
-            if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
-            else return returnFilterResult(Constants.FILTER_CONTINUE);
+            return returnFilterResult(Constants.FILTER_BLOCK);
         }
     }
 
@@ -651,5 +675,4 @@ public class NotificationService extends NotificationListenerService {
         }
         return text;
     }
-
 }

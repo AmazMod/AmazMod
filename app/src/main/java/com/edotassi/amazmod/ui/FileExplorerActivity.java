@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.view.ContextMenu;
@@ -17,12 +18,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import amazmod.com.models.Reply;
 import amazmod.com.transport.Constants;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
+import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
 import com.google.android.gms.tasks.CancellationTokenSource;
@@ -69,7 +73,6 @@ public class FileExplorerActivity extends AppCompatActivity {
     @BindView(R.id.activity_file_explorer_progress)
     MaterialProgressBar materialProgressBar;
 
-    private List<FileData> fileDataList;
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
 
@@ -231,17 +234,28 @@ public class FileExplorerActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_file_explorer_context, contextMenu);
 
+        int position = ((AdapterView.AdapterContextMenuInfo) contextMenuInfo).position;
+        FileData fileData = fileExplorerAdapter.getItem(position);
+        if (fileData.getName().endsWith(".apk")) {
+            menuInflater.inflate(R.menu.activity_file_explorer_apk_file, contextMenu);
+        }
+
         super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem menuItem) {
+        int index = ((AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo()).position;
+
         switch (menuItem.getItemId()) {
             case R.id.action_activity_file_explorer_download:
-                downloadFile(((AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo()).position);
+                downloadFile(index);
                 return true;
             case R.id.action_activity_file_explorer_delete:
-                deleteFile(((AdapterView.AdapterContextMenuInfo) menuItem.getMenuInfo()).position);
+                deleteFile(index);
+                return true;
+            case R.id.action_activity_file_explorer_install_apk:
+                installApk(index);
                 return true;
         }
 
@@ -369,6 +383,42 @@ public class FileExplorerActivity extends AppCompatActivity {
                     }
                 });
         ;
+    }
+
+    private void installApk(int index) {
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                .setIsIndeterminate(true)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                    }
+                })
+                .setShowProgressPercentage(true);
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        FileData fileData = fileExplorerAdapter.getItem(index);
+        Watch.get()
+                .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
+                .continueWith(new Continuation<Void, Object>() {
+                    @Override
+                    public Object then(@NonNull Task<Void> task) throws Exception {
+                        snackProgressBarManager.dismissAll();
+
+                        if (task.isSuccessful()) {
+                            new MaterialDialog.Builder(FileExplorerActivity.this)
+                                    .title(R.string.apk_install_started_title)
+                                    .content(R.string.apk_install_started)
+                                    .show();
+                        } else {
+                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        }
+
+                        return null;
+                    }
+                });
     }
 
     @OnItemClick(R.id.activity_file_explorer_list)
