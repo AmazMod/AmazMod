@@ -38,7 +38,10 @@
   <string name="cant_uplaod_directory">A könyvtár nem tölthető fel</string>
   <string name="sending">Küldés</string>
   <string name="cant_upload_file">A fájl nem tölthető fel</string>
+  <string name="cant_download_file">Can\'t download file</string>
   <string name="file_upload_canceled">A feltöltés törölve</string>
+  <string name="file_download_canceled">File download canceled</string>
+  <string name="file_downloaded">File downloaded</string>
   <string name="notification_access">Értesítések hozzáférés</string>
   <string name="notification_access_not_enabled">Értesítések hozzáférés nincs engedélyezve</string>
   <string name="notification_access_enable">Bekapcsol</string>
@@ -175,6 +178,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
 	</string>
   <string name="data">Adat</string>
   <string name="downloads">Letöltések</string>
+  <string name="downloading">Downloading</string>
   <string name="activity_files_backup_error">U.I.: Az AmazMod nem tudja írni a fájlokat, ellenőrizd az engedélyeket</string>
   <string name="activity_files_backup_downloads">A Bizt.mentés fájl helye:</string>
   <string name="activity_files_file_error">Fájl hiba!</string>

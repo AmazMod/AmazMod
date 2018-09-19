@@ -38,7 +38,10 @@
   <string name="cant_uplaod_directory">Can\'t upload directory</string>
   <string name="sending">Sending</string>
   <string name="cant_upload_file">Can\'t upload file</string>
+  <string name="cant_download_file">Can\'t download file</string>
   <string name="file_upload_canceled">File upload canceled</string>
+  <string name="file_download_canceled">File download canceled</string>
+  <string name="file_downloaded">File downloaded</string>
   <string name="notification_access">Доступ к уведомлениям</string>
   <string name="notification_access_not_enabled">Доступ к уведомлениям не включен</string>
   <string name="notification_access_enable">Включить</string>
@@ -172,6 +175,7 @@
   <string name="none">Нет</string>
   <string name="data">Дата</string>
   <string name="downloads">Загрузки</string>
+  <string name="downloading">Downloading</string>
   <string name="activity_files_backup_error">PS: AmazMod не может записать данные, пожалуйста, проверьте права доступа.</string>
   <string name="activity_files_backup_downloads">Файл резервной копии сохранены в папке загрузки:</string>
   <string name="activity_files_file_error">Ошибка!</string>

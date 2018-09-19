@@ -33,6 +33,7 @@ import com.amazmod.service.events.incoming.RequestBatteryStatus;
 import com.amazmod.service.events.incoming.RequestDeleteFile;
 import com.amazmod.service.events.incoming.RequestDirectory;
 import com.amazmod.service.events.incoming.RequestDownloadFileChunk;
+import com.amazmod.service.events.incoming.RequestShellCommand;
 import com.amazmod.service.events.incoming.RequestUploadFileChunk;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
 import com.amazmod.service.events.incoming.SyncSettings;
@@ -78,6 +79,7 @@ import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.RequestDownloadFileChunkData;
+import amazmod.com.transport.data.RequestShellCommandData;
 import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.ResultDownloadFileChunkData;
@@ -108,6 +110,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
         put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
         put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
+        put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
@@ -534,6 +537,16 @@ public class MainService extends Service implements Transporter.DataListener {
             send(Transport.RESULT_DOWNLOAD_FILE_CHUNK, resultDownloadFileChunkData.toDataBundle());
         } catch (Exception ex) {
             Log.e(Constants.TAG, ex.getMessage());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void executeShellCommand(RequestShellCommand requestShellCommand) {
+        try {
+            RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
+            Runtime.getRuntime().exec(requestShellCommandData.getCommand());
+        } catch (Exception ex) {
+            Log.e(Constants.TAG, ex.getMessage(), ex);
         }
     }
 

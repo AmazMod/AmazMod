@@ -38,7 +38,10 @@
   <string name="cant_uplaod_directory">Impossível enviar diretório</string>
   <string name="sending">Enviando</string>
   <string name="cant_upload_file">Impossível enviar arquivo</string>
+  <string name="cant_download_file">Can\'t download file</string>
   <string name="file_upload_canceled">Envio de arquivo cancelado</string>
+  <string name="file_download_canceled">File download canceled</string>
+  <string name="file_downloaded">File downloaded</string>
   <string name="notification_access">Acesso às notificações</string>
   <string name="notification_access_not_enabled">Acesso às notificações não habilitado</string>
   <string name="notification_access_enable">Habilitar</string>
@@ -172,6 +175,7 @@
   <string name="none">None</string>
   <string name="data">Dados</string>
   <string name="downloads">Downloads</string>
+  <string name="downloading">Downloading</string>
   <string name="activity_files_backup_error">PS: o AmazMod não pode escrever arquivos, verifique as permissões</string>
   <string name="activity_files_backup_downloads">O arquivo de backup foi salvo na pasta Downloads:</string>
   <string name="activity_files_file_error">Erro de Arquivo!</string>

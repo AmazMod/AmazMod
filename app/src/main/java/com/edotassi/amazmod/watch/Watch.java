@@ -39,6 +39,7 @@ import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.RequestDownloadFileChunkData;
+import amazmod.com.transport.data.RequestShellCommandData;
 import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDownloadFileChunkData;
 import amazmod.com.transport.data.SettingsData;
@@ -278,6 +279,33 @@ public class Watch {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
                 task.getResult().send(Transport.BRIGHTNESS, brightnessData, taskCompletionSource);
+                return null;
+            }
+        });
+        return taskCompletionSource.getTask();
+    }
+
+    public Task<Void> executeShellCommand(final String command) {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+        getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
+            @Override
+            public Object then(@NonNull Task<TransportService> task) throws Exception {
+                RequestShellCommandData requestShellCommandData = new RequestShellCommandData();
+                requestShellCommandData.setCommand(command);
+                task
+                        .getResult()
+                        .sendAndWait(Transport.REQUEST_SHELL_COMMAND, requestShellCommandData)
+                        .continueWith(new Continuation<Void, Object>() {
+                            @Override
+                            public Object then(@NonNull Task<Void> task) throws Exception {
+                                if (task.isSuccessful()) {
+                                    taskCompletionSource.setResult(null);
+                                } else {
+                                    taskCompletionSource.setException(task.getException());
+                                }
+                                return null;
+                            }
+                        });
                 return null;
             }
         });
