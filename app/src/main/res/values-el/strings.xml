@@ -205,8 +205,8 @@
   <string name="enable_low_power">Ενεργοποιήσετε τη λειτουργία χαμηλής ισχύος στο ρολόι</string>
   <string name="failed_to_send_command">Η αποστολή εντολής στο ρολόι απέτυχε</string>
   <string name="command_sent">Η αποστολή εντολής στο ρολόι ήταν επιτυχής</string>
-  <string name="execute_shell_command">Execute a shell command</string>
-  <string name="run">Run</string>
-  <string name="shell_command_sent">Command sent</string>
-  <string name="cant_send_shell_command">Can\'t send command</string>
+  <string name="execute_shell_command">Εκτέλεση εντολής shell</string>
+  <string name="run">Εκτέλεση</string>
+  <string name="shell_command_sent">Η εντολή στάλθηκε</string>
+  <string name="cant_send_shell_command">Η εντολή δεν μπορεί να σταλεί</string>
 </resources>
