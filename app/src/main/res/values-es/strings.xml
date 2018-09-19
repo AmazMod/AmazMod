@@ -199,15 +199,15 @@
   <string name="file_explorer">Explorador de archivos</string>
   <string name="reading_files_failed">Fallo de lectura de los archivos</string>
   <string name="activity_about_extras">Extras</string>
-  <string name="revoke_device_owner">Revoke device owner on watch</string>
-  <string name="connection_alert">Connection alert</string>
-  <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
-  <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for connection alerts instead of full screen alert</string>
-  <string name="enable_low_power">Enable low power mode on watch</string>
-  <string name="failed_to_send_command">Sending command to watch failed</string>
-  <string name="command_sent">Sending command to watch was successful</string>
-  <string name="execute_shell_command">Execute a shell command</string>
-  <string name="run">Run</string>
-  <string name="shell_command_sent">Command sent</string>
-  <string name="cant_send_shell_command">Can\'t send command</string>
+  <string name="revoke_device_owner">Revocar permisos de Administrador de dispositivo en el reloj</string>
+  <string name="connection_alert">Aviso de conexión</string>
+  <string name="pref_phone_connect_alert_standard_notification">Usar notificaciones estándar</string>
+  <string name="pref_phone_connect_alert_standard_notification_summary">Usar notificaciones estándar para los avisos de conexión en vez del aviso a pantalla completa</string>
+  <string name="enable_low_power">Habilitar el modo poco consumo</string>
+  <string name="failed_to_send_command">Fallo al enviar el comando al reloj</string>
+  <string name="command_sent">Comando correctamente enviado al reloj</string>
+  <string name="execute_shell_command">Ejecutar un comando shell</string>
+  <string name="run">Ejecutar</string>
+  <string name="shell_command_sent">Comando enviado</string>
+  <string name="cant_send_shell_command">No se puede enviar el comando</string>
 </resources>
