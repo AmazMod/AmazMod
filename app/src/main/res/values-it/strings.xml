@@ -207,4 +207,8 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="enable_low_power">Attiva la modalità di risparmio energetico sull\'orologio</string>
   <string name="failed_to_send_command">Invio del comando all\'orologio fallito</string>
   <string name="command_sent">Comando inviato all\'orologio con successo</string>
+  <string name="execute_shell_command">Execute a shell command</string>
+  <string name="run">Run</string>
+  <string name="shell_command_sent">Command sent</string>
+  <string name="cant_send_shell_command">Can\'t send command</string>
 </resources>
