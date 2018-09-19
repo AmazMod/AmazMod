@@ -38,10 +38,10 @@
   <string name="cant_uplaod_directory">Impossibile effettuare l\'upload della directory</string>
   <string name="sending">Invio in corso</string>
   <string name="cant_upload_file">Impossibile effettuare l\'upload del file</string>
-  <string name="cant_download_file">Can\'t download file</string>
+  <string name="cant_download_file">Impossibile effettuare il download del file</string>
   <string name="file_upload_canceled">Upload del file annullato</string>
-  <string name="file_download_canceled">File download canceled</string>
-  <string name="file_downloaded">File downloaded</string>
+  <string name="file_download_canceled">Download del file annullato</string>
+  <string name="file_downloaded">File scaricato</string>
   <string name="notification_access">Accesso alle notifiche</string>
   <string name="notification_access_not_enabled">Accesso alle notifiche non abilitato</string>
   <string name="notification_access_enable">Abilita</string>
@@ -73,7 +73,7 @@
   <string name="activity_about_devs">Sviluppatori</string>
   <string name="activity_about_testers">Tester</string>
   <string name="translators">Traduttori</string>
-  <string name="activity_watchface_need_greatfit">Per sfruttare questa opzione devi avere la watchface Greatfit installata sull\'orologio</string>
+  <string name="activity_watchface_need_greatfit">Per sfruttare questa opzione devi avere la watchface \"Greatfit\" installata sull\'orologio</string>
   <string name="activity_watchface_send_data">Invia i dati del telefono all\'orologio (batteria, sveglia)</string>
   <string name="activity_watchface_send_data_interval_prompt">Seleziona l\'intervallo di tempo</string>
   <string name="activity_watchface_send_data_interval_summary">Imposta l\'intervallo di invio dati alla watchface</string>
@@ -177,7 +177,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="none">Nessuno</string>
   <string name="data">Dati</string>
   <string name="downloads">Downloads</string>
-  <string name="downloading">Downloading</string>
+  <string name="downloading">Download in corso</string>
   <string name="activity_files_backup_error">PS: AmazMod non riesce a scrivere sulla memoria, controlla le autorizzazioni!</string>
   <string name="activity_files_backup_downloads">Il file di backup viene salvato nella cartella di Download:</string>
   <string name="activity_files_file_error">Errore File!</string>
@@ -205,6 +205,10 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="pref_phone_connect_alert_standard_notification">Usa le notifiche standard</string>
   <string name="pref_phone_connect_alert_standard_notification_summary">Usa le notifiche standard per gli avvisi di connessione al posto degli avvisi a schermo intero</string>
   <string name="enable_low_power">Attiva la modalità di risparmio energetico sull\'orologio</string>
-  <string name="failed_to_send_command">Sending command to watch failed</string>
-  <string name="command_sent">Sending command to watch was successful</string>
+  <string name="failed_to_send_command">Invio del comando all\'orologio fallito</string>
+  <string name="command_sent">Comando inviato all\'orologio con successo</string>
+  <string name="execute_shell_command">Execute a shell command</string>
+  <string name="run">Run</string>
+  <string name="shell_command_sent">Command sent</string>
+  <string name="cant_send_shell_command">Can\'t send command</string>
 </resources>
