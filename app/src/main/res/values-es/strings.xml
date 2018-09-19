@@ -77,11 +77,11 @@
   <string name="activity_watchface_send_data">Enviar datos del teléfono al reloj (bateria, alarma,...)</string>
   <string name="activity_watchface_send_data_interval_prompt">Selecciona el tiempo de intervalo</string>
   <string name="activity_watchface_send_data_interval_summary">Establece el intervalo de envío de datos de la esfera</string>
-  <string name="activity_watchface_send_on_battery_change">Send data every time battery changes</string>
-  <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
-  <string name="activity_watchface_last_time_sent">Last time sent</string>
-  <string name="activity_watchface_data_send">Data were send</string>
-  <string name="activity_watchface_send_data_now">Send data now</string>
+  <string name="activity_watchface_send_on_battery_change">Enviar datos cada vez que cambie la batería</string>
+  <string name="activity_watchface_send_on_alarm_change">Enviar datos cada vez que se cambie la alarma</string>
+  <string name="activity_watchface_last_time_sent">Último envio</string>
+  <string name="activity_watchface_data_send">Datos enviados</string>
+  <string name="activity_watchface_send_data_now">Enviar los datos ahora</string>
   <string name="activity_stats_notifications_total">Total</string>
   <string name="activity_stats_notifications_in_the_last_hour">Durante la última hora</string>
   <string name="activity_stats_notifications_in_the_last_24_horus">En las últimas 24 horas</string>
@@ -127,8 +127,8 @@
   <string name="pref_filters">Filtros de notificaciones</string>
   <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware para control de música</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de musica mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
-  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
-  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
+  <string name="pref_phone_connect_disconnect_alert">Alerta de Des/Conexión del teléfono</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">El reloj vibrará mientras muestra el estado del telefono al Des/Conectarse</string>
   <string name="intro_title_1">¡Bienvenido a AmazMod!</string>
   <string name="intro_description_1">Por favor sigue esta presentación para aprender a instalar la app de servicio en el reloj y conceder a la app del teléfono acceso a las notificaciones.</string>
   <string name="intro_title_permissions">Acceso a las notificaciones</string>
@@ -176,7 +176,7 @@
   <string name="none">Ninguna</string>
   <string name="data">Datos</string>
   <string name="downloads">Descargas</string>
-  <string name="downloading">Downloading</string>
+  <string name="downloading">Descargando</string>
   <string name="activity_files_backup_error">PD: AmazMod no puede escribir archivos, por favor revisa los permisos</string>
   <string name="activity_files_backup_downloads">La copia de seguridad se guardó en la carpeta Downloads:</string>
   <string name="activity_files_file_error">¡Error de archivo!</string>
