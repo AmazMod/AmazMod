@@ -38,7 +38,10 @@
   <string name="cant_uplaod_directory">Δεν είναι δυνατή η φόρτωση του καταλόγου</string>
   <string name="sending">Αποστολή</string>
   <string name="cant_upload_file">Δεν είναι δυνατή η φόρτωση του αρχείου</string>
+  <string name="cant_download_file">Δεν είναι δυνατή η λήψη του αρχείου</string>
   <string name="file_upload_canceled">Η αποστολή αρχείου ακυρώθηκε</string>
+  <string name="file_download_canceled">Η λήψη του αρχείου ακυρώθηκε</string>
+  <string name="file_downloaded">Το αρχείο κατέβηκε</string>
   <string name="notification_access">Πρόσβαση στις ειδοποιήσεις</string>
   <string name="notification_access_not_enabled">Η πρόσβαση στις ειδοποιήσεις δεν είναι ενεργή</string>
   <string name="notification_access_enable">Ενεργοποίηση</string>
@@ -172,6 +175,7 @@
   <string name="none">Κανένα</string>
   <string name="data">Δεδομένα</string>
   <string name="downloads">Λήψεις</string>
+  <string name="downloading">Λήψη</string>
   <string name="activity_files_backup_error">ΥΓ: Το AmazMod δεν είναι δυνατό να γράψετε αρχεία, παρακαλούμε ελέγξετε τα δικαιώματα</string>
   <string name="activity_files_backup_downloads">Το αντίγραφο ασφαλείας είναι αποθηκευμένο στον φάκελο Λήψεις:</string>
   <string name="activity_files_file_error">Σφάλμα Αρχείου!</string>
@@ -194,11 +198,11 @@
   <string name="file_explorer">Εξερευνητής αρχείων</string>
   <string name="reading_files_failed">Η ανάγνωση αρχείων απέτυχε</string>
   <string name="activity_about_extras">Πρόσθετα</string>
-  <string name="revoke_device_owner">Revoke device owner on watch</string>
+  <string name="revoke_device_owner">Ανάκληση \"device owner\" στο ρολόι</string>
   <string name="connection_alert">Ειδοποίηση σύνδεσης</string>
   <string name="pref_phone_connect_alert_standard_notification">Χρήση κανονικών ειδοποιήσεων</string>
   <string name="pref_phone_connect_alert_standard_notification_summary">Χρήση κανονικών ειδοποιήσεων για ειδοποιήσεις σύνδεσης αντί για ειδοποίηση πλήρους οθόνης</string>
   <string name="enable_low_power">Ενεργοποιήσετε τη λειτουργία χαμηλής ισχύος στο ρολόι</string>
-  <string name="failed_to_send_command">Sending command to watch failed</string>
-  <string name="command_sent">Sending command to watch was successful</string>
+  <string name="failed_to_send_command">Η αποστολή εντολής στο ρολόι απέτυχε</string>
+  <string name="command_sent">Η αποστολή εντολής στο ρολόι ήταν επιτυχής</string>
 </resources>
