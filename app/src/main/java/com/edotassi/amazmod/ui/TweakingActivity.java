@@ -1,15 +1,20 @@
 package com.edotassi.amazmod.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -110,32 +115,67 @@ public class TweakingActivity extends AppCompatActivity {
         });
     }
 
+    @OnClick(R.id.activity_tweaking_reboot)
+    public void reboot() {
+        execCommandInternally(ShellCommandHelper.getReboot());
+    }
+
+    @OnClick(R.id.activity_tweaking_restart_launcher)
+    public void restartLauncher() {
+        execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher());
+    }
+
+    @OnClick(R.id.activity_tweaking_enable_apps_list)
+    public void enableAppsList() {
+        execCommandInternally(ShellCommandHelper.getEnableAppsList());
+    }
+
+    @OnClick(R.id.activity_tweaking_disable_apps_list)
+    public void disableAppList() {
+        execCommandInternally(ShellCommandHelper.getDisableAppsList());
+    }
+
     @OnClick(R.id.activity_tweaking_exec_command_run)
     public void execCommand() {
-        String command = commandEditText.getText().toString();
+        try {
+            View view = this.getCurrentFocus();
+            if (view != null) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }
+        } catch (Exception ex) {
+            Crashlytics.logException(ex);
+        }
 
+        String command = commandEditText.getText().toString();
+        execCommandInternally(command);
+    }
+
+    private void execCommandInternally(String command) {
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
-                .setIsIndeterminate(false)
-                .setProgressMax(100)
+                .setIsIndeterminate(true)
                 .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
                     @Override
                     public void onActionClick() {
                         snackProgressBarManager.dismissAll();
                     }
-                })
-                .setShowProgressPercentage(true);
+                });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get()
-                .executeShellCommand(command)
-                .continueWith(new Continuation<Void, Object>() {
-                    @Override
-                    public Object then(@NonNull Task<Void> task) throws Exception {
-                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_canceled));
-                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                        return null;
-                    }
-                });
+        Watch.get().executeShellCommand(command).continueWith(new Continuation<Void, Object>() {
+            @Override
+            public Object then(@NonNull Task<Void> task) throws Exception {
+                SnackProgressBar snackbar;
+                if (task.isSuccessful()) {
+                    snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
+                } else {
+                    snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
+                }
+
+                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                return null;
+            }
+        });
     }
 }

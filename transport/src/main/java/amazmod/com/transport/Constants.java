@@ -8,6 +8,12 @@ public class Constants {
     public static final String INITIAL_PATH = "/sdcard";
     public static final String DOWNLOAD_DIRECTORY = "AmazMod";
 
+    public static final String SHELL_COMMAND_INSTALL_APK = "adb install %s";
+    public static final String SHELL_COMMAND_REBOOT = "adb shell reboot";
+    public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
+    public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "adb shell touch /sdcard/launcher_config.ini";
+    public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "adb shell rm /sdcard/launcher_config.ini";
+
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
@@ -45,12 +51,12 @@ public class Constants {
     public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_STANDARD_NOTIFICATIONS = false;
-    public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT= false;
+    public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT = false;
     public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
-    public static final String PREF_DISABLE_NOTIFICATIONS_WHEN_DND = "preference.disable.notifications.when.dnd" ;
+    public static final String PREF_DISABLE_NOTIFICATIONS_WHEN_DND = "preference.disable.notifications.when.dnd";
     public static final String PREF_DISABLE_REMOVE_NOTIFICATIONS = "preference.disable.remove.notifications";
     public static final String PREF_NOTIFICATIONS_ENABLE_VOICE_APPS = "preference.notifications.enable.voice.apps";
     public static final String PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY = "preference.notifications.enable.local.only";
@@ -70,7 +76,7 @@ public class Constants {
     public static final byte FILTER_PACKAGE = 'P';
     public static final byte FILTER_GROUP = 'G';
     public static final byte FILTER_ONGOING = 'O';
-    public static final byte FILTER_LOCAL= 'L';
+    public static final byte FILTER_LOCAL = 'L';
     public static final byte FILTER_BLOCK = 'B';
     public static final byte FILTER_RETURN = 'R';
     public static final byte FILTER_SCREENON = 'S';
