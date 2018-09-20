@@ -217,8 +217,12 @@
   <string name="restart_launcher">הפעלת לאונצ\'ר מחדש</string>
   <string name="enable_apps_list">אפשר את מגירת האפליקציות</string>
   <string name="disable_apps_list">ביטול מגירת האפליקציות</string>
-  <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
-  <string name="no_service_info_2">1) Download the latest release here:</string>
-  <string name="no_service_info_3">2) Then install the service apk file on the watch</string>
-  <string name="no_service_info_4">3) Finally, restart both the watch and the phone</string>
+  <string name="no_service_info_1">לא ניתן להתחבר אל שירות הAmazMod על השעון. אם לא התקנת עדיין את השירות, בצע את ההוראות הבאות:</string>
+  <string name="no_service_info_2">1) הורד את הגרסה האחרונה מכאן:</string>
+  <string name="no_service_info_3">2) התקן את קובץ הapk של הservice על השעון</string>
+  <string name="no_service_info_4">3) ולבסוף, הפעלו מחדש את השעון וגם את הסלולרי</string>
+  <string name="enable_lpm_title">Enable LPM</string>
+  <string name="revoke_admin">Revoke admin</string>
+  <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
+  <string name="continue_label">Continue</string>
 </resources>
