@@ -207,12 +207,12 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="enable_low_power">Attiva la modalità di risparmio energetico sull\'orologio</string>
   <string name="failed_to_send_command">Invio del comando all\'orologio fallito</string>
   <string name="command_sent">Comando inviato all\'orologio con successo</string>
-  <string name="execute_shell_command">Esegui un comando da shell</string>
+  <string name="execute_shell_command">Esegui un comando shell</string>
   <string name="run">Esegui</string>
-  <string name="shell_command_sent">Command sent</string>
-  <string name="cant_send_shell_command">Can\'t send command</string>
-  <string name="install">Install</string>
-  <string name="apk_install_started_title">Apk install</string>
+  <string name="shell_command_sent">Comando inviato</string>
+  <string name="cant_send_shell_command">Impossibile inviare il comando</string>
+  <string name="install">Installa</string>
+  <string name="apk_install_started_title">Installa apk</string>
   <string name="apk_install_started">Apk install started\nthe installation is performed in the background\nReboot the watch after about 3 minutes to see the installed application</string>
   <string name="cant_start_apk_install">Can\'t start apk install</string>
   <string name="reboot">Reboot</string>
