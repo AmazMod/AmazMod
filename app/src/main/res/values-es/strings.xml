@@ -210,12 +210,16 @@
   <string name="run">Ejecutar</string>
   <string name="shell_command_sent">Comando enviado</string>
   <string name="cant_send_shell_command">No se puede enviar el comando</string>
-  <string name="install">Install</string>
-  <string name="apk_install_started_title">Apk install</string>
-  <string name="apk_install_started">Apk install started\nthe installation is performed in the background\nReboot the watch after about 3 minutes to see the installed application</string>
-  <string name="cant_start_apk_install">Can\'t start apk install</string>
-  <string name="reboot">Reboot</string>
-  <string name="restart_launcher">Restart launcher</string>
-  <string name="enable_apps_list">Enable apps list</string>
-  <string name="disable_apps_list">Disable apps list</string>
+  <string name="install">Instalar</string>
+  <string name="apk_install_started_title">Instalar apk</string>
+  <string name="apk_install_started">Iniciada instalación de apk\nLa instalación se realizará en segundo plano\nReinicia el reloj después de 3 minutos aprox. para poder ver la aplicación</string>
+  <string name="cant_start_apk_install">No se puede instalar la apk</string>
+  <string name="reboot">Reiniciar</string>
+  <string name="restart_launcher">Reiniciar el Launcher</string>
+  <string name="enable_apps_list">Habilitar la lista de aplicaciones</string>
+  <string name="disable_apps_list">Deshabilitar la lista de aplicaciones</string>
+  <string name="no_service_info_1">No se pudo conectar con el Servicio de AmazMod en el reloj. Si todavía no has instalado el Servicio, sigue las siguientes instrucciones:</string>
+  <string name="no_service_info_2">1) Descarga la última versión aquí:</string>
+  <string name="no_service_info_3">2) Instala la apk del Servicio en el reloj</string>
+  <string name="no_service_info_4">3) Finalmente, reinicia tanto el reloj como el teléfono</string>
 </resources>

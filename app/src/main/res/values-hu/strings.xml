@@ -220,4 +220,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="restart_launcher">Restart launcher</string>
   <string name="enable_apps_list">Enable apps list</string>
   <string name="disable_apps_list">Disable apps list</string>
+  <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
+  <string name="no_service_info_2">1) Download the latest release here:</string>
+  <string name="no_service_info_3">2) Then install the service apk file on the watch</string>
+  <string name="no_service_info_4">3) Finally, restart both the watch and the phone</string>
 </resources>
