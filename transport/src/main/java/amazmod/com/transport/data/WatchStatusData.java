@@ -14,7 +14,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
 
     public static final String AMAZMOD_SERVICE_VERSION = "AmazModServiceVersion";
     public static final String RO_PRODUCT_DEVICE = "ro.product.device";
-    public static final String RO_PRODUCT_MANUFACTER = "ro.product.manufacter";
+    public static final String RO_PRODUCT_MANUFACTER = "ro.product.manufacturer";
     public static final String RO_PRODUCT_MODEL = "ro.product.model";
     public static final String RO_PRODUCT_NAME = "ro.product.name";
     public static final String RO_REVISION = "ro.revision";

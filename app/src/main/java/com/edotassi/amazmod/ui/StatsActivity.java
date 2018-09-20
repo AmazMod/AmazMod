@@ -1,23 +1,25 @@
 package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.io.SyncFailedException;
 import java.util.concurrent.Callable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
@@ -36,6 +38,15 @@ public class StatsActivity extends AppCompatActivity {
     @BindView(R.id.activity_stats_notifications_total)
     TextView notificationsTotal;
 
+    @BindView(R.id.activity_stats_open_notifications_log)
+    Button openNotificationsLogButton;
+
+    private final byte[] ALLOWED_FILTERS = {Constants.FILTER_CONTINUE,
+                                            Constants.FILTER_UNGROUP,
+                                            Constants.FILTER_VOICE,
+                                            Constants.FILTER_MAPS,
+                                            Constants.FILTER_LOCALOK};
+
     @Override
     public boolean onSupportNavigateUp() {
         finish();
@@ -46,7 +57,13 @@ public class StatsActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            //TODO log to crashlitics
+        }
+
         getSupportActionBar().setTitle(R.string.stats);
         ButterKnife.bind(this);
     }
@@ -56,6 +73,12 @@ public class StatsActivity extends AppCompatActivity {
         super.onResume();
 
         loadStats();
+    }
+
+    @SuppressLint("CheckResult")
+    @OnClick(R.id.activity_stats_open_notifications_log)
+    public void openLog() {
+        startActivity(new Intent(this, NotificationsLogActivity.class));
     }
 
     @SuppressLint("CheckResult")
@@ -76,17 +99,29 @@ public class StatsActivity extends AppCompatActivity {
                         long anHourAgo = System.currentTimeMillis() - (60 * 60 * 1000);
                         long aDayAgo = System.currentTimeMillis() - (24 * 60 * 60 * 1000);
 
-                        long totalAnHourAgo = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
-                                .count();
+                        long totalAnHourAgo = 0L;
+                        long totalADayAgo = 0L;
+                        long sum;
 
-                        long totalADayAgo = SQLite
-                                .selectCountOf()
-                                .from(NotificationEntity.class)
-                                .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
-                                .count();
+                        for (byte f: ALLOWED_FILTERS) {
+                            sum = SQLite
+                                    .selectCountOf()
+                                    .from(NotificationEntity.class)
+                                    .where(NotificationEntity_Table.date.greaterThan(anHourAgo))
+                                    .and(NotificationEntity_Table.filterResult.eq(f))
+                                    .count();
+                            totalAnHourAgo += sum;
+                        }
+
+                        for (byte f: ALLOWED_FILTERS) {
+                            sum = SQLite
+                                    .selectCountOf()
+                                    .from(NotificationEntity.class)
+                                    .where(NotificationEntity_Table.date.greaterThan(aDayAgo))
+                                    .and(NotificationEntity_Table.filterResult.eq(f))
+                                    .count();
+                            totalADayAgo += sum;
+                        }
 
                         StatsResult result = new StatsResult();
 

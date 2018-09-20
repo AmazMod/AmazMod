@@ -1,0 +1,42 @@
+#update_fastlane
+
+default_platform(:android)
+
+platform :android do
+  def increment_version_code(gradle_build: 'android/app/build.gradle')
+    sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
+  end
+
+    lane :internal do
+    fastlane_require 'fastlane-craft'
+        begin
+          gradle(
+            task: 'assemble',
+            build_type: 'Release',
+            properties: {
+               "android.injected.signing.store.file" => "amazmod-certificate.jks",
+               "android.injected.signing.store.password" => ENV['KEYSTORE_PASSWORD'] ,
+               "android.injected.signing.key.alias" => ENV['KEYSTORE_ALIAS'],
+               "android.injected.signing.key.password" => ENV['KEYSTORE_ALIAS_PASSWORD'],
+          })
+          upload_to_play_store(
+            track: 'internal',
+            apk: './app/build/outputs/apk/release/app-release.apk'
+          )
+          telegram(message: 'Build published in internal stage', parse_mode: 'Markdown')
+        rescue => ex
+            telegram(message: ex.message, parse_mode: 'Markdown')
+        end
+    end
+
+    lane :beta do
+        gradle(
+            task: 'assemble',
+            build_type: 'Release'
+        )
+        upload_to_play_store(
+            track: 'beta',
+            apk: './app/build/outputs/apk/release/app-release.apk'
+        )
+    end
+end

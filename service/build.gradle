@@ -2,13 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    buildToolsVersion '27.0.3'
     compileSdkVersion 27
 
     def versionPropsFile = file('version.properties')
 
     if (versionPropsFile.canRead()) {
-        def Properties versionProps = new Properties()
+        Properties versionProps = new Properties()
 
         versionProps.load(new FileInputStream(versionPropsFile))
 
@@ -21,9 +20,9 @@ android {
         versionProps.store(versionPropsFile.newWriter(), null)
 
         defaultConfig {
-            applicationId "com.edotassi.amazmodcompanionservice"
+            applicationId "com.amazmod.service"
             minSdkVersion 21
-            targetSdkVersion 26
+            targetSdkVersion 21
             versionCode build
             versionName "${major}.${minor}.${patch}_(${build})"
             //setProperty("archivesBaseName", "AmazModService-$versionName")
@@ -39,12 +38,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 }
 
 dependencies {
-    implementation project(":transport")
-    implementation project(":models")
-
+    implementation project(':transport')
+    implementation project(':models')
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.3@aar'
@@ -54,8 +59,10 @@ dependencies {
     implementation 'com.github.marlonlom:timeago:3.0.2'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    implementation 'org.apache.commons:commons-lang3:3.6'
+    implementation 'com.github.tbouron.shakedetector:library:1.0.0@aar'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-
     implementation files('../libs/SpringboardPluginLib.jar')
     implementation files('../libs/huami_libs.jar')
+    implementation files('../libs/WearServices_libs.jar')
 }

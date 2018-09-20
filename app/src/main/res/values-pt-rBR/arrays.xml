@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="pref_amazmodservice_vibration_entries">
-        <item>100 ms</item>
-        <item>200 ms</item>
-        <item>300 ms</item>
-        <item>400 ms</item>
-        <item>500 ms</item>
-    </string-array>
-    <string-array name="pref_amazmodservice_vibration_values">
-        <item>100</item>
-        <item>200</item>
-        <item>300</item>
-        <item>400</item>
-        <item>500</item>
-    </string-array>
     <string-array name="pref_amazmodservice_screen_timeout_entries">
         <item>3 s</item>
         <item>5 s</item>
@@ -68,7 +54,11 @@
         <item>180</item>
         <item>240</item>
     </string-array>
-
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normal</item>
+        <item>Large</item>
+        <item>Huge</item>
+    </string-array>
     <string-array name="default_notification_replies">
         <item>Sim</item>
         <item>Não</item>

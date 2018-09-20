@@ -44,7 +44,7 @@ captures/
 .externalNativeBuild
 
 # Google Services (e.g. APIs or Firebase)
-google-services.json
+# google-services.json
 
 # Freeline
 freeline.py
@@ -57,3 +57,18 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+keystore\.properties
+
+amazmod-certificate\.key
+
+play-console\.json
+
+release/
+
+app/src/main/\.DS_Store
+
+app/\.DS_Store
+
+app/src/\.DS_Store
+
+\.DS_Store

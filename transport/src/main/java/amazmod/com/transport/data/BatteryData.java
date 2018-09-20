@@ -17,11 +17,13 @@ public class BatteryData extends Transportable implements Parcelable {
     private static final String CHARGING = "charging";
     private static final String USB_CHARGE = "usb_charge";
     private static final String AC_CHARGE = "ac_charge";
+    private static final String DATE_LAST_CHARGE = "date_last_charge";
 
     private float level;
     private boolean charging;
     private boolean usbCharge;
     private boolean acCharge;
+    private long dateLastCharge;
 
     public BatteryData() {}
 
@@ -30,6 +32,7 @@ public class BatteryData extends Transportable implements Parcelable {
         charging = in.readByte() != 0;
         usbCharge = in.readByte() != 0;
         acCharge = in.readByte() != 0;
+        dateLastCharge = in.readLong();
     }
 
     public static final Creator<BatteryData> CREATOR = new Creator<BatteryData>() {
@@ -50,6 +53,7 @@ public class BatteryData extends Transportable implements Parcelable {
         dataBundle.putBoolean(CHARGING, charging);
         dataBundle.putBoolean(USB_CHARGE, usbCharge);
         dataBundle.putBoolean(AC_CHARGE, acCharge);
+        dataBundle.putLong(DATE_LAST_CHARGE, dateLastCharge);
 
         return dataBundle;
     }
@@ -72,11 +76,13 @@ public class BatteryData extends Transportable implements Parcelable {
         boolean charging = dataBundle.getBoolean(CHARGING);
         boolean usbCharge = dataBundle.getBoolean(USB_CHARGE);
         boolean acCharge = dataBundle.getBoolean(AC_CHARGE);
+        long dateLastCharge = dataBundle.getLong(DATE_LAST_CHARGE);
 
         batteryData.setLevel(level);
         batteryData.setCharging(charging);
         batteryData.setUsbCharge(usbCharge);
         batteryData.setAcCharge(acCharge);
+        batteryData.setDateLastCharge(dateLastCharge);
 
         return batteryData;
     }
@@ -92,6 +98,7 @@ public class BatteryData extends Transportable implements Parcelable {
         dest.writeByte((byte) (charging ? 1 : 0));
         dest.writeByte((byte) (usbCharge ? 1 : 0));
         dest.writeByte((byte) (acCharge ? 1 : 0));
+        dest.writeLong(dateLastCharge);
     }
 
     public float getLevel() {
@@ -124,5 +131,13 @@ public class BatteryData extends Transportable implements Parcelable {
 
     public void setAcCharge(boolean acCharge) {
         this.acCharge = acCharge;
+    }
+
+    public long getDateLastCharge() {
+        return dateLastCharge;
+    }
+
+    public void setDateLastCharge(long dateLastCharge) {
+        this.dateLastCharge = dateLastCharge;
     }
 }

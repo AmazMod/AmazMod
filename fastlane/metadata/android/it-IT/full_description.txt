@@ -1,0 +1,36 @@
+Amazmod – the missing link for Pace and Stratos.
+
+Thought that your watch can't do more? Well, it sure can!
+Amazmod is a completing application for the Amazfit Client, compatible with the Store/Mi store versions, based on server/client configuration for your Amazfit watches, and is capable of working in two configurations:
+
+1.  No additional software on the watch – no installation is needed on your watch, just few specific settings changes in the Amazfit app.
+2.  Service component running on the watch – no root required for additional functionality, a manual installation is required on the watch with the provided semi-automated user friendly installer.
+
+What you will your watch learn to do with Amazmod?
+
+No service on the watch – stock configuration:
+•  Disabling all notifications – co-existence with the stock Amazfit app
+•  DND consideration – no notifications will be pushed to watch in DND mode
+•  Control over timeout of the notification screen
+•  Voice call notifications from your IM apps
+•  Local system notifications – Weather, Google cards, Calendar events and etc.
+•  Notification ungrouping
+
+Service "additional" features - service installed on the watch:
+•  Pre-defined notification replies - set your own responces to IMs/emails/SMSs
+•  Battery usage chart of your watch with an estimated remaining time of the battery
+•  Tweaking – Manual brightness control of your watch
+•  Much much more to come
+
+- Please uninstall old versions of AmazMod and keep the latest stock Amazfit installed, with push notifications disabled
+- Link to FAQ on GitHub as a support page, maybe?
+- When upgrading AmazMod, make sure latest service APK version is installed on watch too, and restart both phone and watch everytime service APK is installed.
+
+Stats:
+Statistics regarding your notifications
+
+Notification testing basic tool provided under the About menu, for a quick connectivity test with your watch.
+
+The ongoing development of the Amazmod will provide more and more features, more control and optimizations both for your Smartphone and your Amazfit companion on your wrist!
+
+** no goats were harmed during development, one goldfish ran away and joined the circus.
