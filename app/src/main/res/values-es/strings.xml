@@ -222,4 +222,8 @@
   <string name="no_service_info_2">1) Descarga la última versión aquí:</string>
   <string name="no_service_info_3">2) Instala la apk del Servicio en el reloj</string>
   <string name="no_service_info_4">3) Finalmente, reinicia tanto el reloj como el teléfono</string>
+  <string name="enable_lpm_title">Enable LPM</string>
+  <string name="revoke_admin">Revoke admin</string>
+  <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
+  <string name="continue_label">Continue</string>
 </resources>
