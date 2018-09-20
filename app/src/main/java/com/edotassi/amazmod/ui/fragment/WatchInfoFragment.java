@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui.fragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
+
 import amazmod.com.transport.Constants;
+
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.transport.TransportService;
@@ -60,6 +64,8 @@ public class WatchInfoFragment extends Card {
     TextView isConnectedTV;
     @BindView(R.id.card_watch_detail)
     LinearLayout watchDetail;
+    @BindView(R.id.card_watch_no_service)
+    ConstraintLayout noService;
     @BindView(R.id.card_watch_progress)
     MaterialProgressBar watchProgress;
 
@@ -69,24 +75,19 @@ public class WatchInfoFragment extends Card {
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.fragment_watch_info, container, false);
-
         ButterKnife.bind(this, view);
-
-        Log.d(Constants.TAG, "WatchInfoFragment onCreateView");
-
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, "WatchInfoFragment onResume");
-
-        connecting();
 
         int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         if (System.currentTimeMillis() - timeLastSync > (syncInterval * 30000L)) {
+            connecting();
             timeLastSync = System.currentTimeMillis();
+
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<WatchStatus> task) throws Exception {
@@ -106,6 +107,7 @@ public class WatchInfoFragment extends Card {
                                     .build()
                                     .show();
                         } catch (Exception e) {
+                            Crashlytics.logException(e);
                             Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
                         }
                         disconnected();
@@ -113,10 +115,7 @@ public class WatchInfoFragment extends Card {
                     return null;
                 }
             });
-        } else if (watchStatus != null) {
-            isConnected();
-            refresh(watchStatus);
-        } else disconnected();
+        }
     }
 
     @Override
@@ -131,8 +130,8 @@ public class WatchInfoFragment extends Card {
                 .apply();
         try {
             onWatchStatus(watchStatus);
-
         } catch (NullPointerException e) {
+            Crashlytics.logException(e);
             Log.e(Constants.TAG, "WatchInfoFragment refresh exception: " + e.toString());
         }
     }
@@ -161,6 +160,7 @@ public class WatchInfoFragment extends Card {
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.VISIBLE);
+        noService.setVisibility(View.GONE);
     }
 
     private void disconnected() {
@@ -168,6 +168,7 @@ public class WatchInfoFragment extends Card {
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.GONE);
+        noService.setVisibility(View.VISIBLE);
     }
 
     private void connecting() {
@@ -175,6 +176,7 @@ public class WatchInfoFragment extends Card {
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
+        noService.setVisibility(View.GONE);
     }
 
 }
