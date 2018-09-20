@@ -221,7 +221,7 @@
   <string name="no_service_info_2">1) הורד את הגרסה האחרונה מכאן:</string>
   <string name="no_service_info_3">2) התקן את קובץ הapk של הservice על השעון</string>
   <string name="no_service_info_4">3) ולבסוף, הפעלו מחדש את השעון וגם את הסלולרי</string>
-  <string name="enable_lpm_title">Enable LPM</string>
+  <string name="enable_lpm_title">אפשר מצב LPM - מצב חיסכון סוללה מתקדם</string>
   <string name="revoke_admin">שלילת admin</string>
   <string name="enable_lpm_content">פונקציה זו עדיין נסיונית, ברגע שהיא מופעלת, על מנת לנטרל אותה, יש צורך להפעיל את השעון מחדש</string>
   <string name="continue_label">המשך</string>
