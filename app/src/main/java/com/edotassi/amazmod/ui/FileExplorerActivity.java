@@ -26,6 +26,7 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
+import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
@@ -34,6 +35,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nononsenseapps.filepicker.FilePickerActivity;
@@ -152,6 +154,7 @@ public class FileExplorerActivity extends AppCompatActivity {
 
                         final String destPath = currentPath + "/" + file.getName();
                         final long size = file.length();
+                        final long startedAt = System.currentTimeMillis();
 
                         final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -196,6 +199,13 @@ public class FileExplorerActivity extends AppCompatActivity {
 
                                 if (task.isSuccessful()) {
                                     loadPath(getParentDirectoryPath(destPath));
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putLong("size", size);
+                                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
+                                    FirebaseAnalytics
+                                            .getInstance(FileExplorerActivity.this)
+                                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
                                 } else {
                                     if (task.getException() instanceof CancellationException) {
                                         SnackProgressBar snackbar = new SnackProgressBar(
@@ -283,6 +293,11 @@ public class FileExplorerActivity extends AppCompatActivity {
                         boolean success = task.isSuccessful();
                         int result = task.getResult().getResultDeleteFileData().getResult();
                         if (success && (result == Transport.RESULT_OK)) {
+
+                            FirebaseAnalytics
+                                    .getInstance(FileExplorerActivity.this)
+                                    .logEvent(FirebaseEvents.DELETE_FILE, new Bundle());
+
                             return loadPath(getParentDirectoryPath(fileData.getPath()));
                         } else {
                             SnackProgressBar snackbar = new SnackProgressBar(
@@ -319,6 +334,7 @@ public class FileExplorerActivity extends AppCompatActivity {
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
         final long size = fileData.getSize();
+        final long startedAt = System.currentTimeMillis();
 
         Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, new Watch.OperationProgress() {
             @Override
@@ -355,6 +371,13 @@ public class FileExplorerActivity extends AppCompatActivity {
                                         }
                                     });
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+
+                            Bundle bundle = new Bundle();
+                            bundle.putLong("size", size);
+                            bundle.putLong("duration", System.currentTimeMillis() - startedAt);
+                            FirebaseAnalytics
+                                    .getInstance(FileExplorerActivity.this)
+                                    .logEvent(FirebaseEvents.DOWNLOAD_FILE, bundle);
                         } else {
                             if (task.getException() instanceof CancellationException) {
                                 SnackProgressBar snackbar = new SnackProgressBar(
@@ -398,7 +421,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                 .setShowProgressPercentage(true);
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        FileData fileData = fileExplorerAdapter.getItem(index);
+        final FileData fileData = fileExplorerAdapter.getItem(index);
         Watch.get()
                 .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
                 .continueWith(new Continuation<Void, Object>() {
@@ -411,6 +434,12 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     .title(R.string.apk_install_started_title)
                                     .content(R.string.apk_install_started)
                                     .show();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fileData.getName());
+                            FirebaseAnalytics
+                                    .getInstance(FileExplorerActivity.this)
+                                    .logEvent(FirebaseEvents.APK_INSTALL, bundle);
                         } else {
                             SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
@@ -439,6 +468,10 @@ public class FileExplorerActivity extends AppCompatActivity {
         i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
 
         startActivityForResult(i, FILE_UPLOAD_CODE);
+
+        FirebaseAnalytics
+                .getInstance(this)
+                .logEvent(FirebaseEvents.UPLOAD_FILE_CLICK, new Bundle());
     }
 
     private Task<Void> loadPath(final String path) {
@@ -497,6 +530,10 @@ public class FileExplorerActivity extends AppCompatActivity {
                                 fileExplorerAdapter.notifyDataSetChanged();
 
                                 taskCompletionSource.setResult(null);
+
+                                FirebaseAnalytics
+                                        .getInstance(FileExplorerActivity.this)
+                                        .logEvent(FirebaseEvents.PATH_NAVIGATED, new Bundle());
                             } else {
                                 Snacky.builder()
                                         .setActivity(FileExplorerActivity.this)
