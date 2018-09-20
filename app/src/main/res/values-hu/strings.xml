@@ -212,4 +212,12 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="run">Run</string>
   <string name="shell_command_sent">Command sent</string>
   <string name="cant_send_shell_command">Can\'t send command</string>
+  <string name="install">Install</string>
+  <string name="apk_install_started_title">Apk install</string>
+  <string name="apk_install_started">Apk install started\nthe installation is performed in the background\nReboot the watch after about 3 minutes to see the installed application</string>
+  <string name="cant_start_apk_install">Can\'t start apk install</string>
+  <string name="reboot">Reboot</string>
+  <string name="restart_launcher">Restart launcher</string>
+  <string name="enable_apps_list">Enable apps list</string>
+  <string name="disable_apps_list">Disable apps list</string>
 </resources>
