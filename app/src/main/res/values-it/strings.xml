@@ -216,7 +216,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="apk_install_started">L\'installazione dell\'apk è iniziata!\nL\'installazione viene eseguita in background\nRiavvia l\'orologio tra circa 3 minuti per vedere l\'applicazione installata</string>
   <string name="cant_start_apk_install">Impossibile avviare l\'installazione dell\'apk</string>
   <string name="reboot">Riavvia orologio</string>
-  <string name="restart_launcher">Restart launcher</string>
+  <string name="restart_launcher">Riavvia launcher</string>
   <string name="enable_apps_list">Attiva applist</string>
   <string name="disable_apps_list">Disattiva applist</string>
 </resources>
