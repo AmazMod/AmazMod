@@ -219,4 +219,12 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="restart_launcher">Riavvia launcher</string>
   <string name="enable_apps_list">Attiva applist</string>
   <string name="disable_apps_list">Disattiva applist</string>
+  <string name="no_service_info_1">Non è stato possibile connettersi al servizio AmazMod sull\'orologio. Se non hai ancora installato il servizio, segui le istruzioni riportate di seguito:</string>
+  <string name="no_service_info_2">1) Scarica l\'ultima release da uno dei seguenti link:</string>
+  <string name="no_service_info_3">2) Installa il file apk del servizio sull\'orologio</string>
+  <string name="no_service_info_4">3) Infine riavvia sia l\'orologio che il telefono</string>
+  <string name="enable_lpm_title">Enable LPM</string>
+  <string name="revoke_admin">Revoke admin</string>
+  <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
+  <string name="continue_label">Continue</string>
 </resources>

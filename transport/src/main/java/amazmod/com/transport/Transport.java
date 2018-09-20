@@ -19,7 +19,8 @@ public class Transport {
     public static final String REQUEST_SHELL_COMMAND = "request_shell_command";
     public static final String SYNC_SETTINGS = "sync_settings";
     public static final String BRIGHTNESS = "brightness";
-    public static final String LOW_POWER = "low_power";
+    public static final String ENABLE_LOW_POWER = "enable_low_power";
+    public static final String REVOKE_ADMIN_OWNER = "revoke_admin_onwer";
     public static final String WATCHFACE_DATA = "watchface_data";
 
     public static final String WATCH_STATUS = "watch_status";

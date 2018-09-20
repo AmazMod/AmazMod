@@ -312,12 +312,24 @@ public class Watch {
         return taskCompletionSource.getTask();
     }
 
-    public Task<Void> lowPower() {
+    public Task<Void> enableLowPower() {
         final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.LOW_POWER, null, taskCompletionSource);
+                task.getResult().send(Transport.ENABLE_LOW_POWER, null, taskCompletionSource);
+                return null;
+            }
+        });
+        return taskCompletionSource.getTask();
+    }
+
+    public Task<Void> revokeAdminOwner() {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+        getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
+            @Override
+            public Object then(@NonNull Task<TransportService> task) throws Exception {
+                task.getResult().send(Transport.REVOKE_ADMIN_OWNER, null, taskCompletionSource);
                 return null;
             }
         });

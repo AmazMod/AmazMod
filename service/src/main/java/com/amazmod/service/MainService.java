@@ -4,6 +4,7 @@ import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +29,7 @@ import com.amazmod.service.events.NightscoutDataEvent;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
-import com.amazmod.service.events.incoming.LowPower;
+import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
 import com.amazmod.service.events.incoming.RequestDeleteFile;
 import com.amazmod.service.events.incoming.RequestDirectory;
@@ -36,6 +37,7 @@ import com.amazmod.service.events.incoming.RequestDownloadFileChunk;
 import com.amazmod.service.events.incoming.RequestShellCommand;
 import com.amazmod.service.events.incoming.RequestUploadFileChunk;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
+import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.events.incoming.Watchface;
 import com.amazmod.service.music.MusicControlInputListener;
@@ -105,7 +107,8 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
         put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
         put(Transport.BRIGHTNESS, Brightness.class);
-        put(Transport.LOW_POWER, LowPower.class);
+        put(Transport.ENABLE_LOW_POWER, EnableLowPower.class);
+        put(Transport.REVOKE_ADMIN_OWNER, RevokeAdminOwner.class);
         put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
         put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
         put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
@@ -292,7 +295,7 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void lowPower(LowPower lp) {
+    public void enableLowPower(EnableLowPower lp) {
         //SystemProperties.goToSleep(this);
         count++;
         Log.d(Constants.TAG, "MainService lowPower count: " + count);
@@ -329,6 +332,22 @@ public class MainService extends Service implements Transporter.DataListener {
             slptClockClient.disableLowBattery();
             SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(false));
             count = 0;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void revokeAdminOwner(RevokeAdminOwner revokeAdminOwner) {
+        DevicePolicyManager mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        try {
+            if (mDPM != null) {
+                ComponentName componentName = new ComponentName(context, AdminReceiver.class);
+                mDPM.clearDeviceOwnerApp(context.getPackageName());
+                mDPM.removeActiveAdmin(componentName);
+            }
+        } catch (NullPointerException e) {
+            Log.e(Constants.TAG, "NotificationService revokeAdminOwner NullPointerException: " + e.toString());
+        } catch (SecurityException e) {
+            Log.e(Constants.TAG, "NotificationService revokeAdminOwner SecurityException: " + e.toString());
         }
     }
 
@@ -382,7 +401,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-
         watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
         watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
         watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
@@ -403,7 +421,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
 

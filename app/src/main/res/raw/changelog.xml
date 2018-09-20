@@ -1,5 +1,18 @@
 <changelog>
     <release
+        versionCode="178"
+        versionName="v1.0.48">
+        <new>File explorer with file transfer</new>
+        <new>Adb command executor in tweaking section</new>
+        <new>Low Power Mode</new>
+        <new>Added apk installation utility</new>
+        <new>Theme in custom notifications</new>
+        <new>Better battery management in custom notifications (need admin owner to enable it)</new>
+        <new>GreatFit integration</new>
+        <info>Improved disconnected state</info>
+        <info>Minor fixes</info>
+    </release>
+    <release
         versionCode="168"
         versionName="v1.0.38">
         <new>Basic file explorer</new>

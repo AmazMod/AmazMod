@@ -10,6 +10,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SeekBar;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.support.FirebaseEvents;
@@ -145,6 +147,95 @@ public class TweakingActivity extends AppCompatActivity {
         execCommandInternally(ShellCommandHelper.getDisableAppsList());
 
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_DISABLE_APPS_LIST, null);
+    }
+
+    @OnClick(R.id.activity_tweaking_enable_lpm)
+    public void enableLpm() {
+        new MaterialDialog.Builder(this)
+                .title(R.string.enable_low_power)
+                .content(R.string.enable_lpm_content)
+                .positiveText(R.string.continue_label)
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+
+                        final SnackProgressBar progressBar = new SnackProgressBar(
+                                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                                .setIsIndeterminate(true)
+                                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                                    @Override
+                                    public void onActionClick() {
+                                        snackProgressBarManager.dismissAll();
+                                    }
+                                });
+                        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+                        Watch.get()
+                                .enableLowPower()
+                                .continueWith(new Continuation<Void, Object>() {
+                                    @Override
+                                    public Object then(@NonNull Task<Void> task) throws Exception {
+                                        SnackProgressBar snackbar;
+                                        if (task.isSuccessful()) {
+                                            snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
+
+                                            FirebaseAnalytics
+                                                    .getInstance(TweakingActivity.this)
+                                                    .logEvent(FirebaseEvents.TWEAKING_ENABLE_LPM, null);
+                                        } else {
+                                            snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.cant_send_shell_command));
+                                        }
+
+                                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                        return null;
+                                    }
+                                });
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    @OnClick(R.id.activity_tweaking_revoke_admin)
+    public void revokeAdminOwner() {
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                .setIsIndeterminate(true)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                    }
+                });
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        Watch.get()
+                .revokeAdminOwner()
+                .continueWith(new Continuation<Void, Object>() {
+                    @Override
+                    public Object then(@NonNull Task<Void> task) throws Exception {
+                        SnackProgressBar snackbar;
+                        if (task.isSuccessful()) {
+                            snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
+
+                            FirebaseAnalytics
+                                    .getInstance(TweakingActivity.this)
+                                    .logEvent(FirebaseEvents.TWEAKING_DISABLE_ADMIN, null);
+                        } else {
+                            snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.cant_send_shell_command));
+                        }
+
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        return null;
+                    }
+                });
     }
 
     @OnClick(R.id.activity_tweaking_exec_command_run)
