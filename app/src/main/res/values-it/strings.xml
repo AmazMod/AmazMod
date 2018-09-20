@@ -213,9 +213,9 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="cant_send_shell_command">Impossibile inviare il comando</string>
   <string name="install">Installa</string>
   <string name="apk_install_started_title">Installa apk</string>
-  <string name="apk_install_started">Apk install started\nthe installation is performed in the background\nReboot the watch after about 3 minutes to see the installed application</string>
-  <string name="cant_start_apk_install">Can\'t start apk install</string>
-  <string name="reboot">Reboot</string>
+  <string name="apk_install_started">L\'installazione dell\'apk è iniziata!\nL\'installazione viene eseguita in background\nRiavvia l\'orologio tra circa 3 minuti per vedere l\'applicazione installata</string>
+  <string name="cant_start_apk_install">Impossibile avviare l\'installazione dell\'apk</string>
+  <string name="reboot">Riavvia</string>
   <string name="restart_launcher">Restart launcer</string>
   <string name="enable_apps_list">Enable apps list</string>
   <string name="disable_apps_list">Disable apps list</string>
