@@ -224,7 +224,11 @@
     <string name="apk_install_started">Apk install started\nthe installation is performed in the background\nReboot the watch after about 3 minutes to see the installed application</string>
     <string name="cant_start_apk_install">Can\'t start apk install</string>
     <string name="reboot">Reboot</string>
-    <string name="restart_launcher">Restart launcer</string>
+    <string name="restart_launcher">Restart launcher</string>
     <string name="enable_apps_list">Enable apps list</string>
     <string name="disable_apps_list">Disable apps list</string>
+    <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
+    <string name="no_service_info_2">1) Download the latest release here:</string>
+    <string name="no_service_info_3">2) Then install the service apk file on the watch</string>
+    <string name="no_service_info_4">3) Finally, restart both the watch and the phone</string>
 </resources>

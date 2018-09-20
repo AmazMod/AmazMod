@@ -189,7 +189,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="activity_files_backup_not_found">File di backup non trovato!</string>
   <string name="pref_disable_standard_notifications">Disattiva notifiche standard</string>
   <string name="pref_disable_standard_notifications_summary">Le notifiche standard (stock) non verranno inviate all\'orologio</string>
-  <string name="activity_tweaking_brightness">Per attivare questa opzione, disattiva prima la luminosità automatica nelle impostazioni dell\'orologio</string>
+  <string name="activity_tweaking_brightness">Per utilizzare questa funzionalità, disattiva prima la luminosità automatica nelle impostazioni dell\'orologio</string>
   <string name="failed_load_watch_status">Impossibile caricare lo status dell\'orologio</string>
   <string name="settings_applied">Impostazioni applicate</string>
   <string name="settings_cant_be_applied">Le impostazioni non possono essere applicate</string>
@@ -207,8 +207,16 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="enable_low_power">Attiva la modalità di risparmio energetico sull\'orologio</string>
   <string name="failed_to_send_command">Invio del comando all\'orologio fallito</string>
   <string name="command_sent">Comando inviato all\'orologio con successo</string>
-  <string name="execute_shell_command">Execute a shell command</string>
-  <string name="run">Run</string>
-  <string name="shell_command_sent">Command sent</string>
-  <string name="cant_send_shell_command">Can\'t send command</string>
+  <string name="execute_shell_command">Esegui un comando shell</string>
+  <string name="run">Esegui</string>
+  <string name="shell_command_sent">Comando inviato</string>
+  <string name="cant_send_shell_command">Impossibile inviare il comando</string>
+  <string name="install">Installa</string>
+  <string name="apk_install_started_title">Installa apk</string>
+  <string name="apk_install_started">L\'installazione dell\'apk è iniziata!\nL\'installazione viene eseguita in background\nRiavvia l\'orologio tra circa 3 minuti per vedere l\'applicazione installata</string>
+  <string name="cant_start_apk_install">Impossibile avviare l\'installazione dell\'apk</string>
+  <string name="reboot">Riavvia orologio</string>
+  <string name="restart_launcher">Riavvia launcher</string>
+  <string name="enable_apps_list">Attiva applist</string>
+  <string name="disable_apps_list">Disattiva applist</string>
 </resources>

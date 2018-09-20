@@ -19,11 +19,15 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.BuildConfig;
+
 import amazmod.com.transport.Constants;
+
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huami.watch.notification.data.StatusBarNotificationData;
@@ -136,11 +140,19 @@ public class AboutActivity extends AppCompatActivity {
             case ('R'): {
                 notificationData.setForceCustom(false);
                 notificationData.setText("Revoke Admin Owner");
+
+                FirebaseAnalytics
+                        .getInstance(this)
+                        .logEvent(FirebaseEvents.TWEAKING_DISABLE_ADMIN, null);
                 break;
             }
             case ('L'): {
                 notificationData.setForceCustom(false);
                 notificationData.setText("Enable Low Power Mode");
+
+                FirebaseAnalytics
+                        .getInstance(this)
+                        .logEvent(FirebaseEvents.TWEAKING_ENABLE_LPM, null);
                 break;
             }
             default:
@@ -272,7 +284,7 @@ public class AboutActivity extends AppCompatActivity {
         }
 */
         StatusBarNotification sbn = new StatusBarNotification("com.edotassi.amazmod", "",
-                nextId+1,"tag", 0, 0, 0,
+                nextId + 1, "tag", 0, 0, 0,
                 notification, android.os.Process.myUserHandle(),
                 System.currentTimeMillis());
 
@@ -316,10 +328,10 @@ public class AboutActivity extends AppCompatActivity {
                                 .setText(R.string.test_notification_sent)
                                 .setDuration(Snacky.LENGTH_SHORT)
                                 .build().show();
-                        }
-                        break;
                     }
+                    break;
                 }
+            }
         });
 
         //Disconnect transporter to avoid leaking

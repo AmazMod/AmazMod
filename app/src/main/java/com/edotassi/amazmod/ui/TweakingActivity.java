@@ -9,19 +9,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
-
-import org.greenrobot.eventbus.EventBus;
 
 import amazmod.com.transport.data.BrightnessData;
 import butterknife.BindView;
@@ -101,6 +99,12 @@ public class TweakingActivity extends AppCompatActivity {
                                     .setText(R.string.brightness_applied)
                                     .setDuration(Snacky.LENGTH_SHORT)
                                     .build().show();
+
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("value", seekBar.getProgress());
+                            FirebaseAnalytics
+                                    .getInstance(TweakingActivity.this)
+                                    .logEvent(FirebaseEvents.TWEAKING_BRIGHTENESS_CHANGE, bundle);
                         } else {
                             Snacky.builder()
                                     .setActivity(TweakingActivity.this)
@@ -118,21 +122,29 @@ public class TweakingActivity extends AppCompatActivity {
     @OnClick(R.id.activity_tweaking_reboot)
     public void reboot() {
         execCommandInternally(ShellCommandHelper.getReboot());
+
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT, null);
     }
 
     @OnClick(R.id.activity_tweaking_restart_launcher)
     public void restartLauncher() {
         execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher());
+
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_RESTART_LAUNCHER, null);
     }
 
     @OnClick(R.id.activity_tweaking_enable_apps_list)
     public void enableAppsList() {
         execCommandInternally(ShellCommandHelper.getEnableAppsList());
+
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_ENABLE_APPS_LIST, null);
     }
 
     @OnClick(R.id.activity_tweaking_disable_apps_list)
     public void disableAppList() {
         execCommandInternally(ShellCommandHelper.getDisableAppsList());
+
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_DISABLE_APPS_LIST, null);
     }
 
     @OnClick(R.id.activity_tweaking_exec_command_run)
@@ -149,6 +161,8 @@ public class TweakingActivity extends AppCompatActivity {
 
         String command = commandEditText.getText().toString();
         execCommandInternally(command);
+
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_EXECUTED, null);
     }
 
     private void execCommandInternally(String command) {
