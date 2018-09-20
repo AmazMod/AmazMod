@@ -20,9 +20,8 @@ import android.util.Log;
 
 import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
-import com.amazmod.service.MainService;
 import com.amazmod.service.R;
-import com.amazmod.service.events.incoming.LowPower;
+import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.ui.NotificationActivity;
 import com.amazmod.service.util.DeviceUtil;
@@ -101,14 +100,8 @@ public class NotificationService {
                 } else if (notificationSpec.getKey().equals("amazmod|test|9979")) {
                     Log.d(Constants.TAG, "NotificationService3 notificationSpec.getKey(): " + notificationSpec.getKey());
                     postWithStandardUI(notificationSpec, hideReplies);
-                } else if (notificationSpec.getText().equals("Revoke Admin Owner")) {
-                    Log.d(Constants.TAG, "NotificationService4 notificationSpec.getKey(): " + notificationSpec.getKey());
-                    revokeAdminOwner();
-                } else if (notificationSpec.getText().equals("Enable Low Power Mode")) {
-                    Log.d(Constants.TAG, "NotificationService5 notificationSpec.getKey(): " + notificationSpec.getKey());
-                    HermesEventBus.getDefault().post(new LowPower(new DataBundle()));
                 }
-            //Handles normal notifications
+                //Handles normal notifications
             } else {
                 Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + notificationSpec.getKey());
                 if (enableCustomUI || forceCustom) {
@@ -126,7 +119,6 @@ public class NotificationService {
 
 
     private void postWithStandardUI(NotificationData notificationData, boolean disableNotificationReplies) {
-
         Intent intent = new Intent();
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
@@ -249,7 +241,6 @@ public class NotificationService {
     }
 
     private void postWithCustomUI(NotificationData notificationSpec) {
-
         Intent intent = new Intent(context, NotificationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -271,21 +262,6 @@ public class NotificationService {
             return new Gson().fromJson(replies, listType);
         } catch (Exception ex) {
             return new ArrayList<>();
-        }
-    }
-
-    private void revokeAdminOwner() {
-        DevicePolicyManager mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-        try {
-            if (mDPM != null) {
-                ComponentName componentName = new ComponentName(context, AdminReceiver.class);
-                mDPM.clearDeviceOwnerApp(context.getPackageName());
-                mDPM.removeActiveAdmin(componentName);
-            }
-        } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "NotificationService revokeAdminOwner NullPointerException: " + e.toString());
-        } catch (SecurityException e) {
-            Log.e(Constants.TAG, "NotificationService revokeAdminOwner SecurityException: " + e.toString());
         }
     }
 
