@@ -221,4 +221,8 @@
   <string name="no_service_info_2">1) Скачайте последнюю версию отсюда:</string>
   <string name="no_service_info_3">2) Затем установите сервисное приложение на часы</string>
   <string name="no_service_info_4">3) В конце перезагрузите часы и телефон</string>
+  <string name="enable_lpm_title">Enable LPM</string>
+  <string name="revoke_admin">Revoke admin</string>
+  <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
+  <string name="continue_label">Continue</string>
 </resources>
