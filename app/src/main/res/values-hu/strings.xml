@@ -37,8 +37,8 @@
   <string name="file_not_exists">A fájl nem létezik</string>
   <string name="cant_uplaod_directory">A könyvtár nem tölthető fel</string>
   <string name="sending">Küldés</string>
-  <string name="cant_upload_file">A fájl nem tölthető fel</string>
-  <string name="cant_download_file">A fájlt nem lehet letölteni</string>
+  <string name="cant_upload_file">Nem lehet feltölteni</string>
+  <string name="cant_download_file">Nem lehet letölteni</string>
   <string name="file_upload_canceled">A feltöltés törölve</string>
   <string name="file_download_canceled">A fájl letöltés törölve</string>
   <string name="file_downloaded">A fájl letöltve</string>
