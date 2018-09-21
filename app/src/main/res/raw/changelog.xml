@@ -1,7 +1,8 @@
 <changelog>
     <release
-        versionCode="178"
-        versionName="v1.0.48">
+        versionCode="179"
+        versionName="v1.0.49"
+        date="2018-09-21">
         <new>File explorer with file transfer</new>
         <new>Adb command executor in tweaking section</new>
         <new>Low Power Mode</new>
@@ -9,18 +10,11 @@
         <new>Theme in custom notifications</new>
         <new>Better battery management in custom notifications (need admin owner to enable it)</new>
         <new>GreatFit integration</new>
-        <info>Improved disconnected state</info>
-        <info>Minor fixes</info>
-    </release>
-    <release
-        versionCode="168"
-        versionName="v1.0.38">
-        <new>Basic file explorer</new>
-        <new>Basic integration with GreatFit</new>
         <new>Added Spanish translation</new>
         <new>Added Hungarian translation</new>
         <info>Updated translations</info>
-        <bugfix>Minor fix</bugfix>
+        <info>Improved disconnected state</info>
+        <info>Minor fix</info>
     </release>
     <release
         versionCode="163"
