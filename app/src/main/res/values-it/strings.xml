@@ -226,5 +226,5 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="enable_lpm_title">Enable LPM</string>
   <string name="revoke_admin">Revoke admin</string>
   <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
-  <string name="continue_label">Continue</string>
+  <string name="continue_label">Continua</string>
 </resources>
