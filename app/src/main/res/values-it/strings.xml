@@ -225,6 +225,6 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="no_service_info_4">3) Infine riavvia sia l\'orologio che il telefono</string>
   <string name="enable_lpm_title">Attiva LPM</string>
   <string name="revoke_admin">Revoca admin</string>
-  <string name="enable_lpm_content">Questa funzione è in fase sperimentale, una volta attivata per disattivarla è necessario riavviare l\'orologio</string>
+  <string name="enable_lpm_content">Questa funzione è in fase sperimentale e ti permette di mettere l\'orologio in modalità di basso consumo, una volta attivata per disattivarla è necessario riavviare l\'orologio</string>
   <string name="continue_label">Continua</string>
 </resources>
