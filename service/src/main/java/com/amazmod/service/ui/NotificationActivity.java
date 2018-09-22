@@ -2,15 +2,12 @@ package com.amazmod.service.ui;
 
 import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -30,9 +27,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
-import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.util.DeviceUtil;
-import com.amazmod.service.util.SystemProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,6 +40,7 @@ import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationActivity extends Activity {
@@ -189,11 +185,7 @@ public class NotificationActivity extends Activity {
                 replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 replyButton.setAllCaps(true);
                 replyButton.setText(R.string.replies);
-                if(enableInvertedTheme) {
-                    setButtonTheme(replyButton, Constants.BLUE);
-                }else{
-                    setButtonTheme(replyButton, Constants.GREY);
-                }
+                setButtonTheme(replyButton, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             } else {
                 replyButton.setVisibility(View.GONE);
             }
@@ -201,7 +193,6 @@ public class NotificationActivity extends Activity {
             closeButton.setAllCaps(true);
             closeButton.setText(R.string.close);
             setButtonTheme(closeButton, Constants.RED);
-
         }
 
         handler = new Handler();
@@ -254,13 +245,15 @@ public class NotificationActivity extends Activity {
     }
 
     @OnClick(R.id.activity_notification_button_close)
-    public void clickClose() {
+    public void clickClose(Button b) {
+        b.setBackground(getDrawable(R.drawable.reply_dark_grey));
         //mustLockDevice = true;
         finish();
     }
 
     @OnClick(R.id.activity_notification_button_reply)
-    public void clickReply() {
+    public void clickReply(Button b) {
+        b.setBackground(getDrawable(R.drawable.reply_dark_grey));
         text.setVisibility(View.GONE);
         time.setVisibility(View.GONE);
         buttonsLayout.setVisibility(View.GONE);
@@ -332,23 +325,21 @@ public class NotificationActivity extends Activity {
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        param.setMargins(20,2,20,2);
+        param.setMargins(20,8,20,8);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             Button button = new Button(this);
             button.setLayoutParams(param);
+            button.setPadding(0,8,0,8);
             button.setText(reply.getValue());
             button.setAllCaps(false);
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-            if(enableInvertedTheme) {
-                setButtonTheme(button, Constants.BLUE);
-            }else{
-                setButtonTheme(button, Constants.GREY);
-            }
+            setButtonTheme(button, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.setBackground(getDrawable(R.drawable.reply_dark_grey));
                     HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
                     finish();
                 }
@@ -357,6 +348,7 @@ public class NotificationActivity extends Activity {
         }
         //Add Close button
         Button button = new Button(this);
+        button.setPadding(0,8,0,8);
         button.setLayoutParams(param);
         button.setText(R.string.close);
         button.setAllCaps(true);
@@ -365,6 +357,7 @@ public class NotificationActivity extends Activity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setBackground(getDrawable(R.drawable.reply_dark_grey));
                 finish();
             }
         });
@@ -436,7 +429,7 @@ public class NotificationActivity extends Activity {
             getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff2 mode: " + mode);
+                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff2 mode: " + mode + " / screenMode: " + screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
                 params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
