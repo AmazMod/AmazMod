@@ -163,7 +163,7 @@
   <string name="activity_permissions_open_settings">פתיחת הגדרות</string>
   <string name="enabled">מאופשר</string>
   <string name="disabled">מבוטל</string>
-  <string name="activity_files_extras">ניהול קבצים</string>
+  <string name="activity_files_extras">Backup settings</string>
   <string name="activity_files_backup_title">גיבוי ושחזור</string>
   <string name="activity_files_permission">הרשאה לכתיבה</string>
   <string name="activity_files_date_last_backup">תאריך גיבוי אחרון</string>
@@ -225,4 +225,6 @@
   <string name="revoke_admin">שלילת admin</string>
   <string name="enable_lpm_content">פונקציה זו עדיין נסיונית, ברגע שהיא מופעלת, על מנת לנטרל אותה, יש צורך להפעיל את השעון מחדש</string>
   <string name="continue_label">המשך</string>
+  <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>
