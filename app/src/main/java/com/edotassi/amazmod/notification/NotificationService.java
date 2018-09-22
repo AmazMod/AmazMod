@@ -120,20 +120,24 @@ public class NotificationService extends NotificationListenerService {
 
         String notificationPackage = statusBarNotification.getPackageName();
         if (!isPackageAllowed(notificationPackage)) {
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_PACKAGE));
             storeForStats(statusBarNotification, Constants.FILTER_PACKAGE);
             return;
         }
 
         if (isNotificationsDisabled()) {
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_NOTIFICATIONS_DISABLED));
             storeForStats(statusBarNotification, Constants.FILTER_NOTIFICATIONS_DISABLED);
             return;
         }
 
         if (isNotificationsDisabledWhenScreenOn()) {
             if (!Screen.isDeviceLocked(this)) {
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_SCREENON));
                 storeForStats(statusBarNotification, Constants.FILTER_SCREENON);
                 return;
             } else if (!isNotificationsEnabledWhenScreenLocked()) {
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_SCREENLOCKED));
                 storeForStats(statusBarNotification, Constants.FILTER_SCREENLOCKED);
                 return;
             }
@@ -142,6 +146,8 @@ public class NotificationService extends NotificationListenerService {
         byte filterResult = filter(statusBarNotification);
 
         boolean notificationSent = false;
+
+        log.d("NotificationService notificationPackage:" + notificationPackage + " / filterResult: " + Character.toString((char) (byte)filterResult));
 
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
@@ -158,8 +164,10 @@ public class NotificationService extends NotificationListenerService {
             }
 
             if (notificationSent) {
+                log.d("NotificationService sent: " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
                 storeForStats(statusBarNotification, filterResult);
             } else {
+                log.d("NotificationService blocked (FILTER_RETURN): " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
                 storeForStats(statusBarNotification, Constants.FILTER_RETURN);
             }
 
@@ -171,7 +179,7 @@ public class NotificationService extends NotificationListenerService {
                 mapNotification(statusBarNotification);
                 //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
             } else {
-                log.d("NotificationService blocked: " + notificationPackage);
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
                 storeForStats(statusBarNotification, filterResult);
             }
         }
@@ -375,7 +383,7 @@ public class NotificationService extends NotificationListenerService {
         if (bigText != null) {
             text = bigText.toString();
         }
-        log.d("NotificationService text: " + text);
+        log.d("NotificationService notificationPackage: "+ notificationPackage + " / text: " + text);
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (notificationTimeGone.containsKey(notificationId)) {
@@ -388,20 +396,28 @@ public class NotificationService extends NotificationListenerService {
             } else {
                 notificationTimeGone.put(notificationId, text);
                 lastTimeNotificationArrived = System.currentTimeMillis();
-                log.d("NotificationService allowed1");
-                if (localAllowed) {
-                    return returnFilterResult(Constants.FILTER_LOCALOK);
-                } else {
-                    return returnFilterResult(Constants.FILTER_UNGROUP);
-                }
+                log.d("NotificationService allowed1: " + notificationPackage);
+                //Logger.debug("notification allowed");
+                if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                    //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
+                    else return returnFilterResult(Constants.FILTER_UNGROUP);
             }
+        } else {
+            notificationTimeGone.put(notificationId, text);
+            log.d("NotificationService allowed2: " + notificationPackage);
+            if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                else return returnFilterResult(Constants.FILTER_CONTINUE);
         }
 
+        /* Disabled because it is blocking some notifications
         NotficationSentEntity notificationSentEntity = SQLite
                 .select()
                 .from(NotficationSentEntity.class)
                 .where(NotficationSentEntity_Table.id.eq(notificationId))
                 .querySingle();
+
+        log.d("NotificationService filter notificationPackage: " + notificationPackage
+                + " / notificationId:" + notificationId + " / notificationSentEntity: " + notificationSentEntity);
 
         if (notificationSentEntity == null) {
             NotficationSentEntity notficationSentEntity = new NotficationSentEntity();
@@ -412,6 +428,7 @@ public class NotificationService extends NotificationListenerService {
             try {
                 FlowManager.getModelAdapter(NotficationSentEntity.class).insert(notficationSentEntity);
             } catch (Exception ex) {
+                log.e(ex,"NotificationService notificationSentEntity exception: " + ex.toString());
                 Crashlytics.logException(ex);
             }
 
@@ -425,6 +442,7 @@ public class NotificationService extends NotificationListenerService {
         } else {
             return returnFilterResult(Constants.FILTER_BLOCK);
         }
+        */
     }
 
     private boolean isNotificationsDisabled() {
