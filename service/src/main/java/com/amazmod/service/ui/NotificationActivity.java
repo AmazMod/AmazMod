@@ -331,7 +331,7 @@ public class NotificationActivity extends Activity {
 
     private void setFontLocale(TextView tv, String locale) {
         Log.i(Constants.TAG, "NotificationActivity setFontLocale TextView: " + locale);
-        if (locale.contains("he")) {
+        if (locale.contains("iw")) {
             Typeface face = Typeface.createFromAsset(getAssets(),"fonts/DroidSansFallback.ttf");
             tv.setTypeface(face);
         }
@@ -339,7 +339,7 @@ public class NotificationActivity extends Activity {
 
     private void setFontLocale(Button b, String locale) {
         Log.i(Constants.TAG, "NotificationActivity setFontLocale Button: " + locale);
-        if (locale.contains("he")) {
+        if (locale.contains("iw")) {
             Typeface face = Typeface.createFromAsset(getAssets(),"fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
         }

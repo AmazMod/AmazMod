@@ -13,7 +13,7 @@
     <!-- Strings used by AdminReceiver -->
     <string name="device_admin">Device Admin</string>
     <string name="device_admin_description">Grant lock screen access</string>
-    <string name="admin_receiver_status">AmazMod Device Admin: %1$s</string>
+    <string name="admin_receiver_status">AmazMod\nDevice Admin: %1$s</string>
     <string name="admin_receiver_status_enabled">enabled</string>
     <string name="admin_receiver_status_disabled">disabled</string>
     <string name="admin_receiver_status_disable_warning">

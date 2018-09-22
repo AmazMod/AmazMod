@@ -225,4 +225,6 @@
     <string name="continue_label">Continue</string>
     <string name="pref_file_extras">Backup and restore settings</string>
     <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
+    <string name="reboot_bootloader">Enter fastboot</string>
+    <string name="set_admin">Set admin</string>
 </resources>
