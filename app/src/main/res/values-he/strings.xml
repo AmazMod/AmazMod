@@ -51,7 +51,7 @@
   <string name="battery_chart_title">תרשים סוללה</string>
   <string name="watch_info">מידע שעון</string>
   <string name="last_charge">מאז טעינה מלאה</string>
-  <string name="last_charge_no_info">ממתין לנתונים</string>
+  <string name="last_charge_no_info">Waiting for full charge</string>
   <string name="notification_block">חסום</string>
   <string name="notification_continue">המשך</string>
   <string name="notification_group">אחד</string>
