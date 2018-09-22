@@ -49,7 +49,7 @@
     <string name="battery_chart_title">Battery chart</string>
     <string name="watch_info">Watch\'s information</string>
     <string name="last_charge">Since full charge</string>
-    <string name="last_charge_no_info">Waiting for data</string>
+    <string name="last_charge_no_info">Waiting for full charge</string>
     <string name="notification_block">Block</string>
     <string name="notification_continue">Continue</string>
     <string name="notification_group">Group</string>

@@ -116,7 +116,7 @@ public class NotificationActivity extends Activity {
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
         defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
-
+        Log.i(Constants.TAG, "NotificationActivity defaultLocale: " + defaultLocale);
 
         setWindowFlags(true);
 
@@ -330,15 +330,17 @@ public class NotificationActivity extends Activity {
     }
 
     private void setFontLocale(TextView tv, String locale) {
+        Log.i(Constants.TAG, "NotificationActivity setFontLocale TextView: " + locale);
         if (locale.contains("he")) {
-            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NotoSansHebrew-Regular.ttf");
+            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/DroidSansFallback.ttf");
             tv.setTypeface(face);
         }
     }
 
     private void setFontLocale(Button b, String locale) {
+        Log.i(Constants.TAG, "NotificationActivity setFontLocale Button: " + locale);
         if (locale.contains("he")) {
-            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NotoSansHebrew-Regular.ttf");
+            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
         }
     }

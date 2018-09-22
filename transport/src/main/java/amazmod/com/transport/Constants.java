@@ -8,7 +8,7 @@ public class Constants {
     public static final String INITIAL_PATH = "/sdcard";
     public static final String DOWNLOAD_DIRECTORY = "AmazMod";
 
-    public static final String SHELL_COMMAND_INSTALL_APK = "adb install %s";
+    public static final String SHELL_COMMAND_INSTALL_APK = "adb install -r \'%s\'";
     public static final String SHELL_COMMAND_REBOOT = "adb shell reboot";
     public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
     public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "adb shell touch /sdcard/launcher_config.ini";
