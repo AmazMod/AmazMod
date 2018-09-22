@@ -165,7 +165,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="activity_permissions_open_settings">Az app beállításaihoz</string>
   <string name="enabled">engedélyezve</string>
   <string name="disabled">letiltva</string>
-  <string name="activity_files_extras">Fájl extrák</string>
+  <string name="activity_files_extras">Backup settings</string>
   <string name="activity_files_backup_title">Bizt.mentés és Helyreállítás</string>
   <string name="activity_files_permission">Írási engedély</string>
   <string name="activity_files_date_last_backup">Utolsó bizt.mentés dátuma</string>
@@ -228,4 +228,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="revoke_admin">Admin visszavonás</string>
   <string name="enable_lpm_content">Ez a funkció még kísérleti, ha be- majd kikapcsoltad, újra kell indítani az órát</string>
   <string name="continue_label">Tovább</string>
+  <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>
