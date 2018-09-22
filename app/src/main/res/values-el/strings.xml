@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Διάγραμμα μπαταρίας</string>
   <string name="watch_info">Πληροφορίες Ρολογιού</string>
   <string name="last_charge">από την τελευταία φόρτιση</string>
-  <string name="last_charge_no_info">Αναμονή δεδομένων</string>
+  <string name="last_charge_no_info">Waiting for full charge</string>
   <string name="notification_block">Φραγή</string>
   <string name="notification_continue">Συνέχεια</string>
   <string name="notification_group">Ομαδοποίηση</string>
