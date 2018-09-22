@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Akku diagram</string>
   <string name="watch_info">Óra információ</string>
   <string name="last_charge">az utolsó töltés óta</string>
-  <string name="last_charge_no_info">Várakozás az adatokra</string>
+  <string name="last_charge_no_info">Waiting for full charge</string>
   <string name="notification_block">Blokk</string>
   <string name="notification_continue">Folytatás</string>
   <string name="notification_group">Csoport</string>
