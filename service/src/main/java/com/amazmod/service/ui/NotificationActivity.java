@@ -261,16 +261,10 @@ public class NotificationActivity extends Activity {
 
     @OnClick(R.id.activity_notification_button_reply)
     public void clickReply() {
-        Intent intent = new Intent(this, RepliesActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(notificationSpec.toBundle());
-        intent.putExtra("MUSTLOCKDEVICE", mustLockDevice);
-        this.startActivity(intent);
-        mustLockDevice = false;
-        finish();
+        text.setVisibility(View.GONE);
+        time.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.GONE);
+        addReplies();
     }
 
     private void startTimerFinish() {
