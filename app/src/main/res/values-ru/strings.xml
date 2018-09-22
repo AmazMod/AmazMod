@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Данные батареи</string>
   <string name="watch_info">Информация о часах</string>
   <string name="last_charge">C полного заряда</string>
-  <string name="last_charge_no_info">Ожидание данных</string>
+  <string name="last_charge_no_info">Waiting for full charge</string>
   <string name="notification_block">Блокировать</string>
   <string name="notification_continue">Продолжить</string>
   <string name="notification_group">Группа</string>
