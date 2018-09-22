@@ -218,7 +218,7 @@
             android:title="@string/pref_file_extras">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetClass="com.edotassi.amazmod.ui.FileExtrasActivity"
+                android:targetClass="com.edotassi.amazmod.ui.FilesExtrasActivity"
                 android:targetPackage="com.edotassi.amazmod" />
         </Preference>
         <Preference
