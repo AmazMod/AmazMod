@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Gráfica de batería</string>
   <string name="watch_info">Información del reloj</string>
   <string name="last_charge">Desde la última carga</string>
-  <string name="last_charge_no_info">Esperando datos</string>
+  <string name="last_charge_no_info">Waiting for full charge</string>
   <string name="notification_block">Bloquear</string>
   <string name="notification_continue">Continuar</string>
   <string name="notification_group">Agrupar</string>
