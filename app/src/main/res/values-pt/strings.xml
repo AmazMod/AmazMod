@@ -163,7 +163,7 @@
   <string name="activity_permissions_open_settings">Abrir configurações do app</string>
   <string name="enabled">habilitado</string>
   <string name="disabled">desabilitado</string>
-  <string name="activity_files_extras">Extras de arquivos</string>
+  <string name="activity_files_extras">Backup settings</string>
   <string name="activity_files_backup_title">Backup e Restauração</string>
   <string name="activity_files_permission">Permissão para escrever</string>
   <string name="activity_files_date_last_backup">Data do último backup</string>
@@ -225,4 +225,6 @@
   <string name="revoke_admin">Revogar admin</string>
   <string name="enable_lpm_content">Esta função continua experimental, quando habilitado para desabilitar você precisa reiniciar o relógio</string>
   <string name="continue_label">Continuar</string>
+  <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>
