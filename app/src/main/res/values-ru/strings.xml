@@ -163,7 +163,7 @@
   <string name="activity_permissions_open_settings">Открыть настройки приложения</string>
   <string name="enabled">Включено</string>
   <string name="disabled">Выключено</string>
-  <string name="activity_files_extras">Доп. Файлы</string>
+  <string name="activity_files_extras">Backup settings</string>
   <string name="activity_files_backup_title">Резервное копирование и восстановление</string>
   <string name="activity_files_permission">Разрешение на запись</string>
   <string name="activity_files_date_last_backup">Последнее резервное копирование</string>
@@ -225,4 +225,6 @@
   <string name="revoke_admin">Revoke admin</string>
   <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
   <string name="continue_label">Continue</string>
+  <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>
