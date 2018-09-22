@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -74,6 +75,7 @@ public class NotificationActivity extends Activity {
     private static int screenMode;
     private static int screenBrightness = 999989;
     private static boolean mustLockDevice;
+    private static String defaultLocale;
     private boolean enableInvertedTheme;
     private Context mContext;
 
@@ -113,6 +115,8 @@ public class NotificationActivity extends Activity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
+        defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
+
 
         setWindowFlags(true);
 
@@ -150,6 +154,7 @@ public class NotificationActivity extends Activity {
 
             icon.setImageBitmap(bitmap);
             title.setText(notificationSpec.getTitle());
+            setFontLocale(text, defaultLocale);
             text.setText(notificationSpec.getText());
             time.setText(notificationSpec.getTime());
 
@@ -184,6 +189,7 @@ public class NotificationActivity extends Activity {
             if (!hideReplies) {
                 replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 replyButton.setAllCaps(true);
+                setFontLocale(replyButton, defaultLocale);
                 replyButton.setText(R.string.replies);
                 setButtonTheme(replyButton, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             } else {
@@ -191,6 +197,7 @@ public class NotificationActivity extends Activity {
             }
             closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
             closeButton.setAllCaps(true);
+            setFontLocale(closeButton, defaultLocale);
             closeButton.setText(R.string.close);
             setButtonTheme(closeButton, Constants.RED);
         }
@@ -322,6 +329,20 @@ public class NotificationActivity extends Activity {
         }
     }
 
+    private void setFontLocale(TextView tv, String locale) {
+        if (locale.contains("he")) {
+            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NotoSansHebrew-Regular.ttf");
+            tv.setTypeface(face);
+        }
+    }
+
+    private void setFontLocale(Button b, String locale) {
+        if (locale.contains("he")) {
+            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/NotoSansHebrew-Regular.ttf");
+            b.setTypeface(face);
+        }
+    }
+
     private void addReplies() {
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -333,6 +354,7 @@ public class NotificationActivity extends Activity {
             Button button = new Button(this);
             button.setLayoutParams(param);
             button.setPadding(0,8,0,8);
+            setFontLocale(button, defaultLocale);
             button.setText(reply.getValue());
             button.setAllCaps(false);
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
@@ -351,6 +373,7 @@ public class NotificationActivity extends Activity {
         Button button = new Button(this);
         button.setPadding(0,8,0,8);
         button.setLayoutParams(param);
+        setFontLocale(button, defaultLocale);
         button.setText(R.string.close);
         button.setAllCaps(true);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
