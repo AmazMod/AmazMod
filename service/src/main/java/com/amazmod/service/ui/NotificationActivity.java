@@ -296,10 +296,11 @@ public class NotificationActivity extends Activity {
                 try {
                     mDPM.lockNow();
                 } catch (SecurityException ex) {
-                    Toast.makeText(
-                            this,
-                            getResources().getText(R.string.device_owner),
-                            Toast.LENGTH_LONG).show();
+                    //Toast.makeText(
+                    //        this,
+                    //        getResources().getText(R.string.device_owner),
+                    //        Toast.LENGTH_LONG).show();
+                    Log.w(Constants.TAG, getResources().getString(R.string.device_owner));
                     Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
                 }
             }

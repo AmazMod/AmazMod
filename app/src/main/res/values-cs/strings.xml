@@ -179,4 +179,6 @@ Vychutnejte si používání AmazModu! ♡"</string>
     <string name="enable_low_power">Enable low power mode on watch</string>
     <string name="failed_to_send_command">Sending command to watch failed</string>
     <string name="command_sent">Sending command to watch was successful</string>
+    <string name="pref_file_extras">Backup and restore settings</string>
+    <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>

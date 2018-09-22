@@ -225,4 +225,6 @@
   <string name="revoke_admin">Revogar admin</string>
   <string name="enable_lpm_content">Esta função continua experimental, quando habilitado para desabilitar você precisa reiniciar o relógio</string>
   <string name="continue_label">Continuar</string>
+    <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>

@@ -227,4 +227,6 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="revoke_admin">Revoca admin</string>
   <string name="enable_lpm_content">Questa funzione è in fase sperimentale e ti permette di mettere l\'orologio in modalità di basso consumo, una volta attivata per disattivarla è necessario riavviare l\'orologio</string>
   <string name="continue_label">Continua</string>
+    <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>

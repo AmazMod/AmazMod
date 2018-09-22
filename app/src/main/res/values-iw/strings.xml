@@ -225,4 +225,6 @@
   <string name="revoke_admin">שלילת admin</string>
   <string name="enable_lpm_content">פונקציה זו עדיין נסיונית, ברגע שהיא מופעלת, על מנת לנטרל אותה, יש צורך להפעיל את השעון מחדש</string>
   <string name="continue_label">המשך</string>
+    <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>

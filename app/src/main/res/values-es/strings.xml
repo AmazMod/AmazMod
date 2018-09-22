@@ -226,4 +226,6 @@
   <string name="revoke_admin">Revoke admin</string>
   <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
   <string name="continue_label">Continue</string>
+    <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
 </resources>
