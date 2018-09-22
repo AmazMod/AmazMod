@@ -327,7 +327,7 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-    private byte filter(StatusBarNotification statusBarNotification) {
+        private byte filter(StatusBarNotification statusBarNotification) {
         if (notificationTimeGone == null) {
             notificationTimeGone = new HashMap<>();
         }
@@ -375,7 +375,7 @@ public class NotificationService extends NotificationListenerService {
         if (bigText != null) {
             text = bigText.toString();
         }
-        log.d("NotificationService text: " + text);
+        log.d("NotificationService notificationPackage: "+ notificationPackage + " / text: " + text);
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (notificationTimeGone.containsKey(notificationId)) {
@@ -388,20 +388,28 @@ public class NotificationService extends NotificationListenerService {
             } else {
                 notificationTimeGone.put(notificationId, text);
                 lastTimeNotificationArrived = System.currentTimeMillis();
-                log.d("NotificationService allowed1");
-                if (localAllowed) {
-                    return returnFilterResult(Constants.FILTER_LOCALOK);
-                } else {
-                    return returnFilterResult(Constants.FILTER_UNGROUP);
-                }
+                log.d("NotificationService allowed1: " + notificationPackage);
+                //Logger.debug("notification allowed");
+                if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                    //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
+                    else return returnFilterResult(Constants.FILTER_UNGROUP);
             }
+        } else {
+            notificationTimeGone.put(notificationId, text);
+            log.d("NotificationService allowed2: " + notificationPackage);
+            if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                else return returnFilterResult(Constants.FILTER_CONTINUE);
         }
 
+        /* Disabled because it is blocking some notifications
         NotficationSentEntity notificationSentEntity = SQLite
                 .select()
                 .from(NotficationSentEntity.class)
                 .where(NotficationSentEntity_Table.id.eq(notificationId))
                 .querySingle();
+
+        log.d("NotificationService filter notificationPackage: " + notificationPackage
+                + " / notificationId:" + notificationId + " / notificationSentEntity: " + notificationSentEntity);
 
         if (notificationSentEntity == null) {
             NotficationSentEntity notficationSentEntity = new NotficationSentEntity();
@@ -412,6 +420,7 @@ public class NotificationService extends NotificationListenerService {
             try {
                 FlowManager.getModelAdapter(NotficationSentEntity.class).insert(notficationSentEntity);
             } catch (Exception ex) {
+                log.e(ex,"NotificationService notificationSentEntity exception: " + ex.toString());
                 Crashlytics.logException(ex);
             }
 
@@ -425,6 +434,7 @@ public class NotificationService extends NotificationListenerService {
         } else {
             return returnFilterResult(Constants.FILTER_BLOCK);
         }
+        */
     }
 
     private boolean isNotificationsDisabled() {
