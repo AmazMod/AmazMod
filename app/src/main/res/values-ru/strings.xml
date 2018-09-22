@@ -23,7 +23,7 @@
   <string name="show_system_apps">Показать системные приложения</string>
   <string name="replies">Ответы</string>
   <string name="installed_apps">Установленные приложения</string>
-  <string name="last_read">Последнее</string>
+  <string name="last_read">Последний раз</string>
   <string name="remaining_battery">Остаток заряда</string>
   <string name="full_battery_in">Полностью заряжен</string>
   <string name="open_notifications_log">Открыть журнал уведомлений</string>
@@ -46,8 +46,8 @@
   <string name="notification_access_not_enabled">Доступ к уведомлениям не включен</string>
   <string name="notification_access_enable">Включить</string>
   <string name="activity_about_notifications_test">Проверка уведомлений</string>
-  <string name="customui_test">Пользовательский</string>
-  <string name="standard_test">Стандартный</string>
+  <string name="customui_test">Пользовательское</string>
+  <string name="standard_test">Стандартное</string>
   <string name="battery_chart_title">Данные батареи</string>
   <string name="watch_info">Информация о часах</string>
   <string name="last_charge">C полного заряда</string>
@@ -73,7 +73,7 @@
   <string name="activity_about_devs">Разработчики</string>
   <string name="activity_about_testers">Тестеры</string>
   <string name="translators">Переводчики</string>
-  <string name="activity_watchface_need_greatfit">Вам нужно иметь циферблат \"GreatFit\" установленый на часы для корректной работы</string>
+  <string name="activity_watchface_need_greatfit">Необходим установленный циферблат \"GreatFit\" на часах для корректной работы</string>
   <string name="activity_watchface_send_data">Отправить данные телефона на часы (батарея, будильник)</string>
   <string name="activity_watchface_send_data_interval_prompt">Выберите интервал времени</string>
   <string name="activity_watchface_send_data_interval_summary">Установить интервал отправки данных</string>
@@ -112,7 +112,7 @@
   <string name="pref_force_english">Принудительный английский</string>
   <string name="pref_force_english_summary">Установить язык приложения на английском, он будет обновляться при закрытии настроек.</string>
   <string name="pref_disable_notifications_when_dnd">Режим не беспокоить</string>
-  <string name="pref_disable_notifications_when_dnd_summary">Уведомления не будут приходить, когда включен режим не беспокоить</string>
+  <string name="pref_disable_notifications_when_dnd_summary">Уведомления не будут приходить, когда включён режим не беспокоить</string>
   <string name="pref_disable_remove_notifications">Отключить удаление уведомлений</string>
   <string name="pref_disable_remove_notifications_summary">Уведомления не удаляются с часов при удалении с телефона</string>
   <string name="pref_enable_voice_apps">Уведомления о входящих вызовах</string>
@@ -187,7 +187,7 @@
   <string name="activity_files_backup_not_found">Файлы Резервного Копирования не найдены!</string>
   <string name="pref_disable_standard_notifications">Отключить стандартные уведомления</string>
   <string name="pref_disable_standard_notifications_summary">Стандартные (стоковые) уведомления не будут отправляться на часы</string>
-  <string name="activity_tweaking_brightness">Пожалуйста, отключите автоматическую яркость на часах для корректной работы</string>
+  <string name="activity_tweaking_brightness">Отключите автоматическую яркость на часах для корректной работы</string>
   <string name="failed_load_watch_status">Ошибка загрузки статуса часов</string>
   <string name="settings_applied">Настройки сохранены</string>
   <string name="settings_cant_be_applied">Настройки не могут быть сохранены</string>
@@ -221,10 +221,10 @@
   <string name="no_service_info_2">1) Скачайте последнюю версию отсюда:</string>
   <string name="no_service_info_3">2) Затем установите сервисное приложение на часы</string>
   <string name="no_service_info_4">3) В конце перезагрузите часы и телефон</string>
-  <string name="enable_lpm_title">Enable LPM</string>
-  <string name="revoke_admin">Revoke admin</string>
-  <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
-  <string name="continue_label">Continue</string>
+  <string name="enable_lpm_title">Включить LPM</string>
+  <string name="revoke_admin">Отменить администрирование</string>
+  <string name="enable_lpm_content">Функция ещё является экспериментальной, для её отключения необходимо перезагрузить часы</string>
+  <string name="continue_label">Продолжить</string>
   <string name="pref_file_extras">Настройки резервного копирования и восстановления</string>
   <string name="pref_file_extras_summary">Резервное копирование и восстановление настроек AmazMod</string>
 </resources>
