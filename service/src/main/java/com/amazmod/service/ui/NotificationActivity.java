@@ -12,6 +12,9 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
+import android.support.text.emoji.widget.EmojiButton;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -93,6 +96,10 @@ public class NotificationActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
+        config.setReplaceAll(true);
+        EmojiCompat.init(config);
 
         this.mContext = this;
 
@@ -353,7 +360,7 @@ public class NotificationActivity extends Activity {
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
-            Button button = new Button(this);
+            EmojiButton button = new EmojiButton(this);
             button.setLayoutParams(param);
             button.setPadding(0,8,0,8);
             setFontLocale(button, defaultLocale);

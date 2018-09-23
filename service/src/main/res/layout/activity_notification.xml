@@ -37,7 +37,7 @@
                     app:srcCompat="@drawable/amazmod" />
             </LinearLayout>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/notification_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                 android:text="00:00"
                 android:textColor="@color/text" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/notification_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,17 +79,17 @@
                 android:id="@+id/activity_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
                 android:background="@android:color/transparent"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/activity_notification_button_close"
-                    android:layout_width="100dp"
+                    android:layout_width="96dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
                     android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_marginTop="2dp"
                     android:gravity="end|center_vertical"
                     android:includeFontPadding="true"
@@ -100,10 +100,10 @@
 
                 <Button
                     android:id="@+id/activity_notification_button_reply"
-                    android:layout_width="100dp"
+                    android:layout_width="96dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="2dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginBottom="2dp"
                     android:layout_marginTop="2dp"
                     android:gravity="start|center_vertical"
                     android:includeFontPadding="true"
