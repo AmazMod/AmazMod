@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Grafico batteria</string>
   <string name="watch_info">Informazioni sull\'orologio</string>
   <string name="last_charge">dall\'ultima ricarica completa</string>
-  <string name="last_charge_no_info">Waiting for full charge</string>
+  <string name="last_charge_no_info">In attesa di una ricarica completa</string>
   <string name="notification_block">Blocca</string>
   <string name="notification_continue">Continua</string>
   <string name="notification_group">Raggruppa</string>
@@ -165,7 +165,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="activity_permissions_open_settings">Apri impostazioni applicazione</string>
   <string name="enabled">attivato</string>
   <string name="disabled">disattivato</string>
-  <string name="activity_files_extras">Backup settings</string>
+  <string name="activity_files_extras">Impostazioni di backup</string>
   <string name="activity_files_backup_title">Backup e ripristino</string>
   <string name="activity_files_permission">Permesso di scrittura</string>
   <string name="activity_files_date_last_backup">Data dell\'ultimo backup</string>
@@ -227,7 +227,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="revoke_admin">Revoca admin</string>
   <string name="enable_lpm_content">Questa funzione è in fase sperimentale e ti permette di mettere l\'orologio in modalità di basso consumo, una volta attivata per disattivarla è necessario riavviare l\'orologio</string>
   <string name="continue_label">Continua</string>
-  <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras">Impostazioni di backup e ripristino</string>
   <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
   <string name="reboot_bootloader">Enter fastboot</string>
   <string name="set_admin">Set admin</string>
