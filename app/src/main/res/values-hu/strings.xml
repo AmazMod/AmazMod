@@ -228,8 +228,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="revoke_admin">Admin visszavonás</string>
   <string name="enable_lpm_content">Ez a funkció még kísérleti, ha be- majd kikapcsoltad, újra kell indítani az órát</string>
   <string name="continue_label">Tovább</string>
-  <string name="pref_file_extras">Backup and restore settings</string>
-  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
-  <string name="reboot_bootloader">Enter fastboot</string>
-  <string name="set_admin">Set admin</string>
+  <string name="pref_file_extras">Mentés és v. állítás beállításai</string>
+  <string name="pref_file_extras_summary">AmazMod beáll. mentése és v.állítása</string>
+  <string name="reboot_bootloader">Fastboot-ba lép</string>
+  <string name="set_admin">Admin beállítás</string>
 </resources>
