@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Διάγραμμα μπαταρίας</string>
   <string name="watch_info">Πληροφορίες Ρολογιού</string>
   <string name="last_charge">από την τελευταία φόρτιση</string>
-  <string name="last_charge_no_info">Waiting for full charge</string>
+  <string name="last_charge_no_info">Αναμονή για την πλήρη φόρτιση</string>
   <string name="notification_block">Φραγή</string>
   <string name="notification_continue">Συνέχεια</string>
   <string name="notification_group">Ομαδοποίηση</string>
@@ -163,7 +163,7 @@
   <string name="activity_permissions_open_settings">Άνοιγμα ρυθμίσεων εφαρμογής</string>
   <string name="enabled">ενεργοποιημένο</string>
   <string name="disabled">απενεργοποιημένο</string>
-  <string name="activity_files_extras">Backup settings</string>
+  <string name="activity_files_extras">Ρυθμίσεις αντιγράφου ασφαλείας</string>
   <string name="activity_files_backup_title">Δημιουργία και επαναφορά αντιγράφων ασφαλείας</string>
   <string name="activity_files_permission">Δικαίωμα εγγραφής</string>
   <string name="activity_files_date_last_backup">Ημερομηνία τελευταίου αντίγραφου ασφαλείας</string>
@@ -225,7 +225,7 @@
   <string name="revoke_admin">Ανάκληση δικαιωμάτων διαχειριστή</string>
   <string name="enable_lpm_content">Αυτή η λειτουργία είναι ακόμα σε πειραματικό στάδιο, μετά την ενεργοποίηση, για να την απενεργοποιήσετε θα πρέπει να επανεκκινήσετε το ρολόι</string>
   <string name="continue_label">Συνέχεια</string>
-  <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="pref_file_extras">Ρυθμίσεις αντιγράφου ασφαλείας και επαναφορά</string>
   <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
   <string name="reboot_bootloader">Enter fastboot</string>
   <string name="set_admin">Set admin</string>
