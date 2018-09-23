@@ -228,7 +228,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="enable_lpm_content">Questa funzione è in fase sperimentale e ti permette di mettere l\'orologio in modalità di basso consumo, una volta attivata per disattivarla è necessario riavviare l\'orologio</string>
   <string name="continue_label">Continua</string>
   <string name="pref_file_extras">Impostazioni di backup e ripristino</string>
-  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
-  <string name="reboot_bootloader">Enter fastboot</string>
-  <string name="set_admin">Set admin</string>
+  <string name="pref_file_extras_summary">Impostazioni di backup e ripristino di AmazMod</string>
+  <string name="reboot_bootloader">Entra in fastboot</string>
+  <string name="set_admin">Imposta admin</string>
 </resources>
