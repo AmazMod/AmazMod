@@ -62,8 +62,7 @@
     <RelativeLayout
         android:id="@+id/frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_box="top">
+        android:layout_height="match_parent">
 
         <android.support.wearable.view.WearableListView
             android:id="@+id/list"

@@ -24,6 +24,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.ui.NotificationActivity;
+import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -69,9 +69,22 @@ dependencies {
     implementation files('../libs/SpringboardPluginLib.jar')
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/WearServices_libs.jar')
-    implementation 'com.google.android.support:wearable:1.4.0'
+    compileOnly 'com.google.android.wearable:wearable:2.3.0'
+    api 'com.google.android.support:wearable:2.3.0'
     implementation "com.android.support:appcompat-v7:$supportLibVersion"
     implementation "com.android.support:support-emoji:$supportLibVersion"
     implementation "com.android.support:support-emoji-appcompat:$supportLibVersion"
     implementation "com.android.support:support-emoji-bundled:$supportLibVersion"
+}
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '27.1.1'
+            }
+        }
+
+    }
 }

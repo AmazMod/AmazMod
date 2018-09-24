@@ -15,8 +15,11 @@ import android.provider.Settings;
 import android.support.text.emoji.EmojiCompat;
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.text.emoji.widget.EmojiButton;
+import android.support.wearable.view.BoxInsetLayout;
+import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -60,7 +63,9 @@ public class NotificationActivity extends Activity {
     @BindView(R.id.notification_replies_container)
     LinearLayout repliesContainer;
     @BindView(R.id.notification_root_layout)
-    LinearLayout rootLayout;
+    BoxInsetLayout rootLayout;
+    @BindView(R.id.notification_swipe_layout)
+    SwipeDismissFrameLayout swipeLayout;
 
     @BindView(R.id.activity_buttons)
     LinearLayout buttonsLayout;
@@ -107,6 +112,14 @@ public class NotificationActivity extends Activity {
 
         ButterKnife.bind(this);
 
+        swipeLayout.addCallback(new SwipeDismissFrameLayout.Callback() {
+                                    @Override
+                                    public void onDismissed(SwipeDismissFrameLayout layout) {
+                                        finish();
+                                    }
+                                }
+        );
+
         settingsManager = new SettingsManager(this);
 
         notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
@@ -137,12 +150,13 @@ public class NotificationActivity extends Activity {
         // Set theme and font size
         //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
-            rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+            swipeLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));
             title.setTextColor(getResources().getColor(R.color.black));
             text.setTextColor(getResources().getColor(R.color.black));
             icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
-        }
+        } else
+            swipeLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
         setFontSizeSP();
         time.setTextSize(fontSizeSP);
@@ -197,16 +211,21 @@ public class NotificationActivity extends Activity {
                 replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 replyButton.setAllCaps(true);
                 setFontLocale(replyButton, defaultLocale);
-                replyButton.setText(R.string.replies);
+                replyButton.setText(R.string.reply);
                 setButtonTheme(replyButton, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             } else {
                 replyButton.setVisibility(View.GONE);
             }
+            /* Disabled when using swipe to close
             closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
             closeButton.setAllCaps(true);
             setFontLocale(closeButton, defaultLocale);
             closeButton.setText(R.string.close);
-            setButtonTheme(closeButton, Constants.RED);
+            setButtonTheme(closeButton, Constants.RED); */
+            closeButton.setVisibility(View.GONE);
+            buttonsLayout.setOrientation(LinearLayout.VERTICAL);
+            replyButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            replyButton.setGravity(Gravity.CENTER);
         }
 
         handler = new Handler();
@@ -378,6 +397,7 @@ public class NotificationActivity extends Activity {
             });
             repliesContainer.addView(button);
         }
+        /* Disabled when using swipe to close
         //Add Close button
         Button button = new Button(this);
         button.setPadding(0,8,0,8);
@@ -394,7 +414,7 @@ public class NotificationActivity extends Activity {
                 finish();
             }
         });
-        repliesContainer.addView(button);
+        repliesContainer.addView(button); */
 
     }
 

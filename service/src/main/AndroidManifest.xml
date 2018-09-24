@@ -48,6 +48,7 @@
             android:theme="@style/Theme.Transparent">
         </activity>
         <activity android:name=".springboard.WearActivity" />
+        <activity android:name=".ui.NotificationWearActivity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
 
