@@ -2,11 +2,11 @@ package com.amazmod.service.events.incoming;
 
 import com.huami.watch.transport.DataBundle;
 
-public class LowPower {
+public class RevokeAdminOwner {
 
     private DataBundle dataBundle;
 
-    public LowPower(DataBundle dataBundle) {
+    public RevokeAdminOwner(DataBundle dataBundle) {
         this.dataBundle = dataBundle;
     }
 

@@ -101,14 +101,6 @@ public class AboutActivity extends AppCompatActivity {
                 sendTestMessage('N');
                 break;
             }
-            case (R.id.action_activity_about_revoke_device_owner): {
-                sendTestMessage('R');
-                break;
-            }
-            case (R.id.action_activity_about_low_power_mode): {
-                sendTestMessage('L');
-                break;
-            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -137,35 +129,12 @@ public class AboutActivity extends AppCompatActivity {
                 sendNotificationWithStandardUI(notificationData);
                 return;
             }
-            case ('R'): {
-                notificationData.setForceCustom(false);
-                notificationData.setText("Revoke Admin Owner");
-
-                FirebaseAnalytics
-                        .getInstance(this)
-                        .logEvent(FirebaseEvents.TWEAKING_DISABLE_ADMIN, null);
-                break;
-            }
-            case ('L'): {
-                notificationData.setForceCustom(false);
-                notificationData.setText("Enable Low Power Mode");
-
-                FirebaseAnalytics
-                        .getInstance(this)
-                        .logEvent(FirebaseEvents.TWEAKING_ENABLE_LPM, null);
-                break;
-            }
             default:
                 System.out.println("AmazMod AboutActivity sendTestMessage: something went wrong...");
         }
 
-        if (notificationData.getText().equals("Test Notification")) {
-            snackTextOK = getResources().getString(R.string.test_notification_sent);
-            snackTextFailure = getResources().getString(R.string.failed_to_send_test_notification);
-        } else {
-            snackTextOK = getResources().getString(R.string.command_sent);
-            snackTextFailure = getResources().getString(R.string.failed_to_send_command);
-        }
+        snackTextOK = getResources().getString(R.string.test_notification_sent);
+        snackTextFailure = getResources().getString(R.string.failed_to_send_test_notification);
 
         notificationData.setId(999);
         notificationData.setKey("amazmod|test|999");
@@ -217,7 +186,6 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void sendNotificationWithStandardUI(NotificationData nd) {
-
         DataBundle dataBundle = new DataBundle();
         Intent intent = new Intent();
         int nextId = (int) (long) (System.currentTimeMillis() % 10000L);
