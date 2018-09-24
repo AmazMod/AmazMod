@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Gráfico de bateria</string>
   <string name="watch_info">Informações do relógio</string>
   <string name="last_charge">Desde carga completa</string>
-  <string name="last_charge_no_info">Esperando por dados</string>
+  <string name="last_charge_no_info">Aguardando carga completa</string>
   <string name="notification_block">Bloquear</string>
   <string name="notification_continue">Continuar</string>
   <string name="notification_group">Grupo</string>
@@ -163,7 +163,7 @@
   <string name="activity_permissions_open_settings">Abrir configurações do app</string>
   <string name="enabled">habilitado</string>
   <string name="disabled">desabilitado</string>
-  <string name="activity_files_extras">Extras de arquivos</string>
+  <string name="activity_files_extras">Fazer backup das configurações</string>
   <string name="activity_files_backup_title">Backup e Restauração</string>
   <string name="activity_files_permission">Permissão para escrever</string>
   <string name="activity_files_date_last_backup">Data do último backup</string>
@@ -225,4 +225,8 @@
   <string name="revoke_admin">Revogar admin</string>
   <string name="enable_lpm_content">Esta função continua experimental, quando habilitado para desabilitar você precisa reiniciar o relógio</string>
   <string name="continue_label">Continuar</string>
+  <string name="pref_file_extras">Configurações de backup e restauração</string>
+  <string name="pref_file_extras_summary">Fazer backup e restaurar configurações do AmazMod</string>
+  <string name="reboot_bootloader">Entrar em Fastboot</string>
+  <string name="set_admin">Conceder Admin</string>
 </resources>

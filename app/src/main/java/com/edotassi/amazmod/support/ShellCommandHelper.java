@@ -16,6 +16,14 @@ public class ShellCommandHelper {
         return Constants.SHELL_COMMAND_REBOOT;
     }
 
+    public static String getRebootBootloader() {
+        return Constants.SHELL_COMMAND_FASTBOOT;
+    }
+
+    public static String getDPM() {
+        return Constants.SHELL_COMMAND_DPM;
+    }
+
     public static String getEnableAppsList() {
         return Constants.SHELL_COMMAND_ENABLE_APPS_LIST;
     }

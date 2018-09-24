@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.amazmod.service.springboard.WearableListItemLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <android.support.wearable.view.CircledImageView
+        android:id="@+id/image"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
+        android:alpha="0.85"
+        app:circle_border_color="@color/light_grey"
+        app:circle_border_width="3dp"
+        app:circle_color="@android:color/transparent"
+        app:circle_radius="@dimen/big_circle_radius"
+        app:circle_radius_pressed="@dimen/small_circle_radius" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:alpha="0.85"
+        android:gravity="center_vertical|end"
+        android:lineSpacingExtra="-4sp"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp" />
+
+</com.amazmod.service.springboard.WearableListItemLayout>
+

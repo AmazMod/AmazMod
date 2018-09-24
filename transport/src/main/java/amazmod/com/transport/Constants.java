@@ -8,11 +8,13 @@ public class Constants {
     public static final String INITIAL_PATH = "/sdcard";
     public static final String DOWNLOAD_DIRECTORY = "AmazMod";
 
-    public static final String SHELL_COMMAND_INSTALL_APK = "adb install %s";
-    public static final String SHELL_COMMAND_REBOOT = "adb shell reboot";
+    public static final String SHELL_COMMAND_INSTALL_APK = "adb install -r %s";
+    public static final String SHELL_COMMAND_REBOOT = "reboot";
+    public static final String SHELL_COMMAND_FASTBOOT = "reboot bootloader";
+    public static final String SHELL_COMMAND_DPM = "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver";
     public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
-    public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "adb shell touch /sdcard/launcher_config.ini";
-    public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "adb shell rm /sdcard/launcher_config.ini";
+    public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "touch /sdcard/launcher_config.ini";
+    public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "rm /sdcard/launcher_config.ini";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 

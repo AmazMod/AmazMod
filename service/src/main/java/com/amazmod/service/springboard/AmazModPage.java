@@ -68,57 +68,21 @@ public class AmazModPage extends AbstractPlugin {
 
         Log.d(Constants.TAG, "AmazModPage getView mContext: " + mContext.toString() + " / this: " + this.toString());
 
-        HermesEventBus.getDefault().register(this);
-
         version.setText(BuildConfig.VERSION_NAME);
 
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (SystemProperties.setSystemProperty("sys.state.powerlow", lowPower ? "true" : "false") != null) {
-                    Log.d(Constants.TAG, "AmazModPage getView longClick sys.state.powerlow: "
-                            + SystemProperties.getSystemProperty("sys.state.powerlow"));
-                }
-                BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
-                final String result = SystemProperties.getSystemProperty("sys.state.powerlow");
-                if (result != null) {
-                    if (result.equals("true")){
-                        Log.i(Constants.TAG, "AmazModPage getView disable BT");
-                        btmgr.disable();
-                        try {
-                            WifiManager wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-                            if (wfmgr !=null) {
-                                if (wfmgr.isWifiEnabled()) {
-                                    Log.i(Constants.TAG, "AmazModPage getView disable WiFi");
-                                    wfmgr.setWifiEnabled(false);
-                                }
-                            }
-                        } catch (NullPointerException e) {
-                            Log.e(Constants.TAG, "AmazModPage getView imageView.setOnLongClickListener exception: " + e.toString());
-                        }
-                        SystemProperties.goToSleep(mContext);
-                        //SystemProperties.switchPowerMode(mContext, lowPower);
-                        lowPower = false;
-                    } else {
-                        btmgr.enable();
-                        //SystemProperties.switchPowerMode(mContext, lowPower);
-                        lowPower = true;
-                    }
-                }
-                Toast.makeText(mContext, "lowPower: " + !lowPower, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, WearActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                //intent.putExtras(notificationSpec.toBundle());
+                mContext.startActivity(intent);
                 return true;
             }
         });
-
-        /* imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                BrightnessData brightnessData = new BrightnessData();
-                brightnessData.setLevel(123);
-                HermesEventBus.getDefault().post(brightnessData);
-
-            }
-        }); */
 
         //Initialize settings
         settingsWidget = new WidgetSettings(Constants.TAG, mContext);

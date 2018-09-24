@@ -149,6 +149,20 @@ public class TweakingActivity extends AppCompatActivity {
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_DISABLE_APPS_LIST, null);
     }
 
+    @OnClick(R.id.activity_tweaking_reboot_bootloader)
+    public void rebootBootloader() {
+        execCommandInternally(ShellCommandHelper.getRebootBootloader());
+
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT_BOOTLOADER, null);
+    }
+
+    @OnClick(R.id.activity_tweaking_set_admin)
+    public void setAdmin() {
+        execCommandInternally(ShellCommandHelper.getDPM());
+
+        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_ENABLE_ADMIN, null);
+    }
+
     @OnClick(R.id.activity_tweaking_enable_lpm)
     public void enableLpm() {
         new MaterialDialog.Builder(this)

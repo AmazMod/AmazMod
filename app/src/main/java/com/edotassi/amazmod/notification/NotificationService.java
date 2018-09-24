@@ -120,20 +120,24 @@ public class NotificationService extends NotificationListenerService {
 
         String notificationPackage = statusBarNotification.getPackageName();
         if (!isPackageAllowed(notificationPackage)) {
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_PACKAGE));
             storeForStats(statusBarNotification, Constants.FILTER_PACKAGE);
             return;
         }
 
         if (isNotificationsDisabled()) {
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_NOTIFICATIONS_DISABLED));
             storeForStats(statusBarNotification, Constants.FILTER_NOTIFICATIONS_DISABLED);
             return;
         }
 
         if (isNotificationsDisabledWhenScreenOn()) {
             if (!Screen.isDeviceLocked(this)) {
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_SCREENON));
                 storeForStats(statusBarNotification, Constants.FILTER_SCREENON);
                 return;
             } else if (!isNotificationsEnabledWhenScreenLocked()) {
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_SCREENLOCKED));
                 storeForStats(statusBarNotification, Constants.FILTER_SCREENLOCKED);
                 return;
             }
@@ -142,6 +146,8 @@ public class NotificationService extends NotificationListenerService {
         byte filterResult = filter(statusBarNotification);
 
         boolean notificationSent = false;
+
+        log.d("NotificationService notificationPackage:" + notificationPackage + " / filterResult: " + Character.toString((char) (byte)filterResult));
 
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
@@ -158,8 +164,10 @@ public class NotificationService extends NotificationListenerService {
             }
 
             if (notificationSent) {
+                log.d("NotificationService sent: " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
                 storeForStats(statusBarNotification, filterResult);
             } else {
+                log.d("NotificationService blocked (FILTER_RETURN): " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
                 storeForStats(statusBarNotification, Constants.FILTER_RETURN);
             }
 
@@ -171,7 +179,7 @@ public class NotificationService extends NotificationListenerService {
                 mapNotification(statusBarNotification);
                 //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
             } else {
-                log.d("NotificationService blocked: " + notificationPackage);
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
                 storeForStats(statusBarNotification, filterResult);
             }
         }
