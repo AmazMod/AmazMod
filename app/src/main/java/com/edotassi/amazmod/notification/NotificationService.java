@@ -335,7 +335,7 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-    private byte filter(StatusBarNotification statusBarNotification) {
+        private byte filter(StatusBarNotification statusBarNotification) {
         if (notificationTimeGone == null) {
             notificationTimeGone = new HashMap<>();
         }
