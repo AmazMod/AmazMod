@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Gráfica de batería</string>
   <string name="watch_info">Información del reloj</string>
   <string name="last_charge">Desde la última carga</string>
-  <string name="last_charge_no_info">Esperando datos</string>
+  <string name="last_charge_no_info">Waiting for full charge</string>
   <string name="notification_block">Bloquear</string>
   <string name="notification_continue">Continuar</string>
   <string name="notification_group">Agrupar</string>
@@ -164,7 +164,7 @@
   <string name="activity_permissions_open_settings">Abrir ajustes de la app</string>
   <string name="enabled">habilitado</string>
   <string name="disabled">deshabilitado</string>
-  <string name="activity_files_extras">Copia de seguridad</string>
+  <string name="activity_files_extras">Backup settings</string>
   <string name="activity_files_backup_title">Respaldar y restaurar</string>
   <string name="activity_files_permission">Permiso para escribir</string>
   <string name="activity_files_date_last_backup">Fecha del último respaldo</string>
@@ -222,12 +222,12 @@
   <string name="no_service_info_2">1) Descarga la última versión aquí:</string>
   <string name="no_service_info_3">2) Instala la apk del Servicio en el reloj</string>
   <string name="no_service_info_4">3) Finalmente, reinicia tanto el reloj como el teléfono</string>
-  <string name="enable_lpm_title">Enable LPM</string>
-  <string name="revoke_admin">Revoke admin</string>
-  <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
-  <string name="continue_label">Continue</string>
-    <string name="pref_file_extras">Backup and restore settings</string>
+  <string name="enable_lpm_title">Habilitar modo bajo consumo</string>
+  <string name="revoke_admin">Revocar privilegios de aministrador</string>
+  <string name="enable_lpm_content">Esta función es todavía experimental, una vez habilitado, para desactivarlo, tienes que reiniciar el reloj</string>
+  <string name="continue_label">Continuar</string>
+  <string name="pref_file_extras">Backup and restore settings</string>
   <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
-    <string name="reboot_bootloader">Enter fastboot</string>
+  <string name="reboot_bootloader">Enter fastboot</string>
   <string name="set_admin">Set admin</string>
 </resources>
