@@ -229,4 +229,6 @@
   <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
   <string name="reboot_bootloader">Enter fastboot</string>
   <string name="set_admin">Set admin</string>
+  <string name="shell_command_failed">Command failed</string>
+  <string name="result_code">Result code:</string>
 </resources>
