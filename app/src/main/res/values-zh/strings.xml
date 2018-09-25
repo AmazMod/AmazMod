@@ -218,8 +218,8 @@
   <string name="restart_launcher">重启桌面启动器</string>
   <string name="enable_apps_list">启用应用程序列表</string>
   <string name="disable_apps_list">禁用应用程序列表</string>
-  <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
-  <string name="no_service_info_2">1) Download the latest release here:</string>
+  <string name="no_service_info_1">如果您未在手表端安装服务程序, 将无法连接到手表端的 AmazMod 服务。请按照下列说明操作:</string>
+  <string name="no_service_info_2">1) 从下列地址下载最新发布版本:</string>
   <string name="no_service_info_3">2) Then install the service apk file on the watch</string>
   <string name="no_service_info_4">3) Finally, restart both the watch and the phone</string>
   <string name="enable_lpm_title">Enable LPM</string>
