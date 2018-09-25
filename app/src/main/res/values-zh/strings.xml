@@ -122,10 +122,10 @@
   <string name="pref_enable_notifications_when_locked">当手机端锁定时启用</string>
   <string name="pref_enable_notifications_when_locked_summary">在手机端亮屏且锁定时发送通知到手表端</string>
   <string name="pref_notifications_enable_ungroup">启用通知取消分组</string>
-  <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them tho)</string>
-  <string name="pref_filters">Notifications filters</string>
-  <string name="pref_enable_music_control_with_hardware_button">Enable hardware music control</string>
-  <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
+  <string name="pref_notifications_enable_ungroup_summary">来自同来源的通知将被单独显示 (您将无法同步它们)</string>
+  <string name="pref_filters">通知过滤器</string>
+  <string name="pref_enable_music_control_with_hardware_button">启用物理按键控制音乐</string>
+  <string name="pref_enable_music_control_with_hardware_button_summary">(实验性) 启用物理按键的音乐控制。按下最下方按钮播放/暂停音乐。长按切换下一首歌。</string>
   <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
   <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
   <string name="intro_title_1">Welcome to AmazMod!</string>
