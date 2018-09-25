@@ -126,9 +126,9 @@
   <string name="pref_filters">通知过滤器</string>
   <string name="pref_enable_music_control_with_hardware_button">启用物理按键控制音乐</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(实验性) 启用物理按键的音乐控制。按下最下方按钮播放/暂停音乐。长按切换下一首歌。</string>
-  <string name="pref_phone_connect_disconnect_alert">Alert when phone connects/disconnects</string>
-  <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
-  <string name="intro_title_1">Welcome to AmazMod!</string>
+  <string name="pref_phone_connect_disconnect_alert">手机端连接/断开时发出警报</string>
+  <string name="pref_phone_connect_disconnect_alert_summary">当与手机端连接/断开时, 手表端会震动并显示手机端的连接状态</string>
+  <string name="intro_title_1">欢迎使用 AmazMod!</string>
   <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
   <string name="intro_title_permissions">Access to Notifications</string>
   <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
