@@ -26,6 +26,7 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
+import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.watch.Watch;
@@ -424,12 +425,12 @@ public class FileExplorerActivity extends AppCompatActivity {
         final FileData fileData = fileExplorerAdapter.getItem(index);
         Watch.get()
                 .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
-                .continueWith(new Continuation<Void, Object>() {
+                .continueWith(new Continuation<ResultShellCommand, Object>() {
                     @Override
-                    public Object then(@NonNull Task<Void> task) throws Exception {
+                    public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
                         snackProgressBarManager.dismissAll();
 
-                        if (task.isSuccessful()) {
+                        if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
                             new MaterialDialog.Builder(FileExplorerActivity.this)
                                     .title(R.string.apk_install_started_title)
                                     .content(R.string.apk_install_started)

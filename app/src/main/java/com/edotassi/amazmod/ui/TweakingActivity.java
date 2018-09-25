@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.watch.Watch;
@@ -24,6 +26,7 @@ import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import amazmod.com.transport.data.BrightnessData;
+import amazmod.com.transport.data.ResultShellCommandData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -36,6 +39,12 @@ public class TweakingActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_tweaking_exec_command)
     EditText commandEditText;
+
+    @BindView(R.id.activity_tweaking_shell_result_code)
+    TextView shellResultCodeTextView;
+
+    @BindView(R.id.activity_tweaking_shell_result)
+    TextView shellResultEditText;
 
     private SnackProgressBarManager snackProgressBarManager;
 
@@ -282,17 +291,37 @@ public class TweakingActivity extends AppCompatActivity {
                 });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().executeShellCommand(command).continueWith(new Continuation<Void, Object>() {
+        Watch.get().executeShellCommand(command).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
-            public Object then(@NonNull Task<Void> task) throws Exception {
-                SnackProgressBar snackbar;
+            public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+
+                snackProgressBarManager.dismissAll();
+
                 if (task.isSuccessful()) {
-                    snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
+                    ResultShellCommand resultShellCommand = task.getResult();
+                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+
+                    if (resultShellCommandData.getResult() == 0) {
+
+                        shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
+                        shellResultEditText.setText(resultShellCommandData.getOutputLog());
+                    } else {
+                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+
+                        shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
+                        shellResultEditText.setText(resultShellCommandData.getOutputLog() + "\n" + resultShellCommandData.getErrorLog());
+
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    }
                 } else {
-                    snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
+                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
+
+                    shellResultCodeTextView.setText("");
+                    shellResultEditText.setText("");
+
+                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                 }
 
-                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                 return null;
             }
         });
