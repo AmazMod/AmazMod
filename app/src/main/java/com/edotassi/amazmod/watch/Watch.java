@@ -14,6 +14,7 @@ import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
+import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.DownloadHelper;
@@ -285,31 +286,16 @@ public class Watch {
         return taskCompletionSource.getTask();
     }
 
-    public Task<Void> executeShellCommand(final String command) {
-        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
-        getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
+    public Task<ResultShellCommand> executeShellCommand(final String command) {
+        final RequestShellCommandData requestShellCommandData = new RequestShellCommandData();
+        requestShellCommandData.setCommand(command);
+
+        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<ResultShellCommand>>() {
             @Override
-            public Object then(@NonNull Task<TransportService> task) throws Exception {
-                RequestShellCommandData requestShellCommandData = new RequestShellCommandData();
-                requestShellCommandData.setCommand(command);
-                task
-                        .getResult()
-                        .sendAndWait(Transport.REQUEST_SHELL_COMMAND, requestShellCommandData)
-                        .continueWith(new Continuation<Void, Object>() {
-                            @Override
-                            public Object then(@NonNull Task<Void> task) throws Exception {
-                                if (task.isSuccessful()) {
-                                    taskCompletionSource.setResult(null);
-                                } else {
-                                    taskCompletionSource.setException(task.getException());
-                                }
-                                return null;
-                            }
-                        });
-                return null;
+            public Task<ResultShellCommand> then(@NonNull Task<TransportService> task) throws Exception {
+                return task.getResult().sendWithResult(Transport.REQUEST_SHELL_COMMAND, Transport.RESULT_SHELL_COMMAND, requestShellCommandData);
             }
         });
-        return taskCompletionSource.getTask();
     }
 
     public Task<Void> enableLowPower() {

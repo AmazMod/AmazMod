@@ -16,6 +16,8 @@ public class FirebaseEvents {
     public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "shell_command_enable_apps_list";
     public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "shell_command_disable_apps_list";
     public static final String SHELL_COMMAND_RESTART_LAUNCHER = "shell_command_restart_launcher";
+    public static final String SHELL_COMMAND_REBOOT_BOOTLOADER = "shell_command_reboot_bootloader";
+    public static final String SHELL_COMMAND_ENABLE_ADMIN = "shell_command_enable_admin";
     public static final String GREATFIT_ALARM_TOGGLE = "greatfit_alarm_toggle";
     public static final String GREATFIT_BATTERY = "greatfit_battery";
     public static final String GREATFIT_SYNC_NOW = "greatfit_sync_now";

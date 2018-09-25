@@ -49,4 +49,5 @@ public class Constants {
     public static final String BLUE = "blue";
     public static final String GREY = "grey";
 
+    public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
 }

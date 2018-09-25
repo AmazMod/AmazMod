@@ -163,6 +163,7 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setDisableNotificationScreenOn(disableNotificationsScreenOn);
         settingsData.setPhoneConnectionAlert(phoneConnection);
         settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
+        settingsData.setDefaultLocale(Locale.getDefault().toString());
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override

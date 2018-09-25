@@ -214,6 +214,14 @@
             android:summary="@string/pref_force_english_summary"
             android:title="@string/pref_force_english" />
         <Preference
+            android:summary="@string/pref_file_extras_summary"
+            android:title="@string/pref_file_extras">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.edotassi.amazmod.ui.FilesExtrasActivity"
+                android:targetPackage="com.edotassi.amazmod" />
+        </Preference>
+        <Preference
             android:summary="@string/pref_check_permissions_summary"
             android:title="@string/pref_check_permissions">
             <intent
