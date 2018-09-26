@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Log;
@@ -48,6 +49,9 @@ public class PhoneConnectionActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
+    Vibrator vibrator;
+    int vibrate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,21 +62,40 @@ public class PhoneConnectionActivity extends Activity {
 
         setWindowFlags(true);
 
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
             // Phone disconnected
             // Wake screen and trow overlay here
             icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_erase));
             text.setText(getString(R.string.phone_disconnected));
+            vibrate = Constants.VIBRATION_LONG;
         }else{
             // Phone connected
             // Wake screen and trow overlay here
             icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_ring));
             text.setText(getString(R.string.phone_connected));
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            vibrate = Constants.VIBRATION_SHORT;
         }
 
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
+
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    if (vibrator != null) {
+                        vibrator.vibrate(vibrate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1500);
+
     }
 
     @Override
@@ -91,15 +114,17 @@ public class PhoneConnectionActivity extends Activity {
     }
 
     private void startTimerFinish() {
+
         // Vibrate
         try {
-            ((Vibrator) getSystemService(VIBRATOR_SERVICE)).vibrate(Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION);
+            vibrator.vibrate(Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         handler.removeCallbacks(activityFinishRunnable);
         handler.postDelayed(activityFinishRunnable, 3*1000);
+
     }
 
     @Override
