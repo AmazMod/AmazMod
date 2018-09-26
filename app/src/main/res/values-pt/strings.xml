@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">Sumário do intervalo de tempo do gráfico</string>
   <string name="pref_notifications_replies_summary">Insira respostas personalizadas separadas por vírgula</string>
   <string name="pref_notifications_replies">Respostas para notificações</string>
-  <string name="pref_disable_notifications_replies_summary">Sumário desabilitar respostas a notificações</string>
-  <string name="pref_disable_notifications_replies">Desabilitar respostas a notificações</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden, and well as replies</string>
+  <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Desabilitar notificações quando a tela estiver LIGADA</string>
   <string name="pref_disable_notifications_when_screen_on">Desabilitar quando a tela está LIGADA</string>
   <string name="pref_notifications_enable_custom_ui_summary">Sumário habilitar notificações personalizadas</string>
