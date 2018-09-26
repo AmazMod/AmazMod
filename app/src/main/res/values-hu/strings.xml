@@ -236,4 +236,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="result_code">Result code:</string>
   <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
+  <string name="battery_chart_waiting">Waiting for new battery data…</string>
 </resources>
