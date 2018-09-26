@@ -163,13 +163,15 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        param.setMargins(20,8,20,8);
+        param.setMargins(20,12,20,12);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             EmojiButton button = new EmojiButton(mContext);
             button.setLayoutParams(param);
-            button.setPadding(0,4,0,4);
+            button.setPadding(0,10,0,10);
+            button.setIncludeFontPadding(false);
+            button.setMinHeight(24);
             setFontLocale(button, defaultLocale);
             button.setText(reply.getValue());
             button.setAllCaps(false);
