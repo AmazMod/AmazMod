@@ -1,60 +1,41 @@
 package com.amazmod.service.ui;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.text.emoji.EmojiCompat;
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
-import android.support.text.emoji.widget.EmojiButton;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
-import android.support.wearable.view.GridViewPager;
 import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.GridViewPagerAdapter;
-import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
+import com.amazmod.service.support.HorizontalGridViewPager;
+import com.amazmod.service.ui.fragments.NotificationFragment;
+import com.amazmod.service.ui.fragments.RepliesFragment;
 import com.amazmod.service.util.DeviceUtil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationWearActivity extends Activity {
 
-    @BindView(R.id.notification_wear_swipe_layout)
+    @BindView(R.id.activity_wear_swipe_layout)
     SwipeDismissFrameLayout swipeLayout;
-    @BindView(R.id.notification_wear_root_layout)
+    @BindView(R.id.activity_wear_root_layout)
     BoxInsetLayout rootLayout;
 
     private Handler handler;
@@ -70,7 +51,7 @@ public class NotificationWearActivity extends Activity {
 
     private SettingsManager settingsManager;
 
-    private GridViewPager mGridViewPager;
+    private HorizontalGridViewPager mGridViewPager;
     private DotsPageIndicator mPageIndicator;
 
     private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
@@ -104,7 +85,13 @@ public class NotificationWearActivity extends Activity {
         mGridViewPager = findViewById(R.id.pager);
         mPageIndicator = findViewById(R.id.page_indicator);
         mPageIndicator.setPager(mGridViewPager);
-        GridViewPagerAdapter adapter = new GridViewPagerAdapter(this, getFragmentManager(), notificationSpec);
+
+        final Fragment[] items = {
+                NotificationFragment.newInstance(notificationSpec.toBundle()),
+                RepliesFragment.newInstance(notificationSpec.toBundle())
+        };
+
+        GridViewPagerAdapter adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);
 
         settingsManager = new SettingsManager(this);
@@ -147,7 +134,7 @@ public class NotificationWearActivity extends Activity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        findViewById(R.id.notification_wear_swipe_layout).dispatchTouchEvent(event);
+        findViewById(R.id.activity_wear_root_layout).dispatchTouchEvent(event);
 
         if (screenToggle) {
             setScreenModeOff(false);

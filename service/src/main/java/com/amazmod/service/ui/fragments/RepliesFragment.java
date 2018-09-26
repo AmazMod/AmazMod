@@ -1,22 +1,22 @@
 package com.amazmod.service.ui.fragments;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.text.emoji.widget.EmojiButton;
+import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
+import android.support.wearable.view.DelayedConfirmationView;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,19 +35,17 @@ import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
-import static android.content.Context.VIBRATOR_SERVICE;
+public class RepliesFragment extends Fragment implements DelayedConfirmationView.DelayedConfirmationListener {
 
-public class CustomFragment extends Fragment {
-
-    TextView title, time, text;
-    ImageView icon;
-    LinearLayout repliesContainer, buttonsLayout;
+    LinearLayout repliesContainer;
     BoxInsetLayout rootLayout;
-    Button closeButton, replyButton;
+    NotificationData notificationSpec;
+    private DelayedConfirmationView delayedConfirmationView;
 
-    private static float fontSizeSP;
-    private int id;
-    private static String defaultLocale;
+    private TextView textView;
+
+    private float fontSizeSP;
+    private String defaultLocale, selectedReply;
     private boolean enableInvertedTheme;
     private Context mContext;
     private SettingsManager settingsManager;
@@ -55,24 +53,36 @@ public class CustomFragment extends Fragment {
     private static final float FONT_SIZE_NORMAL = 14.0f;
     private static final float FONT_SIZE_LARGE = 18.0f;
     private static final float FONT_SIZE_HUGE = 22.0f;
-    private static final String ID = "id";
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = activity.getBaseContext();
+        Log.i(Constants.TAG,"RepliesFragment onAttach context: " + mContext);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        notificationSpec = NotificationData.fromBundle(getArguments());
+
+        Log.d(Constants.TAG,"RepliesFragment onCreate " + notificationSpec);
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        Log.d(Constants.TAG,"RepliesFragment onCreateView");
 
-        return inflater.inflate(R.layout.fragment_custom, container, false);
+        return inflater.inflate(R.layout.fragment_replies, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(Constants.TAG,"RepliesFragment onViewCreated");
 
         updateContent();
 
@@ -87,88 +97,34 @@ public class CustomFragment extends Fragment {
     private void updateContent(){
         mContext = getActivity();
 
-        id = getArguments().getInt(ID, 1);
-        Log.i(Constants.TAG, "CustomFragment id: " + id);
-        NotificationData notificationSpec = getArguments().getParcelable(NotificationData.EXTRA);
+        Log.d(Constants.TAG,"RepliesFragment updateContent " + notificationSpec);
 
         settingsManager = new SettingsManager(mContext);
 
-        title = getActivity().findViewById(R.id.notification_title);
-        time = getActivity().findViewById(R.id.notification_time);
-        text = getActivity().findViewById(R.id.notification_text);
-        icon = getActivity().findViewById(R.id.notification_icon);
-        repliesContainer = getActivity().findViewById(R.id.notification_replies_container);
-        rootLayout = getActivity().findViewById(R.id.notification_root_layout);
-        buttonsLayout = getActivity().findViewById(R.id.activity_buttons);
-        replyButton = getActivity().findViewById(R.id.activity_notification_button_reply);
-        closeButton = getActivity().findViewById(R.id.activity_notification_button_close);
-
-        boolean hideReplies;
+        repliesContainer = getActivity().findViewById(R.id.fragment_replies_replies_container);
+        rootLayout = getActivity().findViewById(R.id.fragment_replies_root_layout);
+        textView = getActivity().findViewById(R.id.fragment_replies_textview);
+        delayedConfirmationView = getActivity().findViewById(R.id.delayedView);
+        delayedConfirmationView.setTotalTimeMs(3000);
 
         //Load preferences
-        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
-                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
         defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
-        Log.i(Constants.TAG, "CustomFragment defaultLocale: " + defaultLocale);
+        Log.i(Constants.TAG, "RepliesFragment defaultLocale: " + defaultLocale);
 
 
         // Set theme and font size
         //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
-            time.setTextColor(getResources().getColor(R.color.black));
-            title.setTextColor(getResources().getColor(R.color.black));
-            text.setTextColor(getResources().getColor(R.color.black));
-            icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
+            textView.setTextColor(getResources().getColor(R.color.black));
         }
 
+        delayedConfirmationView.setVisibility(View.GONE);
         setFontSizeSP();
-        time.setTextSize(fontSizeSP);
-        title.setTextSize(fontSizeSP);
-        text.setTextSize(fontSizeSP);
+        addReplies();
 
-        try {
-
-            hideReplies = notificationSpec.getHideReplies();
-
-            int[] iconData = notificationSpec.getIcon();
-            int iconWidth = notificationSpec.getIconWidth();
-            int iconHeight = notificationSpec.getIconHeight();
-            Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
-
-            icon.setImageBitmap(bitmap);
-            title.setText(notificationSpec.getTitle());
-            setFontLocale(text, defaultLocale);
-            text.setText(notificationSpec.getText());
-            time.setText(notificationSpec.getTime());
-
-            if (notificationSpec.getVibration() > 0) {
-                Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
-                if (vibrator != null) {
-                    vibrator.vibrate(notificationSpec.getVibration());
-                }
-            }
-
-        } catch (NullPointerException ex) {
-            Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString()
-                    + " notificationSpec: " + notificationSpec);
-            title.setText("AmazMod");
-            text.setText("Welcome to AmazMod");
-            time.setText("00:00");
-            icon.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.amazmod));
-            hideReplies = true;
-        }
-
-        buttonsLayout.setVisibility(View.GONE);
-
-        if (id == 2) {
-            text.setVisibility(View.GONE);
-            time.setVisibility(View.GONE);
-            addReplies(notificationSpec);
-        }
     }
 
 
@@ -188,7 +144,7 @@ public class CustomFragment extends Fragment {
     }
 
     private void setFontLocale(TextView tv, String locale) {
-        Log.i(Constants.TAG, "NotificationActivity setFontLocale TextView: " + locale);
+        Log.i(Constants.TAG, "RepliesFragment setFontLocale TextView: " + locale);
         if (locale.contains("iw")) {
             Typeface face = Typeface.createFromAsset(mContext.getAssets(),"fonts/DroidSansFallback.ttf");
             tv.setTypeface(face);
@@ -196,24 +152,26 @@ public class CustomFragment extends Fragment {
     }
 
     private void setFontLocale(Button b, String locale) {
-        Log.i(Constants.TAG, "NotificationActivity setFontLocale Button: " + locale);
+        Log.i(Constants.TAG, "RepliesFragment setFontLocale Button: " + locale);
         if (locale.contains("iw")) {
             Typeface face = Typeface.createFromAsset(mContext.getAssets(),"fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
         }
     }
 
-    private void addReplies(final NotificationData notificationData) {
+    private void addReplies() {
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        param.setMargins(20,8,20,8);
+        param.setMargins(20,12,20,12);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             EmojiButton button = new EmojiButton(mContext);
             button.setLayoutParams(param);
-            button.setPadding(0,8,0,8);
+            button.setPadding(0,10,0,10);
+            button.setIncludeFontPadding(false);
+            button.setMinHeight(24);
             setFontLocale(button, defaultLocale);
             button.setText(reply.getValue());
             button.setAllCaps(false);
@@ -222,9 +180,8 @@ public class CustomFragment extends Fragment {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    v.setBackground(mContext.getDrawable(R.drawable.reply_dark_grey));
-                    final NotificationData notificationSpec = notificationData;
-                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
+                    selectedReply = reply.getValue();
+                    sendReply(v);
                 }
             });
             repliesContainer.addView(button);
@@ -268,19 +225,52 @@ public class CustomFragment extends Fragment {
         }
     }
 
-    public static CustomFragment newInstance(int id, NotificationData notificationData) {
-        CustomFragment myFragment = new CustomFragment();
-
-        Bundle args = new Bundle();
-        args.putInt(ID, id);
-        args.putParcelable(NotificationData.EXTRA, notificationData);
-        myFragment.setArguments(args);
-
-        return myFragment;
+    private void sendReply(View v) {
+        repliesContainer.setVisibility(View.GONE);
+        delayedConfirmationView.setVisibility(View.VISIBLE);
+        textView.setText("Sending in 3s…");
+        delayedConfirmationView.setPressed(false);
+        delayedConfirmationView.start();
+        delayedConfirmationView.setListener(this);
+        Log.i(Constants.TAG, "RepliesFragment sendReply isPressed: " + delayedConfirmationView.isPressed());
     }
 
-    public String getFragmentId() {
-        return ("frag"+String.valueOf(getArguments().getInt(ID, 1)));
+    @Override
+    public void onTimerSelected(View v) {
+        v.setPressed(true);
+        delayedConfirmationView.reset();
+
+        // Prevent onTimerFinished from being heard.
+        ((DelayedConfirmationView) v).setListener(null);
+        delayedConfirmationView.setVisibility(View.GONE);
+        repliesContainer.setVisibility(View.VISIBLE);
+        textView.setText(getActivity().getResources().getString(R.string.reply));
+        Log.i(Constants.TAG, "RepliesFragment onTimerSelected isPressed: " + v.isPressed());
+    }
+
+    @Override
+    public void onTimerFinished(View v) {
+        Log.i(Constants.TAG, "RepliesFragment onTimerFinished isPressed: " + v.isPressed());
+
+        ((DelayedConfirmationView) v).setListener(null);
+
+        Intent intent = new Intent(mContext, ConfirmationActivity.class);
+        intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);
+        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Reply Sent!");
+        startActivity(intent);
+
+        HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), selectedReply));
+        getActivity().finish();
+
+    }
+
+    public static RepliesFragment newInstance(Bundle b) {
+
+        Log.i(Constants.TAG,"RepliesFragment newInstance");
+        RepliesFragment myFragment = new RepliesFragment();
+        myFragment.setArguments(b);
+
+        return myFragment;
     }
 
 }

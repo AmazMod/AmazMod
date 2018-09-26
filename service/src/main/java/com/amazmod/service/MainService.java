@@ -19,6 +19,7 @@ import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -94,6 +95,7 @@ import amazmod.com.transport.data.WatchfaceData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static java.lang.System.currentTimeMillis;
+import static java.lang.System.in;
 
 /**
  * Created by edoardotassinari on 04/04/18.
@@ -205,7 +207,7 @@ public class MainService extends Service implements Transporter.DataListener {
         isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, false);
         isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
         if (isPhoneConnectionAlertEnabled) {
-            registerConnectionMonitor(true, isPhoneConnectionStandardAlertEnabled);
+            registerConnectionMonitor(true);
         }
     }
 
@@ -361,8 +363,10 @@ public class MainService extends Service implements Transporter.DataListener {
         settingsManager.sync(settingsData);
 
         //Toggle phone connect/disconnect monitor if settings changed
-        if (isPhoneConnectionAlertEnabled != settingsData.isPhoneConnectionAlert()) {
-            registerConnectionMonitor(settingsData.isPhoneConnectionAlert(), settingsData.isPhoneConnectionAlertStandardNotification());
+        boolean iPCA = settingsData.isPhoneConnectionAlert();
+        isPhoneConnectionStandardAlertEnabled = settingsData.isPhoneConnectionAlertStandardNotification();
+        if (isPhoneConnectionAlertEnabled != iPCA) {
+            registerConnectionMonitor(iPCA);
         }
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
@@ -664,7 +668,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-    private void registerConnectionMonitor(boolean status, final boolean standardAlert) {
+    private void registerConnectionMonitor(boolean status) {
         Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
         if (status) {
             ContentResolver contentResolver = getContentResolver();
@@ -673,11 +677,11 @@ public class MainService extends Service implements Transporter.DataListener {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    if (standardAlert) {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + standardAlert);
+                    if (isPhoneConnectionStandardAlertEnabled) {
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         sendStandardAlert();
                     } else {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + standardAlert);
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         Intent intent = new Intent(context, PhoneConnectionActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -703,6 +707,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private void sendStandardAlert() {
 
         NotificationData notificationData = new NotificationData();
+        final int vibrate;
 
         final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
 
@@ -717,14 +722,18 @@ public class MainService extends Service implements Transporter.DataListener {
 
         final Drawable drawable;
 
+        final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         if (android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")) {
             // Phone disconnected
             drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
             notificationData.setText(getString(R.string.phone_disconnected));
+            vibrate = Constants.VIBRATION_LONG;
         } else {
             // Phone connected
             drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
             notificationData.setText(getString(R.string.phone_connected));
+            vibrate = Constants.VIBRATION_SHORT;
         }
 
         try {
@@ -747,6 +756,18 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         notificationManager.post(notificationData);
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    if (vibrator != null) {
+                        vibrator.vibrate(vibrate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1500);
     }
 
 }

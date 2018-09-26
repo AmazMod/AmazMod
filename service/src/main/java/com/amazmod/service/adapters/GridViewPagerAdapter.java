@@ -4,17 +4,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.app.FragmentTransaction;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 
-import com.amazmod.service.ui.fragments.CustomFragment;
 import com.amazmod.service.models.Row;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import amazmod.com.transport.data.NotificationData;
 
 /**
  * Created by ashok.kumar on 05/04/16.
@@ -23,14 +18,16 @@ public class GridViewPagerAdapter extends FragmentGridPagerAdapter {
 
     private List<Row> mRows = new ArrayList<Row>();
 
-    public GridViewPagerAdapter(Context context, FragmentManager fm, NotificationData notificationData) {
+    public GridViewPagerAdapter(Context context, FragmentManager fm, Fragment[] items) {
         super(fm);
 
-        CustomFragment notif = CustomFragment.newInstance(1, notificationData);
-        CustomFragment replies = CustomFragment.newInstance(2, notificationData);
+        //Bundle bundle = notificationData.toBundle();
+        //NotificationFragment notif = NotificationFragment.newInstance("Frag_01", bundle);
+        //NotificationFragment replies = NotificationFragment.newInstance("Frag_02", bundle);
+        //RepliesFragment replies = RepliesFragment.newInstance(bundle);
+        //NotificationFragment frag = new NotificationFragment();
 
-        Row row = new Row(notif, replies);
-
+        Row row = new Row(items [0], items[1]);
         //row.addBackground(context.getResources().getDrawable(R.drawable.bg1));
         mRows.add(row);
 

@@ -242,7 +242,7 @@ public class NotificationService {
     }
 
     private void postWithCustomUI(NotificationData notificationSpec) {
-        Intent intent = new Intent(context, NotificationActivity.class);
+        Intent intent = new Intent(context, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
