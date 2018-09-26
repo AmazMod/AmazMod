@@ -233,4 +233,5 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="set_admin">Imposta admin</string>
     <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
+  <string name="battery_chart_waiting">Waiting for new battery data…</string>
 </resources>
