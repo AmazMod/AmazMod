@@ -230,4 +230,6 @@
   <string name="pref_file_extras_summary">备份和还原 AmazMod 设置</string>
   <string name="reboot_bootloader">进入 fastboot 模式</string>
   <string name="set_admin">设置管理员</string>
+  <string name="shell_command_failed">Command failed</string>
+  <string name="result_code">Result code:</string>
 </resources>

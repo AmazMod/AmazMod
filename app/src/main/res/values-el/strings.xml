@@ -229,4 +229,6 @@
   <string name="pref_file_extras_summary">Ρυθμίσεις αντιγράφου ασφαλείας και επαναφοράς του AmazMod</string>
   <string name="reboot_bootloader">Επανεκκίνηση στο fastboot</string>
   <string name="set_admin">Ορισμός διαχειριστή</string>
+  <string name="shell_command_failed">Command failed</string>
+  <string name="result_code">Result code:</string>
 </resources>

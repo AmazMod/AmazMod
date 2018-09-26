@@ -229,4 +229,6 @@
   <string name="pref_file_extras_summary">גיבוי ושיחזור הגדרות Amazmod</string>
   <string name="reboot_bootloader">הכנס את השעון לFastboot</string>
   <string name="set_admin">קבע כAdmin</string>
+  <string name="shell_command_failed">הפקודה נכשלה</string>
+  <string name="result_code">תוצאת פקודה:</string>
 </resources>
