@@ -1,16 +1,24 @@
 package com.edotassi.amazmod.ui.fragment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
 import amazmod.com.transport.Constants;
@@ -54,9 +62,22 @@ public class BatteryChartFragment extends Card {
     TextView lastRead;
     @BindView(R.id.textView2)
     TextView batteryTv;
+    @BindView(R.id.imageView2)
+    ImageView imageView;
+    @BindView(R.id.card_battery)
+    CardView cardView;
 
     @BindView(R.id.battery_chart)
     LineChart chart;
+
+    private static Context mContext;
+    private static long lastDateLong, lastDateChart;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = activity.getBaseContext();
+    }
 
     @Nullable
     @Override
@@ -71,6 +92,31 @@ public class BatteryChartFragment extends Card {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
+        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.d(Constants.TAG, "BatteryChartFragment onLongCLick lasDateChart: " + lastDateChart + " / lastDateLong: " + lastDateLong);
+                updateChart();
+                if (lastDateChart == lastDateLong || lastDateLong == 0) {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_request), Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent("com.edotassi.amazmod.USER_ACTION");
+                    mContext.getApplicationContext().sendBroadcast(i);
+                    Handler mHandler = new Handler();
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            updateChart();
+                        }
+                    }, 5000);
+                    lastDateLong = lastDateChart;
+                } else {
+                    updateChart();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_updated), Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            }
+        });
 
         updateChart();
     }
@@ -113,6 +159,7 @@ public class BatteryChartFragment extends Card {
         if (batteryReadList.size() > 0) {
             BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
             Date lastDate = new Date(lastEntity.getDate());
+            lastDateChart = lastEntity.getDate();
 
             long lastChargeDate = lastEntity.getDateLastCharge();
             StringBuilder dateDiff = new StringBuilder();

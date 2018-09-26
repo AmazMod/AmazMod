@@ -229,4 +229,6 @@
   <string name="pref_file_extras_summary">Резервное копирование и восстановление настроек AmazMod</string>
   <string name="reboot_bootloader">Enter fastboot</string>
   <string name="set_admin">Set admin</string>
+    <string name="battery_chart_updated">Battery chart updated with new data</string>
+  <string name="battery_chart_request">Requesting new battery data…</string>
 </resources>

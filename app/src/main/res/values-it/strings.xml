@@ -231,4 +231,6 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="pref_file_extras_summary">Impostazioni di backup e ripristino di AmazMod</string>
   <string name="reboot_bootloader">Entra in fastboot</string>
   <string name="set_admin">Imposta admin</string>
+    <string name="battery_chart_updated">Battery chart updated with new data</string>
+  <string name="battery_chart_request">Requesting new battery data…</string>
 </resources>
