@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">A diagram által tartalmazott napok száma</string>
   <string name="pref_notifications_replies_summary">Írd be a saját, előre megadott válaszaid</string>
   <string name="pref_notifications_replies">Értesítési válaszok</string>
-  <string name="pref_disable_notifications_replies_summary">Egyéni értesítés válaszok kikapcsolása</string>
-  <string name="pref_disable_notifications_replies">Értesítés válaszok kikapcsolása</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden, and well as replies</string>
+  <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Nem küld értesítést bekapcsolt telefon képernyőnél</string>
   <string name="pref_disable_notifications_when_screen_on">Kikapcsol, ha a képernyő BE</string>
   <string name="pref_notifications_enable_custom_ui_summary">Képes leszel válaszolni az értesítésekre</string>
