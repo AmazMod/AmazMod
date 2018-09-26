@@ -49,6 +49,7 @@
         </activity>
         <activity android:name=".springboard.WearActivity" />
         <activity android:name=".ui.NotificationWearActivity" />
+        <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
 

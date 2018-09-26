@@ -4,8 +4,8 @@
     <string name="title_activity_notification">NotificationActivity</string>
     <string name="last_charge">Since full charge</string>
     <string name="last_charge_no_info">Waiting for full charge</string>
-    <string name="close">Close&#160;&#160;</string>
-    <string name="reply">&#160;&#160;Reply</string>
+    <string name="close">Close</string>
+    <string name="reply">Replies</string>
     <string name="phone_disconnected">Phone disconnected</string>
     <string name="phone_connected">Phone connected</string>
     <string name="phone_connection_alert">Connection Alert</string>

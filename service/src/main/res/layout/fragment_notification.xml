@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/notification_root_layout"
+    android:id="@+id/fragment_custom_root_layout"
     android:background="@android:color/transparent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -14,9 +14,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
-
+            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,7 +30,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:id="@+id/notification_icon"
+                        android:id="@+id/fragment_custom_notification_icon"
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:padding="4dp"
@@ -40,7 +38,7 @@
                 </LinearLayout>
 
                 <android.support.text.emoji.widget.EmojiTextView
-                    android:id="@+id/notification_title"
+                    android:id="@+id/fragment_custom_notification_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -54,7 +52,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/notification_time"
+                    android:id="@+id/fragment_custom_notification_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -66,7 +64,7 @@
                     android:textColor="@color/text" />
 
                 <android.support.text.emoji.widget.EmojiTextView
-                    android:id="@+id/notification_text"
+                    android:id="@+id/fragment_custom_notification_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -76,54 +74,8 @@
                     android:text="text"
                     android:textAlignment="center"
                     android:textColor="@color/text" />
-
-                <LinearLayout
-                    android:id="@+id/activity_buttons"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:layout_marginRight="7dp"
-                    android:background="@android:color/transparent"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/activity_notification_button_close"
-                        android:layout_width="96dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="end|center_vertical"
-                        android:includeFontPadding="true"
-                        android:padding="4dp"
-                        android:text="@string/close"
-                        android:textAlignment="viewEnd"
-                        tools:text="Close  " />
-
-                    <Button
-                        android:id="@+id/activity_notification_button_reply"
-                        android:layout_width="96dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginTop="2dp"
-                        android:gravity="start|center_vertical"
-                        android:includeFontPadding="true"
-                        android:padding="4dp"
-                        android:text="@string/reply"
-                        android:textAlignment="viewStart"
-                        tools:text="  Replies" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/notification_replies_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:orientation="vertical" />
             </LinearLayout>
         </ScrollView>
-
     </FrameLayout>
 
 </android.support.wearable.view.BoxInsetLayout>
