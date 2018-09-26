@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">הגדר מרווח זמן תרשים הסוללה</string>
   <string name="pref_notifications_replies_summary">הזן את התשובות המותאמות אישית שלך</string>
   <string name="pref_notifications_replies">תגובות התראה</string>
-  <string name="pref_disable_notifications_replies_summary">השבת תגובות בכל ההתראות</string>
-  <string name="pref_disable_notifications_replies">השבת תגובות של התראות</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden, and well as replies</string>
+  <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">השבת התראות כאשר המסך פועל</string>
   <string name="pref_disable_notifications_when_screen_on">השבת כאשר המסך פועל</string>
   <string name="pref_notifications_enable_custom_ui_summary">תוכל להשיב להתראות</string>
