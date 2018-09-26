@@ -86,23 +86,31 @@ public class NotificationWearActivity extends Activity {
         mPageIndicator = findViewById(R.id.page_indicator);
         mPageIndicator.setPager(mGridViewPager);
 
-        final Fragment[] items = {
-                NotificationFragment.newInstance(notificationSpec.toBundle()),
-                RepliesFragment.newInstance(notificationSpec.toBundle())
-        };
-
-        GridViewPagerAdapter adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
-        mGridViewPager.setAdapter(adapter);
-
         settingsManager = new SettingsManager(this);
 
         mustLockDevice = DeviceUtil.isDeviceLocked(getBaseContext());
+        setWindowFlags(true);
 
         //Load preferences
         boolean disableNotificationsScreenOn = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
+        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
-        setWindowFlags(true);
+        GridViewPagerAdapter adapter;
+        if (disableNotificationReplies) {
+            final Fragment[] items = {
+                    NotificationFragment.newInstance(notificationSpec.toBundle()),
+            };
+            adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
+        } else {
+            final Fragment[] items = {
+                    NotificationFragment.newInstance(notificationSpec.toBundle()),
+                    RepliesFragment.newInstance(notificationSpec.toBundle())
+            };
+            adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
+        }
+        mGridViewPager.setAdapter(adapter);
 
         //Do not activate screen if it is disabled in settings and screen is off
         if (disableNotificationsScreenOn && mustLockDevice) {

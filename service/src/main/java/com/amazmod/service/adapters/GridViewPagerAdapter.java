@@ -27,7 +27,11 @@ public class GridViewPagerAdapter extends FragmentGridPagerAdapter {
         //RepliesFragment replies = RepliesFragment.newInstance(bundle);
         //NotificationFragment frag = new NotificationFragment();
 
-        Row row = new Row(items [0], items[1]);
+        Row row;
+        if (items.length == 1)
+            row = new Row(items[0]);
+        else
+            row = new Row(items[0], items[1]);
         //row.addBackground(context.getResources().getDrawable(R.drawable.bg1));
         mRows.add(row);
 

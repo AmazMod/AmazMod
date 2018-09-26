@@ -98,6 +98,8 @@ public class NotificationFragment extends Fragment {
         boolean hideReplies;
 
         //Load preferences
+        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
         defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
@@ -163,6 +165,8 @@ public class NotificationFragment extends Fragment {
             icon.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.amazmod));
             hideReplies = true;
         }
+
+        if (disableNotificationReplies) text.setVisibility(View.GONE);
     }
 
 
