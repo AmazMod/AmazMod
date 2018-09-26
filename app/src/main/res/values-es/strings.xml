@@ -232,4 +232,6 @@
   <string name="set_admin">Set admin</string>
   <string name="shell_command_failed">Command failed</string>
   <string name="result_code">Result code:</string>
+  <string name="battery_chart_updated">Battery chart updated with new data</string>
+  <string name="battery_chart_request">Requesting new battery data…</string>
 </resources>
