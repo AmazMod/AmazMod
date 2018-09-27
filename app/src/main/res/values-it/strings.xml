@@ -232,7 +232,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="reboot_bootloader">Entra in fastboot</string>
   <string name="set_admin">Imposta admin</string>
   <string name="shell_command_failed">Comando fallito</string>
-  <string name="result_code">Result code:</string>
+  <string name="result_code">Codice risultante:</string>
   <string name="battery_chart_updated">Grafico della batteria aggiornato con i nuovi dati</string>
   <string name="battery_chart_request">Richiedo nuovi dati sulla batteria…</string>
   <string name="battery_chart_waiting">In attesa dei nuovi dati sulla batteria…</string>
