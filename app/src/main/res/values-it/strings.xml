@@ -116,7 +116,7 @@
   <string name="pref_disable_remove_notifications">Disattiva la rimozione delle notifiche</string>
   <string name="pref_disable_remove_notifications_summary">Non rimuovere le notifiche dall\'orologio quando vengono rimosse dal telefono</string>
   <string name="pref_enable_voice_apps">Abilita notifiche alle chiamate vocali</string>
-  <string name="pref_enable_voice_apps_summary">Le chiamate vocali di FB Messenger (sperimentale per altre app) invieranno notifiche</string>
+  <string name="pref_enable_voice_apps_summary">Le chiamate vocali di FB Messenger (sperimentale per altre app) invieranno notifiche all\'orologio</string>
   <string name="pref_enable_local_only">Abilita le notifiche locali</string>
   <string name="pref_enable_local_only_summary">Vengono attivate le notifiche non inviate da remoto ma direttamente dal telefono (es. Sveglia)</string>
   <string name="pref_enable_notifications_when_locked">Abilita quando il telefono è bloccato</string>
@@ -126,7 +126,7 @@
   <string name="pref_filters">Filtro notifiche</string>
   <string name="pref_enable_music_control_with_hardware_button">Attiva il controllo hardware musicale</string>
   <string name="pref_enable_music_control_with_hardware_button_summary">(SPERIMENTALE!) Valido solo per Stratos! Premi il pulsante in basso per riprodurre / mettere in pausa la musica. Premi a lungo per saltare alla canzone successiva</string>
-  <string name="pref_phone_connect_disconnect_alert">Notifica quando il telefono si connette/disconnette</string>
+  <string name="pref_phone_connect_disconnect_alert">Notifica connessione/disconnessione telefono</string>
   <string name="pref_phone_connect_disconnect_alert_summary">L\'orologio vibrerà e visualizzerà lo stato della connessione del telefono quando si connette/disconnette</string>
   <string name="intro_title_1">Benvenuto in AmazMod!</string>
   <string name="intro_description_1">Segui questa presentazione per sapere come installare l\'app di servizio sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono</string>
