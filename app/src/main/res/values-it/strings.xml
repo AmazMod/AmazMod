@@ -237,4 +237,5 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
   <string name="battery_chart_waiting">Waiting for new battery data…</string>
   <string name="edit_reply">Edit reply</string>
+  <string name="privacy_policy">Privacy policy</string>
 </resources>
