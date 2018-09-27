@@ -233,8 +233,8 @@
   <string name="shell_command_failed">命令执行失败</string>
   <string name="result_code">结果代码:</string>
   <string name="battery_chart_updated">电池图表已更新</string>
-  <string name="battery_chart_request">Requesting new battery data…</string>
-  <string name="battery_chart_waiting">Waiting for new battery data…</string>
-  <string name="edit_reply">Edit reply</string>
-  <string name="privacy_policy">Privacy policy</string>
+  <string name="battery_chart_request">正在请求新的电池数据...</string>
+  <string name="battery_chart_waiting">正在等待新的电池数据...</string>
+  <string name="edit_reply">编辑答复</string>
+  <string name="privacy_policy">隐私政策</string>
 </resources>
