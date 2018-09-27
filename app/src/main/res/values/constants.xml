@@ -13,4 +13,5 @@
     <string name="support_email_value" translatable="false">edo.tassinari@gmail.com</string>
     <string name="project_github_value" translatable="false">https://github.com/edotassi/AmazMod</string>
     <string name="greatfit">GreatFit</string>
+    <string name="privacy_policy_value">https://goo.gl/H2i1Pp</string>
 </resources>
