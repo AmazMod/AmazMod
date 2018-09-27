@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">Sumário do intervalo de tempo do gráfico</string>
   <string name="pref_notifications_replies_summary">Insira respostas personalizadas separadas por vírgula</string>
   <string name="pref_notifications_replies">Respostas para notificações</string>
-  <string name="pref_disable_notifications_replies_summary">Sumário desabilitar respostas a notificações</string>
-  <string name="pref_disable_notifications_replies">Desabilitar respostas a notificações</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
+  <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Desabilitar notificações quando a tela estiver LIGADA</string>
   <string name="pref_disable_notifications_when_screen_on">Desabilitar quando a tela está LIGADA</string>
   <string name="pref_notifications_enable_custom_ui_summary">Sumário habilitar notificações personalizadas</string>
@@ -229,8 +229,11 @@
   <string name="pref_file_extras_summary">Fazer backup e restaurar configurações do AmazMod</string>
   <string name="reboot_bootloader">Entrar em Fastboot</string>
   <string name="set_admin">Conceder Admin</string>
-    <string name="battery_chart_updated">Battery chart updated with new data</string>
+  <string name="shell_command_failed">Command failed</string>
+  <string name="result_code">Result code:</string>
+  <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
-    <string name="battery_chart_waiting">Waiting for new battery data…</string>
-    <string name="edit_reply">Edit reply</string>
+  <string name="battery_chart_waiting">Waiting for new battery data…</string>
+  <string name="edit_reply">Edit reply</string>
+  <string name="privacy_policy">Privacy policy</string>
 </resources>

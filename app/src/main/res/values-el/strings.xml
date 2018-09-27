@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">Ορισμός συχνότητας συγχρονισμού διαγράμματος της μπαταρίας</string>
   <string name="pref_notifications_replies_summary">Εισάγετε την έτοιμη απάντησή σας</string>
   <string name="pref_notifications_replies">Απαντήσεις ειδοποιήσεων</string>
-  <string name="pref_disable_notifications_replies_summary">Απενεργοποίηση απαντήσεων σε όλες τις ειδοποιήσεις</string>
-  <string name="pref_disable_notifications_replies">Απενεργοποίηση των γρήγορων απαντήσεων ειδοποιήσεων</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
+  <string name="pref_disable_notifications_replies">Απόκρυψη ειδοποίησης</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Απενεργοποίηση των ειδοποιήσεων όταν η οθόνη είναι ανοιχτή</string>
   <string name="pref_disable_notifications_when_screen_on">Απενεργοποίηση όταν η οθόνη είναι ανοιχτή</string>
   <string name="pref_notifications_enable_custom_ui_summary">Θα μπορείτε να απαντήσετε σε ειδοποιήσεις</string>
@@ -229,8 +229,11 @@
   <string name="pref_file_extras_summary">Ρυθμίσεις αντιγράφου ασφαλείας και επαναφοράς του AmazMod</string>
   <string name="reboot_bootloader">Επανεκκίνηση στο fastboot</string>
   <string name="set_admin">Ορισμός διαχειριστή</string>
-    <string name="battery_chart_updated">Battery chart updated with new data</string>
+  <string name="shell_command_failed">Η εντολή απέτυχε</string>
+  <string name="result_code">Κώδικας αποτελέσματος:</string>
+  <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
-    <string name="battery_chart_waiting">Waiting for new battery data…</string>
-    <string name="edit_reply">Edit reply</string>
+  <string name="battery_chart_waiting">Waiting for new battery data…</string>
+  <string name="edit_reply">Edit reply</string>
+  <string name="privacy_policy">Privacy policy</string>
 </resources>
