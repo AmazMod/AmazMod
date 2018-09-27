@@ -103,8 +103,7 @@ public class FileExplorerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_file_explorer);
 
         try {
-            getSupportActionBar().
-                    setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (Exception ex) {
         }
 
@@ -285,22 +284,10 @@ public class FileExplorerActivity extends AppCompatActivity {
             case R.id.action_activity_file_explorer_install_apk:
                 installApk(index);
                 return true;
-            case R.id.action_activity_file_explorer_rename:
-                renameFile(index);
-                return true;
         }
 
         return false;
     }
-
-
-    private void renameFile(int index) {
-        final FileData fileData = fileExplorerAdapter.getItem(index);
-        //RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
-        //requestDeleteFileData.setPath(fileData.getPath());
-        Toast.makeText(this, "To be Implemented", Toast.LENGTH_SHORT).show();
-    }
-
 
     private void deleteFile(int index) {
         final SnackProgressBar deletingSnackbar = new SnackProgressBar(
