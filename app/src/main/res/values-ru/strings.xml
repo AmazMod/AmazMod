@@ -97,7 +97,7 @@
   <string name="pref_battery_chart_time_interval_summary">Установить временной интервал на графике потребления энергии</string>
   <string name="pref_notifications_replies_summary">Введите пользовательские ответы</string>
   <string name="pref_notifications_replies">Ответы на уведомления</string>
-  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden, and well as replies</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
   <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Включённый экран</string>
   <string name="pref_disable_notifications_when_screen_on">Отключить, когда экран включён</string>
@@ -234,4 +234,5 @@
   <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
   <string name="battery_chart_waiting">Waiting for new battery data…</string>
+  <string name="edit_reply">Edit reply</string>
 </resources>
