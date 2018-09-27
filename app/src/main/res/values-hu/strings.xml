@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">A diagram által tartalmazott napok száma</string>
   <string name="pref_notifications_replies_summary">Írd be a saját, előre megadott válaszaid</string>
   <string name="pref_notifications_replies">Értesítési válaszok</string>
-  <string name="pref_disable_notifications_replies_summary">Egyéni értesítés válaszok kikapcsolása</string>
-  <string name="pref_disable_notifications_replies">Értesítés válaszok kikapcsolása</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
+  <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Nem küld értesítést bekapcsolt telefon képernyőnél</string>
   <string name="pref_disable_notifications_when_screen_on">Kikapcsol, ha a képernyő BE</string>
   <string name="pref_notifications_enable_custom_ui_summary">Képes leszel válaszolni az értesítésekre</string>
@@ -232,8 +232,10 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="pref_file_extras_summary">AmazMod beáll. mentése és v.állítása</string>
   <string name="reboot_bootloader">Fastboot-ba lép</string>
   <string name="set_admin">Admin beállítás</string>
-    <string name="battery_chart_updated">Battery chart updated with new data</string>
+  <string name="shell_command_failed">Command failed</string>
+  <string name="result_code">Result code:</string>
+  <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
-    <string name="battery_chart_waiting">Waiting for new battery data…</string>
-    <string name="edit_reply">Edit reply</string>
+  <string name="battery_chart_waiting">Waiting for new battery data…</string>
+  <string name="edit_reply">Edit reply</string>
 </resources>

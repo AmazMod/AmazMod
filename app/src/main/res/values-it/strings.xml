@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">Imposta l\'intervallo di tempo da mostrare nel grafico della batteria</string>
   <string name="pref_notifications_replies_summary">Inserisci una o più risposte personalizzate</string>
   <string name="pref_notifications_replies">Risposte</string>
-  <string name="pref_disable_notifications_replies_summary">Le risposte verranno mostrate solo dopo aver tappato un bottone sulla notifica</string>
-  <string name="pref_disable_notifications_replies">Nascondi risposte alle notifiche</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
+  <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Disattiva le notifiche quando lo schermo è attivo</string>
   <string name="pref_disable_notifications_when_screen_on">Disattiva quando lo schermo è attivo</string>
   <string name="pref_notifications_enable_custom_ui_summary">Sarai in grado di rispondere alle notifiche con messaggi preimpostati</string>
@@ -231,8 +231,10 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="pref_file_extras_summary">Impostazioni di backup e ripristino di AmazMod</string>
   <string name="reboot_bootloader">Entra in fastboot</string>
   <string name="set_admin">Imposta admin</string>
-    <string name="battery_chart_updated">Battery chart updated with new data</string>
+  <string name="shell_command_failed">Command failed</string>
+  <string name="result_code">Result code:</string>
+  <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
   <string name="battery_chart_waiting">Waiting for new battery data…</string>
-    <string name="edit_reply">Edit reply</string>
+  <string name="edit_reply">Edit reply</string>
 </resources>
