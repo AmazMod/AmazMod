@@ -97,7 +97,7 @@
   <string name="pref_battery_chart_time_interval_summary">הגדר מרווח זמן תרשים הסוללה</string>
   <string name="pref_notifications_replies_summary">הזן את התשובות המותאמות אישית שלך</string>
   <string name="pref_notifications_replies">תגובות התראה</string>
-  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden, and well as replies</string>
+  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
   <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">השבת התראות כאשר המסך פועל</string>
   <string name="pref_disable_notifications_when_screen_on">השבת כאשר המסך פועל</string>
@@ -234,4 +234,5 @@
   <string name="battery_chart_updated">Battery chart updated with new data</string>
   <string name="battery_chart_request">Requesting new battery data…</string>
   <string name="battery_chart_waiting">Waiting for new battery data…</string>
+  <string name="edit_reply">Edit reply</string>
 </resources>
