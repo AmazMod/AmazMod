@@ -324,10 +324,14 @@ public class MainService extends Service implements Transporter.DataListener {
             slptClockClient.enableLowBattery();
             slptClockClient.enableSlpt();
             SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
-            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            final DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
             if (mDPM != null) {
-                SystemClock.sleep(100);
-                mDPM.lockNow();
+                final Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        mDPM.lockNow();
+                    }
+                }, 200);
             }
 
         } else if (count >= 3) {
@@ -756,7 +760,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         notificationManager.post(notificationData);
-        Handler mHandler = new Handler();
+        final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
                 try {

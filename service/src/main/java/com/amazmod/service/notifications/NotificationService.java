@@ -13,6 +13,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -69,7 +70,7 @@ public class NotificationService {
         }, filter);
     }
 
-    public void post(NotificationData notificationSpec) {
+    public void post(final NotificationData notificationSpec) {
 
         if (!DeviceUtil.isDNDActive(context, context.getContentResolver())) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -107,10 +108,12 @@ public class NotificationService {
                 Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + notificationSpec.getKey());
                 if (enableCustomUI || forceCustom) {
                     //Delay 100ms to make sure it will be shown after standard notification
-                    if (!forceCustom) {
-                        SystemClock.sleep(100);
-                    }
-                    postWithCustomUI(notificationSpec);
+                    final Handler mHandler = new Handler();
+                    mHandler.postDelayed(new Runnable() {
+                        public void run() {
+                            postWithCustomUI(notificationSpec);
+                        }
+                    }, 200);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
                 }

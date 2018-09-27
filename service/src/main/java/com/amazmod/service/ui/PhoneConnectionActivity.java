@@ -83,7 +83,7 @@ public class PhoneConnectionActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
-        Handler mHandler = new Handler();
+        final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
                 try {

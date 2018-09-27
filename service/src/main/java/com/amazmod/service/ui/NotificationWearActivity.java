@@ -2,6 +2,7 @@ package com.amazmod.service.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -97,6 +98,8 @@ public class NotificationWearActivity extends Activity {
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
+        clearBackStack();
+
         GridViewPagerAdapter adapter;
         if (disableNotificationReplies) {
             final Fragment[] items = {
@@ -123,6 +126,16 @@ public class NotificationWearActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
+    }
+
+    private void clearBackStack() {
+        FragmentManager manager = this.getFragmentManager();
+        if (manager.getBackStackEntryCount() > 0) {
+            Log.i(Constants.TAG, "NotificationWearActivity clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
+            while (manager.getBackStackEntryCount() > 0){
+                manager.popBackStackImmediate();
+            }
+        }
     }
 
     @Override
@@ -174,9 +187,14 @@ public class NotificationWearActivity extends Activity {
 
         if (mustLockDevice) {
             if (flag) {
-                SystemClock.sleep(500);
-            }
-            lock();
+                final Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        lock();
+                    }
+                }, 500);
+            } else
+                lock();
         }
     }
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.support.wearable.view.WearableListView;
@@ -172,8 +173,12 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         //delayedConfirmationView.reset();
         confirmed = true;
         ((DelayedConfirmationView) v).setListener(null);
-        SystemClock.sleep(1000);
-        hideConfirm();
+        final Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                hideConfirm();
+            }
+        }, 1000);
     }
 
     /*

@@ -41,7 +41,6 @@ public class WearableListItemLayout extends LinearLayout
 
 	private CircledImageView mCircle;
 	private TextView mName;
-	private final int mUnselectedCircleColor, mSelectedCircleColor, mPressedCircleColor;
 	private boolean mIsInCenter;
 
 	private float mBigCircleRadius;
@@ -65,9 +64,6 @@ public class WearableListItemLayout extends LinearLayout
 	public WearableListItemLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
-		mUnselectedCircleColor = Color.parseColor("#c1c1c1");
-		mSelectedCircleColor = Color.parseColor("#3185ff");
-		mPressedCircleColor = Color.parseColor("#2955c5");
 		mSmallCircleRadius = getResources().getDimensionPixelSize(R.dimen.small_circle_radius);
 		mBigCircleRadius = getResources().getDimensionPixelSize(R.dimen.big_circle_radius);
 
@@ -84,8 +80,8 @@ public class WearableListItemLayout extends LinearLayout
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		mCircle = (CircledImageView) findViewById(R.id.image);
-		mName = (TextView) findViewById(R.id.text);
+		mCircle = findViewById(R.id.image);
+		mName = findViewById(R.id.text);
 
 		mScalingUpAnimator = ObjectAnimator.ofFloat(mCircle, "circleRadius", mBigCircleRadius);
 		mScalingUpAnimator.setDuration(150L);
@@ -170,12 +166,12 @@ public class WearableListItemLayout extends LinearLayout
 	public void setPressed(boolean pressed) {
 		super.setPressed(pressed);
 		if(mIsInCenter && pressed) {
-			//mCircle.setCircleRadius(mSmallCircleRadius);
+			mCircle.setCircleRadius(mSmallCircleRadius);
 			//mCircle.animate().scaleX(0.9f).scaleY(0.9f);
 			//mCircle.setCircleColor(mPressedCircleColor);
 		}
-		if(mIsInCenter && !pressed) {
-			//mCircle.setCircleRadius(mSmallCircleRadius);
+		if(mIsInCenter && pressed) {
+			mCircle.setCircleRadius(mBigCircleRadius);
 			//mCircle.animate().scaleX(1f).scaleY(1f);
 			//mCircle.setCircleColor(mSelectedCircleColor);
 		}
