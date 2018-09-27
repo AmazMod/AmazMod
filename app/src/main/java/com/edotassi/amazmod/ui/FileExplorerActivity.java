@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.ui;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.Constants;
@@ -70,11 +73,24 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class FileExplorerActivity extends AppCompatActivity {
 
     private final int FILE_UPLOAD_CODE = 1;
+    private static boolean isFabOpen;
 
     @BindView(R.id.activity_file_explorer_list)
     ListView listView;
     @BindView(R.id.activity_file_explorer_progress)
     MaterialProgressBar materialProgressBar;
+
+    @BindView(R.id.activity_file_explorer_fab_menu)
+    View bgFabMenu;
+
+    @BindView(R.id.activity_file_explorer_fab_main)
+    FloatingActionButton fabMain;
+
+    @BindView(R.id.activity_file_explorer_fab_newfolder)
+    FloatingActionButton fabNewFolder;
+
+    @BindView(R.id.activity_file_explorer_fab_upload)
+    FloatingActionButton fabUpload;
 
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
@@ -87,7 +103,8 @@ public class FileExplorerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_file_explorer);
 
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().
+                    setDisplayHomeAsUpEnabled(true);
         } catch (Exception ex) {
         }
 
@@ -268,10 +285,22 @@ public class FileExplorerActivity extends AppCompatActivity {
             case R.id.action_activity_file_explorer_install_apk:
                 installApk(index);
                 return true;
+            case R.id.action_activity_file_explorer_rename:
+                renameFile(index);
+                return true;
         }
 
         return false;
     }
+
+
+    private void renameFile(int index) {
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        //RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
+        //requestDeleteFileData.setPath(fileData.getPath());
+        Toast.makeText(this, "To be Implemented", Toast.LENGTH_SHORT).show();
+    }
+
 
     private void deleteFile(int index) {
         final SnackProgressBar deletingSnackbar = new SnackProgressBar(
@@ -459,8 +488,9 @@ public class FileExplorerActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.activity_file_explorer_upload)
+    @OnClick(R.id.activity_file_explorer_fab_upload)
     public void onUpload() {
+        CloseFabMenu();
         Intent i = new Intent(this, FilePickerActivity.class);
 
         i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
@@ -473,6 +503,89 @@ public class FileExplorerActivity extends AppCompatActivity {
         FirebaseAnalytics
                 .getInstance(this)
                 .logEvent(FirebaseEvents.UPLOAD_FILE_CLICK, new Bundle());
+    }
+
+    @OnClick(R.id.activity_file_explorer_fab_main)
+    public void fabMainClick(){
+        if (!isFabOpen)
+            ShowFabMenu();
+        else
+            CloseFabMenu();
+    };
+
+
+    @OnClick(R.id.activity_file_explorer_fab_menu)
+    public void fabMenuClick(){
+        CloseFabMenu();
+    };
+
+    @OnClick(R.id.activity_file_explorer_fab_newfolder)
+    public void fabNewFolderClick(){
+        Toast.makeText(this, "Being Implemented", Toast.LENGTH_SHORT).show();
+        CloseFabMenu();
+    };
+
+    private void ShowFabMenu()
+    {
+        isFabOpen = true;
+        fabUpload.setVisibility(View.VISIBLE);
+        fabNewFolder.setVisibility(View.VISIBLE);
+        bgFabMenu.setVisibility(View.VISIBLE);
+
+        fabMain.animate().rotation(135f);
+        bgFabMenu.animate().alpha(1f);
+        fabUpload.animate()
+                .translationY(-260f)
+                .rotation(0f);
+        fabNewFolder.animate()
+                .translationY(-140f)
+                .rotation(0f);
+    }
+
+    private void CloseFabMenu()
+    {
+        isFabOpen = false;
+
+        View[] views = {bgFabMenu, fabNewFolder, fabUpload};
+
+        fabMain.animate().rotation(0f);
+        bgFabMenu.animate().alpha(0f);
+        fabUpload.animate()
+                .translationY(0f)
+                .rotation(90f);
+        fabNewFolder.animate()
+                .translationY(0f)
+                .rotation(90f).setListener(new FabAnimatorListener(views));
+    }
+
+
+    private class FabAnimatorListener implements Animator.AnimatorListener
+    {
+        View[] viewsToHide;
+
+        public FabAnimatorListener(View[] viewsToHide) {
+            this.viewsToHide = viewsToHide;
+        }
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            if (!isFabOpen)
+                for (View view : viewsToHide)
+                    view.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
     }
 
     private Task<Void> loadPath(final String path) {
