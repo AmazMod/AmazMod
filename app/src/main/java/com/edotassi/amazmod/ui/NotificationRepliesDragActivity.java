@@ -241,17 +241,18 @@ public class NotificationRepliesDragActivity extends AppCompatActivity {
 
             viewHolder.value.setText(reply.getValue());
 
-            viewHolder.handle.setOnTouchListener(new View.OnTouchListener() {
+            viewHolder.handle.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onTouch(View view, MotionEvent event) {
-                    initalPosition = listView.pointToPosition((int) event.getRawX(), (int) event.getRawY());
+                public boolean onLongClick(View view) {
+                    initalPosition = listView.pointToPosition((int) view.getX(), (int) view.getY());
+                    //initalPosition = listView.pointToPosition((int) event.getRawX(), (int) event.getRawY());
                     //initalPosition = listView.pointToPosition((int) event.getX(), (int) event.getY());
                     //initalPosition = itemNum - listView.getFirstVisiblePosition();
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    //if (event.getAction() == MotionEvent.ACTION_DOWN) {
                         startDrag(reply);
                         return true;
-                    }
-                    return false;
+                    //}
+                    //return false;
                 }
             });
 
