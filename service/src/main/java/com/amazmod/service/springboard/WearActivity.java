@@ -1,72 +1,156 @@
 package com.amazmod.service.springboard;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Color;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.support.wearable.view.WearableListView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+import com.amazmod.service.adapters.CustomListAdapter;
+import com.amazmod.service.events.incoming.EnableLowPower;
+import com.amazmod.service.models.MenuItems;
+import com.huami.watch.transport.DataBundle;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class WearActivity extends Activity implements WearableListView.ClickListener,
         DelayedConfirmationView.DelayedConfirmationListener{
 
-    private View mainLayout, confirmView;
+    private View mainLayout, confirmView, infoView;
     private ViewGroup viewGroup;
 	private WearableListView listView;
-	private String[] mItems = {"Wi-Fi", "Enable L.P.M.", "Set Device Owner", "Reboot", "Enter Fastboot"};
-	private int[] mImages = {R.drawable.ic_action_locate, R.drawable.ic_action_star,
-			R.drawable.ic_action_done, R.drawable.ic_action_refresh, R.drawable.ic_action_select_all};
-	private TextView mHeader,textView1, textView2;
-
-	private boolean confirmed = false;
-
+	private Button buttonClose;
     private DelayedConfirmationView delayedConfirmationView;
+    private TextView mHeader,textView1, textView2, textView02, textView03, textView04;
+
+	private String[] mItems = { "Wi-Fi",
+                                "Enable L.P.M.",
+                                "Set Device Owner",
+                                "Reboot",
+                                "Enter Fastboot",
+	                            "Device Info"};
+
+	private int[] mImagesOn = { R.drawable.baseline_wifi_24,
+                                R.drawable.ic_action_star,
+			                    R.drawable.ic_action_done,
+                                R.drawable.ic_action_refresh,
+                                R.drawable.ic_action_select_all,
+                                R.drawable.baseline_info_24};
+
+    private int[] mImagesOff = {    R.drawable.baseline_wifi_off_24,
+                                    R.drawable.ic_action_star,
+                                    R.drawable.ic_action_done,
+                                    R.drawable.ic_action_refresh,
+                                    R.drawable.ic_action_select_all,
+                                    R.drawable.baseline_info_24};
+
+	private int itemChosen;
+    List<MenuItems> items;
+
+    private BroadcastReceiver receiverConnection, receiverSSID;
     private Context mContext;
+    private CustomListAdapter mAdapter;
+    private WifiManager wfmgr;
+    private Vibrator vibrator;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_wear);
-
         mContext = this;
+        setContentView(R.layout.activity_wear);
+
+        wfmgr = (WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
+
         mainLayout = findViewById(R.id.main_layout);
         confirmView = findViewById(R.id.confirm_layout);
+        infoView = findViewById(R.id.info_layout);
 		mHeader = findViewById(R.id.header);
 		listView = findViewById(R.id.list);
         textView1 = findViewById(R.id.confirm_text);
         textView2 = findViewById(R.id.cancel_text);
-
-        hideConfirm();
+        textView02 = findViewById(R.id.textView02);
+        textView03 = findViewById(R.id.textView03);
+        textView04 = findViewById(R.id.textView04);
+        buttonClose = findViewById(R.id.buttonClose);
         delayedConfirmationView = findViewById(R.id.delayedView);
+
+
+        hideInfo();
+        hideConfirm();
         delayedConfirmationView.setTotalTimeMs(3000);
 
+        setButtonTheme(buttonClose);
+
         textView1.setText("Proceeding in 3s…");
-        textView2.setText("Tap button to cancel");
+        textView2.setText("Tap to cancel");
+
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        try {
+            activityManager.getMemoryInfo(memoryInfo);
+        } catch (Exception ex) {
+            Log.e(Constants.TAG, "WearActivity onCreate exception: " + ex.toString());
+        }
+
+        double freeRAM = memoryInfo.availMem / 0x100000L;
+        long elapsedRealtime = SystemClock.elapsedRealtime() ;
+        long sleepTime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
+
+        textView02.setText("Uptime: " + formatInterval(elapsedRealtime, false));
+        textView03.setText("SleepTime: " + formatInterval(sleepTime, false));
+        textView04.setText("Free RAM: " + freeRAM + "MB");
+
+        items = new ArrayList<>();
+        boolean state;
+        for (int i=0; i<mItems.length; i++){
+            try {
+                state = wfmgr.isWifiEnabled() || i != 0;
+            } catch (NullPointerException e) {
+                state = true;
+                Log.e(Constants.TAG, "WearActivity onCreate exception: " + e.toString());
+            }
+            items.add(new MenuItems(mImagesOn[i], mImagesOff[i], mItems[i], state));
+        }
+
+        checkConnection();
 		loadAdapter("AmazMod");
 
 	}
 
-	private void loadAdapter(String s) {
-	    mHeader.setText(s);
-		List<MenuItems> items = new ArrayList<>();
-		for (int i=0; i<mItems.length; i++){
-			items.add(new MenuItems(mImages[i], mItems[i]));
-		}
+	private void loadAdapter(String header) {
+	    mHeader.setText(header);
 
-		CustomListAdapter mAdapter = new CustomListAdapter(this, items);
+		mAdapter = new CustomListAdapter(this, items);
 
 		listView.setAdapter(mAdapter);
 		listView.addOnScrollListener(mOnScrollListener);
@@ -81,35 +165,60 @@ public class WearActivity extends Activity implements WearableListView.ClickList
 	@Override
     public void onClick(WearableListView.ViewHolder viewHolder) {
 
+	    itemChosen = viewHolder.getPosition();
         switch (viewHolder.getPosition()) {
+
             case 0:
-                beginCountdown();
-                if (confirmed) {
-                    confirmed = false;
+                if (wfmgr.isWifiEnabled()) {
+                    items.get(0).state = false;
+                    wfmgr.setWifiEnabled(false);
+                } else {
+                    items.get(0).state = true;
+                    wfmgr.setWifiEnabled(true);
                 }
+                mAdapter.notifyDataSetChanged();
                 break;
+
             case 1:
+            case 2:
+            case 3:
+            case 4:
                 beginCountdown();
-                if (confirmed) {
-                    confirmed = false;
-                }
+                break;
+
+            case 5:
+                showInfo();
                 break;
 
             default:
-                Toast.makeText(this,
-                        String.format("You selected item #%s",
-                                viewHolder.getPosition()),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
                 break;
+        }
+    }
+
+    private void runCommand(String command) {
+        Log.d(Constants.TAG, "WearActivity runCommand");
+	    if (!command.isEmpty()) {
+            try {
+                Runtime.getRuntime().exec(command);
+            } catch (Exception e) {
+                Log.e(Constants.TAG, "WearActivity onClick exception: " + e.toString());
+            }
         }
     }
 
 	@Override
 	public void onTopEmptyRegionClick() {
 		//Prevent NullPointerException
-		Toast.makeText(this,
-				"Top empty area tapped", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "Top empty area tapped", Toast.LENGTH_SHORT).show();
 	}
+
+    @Override
+    public void onDestroy() {
+	    if (receiverConnection != null) unregisterReceiver(receiverConnection);
+	    if (receiverSSID != null) unregisterReceiver(receiverSSID);
+	    super.onDestroy();
+    }
 
 	// The following code ensures that the title scrolls as the user scrolls up
 	// or down the list
@@ -146,12 +255,10 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     public void beginCountdown() {
         //button.setVisibility(View.GONE);
         showConfirm();
-        confirmed = false;
         delayedConfirmationView.setPressed(false);
         delayedConfirmationView.start();
         delayedConfirmationView.setListener(this);
-        System.out.println("AmazMod WearActivity beginCountdown v.isPressed: " + delayedConfirmationView.toString() +
-                " / " + delayedConfirmationView.isPressed());
+        Log.d(Constants.TAG, "WearActivity beginCountdown: " + delayedConfirmationView.isPressed());
     }
 
     @Override
@@ -161,17 +268,12 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         // Prevent onTimerFinished from being heard.
         ((DelayedConfirmationView) v).setListener(null);
         hideConfirm();
-        System.out.println("AmazMod WearActivity onTimerSelected v.isPressed: " + v.toString() + " / " + v.isPressed());
+        Log.d(Constants.TAG, "WearActivity onTimerSelected v.isPressed: " + v.isPressed());
     }
 
     @Override
     public void onTimerFinished(View v) {
-        System.out.println("AmazMod WearActivity onTimerFinished v.isPressed: " + v.toString() + " / " + v.isPressed());
-        //if (!v.isPressed()) {
-        //}
-        //v.setPressed(false);
-        //delayedConfirmationView.reset();
-        confirmed = true;
+        Log.d(Constants.TAG, "WearActivity onTimerFinished v.isPressed: " + v.isPressed());
         ((DelayedConfirmationView) v).setListener(null);
         final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
@@ -179,28 +281,41 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                 hideConfirm();
             }
         }, 1000);
+        switch (itemChosen) {
+
+            case 1:
+                HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                break;
+
+            case 2:
+                runCommand("adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver");
+                break;
+
+            case 3:
+                runCommand("reboot");
+                break;
+
+            case 4:
+                runCommand("reboot bootloader");
+                break;
+
+        }
+        itemChosen = 0;
     }
 
-    /*
-    public void beginCountdown(View view) {
-        button.setVisibility(View.GONE);
-        delayedView.setVisibility(View.VISIBLE);
-        delayedView.setListener(new DelayedConfirmationView.DelayedConfirmationListener() {
-            @Override
-            public void onTimerFinished(View view) {
-                Intent intent = new Intent(mContext, MainActivity.class);
-                startActivity(intent);
-                showOnlyButton();
-            }
+    public void hideInfo() {
+        infoView.setVisibility(View.GONE);
+    }
 
-            @Override
-            public void onTimerSelected(View view) {
-                showOnlyButton();
-                finish();
-            }
-        });
-        delayedView.start();
-    } */
+    public void hideInfo(View v) {
+        infoView.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
+    }
+
+    public void showInfo() {
+        infoView.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
+    }
 
     public void hideConfirm() {
         //confirmView.getAnimation().setFillAfter(false);
@@ -222,5 +337,92 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         listView.clearAnimation();
         confirmView.requestFocus();
         confirmView.setClickable(true);
+    }
+
+    private void checkConnection() {
+
+        receiverConnection = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                WifiInfo wifiInfo = wfmgr.getConnectionInfo();
+                Log.d(Constants.TAG, "WearActivity checkConnection wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Log.d(Constants.TAG, "WearActivity checkConnection wifiInfo.SSID: " + wifiInfo.getSSID());
+                Log.d(Constants.TAG, "WearActivity checkConnection action: " + intent.getAction());
+                Log.d(Constants.TAG, "WearActivity checkConnection connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+                if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
+                    if (wifiInfo.getSupplicantState().toString().equals("COMPLETED"))
+                        if (receiverSSID == null)
+                            getSSID();
+                } else {
+                    vibrator.vibrate(100);
+                    Toast.makeText(getApplicationContext(), "Wi-Fi Disconnected", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+        registerReceiver(receiverConnection, intentFilter);
+    }
+
+    private void getSSID() {
+
+        receiverSSID = new BroadcastReceiver() {
+
+            boolean flag = false;
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                WifiInfo wifiInfo = wfmgr.getConnectionInfo();
+                Log.d(Constants.TAG, "WearActivity getSSID wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Log.d(Constants.TAG, "WearActivity getSSID wifiInfo.SSID: " + wifiInfo.getSSID());
+                Log.d(Constants.TAG, "WearActivity getSSID action: " + intent.getAction());
+                Log.d(Constants.TAG, "WearActivity getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+
+                if (wifiInfo.getSupplicantState().equals(SupplicantState.ASSOCIATED))
+                    flag = true;
+
+                if (wifiInfo.getSupplicantState().equals(SupplicantState.COMPLETED) && flag) {
+                    flag = false;
+                    vibrator.vibrate(100);
+                    Toast.makeText(getApplicationContext(), "Wi-Fi Connected to:\n" + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+        final IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
+        registerReceiver(receiverSSID, intentFilter);
+    }
+
+    private void setButtonTheme(Button button) {
+        /*
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        param.setMargins(20, 12, 20, 12);
+        button.setLayoutParams(param);
+        button.setPadding(0, 10, 0, 10);
+        */
+        button.setIncludeFontPadding(false);
+        button.setMinHeight(24);
+        button.setMinWidth(120);
+        button.setText(getResources().getString(R.string.close));
+        button.setAllCaps(false);
+        button.setTextColor(Color.parseColor("#000000"));
+        button.setBackground(mContext.getDrawable(R.drawable.reply_grey));
+    }
+
+    public static String formatInterval(final long interval, boolean millis )
+    {
+        final long hr = TimeUnit.MILLISECONDS.toHours(interval);
+        final long min = TimeUnit.MILLISECONDS.toMinutes(interval) % 60;
+        final long sec = TimeUnit.MILLISECONDS.toSeconds(interval) % 60;
+        final long ms = TimeUnit.MILLISECONDS.toMillis(interval) % 1000;
+        if(millis) {
+            return String.format(Locale.getDefault(),"%02d:%02d:%02d.%03d", hr, min, sec, ms);
+        } else {
+            return String.format(Locale.getDefault(),"%02d:%02d:%02d", hr, min, sec );
+        }
     }
 }

@@ -310,7 +310,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.i(Constants.TAG, "MainService lowPower disable BT");
             btmgr.disable();
             try {
-                WifiManager wfmgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                WifiManager wfmgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 if (wfmgr != null) {
                     if (wfmgr.isWifiEnabled()) {
                         Log.i(Constants.TAG, "MainService lowPower disable WiFi");

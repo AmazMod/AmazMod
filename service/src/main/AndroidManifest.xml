@@ -45,7 +45,12 @@
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".springboard.WearActivity" />
+        <activity android:name=".springboard.WearActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
         <activity android:name=".ui.NotificationWearActivity"
             android:allowEmbedded="true"
             android:exported="true"

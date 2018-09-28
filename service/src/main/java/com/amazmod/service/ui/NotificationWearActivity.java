@@ -131,7 +131,7 @@ public class NotificationWearActivity extends Activity {
     private void clearBackStack() {
         FragmentManager manager = this.getFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
-            Log.i(Constants.TAG, "NotificationWearActivity clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
+            Log.w(Constants.TAG, "NotificationWearActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
             while (manager.getBackStackEntryCount() > 0){
                 manager.popBackStackImmediate();
             }
