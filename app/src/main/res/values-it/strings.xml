@@ -151,7 +151,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="pref_font_size_summary">Seleziona la dimensione del testo usata nelle risposte personalizzate</string>
   <string name="notifications_font_size">Dimensione testo</string>
   <string name="device_not_connected">Nessun dispositivo connesso</string>
-  <string name="device_connected">Dispositivo connesso</string>
+  <string name="device_connected">connesso</string>
   <string name="pref_enable_persistent_notification">Attiva notifica persistente</string>
   <string name="pref_enable_persistent_notification_summary">Attiva una notifica fissa nella barra di stato per evitare che AmazMod venga chiusa quando non si trova in primo piano</string>
   <string name="pref_notifications_disable_screenon">Disattiva accensione schermo</string>
