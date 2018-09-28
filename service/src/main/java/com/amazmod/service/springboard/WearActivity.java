@@ -1,5 +1,6 @@
 package com.amazmod.service.springboard;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
@@ -14,13 +15,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
+import android.provider.Settings;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,6 @@ import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.models.MenuItems;
 import com.huami.watch.transport.DataBundle;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -39,8 +39,11 @@ import java.util.concurrent.TimeUnit;
 
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
+import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
+
 public class WearActivity extends Activity implements WearableListView.ClickListener,
-        DelayedConfirmationView.DelayedConfirmationListener{
+        DelayedConfirmationView.DelayedConfirmationListener {
 
     private View mainLayout, confirmView, infoView;
     private ViewGroup viewGroup;
@@ -49,28 +52,62 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     private DelayedConfirmationView delayedConfirmationView;
     private TextView mHeader,textView1, textView2, textView02, textView03, textView04;
 
-	private String[] mItems = { "Wi-Fi",
+	private String[] mItems = { "Wi-Fi Toggle",
+                                "Wi-Fi Panel",
+                                "Flashlight",
+                                "QR code",
                                 "Enable L.P.M.",
                                 "Set Device Owner",
                                 "Reboot",
                                 "Enter Fastboot",
-	                            "Device Info"};
+                                "Units",
+                                "Disconnect Alert",
+                                "Away Alert",
+                                "Device Info"};
 
-	private int[] mImagesOn = { R.drawable.baseline_wifi_24,
+    private int[] mImagesOn = { R.drawable.baseline_wifi_24,
+                                R.drawable.baseline_perm_scan_wifi_24,
+                                R.drawable.baseline_highlight_24,
+                                R.drawable.ic_qrcode_white_24dp,
                                 R.drawable.ic_action_star,
 			                    R.drawable.ic_action_done,
                                 R.drawable.ic_action_refresh,
-                                R.drawable.ic_action_select_all,
+                                R.drawable.baseline_adb_24,
+                                R.drawable.ic_weight_pound_white_24dp,
+                                R.drawable.device_information_white_24x24,
+                                R.drawable.ic_alarm_light_white_24dp,
                                 R.drawable.baseline_info_24};
 
     private int[] mImagesOff = {    R.drawable.baseline_wifi_off_24,
+                                    R.drawable.baseline_perm_scan_wifi_24,
+                                    R.drawable.baseline_highlight_24,
+                                    R.drawable.ic_qrcode_white_24dp,
                                     R.drawable.ic_action_star,
                                     R.drawable.ic_action_done,
                                     R.drawable.ic_action_refresh,
-                                    R.drawable.ic_action_select_all,
+                                    R.drawable.baseline_adb_24,
+                                    R.drawable.ic_weight_kilogram_white_24dp,
+                                    R.drawable.device_information_off_white_24x24,
+                                    R.drawable.ic_alarm_light_off_white_24dp,
                                     R.drawable.baseline_info_24};
 
+    private String[] toggle = { "",
+                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity",
+                                "",
+                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity",
+                                "",
+                                "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver",
+                                "reboot",
+                                "reboot bootloader",
+                                "measurement",
+                                "huami.watch.localonly.ble_lost_anti_lost",
+                                "huami.watch.localonly.ble_lost_far_away",
+                                ""};
+
 	private int itemChosen;
+    private static boolean screenToggle = false;
+    private static int screenMode;
+    private static int screenBrightness = 999989;
     List<MenuItems> items;
 
     private BroadcastReceiver receiverConnection, receiverSSID;
@@ -80,7 +117,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     private Vibrator vibrator;
 
 
-	@Override
+	@SuppressLint("ClickableViewAccessibility")
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
@@ -104,6 +142,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         buttonClose = findViewById(R.id.buttonClose);
         delayedConfirmationView = findViewById(R.id.delayedView);
 
+        listView.setLongClickable(true);
 
         hideInfo();
         hideConfirm();
@@ -134,7 +173,10 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         boolean state;
         for (int i=0; i<mItems.length; i++){
             try {
-                state = wfmgr.isWifiEnabled() || i != 0;
+                if (i == 0)
+                    state = wfmgr.isWifiEnabled();
+                else
+                    state = i < 8 || i > 10 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
                 state = true;
                 Log.e(Constants.TAG, "WearActivity onCreate exception: " + e.toString());
@@ -166,7 +208,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     public void onClick(WearableListView.ViewHolder viewHolder) {
 
 	    itemChosen = viewHolder.getPosition();
-        switch (viewHolder.getPosition()) {
+        switch (itemChosen) {
 
             case 0:
                 if (wfmgr.isWifiEnabled()) {
@@ -180,13 +222,31 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                 break;
 
             case 1:
+                runCommand(toggle[itemChosen]);
+                break;
+
             case 2:
+                flashlight();
+                break;
+
             case 3:
+                runCommand(toggle[itemChosen]);
+                break;
+
             case 4:
+            case 5:
+            case 6:
+            case 7:
                 beginCountdown();
                 break;
 
-            case 5:
+            case 8:
+            case 9:
+            case 10:
+                toggle(itemChosen);
+                break;
+
+            case 11:
                 showInfo();
                 break;
 
@@ -217,6 +277,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     public void onDestroy() {
 	    if (receiverConnection != null) unregisterReceiver(receiverConnection);
 	    if (receiverSSID != null) unregisterReceiver(receiverSSID);
+	    if (screenToggle)
+	        setMaxBrightness(false);
 	    super.onDestroy();
     }
 
@@ -283,20 +345,14 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         }, 1000);
         switch (itemChosen) {
 
-            case 1:
+            case 4:
                 HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
                 break;
 
-            case 2:
-                runCommand("adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver");
-                break;
-
-            case 3:
-                runCommand("reboot");
-                break;
-
-            case 4:
-                runCommand("reboot bootloader");
+            case 5:
+            case 6:
+            case 7:
+                runCommand(toggle[itemChosen]);
                 break;
 
         }
@@ -424,5 +480,57 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         } else {
             return String.format(Locale.getDefault(),"%02d:%02d:%02d", hr, min, sec );
         }
+    }
+
+    public void flashlight() {
+        Log.d(Constants.TAG, "WearActivity flashlight on");
+        listView.setVisibility(View.GONE);
+        mainLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
+        setMaxBrightness(true);
+        mainLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (screenToggle)
+                    setMaxBrightness(false);
+                Log.d(Constants.TAG, "WearActivity flashlight off");
+                mainLayout.setBackground(getResources().getDrawable(R.drawable.background));
+                listView.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+    }
+
+    private void setMaxBrightness(boolean mode) {
+
+        if (mode) {
+            Log.d(Constants.TAG, "WearActivity setScreenModeOff mode tue");
+            screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
+            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
+        } else {
+            if (screenBrightness != 999989) {
+                Log.d(Constants.TAG, "WearActivity setScreenModeOff mode false \\ screenMode: " + screenMode);
+                Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
+                Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+            }
+        }
+        screenToggle = mode;
+    }
+
+    private void toggle(int id) {
+        final int status = Settings.Secure.getInt(mContext.getContentResolver(), toggle[id], 0);
+        Log.d(Constants.TAG, "WearActivity toggleUnit toggle: " + toggle[id] + " \\ status: " + status);
+        if ( status == 0) {
+            items.get(id).state = true;
+            runCommand("adb shell settings put secure " + toggle[id] + " 1");
+            //Settings.Secure.putInt(mContext.getContentResolver(), toggle, 1);
+        } else {
+            items.get(id).state = false;
+            runCommand("adb shell settings put secure " + toggle[id] + " 0");
+            //Settings.Secure.putInt(mContext.getContentResolver(), toggle, 0);
+        }
+        mAdapter.notifyDataSetChanged();
     }
 }
