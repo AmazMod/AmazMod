@@ -61,7 +61,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -85,6 +87,7 @@ import amazmod.com.transport.data.RequestShellCommandData;
 import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDeleteFileData;
 import amazmod.com.transport.data.ResultDownloadFileChunkData;
+import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
@@ -560,10 +563,38 @@ public class MainService extends Service implements Transporter.DataListener {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void executeShellCommand(RequestShellCommand requestShellCommand) {
         try {
+            long startedAt = System.currentTimeMillis();
+
             RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
-            Runtime.getRuntime().exec(requestShellCommandData.getCommand());
+
+            String command = requestShellCommandData.getCommand();
+
+            Process process = Runtime.getRuntime().exec(command);
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            StringBuilder outputLog = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                outputLog.append(line + "\n");
+            }
+
+            int returnValue = process.waitFor();
+
+            ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+            resultShellCommand.setResult(returnValue);
+            resultShellCommand.setOutputLog(outputLog.toString());
+            resultShellCommand.setDuration(System.currentTimeMillis() - startedAt);
+            resultShellCommand.setCommand(command);
+
+            send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
         } catch (Exception ex) {
             Log.e(Constants.TAG, ex.getMessage(), ex);
+
+            ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+            resultShellCommand.setResult(-1);
+            resultShellCommand.setErrorLog(ex.getMessage());
+
+            send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
         }
     }
 
