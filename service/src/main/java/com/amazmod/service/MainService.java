@@ -223,6 +223,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Unregister phone connection observer
         if (phoneConnectionObserver != null) {
             getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            phoneConnectionObserver = null;
         }
         super.onDestroy();
     }
@@ -675,6 +676,8 @@ public class MainService extends Service implements Transporter.DataListener {
     private void registerConnectionMonitor(boolean status) {
         Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
         if (status) {
+            if (phoneConnectionObserver != null)
+                return;
             ContentResolver contentResolver = getContentResolver();
             Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
             phoneConnectionObserver = new ContentObserver(new Handler()) {
@@ -702,7 +705,8 @@ public class MainService extends Service implements Transporter.DataListener {
             };
             contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
         } else {
-            getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            if (phoneConnectionObserver != null)
+                getContentResolver().unregisterContentObserver(phoneConnectionObserver);
             phoneConnectionObserver = null;
         }
         isPhoneConnectionAlertEnabled = status;
