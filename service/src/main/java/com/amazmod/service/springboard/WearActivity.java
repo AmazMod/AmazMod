@@ -130,10 +130,11 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
 
         mainLayout = findViewById(R.id.main_layout);
+		listView = findViewById(R.id.list);
+		mHeader = findViewById(R.id.header);
+
         confirmView = findViewById(R.id.confirm_layout);
         infoView = findViewById(R.id.info_layout);
-		mHeader = findViewById(R.id.header);
-		listView = findViewById(R.id.list);
         textView1 = findViewById(R.id.confirm_text);
         textView2 = findViewById(R.id.cancel_text);
         textView02 = findViewById(R.id.textView02);

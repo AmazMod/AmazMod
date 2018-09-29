@@ -10,6 +10,7 @@
     android:paddingEnd="10dp"
     android:paddingStart="10dp"
     android:paddingTop="10dp"
+    android:keepScreenOn="true"
     tools:context=".springboard.WearActivity">
 
     <android.support.wearable.view.WearableFrameLayout
@@ -26,7 +27,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:keepScreenOn="true"
                 android:layout_marginBottom="40dp">
 
                 <ImageView
