@@ -19,7 +19,7 @@ public class CustomListAdapter extends WearableListView.Adapter {
 	private final List<MenuItems> items;
 	private final LayoutInflater mInflater;
 
-    private static final float NO_ALPHA = 1.0f, PARTIAL_ALPHA = 0.85f;
+    private static final float NO_ALPHA = 1.0f, PARTIAL_ALPHA = 0.80f;
     private static final float NO_SCALE = 1.0f, SCALE = 0.9f;
     private static final float NO_X_TRANSLATION = 0f, X_TRANSLATION = 20f;
 

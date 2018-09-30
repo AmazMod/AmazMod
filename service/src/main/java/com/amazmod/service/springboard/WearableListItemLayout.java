@@ -39,6 +39,7 @@ import com.amazmod.service.R;
 public class WearableListItemLayout extends LinearLayout
 		implements WearableListView.OnCenterProximityListener {
 
+    private WearableListItemLayout itemLayout;
 	private CircledImageView mCircle;
 	private TextView mName;
 	private boolean mIsInCenter;
@@ -48,7 +49,7 @@ public class WearableListItemLayout extends LinearLayout
 	private ObjectAnimator mScalingDownAnimator;
 	private ObjectAnimator mScalingUpAnimator;
 
-	private static final float NO_ALPHA = 1.0f, PARTIAL_ALPHA = 0.85f;
+	private static final float NO_ALPHA = 1.0f, PARTIAL_ALPHA = 0.80f;
 	private static final float NO_SCALE = 1.0f, SCALE = 0.9f;
 	private static final float NO_X_TRANSLATION = 0f, X_TRANSLATION = 20f;
 
@@ -80,6 +81,7 @@ public class WearableListItemLayout extends LinearLayout
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		itemLayout = findViewById(R.id.item_layout);
 		mCircle = findViewById(R.id.image);
 		mName = findViewById(R.id.text);
 
@@ -107,6 +109,9 @@ public class WearableListItemLayout extends LinearLayout
             mName.setAlpha(NO_ALPHA);
 		}
 
+		itemLayout.setClickable(false);
+		mCircle.setClickable(false);
+		mName.setClickable(false);
 		//mCircle.setCircleColor(mSelectedCircleColor);
 		mIsInCenter = true;
 	}
@@ -129,6 +134,9 @@ public class WearableListItemLayout extends LinearLayout
             mName.setAlpha(PARTIAL_ALPHA);
 		}
 
+        itemLayout.setClickable(true);
+		mCircle.setClickable(true);
+		mName.setClickable(true);
 		//mCircle.setCircleColor(mUnselectedCircleColor);
 		mIsInCenter = false;
 	}
