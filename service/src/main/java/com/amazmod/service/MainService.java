@@ -123,6 +123,7 @@ public class MainService extends Service implements Transporter.DataListener {
     }};
 
     private Transporter transporter;
+    private Transporter transporterHuami;
 
     private Context context;
     public Context baseContext;
@@ -187,18 +188,26 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.d(Constants.TAG, "MainService Transporter not connected, connecting...");
             transporter.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService Transported yet connected");
+            Log.d(Constants.TAG, "MainService Transported already connected");
+        }
+
+        // Catch huami's notifications
+        transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
+        transporterHuami.addDataListener(this);
+        if (!transporterHuami.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService TransporterHuami not connected, connecting...");
+            transporterHuami.connectTransportService();
+        } else {
+            Log.d(Constants.TAG, "MainService TransportedHuami already connected");
         }
 
         slptClockClient = new SlptClockClient();
         slptClockClient.bindService(this, "AmazMod-MainService", new SlptClockClient.Callback() {
             @Override
-            public void onServiceConnected() {
-            }
+            public void onServiceConnected() {}
 
             @Override
-            public void onServiceDisconnected() {
-            }
+            public void onServiceDisconnected() {}
         });
 
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
@@ -237,6 +246,10 @@ public class MainService extends Service implements Transporter.DataListener {
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
+
+        // A notification is removed
+        if(action.equals("del"))
+            notificationCounter(-1);
 
         Log.d(Constants.TAG, "MainService action: " + action);
 
@@ -279,7 +292,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
-        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
+        Log.d(Constants.TAG, "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
 
         // Get already saved data
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
@@ -409,6 +422,8 @@ public class MainService extends Service implements Transporter.DataListener {
         Log.d(Constants.TAG, "MainService incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
 
+        // Add notification
+        notificationCounter(1);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -776,6 +791,43 @@ public class MainService extends Service implements Transporter.DataListener {
                 }
             }
         }, 1500);
+    }
+
+    // Count notifications
+    public void notificationCounter(int n){
+        int notifications = 0;
+
+        // Get already saved data
+        String data = Settings.System.getString(getContentResolver(), "CustomWatchfaceData");
+        if (data == null || data.equals("")) {
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{}");//default
+        }
+
+        // Get data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            notifications = json_data.getInt("notifications");
+        } catch (JSONException e) {
+            //Nothing, notifications are never saved before
+        }
+
+        // Update notifications (but always > -1)
+        notifications = (notifications + n > -1) ? notifications + n : 0;
+
+        Log.d(Constants.TAG, "Updating notifications: " + notifications);
+
+        // Save the data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("notifications", notifications);
+
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", json_data.toString());
+        } catch (JSONException e) {
+            //default
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
+        }
     }
 
 }
