@@ -247,9 +247,10 @@ public class MainService extends Service implements Transporter.DataListener {
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
 
-        // A notification is removed
-        if(action.equals("del"))
-            notificationCounter(-1);
+        // A notification is removed/added
+        if(action.equals("del") || action.equals("add")) {
+            notificationCounter(action.equals("del")?-1:1);
+        }
 
         Log.d(Constants.TAG, "MainService action: " + action);
 
@@ -421,9 +422,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
         Log.d(Constants.TAG, "MainService incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
-
-        // Add notification
-        notificationCounter(1);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
