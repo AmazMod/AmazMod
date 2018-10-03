@@ -120,24 +120,24 @@ public class NotificationService extends NotificationListenerService {
 
         String notificationPackage = statusBarNotification.getPackageName();
         if (!isPackageAllowed(notificationPackage)) {
-            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_PACKAGE));
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_PACKAGE));
             storeForStats(statusBarNotification, Constants.FILTER_PACKAGE);
             return;
         }
 
         if (isNotificationsDisabled()) {
-            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_NOTIFICATIONS_DISABLED));
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_NOTIFICATIONS_DISABLED));
             storeForStats(statusBarNotification, Constants.FILTER_NOTIFICATIONS_DISABLED);
             return;
         }
 
         if (isNotificationsDisabledWhenScreenOn()) {
             if (!Screen.isDeviceLocked(this)) {
-                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_SCREENON));
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_SCREENON));
                 storeForStats(statusBarNotification, Constants.FILTER_SCREENON);
                 return;
             } else if (!isNotificationsEnabledWhenScreenLocked()) {
-                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)Constants.FILTER_SCREENLOCKED));
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_SCREENLOCKED));
                 storeForStats(statusBarNotification, Constants.FILTER_SCREENLOCKED);
                 return;
             }
@@ -147,7 +147,7 @@ public class NotificationService extends NotificationListenerService {
 
         boolean notificationSent = false;
 
-        log.d("NotificationService notificationPackage:" + notificationPackage + " / filterResult: " + Character.toString((char) (byte)filterResult));
+        log.d("NotificationService notificationPackage:" + notificationPackage + " / filterResult: " + Character.toString((char) (byte) filterResult));
 
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
@@ -164,10 +164,10 @@ public class NotificationService extends NotificationListenerService {
             }
 
             if (notificationSent) {
-                log.d("NotificationService sent: " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
+                log.d("NotificationService sent: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
                 storeForStats(statusBarNotification, filterResult);
             } else {
-                log.d("NotificationService blocked (FILTER_RETURN): " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
+                log.d("NotificationService blocked (FILTER_RETURN): " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
                 storeForStats(statusBarNotification, Constants.FILTER_RETURN);
             }
 
@@ -179,7 +179,7 @@ public class NotificationService extends NotificationListenerService {
                 mapNotification(statusBarNotification);
                 //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
             } else {
-                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte)filterResult));
+                log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
                 storeForStats(statusBarNotification, filterResult);
             }
         }
@@ -188,6 +188,10 @@ public class NotificationService extends NotificationListenerService {
     //Remove notification from watch if it was removed from phone
     @Override
     public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
+        if (statusBarNotification == null) {
+            return;
+        }
+        
         log.d("notificationRemoved: %s", statusBarNotification.getKey());
 
         if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
@@ -335,7 +339,7 @@ public class NotificationService extends NotificationListenerService {
         }
     }
 
-        private byte filter(StatusBarNotification statusBarNotification) {
+    private byte filter(StatusBarNotification statusBarNotification) {
         if (notificationTimeGone == null) {
             notificationTimeGone = new HashMap<>();
         }
@@ -383,7 +387,7 @@ public class NotificationService extends NotificationListenerService {
         if (bigText != null) {
             text = bigText.toString();
         }
-        log.d("NotificationService notificationPackage: "+ notificationPackage + " / text: " + text);
+        log.d("NotificationService notificationPackage: " + notificationPackage + " / text: " + text);
         //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
         //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
         if (notificationTimeGone.containsKey(notificationId)) {
@@ -400,13 +404,13 @@ public class NotificationService extends NotificationListenerService {
                 //Logger.debug("notification allowed");
                 if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
                     //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
-                    else return returnFilterResult(Constants.FILTER_UNGROUP);
+                else return returnFilterResult(Constants.FILTER_UNGROUP);
             }
         } else {
             notificationTimeGone.put(notificationId, text);
             log.d("NotificationService allowed2: " + notificationPackage);
             if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
-                else return returnFilterResult(Constants.FILTER_CONTINUE);
+            else return returnFilterResult(Constants.FILTER_CONTINUE);
         }
 
         /* Disabled because it is blocking some notifications
