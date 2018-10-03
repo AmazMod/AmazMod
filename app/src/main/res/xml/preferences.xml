@@ -53,7 +53,7 @@
             android:title="@string/pref_notifications_replies">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesActivity"
+                android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesDragActivity"
                 android:targetPackage="com.edotassi.amazmod" />
         </Preference>
 

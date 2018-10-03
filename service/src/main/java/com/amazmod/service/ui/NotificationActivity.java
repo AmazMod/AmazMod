@@ -316,9 +316,14 @@ public class NotificationActivity extends Activity {
 
         if (mustLockDevice) {
             if (flag) {
-                SystemClock.sleep(500);
-            }
-            lock();
+                final Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        lock();
+                    }
+                }, 500);
+            } else
+                lock();
         }
     }
 

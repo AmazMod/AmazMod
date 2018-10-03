@@ -10,7 +10,77 @@
     android:paddingEnd="10dp"
     android:paddingStart="10dp"
     android:paddingTop="10dp"
+    android:keepScreenOn="true"
     tools:context=".springboard.WearActivity">
+
+    <android.support.wearable.view.WearableFrameLayout
+        android:id="@+id/info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_box="bottom">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp">
+
+                <ImageView
+                    android:id="@+id/imageView01"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@mipmap/ic_launcher" />
+
+                <TextView
+                    android:id="@+id/textView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="2dp"
+                    android:text="TextView"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/textView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="2dp"
+                    android:text="TextView"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/textView04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="2dp"
+                    android:text="TextView"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/buttonClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:onClick="hideInfo"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="Button"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </ScrollView>
+    </android.support.wearable.view.WearableFrameLayout>
 
     <LinearLayout
         android:id="@+id/confirm_layout"
@@ -40,9 +110,9 @@
             android:src="@drawable/ic_full_cancel"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            app:circle_border_color="@color/red"
+            app:circle_border_color="@color/green"
             app:circle_border_width="16dp"
-            app:circle_color="@color/black"
+            app:circle_color="@color/red"
             app:circle_padding="16dp"
             app:circle_radius="60dp"
             app:update_interval="100" />

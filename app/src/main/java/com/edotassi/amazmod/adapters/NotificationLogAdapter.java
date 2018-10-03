@@ -49,6 +49,9 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
             add(R.string.notification_local);
             add(R.string.notification_ongoing);
             add(R.string.notification_return);
+            add(R.string.notification_disabled);
+            add(R.string.notification_screenon);
+            add(R.string.notification_screenlocked);
             add(R.string.notification_package);
             add(R.string.notification_voice);
             add(R.string.notification_maps);

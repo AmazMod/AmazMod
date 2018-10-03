@@ -95,8 +95,8 @@
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time interval</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies</string>
     <string name="pref_notifications_replies">Notifications replies</string>
-    <string name="pref_disable_notifications_replies_summary">Replies will be shown after tapping a button on notification</string>
-    <string name="pref_disable_notifications_replies">Hide notification replies</string>
+    <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
+    <string name="pref_disable_notifications_replies">Hide notification text</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Disable notifications when screen is ON</string>
     <string name="pref_disable_notifications_when_screen_on">Disable when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
@@ -229,5 +229,9 @@
     <string name="set_admin">Set admin</string>
     <string name="shell_command_failed">Command failed</string>
     <string name="result_code">Result code:</string>
+    <string name="battery_chart_updated">Battery chart updated with new data</string>
+    <string name="battery_chart_request">Requesting new battery data…</string>
+    <string name="battery_chart_waiting">Waiting for new battery data…</string>
+    <string name="edit_reply">Edit reply</string>
     <string name="privacy_policy">Privacy policy</string>
 </resources>
