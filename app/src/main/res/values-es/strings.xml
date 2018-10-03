@@ -13,7 +13,7 @@
   <string name="about">Acerca de</string>
   <string name="sync_settings">Sincronizando ajustes&#8230;</string>
   <string name="brightness">Brillo</string>
-  <string name="tweaking">Afinar</string>
+  <string name="tweaking">Mejoras</string>
   <string name="watchface">Esfera</string>
   <string name="stats">Estadísticas</string>
   <string name="changelog">Historial de cambios</string>
@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Gráfica de batería</string>
   <string name="watch_info">Información del reloj</string>
   <string name="last_charge">Desde la última carga</string>
-  <string name="last_charge_no_info">Waiting for full charge</string>
+  <string name="last_charge_no_info">Esperando a carga completa</string>
   <string name="notification_block">Bloquear</string>
   <string name="notification_continue">Continuar</string>
   <string name="notification_group">Agrupar</string>
@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">Establece el intervalo de tiempo de la gráfica de bateria</string>
   <string name="pref_notifications_replies_summary">Añade respuestas personalizadas</string>
   <string name="pref_notifications_replies">Respuestas de notificaciones</string>
-  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
-  <string name="pref_disable_notifications_replies">Hide notification text</string>
+  <string name="pref_disable_notifications_replies_summary">Se ocultará el contenido de las notificaciones (al igual que el panel de respuestas)</string>
+  <string name="pref_disable_notifications_replies">Ocular el texto de las notificaciones</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Deshabilitar notificaciones con pantalla encendida</string>
   <string name="pref_disable_notifications_when_screen_on">Deshabilita con pantalla encendida</string>
   <string name="pref_notifications_enable_custom_ui_summary">Podras responder a las notificaciones</string>
@@ -164,7 +164,7 @@
   <string name="activity_permissions_open_settings">Abrir ajustes de la app</string>
   <string name="enabled">habilitado</string>
   <string name="disabled">deshabilitado</string>
-  <string name="activity_files_extras">Backup settings</string>
+  <string name="activity_files_extras">Respaldar ajustes</string>
   <string name="activity_files_backup_title">Respaldar y restaurar</string>
   <string name="activity_files_permission">Permiso para escribir</string>
   <string name="activity_files_date_last_backup">Fecha del último respaldo</string>
@@ -226,15 +226,15 @@
   <string name="revoke_admin">Revocar privilegios de aministrador</string>
   <string name="enable_lpm_content">Esta función es todavía experimental, una vez habilitado, para desactivarlo, tienes que reiniciar el reloj</string>
   <string name="continue_label">Continuar</string>
-  <string name="pref_file_extras">Backup and restore settings</string>
-  <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
-  <string name="reboot_bootloader">Enter fastboot</string>
-  <string name="set_admin">Set admin</string>
-  <string name="shell_command_failed">Command failed</string>
-  <string name="result_code">Result code:</string>
-  <string name="battery_chart_updated">Battery chart updated with new data</string>
-  <string name="battery_chart_request">Requesting new battery data…</string>
-  <string name="battery_chart_waiting">Waiting for new battery data…</string>
-  <string name="edit_reply">Edit reply</string>
-  <string name="privacy_policy">Privacy policy</string>
+  <string name="pref_file_extras">Respaldar y restaurar ajustes</string>
+  <string name="pref_file_extras_summary">Respaldar y restaurar ajustes de AmazMod</string>
+  <string name="reboot_bootloader">Entrar en fastboot</string>
+  <string name="set_admin">Habilitar admin</string>
+  <string name="shell_command_failed">Error en el comando</string>
+  <string name="result_code">Código del resultado:</string>
+  <string name="battery_chart_updated">Gráfica de batería actualizada con nuevos datos</string>
+  <string name="battery_chart_request">Solicitando nuevos datos de batería…</string>
+  <string name="battery_chart_waiting">Esperando nuevos datos de batería…</string>
+  <string name="edit_reply">Editar respuesta</string>
+  <string name="privacy_policy">Política de Privacidad</string>
 </resources>
