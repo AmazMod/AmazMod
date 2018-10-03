@@ -191,7 +191,7 @@ public class NotificationService extends NotificationListenerService {
         if (statusBarNotification == null) {
             return;
         }
-        
+
         log.d("notificationRemoved: %s", statusBarNotification.getKey());
 
         if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
