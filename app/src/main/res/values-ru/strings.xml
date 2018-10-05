@@ -51,7 +51,7 @@
   <string name="battery_chart_title">Данные батареи</string>
   <string name="watch_info">Информация о часах</string>
   <string name="last_charge">C полного заряда</string>
-  <string name="last_charge_no_info">Waiting for full charge</string>
+  <string name="last_charge_no_info">Дождитесь полной зарядки</string>
   <string name="notification_block">Блокировать</string>
   <string name="notification_continue">Продолжить</string>
   <string name="notification_group">Группа</string>
@@ -97,7 +97,7 @@
   <string name="pref_battery_chart_time_interval_summary">Установить временной интервал на графике потребления энергии</string>
   <string name="pref_notifications_replies_summary">Введите пользовательские ответы</string>
   <string name="pref_notifications_replies">Ответы на уведомления</string>
-  <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
+  <string name="pref_disable_notifications_replies_summary">Текст уведомления будет скрыт (и панель ответов тоже)</string>
   <string name="pref_disable_notifications_replies">Hide notification text</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Включённый экран</string>
   <string name="pref_disable_notifications_when_screen_on">Отключить, когда экран включён</string>
