@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
 
@@ -18,8 +19,10 @@ import amazmod.com.transport.Constants;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.WatchStatus;
+import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
+import com.edotassi.amazmod.update.Updater;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -31,7 +34,7 @@ import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class WatchInfoFragment extends Card {
+public class WatchInfoFragment extends Card implements Updater {
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -96,6 +99,8 @@ public class WatchInfoFragment extends Card {
                         isConnected();
                         watchStatus = task.getResult();
                         refresh(watchStatus);
+
+                        Setup.checkServiceUpdate(WatchInfoFragment.this, watchStatus.getWatchStatusData().getAmazModServiceVersion());
                     } else {
                         AmazModApplication.isWatchConnected = false;
                         try {
@@ -179,4 +184,28 @@ public class WatchInfoFragment extends Card {
         noService.setVisibility(View.GONE);
     }
 
+    @Override
+    public void updateCheckFailed() {
+        Snacky.builder()
+                .setText(R.string.cant_check_service_updates)
+                .setDuration(Snacky.LENGTH_SHORT)
+                .setActivity(getActivity())
+                .build()
+                .show();
+    }
+
+    @Override
+    public void updateAvailable(final int version) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                new MaterialDialog.Builder(getContext())
+                        .title(R.string.new_update_available)
+                        .content(getString(R.string.new_service_update_available, String.valueOf(version)))
+                        .positiveText(R.string.update)
+                        .negativeText(R.string.cancel)
+                        .show();
+            }
+        });
+    }
 }

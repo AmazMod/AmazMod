@@ -57,7 +57,7 @@ public class Setup {
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
                         try {
-                            String json = response.body().toString();
+                            String json = response.body().string();
                             Properties data = new Gson().fromJson(json, Properties.class);
                             int latestVersionValue = Integer.valueOf(data.getProperty("version"));
                             int currentVersionValue = Integer.valueOf(currentVersion);
