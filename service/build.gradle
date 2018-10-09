@@ -16,9 +16,6 @@ android {
         versionProps.load(new FileInputStream(versionPropsFile))
 
         def build = versionProps['VERSION_BUILD'].toInteger() + 1
-        def patch = versionProps['VERSION_PATCH'].toInteger()
-        def minor = versionProps['VERSION_MINOR'].toInteger()
-        def major = versionProps['VERSION_MAJOR'].toInteger()
 
         versionProps['VERSION_BUILD']=build.toString()
         versionProps.store(versionPropsFile.newWriter(), null)
@@ -28,8 +25,7 @@ android {
             minSdkVersion 21
             targetSdkVersion 21
             versionCode build
-            versionName "${major}.${minor}.${patch}_(${build})"
-            //setProperty("archivesBaseName", "AmazModService-$versionName")
+            versionName "${build}"
         }
     }
     else {

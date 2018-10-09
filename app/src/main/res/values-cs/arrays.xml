@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="default_notification_packages">
+        <item>org.telegram.messenger</item>
+        <item>com.whatsapp</item>
+        <item>com.google.android.gm</item>
+        <item>com.google.android.talk</item>
+        <item>com.matusmak.fakenotifications</item>
+    </string-array>
     <string-array name="default_notification_replies">
         <item>Ano</item>
         <item>Ne</item>
         <item>Děkuji</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normalní</item>
+        <item>Velké</item>
+        <item>Obrovské</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_values">
+        <item>n</item>
+        <item>v</item>
+        <item>o</item>
     </string-array>
     <string-array name="pref_amazmodservice_screen_timeout_entries">
         <item>3 s</item>
@@ -14,6 +31,31 @@
         <item>15 s</item>
         <item>20 s</item>
     </string-array>
+    <string-array name="pref_amazmodservice_screen_timeout_values">
+        <item>3000</item>
+        <item>5000</item>
+        <item>7000</item>
+        <item>10000</item>
+        <item>12000</item>
+        <item>15000</item>
+        <item>20000</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_vibration_entries">
+        <item>0 ms</item>
+        <item>100 ms</item>
+        <item>200 ms</item>
+        <item>300 ms</item>
+        <item>400 ms</item>
+        <item>500 ms</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_vibration_values">
+        <item>0</item>
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+    </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
         <item>15 min</item>
         <item>30 min</item>
@@ -23,6 +65,15 @@
         <item>3 h</item>
         <item>4 h</item>
     </string-array>
+    <string-array name="pref_battery_background_sync_interval_values">
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+        <item>180</item>
+        <item>240</item>
+    </string-array>
     <string-array name="pref_battery_chart_range_entries">
         <item>1 den</item>
         <item>2 dny</item>
@@ -31,5 +82,34 @@
         <item>7 dnů</item>
         <item>10 dnů</item>
         <item>15 dnů</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+    <string-array name="pref_watchface_background_sync_interval_entries">
+        <item>1 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>60 min</item>
+        <item>1 h 30 min</item>
+        <item>2 h</item>
+    </string-array>
+    <string-array name="pref_watchface_background_sync_interval_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
     </string-array>
 </resources>

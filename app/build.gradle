@@ -38,14 +38,11 @@ android {
     }
 }
 
-def dbflow_version = "4.2.4"
-
 dependencies {
     implementation project(':transport')
     implementation project(':models')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.heinrichreimersoftware:material-intro:1.6.2'
-    //implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.android.support:design:27.1.1'
@@ -63,10 +60,10 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    implementation 'com.google.firebase:firebase-core:16.0.3'
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
+    implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
+    implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
+    implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
@@ -80,7 +77,7 @@ dependencies {
     implementation 'com.github.tingyik90:snackprogressbar:4.1'
     implementation 'com.karumi:dexter:5.0.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
-    //implementation 'com.github.javiersantos:AppUpdater:2.7'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
