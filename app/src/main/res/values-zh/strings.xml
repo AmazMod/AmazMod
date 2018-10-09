@@ -237,4 +237,8 @@
   <string name="battery_chart_waiting">正在等待新的电池数据...</string>
   <string name="edit_reply">编辑答复</string>
   <string name="privacy_policy">隐私政策</string>
+  <string name="cant_check_service_updates">Can\'t check service updates</string>
+  <string name="new_update_available">New update available!</string>
+  <string name="new_service_update_available">Version %s of AmazMod service is available</string>
+  <string name="update">Update</string>
 </resources>
