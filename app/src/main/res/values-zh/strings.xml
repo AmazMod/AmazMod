@@ -239,6 +239,6 @@
   <string name="privacy_policy">隐私政策</string>
   <string name="cant_check_service_updates">无法检查更新</string>
   <string name="new_update_available">有可用的更新！</string>
-  <string name="new_service_update_available">Version %s of AmazMod service is available</string>
-  <string name="update">Update</string>
+  <string name="new_service_update_available">版本 %s 的AmazMod 服务可用</string>
+  <string name="update">更新</string>
 </resources>
