@@ -2,7 +2,7 @@ package amazmod.com.transport;
 
 public class Constants {
 
-    public static final String PACKAGE = "com.edotassi.amazmod";
+    public static final String SERVICE_UPDATE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/amazmod-service-version.json";
     public static final String TAG = "AmazMod";
     public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
     public static final String INITIAL_PATH = "/sdcard";
