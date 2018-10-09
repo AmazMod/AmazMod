@@ -52,7 +52,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             watchfaceData.setBattery(battery);
             watchfaceData.setAlarm(alarm);
 
-            Watch.get().sendWatchfaceData(watchfaceData).continueWith(new Continuation<Watchface, Object>() {
+            Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
                 @Override
                 public Object then(@NonNull Task<Watchface> task) throws Exception {
                     if (task.isSuccessful()) {
@@ -63,7 +63,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     }
                     return null;
                 }
-            });
+            });*/
 
             //Save update time in milliseconds
             Date date= new Date();

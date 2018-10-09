@@ -22,8 +22,11 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
+
 import amazmod.com.transport.Constants;
+
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
@@ -41,6 +44,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
 
 import butterknife.ButterKnife;
@@ -70,9 +74,9 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            //TODO log to crashlitics
+            Crashlytics.logException(exception);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -86,8 +90,6 @@ public class MainActivity extends AppCompatActivity
 
         EventBus.getDefault().register(this);
 
-        //isWatchConnectedLocal itc = HermesEventBus.getDefault().getStickyEvent(IsTransportConnectedLocal.class);
-        //isWatchConnected = itc == null || itc.getTransportStatus();
         Log.d(Constants.TAG, " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
         showChangelog(true);
@@ -140,7 +142,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setupCards() {
-
         if (getSupportFragmentManager().getFragments() != null) {
             for (Fragment f : getSupportFragmentManager().getFragments()) {
                 getSupportFragmentManager().beginTransaction().remove(f).commitNow();
@@ -301,6 +302,5 @@ public class MainActivity extends AppCompatActivity
         PackageManager pm = getPackageManager();
         pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
         pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-
     }
 }

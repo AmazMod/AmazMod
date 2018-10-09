@@ -97,8 +97,8 @@
   <string name="pref_battery_chart_time_interval_summary">设置电池图表时间间隔</string>
   <string name="pref_notifications_replies_summary">输入您的自定义答复</string>
   <string name="pref_notifications_replies">通知答复</string>
-  <string name="pref_disable_notifications_replies_summary">点击通知后出现答复按钮</string>
-  <string name="pref_disable_notifications_replies">隐藏通知答复</string>
+  <string name="pref_disable_notifications_replies_summary">通知文本内容将被隐藏 (包括答复面板)</string>
+  <string name="pref_disable_notifications_replies">隐藏通知内容</string>
   <string name="pref_disable_notifications_when_screen_on_summary">当亮屏时禁用通知</string>
   <string name="pref_disable_notifications_when_screen_on">当亮屏时禁用</string>
   <string name="pref_notifications_enable_custom_ui_summary">您将能够答复通知</string>
@@ -230,4 +230,11 @@
   <string name="pref_file_extras_summary">备份和还原 AmazMod 设置</string>
   <string name="reboot_bootloader">进入 fastboot 模式</string>
   <string name="set_admin">设置管理员</string>
+  <string name="shell_command_failed">命令执行失败</string>
+  <string name="result_code">结果代码:</string>
+  <string name="battery_chart_updated">电池图表已更新</string>
+  <string name="battery_chart_request">正在请求新的电池数据...</string>
+  <string name="battery_chart_waiting">正在等待新的电池数据...</string>
+  <string name="edit_reply">编辑答复</string>
+  <string name="privacy_policy">隐私政策</string>
 </resources>

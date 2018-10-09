@@ -39,9 +39,9 @@ import com.amazmod.service.R;
 public class WearableListItemLayout extends LinearLayout
 		implements WearableListView.OnCenterProximityListener {
 
+    private WearableListItemLayout itemLayout;
 	private CircledImageView mCircle;
 	private TextView mName;
-	private final int mUnselectedCircleColor, mSelectedCircleColor, mPressedCircleColor;
 	private boolean mIsInCenter;
 
 	private float mBigCircleRadius;
@@ -49,7 +49,7 @@ public class WearableListItemLayout extends LinearLayout
 	private ObjectAnimator mScalingDownAnimator;
 	private ObjectAnimator mScalingUpAnimator;
 
-	private static final float NO_ALPHA = 1.0f, PARTIAL_ALPHA = 0.85f;
+	private static final float NO_ALPHA = 1.0f, PARTIAL_ALPHA = 0.80f;
 	private static final float NO_SCALE = 1.0f, SCALE = 0.9f;
 	private static final float NO_X_TRANSLATION = 0f, X_TRANSLATION = 20f;
 
@@ -65,9 +65,6 @@ public class WearableListItemLayout extends LinearLayout
 	public WearableListItemLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 
-		mUnselectedCircleColor = Color.parseColor("#c1c1c1");
-		mSelectedCircleColor = Color.parseColor("#3185ff");
-		mPressedCircleColor = Color.parseColor("#2955c5");
 		mSmallCircleRadius = getResources().getDimensionPixelSize(R.dimen.small_circle_radius);
 		mBigCircleRadius = getResources().getDimensionPixelSize(R.dimen.big_circle_radius);
 
@@ -84,8 +81,9 @@ public class WearableListItemLayout extends LinearLayout
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		mCircle = (CircledImageView) findViewById(R.id.image);
-		mName = (TextView) findViewById(R.id.text);
+		itemLayout = findViewById(R.id.item_layout);
+		mCircle = findViewById(R.id.image);
+		mName = findViewById(R.id.text);
 
 		mScalingUpAnimator = ObjectAnimator.ofFloat(mCircle, "circleRadius", mBigCircleRadius);
 		mScalingUpAnimator.setDuration(150L);
@@ -111,6 +109,9 @@ public class WearableListItemLayout extends LinearLayout
             mName.setAlpha(NO_ALPHA);
 		}
 
+		itemLayout.setClickable(false);
+		mCircle.setClickable(false);
+		mName.setClickable(false);
 		//mCircle.setCircleColor(mSelectedCircleColor);
 		mIsInCenter = true;
 	}
@@ -133,6 +134,9 @@ public class WearableListItemLayout extends LinearLayout
             mName.setAlpha(PARTIAL_ALPHA);
 		}
 
+        itemLayout.setClickable(true);
+		mCircle.setClickable(true);
+		mName.setClickable(true);
 		//mCircle.setCircleColor(mUnselectedCircleColor);
 		mIsInCenter = false;
 	}
@@ -170,12 +174,12 @@ public class WearableListItemLayout extends LinearLayout
 	public void setPressed(boolean pressed) {
 		super.setPressed(pressed);
 		if(mIsInCenter && pressed) {
-			//mCircle.setCircleRadius(mSmallCircleRadius);
+			mCircle.setCircleRadius(mSmallCircleRadius);
 			//mCircle.animate().scaleX(0.9f).scaleY(0.9f);
 			//mCircle.setCircleColor(mPressedCircleColor);
 		}
-		if(mIsInCenter && !pressed) {
-			//mCircle.setCircleRadius(mSmallCircleRadius);
+		if(mIsInCenter && pressed) {
+			mCircle.setCircleRadius(mBigCircleRadius);
 			//mCircle.animate().scaleX(1f).scaleY(1f);
 			//mCircle.setCircleColor(mSelectedCircleColor);
 		}

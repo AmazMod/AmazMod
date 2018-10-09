@@ -50,4 +50,6 @@ public class Constants {
     public static final String GREY = "grey";
 
     public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
+    public static final int VIBRATION_SHORT = 100;
+    public static final int VIBRATION_LONG = 700;
 }

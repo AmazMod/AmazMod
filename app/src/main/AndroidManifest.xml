@@ -49,6 +49,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.NotificationRepliesDragActivity" />
 
 
         <service
@@ -60,8 +61,18 @@
             </intent-filter>
         </service>
         <service android:name=".transport.TransportService" />
+        <!-- Disabled since new Watch class was added
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
-        <receiver android:name=".receiver.BatteryStatusReceiver" />
+        -->
+        <receiver
+            android:name=".receiver.BatteryStatusReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.edotassi.amazmod.USER_ACTION" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".receiver.WatchfaceReceiver" />
 
         <receiver

@@ -19,6 +19,7 @@ import android.os.BatteryManager;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -94,6 +95,7 @@ import amazmod.com.transport.data.WatchfaceData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static java.lang.System.currentTimeMillis;
+import static java.lang.System.in;
 
 /**
  * Created by edoardotassinari on 04/04/18.
@@ -121,6 +123,7 @@ public class MainService extends Service implements Transporter.DataListener {
     }};
 
     private Transporter transporter;
+    private Transporter transporterHuami;
 
     private Context context;
     public Context baseContext;
@@ -185,18 +188,26 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.d(Constants.TAG, "MainService Transporter not connected, connecting...");
             transporter.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService Transported yet connected");
+            Log.d(Constants.TAG, "MainService Transported already connected");
+        }
+
+        // Catch huami's notifications
+        transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
+        transporterHuami.addDataListener(this);
+        if (!transporterHuami.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService TransporterHuami not connected, connecting...");
+            transporterHuami.connectTransportService();
+        } else {
+            Log.d(Constants.TAG, "MainService TransportedHuami already connected");
         }
 
         slptClockClient = new SlptClockClient();
         slptClockClient.bindService(this, "AmazMod-MainService", new SlptClockClient.Callback() {
             @Override
-            public void onServiceConnected() {
-            }
+            public void onServiceConnected() {}
 
             @Override
-            public void onServiceDisconnected() {
-            }
+            public void onServiceDisconnected() {}
         });
 
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
@@ -205,7 +216,7 @@ public class MainService extends Service implements Transporter.DataListener {
         isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, false);
         isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
         if (isPhoneConnectionAlertEnabled) {
-            registerConnectionMonitor(true, isPhoneConnectionStandardAlertEnabled);
+            registerConnectionMonitor(true);
         }
     }
 
@@ -221,6 +232,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Unregister phone connection observer
         if (phoneConnectionObserver != null) {
             getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            phoneConnectionObserver = null;
         }
         super.onDestroy();
     }
@@ -234,6 +246,11 @@ public class MainService extends Service implements Transporter.DataListener {
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
+
+        // A notification is removed/added
+        if(action.equals("del") || action.equals("add")) {
+            notificationCounter(action.equals("del")?-1:1);
+        }
 
         Log.d(Constants.TAG, "MainService action: " + action);
 
@@ -276,7 +293,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
-        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
+        Log.d(Constants.TAG, "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
 
         // Get already saved data
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
@@ -308,7 +325,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.i(Constants.TAG, "MainService lowPower disable BT");
             btmgr.disable();
             try {
-                WifiManager wfmgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                WifiManager wfmgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 if (wfmgr != null) {
                     if (wfmgr.isWifiEnabled()) {
                         Log.i(Constants.TAG, "MainService lowPower disable WiFi");
@@ -322,10 +339,14 @@ public class MainService extends Service implements Transporter.DataListener {
             slptClockClient.enableLowBattery();
             slptClockClient.enableSlpt();
             SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
-            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            final DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
             if (mDPM != null) {
-                SystemClock.sleep(100);
-                mDPM.lockNow();
+                final Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        mDPM.lockNow();
+                    }
+                }, 200);
             }
 
         } else if (count >= 3) {
@@ -361,8 +382,10 @@ public class MainService extends Service implements Transporter.DataListener {
         settingsManager.sync(settingsData);
 
         //Toggle phone connect/disconnect monitor if settings changed
-        if (isPhoneConnectionAlertEnabled != settingsData.isPhoneConnectionAlert()) {
-            registerConnectionMonitor(settingsData.isPhoneConnectionAlert(), settingsData.isPhoneConnectionAlertStandardNotification());
+        boolean iPCA = settingsData.isPhoneConnectionAlert();
+        isPhoneConnectionStandardAlertEnabled = settingsData.isPhoneConnectionAlertStandardNotification();
+        if (isPhoneConnectionAlertEnabled != iPCA) {
+            registerConnectionMonitor(iPCA);
         }
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
@@ -399,7 +422,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
         Log.d(Constants.TAG, "MainService incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -664,20 +686,22 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-    private void registerConnectionMonitor(boolean status, final boolean standardAlert) {
+    private void registerConnectionMonitor(boolean status) {
         Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
         if (status) {
+            if (phoneConnectionObserver != null)
+                return;
             ContentResolver contentResolver = getContentResolver();
             Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
             phoneConnectionObserver = new ContentObserver(new Handler()) {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    if (standardAlert) {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + standardAlert);
+                    if (isPhoneConnectionStandardAlertEnabled) {
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         sendStandardAlert();
                     } else {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + standardAlert);
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         Intent intent = new Intent(context, PhoneConnectionActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -694,7 +718,8 @@ public class MainService extends Service implements Transporter.DataListener {
             };
             contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
         } else {
-            getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            if (phoneConnectionObserver != null)
+                getContentResolver().unregisterContentObserver(phoneConnectionObserver);
             phoneConnectionObserver = null;
         }
         isPhoneConnectionAlertEnabled = status;
@@ -703,6 +728,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private void sendStandardAlert() {
 
         NotificationData notificationData = new NotificationData();
+        final int vibrate;
 
         final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
 
@@ -717,14 +743,18 @@ public class MainService extends Service implements Transporter.DataListener {
 
         final Drawable drawable;
 
+        final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
         if (android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")) {
             // Phone disconnected
             drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
             notificationData.setText(getString(R.string.phone_disconnected));
+            vibrate = Constants.VIBRATION_LONG;
         } else {
             // Phone connected
             drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
             notificationData.setText(getString(R.string.phone_connected));
+            vibrate = Constants.VIBRATION_SHORT;
         }
 
         try {
@@ -747,6 +777,55 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         notificationManager.post(notificationData);
+        final Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    if (vibrator != null) {
+                        vibrator.vibrate(vibrate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1500);
+    }
+
+    // Count notifications
+    public void notificationCounter(int n){
+        int notifications = 0;
+
+        // Get already saved data
+        String data = Settings.System.getString(getContentResolver(), "CustomWatchfaceData");
+        if (data == null || data.equals("")) {
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{}");//default
+        }
+
+        // Get data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            notifications = json_data.getInt("notifications");
+        } catch (JSONException e) {
+            //Nothing, notifications are never saved before
+        }
+
+        // Update notifications (but always > -1)
+        notifications = (notifications + n > -1) ? notifications + n : 0;
+
+        Log.d(Constants.TAG, "Updating notifications: " + notifications);
+
+        // Save the data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("notifications", notifications);
+
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", json_data.toString());
+        } catch (JSONException e) {
+            //default
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
+        }
     }
 
 }

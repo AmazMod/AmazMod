@@ -230,4 +230,8 @@
     <string name="shell_command_failed">Comando falhou</string>
     <string name="result_code">Resultado:</string>
     <string name="privacy_policy">Política de Privacidade</string>
+    <string name="battery_chart_updated">Battery chart updated with new data</string>
+    <string name="battery_chart_request">Requesting new battery data…</string>
+    <string name="battery_chart_waiting">Waiting for new battery data…</string>
+    <string name="edit_reply">Edit reply</string>
 </resources>
