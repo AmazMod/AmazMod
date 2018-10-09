@@ -239,4 +239,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="battery_chart_waiting">Várakozás a friss akku adatokra…</string>
   <string name="edit_reply">Válasz szerkesztése</string>
   <string name="privacy_policy">Adatvédelmi nyilatkozat</string>
+  <string name="cant_check_service_updates">Can\'t check service updates</string>
+  <string name="new_update_available">New update available!</string>
+  <string name="new_service_update_available">Version %s of AmazMod service is available</string>
+  <string name="update">Update</string>
 </resources>
