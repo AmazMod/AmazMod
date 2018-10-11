@@ -237,9 +237,9 @@ Urobte príkaz shell \"</string>
   <string name="battery_chart_request">Vyžaduje nové dáta batérie…</string>
   <string name="battery_chart_waiting">Čakanie na nové dáta batérie…</string>
   <string name="edit_reply">Upraviť odpoveď</string>
-  <string name="privacy_policy">Privacy policy</string>
-  <string name="cant_check_service_updates">Can\'t check service updates</string>
-  <string name="new_update_available">New update available!</string>
-  <string name="new_service_update_available">Version %s of AmazMod service is available</string>
-  <string name="update">Update</string>
+  <string name="privacy_policy">Ochrana osobných údajov</string>
+  <string name="cant_check_service_updates">Nemôže skontrolovať aktualizácie servisné aplikácie</string>
+  <string name="new_update_available">Nová aktualizácia k dispozícii!</string>
+  <string name="new_service_update_available">Verzia %s AmazMod service je k dispozícii</string>
+  <string name="update">Aktualizovať</string>
 </resources>
