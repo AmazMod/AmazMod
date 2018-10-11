@@ -51,9 +51,9 @@
   <string name="battery_chart_title">Graf batérie</string>
   <string name="watch_info">Informácie hodiniek</string>
   <string name="last_charge">Od úplného nabitia</string>
-  <string name="last_charge_no_info">Waiting for full charge</string>
-  <string name="notification_block">Block</string>
-  <string name="notification_continue">Continue</string>
+  <string name="last_charge_no_info">Čakanie na plné nabitie</string>
+  <string name="notification_block">Blokovať</string>
+  <string name="notification_continue">Pokračovať</string>
   <string name="notification_group">Group</string>
   <string name="notification_local">Local</string>
   <string name="notification_ongoing">Ongoing</string>
