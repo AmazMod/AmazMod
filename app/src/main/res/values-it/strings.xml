@@ -238,4 +238,8 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="battery_chart_waiting">In attesa dei nuovi dati sulla batteria…</string>
   <string name="edit_reply">Modifica risposta</string>
   <string name="privacy_policy">Informativa sulla privacy</string>
+  <string name="cant_check_service_updates">Impossibile cercare aggiornamenti di servizio</string>
+  <string name="new_update_available">Nuovo aggiornamento disponibile!</string>
+  <string name="new_service_update_available">Versione %s del servizio AmazMod disponibile</string>
+  <string name="update">Aggiornamento</string>
 </resources>

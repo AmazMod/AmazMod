@@ -237,4 +237,8 @@
   <string name="battery_chart_waiting">Esperando nuevos datos de batería…</string>
   <string name="edit_reply">Editar respuesta</string>
   <string name="privacy_policy">Política de Privacidad</string>
+  <string name="cant_check_service_updates">Can\'t check service updates</string>
+  <string name="new_update_available">New update available!</string>
+  <string name="new_service_update_available">Version %s of AmazMod service is available</string>
+  <string name="update">Update</string>
 </resources>
