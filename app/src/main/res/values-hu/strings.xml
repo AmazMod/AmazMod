@@ -243,4 +243,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="new_update_available">Új frissítés érhető el!</string>
   <string name="new_service_update_available">A %s AmazMod service verzió elérhető</string>
   <string name="update">Frissítés</string>
+  <string name="download_in_progress">Download in progress</string>
+  <string name="download_failed">Download failed</string>
+  <string name="download_completed">Download completed</string>
 </resources>
