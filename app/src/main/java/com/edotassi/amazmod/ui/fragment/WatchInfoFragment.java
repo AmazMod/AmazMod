@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
@@ -22,6 +24,7 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
+import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
@@ -74,6 +77,8 @@ public class WatchInfoFragment extends Card implements Updater {
 
     private long timeLastSync = 0L;
     private static WatchStatus watchStatus;
+
+    private MaterialDialog updateDialog;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
@@ -204,8 +209,72 @@ public class WatchInfoFragment extends Card implements Updater {
                         .content(getString(R.string.new_service_update_available, String.valueOf(version)))
                         .positiveText(R.string.update)
                         .negativeText(R.string.cancel)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+                                final UpdateDownloader updateDownloader = new UpdateDownloader();
+
+                                updateDialog = new MaterialDialog.Builder(getContext())
+                                        .title(R.string.download_in_progress)
+                                        .customView(R.layout.dialog_update_progress, false)
+                                        .negativeText(R.string.cancel)
+                                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                            @Override
+                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                if (updateDownloader != null) {
+                                                    updateDownloader.cancel();
+                                                }
+                                            }
+                                        })
+                                        .show();
+
+                                updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
+                            }
+                        })
                         .show();
             }
         });
+    }
+
+    @Override
+    public void updateDownloadProgress(String filename, int progress) {
+        if (updateDialog == null) {
+            return;
+        }
+
+        View view = updateDialog.getCustomView();
+        ProgressBar progressBar = view.findViewById(R.id.dialog_update_progress_bar);
+        TextView fileNameTextView = view.findViewById(R.id.dialog_update_progress_filename);
+        TextView percTextView = view.findViewById(R.id.dialog_update_progress_perc);
+
+        progressBar.setProgress(progress);
+        fileNameTextView.setText(filename);
+        percTextView.setText(String.format("%d%s", progress, "%"));
+    }
+
+    @Override
+    public void updateDownloadFailed() {
+        if (updateDialog == null) {
+            return;
+        }
+
+        updateDialog.dismiss();
+        updateDialog = null;
+
+        Snacky.builder().setActivity(getActivity()).setText(R.string.download_failed).build().show();
+    }
+
+    @Override
+    public void updateDownloadCompleted() {
+        if (updateDialog == null) {
+            return;
+        }
+
+        updateDialog.dismiss();
+        updateDialog = null;
+
+        Snacky.builder().setActivity(getActivity()).setText(R.string.download_completed).build().show();
+
     }
 }
