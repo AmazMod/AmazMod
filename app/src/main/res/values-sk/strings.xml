@@ -242,4 +242,7 @@ Urobte príkaz shell \"</string>
   <string name="new_update_available">Nová aktualizácia k dispozícii!</string>
   <string name="new_service_update_available">Verzia %s AmazMod service je k dispozícii</string>
   <string name="update">Aktualizovať</string>
+  <string name="download_in_progress">Sťahovanie</string>
+  <string name="download_failed">Sťahovanie zlyhalo</string>
+  <string name="download_completed">Sťahovanie úspešné</string>
 </resources>
