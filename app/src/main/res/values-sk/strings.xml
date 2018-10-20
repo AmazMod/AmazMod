@@ -245,4 +245,6 @@ Urobte príkaz shell \"</string>
   <string name="download_in_progress">Sťahovanie</string>
   <string name="download_failed">Sťahovanie zlyhalo</string>
   <string name="download_completed">Sťahovanie úspešné</string>
+  <string name="rename">Rename</string>
+  <string name="type_folder_name">Type Folder Name</string>
 </resources>
