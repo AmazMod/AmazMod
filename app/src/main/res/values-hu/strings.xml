@@ -246,6 +246,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="download_in_progress">Letöltés folyamatban</string>
   <string name="download_failed">A letöltés sikertelen</string>
   <string name="download_completed">A letöltés befejeződött</string>
-  <string name="rename">Rename</string>
-  <string name="type_folder_name">Type Folder Name</string>
+  <string name="rename">Átnevez</string>
+  <string name="type_folder_name">Írd be a mappa nevét</string>
 </resources>
