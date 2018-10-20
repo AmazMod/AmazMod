@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.ui;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -17,8 +19,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import amazmod.com.models.Reply;
 import amazmod.com.transport.Constants;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -60,6 +62,7 @@ import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.ResultShellCommandData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -70,11 +73,24 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class FileExplorerActivity extends AppCompatActivity {
 
     private final int FILE_UPLOAD_CODE = 1;
+    private static boolean isFabOpen;
 
     @BindView(R.id.activity_file_explorer_list)
     ListView listView;
     @BindView(R.id.activity_file_explorer_progress)
     MaterialProgressBar materialProgressBar;
+
+    @BindView(R.id.activity_file_explorer_fab_bg)
+    View bgFabMenu;
+
+    @BindView(R.id.activity_file_explorer_fab_main)
+    FloatingActionButton fabMain;
+
+    @BindView(R.id.activity_file_explorer_fab_newfolder)
+    FloatingActionButton fabNewFolder;
+
+    @BindView(R.id.activity_file_explorer_fab_upload)
+    FloatingActionButton fabUpload;
 
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
@@ -268,10 +284,36 @@ public class FileExplorerActivity extends AppCompatActivity {
             case R.id.action_activity_file_explorer_install_apk:
                 installApk(index);
                 return true;
+            case R.id.action_activity_file_explorer_rename:
+                renameFile(index);
+                return true;
         }
 
         return false;
     }
+
+
+    private void renameFile(int index) {
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        CloseFabMenu();
+        new MaterialDialog.Builder(this)
+                .title("Rename Folder")
+                .content(R.string.type_folder_name)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .negativeText(R.string.cancel)
+                .input("", fileData.getName(), new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        // Do something
+                        String newName = currentPath + "/" + input.toString();
+                        String oldName = fileData.getPath();
+                        String renameCmd = ShellCommandHelper.getRenameCommand(oldName,newName);
+                        execCommandAndReload(renameCmd);
+                        //FirebaseAnalytics.getInstance(dialog.getContext()).logEvent(renameCmd, null);
+                    }
+                }).show();
+    }
+
 
     private void deleteFile(int index) {
         final SnackProgressBar deletingSnackbar = new SnackProgressBar(
@@ -459,8 +501,9 @@ public class FileExplorerActivity extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.activity_file_explorer_upload)
+    @OnClick(R.id.activity_file_explorer_fab_upload)
     public void onUpload() {
+        CloseFabMenu();
         Intent i = new Intent(this, FilePickerActivity.class);
 
         i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
@@ -473,6 +516,102 @@ public class FileExplorerActivity extends AppCompatActivity {
         FirebaseAnalytics
                 .getInstance(this)
                 .logEvent(FirebaseEvents.UPLOAD_FILE_CLICK, new Bundle());
+    }
+
+    @OnClick(R.id.activity_file_explorer_fab_main)
+    public void fabMainClick(){
+        if (!isFabOpen)
+            ShowFabMenu();
+        else
+            CloseFabMenu();
+    };
+
+
+    @OnClick(R.id.activity_file_explorer_fab_bg)
+    public void fabMenuClick(){
+        CloseFabMenu();
+    };
+
+    @OnClick(R.id.activity_file_explorer_fab_newfolder)
+    public void fabNewFolderClick(){
+        CloseFabMenu();
+        new MaterialDialog.Builder(this)
+                .title(R.string.nnf_new_folder)
+                .content(R.string.type_folder_name)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .negativeText(R.string.cancel)
+                .input("", "", new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                        // Do something
+                        String newDirPath = currentPath + "/" + input.toString();
+                        execCommandAndReload(ShellCommandHelper.getMakeDirCommand(newDirPath));
+                        //FirebaseAnalytics.getInstance(dialog.getContext()).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT_BOOTLOADER, null);
+                    }
+                }).show();
+    };
+
+    private void ShowFabMenu()
+    {
+        isFabOpen = true;
+        fabUpload.setVisibility(View.VISIBLE);
+        fabNewFolder.setVisibility(View.VISIBLE);
+        bgFabMenu.setVisibility(View.VISIBLE);
+
+        fabMain.animate().rotation(135f);
+        bgFabMenu.animate().alpha(1f);
+        fabUpload.animate()
+                .translationY(-260f)
+                .rotation(0f);
+        fabNewFolder.animate()
+                .translationY(-140f)
+                .rotation(0f);
+    }
+
+    private void CloseFabMenu()
+    {
+        isFabOpen = false;
+
+        View[] views = {bgFabMenu, fabNewFolder, fabUpload};
+
+        fabMain.animate().rotation(0f);
+        bgFabMenu.animate().alpha(0f);
+        fabUpload.animate()
+                .translationY(0f)
+                .rotation(90f);
+        fabNewFolder.animate()
+                .translationY(0f)
+                .rotation(90f).setListener(new FabAnimatorListener(views));
+    }
+
+
+    private class FabAnimatorListener implements Animator.AnimatorListener
+    {
+        View[] viewsToHide;
+
+        public FabAnimatorListener(View[] viewsToHide) {
+            this.viewsToHide = viewsToHide;
+        }
+
+        @Override
+        public void onAnimationStart(Animator animation) {
+        }
+
+        @Override
+        public void onAnimationEnd(Animator animation) {
+            if (!isFabOpen)
+                for (View view : viewsToHide)
+                    view.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onAnimationCancel(Animator animation) {
+        }
+
+        @Override
+        public void onAnimationRepeat(Animator animation) {
+
+        }
     }
 
     private Task<Void> loadPath(final String path) {
@@ -596,4 +735,44 @@ public class FileExplorerActivity extends AppCompatActivity {
                 .setDuration(Snacky.LENGTH_SHORT)
                 .build().show();
     }
+
+    private void execCommandAndReload(String command) {
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                .setIsIndeterminate(true)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                    }
+                });
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        Watch.get().executeShellCommand(command).continueWith(new Continuation<ResultShellCommand, Object>() {
+            @Override
+            public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+
+                snackProgressBarManager.dismissAll();
+
+                if (task.isSuccessful()) {
+                    ResultShellCommand resultShellCommand = task.getResult();
+                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+
+                    if (resultShellCommandData.getResult() == 0) {
+                        //Toast.makeText(getApplicationContext(), resultShellCommandData.getOutputLog(), Toast.LENGTH_LONG).show();
+                        loadPath(currentPath);
+                    } else {
+                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    }
+                } else {
+                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
+                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                }
+
+                return null;
+            }
+        });
+    }
+
 }
