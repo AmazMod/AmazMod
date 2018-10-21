@@ -240,9 +240,9 @@
   <string name="new_update_available">Υπάρχει διαθέσιμη νέα ενημερωμένη!</string>
   <string name="new_service_update_available">Η έκδοση %s της υπηρεσίας του AmazMod είναι διαθέσιμη</string>
   <string name="update">Ενημέρωση</string>
-  <string name="download_in_progress">Download in progress</string>
-  <string name="download_failed">Download failed</string>
-  <string name="download_completed">Download completed</string>
-  <string name="rename">Rename</string>
-  <string name="type_folder_name">Type Folder Name</string>
+  <string name="download_in_progress">Λήψη σε εξέλιξη</string>
+  <string name="download_failed">Αποτυχία λήψης</string>
+  <string name="download_completed">Η λήψη ολοκληρώθηκε</string>
+  <string name="rename">Μετονομασία</string>
+  <string name="type_folder_name">Πληκτρολογήστε Όνομα Φακέλου</string>
 </resources>
