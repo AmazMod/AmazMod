@@ -247,6 +247,6 @@ Proveďte příkaz shell\"</string>
   <string name="download_in_progress">Probíhá stahování</string>
   <string name="download_failed">Stahování selhalo</string>
   <string name="download_completed">Stahování dokončeno</string>
-  <string name="rename">Rename</string>
-  <string name="type_folder_name">Type Folder Name</string>
+  <string name="rename">Přejmenovat</string>
+  <string name="type_folder_name">Zadej název složky</string>
 </resources>
