@@ -244,4 +244,9 @@ Proveďte příkaz shell\"</string>
   <string name="new_update_available">Nové aktualizace k dispozici!</string>
   <string name="new_service_update_available">Verze %s AmazMod service je k dispozici</string>
   <string name="update">Aktualizovat</string>
+  <string name="download_in_progress">Probíhá stahování</string>
+  <string name="download_failed">Stahování selhalo</string>
+  <string name="download_completed">Stahování dokončeno</string>
+  <string name="rename">Přejmenovat</string>
+  <string name="type_folder_name">Zadej název složky</string>
 </resources>

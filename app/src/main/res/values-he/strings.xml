@@ -239,4 +239,9 @@
   <string name="new_update_available">גרסה חדשה זמינה!</string>
   <string name="new_service_update_available">גרסה %s חדשה להתקנה על השעון זמינה</string>
   <string name="update">עדכן</string>
+  <string name="download_in_progress">הורדה מתבצעת</string>
+  <string name="download_failed">ההורדה נכשלה</string>
+  <string name="download_completed">ההורדה הושלמה</string>
+  <string name="rename">שינוי שם</string>
+  <string name="type_folder_name">הקלד שם תיקיה</string>
 </resources>
