@@ -245,4 +245,5 @@
   <string name="download_completed">ההורדה הושלמה</string>
   <string name="rename">שינוי שם</string>
   <string name="type_folder_name">הקלד שם תיקיה</string>
+  <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
 </resources>
