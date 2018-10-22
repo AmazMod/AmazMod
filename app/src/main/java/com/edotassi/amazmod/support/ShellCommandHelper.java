@@ -20,6 +20,14 @@ public class ShellCommandHelper {
         return Constants.SHELL_COMMAND_FASTBOOT;
     }
 
+    public static String getMakeDirCommand(String path){
+        return Constants.SHELL_COMMAND_MKDIR + " " + path;
+    }
+
+    public static String getRenameCommand(String oldPath, String newPath){
+        return Constants.SHELL_COMMAND_RENAME + " " + oldPath + " " + newPath;
+    }
+
     public static String getDPM() {
         return Constants.SHELL_COMMAND_DPM;
     }

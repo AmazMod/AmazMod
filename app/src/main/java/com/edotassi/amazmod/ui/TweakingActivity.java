@@ -40,6 +40,9 @@ public class TweakingActivity extends AppCompatActivity {
     @BindView(R.id.activity_tweaking_exec_command)
     EditText commandEditText;
 
+    @BindView(R.id.activity_tweaking_brightness_value)
+    EditText brightnessEditText;
+
     @BindView(R.id.activity_tweaking_shell_result_code)
     TextView shellResultCodeTextView;
 
@@ -97,37 +100,32 @@ public class TweakingActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStopTrackingTouch(final SeekBar seekBar) {
-                BrightnessData brightnessData = new BrightnessData();
-                brightnessData.setLevel(seekBar.getProgress());
-
-                Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
-                    @Override
-                    public Object then(@NonNull Task<Void> task) throws Exception {
-                        if (task.isSuccessful()) {
-                            Snacky.builder()
-                                    .setActivity(TweakingActivity.this)
-                                    .setText(R.string.brightness_applied)
-                                    .setDuration(Snacky.LENGTH_SHORT)
-                                    .build().show();
-
-                            Bundle bundle = new Bundle();
-                            bundle.putInt("value", seekBar.getProgress());
-                            FirebaseAnalytics
-                                    .getInstance(TweakingActivity.this)
-                                    .logEvent(FirebaseEvents.TWEAKING_BRIGHTENESS_CHANGE, bundle);
-                        } else {
-                            Snacky.builder()
-                                    .setActivity(TweakingActivity.this)
-                                    .setText(R.string.failed_to_set_brightness)
-                                    .setDuration(Snacky.LENGTH_SHORT)
-                                    .build().show();
-                        }
-                        return null;
-                    }
-                });
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                updateBrightness(seekBar.getProgress());
             }
         });
+    }
+
+    @OnClick(R.id.activity_tweaking_button_update_brightness)
+    public void updateBrightness() {
+        try {
+            String textValue = brightnessEditText.getText().toString();
+            Integer value = Integer.valueOf(textValue);
+
+            if ((value < 1) || (value > 255)) {
+                Snacky.builder()
+                        .setText(R.string.brightness_bad_value_entered)
+                        .build()
+                        .show();
+            } else {
+                updateBrightness(value);
+            }
+        } catch (Exception ex) {
+            Snacky.builder()
+                    .setText(R.string.brightness_bad_value_entered)
+                    .build()
+                    .show();
+        }
     }
 
     @OnClick(R.id.activity_tweaking_reboot)
@@ -322,6 +320,37 @@ public class TweakingActivity extends AppCompatActivity {
                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                 }
 
+                return null;
+            }
+        });
+    }
+
+    private void updateBrightness(final int value) {
+        BrightnessData brightnessData = new BrightnessData();
+        brightnessData.setLevel(value);
+
+        Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
+            @Override
+            public Object then(@NonNull Task<Void> task) throws Exception {
+                if (task.isSuccessful()) {
+                    Snacky.builder()
+                            .setActivity(TweakingActivity.this)
+                            .setText(R.string.brightness_applied)
+                            .setDuration(Snacky.LENGTH_SHORT)
+                            .build().show();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("value", value);
+                    FirebaseAnalytics
+                            .getInstance(TweakingActivity.this)
+                            .logEvent(FirebaseEvents.TWEAKING_BRIGHTENESS_CHANGE, bundle);
+                } else {
+                    Snacky.builder()
+                            .setActivity(TweakingActivity.this)
+                            .setText(R.string.failed_to_set_brightness)
+                            .setDuration(Snacky.LENGTH_SHORT)
+                            .build().show();
+                }
                 return null;
             }
         });

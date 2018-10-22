@@ -31,13 +31,13 @@
                 android:id="@+id/activity_tweaking_seekbar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:max="255"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_tweaking_brightness_value"
+                app:layout_constraintEnd_toStartOf="@+id/activity_tweaking_brightness_value"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toTopOf="@+id/activity_tweaking_brightness_value" />
 
             <TextView
                 android:id="@+id/textView31"
@@ -47,7 +47,28 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/activity_tweaking_brightness"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_seekbar" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_brightness_value" />
+
+            <EditText
+                android:id="@+id/activity_tweaking_brightness_value"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ems="10"
+                android:inputType="numberSigned"
+                app:layout_constraintEnd_toStartOf="@+id/activity_tweaking_button_update_brightness"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+            <Button
+                android:id="@+id/activity_tweaking_button_update_brightness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_tweaking_brightness_value"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/activity_tweaking_brightness_value" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
