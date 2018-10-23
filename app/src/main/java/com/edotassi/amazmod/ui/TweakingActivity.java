@@ -110,10 +110,12 @@ public class TweakingActivity extends AppCompatActivity {
     public void updateBrightness() {
         try {
             String textValue = brightnessEditText.getText().toString();
+
             Integer value = Integer.valueOf(textValue);
 
             if ((value < 1) || (value > 255)) {
                 Snacky.builder()
+                        .setView(this.getCurrentFocus())
                         .setText(R.string.brightness_bad_value_entered)
                         .build()
                         .show();
@@ -122,6 +124,7 @@ public class TweakingActivity extends AppCompatActivity {
             }
         } catch (Exception ex) {
             Snacky.builder()
+                    .setView(this.getCurrentFocus())
                     .setText(R.string.brightness_bad_value_entered)
                     .build()
                     .show();
