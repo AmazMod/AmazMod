@@ -249,5 +249,5 @@ Proveďte příkaz shell\"</string>
   <string name="download_completed">Stahování dokončeno</string>
   <string name="rename">Přejmenovat</string>
   <string name="type_folder_name">Zadej název složky</string>
-  <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
+  <string name="brightness_bad_value_entered">Chybná hodnota zadána, přípustné hodnoty jsou od 1 do 255</string>
 </resources>
