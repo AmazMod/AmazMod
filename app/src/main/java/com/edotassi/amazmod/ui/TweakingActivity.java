@@ -92,16 +92,17 @@ public class TweakingActivity extends AppCompatActivity {
         brightnessSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
+                brightnessEditText.setText(String.valueOf(seekBar.getProgress()));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                //brightnessEditText.setText(String.valueOf(seekBar.getProgress()));
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                updateBrightness(seekBar.getProgress());
+                //updateBrightness(seekBar.getProgress());
             }
         });
     }
@@ -110,7 +111,6 @@ public class TweakingActivity extends AppCompatActivity {
     public void updateBrightness() {
         try {
             String textValue = brightnessEditText.getText().toString();
-
             Integer value = Integer.valueOf(textValue);
 
             if ((value < 1) || (value > 255)) {
@@ -332,7 +332,7 @@ public class TweakingActivity extends AppCompatActivity {
         BrightnessData brightnessData = new BrightnessData();
         brightnessData.setLevel(value);
         brightnessSeekbar.setProgress(value);
-        brightnessEditText.setText(String.valueOf(value));
+        //brightnessEditText.setText(String.valueOf(value));
 
         Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
             @Override
