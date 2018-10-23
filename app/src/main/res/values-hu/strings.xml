@@ -115,7 +115,7 @@
   <string name="pref_disable_notifications_when_dnd_summary">Nem küld értesítést az órára, ha a Ne zavarj mód (DND) aktív</string>
   <string name="pref_disable_remove_notifications">Értesítés eltávolítás letiltása</string>
   <string name="pref_disable_remove_notifications_summary">Nem távolítja el az értesítéseket az óráról, ha a telefonon törlésre kerülnek</string>
-  <string name="pref_enable_voice_apps">Messenger hanghívások BE</string>
+  <string name="pref_enable_voice_apps">Enable voice call notifications</string>
   <string name="pref_enable_voice_apps_summary">A Messenger hanghívási értesítéseket küld</string>
   <string name="pref_enable_local_only">Helyi értesítések bekapcsolása</string>
   <string name="pref_enable_local_only_summary">Tevékenységek nélküli helyi értesítéseket fog küldeni megtekintésre</string>
@@ -249,4 +249,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="rename">Átnevez</string>
   <string name="type_folder_name">Írd be a mappa nevét</string>
   <string name="brightness_bad_value_entered">Rossz a megadott érték, az elfogadott 1-255 közötti</string>
+  <string name="command_history">Command History</string>
 </resources>
