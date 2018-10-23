@@ -50,7 +50,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.NotificationRepliesDragActivity" />
-
+        <activity android:name=".ui.CommandHistoryActivity"
+            android:parentActivityName=".ui.TweakingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edotassi.amazmod.ui.TweakingActivity" />
+        </activity>
 
         <service
             android:name="com.edotassi.amazmod.notification.NotificationService"

@@ -193,10 +193,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/run"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView35" />
+                app:layout_constraintBottom_toBottomOf="@+id/activity_tweaking_command_history"
+                app:layout_constraintEnd_toStartOf="@+id/activity_tweaking_command_history"
+                app:layout_constraintTop_toTopOf="@+id/activity_tweaking_command_history" />
 
             <TextView
                 android:id="@+id/textView35"
@@ -211,9 +211,8 @@
                 android:id="@+id/activity_tweaking_exec_command"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:ems="10"
                 android:hint="@string/execute_shell_command"
                 android:inputType="textPersonName"
@@ -237,11 +236,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/textView43"
                 app:layout_constraintStart_toEndOf="@+id/textView43"
-                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_exec_command" />
+                app:layout_constraintTop_toTopOf="@+id/textView43" />
 
             <TextView
                 android:id="@+id/activity_tweaking_shell_result"
@@ -254,6 +252,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView43"
                 app:layout_constraintTop_toBottomOf="@+id/textView43" />
+
+            <Button
+                android:id="@+id/activity_tweaking_command_history"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:drawableLeft="@drawable/outline_history"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView35" />
         </android.support.constraint.ConstraintLayout>
 
         <!--

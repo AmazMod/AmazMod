@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,14 +23,24 @@ import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import amazmod.com.models.Command;
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.ResultShellCommandData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 
 public class TweakingActivity extends AppCompatActivity {
@@ -105,6 +116,7 @@ public class TweakingActivity extends AppCompatActivity {
                 //updateBrightness(seekBar.getProgress());
             }
         });
+
     }
 
     @OnClick(R.id.activity_tweaking_button_update_brightness)
@@ -276,9 +288,56 @@ public class TweakingActivity extends AppCompatActivity {
 
         String command = commandEditText.getText().toString();
         execCommandInternally(command);
+        saveCommandToHistory(command);
 
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_EXECUTED, null);
     }
+    public final static int REQ_CODE_COMMAND_HISTORY = 100;
+
+    @OnClick(R.id.activity_tweaking_command_history)
+    public void loadCommandHistory(){
+        Intent child = new Intent(this, CommandHistoryActivity.class);
+        startActivityForResult(child,REQ_CODE_COMMAND_HISTORY);
+    }
+
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQ_CODE_COMMAND_HISTORY) {
+            try {
+                String command = data.getExtras().getString("COMMAND");
+                commandEditText.setText(command);
+            }catch (NullPointerException e){
+                System.out.println("Returned from CommandHistoryActivity without selecting any command");
+            }
+        }
+    }
+
+    private List<Command> loadCommandsFromPrefs() {
+        try {
+            String commandsJson = Prefs.getString(Constants.PREF_COMMAND_HISTORY, Constants.PREF_DEFAULT_COMMAND_HISTORY);
+            Type listType = new TypeToken<List<Command>>() {
+            }.getType();
+            return new Gson().fromJson(commandsJson, listType);
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    private void saveCommandToHistory(String command){
+        //Load Current Command List
+        List<Command> commandHistoryValues = new ArrayList<>();
+        commandHistoryValues = loadCommandsFromPrefs();
+
+        //Saves command to command history (maximum of 20 items)
+        Command c = new Command();
+        c.setValue(command);
+        commandHistoryValues.add(0,c);
+        while(commandHistoryValues.size() > Constants.TWEAK_COMMAND_HISTORY_MAX_ITENS)
+            commandHistoryValues.remove(commandHistoryValues.size() - 1);
+        Gson gson = new Gson();
+        String commandHistoryJson = gson.toJson(commandHistoryValues);
+        Prefs.putString(Constants.PREF_COMMAND_HISTORY, commandHistoryJson);
+    }
+
 
     private void execCommandInternally(String command) {
         final SnackProgressBar progressBar = new SnackProgressBar(

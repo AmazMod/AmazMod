@@ -41,6 +41,7 @@ public class Constants {
     public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
     public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "preference.phone.connection.alert.standard.notification";
+    public static final String PREF_COMMAND_HISTORY = "preference.amazmodservice.commandhistory";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -58,6 +59,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_DISABLE_STANDARD_NOTIFICATIONS = false;
     public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT = false;
     public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
+    public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
 
     public static final int REQUEST_CODE_INTRO = 1;
 
@@ -98,4 +100,7 @@ public class Constants {
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = true;
+
+    public static final int TWEAK_COMMAND_HISTORY_MAX_ITENS = 20;
+
 }
