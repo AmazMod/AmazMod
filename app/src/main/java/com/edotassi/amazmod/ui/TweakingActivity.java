@@ -110,6 +110,7 @@ public class TweakingActivity extends AppCompatActivity {
     public void updateBrightness() {
         try {
             String textValue = brightnessEditText.getText().toString();
+
             Integer value = Integer.valueOf(textValue);
 
             if ((value < 1) || (value > 255)) {
@@ -330,6 +331,8 @@ public class TweakingActivity extends AppCompatActivity {
     private void updateBrightness(final int value) {
         BrightnessData brightnessData = new BrightnessData();
         brightnessData.setLevel(value);
+        brightnessSeekbar.setProgress(value);
+        brightnessEditText.setText(String.valueOf(value));
 
         Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
             @Override
