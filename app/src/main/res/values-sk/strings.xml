@@ -245,6 +245,7 @@ Urobte príkaz shell \"</string>
   <string name="download_in_progress">Sťahovanie</string>
   <string name="download_failed">Sťahovanie zlyhalo</string>
   <string name="download_completed">Sťahovanie úspešné</string>
-  <string name="rename">Rename</string>
-  <string name="type_folder_name">Type Folder Name</string>
+  <string name="rename">Premenovať</string>
+  <string name="type_folder_name">Zadaj názov priečinka</string>
+  <string name="brightness_bad_value_entered">Zadaná chybná hodnota, akceptované hodnoty sú od 1 do 255</string>
 </resources>
