@@ -115,7 +115,7 @@
   <string name="pref_disable_notifications_when_dnd_summary">勿扰模式下通知将不会发送到手表端</string>
   <string name="pref_disable_remove_notifications">禁止删除通知</string>
   <string name="pref_disable_remove_notifications_summary">手机端删除通知时，不删除手表端通知</string>
-  <string name="pref_enable_voice_apps">启用语音通话通知</string>
+  <string name="pref_enable_voice_apps">Enable voice call notifications</string>
   <string name="pref_enable_voice_apps_summary">语音通话信息通知将会被发送到手表端</string>
   <string name="pref_enable_local_only">启用本地通知</string>
   <string name="pref_enable_local_only_summary">没有用户操作的通知将被发送到手表端</string>
@@ -247,4 +247,5 @@
   <string name="rename">重命名</string>
   <string name="type_folder_name">输入文件夹名</string>
   <string name="brightness_bad_value_entered">无效的值，请输入1到255之间的值</string>
+  <string name="command_history">Command History</string>
 </resources>
