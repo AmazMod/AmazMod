@@ -331,6 +331,8 @@ public class TweakingActivity extends AppCompatActivity {
     private void updateBrightness(final int value) {
         BrightnessData brightnessData = new BrightnessData();
         brightnessData.setLevel(value);
+        brightnessSeekbar.setProgress(value);
+        brightnessEditText.setText(String.valueOf(value));
 
         Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
             @Override
