@@ -114,6 +114,7 @@ public class TweakingActivity extends AppCompatActivity {
 
             if ((value < 1) || (value > 255)) {
                 Snacky.builder()
+                        .setActivity(this)
                         .setText(R.string.brightness_bad_value_entered)
                         .build()
                         .show();
@@ -122,6 +123,7 @@ public class TweakingActivity extends AppCompatActivity {
             }
         } catch (Exception ex) {
             Snacky.builder()
+                    .setActivity(this)
                     .setText(R.string.brightness_bad_value_entered)
                     .build()
                     .show();
