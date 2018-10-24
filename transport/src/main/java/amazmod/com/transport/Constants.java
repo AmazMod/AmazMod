@@ -58,6 +58,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_DISABLE_STANDARD_NOTIFICATIONS = false;
     public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT = false;
     public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
+    public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
 
     public static final int REQUEST_CODE_INTRO = 1;
 

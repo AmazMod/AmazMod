@@ -159,7 +159,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 send(action, transportable, null);
 
                 try {
-                    Tasks.await(taskCompletionSource.getTask(), 5000, TimeUnit.MILLISECONDS);
+                    Tasks.await(taskCompletionSource.getTask(), 15000, TimeUnit.MILLISECONDS);
                 } catch (TimeoutException timeoutException) {
                     taskCompletionSource.setException(timeoutException);
                 }

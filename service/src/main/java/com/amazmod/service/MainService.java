@@ -46,6 +46,7 @@ import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.notifications.NotificationsReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
+import com.amazmod.service.support.CommandLine;
 import com.amazmod.service.ui.PhoneConnectionActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
@@ -204,10 +205,12 @@ public class MainService extends Service implements Transporter.DataListener {
         slptClockClient = new SlptClockClient();
         slptClockClient.bindService(this, "AmazMod-MainService", new SlptClockClient.Callback() {
             @Override
-            public void onServiceConnected() {}
+            public void onServiceConnected() {
+            }
 
             @Override
-            public void onServiceDisconnected() {}
+            public void onServiceDisconnected() {
+            }
         });
 
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
@@ -248,8 +251,8 @@ public class MainService extends Service implements Transporter.DataListener {
         String action = transportDataItem.getAction();
 
         // A notification is removed/added
-        if(action.equals("del") || action.equals("add")) {
-            notificationCounter(action.equals("del")?-1:1);
+        if (action.equals("del") || action.equals("add")) {
+            notificationCounter(action.equals("del") ? -1 : 1);
         }
 
         Log.d(Constants.TAG, "MainService action: " + action);
@@ -591,16 +594,23 @@ public class MainService extends Service implements Transporter.DataListener {
 
             String command = requestShellCommandData.getCommand();
 
-            Process process = Runtime.getRuntime().exec(command);
+            String[] args = CommandLine.translateCommandline(command);
+            ProcessBuilder processBuilder = new ProcessBuilder(args);
+            processBuilder.redirectErrorStream(true);
 
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            Process process = processBuilder.start();
+
             StringBuilder outputLog = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                outputLog.append(line + "\n");
-            }
+            int returnValue;
 
-            int returnValue = process.waitFor();
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    outputLog.append(line).append("\n");
+                }
+
+                returnValue = process.waitFor();
+            }
 
             ResultShellCommandData resultShellCommand = new ResultShellCommandData();
             resultShellCommand.setResult(returnValue);
@@ -792,7 +802,7 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     // Count notifications
-    public void notificationCounter(int n){
+    public void notificationCounter(int n) {
         int notifications = 0;
 
         // Get already saved data
