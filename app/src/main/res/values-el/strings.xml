@@ -115,7 +115,7 @@
   <string name="pref_disable_notifications_when_dnd_summary">Οι ειδοποιήσεις δεν θα προωθούνται στο ρολόι όταν η λειτουργία Μην Ενοχλείται (Do Not Disturb) είναι ενεργή</string>
   <string name="pref_disable_remove_notifications">Απενεργοποίηση αφαίρεσης ειδοποιήσεων</string>
   <string name="pref_disable_remove_notifications_summary">Οι ειδοποιήσεις δεν θα αφαιρούνται από το ρολόι όταν αφαιρούνται από το τηλέφωνο</string>
-  <string name="pref_enable_voice_apps">Ενεργοποίηση ειδοποιήσεων για τις φωνητικές κλήσεις</string>
+  <string name="pref_enable_voice_apps">Ενεργοποίηση ειδοποιήσεων φωνητικών κλήσεων</string>
   <string name="pref_enable_voice_apps_summary">Κατά τις φωνητικές κλήσεις του Messenger θα προωθείται ειδοποίηση στο ρολόι</string>
   <string name="pref_enable_local_only">Ενεργοποίηση τοπικών ειδοποιήσεων</string>
   <string name="pref_enable_local_only_summary">Ειδοποιήσεις που δεν απαιτούν ενέργεια από τον χρήστη θα προωθούνται στο ρολόι</string>
@@ -246,4 +246,5 @@
   <string name="rename">Μετονομασία</string>
   <string name="type_folder_name">Πληκτρολογήστε Όνομα Φακέλου</string>
   <string name="brightness_bad_value_entered">Μη αποδεκτή τιμή, οι αποδεκτές τιμές είναι από 1 έως 255</string>
+  <string name="command_history">Ιστορικό Εντολών</string>
 </resources>
