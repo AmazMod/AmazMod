@@ -115,7 +115,7 @@
   <string name="pref_disable_notifications_when_dnd_summary">ההתראות לא יישלחו לשעון כאשר DND פועל</string>
   <string name="pref_disable_remove_notifications">בטל הסרת התראות</string>
   <string name="pref_disable_remove_notifications_summary">אל תסיר התראות מהשעון כאשר הן מוסרות מהטלפון</string>
-  <string name="pref_enable_voice_apps">Enable voice call notifications</string>
+  <string name="pref_enable_voice_apps">אפשר התראות של שיחות קוליות</string>
   <string name="pref_enable_voice_apps_summary">התראות שיחות קוליות ישלחו לשעון</string>
   <string name="pref_enable_local_only">הפעל התראות מקומיות</string>
   <string name="pref_enable_local_only_summary">התראות ללא התערבות משתמש יישלחו לשעון</string>
@@ -245,6 +245,6 @@
   <string name="download_completed">ההורדה הושלמה</string>
   <string name="rename">שינוי שם</string>
   <string name="type_folder_name">הקלד שם תיקיה</string>
-  <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
-  <string name="command_history">Command History</string>
+  <string name="brightness_bad_value_entered">ערך שגוי הוכנס, ניתן להכניס ערך בין 1 עד 255</string>
+  <string name="command_history">היסטוריית פקודות</string>
 </resources>
