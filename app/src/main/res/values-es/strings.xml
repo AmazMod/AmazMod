@@ -98,7 +98,7 @@
   <string name="pref_notifications_replies_summary">Añade respuestas personalizadas</string>
   <string name="pref_notifications_replies">Respuestas de notificaciones</string>
   <string name="pref_disable_notifications_replies_summary">Se ocultará el contenido de las notificaciones (al igual que el panel de respuestas)</string>
-  <string name="pref_disable_notifications_replies">Ocular el texto de las notificaciones</string>
+  <string name="pref_disable_notifications_replies">Ocultar el texto de las notificaciones</string>
   <string name="pref_disable_notifications_when_screen_on_summary">Deshabilitar notificaciones con pantalla encendida</string>
   <string name="pref_disable_notifications_when_screen_on">Deshabilita con pantalla encendida</string>
   <string name="pref_notifications_enable_custom_ui_summary">Podras responder a las notificaciones</string>
