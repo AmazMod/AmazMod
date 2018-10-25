@@ -22,10 +22,10 @@ public class UpdateDownloader {
                 .build();
         PRDownloader.initialize(context, config);
 
-        String downloadUrl = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+        final String downloadUrl = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         final String filename = new File(url).getName();
         currentDownload = PRDownloader
-                 .download(url, downloadUrl, filename)
+                .download(url, downloadUrl, filename)
                 .build()
                 .setOnProgressListener(new OnProgressListener() {
                     @Override
@@ -37,7 +37,7 @@ public class UpdateDownloader {
                 .start(new OnDownloadListener() {
                     @Override
                     public void onDownloadComplete() {
-                        updater.updateDownloadCompleted();
+                        updater.updateDownloadCompleted(new File(downloadUrl + "/" + filename), filename);
                     }
 
                     @Override

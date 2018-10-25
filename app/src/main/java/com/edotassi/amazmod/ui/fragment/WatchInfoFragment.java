@@ -1,9 +1,11 @@
 package com.edotassi.amazmod.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +22,31 @@ import com.edotassi.amazmod.AmazModApplication;
 import amazmod.com.transport.Constants;
 
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
+import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.ui.FileExplorerActivity;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
 import com.edotassi.amazmod.watch.Watch;
+import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.tingyik90.snackprogressbar.SnackProgressBar;
+import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
+import org.apache.commons.lang3.time.DurationFormatUtils;
+
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.concurrent.CancellationException;
+
+import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +54,8 @@ import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class WatchInfoFragment extends Card implements Updater {
+
+    private SnackProgressBarManager snackProgressBarManager;
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
@@ -85,6 +103,17 @@ public class WatchInfoFragment extends Card implements Updater {
         View view = layoutInflater.inflate(R.layout.fragment_watch_info, container, false);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
+                .setProgressBarColor(R.color.colorAccent)
+                .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
+                .setTextSize(14)
+                .setMessageMaxLines(2);
     }
 
     @Override
@@ -271,7 +300,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     @Override
-    public void updateDownloadCompleted() {
+    public void updateDownloadCompleted(File updateFile, String filename) {
         if (updateDialog == null) {
             return;
         }
@@ -279,7 +308,129 @@ public class WatchInfoFragment extends Card implements Updater {
         updateDialog.dismiss();
         updateDialog = null;
 
-        Snacky.builder().setActivity(getActivity()).setText(R.string.download_completed).build().show();
+        uploadUpdate(updateFile, filename);
+    }
 
+    private void uploadUpdate(File updateFile, String filename) {
+        final String destPath = "/sdcard/" + filename;
+        final long size = updateFile.length();
+        final long startedAt = System.currentTimeMillis();
+
+        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                .setIsIndeterminate(false)
+                .setProgressMax(100)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                        cancellationTokenSource.cancel();
+                    }
+                })
+                .setShowProgressPercentage(true);
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        Watch.get().uploadFile(updateFile, destPath, new Watch.OperationProgress() {
+            @Override
+            public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
+                WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
+                        double kbSent = byteSent / 1024d;
+                        double speed = kbSent / (duration / 1000);
+                        DecimalFormat df = new DecimalFormat("#.00");
+
+                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+
+                        progressBar.setMessage(message);
+                        snackProgressBarManager.setProgress((int) progress);
+                        snackProgressBarManager.updateTo(progressBar);
+                    }
+                });
+            }
+        }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
+            @Override
+            public Object then(@NonNull Task<Void> task) throws Exception {
+                snackProgressBarManager.dismissAll();
+
+                if (task.isSuccessful()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("size", size);
+                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
+                    FirebaseAnalytics
+                            .getInstance(WatchInfoFragment.this.getContext())
+                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+
+                    installUpdate(destPath);
+                } else {
+                    if (task.getException() instanceof CancellationException) {
+                        SnackProgressBar snackbar = new SnackProgressBar(
+                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_canceled))
+                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                    @Override
+                                    public void onActionClick() {
+                                        snackProgressBarManager.dismissAll();
+                                    }
+                                });
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    } else {
+                        SnackProgressBar snackbar = new SnackProgressBar(
+                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
+                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                    @Override
+                                    public void onActionClick() {
+                                        snackProgressBarManager.dismissAll();
+                                    }
+                                });
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    }
+                }
+
+                return null;
+            }
+        });
+    }
+
+    private void installUpdate(String apkAbosultePath) {
+        String command = "adb install -r " + apkAbosultePath;
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                .setIsIndeterminate(true)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                    }
+                });
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        Watch.get().executeShellCommand(command, false, true).continueWith(new Continuation<ResultShellCommand, Object>() {
+            @Override
+            public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+                snackProgressBarManager.dismissAll();
+
+                if (task.isSuccessful()) {
+                    ResultShellCommand resultShellCommand = task.getResult();
+                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+
+                    if (resultShellCommandData.getResult() == 0) {
+                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.update_started_watch_reboot_when_update_finish));
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    } else {
+                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    }
+                } else {
+                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
+                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                }
+
+                return null;
+            }
+        });
     }
 }

@@ -449,7 +449,8 @@ public class MainService extends Service implements Transporter.DataListener {
             b = android.provider.Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS);
             bm = Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS_MODE);
 
-        } catch (Settings.SettingNotFoundException e) {}
+        } catch (Settings.SettingNotFoundException e) {
+        }
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
 
@@ -596,48 +597,69 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void executeShellCommand(RequestShellCommand requestShellCommand) {
-        try {
-            long startedAt = System.currentTimeMillis();
+    public void executeShellCommand(final RequestShellCommand requestShellCommand) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
 
-            RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
+                    if (!requestShellCommandData.isWaitOutput()) {
+                        Process process = Runtime.getRuntime().exec(requestShellCommandData.getCommand());
 
-            String command = requestShellCommandData.getCommand();
+                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                        resultShellCommand.setResult(0);
+                        resultShellCommand.setOutputLog("");
+                        resultShellCommand.setErrorLog("");
+                        send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
 
-            String[] args = CommandLine.translateCommandline(command);
-            ProcessBuilder processBuilder = new ProcessBuilder(args);
-            processBuilder.redirectErrorStream(true);
+                        process.waitFor();
 
-            Process process = processBuilder.start();
+                        if (requestShellCommandData.isReboot()) {
+                            Runtime.getRuntime().exec("adb shell reboot");
+                        }
+                    } else {
+                        long startedAt = System.currentTimeMillis();
 
-            StringBuilder outputLog = new StringBuilder();
-            int returnValue;
+                        String command = requestShellCommandData.getCommand();
 
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    outputLog.append(line).append("\n");
+                        String[] args = CommandLine.translateCommandline(command);
+                        ProcessBuilder processBuilder = new ProcessBuilder(args);
+                        processBuilder.redirectErrorStream(true);
+
+                        Process process = processBuilder.start();
+
+                        StringBuilder outputLog = new StringBuilder();
+                        int returnValue;
+
+                        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                outputLog.append(line).append("\n");
+                            }
+
+                            returnValue = process.waitFor();
+                        }
+
+                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                        resultShellCommand.setResult(returnValue);
+                        resultShellCommand.setOutputLog(outputLog.toString());
+                        resultShellCommand.setDuration(System.currentTimeMillis() - startedAt);
+                        resultShellCommand.setCommand(command);
+
+                        send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+                    }
+                } catch (Exception ex) {
+                    Log.e(Constants.TAG, ex.getMessage(), ex);
+
+                    ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                    resultShellCommand.setResult(-1);
+                    resultShellCommand.setErrorLog(ex.getMessage());
+
+                    send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
                 }
-
-                returnValue = process.waitFor();
             }
-
-            ResultShellCommandData resultShellCommand = new ResultShellCommandData();
-            resultShellCommand.setResult(returnValue);
-            resultShellCommand.setOutputLog(outputLog.toString());
-            resultShellCommand.setDuration(System.currentTimeMillis() - startedAt);
-            resultShellCommand.setCommand(command);
-
-            send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
-        } catch (Exception ex) {
-            Log.e(Constants.TAG, ex.getMessage(), ex);
-
-            ResultShellCommandData resultShellCommand = new ResultShellCommandData();
-            resultShellCommand.setResult(-1);
-            resultShellCommand.setErrorLog(ex.getMessage());
-
-            send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
-        }
+        }).start();
     }
 
     private DirectoryData getFilesByPath(String path) {
