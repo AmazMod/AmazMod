@@ -19,6 +19,9 @@ public class AmazModApplication extends Application {
     public static long timeLastSync;
     public static long timeLastWatchfaceDataSend;
 
+    public static int currentScreenBrightness;
+    public static int currentScreenBrightnessMode;
+
     @Override
     public void onCreate() {
         super.onCreate();

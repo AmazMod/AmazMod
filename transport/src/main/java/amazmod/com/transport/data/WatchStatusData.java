@@ -25,6 +25,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
     public static final String RO_BUILD_HUAMI_MODEL = "ro.build.huami.model";
     public static final String RO_BUILD_HUAMI_NUMBER = "ro.build.huami.number";
     public static final String RO_BUILD_FINGERPRINT = "ro.build.fingerprint";
+    public static final String SCREEN_BRIGHTNESS = "watch.brightness";
+    public static final String SCREEN_BRIGHTNESS_MODE = "watch.brightness_mode";
 
     private String amazModServiceVersion;
     private String roProductDevice;
@@ -39,6 +41,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
     private String roBuildHuamiModel;
     private String roBuildHuamiNumber;
     private String roBuildFingerprint;
+    private int screenBrightness;
+    private int screenBrightnessMode;
 
     public WatchStatusData() {
     }
@@ -57,6 +61,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         roBuildHuamiModel = in.readString();
         roBuildHuamiNumber = in.readString();
         roBuildFingerprint = in.readString();
+        screenBrightness = in.readInt();
+        screenBrightnessMode = in.readInt();
     }
 
     public static final Creator<WatchStatusData> CREATOR = new Creator<WatchStatusData>() {
@@ -86,6 +92,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         dataBundle.putString(RO_BUILD_HUAMI_MODEL, roBuildHuamiModel);
         dataBundle.putString(RO_BUILD_HUAMI_NUMBER, roBuildHuamiNumber);
         dataBundle.putString(RO_BUILD_FINGERPRINT, roBuildFingerprint);
+        dataBundle.putInt(SCREEN_BRIGHTNESS,screenBrightness);
+        dataBundle.putInt(SCREEN_BRIGHTNESS_MODE,screenBrightnessMode);
 
         return dataBundle;
     }
@@ -117,6 +125,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         watchStatusData.setAmazModServiceVersion(dataBundle.getString(AMAZMOD_SERVICE_VERSION));
         watchStatusData.setRoBuildDate(dataBundle.getString(RO_BUILD_DATE));
         watchStatusData.setRoBuildDescription(dataBundle.getString(RO_BUILD_DESCRIPTION));
+        watchStatusData.setScreenBrightness(dataBundle.getInt(SCREEN_BRIGHTNESS));
+        watchStatusData.setScreenBrightnessMode(dataBundle.getInt(SCREEN_BRIGHTNESS_MODE));
 
         return watchStatusData;
     }
@@ -141,6 +151,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         dest.writeString(roBuildHuamiModel);
         dest.writeString(roBuildHuamiNumber);
         dest.writeString(roBuildFingerprint);
+        dest.writeInt(screenBrightness);
+        dest.writeInt(screenBrightnessMode);
     }
 
     public String getAmazModServiceVersion() {
@@ -245,5 +257,21 @@ public class WatchStatusData extends Transportable implements Parcelable {
 
     public void setRoBuildFingerprint(String roBuildFingerprint) {
         this.roBuildFingerprint = roBuildFingerprint;
+    }
+
+    public int getScreenBrightness() {
+        return screenBrightness;
+    }
+
+    public void setScreenBrightness(int screenBrightness) {
+        this.screenBrightness = screenBrightness;
+    }
+
+    public int getScreenBrightnessMode() {
+        return screenBrightnessMode;
+    }
+
+    public void setScreenBrightnessMode(int screenBrightnessMode) {
+        this.screenBrightnessMode = screenBrightnessMode;
     }
 }

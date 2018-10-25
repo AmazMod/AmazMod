@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
+import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
@@ -30,6 +32,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.ResultShellCommandData;
 import butterknife.BindView;
@@ -53,6 +56,9 @@ public class TweakingActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_tweaking_shell_result)
     TextView shellResultEditText;
+
+    @BindView(R.id.activity_tweaking_button_update_brightness)
+    Button buttonUpdateBrightness;
 
     private SnackProgressBarManager snackProgressBarManager;
 
@@ -110,7 +116,14 @@ public class TweakingActivity extends AppCompatActivity {
                 //updateBrightness(seekBar.getProgress());
             }
         });
-
+        boolean enableBrightness = true;
+        if (AmazModApplication.currentScreenBrightnessMode == Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC){
+            enableBrightness = false;
+        }
+        brightnessSeekbar.setEnabled(enableBrightness);
+        brightnessEditText.setEnabled(enableBrightness);
+        buttonUpdateBrightness.setEnabled(enableBrightness);
+        brightnessSeekbar.setProgress(AmazModApplication.currentScreenBrightness);
     }
 
     @OnClick(R.id.activity_tweaking_button_update_brightness)
@@ -382,7 +395,6 @@ public class TweakingActivity extends AppCompatActivity {
         BrightnessData brightnessData = new BrightnessData();
         brightnessData.setLevel(value);
         brightnessSeekbar.setProgress(value);
-        //brightnessEditText.setText(String.valueOf(value));
 
         Watch.get().setBrightness(brightnessData).continueWith(new Continuation<Void, Object>() {
             @Override

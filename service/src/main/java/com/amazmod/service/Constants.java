@@ -45,6 +45,12 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
 
+    public static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
+    public static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
+    public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
+
+    public static final String SCREEN_BRIGHTNESS= "screen_brightness";
+
     public static final String RED = "red";
     public static final String BLUE = "blue";
     public static final String GREY = "grey";

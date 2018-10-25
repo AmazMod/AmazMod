@@ -443,6 +443,16 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
 
+        int b = 0;
+        int bm = Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+        try {
+            b = android.provider.Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS);
+            bm = Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS_MODE);
+
+        } catch (Settings.SettingNotFoundException e) {}
+        watchStatusData.setScreenBrightness(b);
+        watchStatusData.setScreenBrightnessMode(bm);
+
         Log.d(Constants.TAG, "MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }

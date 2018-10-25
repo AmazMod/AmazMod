@@ -99,4 +99,8 @@ public class Constants {
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = true;
+
+    public static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
+    public static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
+    public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
 }

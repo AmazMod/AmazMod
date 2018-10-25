@@ -162,6 +162,11 @@ public class WatchInfoFragment extends Card implements Updater {
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
         huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
         fingerprint.setText(watchStatusData.getRoBuildFingerprint());
+        //Log the values received from watch brightness
+        AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
+        AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
+        Log.d(Constants.TAG, "WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Log.d(Constants.TAG, "WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
 
     }
 
