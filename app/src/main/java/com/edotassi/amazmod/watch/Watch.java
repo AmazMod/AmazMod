@@ -287,8 +287,14 @@ public class Watch {
     }
 
     public Task<ResultShellCommand> executeShellCommand(final String command) {
+        return executeShellCommand(command, false, false);
+    }
+
+    public Task<ResultShellCommand> executeShellCommand(final String command, boolean waitOutput, boolean reboot) {
         final RequestShellCommandData requestShellCommandData = new RequestShellCommandData();
         requestShellCommandData.setCommand(command);
+        requestShellCommandData.setWaitOutput(waitOutput);
+        requestShellCommandData.setReboot(reboot);
 
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<ResultShellCommand>>() {
             @Override
