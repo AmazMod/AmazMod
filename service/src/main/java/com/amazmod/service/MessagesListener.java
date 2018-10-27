@@ -198,7 +198,12 @@ public class MessagesListener {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
         Log.d(Constants.TAG, "MessagesListener setting brightness to " + brightnessData.getLevel());
 
-        System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
+        if (brightnessData.getLevel()==  -1){
+            System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS_MODE, System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+        }else{
+            System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS_MODE, System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+            System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
+        }
     }
 
     private void send(String action) {

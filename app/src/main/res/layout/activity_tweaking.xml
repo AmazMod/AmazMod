@@ -58,17 +58,29 @@
                 android:ems="10"
                 android:inputType="numberSigned"
                 app:layout_constraintEnd_toStartOf="@+id/activity_tweaking_button_update_brightness"
-                app:layout_constraintTop_toBottomOf="@+id/textView" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_switcht_auto_brightness" />
 
             <Button
                 android:id="@+id/activity_tweaking_button_update_brightness"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="Set"
+                android:text="@string/set_brightness"
                 app:layout_constraintBottom_toBottomOf="@+id/activity_tweaking_brightness_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/activity_tweaking_brightness_value" />
+
+            <Switch
+                android:id="@+id/activity_tweaking_switcht_auto_brightness"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/automatic_brightness"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
