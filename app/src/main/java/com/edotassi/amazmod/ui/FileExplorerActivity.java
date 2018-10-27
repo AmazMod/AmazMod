@@ -96,6 +96,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     private SnackProgressBarManager snackProgressBarManager;
 
     private String currentPath;
+    private boolean uploading = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -145,11 +146,14 @@ public class FileExplorerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (currentPath.equals("/")) {
-            finish();
-        }else{
-            loadPath(getParentDirectoryPath(currentPath));
+        if (!uploading) {
+            if (currentPath.equals("/")) {
+                finish();
+            } else {
+                loadPath(getParentDirectoryPath(currentPath));
+            }
         }
+
     }
 
     @Override
@@ -165,8 +169,10 @@ public class FileExplorerActivity extends AppCompatActivity {
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     List<Uri> files = Utils.getSelectedFilesFromResult(data);
 
-                    if (files.size() > 0) {
-                        File file = Utils.getFileForUri(files.get(0));
+                    for(int f = 0;f<files.size();f++) {
+                    //if (files.size() > 0) {
+                        uploading = true;
+                        File file = Utils.getFileForUri(files.get(f));
                         final String path = file.getAbsolutePath();
 
                         if (!file.exists()) {
@@ -232,6 +238,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     FirebaseAnalytics
                                             .getInstance(FileExplorerActivity.this)
                                             .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                                    uploading = false;
                                 } else {
                                     if (task.getException() instanceof CancellationException) {
                                         SnackProgressBar snackbar = new SnackProgressBar(
@@ -243,6 +250,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                                                     }
                                                 });
                                         snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                        uploading = false;
                                     } else {
                                         SnackProgressBar snackbar = new SnackProgressBar(
                                                 SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
@@ -253,9 +261,9 @@ public class FileExplorerActivity extends AppCompatActivity {
                                                     }
                                                 });
                                         snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                        uploading = false;
                                     }
                                 }
-
                                 return null;
                             }
                         });
