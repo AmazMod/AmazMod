@@ -748,7 +748,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                 });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().executeShellCommand(command).continueWith(new Continuation<ResultShellCommand, Object>() {
+        Watch.get().executeShellCommand(command,true,false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
             public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
 

@@ -21,11 +21,11 @@ public class ShellCommandHelper {
     }
 
     public static String getMakeDirCommand(String path){
-        return Constants.SHELL_COMMAND_MKDIR + " " + path;
+        return Constants.SHELL_COMMAND_MKDIR + " \"" + path + "\"";
     }
 
     public static String getRenameCommand(String oldPath, String newPath){
-        return Constants.SHELL_COMMAND_RENAME + " " + oldPath + " " + newPath;
+        return Constants.SHELL_COMMAND_RENAME + " \"" + oldPath + "\" \"" + newPath + "\"";
     }
 
     public static String getDPM() {
