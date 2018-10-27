@@ -144,6 +144,15 @@ public class FileExplorerActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        if (currentPath.equals("/")) {
+            finish();
+        }else{
+            loadPath(getParentDirectoryPath(currentPath));
+        }
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
@@ -307,7 +316,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                         // Do something
                         String newName = currentPath + "/" + input.toString();
                         String oldName = fileData.getPath();
-                        String renameCmd = ShellCommandHelper.getRenameCommand(oldName,newName);
+                        String renameCmd = ShellCommandHelper.getRenameCommand(oldName, newName);
                         execCommandAndReload(renameCmd);
                         //FirebaseAnalytics.getInstance(dialog.getContext()).logEvent(renameCmd, null);
                     }
@@ -519,21 +528,25 @@ public class FileExplorerActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.activity_file_explorer_fab_main)
-    public void fabMainClick(){
+    public void fabMainClick() {
         if (!isFabOpen)
             ShowFabMenu();
         else
             CloseFabMenu();
-    };
+    }
+
+    ;
 
 
     @OnClick(R.id.activity_file_explorer_fab_bg)
-    public void fabMenuClick(){
+    public void fabMenuClick() {
         CloseFabMenu();
-    };
+    }
+
+    ;
 
     @OnClick(R.id.activity_file_explorer_fab_newfolder)
-    public void fabNewFolderClick(){
+    public void fabNewFolderClick() {
         CloseFabMenu();
         new MaterialDialog.Builder(this)
                 .title(R.string.nnf_new_folder)
@@ -549,10 +562,11 @@ public class FileExplorerActivity extends AppCompatActivity {
                         //FirebaseAnalytics.getInstance(dialog.getContext()).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT_BOOTLOADER, null);
                     }
                 }).show();
-    };
+    }
 
-    private void ShowFabMenu()
-    {
+    ;
+
+    private void ShowFabMenu() {
         isFabOpen = true;
         fabUpload.setVisibility(View.VISIBLE);
         fabNewFolder.setVisibility(View.VISIBLE);
@@ -568,8 +582,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                 .rotation(0f);
     }
 
-    private void CloseFabMenu()
-    {
+    private void CloseFabMenu() {
         isFabOpen = false;
 
         View[] views = {bgFabMenu, fabNewFolder, fabUpload};
@@ -585,8 +598,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     }
 
 
-    private class FabAnimatorListener implements Animator.AnimatorListener
-    {
+    private class FabAnimatorListener implements Animator.AnimatorListener {
         View[] viewsToHide;
 
         public FabAnimatorListener(View[] viewsToHide) {
@@ -748,7 +760,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                 });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().executeShellCommand(command,true,false).continueWith(new Continuation<ResultShellCommand, Object>() {
+        Watch.get().executeShellCommand(command, true, false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
             public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
 
