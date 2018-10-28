@@ -115,7 +115,7 @@
   <string name="pref_disable_notifications_when_dnd_summary">Le notifiche non verranno inviate quando il \"non disturbare\" è attivo</string>
   <string name="pref_disable_remove_notifications">Disattiva la rimozione delle notifiche</string>
   <string name="pref_disable_remove_notifications_summary">Non rimuovere le notifiche dall\'orologio quando vengono rimosse dal telefono</string>
-  <string name="pref_enable_voice_apps">Enable voice call notifications</string>
+  <string name="pref_enable_voice_apps">Abilita le notifiche alle chiamate vocali</string>
   <string name="pref_enable_voice_apps_summary">Le chiamate vocali di FB Messenger (sperimentale per altre app) invieranno notifiche all\'orologio</string>
   <string name="pref_enable_local_only">Abilita le notifiche locali</string>
   <string name="pref_enable_local_only_summary">Le notifiche che non richiedono azioni da parte dell\'utente verranno inviate all\'orologio</string>
@@ -241,12 +241,15 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="cant_check_service_updates">Impossibile cercare aggiornamenti di servizio</string>
   <string name="new_update_available">Nuovo aggiornamento disponibile!</string>
   <string name="new_service_update_available">Versione %s del servizio AmazMod disponibile</string>
-  <string name="update">Aggiornamento</string>
-  <string name="download_in_progress">Download in progress</string>
-  <string name="download_failed">Download failed</string>
-  <string name="download_completed">Download completed</string>
-  <string name="rename">Rename</string>
-  <string name="type_folder_name">Type Folder Name</string>
-  <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
-  <string name="command_history">Command History</string>
+  <string name="update">Aggiorna</string>
+  <string name="download_in_progress">Download in corso</string>
+  <string name="download_failed">Download non riuscito</string>
+  <string name="download_completed">Download completato</string>
+  <string name="rename">Rinomina</string>
+  <string name="type_folder_name">Digita il nome della cartella</string>
+  <string name="brightness_bad_value_entered">Il valore inserito non è valido, i valori accettati vanno da 1 a 255</string>
+  <string name="command_history">Cronologia dei comandi</string>
+  <string name="update_started_watch_reboot_when_update_finish">Aggiornamento iniziato. L\'orologio si riavvierà alla fine del processo</string>
+  <string name="automatic_brightness">Luminosità automatica</string>
+  <string name="set_brightness">Imposta</string>
 </resources>

@@ -249,4 +249,7 @@ Urobte príkaz shell \"</string>
   <string name="type_folder_name">Zadaj názov priečinka</string>
   <string name="brightness_bad_value_entered">Zadaná chybná hodnota, akceptované hodnoty sú od 1 do 255</string>
   <string name="command_history">História príkazov</string>
+  <string name="update_started_watch_reboot_when_update_finish">Aktualizácia spustená. Hodinky sa na konci reštartujú</string>
+  <string name="automatic_brightness">Automatic Brightness</string>
+  <string name="set_brightness">Set</string>
 </resources>

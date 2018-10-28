@@ -251,4 +251,7 @@ Proveďte příkaz shell\"</string>
   <string name="type_folder_name">Zadej název složky</string>
   <string name="brightness_bad_value_entered">Chybná hodnota zadána, přípustné hodnoty jsou od 1 do 255</string>
   <string name="command_history">Historie příkazů</string>
+  <string name="update_started_watch_reboot_when_update_finish">Aktualizace spuštěna. Hodinky se na konci restartují</string>
+  <string name="automatic_brightness">Automatic Brightness</string>
+  <string name="set_brightness">Set</string>
 </resources>
