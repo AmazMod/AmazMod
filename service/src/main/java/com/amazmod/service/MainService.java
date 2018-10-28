@@ -65,7 +65,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -605,18 +607,27 @@ public class MainService extends Service implements Transporter.DataListener {
                     RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
 
                     if (!requestShellCommandData.isWaitOutput()) {
-                        Process process = Runtime.getRuntime().exec(requestShellCommandData.getCommand());
+                        File commandFile = new File("/sdcard/amazmod-command.sh");
+                        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
 
-                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
-                        resultShellCommand.setResult(0);
-                        resultShellCommand.setOutputLog("");
-                        resultShellCommand.setErrorLog("");
-                        send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
-
-                        process.waitFor();
+                        String command = requestShellCommandData.getCommand();
 
                         if (requestShellCommandData.isReboot()) {
-                            Runtime.getRuntime().exec("adb shell reboot");
+                            outputStreamWriter.write(command + " && adb shell reboot");
+                            outputStreamWriter.flush();
+                            outputStreamWriter.close();
+                            Process process = Runtime.getRuntime().exec("sh /sdcard/amazmod-command.sh &");
+
+                            int code = process.waitFor();
+                            Log.d(Constants.TAG, "sh process returned " + code);
+                        } else {
+                            Runtime.getRuntime().exec(requestShellCommandData.getCommand());
+
+                            ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                            resultShellCommand.setResult(0);
+                            resultShellCommand.setOutputLog("");
+                            resultShellCommand.setErrorLog("");
+                            send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
                         }
                     } else {
                         long startedAt = System.currentTimeMillis();
