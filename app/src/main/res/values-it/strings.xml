@@ -249,7 +249,7 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="type_folder_name">Digita il nome della cartella</string>
   <string name="brightness_bad_value_entered">Il valore inserito non è valido, i valori accettati vanno da 1 a 255</string>
   <string name="command_history">Cronologia dei comandi</string>
-  <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
-  <string name="automatic_brightness">Automatic Brightness</string>
-  <string name="set_brightness">Set</string>
+  <string name="update_started_watch_reboot_when_update_finish">Aggiornamento iniziato. L\'orologio si riavvierà alla fine del processo</string>
+  <string name="automatic_brightness">Luminosità automatica</string>
+  <string name="set_brightness">Imposta</string>
 </resources>
