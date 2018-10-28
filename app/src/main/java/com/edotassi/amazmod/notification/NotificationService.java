@@ -56,6 +56,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -186,6 +187,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     //Remove notification from watch if it was removed from phone
+    Hashtable<Integer, int[]> grouped_notifications = new Hashtable<Integer, int[]>();
     @Override
     public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
         if (statusBarNotification == null) {
@@ -213,6 +215,27 @@ public class NotificationService extends NotificationListenerService {
                     log.d(dataTransportResult.toString());
                 }
             });
+
+            if(grouped_notifications.containsKey(statusBarNotification.getId())){
+                //initial array
+                int[] grouped = grouped_notifications.get(statusBarNotification.getId());
+                for(int id : grouped) {
+                    dataBundle = new DataBundle();
+                    StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
+                            statusBarNotification.getId() + id,
+                            statusBarNotification.getTag(), 0, 0, 0,
+                            statusBarNotification.getNotification(), statusBarNotification.getUser(),
+                            statusBarNotification.getPostTime());
+                    dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
+                    notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
+                        @Override
+                        public void onResultBack(DataTransportResult dataTransportResult) {
+                            log.d(dataTransportResult.toString());
+                        }
+                    });
+                }
+                grouped_notifications.remove(statusBarNotification.getId());
+            }
 
             //Disconnect transporter to avoid leaking
             notificationTransporter.disconnectTransportService();
@@ -254,6 +277,22 @@ public class NotificationService extends NotificationListenerService {
                     statusBarNotification.getNotification(), statusBarNotification.getUser(),
                     statusBarNotification.getPostTime());
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
+
+            if(grouped_notifications.containsKey(statusBarNotification.getId())){
+                //initial array
+                int[] grouped = grouped_notifications.get(statusBarNotification.getId());
+                //new value
+                int newValue = nextId;
+                //define the new array
+                int[] newArray = new int[grouped.length + 1];
+                //copy values into new array
+                for(int i=0;i < grouped.length;i++)
+                    newArray[i] = grouped[i];
+                newArray[newArray.length-1] = newValue;
+                grouped_notifications.put(statusBarNotification.getId(), newArray);
+            }else{
+                grouped_notifications.put(statusBarNotification.getId(), new int[]{nextId});
+            }
         } else {
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
         }
