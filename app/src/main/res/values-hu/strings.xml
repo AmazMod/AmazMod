@@ -250,4 +250,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="type_folder_name">Írd be a mappa nevét</string>
   <string name="brightness_bad_value_entered">Rossz a megadott érték, az elfogadott 1-255 közötti</string>
   <string name="command_history">Command History</string>
+  <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
+  <string name="automatic_brightness">Automatic Brightness</string>
+  <string name="set_brightness">Set</string>
 </resources>

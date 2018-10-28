@@ -247,4 +247,7 @@
   <string name="type_folder_name">Πληκτρολογήστε Όνομα Φακέλου</string>
   <string name="brightness_bad_value_entered">Μη αποδεκτή τιμή, οι αποδεκτές τιμές είναι από 1 έως 255</string>
   <string name="command_history">Ιστορικό Εντολών</string>
+  <string name="update_started_watch_reboot_when_update_finish">H ενημέρωση ξεκίνησε. Το ρολόι θα επανεκκινήσει στο τέλος της</string>
+  <string name="automatic_brightness">Αυτόματη Φωτεινότητα</string>
+  <string name="set_brightness">Ορισμός</string>
 </resources>

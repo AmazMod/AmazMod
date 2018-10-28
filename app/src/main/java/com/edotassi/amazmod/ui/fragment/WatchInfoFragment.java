@@ -246,6 +246,8 @@ public class WatchInfoFragment extends Card implements Updater {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
+
                                 String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
                                 final UpdateDownloader updateDownloader = new UpdateDownloader();
 

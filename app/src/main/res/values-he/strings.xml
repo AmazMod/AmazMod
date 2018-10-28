@@ -246,4 +246,7 @@
   <string name="type_folder_name">הקלד שם תיקיה</string>
   <string name="brightness_bad_value_entered">ערך שגוי הוכנס, ניתן להכניס ערך בין 1 עד 255</string>
   <string name="command_history">היסטוריית פקודות</string>
+  <string name="update_started_watch_reboot_when_update_finish">עדכון התחיל. השעון יופעל מחדש בסיום העדכון</string>
+  <string name="automatic_brightness">בהירות אוטומטית</string>
+  <string name="set_brightness">קבע</string>
 </resources>

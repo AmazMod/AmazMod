@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -58,7 +59,10 @@ public class TweakingActivity extends AppCompatActivity {
     TextView shellResultEditText;
 
     @BindView(R.id.activity_tweaking_button_update_brightness)
-    Button buttonUpdateBrightness;
+    Button updateBrightnessButton;
+
+    @BindView(R.id.activity_tweaking_switcht_auto_brightness)
+    Switch autoBrightnessSwitch;
 
     private SnackProgressBarManager snackProgressBarManager;
 
@@ -116,14 +120,23 @@ public class TweakingActivity extends AppCompatActivity {
                 //updateBrightness(seekBar.getProgress());
             }
         });
-        boolean enableBrightness = true;
-        if (AmazModApplication.currentScreenBrightnessMode == Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC){
-            enableBrightness = false;
-        }
-        brightnessSeekbar.setEnabled(enableBrightness);
-        brightnessEditText.setEnabled(enableBrightness);
-        buttonUpdateBrightness.setEnabled(enableBrightness);
+        boolean autoBrightness = (AmazModApplication.currentScreenBrightnessMode == Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+        autoBrightnessSwitch.setChecked(autoBrightness);
+        brightnessSeekbar.setEnabled(!autoBrightness);
+        brightnessEditText.setEnabled(!autoBrightness);
+        updateBrightnessButton.setEnabled(!autoBrightness);
         brightnessSeekbar.setProgress(AmazModApplication.currentScreenBrightness);
+    }
+
+    @OnClick(R.id.activity_tweaking_switcht_auto_brightness)
+    public void changeAutoBrightness() {
+        boolean autoBrightness = autoBrightnessSwitch.isChecked();
+        brightnessSeekbar.setEnabled(!autoBrightness);
+        brightnessEditText.setEnabled(!autoBrightness);
+        updateBrightnessButton.setEnabled(!autoBrightness);
+        if (autoBrightness){
+            updateBrightness(Constants.SCREEN_BRIGHTNESS_VALUE_AUTO);
+        }
     }
 
     @OnClick(R.id.activity_tweaking_button_update_brightness)
@@ -149,6 +162,8 @@ public class TweakingActivity extends AppCompatActivity {
                     .show();
         }
     }
+
+
 
     @OnClick(R.id.activity_tweaking_reboot)
     public void reboot() {
@@ -355,7 +370,7 @@ public class TweakingActivity extends AppCompatActivity {
                 });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().executeShellCommand(command).continueWith(new Continuation<ResultShellCommand, Object>() {
+        Watch.get().executeShellCommand(command,true,false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
             public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
 

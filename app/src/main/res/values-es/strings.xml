@@ -248,4 +248,7 @@
   <string name="type_folder_name">Escribe el nombre de la carpeta</string>
   <string name="brightness_bad_value_entered">Valor incorrecto, introduce un valor de entre 1 a 255</string>
   <string name="command_history">Historial de comandos</string>
+  <string name="update_started_watch_reboot_when_update_finish">Actualización iniciada. El reloj se reiniciará al finalizar</string>
+  <string name="automatic_brightness">Brillo automático</string>
+  <string name="set_brightness">Ajustar</string>
 </resources>
