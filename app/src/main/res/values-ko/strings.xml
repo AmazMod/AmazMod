@@ -63,9 +63,9 @@
   <string name="notification_maps">Maps</string>
   <string name="notification_ungroup">Ungroup</string>
   <string name="notification_localok">LOCALOK</string>
-  <string name="notification_disabled">notific_off</string>
-  <string name="notification_screenon">screenon</string>
-  <string name="notification_screenlocked">screenlocked</string>
+  <string name="notification_disabled">알림 끄기</string>
+  <string name="notification_screenon">화면켜짐</string>
+  <string name="notification_screenlocked">화면 잠김</string>
   <string name="telegram_channel">텔레그램 채널</string>
   <string name="support_email">문의 이메일</string>
   <string name="project_github">Github 프로젝트</string>
@@ -96,14 +96,14 @@
   <string name="pref_battery_chart_time_interval">차트 표시 기간</string>
   <string name="pref_battery_chart_time_interval_summary">배터리 차트에 표시할 기간을 설정</string>
   <string name="pref_notifications_replies_summary">커스텀 답장을 입력하세요.</string>
-  <string name="pref_notifications_replies">Notifications replies</string>
+  <string name="pref_notifications_replies">알림 답장</string>
   <string name="pref_disable_notifications_replies_summary">Notification text content will be hidden (and replies panel as well)</string>
   <string name="pref_disable_notifications_replies">알림 텍스트 숨기기</string>
   <string name="pref_disable_notifications_when_screen_on_summary">화면이 켜져있을때 알림 보내지 않기</string>
   <string name="pref_disable_notifications_when_screen_on">화면이 켜져있을때 비활성화</string>
   <string name="pref_notifications_enable_custom_ui_summary">알림에 답장할 수 있습니다.</string>
   <string name="pref_notifications_enable_custom_ui">커스텀 답장 사용하기</string>
-  <string name="pref_run_wizard">Run Welcome Presentation</string>
+  <string name="pref_run_wizard">인트로 안내문 다시보기</string>
   <string name="pref_run_wizard_summary">Run the welcome presentation again</string>
   <string name="pref_vibration_duration">Vibration duration</string>
   <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled)</string>
@@ -143,11 +143,11 @@
   <string name="watch_disconnected">Disconnected</string>
   <string name="watch_connecting">Connecting…</string>
   <string name="notifications_screen_timeout">Screen timeout</string>
-  <string name="pref_notifications_inverted_theme">Inverted theme</string>
+  <string name="pref_notifications_inverted_theme">반전된 테마</string>
   <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme</string>
-  <string name="pref_font_size">Font size</string>
+  <string name="pref_font_size">글꼴 크기</string>
   <string name="pref_font_size_summary">커스텀UI 폰트 크기 선택</string>
-  <string name="notifications_font_size">Font Size</string>
+  <string name="notifications_font_size">글꼴 크기</string>
   <string name="device_not_connected">No device connected</string>
   <string name="device_connected">was connected</string>
   <string name="pref_enable_persistent_notification">Enable persistent notification</string>
@@ -248,6 +248,6 @@
   <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
   <string name="command_history">Command History</string>
   <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
-  <string name="automatic_brightness">Automatic Brightness</string>
-  <string name="set_brightness">Set</string>
+  <string name="automatic_brightness">자동 밝기</string>
+  <string name="set_brightness">설정</string>
 </resources>
