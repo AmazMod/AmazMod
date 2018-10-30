@@ -254,4 +254,6 @@ Proveďte příkaz shell\"</string>
   <string name="update_started_watch_reboot_when_update_finish">Aktualizace spuštěna. Hodinky se na konci restartují</string>
   <string name="automatic_brightness">Automatický jas</string>
   <string name="set_brightness">Nastavit</string>
+  <string name="file_upload_finished">Upload Finished Successfully</string>
+  <string name="view_files">View</string>
 </resources>
