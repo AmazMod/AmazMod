@@ -2,6 +2,7 @@ package com.edotassi.amazmod.ui;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -116,7 +117,14 @@ public class FileExplorerActivity extends AppCompatActivity {
         fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<FileData>());
         listView.setAdapter(fileExplorerAdapter);
 
-        loadPath(Constants.INITIAL_PATH);
+        Intent intent = getIntent(); // gets the previously created intent
+        if (intent.hasExtra("path")){
+            currentPath = intent.getStringExtra("path");
+        }else{
+            currentPath = Constants.INITIAL_PATH;
+        }
+
+        loadPath(currentPath);
 
         registerForContextMenu(listView);
 
@@ -205,6 +213,11 @@ public class FileExplorerActivity extends AppCompatActivity {
 
             String message = getString(R.string.sending) + " \"" + file.getName() + "\"";
 
+            Intent intent = new Intent(this, FileExplorerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("path",uploadPath);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
             final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
             final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
             mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
@@ -214,6 +227,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                     .setContentTitle(getString(R.string.sending))
                     .setContentText(message)
                     .setOngoing(true)
+                    .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.outline_cloud_upload_24);
 
             final SnackProgressBar progressBar = new SnackProgressBar(
