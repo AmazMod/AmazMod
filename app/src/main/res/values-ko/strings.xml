@@ -250,4 +250,6 @@
   <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
   <string name="automatic_brightness">자동 밝기</string>
   <string name="set_brightness">설정</string>
+  <string name="file_upload_finished">Upload Finished Successfully</string>
+  <string name="view_files">View</string>
 </resources>
