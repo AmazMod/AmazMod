@@ -146,12 +146,12 @@ public class FileExplorerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!uploading) {
-            if (currentPath.equals("/")) {
+        if (currentPath.equals("/")) {
+            if (!uploading) {
                 finish();
-            } else {
-                loadPath(getParentDirectoryPath(currentPath));
             }
+        } else {
+            loadPath(getParentDirectoryPath(currentPath));
         }
 
     }
@@ -168,113 +168,145 @@ public class FileExplorerActivity extends AppCompatActivity {
             case FILE_UPLOAD_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     List<Uri> files = Utils.getSelectedFilesFromResult(data);
-
-                    for(int f = 0;f<files.size();f++) {
-                    //if (files.size() > 0) {
-                        uploading = true;
-                        File file = Utils.getFileForUri(files.get(f));
-                        final String path = file.getAbsolutePath();
-
-                        if (!file.exists()) {
-                            fileNotExists();
-                            return;
-                        }
-                        if (file.isDirectory()) {
-                            fileIsDirectory();
-                            return;
-                        }
-
-                        final String destPath = currentPath + "/" + file.getName();
-                        final long size = file.length();
-                        final long startedAt = System.currentTimeMillis();
-
-                        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-                        final SnackProgressBar progressBar = new SnackProgressBar(
-                                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
-                                .setIsIndeterminate(false)
-                                .setProgressMax(100)
-                                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
-                                    @Override
-                                    public void onActionClick() {
-                                        snackProgressBarManager.dismissAll();
-                                        cancellationTokenSource.cancel();
-                                    }
-                                })
-                                .setShowProgressPercentage(true);
-                        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
-
-                        Watch.get().uploadFile(file, destPath, new Watch.OperationProgress() {
-                            @Override
-                            public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
-                                FileExplorerActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
-                                        double kbSent = byteSent / 1024d;
-                                        double speed = kbSent / (duration / 1000);
-                                        DecimalFormat df = new DecimalFormat("#.00");
-
-                                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
-
-                                        progressBar.setMessage(message);
-                                        snackProgressBarManager.setProgress((int) progress);
-                                        snackProgressBarManager.updateTo(progressBar);
-                                    }
-                                });
-                            }
-                        }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
-                            @Override
-                            public Object then(@NonNull Task<Void> task) throws Exception {
-                                snackProgressBarManager.dismissAll();
-
-                                if (task.isSuccessful()) {
-                                    loadPath(getParentDirectoryPath(destPath));
-
-                                    Bundle bundle = new Bundle();
-                                    bundle.putLong("size", size);
-                                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                                    FirebaseAnalytics
-                                            .getInstance(FileExplorerActivity.this)
-                                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
-                                    uploading = false;
-                                } else {
-                                    if (task.getException() instanceof CancellationException) {
-                                        SnackProgressBar snackbar = new SnackProgressBar(
-                                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_canceled))
-                                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                                    @Override
-                                                    public void onActionClick() {
-                                                        snackProgressBarManager.dismissAll();
-                                                    }
-                                                });
-                                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                                        uploading = false;
-                                    } else {
-                                        SnackProgressBar snackbar = new SnackProgressBar(
-                                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
-                                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                                    @Override
-                                                    public void onActionClick() {
-                                                        snackProgressBarManager.dismissAll();
-                                                    }
-                                                });
-                                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                                        uploading = false;
-                                    }
-                                }
-                                return null;
-                            }
-                        });
-                    }
+                    uploadFiles(files, currentPath);
                 }
                 break;
         }
     }
 
+    /**
+     * Receives a list of files and uploads them (in series)
+     *
+     * @param files
+     * @param uploadPath
+     */
+    private void uploadFiles(final List<Uri> files, final String uploadPath) {
+        if (files.size() > 0) {
+            uploading = true;
+            final File file = Utils.getFileForUri(files.get(0));
+            files.remove(0);
+            final String path = file.getAbsolutePath();
+
+            if (!file.exists()) {
+                fileNotExists();
+                return;
+            }
+            if (file.isDirectory()) {
+                fileIsDirectory();
+                return;
+            }
+
+            final String destPath = uploadPath + "/" + file.getName();
+            final long size = file.length();
+            final long startedAt = System.currentTimeMillis();
+
+            final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            final SnackProgressBar progressBar = new SnackProgressBar(
+                    SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + file.getName() + "\"")
+                    .setIsIndeterminate(false)
+                    .setProgressMax(100)
+                    .setAllowUserInput(true)
+                    .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                        @Override
+                        public void onActionClick() {
+                            snackProgressBarManager.dismissAll();
+                            cancellationTokenSource.cancel();
+                        }
+                    })
+                    .setShowProgressPercentage(true);
+            snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+            Watch.get().uploadFile(file, destPath, new Watch.OperationProgress() {
+                @Override
+                public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
+                    FileExplorerActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
+                            double kbSent = byteSent / 1024d;
+                            double speed = kbSent / (duration / 1000);
+                            DecimalFormat df = new DecimalFormat("#.00");
+
+                            String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                            String message = getString(R.string.sending) + " \"" + file.getName() + "\"\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+
+                            progressBar.setMessage(message);
+                            snackProgressBarManager.setProgress((int) progress);
+                            snackProgressBarManager.updateTo(progressBar);
+                        }
+                    });
+                }
+            }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
+                @Override
+                public Object then(@NonNull Task<Void> task) throws Exception {
+                    snackProgressBarManager.dismissAll();
+
+                    if (task.isSuccessful()) {
+                        //if there are no more files to upload, reload (or show information)
+                        if (files.size() == 0) {
+                            if (currentPath.equals(uploadPath)) {
+                                loadPath(uploadPath);
+                            }else{
+                                SnackProgressBar snackbar = new SnackProgressBar(
+                                        SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_finished))
+                                        .setAction(getString(R.string.view_files), new SnackProgressBar.OnActionClickListener() {
+                                            @Override
+                                            public void onActionClick() {
+                                                snackProgressBarManager.dismissAll();
+                                                loadPath(uploadPath);
+                                            }
+                                        });
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            }
+                            uploading = false;
+                        }else{
+                            uploadFiles(files, uploadPath);
+                        }
+                       Bundle bundle = new Bundle();
+                        bundle.putLong("size", size);
+                        bundle.putLong("duration", System.currentTimeMillis() - startedAt);
+                        FirebaseAnalytics
+                                .getInstance(FileExplorerActivity.this)
+                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                    } else {
+                        if (task.getException() instanceof CancellationException) {
+                            SnackProgressBar snackbar = new SnackProgressBar(
+                                    SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_canceled))
+                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                        @Override
+                                        public void onActionClick() {
+                                            snackProgressBarManager.dismissAll();
+                                        }
+                                    });
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            uploading = false;
+                        } else {
+                            SnackProgressBar snackbar = new SnackProgressBar(
+                                    SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
+                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                        @Override
+                                        public void onActionClick() {
+                                            snackProgressBarManager.dismissAll();
+                                        }
+                                    });
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            uploadFiles(files, uploadPath);
+                            //uploading = false;
+                        }
+                    }
+                    return null;
+                }
+            });
+        } else {
+            uploading = false;
+        }
+    }
+
+
     @Override
-    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+    public void onCreateContextMenu(ContextMenu contextMenu, View
+            view, ContextMenu.ContextMenuInfo contextMenuInfo) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_file_explorer_context, contextMenu);
 
@@ -523,7 +555,7 @@ public class FileExplorerActivity extends AppCompatActivity {
         CloseFabMenu();
         Intent i = new Intent(this, FilePickerActivity.class);
 
-        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, true);
         i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
         i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
         i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
