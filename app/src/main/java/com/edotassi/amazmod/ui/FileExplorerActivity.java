@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -19,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import amazmod.com.transport.Constants;
 
@@ -202,6 +203,19 @@ public class FileExplorerActivity extends AppCompatActivity {
 
             final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
+            String message = getString(R.string.sending) + " \"" + file.getName() + "\"";
+
+            final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                    .bigText(message)
+                    .setBigContentTitle(getString(R.string.sending))
+                    .setSummaryText(message))
+                    .setContentTitle(getString(R.string.sending))
+                    .setContentText(message)
+                    .setOngoing(true)
+                    .setSmallIcon(R.drawable.outline_cloud_upload_24);
+
             final SnackProgressBar progressBar = new SnackProgressBar(
                     SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + file.getName() + "\"")
                     .setIsIndeterminate(false)
@@ -229,7 +243,19 @@ public class FileExplorerActivity extends AppCompatActivity {
                             DecimalFormat df = new DecimalFormat("#.00");
 
                             String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                            String message = getString(R.string.sending) + " \"" + file.getName() + "\"\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                            String smallMessage = getString(R.string.sending) + " \"" + file.getName() + "\"";
+                            String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+
+                            //Show/Update notification with current progress
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(message)
+                                    .setBigContentTitle(getString(R.string.sending))
+                                    .setSummaryText(smallMessage))
+                                    .setContentTitle(getString(R.string.sending))
+                                    .setContentText(smallMessage);
+                            mBuilder.setProgress(100, (int) progress, false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
 
                             progressBar.setMessage(message);
                             snackProgressBarManager.setProgress((int) progress);
@@ -247,7 +273,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                         if (files.size() == 0) {
                             if (currentPath.equals(uploadPath)) {
                                 loadPath(uploadPath);
-                            }else{
+                            } else {
                                 SnackProgressBar snackbar = new SnackProgressBar(
                                         SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_finished))
                                         .setAction(getString(R.string.view_files), new SnackProgressBar.OnActionClickListener() {
@@ -259,11 +285,18 @@ public class FileExplorerActivity extends AppCompatActivity {
                                         });
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             }
+                            //Remover progressBar from notification and allow removal of it
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(getString(R.string.file_upload_finished)))
+                                    .setOngoing(false);
+                            mBuilder.setProgress(0, 0 , false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
                             uploading = false;
-                        }else{
+                        } else {
                             uploadFiles(files, uploadPath);
                         }
-                       Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putLong("size", size);
                         bundle.putLong("duration", System.currentTimeMillis() - startedAt);
                         FirebaseAnalytics
