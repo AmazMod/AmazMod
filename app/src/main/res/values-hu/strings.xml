@@ -250,7 +250,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
   <string name="type_folder_name">Írd be a mappa nevét</string>
   <string name="brightness_bad_value_entered">Rossz a megadott érték, az elfogadott 1-255 közötti</string>
   <string name="command_history">Parancs előzmények</string>
-  <string name="update_started_watch_reboot_when_update_finish">A frissítés elindult, utána az óra újraindul</string>
+  <string name="update_started_watch_reboot_when_update_finish">A frissítés elindult, végén az óra újraindul</string>
   <string name="automatic_brightness">Automatikus fényerő</string>
   <string name="set_brightness">Beállít</string>
   <string name="file_upload_finished">A feltöltés sikeresen befejeződött</string>
