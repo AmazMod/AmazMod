@@ -250,6 +250,6 @@
   <string name="update_started_watch_reboot_when_update_finish">עדכון התחיל. השעון יופעל מחדש בסיום העדכון</string>
   <string name="automatic_brightness">בהירות אוטומטית</string>
   <string name="set_brightness">קבע</string>
-  <string name="file_upload_finished">Upload Finished Successfully</string>
-  <string name="view_files">View</string>
+  <string name="file_upload_finished">העלאה הסתיימה בהצלחה</string>
+  <string name="view_files">הצג</string>
 </resources>
