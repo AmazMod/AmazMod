@@ -250,6 +250,6 @@
   <string name="update_started_watch_reboot_when_update_finish">H ενημέρωση ξεκίνησε. Το ρολόι θα επανεκκινήσει στο τέλος της</string>
   <string name="automatic_brightness">Αυτόματη Φωτεινότητα</string>
   <string name="set_brightness">Ορισμός</string>
-  <string name="file_upload_finished">Upload Finished Successfully</string>
-  <string name="view_files">View</string>
+  <string name="file_upload_finished">Η Μεταφόρτωση Ολοκληρώθηκε Επιτυχώς</string>
+  <string name="view_files">Προβολή</string>
 </resources>
