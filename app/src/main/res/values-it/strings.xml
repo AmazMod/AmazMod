@@ -254,4 +254,5 @@ Goditi l\'uso di AmazMod!\"</string>
   <string name="set_brightness">Imposta</string>
   <string name="file_upload_finished">Upload Finished Successfully</string>
   <string name="view_files">View</string>
+  <string name="delete_all">Delete all</string>
 </resources>
