@@ -59,30 +59,30 @@ public class WatchInfoFragment extends Card implements Updater {
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
-    @BindView(R.id.card_product_device)
-    TextView productDevice;
-    @BindView(R.id.card_product_manufacter)
-    TextView productManufacter;
+    //@BindView(R.id.card_product_device)
+    //TextView productDevice;
+    //@BindView(R.id.card_product_manufacter)
+    //TextView productManufacter;
     @BindView(R.id.card_product_model)
     TextView productModel;
     @BindView(R.id.card_product_name)
     TextView productName;
-    @BindView(R.id.card_revision)
-    TextView revision;
+    //@BindView(R.id.card_revision)
+    //TextView revision;
     @BindView(R.id.card_serialno)
     TextView serialNo;
-    @BindView(R.id.card_build_date)
-    TextView buildDate;
+    //@BindView(R.id.card_build_date)
+    //TextView buildDate;
     @BindView(R.id.card_build_description)
     TextView buildDescription;
     @BindView(R.id.card_display_id)
     TextView displayId;
     @BindView(R.id.card_huami_model)
     TextView huamiModel;
-    @BindView(R.id.card_huami_number)
-    TextView huamiNumber;
-    @BindView(R.id.card_build_fingerprint)
-    TextView fingerprint;
+    //@BindView(R.id.card_huami_number)
+    //TextView huamiNumber;
+    //@BindView(R.id.card_build_fingerprint)
+    //TextView fingerprint;
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
@@ -179,18 +179,19 @@ public class WatchInfoFragment extends Card implements Updater {
         WatchStatusData watchStatusData = watchStatus.getWatchStatusData();
 
         amazModService.setText(watchStatusData.getAmazModServiceVersion());
-        productDevice.setText(watchStatusData.getRoProductDevice());
-        productManufacter.setText(watchStatusData.getRoProductManufacter());
         productModel.setText(watchStatusData.getRoProductModel());
         productName.setText(watchStatusData.getRoProductName());
-        revision.setText(watchStatusData.getRoRevision());
-        serialNo.setText(watchStatusData.getRoSerialno());
-        buildDate.setText(watchStatusData.getRoBuildDate());
-        buildDescription.setText(watchStatusData.getRoBuildDescription());
-        displayId.setText(watchStatusData.getRoBuildDisplayId());
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
-        huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
-        fingerprint.setText(watchStatusData.getRoBuildFingerprint());
+        displayId.setText(watchStatusData.getRoBuildDisplayId());
+        buildDescription.setText(watchStatusData.getRoBuildDescription());
+        serialNo.setText(watchStatusData.getRoSerialno());
+        //Removed unused and unnecessary watchData
+        //productDevice.setText(watchStatusData.getRoProductDevice());
+        //productManufacter.setText(watchStatusData.getRoProductManufacter());
+        //revision.setText(watchStatusData.getRoRevision());
+        //buildDate.setText(watchStatusData.getRoBuildDate());
+        //huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
+        //fingerprint.setText(watchStatusData.getRoBuildFingerprint());
         //Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
