@@ -187,7 +187,7 @@
   <string name="activity_files_backup_not_found">קובץ גיבוי לא נמצא!</string>
   <string name="pref_disable_standard_notifications">נטרול התראות מובנות</string>
   <string name="pref_disable_standard_notifications_summary">התראות רגילות (מובנות) לא ישלחו לשעון</string>
-  <string name="activity_tweaking_brightness">Please note that Auto-brightness in watch must be disabled for this to work</string>
+  <string name="activity_tweaking_brightness">שימו לב שבהירות אוטומטית חייבת להיות מבוטלת לצורך תפקוד תקין של אופציה זו</string>
   <string name="failed_load_watch_status">טעינת מצב שעון נכשלה</string>
   <string name="settings_applied">הגדרות נשמרו</string>
   <string name="settings_cant_be_applied">הגדרות לא חלו על השעון</string>
@@ -252,5 +252,5 @@
   <string name="set_brightness">קבע</string>
   <string name="file_upload_finished">העלאה הסתיימה בהצלחה</string>
   <string name="view_files">הצג</string>
-  <string name="delete_all">Delete all</string>
+  <string name="delete_all">מחק הכל</string>
 </resources>
