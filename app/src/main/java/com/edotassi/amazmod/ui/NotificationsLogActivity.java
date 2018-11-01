@@ -4,13 +4,17 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.NotificationLogAdapter;
+import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
+import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
@@ -58,6 +62,25 @@ public class NotificationsLogActivity extends AppCompatActivity {
         listView.setAdapter(notificationLogAdapter);
 
         loadLog();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_notifications_log, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.activity_notifications_log_delete_all) {
+            Delete.table(NotificationEntity.class);
+            notificationLogAdapter.clear();
+            notificationLogAdapter.notifyDataSetChanged();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @SuppressLint("CheckResult")
