@@ -76,7 +76,8 @@ public class CommandHistoryActivity extends AppCompatActivity implements Command
         SQLite
                 .delete()
                 .from(CommandHistoryEntity.class)
-                .where(CommandHistoryEntity_Table.id.eq(command.getId()));
+                .where(CommandHistoryEntity_Table.id.eq(command.getId()))
+                .query();
 
         loadCommandHistory();
     }
