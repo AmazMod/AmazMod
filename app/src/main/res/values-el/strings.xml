@@ -187,7 +187,7 @@
   <string name="activity_files_backup_not_found">Δεν βρέθηκε το αρχείο αντιγράφου ασφαλείας!</string>
   <string name="pref_disable_standard_notifications">Απενεργοποίηση κανονικών ειδοποιήσεων</string>
   <string name="pref_disable_standard_notifications_summary">Οι κανονικές (stock) ειδοποιήσεις δεν θα σταλούν στο ρολόι</string>
-  <string name="activity_tweaking_brightness">Παρακαλούμε απενεργοποιήσετε πρώτα την Αυτόματη Φωτεινότητα στο ρολόι</string>
+  <string name="activity_tweaking_brightness">Please note that Auto-brightness in watch must be disabled for this to work</string>
   <string name="failed_load_watch_status">Η φόρτωση της κατάστασης ρολογιού απέτυχε</string>
   <string name="settings_applied">Οι ρυθμίσεις εφαρμόστηκαν</string>
   <string name="settings_cant_be_applied">Οι ρυθμίσεις δεν μπορούν να εφαρμοστούν</string>
