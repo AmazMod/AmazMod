@@ -252,4 +252,5 @@ Urobte príkaz shell \"</string>
   <string name="update_started_watch_reboot_when_update_finish">Aktualizácia spustená. Hodinky sa na konci reštartujú</string>
   <string name="automatic_brightness">Automatic Brightness</string>
   <string name="set_brightness">Set</string>
+    <string name="delete_all">Delete all</string>
 </resources>

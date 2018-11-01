@@ -251,4 +251,5 @@
   <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
   <string name="automatic_brightness">Automatic Brightness</string>
   <string name="set_brightness">Set</string>
+    <string name="delete_all">Delete all</string>
 </resources>

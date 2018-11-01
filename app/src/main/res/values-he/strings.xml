@@ -249,4 +249,5 @@
   <string name="update_started_watch_reboot_when_update_finish">עדכון התחיל. השעון יופעל מחדש בסיום העדכון</string>
   <string name="automatic_brightness">בהירות אוטומטית</string>
   <string name="set_brightness">קבע</string>
+    <string name="delete_all">Delete all</string>
 </resources>
