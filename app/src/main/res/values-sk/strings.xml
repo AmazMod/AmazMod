@@ -254,4 +254,5 @@ Urobte príkaz shell \"</string>
   <string name="set_brightness">Nastaviť</string>
   <string name="file_upload_finished">Nahrávanie úspešne dokončené</string>
   <string name="view_files">Zobraziť</string>
+  <string name="delete_all">Delete all</string>
 </resources>
