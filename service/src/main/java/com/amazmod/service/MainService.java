@@ -501,9 +501,15 @@ public class MainService extends Service implements Transporter.DataListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
-        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessData.getLevel());
+        final int brightnessLevel = brightnessData.getLevel();
+        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessLevel);
 
-        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
+        if (brightnessLevel == -1)
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
+        else {
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 0);
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessLevel);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

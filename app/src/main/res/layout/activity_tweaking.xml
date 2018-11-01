@@ -51,6 +51,8 @@
 
             <EditText
                 android:id="@+id/activity_tweaking_brightness_value"
+                android:hint="@string/activity_tweaking_brightness"
+                android:textColorHint="@android:color/transparent"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -260,7 +262,6 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:inputType="textMultiLine"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/textView43"
                 app:layout_constraintTop_toBottomOf="@+id/textView43" />
@@ -271,7 +272,7 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:drawableLeft="@drawable/outline_history"
+                android:drawableStart="@drawable/outline_history"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView35" />
         </android.support.constraint.ConstraintLayout>
