@@ -252,4 +252,5 @@
   <string name="set_brightness">Ορισμός</string>
   <string name="file_upload_finished">Η Μεταφόρτωση Ολοκληρώθηκε Επιτυχώς</string>
   <string name="view_files">Προβολή</string>
+  <string name="delete_all">Delete all</string>
 </resources>
