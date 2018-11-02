@@ -12,6 +12,8 @@ sleep 3
 adb shell am force-stop com.huami.watch.launcher
 echo "launcher restarted"
 sleep 3
+rm /sdcard/install_apk.sh
+rm $1
 echo "installation finished"
 } | busybox tee /dev/tty | while read line; do
    log -p d -t "$tag" "$line"
