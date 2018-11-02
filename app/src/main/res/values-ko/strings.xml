@@ -198,7 +198,7 @@
     <string name="file_explorer">파일 탐색기</string>
     <string name="reading_files_failed">파일 읽기 실패</string>
     <string name="activity_about_extras">기타</string>
-    <string name="revoke_device_owner">Revoke device owner on watch</string>
+    <string name="revoke_device_owner">시계 소유자 등록 취소</string>
     <string name="connection_alert">연결 알림</string>
     <string name="pref_phone_connect_alert_standard_notification">순정 알림 사용</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">전체화면 알림 대신 순정 알림으로 연결 알림 표시</string>
