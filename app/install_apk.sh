@@ -12,6 +12,8 @@ sleep 3
 adb shell am force-stop com.huami.watch.launcher
 echo "launcher restarted"
 sleep 3
+adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver
+echo "device ownner set"
 rm /sdcard/install_apk.sh
 rm $1
 echo "installation finished"
