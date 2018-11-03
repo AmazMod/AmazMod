@@ -2,10 +2,11 @@
 tag="AmazMod install_apk"
 systype=$(getprop | grep display.id)
 {
+echo "***** starting, arg1 = $1 // arg2 = $2 // arg3 = $3"
 echo "Date: $(date)"
 echo "System: $systype"
 echo "PWD: $PWD"
-if [ "$2" != "" ]; then
+if [ "$2" == "" ]; then
    echo "restarting in the background"
    cd /sdcard/
    busybox nohup sh /sdcard/install_apk.sh $1 OK > /dev/null &
@@ -27,6 +28,8 @@ adb kill-server
 echo "removing files from internal storage"
 rm /sdcard/install_apk.sh
 rm /sdcard/AmazMod-service-*.apk
+file="/sdcard/amazmod-command.sh"
+[ -e $file ] && rm $file
 echo "installation finished"
 } | busybox tee /dev/tty | while read line; do
    log -p d -t "$tag" "$line"
