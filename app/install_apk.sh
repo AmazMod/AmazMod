@@ -6,9 +6,11 @@ echo "Date: $(date)"
 echo "System: $systype"
 echo "PWD: $PWD"
 if [ "$1" != "" && "$1" != "&" ]; then
-   adb kill-server
-   echo "installing: $1"
-   adb shell pm install -r $1
+   if [ -s $1 ]; then
+      adb kill-server
+      echo "installing: $1"
+      adb shell pm install -r $1
+   fi
 fi 
 echo "$1 installed"
 sleep 3
