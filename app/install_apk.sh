@@ -9,14 +9,18 @@ echo "PWD: $PWD"
 if [ "$2" == "" ]; then
    echo "restarting in the background"
    cd /sdcard/
+   sleep 3
    busybox nohup sh /sdcard/install_apk.sh $1 OK > /dev/null &
    exit 0
 fi
 if [ "$1" != "" ]; then
    echo "installing: $1"
    adb kill-server
-   [[ -s $1 ]] && adb shell pm install -r $1 || echo "it is not a file"
+   adb shell am force-stop com.huami.watch.launcher
+   adb kill-server
+   [[ -s $1 ]] && adb install -r $1 || echo "$1 is not a file!"
 fi 
+adb kill-server
 echo "$1 installed"
 sleep 3
 adb shell am force-stop com.huami.watch.launcher
