@@ -211,7 +211,7 @@
     <string name="cant_send_shell_command">Η εντολή δεν μπορεί να σταλεί</string>
     <string name="install">Εγκατάσταση</string>
     <string name="apk_install_started_title">Εγκατάσταση APK</string>
-    <string name="apk_install_started">Ξεκίνησε η εγκατάσταση του APK\nΗ εγκατάσταση πραγματοποιείται στο παρασκήνιο\nΕπανεκκινήστε το ρολόι μετά από περίπου 3 λεπτά για να δείτε την εγκατεστημένη εφαρμογή</string>
+    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Η εκκίνηση της εγκατάστασης του APK δεν είναι δυνατή</string>
     <string name="reboot">Επανεκκίνηση</string>
     <string name="restart_launcher">Κάντε επανεκκίνηση του launcher</string>
