@@ -9,31 +9,29 @@ echo "PWD: $PWD"
 if [ "$2" == "" ]; then
    echo "restarting in the background"
    cd /sdcard/
+   adb kill-server
    sleep 3
-   busybox nohup sh /sdcard/install_apk.sh $1 OK > /dev/null &
+   adb shell busybox nohup sh /sdcard/install_apk.sh $1 OK > /dev/null &
    exit 0
 fi
 if [ "$1" != "" ]; then
    echo "installing: $1"
-   adb kill-server
-   adb shell am force-stop com.amazmod.service
-   [[ -s $1 ]] && adb install -r $1 || echo "$1 is not a file!"
+   [[ -s $1 ]] && pm install -r $1 || echo "$1 is not a file!"
 fi 
 echo "$1 installed"
-adb kill-server
 sleep 3
 adb shell am force-stop com.huami.watch.launcher
 echo "launcher restarted"
 sleep 3
 adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver
 echo "device ownner set"
-adb kill-server
 echo "removing files from internal storage"
 rm /sdcard/install_apk.sh
 rm /sdcard/AmazMod-service-*.apk
 file="/sdcard/amazmod-command.sh"
 [ -e $file ] && rm $file
 echo "installation finished"
+adb kill-server
 } | busybox tee /dev/tty | while read line; do
    log -p d -t "$tag" "$line"
 done
