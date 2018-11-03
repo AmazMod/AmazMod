@@ -66,7 +66,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
@@ -432,18 +434,18 @@ public class MainService extends Service implements Transporter.DataListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
         watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
-        watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
+        //watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
         watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
         watchStatusData.setRoBuildDisplayId(SystemProperties.get(WatchStatusData.RO_BUILD_DISPLAY_ID, "-"));
         watchStatusData.setRoBuildHuamiModel(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_MODEL, "-"));
-        watchStatusData.setRoBuildHuamiNumber(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_NUMBER, "-"));
-        watchStatusData.setRoProductDevice(SystemProperties.get(WatchStatusData.RO_PRODUCT_DEVICE, "-"));
-        watchStatusData.setRoProductManufacter(SystemProperties.get(WatchStatusData.RO_PRODUCT_MANUFACTER, "-"));
+        //watchStatusData.setRoBuildHuamiNumber(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_NUMBER, "-"));
+        //watchStatusData.setRoProductDevice(SystemProperties.get(WatchStatusData.RO_PRODUCT_DEVICE, "-"));
+        //watchStatusData.setRoProductManufacter(SystemProperties.get(WatchStatusData.RO_PRODUCT_MANUFACTER, "-"));
         watchStatusData.setRoProductModel(SystemProperties.get(WatchStatusData.RO_PRODUCT_MODEL, "-"));
         watchStatusData.setRoProductName(SystemProperties.get(WatchStatusData.RO_PRODUCT_NAME, "-"));
-        watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
+        //watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
-        watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
+        //watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
 
         int b = 0;
         int bm = Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
@@ -501,9 +503,15 @@ public class MainService extends Service implements Transporter.DataListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
-        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessData.getLevel());
+        final int brightnessLevel = brightnessData.getLevel();
+        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessLevel);
 
-        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
+        if (brightnessLevel == -1)
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
+        else {
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 0);
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessLevel);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -607,28 +615,50 @@ public class MainService extends Service implements Transporter.DataListener {
                     RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
 
                     if (!requestShellCommandData.isWaitOutput()) {
-                        File commandFile = new File("/sdcard/amazmod-command.sh");
-                        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
 
                         String command = requestShellCommandData.getCommand();
+                        Log.d(Constants.TAG, "MainService executeShellCommand command: " + command);
+                        int code = 0;
 
-                        if (requestShellCommandData.isReboot()) {
-                            outputStreamWriter.write(command + " && adb shell reboot");
-                            outputStreamWriter.flush();
-                            outputStreamWriter.close();
-                            Process process = Runtime.getRuntime().exec("sh /sdcard/amazmod-command.sh &");
+                        if (command.contains("install_apk ")) {
 
-                            int code = process.waitFor();
-                            Log.d(Constants.TAG, "sh process returned " + code);
+                            File file = new File(getFilesDir(), "install_apk.sh");
+                            boolean flag = copyFile(file);
+
+                            if (flag) {
+                                String installScript = file.getAbsolutePath();
+                                Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
+                                String apk = command.replace("install_apk ", "");
+                                Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
+                                String installCommand = String.format("busybox nohup sh %s %s &", installScript, apk);
+                                Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+                                Runtime.getRuntime().exec(installCommand, null, getFilesDir());
+                            } else
+                                code = 1;
+
                         } else {
-                            Runtime.getRuntime().exec(requestShellCommandData.getCommand());
+                            File commandFile = new File("/sdcard/amazmod-command.sh");
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
 
-                            ResultShellCommandData resultShellCommand = new ResultShellCommandData();
-                            resultShellCommand.setResult(0);
-                            resultShellCommand.setOutputLog("");
-                            resultShellCommand.setErrorLog("");
-                            send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+
+                            if (requestShellCommandData.isReboot()) {
+                                outputStreamWriter.write(command + " && reboot");
+                                outputStreamWriter.flush();
+                                outputStreamWriter.close();
+                                Process process = Runtime.getRuntime().exec("busybox nohup sh /sdcard/amazmod-command.sh &");
+
+                                code = process.waitFor();
+                                Log.d(Constants.TAG, "MainService shell process returned " + code);
+                            } else {
+                                Runtime.getRuntime().exec(command);
+                            }
                         }
+                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                        resultShellCommand.setResult(code);
+                        resultShellCommand.setOutputLog("");
+                        resultShellCommand.setErrorLog("");
+                        send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+
                     } else {
                         long startedAt = System.currentTimeMillis();
 
@@ -671,6 +701,28 @@ public class MainService extends Service implements Transporter.DataListener {
                 }
             }
         }).start();
+    }
+
+    private boolean copyFile(File file) {
+        boolean copySuccess = false;
+        InputStream is =  getResources().openRawResource(getResources()
+                .getIdentifier("install_apk", "raw", getPackageName()));
+        try {
+            OutputStream output = new FileOutputStream(file);
+            byte[] buffer = new byte[4 * 1024];
+            int read;
+            while ((read = is.read(buffer)) != -1) {
+                output.write(buffer, 0, read);
+            }
+            copySuccess = true;
+            output.flush();
+            output.close();
+            is.close();
+        } catch (Exception e) {
+            copySuccess = false;
+            Log.e(Constants.TAG, "MainService copyFile exception: " + e.toString());
+        }
+        return copySuccess;
     }
 
     private DirectoryData getFilesByPath(String path) {

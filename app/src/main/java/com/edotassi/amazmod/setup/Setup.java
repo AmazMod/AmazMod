@@ -43,9 +43,12 @@ public class Setup {
     }
 
     public static void checkServiceUpdate(final Updater updater, final String currentVersion) {
+
         Request request = new Request.Builder()
                 .url(Constants.SERVICE_UPDATE_URL)
                 .build();
+        System.out.println("AmazMod Setup checkServiceUpdate started");
+
         OkHttpClient client = new OkHttpClient();
         client.newCall(request)
                 .enqueue(new Callback() {
@@ -62,7 +65,8 @@ public class Setup {
                             int latestVersionValue = Integer.valueOf(data.getProperty("version"));
                             int currentVersionValue = Integer.valueOf(currentVersion);
 
-                            if (latestVersionValue > currentVersionValue) {
+                            System.out.println("AmazMod Setup versions = " + currentVersionValue + " // " + latestVersionValue);
+                            if (!(currentVersionValue >= latestVersionValue)) {
                                 updater.updateAvailable(latestVersionValue);
                             }
                         } catch (Exception ex) {

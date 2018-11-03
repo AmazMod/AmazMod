@@ -251,4 +251,5 @@
   <string name="update_started_watch_reboot_when_update_finish">Actualización iniciada. El reloj se reiniciará al finalizar</string>
   <string name="automatic_brightness">Brillo automático</string>
   <string name="set_brightness">Ajustar</string>
+    <string name="delete_all">Delete all</string>
 </resources>

@@ -370,34 +370,39 @@ public class TweakingActivity extends AppCompatActivity {
                 });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().executeShellCommand(command,true,false).continueWith(new Continuation<ResultShellCommand, Object>() {
+        Watch.get().executeShellCommand(command, true, false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
             public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
 
                 snackProgressBarManager.dismissAll();
+                String snackBarText;
 
                 if (task.isSuccessful()) {
                     ResultShellCommand resultShellCommand = task.getResult();
-                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+                    if (resultShellCommand != null) {
+                        ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
 
-                    if (resultShellCommandData.getResult() == 0) {
+                        if (resultShellCommandData.getResult() == 0) {
+                            shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
+                            shellResultEditText.setText(resultShellCommandData.getOutputLog());
+                            snackBarText = "success";
 
-                        shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
-                        shellResultEditText.setText(resultShellCommandData.getOutputLog());
-                    } else {
-                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+                        } else {
+                            shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
+                            shellResultEditText.setText(String.format("%s\n%s", resultShellCommandData.getOutputLog(), resultShellCommandData.getErrorLog()));
+                            snackBarText = getString(R.string.shell_command_failed);
+                        }
+                    } else
+                        snackBarText = getString(R.string.shell_command_failed);
 
-                        shellResultCodeTextView.setText(String.valueOf(resultShellCommandData.getResult()));
-                        shellResultEditText.setText(resultShellCommandData.getOutputLog() + "\n" + resultShellCommandData.getErrorLog());
-
-                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                    }
                 } else {
-                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
-
                     shellResultCodeTextView.setText("");
                     shellResultEditText.setText("");
+                    snackBarText = getString(R.string.cant_send_shell_command);
+                }
 
+                if (!snackBarText.equals("success")) {
+                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, snackBarText);
                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                 }
 

@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -59,30 +60,30 @@ public class WatchInfoFragment extends Card implements Updater {
 
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
-    @BindView(R.id.card_product_device)
-    TextView productDevice;
-    @BindView(R.id.card_product_manufacter)
-    TextView productManufacter;
+    //@BindView(R.id.card_product_device)
+    //TextView productDevice;
+    //@BindView(R.id.card_product_manufacter)
+    //TextView productManufacter;
     @BindView(R.id.card_product_model)
     TextView productModel;
     @BindView(R.id.card_product_name)
     TextView productName;
-    @BindView(R.id.card_revision)
-    TextView revision;
+    //@BindView(R.id.card_revision)
+    //TextView revision;
     @BindView(R.id.card_serialno)
     TextView serialNo;
-    @BindView(R.id.card_build_date)
-    TextView buildDate;
+    //@BindView(R.id.card_build_date)
+    //TextView buildDate;
     @BindView(R.id.card_build_description)
     TextView buildDescription;
     @BindView(R.id.card_display_id)
     TextView displayId;
     @BindView(R.id.card_huami_model)
     TextView huamiModel;
-    @BindView(R.id.card_huami_number)
-    TextView huamiNumber;
-    @BindView(R.id.card_build_fingerprint)
-    TextView fingerprint;
+    //@BindView(R.id.card_huami_number)
+    //TextView huamiNumber;
+    //@BindView(R.id.card_build_fingerprint)
+    //TextView fingerprint;
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
@@ -95,11 +96,12 @@ public class WatchInfoFragment extends Card implements Updater {
 
     private long timeLastSync = 0L;
     private static WatchStatus watchStatus;
+    private static int serviceVersion;
 
     private MaterialDialog updateDialog;
 
     @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
         View view = layoutInflater.inflate(R.layout.fragment_watch_info, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -120,6 +122,8 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onResume() {
         super.onResume();
 
+        Log.i(Constants.TAG, "WatchInfoFragment timeLastSync: " + timeLastSync + " // " + serviceVersion);
+
         int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         if (System.currentTimeMillis() - timeLastSync > (syncInterval * 30000L)) {
             connecting();
@@ -128,14 +132,25 @@ public class WatchInfoFragment extends Card implements Updater {
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<WatchStatus> task) throws Exception {
+                    Log.i(Constants.TAG, "WatchInfoFragment getStatus.isSuccessful: " + task.isSuccessful() + " // " + serviceVersion);
                     if (task.isSuccessful()) {
+                        Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = true");
                         AmazModApplication.isWatchConnected = true;
                         isConnected();
+                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion1: " + serviceVersion);
                         watchStatus = task.getResult();
+                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion2: " + serviceVersion);
                         refresh(watchStatus);
-
-                        Setup.checkServiceUpdate(WatchInfoFragment.this, watchStatus.getWatchStatusData().getAmazModServiceVersion());
+                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion3: " + serviceVersion);
+                        String serviceVersionString = watchStatus.getWatchStatusData().getAmazModServiceVersion();
+                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersionString: " + serviceVersionString);
+                        if (serviceVersionString.contains("_("))
+                            serviceVersionString = "1588";
+                        serviceVersion = Integer.valueOf(serviceVersionString);
+                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion: " + serviceVersion);
+                        Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
                     } else {
+                        Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
                         AmazModApplication.isWatchConnected = false;
                         try {
                             Snacky
@@ -179,23 +194,24 @@ public class WatchInfoFragment extends Card implements Updater {
         WatchStatusData watchStatusData = watchStatus.getWatchStatusData();
 
         amazModService.setText(watchStatusData.getAmazModServiceVersion());
-        productDevice.setText(watchStatusData.getRoProductDevice());
-        productManufacter.setText(watchStatusData.getRoProductManufacter());
         productModel.setText(watchStatusData.getRoProductModel());
         productName.setText(watchStatusData.getRoProductName());
-        revision.setText(watchStatusData.getRoRevision());
-        serialNo.setText(watchStatusData.getRoSerialno());
-        buildDate.setText(watchStatusData.getRoBuildDate());
-        buildDescription.setText(watchStatusData.getRoBuildDescription());
-        displayId.setText(watchStatusData.getRoBuildDisplayId());
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
-        huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
-        fingerprint.setText(watchStatusData.getRoBuildFingerprint());
+        displayId.setText(watchStatusData.getRoBuildDisplayId());
+        buildDescription.setText(watchStatusData.getRoBuildDescription());
+        serialNo.setText(watchStatusData.getRoSerialno());
+        //Removed unused and unnecessary watchData
+        //productDevice.setText(watchStatusData.getRoProductDevice());
+        //productManufacter.setText(watchStatusData.getRoProductManufacter());
+        //revision.setText(watchStatusData.getRoRevision());
+        //buildDate.setText(watchStatusData.getRoBuildDate());
+        //huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
+        //fingerprint.setText(watchStatusData.getRoBuildFingerprint());
         //Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
-        Log.d(Constants.TAG, "WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
-        Log.d(Constants.TAG, "WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
 
     }
 
@@ -246,26 +262,31 @@ public class WatchInfoFragment extends Card implements Updater {
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
+                                if (WatchInfoFragment.this.getContext() != null) {
+                                    FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
 
-                                String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
-                                final UpdateDownloader updateDownloader = new UpdateDownloader();
+                                    @SuppressLint("DefaultLocale") String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+                                    final UpdateDownloader updateDownloader = new UpdateDownloader();
 
-                                updateDialog = new MaterialDialog.Builder(getContext())
-                                        .title(R.string.download_in_progress)
-                                        .customView(R.layout.dialog_update_progress, false)
-                                        .negativeText(R.string.cancel)
-                                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                            @Override
-                                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                if (updateDownloader != null) {
-                                                    updateDownloader.cancel();
+                                    updateDialog = new MaterialDialog.Builder(getContext())
+                                            .title(R.string.download_in_progress)
+                                            .customView(R.layout.dialog_update_progress, false)
+                                            .negativeText(R.string.cancel)
+                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    if (updateDownloader != null) {
+                                                        updateDownloader.cancel();
+                                                    }
                                                 }
-                                            }
-                                        })
-                                        .show();
+                                            })
+                                            .show();
 
-                                updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
+                                    updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
+
+                                    if (!(version > 1696))
+                                        updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
+                                }
                             }
                         })
                         .show();
@@ -280,13 +301,15 @@ public class WatchInfoFragment extends Card implements Updater {
         }
 
         View view = updateDialog.getCustomView();
-        ProgressBar progressBar = view.findViewById(R.id.dialog_update_progress_bar);
-        TextView fileNameTextView = view.findViewById(R.id.dialog_update_progress_filename);
-        TextView percTextView = view.findViewById(R.id.dialog_update_progress_perc);
+        if (view != null) {
+            ProgressBar progressBar = view.findViewById(R.id.dialog_update_progress_bar);
+            TextView fileNameTextView = view.findViewById(R.id.dialog_update_progress_filename);
+            TextView percTextView = view.findViewById(R.id.dialog_update_progress_perc);
 
-        progressBar.setProgress(progress);
-        fileNameTextView.setText(filename);
-        percTextView.setText(String.format("%d%s", progress, "%"));
+            progressBar.setProgress(progress);
+            fileNameTextView.setText(filename);
+            percTextView.setText(String.format("%d%s", progress, "%"));
+        }
     }
 
     @Override
@@ -297,8 +320,8 @@ public class WatchInfoFragment extends Card implements Updater {
 
         updateDialog.dismiss();
         updateDialog = null;
-
-        Snacky.builder().setActivity(getActivity()).setText(R.string.download_failed).build().show();
+        if (getActivity() != null)
+            Snacky.builder().setActivity(getActivity()).setText(R.string.download_failed).build().show();
     }
 
     @Override
@@ -398,7 +421,12 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void installUpdate(String apkAbosultePath) {
-        String command = "adb install -r " + apkAbosultePath;
+        String command;
+        if (!(serviceVersion > 1696)) {
+            command = String.format("install_apk %s", apkAbosultePath);
+        } else {
+            command = String.format("busybox nohup sh /sdcard/install_apk %s &", apkAbosultePath);
+        }
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                 .setIsIndeterminate(true)
@@ -410,7 +438,7 @@ public class WatchInfoFragment extends Card implements Updater {
                 });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().executeShellCommand(command, false, true).continueWith(new Continuation<ResultShellCommand, Object>() {
+        Watch.get().executeShellCommand(command, false, false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
             public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
                 snackProgressBarManager.dismissAll();

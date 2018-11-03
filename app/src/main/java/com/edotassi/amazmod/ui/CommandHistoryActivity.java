@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.edotassi.amazmod.R;
@@ -12,6 +14,7 @@ import com.edotassi.amazmod.adapters.CommandHistoryAdapter;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
 import com.edotassi.amazmod.support.CommandHistoryBridge;
+import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
@@ -72,11 +75,31 @@ public class CommandHistoryActivity extends AppCompatActivity implements Command
         return true;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_command_history, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.activity_command_history_delete_all) {
+            Delete.table(CommandHistoryEntity.class);
+            loadCommandHistory();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void deleteCommand(CommandHistoryEntity command) {
         SQLite
                 .delete()
                 .from(CommandHistoryEntity.class)
-                .where(CommandHistoryEntity_Table.id.eq(command.getId()));
+                .where(CommandHistoryEntity_Table.id.eq(command.getId()))
+                .query();
 
         loadCommandHistory();
     }

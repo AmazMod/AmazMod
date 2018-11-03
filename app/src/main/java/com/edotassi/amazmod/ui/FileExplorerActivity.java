@@ -2,6 +2,7 @@ package com.edotassi.amazmod.ui;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -19,9 +22,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import amazmod.com.transport.Constants;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
@@ -57,6 +57,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
@@ -115,7 +116,14 @@ public class FileExplorerActivity extends AppCompatActivity {
         fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<FileData>());
         listView.setAdapter(fileExplorerAdapter);
 
-        loadPath(Constants.INITIAL_PATH);
+        Intent intent = getIntent(); // gets the previously created intent
+        if (intent.hasExtra("path")){
+            currentPath = intent.getStringExtra("path");
+        }else{
+            currentPath = Constants.INITIAL_PATH;
+        }
+
+        loadPath(currentPath);
 
         registerForContextMenu(listView);
 
@@ -146,12 +154,12 @@ public class FileExplorerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!uploading) {
-            if (currentPath.equals("/")) {
+        if (currentPath.equals("/")) {
+            if (!uploading) {
                 finish();
-            } else {
-                loadPath(getParentDirectoryPath(currentPath));
             }
+        } else {
+            loadPath(getParentDirectoryPath(currentPath));
         }
 
     }
@@ -168,113 +176,183 @@ public class FileExplorerActivity extends AppCompatActivity {
             case FILE_UPLOAD_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     List<Uri> files = Utils.getSelectedFilesFromResult(data);
-
-                    for(int f = 0;f<files.size();f++) {
-                    //if (files.size() > 0) {
-                        uploading = true;
-                        File file = Utils.getFileForUri(files.get(f));
-                        final String path = file.getAbsolutePath();
-
-                        if (!file.exists()) {
-                            fileNotExists();
-                            return;
-                        }
-                        if (file.isDirectory()) {
-                            fileIsDirectory();
-                            return;
-                        }
-
-                        final String destPath = currentPath + "/" + file.getName();
-                        final long size = file.length();
-                        final long startedAt = System.currentTimeMillis();
-
-                        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-
-                        final SnackProgressBar progressBar = new SnackProgressBar(
-                                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
-                                .setIsIndeterminate(false)
-                                .setProgressMax(100)
-                                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
-                                    @Override
-                                    public void onActionClick() {
-                                        snackProgressBarManager.dismissAll();
-                                        cancellationTokenSource.cancel();
-                                    }
-                                })
-                                .setShowProgressPercentage(true);
-                        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
-
-                        Watch.get().uploadFile(file, destPath, new Watch.OperationProgress() {
-                            @Override
-                            public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
-                                FileExplorerActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
-                                        double kbSent = byteSent / 1024d;
-                                        double speed = kbSent / (duration / 1000);
-                                        DecimalFormat df = new DecimalFormat("#.00");
-
-                                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
-
-                                        progressBar.setMessage(message);
-                                        snackProgressBarManager.setProgress((int) progress);
-                                        snackProgressBarManager.updateTo(progressBar);
-                                    }
-                                });
-                            }
-                        }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
-                            @Override
-                            public Object then(@NonNull Task<Void> task) throws Exception {
-                                snackProgressBarManager.dismissAll();
-
-                                if (task.isSuccessful()) {
-                                    loadPath(getParentDirectoryPath(destPath));
-
-                                    Bundle bundle = new Bundle();
-                                    bundle.putLong("size", size);
-                                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                                    FirebaseAnalytics
-                                            .getInstance(FileExplorerActivity.this)
-                                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
-                                    uploading = false;
-                                } else {
-                                    if (task.getException() instanceof CancellationException) {
-                                        SnackProgressBar snackbar = new SnackProgressBar(
-                                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_canceled))
-                                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                                    @Override
-                                                    public void onActionClick() {
-                                                        snackProgressBarManager.dismissAll();
-                                                    }
-                                                });
-                                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                                        uploading = false;
-                                    } else {
-                                        SnackProgressBar snackbar = new SnackProgressBar(
-                                                SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
-                                                .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                                    @Override
-                                                    public void onActionClick() {
-                                                        snackProgressBarManager.dismissAll();
-                                                    }
-                                                });
-                                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                                        uploading = false;
-                                    }
-                                }
-                                return null;
-                            }
-                        });
-                    }
+                    uploadFiles(files, currentPath);
                 }
                 break;
         }
     }
 
+    /**
+     * Receives a list of files and uploads them (in series)
+     *
+     * @param files
+     * @param uploadPath
+     */
+    private void uploadFiles(final List<Uri> files, final String uploadPath) {
+        if (files.size() > 0) {
+            uploading = true;
+            final File file = Utils.getFileForUri(files.get(0));
+            files.remove(0);
+            final String path = file.getAbsolutePath();
+
+            if (!file.exists()) {
+                fileNotExists();
+                return;
+            }
+            if (file.isDirectory()) {
+                fileIsDirectory();
+                return;
+            }
+
+            final String destPath = uploadPath + "/" + file.getName();
+            final long size = file.length();
+            final long startedAt = System.currentTimeMillis();
+
+            final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+            String message = getString(R.string.sending) + " \"" + file.getName() + "\"";
+
+            Intent intent = new Intent(this, FileExplorerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("path",uploadPath);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+            final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
+            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                    .bigText(message)
+                    .setBigContentTitle(getString(R.string.sending))
+                    .setSummaryText(message))
+                    .setContentTitle(getString(R.string.sending))
+                    .setContentText(message)
+                    .setOngoing(true)
+                    .setContentIntent(pendingIntent)
+                    .setSmallIcon(R.drawable.outline_cloud_upload_24);
+
+            final SnackProgressBar progressBar = new SnackProgressBar(
+                    SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + file.getName() + "\"")
+                    .setIsIndeterminate(false)
+                    .setProgressMax(100)
+                    .setAllowUserInput(true)
+                    .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                        @Override
+                        public void onActionClick() {
+                            snackProgressBarManager.dismissAll();
+                            cancellationTokenSource.cancel();
+                        }
+                    })
+                    .setShowProgressPercentage(true);
+            snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+            Watch.get().uploadFile(file, destPath, new Watch.OperationProgress() {
+                @Override
+                public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
+                    FileExplorerActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
+                            double kbSent = byteSent / 1024d;
+                            double speed = kbSent / (duration / 1000);
+                            DecimalFormat df = new DecimalFormat("#.00");
+
+                            String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                            String smallMessage = getString(R.string.sending) + " \"" + file.getName() + "\"";
+                            String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+
+                            //Show/Update notification with current progress
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(message)
+                                    .setBigContentTitle(getString(R.string.sending))
+                                    .setSummaryText(smallMessage))
+                                    .setContentTitle(getString(R.string.sending))
+                                    .setContentText(smallMessage);
+                            mBuilder.setProgress(100, (int) progress, false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
+
+                            progressBar.setMessage(message);
+                            snackProgressBarManager.setProgress((int) progress);
+                            snackProgressBarManager.updateTo(progressBar);
+                        }
+                    });
+                }
+            }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
+                @Override
+                public Object then(@NonNull Task<Void> task) throws Exception {
+                    snackProgressBarManager.dismissAll();
+
+                    if (task.isSuccessful()) {
+                        //if there are no more files to upload, reload (or show information)
+                        if (files.size() == 0) {
+                            if (currentPath.equals(uploadPath)) {
+                                loadPath(uploadPath);
+                            } else {
+                                SnackProgressBar snackbar = new SnackProgressBar(
+                                        SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_finished))
+                                        .setAction(getString(R.string.view_files), new SnackProgressBar.OnActionClickListener() {
+                                            @Override
+                                            public void onActionClick() {
+                                                snackProgressBarManager.dismissAll();
+                                                loadPath(uploadPath);
+                                            }
+                                        });
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            }
+                            //Remover progressBar from notification and allow removal of it
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(getString(R.string.file_upload_finished)))
+                                    .setOngoing(false);
+                            mBuilder.setProgress(0, 0 , false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
+                            uploading = false;
+                        } else {
+                            uploadFiles(files, uploadPath);
+                        }
+                        Bundle bundle = new Bundle();
+                        bundle.putLong("size", size);
+                        bundle.putLong("duration", System.currentTimeMillis() - startedAt);
+                        FirebaseAnalytics
+                                .getInstance(FileExplorerActivity.this)
+                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                    } else {
+                        if (task.getException() instanceof CancellationException) {
+                            SnackProgressBar snackbar = new SnackProgressBar(
+                                    SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_upload_canceled))
+                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                        @Override
+                                        public void onActionClick() {
+                                            snackProgressBarManager.dismissAll();
+                                        }
+                                    });
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            uploading = false;
+                        } else {
+                            SnackProgressBar snackbar = new SnackProgressBar(
+                                    SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
+                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                        @Override
+                                        public void onActionClick() {
+                                            snackProgressBarManager.dismissAll();
+                                        }
+                                    });
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            uploadFiles(files, uploadPath);
+                            //uploading = false;
+                        }
+                    }
+                    return null;
+                }
+            });
+        } else {
+            uploading = false;
+        }
+    }
+
+
     @Override
-    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+    public void onCreateContextMenu(ContextMenu contextMenu, View
+            view, ContextMenu.ContextMenuInfo contextMenuInfo) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.activity_file_explorer_context, contextMenu);
 
@@ -482,32 +560,36 @@ public class FileExplorerActivity extends AppCompatActivity {
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
         final FileData fileData = fileExplorerAdapter.getItem(index);
-        Watch.get()
-                .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
-                .continueWith(new Continuation<ResultShellCommand, Object>() {
-                    @Override
-                    public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
-                        snackProgressBarManager.dismissAll();
+        if (fileData != null)
+            Watch.get()
+                    .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
+                    .continueWith(new Continuation<ResultShellCommand, Object>() {
+                        @Override
+                        public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+                            snackProgressBarManager.dismissAll();
+                            if (task.getResult() != null)
+                                if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
+                                    new MaterialDialog.Builder(FileExplorerActivity.this)
+                                            .title(R.string.apk_install_started_title)
+                                            .content(R.string.apk_install_started)
+                                            .show();
 
-                        if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
-                            new MaterialDialog.Builder(FileExplorerActivity.this)
-                                    .title(R.string.apk_install_started_title)
-                                    .content(R.string.apk_install_started)
-                                    .show();
-
-                            Bundle bundle = new Bundle();
-                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fileData.getName());
-                            FirebaseAnalytics
-                                    .getInstance(FileExplorerActivity.this)
-                                    .logEvent(FirebaseEvents.APK_INSTALL, bundle);
-                        } else {
-                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
-                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fileData.getName());
+                                    FirebaseAnalytics
+                                            .getInstance(FileExplorerActivity.this)
+                                            .logEvent(FirebaseEvents.APK_INSTALL, bundle);
+                                } else {
+                                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
+                                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                }
+                            else {
+                                SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.activity_files_file_error));
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            }
+                            return null;
                         }
-
-                        return null;
-                    }
-                });
+                    });
     }
 
     @OnItemClick(R.id.activity_file_explorer_list)
@@ -523,7 +605,7 @@ public class FileExplorerActivity extends AppCompatActivity {
         CloseFabMenu();
         Intent i = new Intent(this, FilePickerActivity.class);
 
-        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, true);
         i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
         i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
         i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
