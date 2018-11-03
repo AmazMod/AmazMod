@@ -5,6 +5,12 @@ systype=$(getprop | grep display.id)
 echo "Date: $(date)"
 echo "System: $systype"
 echo "PWD: $PWD"
+if [ "$2" != "" ]; then
+   echo "restarting in the background"
+   cd /sdcard/
+   busybox nohup sh /sdcard/install_apk.sh $1 OK > /dev/null &
+   exit 0
+fi
 if [ "$1" != "" ]; then
    echo "installing: $1"
    adb kill-server
