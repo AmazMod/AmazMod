@@ -211,7 +211,7 @@
     <string name="cant_send_shell_command">명령을 보낼 수 없습니다.</string>
     <string name="install">설치</string>
     <string name="apk_install_started_title">Apk 설치</string>
-    <string name="apk_install_started">Apk 설치 시작\n백그라운드에서 설치 진행중\n3분 정도 후에 시계를 재부팅하세요</string>
+    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">apk 설치 실패</string>
     <string name="reboot">재부팅</string>
     <string name="restart_launcher">런처 재시작</string>
