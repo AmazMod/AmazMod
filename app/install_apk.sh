@@ -5,7 +5,7 @@ systype=$(getprop | grep display.id)
 echo "Date: $(date)"
 echo "System: $systype"
 echo "PWD: $PWD"
-if ["$2" == ""]; then
+if [ "$1" != "" ]; then
    adb kill-server
    echo "installing: $1"
    adb shell pm install -r $1
