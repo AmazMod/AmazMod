@@ -7,7 +7,7 @@ date
 echo "System: $systype"
 echo "PWD: $PWD"
 echo "installing: $1"
-adb pm install -r $1
+adb shell pm install -r $1
 echo "$1 installed"
 sleep 3
 adb kill-server
