@@ -1,16 +1,15 @@
-#/system/bin/sh
-if ["$2" == ""]; then
-   adb kill-server
-   adb shell "am force-stop com.amazmod.service; busybox nohup sh /sdcard/install_apk.sh $1 OK &"
-fi  
+#/system/bin/sh 
 tag="AmazMod install_apk"
 systype=$(getprop | grep display.id)
 {
-date
+echo "Date: $(date)"
 echo "System: $systype"
 echo "PWD: $PWD"
-echo "installing: $1"
-adb shell pm install -r $1
+if ["$2" == ""]; then
+   adb kill-server
+   echo "installing: $1"
+   adb shell pm install -r $1
+fi 
 echo "$1 installed"
 sleep 3
 adb shell am force-stop com.huami.watch.launcher
