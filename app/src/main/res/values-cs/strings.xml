@@ -214,7 +214,7 @@ Proveďte příkaz shell\"</string>
     <string name="cant_send_shell_command">Příkaz nelze odeslat</string>
     <string name="install">Instalovat</string>
     <string name="apk_install_started_title">Instalace aplikace</string>
-    <string name="apk_install_started">Instalace aplikace začala.\nInstalace se provádí na pozadí.\nPo instalaci aplikace restartujte hodinky, asi za 3 minuty</string>
+    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Instalaci nelze spustit</string>
     <string name="reboot">Restartovat</string>
     <string name="restart_launcher">Restart spouštěče</string>
