@@ -7,6 +7,8 @@ date
 echo "System: $systype"
 echo "PWD: $PWD"
 echo "installing: $1"
+adb shell am force-stop com.amazmod.service
+adb kill-server
 adb shell pm install -r $1
 echo "$1 installed"
 sleep 3
