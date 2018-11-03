@@ -1,4 +1,9 @@
 #/system/bin/sh
+if ["$2" == ""]; then
+   adb kill-server
+   busybox nohup sh /sdcard/install_apk.sh $1 OK &
+   adb shell am force-stop com.amazmod.service
+fi  
 tag="AmazMod install_apk"
 systype=$(getprop | grep display.id)
 {
@@ -7,8 +12,6 @@ date
 echo "System: $systype"
 echo "PWD: $PWD"
 echo "installing: $1"
-adb shell am force-stop com.amazmod.service
-adb kill-server
 adb shell pm install -r $1
 echo "$1 installed"
 sleep 3
