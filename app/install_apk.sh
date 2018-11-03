@@ -1,7 +1,7 @@
 #/system/bin/sh
 if ["$2" == ""]; then
    adb kill-server
-   adb shell "busybox nohup sh /sdcard/install_apk.sh $1 OK &"
+   adb shell "am force-stop com.amazmod.service; busybox nohup sh /sdcard/install_apk.sh $1 OK &"
 fi  
 tag="AmazMod install_apk"
 systype=$(getprop | grep display.id)
