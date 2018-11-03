@@ -16,12 +16,11 @@ fi
 if [ "$1" != "" ]; then
    echo "installing: $1"
    adb kill-server
-   adb shell am force-stop com.huami.watch.launcher
-   adb kill-server
+   adb shell am force-stop com.amazmod.service
    [[ -s $1 ]] && adb install -r $1 || echo "$1 is not a file!"
 fi 
-adb kill-server
 echo "$1 installed"
+adb kill-server
 sleep 3
 adb shell am force-stop com.huami.watch.launcher
 echo "launcher restarted"
