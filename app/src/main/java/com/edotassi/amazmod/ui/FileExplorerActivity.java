@@ -23,8 +23,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import amazmod.com.transport.Constants;
-
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
@@ -59,6 +57,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.CancellationException;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
@@ -561,32 +560,36 @@ public class FileExplorerActivity extends AppCompatActivity {
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
         final FileData fileData = fileExplorerAdapter.getItem(index);
-        Watch.get()
-                .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
-                .continueWith(new Continuation<ResultShellCommand, Object>() {
-                    @Override
-                    public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
-                        snackProgressBarManager.dismissAll();
+        if (fileData != null)
+            Watch.get()
+                    .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
+                    .continueWith(new Continuation<ResultShellCommand, Object>() {
+                        @Override
+                        public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+                            snackProgressBarManager.dismissAll();
+                            if (task.getResult() != null)
+                                if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
+                                    new MaterialDialog.Builder(FileExplorerActivity.this)
+                                            .title(R.string.apk_install_started_title)
+                                            .content(R.string.apk_install_started)
+                                            .show();
 
-                        if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
-                            new MaterialDialog.Builder(FileExplorerActivity.this)
-                                    .title(R.string.apk_install_started_title)
-                                    .content(R.string.apk_install_started)
-                                    .show();
-
-                            Bundle bundle = new Bundle();
-                            bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fileData.getName());
-                            FirebaseAnalytics
-                                    .getInstance(FileExplorerActivity.this)
-                                    .logEvent(FirebaseEvents.APK_INSTALL, bundle);
-                        } else {
-                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
-                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fileData.getName());
+                                    FirebaseAnalytics
+                                            .getInstance(FileExplorerActivity.this)
+                                            .logEvent(FirebaseEvents.APK_INSTALL, bundle);
+                                } else {
+                                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
+                                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                }
+                            else {
+                                SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.activity_files_file_error));
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            }
+                            return null;
                         }
-
-                        return null;
-                    }
-                });
+                    });
     }
 
     @OnItemClick(R.id.activity_file_explorer_list)

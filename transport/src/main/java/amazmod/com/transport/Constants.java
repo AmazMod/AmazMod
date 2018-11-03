@@ -4,12 +4,13 @@ public class Constants {
 
     public static final String SERVICE_UPDATE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/amazmod-service-version.json";
     public static final String SERVICE_UPDATE_FILE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/AmazMod-service-%d.apk";
+    public static final String SERVICE_UPDATE_SCRIPT_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/app/install_apk.sh";
     public static final String TAG = "AmazMod";
     public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
     public static final String INITIAL_PATH = "/sdcard";
     public static final String DOWNLOAD_DIRECTORY = "AmazMod";
 
-    public static final String SHELL_COMMAND_INSTALL_APK = "adb install -r %s";
+    public static final String SHELL_COMMAND_INSTALL_APK = "install_apk %s";
     public static final String SHELL_COMMAND_REBOOT = "reboot";
     public static final String SHELL_COMMAND_FASTBOOT = "reboot bootloader";
     public static final String SHELL_COMMAND_DPM = "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver";

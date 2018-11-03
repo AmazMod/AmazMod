@@ -66,7 +66,9 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
@@ -613,28 +615,50 @@ public class MainService extends Service implements Transporter.DataListener {
                     RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
 
                     if (!requestShellCommandData.isWaitOutput()) {
-                        File commandFile = new File("/sdcard/amazmod-command.sh");
-                        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
 
                         String command = requestShellCommandData.getCommand();
+                        Log.d(Constants.TAG, "MainService executeShellCommand command: " + command);
+                        int code = 0;
 
-                        if (requestShellCommandData.isReboot()) {
-                            outputStreamWriter.write(command + " && adb shell reboot");
-                            outputStreamWriter.flush();
-                            outputStreamWriter.close();
-                            Process process = Runtime.getRuntime().exec("sh /sdcard/amazmod-command.sh &");
+                        if (command.contains("install_apk ")) {
 
-                            int code = process.waitFor();
-                            Log.d(Constants.TAG, "sh process returned " + code);
+                            File file = new File(getFilesDir(), "install_apk.sh");
+                            boolean flag = copyFile(file);
+
+                            if (flag) {
+                                String installScript = file.getAbsolutePath();
+                                Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
+                                String apk = command.replace("install_apk ", "");
+                                Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
+                                String installCommand = String.format("busybox nohup sh %s %s &", installScript, apk);
+                                Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+                                Runtime.getRuntime().exec(installCommand, null, getFilesDir());
+                            } else
+                                code = 1;
+
                         } else {
-                            Runtime.getRuntime().exec(requestShellCommandData.getCommand());
+                            File commandFile = new File("/sdcard/amazmod-command.sh");
+                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
 
-                            ResultShellCommandData resultShellCommand = new ResultShellCommandData();
-                            resultShellCommand.setResult(0);
-                            resultShellCommand.setOutputLog("");
-                            resultShellCommand.setErrorLog("");
-                            send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+
+                            if (requestShellCommandData.isReboot()) {
+                                outputStreamWriter.write(command + " && reboot");
+                                outputStreamWriter.flush();
+                                outputStreamWriter.close();
+                                Process process = Runtime.getRuntime().exec("busybox nohup sh /sdcard/amazmod-command.sh &");
+
+                                code = process.waitFor();
+                                Log.d(Constants.TAG, "MainService shell process returned " + code);
+                            } else {
+                                Runtime.getRuntime().exec(command);
+                            }
                         }
+                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                        resultShellCommand.setResult(code);
+                        resultShellCommand.setOutputLog("");
+                        resultShellCommand.setErrorLog("");
+                        send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+
                     } else {
                         long startedAt = System.currentTimeMillis();
 
@@ -677,6 +701,28 @@ public class MainService extends Service implements Transporter.DataListener {
                 }
             }
         }).start();
+    }
+
+    private boolean copyFile(File file) {
+        boolean copySuccess = false;
+        InputStream is =  getResources().openRawResource(getResources()
+                .getIdentifier("install_apk", "raw", getPackageName()));
+        try {
+            OutputStream output = new FileOutputStream(file);
+            byte[] buffer = new byte[4 * 1024];
+            int read;
+            while ((read = is.read(buffer)) != -1) {
+                output.write(buffer, 0, read);
+            }
+            copySuccess = true;
+            output.flush();
+            output.close();
+            is.close();
+        } catch (Exception e) {
+            copySuccess = false;
+            Log.e(Constants.TAG, "MainService copyFile exception: " + e.toString());
+        }
+        return copySuccess;
     }
 
     private DirectoryData getFilesByPath(String path) {

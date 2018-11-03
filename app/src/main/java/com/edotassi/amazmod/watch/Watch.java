@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Tasks;
 
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -80,7 +81,7 @@ public class Watch {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<WatchStatus>>() {
             @Override
             public Task<WatchStatus> then(@NonNull Task<TransportService> task) throws Exception {
-                return task.getResult().sendWithResult(Transport.REQUEST_WATCHSTATUS, Transport.WATCH_STATUS);
+                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.REQUEST_WATCHSTATUS, Transport.WATCH_STATUS);
             }
         });
     }
@@ -89,7 +90,7 @@ public class Watch {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<BatteryStatus>>() {
             @Override
             public Task<BatteryStatus> then(@NonNull Task<TransportService> task) throws Exception {
-                return task.getResult().sendWithResult(Transport.REQUEST_BATTERYSTATUS, Transport.BATTERY_STATUS);
+                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.REQUEST_BATTERYSTATUS, Transport.BATTERY_STATUS);
             }
         });
     }
@@ -98,7 +99,7 @@ public class Watch {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<Directory>>() {
             @Override
             public Task<Directory> then(@NonNull Task<TransportService> task) throws Exception {
-                return task.getResult().sendWithResult(Transport.REQUEST_DIRECTORY, Transport.DIRECTORY, requestDirectoryData);
+                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.REQUEST_DIRECTORY, Transport.DIRECTORY, requestDirectoryData);
             }
         });
     }
@@ -107,7 +108,7 @@ public class Watch {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<ResultDeleteFile>>() {
             @Override
             public Task<ResultDeleteFile> then(@NonNull Task<TransportService> task) throws Exception {
-                return task.getResult().sendWithResult(Transport.REQUEST_DELETE_FILE, Transport.RESULT_DELETE_FILE, requestDeleteFileData);
+                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.REQUEST_DELETE_FILE, Transport.RESULT_DELETE_FILE, requestDeleteFileData);
             }
         });
     }
@@ -124,7 +125,8 @@ public class Watch {
                     @Override
                     public Object then(@NonNull Task task) throws Exception {
                         if (!task.isSuccessful()) {
-                            taskCompletionSource.setException(task.getException());
+                            if (task.getException() != null)
+                                taskCompletionSource.setException(task.getException());
                             return null;
                         }
 
@@ -255,7 +257,8 @@ public class Watch {
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.INCOMING_NOTIFICATION, notificationData, taskCompletionSource);
+                if (task.getResult() != null)
+                    task.getResult().send(Transport.INCOMING_NOTIFICATION, notificationData, taskCompletionSource);
                 return null;
             }
         });
@@ -267,7 +270,8 @@ public class Watch {
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.SYNC_SETTINGS, settingsData, taskCompletionSource);
+                if (task.getResult() != null)
+                    task.getResult().send(Transport.SYNC_SETTINGS, settingsData, taskCompletionSource);
                 return null;
             }
         });
@@ -279,7 +283,8 @@ public class Watch {
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.BRIGHTNESS, brightnessData, taskCompletionSource);
+                if (task.getResult() != null)
+                    task.getResult().send(Transport.BRIGHTNESS, brightnessData, taskCompletionSource);
                 return null;
             }
         });
@@ -299,7 +304,7 @@ public class Watch {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<ResultShellCommand>>() {
             @Override
             public Task<ResultShellCommand> then(@NonNull Task<TransportService> task) throws Exception {
-                return task.getResult().sendWithResult(Transport.REQUEST_SHELL_COMMAND, Transport.RESULT_SHELL_COMMAND, requestShellCommandData);
+                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.REQUEST_SHELL_COMMAND, Transport.RESULT_SHELL_COMMAND, requestShellCommandData);
             }
         });
     }
@@ -309,7 +314,8 @@ public class Watch {
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.ENABLE_LOW_POWER, null, taskCompletionSource);
+                if (task.getResult() != null)
+                    task.getResult().send(Transport.ENABLE_LOW_POWER, null, taskCompletionSource);
                 return null;
             }
         });
@@ -321,7 +327,8 @@ public class Watch {
         getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
             public Object then(@NonNull Task<TransportService> task) throws Exception {
-                task.getResult().send(Transport.REVOKE_ADMIN_OWNER, null, taskCompletionSource);
+                if (task.getResult() != null)
+                    task.getResult().send(Transport.REVOKE_ADMIN_OWNER, null, taskCompletionSource);
                 return null;
             }
         });
@@ -356,7 +363,7 @@ public class Watch {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<Watchface>>() {
             @Override
             public Task<Watchface> then(@NonNull Task<TransportService> task) throws Exception {
-                return task.getResult().sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA, watchfaceData);
+                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA, watchfaceData);
             }
         });
     }

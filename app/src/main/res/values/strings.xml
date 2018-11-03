@@ -209,7 +209,7 @@
     <string name="cant_send_shell_command">Can\'t send command</string>
     <string name="install">Install</string>
     <string name="apk_install_started_title">Apk install</string>
-    <string name="apk_install_started">Apk install started\nthe installation is performed in the background\nReboot the watch after about 3 minutes to see the installed application</string>
+    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Can\'t start apk install</string>
     <string name="reboot">Reboot</string>
     <string name="restart_launcher">Restart launcher</string>
