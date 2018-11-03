@@ -6,19 +6,8 @@ echo "***** starting, arg1 = ($1) // arg2 = ($2) // arg3 = ($3)"
 echo "Date: $(date)"
 echo "System: $systype"
 echo "PWD: $PWD"
-if [ "$2" == "" ]; then
-   echo "restarting in the background"
-   cd /sdcard/
-   adb kill-server
-   sleep 3
-   busybox nohup sh /sdcard/install_apk.sh $1 OK > /dev/null &
-   exit 0
-fi
-if [ "$1" != "" ]; then
-   echo "installing: $1"
-   [[ -s $1 ]] && adb install -r $1 || echo "$1 is not a file!"
-fi 
-echo "$1 installed"
+cd /sdcard/
+adb kill-server
 sleep 3
 adb shell am force-stop com.huami.watch.launcher
 echo "launcher restarted"
