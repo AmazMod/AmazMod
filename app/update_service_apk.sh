@@ -9,18 +9,12 @@ echo "PWD: $PWD"
 cd /sdcard/
 adb kill-server
 sleep 3
-adb shell am force-stop com.huami.watch.launcher
-echo "launcher restarted"
-sleep 3
-adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver
-echo "device ownner set"
 echo "removing files from internal storage"
-rm /sdcard/install_apk.sh
 rm /sdcard/AmazMod-service-*.apk
 file="/sdcard/amazmod-command.sh"
 [ -e $file ] && rm $file
-echo "installation finished"
-adb kill-server
+echo "update finished"
+rm /sdcard/update_service_apk.sh
 } | busybox tee /dev/tty | while read line; do
    log -p d -t "$tag" "$line"
 done

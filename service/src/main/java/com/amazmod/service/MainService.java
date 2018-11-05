@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInstaller;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -623,26 +625,21 @@ public class MainService extends Service implements Transporter.DataListener {
 
                         if (command.contains("install_apk ")) {
 
+                            PackageReceiver.setIsAmazmodInstall(true);
                             File file = new File(getFilesDir(), "install_apk.sh");
                             boolean flag = copyFile(file);
+                            String installScript = file.getAbsolutePath();
+                            //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
+                            String apk = command.replace("install_apk ", "");
+                            //Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
+                            String installCommand = String.format("busybox sh %s %s", installScript, apk);
+                            Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+                            Runtime.getRuntime().exec(installCommand, null, Environment.getExternalStorageDirectory());
 
-                            if (flag) {
-
-                                String installScript = file.getAbsolutePath();
-                                //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
-                                String apk = command.replace("install_apk ", "");
-                                //Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
-                                String installCommand = String.format("busybox sh %s %s", installScript, apk);
-                                Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
-                                Runtime.getRuntime().exec(installCommand, null, getFilesDir());
-                            } else {
-
-                                code = 1;
-                            }
                         } else if (command.contains("install_amazmod_update ")) {
 
-                            PackageReceiver.installPackage(context, getPackageName(), getPackageName(),
-                                    new FileInputStream(command.replace("install_amazmod_update ", "")));
+                            DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
+
                         } else {
 
                             if (requestShellCommandData.isReboot()) {

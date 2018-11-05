@@ -29,6 +29,7 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.CustomListAdapter;
 import com.amazmod.service.events.incoming.EnableLowPower;
+import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
 import com.huami.watch.transport.DataBundle;
 
@@ -57,6 +58,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 "Flashlight",
                                 "QR code",
                                 "Enable L.P.M.",
+                                "Revoke Device Owner",
                                 "Set Device Owner",
                                 "Reboot",
                                 "Enter Fastboot",
@@ -70,6 +72,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 R.drawable.baseline_highlight_24,
                                 R.drawable.ic_qrcode_white_24dp,
                                 R.drawable.ic_action_star,
+                                R.drawable.ic_full_cancel,
 			                    R.drawable.ic_action_done,
                                 R.drawable.ic_action_refresh,
                                 R.drawable.baseline_adb_24,
@@ -83,6 +86,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                     R.drawable.baseline_highlight_24,
                                     R.drawable.ic_qrcode_white_24dp,
                                     R.drawable.ic_action_star,
+                                    R.drawable.ic_full_cancel,
                                     R.drawable.ic_action_done,
                                     R.drawable.ic_action_refresh,
                                     R.drawable.baseline_adb_24,
@@ -95,6 +99,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity",
                                 "",
                                 "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity",
+                                "",
                                 "",
                                 "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver",
                                 "reboot",
@@ -238,16 +243,17 @@ public class WearActivity extends Activity implements WearableListView.ClickList
             case 5:
             case 6:
             case 7:
+            case 8:
                 beginCountdown();
                 break;
 
-            case 8:
             case 9:
             case 10:
+            case 11:
                 toggle(itemChosen);
                 break;
 
-            case 11:
+            case 12:
                 showInfo();
                 break;
 
@@ -351,11 +357,13 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                 break;
 
             case 5:
+                HermesEventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
+                break;
             case 6:
             case 7:
+            case 8:
                 runCommand(toggle[itemChosen]);
                 break;
-
         }
         itemChosen = 0;
     }

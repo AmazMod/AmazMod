@@ -425,21 +425,15 @@ public class WatchInfoFragment extends Card implements Updater {
                         snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                     }
                 }
-                setWindowFlags(false);
                 return null;
             }
         });
     }
 
-    private void installUpdate(String apkAbosultePath) {
-        String command;
-        if (serviceVersion > 1696) {
-            command = String.format("install_apk %s", apkAbosultePath);
-        } else {
-            command = String.format("adb install -r %s", apkAbosultePath);
-            //Auto silent install doesn'' seem to work :(
-            //command = String.format("install_amazmod_update %s", apkAbosultePath);
-        }
+    private void installUpdate(String apkAbsolutePath) {
+
+        String command = String.format("adb install -r %s", apkAbsolutePath);
+
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                 .setIsIndeterminate(true)
@@ -471,7 +465,7 @@ public class WatchInfoFragment extends Card implements Updater {
                     SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                 }
-
+                setWindowFlags(false);
                 return null;
             }
         });

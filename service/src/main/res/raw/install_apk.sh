@@ -18,10 +18,6 @@ if [ "$1" != "" ]; then
    echo "installing: $1"
    [[ -s $1 ]] && adb install -r $1 || exit 1
 fi
-echo "$1 installed"
-sleep 3
-adb shell am force-stop com.huami.watch.launcher
-echo "Launcher restarted"
 sleep 3
 adb kill-server
 echo "Installation finished"

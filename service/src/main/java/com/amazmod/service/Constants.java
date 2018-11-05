@@ -55,6 +55,12 @@ public class Constants {
     public static final String BLUE = "blue";
     public static final String GREY = "grey";
 
+    public static final String TEXT = "text";
+    public static final String TIME = "time";
+    public static final String APP_TAG = "app_tag";
+    public static final String MY_APP = "my_app";
+    public static final String OTHER_APP = "other_app";
+
     public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
     public static final int VIBRATION_SHORT = 100;
     public static final int VIBRATION_LONG = 700;
