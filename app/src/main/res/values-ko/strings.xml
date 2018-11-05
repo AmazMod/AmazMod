@@ -253,4 +253,6 @@
     <string name="file_upload_finished">업로드 성공</string>
     <string name="view_files">보기</string>
     <string name="delete_all">모두 삭제</string>
+    <string name="pref_enable_update_notification">Enable update notification</string>
+    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service apkk for watch</string>
 </resources>
