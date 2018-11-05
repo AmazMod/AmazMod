@@ -201,6 +201,7 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.preferences);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Prefs.putBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
                 Preference persistentNotificationPreference = getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
                 persistentNotificationPreference.setDefaultValue(true);
                 persistentNotificationPreference.setEnabled(false);

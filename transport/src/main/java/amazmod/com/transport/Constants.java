@@ -42,6 +42,7 @@ public class Constants {
     public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
     public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "preference.phone.connection.alert.standard.notification";
+    public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -60,6 +61,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT = false;
     public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
     public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
+    public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
 
     public static final int REQUEST_CODE_INTRO = 1;
 

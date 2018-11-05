@@ -6,10 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
-import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 public class PackageReceiver extends BroadcastReceiver {
 
@@ -27,6 +26,7 @@ public class PackageReceiver extends BroadcastReceiver {
 
         if (action != null) {
             try {
+                //This action can be used from adb for testing silent update
                 if (action.contains("MY_PACKAGE_REPLACED")) {
                     Log.d(Constants.TAG,"PackageReceiver onReceive " + action);
                     if (intent.getExtras() != null) {
@@ -43,8 +43,8 @@ public class PackageReceiver extends BroadcastReceiver {
                     return;
                 }
                 if (intent.getDataString().contains(context.getPackageName())) {
+                    //Finish update by running install script or running necessary commands
                     if (action.contains("PACKAGE_REPLACED") || action.contains("PACKAGE_ADDED")) {
-                        //final File script = new File(Environment.getExternalStorageDirectory(), "install_apk.sh");
                         final File script = new File("/sdcard/install_apk.sh");
                         if (script.exists()) {
                             String command = String.format("busybox sh %s", script.getAbsolutePath());
@@ -70,11 +70,10 @@ public class PackageReceiver extends BroadcastReceiver {
                                 Log.e(Constants.TAG, "PackageReceiver onReceive NullPointException: " + ex.toString());
                             }
                         }
-                        //Intent serviceIntent = new Intent(context, MainService.class);
-                        //context.startService(serviceIntent);
+                    //Test action, does not seem to work
                     } else if (action.contains("MAIN")) {
                         try {
-                            installPackage(context, context.getPackageName(), context.getPackageName(), new FileInputStream("/sdcard/AmazMod-service-1698.apk"));
+                            installPackage(context, context.getPackageName(), context.getPackageName(), new FileInputStream("/sdcard/service.apk"));
                         } catch (IOException e) {
                             Log.e(Constants.TAG, "PackageReceiver onReceive exception: " + e.toString());
                             e.printStackTrace();
@@ -87,36 +86,32 @@ public class PackageReceiver extends BroadcastReceiver {
         }
     }
 
+    //Silent update
     public static void installPackage(Context context, String installSessionId, String packageName, InputStream apkStream) throws IOException {
 
         Log.d(Constants.TAG, "PackageReceiver onReceive packageName: " + packageName);
         PackageInstaller packageInstaller = context.getPackageManager().getPackageInstaller();
+
+        //Clean old sessions, if any
+        List<PackageInstaller.SessionInfo> allSessions = packageInstaller.getAllSessions();
+        for (PackageInstaller.SessionInfo se: allSessions) {
+            packageInstaller.abandonSession(se.getSessionId());
+        }
+
         PackageInstaller.SessionParams params = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
         params.setAppPackageName(packageName);
         PackageInstaller.Session session = null;
+
         try {
             int sessionId = packageInstaller.createSession(params);
             session = packageInstaller.openSession(sessionId);
 
             OutputStream out = session.openWrite(installSessionId, 0, -1);
+
+            //Duplicate file to sdcard to test if copy is working fine
             FileOutputStream fos = new FileOutputStream("/sdcard/test.apk");
-            //FileInputStream fis = new FileInputStream("/sdcard/AmazMod-service-1698.apk");
             long length = 0;
             try {
-
-            /*
-            byte buffer[] = new byte[1024];
-            int length;
-            int count = 0;
-            while ((length = apkStream.read(buffer)) != -1) {
-                out.write(buffer, 0, length);
-                count += length;
-            }
-
-            session.fsync(out);
-            out.close();
-            */
-
                 byte[] buffer = new byte[1024];
                 int c;
                 while ((c = apkStream.read(buffer)) != -1) {
@@ -139,6 +134,7 @@ public class PackageReceiver extends BroadcastReceiver {
 
             session.commit(PendingIntent.getBroadcast(context, sessionId,
                     intent, PendingIntent.FLAG_UPDATE_CURRENT).getIntentSender());
+
         } finally {
             if (session != null) {
                 session.close();

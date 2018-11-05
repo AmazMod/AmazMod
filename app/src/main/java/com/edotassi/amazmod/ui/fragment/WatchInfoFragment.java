@@ -143,7 +143,9 @@ public class WatchInfoFragment extends Card implements Updater {
                             serviceVersionString = "1588";
                         serviceVersion = Integer.valueOf(serviceVersionString);
                         Log.d(Constants.TAG, "WatchInfoFragment serviceVersion: " + serviceVersion);
-                        Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
+                        if (Prefs.getBoolean(Constants.PREF_ENABLE_UPDATE_NOTIFICATION, Constants.PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION)) {
+                            Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
+                        }
                     } else {
                         Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
                         AmazModApplication.isWatchConnected = false;
