@@ -256,4 +256,6 @@ Proveďte příkaz shell\"</string>
     <string name="file_upload_finished">Nahrání dokončeno úspěšně</string>
     <string name="view_files">Zobrazit</string>
     <string name="delete_all">Smazat vše</string>
+    <string name="pref_enable_update_notification">Enable update notification</string>
+    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service apkk for watch</string>
 </resources>
