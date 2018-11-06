@@ -17,8 +17,11 @@ public class Constants {
     public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
     public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "touch /sdcard/launcher_config.ini";
     public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "rm /sdcard/launcher_config.ini";
-    public static final String SHELL_COMMAND_MKDIR = "mkdir -p";
-    public static final String SHELL_COMMAND_RENAME = "mv";
+    public static final String SHELL_COMMAND_MKDIR = "mkdir -p \"%s\"";
+    public static final String SHELL_COMMAND_RENAME = "mv \"%s\" \"%s\"";
+    public static final String SHELL_COMMAND_COMPRESS = "busybox tar cvzf \"%s\" -C \"%s\" \"%s\"";
+    public static final String SHELL_COMMAND_EXTRACT  = "busybox tar xvzf \"%s\" -C \"%s\"";
+    public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 

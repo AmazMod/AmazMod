@@ -21,11 +21,24 @@ public class ShellCommandHelper {
     }
 
     public static String getMakeDirCommand(String path){
-        return Constants.SHELL_COMMAND_MKDIR + " \"" + path + "\"";
+        return String.format(Constants.SHELL_COMMAND_MKDIR, path);
     }
 
     public static String getRenameCommand(String oldPath, String newPath){
-        return Constants.SHELL_COMMAND_RENAME + " \"" + oldPath + "\" \"" + newPath + "\"";
+        return String.format(Constants.SHELL_COMMAND_RENAME,oldPath,newPath);
+    }
+
+    public static String getCompressCommand(String path, String folder){
+        String compressedFile = path + "/" + folder + ".tar.gz";
+        return String.format(Constants.SHELL_COMMAND_COMPRESS, compressedFile, path, folder);
+    }
+
+    public static String getExtractCommand(String file, String destinationPath){
+        return String.format(Constants.SHELL_COMMAND_EXTRACT, file, destinationPath);
+    }
+
+    public static String getRemoveRecursivelyCommand(String path){
+        return String.format(Constants.SHELL_COMMAND_REMOVE_RECURSIVELY, path);
     }
 
     public static String getDPM() {
