@@ -256,4 +256,7 @@ Urobte príkaz shell \"</string>
     <string name="delete_all">Vymazať všetko</string>
     <string name="pref_enable_update_notification">Povoliť upozornenie na aktualizáciu</string>
     <string name="pref_enable_update_notification_summary">Zakázať, ak nechcete byť upozornení, že je nová verzia servisné aplikácie pre hodinky</string>
+    <string name="extract">Extrahovať</string>
+    <string name="compress">Komprimovať</string>
+    <string name="delete_folder_and_contents">\"%1$s\" je zložka. Odstrániť ju a celý jej obsah?</string>
 </resources>
