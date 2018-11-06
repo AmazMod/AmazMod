@@ -247,10 +247,10 @@
   <string name="type_folder_name">Type Folder Name</string>
   <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
   <string name="command_history">Command History</string>
-  <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
+  <string name="update_started_watch_reboot_when_update_finish">Update started, you will get notified on watch at the end</string>
   <string name="automatic_brightness">Automatic Brightness</string>
   <string name="set_brightness">Set</string>
     <string name="delete_all">Delete all</string>
     <string name="pref_enable_update_notification">Enable update notification</string>
-    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service apkk for watch</string>
+    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service apk for watch</string>
 </resources>

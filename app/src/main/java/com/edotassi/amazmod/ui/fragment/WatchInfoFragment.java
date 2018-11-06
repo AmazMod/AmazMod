@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -263,13 +264,14 @@ public class WatchInfoFragment extends Card implements Updater {
                                 if (WatchInfoFragment.this.getContext() != null) {
                                     FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
 
+                                    setWindowFlags(true);
                                     final UpdateDownloader updateDownloader = new UpdateDownloader();
                                     if (serviceVersion < 1697) {
                                         Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
                                         updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
                                     }
 
-                                    @SuppressLint("DefaultLocale") String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+                                    @SuppressLint("DefaultLocale") final String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
 
                                     Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
                                     updateDialog = new MaterialDialog.Builder(getContext())
@@ -332,7 +334,7 @@ public class WatchInfoFragment extends Card implements Updater {
             return;
         }
 
-        if (filename.contains("install_apk")) {
+        if (filename.contains("update_service_apk")) {
             uploadUpdate(updateFile, filename);
             return;
         }
@@ -371,7 +373,6 @@ public class WatchInfoFragment extends Card implements Updater {
                     @Override
                     public void run() {
                         Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
-                        setWindowFlags(true);
 
                         String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
                         double kbSent = byteSent / 1024d;
@@ -465,7 +466,14 @@ public class WatchInfoFragment extends Card implements Updater {
                     SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                 }
-                setWindowFlags(false);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setWindowFlags(false);
+                    }
+                }, 5000);
+
                 return null;
             }
         });

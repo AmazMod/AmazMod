@@ -572,6 +572,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     new MaterialDialog.Builder(FileExplorerActivity.this)
                                             .title(R.string.apk_install_started_title)
                                             .content(R.string.apk_install_started)
+                                            .positiveText("OK")
                                             .show();
 
                                     Bundle bundle = new Bundle();
