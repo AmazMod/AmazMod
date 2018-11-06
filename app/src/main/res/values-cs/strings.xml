@@ -189,7 +189,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="activity_files_backup_not_found">Záloha nalezena!</string>
     <string name="pref_disable_standard_notifications">Vypnout standardní oznámení</string>
     <string name="pref_disable_standard_notifications_summary">Standardní oznámení nebudou odesílány do hodinek</string>
-    <string name="activity_tweaking_brightness">Automatický jas v hodinkách musí být vypnutý aby toto fungovalo</string>
+    <string name="activity_tweaking_brightness">Aby fungovalo, musí být automatický jas v hodinkách vypnutý</string>
     <string name="failed_load_watch_status">Načtení stavu hodinek se nezdařilo</string>
     <string name="settings_applied">Nastavení byla použita</string>
     <string name="settings_cant_be_applied">Nastavení nelze použít</string>
