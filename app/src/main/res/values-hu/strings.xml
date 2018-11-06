@@ -189,7 +189,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="activity_files_backup_not_found">Bizt.mentés fájl nem található!</string>
     <string name="pref_disable_standard_notifications">Normál értesítések letiltása</string>
     <string name="pref_disable_standard_notifications_summary">A normál (stock) értesítéseket nem küldi el az órára</string>
-    <string name="activity_tweaking_brightness">Please note that Auto-brightness in watch must be disabled for this to work</string>
+    <string name="activity_tweaking_brightness">Működéséhez ki kell kapcsolni az órán az Automatikus fényerő szabályzót</string>
     <string name="failed_load_watch_status">Óra állapot betöltés sikertelen</string>
     <string name="settings_applied">Beállítások alkalmazva</string>
     <string name="settings_cant_be_applied">Beállítások nem alkalmazhatók</string>
@@ -213,7 +213,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="cant_send_shell_command">A parancs nem küldhető el</string>
     <string name="install">Telepítés</string>
     <string name="apk_install_started_title">Apk telepítése</string>
-    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started">Az APK telepítés elindult\n\nA telepítés a háttérben zajlik.\nBefejezése után az óra Indítója újraindul.</string>
     <string name="cant_start_apk_install">Nem indítható az apk telepítés</string>
     <string name="reboot">Újraindítás</string>
     <string name="restart_launcher">Launcher újraindítása</string>
@@ -254,7 +254,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="set_brightness">Beállít</string>
     <string name="file_upload_finished">A feltöltés sikeresen befejeződött</string>
     <string name="view_files">Megtekint</string>
-    <string name="delete_all">Delete all</string>
+    <string name="delete_all">Mind törlése</string>
     <string name="pref_enable_update_notification">Enable update notification</string>
     <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service apkk for watch</string>
     <string name="extract">Extract</string>
