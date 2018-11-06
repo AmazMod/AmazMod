@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
@@ -117,9 +119,9 @@ public class FileExplorerActivity extends AppCompatActivity {
         listView.setAdapter(fileExplorerAdapter);
 
         Intent intent = getIntent(); // gets the previously created intent
-        if (intent.hasExtra("path")){
+        if (intent.hasExtra("path")) {
             currentPath = intent.getStringExtra("path");
-        }else{
+        } else {
             currentPath = Constants.INITIAL_PATH;
         }
 
@@ -214,7 +216,7 @@ public class FileExplorerActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, FileExplorerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("path",uploadPath);
+            intent.putExtra("path", uploadPath);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
@@ -302,7 +304,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                             mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
                                     .bigText(getString(R.string.file_upload_finished)))
                                     .setOngoing(false);
-                            mBuilder.setProgress(0, 0 , false);
+                            mBuilder.setProgress(0, 0, false);
                             // notificationId is a unique int for each notification that you must define
                             notificationManager.notify(0, mBuilder.build());
                             uploading = false;
@@ -358,9 +360,19 @@ public class FileExplorerActivity extends AppCompatActivity {
 
         int position = ((AdapterView.AdapterContextMenuInfo) contextMenuInfo).position;
         FileData fileData = fileExplorerAdapter.getItem(position);
-        if (fileData.getName().endsWith(".apk")) {
-            menuInflater.inflate(R.menu.activity_file_explorer_apk_file, contextMenu);
+
+        if (fileData.isDirectory()) {
+            menuInflater.inflate(R.menu.activity_file_explorer_folder, contextMenu);
+        } else {
+            if (fileData.getName().endsWith(".apk")) {
+                menuInflater.inflate(R.menu.activity_file_explorer_apk_file, contextMenu);
+            }
+
+            if (fileData.getName().endsWith(".tar.gz")) {
+                menuInflater.inflate(R.menu.activity_file_explorer_targz_file, contextMenu);
+            }
         }
+
 
         super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
     }
@@ -381,6 +393,12 @@ public class FileExplorerActivity extends AppCompatActivity {
                 return true;
             case R.id.action_activity_file_explorer_rename:
                 renameFile(index);
+                return true;
+            case R.id.action_activity_file_explorer_extract:
+                extract(index);
+                return true;
+            case R.id.action_activity_file_explorer_compress:
+                compress(index);
                 return true;
         }
 
@@ -409,15 +427,49 @@ public class FileExplorerActivity extends AppCompatActivity {
                 }).show();
     }
 
+    private void compress(int index) {
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        String compressCmd = ShellCommandHelper.getCompressCommand(currentPath, fileData.getName());
+        execCommandAndReload(compressCmd);
+    }
+
+    private void extract(int index) {
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        String extractCmd = ShellCommandHelper.getExtractCommand(fileData.getPath(), getParentDirectoryPath(fileData.getPath()));
+        execCommandAndReload(extractCmd);
+    }
+
+    private void deleteFolder(int index) {
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        new MaterialDialog.Builder(this)
+                .canceledOnTouchOutside(false)
+                .title(R.string.delete)
+                .content(getString(R.string.delete_folder_and_contents, fileData.getName()))
+                .positiveText(R.string.delete)
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        String command = ShellCommandHelper.getRemoveRecursivelyCommand(fileData.getPath());
+                        execCommandAndReload(command);
+                    }
+                })
+                .show();
+
+
+    }
 
     private void deleteFile(int index) {
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        if( fileData.isDirectory()) {
+            deleteFolder(index);
+            return;
+        }
         final SnackProgressBar deletingSnackbar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.deleting))
                 .setIsIndeterminate(true);
 
         snackProgressBarManager.show(deletingSnackbar, SnackProgressBarManager.LENGTH_INDEFINITE);
-
-        final FileData fileData = fileExplorerAdapter.getItem(index);
 
         RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
         requestDeleteFileData.setPath(fileData.getPath());
@@ -572,6 +624,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     new MaterialDialog.Builder(FileExplorerActivity.this)
                                             .title(R.string.apk_install_started_title)
                                             .content(R.string.apk_install_started)
+                                            .positiveText("OK")
                                             .show();
 
                                     Bundle bundle = new Bundle();
@@ -839,6 +892,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     }
 
     private void execCommandAndReload(String command) {
+        Log.d(Constants.TAG, "Sending command to watch: " + command);
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                 .setIsIndeterminate(true)

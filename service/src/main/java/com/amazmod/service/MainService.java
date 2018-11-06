@@ -9,6 +9,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInstaller;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.SystemClock;
@@ -65,6 +67,7 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -613,35 +616,35 @@ public class MainService extends Service implements Transporter.DataListener {
             public void run() {
                 try {
                     RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
+                    String command = requestShellCommandData.getCommand();
 
                     if (!requestShellCommandData.isWaitOutput()) {
 
-                        String command = requestShellCommandData.getCommand();
                         Log.d(Constants.TAG, "MainService executeShellCommand command: " + command);
                         int code = 0;
 
                         if (command.contains("install_apk ")) {
 
+                            PackageReceiver.setIsAmazmodInstall(true);
                             File file = new File(getFilesDir(), "install_apk.sh");
                             boolean flag = copyFile(file);
+                            String installScript = file.getAbsolutePath();
+                            //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
+                            String apk = command.replace("install_apk ", "");
+                            //Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
+                            String installCommand = String.format("busybox sh %s %s", installScript, apk);
+                            Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+                            Runtime.getRuntime().exec(installCommand, null, Environment.getExternalStorageDirectory());
 
-                            if (flag) {
-                                String installScript = file.getAbsolutePath();
-                                Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
-                                String apk = command.replace("install_apk ", "");
-                                Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
-                                String installCommand = String.format("busybox nohup sh %s %s &", installScript, apk);
-                                Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
-                                Runtime.getRuntime().exec(installCommand, null, getFilesDir());
-                            } else
-                                code = 1;
+                        } else if (command.contains("install_amazmod_update ")) {
+
+                            DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
 
                         } else {
-                            File commandFile = new File("/sdcard/amazmod-command.sh");
-                            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
-
 
                             if (requestShellCommandData.isReboot()) {
+                                File commandFile = new File("/sdcard/amazmod-command.sh");
+                                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
                                 outputStreamWriter.write(command + " && reboot");
                                 outputStreamWriter.flush();
                                 outputStreamWriter.close();
@@ -649,7 +652,9 @@ public class MainService extends Service implements Transporter.DataListener {
 
                                 code = process.waitFor();
                                 Log.d(Constants.TAG, "MainService shell process returned " + code);
+
                             } else {
+
                                 Runtime.getRuntime().exec(command);
                             }
                         }
@@ -660,9 +665,9 @@ public class MainService extends Service implements Transporter.DataListener {
                         send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
 
                     } else {
-                        long startedAt = System.currentTimeMillis();
 
-                        String command = requestShellCommandData.getCommand();
+                        Log.d(Constants.TAG, "MainService executeShellCommand process: " + command);
+                        long startedAt = System.currentTimeMillis();
 
                         String[] args = CommandLine.translateCommandline(command);
                         ProcessBuilder processBuilder = new ProcessBuilder(args);

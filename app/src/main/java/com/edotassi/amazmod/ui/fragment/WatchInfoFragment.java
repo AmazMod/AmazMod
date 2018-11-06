@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -122,8 +124,6 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onResume() {
         super.onResume();
 
-        Log.i(Constants.TAG, "WatchInfoFragment timeLastSync: " + timeLastSync + " // " + serviceVersion);
-
         int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         if (System.currentTimeMillis() - timeLastSync > (syncInterval * 30000L)) {
             connecting();
@@ -132,23 +132,21 @@ public class WatchInfoFragment extends Card implements Updater {
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<WatchStatus> task) throws Exception {
-                    Log.i(Constants.TAG, "WatchInfoFragment getStatus.isSuccessful: " + task.isSuccessful() + " // " + serviceVersion);
+
                     if (task.isSuccessful()) {
-                        Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = true");
                         AmazModApplication.isWatchConnected = true;
                         isConnected();
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion1: " + serviceVersion);
                         watchStatus = task.getResult();
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion2: " + serviceVersion);
                         refresh(watchStatus);
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion3: " + serviceVersion);
                         String serviceVersionString = watchStatus.getWatchStatusData().getAmazModServiceVersion();
                         Log.d(Constants.TAG, "WatchInfoFragment serviceVersionString: " + serviceVersionString);
                         if (serviceVersionString.contains("_("))
                             serviceVersionString = "1588";
                         serviceVersion = Integer.valueOf(serviceVersionString);
                         Log.d(Constants.TAG, "WatchInfoFragment serviceVersion: " + serviceVersion);
-                        Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
+                        if (Prefs.getBoolean(Constants.PREF_ENABLE_UPDATE_NOTIFICATION, Constants.PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION)) {
+                            Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
+                        }
                     } else {
                         Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
                         AmazModApplication.isWatchConnected = false;
@@ -255,6 +253,7 @@ public class WatchInfoFragment extends Card implements Updater {
             @Override
             public void run() {
                 new MaterialDialog.Builder(getContext())
+                        .canceledOnTouchOutside(false)
                         .title(R.string.new_update_available)
                         .content(getString(R.string.new_service_update_available, String.valueOf(version)))
                         .positiveText(R.string.update)
@@ -265,27 +264,31 @@ public class WatchInfoFragment extends Card implements Updater {
                                 if (WatchInfoFragment.this.getContext() != null) {
                                     FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
 
-                                    @SuppressLint("DefaultLocale") String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+                                    setWindowFlags(true);
                                     final UpdateDownloader updateDownloader = new UpdateDownloader();
+                                    if (serviceVersion < 1697) {
+                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
+                                        updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
+                                    }
 
+                                    @SuppressLint("DefaultLocale") final String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+
+                                    Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
                                     updateDialog = new MaterialDialog.Builder(getContext())
+                                            .canceledOnTouchOutside(false)
                                             .title(R.string.download_in_progress)
                                             .customView(R.layout.dialog_update_progress, false)
                                             .negativeText(R.string.cancel)
                                             .onNegative(new MaterialDialog.SingleButtonCallback() {
                                                 @Override
                                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                    if (updateDownloader != null) {
-                                                        updateDownloader.cancel();
-                                                    }
+                                                    updateDownloader.cancel();
                                                 }
                                             })
                                             .show();
 
                                     updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
 
-                                    if (!(version > 1696))
-                                        updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
                                 }
                             }
                         })
@@ -294,6 +297,7 @@ public class WatchInfoFragment extends Card implements Updater {
         });
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void updateDownloadProgress(String filename, int progress) {
         if (updateDialog == null) {
@@ -330,6 +334,11 @@ public class WatchInfoFragment extends Card implements Updater {
             return;
         }
 
+        if (filename.contains("update_service_apk")) {
+            uploadUpdate(updateFile, filename);
+            return;
+        }
+
         updateDialog.dismiss();
         updateDialog = null;
 
@@ -363,6 +372,8 @@ public class WatchInfoFragment extends Card implements Updater {
                 WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
+
                         String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
                         double kbSent = byteSent / 1024d;
                         double speed = kbSent / (duration / 1000);
@@ -389,8 +400,9 @@ public class WatchInfoFragment extends Card implements Updater {
                     FirebaseAnalytics
                             .getInstance(WatchInfoFragment.this.getContext())
                             .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
-
-                    installUpdate(destPath);
+                    if (destPath.contains("AmazMod-service")) {
+                        installUpdate(destPath);
+                    }
                 } else {
                     if (task.getException() instanceof CancellationException) {
                         SnackProgressBar snackbar = new SnackProgressBar(
@@ -414,19 +426,15 @@ public class WatchInfoFragment extends Card implements Updater {
                         snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                     }
                 }
-
                 return null;
             }
         });
     }
 
-    private void installUpdate(String apkAbosultePath) {
-        String command;
-        if (!(serviceVersion > 1696)) {
-            command = String.format("install_apk %s", apkAbosultePath);
-        } else {
-            command = String.format("busybox nohup sh /sdcard/install_apk %s &", apkAbosultePath);
-        }
+    private void installUpdate(String apkAbsolutePath) {
+
+        String command = String.format("adb install -r %s", apkAbsolutePath);
+
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                 .setIsIndeterminate(true)
@@ -458,9 +466,33 @@ public class WatchInfoFragment extends Card implements Updater {
                     SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                 }
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setWindowFlags(false);
+                    }
+                }, 5000);
 
                 return null;
             }
         });
+    }
+
+    private void setWindowFlags(boolean enable) {
+
+        final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+
+        if (getActivity() != null) {
+            if (enable) {
+                getActivity().getWindow().addFlags(flags);
+            } else {
+                getActivity().getWindow().clearFlags(flags);
+            }
+        }
     }
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/install_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
+    android:paddingTop="10dp"
+    tools:context=".ui.ConfirmationWearActivity">
+
+    <LinearLayout
+        android:id="@+id/install_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_marginTop="16dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/install_finished_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            tools:text="Install finished" />
+
+        <android.support.wearable.view.DelayedConfirmationView
+            android:id="@+id/install_delayed_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:src="@mipmap/ic_launcher"
+            app:circle_border_color="@color/green"
+            app:circle_border_width="16dp"
+            app:circle_color="@color/red"
+            app:circle_padding="16dp"
+            app:circle_radius="60dp"
+            app:update_interval="100" />
+
+        <TextView
+            android:id="@+id/restart_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black"
+            tools:text="Restarting in 3s…" />
+
+    </LinearLayout>
+
+</android.support.wearable.view.BoxInsetLayout>

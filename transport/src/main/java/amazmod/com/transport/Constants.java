@@ -4,7 +4,7 @@ public class Constants {
 
     public static final String SERVICE_UPDATE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/amazmod-service-version.json";
     public static final String SERVICE_UPDATE_FILE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/AmazMod-service-%d.apk";
-    public static final String SERVICE_UPDATE_SCRIPT_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/app/install_apk.sh";
+    public static final String SERVICE_UPDATE_SCRIPT_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/app/update_service_apk.sh";
     public static final String TAG = "AmazMod";
     public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
     public static final String INITIAL_PATH = "/sdcard";
@@ -17,8 +17,11 @@ public class Constants {
     public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
     public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "touch /sdcard/launcher_config.ini";
     public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "rm /sdcard/launcher_config.ini";
-    public static final String SHELL_COMMAND_MKDIR = "mkdir -p";
-    public static final String SHELL_COMMAND_RENAME = "mv";
+    public static final String SHELL_COMMAND_MKDIR = "mkdir -p \"%s\"";
+    public static final String SHELL_COMMAND_RENAME = "mv \"%s\" \"%s\"";
+    public static final String SHELL_COMMAND_COMPRESS = "busybox tar cvzf \"%s\" -C \"%s\" \"%s\"";
+    public static final String SHELL_COMMAND_EXTRACT  = "busybox tar xvzf \"%s\" -C \"%s\"";
+    public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
@@ -42,6 +45,7 @@ public class Constants {
     public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
     public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "preference.phone.connection.alert.standard.notification";
+    public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -60,6 +64,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT = false;
     public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
     public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
+    public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
