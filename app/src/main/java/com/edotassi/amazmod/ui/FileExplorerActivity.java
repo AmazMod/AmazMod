@@ -368,7 +368,7 @@ public class FileExplorerActivity extends AppCompatActivity {
                 menuInflater.inflate(R.menu.activity_file_explorer_apk_file, contextMenu);
             }
 
-            if (fileData.getName().endsWith(".tar.gz")) {
+            if (fileData.getName().endsWith(".tar.gz") || fileData.getName().endsWith(".tgz")) {
                 menuInflater.inflate(R.menu.activity_file_explorer_targz_file, contextMenu);
             }
         }
