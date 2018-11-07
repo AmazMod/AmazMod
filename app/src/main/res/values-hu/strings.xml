@@ -256,7 +256,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="view_files">Megtekint</string>
     <string name="delete_all">Mind törlése</string>
     <string name="pref_enable_update_notification">Frissítési értesítések bekapcsolása</string>
-    <string name="pref_enable_update_notification_summary">Kapcsold ki, mikor nem akarsz értesítést kapni, ha az órán a service apk egy új verziója van</string>
+    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service APK for watch</string>
     <string name="extract">Kibont</string>
     <string name="compress">Tömörít</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
