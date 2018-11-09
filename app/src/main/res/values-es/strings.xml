@@ -188,7 +188,7 @@
     <string name="activity_files_backup_not_found">¡No se encontró la copia de seguridad!</string>
     <string name="pref_disable_standard_notifications">Deshabilitar notificaciones estándar</string>
     <string name="pref_disable_standard_notifications_summary">No se enviarán las notificaciones estándar (stock) al reloj</string>
-    <string name="activity_tweaking_brightness">Please note that Auto-brightness in watch must be disabled for this to work</string>
+    <string name="activity_tweaking_brightness">Ten en cuenta que el Brillo Automático en el reloj debe estar deshabilitado para que funcione</string>
     <string name="failed_load_watch_status">No se pudo cargar el estado del teléfono</string>
     <string name="settings_applied">Ajustes aplicados</string>
     <string name="settings_cant_be_applied">No se pueden aplicar los ajustes</string>
@@ -212,7 +212,7 @@
     <string name="cant_send_shell_command">No se puede enviar el comando</string>
     <string name="install">Instalar</string>
     <string name="apk_install_started_title">Instalar apk</string>
-    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started">Instalación de APK iniciada\n\nSe realizará en segundo plano\nAl finalizar, se reiniciará el Launcher del reloj.</string>
     <string name="cant_start_apk_install">No se puede instalar la apk</string>
     <string name="reboot">Reiniciar</string>
     <string name="restart_launcher">Reiniciar el Launcher</string>
@@ -251,12 +251,12 @@
     <string name="update_started_watch_reboot_when_update_finish">Actualización iniciada. El reloj se reiniciará al finalizar</string>
     <string name="automatic_brightness">Brillo automático</string>
     <string name="set_brightness">Ajustar</string>
-    <string name="file_upload_finished">Upload Finished Successfully</string>
-    <string name="view_files">View</string>
-    <string name="delete_all">Delete all</string>
-    <string name="pref_enable_update_notification">Enable update notification</string>
-    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service APK for watch</string>
-    <string name="extract">Extract</string>
-    <string name="compress">Compress</string>
-    <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
+    <string name="file_upload_finished">La subida se realizó con éxito</string>
+    <string name="view_files">Ver</string>
+    <string name="delete_all">Borrar todo</string>
+    <string name="pref_enable_update_notification">Habilitar notificación de actualizaciones</string>
+    <string name="pref_enable_update_notification_summary">Deshabilítalo si no quieres recibir notificaciones de nuevas versiones de la APK del servicio para el reloj</string>
+    <string name="extract">Extraer</string>
+    <string name="compress">Comprimir</string>
+    <string name="delete_folder_and_contents">\"%1$s\" es una carpeta. ¿Quieres borrarla así como todo su contenido de forma recursiva?</string>
 </resources>
