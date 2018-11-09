@@ -1,7 +1,7 @@
 <changelog>
     <release
-        versionCode="193"
-        versionName="v1.0.63"
+        versionCode="194"
+        versionName="v1.0.64"
         date="2018-11-09">
         <new>Auto update watch service from phone app</new>
         <new>Full emoji compatibility</new>
