@@ -33,7 +33,7 @@
     <string name="deleting">正在删除</string>
     <string name="cant_delete_file">无法删除文件</string>
     <string name="add_new_reply">添加新回复</string>
-    <string name="enter_the_text_you_want_as_an_answer">输入要作为应答的内容</string>
+    <string name="enter_the_text_you_want_as_an_answer">输入需要的回复的内容</string>
     <string name="file_not_exists">文件不存在</string>
     <string name="cant_uplaod_directory">无法上传目录</string>
     <string name="sending">正在发送</string>
@@ -115,7 +115,7 @@
     <string name="pref_disable_notifications_when_dnd_summary">勿扰模式下通知将不会发送到手表端</string>
     <string name="pref_disable_remove_notifications">禁止删除通知</string>
     <string name="pref_disable_remove_notifications_summary">手机端删除通知时，不删除手表端通知</string>
-    <string name="pref_enable_voice_apps">Enable voice call notifications</string>
+    <string name="pref_enable_voice_apps">启用 Voice Call 通知</string>
     <string name="pref_enable_voice_apps_summary">语音通话信息通知将会被发送到手表端</string>
     <string name="pref_enable_local_only">启用本地通知</string>
     <string name="pref_enable_local_only_summary">没有用户操作的通知将被发送到手表端</string>
@@ -188,7 +188,7 @@
     <string name="activity_files_backup_not_found">未找到备份文件!</string>
     <string name="pref_disable_standard_notifications">禁用标准通知</string>
     <string name="pref_disable_standard_notifications_summary">标准 (官方) 通知将不会被发送到手表端</string>
-    <string name="activity_tweaking_brightness">Please note that Auto-brightness in watch must be disabled for this to work</string>
+    <string name="activity_tweaking_brightness">请注意需要在手表中禁用“自动亮度”以确保该功能正常工作</string>
     <string name="failed_load_watch_status">加载手表状态失败</string>
     <string name="settings_applied">设置已应用</string>
     <string name="settings_cant_be_applied">设置无法应用</string>
@@ -212,7 +212,7 @@
     <string name="cant_send_shell_command">无法发送命令</string>
     <string name="install">安装</string>
     <string name="apk_install_started_title">Apk 安装</string>
-    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started">开始安装 APK\n\n安装过程将在后台进行\n安装完成后将重启手表</string>
     <string name="cant_start_apk_install">无法开始 apk 安装</string>
     <string name="reboot">重启</string>
     <string name="restart_launcher">重启桌面启动器</string>
@@ -247,16 +247,16 @@
     <string name="rename">重命名</string>
     <string name="type_folder_name">输入文件夹名</string>
     <string name="brightness_bad_value_entered">无效的值，请输入1到255之间的值</string>
-    <string name="command_history">Command History</string>
-    <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
-    <string name="automatic_brightness">Automatic Brightness</string>
-    <string name="set_brightness">Set</string>
-    <string name="file_upload_finished">Upload Finished Successfully</string>
-    <string name="view_files">View</string>
-    <string name="delete_all">Delete all</string>
-    <string name="pref_enable_update_notification">Enable update notification</string>
-    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service apkk for watch</string>
-    <string name="extract">Extract</string>
-    <string name="compress">Compress</string>
-    <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
+    <string name="command_history">命令历史记录</string>
+    <string name="update_started_watch_reboot_when_update_finish">开始更新，手表将在完成后重启</string>
+    <string name="automatic_brightness">自动调整亮度</string>
+    <string name="set_brightness">设置</string>
+    <string name="file_upload_finished">上传成功</string>
+    <string name="view_files">查看</string>
+    <string name="delete_all">全部删除</string>
+    <string name="pref_enable_update_notification">启用更新通知</string>
+    <string name="pref_enable_update_notification_summary">如果你不希望收到新版本通知，请禁用此选项</string>
+    <string name="extract">解压</string>
+    <string name="compress">压缩</string>
+    <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
 </resources>
