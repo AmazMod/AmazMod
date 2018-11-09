@@ -257,7 +257,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="delete_all">Cancella tutto</string>
     <string name="pref_enable_update_notification">Attiva le notifiche di aggiornamento</string>
     <string name="pref_enable_update_notification_summary">Disattiva questa opzione se non vuoi essere avvisato quando è disponibile un nuovo aggiornamento del servizio AmazMod per l\'orologio</string>
-    <string name="extract">Extract</string>
-    <string name="compress">Compress</string>
-    <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
+    <string name="extract">Estrai</string>
+    <string name="compress">Comprimi</string>
+    <string name="delete_folder_and_contents">\"%1$s\" è una cartella. Vuoi davvero rimuoverla, compresa di tutti i suoi contenuti in modo ricorsivo?</string>
 </resources>
