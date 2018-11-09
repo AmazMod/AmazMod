@@ -5,18 +5,18 @@
         date="2018-11-09">
         <new>Auto update watch service from phone app</new>
         <new>Full emoji compatibility</new>
-        <new>Swipe Right to discard and left to reply notifications</new>
-        <new>File Explorer can Create/Delete/Compress/Uncompress Folders</new>
+        <new>Swipe right to discard and left to reply notifications</new>
+        <new>File Explorer can Create/Delete/Compress/Uncompress folders</new>
         <new>Tweaking now enable/disable watch auto-brightness</new>
         <new>Tweaking stores list of executed commands</new>
-        <new>option to Delete All Notifications Log</new>
+        <new>Option to Delete All notifications in log</new>
         <new>Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot)</new>
         <new>Drag and Drop to reorder quick replies</new>
         <new>Ability to send multiple files to watch</new>
+        <new>Improved WatchData transfer (lower battery usage)</new>
         <bugfix>Grouped notifications were not being removed from watch</bugfix>
-        <info>info: improved translations</info>
-        <info>info: Improved Watch Data Transfer (lower battery usage)</info>
-        <info>info: minor fixes</info>
+        <info>Improved translations</info>
+        <info>Minor fixes</info>
     </release>
     <release
         versionCode="180"
