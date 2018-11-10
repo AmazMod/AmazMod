@@ -211,7 +211,7 @@
     <string name="cant_send_shell_command">Η εντολή δεν μπορεί να σταλεί</string>
     <string name="install">Εγκατάσταση</string>
     <string name="apk_install_started_title">Εγκατάσταση APK</string>
-    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started">Η εγκατάσταση του APK ξεκίνησε\n\nΗ εγκατάσταση εκτελείται στο παρασκήνιο. \nΜε την ολοκλήρωση της, θα γίνει επανεκκίνηση του launcher στο ρολόι.</string>
     <string name="cant_start_apk_install">Η εκκίνηση της εγκατάστασης του APK δεν είναι δυνατή</string>
     <string name="reboot">Επανεκκίνηση</string>
     <string name="restart_launcher">Κάντε επανεκκίνηση του launcher</string>
@@ -253,7 +253,7 @@
     <string name="file_upload_finished">Η Μεταφόρτωση Ολοκληρώθηκε Επιτυχώς</string>
     <string name="view_files">Προβολή</string>
     <string name="delete_all">Διαγραφή όλων</string>
-    <string name="pref_enable_update_notification">Enable update notification</string>
+    <string name="pref_enable_update_notification">Ενεργοποίηση ειδοποιήσεων αναβάθμισης</string>
     <string name="pref_enable_update_notification_summary">Απενεργοποίηση ειδοποιήσεων νέας έκδοσης του service APK για to ρολόι</string>
     <string name="extract">Εξαγωγή</string>
     <string name="compress">Συμπίεση</string>
