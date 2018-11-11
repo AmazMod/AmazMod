@@ -236,7 +236,7 @@
     <string name="battery_chart_waiting">ממתין לנתוני סוללה חדשים…</string>
     <string name="edit_reply">עריכת תגובה</string>
     <string name="privacy_policy">מדיניות פרטיות</string>
-    <string name="cant_check_service_updates">לא ניתן לבדוק עדכונים עבור השעון</string>
+    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
     <string name="new_update_available">גרסה חדשה זמינה!</string>
     <string name="new_service_update_available">גרסה %s חדשה להתקנה על השעון זמינה</string>
     <string name="update">עדכן</string>
@@ -247,7 +247,7 @@
     <string name="type_folder_name">הקלד שם תיקיה</string>
     <string name="brightness_bad_value_entered">ערך שגוי הוכנס, ניתן להכניס ערך בין 1 עד 255</string>
     <string name="command_history">היסטוריית פקודות</string>
-    <string name="update_started_watch_reboot_when_update_finish">עדכון התחיל. השעון יופעל מחדש בסיום העדכון</string>
+    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">בהירות אוטומטית</string>
     <string name="set_brightness">קבע</string>
     <string name="file_upload_finished">העלאה הסתיימה בהצלחה</string>
