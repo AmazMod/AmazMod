@@ -20,6 +20,7 @@ import android.os.BatteryManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -49,6 +50,7 @@ import com.amazmod.service.notifications.NotificationsReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.support.CommandLine;
+import com.amazmod.service.ui.ConfirmationWearActivity;
 import com.amazmod.service.ui.PhoneConnectionActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
@@ -69,6 +71,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -616,7 +619,7 @@ public class MainService extends Service implements Transporter.DataListener {
             public void run() {
                 try {
                     RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
-                    String command = requestShellCommandData.getCommand();
+                    final String command = requestShellCommandData.getCommand();
 
                     if (!requestShellCommandData.isWaitOutput()) {
 
@@ -637,7 +640,7 @@ public class MainService extends Service implements Transporter.DataListener {
                             Runtime.getRuntime().exec(installCommand, null, Environment.getExternalStorageDirectory());
 
                         } else if (command.contains("install_amazmod_update ")) {
-
+                            showUpdateConfirmationWearActivity();
                             DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
 
                         } else {
@@ -654,7 +657,10 @@ public class MainService extends Service implements Transporter.DataListener {
                                 Log.d(Constants.TAG, "MainService shell process returned " + code);
 
                             } else {
-
+                                if (command.contains("AmazMod-service-") && command.contains("adb install -r")) {
+                                    showUpdateConfirmationWearActivity();
+                                    Thread.sleep(3000);
+                                }
                                 Runtime.getRuntime().exec(command);
                             }
                         }
@@ -706,6 +712,17 @@ public class MainService extends Service implements Transporter.DataListener {
                 }
             }
         }).start();
+    }
+
+    private void showUpdateConfirmationWearActivity() {
+        Intent intent = new Intent(context, ConfirmationWearActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra(Constants.TEXT, "Service update");
+        intent.putExtra(Constants.TIME, "0");
+        context.startActivity(intent);
     }
 
     private boolean copyFile(File file) {
