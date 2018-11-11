@@ -25,7 +25,7 @@
     <string name="installed_apps">Instalované aplikace</string>
     <string name="last_read">Poslední načtení</string>
     <string name="remaining_battery">Zbývá baterie</string>
-    <string name="full_battery_in">Plně nabito za</string>
+    <string name="full_battery_in">Plně nabito za </string>
     <string name="open_notifications_log">Otevřít log oznámení</string>
     <string name="notifications_log">Log oznámení</string>
     <string name="delete">Vymazat</string>
@@ -172,13 +172,13 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="activity_files_backup">Záloha</string>
     <string name="activity_files_restore">obnovit</string>
     <string name="never">Nikdy</string>
-    <string name="activity_files_backup_obs">PS: Soubor zálohy je uložen v interním úložišti a bude odstraněn, pokud bude aplikace odinstalována:</string>
+    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
     <string name="activity_files_file">Záloha nalezena</string>
     <string name="none">Žádný</string>
     <string name="data">Data</string>
     <string name="downloads">Staženo</string>
     <string name="downloading">Stahování</string>
-    <string name="activity_files_backup_error">PS: AmazMod nemůže psát soubory, zkontrolujte prosím oprávnění</string>
+    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
     <string name="activity_files_backup_downloads">Záložní soubor je uložen ve složce Stahování:</string>
     <string name="activity_files_file_error">Chyba souboru!</string>
     <string name="activity_files_backup_ok">Záloha dokončena</string>
