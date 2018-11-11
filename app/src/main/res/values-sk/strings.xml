@@ -170,13 +170,13 @@
     <string name="activity_files_backup">Zálohovanie</string>
     <string name="activity_files_restore">obnoviť</string>
     <string name="never">Nikdy</string>
-    <string name="activity_files_backup_obs">PS: Záložný súbor je uložený v internej pamäti a odstránia sa, ak je aplikácia odinštalovaná:</string>
+    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
     <string name="activity_files_file">Záložný súbor nájdený</string>
     <string name="none">Žiadny</string>
     <string name="data">Dáta</string>
     <string name="downloads">Stiahnute</string>
     <string name="downloading">Sťahuje sa</string>
-    <string name="activity_files_backup_error">PS: AmazMod nemôže ukladať súbory, skontrolujte prosím oprávnenia</string>
+    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
     <string name="activity_files_backup_downloads">Záložný súbor je uložený v priečinku Sťahovanie:</string>
     <string name="activity_files_file_error">Chyba súboru!</string>
     <string name="activity_files_backup_ok">Zálohovanie dokončené</string>
@@ -237,7 +237,7 @@ Urobte príkaz shell \"</string>
     <string name="battery_chart_waiting">Čakanie na nové dáta batérie…</string>
     <string name="edit_reply">Upraviť odpoveď</string>
     <string name="privacy_policy">Ochrana osobných údajov</string>
-    <string name="cant_check_service_updates">Nemôže skontrolovať aktualizácie servisné aplikácie</string>
+    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
     <string name="new_update_available">Nová aktualizácia k dispozícii!</string>
     <string name="new_service_update_available">Verzia %s AmazMod service je k dispozícii</string>
     <string name="update">Aktualizovať</string>
@@ -248,7 +248,7 @@ Urobte príkaz shell \"</string>
     <string name="type_folder_name">Zadaj názov priečinka</string>
     <string name="brightness_bad_value_entered">Zadaná chybná hodnota, akceptované hodnoty sú od 1 do 255</string>
     <string name="command_history">História príkazov</string>
-    <string name="update_started_watch_reboot_when_update_finish">Aktualizácia spustená. Hodinky sa na konci reštartujú</string>
+    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Automatický jas</string>
     <string name="set_brightness">Nastaviť</string>
     <string name="file_upload_finished">Nahrávanie úspešne dokončené</string>
