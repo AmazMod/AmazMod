@@ -238,7 +238,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="battery_chart_waiting">Várakozás a friss akku adatokra…</string>
     <string name="edit_reply">Válasz szerkesztése</string>
     <string name="privacy_policy">Adatvédelmi nyilatkozat</string>
-    <string name="cant_check_service_updates">A szolg. friss. nem ellenőrizhető</string>
+    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
     <string name="new_update_available">Új frissítés érhető el!</string>
     <string name="new_service_update_available">A %s AmazMod service verzió elérhető</string>
     <string name="update">Frissítés</string>
@@ -249,7 +249,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="type_folder_name">Írd be a mappa nevét</string>
     <string name="brightness_bad_value_entered">Rossz a megadott érték, az elfogadott 1-255 közötti</string>
     <string name="command_history">Parancs előzmények</string>
-    <string name="update_started_watch_reboot_when_update_finish">A frissítés elindult, végén az óra újraindul</string>
+    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Automatikus fényerő</string>
     <string name="set_brightness">Beállít</string>
     <string name="file_upload_finished">A feltöltés sikeresen befejeződött</string>
