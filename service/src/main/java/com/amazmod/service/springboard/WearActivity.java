@@ -60,6 +60,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 "Enable L.P.M.",
                                 "Revoke Device Owner",
                                 "Set Device Owner",
+                                "Restart Launcher",
+                                "Clear Launcher Settings",
                                 "Reboot",
                                 "Enter Fastboot",
                                 "Units",
@@ -67,33 +69,37 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 "Away Alert",
                                 "Device Info"};
 
-    private int[] mImagesOn = { R.drawable.baseline_wifi_24,
-                                R.drawable.baseline_perm_scan_wifi_24,
-                                R.drawable.baseline_highlight_24,
+    private int[] mImagesOn = { R.drawable.baseline_wifi_white_24,
+                                R.drawable.baseline_perm_scan_wifi_white_24,
+                                R.drawable.baseline_highlight_white_24,
                                 R.drawable.ic_qrcode_white_24dp,
                                 R.drawable.ic_action_star,
-                                R.drawable.ic_full_cancel,
+                                R.drawable.ic_close_white_24dp,
 			                    R.drawable.ic_action_done,
-                                R.drawable.ic_action_refresh,
-                                R.drawable.baseline_adb_24,
+			                    R.drawable.ic_action_refresh,
+			                    R.drawable.ic_border_none_white_24dp,
+                                R.drawable.ic_restart_white_24dp,
+                                R.drawable.baseline_adb_white_24,
                                 R.drawable.ic_weight_pound_white_24dp,
                                 R.drawable.device_information_white_24x24,
                                 R.drawable.ic_alarm_light_white_24dp,
-                                R.drawable.baseline_info_24};
+                                R.drawable.baseline_info_white_24};
 
-    private int[] mImagesOff = {    R.drawable.baseline_wifi_off_24,
-                                    R.drawable.baseline_perm_scan_wifi_24,
-                                    R.drawable.baseline_highlight_24,
+    private int[] mImagesOff = {    R.drawable.baseline_wifi_off_white_24,
+                                    R.drawable.baseline_perm_scan_wifi_white_24,
+                                    R.drawable.baseline_highlight_white_24,
                                     R.drawable.ic_qrcode_white_24dp,
                                     R.drawable.ic_action_star,
-                                    R.drawable.ic_full_cancel,
+                                    R.drawable.ic_close_white_24dp,
                                     R.drawable.ic_action_done,
                                     R.drawable.ic_action_refresh,
-                                    R.drawable.baseline_adb_24,
+                                    R.drawable.ic_border_none_white_24dp,
+                                    R.drawable.ic_restart_white_24dp,
+                                    R.drawable.baseline_adb_white_24,
                                     R.drawable.ic_weight_kilogram_white_24dp,
                                     R.drawable.device_information_off_white_24x24,
                                     R.drawable.ic_alarm_light_off_white_24dp,
-                                    R.drawable.baseline_info_24};
+                                    R.drawable.baseline_info_white_24};
 
     private String[] toggle = { "",
                                 "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity",
@@ -102,6 +108,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 "",
                                 "",
                                 "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver",
+                                "adb shell am force-stop com.huami.watch.launcher",
+                                "adb shell busybox rm -rf /sdcard/.watchfacethumb/*; adb shell pm clear com.huami.watch.launcher",
                                 "reboot",
                                 "reboot bootloader",
                                 "measurement",
@@ -182,7 +190,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                 if (i == 0)
                     state = wfmgr.isWifiEnabled();
                 else
-                    state = i < 8 || i > 10 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
+                    state = i < 11 || i > 13 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
                 state = true;
                 Log.e(Constants.TAG, "WearActivity onCreate exception: " + e.toString());
@@ -244,16 +252,18 @@ public class WearActivity extends Activity implements WearableListView.ClickList
             case 6:
             case 7:
             case 8:
+            case 9:
+            case 10:
                 beginCountdown();
                 break;
 
-            case 9:
-            case 10:
             case 11:
+            case 12:
+            case 13:
                 toggle(itemChosen);
                 break;
 
-            case 12:
+            case 14:
                 showInfo();
                 break;
 
@@ -362,6 +372,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
             case 6:
             case 7:
             case 8:
+            case 9:
+            case 10:
                 runCommand(toggle[itemChosen]);
                 break;
         }
