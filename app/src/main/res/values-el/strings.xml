@@ -236,7 +236,7 @@
     <string name="battery_chart_waiting">Αναμονή για τα νέα δεδομένα της μπαταρίας...</string>
     <string name="edit_reply">Επεξεργασία απάντησης</string>
     <string name="privacy_policy">Πολιτική απορρήτου</string>
-    <string name="cant_check_service_updates">Αδυναμία ελέγχου των αναβαθμίσεων της υπηρεσίας στο ρολόι</string>
+    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
     <string name="new_update_available">Υπάρχει διαθέσιμη νέα ενημερωμένη!</string>
     <string name="new_service_update_available">Η έκδοση %s της υπηρεσίας του AmazMod είναι διαθέσιμη</string>
     <string name="update">Ενημέρωση</string>
@@ -247,7 +247,7 @@
     <string name="type_folder_name">Πληκτρολογήστε Όνομα Φακέλου</string>
     <string name="brightness_bad_value_entered">Μη αποδεκτή τιμή, οι αποδεκτές τιμές είναι από 1 έως 255</string>
     <string name="command_history">Ιστορικό Εντολών</string>
-    <string name="update_started_watch_reboot_when_update_finish">H ενημέρωση ξεκίνησε. Το ρολόι θα επανεκκινήσει στο τέλος της</string>
+    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Αυτόματη Φωτεινότητα</string>
     <string name="set_brightness">Ορισμός</string>
     <string name="file_upload_finished">Η Μεταφόρτωση Ολοκληρώθηκε Επιτυχώς</string>
