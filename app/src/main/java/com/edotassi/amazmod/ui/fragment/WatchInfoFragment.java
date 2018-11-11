@@ -30,10 +30,10 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.transport.TransportService;
-import com.edotassi.amazmod.ui.FileExplorerActivity;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
+import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -239,62 +239,71 @@ public class WatchInfoFragment extends Card implements Updater {
 
     @Override
     public void updateCheckFailed() {
-        Snacky.builder()
-                .setText(R.string.cant_check_service_updates)
-                .setDuration(Snacky.LENGTH_SHORT)
-                .setActivity(getActivity())
-                .build()
-                .show();
+        if (getActivity() != null && getContext() != null) {
+            Snacky.builder()
+                    .setText(R.string.cant_check_service_updates)
+                    .setDuration(Snacky.LENGTH_SHORT)
+                    .setActivity(getActivity())
+                    .build()
+                    .show();
+        }
     }
 
     @Override
     public void updateAvailable(final int version) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new MaterialDialog.Builder(getContext())
-                        .canceledOnTouchOutside(false)
-                        .title(R.string.new_update_available)
-                        .content(getString(R.string.new_service_update_available, String.valueOf(version)))
-                        .positiveText(R.string.update)
-                        .negativeText(R.string.cancel)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                if (WatchInfoFragment.this.getContext() != null) {
-                                    FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
+        if (getActivity() != null && getContext() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new MaterialDialog.Builder(getContext())
+                            .canceledOnTouchOutside(false)
+                            .title(R.string.new_update_available)
+                            .content(getString(R.string.new_service_update_available, String.valueOf(version)))
+                            .positiveText(R.string.update)
+                            .negativeText(R.string.cancel)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    if (WatchInfoFragment.this.getContext() != null) {
 
-                                    setWindowFlags(true);
-                                    final UpdateDownloader updateDownloader = new UpdateDownloader();
-                                    if (serviceVersion < 1697) {
-                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
-                                        updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
+                                        if (!Permissions.checkWriteExternalStoragePermission(getContext(), getActivity())) {
+                                            return;
+                                        }
+
+                                        FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
+
+                                        setWindowFlags(true);
+                                        final UpdateDownloader updateDownloader = new UpdateDownloader();
+                                        if (serviceVersion < 1697) {
+                                            Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
+                                            updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
+                                        }
+
+                                        @SuppressLint("DefaultLocale") final String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+
+                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
+                                        updateDialog = new MaterialDialog.Builder(getContext())
+                                                .canceledOnTouchOutside(false)
+                                                .title(R.string.download_in_progress)
+                                                .customView(R.layout.dialog_update_progress, false)
+                                                .negativeText(R.string.cancel)
+                                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        updateDownloader.cancel();
+                                                    }
+                                                })
+                                                .show();
+
+                                        updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
+
                                     }
-
-                                    @SuppressLint("DefaultLocale") final String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
-
-                                    Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
-                                    updateDialog = new MaterialDialog.Builder(getContext())
-                                            .canceledOnTouchOutside(false)
-                                            .title(R.string.download_in_progress)
-                                            .customView(R.layout.dialog_update_progress, false)
-                                            .negativeText(R.string.cancel)
-                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                    updateDownloader.cancel();
-                                                }
-                                            })
-                                            .show();
-
-                                    updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
-
                                 }
-                            }
-                        })
-                        .show();
-            }
-        });
+                            })
+                            .show();
+                }
+            });
+        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -397,12 +406,15 @@ public class WatchInfoFragment extends Card implements Updater {
                     Bundle bundle = new Bundle();
                     bundle.putLong("size", size);
                     bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                    FirebaseAnalytics
-                            .getInstance(WatchInfoFragment.this.getContext())
-                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                    if (WatchInfoFragment.this.getContext() != null) {
+                        FirebaseAnalytics
+                                .getInstance(WatchInfoFragment.this.getContext())
+                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                    }
                     if (destPath.contains("AmazMod-service")) {
                         installUpdate(destPath);
                     }
+
                 } else {
                     if (task.getException() instanceof CancellationException) {
                         SnackProgressBar snackbar = new SnackProgressBar(
@@ -472,7 +484,7 @@ public class WatchInfoFragment extends Card implements Updater {
                     public void run() {
                         setWindowFlags(false);
                     }
-                }, 5000);
+                }, 8000);
 
                 return null;
             }
