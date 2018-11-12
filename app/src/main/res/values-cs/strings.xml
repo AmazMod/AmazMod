@@ -239,7 +239,7 @@ Proveďte příkaz shell\"</string>
     <string name="battery_chart_waiting">Čekání na nová data baterie…</string>
     <string name="edit_reply">Upravit odpověď</string>
     <string name="privacy_policy">Zásady ochrany informací</string>
-    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
+    <string name="cant_check_service_updates">Nelze zkontrolovat aktualizace service.apk</string>
     <string name="new_update_available">Nové aktualizace k dispozici!</string>
     <string name="new_service_update_available">Verze %s AmazMod service je k dispozici</string>
     <string name="update">Aktualizovat</string>
@@ -250,7 +250,7 @@ Proveďte příkaz shell\"</string>
     <string name="type_folder_name">Zadej název složky</string>
     <string name="brightness_bad_value_entered">Chybná hodnota zadána, přípustné hodnoty jsou od 1 do 255</string>
     <string name="command_history">Historie příkazů</string>
-    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
+    <string name="update_started_watch_reboot_when_update_finish">Aktualizace začala! Hodinky zobrazí průběh a na konci instalace bude restartován spouštěč.</string>
     <string name="automatic_brightness">Automatický jas</string>
     <string name="set_brightness">Nastavit</string>
     <string name="file_upload_finished">Nahrání dokončeno úspěšně</string>
