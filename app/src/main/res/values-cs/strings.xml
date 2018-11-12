@@ -225,13 +225,13 @@ Proveďte příkaz shell\"</string>
     <string name="no_service_info_3">2) Pak nainstalujte servisní aplikaci do hodinek</string>
     <string name="no_service_info_4">3) Nakonec restartujte hodinky i telefon</string>
     <string name="enable_lpm_title">Zapnout LPM</string>
-    <string name="revoke_admin">Odebrat administrátora</string>
+    <string name="revoke_admin">Odebrat správce</string>
     <string name="enable_lpm_content">Tato funkce je stále experimentální a po zapnutí je potřeba hodinky restartovat</string>
     <string name="continue_label">Pokračovat</string>
     <string name="pref_file_extras">Záloha a obnova nastavení</string>
     <string name="pref_file_extras_summary">Zálohování a obnovení nastavení AmazModu</string>
     <string name="reboot_bootloader">Přístup do Fastbootu</string>
-    <string name="set_admin">Nastavení správce</string>
+    <string name="set_admin">Nastavit správce</string>
     <string name="shell_command_failed">Příkaz se nezdařil</string>
     <string name="result_code">Výsledek kódu:</string>
     <string name="battery_chart_updated">Graf baterie aktualizován novými daty</string>
