@@ -260,4 +260,5 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="extract">Estrai</string>
     <string name="compress">Comprimi</string>
     <string name="delete_folder_and_contents">\"%1$s\" è una cartella. Vuoi davvero rimuoverla, compresa di tutti i suoi contenuti in modo ricorsivo?</string>
+    <string name="screenshot">Screenshot</string>
 </resources>
