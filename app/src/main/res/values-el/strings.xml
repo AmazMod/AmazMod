@@ -170,13 +170,13 @@
     <string name="activity_files_backup">Δημιουργία αντίγραφου ασφαλείας</string>
     <string name="activity_files_restore">ανάκτηση</string>
     <string name="never">Ποτέ</string>
-    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_backup_obs">ΣΗΜΑΝΤΙΚΟ: Το αρχείο ανάκτησης αποθηκεύεται στον εσωτερικό χώρο και θα διαγραφεί εάν γίνει απεγκατάσταση της εφαρμογής:</string>
     <string name="activity_files_file">Βρέθηκε αντίγραφο ασφαλείας</string>
     <string name="none">Κανένα</string>
     <string name="data">Δεδομένα</string>
     <string name="downloads">Λήψεις</string>
     <string name="downloading">Λήψη</string>
-    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
+    <string name="activity_files_backup_error">Το AmazMod δεν μπορεί να γράψει αρχεία, παρακαλώ ελέγξετε τα δικαιώματα.</string>
     <string name="activity_files_backup_downloads">Το αντίγραφο ασφαλείας είναι αποθηκευμένο στον φάκελο Λήψεις:</string>
     <string name="activity_files_file_error">Σφάλμα Αρχείου!</string>
     <string name="activity_files_backup_ok">Το αντίγραφο ασφαλείας έγινε</string>
@@ -236,7 +236,7 @@
     <string name="battery_chart_waiting">Αναμονή για τα νέα δεδομένα της μπαταρίας...</string>
     <string name="edit_reply">Επεξεργασία απάντησης</string>
     <string name="privacy_policy">Πολιτική απορρήτου</string>
-    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
+    <string name="cant_check_service_updates">Αδυναμία ελέγχου των αναβαθμίσεων της υπηρεσίας στο ρολόι</string>
     <string name="new_update_available">Υπάρχει διαθέσιμη νέα ενημερωμένη!</string>
     <string name="new_service_update_available">Η έκδοση %s της υπηρεσίας του AmazMod είναι διαθέσιμη</string>
     <string name="update">Ενημέρωση</string>
@@ -247,7 +247,7 @@
     <string name="type_folder_name">Πληκτρολογήστε Όνομα Φακέλου</string>
     <string name="brightness_bad_value_entered">Μη αποδεκτή τιμή, οι αποδεκτές τιμές είναι από 1 έως 255</string>
     <string name="command_history">Ιστορικό Εντολών</string>
-    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
+    <string name="update_started_watch_reboot_when_update_finish">Η ενημέρωση ξεκίνησε! Το ρολόι θα δείχνει την πρόοδο και στο τέλος ο launcher θα επανεκκινηθεί.</string>
     <string name="automatic_brightness">Αυτόματη Φωτεινότητα</string>
     <string name="set_brightness">Ορισμός</string>
     <string name="file_upload_finished">Η Μεταφόρτωση Ολοκληρώθηκε Επιτυχώς</string>
