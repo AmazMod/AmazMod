@@ -259,4 +259,5 @@
     <string name="extract">解压</string>
     <string name="compress">压缩</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
+    <string name="screenshot">Screenshot</string>
 </resources>

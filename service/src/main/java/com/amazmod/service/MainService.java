@@ -80,8 +80,10 @@ import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -91,6 +93,7 @@ import amazmod.com.transport.data.BatteryData;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
+import amazmod.com.transport.data.FileUploadData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
@@ -149,7 +152,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private BatteryData batteryData;
     private WatchStatusData watchStatusData;
-    private DataBundle dataBundle;
 
     private SlptClockClient slptClockClient;
     private ContentObserver phoneConnectionObserver;
@@ -167,7 +169,6 @@ public class MainService extends Service implements Transporter.DataListener {
         batteryData = new BatteryData();
 
         watchStatusData = new WatchStatusData();
-        dataBundle = new DataBundle();
 
         Log.d(Constants.TAG, "MainService HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
@@ -413,6 +414,8 @@ public class MainService extends Service implements Transporter.DataListener {
     public void reply(ReplyNotificationEvent event) {
         Log.d(Constants.TAG, "MainService reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
 
+        DataBundle dataBundle = new DataBundle();
+
         dataBundle.putString("key", event.getKey());
         dataBundle.putString("message", event.getMessage());
 
@@ -619,7 +622,7 @@ public class MainService extends Service implements Transporter.DataListener {
             public void run() {
                 try {
                     RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
-                    final String command = requestShellCommandData.getCommand();
+                    String command = requestShellCommandData.getCommand();
 
                     if (!requestShellCommandData.isWaitOutput()) {
 
@@ -671,6 +674,21 @@ public class MainService extends Service implements Transporter.DataListener {
                         send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
 
                     } else {
+                        String filename = null;
+                        if (command.contains("screencap")) {
+                            File file = new File("/sdcard/Pictures/Screenshots");
+                            boolean saveDirExists = false;
+                            if (!file.exists())
+                                saveDirExists = file.mkdir();
+                            else
+                                saveDirExists = true;
+                            if (saveDirExists) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+                                String dateStamp = sdf.format(new Date());
+                                filename = "/sdcard/Pictures/Screenshots/ss_" + dateStamp + ".png";
+                                command = command + " " + filename;
+                            }
+                        }
 
                         Log.d(Constants.TAG, "MainService executeShellCommand process: " + command);
                         long startedAt = System.currentTimeMillis();
@@ -700,6 +718,17 @@ public class MainService extends Service implements Transporter.DataListener {
                         resultShellCommand.setCommand(command);
 
                         send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+
+                        if (command.contains("screencap")) {
+                            if (filename != null) {
+                                File file = new File(filename);
+                                if (file.exists()) {
+                                    Log.d(Constants.TAG, "MainService executeShellCommand file.exists: " + file.exists() + " " + file.getName());
+                                    FileUploadData fileUploadData = new FileUploadData(file.getAbsolutePath(), file.getName(), file.length());
+                                    send(Transport.FILE_UPLOAD, fileUploadData.toDataBundle());
+                                }
+                            }
+                        }
                     }
                 } catch (Exception ex) {
                     Log.e(Constants.TAG, ex.getMessage(), ex);

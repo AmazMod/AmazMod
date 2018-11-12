@@ -259,4 +259,5 @@
     <string name="extract">Extraer</string>
     <string name="compress">Comprimir</string>
     <string name="delete_folder_and_contents">\"%1$s\" es una carpeta. ¿Quieres borrarla así como todo su contenido de forma recursiva?</string>
+    <string name="screenshot">Screenshot</string>
 </resources>

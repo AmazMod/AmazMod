@@ -14,6 +14,7 @@ import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
+import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ResultShellCommand;
@@ -70,6 +71,7 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.RESULT_DELETE_FILE, ResultDeleteFile.class);
         put(Transport.RESULT_DOWNLOAD_FILE_CHUNK, ResultDownloadFileChunk.class);
         put(Transport.RESULT_SHELL_COMMAND, ResultShellCommand.class);
+        put(Transport.FILE_UPLOAD, RequestFileUpload.class);
     }};
 
     private Map<String, Object> pendingResults = new HashMap<>();

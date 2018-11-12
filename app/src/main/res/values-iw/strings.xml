@@ -255,4 +255,5 @@
     <string name="extract">Extract</string>
     <string name="compress">Compress</string>
     <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
+    <string name="screenshot">Screenshot</string>
 </resources>

@@ -32,4 +32,5 @@ public class Transport {
     public static final String RESULT_DELETE_FILE = "result_delete_file";
     public static final String RESULT_DOWNLOAD_FILE_CHUNK = "result_download_file_chunk";
     public static final String RESULT_SHELL_COMMAND = "result_shell_command";
+    public static final String FILE_UPLOAD = "file_upload";
 }

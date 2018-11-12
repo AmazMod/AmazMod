@@ -22,4 +22,5 @@ public class FirebaseEvents {
     public static final String GREATFIT_BATTERY = "greatfit_battery";
     public static final String GREATFIT_SYNC_NOW = "greatfit_sync_now";
     public static final String INSTALL_SERVICE_UPDATE = "install_service_update";
+    public static final String SCREENSHOT = "screenshot";
 }

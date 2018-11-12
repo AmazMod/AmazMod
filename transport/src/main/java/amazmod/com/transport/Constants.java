@@ -9,6 +9,9 @@ public class Constants {
     public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
     public static final String INITIAL_PATH = "/sdcard";
     public static final String DOWNLOAD_DIRECTORY = "AmazMod";
+    public static final String SCREENSHOT_DIRECTORY = "AmazMod/Screenshots";
+    public static final byte MODE_DOWNLOAD = 'D';
+    public static final byte MODE_SCREENSHOT = 'S';
 
     public static final String SHELL_COMMAND_INSTALL_APK = "install_apk %s";
     public static final String SHELL_COMMAND_REBOOT = "reboot";
@@ -22,6 +25,7 @@ public class Constants {
     public static final String SHELL_COMMAND_COMPRESS = "busybox tar cvzf \"%s\" -C \"%s\" \"%s\"";
     public static final String SHELL_COMMAND_EXTRACT  = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
+    public static final String SHELL_COMMAND_SCREENSHOT = "screencap";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 

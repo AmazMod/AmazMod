@@ -552,7 +552,8 @@ public class FileExplorerActivity extends AppCompatActivity {
         final long size = fileData.getSize();
         final long startedAt = System.currentTimeMillis();
 
-        Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, new Watch.OperationProgress() {
+        Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, Constants.MODE_DOWNLOAD,
+                new Watch.OperationProgress() {
             @Override
             public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
                 FileExplorerActivity.this.runOnUiThread(new Runnable() {
