@@ -5,7 +5,12 @@
     <string name="last_charge">Since full charge</string>
     <string name="last_charge_no_info">Waiting for full charge</string>
     <string name="close">Close</string>
-    <string name="reply">Replies</string>
+    <string name="reply">Reply</string>
+    <string name="close_button">Close&#160;&#160;</string>
+    <string name="send_button">&#160;&#160;Send</string>
+    <string name="sending">Sending in 3s…</string>
+    <string name="keyboard">⌨️</string>
+    <string name="hint">Type reply here</string>
     <string name="phone_disconnected">Phone disconnected</string>
     <string name="phone_connected">Phone connected</string>
     <string name="phone_connection_alert">Connection Alert</string>
