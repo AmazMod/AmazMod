@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amazmod.service.Constants;
@@ -27,8 +28,9 @@ import static android.content.Context.VIBRATOR_SERVICE;
 public class NotificationFragment extends Fragment {
 
     TextView title, time, text;
-    ImageView icon;
+    ImageView icon, image;
     BoxInsetLayout rootLayout;
+    LinearLayout repliesLayout;
     NotificationData notificationSpec;
 
     private float fontSizeSP;
@@ -94,11 +96,13 @@ public class NotificationFragment extends Fragment {
         text = getActivity().findViewById(R.id.fragment_custom_notification_text);
         icon = getActivity().findViewById(R.id.fragment_custom_notification_icon);
         rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
+        repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
+        image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
 
         boolean hideReplies;
 
         //Load preferences
-        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+        boolean disableNotificationText = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
@@ -166,7 +170,14 @@ public class NotificationFragment extends Fragment {
             hideReplies = true;
         }
 
-        if (disableNotificationReplies) text.setVisibility(View.GONE);
+        if (disableNotificationText) {
+            text.setVisibility(View.GONE);
+            image.setVisibility(View.VISIBLE);
+            if (enableInvertedTheme)
+                image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_black_48));
+            else
+                image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_white_48));
+        }
     }
 
 

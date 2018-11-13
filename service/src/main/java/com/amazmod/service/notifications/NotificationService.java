@@ -107,13 +107,13 @@ public class NotificationService {
             } else {
                 Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + notificationSpec.getKey());
                 if (enableCustomUI || forceCustom) {
-                    //Delay 100ms to make sure it will be shown after standard notification
+                    //Delay 1000ms to make sure it will be shown after standard notification
                     final Handler mHandler = new Handler();
                     mHandler.postDelayed(new Runnable() {
                         public void run() {
                             postWithCustomUI(notificationSpec);
                         }
-                    }, 200);
+                    }, 1000);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
                 }
