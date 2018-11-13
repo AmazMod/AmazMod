@@ -260,5 +260,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="extract">Kibont</string>
     <string name="compress">Tömörít</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
-    <string name="screenshot">Screenshot</string>
+    <string name="screenshot">Képernyőkép</string>
 </resources>
