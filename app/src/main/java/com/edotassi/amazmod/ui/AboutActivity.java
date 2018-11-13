@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edotassi.amazmod.BuildConfig;
 
@@ -46,6 +47,7 @@ import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 
 public class AboutActivity extends AppCompatActivity {
@@ -77,6 +79,9 @@ public class AboutActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         version.setText(BuildConfig.VERSION_NAME);
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
+            version.append(" - dev");
+        }
     }
 
     @Override
@@ -318,4 +323,17 @@ public class AboutActivity extends AppCompatActivity {
             return new ArrayList<>();
         }
     }
+
+    @OnLongClick(R.id.amazmod_logo)
+    public boolean onAmazmodLogoLongClick() {
+        boolean enabled = !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
+        Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
+        Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
+        version.setText(BuildConfig.VERSION_NAME);
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
+            version.append(" - dev");
+        }
+        return true;
+    }
+
 }

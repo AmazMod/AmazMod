@@ -3,6 +3,7 @@ package amazmod.com.transport;
 public class Constants {
 
     public static final String SERVICE_UPDATE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/amazmod-service-version.json";
+    public static final String SERVICE_UPDATE_BETA_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/amazmod-service-beta-version.json";
     public static final String SERVICE_UPDATE_FILE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/AmazMod-service-%d.apk";
     public static final String SERVICE_UPDATE_SCRIPT_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/app/update_service_apk.sh";
     public static final String TAG = "AmazMod";
@@ -50,6 +51,7 @@ public class Constants {
     public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "preference.phone.connection.alert.standard.notification";
     public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
+    public static final String PREF_ENABLE_DEVELOPER_MODE = "preference.enable.developer.mode";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
