@@ -261,5 +261,5 @@ Proveďte příkaz shell\"</string>
     <string name="extract">Rozbalit</string>
     <string name="compress">Komprimovat</string>
     <string name="delete_folder_and_contents">\"%1$s\" je složka. Odstranit ji a celý její obsah?</string>
-    <string name="screenshot">Screenshot</string>
+    <string name="screenshot">Snímek obrazovky</string>
 </resources>
