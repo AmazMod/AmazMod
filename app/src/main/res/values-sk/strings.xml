@@ -259,5 +259,5 @@ Urobte príkaz shell \"</string>
     <string name="extract">Extrahovať</string>
     <string name="compress">Komprimovať</string>
     <string name="delete_folder_and_contents">\"%1$s\" je zložka. Odstrániť ju a celý jej obsah?</string>
-    <string name="screenshot">Screenshot</string>
+    <string name="screenshot">Snímok obrazovky</string>
 </resources>
