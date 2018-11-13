@@ -113,11 +113,14 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
-                .setProgressBarColor(R.color.colorAccent)
-                .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
-                .setTextSize(14)
-                .setMessageMaxLines(2);
+        if (getActivity() != null) {
+
+            snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
+                    .setProgressBarColor(R.color.colorAccent)
+                    .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
+                    .setTextSize(14)
+                    .setMessageMaxLines(2);
+        }
     }
 
     @Override
@@ -150,17 +153,19 @@ public class WatchInfoFragment extends Card implements Updater {
                     } else {
                         Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
                         AmazModApplication.isWatchConnected = false;
-                        try {
-                            Snacky
-                                    .builder()
-                                    .setActivity(getActivity())
-                                    .setText(R.string.failed_load_watch_status)
-                                    .setDuration(Snacky.LENGTH_SHORT)
-                                    .build()
-                                    .show();
-                        } catch (Exception e) {
-                            Crashlytics.logException(e);
-                            Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+                        if (getActivity() != null) {
+                            try {
+                                Snacky
+                                        .builder()
+                                        .setActivity(getActivity())
+                                        .setText(R.string.failed_load_watch_status)
+                                        .setDuration(Snacky.LENGTH_SHORT)
+                                        .build()
+                                        .show();
+                            } catch (Exception e) {
+                                Crashlytics.logException(e);
+                                Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+                            }
                         }
                         disconnected();
                     }
@@ -378,24 +383,26 @@ public class WatchInfoFragment extends Card implements Updater {
         Watch.get().uploadFile(updateFile, destPath, new Watch.OperationProgress() {
             @Override
             public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
-                WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
+                if (WatchInfoFragment.this.getActivity() != null) {
+                    WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
 
-                        String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
-                        double kbSent = byteSent / 1024d;
-                        double speed = kbSent / (duration / 1000);
-                        DecimalFormat df = new DecimalFormat("#.00");
+                            String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
+                            double kbSent = byteSent / 1024d;
+                            double speed = kbSent / (duration / 1000);
+                            DecimalFormat df = new DecimalFormat("#.00");
 
-                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                            String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                            String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
-                        progressBar.setMessage(message);
-                        snackProgressBarManager.setProgress((int) progress);
-                        snackProgressBarManager.updateTo(progressBar);
-                    }
-                });
+                            progressBar.setMessage(message);
+                            snackProgressBarManager.setProgress((int) progress);
+                            snackProgressBarManager.updateTo(progressBar);
+                        }
+                    });
+                }
             }
         }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
             @Override
@@ -437,6 +444,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                 });
                         snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                     }
+                    throw new Exception("watch.getUploadFile Exception");
                 }
                 return null;
             }
@@ -465,18 +473,21 @@ public class WatchInfoFragment extends Card implements Updater {
 
                 if (task.isSuccessful()) {
                     ResultShellCommand resultShellCommand = task.getResult();
-                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+                    if (resultShellCommand != null) {
+                        ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
 
-                    if (resultShellCommandData.getResult() == 0) {
-                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.update_started_watch_reboot_when_update_finish));
-                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                    } else {
-                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
-                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        if (resultShellCommandData.getResult() == 0) {
+                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.update_started_watch_reboot_when_update_finish));
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        } else {
+                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        }
                     }
                 } else {
                     SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    throw new Exception("executeShellCommand Exception");
                 }
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
