@@ -358,6 +358,10 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void uploadUpdate(File updateFile, String filename) {
+        if ((getActivity() == null) || (getContext() == null)) {
+            return;
+        }
+
         final String destPath = "/sdcard/" + filename;
         final long size = updateFile.length();
         final long startedAt = System.currentTimeMillis();
