@@ -7,7 +7,7 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 195
+        versionCode 196
         versionName "1.0.65"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
