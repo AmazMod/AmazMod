@@ -114,7 +114,6 @@ public class WatchInfoFragment extends Card implements Updater {
         super.onAttach(context);
 
         if (getActivity() != null) {
-
             snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
                     .setProgressBarColor(R.color.colorAccent)
                     .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
@@ -135,7 +134,6 @@ public class WatchInfoFragment extends Card implements Updater {
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<WatchStatus> task) throws Exception {
-
                     if (task.isSuccessful()) {
                         AmazModApplication.isWatchConnected = true;
                         isConnected();
@@ -452,7 +450,6 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void installUpdate(String apkAbsolutePath) {
-
         String command = String.format("adb install -r %s", apkAbsolutePath);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
@@ -503,7 +500,6 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void setWindowFlags(boolean enable) {
-
         final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
