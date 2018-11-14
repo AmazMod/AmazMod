@@ -25,7 +25,7 @@
     <string name="installed_apps">Instalované aplikace</string>
     <string name="last_read">Poslední načtení</string>
     <string name="remaining_battery">Zbývá baterie</string>
-    <string name="full_battery_in">Plně nabito za</string>
+    <string name="full_battery_in">Plně nabito za </string>
     <string name="open_notifications_log">Otevřít log oznámení</string>
     <string name="notifications_log">Log oznámení</string>
     <string name="delete">Vymazat</string>
@@ -178,7 +178,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="data">Data</string>
     <string name="downloads">Staženo</string>
     <string name="downloading">Stahování</string>
-    <string name="activity_files_backup_error">PS: AmazMod nemůže psát soubory, zkontrolujte prosím oprávnění</string>
+    <string name="activity_files_backup_error">AmazMod nemůže zapisovat soubory, udělte nejprve oprávnění pro zápis.</string>
     <string name="activity_files_backup_downloads">Záložní soubor je uložen ve složce Stahování:</string>
     <string name="activity_files_file_error">Chyba souboru!</string>
     <string name="activity_files_backup_ok">Záloha dokončena</string>
@@ -225,13 +225,13 @@ Proveďte příkaz shell\"</string>
     <string name="no_service_info_3">2) Pak nainstalujte servisní aplikaci do hodinek</string>
     <string name="no_service_info_4">3) Nakonec restartujte hodinky i telefon</string>
     <string name="enable_lpm_title">Zapnout LPM</string>
-    <string name="revoke_admin">Odebrat administrátora</string>
+    <string name="revoke_admin">Odebrat správce</string>
     <string name="enable_lpm_content">Tato funkce je stále experimentální a po zapnutí je potřeba hodinky restartovat</string>
     <string name="continue_label">Pokračovat</string>
     <string name="pref_file_extras">Záloha a obnova nastavení</string>
     <string name="pref_file_extras_summary">Zálohování a obnovení nastavení AmazModu</string>
     <string name="reboot_bootloader">Přístup do Fastbootu</string>
-    <string name="set_admin">Nastavení správce</string>
+    <string name="set_admin">Nastavit správce</string>
     <string name="shell_command_failed">Příkaz se nezdařil</string>
     <string name="result_code">Výsledek kódu:</string>
     <string name="battery_chart_updated">Graf baterie aktualizován novými daty</string>
@@ -239,7 +239,7 @@ Proveďte příkaz shell\"</string>
     <string name="battery_chart_waiting">Čekání na nová data baterie…</string>
     <string name="edit_reply">Upravit odpověď</string>
     <string name="privacy_policy">Zásady ochrany informací</string>
-    <string name="cant_check_service_updates">Nelze zkontrolovat aktualizaci služeb</string>
+    <string name="cant_check_service_updates">Nelze zkontrolovat aktualizace service.apk</string>
     <string name="new_update_available">Nové aktualizace k dispozici!</string>
     <string name="new_service_update_available">Verze %s AmazMod service je k dispozici</string>
     <string name="update">Aktualizovat</string>
@@ -250,7 +250,7 @@ Proveďte příkaz shell\"</string>
     <string name="type_folder_name">Zadej název složky</string>
     <string name="brightness_bad_value_entered">Chybná hodnota zadána, přípustné hodnoty jsou od 1 do 255</string>
     <string name="command_history">Historie příkazů</string>
-    <string name="update_started_watch_reboot_when_update_finish">Aktualizace spuštěna. Hodinky se na konci restartují</string>
+    <string name="update_started_watch_reboot_when_update_finish">Aktualizace začala! Hodinky zobrazí průběh a na konci instalace bude restartován spouštěč.</string>
     <string name="automatic_brightness">Automatický jas</string>
     <string name="set_brightness">Nastavit</string>
     <string name="file_upload_finished">Nahrání dokončeno úspěšně</string>
@@ -261,5 +261,5 @@ Proveďte příkaz shell\"</string>
     <string name="extract">Rozbalit</string>
     <string name="compress">Komprimovat</string>
     <string name="delete_folder_and_contents">\"%1$s\" je složka. Odstranit ji a celý její obsah?</string>
-    <string name="screenshot">Screenshot</string>
+    <string name="screenshot">Snímek obrazovky</string>
 </resources>

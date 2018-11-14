@@ -176,7 +176,7 @@
     <string name="data">Dáta</string>
     <string name="downloads">Stiahnute</string>
     <string name="downloading">Sťahuje sa</string>
-    <string name="activity_files_backup_error">PS: AmazMod nemôže ukladať súbory, skontrolujte prosím oprávnenia</string>
+    <string name="activity_files_backup_error">AmazMod nemožno zapisovať súbory, prosím udeliť povolenie najprv.</string>
     <string name="activity_files_backup_downloads">Záložný súbor je uložený v priečinku Sťahovanie:</string>
     <string name="activity_files_file_error">Chyba súboru!</string>
     <string name="activity_files_backup_ok">Zálohovanie dokončené</string>
@@ -223,13 +223,13 @@ Urobte príkaz shell \"</string>
     <string name="no_service_info_3">2) potom je potrebné nainštalovať servisnú apk do hodiniek</string>
     <string name="no_service_info_4">3) Nakoniec reštartujte hodinky aj telefón</string>
     <string name="enable_lpm_title">Zapnuť LPM</string>
-    <string name="revoke_admin">Zrušiť admina</string>
+    <string name="revoke_admin">Zrušiť správcu</string>
     <string name="enable_lpm_content">Táto funkcia je stále experimentálna a po zapnutí je potreba hodinky reštartovať</string>
     <string name="continue_label">Pokračovať</string>
     <string name="pref_file_extras">Nastavenie zálohovania a obnovenia</string>
     <string name="pref_file_extras_summary">Zálohovanie a obnovenie nastavenia AmazModu</string>
     <string name="reboot_bootloader">Prístup do Fastbootu</string>
-    <string name="set_admin">Nastavenia správcu</string>
+    <string name="set_admin">Nastaviť správcu</string>
     <string name="shell_command_failed">Príkaz zlyhal</string>
     <string name="result_code">Výsledok kódu:</string>
     <string name="battery_chart_updated">Graf batérie aktualizovaný novými údajmi</string>
@@ -237,7 +237,7 @@ Urobte príkaz shell \"</string>
     <string name="battery_chart_waiting">Čakanie na nové dáta batérie…</string>
     <string name="edit_reply">Upraviť odpoveď</string>
     <string name="privacy_policy">Ochrana osobných údajov</string>
-    <string name="cant_check_service_updates">Nemôže skontrolovať aktualizácie servisné aplikácie</string>
+    <string name="cant_check_service_updates">Nemôže skontrolovať aktualizácie service.apk</string>
     <string name="new_update_available">Nová aktualizácia k dispozícii!</string>
     <string name="new_service_update_available">Verzia %s AmazMod service je k dispozícii</string>
     <string name="update">Aktualizovať</string>
@@ -248,7 +248,7 @@ Urobte príkaz shell \"</string>
     <string name="type_folder_name">Zadaj názov priečinka</string>
     <string name="brightness_bad_value_entered">Zadaná chybná hodnota, akceptované hodnoty sú od 1 do 255</string>
     <string name="command_history">História príkazov</string>
-    <string name="update_started_watch_reboot_when_update_finish">Aktualizácia spustená. Hodinky sa na konci reštartujú</string>
+    <string name="update_started_watch_reboot_when_update_finish">Aktualizácia začala! Hodinky zobrazí priebeh a jej spúšťač sa reštartuje na konci aktualizácie.</string>
     <string name="automatic_brightness">Automatický jas</string>
     <string name="set_brightness">Nastaviť</string>
     <string name="file_upload_finished">Nahrávanie úspešne dokončené</string>
@@ -259,5 +259,5 @@ Urobte príkaz shell \"</string>
     <string name="extract">Extrahovať</string>
     <string name="compress">Komprimovať</string>
     <string name="delete_folder_and_contents">\"%1$s\" je zložka. Odstrániť ju a celý jej obsah?</string>
-    <string name="screenshot">Screenshot</string>
+    <string name="screenshot">Snímok obrazovky</string>
 </resources>
