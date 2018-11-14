@@ -170,13 +170,13 @@
     <string name="activity_files_backup">백업</string>
     <string name="activity_files_restore">복원</string>
     <string name="never">백업 한적 없음</string>
-    <string name="activity_files_backup_obs">추신: 백업파일은 내부 저장소에 저장되며 앱을 삭제할 경우 같이 삭제됩니다.</string>
+    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
     <string name="activity_files_file">백업 파일 위치</string>
     <string name="none">없음</string>
     <string name="data">데이터</string>
     <string name="downloads">Downloads</string>
     <string name="downloading">다운로드 중</string>
-    <string name="activity_files_backup_error">추신: 쓰기 권한이 없습니다. 권한을 확인해주세요.</string>
+    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
     <string name="activity_files_backup_downloads">다운로드 폴더에 백업파일이 저장되었습니다.</string>
     <string name="activity_files_file_error">파일 오류!</string>
     <string name="activity_files_backup_ok">백업이 완료되었습니다</string>
@@ -236,7 +236,7 @@
     <string name="battery_chart_waiting">새로운 배터리 데이터 기다리는 중...</string>
     <string name="edit_reply">답장 편집</string>
     <string name="privacy_policy">개인정보취급방침</string>
-    <string name="cant_check_service_updates">서비스 업데이트를 확인할 수 없습니다.</string>
+    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
     <string name="new_update_available">새 업데이트가 있습니다!</string>
     <string name="new_service_update_available">%s버전의 AmazMod 서비스를 사용할 수 있습니다.</string>
     <string name="update">업데이트</string>
@@ -247,7 +247,7 @@
     <string name="type_folder_name">폴더 이름 입력</string>
     <string name="brightness_bad_value_entered">잘못 된 값이 입력되었습니다. 허용된 값은 1에서 255까지 입니다.</string>
     <string name="command_history">명령 히스토리</string>
-    <string name="update_started_watch_reboot_when_update_finish">업데이트 시작. 마지막에 시계가 재부팅됩니다.</string>
+    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">자동 밝기</string>
     <string name="set_brightness">설정</string>
     <string name="file_upload_finished">업로드 성공</string>
@@ -258,4 +258,5 @@
     <string name="extract">Extract</string>
     <string name="compress">Compress</string>
     <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
+    <string name="screenshot">Screenshot</string>
 </resources>

@@ -30,10 +30,10 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.transport.TransportService;
-import com.edotassi.amazmod.ui.FileExplorerActivity;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
+import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -113,11 +113,13 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
-                .setProgressBarColor(R.color.colorAccent)
-                .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
-                .setTextSize(14)
-                .setMessageMaxLines(2);
+        if (getActivity() != null) {
+            snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
+                    .setProgressBarColor(R.color.colorAccent)
+                    .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
+                    .setTextSize(14)
+                    .setMessageMaxLines(2);
+        }
     }
 
     @Override
@@ -132,7 +134,6 @@ public class WatchInfoFragment extends Card implements Updater {
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<WatchStatus> task) throws Exception {
-
                     if (task.isSuccessful()) {
                         AmazModApplication.isWatchConnected = true;
                         isConnected();
@@ -150,17 +151,19 @@ public class WatchInfoFragment extends Card implements Updater {
                     } else {
                         Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
                         AmazModApplication.isWatchConnected = false;
-                        try {
-                            Snacky
-                                    .builder()
-                                    .setActivity(getActivity())
-                                    .setText(R.string.failed_load_watch_status)
-                                    .setDuration(Snacky.LENGTH_SHORT)
-                                    .build()
-                                    .show();
-                        } catch (Exception e) {
-                            Crashlytics.logException(e);
-                            Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+                        if (getActivity() != null) {
+                            try {
+                                Snacky
+                                        .builder()
+                                        .setActivity(getActivity())
+                                        .setText(R.string.failed_load_watch_status)
+                                        .setDuration(Snacky.LENGTH_SHORT)
+                                        .build()
+                                        .show();
+                            } catch (Exception e) {
+                                Crashlytics.logException(e);
+                                Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+                            }
                         }
                         disconnected();
                     }
@@ -239,62 +242,71 @@ public class WatchInfoFragment extends Card implements Updater {
 
     @Override
     public void updateCheckFailed() {
-        Snacky.builder()
-                .setText(R.string.cant_check_service_updates)
-                .setDuration(Snacky.LENGTH_SHORT)
-                .setActivity(getActivity())
-                .build()
-                .show();
+        if (getActivity() != null && getContext() != null) {
+            Snacky.builder()
+                    .setText(R.string.cant_check_service_updates)
+                    .setDuration(Snacky.LENGTH_SHORT)
+                    .setActivity(getActivity())
+                    .build()
+                    .show();
+        }
     }
 
     @Override
     public void updateAvailable(final int version) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                new MaterialDialog.Builder(getContext())
-                        .canceledOnTouchOutside(false)
-                        .title(R.string.new_update_available)
-                        .content(getString(R.string.new_service_update_available, String.valueOf(version)))
-                        .positiveText(R.string.update)
-                        .negativeText(R.string.cancel)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                if (WatchInfoFragment.this.getContext() != null) {
-                                    FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
+        if (getActivity() != null && getContext() != null) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new MaterialDialog.Builder(getContext())
+                            .canceledOnTouchOutside(false)
+                            .title(R.string.new_update_available)
+                            .content(getString(R.string.new_service_update_available, String.valueOf(version)))
+                            .positiveText(R.string.update)
+                            .negativeText(R.string.cancel)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    if (WatchInfoFragment.this.getContext() != null) {
 
-                                    setWindowFlags(true);
-                                    final UpdateDownloader updateDownloader = new UpdateDownloader();
-                                    if (serviceVersion < 1697) {
-                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
-                                        updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
+                                        if (!Permissions.checkWriteExternalStoragePermission(getContext(), getActivity())) {
+                                            return;
+                                        }
+
+                                        FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
+
+                                        setWindowFlags(true);
+                                        final UpdateDownloader updateDownloader = new UpdateDownloader();
+                                        if (serviceVersion < 1697) {
+                                            Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
+                                            updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
+                                        }
+
+                                        @SuppressLint("DefaultLocale") final String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+
+                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
+                                        updateDialog = new MaterialDialog.Builder(getContext())
+                                                .canceledOnTouchOutside(false)
+                                                .title(R.string.download_in_progress)
+                                                .customView(R.layout.dialog_update_progress, false)
+                                                .negativeText(R.string.cancel)
+                                                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                    @Override
+                                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                        updateDownloader.cancel();
+                                                    }
+                                                })
+                                                .show();
+
+                                        updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
+
                                     }
-
-                                    @SuppressLint("DefaultLocale") final String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
-
-                                    Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
-                                    updateDialog = new MaterialDialog.Builder(getContext())
-                                            .canceledOnTouchOutside(false)
-                                            .title(R.string.download_in_progress)
-                                            .customView(R.layout.dialog_update_progress, false)
-                                            .negativeText(R.string.cancel)
-                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
-                                                @Override
-                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                                    updateDownloader.cancel();
-                                                }
-                                            })
-                                            .show();
-
-                                    updateDownloader.start(WatchInfoFragment.this.getContext(), url, WatchInfoFragment.this);
-
                                 }
-                            }
-                        })
-                        .show();
-            }
-        });
+                            })
+                            .show();
+                }
+            });
+        }
     }
 
     @SuppressLint("DefaultLocale")
@@ -369,24 +381,26 @@ public class WatchInfoFragment extends Card implements Updater {
         Watch.get().uploadFile(updateFile, destPath, new Watch.OperationProgress() {
             @Override
             public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
-                WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
+                if (WatchInfoFragment.this.getActivity() != null) {
+                    WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
 
-                        String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
-                        double kbSent = byteSent / 1024d;
-                        double speed = kbSent / (duration / 1000);
-                        DecimalFormat df = new DecimalFormat("#.00");
+                            String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
+                            double kbSent = byteSent / 1024d;
+                            double speed = kbSent / (duration / 1000);
+                            DecimalFormat df = new DecimalFormat("#.00");
 
-                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                            String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                            String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
-                        progressBar.setMessage(message);
-                        snackProgressBarManager.setProgress((int) progress);
-                        snackProgressBarManager.updateTo(progressBar);
-                    }
-                });
+                            progressBar.setMessage(message);
+                            snackProgressBarManager.setProgress((int) progress);
+                            snackProgressBarManager.updateTo(progressBar);
+                        }
+                    });
+                }
             }
         }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
             @Override
@@ -397,12 +411,15 @@ public class WatchInfoFragment extends Card implements Updater {
                     Bundle bundle = new Bundle();
                     bundle.putLong("size", size);
                     bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                    FirebaseAnalytics
-                            .getInstance(WatchInfoFragment.this.getContext())
-                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                    if (WatchInfoFragment.this.getContext() != null) {
+                        FirebaseAnalytics
+                                .getInstance(WatchInfoFragment.this.getContext())
+                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                    }
                     if (destPath.contains("AmazMod-service")) {
                         installUpdate(destPath);
                     }
+
                 } else {
                     if (task.getException() instanceof CancellationException) {
                         SnackProgressBar snackbar = new SnackProgressBar(
@@ -425,6 +442,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                 });
                         snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                     }
+                    throw new Exception("watch.getUploadFile Exception");
                 }
                 return null;
             }
@@ -432,7 +450,6 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void installUpdate(String apkAbsolutePath) {
-
         String command = String.format("adb install -r %s", apkAbsolutePath);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
@@ -453,18 +470,21 @@ public class WatchInfoFragment extends Card implements Updater {
 
                 if (task.isSuccessful()) {
                     ResultShellCommand resultShellCommand = task.getResult();
-                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+                    if (resultShellCommand != null) {
+                        ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
 
-                    if (resultShellCommandData.getResult() == 0) {
-                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.update_started_watch_reboot_when_update_finish));
-                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                    } else {
-                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
-                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        if (resultShellCommandData.getResult() == 0) {
+                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.update_started_watch_reboot_when_update_finish));
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        } else {
+                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        }
                     }
                 } else {
                     SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    throw new Exception("executeShellCommand Exception");
                 }
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
@@ -472,7 +492,7 @@ public class WatchInfoFragment extends Card implements Updater {
                     public void run() {
                         setWindowFlags(false);
                     }
-                }, 5000);
+                }, 8000);
 
                 return null;
             }
@@ -480,7 +500,6 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void setWindowFlags(boolean enable) {
-
         final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |

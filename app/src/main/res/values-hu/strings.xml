@@ -172,13 +172,13 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="activity_files_backup">Bizt.mentés</string>
     <string name="activity_files_restore">helyreállítás</string>
     <string name="never">Soha</string>
-    <string name="activity_files_backup_obs">U.I.: A bizt.mentés fájl mentésre kerül a belső tárolóban és az alkalmazás eltávolításakor törlődik:</string>
+    <string name="activity_files_backup_obs">FONTOS: A bizt.mentés fájl a belső tárhelyre kerül és az alkalmazás eltávolításakor törlődik:</string>
     <string name="activity_files_file">Bizt.mentés fájl található</string>
     <string name="none">Nincs</string>
     <string name="data">Adat</string>
     <string name="downloads">Letöltések</string>
     <string name="downloading">Letöltés</string>
-    <string name="activity_files_backup_error">U.I.: Az AmazMod nem tudja írni a fájlokat, ellenőrizd az engedélyeket</string>
+    <string name="activity_files_backup_error">Az AmazMod nem tudja írni a fájlokat, előbb add meg az engedélyt.</string>
     <string name="activity_files_backup_downloads">A Bizt.mentés fájl helye:</string>
     <string name="activity_files_file_error">Fájl hiba!</string>
     <string name="activity_files_backup_ok">Bizt.mentés kész</string>
@@ -238,7 +238,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="battery_chart_waiting">Várakozás a friss akku adatokra…</string>
     <string name="edit_reply">Válasz szerkesztése</string>
     <string name="privacy_policy">Adatvédelmi nyilatkozat</string>
-    <string name="cant_check_service_updates">A szolg. friss. nem ellenőrizhető</string>
+    <string name="cant_check_service_updates">A service.apk frissítései nem ellenőrizhetők</string>
     <string name="new_update_available">Új frissítés érhető el!</string>
     <string name="new_service_update_available">A %s AmazMod service verzió elérhető</string>
     <string name="update">Frissítés</string>
@@ -249,7 +249,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="type_folder_name">Írd be a mappa nevét</string>
     <string name="brightness_bad_value_entered">Rossz a megadott érték, az elfogadott 1-255 közötti</string>
     <string name="command_history">Parancs előzmények</string>
-    <string name="update_started_watch_reboot_when_update_finish">A frissítés elindult, végén az óra újraindul</string>
+    <string name="update_started_watch_reboot_when_update_finish">A frissítés elkezdődött. Az óra mutatja a folyamatot, a végén a launcher újraindul.</string>
     <string name="automatic_brightness">Automatikus fényerő</string>
     <string name="set_brightness">Beállít</string>
     <string name="file_upload_finished">A feltöltés sikeresen befejeződött</string>
@@ -260,4 +260,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="extract">Kibont</string>
     <string name="compress">Tömörít</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
+    <string name="screenshot">Képernyőkép</string>
 </resources>

@@ -21,6 +21,7 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -152,6 +153,31 @@ public class FileExplorerActivity extends AppCompatActivity {
                         // do something
                     }
                 });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int lastFirstVisibleItem = 0;
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+
+                if(lastFirstVisibleItem<firstVisibleItem)
+                {
+                    fabMain.hide();
+                }
+                if(lastFirstVisibleItem>firstVisibleItem)
+                {
+                    fabMain.show();
+                }
+                lastFirstVisibleItem=firstVisibleItem;
+
+            }
+        });
     }
 
     @Override
@@ -526,7 +552,8 @@ public class FileExplorerActivity extends AppCompatActivity {
         final long size = fileData.getSize();
         final long startedAt = System.currentTimeMillis();
 
-        Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, new Watch.OperationProgress() {
+        Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, Constants.MODE_DOWNLOAD,
+                new Watch.OperationProgress() {
             @Override
             public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
                 FileExplorerActivity.this.runOnUiThread(new Runnable() {
@@ -678,15 +705,10 @@ public class FileExplorerActivity extends AppCompatActivity {
             CloseFabMenu();
     }
 
-    ;
-
-
     @OnClick(R.id.activity_file_explorer_fab_bg)
     public void fabMenuClick() {
         CloseFabMenu();
     }
-
-    ;
 
     @OnClick(R.id.activity_file_explorer_fab_newfolder)
     public void fabNewFolderClick() {
@@ -707,8 +729,6 @@ public class FileExplorerActivity extends AppCompatActivity {
                 }).show();
     }
 
-    ;
-
     private void ShowFabMenu() {
         isFabOpen = true;
         fabUpload.setVisibility(View.VISIBLE);
@@ -718,10 +738,10 @@ public class FileExplorerActivity extends AppCompatActivity {
         fabMain.animate().rotation(135f);
         bgFabMenu.animate().alpha(1f);
         fabUpload.animate()
-                .translationY(-260f)
+                .translationY(-284f)
                 .rotation(0f);
         fabNewFolder.animate()
-                .translationY(-140f)
+                .translationY(-156f)
                 .rotation(0f);
     }
 

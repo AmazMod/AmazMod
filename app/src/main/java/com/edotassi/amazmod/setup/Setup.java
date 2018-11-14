@@ -13,6 +13,7 @@ import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.FilesExtrasActivity;
 import com.edotassi.amazmod.update.Updater;
 import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.io.IOException;
@@ -44,8 +45,13 @@ public class Setup {
 
     public static void checkServiceUpdate(final Updater updater, final String currentVersion) {
 
+        String updateUrl = Constants.SERVICE_UPDATE_URL;
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)){
+            updateUrl = Constants.SERVICE_UPDATE_BETA_URL;
+        }
+
         Request request = new Request.Builder()
-                .url(Constants.SERVICE_UPDATE_URL)
+                .url(updateUrl)
                 .build();
         System.out.println("AmazMod Setup checkServiceUpdate started");
 

@@ -52,4 +52,8 @@ public class ShellCommandHelper {
     public static String getDisableAppsList() {
         return Constants.SHELL_COMMAND_DISABLE_APPS_LIST;
     }
+
+    public static String getScreenshot() {
+        return Constants.SHELL_COMMAND_SCREENSHOT;
+    }
 }

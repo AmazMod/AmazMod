@@ -115,6 +115,7 @@ public class Watch {
 
     public Task<Void> downloadFile(Activity activity, final String path, final String name,
                                    final long size,
+                                   final byte mode,
                                    final OperationProgress operationProgress,
                                    final CancellationToken cancellationToken) {
         final TaskCompletionSource taskCompletionSource = new TaskCompletionSource<Void>();
@@ -139,14 +140,14 @@ public class Watch {
                                 long totalChunks = size / Constants.CHUNK_SIZE;
                                 long startedAt = System.currentTimeMillis();
 
-                                if (!DownloadHelper.checkDownloadDirExist()) {
+                                if (!DownloadHelper.checkDownloadDirExist(mode)) {
                                     taskCompletionSource.setException(new Exception("cant_create_download_directory"));
                                     return null;
                                 }
 
                                 for (int i = 0; i < totalChunks; i++) {
                                     if (cancellationToken.isCancellationRequested()) {
-                                        DownloadHelper.deleteDownloadedFile(name);
+                                        DownloadHelper.deleteDownloadedFile(name, mode);
 
                                         taskCompletionSource.setException(new CancellationException());
                                         return null;
@@ -159,7 +160,7 @@ public class Watch {
 
                                     ResultDownloadFileChunkData resultDownloadFileChunkData = resultDownloadFileChunk.getResultDownloadFileChunkData();
 
-                                    File destinationFile = DownloadHelper.getDownloadedFile(name);
+                                    File destinationFile = DownloadHelper.getDownloadedFile(name, mode);
                                     RandomAccessFile randomAccessFile = new RandomAccessFile(destinationFile, "rw");
                                     randomAccessFile.seek(resultDownloadFileChunkData.getIndex() * Constants.CHUNK_SIZE);
                                     randomAccessFile.write(resultDownloadFileChunkData.getBytes());
@@ -183,7 +184,7 @@ public class Watch {
 
                                     ResultDownloadFileChunkData resultDownloadFileChunkData = resultDownloadFileChunk.getResultDownloadFileChunkData();
 
-                                    File destinationFile = DownloadHelper.getDownloadedFile(name);
+                                    File destinationFile = DownloadHelper.getDownloadedFile(name, mode);
                                     RandomAccessFile randomAccessFile = new RandomAccessFile(destinationFile, "rw");
                                     randomAccessFile.seek(resultDownloadFileChunkData.getIndex() * Constants.CHUNK_SIZE);
                                     randomAccessFile.write(resultDownloadFileChunkData.getBytes());

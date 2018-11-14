@@ -170,13 +170,13 @@
     <string name="activity_files_backup">Δημιουργία αντίγραφου ασφαλείας</string>
     <string name="activity_files_restore">ανάκτηση</string>
     <string name="never">Ποτέ</string>
-    <string name="activity_files_backup_obs">ΥΓ: Το αρχείο ανάκτησης αποθηκεύεται στον εσωτερικό χώρο αποθήκευσης και θα διαγραφεί εάν γίνει απεγκατάσταση της εφαρμογής:</string>
+    <string name="activity_files_backup_obs">ΣΗΜΑΝΤΙΚΟ: Το αρχείο ανάκτησης αποθηκεύεται στον εσωτερικό χώρο και θα διαγραφεί εάν γίνει απεγκατάσταση της εφαρμογής:</string>
     <string name="activity_files_file">Βρέθηκε αντίγραφο ασφαλείας</string>
     <string name="none">Κανένα</string>
     <string name="data">Δεδομένα</string>
     <string name="downloads">Λήψεις</string>
     <string name="downloading">Λήψη</string>
-    <string name="activity_files_backup_error">ΥΓ: Το AmazMod δεν είναι δυνατό να γράψετε αρχεία, παρακαλούμε ελέγξετε τα δικαιώματα</string>
+    <string name="activity_files_backup_error">Το AmazMod δεν μπορεί να γράψει αρχεία, παρακαλώ ελέγξετε τα δικαιώματα.</string>
     <string name="activity_files_backup_downloads">Το αντίγραφο ασφαλείας είναι αποθηκευμένο στον φάκελο Λήψεις:</string>
     <string name="activity_files_file_error">Σφάλμα Αρχείου!</string>
     <string name="activity_files_backup_ok">Το αντίγραφο ασφαλείας έγινε</string>
@@ -211,7 +211,7 @@
     <string name="cant_send_shell_command">Η εντολή δεν μπορεί να σταλεί</string>
     <string name="install">Εγκατάσταση</string>
     <string name="apk_install_started_title">Εγκατάσταση APK</string>
-    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started">Η εγκατάσταση του APK ξεκίνησε\n\nΗ εγκατάσταση εκτελείται στο παρασκήνιο. \nΜε την ολοκλήρωση της, θα γίνει επανεκκίνηση του launcher στο ρολόι.</string>
     <string name="cant_start_apk_install">Η εκκίνηση της εγκατάστασης του APK δεν είναι δυνατή</string>
     <string name="reboot">Επανεκκίνηση</string>
     <string name="restart_launcher">Κάντε επανεκκίνηση του launcher</string>
@@ -247,15 +247,16 @@
     <string name="type_folder_name">Πληκτρολογήστε Όνομα Φακέλου</string>
     <string name="brightness_bad_value_entered">Μη αποδεκτή τιμή, οι αποδεκτές τιμές είναι από 1 έως 255</string>
     <string name="command_history">Ιστορικό Εντολών</string>
-    <string name="update_started_watch_reboot_when_update_finish">H ενημέρωση ξεκίνησε. Το ρολόι θα επανεκκινήσει στο τέλος της</string>
+    <string name="update_started_watch_reboot_when_update_finish">Η ενημέρωση ξεκίνησε! Το ρολόι θα δείχνει την πρόοδο και στο τέλος ο launcher θα επανεκκινηθεί.</string>
     <string name="automatic_brightness">Αυτόματη Φωτεινότητα</string>
     <string name="set_brightness">Ορισμός</string>
     <string name="file_upload_finished">Η Μεταφόρτωση Ολοκληρώθηκε Επιτυχώς</string>
     <string name="view_files">Προβολή</string>
     <string name="delete_all">Διαγραφή όλων</string>
-    <string name="pref_enable_update_notification">Enable update notification</string>
-    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service APK for watch</string>
+    <string name="pref_enable_update_notification">Ενεργοποίηση ειδοποιήσεων αναβάθμισης</string>
+    <string name="pref_enable_update_notification_summary">Απενεργοποίηση ειδοποιήσεων νέας έκδοσης του service APK για to ρολόι</string>
     <string name="extract">Εξαγωγή</string>
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
+    <string name="screenshot">Screenshot</string>
 </resources>

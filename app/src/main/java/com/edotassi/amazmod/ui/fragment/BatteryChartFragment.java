@@ -7,8 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
@@ -70,7 +70,7 @@ public class BatteryChartFragment extends Card {
     @BindView(R.id.battery_chart)
     LineChart chart;
 
-    private static Context mContext;
+    private Context mContext;
     private static long lastDateChart;
     private static boolean sendNewRequest, requestSent;
 
@@ -84,7 +84,7 @@ public class BatteryChartFragment extends Card {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_battery_chart, container, false);
 
         ButterKnife.bind(this, view);
@@ -220,9 +220,9 @@ public class BatteryChartFragment extends Card {
 
         BatteryStatusEntity prevRead = null;
 
-        int primaryColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
-        int chargingColor = ContextCompat.getColor(getContext(), R.color.colorCharging);
-        int predictionColor = ContextCompat.getColor(getContext(), R.color.colorPrediction);
+        int primaryColor = ContextCompat.getColor(mContext, R.color.colorPrimary);
+        int chargingColor = ContextCompat.getColor(mContext, R.color.colorCharging);
+        int predictionColor = ContextCompat.getColor(mContext, R.color.colorPrediction);
 
         for (int i = 0; i < batteryReadList.size(); i++) {
             BatteryStatusEntity read = batteryReadList.get(i);
@@ -319,7 +319,7 @@ public class BatteryChartFragment extends Card {
         lineDataSet.setDrawCircles(false);
         lineDataSet.setDrawValues(false);
 
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_blue_battery);
+        Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.fade_blue_battery);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSet.setFillDrawable(drawable);
@@ -335,7 +335,7 @@ public class BatteryChartFragment extends Card {
         linePredictionDataSet.setDrawCircles(false);
         linePredictionDataSet.setDrawValues(false);
 
-        Drawable drawablePrediction = ContextCompat.getDrawable(getContext(), (charging)?R.drawable.fade_green_battery:R.drawable.fade_red_battery);
+        Drawable drawablePrediction = ContextCompat.getDrawable(mContext, (charging)?R.drawable.fade_green_battery:R.drawable.fade_red_battery);
         linePredictionDataSet.setDrawFilled(true);
         linePredictionDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         linePredictionDataSet.setFillDrawable(drawablePrediction);
@@ -411,7 +411,7 @@ public class BatteryChartFragment extends Card {
     }
 
     private class CustomXAxisRenderer extends XAxisRenderer {
-        public CustomXAxisRenderer(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) {
+        private CustomXAxisRenderer(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) {
             super(viewPortHandler, xAxis, trans);
         }
 

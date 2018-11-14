@@ -22,6 +22,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
 
     private TextView installFinishedText, restartText;
     private String paramText, paramTime;
+    private int time;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,16 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
 
         Log.d(Constants.TAG,"ConfirmationWearActivity onCreate paramText: " + paramText + " // paramTime: " + paramTime);
 
-        if (paramTime == null || Integer.valueOf(paramTime) < 3 )
+        if (paramTime == null || (Integer.valueOf(paramTime) > 0 && Integer.valueOf(paramTime) < 3) )
             paramTime = "3";
+
+        time = Integer.valueOf(paramTime);
 
         rootLayout = findViewById(R.id.install_root_layout);
         installFinishedText = findViewById(R.id.install_finished_text);
         restartText = findViewById(R.id.restart_text);
         delayedConfirmationView = findViewById(R.id.install_delayed_view);
-        delayedConfirmationView.setTotalTimeMs(Integer.valueOf(paramTime) * 1000);
+        delayedConfirmationView.setTotalTimeMs(time * 1000);
 
         final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -58,10 +61,13 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
     private void startDelayedConfirmationView() {
         delayedConfirmationView.setVisibility(View.VISIBLE);
         installFinishedText.setText(paramText);
-        restartText.setText(String.format("Continuing in %ss…", paramTime));
-        delayedConfirmationView.setPressed(false);
-        delayedConfirmationView.start();
-        delayedConfirmationView.setListener(this);
+        if (time > 0) {
+            restartText.setText(String.format("Continuing in %ss…", paramTime));
+            delayedConfirmationView.setPressed(false);
+            delayedConfirmationView.start();
+            delayedConfirmationView.setListener(this);
+        } else
+            restartText.setText("Please wait, it may take\na while…");
     }
 
     @Override

@@ -170,13 +170,13 @@
     <string name="activity_files_backup">Sauvegarder</string>
     <string name="activity_files_restore">Restorer</string>
     <string name="never">Jamais</string>
-    <string name="activity_files_backup_obs">PS: Le fichier de sauvegarde est enregistré sur la memoire interne et sera effacé si l\'application est desinstallée:</string>
+    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
     <string name="activity_files_file">Sauvegarde trouvée</string>
     <string name="none">Aucune</string>
     <string name="data">Donnée</string>
     <string name="downloads">Téléchargements</string>
     <string name="downloading">Downloading</string>
-    <string name="activity_files_backup_error">PS: AmazMod ne peut écrire de fichier, veuillez vérifier les permissions</string>
+    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
     <string name="activity_files_backup_downloads">La sauvegarde est enregistrée dans le dossier Téléchargements:</string>
     <string name="activity_files_file_error">Erreur de fichier!</string>
     <string name="activity_files_backup_ok">Sauvegarde éffectuée!</string>
@@ -236,7 +236,7 @@
     <string name="battery_chart_waiting">Waiting for new battery data…</string>
     <string name="edit_reply">Edit reply</string>
     <string name="privacy_policy">Privacy policy</string>
-    <string name="cant_check_service_updates">Can\'t check service updates</string>
+    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
     <string name="new_update_available">New update available!</string>
     <string name="new_service_update_available">Version %s of AmazMod service is available</string>
     <string name="update">Update</string>
@@ -247,7 +247,7 @@
     <string name="type_folder_name">Type Folder Name</string>
     <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
     <string name="command_history">Command History</string>
-    <string name="update_started_watch_reboot_when_update_finish">Update started. Watch will reboot at the end</string>
+    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Automatic Brightness</string>
     <string name="set_brightness">Set</string>
     <string name="file_upload_finished">Upload Finished Successfully</string>
@@ -258,4 +258,5 @@
     <string name="extract">Extract</string>
     <string name="compress">Compress</string>
     <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
+    <string name="screenshot">Screenshot</string>
 </resources>

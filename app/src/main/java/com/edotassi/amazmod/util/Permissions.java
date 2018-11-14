@@ -1,10 +1,18 @@
 package com.edotassi.amazmod.util;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.edotassi.amazmod.R;
 
 public class Permissions {
 
@@ -21,4 +29,29 @@ public class Permissions {
     public static boolean hasPermission(Context context, String permission) {
         return Build.VERSION.SDK_INT <= 22 || PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(permission);
     }
+
+    public static boolean checkWriteExternalStoragePermission(final Context context, final Activity activity) {
+        if (Build.VERSION.SDK_INT <= 22)
+            return true;
+        else {
+            if (PackageManager.PERMISSION_GRANTED == context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                return true;
+            else {
+                new MaterialDialog.Builder(context)
+                        .title(R.string.activity_files_no_write_permission)
+                        .content(R.string.activity_files_backup_error)
+                        .positiveText(R.string.continue_label)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                ActivityCompat.requestPermissions(activity,
+                                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+                            }
+                        })
+                        .show();
+                return false;
+            }
+        }
+    }
+
 }
