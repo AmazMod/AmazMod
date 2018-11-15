@@ -210,8 +210,8 @@
     <string name="shell_command_sent">Η εντολή στάλθηκε</string>
     <string name="cant_send_shell_command">Η εντολή δεν μπορεί να σταλεί</string>
     <string name="install">Εγκατάσταση</string>
-    <string name="apk_install_started_title">Εγκατάσταση APK</string>
-    <string name="apk_install_started">Η εγκατάσταση του APK ξεκίνησε\n\nΗ εγκατάσταση εκτελείται στο παρασκήνιο. \nΜε την ολοκλήρωση της, θα γίνει επανεκκίνηση του launcher στο ρολόι.</string>
+    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Η εκκίνηση της εγκατάστασης του APK δεν είναι δυνατή</string>
     <string name="reboot">Επανεκκίνηση</string>
     <string name="restart_launcher">Κάντε επανεκκίνηση του launcher</string>
@@ -259,4 +259,6 @@
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
     <string name="screenshot">Screenshot</string>
+    <string name="pref_notifications_disable_delay">Disable delay</string>
+    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
 </resources>
