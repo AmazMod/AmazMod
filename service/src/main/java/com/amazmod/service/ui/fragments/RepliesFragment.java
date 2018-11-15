@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.amazmod.service.Constants;
@@ -41,6 +42,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
     LinearLayout repliesContainer, editTextContainer, buttonsContainer;
     BoxInsetLayout rootLayout;
+    ScrollView scrollView;
     NotificationData notificationSpec;
     private DelayedConfirmationView delayedConfirmationView;
 
@@ -107,6 +109,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         settingsManager = new SettingsManager(mContext);
 
         rootLayout = getActivity().findViewById(R.id.fragment_replies_root_layout);
+        scrollView = getActivity().findViewById(R.id.fragment_replies_scrollview);
         repliesContainer = getActivity().findViewById(R.id.fragment_replies_replies_container);
         editTextContainer = getActivity().findViewById(R.id.fragment_replies_edittext_container);
         buttonsContainer = getActivity().findViewById(R.id.fragment_replies_buttons_container);
@@ -280,6 +283,9 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     }
 
     private void sendReply(View v) {
+
+        ((NotificationWearActivity)getActivity()).stopTimerFinish();
+
         params.setMargins(0,24,0,4);
         textView.setLayoutParams(params);
         repliesContainer.setVisibility(View.GONE);
@@ -299,6 +305,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
         // Prevent onTimerFinished from being heard.
         ((DelayedConfirmationView) v).setListener(null);
+
+        ((NotificationWearActivity)getActivity()).startTimerFinish();
 
         params.setMargins(0,8,0,4);
         textView.setLayoutParams(params);
