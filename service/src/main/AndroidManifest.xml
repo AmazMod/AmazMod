@@ -16,10 +16,15 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES" />
 
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:name=".AmazModService"
@@ -65,6 +70,12 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".ui.DummyActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".springboard.WearGridActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""

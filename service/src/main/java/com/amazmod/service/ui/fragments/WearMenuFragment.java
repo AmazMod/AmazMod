@@ -1,8 +1,9 @@
-package com.amazmod.service.springboard;
+package com.amazmod.service.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +20,7 @@ import android.provider.Settings;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -40,10 +42,12 @@ import java.util.concurrent.TimeUnit;
 
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
+import static android.content.Context.ACTIVITY_SERVICE;
+import static android.content.Context.VIBRATOR_SERVICE;
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 
-public class WearActivity extends Activity implements WearableListView.ClickListener,
+public class WearMenuFragment extends Fragment implements WearableListView.ClickListener,
         DelayedConfirmationView.DelayedConfirmationListener {
 
     private View mainLayout, confirmView, infoView;
@@ -129,35 +133,68 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     private WifiManager wfmgr;
     private Vibrator vibrator;
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = activity.getBaseContext();
+        Log.i(Constants.TAG,"WearMenuFragment onAttach context: " + mContext);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //notificationSpec = NotificationData.fromBundle(getArguments());
+        Log.i(Constants.TAG,"WearMenuFragment onCreate");
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        Log.i(Constants.TAG,"WearMenuFragment onCreateView");
+
+        return inflater.inflate(R.layout.activity_wear_menu, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.i(Constants.TAG,"WearMenuFragment onViewCreated");
+
+        updateContent();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
 
 	@SuppressLint("ClickableViewAccessibility")
-    @Override
-	protected void onCreate(Bundle savedInstanceState) {
-
-		super.onCreate(savedInstanceState);
-
-        mContext = this;
-        setContentView(R.layout.activity_wear);
+	private void updateContent() {
 
         wfmgr = (WifiManager) mContext.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
 
-        mainLayout = findViewById(R.id.main_layout);
+        mainLayout = getActivity().findViewById(R.id.wear_menu_main_layout);
 
-		listView = findViewById(R.id.list_menu);
-		mHeader = findViewById(R.id.header_menu);
+		listView = getActivity().findViewById(R.id.wear_menu_list);
+		mHeader = getActivity().findViewById(R.id.wear_menu_header);
 
-        confirmView = findViewById(R.id.confirm_layout);
-        infoView = findViewById(R.id.info_layout);
-        textView1 = findViewById(R.id.confirm_text);
-        textView2 = findViewById(R.id.cancel_text);
-        textView02 = findViewById(R.id.textView02);
-        textView03 = findViewById(R.id.textView03);
-        textView04 = findViewById(R.id.textView04);
-        buttonClose = findViewById(R.id.buttonClose);
-        delayedConfirmationView = findViewById(R.id.delayedView);
+        confirmView = getActivity().findViewById(R.id.wear_menu_confirm_layout);
+        infoView = getActivity().findViewById(R.id.wear_menu_info_layout);
+        textView1 = getActivity().findViewById(R.id.wear_menu_confirm_text);
+        textView2 = getActivity().findViewById(R.id.wear_menu_cancel_text);
+        textView02 = getActivity().findViewById(R.id.wear_menu_textView02);
+        textView03 = getActivity().findViewById(R.id.wear_menu_textView03);
+        textView04 = getActivity().findViewById(R.id.wear_menu_textView04);
+        buttonClose = getActivity().findViewById(R.id.wear_menu_buttonClose);
+        delayedConfirmationView = getActivity().findViewById(R.id.wear_menu_delayedView);
 
         listView.setLongClickable(true);
+        listView.setGreedyTouchMode(true);
         hideInfo();
         hideConfirm();
 
@@ -171,7 +208,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                     state = i < 11 || i > 13 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
                 state = true;
-                Log.e(Constants.TAG, "WearActivity onCreate exception: " + e.toString());
+                Log.e(Constants.TAG, "WearMenuFragment onCreate exception: " + e.toString());
             }
             items.add(new MenuItems(mImagesOn[i], mImagesOff[i], mItems[i], state));
         }
@@ -188,17 +225,12 @@ public class WearActivity extends Activity implements WearableListView.ClickList
 	private void loadAdapter(String header) {
 	    mHeader.setText(header);
 
-		mAdapter = new MenuListAdapter(this, items);
+		mAdapter = new MenuListAdapter(mContext, items);
 
 		listView.setAdapter(mAdapter);
 		listView.addOnScrollListener(mOnScrollListener);
 		listView.setClickListener(this);
 	}
-
-	@Override
-    protected void onResume() {
-	    super.onResume();
-    }
 
 	@Override
     public void onClick(WearableListView.ViewHolder viewHolder) {
@@ -250,18 +282,18 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                 break;
 
             default:
-                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
 
     private void runCommand(String command) {
-        Log.d(Constants.TAG, "WearActivity runCommand");
+        Log.d(Constants.TAG, "WearMenuFragment runCommand: " + command);
 	    if (!command.isEmpty()) {
             try {
                 Runtime.getRuntime().exec(command);
             } catch (Exception e) {
-                Log.e(Constants.TAG, "WearActivity onClick exception: " + e.toString());
+                Log.e(Constants.TAG, "WearMenuFragment onClick exception: " + e.toString());
             }
         }
     }
@@ -274,8 +306,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
 
     @Override
     public void onDestroy() {
-	    if (receiverConnection != null) unregisterReceiver(receiverConnection);
-	    if (receiverSSID != null) unregisterReceiver(receiverSSID);
+	    if (receiverConnection != null) mContext.unregisterReceiver(receiverConnection);
+	    if (receiverSSID != null) mContext.unregisterReceiver(receiverSSID);
 	    if (screenToggle)
 	        setMaxBrightness(false);
 	    super.onDestroy();
@@ -319,7 +351,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         delayedConfirmationView.setPressed(false);
         delayedConfirmationView.start();
         delayedConfirmationView.setListener(this);
-        Log.d(Constants.TAG, "WearActivity beginCountdown: " + delayedConfirmationView.isPressed());
+        Log.d(Constants.TAG, "WearMenuFragment beginCountdown: " + delayedConfirmationView.isPressed());
     }
 
     @Override
@@ -329,12 +361,12 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         // Prevent onTimerFinished from being heard.
         ((DelayedConfirmationView) v).setListener(null);
         hideConfirm();
-        Log.d(Constants.TAG, "WearActivity onTimerSelected v.isPressed: " + v.isPressed());
+        Log.d(Constants.TAG, "WearMenuFragment onTimerSelected v.isPressed: " + v.isPressed());
     }
 
     @Override
     public void onTimerFinished(View v) {
-        Log.d(Constants.TAG, "WearActivity onTimerFinished v.isPressed: " + v.isPressed());
+        Log.d(Constants.TAG, "WearMenuFragment onTimerFinished v.isPressed: " + v.isPressed());
         ((DelayedConfirmationView) v).setListener(null);
         final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
@@ -364,10 +396,6 @@ public class WearActivity extends Activity implements WearableListView.ClickList
 
     public void hideInfo() {
         infoView.setVisibility(View.GONE);
-    }
-
-    public void hideInfo(View v) {
-        infoView.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
     }
 
@@ -375,7 +403,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     public void showInfo() {
         setButtonTheme(buttonClose);
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(ACTIVITY_SERVICE);
         if (activityManager != null) {
             try {
                 activityManager.getMemoryInfo(memoryInfo);
@@ -387,12 +415,18 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                 textView03.setText("SleepTime: " + formatInterval(sleepTime, false));
                 textView04.setText("Free RAM: " + freeRAM + "MB");
             } catch (Exception ex) {
-                Log.e(Constants.TAG, "WearActivity onCreate exception: " + ex.toString());
+                Log.e(Constants.TAG, "WearMenuFragment onCreate exception: " + ex.toString());
             }
         }
+        buttonClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideInfo();
+            }
+        });
 
-        infoView.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
+        infoView.setVisibility(View.VISIBLE);
     }
 
     public void hideConfirm() {
@@ -424,24 +458,24 @@ public class WearActivity extends Activity implements WearableListView.ClickList
             @Override
             public void onReceive(Context context, Intent intent) {
                 WifiInfo wifiInfo = wfmgr.getConnectionInfo();
-                Log.d(Constants.TAG, "WearActivity checkConnection wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
-                Log.d(Constants.TAG, "WearActivity checkConnection wifiInfo.SSID: " + wifiInfo.getSSID());
-                Log.d(Constants.TAG, "WearActivity checkConnection action: " + intent.getAction());
-                Log.d(Constants.TAG, "WearActivity checkConnection connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+                Log.d(Constants.TAG, "WearMenuFragment checkConnection wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Log.d(Constants.TAG, "WearMenuFragment checkConnection wifiInfo.SSID: " + wifiInfo.getSSID());
+                Log.d(Constants.TAG, "WearMenuFragment checkConnection action: " + intent.getAction());
+                Log.d(Constants.TAG, "WearMenuFragment checkConnection connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
                 if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
                     if (wifiInfo.getSupplicantState().toString().equals("COMPLETED"))
                         if (receiverSSID == null)
                             getSSID();
                 } else {
                     vibrator.vibrate(100);
-                    Toast.makeText(getApplicationContext(), "Wi-Fi Disconnected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Wi-Fi Disconnected", Toast.LENGTH_SHORT).show();
                 }
             }
         };
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-        registerReceiver(receiverConnection, intentFilter);
+        mContext.registerReceiver(receiverConnection, intentFilter);
     }
 
     private void getSSID() {
@@ -452,10 +486,10 @@ public class WearActivity extends Activity implements WearableListView.ClickList
             @Override
             public void onReceive(Context context, Intent intent) {
                 WifiInfo wifiInfo = wfmgr.getConnectionInfo();
-                Log.d(Constants.TAG, "WearActivity getSSID wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
-                Log.d(Constants.TAG, "WearActivity getSSID wifiInfo.SSID: " + wifiInfo.getSSID());
-                Log.d(Constants.TAG, "WearActivity getSSID action: " + intent.getAction());
-                Log.d(Constants.TAG, "WearActivity getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+                Log.d(Constants.TAG, "WearMenuFragment getSSID wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Log.d(Constants.TAG, "WearMenuFragment getSSID wifiInfo.SSID: " + wifiInfo.getSSID());
+                Log.d(Constants.TAG, "WearMenuFragment getSSID action: " + intent.getAction());
+                Log.d(Constants.TAG, "WearMenuFragment getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
 
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.ASSOCIATED))
                     flag = true;
@@ -463,25 +497,17 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.COMPLETED) && flag) {
                     flag = false;
                     vibrator.vibrate(100);
-                    Toast.makeText(getApplicationContext(), "Wi-Fi Connected to:\n" + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Wi-Fi Connected to:\n" + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
                 }
             }
         };
 
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-        registerReceiver(receiverSSID, intentFilter);
+        mContext.registerReceiver(receiverSSID, intentFilter);
     }
 
     private void setButtonTheme(Button button) {
-        /*
-        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        param.setMargins(20, 12, 20, 12);
-        button.setLayoutParams(param);
-        button.setPadding(0, 10, 0, 10);
-        */
         button.setIncludeFontPadding(false);
         button.setMinHeight(24);
         button.setMinWidth(120);
@@ -505,7 +531,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     }
 
     public void flashlight() {
-        Log.d(Constants.TAG, "WearActivity flashlight on");
+        Log.d(Constants.TAG, "WearMenuFragment flashlight on");
+        Toast.makeText(mContext, "Tap and Hold to Quit", Toast.LENGTH_SHORT).show();
         listView.setVisibility(View.GONE);
         mainLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
         setMaxBrightness(true);
@@ -514,7 +541,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
             public boolean onLongClick(View v) {
                 if (screenToggle)
                     setMaxBrightness(false);
-                Log.d(Constants.TAG, "WearActivity flashlight off");
+                Log.d(Constants.TAG, "WearMenuFragment flashlight off");
                 mainLayout.setBackground(getResources().getDrawable(R.drawable.background));
                 listView.setVisibility(View.VISIBLE);
                 return false;
@@ -526,14 +553,14 @@ public class WearActivity extends Activity implements WearableListView.ClickList
     private void setMaxBrightness(boolean mode) {
 
         if (mode) {
-            Log.d(Constants.TAG, "WearActivity setScreenModeOff mode tue");
+            Log.d(Constants.TAG, "WearMenuFragment setScreenModeOff mode tue");
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
             Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
         } else {
             if (screenBrightness != 999989) {
-                Log.d(Constants.TAG, "WearActivity setScreenModeOff mode false \\ screenMode: " + screenMode);
+                Log.d(Constants.TAG, "WearMenuFragment setScreenModeOff mode false \\ screenMode: " + screenMode);
                 Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
             }
@@ -543,7 +570,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
 
     private void toggle(int id) {
         final int status = Settings.Secure.getInt(mContext.getContentResolver(), toggle[id], 0);
-        Log.d(Constants.TAG, "WearActivity toggleUnit toggle: " + toggle[id] + " \\ status: " + status);
+        Log.d(Constants.TAG, "WearMenuFragment toggleUnit toggle: " + toggle[id] + " \\ status: " + status);
         if ( status == 0) {
             items.get(id).state = true;
             runCommand("adb shell settings put secure " + toggle[id] + " 1");
@@ -554,5 +581,10 @@ public class WearActivity extends Activity implements WearableListView.ClickList
             //Settings.Secure.putInt(mContext.getContentResolver(), toggle, 0);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    public static WearMenuFragment newInstance() {
+        Log.i(Constants.TAG,"WearMenuFragment newInstance");
+        return new WearMenuFragment();
     }
 }

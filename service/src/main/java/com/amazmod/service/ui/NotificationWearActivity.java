@@ -102,7 +102,7 @@ public class NotificationWearActivity extends Activity {
         GridViewPagerAdapter adapter;
         if (disableNotificationReplies) {
             final Fragment[] items = {
-                    NotificationFragment.newInstance(notificationSpec.toBundle()),
+                    NotificationFragment.newInstance(notificationSpec.toBundle())
             };
             adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         } else {

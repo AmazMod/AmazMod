@@ -453,7 +453,7 @@ public class WatchInfoFragment extends Card implements Updater {
 
     private void installUpdate(String apkAbsolutePath) {
 
-        String command = String.format("adb install -r %s", apkAbsolutePath);
+        String command = String.format("adb install -r %s&", apkAbsolutePath);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))

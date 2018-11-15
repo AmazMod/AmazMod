@@ -15,7 +15,7 @@ import com.amazmod.service.models.MenuItems;
 import java.util.List;
 
 
-public class CustomListAdapter extends WearableListView.Adapter {
+public class MenuListAdapter extends WearableListView.Adapter {
 	private final List<MenuItems> items;
 	private final LayoutInflater mInflater;
 
@@ -23,7 +23,7 @@ public class CustomListAdapter extends WearableListView.Adapter {
     private static final float NO_SCALE = 1.0f, SCALE = 0.9f;
     private static final float NO_X_TRANSLATION = 0f, X_TRANSLATION = 20f;
 
-	public CustomListAdapter(Context context, List<MenuItems> items) {
+	public MenuListAdapter(Context context, List<MenuItems> items) {
 		mInflater = LayoutInflater.from(context);
 		this.items = items;
 	}
@@ -35,7 +35,7 @@ public class CustomListAdapter extends WearableListView.Adapter {
 
 	@Override
 	public void onBindViewHolder(@NonNull WearableListView.ViewHolder viewHolder, int position) {
-		//System.out.println("CustomListAdapter onBindViewHodler position: " + position);
+		//System.out.println("MenuListAdapter onBindViewHodler position: " + position);
 		ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
 		final MenuItems item = items.get(position);
 		TextView textView = itemViewHolder.mItemTextView;

@@ -158,14 +158,6 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         }
     }
 
-    private void setFontLocale(TextView tv, String locale) {
-        Log.i(Constants.TAG, "RepliesFragment setFontLocale TextView: " + locale);
-        if (locale.contains("iw")) {
-            Typeface face = Typeface.createFromAsset(mContext.getAssets(),"fonts/DroidSansFallback.ttf");
-            tv.setTypeface(face);
-        }
-    }
-
     private void setFontLocale(Button b, String locale) {
         Log.i(Constants.TAG, "RepliesFragment setFontLocale Button: " + locale);
         if (locale.contains("iw")) {
@@ -246,6 +238,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         button.setPadding(0,10,0,10);
         button.setIncludeFontPadding(false);
         button.setMinHeight(24);
+        setFontLocale(button, defaultLocale);
         button.setText(text);
         button.setAllCaps(false);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
