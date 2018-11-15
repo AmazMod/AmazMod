@@ -176,7 +176,7 @@
     <string name="data">מידע</string>
     <string name="downloads">הורדות</string>
     <string name="downloading">מוריד</string>
-    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
+    <string name="activity_files_backup_error">AmazMod לא יכול לכתוב קבצים, אנא העניקו הרשאות קודם.</string>
     <string name="activity_files_backup_downloads">קובץ הגיבוי נשמר בתיקיית ההורדות:</string>
     <string name="activity_files_file_error">שגיאת קובץ!</string>
     <string name="activity_files_backup_ok">גיבוי הושלם</string>
@@ -236,7 +236,7 @@
     <string name="battery_chart_waiting">ממתין לנתוני סוללה חדשים…</string>
     <string name="edit_reply">עריכת תגובה</string>
     <string name="privacy_policy">מדיניות פרטיות</string>
-    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
+    <string name="cant_check_service_updates">לא ניתן לבדוק עדכונים עבור service</string>
     <string name="new_update_available">גרסה חדשה זמינה!</string>
     <string name="new_service_update_available">גרסה %s חדשה להתקנה על השעון זמינה</string>
     <string name="update">עדכן</string>
