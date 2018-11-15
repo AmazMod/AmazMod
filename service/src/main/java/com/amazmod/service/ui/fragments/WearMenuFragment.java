@@ -33,6 +33,7 @@ import com.amazmod.service.adapters.MenuListAdapter;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
+import com.amazmod.service.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 	private WearableListView listView;
 	private Button buttonClose;
     private DelayedConfirmationView delayedConfirmationView;
-    private TextView mHeader,textView1, textView2, textView02, textView03, textView04;
+    private TextView mHeader, build, textView1, textView2, textView02, textView03, textView04;
 
 	private String[] mItems = { "Wi-Fi Toggle",
                                 "Wi-Fi Panel",
@@ -185,6 +186,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 
         confirmView = getActivity().findViewById(R.id.wear_menu_confirm_layout);
         infoView = getActivity().findViewById(R.id.wear_menu_info_layout);
+        build = getActivity().findViewById(R.id.wear_menu_build);
         textView1 = getActivity().findViewById(R.id.wear_menu_confirm_text);
         textView2 = getActivity().findViewById(R.id.wear_menu_cancel_text);
         textView02 = getActivity().findViewById(R.id.wear_menu_textView02);
@@ -402,6 +404,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     @SuppressLint("SetTextI18n")
     public void showInfo() {
         setButtonTheme(buttonClose);
+
+        build.setText(SystemProperties.getSystemProperty("ro.build.display.id"));
         ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
         ActivityManager activityManager = (ActivityManager) mContext.getSystemService(ACTIVITY_SERVICE);
         if (activityManager != null) {

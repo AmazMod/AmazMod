@@ -35,6 +35,7 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, settingsData.isPhoneConnectionAlert());
         editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, settingsData.isPhoneConnectionAlertStandardNotification());
         editor.putString(Constants.PREF_DEFAULT_LOCALE, settingsData.getDefaultLocale());
+        editor.putBoolean(Constants.PREF_DISABLE_DELAY, settingsData.isDisableDelay());
 
         editor.apply();
     }

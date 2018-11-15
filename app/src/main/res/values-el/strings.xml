@@ -259,4 +259,6 @@
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
     <string name="screenshot">Screenshot</string>
+    <string name="pref_notifications_disable_delay">Disable delay</string>
+    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
 </resources>

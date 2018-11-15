@@ -52,7 +52,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
     private float fontSizeSP;
     private String defaultLocale, selectedReply;
-    private boolean enableInvertedTheme;
+    private boolean enableInvertedTheme, disableDelay;
     private Context mContext;
     private LinearLayout.LayoutParams params;
     private SettingsManager settingsManager;
@@ -127,6 +127,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         //Load preferences
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
+        disableDelay = settingsManager.getBoolean(Constants.PREF_DISABLE_DELAY,
+                Constants.PREF_DEFAULT_DISABLE_DELAY);
         defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
         Log.i(Constants.TAG, "RepliesFragment defaultLocale: " + defaultLocale);
 
@@ -285,17 +287,24 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     private void sendReply(View v) {
 
         ((NotificationWearActivity)getActivity()).stopTimerFinish();
-
-        params.setMargins(0,24,0,4);
-        textView.setLayoutParams(params);
         repliesContainer.setVisibility(View.GONE);
         editTextContainer.setVisibility(View.GONE);
-        delayedConfirmationView.setVisibility(View.VISIBLE);
-        textView.setText(getResources().getString(R.string.sending));
-        delayedConfirmationView.setPressed(false);
-        delayedConfirmationView.start();
-        delayedConfirmationView.setListener(this);
-        Log.i(Constants.TAG, "RepliesFragment sendReply isPressed: " + delayedConfirmationView.isPressed());
+
+        if (disableDelay) {
+            Log.i(Constants.TAG, "RepliesFragment sendReply without delay");
+            onTimerFinished(v);
+
+        } else {
+            Log.d(Constants.TAG, "RepliesFragment sendReply with delay");
+            params.setMargins(0, 24, 0, 4);
+            textView.setLayoutParams(params);
+            delayedConfirmationView.setVisibility(View.VISIBLE);
+            textView.setText(getResources().getString(R.string.sending));
+            delayedConfirmationView.setPressed(false);
+            delayedConfirmationView.start();
+            delayedConfirmationView.setListener(this);
+            Log.i(Constants.TAG, "RepliesFragment sendReply isPressed: " + delayedConfirmationView.isPressed());
+        }
     }
 
     @Override
@@ -320,7 +329,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     public void onTimerFinished(View v) {
         Log.i(Constants.TAG, "RepliesFragment onTimerFinished isPressed: " + v.isPressed());
 
-        ((DelayedConfirmationView) v).setListener(null);
+        if (v instanceof DelayedConfirmationView)
+            ((DelayedConfirmationView) v).setListener(null);
 
         Intent intent = new Intent(mContext, ConfirmationActivity.class);
         intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);

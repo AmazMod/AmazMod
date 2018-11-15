@@ -100,6 +100,13 @@
             android:key="preference.amazmodservice.disable.screenon"
             android:summary="@string/pref_notifications_disable_screenon_summary"
             android:title="@string/pref_notifications_disable_screenon" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.amazmodservice.disable.delay"
+            android:summary="@string/pref_notifications_disable_delay_summary"
+            android:title="@string/pref_notifications_disable_delay" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_filters">

@@ -47,7 +47,7 @@ public class Setup {
 
         String updateUrl = Constants.SERVICE_UPDATE_URL;
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)){
-            updateUrl = Constants.SERVICE_UPDATE_BETA_URL;
+            updateUrl = Constants.SERVICE_UPDATE_DEV_URL;
         }
 
         Request request = new Request.Builder()

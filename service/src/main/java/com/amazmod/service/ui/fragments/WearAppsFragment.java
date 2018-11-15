@@ -67,6 +67,8 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     private List<AppInfo> appInfoList;
     private AppInfoAdapter mAdapter;
 
+    private static int appChosen = 0;
+
     final int UNINSTALL_REQUEST_CODE = 1;
 
     @Override
@@ -263,9 +265,12 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         setButtonTheme(buttonClear, getResources().getString(R.string.clear_data));
         setButtonTheme(buttonUninstall, getResources().getString(R.string.uninstall));
 
+        final String pkgName = appInfoList.get(itemChosen).getPackageName();
+        appChosen = itemChosen;
+
         appIcon.setImageDrawable(appInfoList.get(itemChosen).getIcon());
         appName.setText(appInfoList.get(itemChosen).getAppName());
-        appPackage.setText(appInfoList.get(itemChosen).getPackageName());
+        appPackage.setText(pkgName);
         appVersion.setText(appInfoList.get(itemChosen).getVersionName());
         appSize.setText(appInfoList.get(itemChosen).getSize());
 
@@ -290,7 +295,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             @Override
             public void onClick(View v) {
                 Log.i(Constants.TAG,"WearAppsFragment showAppInfo buttonUninstall");
-                uninstallPackage(mContext, appInfoList.get(itemChosen).getPackageName());
+                uninstallPackage(mContext, pkgName);
             }
         });
 
@@ -298,7 +303,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             @Override
             public void onClick(View v) {
                 Log.i(Constants.TAG,"WearAppsFragment showAppInfo buttonClear");
-                clearPackage(mContext, appInfoList.get(itemChosen).getPackageName());
+                clearPackage(mContext, pkgName);
             }
         });
 
@@ -421,6 +426,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
+                Log.d(Constants.TAG, "WearAppsFragment onActivityResult RESULT_OK appChosen: " + appChosen);
                 scrollView.post(new Runnable() {
                     public void run() {
                         Log.d(Constants.TAG, "WearAppsFragment onActivityResult scrollToTop");
@@ -429,9 +435,10 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                     }
                 });
                 //appIcon.requestFocus();
+                appInfoList.remove(appChosen);
+                mAdapter.notifyDataSetChanged();
                 hideAppInfo();
-                loadApps();
-                Log.d(Constants.TAG, "WearAppsFragment onActivityResult RESULT_OK");
+                appChosen = 0;
             } else if (resultCode == RESULT_CANCELED) {
                 Log.d(Constants.TAG, "WearAppsFragment onActivityResult RESULT_CANCELED");
             } else if (resultCode == RESULT_FIRST_USER) {

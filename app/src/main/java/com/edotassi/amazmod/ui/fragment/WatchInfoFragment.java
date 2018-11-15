@@ -255,6 +255,7 @@ public class WatchInfoFragment extends Card implements Updater {
     @Override
     public void updateAvailable(final int version) {
         if (getActivity() != null && getContext() != null) {
+            final boolean isDevBranch = Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -265,6 +266,7 @@ public class WatchInfoFragment extends Card implements Updater {
                             .positiveText(R.string.update)
                             .negativeText(R.string.cancel)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @SuppressLint("DefaultLocale")
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                     if (WatchInfoFragment.this.getContext() != null) {
@@ -282,12 +284,17 @@ public class WatchInfoFragment extends Card implements Updater {
                                             updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
                                         }
 
-                                        @SuppressLint("DefaultLocale") final String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+                                        String url;
+                                        if (isDevBranch) {
+                                            url = String.format(Constants.SERVICE_UPDATE_DEV_FILE_URL, version);
+                                        } else {
+                                            url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
+                                        }
 
                                         Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
                                         updateDialog = new MaterialDialog.Builder(getContext())
                                                 .canceledOnTouchOutside(false)
-                                                .title(R.string.download_in_progress)
+                                                .title(R.string.download_in_progress + (isDevBranch? " dev" : ""))
                                                 .customView(R.layout.dialog_update_progress, false)
                                                 .negativeText(R.string.cancel)
                                                 .onNegative(new MaterialDialog.SingleButtonCallback() {

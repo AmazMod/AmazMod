@@ -3,8 +3,9 @@ package amazmod.com.transport;
 public class Constants {
 
     public static final String SERVICE_UPDATE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/amazmod-service-version.json";
-    public static final String SERVICE_UPDATE_BETA_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/amazmod-service-beta-version.json";
+    public static final String SERVICE_UPDATE_DEV_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/service-releases/amazmod-service-dev-version.json";
     public static final String SERVICE_UPDATE_FILE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/AmazMod-service-%d.apk";
+    public static final String SERVICE_UPDATE_DEV_FILE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/service-releases/AmazMod-service-dev-%d.apk";
     public static final String SERVICE_UPDATE_SCRIPT_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/app/update_service_apk.sh";
     public static final String TAG = "AmazMod";
     public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
@@ -52,6 +53,7 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "preference.phone.connection.alert.standard.notification";
     public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
     public static final String PREF_ENABLE_DEVELOPER_MODE = "preference.enable.developer.mode";
+    public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -71,6 +73,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
     public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
     public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
+    public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
