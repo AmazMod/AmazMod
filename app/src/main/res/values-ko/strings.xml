@@ -210,8 +210,8 @@
     <string name="shell_command_sent">명령이 전송되었습니다</string>
     <string name="cant_send_shell_command">명령을 보낼 수 없습니다.</string>
     <string name="install">설치</string>
-    <string name="apk_install_started_title">Apk 설치</string>
-    <string name="apk_install_started">APK installation started\n\nThe installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">apk 설치 실패</string>
     <string name="reboot">재부팅</string>
     <string name="restart_launcher">런처 재시작</string>
@@ -259,4 +259,6 @@
     <string name="compress">Compress</string>
     <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
     <string name="screenshot">Screenshot</string>
+    <string name="pref_notifications_disable_delay">Disable delay</string>
+    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
 </resources>
