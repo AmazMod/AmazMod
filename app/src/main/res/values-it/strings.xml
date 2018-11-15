@@ -172,7 +172,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="activity_files_backup">Backup</string>
     <string name="activity_files_restore">Ripristino</string>
     <string name="never">Mai</string>
-    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_backup_obs">IMPORTANTE! Il file di backup viene salvato nella memoria interna e verrà eliminato se l\'app viene disinstallata:</string>
     <string name="activity_files_file">File di backup trovato</string>
     <string name="none">Nessuno</string>
     <string name="data">Dati</string>
