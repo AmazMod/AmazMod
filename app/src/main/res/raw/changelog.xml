@@ -1,5 +1,12 @@
 <changelog>
     <release
+        versionCode="196"
+        versionName="v1.0.65"
+        date="2018-11-14">
+        <new>Added developer mode</new>
+        <bugifx>Fixed some crashes</bugifx>
+    </release>
+    <release
         versionCode="194"
         versionName="v1.0.64"
         date="2018-11-09">
