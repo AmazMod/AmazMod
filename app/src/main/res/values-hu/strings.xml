@@ -212,8 +212,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="shell_command_sent">Parancs elküldve</string>
     <string name="cant_send_shell_command">A parancs nem küldhető el</string>
     <string name="install">Telepítés</string>
-    <string name="apk_install_started_title">Apk telepítése</string>
-    <string name="apk_install_started">Az APK telepítés elindult\n\nA telepítés a háttérben zajlik.\nBefejezése után az óra Indítója újraindul.</string>
+    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Nem indítható az apk telepítés</string>
     <string name="reboot">Újraindítás</string>
     <string name="restart_launcher">Launcher újraindítása</string>
@@ -261,4 +261,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="compress">Tömörít</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
     <string name="screenshot">Képernyőkép</string>
+    <string name="pref_notifications_disable_delay">Disable delay</string>
+    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
 </resources>
