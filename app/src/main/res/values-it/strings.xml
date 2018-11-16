@@ -263,4 +263,5 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="screenshot">Cattura schermata</string>
     <string name="pref_notifications_disable_delay">Disattivare il ritardo</string>
     <string name="pref_notifications_disable_delay_summary">Disattivare il conto alla rovescia durante l\'invio di risposte</string>
+    <string name="file_uploader">File Uploader</string>
 </resources>
