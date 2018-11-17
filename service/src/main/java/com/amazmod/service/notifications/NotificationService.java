@@ -113,7 +113,7 @@ public class NotificationService {
                         public void run() {
                             postWithCustomUI(notificationSpec);
                         }
-                    }, 1000);
+                    }, 300);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
                 }
