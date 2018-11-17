@@ -20,11 +20,14 @@ android {
     }
     buildTypes {
         release {
+            manifestPlaceholders = [enableCrashReporting:"false"]
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
+            manifestPlaceholders = [enableCrashReporting:"true"]
         }
     }
     productFlavors {
