@@ -212,8 +212,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="shell_command_sent">Parancs elküldve</string>
     <string name="cant_send_shell_command">A parancs nem küldhető el</string>
     <string name="install">Telepítés</string>
-    <string name="apk_install_started_title">APK install</string>
-    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started_title">APK telepítés</string>
+    <string name="apk_install_started">A telepítés a háttérben zajlik.\nBefejezése után az óra Indítója újraindul.</string>
     <string name="cant_start_apk_install">Nem indítható az apk telepítés</string>
     <string name="reboot">Újraindítás</string>
     <string name="restart_launcher">Launcher újraindítása</string>
@@ -261,12 +261,12 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="compress">Tömörít</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
     <string name="screenshot">Képernyőkép</string>
-    <string name="pref_notifications_disable_delay">Disable delay</string>
-    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
-    <string name="file_uploader">File Uploader</string>
-    <string name="file_uploader_title">Install %s ?</string>
-    <string name="file_uploader_name">Title: %s</string>
-    <string name="file_uploader_author">Author: %s</string>
+    <string name="pref_notifications_disable_delay">Késleltetés kikapcsolása</string>
+    <string name="pref_notifications_disable_delay_summary">Tiltsa le a visszaszámlálást válasz küldésekor</string>
+    <string name="file_uploader">Fájl feltöltő</string>
+    <string name="file_uploader_title">%s, telepíted?</string>
+    <string name="file_uploader_name">Cím: %s</string>
+    <string name="file_uploader_author">Szerző: %s</string>
     <string name="file_uploader_label">Label: %s</string>
     <string name="file_uploader_package">Package: %s</string>
 </resources>
