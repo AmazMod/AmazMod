@@ -211,7 +211,7 @@
     <string name="cant_send_shell_command">Η εντολή δεν μπορεί να σταλεί</string>
     <string name="install">Εγκατάσταση</string>
     <string name="apk_install_started_title">Εγκατάσταση APK</string>
-    <string name="apk_install_started">Η εγκατάσταση του APK ξεκίνησε\n\nΗ εγκατάσταση εκτελείται στο παρασκήνιο. \nΜε την ολοκλήρωση της, θα γίνει επανεκκίνηση του launcher στο ρολόι.</string>
+    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Η εκκίνηση της εγκατάστασης του APK δεν είναι δυνατή</string>
     <string name="reboot">Επανεκκίνηση</string>
     <string name="restart_launcher">Κάντε επανεκκίνηση του launcher</string>
@@ -258,8 +258,13 @@
     <string name="extract">Εξαγωγή</string>
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
-    <string name="screenshot">Screenshot</string>
-    <string name="pref_notifications_disable_delay">Disable delay</string>
-    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
-    <string name="file_uploader">File Uploader</string>
+    <string name="screenshot">Στιγμιότυπο οθόνης</string>
+    <string name="pref_notifications_disable_delay">Απενεργοποίηση καθυστέρησης</string>
+    <string name="pref_notifications_disable_delay_summary">Απενεργοποίηση αντίστροφης μέτρησης κατά την αποστολή απαντήσεων</string>
+    <string name="file_uploader">Ανέβασμα αρχείων</string>
+    <string name="file_uploader_title">Εγκατάσταση %s?</string>
+    <string name="file_uploader_name">Τίτλος: %s</string>
+    <string name="file_uploader_author">Δημιουργός: %s</string>
+    <string name="file_uploader_label">Ετικέτα: %s</string>
+    <string name="file_uploader_package">Πακέτο: %s</string>
 </resources>

@@ -175,7 +175,7 @@
     <string name="data">מידע</string>
     <string name="downloads">הורדות</string>
     <string name="downloading">מוריד</string>
-    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
+    <string name="activity_files_backup_error">AmazMod לא יכול לכתוב קבצים, אנא העניקו הרשאות קודם.</string>
     <string name="activity_files_backup_downloads">קובץ הגיבוי נשמר בתיקיית ההורדות:</string>
     <string name="activity_files_file_error">שגיאת קובץ!</string>
     <string name="activity_files_backup_ok">גיבוי הושלם</string>
@@ -209,8 +209,8 @@
     <string name="shell_command_sent">הפקודה נשלחה</string>
     <string name="cant_send_shell_command">לא ניתן לשלוח פקודה</string>
     <string name="install">התקנה</string>
-    <string name="apk_install_started_title">התקן Apk</string>
-    <string name="apk_install_started">התקנת APK החלה\n\n ההתקנה נעשית ברקע.\n בסיום ההתקנה, הלאונצ\'ר על השעון יופעל מחדש.</string>
+    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">אין אפשרות להתחיל התקנת apk</string>
     <string name="reboot">הפעלה מחדש</string>
     <string name="restart_launcher">הפעלת לאונצ\'ר מחדש</string>
@@ -235,7 +235,7 @@
     <string name="battery_chart_waiting">ממתין לנתוני סוללה חדשים…</string>
     <string name="edit_reply">עריכת תגובה</string>
     <string name="privacy_policy">מדיניות פרטיות</string>
-    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
+    <string name="cant_check_service_updates">לא ניתן לבדוק עדכונים עבור service</string>
     <string name="new_update_available">גרסה חדשה זמינה!</string>
     <string name="new_service_update_available">גרסה %s חדשה להתקנה על השעון זמינה</string>
     <string name="update">עדכן</string>
@@ -246,7 +246,7 @@
     <string name="type_folder_name">הקלד שם תיקיה</string>
     <string name="brightness_bad_value_entered">ערך שגוי הוכנס, ניתן להכניס ערך בין 1 עד 255</string>
     <string name="command_history">היסטוריית פקודות</string>
-    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
+    <string name="update_started_watch_reboot_when_update_finish">העדכון התחיל! השעון יציג את ההתקדמות, המעטפת תופעל מחדש בסיום התהליך.</string>
     <string name="automatic_brightness">בהירות אוטומטית</string>
     <string name="set_brightness">קבע</string>
     <string name="file_upload_finished">העלאה הסתיימה בהצלחה</string>
@@ -257,8 +257,13 @@
     <string name="extract">חלץ</string>
     <string name="compress">דחוס</string>
     <string name="delete_folder_and_contents">\"%1$s\" היא תיקיה. למחוק אותה ואת כל התוכן בתוכה?</string>
-    <string name="screenshot">Screenshot</string>
+    <string name="screenshot">צילום מסך</string>
     <string name="pref_notifications_disable_delay">Disable delay</string>
     <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
     <string name="file_uploader">File Uploader</string>
+    <string name="file_uploader_title">Install %s ?</string>
+    <string name="file_uploader_name">Title: %s</string>
+    <string name="file_uploader_author">Author: %s</string>
+    <string name="file_uploader_label">Label: %s</string>
+    <string name="file_uploader_package">Package: %s</string>
 </resources>

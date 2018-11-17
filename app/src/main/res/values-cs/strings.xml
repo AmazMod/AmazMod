@@ -213,8 +213,8 @@ Proveďte příkaz shell\"</string>
     <string name="shell_command_sent">Příkaz odeslán</string>
     <string name="cant_send_shell_command">Příkaz nelze odeslat</string>
     <string name="install">Instalovat</string>
-    <string name="apk_install_started_title">Instalace aplikace</string>
-    <string name="apk_install_started">Instalace APK byla zahájena \n\nInstalace probíhá na pozadí. \n Po dokončení bude spouštěč v hodinkách restartován.</string>
+    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Instalaci nelze spustit</string>
     <string name="reboot">Restartovat</string>
     <string name="restart_launcher">Restart spouštěče</string>
@@ -265,4 +265,9 @@ Proveďte příkaz shell\"</string>
     <string name="pref_notifications_disable_delay">Disable delay</string>
     <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
     <string name="file_uploader">File Uploader</string>
+    <string name="file_uploader_title">Install %s ?</string>
+    <string name="file_uploader_name">Title: %s</string>
+    <string name="file_uploader_author">Author: %s</string>
+    <string name="file_uploader_label">Label: %s</string>
+    <string name="file_uploader_package">Package: %s</string>
 </resources>
