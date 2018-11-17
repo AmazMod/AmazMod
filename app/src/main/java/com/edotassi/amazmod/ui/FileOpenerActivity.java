@@ -3,6 +3,8 @@ package com.edotassi.amazmod.ui;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,17 +13,23 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
-import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.support.FirebaseEvents;
+import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -34,7 +42,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.concurrent.CancellationException;
@@ -54,15 +62,24 @@ public class FileOpenerActivity extends AppCompatActivity {
 
     private SnackProgressBarManager snackProgressBarManager;
 
-    private static final int WRITE_OK = 0;
-    private static final int INVALID_FILE = 1;
-    private static final int WATCH_NOT_CONNECTED = 2;
-    private static final int UPLOAD_ERROR = 3;
-    private static final int WRITE_ERROR = 4;
+    private static final String WRITE_OK = "write_ok";
+    private static final String INSTALL_OK = "install_ok";
+    private static final String INSTALL_ERROR = "install_ERROR";
+    private static final String INVALID_FILE = "invalid_file";
+    private static final String WATCH_NOT_CONNECTED = "watch_not_connected";
+    private static final String UPLOAD_ERROR = "upload_error";
+    private static final String WRITE_ERROR = "write_error";
+    private static final String INVALID_ACTION = "invalid_action";
+    private static final String NO_WORKDIR = "no_work_dir";
 
-    private static int result;
-    private static String filePath;
-    private static String fileName;
+    private static final String UPLOAD_WFZ = "WFZ";
+    private static final String UPLOAD_APK = "APK";
+
+    private static final String WORK_DIR = "workdir"; //Dir inside cache folder
+
+    private static String inputFileName = null;
+    private static String workDir;
+    private static String result = "";
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -83,7 +100,6 @@ public class FileOpenerActivity extends AppCompatActivity {
         }
         getSupportActionBar().setTitle(R.string.file_uploader);
 
-
         ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(this.findViewById(android.R.id.content))
@@ -92,116 +108,220 @@ public class FileOpenerActivity extends AppCompatActivity {
                 .setTextSize(14)
                 .setMessageMaxLines(2);
 
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        Uri uri = intent.getData();
-        Log.d(Constants.TAG, "FileOpenerActivity onCreate action: " + action + " uri: " + uri);
+        final Intent intent = getIntent();
+        final String action = intent.getAction();
+        final String scheme = intent.getScheme();
+        final Uri uri = intent.getData();
+        final ContentResolver resolver = getContentResolver();
 
-        filePath = null;
+        String fileName = null;
+        String filePath = null;
+        String uploadType = "";
 
-        try {
-            final String saveDir = this.getExternalFilesDir(null).toString();
-
-            if (action.compareTo(Intent.ACTION_VIEW) == 0) {
-                String scheme = intent.getScheme();
-                ContentResolver resolver = getContentResolver();
-                Log.d(Constants.TAG, "FileOpenerActivity onCreate saveDir: " + saveDir);
-
-                try {
-
-                    if (scheme != null) {
-                        if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
-
-                            fileName = getContentName(resolver, uri);
-                            Log.v(Constants.TAG, "FileOpenerActivity Content uri: " + uri + " name: " + fileName);
-                            InputStream input = resolver.openInputStream(uri);
-                            filePath = saveDir + File.separator + fileName;
-                            inputStreamToFile(input, fileName);
-
-                        } else if (scheme.compareTo(ContentResolver.SCHEME_FILE) == 0) {
-
-                            fileName = uri.getLastPathSegment();
-                            Log.v(Constants.TAG, "FileOpenerActivity File uri: " + uri + " name: " + fileName);
-                            InputStream input = resolver.openInputStream(uri);
-                            filePath = saveDir + File.separator + fileName;
-                            inputStreamToFile(input, fileName);
-
-                        } else if (scheme.compareTo("http") == 0) {
-                            Log.v(Constants.TAG, "FileOpenerActivity HTTP");
-                            // TODO Import from HTTP!
-
-                        } else if (scheme.compareTo("ftp") == 0) {
-                            Log.v(Constants.TAG, "FileOpenerActivity FTP");
-                            // TODO Import from FTP!
-                        }
-                    }
-                } catch (FileNotFoundException e) {
-                    Log.e(Constants.TAG, "FileOpenerActivity onResume exception: " + e.toString());
-                    result = WRITE_ERROR;
-                }
-            }
-        } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "FileOpenerActivity onResume NullPointerException: " + e.toString());
-            result = WRITE_ERROR;
+        if (!createWorkDir()) {
+            result = NO_WORKDIR;
+            showResult();
         }
 
-        Log.d(Constants.TAG, "FileOpenerActivity onCreate filePath: " + filePath);
+        Log.d(Constants.TAG, "FileOpenerActivity onCreate action: " + action + " scheme: " + scheme + " uri: " + uri);
 
-        if (filePath != null) {
-            if (filePath.contains(".wfz")) {
-                result = WRITE_OK;
-            } else {
-                result = INVALID_FILE;
-            }
+        if (action != null && scheme != null && uri != null) {
+
+            if (action.compareTo(Intent.ACTION_VIEW) == 0) {
+
+                if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0)
+                    inputFileName = getContentName(resolver, uri);
+
+                else if (scheme.compareTo(ContentResolver.SCHEME_FILE) == 0)
+                    inputFileName = uri.getLastPathSegment();
+
+                if (inputFileName != null) {
+                    fileName = inputFileName.toLowerCase();
+
+                    if (fileName.endsWith(".wfz"))
+                        uploadType = UPLOAD_WFZ;
+                    else if (fileName.endsWith(".apk"))
+                        uploadType = UPLOAD_APK;
+                    else
+                        result = INVALID_FILE;
+
+                } else
+                    result = INVALID_FILE;
+
+                if (!INVALID_FILE.equals(result)) {
+
+                    if (copyToCache(resolver, uri, fileName)) {
+                        filePath = workDir + File.separator + fileName;
+                        result = WRITE_OK;
+                    } else
+                        result = WRITE_ERROR;
+                }
+
+            } else
+                result = INVALID_ACTION;
         } else
-            result = WRITE_ERROR;;
+            result = INVALID_ACTION;
+
+        Log.d(Constants.TAG, "FileOpenerActivity onCreate result: " + result + " filePath: " + filePath);
+
+        if (WRITE_OK.equals(result))
+            promptInstall(filePath, fileName, uploadType);
+        else
+            showResult();
 
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void finish() {
+        deleteWorkDir(new File(workDir));
+        super.finish();
+    }
 
-        connecting();
-        Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
-            @Override
-            public Object then(@NonNull Task<WatchStatus> task) throws Exception {
-                if (task.isSuccessful()) {
-                    Log.d(Constants.TAG, "FileOpenerActivity onResume isWatchConnected = true");
-                    connected();
-                    AmazModApplication.isWatchConnected = true;
+    private boolean createWorkDir() {
+        workDir = this.getCacheDir().getAbsolutePath() + File.separator + WORK_DIR;
+        File file = new File(workDir);
+        return file.exists() || file.mkdir();
+    }
 
-                    File file = new File(filePath);
-                    if (result == WRITE_OK)
-                        uploadWfz(file, fileName);
-
-                } else {
-                    Log.d(Constants.TAG, "FileOpenerActivity onResume isWatchConnected = false");
-                    disconnected();
-                    AmazModApplication.isWatchConnected = false;
-                    try {
-                        Snacky
-                                .builder()
-                                .setActivity(FileOpenerActivity.this)
-                                .setText(R.string.failed_load_watch_status)
-                                .setDuration(Snacky.LENGTH_SHORT)
-                                .build()
-                                .show();
-                    } catch (Exception e) {
-                        Crashlytics.logException(e);
-                        Log.e(Constants.TAG, "FileOpenerActivity onResume exception: " + e.toString());
-                    }
-                    result = WATCH_NOT_CONNECTED;
-                    showResult();
+    public static boolean deleteWorkDir(File dir) {
+        if (dir != null) {
+            if (dir.isDirectory()) {
+                String[] children = dir.list();
+                for (String child : children) {
+                    //Log.d(Constants.TAG, "FileOpenerActivity deleteWorkDir child: " + child);
+                    boolean success = deleteWorkDir(new File(dir, child));
+                    if (!success)
+                        return false;
                 }
-                return null;
             }
-        });
+            return dir.delete();
+        } else
+            return false;
+    }
+
+    private void promptInstall(final String path, final String name, final String type) {
+
+        Log.d(Constants.TAG, "FileOpenerActivity promptInstall type: " + type);
+
+        String title = String.format(getString(R.string.file_uploader_title), type);
+
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .canceledOnTouchOutside(false)
+                .title(title)
+                .customView(R.layout.dialog_file_opener, false)
+                .positiveText("OK")
+                .negativeText(R.string.cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        checkConnection(path, name, type);
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish();
+                    }
+                }).build();
+
+        View view = dialog.getView();
+        TextView msgTextView = view.findViewById(R.id.dialog_file_opener_name);
+        TextView authorTextView = view.findViewById(R.id.dialog_file_opener_author);
+        ImageView imageView = view.findViewById(R.id.dialog_file_opener_image);
+
+
+        if (UPLOAD_APK.equals(type)) {
+            Bundle bundle = FilesUtil.getApkInfo(this, path);
+            Bitmap bitmap = bundle.getParcelable(FilesUtil.APP_ICON);
+            String label = bundle.getString(FilesUtil.APP_LABEL);
+            String pkg = bundle.getString(FilesUtil.APP_PKG);
+            LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(
+                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+            imageViewParams.gravity = Gravity.TOP;
+            imageViewParams.gravity = Gravity.CENTER_HORIZONTAL;
+            imageView.setLayoutParams(imageViewParams);
+            if (bitmap != null)
+                imageView.setImageBitmap(bitmap);
+            else
+                imageView.setVisibility(View.INVISIBLE);
+            msgTextView.setText(String.format(getString(R.string.file_uploader_label),label));
+            authorTextView.setText(String.format(getString(R.string.file_uploader_package),pkg));
+
+        } else if (UPLOAD_WFZ.equals(type)) {
+            try {
+                FilesUtil.unzip(path, workDir);
+            } catch (IOException e) {
+                Log.e(Constants.TAG, "FileOpenerActivity promptInstall unzip exception: " + e.toString());
+            }
+            final File descriptionXML = new File(workDir + File.separator + "description.xml");
+            if (descriptionXML.exists()){
+                msgTextView.setText(String.format(getString(R.string.file_uploader_name),
+                        FilesUtil.getTagValueFromXML("title", descriptionXML)));
+                authorTextView.setText(String.format(getString(R.string.file_uploader_author),
+                        FilesUtil.getTagValueFromXML("author", descriptionXML)));
+                String previewIMG = workDir + File.separator + FilesUtil.getTagValueFromXML("preview", descriptionXML);
+                imageView.setImageDrawable(Drawable.createFromPath(previewIMG));
+            }
+        }
+
+        dialog.show();
+
+    }
+
+    private void showResult() {
+        Log.d(Constants.TAG, "FileOpenerActivity showResult result: " + result + " workDir: " + workDir);
+
+        String title, msg;
+        setWindowFlags(false);
+
+        switch (result) {
+            case WRITE_OK:
+                title = "Success!";
+                break;
+
+            case INSTALL_OK:
+                title = "Success!";
+                break;
+
+            default:
+                title = "Error!";
+                break;
+
+        }
+
+        msg = msg = "File: " + inputFileName + "\nResult: " + result;
+
+        if (INSTALL_OK.equals(result))
+            msg += "\n\n" + getString(R.string.apk_install_started);
+
+        new MaterialDialog.Builder(this)
+                .canceledOnTouchOutside(false)
+                .title(title)
+                .content(msg)
+                .positiveText("OK")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish();
+                    }
+                })
+                .show();
+    }
+
+    private boolean copyToCache(ContentResolver resolver, Uri uri, String fileName) {
+
+        try {
+            InputStream input = resolver.openInputStream(uri);
+            return FilesUtil.inputStreamToFile(input, workDir, fileName);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private String getContentName(ContentResolver resolver, Uri uri){
         Cursor cursor = resolver.query(uri, null, null, null, null);
-
         if (cursor != null) {
             cursor.moveToFirst();
             int nameIndex = cursor.getColumnIndex(MediaStore.MediaColumns.DISPLAY_NAME);
@@ -216,38 +336,59 @@ public class FileOpenerActivity extends AppCompatActivity {
         }
     }
 
-    private void inputStreamToFile(InputStream in, String file) {
-        Log.d(Constants.TAG, "FileOpenerActivity inputStreamToFile in: " + in.toString() + " file: " + file);
+    private void checkConnection(final String filePath, final String fileName, final String uploadType) {
 
-        long length = 0;
-        try {
-            FileOutputStream out = new FileOutputStream(this.getExternalFilesDir(null) + File.separator + file);
-            byte[] buffer = new byte[1024];
-            int c;
-            while ((c = in.read(buffer)) != -1) {
-                out.write(buffer, 0, c);
-                length+=c;
+        connecting();
+        final File file = new File(filePath);
+
+        Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
+            @Override
+            public Object then(@NonNull Task<WatchStatus> task) throws Exception {
+                if (task.isSuccessful()) {
+                    Log.d(Constants.TAG, "FileOpenerActivity checkConnection isWatchConnected = true");
+                    connected();
+                    uploadFile(file, fileName, uploadType);
+
+                } else {
+                    Log.d(Constants.TAG, "FileOpenerActivity checkConnection isWatchConnected = false");
+                    disconnected();
+                    try {
+                        Snacky
+                                .builder()
+                                .setActivity(FileOpenerActivity.this)
+                                .setText(R.string.failed_load_watch_status)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build()
+                                .show();
+                    } catch (Exception e) {
+                        Crashlytics.logException(e);
+                        Log.e(Constants.TAG, "FileOpenerActivity checkConnection exception: " + e.toString());
+                    }
+                    result = WATCH_NOT_CONNECTED;
+                    showResult();
+                }
+                return null;
             }
-            in.close();
-            out.close();
-        } catch (Exception e) {
-            Log.e(Constants.TAG, "FileOpenerActivity inputStreamToFile exception: " + e.toString());
-            result = WRITE_ERROR;
-        } finally {
-            Log.d(Constants.TAG, "FileOpenerActivity inputStreamToFile length: " + length);
-        }
-
+        });
     }
 
-    private void uploadWfz(File updateFile, String filename) {
-        if (!AmazModApplication.isWatchConnected) {
-            return;
-        }
+    private void uploadFile(final File uploadFile, String filename, final String uploadType) {
 
         setWindowFlags(true);
+        String path;
+        switch (uploadType) {
+            case UPLOAD_WFZ:
+                path = "/sdcard/WatchFace/" + filename;
+                break;
+            case UPLOAD_APK:
+                path = "/sdcard/" + filename;
+                break;
+            default:
+                return;
+        }
 
-        final String destPath = "/sdcard/WatchFace/" + filename;
-        final long size = updateFile.length();
+        final String destPath = path;
+        final long size = uploadFile.length();
         final long startedAt = System.currentTimeMillis();
 
         final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
@@ -266,7 +407,7 @@ public class FileOpenerActivity extends AppCompatActivity {
                 .setShowProgressPercentage(true);
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().uploadFile(updateFile, destPath, new Watch.OperationProgress() {
+        Watch.get().uploadFile(uploadFile, destPath, new Watch.OperationProgress() {
             @Override
             public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
                 if (FileOpenerActivity.this != null) {
@@ -296,15 +437,16 @@ public class FileOpenerActivity extends AppCompatActivity {
                 snackProgressBarManager.dismissAll();
 
                 if (task.isSuccessful()) {
-                    showResult();
                     Bundle bundle = new Bundle();
                     bundle.putLong("size", size);
                     bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                    if (FileOpenerActivity.this != null) {
-                        FirebaseAnalytics
-                                .getInstance(FileOpenerActivity.this)
-                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
-                    }
+                    FirebaseAnalytics
+                            .getInstance(FileOpenerActivity.this)
+                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+                    if (uploadType.equals(UPLOAD_APK))
+                        installUpload(destPath);
+                    else
+                        showResult();
 
                 } else {
                     if (task.getException() instanceof CancellationException) {
@@ -337,31 +479,36 @@ public class FileOpenerActivity extends AppCompatActivity {
         });
     }
 
-    private void showResult() {
-        String msg;
-        setWindowFlags(false);
-
-        switch (result) {
-            case WRITE_OK:
-                msg = "Success!";
-                break;
-            default:
-                msg = "Error: " + result;
-                break;
-
-        }
-        new MaterialDialog.Builder(this)
-                .canceledOnTouchOutside(false)
-                .title(R.string.file_uploader)
-                .content(msg)
-                .positiveText("OK")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
+    private void installUpload(String destPath) {
+        Watch.get()
+                .executeShellCommand(ShellCommandHelper.getApkInstall(destPath))
+                .continueWith(new Continuation<ResultShellCommand, Object>() {
                     @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        finish();
+                    public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+                        snackProgressBarManager.dismissAll();
+                        if (task.getResult() != null)
+                            if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
+                                result = INSTALL_OK;
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "APK");
+                                FirebaseAnalytics
+                                        .getInstance(FileOpenerActivity.this)
+                                        .logEvent(FirebaseEvents.APK_INSTALL, bundle);
+                            } else {
+                                SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                result = INSTALL_ERROR;
+                            }
+                        else {
+                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.activity_files_file_error));
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                            result = INSTALL_ERROR;
+                        }
+                        showResult();
+                        return null;
                     }
-                })
-                .show();
+                });
     }
 
     private void setWindowFlags(boolean enable) {
