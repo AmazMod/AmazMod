@@ -211,8 +211,8 @@
     <string name="shell_command_sent">命令已发送</string>
     <string name="cant_send_shell_command">无法发送命令</string>
     <string name="install">安装</string>
-    <string name="apk_install_started_title">APK install</string>
-    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started_title">APK 安装</string>
+    <string name="apk_install_started">正在后台执行安装。\n完成后，启动器会重新启动</string>
     <string name="cant_start_apk_install">无法开始 apk 安装</string>
     <string name="reboot">重启</string>
     <string name="restart_launcher">重启桌面启动器</string>
@@ -259,13 +259,13 @@
     <string name="extract">解压</string>
     <string name="compress">压缩</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
-    <string name="screenshot">Screenshot</string>
-    <string name="pref_notifications_disable_delay">Disable delay</string>
-    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
-    <string name="file_uploader">File Uploader</string>
-    <string name="file_uploader_title">Install %s ?</string>
-    <string name="file_uploader_name">Title: %s</string>
-    <string name="file_uploader_author">Author: %s</string>
-    <string name="file_uploader_label">Label: %s</string>
-    <string name="file_uploader_package">Package: %s</string>
+    <string name="screenshot">截屏</string>
+    <string name="pref_notifications_disable_delay">禁用延迟</string>
+    <string name="pref_notifications_disable_delay_summary">在发送回复时禁用倒计时</string>
+    <string name="file_uploader">文件上传器</string>
+    <string name="file_uploader_title">安装 %s ？</string>
+    <string name="file_uploader_name">标题：%s</string>
+    <string name="file_uploader_author">作者：%s</string>
+    <string name="file_uploader_label">标签：%s</string>
+    <string name="file_uploader_package">软件包：%s</string>
 </resources>
