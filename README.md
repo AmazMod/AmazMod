@@ -20,6 +20,8 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 ###### Download links:
 * Latest AmazMod (for phone) from PlayStore: https://play.google.com/apps/testing/com.edotassi.amazmod
 * Latest service-release.apk (for watch), with optional installer for Windows: https://github.com/edotassi/AmazMod/releases/latest
+or
+https://github.com/edotassi/AmazMod/tree/master/service-releases
 
 ###### Installation steps to use all features
 1. Download and install latest AmazMod from Play Store on phone;
@@ -48,7 +50,7 @@ You can use adb (all platforms), APKInstaller, Amazfit Tool or the provided inst
 
 * I do not get notifications  
 
-Make sure that AmazMod on phone has granted permissions to access notifications, restart both phone and watch and test notifications again (npotification tests from AmazMod app only works if you have service.apk installed on watch). Also keep in mind that you *must* keep stock Amazfit app installed and running on your phone for the current version of AmazMod to work!
+First, make sure you do not have Silet (Do not Disturb) mode enabled in both watch and phone. On watch it displays a "moon" icon when watch is unlocked but some custom watchfaces hide the status line so you must chech with the quick settings menu (swipe down form top), then tap the moon icon if it's blue to disable it. If it does not fix the problem, then make sure that AmazMod on phone has granted permissions to access notifications, restart both phone and watch and test notifications again ("standard" and "custom" notification tests from AmazMod app only works if you have service.apk installed on watch). Also keep in mind that you *must* keep stock Amazfit app installed and running on your phone for the current version of AmazMod to work!
 
 For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/master/FAQ.md).
 
