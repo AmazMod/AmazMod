@@ -263,8 +263,8 @@
     <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
     <string name="file_uploader">File Uploader</string>
     <string name="file_uploader_title">Install %s ?</string>
-    <string name="file_uploader_name">Title: %s</string>
-    <string name="file_uploader_author">Author: %s</string>
-    <string name="file_uploader_label">Label: %s</string>
+    <string name="file_uploader_name">Τίτλος: %s</string>
+    <string name="file_uploader_author">Δημιουργός: %s</string>
+    <string name="file_uploader_label">Ετικέτα: %s</string>
     <string name="file_uploader_package">Package: %s</string>
 </resources>
