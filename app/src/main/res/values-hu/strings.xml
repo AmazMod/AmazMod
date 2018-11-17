@@ -262,11 +262,11 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
     <string name="screenshot">Képernyőkép</string>
     <string name="pref_notifications_disable_delay">Késleltetés kikapcsolása</string>
-    <string name="pref_notifications_disable_delay_summary">Tiltsa le a visszaszámlálást válasz küldésekor</string>
-    <string name="file_uploader">Fájl feltöltő</string>
+    <string name="pref_notifications_disable_delay_summary">Letiltja a visszaszámlálást válasz küldésekor</string>
+    <string name="file_uploader">Fájl Feltöltő</string>
     <string name="file_uploader_title">%s, telepíted?</string>
     <string name="file_uploader_name">Cím: %s</string>
     <string name="file_uploader_author">Szerző: %s</string>
-    <string name="file_uploader_label">Label: %s</string>
-    <string name="file_uploader_package">Package: %s</string>
+    <string name="file_uploader_label">Címke: %s</string>
+    <string name="file_uploader_package">Csomag: %s</string>
 </resources>
