@@ -150,8 +150,8 @@ public class FileOpenerActivity extends AppCompatActivity {
 
                 if (!INVALID_FILE.equals(result)) {
 
-                    if (copyToCache(resolver, uri, fileName)) {
-                        filePath = workDir + File.separator + fileName;
+                    if (copyToCache(resolver, uri, inputFileName)) {
+                        filePath = workDir + File.separator + inputFileName;
                         result = WRITE_OK;
                     } else
                         result = WRITE_ERROR;
@@ -165,7 +165,7 @@ public class FileOpenerActivity extends AppCompatActivity {
         Log.d(Constants.TAG, "FileOpenerActivity onCreate result: " + result + " filePath: " + filePath);
 
         if (WRITE_OK.equals(result))
-            promptInstall(filePath, fileName, uploadType);
+            promptInstall(filePath, inputFileName, uploadType);
         else
             showResult();
 
@@ -414,7 +414,7 @@ public class FileOpenerActivity extends AppCompatActivity {
                     FileOpenerActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(Constants.TAG, "FileOpenerActivity uploadWfz destPath: " + destPath);
+                            Log.d(Constants.TAG, "FileOpenerActivity uploadFile destPath: " + destPath);
 
                             String remaingSize = Formatter.formatShortFileSize(FileOpenerActivity.this, size - byteSent);
                             double kbSent = byteSent / 1024d;
@@ -481,7 +481,7 @@ public class FileOpenerActivity extends AppCompatActivity {
 
     private void installUpload(String destPath) {
         Watch.get()
-                .executeShellCommand(ShellCommandHelper.getApkInstall(destPath))
+                .executeShellCommand(ShellCommandHelper.getApkInstall(destPath), false, true)
                 .continueWith(new Continuation<ResultShellCommand, Object>() {
                     @Override
                     public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
