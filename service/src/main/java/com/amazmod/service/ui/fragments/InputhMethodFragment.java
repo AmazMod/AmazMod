@@ -52,7 +52,7 @@ public class InputhMethodFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //notificationSpec = NotificationData.fromBundle(getArguments());
+        //notificationData = NotificationData.fromBundle(getArguments());
         Log.i(Constants.TAG,"InputhMethodFragment onCreate");
 
     }

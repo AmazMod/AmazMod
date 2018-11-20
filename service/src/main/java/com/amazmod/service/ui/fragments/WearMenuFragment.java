@@ -145,7 +145,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //notificationSpec = NotificationData.fromBundle(getArguments());
+        //notificationData = NotificationData.fromBundle(getArguments());
         Log.i(Constants.TAG,"WearMenuFragment onCreate");
 
     }
