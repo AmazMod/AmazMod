@@ -9,11 +9,12 @@ echo "PWD: $PWD"
 cd /sdcard/
 if [ "$2" == "" ]; then
    echo "restarting in the background"
-   adb kill-server
    sleep 3
    busybox nohup sh $0 $1 OK > /dev/null &
    exit 0
 fi
+echo "killing adb server"
+adb kill-server
 if [ "$1" != "" ]; then
    echo "installing: $1"
    [[ -s $1 ]] && adb install -r $1 || exit 1
