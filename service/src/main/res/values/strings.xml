@@ -13,6 +13,7 @@
     <string name="hint">Type reply here</string>
     <string name="load_apps">Load Apps</string>
     <string name="hint_apps">Tap button to\nshow installed apps</string>
+    <string name="hint_type">Type here</string>
     <string name="user_apps">User Apps</string>
     <string name="empty">Empty</string>
     <string name="clear_data">Clear Data</string>

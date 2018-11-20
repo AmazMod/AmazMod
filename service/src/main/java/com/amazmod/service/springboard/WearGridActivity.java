@@ -14,7 +14,6 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.GridViewPagerAdapter;
 import com.amazmod.service.support.HorizontalGridViewPager;
-import com.amazmod.service.ui.fragments.InputhMethodFragment;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
 import com.amazmod.service.ui.fragments.WearMenuFragment;
 
@@ -59,8 +58,7 @@ public class WearGridActivity extends Activity {
         GridViewPagerAdapter adapter;
         final Fragment[] items = {
                 WearMenuFragment.newInstance(),
-                WearAppsFragment.newInstance(),
-                InputhMethodFragment.newInstance()
+                WearAppsFragment.newInstance()
         };
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
 

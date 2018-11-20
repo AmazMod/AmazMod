@@ -42,7 +42,7 @@ public class NotificationWearActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private static boolean screenToggle, mustLockDevice, showKeyboard;
+    private static boolean screenToggle, mustLockDevice, showKeyboard = false;
     private static int screenMode;
     private static int screenBrightness = 999989;
     private Context mContext;
@@ -166,9 +166,9 @@ public class NotificationWearActivity extends Activity {
         return false;
     }
 
-
     public void startTimerFinish() {
         Log.i(Constants.TAG, "NotificationWearActivity startTimerFinish");
+        showKeyboard = false;
         handler.removeCallbacks(activityFinishRunnable);
         handler.postDelayed(activityFinishRunnable, notificationSpec.getTimeoutRelock());
     }

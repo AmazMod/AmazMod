@@ -81,6 +81,12 @@
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
+        <activity android:name=".ui.InputMethodActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
 
         <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
 

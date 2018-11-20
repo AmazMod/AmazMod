@@ -29,6 +29,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -427,6 +428,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Log.d(Constants.TAG, "WearAppsFragment onActivityResult RESULT_OK appChosen: " + appChosen);
+                Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + "uninstalled successfully!", Toast.LENGTH_SHORT).show();
                 scrollView.post(new Runnable() {
                     public void run() {
                         Log.d(Constants.TAG, "WearAppsFragment onActivityResult scrollToTop");

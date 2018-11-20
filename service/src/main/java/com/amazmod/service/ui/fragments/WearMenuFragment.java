@@ -33,6 +33,7 @@ import com.amazmod.service.adapters.MenuListAdapter;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
+import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
 
@@ -72,6 +73,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "Units",
                                 "Disconnect Alert",
                                 "Away Alert",
+                                "Chenge Input Method",
                                 "Device Info"};
 
     private int[] mImagesOn = { R.drawable.baseline_wifi_white_24,
@@ -88,6 +90,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 R.drawable.ic_weight_pound_white_24dp,
                                 R.drawable.device_information_white_24x24,
                                 R.drawable.ic_alarm_light_white_24dp,
+                                R.drawable.outline_keyboard_white_24,
                                 R.drawable.baseline_info_white_24};
 
     private int[] mImagesOff = {    R.drawable.baseline_wifi_off_white_24,
@@ -104,6 +107,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.ic_weight_kilogram_white_24dp,
                                     R.drawable.device_information_off_white_24x24,
                                     R.drawable.ic_alarm_light_off_white_24dp,
+                                    R.drawable.outline_keyboard_white_24,
                                     R.drawable.baseline_info_white_24};
 
     private String[] toggle = { "",
@@ -120,6 +124,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "measurement",
                                 "huami.watch.localonly.ble_lost_anti_lost",
                                 "huami.watch.localonly.ble_lost_far_away",
+                                "",
                                 ""};
 
 	private int itemChosen;
@@ -280,6 +285,15 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case 14:
+                final Intent intent = new Intent(mContext, InputMethodActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                mContext.startActivity(intent);
+                break;
+
+            case 15:
                 showInfo();
                 break;
 
