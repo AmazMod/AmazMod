@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,6 +63,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.NotificationReplyData;
@@ -188,6 +193,7 @@ public class NotificationService extends NotificationListenerService {
 
     //Remove notification from watch if it was removed from phone
     Hashtable<Integer, int[]> grouped_notifications = new Hashtable<Integer, int[]>();
+
     @Override
     public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
         if (statusBarNotification == null) {
@@ -216,10 +222,10 @@ public class NotificationService extends NotificationListenerService {
                 }
             });
 
-            if(grouped_notifications.containsKey(statusBarNotification.getId())){
+            if (grouped_notifications.containsKey(statusBarNotification.getId())) {
                 //initial array
                 int[] grouped = grouped_notifications.get(statusBarNotification.getId());
-                for(int id : grouped) {
+                for (int id : grouped) {
                     dataBundle = new DataBundle();
                     StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
                             statusBarNotification.getId() + id,
@@ -260,10 +266,79 @@ public class NotificationService extends NotificationListenerService {
         notificationData.setHideReplies(false);
         notificationData.setHideButtons(true);
         notificationData.setForceCustom(false);
+
+        extractImagesFromNotification(statusBarNotification, notificationData);
+
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
         Watch.get().postNotification(notificationData);
         log.i("NotificationService CustomUI: " + notificationData.toString());
+    }
+
+    private void extractImagesFromNotification(StatusBarNotification statusBarNotification, NotificationData notificationData) {
+        Bundle bundle = statusBarNotification.getNotification().extras;
+
+        try {
+            Bitmap largeIcon = (Bitmap) bundle.get("android.picture");
+            if (largeIcon != null) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                largeIcon.compress(Bitmap.CompressFormat.PNG, 80, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                notificationData.setLargeIcon(byteArray);
+                notificationData.setLargeIconWidth(largeIcon.getWidth());
+                notificationData.setLargeIconHeight(largeIcon.getHeight());
+            }
+        } catch (Exception exception) {
+            Log.e(Constants.TAG, exception.getMessage(), exception);
+        }
+
+        try {
+            Bitmap originalBitmap = (Bitmap) bundle.get("android.picture");
+            if (originalBitmap != null) {
+                Bitmap scaledBitmap = scaleBitmap(originalBitmap);
+
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                scaledBitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                notificationData.setPicture(byteArray);
+                notificationData.setPictureWidth(scaledBitmap.getWidth());
+                notificationData.setPictureHeight(scaledBitmap.getHeight());
+            }
+        } catch (Exception exception) {
+            Log.e(Constants.TAG, exception.getMessage(), exception);
+        }
+    }
+
+    private Bitmap scaleBitmap(Bitmap bitmap) {
+        if ((bitmap.getWidth() <= 320) && (bitmap.getHeight() <= 320)) {
+            return bitmap;
+        }
+
+        float horizontalScaleFactor = bitmap.getWidth() / 320f;
+        float verticalScaleFactor = bitmap.getHeight() / 320f;
+
+        if (horizontalScaleFactor > verticalScaleFactor) {
+            float destHeight = bitmap.getHeight() / horizontalScaleFactor;
+
+            return Bitmap.createScaledBitmap(bitmap, 320, (int) destHeight, false);
+        } else {
+            float destWidth = bitmap.getWidth() / verticalScaleFactor;
+
+            return Bitmap.createScaledBitmap(bitmap, (int) destWidth, 320, false);
+        }
+    }
+
+    private ArrayList<Object> values(Bundle bundle) {
+        ArrayList<Object> values = new ArrayList<>();
+        Set<String> keys = bundle.keySet();
+
+        for (String key : keys) {
+            values.add(bundle.get(key));
+        }
+
+        return values;
     }
 
     private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
@@ -278,7 +353,7 @@ public class NotificationService extends NotificationListenerService {
                     statusBarNotification.getPostTime());
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
 
-            if(grouped_notifications.containsKey(statusBarNotification.getId())){
+            if (grouped_notifications.containsKey(statusBarNotification.getId())) {
                 //initial array
                 int[] grouped = grouped_notifications.get(statusBarNotification.getId());
                 //new value
@@ -286,11 +361,11 @@ public class NotificationService extends NotificationListenerService {
                 //define the new array
                 int[] newArray = new int[grouped.length + 1];
                 //copy values into new array
-                for(int i=0;i < grouped.length;i++)
+                for (int i = 0; i < grouped.length; i++)
                     newArray[i] = grouped[i];
-                newArray[newArray.length-1] = newValue;
+                newArray[newArray.length - 1] = newValue;
                 grouped_notifications.put(statusBarNotification.getId(), newArray);
-            }else{
+            } else {
                 grouped_notifications.put(statusBarNotification.getId(), new int[]{nextId});
             }
         } else {
@@ -421,14 +496,12 @@ public class NotificationService extends NotificationListenerService {
             }
         }
 
-        //Bundle extras = statusBarNotification.getNotification().extras;
         CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
         if (bigText != null) {
             text = bigText.toString();
         }
         log.d("NotificationService notificationPackage: " + notificationPackage + " / text: " + text);
-        //Old code gives "java.lang.ClassCastException: android.text.SpannableString cannot be cast to java.lang.String"
-        //String text = extras != null ? extras.getString(Notification.EXTRA_TEXT) : "";
+
         if (notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
             if ((previousText != null) && (previousText.equals(text)) && (!notificationPackage.equals("com.microsoft.office.outlook"))
@@ -445,12 +518,16 @@ public class NotificationService extends NotificationListenerService {
                     //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
                 else return returnFilterResult(Constants.FILTER_UNGROUP);
             }
-        } else {
-            notificationTimeGone.put(notificationId, text);
-            log.d("NotificationService allowed2: " + notificationPackage);
-            if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
-            else return returnFilterResult(Constants.FILTER_CONTINUE);
         }
+
+        notificationTimeGone.put(notificationId, text);
+        log.d("NotificationService allowed2: " + notificationPackage);
+
+        if (localAllowed) {
+            return returnFilterResult(Constants.FILTER_LOCALOK);
+        }
+
+        return returnFilterResult(Constants.FILTER_CONTINUE);
 
         /* Disabled because it is blocking some notifications
         NotficationSentEntity notificationSentEntity = SQLite
