@@ -279,7 +279,7 @@ public class NotificationService extends NotificationListenerService {
         Bundle bundle = statusBarNotification.getNotification().extras;
 
         try {
-            Bitmap largeIcon = (Bitmap) bundle.get("android.picture");
+            Bitmap largeIcon = (Bitmap) bundle.get("android.largeIcon");
             if (largeIcon != null) {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 largeIcon.compress(Bitmap.CompressFormat.PNG, 80, stream);
@@ -312,22 +312,14 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private Bitmap scaleBitmap(Bitmap bitmap) {
-        if ((bitmap.getWidth() <= 320) && (bitmap.getHeight() <= 320)) {
+        if (bitmap.getWidth() <= 320) {
             return bitmap;
         }
 
         float horizontalScaleFactor = bitmap.getWidth() / 320f;
-        float verticalScaleFactor = bitmap.getHeight() / 320f;
+        float destHeight = bitmap.getHeight() / horizontalScaleFactor;
 
-        if (horizontalScaleFactor > verticalScaleFactor) {
-            float destHeight = bitmap.getHeight() / horizontalScaleFactor;
-
-            return Bitmap.createScaledBitmap(bitmap, 320, (int) destHeight, false);
-        } else {
-            float destWidth = bitmap.getWidth() / verticalScaleFactor;
-
-            return Bitmap.createScaledBitmap(bitmap, (int) destWidth, 320, false);
-        }
+        return Bitmap.createScaledBitmap(bitmap, 320, (int) destHeight, false);
     }
 
     private ArrayList<Object> values(Bundle bundle) {

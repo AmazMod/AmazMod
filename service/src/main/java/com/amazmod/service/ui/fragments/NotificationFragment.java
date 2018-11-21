@@ -85,8 +85,6 @@ public class NotificationFragment extends Fragment {
     }
 
     private void updateContent() {
-        //mContext = getActivity();
-
         notificationData = getArguments().getParcelable(NotificationData.EXTRA);
 
         Log.i(Constants.TAG, "NotificationFragment updateContent context: " + mContext);
@@ -168,7 +166,6 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-
     private void setFontSizeSP() {
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
@@ -237,7 +234,7 @@ public class NotificationFragment extends Fragment {
             if ((pictureData != null) && (pictureData.length > 0)) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(pictureData, 0, pictureData.length);
                 pictureView.setImageBitmap(bitmap);
-                pictureView.setVisibility(View.VISIBLE) ;
+                pictureView.setVisibility(View.VISIBLE);
             }
         } catch (Exception exception) {
             Log.d(Constants.TAG, exception.getMessage(), exception);
