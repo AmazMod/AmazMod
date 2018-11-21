@@ -111,14 +111,14 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.baseline_info_white_24};
 
     private String[] toggle = { "",
-                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity",
+                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity;exit&",
                                 "",
-                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity",
+                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity;exit&",
                                 "",
                                 "",
-                                "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver",
-                                "adb shell am force-stop com.huami.watch.launcher",
-                                "adb shell rm -rf /sdcard/.watchfacethumb/* && adb shell pm clear com.huami.watch.launcher",
+                                "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver;exit&",
+                                "adb shell am force-stop com.huami.watch.launcher;exit&",
+                                "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher;exit&",
                                 "reboot",
                                 "reboot bootloader",
                                 "measurement",
@@ -591,11 +591,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         Log.d(Constants.TAG, "WearMenuFragment toggleUnit toggle: " + toggle[id] + " \\ status: " + status);
         if ( status == 0) {
             items.get(id).state = true;
-            runCommand("adb shell settings put secure " + toggle[id] + " 1");
+            runCommand("adb shell settings put secure " + toggle[id] + " 1;exit");
             //Settings.Secure.putInt(mContext.getContentResolver(), toggle, 1);
         } else {
             items.get(id).state = false;
-            runCommand("adb shell settings put secure " + toggle[id] + " 0");
+            runCommand("adb shell settings put secure " + toggle[id] + " 0;exit");
             //Settings.Secure.putInt(mContext.getContentResolver(), toggle, 0);
         }
         mAdapter.notifyDataSetChanged();
