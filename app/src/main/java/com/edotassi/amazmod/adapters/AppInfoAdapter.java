@@ -27,6 +27,7 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
     private Bridge appInfoBridge;
     private Context context;
+    public final static int REQ_CODE_APPINFO_OPTS = 1000;
 
     public AppInfoAdapter(Bridge appInfoBridge, int resource, @NonNull List<AppInfo> objects) {
         super(appInfoBridge.getContext(), resource, objects);
@@ -57,10 +58,11 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         viewHolder.appInfoHandler.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(context, NotificationPackageOptionsActivity.class);
-                i.putExtra("app", currentAppInfo.getPackageName());
-                i.putExtra("enabled",currentAppInfo.isEnabled());
-                context.startActivity(i);
+                if (currentAppInfo.isEnabled()) {
+                    Intent i = new Intent(context, NotificationPackageOptionsActivity.class);
+                    i.putExtra("app", currentAppInfo.getPackageName());
+                    context.startActivity(i);
+                }
             }
         });
 

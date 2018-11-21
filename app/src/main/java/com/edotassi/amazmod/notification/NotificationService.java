@@ -128,6 +128,12 @@ public class NotificationService extends NotificationListenerService {
             return;
         }
 
+        /*if (isPackageSilenced(notificationPackage)) {
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_SILENCE));
+            storeForStats(statusBarNotification, Constants.FILTER_SILENCE);
+            return;
+        }*/
+
         if (isNotificationsDisabled()) {
             log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_NOTIFICATIONS_DISABLED));
             storeForStats(statusBarNotification, Constants.FILTER_NOTIFICATIONS_DISABLED);
@@ -506,18 +512,28 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isPackageAllowed(String packageName) {
-        //String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-        //Gson gson = new Gson();
-        //String[] packagesList = gson.fromJson(packagesJson, String[].class);
-        //return Arrays.binarySearch(packagesList, packageName) >= 0;
+        String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+        Gson gson = new Gson();
+        String[] packagesList = gson.fromJson(packagesJson, String[].class);
+        return Arrays.binarySearch(packagesList, packageName) >= 0;
 
-        List<NotificationPreferencesEntity> app = SQLite
+        /*List<NotificationPreferencesEntity> app = SQLite
                 .select()
                 .from(NotificationPreferencesEntity.class)
                 .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
                 .queryList();
-        return app.size() > 0;
+        return app.size() > 0;*/
     }
+
+/*    private boolean isPackageSilenced(String packageName) {
+        Long tsLong = System.currentTimeMillis()/1000;
+        NotificationPreferencesEntity app = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .querySingle();
+        return app.getSilenceUntil() > tsLong;
+    }*/
 
     private boolean isCustomUIEnabled() {
         return Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
