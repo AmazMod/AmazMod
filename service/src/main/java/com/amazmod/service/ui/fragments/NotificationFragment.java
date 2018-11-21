@@ -27,7 +27,9 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class NotificationFragment extends Fragment {
 
-    TextView title, time, text;
+    TextView title;
+    TextView time;
+    TextView text;
     ImageView icon;
     ImageView image;
     ImageView picture;
@@ -55,10 +57,7 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //notificationData = NotificationData.fromBundle(getArguments());
         Log.i(Constants.TAG, "NotificationFragment onCreate");
-
     }
 
     @Override
@@ -75,13 +74,11 @@ public class NotificationFragment extends Fragment {
         Log.i(Constants.TAG, "NotificationFragment onViewCreated");
 
         updateContent();
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
     private void updateContent() {
@@ -134,10 +131,17 @@ public class NotificationFragment extends Fragment {
             populateNotificationIcon(icon, notificationData);
             populateNotificationPicture(picture, notificationData);
 
-            title.setText(notificationData.getTitle());
-            setFontLocale(text, defaultLocale);
-            text.setText(notificationData.getText());
-            time.setText(notificationData.getTime());
+            if (!hasPicture(notificationData)) {
+                title.setText(notificationData.getTitle());
+                time.setText(notificationData.getTime());
+
+                setFontLocale(text, defaultLocale);
+                text.setText(notificationData.getText());
+            } else {
+                title.setText(notificationData.getTitle() + " - " + notificationData.getTime());
+                time.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
+            }
 
             if (notificationData.getVibration() > 0) {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
@@ -145,7 +149,6 @@ public class NotificationFragment extends Fragment {
                     vibrator.vibrate(notificationData.getVibration());
                 }
             }
-
         } catch (NullPointerException ex) {
             Log.e(Constants.TAG, "NotificationFragment updateContent - Exception: " + ex.toString()
                     + " notificationData: " + notificationData);
@@ -228,17 +231,22 @@ public class NotificationFragment extends Fragment {
         }
     }
 
+    private boolean hasPicture(NotificationData notificationData) {
+        byte[] pictureData = notificationData.getPicture();
+        return (pictureData != null) && (pictureData.length > 0);
+    }
+
     private void populateNotificationPicture(ImageView pictureView, NotificationData notificationData) {
         try {
-            byte[] pictureData = notificationData.getPicture();
-            if ((pictureData != null) && (pictureData.length > 0)) {
+            if (hasPicture(notificationData)) {
+                byte[] pictureData = notificationData.getPicture();
                 Bitmap bitmap = BitmapFactory.decodeByteArray(pictureData, 0, pictureData.length);
                 pictureView.setImageBitmap(bitmap);
                 pictureView.setVisibility(View.VISIBLE);
+
             }
         } catch (Exception exception) {
             Log.d(Constants.TAG, exception.getMessage(), exception);
         }
     }
-
 }
