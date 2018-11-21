@@ -131,11 +131,11 @@
     <string name="intro_title_1">Welkom bij AmazMod!</string>
     <string name="intro_description_1">Volg deze presentatie om te leren hoe je de service app moet installeren op je horloge en de app toegang verlenen aan meldingen op telefoon.</string>
     <string name="intro_title_permissions">Toegang tot meldingen</string>
-    <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
-    <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
-    <string name="intro_title_2">Install Service App on Watch</string>
-    <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
-    <string name="intro_title_3">Restart Devices</string>
+    <string name="intro_description_permissions">AmazMod moet toegang tot meldingen hebben, zodat ze kunnen worden verzonden naar uw horloge, graag op de onderstaande knop klikken om toegang tot meldingen te geven, kom daarna terug naar de presentatie.</string>
+    <string name="intro_label_grant_permissions">Gelieve machtiging te verlenen tot meldingen voordat u verdergaat.</string>
+    <string name="intro_title_2">Service App installeren op horloge</string>
+    <string name="intro_description_2">Download amazmod_service APK van AmazMod website en installeer het op uw horloge. Als u wilt installeren, kunt u adb (alle platforms), APKInstaller of Amazfit Tool gebruiken als je een computer hebt met Windows.</string>
+    <string name="intro_title_3">Apparaat herstarten</string>
     <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
     <string name="intro_title_4">All Done!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
