@@ -33,6 +33,8 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
 import com.edotassi.amazmod.db.model.NotificationEntity;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
@@ -504,13 +506,17 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isPackageAllowed(String packageName) {
-        String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-        Gson gson = new Gson();
+        //String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+        //Gson gson = new Gson();
+        //String[] packagesList = gson.fromJson(packagesJson, String[].class);
+        //return Arrays.binarySearch(packagesList, packageName) >= 0;
 
-        String[] packagesList = gson.fromJson(packagesJson, String[].class);
-
-        return Arrays.binarySearch(packagesList, packageName) >= 0;
-
+        List<NotificationPreferencesEntity> app = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .queryList();
+        return app.size() > 0;
     }
 
     private boolean isCustomUIEnabled() {

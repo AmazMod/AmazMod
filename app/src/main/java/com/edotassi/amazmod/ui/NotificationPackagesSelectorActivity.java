@@ -15,15 +15,22 @@ import amazmod.com.transport.Constants;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.AppInfoAdapter;
+import com.edotassi.amazmod.db.model.CommandHistoryEntity;
+import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.support.AppInfo;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import butterknife.BindView;
@@ -136,18 +143,22 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
 
                 List<AppInfo> appInfoList = new ArrayList<>();
 
-                String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-                Gson gson = new Gson();
+                Map<String,NotificationPreferencesEntity> packagesMap = loadApps();
 
-                String[] packagesList = gson.fromJson(packagesJson, String[].class);
+                //String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+                //Gson gson = new Gson();
 
-                Arrays.sort(packagesList);
+                //String[] packagesList = gson.fromJson(packagesJson, String[].class);
+
+                //Arrays.sort(packagesList);
 
                 for (PackageInfo packageInfo : packageInfoList) {
 
                     boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
 
-                    boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
+                    //boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
+
+                    boolean enabled = packagesMap.containsKey(packageInfo.packageName);
 
                     if (enabled || !isSystemApp || (showSystemApps && isSystemApp)) {
                         AppInfo appInfo = createAppInfo(packageInfo, enabled);
@@ -233,5 +244,15 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
 
             Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
         }
+    }
+
+    private Map<String,NotificationPreferencesEntity> loadApps() {
+        List<NotificationPreferencesEntity> apps = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .queryList();
+        Map<String,NotificationPreferencesEntity> map = new HashMap<>();
+        for (NotificationPreferencesEntity i : apps) map.put(i.getPackageName(),i);
+        return map;
     }
 }

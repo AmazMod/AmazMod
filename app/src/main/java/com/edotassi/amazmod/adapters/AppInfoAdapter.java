@@ -1,10 +1,12 @@
 package com.edotassi.amazmod.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.support.AppInfo;
+import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity;
 
 import java.util.List;
 
@@ -40,7 +43,7 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
             listItem = LayoutInflater.from(context).inflate(R.layout.row_appinfo, parent, false);
         }
 
-        AppInfo currentAppInfo = getItem(position);
+        final AppInfo currentAppInfo = getItem(position);
 
         ViewHolder viewHolder = new ViewHolder(appInfoBridge, currentAppInfo);
         ButterKnife.bind(viewHolder, listItem);
@@ -51,11 +54,24 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         viewHolder.appInfoPackageName.setText(currentAppInfo.getPackageName());
         viewHolder.appInfoSwitch.setChecked(currentAppInfo.isEnabled());
 
+        viewHolder.appInfoHandler.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, NotificationPackageOptionsActivity.class);
+                i.putExtra("app", currentAppInfo.getPackageName());
+                i.putExtra("enabled",currentAppInfo.isEnabled());
+                context.startActivity(i);
+            }
+        });
+
+
         return listItem;
     }
 
     static class ViewHolder {
 
+        @BindView(R.id.row_appinfo_handler)
+        TextView appInfoHandler;
         @BindView(R.id.row_appinfo_icon)
         ImageView appInfoIcon;
         @BindView(R.id.row_app_info_appname)
@@ -66,6 +82,7 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         TextView appInfoVersionName;
         @BindView(R.id.row_appinfo_switch)
         Switch appInfoSwitch;
+
 
         private Bridge appInfoBridge;
         private AppInfo appInfo;
