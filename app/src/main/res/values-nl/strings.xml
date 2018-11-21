@@ -136,8 +136,8 @@
     <string name="intro_title_2">Service App installeren op horloge</string>
     <string name="intro_description_2">Download amazmod_service APK van AmazMod website en installeer het op uw horloge. Als u wilt installeren, kunt u adb (alle platforms), APKInstaller of Amazfit Tool gebruiken als je een computer hebt met Windows.</string>
     <string name="intro_title_3">Apparaat herstarten</string>
-    <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
-    <string name="intro_title_4">All Done!</string>
+    <string name="intro_description_3">Vervolgens zowel horloge en telefoon opnieuw opstarten. Je weet dat het heeft gewerkt wanneer je de gegevens in de horloge informatie box ziet.</string>
+    <string name="intro_title_4">Klaar!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
     <string name="watch_is_connected">Connected</string>
     <string name="watch_disconnected">Disconnected</string>
