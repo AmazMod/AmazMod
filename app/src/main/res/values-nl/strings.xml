@@ -100,7 +100,7 @@
     <string name="pref_disable_notifications_replies_summary">Melding zal worden verborgen (en melding paneel ook)</string>
     <string name="pref_disable_notifications_replies">Tekst melding verbergen</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Zet melding notificatie uit bij scherm AAN</string>
-    <string name="pref_disable_notifications_when_screen_on">Disable when screen is ON</string>
+    <string name="pref_disable_notifications_when_screen_on">Uitschakelen wanneer het scherm is ingeschakeld</string>
     <string name="pref_notifications_enable_custom_ui_summary">Je kunt nu reageren op meldingen</string>
     <string name="pref_notifications_enable_custom_ui">Schakel aangepaste reacties in</string>
     <string name="pref_run_wizard">Welkom presentatie uitvoeren</string>
@@ -117,11 +117,11 @@
     <string name="pref_disable_remove_notifications_summary">Verwijder geen meldingen van horloge wanneer de meldingen worden verwijderd van de telefoon</string>
     <string name="pref_enable_voice_apps">Spraak oproep meldingen inschakelen</string>
     <string name="pref_enable_voice_apps_summary">Messenger spraak oproep zal meldingen verzenden naar horloge</string>
-    <string name="pref_enable_local_only">Enable local notifications</string>
-    <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch</string>
-    <string name="pref_enable_notifications_when_locked">Enable when phone is locked</string>
-    <string name="pref_enable_notifications_when_locked_summary">Send notifications to watch if screen is on but phone is locked</string>
-    <string name="pref_notifications_enable_ungroup">Enable notifications ungroup</string>
+    <string name="pref_enable_local_only">Schakel lokale meldingen in</string>
+    <string name="pref_enable_local_only_summary">Meldingen zonder actie worden naar horloge verzonden</string>
+    <string name="pref_enable_notifications_when_locked">Schakel in wanneer telefoon is vergrendeld</string>
+    <string name="pref_enable_notifications_when_locked_summary">Verzend meldingen naar horloge als scherm is ingeschakeld maar nog vergrendeld is</string>
+    <string name="pref_notifications_enable_ungroup">Meldingen los koppelen inschakelen</string>
     <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them tho)</string>
     <string name="pref_filters">Notifications filters</string>
     <string name="pref_enable_music_control_with_hardware_button">Enable hardware music control</string>
