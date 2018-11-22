@@ -57,6 +57,7 @@ public class InputhMethodFragment extends Fragment {
 
     }
 
+    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -64,6 +65,7 @@ public class InputhMethodFragment extends Fragment {
 
         return inflater.inflate(R.layout.activity_radiobutton, container, false);
     }
+    */
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class InputhMethodFragment extends Fragment {
     }
 
     private void updateContent(){
-
+/*
         title = getActivity().findViewById(R.id.radio_textView01);
         title.setText(getResources().getString(R.string.input_methods));
 
@@ -131,7 +133,7 @@ public class InputhMethodFragment extends Fragment {
             });
 
         }
-
+*/
     }
 
     private void runCommand(String command) {
