@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.wearable.view.BoxInsetLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -207,7 +209,13 @@ public class NotificationFragment extends Fragment {
             byte[] largeIconData = notificationData.getLargeIcon();
             if ((largeIconData != null) && (largeIconData.length > 0)) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(largeIconData, 0, largeIconData.length);
-                iconView.setImageBitmap(bitmap);
+
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+
+                roundedBitmapDrawable.setCircular(true);
+                roundedBitmapDrawable.setAntiAlias(true);
+
+                iconView.setImageDrawable(roundedBitmapDrawable);
             } else {
                 int[] iconData = notificationData.getIcon();
                 int iconWidth = notificationData.getIconWidth();
