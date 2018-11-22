@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.wearable.view.BoxInsetLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,11 +29,15 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class NotificationFragment extends Fragment {
 
-    TextView title, time, text;
-    ImageView icon, image;
+    TextView title;
+    TextView time;
+    TextView text;
+    ImageView icon;
+    ImageView image;
+    ImageView picture;
     BoxInsetLayout rootLayout;
     LinearLayout repliesLayout;
-    NotificationData notificationSpec;
+    NotificationData notificationData;
 
     private float fontSizeSP;
     private String defaultLocale;
@@ -47,22 +53,19 @@ public class NotificationFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.i(Constants.TAG,"NotificationFragment onAttach context: " + mContext);
+        Log.i(Constants.TAG, "NotificationFragment onAttach context: " + mContext);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //notificationSpec = NotificationData.fromBundle(getArguments());
-        Log.i(Constants.TAG,"NotificationFragment onCreate");
-
+        Log.i(Constants.TAG, "NotificationFragment onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.i(Constants.TAG,"NotificationFragment onCreateView");
+        Log.i(Constants.TAG, "NotificationFragment onCreateView");
 
         return inflater.inflate(R.layout.fragment_notification, container, false);
     }
@@ -70,24 +73,20 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(Constants.TAG,"NotificationFragment onViewCreated");
+        Log.i(Constants.TAG, "NotificationFragment onViewCreated");
 
         updateContent();
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
-    private void updateContent(){
-        //mContext = getActivity();
+    private void updateContent() {
+        notificationData = getArguments().getParcelable(NotificationData.EXTRA);
 
-        notificationSpec = getArguments().getParcelable(NotificationData.EXTRA);
-
-        Log.i(Constants.TAG,"NotificationFragment updateContent context: " + mContext);
+        Log.i(Constants.TAG, "NotificationFragment updateContent context: " + mContext);
 
         settingsManager = new SettingsManager(mContext);
 
@@ -95,6 +94,7 @@ public class NotificationFragment extends Fragment {
         time = getActivity().findViewById(R.id.fragment_custom_notification_time);
         text = getActivity().findViewById(R.id.fragment_custom_notification_text);
         icon = getActivity().findViewById(R.id.fragment_custom_notification_icon);
+        picture = getActivity().findViewById(R.id.fragment_custom_notificstion_picture);
         rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
         repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
@@ -126,43 +126,34 @@ public class NotificationFragment extends Fragment {
         text.setTextSize(fontSizeSP);
 
         try {
+            Log.i(Constants.TAG, "NotificationFragment updateContent try");
 
-            Log.i(Constants.TAG,"NotificationFragment updateContent try");
+            hideReplies = notificationData.getHideReplies();
 
-            hideReplies = notificationSpec.getHideReplies();
+            populateNotificationIcon(icon, notificationData);
+            populateNotificationPicture(picture, notificationData);
 
-            int[] iconData = notificationSpec.getIcon();
-            int iconWidth = notificationSpec.getIconWidth();
-            int iconHeight = notificationSpec.getIconHeight();
+            if (!hasPicture(notificationData)) {
+                title.setText(notificationData.getTitle());
+                time.setText(notificationData.getTime());
 
-            //Invert color (works if the bitmap is in ARGB_8888 format)
-            if (enableInvertedTheme) {
-                for (int i = 0; i < iconData.length; i++){
-                    if (iconData[i] == 0xffffffff){
-                        iconData[i] = 0xff000000;
-                    }
-                }
+                setFontLocale(text, defaultLocale);
+                text.setText(notificationData.getText());
+            } else {
+                title.setText(notificationData.getTitle() + " - " + notificationData.getTime());
+                time.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
             }
 
-            Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
-
-            icon.setImageBitmap(bitmap);
-            title.setText(notificationSpec.getTitle());
-            setFontLocale(text, defaultLocale);
-            text.setText(notificationSpec.getText());
-            time.setText(notificationSpec.getTime());
-
-            if (notificationSpec.getVibration() > 0) {
+            if (notificationData.getVibration() > 0) {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
                 if (vibrator != null) {
-                    vibrator.vibrate(notificationSpec.getVibration());
+                    vibrator.vibrate(notificationData.getVibration());
                 }
             }
-
         } catch (NullPointerException ex) {
             Log.e(Constants.TAG, "NotificationFragment updateContent - Exception: " + ex.toString()
-                    + " notificationSpec: " + notificationSpec);
+                    + " notificationData: " + notificationData);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
@@ -180,8 +171,7 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-
-    private void setFontSizeSP(){
+    private void setFontSizeSP() {
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         switch (fontSize) {
@@ -199,14 +189,13 @@ public class NotificationFragment extends Fragment {
     private void setFontLocale(TextView tv, String locale) {
         Log.i(Constants.TAG, "NotificationActivity setFontLocale TextView: " + locale);
         if (locale.contains("iw")) {
-            Typeface face = Typeface.createFromAsset(mContext.getAssets(),"fonts/DroidSansFallback.ttf");
+            Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
             tv.setTypeface(face);
         }
     }
 
     public static NotificationFragment newInstance(Bundle b) {
-
-        Log.i(Constants.TAG,"NotificationFragment newInstance");
+        Log.i(Constants.TAG, "NotificationFragment newInstance");
         NotificationFragment myFragment = new NotificationFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(NotificationData.EXTRA, NotificationData.fromBundle(b));
@@ -215,4 +204,57 @@ public class NotificationFragment extends Fragment {
         return myFragment;
     }
 
+    private void populateNotificationIcon(ImageView iconView, NotificationData notificationData) {
+        try {
+            byte[] largeIconData = notificationData.getLargeIcon();
+            if ((largeIconData != null) && (largeIconData.length > 0)) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(largeIconData, 0, largeIconData.length);
+
+                RoundedBitmapDrawable roundedBitmapDrawable = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+
+                roundedBitmapDrawable.setCircular(true);
+                roundedBitmapDrawable.setAntiAlias(true);
+
+                iconView.setImageDrawable(roundedBitmapDrawable);
+            } else {
+                int[] iconData = notificationData.getIcon();
+                int iconWidth = notificationData.getIconWidth();
+                int iconHeight = notificationData.getIconHeight();
+
+                //Invert color (works if the bitmap is in ARGB_8888 format)
+                if (enableInvertedTheme) {
+                    for (int i = 0; i < iconData.length; i++) {
+                        if (iconData[i] == 0xffffffff) {
+                            iconData[i] = 0xff000000;
+                        }
+                    }
+                }
+
+                Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+                bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+                iconView.setImageBitmap(bitmap);
+            }
+        } catch (Exception exception) {
+            Log.d(Constants.TAG, exception.getMessage(), exception);
+        }
+    }
+
+    private boolean hasPicture(NotificationData notificationData) {
+        byte[] pictureData = notificationData.getPicture();
+        return (pictureData != null) && (pictureData.length > 0);
+    }
+
+    private void populateNotificationPicture(ImageView pictureView, NotificationData notificationData) {
+        try {
+            if (hasPicture(notificationData)) {
+                byte[] pictureData = notificationData.getPicture();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(pictureData, 0, pictureData.length);
+                pictureView.setImageBitmap(bitmap);
+                pictureView.setVisibility(View.VISIBLE);
+
+            }
+        } catch (Exception exception) {
+            Log.d(Constants.TAG, exception.getMessage(), exception);
+        }
+    }
 }

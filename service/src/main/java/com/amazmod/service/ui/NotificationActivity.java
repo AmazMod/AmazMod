@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.text.emoji.EmojiCompat;
@@ -27,7 +26,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -60,6 +58,8 @@ public class NotificationActivity extends Activity {
     TextView text;
     @BindView(R.id.notification_icon)
     ImageView icon;
+    @BindView(R.id.notification_picture)
+    ImageView picture;
     @BindView(R.id.notification_replies_container)
     LinearLayout repliesContainer;
     @BindView(R.id.notification_root_layout)
@@ -87,7 +87,7 @@ public class NotificationActivity extends Activity {
     private boolean enableInvertedTheme;
     private Context mContext;
 
-    private NotificationData notificationSpec;
+    private NotificationData notificationData;
 
     private SettingsManager settingsManager;
 
@@ -122,7 +122,7 @@ public class NotificationActivity extends Activity {
 
         settingsManager = new SettingsManager(this);
 
-        notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
+        notificationData = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
         mustLockDevice = DeviceUtil.isDeviceLocked(getBaseContext());
 
@@ -164,31 +164,26 @@ public class NotificationActivity extends Activity {
         text.setTextSize(fontSizeSP);
 
         try {
+            hideReplies = notificationData.getHideReplies();
 
-            hideReplies = notificationSpec.getHideReplies();
+            populateNotificationIcon(icon, notificationData);
+            populateNotificationPicture(picture, notificationData);
 
-            int[] iconData = notificationSpec.getIcon();
-            int iconWidth = notificationSpec.getIconWidth();
-            int iconHeight = notificationSpec.getIconHeight();
-            Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
-
-            icon.setImageBitmap(bitmap);
-            title.setText(notificationSpec.getTitle());
+            title.setText(notificationData.getTitle());
             setFontLocale(text, defaultLocale);
-            text.setText(notificationSpec.getText());
-            time.setText(notificationSpec.getTime());
+            text.setText(notificationData.getText());
+            time.setText(notificationData.getTime());
 
-            if (notificationSpec.getVibration() > 0) {
+            if (notificationData.getVibration() > 0) {
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 if (vibrator != null) {
-                    vibrator.vibrate(notificationSpec.getVibration());
+                    vibrator.vibrate(notificationData.getVibration());
                 }
             }
 
         } catch (NullPointerException ex) {
             Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString()
-                    + " notificationSpec: " + notificationSpec);
+                    + " notificationData: " + notificationData);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
@@ -246,23 +241,6 @@ public class NotificationActivity extends Activity {
         ShakeDetector.updateConfiguration(gravity, numOfShakes); */
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //ShakeDetector.start();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //ShakeDetector.stop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //ShakeDetector.destroy();
-    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -296,7 +274,7 @@ public class NotificationActivity extends Activity {
     private void startTimerFinish() {
         handler.removeCallbacks(activityFinishRunnable);
         if (!nullError) {
-            handler.postDelayed(activityFinishRunnable, notificationSpec.getTimeoutRelock());
+            handler.postDelayed(activityFinishRunnable, notificationData.getTimeoutRelock());
         }
     }
 
@@ -345,7 +323,7 @@ public class NotificationActivity extends Activity {
         }
     }
 
-    private void setFontSizeSP(){
+    private void setFontSizeSP() {
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         switch (fontSize) {
@@ -363,7 +341,7 @@ public class NotificationActivity extends Activity {
     private void setFontLocale(TextView tv, String locale) {
         Log.i(Constants.TAG, "NotificationActivity setFontLocale TextView: " + locale);
         if (locale.contains("iw")) {
-            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/DroidSansFallback.ttf");
+            Typeface face = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
             tv.setTypeface(face);
         }
     }
@@ -371,7 +349,7 @@ public class NotificationActivity extends Activity {
     private void setFontLocale(Button b, String locale) {
         Log.i(Constants.TAG, "NotificationActivity setFontLocale Button: " + locale);
         if (locale.contains("iw")) {
-            Typeface face = Typeface.createFromAsset(getAssets(),"fonts/DroidSansFallback.ttf");
+            Typeface face = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
         }
     }
@@ -380,13 +358,13 @@ public class NotificationActivity extends Activity {
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        param.setMargins(20,8,20,8);
+        param.setMargins(20, 8, 20, 8);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             EmojiButton button = new EmojiButton(this);
             button.setLayoutParams(param);
-            button.setPadding(0,8,0,8);
+            button.setPadding(0, 8, 0, 8);
             setFontLocale(button, defaultLocale);
             button.setText(reply.getValue());
             button.setAllCaps(false);
@@ -396,7 +374,7 @@ public class NotificationActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     v.setBackground(getDrawable(R.drawable.reply_dark_grey));
-                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
+                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationData.getKey(), reply.getValue()));
                     finish();
                 }
             });
@@ -435,7 +413,7 @@ public class NotificationActivity extends Activity {
         }
     }
 
-    private void setButtonTheme(Button button, String color){
+    private void setButtonTheme(Button button, String color) {
         switch (color) {
             case ("red"): {
                 button.setTextColor(Color.parseColor("#ffffff"));
@@ -495,5 +473,36 @@ public class NotificationActivity extends Activity {
             }
         }
         screenToggle = mode;
+    }
+
+    private void populateNotificationIcon(ImageView iconView, NotificationData notificationData) {
+        try {
+            byte[] largeIconData = notificationData.getLargeIcon();
+            if ((largeIconData != null) && (largeIconData.length > 0)) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(largeIconData, 0, largeIconData.length);
+                iconView.setImageBitmap(bitmap);
+            } else {
+                int[] iconData = notificationData.getIcon();
+                int iconWidth = notificationData.getIconWidth();
+                int iconHeight = notificationData.getIconHeight();
+                Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+                bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+                iconView.setImageBitmap(bitmap);
+            }
+        } catch (Exception exception) {
+            Log.d(Constants.TAG, exception.getMessage(), exception);
+        }
+    }
+
+    private void populateNotificationPicture(ImageView pictureView, NotificationData notificationData) {
+        try {
+            byte[] pictureData = notificationData.getPicture();
+            if ((pictureData != null) && (pictureData.length > 0)) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(pictureData, 0, pictureData.length);
+                pictureView.setImageBitmap(bitmap);
+            }
+        } catch (Exception exception) {
+            Log.d(Constants.TAG, exception.getMessage(), exception);
+        }
     }
 }
