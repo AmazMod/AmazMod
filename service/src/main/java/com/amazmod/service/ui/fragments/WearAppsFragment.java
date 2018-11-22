@@ -452,7 +452,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     public void clearPackage(Context context, String packageName) {
         Log.i(Constants.TAG,"WearAppsFragment clearPackage packageName: " + packageName);
 
-        final String command = String.format("adb shell pm clear %s && adb shell pm force-stop %s", packageName, packageName);
+        final String command = String.format("adb shell pm clear %s;pm force-stop %s;exit", packageName, packageName);
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.clear_app_data))

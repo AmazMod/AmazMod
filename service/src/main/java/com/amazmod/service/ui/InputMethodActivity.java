@@ -93,8 +93,7 @@ public class InputMethodActivity extends Activity {
                         if (btn.getId() == checkedId) {
                             selectedIME = inputMethodInfos.get(x).getId();
                             Log.i(Constants.TAG,"InputMethodActivity selected RadioButton: " + btn.getText().toString() + " x: " + x);
-                            runCommand("adb shell ime enable " + selectedIME);
-                            runCommand("adb shell ime set " + selectedIME);
+                            runCommand("adb shell ime enable " + selectedIME + ";ime set " + selectedIME + ";exit");
 
                         }
                     }
