@@ -278,6 +278,16 @@ public class NotificationService extends NotificationListenerService {
     private void extractImagesFromNotification(StatusBarNotification statusBarNotification, NotificationData notificationData) {
         Bundle bundle = statusBarNotification.getNotification().extras;
 
+        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_LARGE_ICON, false)) {
+            extractLargeIcon(bundle, notificationData);
+        }
+
+        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_PICTURE, false)) {
+            extractPicture(bundle, notificationData);
+        }
+    }
+
+    private void extractLargeIcon(Bundle bundle, NotificationData notificationData) {
         try {
             Bitmap largeIcon = (Bitmap) bundle.get("android.largeIcon");
             if (largeIcon != null) {
@@ -292,7 +302,9 @@ public class NotificationService extends NotificationListenerService {
         } catch (Exception exception) {
             Log.e(Constants.TAG, exception.getMessage(), exception);
         }
+    }
 
+    private void extractPicture(Bundle bundle, NotificationData notificationData) {
         try {
             Bitmap originalBitmap = (Bitmap) bundle.get("android.picture");
             if (originalBitmap != null) {
