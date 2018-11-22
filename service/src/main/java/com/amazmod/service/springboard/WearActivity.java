@@ -27,7 +27,7 @@ import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.adapters.CustomListAdapter;
+import com.amazmod.service.adapters.MenuListAdapter;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
@@ -109,7 +109,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 "",
                                 "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver",
                                 "adb shell am force-stop com.huami.watch.launcher",
-                                "adb shell busybox rm -rf /sdcard/.watchfacethumb/*; adb shell pm clear com.huami.watch.launcher",
+                                "adb shell rm -rf /sdcard/.watchfacethumb/* && adb shell pm clear com.huami.watch.launcher",
                                 "reboot",
                                 "reboot bootloader",
                                 "measurement",
@@ -125,7 +125,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
 
     private BroadcastReceiver receiverConnection, receiverSSID;
     private Context mContext;
-    private CustomListAdapter mAdapter;
+    private MenuListAdapter mAdapter;
     private WifiManager wfmgr;
     private Vibrator vibrator;
 
@@ -143,8 +143,9 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
 
         mainLayout = findViewById(R.id.main_layout);
-		listView = findViewById(R.id.list);
-		mHeader = findViewById(R.id.header);
+
+		listView = findViewById(R.id.list_menu);
+		mHeader = findViewById(R.id.header_menu);
 
         confirmView = findViewById(R.id.confirm_layout);
         infoView = findViewById(R.id.info_layout);
@@ -157,31 +158,8 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         delayedConfirmationView = findViewById(R.id.delayedView);
 
         listView.setLongClickable(true);
-
         hideInfo();
         hideConfirm();
-        delayedConfirmationView.setTotalTimeMs(3000);
-
-        setButtonTheme(buttonClose);
-
-        textView1.setText("Proceeding in 3s…");
-        textView2.setText("Tap to cancel");
-
-        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        try {
-            activityManager.getMemoryInfo(memoryInfo);
-        } catch (Exception ex) {
-            Log.e(Constants.TAG, "WearActivity onCreate exception: " + ex.toString());
-        }
-
-        double freeRAM = memoryInfo.availMem / 0x100000L;
-        long elapsedRealtime = SystemClock.elapsedRealtime() ;
-        long sleepTime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
-
-        textView02.setText("Uptime: " + formatInterval(elapsedRealtime, false));
-        textView03.setText("SleepTime: " + formatInterval(sleepTime, false));
-        textView04.setText("Free RAM: " + freeRAM + "MB");
 
         items = new ArrayList<>();
         boolean state;
@@ -199,14 +177,18 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         }
 
         checkConnection();
-		loadAdapter("AmazMod");
+        loadAdapter("AmazMod");
+
+        delayedConfirmationView.setTotalTimeMs(3000);
+        textView1.setText("Proceeding in 3s…");
+        textView2.setText("Tap to cancel");
 
 	}
 
 	private void loadAdapter(String header) {
 	    mHeader.setText(header);
 
-		mAdapter = new CustomListAdapter(this, items);
+		mAdapter = new MenuListAdapter(this, items);
 
 		listView.setAdapter(mAdapter);
 		listView.addOnScrollListener(mOnScrollListener);
@@ -389,7 +371,26 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         listView.setVisibility(View.VISIBLE);
     }
 
+    @SuppressLint("SetTextI18n")
     public void showInfo() {
+        setButtonTheme(buttonClose);
+        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
+        ActivityManager activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+        if (activityManager != null) {
+            try {
+                activityManager.getMemoryInfo(memoryInfo);
+                double freeRAM = memoryInfo.availMem / 0x100000L;
+                long elapsedRealtime = SystemClock.elapsedRealtime() ;
+                long sleepTime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
+
+                textView02.setText("Uptime: " + formatInterval(elapsedRealtime, false));
+                textView03.setText("SleepTime: " + formatInterval(sleepTime, false));
+                textView04.setText("Free RAM: " + freeRAM + "MB");
+            } catch (Exception ex) {
+                Log.e(Constants.TAG, "WearActivity onCreate exception: " + ex.toString());
+            }
+        }
+
         infoView.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
     }

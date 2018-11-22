@@ -16,10 +16,18 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
     <uses-permission android:name="android.permission.DEVICE_POWER" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
 
     <application
         android:name=".AmazModService"
@@ -30,6 +38,9 @@
 
         <uses-library android:name="com.google.android.wearable" android:required="false" />
         <meta-data android:name="com.google.android.wearable.standalone" android:value="true" />
+        <meta-data
+            android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
+            android:resource="@array/spring_depend" />
 
         <activity android:name="android.support.v7.app.ActionBarActivity" />
         <activity
@@ -65,6 +76,18 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".ui.DummyActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".springboard.WearGridActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".ui.InputMethodActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
@@ -153,13 +176,6 @@
             </intent-filter>
         </service>
         -->
-
-        <meta-data
-            android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
-            android:resource="@array/spring_depend" />
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
 
     </application>
 </manifest>

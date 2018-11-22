@@ -139,6 +139,8 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT);
         final boolean phoneConnectionStandardNotification = Prefs.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,
                 Constants.PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION);
+        final boolean disableNotificationsDelay = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABlE_DELAY,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY);
 
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
@@ -164,6 +166,7 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setPhoneConnectionAlert(phoneConnection);
         settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
         settingsData.setDefaultLocale(Locale.getDefault().toString());
+        settingsData.setDisableDelay(disableNotificationsDelay);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override

@@ -38,6 +38,7 @@
             app:update_interval="150" />
 
         <ScrollView
+            android:id="@+id/fragment_replies_scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -66,7 +67,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:minHeight="80dp"
-            android:ems="10"
             android:hint="@string/hint"
             android:inputType="textPersonName" />
 
@@ -74,6 +74,7 @@
             android:id="@+id/fragment_replies_buttons_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
             android:background="@android:color/transparent"

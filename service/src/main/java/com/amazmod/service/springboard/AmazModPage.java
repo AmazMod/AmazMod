@@ -73,7 +73,7 @@ public class AmazModPage extends AbstractPlugin {
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Intent intent = new Intent(mContext, WearActivity.class);
+                Intent intent = new Intent(mContext, WearGridActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                         Intent.FLAG_ACTIVITY_CLEAR_TOP |

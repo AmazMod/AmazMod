@@ -211,8 +211,8 @@
     <string name="shell_command_sent">Comando enviado</string>
     <string name="cant_send_shell_command">No se puede enviar el comando</string>
     <string name="install">Instalar</string>
-    <string name="apk_install_started_title">Instalar apk</string>
-    <string name="apk_install_started">Instalación de APK iniciada\n\nSe realizará en segundo plano\nAl finalizar, se reiniciará el Launcher del reloj.</string>
+    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">No se puede instalar la apk</string>
     <string name="reboot">Reiniciar</string>
     <string name="restart_launcher">Reiniciar el Launcher</string>
@@ -260,4 +260,12 @@
     <string name="compress">Comprimir</string>
     <string name="delete_folder_and_contents">\"%1$s\" es una carpeta. ¿Quieres borrarla así como todo su contenido de forma recursiva?</string>
     <string name="screenshot">Screenshot</string>
+    <string name="pref_notifications_disable_delay">Disable delay</string>
+    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
+    <string name="file_uploader">File Uploader</string>
+    <string name="file_uploader_title">Install %s ?</string>
+    <string name="file_uploader_name">Title: %s</string>
+    <string name="file_uploader_author">Author: %s</string>
+    <string name="file_uploader_label">Label: %s</string>
+    <string name="file_uploader_package">Package: %s</string>
 </resources>

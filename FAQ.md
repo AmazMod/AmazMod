@@ -57,5 +57,3 @@ Italian:
 Brazilian:
 - https://t.me/Amazfit
 - https://t.me/ptBRpacebip
-
-

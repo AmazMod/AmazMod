@@ -130,12 +130,12 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/frame_layout"
+        android:id="@+id/frame_layout_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.wearable.view.WearableListView
-            android:id="@+id/list"
+            android:id="@+id/list_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="0dp"
@@ -143,7 +143,7 @@
             app:layout_box="left|bottom|right" />
 
         <TextView
-            android:id="@+id/header"
+            android:id="@+id/header_menu"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_alignParentTop="true"

@@ -639,6 +639,11 @@ public class MainService extends Service implements Transporter.DataListener {
                             String apk = command.replace("install_apk ", "");
                             //Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
                             String installCommand = String.format("busybox sh %s %s", installScript, apk);
+                            //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
+                            if (requestShellCommandData.isReboot())
+                                installCommand += " DEL";
+                            else
+                                installCommand += " OK";
                             Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
                             Runtime.getRuntime().exec(installCommand, null, Environment.getExternalStorageDirectory());
 

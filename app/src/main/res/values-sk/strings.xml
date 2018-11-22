@@ -211,8 +211,8 @@ Urobte príkaz shell \"</string>
     <string name="shell_command_sent">Príkaz odoslaný</string>
     <string name="cant_send_shell_command">Nepodarilo sa odoslať prikaz</string>
     <string name="install">Inštalovať</string>
-    <string name="apk_install_started_title">Inštalácia aplikácie</string>
-    <string name="apk_install_started">Bola spustená inštalácia APK. \n\nInštalácia sa vykonáva na pozadí. \nPo dokončení bude spúšťač na hodinkách reštěrtovaný.</string>
+    <string name="apk_install_started_title">Inštalácia APK</string>
+    <string name="apk_install_started">Bola spustená inštalácia APK. \nInštalácia sa vykonáva na pozadí. \nPo dokončení bude spúšťač na hodinkách reštartovaný.</string>
     <string name="cant_start_apk_install">Inštalácia sa nedá spustiť</string>
     <string name="reboot">Reštart</string>
     <string name="restart_launcher">Reštartujte spúšťač</string>
@@ -260,4 +260,12 @@ Urobte príkaz shell \"</string>
     <string name="compress">Komprimovať</string>
     <string name="delete_folder_and_contents">\"%1$s\" je zložka. Odstrániť ju a celý jej obsah?</string>
     <string name="screenshot">Snímok obrazovky</string>
+    <string name="pref_notifications_disable_delay">Vypnúť oneskorenie</string>
+    <string name="pref_notifications_disable_delay_summary">Vypnúť odpočítavanie pri odosielaní odpovede</string>
+    <string name="file_uploader">Uploader súborov</string>
+    <string name="file_uploader_title">Inštalovať %s?</string>
+    <string name="file_uploader_name">Názov: %s</string>
+    <string name="file_uploader_author">Autor: %s</string>
+    <string name="file_uploader_label">Label: %s</string>
+    <string name="file_uploader_package">Balíček: %s</string>
 </resources>

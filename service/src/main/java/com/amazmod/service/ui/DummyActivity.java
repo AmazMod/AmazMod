@@ -113,7 +113,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
         try {
             if (appTag.equals(Constants.MY_APP) || appTag.equals(Constants.OTHER_APP)) {
                 Log.d(Constants.TAG, "DummyActivity onActivityResult restart launcher");
-                Runtime.getRuntime().exec("adb shell am force-stop com.huami.watch.launcher");
+                Runtime.getRuntime().exec("adb shell am force-stop com.huami.watch.launcher;exit");
 
                 if (Constants.MY_APP.equals(appTag)) {
                     DevicePolicyManager mDPM = (DevicePolicyManager) this.getSystemService(Context.DEVICE_POLICY_SERVICE);
@@ -121,7 +121,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
                     //        + " // getActiveAdmins: " + mDPM.getActiveAdmins());
                     if (!(mDPM != null && mDPM.isDeviceOwnerApp(getPackageName()))) {
                         Log.d(Constants.TAG, "DummyActivity onActivityResult set-device-owner");
-                        Runtime.getRuntime().exec("adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver");
+                        Runtime.getRuntime().exec("adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver;exit");
                     }
                 }
             } else if (appTag.contains(".apk")) {

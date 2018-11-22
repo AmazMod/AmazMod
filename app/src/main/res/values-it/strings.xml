@@ -172,13 +172,13 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="activity_files_backup">Backup</string>
     <string name="activity_files_restore">Ripristino</string>
     <string name="never">Mai</string>
-    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_backup_obs">IMPORTANTE! Il file di backup viene salvato nella memoria interna e verrà eliminato se l\'app viene disinstallata:</string>
     <string name="activity_files_file">File di backup trovato</string>
     <string name="none">Nessuno</string>
     <string name="data">Dati</string>
     <string name="downloads">Downloads</string>
     <string name="downloading">Download in corso</string>
-    <string name="activity_files_backup_error">AmazMod cannot write files, please grant permission first.</string>
+    <string name="activity_files_backup_error">AmazMod non riesce a scrivere sulla memoria del telefono, controlla le autorizzazioni e riprova.</string>
     <string name="activity_files_backup_downloads">Il file di backup viene salvato nella cartella di Download:</string>
     <string name="activity_files_file_error">Errore File!</string>
     <string name="activity_files_backup_ok">Backup effettuato correttamente</string>
@@ -213,7 +213,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="cant_send_shell_command">Impossibile inviare il comando</string>
     <string name="install">Installa</string>
     <string name="apk_install_started_title">Installa apk</string>
-    <string name="apk_install_started">L\'installazione dell\'APK è iniziata!\n\nL\'installazione avviene in background.\nQuando sarà completata il launcher dell\'orologio verrà riavviato automaticamente.</string>
+    <string name="apk_install_started">L\'installazione viene eseguita in background.\nQuando sarà finita, il launcher verrà riavviato di nuovo.</string>
     <string name="cant_start_apk_install">Impossibile avviare l\'installazione dell\'apk</string>
     <string name="reboot">Riavvia orologio</string>
     <string name="restart_launcher">Riavvia launcher</string>
@@ -238,7 +238,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="battery_chart_waiting">In attesa dei nuovi dati sulla batteria…</string>
     <string name="edit_reply">Modifica risposta</string>
     <string name="privacy_policy">Informativa sulla privacy</string>
-    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
+    <string name="cant_check_service_updates">Impossibile controllare gli aggiornamenti del service.apk</string>
     <string name="new_update_available">Nuovo aggiornamento disponibile!</string>
     <string name="new_service_update_available">Versione %s del servizio AmazMod disponibile</string>
     <string name="update">Aggiorna</string>
@@ -249,7 +249,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="type_folder_name">Digita il nome della cartella</string>
     <string name="brightness_bad_value_entered">Il valore inserito non è valido, i valori accettati vanno da 1 a 255</string>
     <string name="command_history">Cronologia dei comandi</string>
-    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
+    <string name="update_started_watch_reboot_when_update_finish">Aggiornamento avviato! L\'orologio mostrerà lo stato di avanzamento e il launcher verrà riavviato automaticamente al completamento.</string>
     <string name="automatic_brightness">Luminosità automatica</string>
     <string name="set_brightness">Imposta</string>
     <string name="file_upload_finished">Upload completato con successo</string>
@@ -260,5 +260,13 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="extract">Estrai</string>
     <string name="compress">Comprimi</string>
     <string name="delete_folder_and_contents">\"%1$s\" è una cartella. Vuoi davvero rimuoverla, compresa di tutti i suoi contenuti in modo ricorsivo?</string>
-    <string name="screenshot">Screenshot</string>
+    <string name="screenshot">Cattura schermata</string>
+    <string name="pref_notifications_disable_delay">Disattivare il ritardo</string>
+    <string name="pref_notifications_disable_delay_summary">Disattivare il conto alla rovescia durante l\'invio di risposte</string>
+    <string name="file_uploader">Caricatore di File</string>
+    <string name="file_uploader_title">Installare %s ?</string>
+    <string name="file_uploader_name">Titolo: %s</string>
+    <string name="file_uploader_author">Autore: %s</string>
+    <string name="file_uploader_label">Etichetta: %s</string>
+    <string name="file_uploader_package">Pacchetto: %s</string>
 </resources>

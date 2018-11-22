@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity
 
         EventBus.getDefault().register(this);
 
-        Log.d(Constants.TAG, " MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
 
         showChangelog(true);
 
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            Log.d(Constants.TAG, " MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+            Log.d(Constants.TAG, "MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
             conf.locale = AmazModApplication.defaultLocale;
@@ -118,10 +118,10 @@ public class MainActivity extends AppCompatActivity
         final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
 
-        Log.d(Constants.TAG, " MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+        Log.d(Constants.TAG, "MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
 
         if (forceEN && (currentLocale != Locale.US)) {
-            Log.d(Constants.TAG, " MaiActivity New locale: US");
+            Log.d(Constants.TAG, "MaiActivity New locale: US");
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
@@ -183,7 +183,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, " MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
     }
 
     @Override
@@ -283,7 +283,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             AmazModApplication.isWatchConnected = false;
         }
-        Log.d(Constants.TAG, " MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
     }
 
     private void showChangelog(boolean managedShowOnStart) {
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void toggleNotificationService() {
-        Log.d(Constants.TAG, "MainActivity toggleNotificationService");
+        Log.i(Constants.TAG, "MainActivity toggleNotificationService");
         ComponentName thisComponent = new ComponentName(this, NotificationService.class);
         PackageManager pm = getPackageManager();
         pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
