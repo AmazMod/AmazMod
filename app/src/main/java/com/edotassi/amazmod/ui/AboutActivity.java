@@ -80,7 +80,7 @@ public class AboutActivity extends AppCompatActivity {
 
         version.setText(BuildConfig.VERSION_NAME);
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
-            version.append(" - dev");
+            version.append(" - " + BuildConfig.VERSION_CODE + ":dev");
         }
     }
 
