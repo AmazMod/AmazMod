@@ -210,7 +210,7 @@
     <string name="shell_command_sent">הפקודה נשלחה</string>
     <string name="cant_send_shell_command">לא ניתן לשלוח פקודה</string>
     <string name="install">התקנה</string>
-    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started_title">התקנת APK</string>
     <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">אין אפשרות להתחיל התקנת apk</string>
     <string name="reboot">הפעלה מחדש</string>
@@ -259,16 +259,16 @@
     <string name="compress">דחוס</string>
     <string name="delete_folder_and_contents">\"%1$s\" היא תיקיה. למחוק אותה ואת כל התוכן בתוכה?</string>
     <string name="screenshot">צילום מסך</string>
-    <string name="pref_notifications_disable_delay">Disable delay</string>
-    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
-    <string name="file_uploader">File Uploader</string>
-    <string name="file_uploader_title">Install %s ?</string>
-    <string name="file_uploader_name">Title: %s</string>
-    <string name="file_uploader_author">Author: %s</string>
-    <string name="file_uploader_label">Label: %s</string>
-    <string name="file_uploader_package">Package: %s</string>
-    <string name="pref_notifications_disable_large_icon">Don\'t send users avatar</string>
+    <string name="pref_notifications_disable_delay">ביטול עיכוב</string>
+    <string name="pref_notifications_disable_delay_summary">ביטול ספירה לאחור בשליחת מענה</string>
+    <string name="file_uploader">העלאת קבצים</string>
+    <string name="file_uploader_title">להתקין %s?</string>
+    <string name="file_uploader_name">כותרת: %s</string>
+    <string name="file_uploader_author">מחבר: %s</string>
+    <string name="file_uploader_label">תוית: %s</string>
+    <string name="file_uploader_package">חבילת: %s</string>
+    <string name="pref_notifications_disable_large_icon">אל תשלח תמונות של משתמשים</string>
     <string name="pref_notifications_disable_large_icon_summary">תמונות איש קשר לא יוצגו בהתראה. פעולה זו תחסוך קלות בסוללה</string>
-    <string name="pref_notifications_disable_picture">אל תשלח התראות עם תמונות</string>
+    <string name="pref_notifications_disable_picture">אל תשלח התראות של תמונות</string>
     <string name="pref_notifications_disable_picture_summary">תמונות לא יוצגו בהתראות על מנת לחסוך בחיי סוללה</string>
 </resources>
