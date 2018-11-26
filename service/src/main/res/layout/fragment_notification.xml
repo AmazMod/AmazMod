@@ -94,6 +94,13 @@
                         android:textAlignment="center"
                         android:textColor="@color/text"
                         tools:text="Text" />
+
+                    <ImageView
+                        android:id="@+id/fragment_custom_notificstion_picture"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/action_item_background" />
                 </LinearLayout>
 
             </LinearLayout>
