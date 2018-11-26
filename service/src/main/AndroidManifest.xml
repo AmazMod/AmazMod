@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
     <uses-permission android:name="android.permission.DEVICE_POWER" />
     <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
@@ -88,6 +89,12 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".ui.InputMethodActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".springboard.LauncherWearGridActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""

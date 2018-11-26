@@ -2,7 +2,6 @@ package com.amazmod.service.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,8 +12,8 @@ import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.wearable.view.DelayedConfirmationView;
@@ -33,8 +32,9 @@ import com.amazmod.service.adapters.MenuListAdapter;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
+import com.amazmod.service.springboard.LauncherWearGridActivity;
 import com.amazmod.service.ui.InputMethodActivity;
-import com.amazmod.service.util.SystemProperties;
+import com.amazmod.service.util.DeviceUtil;
 import com.huami.watch.transport.DataBundle;
 
 import java.util.ArrayList;
@@ -44,7 +44,6 @@ import java.util.concurrent.TimeUnit;
 
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
-import static android.content.Context.ACTIVITY_SERVICE;
 import static android.content.Context.VIBRATOR_SERVICE;
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
@@ -52,17 +51,16 @@ import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 public class WearMenuFragment extends Fragment implements WearableListView.ClickListener,
         DelayedConfirmationView.DelayedConfirmationListener {
 
-    private View mainLayout, confirmView, infoView;
-    private ViewGroup viewGroup;
+    private View mainLayout, confirmView;
 	private WearableListView listView;
-	private Button buttonClose;
     private DelayedConfirmationView delayedConfirmationView;
-    private TextView mHeader, build, textView1, textView2, textView02, textView03, textView04;
+    private TextView mHeader, textView1, textView2;
 
 	private String[] mItems = { "Wi-Fi Toggle",
                                 "Wi-Fi Panel",
                                 "Flashlight",
                                 "QR code",
+                                "Clean Memory",
                                 "Enable L.P.M.",
                                 "Revoke Device Owner",
                                 "Set Device Owner",
@@ -80,6 +78,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 R.drawable.baseline_perm_scan_wifi_white_24,
                                 R.drawable.baseline_highlight_white_24,
                                 R.drawable.ic_qrcode_white_24dp,
+                                R.drawable.outline_clear_all_white_24,
                                 R.drawable.ic_action_star,
                                 R.drawable.ic_close_white_24dp,
 			                    R.drawable.ic_action_done,
@@ -97,6 +96,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.baseline_perm_scan_wifi_white_24,
                                     R.drawable.baseline_highlight_white_24,
                                     R.drawable.ic_qrcode_white_24dp,
+                                    R.drawable.outline_clear_all_white_24,
                                     R.drawable.ic_action_star,
                                     R.drawable.ic_close_white_24dp,
                                     R.drawable.ic_action_done,
@@ -114,6 +114,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity;exit&",
                                 "",
                                 "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity;exit&",
+                                "kill-all",
                                 "",
                                 "",
                                 "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver;exit&",
@@ -128,9 +129,6 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 ""};
 
 	private int itemChosen;
-    private static boolean screenToggle = false;
-    private static int screenMode;
-    private static int screenBrightness = 999989;
     List<MenuItems> items;
 
     private BroadcastReceiver receiverConnection, receiverSSID;
@@ -185,24 +183,16 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
 
         mainLayout = getActivity().findViewById(R.id.wear_menu_main_layout);
-
+        textView1 = getActivity().findViewById(R.id.wear_menu_confirm_text);
+        textView2 = getActivity().findViewById(R.id.wear_menu_cancel_text);
 		listView = getActivity().findViewById(R.id.wear_menu_list);
 		mHeader = getActivity().findViewById(R.id.wear_menu_header);
 
         confirmView = getActivity().findViewById(R.id.wear_menu_confirm_layout);
-        infoView = getActivity().findViewById(R.id.wear_menu_info_layout);
-        build = getActivity().findViewById(R.id.wear_menu_build);
-        textView1 = getActivity().findViewById(R.id.wear_menu_confirm_text);
-        textView2 = getActivity().findViewById(R.id.wear_menu_cancel_text);
-        textView02 = getActivity().findViewById(R.id.wear_menu_textView02);
-        textView03 = getActivity().findViewById(R.id.wear_menu_textView03);
-        textView04 = getActivity().findViewById(R.id.wear_menu_textView04);
-        buttonClose = getActivity().findViewById(R.id.wear_menu_buttonClose);
         delayedConfirmationView = getActivity().findViewById(R.id.wear_menu_delayedView);
 
         listView.setLongClickable(true);
         listView.setGreedyTouchMode(true);
-        hideInfo();
         hideConfirm();
 
         items = new ArrayList<>();
@@ -212,7 +202,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 if (i == 0)
                     state = wfmgr.isWifiEnabled();
                 else
-                    state = i < 11 || i > 13 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
+                    state = i < 12 || i > 14 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
                 state = true;
                 Log.e(Constants.TAG, "WearMenuFragment onCreate exception: " + e.toString());
@@ -275,16 +265,17 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             case 8:
             case 9:
             case 10:
+            case 11:
                 beginCountdown();
                 break;
 
-            case 11:
             case 12:
             case 13:
+            case 14:
                 toggle(itemChosen);
                 break;
 
-            case 14:
+            case 15:
                 final Intent intent = new Intent(mContext, InputMethodActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -293,7 +284,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 mContext.startActivity(intent);
                 break;
 
-            case 15:
+            case 16:
                 showInfo();
                 break;
 
@@ -307,9 +298,9 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         Log.d(Constants.TAG, "WearMenuFragment runCommand: " + command);
 	    if (!command.isEmpty()) {
             try {
-                Runtime.getRuntime().exec(command);
+                Runtime.getRuntime().exec(command, null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
-                Log.e(Constants.TAG, "WearMenuFragment onClick exception: " + e.toString());
+                Log.e(Constants.TAG, "WearMenuFragment runCommand exception: " + e.toString());
             }
         }
     }
@@ -324,8 +315,6 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     public void onDestroy() {
 	    if (receiverConnection != null) mContext.unregisterReceiver(receiverConnection);
 	    if (receiverSSID != null) mContext.unregisterReceiver(receiverSSID);
-	    if (screenToggle)
-	        setMaxBrightness(false);
 	    super.onDestroy();
     }
 
@@ -362,7 +351,6 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
      * Starts the DelayedConfirmationView when user presses "Start Timer" button.
      */
     public void beginCountdown() {
-        //button.setVisibility(View.GONE);
         showConfirm();
         delayedConfirmationView.setPressed(false);
         delayedConfirmationView.start();
@@ -393,58 +381,39 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         switch (itemChosen) {
 
             case 4:
-                HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                Toast.makeText(mContext, "Killing background processes…", Toast.LENGTH_SHORT).show();
+                DeviceUtil.killBackgroundTasks(mContext);
                 break;
 
             case 5:
+                HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                break;
+
+            case 6:
                 HermesEventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
                 break;
-            case 6:
+
             case 7:
             case 8:
             case 9:
             case 10:
+            case 11:
                 runCommand(toggle[itemChosen]);
                 break;
         }
         itemChosen = 0;
     }
 
-    public void hideInfo() {
-        infoView.setVisibility(View.GONE);
-        listView.setVisibility(View.VISIBLE);
-    }
-
     @SuppressLint("SetTextI18n")
     public void showInfo() {
-        setButtonTheme(buttonClose);
 
-        build.setText(SystemProperties.getSystemProperty("ro.build.display.id"));
-        ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
-        ActivityManager activityManager = (ActivityManager) mContext.getSystemService(ACTIVITY_SERVICE);
-        if (activityManager != null) {
-            try {
-                activityManager.getMemoryInfo(memoryInfo);
-                double freeRAM = memoryInfo.availMem / 0x100000L;
-                long elapsedRealtime = SystemClock.elapsedRealtime() ;
-                long sleepTime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
-
-                textView02.setText("Uptime: " + formatInterval(elapsedRealtime, false));
-                textView03.setText("SleepTime: " + formatInterval(sleepTime, false));
-                textView04.setText("Free RAM: " + freeRAM + "MB");
-            } catch (Exception ex) {
-                Log.e(Constants.TAG, "WearMenuFragment onCreate exception: " + ex.toString());
-            }
-        }
-        buttonClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                hideInfo();
-            }
-        });
-
-        listView.setVisibility(View.GONE);
-        infoView.setVisibility(View.VISIBLE);
+        final Intent intent = new Intent(mContext, LauncherWearGridActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.INFO);
+        mContext.startActivity(intent);
     }
 
     public void hideConfirm() {
@@ -525,65 +494,16 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         mContext.registerReceiver(receiverSSID, intentFilter);
     }
 
-    private void setButtonTheme(Button button) {
-        button.setIncludeFontPadding(false);
-        button.setMinHeight(24);
-        button.setMinWidth(120);
-        button.setText(getResources().getString(R.string.close));
-        button.setAllCaps(false);
-        button.setTextColor(Color.parseColor("#000000"));
-        button.setBackground(mContext.getDrawable(R.drawable.reply_grey));
-    }
-
-    public static String formatInterval(final long interval, boolean millis )
-    {
-        final long hr = TimeUnit.MILLISECONDS.toHours(interval);
-        final long min = TimeUnit.MILLISECONDS.toMinutes(interval) % 60;
-        final long sec = TimeUnit.MILLISECONDS.toSeconds(interval) % 60;
-        final long ms = TimeUnit.MILLISECONDS.toMillis(interval) % 1000;
-        if(millis) {
-            return String.format(Locale.getDefault(),"%02d:%02d:%02d.%03d", hr, min, sec, ms);
-        } else {
-            return String.format(Locale.getDefault(),"%02d:%02d:%02d", hr, min, sec );
-        }
-    }
-
     public void flashlight() {
-        Log.d(Constants.TAG, "WearMenuFragment flashlight on");
-        Toast.makeText(mContext, "Tap and Hold to Quit", Toast.LENGTH_SHORT).show();
-        listView.setVisibility(View.GONE);
-        mainLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
-        setMaxBrightness(true);
-        mainLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (screenToggle)
-                    setMaxBrightness(false);
-                Log.d(Constants.TAG, "WearMenuFragment flashlight off");
-                mainLayout.setBackground(getResources().getDrawable(R.drawable.background));
-                listView.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
+        Log.d(Constants.TAG, "WearMenuFragment flashlight");
+        final Intent intent = new Intent(mContext, LauncherWearGridActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.FLASHLIGHT);
+        mContext.startActivity(intent);
 
-    }
-
-    private void setMaxBrightness(boolean mode) {
-
-        if (mode) {
-            Log.d(Constants.TAG, "WearMenuFragment setScreenModeOff mode tue");
-            screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
-            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
-            Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
-            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
-        } else {
-            if (screenBrightness != 999989) {
-                Log.d(Constants.TAG, "WearMenuFragment setScreenModeOff mode false \\ screenMode: " + screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
-            }
-        }
-        screenToggle = mode;
     }
 
     private void toggle(int id) {

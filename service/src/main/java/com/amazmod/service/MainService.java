@@ -140,9 +140,9 @@ public class MainService extends Service implements Transporter.DataListener {
     private Transporter transporterHuami;
 
     private Context context;
-    public Context baseContext;
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
+    private static IntentFilter batteryFilter;
     private static long dateLastCharge;
     private static int count = 0;
     private static boolean isPhoneConnectionAlertEnabled;
@@ -161,7 +161,6 @@ public class MainService extends Service implements Transporter.DataListener {
         super.onCreate();
 
         context = this;
-        baseContext = this.getBaseContext();
         settingsManager = new SettingsManager(context);
         notificationManager = new NotificationService(context);
 
@@ -173,12 +172,17 @@ public class MainService extends Service implements Transporter.DataListener {
         Log.d(Constants.TAG, "MainService HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
 
+        batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+
         //Register power disconnect receiver
-        IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
+        final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
         powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                Intent batteryStatus = context.registerReceiver(null, batteryFilter);
+                if (batteryStatus != null)
+                    getBatteryPct(batteryStatus);
                 //Update date of last charge if power was disconnected and battery is full
                 if (batteryPct > 0.98) {
                     dateLastCharge = currentTimeMillis();
@@ -463,6 +467,7 @@ public class MainService extends Service implements Transporter.DataListener {
             bm = Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS_MODE);
 
         } catch (Settings.SettingNotFoundException e) {
+            Log.e(Constants.TAG, "MainService requestWatchStatus SettingsNotFoundExeception: " + e.toString());
         }
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
@@ -473,40 +478,43 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        Intent batteryStatus = context.registerReceiver(null, ifilter);
 
-        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL;
+        Intent batteryStatus = context.registerReceiver(null, batteryFilter);
 
-        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+        int status = 0;
+        if (batteryStatus != null) {
+            status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
 
-        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                    status == BatteryManager.BATTERY_STATUS_FULL;
 
-        batteryPct = level / (float) scale;
+            int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+            boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
-        //Get data of last full charge from settings
-        //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
-        if (dateLastCharge == 0) {
-            dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-            Log.d(Constants.TAG, "MainService dateLastCharge loaded: " + dateLastCharge);
-        }
+            getBatteryPct(batteryStatus);
 
-        //Update battery level (used in widget)
-        //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
-        Log.d(Constants.TAG, "MainService dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct * 100f));
 
-        batteryData.setLevel(batteryPct);
-        batteryData.setCharging(isCharging);
-        batteryData.setUsbCharge(usbCharge);
-        batteryData.setAcCharge(acCharge);
-        batteryData.setDateLastCharge(dateLastCharge);
+            //Get data of last full charge from settings
+            //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+            if (dateLastCharge == 0) {
+                dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+                Log.d(Constants.TAG, "MainService dateLastCharge loaded: " + dateLastCharge);
+            }
 
-        send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
+            //Update battery level (used in widget)
+            //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
+            Log.d(Constants.TAG, "MainService dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct * 100f));
+
+            batteryData.setLevel(batteryPct);
+            batteryData.setCharging(isCharging);
+            batteryData.setUsbCharge(usbCharge);
+            batteryData.setAcCharge(acCharge);
+            batteryData.setDateLastCharge(dateLastCharge);
+
+            send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
+        } else
+            Log.e(Constants.TAG, "MainService requestBatteryStatus: register receiver error!");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -632,13 +640,11 @@ public class MainService extends Service implements Transporter.DataListener {
                         if (command.contains("install_apk ")) {
 
                             PackageReceiver.setIsAmazmodInstall(true);
-                            File file = new File(getFilesDir(), "install_apk.sh");
-                            boolean flag = copyFile(file);
-                            String installScript = file.getAbsolutePath();
+                            final String installScript = DeviceUtil.copyScriptFile(context, "install_apk.sh").getAbsolutePath();
                             //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
-                            String apk = command.replace("install_apk ", "");
-                            //Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
-                            String installCommand = String.format("busybox sh %s %s", installScript, apk);
+                            final String apkFile = command.replace("install_apk ", "");
+                            //Log.d(Constants.TAG, "MainService executeShellCommand apkFile: " + apkFile);
+                            String installCommand = String.format("busybox sh %s %s", installScript, apkFile);
                             //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
                             if (requestShellCommandData.isReboot())
                                 installCommand += " DEL";
@@ -748,6 +754,13 @@ public class MainService extends Service implements Transporter.DataListener {
         }).start();
     }
 
+    private void getBatteryPct(Intent batteryStatus) {
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        batteryPct = level / (float) scale;
+    }
+
     private void showUpdateConfirmationWearActivity() {
         Intent intent = new Intent(context, ConfirmationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -757,28 +770,6 @@ public class MainService extends Service implements Transporter.DataListener {
         intent.putExtra(Constants.TEXT, "Service update");
         intent.putExtra(Constants.TIME, "0");
         context.startActivity(intent);
-    }
-
-    private boolean copyFile(File file) {
-        boolean copySuccess = false;
-        InputStream is =  getResources().openRawResource(getResources()
-                .getIdentifier("install_apk", "raw", getPackageName()));
-        try {
-            OutputStream output = new FileOutputStream(file);
-            byte[] buffer = new byte[4 * 1024];
-            int read;
-            while ((read = is.read(buffer)) != -1) {
-                output.write(buffer, 0, read);
-            }
-            copySuccess = true;
-            output.flush();
-            output.close();
-            is.close();
-        } catch (Exception e) {
-            copySuccess = false;
-            Log.e(Constants.TAG, "MainService copyFile exception: " + e.toString());
-        }
-        return copySuccess;
     }
 
     private DirectoryData getFilesByPath(String path) {

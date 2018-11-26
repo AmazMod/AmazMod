@@ -2,4 +2,7 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="small_circle_radius">25dp</dimen>
     <dimen name="big_circle_radius">26dp</dimen>
+    <dimen name="small_circle_radius_launcher">18dp</dimen>
+    <dimen name="big_circle_radius_launcher">19dp</dimen>
+    <dimen name="circled_image_view_diameter">38dp</dimen>
 </resources>

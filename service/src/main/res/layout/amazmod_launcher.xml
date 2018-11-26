@@ -1,74 +1,227 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wear_apps_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:orientation="vertical">
+    android:background="@drawable/background">
 
-    <ImageView
-        android:id="@+id/launcher_logo"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/amazmod" />
+    <android.support.wearable.view.WearableFrameLayout
+        android:id="@+id/wear_apps_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_box="">
 
-    <TextView
-        android:id="@+id/launcher_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launcher_logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="AmazMod"
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/launcher_version"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launcher_name"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        tools:text="Version"
-        android:textAlignment="center"
-        android:textColor="@android:color/white" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="55dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/launcher_batt_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launcher_version"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
-        tools:text="Batt Value"
-        android:textColor="@android:color/white" />
+                <ImageView
+                    android:id="@+id/launcher_batt_icon"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:contentDescription="@string/default_icon"
+                    app:srcCompat="@android:drawable/ic_lock_idle_low_battery" />
 
-    <TextView
-        android:id="@+id/launcher_time_since_last_charge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/launcher_batt_value"
-        android:layout_centerHorizontal="true"
-        tools:text="Time Since Last Charge"
-        android:textAlignment="center"
-        android:textColor="@android:color/white" />
+                <TextView
+                    android:id="@+id/launcher_batt_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@android:color/white"
+                    tools:text="XXX%" />
 
-    <ImageView
-        android:id="@+id/launcher_batt_icon"
-        android:layout_width="22dp"
-        android:layout_height="22dp"
-        android:layout_below="@+id/launcher_version"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
-        android:layout_toStartOf="@+id/launcher_batt_value"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_lock_idle_low_battery" />
+                <ImageView
+                    android:id="@+id/launcher_logo"
+                    android:layout_width="@dimen/circled_image_view_diameter"
+                    android:layout_height="@dimen/circled_image_view_diameter"
+                    android:contentDescription="@string/default_icon"
+                    android:src="@mipmap/ic_launcher" />
 
-</RelativeLayout>
+                <TextView
+                    android:id="@+id/launcher_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="viewEnd"
+                    android:textColor="@android:color/white"
+                    tools:text="XXXX" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="@color/light_grey" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+
+            <RelativeLayout
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <android.support.wearable.view.WearableListView
+                    android:id="@+id/launcher_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="8dp"
+                    android:dividerHeight="0dp"
+                    android:gravity="center_horizontal"
+                    android:longClickable="true"
+                    android:scrollbars="none">
+
+                </android.support.wearable.view.WearableListView>
+
+                <TextView
+                    android:id="@+id/launcher_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="bottom"
+                    android:textColor="@color/light_grey"
+                    android:textSize="16sp"
+                    tools:text="Apps" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="fill_parent"
+                android:background="@color/light_grey" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:layout_marginStart="8dp"
+                android:orientation="vertical">
+
+                <android.support.wearable.view.CircledImageView
+                    android:id="@+id/launcher_setting_01"
+                    android:layout_width="@dimen/circled_image_view_diameter"
+                    android:layout_height="@dimen/circled_image_view_diameter"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    app:circle_border_color="@color/light_grey"
+                    app:circle_border_width="2dp"
+                    app:circle_color="@android:color/transparent"
+                    app:circle_radius="@dimen/big_circle_radius_launcher"
+                    app:circle_radius_pressed="@dimen/small_circle_radius_launcher" />
+
+                <android.support.wearable.view.CircledImageView
+                    android:id="@+id/launcher_setting_02"
+                    android:layout_width="@dimen/circled_image_view_diameter"
+                    android:layout_height="@dimen/circled_image_view_diameter"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    app:circle_border_color="@color/light_grey"
+                    app:circle_border_width="2dp"
+                    app:circle_color="@android:color/transparent"
+                    app:circle_radius="@dimen/big_circle_radius_launcher"
+                    app:circle_radius_pressed="@dimen/small_circle_radius_launcher" />
+
+                <android.support.wearable.view.CircledImageView
+                    android:id="@+id/launcher_setting_03"
+                    android:layout_width="@dimen/circled_image_view_diameter"
+                    android:layout_height="@dimen/circled_image_view_diameter"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    app:circle_border_color="@color/light_grey"
+                    app:circle_border_width="2dp"
+                    app:circle_color="@android:color/transparent"
+                    app:circle_radius="@dimen/big_circle_radius_launcher"
+                    app:circle_radius_pressed="@dimen/small_circle_radius_launcher" />
+
+                <android.support.wearable.view.CircledImageView
+                    android:id="@+id/launcher_setting_04"
+                    android:layout_width="@dimen/circled_image_view_diameter"
+                    android:layout_height="@dimen/circled_image_view_diameter"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    app:circle_border_color="@color/light_grey"
+                    app:circle_border_width="2dp"
+                    app:circle_color="@android:color/transparent"
+                    app:circle_radius="@dimen/big_circle_radius_launcher"
+                    app:circle_radius_pressed="@dimen/small_circle_radius_launcher" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="70dp"
+                android:gravity="start"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/launcher_messages_count"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/circle"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    tools:text="XX" />
+
+                <android.support.wearable.view.CircledImageView
+                    android:id="@+id/launcher_messages"
+                    android:layout_width="@dimen/circled_image_view_diameter"
+                    android:layout_height="@dimen/circled_image_view_diameter"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/default_icon"
+                    android:padding="8dp"
+                    app:circle_border_color="@color/light_grey"
+                    app:circle_border_width="2dp"
+                    app:circle_color="@android:color/transparent"
+                    app:circle_radius="@dimen/big_circle_radius_launcher" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </android.support.wearable.view.WearableFrameLayout>
+</android.support.wearable.view.BoxInsetLayout>

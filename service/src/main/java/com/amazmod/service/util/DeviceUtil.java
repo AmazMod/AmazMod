@@ -1,12 +1,15 @@
 package com.amazmod.service.util;
 
+import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInstaller;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -17,8 +20,12 @@ import com.amazmod.service.ui.ConfirmationWearActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 public class DeviceUtil {
 
@@ -180,6 +187,72 @@ public class DeviceUtil {
                 session.close();
                 Log.i(Constants.TAG, "DeviceUtil installPackage finished");
             }
+        }
+    }
+
+    public static File copyScriptFile(Context context, String fileName) {
+        File file = new File(context.getFilesDir(), fileName);
+        InputStream is = context.getResources().openRawResource(context.getResources()
+                .getIdentifier(fileName.replace(".sh", ""), "raw", context.getPackageName()));
+        try {
+            OutputStream output = new FileOutputStream(file);
+            byte[] buffer = new byte[4 * 1024];
+            int read;
+            while ((read = is.read(buffer)) != -1) {
+                output.write(buffer, 0, read);
+            }
+            output.flush();
+            output.close();
+            is.close();
+        } catch (Exception e) {
+            Log.e(Constants.TAG, "DeviceUtil copyFile exception: " + e.toString());
+        }
+        return file;
+    }
+
+    public static void killBackgroundTasks(Context context) {
+
+        Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks");
+
+        ActivityManager.RunningAppProcessInfo myProcess = null;
+
+        ActivityManager am = (ActivityManager) context.getApplicationContext().getSystemService(ACTIVITY_SERVICE);
+
+        if (am != null) {
+
+            List<ApplicationInfo> packages = context.getPackageManager().getInstalledApplications(0);
+
+            List<ActivityManager.RunningAppProcessInfo> processes = am.getRunningAppProcesses();
+
+            for (ApplicationInfo packageInfo : packages) {
+                if(!((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1)) {
+                    Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks package: " + packageInfo.packageName);
+                    am.killBackgroundProcesses(packageInfo.packageName);
+                }
+            }
+
+            for (ActivityManager.RunningAppProcessInfo info : processes) {
+                Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks process: " + info.processName);
+                if (info.processName.contains("amazmod")) {
+                    myProcess = info;
+                } else {
+                    android.os.Process.killProcess(info.pid);
+                    android.os.Process.sendSignal(info.pid, android.os.Process.SIGNAL_KILL);
+                    if (info.processName.contains("process.media"))
+                        am.killBackgroundProcesses("com.android.providers.media");
+                    else
+                        am.killBackgroundProcesses(info.processName);
+                }
+            }
+
+            if (myProcess != null) {
+                Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks myProcess: " + myProcess.processName);
+                am.killBackgroundProcesses(myProcess.processName);
+                android.os.Process.sendSignal(myProcess.pid, android.os.Process.SIGNAL_KILL);
+            }
+
+        } else {
+            Log.e(Constants.TAG, "DeviceUtil killBackgroundTasks failed - null ActivityManager!");
         }
     }
 
