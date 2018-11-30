@@ -235,6 +235,7 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
             for (AppInfo appInfo : appInfoList) {
                 if (appInfo.isEnabled()) {
                     enableApp(appInfo.getPackageName());
+                    enabledPackages.add(appInfo.getPackageName());
                 } else {
                     deletePackage(appInfo.getPackageName());
                 }
