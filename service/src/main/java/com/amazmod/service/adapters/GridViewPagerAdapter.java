@@ -18,7 +18,7 @@ public class GridViewPagerAdapter extends FragmentGridPagerAdapter {
 
     private List<Row> mRows = new ArrayList<Row>();
 
-    public GridViewPagerAdapter(Context context, FragmentManager fm, Fragment[] items) {
+    public GridViewPagerAdapter(Context context, FragmentManager fm, List<Fragment> items) {
         super(fm);
 
         //Bundle bundle = notificationData.toBundle();
@@ -27,7 +27,10 @@ public class GridViewPagerAdapter extends FragmentGridPagerAdapter {
         //RepliesFragment replies = RepliesFragment.newInstance(bundle);
         //NotificationFragment frag = new NotificationFragment();
 
-        Row row = new Row(items);
+        Fragment[] i = new Fragment[ items.size() ];
+        items.toArray( i );
+
+        Row row = new Row(i);
         //row.addBackground(context.getResources().getDrawable(R.drawable.bg1));
         mRows.add(row);
 

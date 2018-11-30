@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
+import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -45,9 +46,6 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
     @BindView(R.id.silenced_until)
     EditText silenced_until;
 
-    @BindView(R.id.current_timestamp)
-    TextView current_timestamp;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,9 +70,7 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
                 appVersion.setText(packageInfo.versionName);
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
                 filter_edittext.setText(app.getFilter());
-                silenced_until.setText(String.valueOf(app.getSilenceUntil()));
-                Long tsLong = System.currentTimeMillis()/1000;
-                current_timestamp.setText(tsLong.toString());
+                silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
             } catch (PackageManager.NameNotFoundException e) {
                 ;
                 Toast.makeText(this, "Package " + packageName + "not found", Toast.LENGTH_SHORT);
@@ -99,7 +95,8 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
 
     @OnClick(R.id.cancel_button)
     public void onCancelClick() {
-        silenced_until.setText("0");
+        app.setSilenceUntil(0);
+        silenced_until.setText("");
     }
 
     private void save() {
@@ -113,7 +110,6 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
         }
         app.setPackageName(packageInfo.packageName);
         app.setFilter(filter_edittext.getText().toString());
-        app.setSilenceUntil(Long.valueOf(silenced_until.getText().toString()));
         app.setWhitelist(false);
         if (insert) {
             Log.d(Constants.TAG, "STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
