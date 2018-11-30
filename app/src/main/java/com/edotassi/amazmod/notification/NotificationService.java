@@ -635,7 +635,7 @@ public class NotificationService extends NotificationListenerService {
                 .from(NotificationPreferencesEntity.class)
                 .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
                 .querySingle();
-        if (app != null) {
+        if (app != null && app.getFilter() != null) {
             String notificationText = "";
             CharSequence text = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
             CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);

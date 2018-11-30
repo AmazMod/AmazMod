@@ -175,17 +175,17 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
             silenceContainer.addView(button);
         }
 
-        EmojiButton foreverButton = new EmojiButton(mContext);
-        setButtonParams(foreverButton, "Forever");
-        setButtonTheme(foreverButton, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
-        foreverButton.setOnClickListener(new View.OnClickListener() {
+        EmojiButton dayButton = new EmojiButton(mContext);
+        setButtonParams(dayButton, "One Day");
+        setButtonTheme(dayButton, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
+        dayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedSilenceTime = "999999999999";
+                selectedSilenceTime = "1440";
                 sendSilenceCommand(v);
             }
         });
-        silenceContainer.addView(foreverButton);
+        silenceContainer.addView(dayButton);
     }
 
     private void setButtonParams(EmojiButton button, String text) {
