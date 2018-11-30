@@ -11,7 +11,7 @@ import com.raizlabs.android.dbflow.sql.migration.AlterTableMigration;
 public class AppDatabase {
 
     static final String NAME = "AmazModDb";
-    static final int VERSION = 8;
+    static final int VERSION = 9;
 
     @Migration(version = 3, database = AppDatabase.class)
     public static class AddDateToNotificationEntity extends AlterTableMigration<NotificationEntity> {

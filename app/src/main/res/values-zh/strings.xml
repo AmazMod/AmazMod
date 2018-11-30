@@ -268,4 +268,5 @@
     <string name="file_uploader_author">作者：%s</string>
     <string name="file_uploader_label">标签：%s</string>
     <string name="file_uploader_package">软件包：%s</string>
+    <string name="notification_silenced">SILENCED</string>
 </resources>

@@ -35,9 +35,12 @@ import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
 import com.edotassi.amazmod.db.model.NotificationEntity;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
+import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.gson.Gson;
@@ -128,6 +131,18 @@ public class NotificationService extends NotificationListenerService {
         if (!isPackageAllowed(notificationPackage)) {
             log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_PACKAGE));
             storeForStats(statusBarNotification, Constants.FILTER_PACKAGE);
+            return;
+        }
+
+        if (isPackageSilenced(notificationPackage)) {
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_SILENCE));
+            storeForStats(statusBarNotification, Constants.FILTER_SILENCE);
+            return;
+        }
+
+        if (isPackageFiltered(statusBarNotification)) {
+            log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_TEXT));
+            storeForStats(statusBarNotification, Constants.FILTER_TEXT);
             return;
         }
 
@@ -585,13 +600,66 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isPackageAllowed(String packageName) {
+        /*
         String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
         Gson gson = new Gson();
-
         String[] packagesList = gson.fromJson(packagesJson, String[].class);
-
         return Arrays.binarySearch(packagesList, packageName) >= 0;
+        */
+        NotificationPreferencesEntity app = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .querySingle();
+        return app != null;
+    }
 
+    private boolean isPackageSilenced(String packageName) {
+        NotificationPreferencesEntity app = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .querySingle();
+        if (app != null) {
+            return app.getSilenceUntil() > SilenceApplicationHelper.getCurrentTimeSeconds();
+        }else{
+            return false;
+        }
+    }
+
+
+    private boolean isPackageFiltered(StatusBarNotification statusBarNotification) {
+        String packageName = statusBarNotification.getPackageName();
+        NotificationPreferencesEntity app = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .querySingle();
+        if (app != null) {
+            String notificationText = "";
+            CharSequence text = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
+            CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
+
+            if (bigText != null) {
+                notificationText = bigText.toString();
+            }else{
+                if (text != null && !text.toString().isEmpty()){
+                    notificationText = text.toString();
+                }
+            }
+
+            String[] filters = app.getFilter().split("\\r?\\n");
+            for(String filter : filters) {
+                log.d("Checking if '%s' contains '%s'", notificationText, filter);
+                if (!filter.isEmpty() && notificationText.contains(filter)){
+                    log.d("Package '%s' filterered because '%s' contains '%s'", packageName, notificationText,filter);
+                    return true;
+                }
+            }
+            return false;
+        }else{
+            return false;
+        }
     }
 
     private boolean isCustomUIEnabled() {

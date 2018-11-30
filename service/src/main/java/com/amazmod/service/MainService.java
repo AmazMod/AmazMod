@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.amazmod.service.events.HardwareButtonEvent;
 import com.amazmod.service.events.NightscoutDataEvent;
 import com.amazmod.service.events.ReplyNotificationEvent;
+import com.amazmod.service.events.SilenceApplicationEvent;
 import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
 import com.amazmod.service.events.incoming.EnableLowPower;
@@ -420,6 +421,19 @@ public class MainService extends Service implements Transporter.DataListener {
         dataBundle.putString("message", event.getMessage());
 
         send(Transport.REPLY, dataBundle);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void silence(SilenceApplicationEvent event) {
+        Log.d(Constants.TAG, "MainService silence application, package: " + event.getPackageName() + ", minutes: " + event.getMinutes());
+
+        DataBundle dataBundle = new DataBundle();
+
+        dataBundle.putString("package", event.getPackageName());
+        dataBundle.putString("minutes", event.getMinutes());
+
+        send(Transport.SILENCE, dataBundle);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

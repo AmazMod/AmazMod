@@ -269,4 +269,5 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="file_uploader_author">Autore: %s</string>
     <string name="file_uploader_label">Etichetta: %s</string>
     <string name="file_uploader_package">Pacchetto: %s</string>
+    <string name="notification_silenced">SILENCED</string>
 </resources>

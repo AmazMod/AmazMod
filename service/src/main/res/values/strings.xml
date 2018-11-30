@@ -33,4 +33,5 @@
     <string name="admin_receiver_status_enabled">enabled</string>
     <string name="admin_receiver_status_disabled">disabled</string>
     <string name="admin_receiver_status_disable_warning">AmazMod will not be able to lock screen after closing replies.</string>
+    <string name="silence_application">Silence</string>
 </resources>

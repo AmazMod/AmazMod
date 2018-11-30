@@ -6,26 +6,32 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.AppInfoAdapter;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.support.AppInfo;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.Flowable;
@@ -136,18 +142,22 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
 
                 List<AppInfo> appInfoList = new ArrayList<>();
 
+                Map<String, NotificationPreferencesEntity> packagesMap = loadApps();
+
+                // TODO: 21/11/2018 remove the code that reads from preferences, i kept it so it wouldnt be necessary to enable all the already selected apps agai/n  
                 String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
                 Gson gson = new Gson();
-
                 String[] packagesList = gson.fromJson(packagesJson, String[].class);
-
                 Arrays.sort(packagesList);
 
                 for (PackageInfo packageInfo : packageInfoList) {
 
                     boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
 
-                    boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
+                    boolean enabled = packagesMap.containsKey(packageInfo.packageName);
+
+                    // TODO: 21/11/2018 remove here too!!!! 
+                    enabled = enabled || Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
 
                     if (enabled || !isSystemApp || (showSystemApps && isSystemApp)) {
                         AppInfo appInfo = createAppInfo(packageInfo, enabled);
@@ -224,14 +234,63 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
 
             for (AppInfo appInfo : appInfoList) {
                 if (appInfo.isEnabled()) {
+                    enableApp(appInfo.getPackageName());
                     enabledPackages.add(appInfo.getPackageName());
+                } else {
+                    deletePackage(appInfo.getPackageName());
                 }
             }
 
+            // TODO: 21/11/2018 remove here line below, kept here when migrating from preference to db
             Gson gson = new Gson();
             String pref = gson.toJson(enabledPackages);
 
             Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
+            //Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
         }
+    }
+
+    private Map<String, NotificationPreferencesEntity> loadApps() {
+        List<NotificationPreferencesEntity> apps = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .queryList();
+        Map<String, NotificationPreferencesEntity> map = new HashMap<>();
+        for (NotificationPreferencesEntity i : apps) map.put(i.getPackageName(), i);
+        return map;
+    }
+
+    private void enableApp(String packageName) {
+        NotificationPreferencesEntity app = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .querySingle();
+
+        if (app != null) {
+            //previousSameCommand.setDate(System.currentTimeMillis());
+            //FlowManager
+            //        .getModelAdapter(CommandHistoryEntity.class)
+            //        .update(previousSameCommand);
+        } else {
+            NotificationPreferencesEntity notifEntity = new NotificationPreferencesEntity();
+            notifEntity.setPackageName(packageName);
+            notifEntity.setFilter(null);
+            notifEntity.setSilenceUntil(0);
+            notifEntity.setWhitelist(false);
+            Log.d(Constants.TAG, "STORING " + packageName + " in AmazmodDB.NotificationPreferences");
+            FlowManager
+                    .getModelAdapter(NotificationPreferencesEntity.class)
+                    .insert(notifEntity);
+        }
+    }
+
+    public void deletePackage(String packageName) {
+        Log.d(Constants.TAG, "REMOVING " + packageName + " from AmazmodDB.NotificationPreferences");
+        SQLite
+                .delete()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .query();
     }
 }
