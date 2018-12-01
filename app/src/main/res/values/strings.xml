@@ -271,4 +271,5 @@
     <string name="pref_notifications_disable_picture_summary">Pictures will not be shown in the notification. This will save the battery</string>
     <string name="notification_silenced">SILENCED</string>
     <string name="notification_text_filter">Filter</string>
+    <string name="silenced_apps">Silenced Applications</string>
 </resources>

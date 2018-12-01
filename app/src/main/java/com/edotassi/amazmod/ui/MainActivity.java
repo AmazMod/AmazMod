@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.ui;
 
+import android.app.FragmentManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
@@ -31,8 +33,10 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.setup.Setup;
+import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
+import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
@@ -54,10 +58,12 @@ public class MainActivity extends AppCompatActivity
 
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
+    private SilencedApplicationsFragment silencedApplicationsFragment = new SilencedApplicationsFragment();
 
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
+        add(silencedApplicationsFragment);
         add(watchInfoFragment);
     }};
 

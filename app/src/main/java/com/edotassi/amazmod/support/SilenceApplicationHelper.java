@@ -9,6 +9,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import amazmod.com.transport.Constants;
 
@@ -55,4 +56,38 @@ public class SilenceApplicationHelper {
         Date resultdate = new Date(timeSeconds * 1000);
         return sdf.format(resultdate);
     }
+
+
+    public static int getSilencedApplicationsCount() {
+        return listSilencedApplications().size();
+    }
+
+    public static List<NotificationPreferencesEntity> listSilencedApplications() {
+        return SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.silenceUntil.greaterThan(getCurrentTimeSeconds()))
+                .queryList();
+    }
+
+
+    public static void cancelSilence(String packageName){
+        Log.d(Constants.TAG, "SilenceApplicationHelper cancelSilence: " + packageName);
+        NotificationPreferencesEntity pref = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .querySingle();
+        if (pref != null) {
+            pref.setSilenceUntil(0);
+            FlowManager
+                    .getModelAdapter(NotificationPreferencesEntity.class)
+                    .update(pref);
+            Log.d(Constants.TAG, "SilenceApplicationHelper cancelSilence: cancelled Silence of package " + packageName);
+        } else {
+            Log.d(Constants.TAG, "SilenceApplicationHelper cancelSilence: package " + packageName + " not found in NotificationPreference table");
+        }
+    }
+
+
 }
