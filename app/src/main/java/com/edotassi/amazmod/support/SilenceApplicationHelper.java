@@ -7,6 +7,7 @@ import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -52,9 +53,11 @@ public class SilenceApplicationHelper {
 
     public static String getTimeSecondsReadable(long timeSeconds) {
         if (timeSeconds == 0) return "";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM - HH:mm");
         Date resultdate = new Date(timeSeconds * 1000);
-        return sdf.format(resultdate);
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM - HH:mm");
+        //return sdf.format(resultdate);
+        DateFormat localizedDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
+        return localizedDateFormat.format(resultdate);
     }
 
 

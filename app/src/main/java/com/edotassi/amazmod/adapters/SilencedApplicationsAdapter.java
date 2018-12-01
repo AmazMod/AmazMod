@@ -64,6 +64,7 @@ public class SilencedApplicationsAdapter extends ArrayAdapter<NotificationPrefer
 
             viewHolder.silencedApplicationNameView.setText(packageLabel);
             viewHolder.silencedApplicationIconView.setImageDrawable(packageIcon);
+            viewHolder.silencedApplicationSilencedUntilView.setText(SilenceApplicationHelper.getTimeSecondsReadable(currentSilencedApplication.getSilenceUntil()));
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -78,6 +79,8 @@ public class SilencedApplicationsAdapter extends ArrayAdapter<NotificationPrefer
         ImageView silencedApplicationIconView;
         @BindView(R.id.item_silenced_app_appname)
         TextView silencedApplicationNameView;
+        @BindView(R.id.item_silenced_app_silenced_until)
+        TextView silencedApplicationSilencedUntilView;
 
 
         private Bridge silencedApplicationBridge;
