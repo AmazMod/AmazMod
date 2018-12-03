@@ -98,11 +98,11 @@ public class LauncherWearGridActivity extends Activity {
 
         }
 
-        final Fragment[] items = new Fragment[fragList.size()];
-        fragList.toArray(items);
+        //final Fragment[] items = new Fragment[fragList.size()];
+        //fragList.toArray(items);
 
         GridViewPagerAdapter adapter;
-        adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
+        adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), fragList);
 
         mGridViewPager.setAdapter(adapter);
 
