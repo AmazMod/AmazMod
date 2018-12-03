@@ -270,4 +270,5 @@ Proveďte příkaz shell\"</string>
     <string name="file_uploader_author">Autor: %s</string>
     <string name="file_uploader_label">Štítek: %s</string>
     <string name="file_uploader_package">Balíček: %s</string>
+    <string name="notification_silenced">SILENCED</string>
 </resources>

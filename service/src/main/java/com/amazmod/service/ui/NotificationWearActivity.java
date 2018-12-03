@@ -26,7 +26,11 @@ import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.ui.fragments.RepliesFragment;
+import com.amazmod.service.ui.fragments.SilenceFragment;
 import com.amazmod.service.util.DeviceUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
@@ -100,18 +104,13 @@ public class NotificationWearActivity extends Activity {
         clearBackStack();
 
         GridViewPagerAdapter adapter;
-        if (disableNotificationReplies) {
-            final Fragment[] items = {
-                    NotificationFragment.newInstance(notificationSpec.toBundle())
-            };
-            adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
-        } else {
-            final Fragment[] items = {
-                    NotificationFragment.newInstance(notificationSpec.toBundle()),
-                    RepliesFragment.newInstance(notificationSpec.toBundle())
-            };
-            adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
+        List<Fragment> items = new ArrayList<Fragment>();
+        items.add(NotificationFragment.newInstance(notificationSpec.toBundle()));
+        if (!disableNotificationReplies) {
+            items.add(RepliesFragment.newInstance(notificationSpec.toBundle()));
         }
+        items.add(SilenceFragment.newInstance(notificationSpec.toBundle()));
+        adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);
 
         //Do not activate screen if it is disabled in settings and screen is off
