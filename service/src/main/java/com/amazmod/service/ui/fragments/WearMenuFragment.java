@@ -14,6 +14,7 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.wearable.view.DelayedConfirmationView;
@@ -37,6 +38,10 @@ import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.huami.watch.transport.DataBundle;
 
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -62,16 +67,17 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "QR code",
                                 "Clean Memory",
                                 "Enable L.P.M.",
-                                "Revoke Device Owner",
-                                "Set Device Owner",
+                                "Revoke Device Admin",
+                                "Set Device Admin",
                                 "Restart Launcher",
                                 "Clear Launcher Settings",
                                 "Reboot",
                                 "Enter Fastboot",
+                                "Enter Recovery",
                                 "Units",
                                 "Disconnect Alert",
                                 "Away Alert",
-                                "Chenge Input Method",
+                                "Change Input Method",
                                 "Device Info"};
 
     private int[] mImagesOn = { R.drawable.baseline_wifi_white_24,
@@ -86,6 +92,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 			                    R.drawable.ic_border_none_white_24dp,
                                 R.drawable.ic_restart_white_24dp,
                                 R.drawable.baseline_adb_white_24,
+                                R.drawable.outline_update_white_24,
                                 R.drawable.ic_weight_pound_white_24dp,
                                 R.drawable.device_information_white_24x24,
                                 R.drawable.ic_alarm_light_white_24dp,
@@ -104,6 +111,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.ic_border_none_white_24dp,
                                     R.drawable.ic_restart_white_24dp,
                                     R.drawable.baseline_adb_white_24,
+                                    R.drawable.outline_update_white_24,
                                     R.drawable.ic_weight_kilogram_white_24dp,
                                     R.drawable.device_information_off_white_24x24,
                                     R.drawable.ic_alarm_light_off_white_24dp,
@@ -117,11 +125,12 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "kill-all",
                                 "",
                                 "",
-                                "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver;exit&",
+                                "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit&",
                                 "adb shell am force-stop com.huami.watch.launcher;exit&",
                                 "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher;exit&",
                                 "reboot",
                                 "reboot bootloader",
+                                "reboot recovery",
                                 "measurement",
                                 "huami.watch.localonly.ble_lost_anti_lost",
                                 "huami.watch.localonly.ble_lost_far_away",
@@ -202,7 +211,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 if (i == 0)
                     state = wfmgr.isWifiEnabled();
                 else
-                    state = i < 12 || i > 14 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
+                    state = i < 13 || i > 15 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
                 state = true;
                 Log.e(Constants.TAG, "WearMenuFragment onCreate exception: " + e.toString());
@@ -251,7 +260,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case 2:
-                flashlight();
+                startWearGridActivity(LauncherWearGridActivity.FLASHLIGHT);
                 break;
 
             case 3:
@@ -266,16 +275,17 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             case 9:
             case 10:
             case 11:
+            case 12:
                 beginCountdown();
                 break;
 
-            case 12:
             case 13:
             case 14:
+            case 15:
                 toggle(itemChosen);
                 break;
 
-            case 15:
+            case 16:
                 final Intent intent = new Intent(mContext, InputMethodActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -284,8 +294,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 mContext.startActivity(intent);
                 break;
 
-            case 16:
-                showInfo();
+            case 17:
+                startWearGridActivity(LauncherWearGridActivity.INFO);
                 break;
 
             default:
@@ -382,7 +392,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 
             case 4:
                 Toast.makeText(mContext, "Killing background processes…", Toast.LENGTH_SHORT).show();
-                DeviceUtil.killBackgroundTasks(mContext);
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                    DeviceUtil.killBackgroundTasks(mContext);
+                    }
+                }, 1000);
                 break;
 
             case 5:
@@ -398,21 +412,21 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             case 9:
             case 10:
             case 11:
+            case 12:
                 runCommand(toggle[itemChosen]);
                 break;
         }
         itemChosen = 0;
     }
 
-    @SuppressLint("SetTextI18n")
-    public void showInfo() {
+    public void startWearGridActivity(char mode) {
 
         final Intent intent = new Intent(mContext, LauncherWearGridActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.INFO);
+        intent.putExtra(LauncherWearGridActivity.MODE, mode);
         mContext.startActivity(intent);
     }
 
@@ -492,18 +506,6 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         final IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
         mContext.registerReceiver(receiverSSID, intentFilter);
-    }
-
-    public void flashlight() {
-        Log.d(Constants.TAG, "WearMenuFragment flashlight");
-        final Intent intent = new Intent(mContext, LauncherWearGridActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.FLASHLIGHT);
-        mContext.startActivity(intent);
-
     }
 
     private void toggle(int id) {

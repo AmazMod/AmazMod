@@ -120,8 +120,8 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
                     //Log.i(Constants.TAG, "PackageReceiver onReceive isDeviceOwnerApp: " + mDPM.isDeviceOwnerApp(context.getPackageName())
                     //        + " // getActiveAdmins: " + mDPM.getActiveAdmins());
                     if (!(mDPM != null && mDPM.isDeviceOwnerApp(getPackageName()))) {
-                        Log.d(Constants.TAG, "DummyActivity onActivityResult set-device-owner");
-                        Runtime.getRuntime().exec("adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver;exit");
+                        Log.d(Constants.TAG, "DummyActivity onActivityResult set-active-admin");
+                        Runtime.getRuntime().exec("adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit");
                     }
                 }
             } else if (appTag.contains(".apk")) {

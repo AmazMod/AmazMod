@@ -4,40 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Fragment;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.wifi.SupplicantState;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.SystemClock;
-import android.os.Vibrator;
-import android.provider.Settings;
-import android.support.wearable.view.DelayedConfirmationView;
-import android.support.wearable.view.WearableListView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.adapters.MenuListAdapter;
-import com.amazmod.service.events.incoming.EnableLowPower;
-import com.amazmod.service.events.incoming.RevokeAdminOwner;
-import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.springboard.WidgetSettings;
-import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.SystemProperties;
-import com.huami.watch.transport.DataBundle;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -45,12 +26,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
-
 import static android.content.Context.ACTIVITY_SERVICE;
-import static android.content.Context.VIBRATOR_SERVICE;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 
 public class WearInfoFragment extends Fragment {
 

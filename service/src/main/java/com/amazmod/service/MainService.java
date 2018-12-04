@@ -384,7 +384,7 @@ public class MainService extends Service implements Transporter.DataListener {
         try {
             if (mDPM != null) {
                 ComponentName componentName = new ComponentName(context, AdminReceiver.class);
-                mDPM.clearDeviceOwnerApp(context.getPackageName());
+                //mDPM.clearDeviceOwnerApp(context.getPackageName());
                 mDPM.removeActiveAdmin(componentName);
             }
         } catch (NullPointerException e) {
