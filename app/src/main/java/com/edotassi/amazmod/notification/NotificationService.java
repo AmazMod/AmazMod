@@ -640,6 +640,19 @@ public class NotificationService extends NotificationListenerService {
             CharSequence text = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
             CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
 
+            CharSequence title = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TITLE);
+            CharSequence bigTitle = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TITLE_BIG);
+
+            String notificationTitle = "";
+
+            if (bigTitle != null){
+                notificationTitle = bigTitle.toString();
+            }else{
+                if (title != null && !title.toString().isEmpty()){
+                    notificationTitle = title.toString();
+                }
+            }
+
             if (bigText != null) {
                 notificationText = bigText.toString();
             }else{
@@ -651,9 +664,16 @@ public class NotificationService extends NotificationListenerService {
             String[] filters = app.getFilter().split("\\r?\\n");
             for(String filter : filters) {
                 log.d("Checking if '%s' contains '%s'", notificationText, filter);
-                if (!filter.isEmpty() && notificationText.contains(filter)){
-                    log.d("Package '%s' filterered because '%s' contains '%s'", packageName, notificationText,filter);
-                    return true;
+                if (!filter.isEmpty()){
+                    filter = filter.toLowerCase();
+                    if (notificationTitle.toLowerCase().contains(filter)) {
+                        log.d("Package '%s' filterered because TITLE ('%s') contains '%s'", packageName, notificationTitle, filter);
+                        return true;
+                    }
+                    if (notificationText.toLowerCase().contains(filter)) {
+                        log.d("Package '%s' filterered because CONTENTS ('%s') contains '%s'", packageName, notificationText, filter);
+                        return true;
+                    }
                 }
             }
             return false;
