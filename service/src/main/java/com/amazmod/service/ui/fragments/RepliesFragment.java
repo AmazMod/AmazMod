@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.text.emoji.widget.EmojiButton;
@@ -12,7 +11,6 @@ import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +23,8 @@ import android.widget.TextView;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
-import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.util.FragmentUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -50,16 +48,10 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     private EditText editText;
     private Button reply, close;
 
-    private float fontSizeSP;
-    private String defaultLocale, selectedReply;
+    private String selectedReply;
     private boolean enableInvertedTheme, disableDelay;
     private Context mContext;
-    private LinearLayout.LayoutParams params;
-    private SettingsManager settingsManager;
-
-    private static final float FONT_SIZE_NORMAL = 14.0f;
-    private static final float FONT_SIZE_LARGE = 18.0f;
-    private static final float FONT_SIZE_HUGE = 22.0f;
+    private FragmentUtil util;
 
     @Override
     public void onAttach(Activity activity) {
@@ -106,7 +98,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
         Log.d(Constants.TAG,"RepliesFragment updateContent " + notificationSpec);
 
-        settingsManager = new SettingsManager(mContext);
+        util = new FragmentUtil(mContext);
 
         rootLayout = getActivity().findViewById(R.id.fragment_replies_root_layout);
         scrollView = getActivity().findViewById(R.id.fragment_replies_scrollview);
@@ -120,17 +112,9 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         delayedConfirmationView = getActivity().findViewById(R.id.delayedView);
         delayedConfirmationView.setTotalTimeMs(3000);
 
-        params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-
         //Load preferences
-        enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
-                Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
-        disableDelay = settingsManager.getBoolean(Constants.PREF_DISABLE_DELAY,
-                Constants.PREF_DEFAULT_DISABLE_DELAY);
-        defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
-        Log.i(Constants.TAG, "RepliesFragment defaultLocale: " + defaultLocale);
+        enableInvertedTheme = util.getInvertedTheme();
+        disableDelay = util.getDisableDelay();
 
 
         // Set theme and font size
@@ -142,25 +126,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
         delayedConfirmationView.setVisibility(View.GONE);
         editTextContainer.setVisibility(View.GONE);
-        setFontSizeSP();
         addReplies();
 
-    }
-
-
-    private void setFontSizeSP(){
-        String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
-                Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
-        switch (fontSize) {
-            case "l":
-                fontSizeSP = FONT_SIZE_LARGE;
-                break;
-            case "h":
-                fontSizeSP = FONT_SIZE_HUGE;
-                break;
-            default:
-                fontSizeSP = FONT_SIZE_NORMAL;
-        }
     }
 
     private void setFontLocale(Button b, String locale) {
@@ -176,8 +143,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
             EmojiButton button = new EmojiButton(mContext);
-            setButtonParams(button, reply.getValue());
-            setButtonTheme(button, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
+            util.setButtonParams(button, reply.getValue());
+            util.setButtonTheme(button, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -189,8 +156,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         }
         //Add keyboard button
         EmojiButton buttonkb = new EmojiButton(mContext);
-        setButtonParams(buttonkb, getResources().getString(R.string.keyboard));
-        setButtonTheme(buttonkb, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
+        util.setButtonParams(buttonkb, getResources().getString(R.string.keyboard));
+        util.setButtonTheme(buttonkb, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
         buttonkb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,8 +166,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
                 ((NotificationWearActivity)getActivity()).stopTimerFinish();
 
                 //Send buttons
-                setButtonParams(reply, getResources().getString(R.string.send_button));
-                setButtonTheme(reply, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
+                util.setButtonParams(reply, getResources().getString(R.string.send_button));
+                util.setButtonTheme(reply, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -209,8 +176,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
                     }
                 });
                 //Cancel button
-                setButtonParams(close, getResources().getString(R.string.close_button));
-                setButtonTheme(close, Constants.RED);
+                util.setButtonParams(close, getResources().getString(R.string.close_button));
+                util.setButtonTheme(close, Constants.RED);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -226,7 +193,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     }
 
     private List<Reply> loadReplies() {
-        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
+        final String replies = util.listReplies();
 
         try {
             Type listType = new TypeToken<List<Reply>>() {
@@ -237,55 +204,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         }
     }
 
-    private void setButtonParams(EmojiButton button, String text) {
-        params.setMargins(20, 12, 20, 12);
-        button.setLayoutParams(params);
-        button.setPadding(0,10,0,10);
-        button.setIncludeFontPadding(false);
-        button.setMinHeight(24);
-        setFontLocale(button, defaultLocale);
-        button.setText(text);
-        button.setAllCaps(false);
-        button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-
-    }
-
-    private void setButtonParams(Button button, String text) {
-        button.setPadding(0,10,0,10);
-        button.setIncludeFontPadding(false);
-        button.setMinHeight(24);
-        button.setText(text);
-        button.setAllCaps(true);
-        button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-
-    }
-
-    private void setButtonTheme(Button button, String color){
-        switch (color) {
-            case ("red"): {
-                button.setTextColor(Color.parseColor("#ffffff"));
-                button.setBackground(mContext.getDrawable(R.drawable.close_red));
-                break;
-            }
-            case ("blue"): {
-                button.setTextColor(Color.parseColor("#ffffff"));
-                button.setBackground(mContext.getDrawable(R.drawable.reply_blue));
-                break;
-            }
-            case ("grey"): {
-                button.setTextColor(Color.parseColor("#000000"));
-                button.setBackground(mContext.getDrawable(R.drawable.reply_grey));
-                break;
-            }
-            default: {
-                button.setTextColor(Color.parseColor("#000000"));
-                button.setBackground(mContext.getDrawable(R.drawable.reply_grey));
-            }
-        }
-    }
 
     private void sendReply(View v) {
-
         ((NotificationWearActivity)getActivity()).stopTimerFinish();
         repliesContainer.setVisibility(View.GONE);
         editTextContainer.setVisibility(View.GONE);
@@ -296,8 +216,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
         } else {
             Log.d(Constants.TAG, "RepliesFragment sendReply with delay");
-            params.setMargins(0, 24, 0, 4);
-            textView.setLayoutParams(params);
+            util.setParamMargins(0, 24, 0, 4);
+            textView.setLayoutParams(util.getParams());
             delayedConfirmationView.setVisibility(View.VISIBLE);
             textView.setText(getResources().getString(R.string.sending));
             delayedConfirmationView.setPressed(false);
@@ -317,8 +237,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
         ((NotificationWearActivity)getActivity()).startTimerFinish();
 
-        params.setMargins(0,8,0,4);
-        textView.setLayoutParams(params);
+        textView.setLayoutParams(util.getParams());
         delayedConfirmationView.setVisibility(View.GONE);
         repliesContainer.setVisibility(View.VISIBLE);
         textView.setText(getResources().getString(R.string.reply));
