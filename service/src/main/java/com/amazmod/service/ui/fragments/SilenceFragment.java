@@ -142,6 +142,18 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
             }
         });
         silenceContainer.addView(dayButton);
+
+        EmojiButton blockButton = new EmojiButton(mContext);
+        util.setButtonParams(blockButton, "BLOCK APP");
+        util.setButtonTheme(blockButton, Constants.RED);
+        blockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedSilenceTime = Constants.BLOCK_APP;
+                sendSilenceCommand(v);
+            }
+        });
+        silenceContainer.addView(blockButton);
     }
 
     private void sendSilenceCommand(View v) {

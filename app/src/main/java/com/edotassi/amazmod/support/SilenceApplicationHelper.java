@@ -10,16 +10,23 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import amazmod.com.transport.Constants;
 
 public class SilenceApplicationHelper {
 
     public static void silenceAppFromNotification(String notificationKey, int minutes) {
-        Log.d(Constants.TAG, "SilenceApplicationHelper silenceApp: " + notificationKey + " / Minutes: " + String.valueOf(minutes));
+        Log.d(Constants.TAG, "SilenceApplicationHelper silenceAppFromNotification: " + notificationKey + " / Minutes: " + String.valueOf(minutes));
         String packageName = notificationKey.split("\\|")[1];
-        silenceApp(packageName, minutes);
+        if (Integer.valueOf(Constants.BLOCK_APP) == minutes){
+            deletePackage(packageName);
+        }else{
+            silenceApp(packageName, minutes);
+        }
+
     }
 
     public static void silenceApp(String packageName, int minutes) {
@@ -90,6 +97,52 @@ public class SilenceApplicationHelper {
         } else {
             Log.d(Constants.TAG, "SilenceApplicationHelper cancelSilence: package " + packageName + " not found in NotificationPreference table");
         }
+    }
+
+    public static Map<String, NotificationPreferencesEntity> listApps() {
+        List<NotificationPreferencesEntity> apps = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .queryList();
+        Map<String, NotificationPreferencesEntity> map = new HashMap<>();
+        for (NotificationPreferencesEntity i : apps) map.put(i.getPackageName(), i);
+        return map;
+    }
+
+    public static void enablePackage(String packageName) {
+        Log.d(Constants.TAG, "SilenceApplicationHelper enablePackage: " + packageName + " in AmazmodDB.NotificationPreferences");
+        NotificationPreferencesEntity app = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .querySingle();
+
+        if (app != null) {
+            //previousSameCommand.setDate(System.currentTimeMillis());
+            //FlowManager
+            //        .getModelAdapter(CommandHistoryEntity.class)
+            //        .update(previousSameCommand);
+        } else {
+            NotificationPreferencesEntity notifEntity = new NotificationPreferencesEntity();
+            notifEntity.setPackageName(packageName);
+            notifEntity.setFilter(null);
+            notifEntity.setSilenceUntil(0);
+            notifEntity.setWhitelist(false);
+            Log.d(Constants.TAG, "STORING " + packageName + " in AmazmodDB.NotificationPreferences");
+            FlowManager
+                    .getModelAdapter(NotificationPreferencesEntity.class)
+                    .insert(notifEntity);
+        }
+    }
+
+
+    public static void deletePackage(String packageName) {
+        Log.d(Constants.TAG, "SilenceApplicationHelper deletePackage: " + packageName + " from AmazmodDB.NotificationPreferences");
+        SQLite
+                .delete()
+                .from(NotificationPreferencesEntity.class)
+                .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
+                .query();
     }
 
 

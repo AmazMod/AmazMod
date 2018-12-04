@@ -57,6 +57,8 @@ public class Constants {
     public static final String BLUE = "blue";
     public static final String GREY = "grey";
 
+    public static final String BLOCK_APP = "999999";
+
     public static final String TEXT = "text";
     public static final String TIME = "time";
     public static final String APP_TAG = "app_tag";

@@ -14,6 +14,7 @@ public class Constants {
     public static final String SCREENSHOT_DIRECTORY = "AmazMod/Screenshots";
     public static final byte MODE_DOWNLOAD = 'D';
     public static final byte MODE_SCREENSHOT = 'S';
+    public static final String BLOCK_APP = "999999";
 
     public static final String SHELL_COMMAND_INSTALL_APK = "install_apk %s";
     public static final String SHELL_COMMAND_REBOOT = "reboot";
