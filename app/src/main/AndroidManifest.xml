@@ -154,6 +154,7 @@
                 <data android:pathPattern=".*\..*\..*\..*\..*\..*\.apk" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.NotificationPackageOptionsActivity" />
 
         <service
             android:name=".notification.NotificationService"
@@ -164,6 +165,9 @@
             </intent-filter>
         </service>
         <service android:name=".transport.TransportService" />
+        <service android:name=".notification.NotificationJobService"
+            android:label="AmazModNotificationJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
         <!--
         Disabled since new Watch class was added
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
@@ -200,7 +204,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/nnf_provider_paths" />
         </provider>
-        <activity android:name=".ui.NotificationPackageOptionsActivity"></activity>
+
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="${enableCrashReporting}" />
     </application>
 
