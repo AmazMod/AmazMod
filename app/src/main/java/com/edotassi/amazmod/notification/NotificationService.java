@@ -3,18 +3,22 @@ package com.edotassi.amazmod.notification;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.annotation.RequiresApi;
@@ -27,28 +31,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
-import amazmod.com.transport.Constants;
-
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.db.model.BatteryStatusEntity;
-import com.edotassi.amazmod.db.model.NotficationSentEntity;
-import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
-import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
+import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
-import com.google.gson.Gson;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
-import com.huami.watch.transport.DataTransportResult;
-import com.huami.watch.transport.Transporter;
-import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -57,8 +51,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -66,10 +58,12 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.NotificationReplyData;
+
+import static java.lang.Math.abs;
 
 public class NotificationService extends NotificationListenerService {
 
@@ -79,6 +73,10 @@ public class NotificationService extends NotificationListenerService {
     private static final long BLOCK_INTERVAL = 60000 * 60L; //One hour
     private static final long MAPS_INTERVAL = 60000 * 3L; //Three minutes
     private static final long VOICE_INTERVAL = 5000L; //Five seconds
+
+    private static final long JOB_INTERVAL = 5 * 1000L; //Five seconds
+    private static final long JOB_MAX_INTERVAL = 60 * 1000L; //1 minute
+    private static final long CUSTOMUI_LATENCY = 1350L;
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
             "com.contapps.android",
@@ -93,6 +91,9 @@ public class NotificationService extends NotificationListenerService {
     private static long lastTimeNotificationSent = 0;
     private static String lastTxt = "";
 
+    private static ComponentName serviceComponent;
+    private static JobScheduler jobScheduler;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -100,6 +101,11 @@ public class NotificationService extends NotificationListenerService {
         EventBus.getDefault().register(this);
 
         notificationsAvailableToReply = new HashMap<>();
+
+        NotificationStore notificationStore = new NotificationStore();
+
+        serviceComponent = new ComponentName(getApplicationContext(), NotificationJobService.class);
+        jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
 
         log.d("NotificationService onCreate");
     }
@@ -168,7 +174,7 @@ public class NotificationService extends NotificationListenerService {
 
         boolean notificationSent = false;
 
-        log.d("NotificationService notificationPackage:" + notificationPackage + " / filterResult: " + Character.toString((char) (byte) filterResult));
+        log.d("NotificationService notificationPackage: " + notificationPackage + " / filterResult: " + Character.toString((char) (byte) filterResult));
 
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
@@ -193,12 +199,20 @@ public class NotificationService extends NotificationListenerService {
             }
 
         } else {
+            Log.d(Constants.TAG, "NotificationService onNotificationPosted: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
+
             //Messenger voice call notifications
-            if (isRingingNotification(statusBarNotification.getNotification())) {
+            if (isRingingNotification(filterResult)) {
+                Log.d(Constants.TAG, "NotificationService onNotificationPosted: " + Character.toString((char) (byte) filterResult));
                 handleCall(statusBarNotification, notificationPackage);
-            } else if (isMapsNotification(statusBarNotification.getNotification(), notificationPackage)) {
+
+            //Maps notification
+            } else if (isMapsNotification(filterResult, notificationPackage)) {
+                Log.d(Constants.TAG, "NotificationService onNotificationPosted: " + Character.toString((char) (byte) filterResult));
                 mapNotification(statusBarNotification);
                 //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
+
+            //Blocked
             } else {
                 log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
                 storeForStats(statusBarNotification, filterResult);
@@ -210,7 +224,7 @@ public class NotificationService extends NotificationListenerService {
     Hashtable<Integer, int[]> grouped_notifications = new Hashtable<Integer, int[]>();
 
     @Override
-    public void onNotificationRemoved(StatusBarNotification statusBarNotification) {
+    public void onNotificationRemoved(final StatusBarNotification statusBarNotification) {
         if (statusBarNotification == null) {
             return;
         }
@@ -224,42 +238,76 @@ public class NotificationService extends NotificationListenerService {
 
         if (isPackageAllowed(statusBarNotification.getPackageName())) {
 
+            /*
+            * Disabled while testing JobScheduler
+            *
             //Connect transporter
             Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
             notificationTransporter.connectTransportService();
+            */
 
             DataBundle dataBundle = new DataBundle();
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+
+            NotificationStore.addStandardNotification(statusBarNotification.getKey(), dataBundle);
+            int id = NotificationJobService.NOTIFICATION_REMOVED;
+            int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
+
+            scheduleJob(id, jobId, statusBarNotification.getKey());
+
+            log.i("NotificationService notificationRemoved jobScheduled: " + jobId);
+
+            /*
+            * Disabled while testing JobScheduler
+            *
             notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     log.d(dataTransportResult.toString());
+                    Log.d(Constants.TAG, "NotificationService onNotificationRemoved id: " + statusBarNotification.getId());
                 }
             });
+            */
 
             if (grouped_notifications.containsKey(statusBarNotification.getId())) {
                 //initial array
                 int[] grouped = grouped_notifications.get(statusBarNotification.getId());
-                for (int id : grouped) {
+                for (int i : grouped) {
+                    int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
+                    Log.d(Constants.TAG, "NotificationService onNotificationRemoved grouped id: " + nextId);
                     dataBundle = new DataBundle();
                     StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
-                            statusBarNotification.getId() + id,
-                            statusBarNotification.getTag(), 0, 0, 0,
+                            nextId, statusBarNotification.getTag(), 0, 0, 0,
                             statusBarNotification.getNotification(), statusBarNotification.getUser(),
                             statusBarNotification.getPostTime());
                     dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
+
+                    NotificationStore.addStandardNotification(statusBarNotification.getKey(), dataBundle);
+
+                    scheduleJob(id, jobId, statusBarNotification.getKey());
+
+                    log.i("NotificationService notificationRemoved grouped jobScheduled: " + jobId);
+
+                    /*
+                    * Disabled while testing JobScheduler
+                    *
                     notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
                         @Override
                         public void onResultBack(DataTransportResult dataTransportResult) {
                             log.d(dataTransportResult.toString());
                         }
                     });
+                    */
                 }
                 grouped_notifications.remove(statusBarNotification.getId());
             }
 
+            /*
+            * Disabled while testing JobScheduler
+            *
             //Disconnect transporter to avoid leaking
             notificationTransporter.disconnectTransportService();
+            */
 
             //Reset time of last notification when notification is removed
             if (lastTimeNotificationArrived > 0) {
@@ -270,11 +318,13 @@ public class NotificationService extends NotificationListenerService {
             }
         }
 
-
     }
 
     private void sendNotificationWithCustomUI(StatusBarNotification statusBarNotification) {
+        final String key = statusBarNotification.getKey();
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+        notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
+
         if (isStandardDisabled()) {
             notificationData.setVibration(getDefaultVibration());
         } else notificationData.setVibration(0);
@@ -282,14 +332,27 @@ public class NotificationService extends NotificationListenerService {
         notificationData.setHideButtons(true);
         notificationData.setForceCustom(false);
 
+        NotificationStore.addCustomNotification(key, notificationData);
+        NotificationStore.addNotificationBundle(key, statusBarNotification.getNotification().extras);
+        int id = NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI;
+        int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
+
+        scheduleJob(id, jobId, key);
+
+        /*
+        * Disabled while testing JobScheduler
+        *
         extractImagesFromNotification(statusBarNotification, notificationData);
 
-        notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
-
         Watch.get().postNotification(notificationData);
-        log.i("NotificationService CustomUI: " + notificationData.toString());
+        */
+
+        log.i("NotificationService CustomUI: " + statusBarNotification.getKey());
     }
 
+    /*
+    * Disabled while testing JobScheduler
+    *
     private void extractImagesFromNotification(StatusBarNotification statusBarNotification, NotificationData notificationData) {
         Bundle bundle = statusBarNotification.getNotification().extras;
 
@@ -359,12 +422,16 @@ public class NotificationService extends NotificationListenerService {
 
         return values;
     }
+    */
 
     private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
         DataBundle dataBundle = new DataBundle();
+        int id = NotificationJobService.NOTIFICATION_POSTED_STANDARD_UI;
+        int jobId = id;
 
         if (filterResult == Constants.FILTER_UNGROUP && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
-            int nextId = (int) (long) (System.currentTimeMillis() % 10000L);
+            int nextId = abs((int) (long) (System.currentTimeMillis() % 10000L));
+            jobId += abs((int) (long) (statusBarNotification.getId() % 10000L))+ nextId;
             StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
                     statusBarNotification.getId() + nextId,
                     statusBarNotification.getTag(), 0, 0, 0,
@@ -375,21 +442,28 @@ public class NotificationService extends NotificationListenerService {
             if (grouped_notifications.containsKey(statusBarNotification.getId())) {
                 //initial array
                 int[] grouped = grouped_notifications.get(statusBarNotification.getId());
-                //new value
-                int newValue = nextId;
                 //define the new array
                 int[] newArray = new int[grouped.length + 1];
                 //copy values into new array
-                for (int i = 0; i < grouped.length; i++)
-                    newArray[i] = grouped[i];
-                newArray[newArray.length - 1] = newValue;
+                System.arraycopy(grouped, 0, newArray, 0, grouped.length);
+                newArray[newArray.length - 1] = nextId;
                 grouped_notifications.put(statusBarNotification.getId(), newArray);
             } else {
                 grouped_notifications.put(statusBarNotification.getId(), new int[]{nextId});
             }
         } else {
+            jobId += abs((int) (long) (statusBarNotification.getId() % 10000L));
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
         }
+
+        NotificationStore.addStandardNotification(statusBarNotification.getKey(), dataBundle);
+
+        scheduleJob(id, jobId, statusBarNotification.getKey());
+
+
+        /*
+        * Disabled while testing JobScheduler
+        *
 
         //Connect transporter
         Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
@@ -406,32 +480,54 @@ public class NotificationService extends NotificationListenerService {
         notificationTransporter.disconnectTransportService();
 
         log.i("NotificationService StandardUI: " + dataBundle.toString());
+        */
+
+        log.i("NotificationService StandardUI jobScheduled: " + jobId);
+
+    }
+
+    private void scheduleJob(int id, int jobId, String key) {
+        PersistableBundle bundle = new PersistableBundle();
+        bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
+        bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
+
+        JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
+        if (id == 1)
+            builder.setMinimumLatency(CUSTOMUI_LATENCY);
+        else
+            builder.setMinimumLatency(0);
+        builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
+        builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+        builder.setExtras(bundle);
+        jobScheduler.schedule(builder.build());
     }
 
     private int getAudioManagerMode() {
-        return ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).getMode();
+        try {
+            return ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).getMode();
+        } catch (NullPointerException e) {
+            log.e(e, "NotificationService isRinging Exception: %s", e.toString());
+            return AudioManager.MODE_INVALID;
+        }
     }
 
     private int getDefaultVibration() {
         return Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION));
+
     }
 
     private boolean isRinging() {
         boolean isRinging = false;
-        try {
-            final int mode = getAudioManagerMode();
-            if (AudioManager.MODE_IN_CALL == mode) {
-                log.d("NotificationService Ringer: CALL");
-            } else if (AudioManager.MODE_IN_COMMUNICATION == mode) {
-                log.d("NotificationService Ringer: COMMUNICATION");
-            } else if (AudioManager.MODE_RINGTONE == mode) {
-                log.d("NotificationService Ringer: RINGTONE");
-                isRinging = true;
-            } else {
-                log.d("NotificationService Ringer: SOMETHING ELSE");
-            }
-        } catch (NullPointerException e) {
-            log.e(e, "NotificationService getMode Exception: %s", e.toString());
+        final int mode = getAudioManagerMode();
+        if (AudioManager.MODE_IN_CALL == mode) {
+            log.d("NotificationService Ringer: CALL");
+        } else if (AudioManager.MODE_IN_COMMUNICATION == mode) {
+            log.d("NotificationService Ringer: COMMUNICATION");
+        } else if (AudioManager.MODE_RINGTONE == mode) {
+            log.d("NotificationService Ringer: RINGTONE");
+            isRinging = true;
+        } else {
+            log.d("NotificationService Ringer: SOMETHING ELSE");
         }
 
         return isRinging;
@@ -440,12 +536,18 @@ public class NotificationService extends NotificationListenerService {
     private void handleCall(StatusBarNotification statusBarNotification, String notificationPackage) {
         log.d("NotificationService VoiceCall: " + notificationPackage);
         while (isRinging()) {
-            if (System.currentTimeMillis() - lastTimeNotificationSent > VOICE_INTERVAL) {
+            long timeSinceLastNotification = (System.currentTimeMillis() - lastTimeNotificationSent);
+            Log.d(Constants.TAG, "NotificationService handleCall timeSinceLastNotification: " + timeSinceLastNotification);
+            if (timeSinceLastNotification > VOICE_INTERVAL) {
 
                 NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
-                //notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
+
+                final String key = statusBarNotification.getKey();
 
                 final PackageManager pm = getApplicationContext().getPackageManager();
+
+                Log.d(Constants.TAG, "NotificationService handleCall notificationPackage: " + notificationPackage);
+
                 ApplicationInfo ai;
                 try {
                     ai = pm.getApplicationInfo(notificationPackage, 0);
@@ -455,20 +557,32 @@ public class NotificationService extends NotificationListenerService {
                 }
                 final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
 
+                Log.d(Constants.TAG, "NotificationService handleCall applicationName: " + applicationName);
+
                 notificationData.setText(notificationData.getText() + "\n" + applicationName);
                 notificationData.setVibration(getDefaultVibration());
                 notificationData.setHideReplies(true);
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
 
-                Watch.get().postNotification(notificationData);
+                NotificationStore.addCustomNotification(key, notificationData);
+                int id = NotificationJobService.NOTIFICATION_POSTED_VOICE;
+                int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
+
+                scheduleJob(id, jobId, key);
+
+                //Watch.get().postNotification(notificationData);
+
                 lastTimeNotificationSent = System.currentTimeMillis();
+
+                Log.d(Constants.TAG, "NotificationService handleCall notificationData.getText: " + notificationData.getText());
 
                 final int mode = getAudioManagerMode();
                 if (AudioManager.MODE_RINGTONE != mode) {
                     storeForStats(statusBarNotification, Constants.FILTER_VOICE);
                 }
-            }
+            } else
+                SystemClock.sleep(1000L);
         }
     }
 
@@ -485,7 +599,7 @@ public class NotificationService extends NotificationListenerService {
         boolean whitelistedApp = false;
 
         if (!isPackageAllowed(notificationPackage)) {
-            return returnFilterResult(Constants.FILTER_PACKAGE);
+            return Constants.FILTER_PACKAGE;
         }
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
@@ -495,13 +609,13 @@ public class NotificationService extends NotificationListenerService {
             log.d("NotificationService isGroupSummary: " + notificationPackage);
             if (Arrays.binarySearch(APP_WHITELIST, notificationPackage) < 0) {
                 log.d("notification blocked FLAG_GROUP_SUMMARY");
-                return returnFilterResult(Constants.FILTER_GROUP);
+                return Constants.FILTER_GROUP;
             } else whitelistedApp = true;
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
             log.d("notification blocked FLAG_ONGOING_EVENT");
-            return returnFilterResult(Constants.FILTER_ONGOING);
+            return Constants.FILTER_ONGOING;
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
@@ -509,7 +623,7 @@ public class NotificationService extends NotificationListenerService {
             if ((!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false) && !whitelistedApp) ||
                     ((Arrays.binarySearch(APP_WHITELIST, notificationPackage) >= 0) && !whitelistedApp)) {
                 log.d("notification blocked because is LocalOnly");
-                return returnFilterResult(Constants.FILTER_LOCAL);
+                return Constants.FILTER_LOCAL;
             } else if (!whitelistedApp) {
                 localAllowed = true;
             }
@@ -527,15 +641,15 @@ public class NotificationService extends NotificationListenerService {
                     && ((System.currentTimeMillis() - lastTimeNotificationArrived) < BLOCK_INTERVAL)) {
                 log.d("NotificationService blocked text");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
-                return returnFilterResult(Constants.FILTER_BLOCK);
+                return Constants.FILTER_BLOCK;
             } else {
                 notificationTimeGone.put(notificationId, text);
                 lastTimeNotificationArrived = System.currentTimeMillis();
                 log.d("NotificationService allowed1: " + notificationPackage);
                 //Logger.debug("notification allowed");
-                if (localAllowed) return returnFilterResult(Constants.FILTER_LOCALOK);
+                if (localAllowed) return Constants.FILTER_LOCALOK;
                     //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
-                else return returnFilterResult(Constants.FILTER_UNGROUP);
+                else return Constants.FILTER_UNGROUP;
             }
         }
 
@@ -543,10 +657,10 @@ public class NotificationService extends NotificationListenerService {
         log.d("NotificationService allowed2: " + notificationPackage);
 
         if (localAllowed) {
-            return returnFilterResult(Constants.FILTER_LOCALOK);
+            return Constants.FILTER_LOCALOK;
         }
 
-        return returnFilterResult(Constants.FILTER_CONTINUE);
+        return Constants.FILTER_CONTINUE;
 
         /* Disabled because it is blocking some notifications
         NotficationSentEntity notificationSentEntity = SQLite
@@ -599,6 +713,27 @@ public class NotificationService extends NotificationListenerService {
         return Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_WHEN_LOCKED, true);
     }
 
+    private boolean isCustomUIEnabled() {
+        return Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
+    }
+
+    private boolean isStandardDisabled() {
+        return Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false);
+    }
+
+    private boolean isRingingNotification(byte filterResult) {
+
+        final boolean prefs = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS, false);
+        final boolean ring = isRinging();
+        Log.d(Constants.TAG, "NotificationService isRingingNotification prefs: " + prefs);
+        Log.d(Constants.TAG, "NotificationService isRingingNotification ring: " + ring);
+        return ((filterResult == Constants.FILTER_ONGOING) && prefs && ring);
+    }
+
+    private boolean isMapsNotification(byte filterResult, String notificationPackage) {
+        return ((filterResult == Constants.FILTER_ONGOING) && notificationPackage.contains("android.apps.maps"));
+    }
+
     private boolean isPackageAllowed(String packageName) {
         /*
         String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
@@ -620,11 +755,7 @@ public class NotificationService extends NotificationListenerService {
                 .from(NotificationPreferencesEntity.class)
                 .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
                 .querySingle();
-        if (app != null) {
-            return app.getSilenceUntil() > SilenceApplicationHelper.getCurrentTimeSeconds();
-        }else{
-            return false;
-        }
+        return app != null && app.getSilenceUntil() > SilenceApplicationHelper.getCurrentTimeSeconds();
     }
 
 
@@ -680,29 +811,6 @@ public class NotificationService extends NotificationListenerService {
         }else{
             return false;
         }
-    }
-
-    private boolean isCustomUIEnabled() {
-        return Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
-    }
-
-    private boolean isStandardDisabled() {
-        return Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false);
-    }
-
-    private boolean isRingingNotification(Notification notification) {
-        return (notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
-                && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS, false) && isRinging();
-    }
-
-    private boolean isMapsNotification(Notification notification, String notificationPackage) {
-        return (notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT
-                && (notificationPackage.contains("android.apps.maps"));
-    }
-
-    private byte returnFilterResult(byte result) {
-        log.d("NotificationService _");
-        return result;
     }
 
     private void storeForStats(StatusBarNotification statusBarNotification, byte filterResult) {
@@ -801,7 +909,8 @@ public class NotificationService extends NotificationListenerService {
 
             //Get text from RemoteView using reflection
             List<String> txt = extractText(rmv);
-            if ((txt.size() > 0) && ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt))) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL))) {
+            if ((txt.size() > 0) && ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt)))
+                    || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL))) {
 
                 //Get navigation icon from a child View drawn on Canvas
                 try {
@@ -863,6 +972,7 @@ public class NotificationService extends NotificationListenerService {
         try {
             Field field = views.getClass().getDeclaredField("mActions");
             field.setAccessible(true);
+            //int counter = 0;
 
             @SuppressWarnings("unchecked")
             ArrayList<Parcelable> actions = (ArrayList<Parcelable>) field.get(views);
@@ -881,8 +991,8 @@ public class NotificationService extends NotificationListenerService {
                 parcel.readInt();
 
                 String methodName = parcel.readString();
-                if (methodName == null) continue;
-
+                if (methodName == null)
+                    continue;
                     // Save strings
                 else {
 
@@ -893,6 +1003,8 @@ public class NotificationService extends NotificationListenerService {
                         // Store the actual string
                         String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
                         text.add(t);
+                        //Log.d(Constants.TAG, "NotificationService extractText " + counter + " t: " + t);
+                        //counter++;
                     }
                 }
                 parcel.recycle();
@@ -901,7 +1013,7 @@ public class NotificationService extends NotificationListenerService {
         }
         // It's not usually good style to do this, but then again, neither is the use of reflection...
         catch (Exception e) {
-            Logger.get(NotificationService.class).e(e, "NotificationClassifier: %s", e.toString());
+            Logger.get(NotificationService.class).e(e, "extractText: %s", e.toString());
         }
         return text;
     }

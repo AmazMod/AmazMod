@@ -101,15 +101,23 @@ public class NotificationWearActivity extends Activity {
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
+        if (notificationSpec.getHideReplies() && notificationSpec.getForceCustom())
+            disableNotificationReplies = true;
+
         clearBackStack();
 
         GridViewPagerAdapter adapter;
         List<Fragment> items = new ArrayList<Fragment>();
+
         items.add(NotificationFragment.newInstance(notificationSpec.toBundle()));
+
         if (!disableNotificationReplies) {
             items.add(RepliesFragment.newInstance(notificationSpec.toBundle()));
         }
-        items.add(SilenceFragment.newInstance(notificationSpec.toBundle()));
+
+        if (!notificationSpec.getForceCustom())
+            items.add(SilenceFragment.newInstance(notificationSpec.toBundle()));
+
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);
 
