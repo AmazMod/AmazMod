@@ -8,7 +8,6 @@ import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +21,7 @@ public class SilenceApplicationHelper {
         Log.d(Constants.TAG, "SilenceApplicationHelper silenceAppFromNotification: " + notificationKey + " / Minutes: " + String.valueOf(minutes));
         String packageName = notificationKey.split("\\|")[1];
         if (Integer.valueOf(Constants.BLOCK_APP) == minutes){
-            deletePackage(packageName);
+            disablePackage(packageName);
         }else{
             silenceApp(packageName, minutes);
         }
@@ -30,7 +29,6 @@ public class SilenceApplicationHelper {
     }
 
     public static void silenceApp(String packageName, int minutes) {
-        Log.d(Constants.TAG, "SilenceApplicationHelper silenceApp: " + packageName + " / Minutes: " + String.valueOf(minutes));
         NotificationPreferencesEntity pref = SQLite
                 .select()
                 .from(NotificationPreferencesEntity.class)
@@ -82,7 +80,6 @@ public class SilenceApplicationHelper {
 
 
     public static void cancelSilence(String packageName){
-        Log.d(Constants.TAG, "SilenceApplicationHelper cancelSilence: " + packageName);
         NotificationPreferencesEntity pref = SQLite
                 .select()
                 .from(NotificationPreferencesEntity.class)
@@ -109,6 +106,13 @@ public class SilenceApplicationHelper {
         return map;
     }
 
+    public static void setPackageEnabled(String packageName, boolean enabled){
+        if (enabled)
+            enablePackage(packageName);
+        else
+            disablePackage(packageName);
+    }
+
     public static void enablePackage(String packageName) {
         Log.d(Constants.TAG, "SilenceApplicationHelper enablePackage: " + packageName + " in AmazmodDB.NotificationPreferences");
         NotificationPreferencesEntity app = SQLite
@@ -116,19 +120,12 @@ public class SilenceApplicationHelper {
                 .from(NotificationPreferencesEntity.class)
                 .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
                 .querySingle();
-
-        if (app != null) {
-            //previousSameCommand.setDate(System.currentTimeMillis());
-            //FlowManager
-            //        .getModelAdapter(CommandHistoryEntity.class)
-            //        .update(previousSameCommand);
-        } else {
+        if (app == null) {
             NotificationPreferencesEntity notifEntity = new NotificationPreferencesEntity();
             notifEntity.setPackageName(packageName);
             notifEntity.setFilter(null);
             notifEntity.setSilenceUntil(0);
             notifEntity.setWhitelist(false);
-            Log.d(Constants.TAG, "STORING " + packageName + " in AmazmodDB.NotificationPreferences");
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity.class)
                     .insert(notifEntity);
@@ -136,8 +133,8 @@ public class SilenceApplicationHelper {
     }
 
 
-    public static void deletePackage(String packageName) {
-        Log.d(Constants.TAG, "SilenceApplicationHelper deletePackage: " + packageName + " from AmazmodDB.NotificationPreferences");
+    public static void disablePackage(String packageName) {
+        Log.d(Constants.TAG, "SilenceApplicationHelper disablePackage: " + packageName + " from AmazmodDB.NotificationPreferences");
         SQLite
                 .delete()
                 .from(NotificationPreferencesEntity.class)

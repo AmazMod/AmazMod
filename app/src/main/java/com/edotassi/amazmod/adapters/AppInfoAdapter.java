@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.support.AppInfo;
+import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity;
 
 import java.util.List;
@@ -27,7 +28,6 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
     private Bridge appInfoBridge;
     private Context context;
-    public final static int REQ_CODE_APPINFO_OPTS = 1000;
 
     public AppInfoAdapter(Bridge appInfoBridge, int resource, @NonNull List<AppInfo> objects) {
         super(appInfoBridge.getContext(), resource, objects);
@@ -65,8 +65,6 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
                 }
             }
         });
-
-
         return listItem;
     }
 
@@ -96,8 +94,11 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
         @OnCheckedChanged(R.id.row_appinfo_switch)
         public void onSwitchChanged(Switch switchWidget, boolean checked) {
-            appInfo.setEnabled(checked);
-            appInfoBridge.onAppInfoStatusChange();
+            if (checked != appInfo.isEnabled()) {
+                SilenceApplicationHelper.setPackageEnabled(appInfo.getPackageName(),checked);
+                appInfo.setEnabled(checked);
+                appInfoBridge.onAppInfoStatusChange();
+            }
         }
     }
 
