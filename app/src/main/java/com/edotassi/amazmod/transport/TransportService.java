@@ -82,6 +82,10 @@ public class TransportService extends Service implements Transporter.DataListene
     public void onCreate() {
         super.onCreate();
 
+        this.logger.d("TransportService onCreate");
+
+        startPersistentNotification();
+
         transportListener = new TransportListener(this);
         EventBus.getDefault().register(transportListener);
 
@@ -96,20 +100,16 @@ public class TransportService extends Service implements Transporter.DataListene
             AmazModApplication.isWatchConnected = false;
         }
 
-        // Add persistent notification if it is enabled in Settings or running on Oreo+
-        boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
-        model = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(Constants.PREF_WATCH_MODEL, "");
-        if (enableNotification || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            persistentNotification = new PersistentNotification(this, model);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeground(persistentNotification.getNotificationId(), persistentNotification.createPersistentNotification());
-            } else {
-                persistentNotification.createPersistentNotification();
-            }
-        }
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        this.logger.d("TransportService onStartCommand");
+
+        startPersistentNotification();
+
+        return START_STICKY;
     }
 
     @Override
@@ -145,6 +145,22 @@ public class TransportService extends Service implements Transporter.DataListene
             }
         } else {
             //TODO handle null action
+        }
+    }
+
+    private void startPersistentNotification() {
+        // Add persistent notification if it is enabled in Settings or running on Oreo+
+        boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
+        model = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.PREF_WATCH_MODEL, "");
+        if (enableNotification || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            persistentNotification = new PersistentNotification(this, model);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForeground(persistentNotification.getNotificationId(), persistentNotification.createPersistentNotification());
+            } else {
+                persistentNotification.createPersistentNotification();
+            }
         }
     }
 
