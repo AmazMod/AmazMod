@@ -2,91 +2,113 @@ package com.edotassi.amazmod.notification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.os.Handler;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.watch.Watch;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.Task;
+import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.ByteArrayOutputStream;
 
 import amazmod.com.transport.Constants;
+import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
 
 public class NotificationJobService extends JobService {
 
     JobParameters params;
 
+    private static Transporter transporterNotifications, transporterHuami;
+
     public static final String NOTIFICATION_KEY = "notification_key";
     public static final String NOTIFICATION_MODE = "notification_mode";
-    public static final int NOTIFICATION_POSTED_STANDARD_UI = 0;
-    public static final int NOTIFICATION_POSTED_CUSTOM_UI = 1;
-    public static final int NOTIFICATION_POSTED_VOICE = 3;
-    public static final int NOTIFICATION_REMOVED = 2;
+    public static final int NOTIFICATION_POSTED_STANDARD_UI = 1000;
+    public static final int NOTIFICATION_POSTED_CUSTOM_UI = 2000;
+    public static final int NOTIFICATION_REMOVED = 3000;
 
     private static String result;
-    private static int retries;
-
-    private static Transporter transporter;
-
+    private static int retries = 0;
 
     @Override
     public boolean onStartJob(JobParameters params) {
 
         this.params = params;
 
-        //Initiate transporter
-        transporter = TransporterClassic.get(this, "com.huami.action.notification");
-
-        Log.d(Constants.TAG, "NotificationJobService onStartJob isTransportServiceConnected: " + transporter.isTransportServiceConnected());
-        //Force transporter leak to re-create it later
-        transporter.connectTransportService();
-
-        int id = params.getJobId();
-        String key = params.getExtras().getString(NOTIFICATION_KEY, null);
-        int mode = params.getExtras().getInt(NOTIFICATION_MODE, -1);
-        retries = 0;
+        final int id = params.getJobId();
+        final String key = params.getExtras().getString(NOTIFICATION_KEY, null);
+        final int mode = params.getExtras().getInt(NOTIFICATION_MODE, -1);
 
         int std = NotificationStore.getStandardNotificationCount();
         int cst = NotificationStore.getCustomNotificationCount();
         int bs = NotificationStore.getNotificationBundleCount();
 
+        transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
+
+        if (!transporterNotifications.isTransportServiceConnected()) {
+            Log.w(Constants.TAG, "NotificationJobService onStartJob transporterNotifications not connected, connecting...");
+            transporterNotifications.connectTransportService();
+        } else {
+            Log.d(Constants.TAG, "NotificationJobService onStartJob transporterNotifications already connected");
+        }
+
+        transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
+        if (!transporterHuami.isTransportServiceConnected()) {
+            Log.w(Constants.TAG, "NotificationJobService onStartJob transporterHuami not connected, connecting...");
+            transporterHuami.connectTransportService();
+        } else {
+            Log.d(Constants.TAG, "NotificationJobService onStartJob transportedHuami already connected");
+        }
+
         Log.d(Constants.TAG, "NotificationJobService onStartJob id: " + id + " \\ mode: " + mode + " \\ key: " + key);
         Log.d(Constants.TAG, "NotificationJobService onStartJob std#: " + std + " \\ cst#: " + cst +  " \\ bs#: " + bs);
 
+        int delay = 690;
+
         if (key != null) {
 
-            switch (mode) {
+            Log.d(Constants.TAG, "NotificationJobService onStartJob transporterNotifications.isAvailable: " + transporterNotifications.isAvailable());
+            Log.d(Constants.TAG, "NotificationJobService onStartJob transporterHuami.isAvailable: " + transporterHuami.isAvailable());
 
-                case NOTIFICATION_POSTED_STANDARD_UI:
-                    processStandardNotificationPosted(key, mode);
-                    break;
+            if (transporterNotifications.isAvailable() && transporterHuami.isAvailable())
+                delay = 10;
 
-                case NOTIFICATION_POSTED_CUSTOM_UI:
-                    processCustomNotificationPosted(key, mode);
-                    break;
+            final Handler handler = new Handler();
 
-                case NOTIFICATION_POSTED_VOICE:
-                    processCustomNotificationPosted(key, mode);
-                    break;
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
-                case NOTIFICATION_REMOVED:
-                    processNotificationRemoved(key, mode);
-                    break;
+                    switch (mode) {
 
-                default:
-                    Log.e(Constants.TAG, "NotificationJobService onStartJob error: no NOTIFICATION_MODE found!");
+                        case NOTIFICATION_POSTED_STANDARD_UI:
+                            processStandardNotificationPosted(key, mode);
+                            break;
 
-            }
+                        case NOTIFICATION_POSTED_CUSTOM_UI:
+                            processCustomNotificationPosted(key, mode);
+                            break;
+
+                        case NOTIFICATION_REMOVED:
+                            processNotificationRemoved(key, mode);
+                            break;
+
+                        default:
+                            Log.e(Constants.TAG, "NotificationJobService onStartJob error: no NOTIFICATION_MODE found!");
+
+                    }
+                }
+            }, delay + 10);
+
         } else
             Log.e(Constants.TAG, "NotificationJobService onStartJob error: null key!");
 
@@ -97,23 +119,28 @@ public class NotificationJobService extends JobService {
     public boolean onStopJob(JobParameters params) {
         Log.d(Constants.TAG, "NotificationJobService onStopJob id: " + params.getJobId());
 
-        //Disconnect transport
-        if (transporter.isTransportServiceConnected()) {
-            Log.i(Constants.TAG, "NotificationJobService onStartJob disconnecting transport…");
-            transporter.disconnectTransportService();
-        }
-
         return true;
     }
 
     @Override
     public void onDestroy() {
-        //Disconnect transport
-        if (transporter.isTransportServiceConnected()) {
-            Log.i(Constants.TAG, "NotificationJobService onDestroy disconnecting transport…");
-            transporter.disconnectTransportService();
-        }
+
+        Log.d(Constants.TAG, "NotificationJobService onDestroy");
+
         super.onDestroy();
+    }
+
+    private void disconnectTransports() {
+
+        if (transporterNotifications.isTransportServiceConnected()) {
+            Log.i(Constants.TAG, "NotificationJobService disconnectTransports disconnecting transporterNotifications…");
+            transporterNotifications.disconnectTransportService();
+        }
+
+        if (transporterHuami.isTransportServiceConnected()) {
+            Log.i(Constants.TAG, "NotificationJobService disconnectTransports disconnecting transporterHuami…");
+            transporterHuami.disconnectTransportService();
+        }
     }
 
     private void processStandardNotificationPosted(final String key, final int mode) {
@@ -122,21 +149,23 @@ public class NotificationJobService extends JobService {
 
         DataBundle dataBundle = NotificationStore.getStandardNotification(key);
 
-        if (transporter.isTransportServiceConnected()) {
+        if (transporterHuami.isTransportServiceConnected()) {
             Log.i(Constants.TAG, "NotificationJobService processStandardNotificationPosted transport already connected");
             AmazModApplication.isWatchConnected = true;
         } else {
             Log.w(Constants.TAG, "NotificationJobService processStandardNotificationPosted transport not connected, connecting...");
-            transporter.connectTransportService();
+            transporterHuami.connectTransportService();
             AmazModApplication.isWatchConnected = false;
         }
 
-        transporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
+        Log.i(Constants.TAG, "NotificationJobService processStandardNotificationPosted transporterHuami.isAvailable: " + transporterHuami.isAvailable());
+
+        transporterHuami.send("add", dataBundle, new Transporter.DataSendResultCallback() {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
                 result = dataTransportResult.toString();
                 Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted result: " +result);
-                transporter.disconnectTransportService();
+                //transporterHuami.disconnectTransportService();
 
                 if (result.toLowerCase().contains("ok")) {
                     Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted OK");
@@ -166,21 +195,23 @@ public class NotificationJobService extends JobService {
 
         DataBundle dataBundle = NotificationStore.getStandardNotification(key);
 
-        if (transporter.isTransportServiceConnected()) {
+        if (transporterHuami.isTransportServiceConnected()) {
             Log.i(Constants.TAG, "NotificationJobService processNotificationRemoved transport already connected");
             AmazModApplication.isWatchConnected = true;
         } else {
             Log.w(Constants.TAG, "NotificationJobService processNotificationRemoved transport not connected, connecting...");
-            transporter.connectTransportService();
+            transporterHuami.connectTransportService();
             AmazModApplication.isWatchConnected = false;
         }
 
-        transporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
+        Log.i(Constants.TAG, "NotificationJobService processNotificationRemoved transporterHuami.isAvailable: " + transporterHuami.isAvailable());
+
+        transporterHuami.send("del", dataBundle, new Transporter.DataSendResultCallback() {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
                 result = dataTransportResult.toString();
                 Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved result: " + result);
-                transporter.disconnectTransportService();
+                //transporterHuami.disconnectTransportService();
 
                 if (result.toLowerCase().contains("ok")) {
                     Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved OK");
@@ -210,9 +241,73 @@ public class NotificationJobService extends JobService {
 
         if (mode == NOTIFICATION_POSTED_CUSTOM_UI) {
             Bundle bundle = NotificationStore.getNotificationBundle(key);
-            extractImagesFromNotification(bundle, notificationData);
+            if (bundle != null)
+                extractImagesFromNotification(bundle, notificationData);
         }
 
+        //final Transporter transporter2 = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
+
+        if (transporterNotifications.isTransportServiceConnected()) {
+            Log.i(Constants.TAG,"NotificationJobService processCustomNotificationPosted isTransportServiceConnected: true");
+        } else {
+            Log.w(Constants.TAG,"NotificationJobService processCustomNotificationPosted isTransportServiceConnected = false, connecting...");
+            transporterNotifications.connectTransportService();
+            AmazModApplication.isWatchConnected = false;
+        }
+
+        boolean isTransportConnected = transporterNotifications.isTransportServiceConnected();
+        result = null;
+        if (!isTransportConnected) {
+            if (AmazModApplication.isWatchConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.isWatchConnected = false;
+                EventBus.getDefault().removeAllStickyEvents();
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
+            }
+            Log.w(Constants.TAG, "NotificationJobService processCustomNotificationPosted isTransportConnected: false");
+        }
+
+        Log.i(Constants.TAG, "NotificationJobService processCustomNotificationPosted transporterNotifications.isAvailable: " + transporterNotifications.isAvailable());
+
+        DataBundle dataBundle = new DataBundle();
+        notificationData.toDataBundle(dataBundle);
+        transporterNotifications.send(Transport.INCOMING_NOTIFICATION, dataBundle, new Transporter.DataSendResultCallback() {
+            @Override
+            public void onResultBack(DataTransportResult dataTransportResult) {
+                result = dataTransportResult.toString();
+                Log.i(Constants.TAG, "NotificationJobService processCustomNotificationPosted send result: " + result);
+                //transporterNotifications.disconnectTransportService();
+
+                if (result.toLowerCase().contains("ok")) {
+                    Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted OK");
+                    NotificationStore.removeCustomNotification(key);
+                    if (mode == NOTIFICATION_POSTED_CUSTOM_UI)
+                        NotificationStore.removeNotificationBundle(key);
+                    jobFinished(params, false);
+                } else {
+                    Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted try: " + retries);
+                    if (AmazModApplication.isWatchConnected && retries < 4) {
+                        retries++;
+                        processCustomNotificationPosted(key, mode);
+                    } else {
+                        retries = 0;
+                        if (AmazModApplication.isWatchConnected) {
+                            Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted rescheduling…");
+                            jobFinished(params, true);
+                        } else {
+                            Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted finishing…");
+                            NotificationStore.removeCustomNotification(key);
+                            if (mode == NOTIFICATION_POSTED_CUSTOM_UI)
+                                NotificationStore.removeNotificationBundle(key);
+                            jobFinished(params, false);
+                        }
+                    }
+                }
+            }
+        });
+
+
+
+        /*
         Watch.get().postNotification(notificationData).continueWith(new Continuation<Void, Object>() {
             @Override
             public Object then(@NonNull Task<Void> task) throws Exception {
@@ -259,6 +354,7 @@ public class NotificationJobService extends JobService {
                 return null;
             }
         });
+        */
     }
 
     private void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
@@ -317,6 +413,61 @@ public class NotificationJobService extends JobService {
         float destHeight = bitmap.getHeight() / horizontalScaleFactor;
 
         return Bitmap.createScaledBitmap(bitmap, 320, (int) destHeight, false);
+    }
+
+
+    //Send CustomUI without scheduling
+    public static void sendCustomNotification(final Context context, final NotificationData notificationData) {
+
+        Log.d(Constants.TAG, "NotificationJobService sendCustomNotification key: " + notificationData.getKey());
+
+        //final Transporter transporter2 = TransporterClassic.get(context, Transport.NAME_NOTIFICATION);
+
+        if (transporterNotifications.isTransportServiceConnected()) {
+            Log.i(Constants.TAG,"NotificationJobService sendCustomNotification isTransportServiceConnected: true");
+        } else {
+            Log.w(Constants.TAG,"NotificationJobService sendCustomNotification isTransportServiceConnected = false, connecting...");
+            transporterNotifications.connectTransportService();
+            AmazModApplication.isWatchConnected = false;
+        }
+
+        boolean isTransportConnected = transporterNotifications.isTransportServiceConnected();
+        result = null;
+        if (!isTransportConnected) {
+            if (AmazModApplication.isWatchConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.isWatchConnected = false;
+                EventBus.getDefault().removeAllStickyEvents();
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
+            }
+            Log.w(Constants.TAG, "NotificationJobService sendCustomNotification isTransportConnected: false");
+        }
+
+        Log.i(Constants.TAG, "NotificationJobService sendCustomNotification transporterNotifications.isAvailable: " + transporterNotifications.isAvailable());
+
+        DataBundle dataBundle = new DataBundle();
+        notificationData.toDataBundle(dataBundle);
+        transporterNotifications.send(Transport.INCOMING_NOTIFICATION, dataBundle, new Transporter.DataSendResultCallback() {
+            @Override
+            public void onResultBack(DataTransportResult dataTransportResult) {
+                result = dataTransportResult.toString();
+                Log.i(Constants.TAG, "NotificationJobService sendCustomNotification send result: " + result);
+                transporterNotifications.disconnectTransportService();
+
+                if (result.toLowerCase().contains("ok")) {
+                    Log.d(Constants.TAG, "NotificationJobService sendCustomNotification OK");
+
+                } else {
+                    Log.d(Constants.TAG, "NotificationJobService sendCustomNotification try: " + retries);
+                    if (AmazModApplication.isWatchConnected && retries < 4) {
+                        retries++;
+                        sendCustomNotification(context, notificationData);
+                    } else {
+                        Log.d(Constants.TAG, "NotificationJobService sendCustomNotification finishing…");
+                        retries = 0;
+                    }
+                }
+            }
+        });
     }
 
 }

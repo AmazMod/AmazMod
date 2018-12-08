@@ -1,6 +1,5 @@
 package com.edotassi.amazmod.notification;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
@@ -13,7 +12,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.media.AudioManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -21,9 +19,7 @@ import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +35,7 @@ import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
+import com.edotassi.amazmod.util.NotificationUtils;
 import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.huami.watch.notification.data.StatusBarNotificationData;
@@ -82,6 +79,13 @@ public class NotificationService extends NotificationListenerService {
             "com.contapps.android",
             "com.microsoft.office.outlook",
             "com.skype.raider"
+    };
+
+    private static final String[] VOICE_APP_LIST = { //apps may use voice calls without notifications
+            "com.skype.m2",
+            "com.skype.raider",
+            "org.telegram.messenger",
+            "org.thunderdog.challegram"
     };
 
     private Map<String, String> notificationTimeGone;
@@ -185,7 +189,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationSent = true;
             }
 
-            if (isCustomUIEnabled() && filterResult != Constants.FILTER_LOCALOK) {
+            if (isCustomUIEnabled() && (filterResult != Constants.FILTER_LOCALOK)) {
                 sendNotificationWithCustomUI(statusBarNotification);
                 notificationSent = true;
             }
@@ -202,13 +206,13 @@ public class NotificationService extends NotificationListenerService {
             Log.d(Constants.TAG, "NotificationService onNotificationPosted: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
 
             //Messenger voice call notifications
-            if (isRingingNotification(filterResult)) {
-                Log.d(Constants.TAG, "NotificationService onNotificationPosted: " + Character.toString((char) (byte) filterResult));
+            if (isRingingNotification(filterResult, notificationPackage)) {
+                Log.d(Constants.TAG, "NotificationService onNotificationPosted isRingingNotification: " + Character.toString((char) (byte) filterResult));
                 handleCall(statusBarNotification, notificationPackage);
 
             //Maps notification
             } else if (isMapsNotification(filterResult, notificationPackage)) {
-                Log.d(Constants.TAG, "NotificationService onNotificationPosted: " + Character.toString((char) (byte) filterResult));
+                Log.d(Constants.TAG, "NotificationService onNotificationPosted isMapsNotification: " + Character.toString((char) (byte) filterResult));
                 mapNotification(statusBarNotification);
                 //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
 
@@ -231,12 +235,15 @@ public class NotificationService extends NotificationListenerService {
 
         log.d("notificationRemoved: %s", statusBarNotification.getKey());
 
-        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
-                (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
+        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false)
+                || (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))
+                || (Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false))) {
+            Log.d(Constants.TAG, "NotificationService onNotificationRemoved returning due to Settings");
             return;
         }
 
-        if (isPackageAllowed(statusBarNotification.getPackageName())) {
+        if (isPackageAllowed(statusBarNotification.getPackageName())
+                && (!NotificationCompat.isGroupSummary(statusBarNotification.getNotification()))) {
 
             /*
             * Disabled while testing JobScheduler
@@ -316,7 +323,8 @@ public class NotificationService extends NotificationListenerService {
             if (lastTimeNotificationSent > 0) {
                 lastTimeNotificationSent = 0;
             }
-        }
+        } else
+            Log.d(Constants.TAG, "NotificationService onNotificationRemoved returning: P || G");
 
     }
 
@@ -347,7 +355,7 @@ public class NotificationService extends NotificationListenerService {
         Watch.get().postNotification(notificationData);
         */
 
-        log.i("NotificationService CustomUI: " + statusBarNotification.getKey());
+        log.i("NotificationService CustomUI jobScheduled: " + jobId);
     }
 
     /*
@@ -492,12 +500,14 @@ public class NotificationService extends NotificationListenerService {
         bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
 
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
-        if (id == 1)
+        if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI)
             builder.setMinimumLatency(CUSTOMUI_LATENCY);
         else
             builder.setMinimumLatency(0);
+
         builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
         builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+
         builder.setExtras(bundle);
         jobScheduler.schedule(builder.build());
     }
@@ -516,8 +526,15 @@ public class NotificationService extends NotificationListenerService {
 
     }
 
-    private boolean isRinging() {
-        boolean isRinging = false;
+    private int isRinging() {
+
+        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_IN_CALL = " + AudioManager.MODE_IN_CALL);
+        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_IN_COMMUNICATION = " + AudioManager.MODE_IN_COMMUNICATION);
+        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_RINGTONE = " + AudioManager.MODE_RINGTONE);
+        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_CURRENT = " + AudioManager.MODE_CURRENT);
+        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_INVALID = " + AudioManager.MODE_INVALID);
+        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_NORMAL = " + AudioManager.MODE_NORMAL);
+
         final int mode = getAudioManagerMode();
         if (AudioManager.MODE_IN_CALL == mode) {
             log.d("NotificationService Ringer: CALL");
@@ -525,20 +542,33 @@ public class NotificationService extends NotificationListenerService {
             log.d("NotificationService Ringer: COMMUNICATION");
         } else if (AudioManager.MODE_RINGTONE == mode) {
             log.d("NotificationService Ringer: RINGTONE");
-            isRinging = true;
         } else {
-            log.d("NotificationService Ringer: SOMETHING ELSE");
+            log.d("NotificationService Ringer: SOMETHING ELSE \\ mode: " + mode);
         }
 
-        return isRinging;
+        return mode;
     }
 
     private void handleCall(StatusBarNotification statusBarNotification, String notificationPackage) {
         log.d("NotificationService VoiceCall: " + notificationPackage);
-        while (isRinging()) {
+        int mode = 0;
+        if (notificationPackage.equals("org.thunderdog.challegram"))
+            mode = 1;
+        else if (notificationPackage.equals("org.telegram.messenger"))
+            mode = 2;
+        else if (notificationPackage.contains("skype"))
+            mode = 3;
+        int counter = 0;
+
+        while (((isRinging() == AudioManager.MODE_RINGTONE) && (mode == 0))
+                || ((mode == 1) && (counter < 3))
+                || ((mode == 2) && ((counter < 3) && isRinging() != AudioManager.MODE_IN_COMMUNICATION))
+                || ((mode == 3) && (counter < 3))) {
             long timeSinceLastNotification = (System.currentTimeMillis() - lastTimeNotificationSent);
-            Log.d(Constants.TAG, "NotificationService handleCall timeSinceLastNotification: " + timeSinceLastNotification);
+            //Log.d(Constants.TAG, "NotificationService handleCall timeSinceLastNotification: " + timeSinceLastNotification);
             if (timeSinceLastNotification > VOICE_INTERVAL) {
+
+                counter++;
 
                 NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
 
@@ -546,7 +576,7 @@ public class NotificationService extends NotificationListenerService {
 
                 final PackageManager pm = getApplicationContext().getPackageManager();
 
-                Log.d(Constants.TAG, "NotificationService handleCall notificationPackage: " + notificationPackage);
+                //Log.d(Constants.TAG, "NotificationService handleCall notificationPackage: " + notificationPackage);
 
                 ApplicationInfo ai;
                 try {
@@ -557,7 +587,7 @@ public class NotificationService extends NotificationListenerService {
                 }
                 final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
 
-                Log.d(Constants.TAG, "NotificationService handleCall applicationName: " + applicationName);
+                //Log.d(Constants.TAG, "NotificationService handleCall applicationName: " + applicationName);
 
                 notificationData.setText(notificationData.getText() + "\n" + applicationName);
                 notificationData.setVibration(getDefaultVibration());
@@ -565,24 +595,31 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
 
+                NotificationJobService.sendCustomNotification(this, notificationData);
+
+                /*
                 NotificationStore.addCustomNotification(key, notificationData);
                 int id = NotificationJobService.NOTIFICATION_POSTED_VOICE;
                 int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
 
                 scheduleJob(id, jobId, key);
+                 */
 
                 //Watch.get().postNotification(notificationData);
 
                 lastTimeNotificationSent = System.currentTimeMillis();
 
-                Log.d(Constants.TAG, "NotificationService handleCall notificationData.getText: " + notificationData.getText());
+                //Log.d(Constants.TAG, "NotificationService handleCall notificationData.getText: " + notificationData.getText());
 
-                final int mode = getAudioManagerMode();
-                if (AudioManager.MODE_RINGTONE != mode) {
+                final int audioMode = getAudioManagerMode();
+
+                Log.d(Constants.TAG, "NotificationService handleCall audioMode: " + audioMode + " \\ counter: " + counter);
+
+                if (((AudioManager.MODE_RINGTONE != audioMode) && mode == 0) || ((counter == 2) && (mode == 1 || mode == 2 || mode == 3))) {
                     storeForStats(statusBarNotification, Constants.FILTER_VOICE);
                 }
             } else
-                SystemClock.sleep(1000L);
+                SystemClock.sleep(300);
         }
     }
 
@@ -633,7 +670,7 @@ public class NotificationService extends NotificationListenerService {
         if (bigText != null) {
             text = bigText.toString();
         }
-        log.d("NotificationService notificationPackage: " + notificationPackage + " / text: " + text);
+        log.d("NotificationService notificationPackage: " + notificationPackage + " \\ text: " + text);
 
         if (notificationTimeGone.containsKey(notificationId)) {
             String previousText = notificationTimeGone.get(notificationId);
@@ -721,13 +758,14 @@ public class NotificationService extends NotificationListenerService {
         return Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false);
     }
 
-    private boolean isRingingNotification(byte filterResult) {
+    private boolean isRingingNotification(byte filterResult, String notificationPackage) {
 
         final boolean prefs = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_VOICE_APPS, false);
-        final boolean ring = isRinging();
-        Log.d(Constants.TAG, "NotificationService isRingingNotification prefs: " + prefs);
-        Log.d(Constants.TAG, "NotificationService isRingingNotification ring: " + ring);
-        return ((filterResult == Constants.FILTER_ONGOING) && prefs && ring);
+        final int ring = isRinging();
+        return ((filterResult == Constants.FILTER_ONGOING)
+                && ((prefs && (ring == AudioManager.MODE_RINGTONE))
+                || ((Arrays.binarySearch(VOICE_APP_LIST, notificationPackage) >= 0) && (ring == AudioManager.MODE_NORMAL))
+                || ((notificationPackage.contains("skype")) && (ring == AudioManager.MODE_IN_COMMUNICATION))));
     }
 
     private boolean isMapsNotification(byte filterResult, String notificationPackage) {
@@ -827,84 +865,50 @@ public class NotificationService extends NotificationListenerService {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void replyToNotification(ReplyToNotificationLocal replyToNotificationLocal) {
+    public void replyToNotificationLocal(ReplyToNotificationLocal replyToNotificationLocal) {
         NotificationReplyData notificationReplyData = replyToNotificationLocal.getNotificationReplyData();
         String notificationId = notificationReplyData.getNotificationId();
         String reply = notificationReplyData.getReply();
+
+        Log.d(Constants.TAG, "NotificationService replyToNotificationLocal notificationId: " + notificationId);
 
         StatusBarNotification statusBarNotification = notificationsAvailableToReply.get(notificationId);
         if (statusBarNotification != null) {
             notificationsAvailableToReply.remove(notificationId);
 
-            replyToNotification(statusBarNotification, reply);
-        } else {
-            log.w("Notification %s not found to reply", notificationId);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public void replyToNotification(StatusBarNotification statusBarNotification, String message) {
-        //NotificationWear notificationWear = new NotificationWear();
-        //notificationWear.packageName = statusBarNotification.getPackageName();
-
-        Bundle localBundle = statusBarNotification.getNotification().extras;
-
-        NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(statusBarNotification.getNotification());
-        List<NotificationCompat.Action> actions = wearableExtender.getActions();
-        for (NotificationCompat.Action act : actions) {
-            if (act != null && act.getRemoteInputs() != null) {
-                for (RemoteInput remoteInput : act.getRemoteInputs()) {
-                    localBundle.putCharSequence(remoteInput.getResultKey(), message);
-                }
-
-                Intent localIntent = new Intent();
-                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                RemoteInput.addResultsToIntent(act.getRemoteInputs(), localIntent, localBundle);
+            Action action = NotificationUtils.getQuickReplyAction(statusBarNotification.getNotification(), statusBarNotification.getPackageName());
+            if (action != null)
                 try {
-                    act.actionIntent.send(this, 0, localIntent);
+                    action.sendReply(this, reply);
                 } catch (PendingIntent.CanceledException e) {
-                    log.e(e, "replyToLastNotification error: " + e.getLocalizedMessage());
+                    Log.e(Constants.TAG, "NotificationService replyToNotificationLocal exception: " + e.toString());
                 }
+
+            /*
+            NotificationWear notificationWear = getNotificationWear(statusBarNotification);
+            if (notificationWear != null) {
+                reply(notificationWear, statusBarNotification.getKey(), reply);
+                Log.d(Constants.TAG, "NotificationService replyToNotificationLocal sent reply: " + notificationId);
             }
+            else {
+                replyToNotification(statusBarNotification, reply);
+                Log.d(Constants.TAG, "NotificationService replyToNotificationLocal sent replyToNotification: " + notificationId);
+            }
+            */
+
+        } else {
+            log.w("replyToNotificationLocal Notification %s not found to reply", notificationId);
         }
-
-        //List<Notification> pages = wearableExtender.getPages();
-        //notificationWear.pages.addAll(pages);
-
-        //notificationWear.bundle = statusBarNotification.getNotification().extras;
-        //notificationWear.tag = statusBarNotification.getTag();//TODO find how to pass Tag with sending PendingIntent, might fix Hangout problem
-
-        //notificationWear.pendingIntent = statusBarNotification.getNotification().contentIntent;
-
-        //RemoteInput[] remoteInputs = new RemoteInput[notificationWear.remoteInputs.size()];
-
-        /*
-        Intent localIntent = new Intent();
-        localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Bundle localBundle = notificationWear.bundle;
-        int i = 0;
-        for (RemoteInput remoteIn : notificationWear.remoteInputs) {
-            //getDetailsOfNotification(remoteIn);
-            remoteInputs[i] = remoteIn;
-            localBundle.putCharSequence(remoteInputs[i].getResultKey(), message);//This work, apart from Hangouts as probably they need additional parameter (notification_tag?)
-            i++;
-        }
-
-        RemoteInput.addResultsToIntent(remoteInputs, localIntent, localBundle);
-        try {
-            notificationWear.pendingIntent.send(context, 0, localIntent);
-        } catch (PendingIntent.CanceledException e) {
-        }
-        */
     }
 
     private void mapNotification(StatusBarNotification statusBarNotification) {
 
         log.d("NotificationService maps: " + statusBarNotification.getPackageName());
 
-        NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         RemoteViews rmv = statusBarNotification.getNotification().contentView;
+
+        NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+
         if (rmv != null) {
 
             //Get text from RemoteView using reflection

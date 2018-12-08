@@ -137,8 +137,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
-    private Transporter transporter;
-    private Transporter transporterHuami;
+    private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
 
     private Context context;
     private SettingsManager settingsManager;
@@ -170,7 +169,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         watchStatusData = new WatchStatusData();
 
-        Log.d(Constants.TAG, "MainService HermesEventBus connect");
+        Log.d(Constants.TAG, "MainService onCreate HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -188,7 +187,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 if (batteryPct > 0.98) {
                     dateLastCharge = currentTimeMillis();
                     settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
-                    Log.d(Constants.TAG, "MainService dateLastCharge saved: " + dateLastCharge);
+                    Log.d(Constants.TAG, "MainService onCreate dateLastCharge saved: " + dateLastCharge);
                 }
             }
         }, powerDisconnectedFilter);
@@ -198,24 +197,34 @@ public class MainService extends Service implements Transporter.DataListener {
         filter.addAction(Constants.INTENT_ACTION_REPLY);
         registerReceiver(notificationsReceiver, filter);
 
-        transporter = TransporterClassic.get(this, Transport.NAME);
-        transporter.addDataListener(this);
+        transporterGeneral = TransporterClassic.get(this, Transport.NAME);
+        transporterGeneral.addDataListener(this);
 
-        if (!transporter.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService Transporter not connected, connecting...");
-            transporter.connectTransportService();
+        if (!transporterGeneral.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onCreate transporterGeneral not connected, connecting...");
+            transporterGeneral.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService Transported already connected");
+            Log.d(Constants.TAG, "MainService onCreate transporterGeneral already connected");
+        }
+
+        transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
+        transporterNotifications.addDataListener(this);
+
+        if (!transporterNotifications.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onCreate transporterNotifications not connected, connecting...");
+            transporterNotifications.connectTransportService();
+        } else {
+            Log.d(Constants.TAG, "MainService onCreate transporterNotifications already connected");
         }
 
         // Catch huami's notifications
         transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
         transporterHuami.addDataListener(this);
         if (!transporterHuami.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService TransporterHuami not connected, connecting...");
+            Log.d(Constants.TAG, "MainService onCreate transporterHuami not connected, connecting...");
             transporterHuami.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService TransportedHuami already connected");
+            Log.d(Constants.TAG, "MainService onCreate transportedHuami already connected");
         }
 
         slptClockClient = new SlptClockClient();
@@ -253,6 +262,23 @@ public class MainService extends Service implements Transporter.DataListener {
             getContentResolver().unregisterContentObserver(phoneConnectionObserver);
             phoneConnectionObserver = null;
         }
+
+        //Disconnect transporters
+        if (transporterGeneral.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onDestroy transporterGeneral disconnecting...");
+            transporterGeneral.disconnectTransportService();
+        }
+
+        if (transporterNotifications.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onDestroy transporterNotifications disconnecting...");
+            transporterNotifications.disconnectTransportService();
+        }
+
+        if (transporterHuami.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onDestroy transporterHuami disconnecting...");
+            transporterHuami.disconnectTransportService();
+        }
+
         super.onDestroy();
     }
 
@@ -827,14 +853,14 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     private void send(String action, DataBundle dataBundle) {
-        if (!transporter.isTransportServiceConnected()) {
+        if (!transporterGeneral.isTransportServiceConnected()) {
             Log.d(Constants.TAG, "MainService Transport Service Not Connected");
             return;
         }
 
         if (dataBundle != null) {
             Log.d(Constants.TAG, "MainService send1: " + action);
-            transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
+            transporterGeneral.send(action, dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     Log.d(Constants.TAG, "Send result: " + dataTransportResult.toString());
@@ -843,7 +869,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         } else {
             Log.d(Constants.TAG, "MainService send2: " + action);
-            transporter.send(action, new Transporter.DataSendResultCallback() {
+            transporterGeneral.send(action, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     Log.d(Constants.TAG, "Send result: " + dataTransportResult.toString());
