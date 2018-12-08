@@ -272,4 +272,8 @@
     <string name="notification_silenced">SILENCED</string>
     <string name="notification_text_filter">Filter</string>
     <string name="silenced_apps">Silenced Applications</string>
+    <string name="ok">OK</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="show_only_selected">Show only allowed apps</string>
 </resources>
