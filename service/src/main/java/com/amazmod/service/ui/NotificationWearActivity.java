@@ -24,6 +24,7 @@ import com.amazmod.service.adapters.GridViewPagerAdapter;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.support.HorizontalGridViewPager;
+import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.ui.fragments.RepliesFragment;
 import com.amazmod.service.ui.fragments.SilenceFragment;
@@ -51,7 +52,7 @@ public class NotificationWearActivity extends Activity {
     private static int screenBrightness = 999989;
     private Context mContext;
 
-    private NotificationData notificationSpec;
+    private String key;
 
     private SettingsManager settingsManager;
 
@@ -59,6 +60,7 @@ public class NotificationWearActivity extends Activity {
     private DotsPageIndicator mPageIndicator;
 
     private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
+    public static final String KEY = "key";
     private static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
     private static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
 
@@ -66,7 +68,7 @@ public class NotificationWearActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
+        key = getIntent().getStringExtra(KEY);
 
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
         config.setReplaceAll(true);
@@ -101,7 +103,7 @@ public class NotificationWearActivity extends Activity {
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
-        if (notificationSpec.getHideReplies() && notificationSpec.getForceCustom())
+        if (NotificationStore.getHideReplies(key) && NotificationStore.getForceCustom(key))
             disableNotificationReplies = true;
 
         clearBackStack();
@@ -109,14 +111,14 @@ public class NotificationWearActivity extends Activity {
         GridViewPagerAdapter adapter;
         List<Fragment> items = new ArrayList<Fragment>();
 
-        items.add(NotificationFragment.newInstance(notificationSpec.toBundle()));
+        items.add(NotificationFragment.newInstance(key));
 
         if (!disableNotificationReplies) {
-            items.add(RepliesFragment.newInstance(notificationSpec.toBundle()));
+            items.add(RepliesFragment.newInstance(key));
         }
 
-        if (!notificationSpec.getForceCustom())
-            items.add(SilenceFragment.newInstance(notificationSpec.toBundle()));
+        if (!NotificationStore.getForceCustom(key))
+            items.add(SilenceFragment.newInstance(key));
 
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);
@@ -174,14 +176,14 @@ public class NotificationWearActivity extends Activity {
     }
 
     public void startTimerFinish() {
-        Log.i(Constants.TAG, "NotificationWearActivity startTimerFinish");
+        //Log.i(Constants.TAG, "NotificationWearActivity startTimerFinish");
         showKeyboard = false;
         handler.removeCallbacks(activityFinishRunnable);
-        handler.postDelayed(activityFinishRunnable, notificationSpec.getTimeoutRelock());
+        handler.postDelayed(activityFinishRunnable, NotificationStore.getTimeoutRelock(key));
     }
 
     public void stopTimerFinish() {
-        Log.i(Constants.TAG, "NotificationWearActivity stopTimerFinish");
+        //Log.i(Constants.TAG, "NotificationWearActivity stopTimerFinish");
         showKeyboard = true;
         handler.removeCallbacks(activityFinishRunnable);
     }

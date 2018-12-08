@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+import com.amazmod.service.support.NotificationStore;
+import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.FragmentUtil;
 
 import amazmod.com.transport.data.NotificationData;
@@ -77,9 +79,11 @@ public class NotificationFragment extends Fragment {
     }
 
     private void updateContent() {
-        notificationData = getArguments().getParcelable(NotificationData.EXTRA);
 
-        Log.i(Constants.TAG, "NotificationFragment updateContent context: " + mContext);
+        final String key = getArguments().getString(NotificationWearActivity.KEY);
+        notificationData = NotificationStore.getCustomNotification(key);
+
+        Log.i(Constants.TAG, "NotificationFragment updateContent context: " + mContext + " | key: " + key);
 
         util = new FragmentUtil(mContext);
 
@@ -156,11 +160,12 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-    public static NotificationFragment newInstance(Bundle b) {
-        Log.i(Constants.TAG, "NotificationFragment newInstance");
+    public static NotificationFragment newInstance(String key) {
+
+        Log.i(Constants.TAG, "NotificationFragment newInstance key: " + key);
         NotificationFragment myFragment = new NotificationFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(NotificationData.EXTRA, NotificationData.fromBundle(b));
+        bundle.putString(NotificationWearActivity.KEY, key);
         myFragment.setArguments(bundle);
 
         return myFragment;

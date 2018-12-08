@@ -15,10 +15,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.events.SilenceApplicationEvent;
+import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.FragmentUtil;
 
@@ -33,10 +35,11 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
     LinearLayout silenceContainer;
     BoxInsetLayout rootLayout;
     ScrollView scrollView;
+    TextView textView;
     NotificationData notificationSpec;
     private DelayedConfirmationView delayedConfirmationView;
 
-    private String selectedSilenceTime;
+    private String selectedSilenceTime, key;
     private boolean enableInvertedTheme, disableDelay;
     private Context mContext;
 
@@ -53,9 +56,10 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        notificationSpec = NotificationData.fromBundle(getArguments());
+        key = getArguments().getString(NotificationWearActivity.KEY);
+        notificationSpec = NotificationStore.getCustomNotification(key);
 
-        Log.d(Constants.TAG,"SilenceFragment onCreate " + notificationSpec);
+        Log.d(Constants.TAG,"SilenceFragment onCreate key: " + key);
 
     }
 
@@ -87,6 +91,7 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
 
         rootLayout = getActivity().findViewById(R.id.fragment_silence_root_layout);
         scrollView = getActivity().findViewById(R.id.fragment_silence_scrollview);
+        textView = getActivity().findViewById(R.id.fragment_silence_textview);
         silenceContainer = getActivity().findViewById(R.id.fragment_silence_container);
         delayedConfirmationView = getActivity().findViewById(R.id.fragment_silence_delayedView);
         delayedConfirmationView.setTotalTimeMs(3000);
@@ -99,6 +104,7 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
         //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+            textView.setTextColor(getResources().getColor(R.color.black));
         }
 
         delayedConfirmationView.setVisibility(View.GONE);
@@ -206,16 +212,19 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
         intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Silenced!");
         startActivity(intent);
 
+        NotificationStore.removeCustomNotification(key);
         HermesEventBus.getDefault().post(new SilenceApplicationEvent(notificationSpec.getKey(), selectedSilenceTime));
         getActivity().finish();
 
     }
 
-    public static SilenceFragment newInstance(Bundle b) {
+    public static SilenceFragment newInstance(String key) {
 
-        Log.i(Constants.TAG,"SilenceFragment newInstance");
+        Log.i(Constants.TAG,"SilenceFragment newInstance key: " + key);
         SilenceFragment myFragment = new SilenceFragment();
-        myFragment.setArguments(b);
+        Bundle bundle = new Bundle();
+        bundle.putString(NotificationWearActivity.KEY, key);
+        myFragment.setArguments(bundle);
 
         return myFragment;
     }

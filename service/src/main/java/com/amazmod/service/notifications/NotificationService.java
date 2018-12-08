@@ -24,6 +24,7 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.settings.SettingsManager;
+import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationActivity;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
@@ -59,6 +60,8 @@ public class NotificationService {
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         settingsManager = new SettingsManager(context);
 
+        NotificationStore notificationStore = new NotificationStore();
+
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
         context.registerReceiver(new BroadcastReceiver() {
@@ -88,32 +91,29 @@ public class NotificationService {
                 disableNotificationReplies = true;
             }
 
-            Log.d(Constants.TAG, "NotificationService notificationSpec.getKey(): " + notificationSpec.getKey());
+            final String key = notificationSpec.getKey();
+
+            Log.d(Constants.TAG, "NotificationService notificationSpec.getKey(): " + key);
             //Handles test notifications
-            if (notificationSpec.getKey().contains("amazmod|test|99")) {
+            if (key.contains("amazmod|test|99")) {
                 if (notificationSpec.getText().equals("Test Notification")) {
                     if (forceCustom) {
-                        Log.d(Constants.TAG, "NotificationService1 notificationSpec.getKey(): " + notificationSpec.getKey());
-                        postWithCustomUI(notificationSpec);
+                        Log.d(Constants.TAG, "NotificationService1 notificationSpec.getKey(): " + key);
+                        postWithCustomUI(key);
                     } else {
-                        Log.d(Constants.TAG, "NotificationService2 notificationSpec.getKey(): " + notificationSpec.getKey());
+                        Log.d(Constants.TAG, "NotificationService2 notificationSpec.getKey(): " + key);
                         postWithStandardUI(notificationSpec, hideReplies);
                     }
-                } else if (notificationSpec.getKey().equals("amazmod|test|9979")) {
-                    Log.d(Constants.TAG, "NotificationService3 notificationSpec.getKey(): " + notificationSpec.getKey());
+                } else if (key.equals("amazmod|test|9979")) {
+                    Log.d(Constants.TAG, "NotificationService3 notificationSpec.getKey(): " + key);
                     postWithStandardUI(notificationSpec, hideReplies);
                 }
                 //Handles normal notifications
             } else {
-                Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + notificationSpec.getKey());
+                Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
-                    //Delay 1000ms to make sure it will be shown after standard notification
-                    final Handler mHandler = new Handler();
-                    mHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            postWithCustomUI(notificationSpec);
-                        }
-                    }, 300);
+                    NotificationStore.addCustomNotification(key, notificationSpec);
+                    postWithCustomUI(key);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
                 }
@@ -244,13 +244,16 @@ public class NotificationService {
         */
     }
 
-    private void postWithCustomUI(NotificationData notificationSpec) {
+    private void postWithCustomUI(String key) {
+
+        Log.d(Constants.TAG, "NotificationService postWithCustomUI: " + NotificationStore.getCustomNotificationCount());
+
         Intent intent = new Intent(context, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(notificationSpec.toBundle());
+        intent.putExtra(NotificationWearActivity.KEY, key);
 
         context.startActivity(intent);
 

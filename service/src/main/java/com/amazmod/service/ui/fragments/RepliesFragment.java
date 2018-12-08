@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
+import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.FragmentUtil;
 import com.google.gson.Gson;
@@ -48,7 +49,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     private EditText editText;
     private Button reply, close;
 
-    private String selectedReply;
+    private String selectedReply, key;
     private boolean enableInvertedTheme, disableDelay;
     private Context mContext;
     private FragmentUtil util;
@@ -64,9 +65,10 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        notificationSpec = NotificationData.fromBundle(getArguments());
+        key = getArguments().getString(NotificationWearActivity.KEY);
+        notificationSpec = NotificationStore.getCustomNotification(key);
 
-        Log.d(Constants.TAG,"RepliesFragment onCreate " + notificationSpec);
+        Log.d(Constants.TAG,"RepliesFragment onCreate key: " + key);
 
     }
 
@@ -256,16 +258,19 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Reply Sent!");
         startActivity(intent);
 
+        NotificationStore.removeCustomNotification(key);
         HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), selectedReply));
         getActivity().finish();
 
     }
 
-    public static RepliesFragment newInstance(Bundle b) {
+    public static RepliesFragment newInstance(String key) {
 
-        Log.i(Constants.TAG,"RepliesFragment newInstance");
+        Log.i(Constants.TAG,"RepliesFragment newInstance key: " + key);
         RepliesFragment myFragment = new RepliesFragment();
-        myFragment.setArguments(b);
+        Bundle bundle = new Bundle();
+        bundle.putString(NotificationWearActivity.KEY, key);
+        myFragment.setArguments(bundle);
 
         return myFragment;
     }

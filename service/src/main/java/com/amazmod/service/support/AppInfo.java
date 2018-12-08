@@ -16,6 +16,7 @@ public class AppInfo {
         this.appName = appName;
         this.packageName = packageName;
         this.versionName = versionName;
+        this.size = size;
         this.icon = icon;
     }
 
