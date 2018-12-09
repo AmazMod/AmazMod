@@ -212,8 +212,10 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
         startActivity(intent);
 
         NotificationStore.removeCustomNotification(key);
+
         if (NotificationWearActivity.MODE_VIEW.equals(mode))
             WearNotificationsFragment.getInstance().loadNotifications();
+
         HermesEventBus.getDefault().post(new SilenceApplicationEvent(notificationKey, selectedSilenceTime));
         getActivity().finish();
 

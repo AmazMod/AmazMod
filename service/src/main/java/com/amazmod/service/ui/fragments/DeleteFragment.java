@@ -161,7 +161,8 @@ public class DeleteFragment extends Fragment implements DelayedConfirmationView.
 
         NotificationStore.removeCustomNotification(key);
 
-        WearNotificationsFragment.getInstance().loadNotifications();
+        if (NotificationWearActivity.MODE_VIEW.equals(mode))
+            WearNotificationsFragment.getInstance().loadNotifications();
 
         getActivity().finish();
 

@@ -36,5 +36,5 @@
     <!-- Strings used by AdminReceiver end -->
     <string name="silence_application">Silence</string>
     <string name="notifications">Notifications</string>
-    <string name="clear_notifications">Clear All Notifications</string>
+    <string name="clear_notifications">Clear All</string>
 </resources>

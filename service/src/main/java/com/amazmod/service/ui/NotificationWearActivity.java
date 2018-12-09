@@ -122,8 +122,7 @@ public class NotificationWearActivity extends Activity {
         if (!NotificationStore.getForceCustom(key))
             items.add(SilenceFragment.newInstance(key, mode));
 
-        if (NotificationWearActivity.MODE_VIEW.equals(mode))
-            items.add(DeleteFragment.newInstance(key, mode));
+        items.add(DeleteFragment.newInstance(key, mode));
 
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);
