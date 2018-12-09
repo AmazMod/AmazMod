@@ -103,7 +103,11 @@ public class FragmentUtil {
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
     }
 
-    public void setButtonParams(Button button, String text) {
+    public void setButtonParams(Button button, String text, Boolean mode) {
+        if (mode) {
+            params.setMargins(20, 12, 20, 12);
+            button.setLayoutParams(params);
+        }
         button.setPadding(0,15,0,15);
         button.setIncludeFontPadding(false);
         button.setMinHeight(36);

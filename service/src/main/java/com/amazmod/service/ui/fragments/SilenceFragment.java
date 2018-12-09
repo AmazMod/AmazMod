@@ -5,7 +5,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.text.emoji.widget.EmojiButton;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
@@ -13,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -27,7 +27,6 @@ import com.amazmod.service.util.FragmentUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import amazmod.com.transport.data.NotificationData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class SilenceFragment extends Fragment implements DelayedConfirmationView.DelayedConfirmationListener {
@@ -36,10 +35,9 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
     BoxInsetLayout rootLayout;
     ScrollView scrollView;
     TextView textView;
-    NotificationData notificationSpec;
     private DelayedConfirmationView delayedConfirmationView;
 
-    private String selectedSilenceTime, key;
+    private String selectedSilenceTime, notificationKey, key, mode;
     private boolean enableInvertedTheme, disableDelay;
     private Context mContext;
 
@@ -57,7 +55,8 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
         super.onCreate(savedInstanceState);
 
         key = getArguments().getString(NotificationWearActivity.KEY);
-        notificationSpec = NotificationStore.getCustomNotification(key);
+        mode = getArguments().getString(NotificationWearActivity.MODE);
+        notificationKey = NotificationStore.getCustomNotification(key).getKey();
 
         Log.d(Constants.TAG,"SilenceFragment onCreate key: " + key);
 
@@ -85,7 +84,7 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
     private void updateContent(){
         mContext = getActivity();
 
-        Log.d(Constants.TAG,"SilenceFragment updateContent " + notificationSpec);
+        Log.d(Constants.TAG,"SilenceFragment updateContent " + notificationKey);
 
         util = new FragmentUtil(mContext);
 
@@ -123,9 +122,9 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
         silenceList.add(60);
 
         for (final Integer silence : silenceList) {
-            EmojiButton button = new EmojiButton(mContext);
+            Button button = new Button(mContext);
             //Button button = new Button(mContext);
-            util.setButtonParams(button, silence.toString() + " minutes");
+            util.setButtonParams(button, silence.toString() + " minutes", true);
             util.setButtonTheme(button, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -137,8 +136,8 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
             silenceContainer.addView(button);
         }
 
-        EmojiButton dayButton = new EmojiButton(mContext);
-        util.setButtonParams(dayButton, "One Day");
+        Button dayButton = new Button(mContext);
+        util.setButtonParams(dayButton, "One Day", true);
         util.setButtonTheme(dayButton, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
         dayButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,8 +148,8 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
         });
         silenceContainer.addView(dayButton);
 
-        EmojiButton blockButton = new EmojiButton(mContext);
-        util.setButtonParams(blockButton, "BLOCK APP");
+        Button blockButton = new Button(mContext);
+        util.setButtonParams(blockButton, "BLOCK APP", true);
         util.setButtonTheme(blockButton, Constants.RED);
         blockButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -213,17 +212,20 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
         startActivity(intent);
 
         NotificationStore.removeCustomNotification(key);
-        HermesEventBus.getDefault().post(new SilenceApplicationEvent(notificationSpec.getKey(), selectedSilenceTime));
+        if (NotificationWearActivity.MODE_VIEW.equals(mode))
+            WearNotificationsFragment.getInstance().loadNotifications();
+        HermesEventBus.getDefault().post(new SilenceApplicationEvent(notificationKey, selectedSilenceTime));
         getActivity().finish();
 
     }
 
-    public static SilenceFragment newInstance(String key) {
+    public static SilenceFragment newInstance(String key, String mode) {
 
         Log.i(Constants.TAG,"SilenceFragment newInstance key: " + key);
         SilenceFragment myFragment = new SilenceFragment();
         Bundle bundle = new Bundle();
         bundle.putString(NotificationWearActivity.KEY, key);
+        bundle.putString(NotificationWearActivity.MODE, mode);
         myFragment.setArguments(bundle);
 
         return myFragment;

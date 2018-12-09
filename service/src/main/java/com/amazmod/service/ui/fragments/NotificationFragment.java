@@ -81,6 +81,7 @@ public class NotificationFragment extends Fragment {
     private void updateContent() {
 
         final String key = getArguments().getString(NotificationWearActivity.KEY);
+        final String mode = getArguments().getString(NotificationWearActivity.MODE);
         notificationData = NotificationStore.getCustomNotification(key);
 
         Log.i(Constants.TAG, "NotificationFragment updateContent context: " + mContext + " | key: " + key);
@@ -152,6 +153,7 @@ public class NotificationFragment extends Fragment {
 
         if (disableNotificationText) {
             text.setVisibility(View.GONE);
+            picture.setVisibility(View.GONE);
             image.setVisibility(View.VISIBLE);
             if (enableInvertedTheme)
                 image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_black_48));
@@ -160,12 +162,13 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-    public static NotificationFragment newInstance(String key) {
+    public static NotificationFragment newInstance(String key, String mode) {
 
         Log.i(Constants.TAG, "NotificationFragment newInstance key: " + key);
         NotificationFragment myFragment = new NotificationFragment();
         Bundle bundle = new Bundle();
         bundle.putString(NotificationWearActivity.KEY, key);
+        bundle.putString(NotificationWearActivity.MODE, mode);
         myFragment.setArguments(bundle);
 
         return myFragment;
@@ -187,18 +190,22 @@ public class NotificationFragment extends Fragment {
                 int[] iconData = notificationData.getIcon();
                 int iconWidth = notificationData.getIconWidth();
                 int iconHeight = notificationData.getIconHeight();
+                Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
 
                 //Invert color (works if the bitmap is in ARGB_8888 format)
                 if (enableInvertedTheme) {
+                    int[] invertedIconData = new int[iconData.length];
                     for (int i = 0; i < iconData.length; i++) {
-                        if (iconData[i] == 0xffffffff) {
-                            iconData[i] = 0xff000000;
-                        }
+                        if (iconData[i] == 0xffffffff)
+                            invertedIconData[i] = 0xff000000;
+                        else
+                            invertedIconData[i] = iconData[i];
                     }
-                }
+                    bitmap.setPixels(invertedIconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
 
-                Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-                bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+                } else
+                    bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+
                 iconView.setImageBitmap(bitmap);
             }
         } catch (Exception exception) {

@@ -1,36 +1,28 @@
 package com.amazmod.service.notifications;
 
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
-import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
-import com.amazmod.service.ui.NotificationActivity;
+
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.huami.watch.transport.DataBundle;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -38,7 +30,6 @@ import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -92,6 +83,7 @@ public class NotificationService {
             }
 
             final String key = notificationSpec.getKey();
+            final String notificationStoreKey = key + "|" + String.valueOf(System.currentTimeMillis());
 
             Log.d(Constants.TAG, "NotificationService notificationSpec.getKey(): " + key);
             //Handles test notifications
@@ -99,7 +91,8 @@ public class NotificationService {
                 if (notificationSpec.getText().equals("Test Notification")) {
                     if (forceCustom) {
                         Log.d(Constants.TAG, "NotificationService1 notificationSpec.getKey(): " + key);
-                        postWithCustomUI(key);
+                        NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
+                        postWithCustomUI(notificationStoreKey);
                     } else {
                         Log.d(Constants.TAG, "NotificationService2 notificationSpec.getKey(): " + key);
                         postWithStandardUI(notificationSpec, hideReplies);
@@ -112,8 +105,8 @@ public class NotificationService {
             } else {
                 Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
-                    NotificationStore.addCustomNotification(key, notificationSpec);
-                    postWithCustomUI(key);
+                    NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
+                    postWithCustomUI(notificationStoreKey);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
                 }
@@ -254,6 +247,7 @@ public class NotificationService {
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
         intent.putExtra(NotificationWearActivity.KEY, key);
+        intent.putExtra(NotificationWearActivity.MODE, NotificationWearActivity.MODE_ADD);
 
         context.startActivity(intent);
 

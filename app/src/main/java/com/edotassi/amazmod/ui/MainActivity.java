@@ -143,11 +143,6 @@ public class MainActivity extends AppCompatActivity
 
         setupCards();
 
-        // Try to start NotificationService if it is not active
-        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
-        if (!packageNames.contains(this.getPackageName())) {
-            toggleNotificationService();
-        }
         Setup.run(getApplicationContext());
     }
 
@@ -321,11 +316,4 @@ public class MainActivity extends AppCompatActivity
                 .buildAndShowDialog(this, false);
     }
 
-    private void toggleNotificationService() {
-        Log.i(Constants.TAG, "MainActivity toggleNotificationService");
-        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-    }
 }

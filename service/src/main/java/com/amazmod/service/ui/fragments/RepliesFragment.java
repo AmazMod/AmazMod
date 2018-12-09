@@ -42,14 +42,13 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     LinearLayout repliesContainer, editTextContainer, buttonsContainer;
     BoxInsetLayout rootLayout;
     ScrollView scrollView;
-    NotificationData notificationSpec;
     private DelayedConfirmationView delayedConfirmationView;
 
     private TextView textView;
     private EditText editText;
     private Button reply, close;
 
-    private String selectedReply, key;
+    private String selectedReply, notificationKey, key, mode;
     private boolean enableInvertedTheme, disableDelay;
     private Context mContext;
     private FragmentUtil util;
@@ -66,7 +65,8 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         super.onCreate(savedInstanceState);
 
         key = getArguments().getString(NotificationWearActivity.KEY);
-        notificationSpec = NotificationStore.getCustomNotification(key);
+        mode = getArguments().getString(NotificationWearActivity.MODE);
+        notificationKey = NotificationStore.getCustomNotification(key).getKey();
 
         Log.d(Constants.TAG,"RepliesFragment onCreate key: " + key);
 
@@ -98,7 +98,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
     private void updateContent(){
         mContext = getActivity();
 
-        Log.d(Constants.TAG,"RepliesFragment updateContent " + notificationSpec);
+        Log.d(Constants.TAG,"RepliesFragment updateContent " + notificationKey);
 
         util = new FragmentUtil(mContext);
 
@@ -132,14 +132,6 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
     }
 
-    private void setFontLocale(Button b, String locale) {
-        Log.i(Constants.TAG, "RepliesFragment setFontLocale Button: " + locale);
-        if (locale.contains("iw")) {
-            Typeface face = Typeface.createFromAsset(mContext.getAssets(),"fonts/DroidSansFallback.ttf");
-            b.setTypeface(face);
-        }
-    }
-
     private void addReplies() {
 
         List<Reply> repliesList = loadReplies();
@@ -168,7 +160,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
                 ((NotificationWearActivity)getActivity()).stopTimerFinish();
 
                 //Send buttons
-                util.setButtonParams(reply, getResources().getString(R.string.send_button));
+                util.setButtonParams(reply, getResources().getString(R.string.send_button), false);
                 util.setButtonTheme(reply, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
                 reply.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -178,7 +170,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
                     }
                 });
                 //Cancel button
-                util.setButtonParams(close, getResources().getString(R.string.close_button));
+                util.setButtonParams(close, getResources().getString(R.string.close_button), false);
                 util.setButtonTheme(close, Constants.RED);
                 close.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -259,17 +251,20 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         startActivity(intent);
 
         NotificationStore.removeCustomNotification(key);
-        HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), selectedReply));
+        if (NotificationWearActivity.MODE_VIEW.equals(mode))
+            WearNotificationsFragment.getInstance().loadNotifications();
+        HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationKey, selectedReply));
         getActivity().finish();
 
     }
 
-    public static RepliesFragment newInstance(String key) {
+    public static RepliesFragment newInstance(String key, String mode) {
 
         Log.i(Constants.TAG,"RepliesFragment newInstance key: " + key);
         RepliesFragment myFragment = new RepliesFragment();
         Bundle bundle = new Bundle();
         bundle.putString(NotificationWearActivity.KEY, key);
+        bundle.putString(NotificationWearActivity.MODE, mode);
         myFragment.setArguments(bundle);
 
         return myFragment;

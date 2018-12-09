@@ -16,6 +16,7 @@ import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
@@ -48,9 +49,15 @@ public class NotificationJobService extends JobService {
         final String key = params.getExtras().getString(NOTIFICATION_KEY, null);
         final int mode = params.getExtras().getInt(NOTIFICATION_MODE, -1);
 
-        int std = NotificationStore.getStandardNotificationCount();
-        int cst = NotificationStore.getCustomNotificationCount();
-        int bs = NotificationStore.getNotificationBundleCount();
+        int std = 0, cst = 0, bs = 0;
+        try {
+            std = NotificationStore.getStandardNotificationCount();
+            cst = NotificationStore.getCustomNotificationCount();
+            bs = NotificationStore.getNotificationBundleCount();
+        } catch (NullPointerException ex) {
+            Log.e(Constants.TAG, "NotificationJobService onStartJob NotificationStore NullPointerException: " + ex.toString());
+            NotificationStore notificationStore = new NotificationStore();
+        }
 
         transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
 

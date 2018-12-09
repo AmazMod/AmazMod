@@ -219,6 +219,14 @@
                     app:circle_color="@android:color/transparent"
                     app:circle_radius="@dimen/big_circle_radius_launcher" />
 
+                <View
+                    android:id="@+id/launcher_home"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
         </LinearLayout>

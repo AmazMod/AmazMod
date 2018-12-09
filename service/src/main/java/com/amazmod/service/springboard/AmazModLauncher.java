@@ -63,7 +63,7 @@ import static android.content.Context.VIBRATOR_SERVICE;
 public class AmazModLauncher extends AbstractPlugin implements WearableListView.ClickListener {
 
     private Context mContext;
-    private View view;
+    private View view, home;
     private boolean isActive = false;
     private ISpringBoardHostStub host = null;
 
@@ -126,6 +126,8 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         battIconImg = view.findViewById(R.id.launcher_batt_icon);
         listView = view.findViewById(R.id.launcher_listview);
 
+        home = view.findViewById(R.id.launcher_home);
+
         version.setText(BuildConfig.VERSION_NAME);
         mHeader.setText("Apps");
         flashLight.setImageResource(R.drawable.baseline_highlight_white_24);
@@ -175,6 +177,13 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         launcherIntent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME);
         launcherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    mContext.startActivity(launcherIntent);
+            }
+        });
+
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,9 +195,8 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         messages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (notifications >0) {
-                    mContext.startActivity(launcherIntent);
-                }
+                intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.NOTIFICATIONS);
+                mContext.startActivity(intent);
             }
         });
 
@@ -196,7 +204,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
             @Override
             public boolean onLongClick(View v) {
                 refreshMessages(true);
-                return false;
+                return true;
             }
         });
 
@@ -251,7 +259,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
             public boolean onLongClick(View v) {
                 Toast.makeText(mContext, "Reloading Apps…", Toast.LENGTH_SHORT).show();
                 loadApps();
-                return false;
+                return true;
             }
         });
 
@@ -269,23 +277,26 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = mContext.registerReceiver(null, ifilter);
 
-        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        int batteryIconId = batteryStatus.getIntExtra(BatteryManager.EXTRA_ICON_SMALL, 0);
+        if (batteryStatus != null) {
 
-        //Set battery icon and text
-        int battery = Math.round((level / (float)scale) * 100f);
-        if (battery != 0) {
-            String battlvl = Integer.toString(battery) + "%";
-            battValueTV.setText(battlvl);
-        } else {
-            battValueTV.setText("N/A%");
-        }
+            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            int batteryIconId = batteryStatus.getIntExtra(BatteryManager.EXTRA_ICON_SMALL, 0);
 
-        LevelListDrawable batteryLevel = (LevelListDrawable) mContext.getResources().getDrawable(batteryIconId);
-        batteryLevel.setLevel(level);
-        battIconImg.setImageDrawable(batteryLevel);
+            //Set battery icon and text
+            int battery = Math.round((level / (float) scale) * 100f);
+            if (battery != 0) {
+                String battlvl = Integer.toString(battery) + "%";
+                battValueTV.setText(battlvl);
+            } else {
+                battValueTV.setText("N/A%");
+            }
 
+            LevelListDrawable batteryLevel = (LevelListDrawable) mContext.getResources().getDrawable(batteryIconId);
+            batteryLevel.setLevel(level);
+            battIconImg.setImageDrawable(batteryLevel);
+        } else
+            Log.e(Constants.TAG, "AmazModLauncher updateCharge error: null batteryStatus!");
 
     }
 

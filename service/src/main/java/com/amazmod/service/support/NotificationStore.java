@@ -2,6 +2,7 @@ package com.amazmod.service.support;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import amazmod.com.transport.data.NotificationData;
 
@@ -45,4 +46,23 @@ public class NotificationStore {
         return customNotifications.get(key).getTimeoutRelock();
     }
 
+    public static String getTitle(String key) {
+        return customNotifications.get(key).getTitle();
+    }
+
+    public static String getTime(String key) {
+        return customNotifications.get(key).getTime();
+    }
+
+    public static int[] getIcon(String key) {
+        return customNotifications.get(key).getIcon();
+    }
+
+    public static Set<String> getKeySet() {
+        return customNotifications.keySet();
+    }
+
+    public static void clear() {
+        customNotifications.clear();
+    }
 }

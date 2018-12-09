@@ -25,6 +25,7 @@ import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.support.NotificationStore;
+import com.amazmod.service.ui.fragments.DeleteFragment;
 import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.ui.fragments.RepliesFragment;
 import com.amazmod.service.ui.fragments.SilenceFragment;
@@ -52,7 +53,7 @@ public class NotificationWearActivity extends Activity {
     private static int screenBrightness = 999989;
     private Context mContext;
 
-    private String key;
+    private String key, mode;
 
     private SettingsManager settingsManager;
 
@@ -61,14 +62,16 @@ public class NotificationWearActivity extends Activity {
 
     private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
     public static final String KEY = "key";
-    private static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
-    private static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
+    public static final String MODE = "mode";
+    public static final String MODE_ADD = "add";
+    public static final String MODE_VIEW = "view";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         key = getIntent().getStringExtra(KEY);
+        mode = getIntent().getStringExtra(MODE);
 
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
         config.setReplaceAll(true);
@@ -85,8 +88,7 @@ public class NotificationWearActivity extends Activity {
                                    public void onDismissed(SwipeDismissFrameLayout layout) {
                                        finish();
                                    }
-                               }
-        );
+                               });
 
         mGridViewPager = findViewById(R.id.pager);
         mPageIndicator = findViewById(R.id.page_indicator);
@@ -111,14 +113,17 @@ public class NotificationWearActivity extends Activity {
         GridViewPagerAdapter adapter;
         List<Fragment> items = new ArrayList<Fragment>();
 
-        items.add(NotificationFragment.newInstance(key));
+        items.add(NotificationFragment.newInstance(key, mode));
 
         if (!disableNotificationReplies) {
-            items.add(RepliesFragment.newInstance(key));
+            items.add(RepliesFragment.newInstance(key, mode));
         }
 
         if (!NotificationStore.getForceCustom(key))
-            items.add(SilenceFragment.newInstance(key));
+            items.add(SilenceFragment.newInstance(key, mode));
+
+        if (NotificationWearActivity.MODE_VIEW.equals(mode))
+            items.add(DeleteFragment.newInstance(key, mode));
 
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);

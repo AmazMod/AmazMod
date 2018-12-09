@@ -19,6 +19,7 @@ import com.amazmod.service.ui.fragments.WearAppsFragment;
 import com.amazmod.service.ui.fragments.WearFlashlightFragment;
 import com.amazmod.service.ui.fragments.WearInfoFragment;
 import com.amazmod.service.ui.fragments.WearMenuFragment;
+import com.amazmod.service.ui.fragments.WearNotificationsFragment;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,8 @@ public class LauncherWearGridActivity extends Activity {
     public static final char SETTINGS = 'S';
     public static final char INFO = 'I';
     public static final char FLASHLIGHT = 'F';
-    public static final char NULL = 'N';
+    public static final char NOTIFICATIONS = 'N';
+    public static final char NULL = 'X';
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,10 +93,14 @@ public class LauncherWearGridActivity extends Activity {
                 fragList.add(WearFlashlightFragment.newInstance());
                 break;
 
+            case NOTIFICATIONS:
+                fragList.add(WearNotificationsFragment.newInstance());
+                break;
+
             case NULL:
 
             default:
-                Log.w(Constants.TAG, "LauncherWearGridActivity no fragments selected");
+                Log.w(Constants.TAG, "LauncherWearGridActivity no fragments selected!");
 
         }
 

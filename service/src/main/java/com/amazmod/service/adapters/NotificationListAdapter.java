@@ -11,14 +11,15 @@ import android.widget.TextView;
 
 import com.amazmod.service.R;
 import com.amazmod.service.support.AppInfo;
+import com.amazmod.service.support.NotificationInfo;
 
 import java.util.List;
 
 public class NotificationListAdapter extends WearableListView.Adapter {
-    private final List<AppInfo> items;
+    private final List<NotificationInfo> items;
     private final LayoutInflater mInflater;
 
-    public NotificationListAdapter(Context context, List<AppInfo> items) {
+    public NotificationListAdapter(Context context, List<NotificationInfo> items) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
     }
@@ -32,10 +33,10 @@ public class NotificationListAdapter extends WearableListView.Adapter {
     public void onBindViewHolder(@NonNull WearableListView.ViewHolder viewHolder, int position) {
         //System.out.println("MenuListAdapter onBindViewHodler position: " + position);
         ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
-        final AppInfo item = items.get(position);
+        final NotificationInfo item = items.get(position);
         itemViewHolder.notificationIcon.setImageDrawable(item.getIcon());
-        itemViewHolder.notificationTitle.setText(item.getAppName());
-        itemViewHolder.notificationTime.setText(item.getPackageName());
+        itemViewHolder.notificationTitle.setText(item.getNotificationTitle());
+        itemViewHolder.notificationTime.setText(item.getNotificationTime());
 
     }
 

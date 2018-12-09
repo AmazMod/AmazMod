@@ -1,12 +1,16 @@
 package com.edotassi.amazmod.transport;
 
 import android.app.Service;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
 import amazmod.com.transport.Constants;
@@ -22,6 +26,7 @@ import com.edotassi.amazmod.event.SilenceApplication;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
+import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.support.Logger;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +44,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -100,6 +106,12 @@ public class TransportService extends Service implements Transporter.DataListene
             AmazModApplication.isWatchConnected = false;
         }
 
+        // Try to start NotificationService if it is not active
+        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
+        if (!packageNames.contains(this.getPackageName())) {
+            toggleNotificationService();
+        }
+
     }
 
     @Override
@@ -115,7 +127,7 @@ public class TransportService extends Service implements Transporter.DataListene
     @Override
     public void onDestroy() {
         stopForeground(true);
-        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(transportListener);
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
         this.logger.d("TransportService onDestroy");
@@ -296,6 +308,14 @@ public class TransportService extends Service implements Transporter.DataListene
         } else {
             return null;
         }
+    }
+
+    private void toggleNotificationService() {
+        Log.i(Constants.TAG, "TransportService toggleNotificationService");
+        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
     }
 
     public class LocalBinder extends Binder {
