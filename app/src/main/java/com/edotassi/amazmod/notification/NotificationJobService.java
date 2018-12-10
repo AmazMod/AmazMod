@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
@@ -86,7 +87,7 @@ public class NotificationJobService extends JobService {
         Log.d(Constants.TAG, "NotificationJobService onStartJob id: " + id + " \\ mode: " + mode + " \\ key: " + key);
         Log.d(Constants.TAG, "NotificationJobService onStartJob std#: " + std + " \\ cst#: " + cst +  " \\ bs#: " + bs);
 
-        int delay = 690;
+        int delay = 290;
 
         if (key != null) {
 
@@ -208,6 +209,7 @@ public class NotificationJobService extends JobService {
                         Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted try: " + retries);
                         if (AmazModApplication.isWatchConnected && retries < 4) {
                             retries++;
+                            SystemClock.sleep(300);
                             processStandardNotificationPosted(key, mode);
                         } else {
                             Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted rescheduling…");
@@ -259,6 +261,7 @@ public class NotificationJobService extends JobService {
                         Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved try: " + retries);
                         if (AmazModApplication.isWatchConnected && retries < 4) {
                             retries++;
+                            SystemClock.sleep(300);
                             processNotificationRemoved(key, mode);
                         } else {
                             Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved rescheduling…");
@@ -329,19 +332,12 @@ public class NotificationJobService extends JobService {
                         Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted try: " + retries);
                         if (AmazModApplication.isWatchConnected && retries < 4) {
                             retries++;
+                            SystemClock.sleep(300);
                             processCustomNotificationPosted(key, mode);
                         } else {
                             retries = 0;
-                            if (AmazModApplication.isWatchConnected) {
-                                Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted rescheduling…");
-                                jobFinished(params, true);
-                            } else {
-                                Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted finishing…");
-                                NotificationStore.removeCustomNotification(key);
-                                if (mode == NOTIFICATION_POSTED_CUSTOM_UI)
-                                    NotificationStore.removeNotificationBundle(key);
-                                jobFinished(params, false);
-                            }
+                            Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted rescheduling…");
+                            jobFinished(params, true);
                         }
                     }
                 }

@@ -55,4 +55,9 @@ public class SettingsManager {
     public String getString(String key, String defaultValue) {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
     }
+
+    public void putBoolean(String key, boolean value) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key, value).apply();
+    }
+
 }

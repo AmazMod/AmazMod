@@ -245,14 +245,14 @@ public class NotificationService extends NotificationListenerService {
         log.d("notificationRemoved: %s", statusBarNotification.getKey());
 
         if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false)
-                || (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))
-                || (Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false))) {
+                || (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
             Log.d(Constants.TAG, "NotificationService onNotificationRemoved returning due to Settings");
             return;
         }
 
         if (isPackageAllowed(statusBarNotification.getPackageName())
-                && (!NotificationCompat.isGroupSummary(statusBarNotification.getNotification()))) {
+                && (!NotificationCompat.isGroupSummary(statusBarNotification.getNotification()))
+                && (!((statusBarNotification.getNotification().flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT))) {
 
             /*
             * Disabled while testing JobScheduler
@@ -333,7 +333,7 @@ public class NotificationService extends NotificationListenerService {
                 lastTimeNotificationSent = 0;
             }
         } else
-            Log.d(Constants.TAG, "NotificationService onNotificationRemoved returning: P || G");
+            Log.d(Constants.TAG, "NotificationService onNotificationRemoved ignored: P || G || O");
 
     }
 
@@ -504,6 +504,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private void scheduleJob(int id, int jobId, String key) {
+
         PersistableBundle bundle = new PersistableBundle();
         bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
         bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
@@ -511,10 +512,11 @@ public class NotificationService extends NotificationListenerService {
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
 
         if (jobId == 0) {
-            builder.setPeriodic(60000L);
+            builder.setPeriodic(120 * 1000L);
 
         } else {
-            if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI)
+            if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
+                    && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
                 builder.setMinimumLatency(CUSTOMUI_LATENCY);
             else
                 builder.setMinimumLatency(0);
