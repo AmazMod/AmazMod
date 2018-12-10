@@ -135,7 +135,7 @@ public class NotificationFragment extends Fragment {
                 text.setVisibility(View.GONE);
             }
 
-            if (notificationData.getVibration() > 0) {
+            if (notificationData.getVibration() > 0 && NotificationWearActivity.MODE_ADD.equals(mode)) {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
                 if (vibrator != null) {
                     vibrator.vibrate(notificationData.getVibration());
