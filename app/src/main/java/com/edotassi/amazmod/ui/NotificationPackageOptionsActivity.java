@@ -49,8 +49,16 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_notification_package_options);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        try {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            //TODO log to crashlitics
+            Log.e(Constants.TAG, "FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
+        }
 
         ButterKnife.bind(this);
 
@@ -59,8 +67,9 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
 
         app = loadApp(packageName);
         if (app == null) {
-            Toast.makeText(this, "Package " + packageName + "is not enabled", Toast.LENGTH_SHORT);
+            //Toast.makeText(this, "Package " + packageName + "is not enabled", Toast.LENGTH_SHORT).show();
             finish();
+
         } else {
             try {
                 packageInfo = getPackageManager().getPackageInfo(packageName, 0);
@@ -72,8 +81,8 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
                 filter_edittext.setText(app.getFilter());
                 silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
             } catch (PackageManager.NameNotFoundException e) {
-                ;
-                Toast.makeText(this, "Package " + packageName + "not found", Toast.LENGTH_SHORT);
+
+                //Toast.makeText(this, "Package " + packageName + "not found", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -125,12 +134,11 @@ public class NotificationPackageOptionsActivity extends AppCompatActivity {
     }
 
     private NotificationPreferencesEntity loadApp(String packageName) {
-        NotificationPreferencesEntity app = SQLite
+        return SQLite
                 .select()
                 .from(NotificationPreferencesEntity.class)
                 .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
                 .querySingle();
-        return app;
     }
 
 }

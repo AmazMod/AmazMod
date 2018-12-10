@@ -45,7 +45,13 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            //TODO log to crashlitics
+            System.out.println(Constants.TAG + " FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
+        }
         getSupportActionBar().setTitle(R.string.settings);
 
         this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,

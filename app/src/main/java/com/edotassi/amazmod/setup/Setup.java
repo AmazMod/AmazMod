@@ -9,7 +9,6 @@ import com.edotassi.amazmod.db.model.NotficationSentEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
 import com.edotassi.amazmod.receiver.WatchfaceReceiver;
-import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.FilesExtrasActivity;
 import com.edotassi.amazmod.update.Updater;
@@ -40,10 +39,6 @@ public class Setup {
         WatchfaceReceiver.startWatchfaceReceiver(context);
 
         checkIfAppUninstalledThenRemove(context);
-
-        // TODO: 06/12/2018 remove this in the future
-        //Temporary Migration function (old users will have its selected apps migrated from JSON to SQLITE)
-        migrateNotificationPrefsFromJSON();
 
         cleanOldNotificationsSentDb();
     }
@@ -101,17 +96,4 @@ public class Setup {
                 .query();
     }
 
-    // TODO: 06/12/2018 remove this in the future
-    //Temporary Migration function (old users will have its selected apps migrated from JSON to SQLITE)
-    private static void migrateNotificationPrefsFromJSON(){
-        String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-        if (!packagesJson.equals("[]")){
-            Gson gson = new Gson();
-            String[] packagesList = gson.fromJson(packagesJson, String[].class);
-            for(String p : packagesList){
-                SilenceApplicationHelper.enablePackage(p);
-            }
-            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-            System.out.println("I/AmazMod Setup migrateNotificationPrefsFromJSON: migrated selected apps from JSON to SQLite DB");
-        }
-    }}
+}
