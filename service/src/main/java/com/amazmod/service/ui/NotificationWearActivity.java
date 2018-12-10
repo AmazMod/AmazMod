@@ -57,9 +57,6 @@ public class NotificationWearActivity extends Activity {
 
     private SettingsManager settingsManager;
 
-    private HorizontalGridViewPager mGridViewPager;
-    private DotsPageIndicator mPageIndicator;
-
     private static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
     public static final String KEY = "key";
     public static final String MODE = "mode";
@@ -90,8 +87,8 @@ public class NotificationWearActivity extends Activity {
                                    }
                                });
 
-        mGridViewPager = findViewById(R.id.pager);
-        mPageIndicator = findViewById(R.id.page_indicator);
+        HorizontalGridViewPager mGridViewPager = findViewById(R.id.pager);
+        DotsPageIndicator mPageIndicator = findViewById(R.id.page_indicator);
         mPageIndicator.setPager(mGridViewPager);
 
         settingsManager = new SettingsManager(this);
@@ -104,6 +101,10 @@ public class NotificationWearActivity extends Activity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+        boolean isCustomUIRunningWithScreenOff = settingsManager.getBoolean(Constants.PREF_CUSTOMUI_RUNNING, false);
+
+        if (!mustLockDevice && isCustomUIRunningWithScreenOff)
+            mustLockDevice = true;
 
         if (NotificationStore.getHideReplies(key) && NotificationStore.getForceCustom(key))
             disableNotificationReplies = true;
@@ -127,9 +128,10 @@ public class NotificationWearActivity extends Activity {
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);
 
-        //Do not activate screen if it is disabled in settings and screen is off
+        //Do not activate screen if it is disabled in settings and screen was off
         if (disableNotificationsScreenOn && mustLockDevice) {
             setScreenModeOff(true);
+            settingsManager.putBoolean(Constants.PREF_CUSTOMUI_RUNNING, true);
         } else {
             screenToggle = false;
         }
@@ -256,7 +258,7 @@ public class NotificationWearActivity extends Activity {
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
-            Log.i(Constants.TAG, "NotificationActivity setScreenModeOff1 mode: " + mode);
+            Log.i(Constants.TAG, "NotificationActivity setScreenModeOff true");
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -265,12 +267,13 @@ public class NotificationWearActivity extends Activity {
             getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff2 mode: " + mode + " / screenMode: " + screenMode);
+                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff false / screenMode: " + screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
                 params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
                 getWindow().setAttributes(params);
             }
+            settingsManager.putBoolean(Constants.PREF_CUSTOMUI_RUNNING, false);
         }
         screenToggle = mode;
     }

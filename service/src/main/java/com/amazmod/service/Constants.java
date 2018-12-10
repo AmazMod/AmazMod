@@ -37,6 +37,7 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT = "pref_phone_connection_alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
     public static final String PREF_DISABLE_DELAY = "pref_notification_delay";
+    public static final String PREF_CUSTOMUI_RUNNING = "pref_customui_running";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
