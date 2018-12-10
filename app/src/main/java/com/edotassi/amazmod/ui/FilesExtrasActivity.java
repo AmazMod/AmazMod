@@ -361,7 +361,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
             }
         }
 
-        if (dummy.size()>0) packagesList.removeAll(dummy);
+        if (dummy.size() > 0) packagesList.removeAll(dummy);
 
         String pref = gson.toJson(packagesList);
 

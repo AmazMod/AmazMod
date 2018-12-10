@@ -145,6 +145,11 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
     @SuppressLint("CheckResult")
     public void loadNotifications() {
         Log.i(Constants.TAG,"WearNotificationsFragment loadNotifications");
+
+        //Return if there is no activity to avoid crashes
+        if (getActivity() == null)
+            return;
+
         wearNotificationsFrameLayout.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);

@@ -24,5 +24,5 @@
     <string name="search_menu_title">Keresés</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="notifications">Notifications</string>
-    <string name="clear_notifications">Clear All Notifications</string>
+    <string name="clear_notifications">Clear All</string>
 </resources>

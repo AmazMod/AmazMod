@@ -1,9 +1,6 @@
 package com.edotassi.amazmod.ui;
 
-import android.app.FragmentManager;
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -11,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,7 +18,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
@@ -31,17 +26,13 @@ import amazmod.com.transport.Constants;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
-import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.setup.Setup;
-import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
-import com.google.gson.Gson;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -51,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 
 import butterknife.ButterKnife;
 
@@ -137,28 +127,10 @@ public class MainActivity extends AppCompatActivity
             res.updateConfiguration(conf, dm);
             recreate();
         }
-        // TODO: 06/12/2018 remove this in the future
-        //Temporary Migration function (old users will have its selected apps migrated from JSON to SQLITE)
-        migrateNotificationPrefsFromJSON();
 
         setupCards();
 
         Setup.run(getApplicationContext());
-    }
-
-    // TODO: 06/12/2018 remove this in the future
-    //Temporary Migration function (old users will have its selected apps migrated from JSON to SQLITE)
-    private void migrateNotificationPrefsFromJSON(){
-        String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-        if (!packagesJson.equals("[]")){
-            Gson gson = new Gson();
-            String[] packagesList = gson.fromJson(packagesJson, String[].class);
-            for(String p : packagesList){
-                SilenceApplicationHelper.enablePackage(p);
-            }
-            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-            Log.d(Constants.TAG, "MainActivity migrateNotificationPrefsFromJSON: migrated selected apps from JSON to SQLite DB");
-        }
     }
 
     private void setupCards() {
