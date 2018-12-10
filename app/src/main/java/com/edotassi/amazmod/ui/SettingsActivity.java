@@ -45,7 +45,13 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            //TODO log to crashlitics
+            System.out.println(Constants.TAG + " FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
+        }
         getSupportActionBar().setTitle(R.string.settings);
 
         this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
@@ -148,9 +154,11 @@ public class SettingsActivity extends AppCompatActivity {
         // Update persistent notification due to changes in Settings
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
             PersistentNotification.cancelPersistentNotification(this);
+            this.enablePersistentNotificationOnCreate = false;
         } else if (enablePersistentNotificationOnDestroy && !this.enablePersistentNotificationOnCreate) {
-            PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
+            final PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
             persistentNotification.createPersistentNotification();
+            this.enablePersistentNotificationOnCreate = true;
         }
 
         SettingsData settingsData = new SettingsData();
