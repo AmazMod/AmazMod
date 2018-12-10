@@ -1,7 +1,10 @@
 package com.edotassi.amazmod.transport;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Binder;
@@ -54,6 +57,8 @@ import java.util.concurrent.TimeoutException;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
 
+import static android.service.notification.NotificationListenerService.requestRebind;
+
 public class TransportService extends Service implements Transporter.DataListener {
 
     private Logger logger = Logger.get(TransportService.class);
@@ -90,7 +95,10 @@ public class TransportService extends Service implements Transporter.DataListene
 
         this.logger.d("TransportService onCreate");
 
+
+        //Make sure services are running and persistent
         startPersistentNotification();
+        tryReconnectNotificationService();
 
         transportListener = new TransportListener(this);
         EventBus.getDefault().register(transportListener);
@@ -104,12 +112,6 @@ public class TransportService extends Service implements Transporter.DataListene
             this.logger.w("TransportService onCreate not connected, connecting...");
             transporter.connectTransportService();
             AmazModApplication.isWatchConnected = false;
-        }
-
-        // Try to start NotificationService if it is not active
-        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
-        if (!packageNames.contains(this.getPackageName())) {
-            toggleNotificationService();
         }
 
     }
@@ -157,22 +159,32 @@ public class TransportService extends Service implements Transporter.DataListene
             }
         } else {
             //TODO handle null action
+            Log.e(Constants.TAG, "TransportService onDataReceived null action!");
         }
     }
 
     private void startPersistentNotification() {
+
         // Add persistent notification if it is enabled in Settings or running on Oreo+
         boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
+
         model = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(Constants.PREF_WATCH_MODEL, "");
+
         if (enableNotification || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
             persistentNotification = new PersistentNotification(this, model);
+            Notification notification = persistentNotification.createPersistentNotification();
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeground(persistentNotification.getNotificationId(), persistentNotification.createPersistentNotification());
-            } else {
-                persistentNotification.createPersistentNotification();
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                if (mNotificationManager != null) {
+                    mNotificationManager.notify(persistentNotification.getNotificationId(), notification);
+                }
+                startForeground(persistentNotification.getNotificationId(), notification);
             }
+
         }
     }
 
@@ -310,12 +322,28 @@ public class TransportService extends Service implements Transporter.DataListene
         }
     }
 
+    public void tryReconnectNotificationService() {
+
+        Log.d(Constants.TAG, "TransportService tryReconnectNotificationService");
+
+        toggleNotificationService();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ComponentName componentName = new ComponentName(getApplicationContext(), NotificationService.class);
+            requestRebind(componentName);
+            Log.d(Constants.TAG, "TransportService tryReconnectNotificationService requestRebind");
+        }
+    }
+
     private void toggleNotificationService() {
+
         Log.i(Constants.TAG, "TransportService toggleNotificationService");
-        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
+
+        ComponentName component = new ComponentName(this, NotificationService.class);
         PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
     }
 
     public class LocalBinder extends Binder {

@@ -154,9 +154,11 @@ public class SettingsActivity extends AppCompatActivity {
         // Update persistent notification due to changes in Settings
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
             PersistentNotification.cancelPersistentNotification(this);
+            this.enablePersistentNotificationOnCreate = false;
         } else if (enablePersistentNotificationOnDestroy && !this.enablePersistentNotificationOnCreate) {
-            PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
+            final PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
             persistentNotification.createPersistentNotification();
+            this.enablePersistentNotificationOnCreate = true;
         }
 
         SettingsData settingsData = new SettingsData();

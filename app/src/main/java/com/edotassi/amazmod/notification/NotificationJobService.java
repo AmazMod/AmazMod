@@ -2,8 +2,11 @@ package com.edotassi.amazmod.notification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -16,7 +19,6 @@ import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
@@ -24,6 +26,8 @@ import java.io.ByteArrayOutputStream;
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
+
+import static android.service.notification.NotificationListenerService.requestRebind;
 
 public class NotificationJobService extends JobService {
 
@@ -48,6 +52,9 @@ public class NotificationJobService extends JobService {
         final int id = params.getJobId();
         final String key = params.getExtras().getString(NOTIFICATION_KEY, null);
         final int mode = params.getExtras().getInt(NOTIFICATION_MODE, -1);
+
+        if (id == 0)
+            keepNotificationServiceRunning();
 
         int std = 0, cst = 0, bs = 0;
         try {
@@ -148,6 +155,23 @@ public class NotificationJobService extends JobService {
             Log.i(Constants.TAG, "NotificationJobService disconnectTransports disconnecting transporterHuami…");
             transporterHuami.disconnectTransportService();
         }
+    }
+
+    private void keepNotificationServiceRunning() {
+
+        Log.d(Constants.TAG, "NotificationJobService keepNotificationServiceRunning");
+
+        ComponentName component = new ComponentName(this, NotificationService.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ComponentName componentName = new ComponentName(getApplicationContext(), NotificationService.class);
+            requestRebind(componentName);
+            Log.d(Constants.TAG, "NotificationJobService keepNotificationServiceRunning requestRebind");
+        }
+
     }
 
     private void processStandardNotificationPosted(final String key, final int mode) {

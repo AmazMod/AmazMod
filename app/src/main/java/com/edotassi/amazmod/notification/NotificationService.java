@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.notification;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -12,11 +13,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.support.v4.app.NotificationCompat;
@@ -118,6 +121,12 @@ public class NotificationService extends NotificationListenerService {
     public void onListenerConnected() {
         super.onListenerConnected();
         log.d("NotificationService onListenerConnected");
+
+        startPersistentNotification();
+
+        scheduleJob(0, 0, null);
+
+
     }
 
     @Override
@@ -500,15 +509,21 @@ public class NotificationService extends NotificationListenerService {
         bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
 
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
-        if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI)
-            builder.setMinimumLatency(CUSTOMUI_LATENCY);
-        else
-            builder.setMinimumLatency(0);
 
-        builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
-        builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+        if (jobId == 0) {
+            builder.setPeriodic(60000L);
 
-        builder.setExtras(bundle);
+        } else {
+            if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI)
+                builder.setMinimumLatency(CUSTOMUI_LATENCY);
+            else
+                builder.setMinimumLatency(0);
+
+            builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
+            builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+            builder.setExtras(bundle);
+        }
+
         jobScheduler.schedule(builder.build());
     }
 
@@ -1021,4 +1036,26 @@ public class NotificationService extends NotificationListenerService {
         }
         return text;
     }
+
+    private void startPersistentNotification() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            final String model = PreferenceManager.getDefaultSharedPreferences(this)
+                    .getString(Constants.PREF_WATCH_MODEL, "");
+
+            PersistentNotification persistentNotification = new PersistentNotification(this, model);
+            Notification notification = persistentNotification.createPersistentNotification();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                if (mNotificationManager != null) {
+                    mNotificationManager.notify(persistentNotification.getNotificationId(), notification);
+                }
+                startForeground(persistentNotification.getNotificationId(), notification);
+            }
+
+        }
+    }
+
 }
