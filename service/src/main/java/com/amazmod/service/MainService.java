@@ -676,26 +676,41 @@ public class MainService extends Service implements Transporter.DataListener {
 
                         Log.d(Constants.TAG, "MainService executeShellCommand command: " + command);
                         int code = 0;
+                        String errorMsg = "";
 
                         if (command.contains("install_apk ")) {
 
                             PackageReceiver.setIsAmazmodInstall(true);
                             final String installScript = DeviceUtil.copyScriptFile(context, "install_apk.sh").getAbsolutePath();
                             //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
-                            final String apkFile = command.replace("install_apk ", "");
+                            String apkFile = command.replace("install_apk ", "");
                             //Log.d(Constants.TAG, "MainService executeShellCommand apkFile: " + apkFile);
                             String installCommand;
 
-                            //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
-                            if (requestShellCommandData.isReboot())
-                                installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "DEL");
-                            else
-                                installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "OK");
+                            final File apk = new File(apkFile);
+                            if (apk.exists()) {
 
-                            Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+                                apkFile = apk.getAbsolutePath();
 
-                            Runtime.getRuntime().exec(new String[] { "sh", "-c", installCommand },
-                                    null, Environment.getExternalStorageDirectory());
+                                //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
+                                if (requestShellCommandData.isReboot())
+                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "DEL");
+                                else
+                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "OK");
+
+                                Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+
+                                Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
+                                        null, Environment.getExternalStorageDirectory());
+
+                                code = process.waitFor();
+                                if (code != 0)
+                                    errorMsg = "Error!";
+
+                            } else {
+                                code = -1;
+                                errorMsg = String.format("%s not found!", apkFile);
+                            }
 
                         } else if (command.contains("install_amazmod_update ")) {
                             showUpdateConfirmationWearActivity();
@@ -725,7 +740,7 @@ public class MainService extends Service implements Transporter.DataListener {
                         ResultShellCommandData resultShellCommand = new ResultShellCommandData();
                         resultShellCommand.setResult(code);
                         resultShellCommand.setOutputLog("");
-                        resultShellCommand.setErrorLog("");
+                        resultShellCommand.setErrorLog(errorMsg);
                         send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
 
                     } else {
