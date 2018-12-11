@@ -7,7 +7,6 @@ import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.text.emoji.EmojiCompat;
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
@@ -34,7 +33,6 @@ import com.amazmod.service.util.DeviceUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -48,7 +46,7 @@ public class NotificationWearActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private static boolean screenToggle, mustLockDevice, showKeyboard = false;
+    private static boolean screenToggle = false, mustLockDevice = false, showKeyboard = false;
     private static int screenMode;
     private static int screenBrightness = 999989;
     private Context mContext;
@@ -97,17 +95,23 @@ public class NotificationWearActivity extends Activity {
         setWindowFlags(true);
 
         //Load preferences
-        boolean disableNotificationsScreenOn = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
+        final boolean disableNotificationsScreenOn = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
-        boolean isCustomUIRunningWithScreenOff = settingsManager.getBoolean(Constants.PREF_CUSTOMUI_RUNNING, false);
 
-        if (!mustLockDevice && isCustomUIRunningWithScreenOff)
-            mustLockDevice = true;
+        final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
+        final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
 
-        if (NotificationStore.getHideReplies(key) && NotificationStore.getForceCustom(key))
-            disableNotificationReplies = true;
+        //Do not activate screen if it is disabled in settings and screen was off or it was disabled previously
+        if ((disableNotificationsScreenOn && mustLockDevice) || screenToggle) {
+            //Disable lock screen if screen was kept on by another notification
+            if (!mustLockDevice)
+                mustLockDevice = false;
+            setScreenModeOff(true);
+        } else {
+            screenToggle = false;
+        }
 
         clearBackStack();
 
@@ -116,29 +120,22 @@ public class NotificationWearActivity extends Activity {
 
         items.add(NotificationFragment.newInstance(key, mode));
 
-        if (!disableNotificationReplies) {
+        if (!disableNotificationReplies && !notificationHasHideReplies)
             items.add(RepliesFragment.newInstance(key, mode));
-        }
 
-        if (!NotificationStore.getForceCustom(key))
+        if (!notificationHasForceCustom)
             items.add(SilenceFragment.newInstance(key, mode));
 
-        items.add(DeleteFragment.newInstance(key, mode));
+        if (!(notificationHasHideReplies && notificationHasForceCustom))
+            items.add(DeleteFragment.newInstance(key, mode));
 
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
         mGridViewPager.setAdapter(adapter);
 
-        //Do not activate screen if it is disabled in settings and screen was off
-        if (disableNotificationsScreenOn && mustLockDevice) {
-            setScreenModeOff(true);
-            settingsManager.putBoolean(Constants.PREF_CUSTOMUI_RUNNING, true);
-        } else {
-            screenToggle = false;
-        }
-
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
-        startTimerFinish();
+        if (!showKeyboard)
+            startTimerFinish();
 
     }
 
@@ -182,14 +179,14 @@ public class NotificationWearActivity extends Activity {
     }
 
     public void startTimerFinish() {
-        //Log.i(Constants.TAG, "NotificationWearActivity startTimerFinish");
+        Log.d(Constants.TAG, "NotificationWearActivity startTimerFinish");
         showKeyboard = false;
         handler.removeCallbacks(activityFinishRunnable);
         handler.postDelayed(activityFinishRunnable, NotificationStore.getTimeoutRelock(key));
     }
 
     public void stopTimerFinish() {
-        //Log.i(Constants.TAG, "NotificationWearActivity stopTimerFinish");
+        Log.d(Constants.TAG, "NotificationWearActivity stopTimerFinish");
         showKeyboard = true;
         handler.removeCallbacks(activityFinishRunnable);
     }
@@ -208,7 +205,9 @@ public class NotificationWearActivity extends Activity {
             setScreenModeOff(false);
         }
 
+
         if (mustLockDevice) {
+            showKeyboard = false;
             if (flag) {
                 final Handler mHandler = new Handler();
                 mHandler.postDelayed(new Runnable() {
@@ -218,7 +217,9 @@ public class NotificationWearActivity extends Activity {
                 }, 500);
             } else
                 lock();
-        }
+        } else if (!screenToggle)
+            mustLockDevice = true;
+
     }
 
     private void lock() {
@@ -228,11 +229,7 @@ public class NotificationWearActivity extends Activity {
                 try {
                     mDPM.lockNow();
                 } catch (SecurityException ex) {
-                    //Toast.makeText(
-                    //        this,
-                    //        getResources().getText(R.string.device_owner),
-                    //        Toast.LENGTH_LONG).show();
-                    Log.w(Constants.TAG, getResources().getString(R.string.device_owner));
+                    //Toast.makeText(this, getResources().getText(R.string.device_owner), Toast.LENGTH_LONG).show();
                     Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
                 }
             }
@@ -273,7 +270,6 @@ public class NotificationWearActivity extends Activity {
                 params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
                 getWindow().setAttributes(params);
             }
-            settingsManager.putBoolean(Constants.PREF_CUSTOMUI_RUNNING, false);
         }
         screenToggle = mode;
     }

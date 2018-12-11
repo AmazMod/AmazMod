@@ -15,6 +15,6 @@ if [ "$1" == "kill-all" ]; then
     exit 0
 fi
 exit 0
-} | busybox tee /dev/tty | while read line; do
+} | while read line; do
    log -p d -t "$tag" "$line"
 done
