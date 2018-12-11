@@ -105,7 +105,8 @@ public class NotificationService {
             } else {
                 Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
-                    NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
+                    if (!forceCustom)
+                        NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
                     postWithCustomUI(notificationStoreKey);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
