@@ -105,7 +105,7 @@
             android:exported="true"
             android:label=""
             android:taskAffinity=""
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />

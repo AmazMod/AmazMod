@@ -8,7 +8,7 @@
     android:clickable="true"
     android:focusable="true"
     android:paddingRight="@dimen/padding_round"
-    android:layout_height="72dp">
+    android:layout_height="56dp">
 
     <Switch
         android:id="@+id/sw"

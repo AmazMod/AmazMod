@@ -28,7 +28,7 @@ import com.amazmod.service.helper.ItemTouchHelperViewHolder;
  * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
  * swipe-to-dismiss. Drag events are automatically started by an item long-press.<br/>
  * </br/>
- * Expects the <code>RecyclerView.Adapter</code> to listen for {@link
+ * Expects the <code>RecyclerView.SpringboardWidgetAdapter</code> to listen for {@link
  * ItemTouchHelperAdapter} callbacks and the <code>RecyclerView.ViewHolder</code> to implement
  * {@link ItemTouchHelperViewHolder}.
  *

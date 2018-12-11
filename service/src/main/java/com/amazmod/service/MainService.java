@@ -56,6 +56,7 @@ import com.amazmod.service.ui.PhoneConnectionActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
+import com.amazmod.service.util.WidgetsUtil;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
@@ -163,6 +164,15 @@ public class MainService extends Service implements Transporter.DataListener {
         context = this;
         settingsManager = new SettingsManager(context);
         notificationManager = new NotificationService(context);
+
+        //Define Amazmod as First Widget (if checked in Preferences)
+        if (settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true)) {
+            //Set Amazmod as first Widget on launch
+            WidgetsUtil.loadSettings(this);
+            Log.d(Constants.TAG, "Amazmod defined as first widget");
+        }else{
+            Log.d(Constants.TAG, "Amazmod NOT defined as first widget");
+        }
 
         settings = new WidgetSettings(Constants.TAG, context);
         batteryData = new BatteryData();

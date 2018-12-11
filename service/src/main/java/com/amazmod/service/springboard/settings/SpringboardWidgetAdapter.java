@@ -17,13 +17,13 @@ import com.amazmod.service.R;
 import java.util.Collections;
 import java.util.List;
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements ItemTouchHelperAdapter {
+public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWidgetAdapter.ViewHolder> implements ItemTouchHelperAdapter {
 
     private final Context context;
     private final List<BaseSetting> settings;
     private ChangeListener changeListener;
 
-    public Adapter(Context context, List<BaseSetting> settings, ChangeListener changeListener) {
+    public SpringboardWidgetAdapter(Context context, List<BaseSetting> settings, ChangeListener changeListener) {
         this.context = context;
         this.settings = settings;
         this.changeListener = changeListener;
@@ -34,7 +34,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
     }
 
     @Override
-    public Adapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SpringboardWidgetAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //Three layouts possible - Header, icon and switch
         if (viewType == 0) {
@@ -65,7 +65,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> implements
 
 
     @Override
-    public void onBindViewHolder(final Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final SpringboardWidgetAdapter.ViewHolder holder, int position) {
         //Get base setting for position
         BaseSetting setting = settings.get(position);
         if (setting instanceof HeaderSetting) {

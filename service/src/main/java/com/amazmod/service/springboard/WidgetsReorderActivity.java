@@ -8,7 +8,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.amazmod.service.R;
 import com.amazmod.service.helper.SimpleItemTouchHelperCallback;
-import com.amazmod.service.springboard.settings.Adapter;
+import com.amazmod.service.springboard.settings.SpringboardWidgetAdapter;
 import com.amazmod.service.util.WidgetsUtil;
 
 public class WidgetsReorderActivity extends AppCompatActivity {
@@ -16,10 +16,9 @@ public class WidgetsReorderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Get in and out settings. In is the main setting, which defines the order and state of a page, but does not always contain them all. Out contains them all, but no ordering
 
         WidgetsUtil.loadSettings(this);
-        Adapter adapter = WidgetsUtil.getAdapter(this);
+        SpringboardWidgetAdapter adapter = WidgetsUtil.getAdapter(this);
 
         //Create recyclerview as layout
         RecyclerView recyclerView = new RecyclerView(this);
