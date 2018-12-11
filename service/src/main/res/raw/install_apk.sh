@@ -29,6 +29,6 @@ adb kill-server
 am kill-all
 echo "Installation finished"
 exit 0
-} | busybox tee /dev/tty | while read line; do
+} | while read line; do
    log -p d -t "$tag" "$line"
 done

@@ -684,14 +684,18 @@ public class MainService extends Service implements Transporter.DataListener {
                             //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
                             final String apkFile = command.replace("install_apk ", "");
                             //Log.d(Constants.TAG, "MainService executeShellCommand apkFile: " + apkFile);
-                            String installCommand = String.format("busybox sh %s %s", installScript, apkFile);
+                            String installCommand;
+
                             //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
                             if (requestShellCommandData.isReboot())
-                                installCommand += " DEL";
+                                installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "DEL");
                             else
-                                installCommand += " OK";
+                                installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "OK");
+
                             Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
-                            Runtime.getRuntime().exec(installCommand, null, Environment.getExternalStorageDirectory());
+
+                            Runtime.getRuntime().exec(new String[] { "sh", "-c", installCommand },
+                                    null, Environment.getExternalStorageDirectory());
 
                         } else if (command.contains("install_amazmod_update ")) {
                             showUpdateConfirmationWearActivity();
@@ -705,7 +709,7 @@ public class MainService extends Service implements Transporter.DataListener {
                                 outputStreamWriter.write(command + " && reboot");
                                 outputStreamWriter.flush();
                                 outputStreamWriter.close();
-                                Process process = Runtime.getRuntime().exec("busybox nohup sh /sdcard/amazmod-command.sh &");
+                                Process process = Runtime.getRuntime().exec("nohup sh /sdcard/amazmod-command.sh &");
 
                                 code = process.waitFor();
                                 Log.d(Constants.TAG, "MainService shell process returned " + code);
@@ -729,10 +733,7 @@ public class MainService extends Service implements Transporter.DataListener {
                         if (command.contains("screencap")) {
                             File file = new File("/sdcard/Pictures/Screenshots");
                             boolean saveDirExists = false;
-                            if (!file.exists())
-                                saveDirExists = file.mkdir();
-                            else
-                                saveDirExists = true;
+                            saveDirExists = file.exists() || file.mkdir();
                             if (saveDirExists) {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
                                 String dateStamp = sdf.format(new Date());

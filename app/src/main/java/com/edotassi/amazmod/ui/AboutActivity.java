@@ -116,21 +116,19 @@ public class AboutActivity extends AppCompatActivity {
     private void sendTestMessage(char type) {
         NotificationData notificationData = new NotificationData();
         final String snackTextOK, snackTextFailure;
+        notificationData.setText("Test Notification");
 
         switch (type) {
             case ('C'): {
                 notificationData.setForceCustom(true);
-                notificationData.setText("Test Notification");
                 break;
             }
             case ('S'): {
                 notificationData.setForceCustom(false);
-                notificationData.setText("Test Notification");
                 break;
             }
             case ('N'): {
                 notificationData.setForceCustom(false);
-                notificationData.setText("Test Notification");
                 sendNotificationWithStandardUI(notificationData);
                 return;
             }
