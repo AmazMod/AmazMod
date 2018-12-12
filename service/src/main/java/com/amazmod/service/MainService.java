@@ -682,6 +682,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                             PackageReceiver.setIsAmazmodInstall(true);
                             final String installScript = DeviceUtil.copyScriptFile(context, "install_apk.sh").getAbsolutePath();
+                            final String busyboxPath = DeviceUtil.installBusybox(context);
                             //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
                             String apkFile = command.replace("install_apk ", "");
                             //Log.d(Constants.TAG, "MainService executeShellCommand apkFile: " + apkFile);
@@ -694,18 +695,14 @@ public class MainService extends Service implements Transporter.DataListener {
 
                                 //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
                                 if (requestShellCommandData.isReboot())
-                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "DEL");
+                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
                                 else
-                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s 2>&1)", installScript, apkFile, "OK");
+                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
 
                                 Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
 
-                                Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
+                                Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
                                         null, Environment.getExternalStorageDirectory());
-
-                                code = process.waitFor();
-                                if (code != 0)
-                                    errorMsg = "Error!";
 
                             } else {
                                 code = -1;
