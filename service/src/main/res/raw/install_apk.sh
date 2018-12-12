@@ -3,61 +3,60 @@ TAG="AmazMod install_apk"
 SYSTYPE=$(getprop | grep display.id)
 BUSYBOX="$3/busybox"
 BUSYBOXOK="FALSE"
+LOG="log -pd -t$TAG"
 if [ "$4" == "" ]; then
     OLDPATH=$PATH
-    LOG="log -pi -t$TAG"
+    $LOG "#### AmazMod install_apk Date: $(date)"
+    $LOG "starting, arg1=($1) arg2=($2) arg3=($3) arg4=($4)"
+    $LOG "system: $SYSTYPE"
+    $LOG "PWD: $PWD"
+    $LOG "PATH:$PATH OLDPATH:$OLDPATH"
 else
+    $LOG "continuing, arg1=($1) arg2=($2) arg3=($3) arg4=($4)"
     OLDPATH=$4
-    LOG="echo"
+    $LOG "PATH:$PATH OLDPATH:$OLDPATH"
 fi
-$LOG "#### AmazMod install_apk Date: $(date)"
-$LOG "starting, arg1=($1) arg2=($2) arg3=($3) arg4=($4)"
-$LOG "system: $SYSTYPE"
-$LOG "PWD: $PWD"
-if [ ! -s /system/bin/adb ]; then
+if [ ! -s /system/bin/adb ] && [ "$4" == "" ]; then
      $LOG "adb not found, quitting!"
      exit 1
 fi
-if [ ! -s $1 ]; then
+if [ ! -s $1 ] && [ "$4" == "" ]; then
      $LOG "APK file not found, quitting!"
      exit 1
 fi
 if [ -s $BUSYBOX  ] && [ "$4" == "" ]; then
     BUSYBOXOK=$($BUSYBOX printf "BusyBox")
     $LOG "busybox: $($BUSYBOX | $BUSYBOX head -1)"
-    echo "install_apk #END#">&2
+    echo "#INSTALL_APK#">&2
 fi
 if [ ! "$BUSYBOXOK" == "BusyBox" ] && [ "$4" == "" ]; then
     $LOG "busybox is not working! Installing APK and quitting!"
     adb install -r $1&
     exit 0
 fi
-{
 if [ "$4" == "" ]; then
    PATH=$3:$OLDPATH
-   echo "restarting in the background"
+   $LOG "restarting in the background"
    sleep 3
-   busybox nohup sh $0 $1 $2 $3 $OLDPATH 2>&1 &
+   $LOG $(busybox nohup sh $0 $1 $2 $3 $OLDPATH 2>&1 &)
    PATH=$OLDPATH
    exit 0
+else
+    echo "#START#">&2
 fi
-echo "killing adb server"
-adb kill-server
+$LOG "killing adb server $(adb kill-server)"
 sleep 3
 if [ "$1" != "" ]; then
-   echo "installing: $1"
-   adb install -r $1
+   $LOG "installing: $1"
+   log -pi -t$TAG "$(adb install -r $1 2>&1)"
 fi
 if [ "$2" == "DEL" ]; then
-   echo "deleting file: $1"
-   rm $1
+   $LOG "deleting file: $1 $(rm $1)"
 fi
-echo "killing background processes"
-adb kill-server
-am kill-all
+$LOG "killing background processes"
+$LOG "killing adb $(adb kill-server)"
+$LOG "kill-all $(am kill-all)"
 PATH=$OLDPATH
-echo "Installation finished"
+$LOG "Installation finished"
+echo "#END#">&2
 exit 0
-} | while read LINE; do
-   log -p i -t "$TAG" "$LINE"
-done

@@ -15,7 +15,6 @@ import android.provider.Settings;
 import android.util.Log;
 
 import com.amazmod.service.Constants;
-import com.amazmod.service.R;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
 import java.io.File;
