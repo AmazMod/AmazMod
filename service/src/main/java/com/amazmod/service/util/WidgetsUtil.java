@@ -12,9 +12,9 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.SpringboardItem;
-import com.amazmod.service.springboard.settings.SpringboardWidgetAdapter;
 import com.amazmod.service.springboard.settings.BaseSetting;
 import com.amazmod.service.springboard.settings.SpringboardSetting;
+import com.amazmod.service.springboard.settings.SpringboardWidgetAdapter;
 import com.amazmod.service.springboard.settings.TextSetting;
 
 import org.json.JSONArray;
@@ -35,6 +35,7 @@ public class WidgetsUtil {
         SettingsManager settingsManager = new SettingsManager(context);
         boolean amazmod_first_widget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
 
+        //Get in and out settings. In is the main setting, which defines the order and state of a page, but does not always contain them all. Out contains them all, but no ordering
         String springboard_widget_order_in = Settings.System.getString(context.getContentResolver(), "springboard_widget_order_in");
         String springboard_widget_order_out = Settings.System.getString(context.getContentResolver(), "springboard_widget_order_out");
         Log.d(Constants.TAG, "WidgetsUtil loadSettings: widget_order_in  : " + springboard_widget_order_in);
@@ -84,35 +85,38 @@ public class WidgetsUtil {
             //Loop through main data array
             for (int x = 0; x < data.length(); x++) {
                 //Get item
-                JSONObject item = dataOut.getJSONObject(x);
-                //Get component name to check list
-                String componentName = item.getString("cls");
-                if (!addedComponents.contains(componentName)) {
-                    //Get if item is enabled, this time stored as a string (why?)
-                    boolean enable = item.getString("enable").equals("true");
-                    //Create item with the package name, class name and state
-                    final SpringboardItem springboardItem = new SpringboardItem(item.getString("pkg"), item.getString("cls"), enable);
-                    //Create setting with all the relevant data
-                    SpringboardSetting springboardSetting = new SpringboardSetting(null, getTitle(springboardItem.getPackageName(), context), formatComponentName(springboardItem.getClassName()), new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                            if (!compoundButton.isPressed()) return;
-                            springboardItem.setEnabled(b);
-                            save(context);
-                        }
-                    }, springboardItem.isEnable(), springboardItem);
+                //Checks if item exists at out array
+                if (!dataOut.isNull(x)) {
+                    JSONObject item = dataOut.getJSONObject(x);
+                    //Get component name to check list
+                    String componentName = item.getString("cls");
+                    if (!addedComponents.contains(componentName)) {
+                        //Get if item is enabled, this time stored as a string (why?)
+                        boolean enable = item.getString("enable").equals("true");
+                        //Create item with the package name, class name and state
+                        final SpringboardItem springboardItem = new SpringboardItem(item.getString("pkg"), item.getString("cls"), enable);
+                        //Create setting with all the relevant data
+                        SpringboardSetting springboardSetting = new SpringboardSetting(null, getTitle(springboardItem.getPackageName(), context), formatComponentName(springboardItem.getClassName()), new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                if (!compoundButton.isPressed()) return;
+                                springboardItem.setEnabled(b);
+                                save(context);
+                            }
+                        }, springboardItem.isEnable(), springboardItem);
 
-                    //Always show amazmod as first when swiping left (index 2, second item) if its defined in preferences
-                    if (item.getString("pkg").equals("com.amazmod.service") && amazmod_first_widget) {
-                        //Add class name to list to prevent it being adding more than once
-                        addedComponents.add(1, springboardItem.getClassName());
-                        //Add amazmod as first one
-                        settingList.add(1, springboardSetting);
-                    } else {
-                        //Add class name to list to prevent it being adding more than once
-                        addedComponents.add(springboardItem.getClassName());
-                        //Add setting to main list
-                        settingList.add(springboardSetting);
+                        //Always show amazmod as first when swiping left (index 2, second item) if its defined in preferences
+                        if (item.getString("pkg").equals("com.amazmod.service") && amazmod_first_widget) {
+                            //Add class name to list to prevent it being adding more than once
+                            addedComponents.add(1, springboardItem.getClassName());
+                            //Add amazmod as first one
+                            settingList.add(1, springboardSetting);
+                        } else {
+                            //Add class name to list to prevent it being adding more than once
+                            addedComponents.add(springboardItem.getClassName());
+                            //Add setting to main list
+                            settingList.add(springboardSetting);
+                        }
                     }
                 }
             }
@@ -125,9 +129,9 @@ public class WidgetsUtil {
             settingList.add(new TextSetting(context.getString(R.string.error_loading), null));
         }
         //Add main header to top (pos 0)
-        //settingList.add(0, new HeaderSetting(context.getString(R.string.springboard)));
+        //settingList.add(0, new HeaderSetting(context.getString(R.string.reorder_widgets)));
         //Save initial config (to keep amazmod in first position)
-        save(context,false);
+        save(context, false);
     }
 
     public static SpringboardWidgetAdapter getAdapter(final Context context) {

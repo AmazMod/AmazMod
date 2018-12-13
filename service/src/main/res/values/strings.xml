@@ -37,7 +37,6 @@
     <string name="silence_application">Silence</string>
     <string name="notifications">Notifications</string>
     <string name="clear_notifications">Clear All</string>
-    <string name="springboard">Springboard</string>
     <string name="unknown">Unknown</string>
     <string name="saved">Saved</string>
     <string name="error_loading">Unable to load springboard pages. Please try opening the Amazfit app on your phone, rearranging and enabling/disabling widget pages in the settings, then tap to reload</string>
