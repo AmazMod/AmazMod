@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInstaller;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -21,6 +20,7 @@ import com.amazmod.service.ui.ConfirmationWearActivity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
@@ -53,15 +53,15 @@ public class DeviceUtil {
             }
         } catch (NullPointerException e) {
             Log.e(Constants.TAG, "iDeviceLocked exception: " + e.toString());
+            isLocked = false;
         }
-
 
         return isLocked;
     }
 
     public static boolean isDNDActive(Context context, ContentResolver cr) {
 
-        boolean dndEnabled = false;
+        boolean dndEnabled;
         try {
 
             int zenModeValue = Settings.Global.getInt(cr, "zen_mode");
@@ -97,7 +97,7 @@ public class DeviceUtil {
 
     public static void installPackage(Context context, String packageName, String filePath) {
 
-        Log.d(Constants.TAG, "PackageReceiver installPackage packageName: " + packageName);
+        Log.d(Constants.TAG, "DeviceUtil installPackage packageName: " + packageName);
         PackageInstaller packageInstaller = context.getPackageManager().getPackageInstaller();
 
         PackageInstaller.SessionParams params = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
@@ -149,8 +149,7 @@ public class DeviceUtil {
             int total = 0;
             byte[] buffer = new byte[65536];
             int c;
-            while ((c = in.read(buffer)) != -1)
-            {
+            while ((c = in.read(buffer)) != -1) {
                 total += c;
                 out.write(buffer, 0, c);
             }
@@ -167,7 +166,7 @@ public class DeviceUtil {
             intent.putExtra(Constants.TEXT, "Auto Install");
             intent.putExtra(Constants.TIME, "5");
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent,0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             IntentSender mIntentSender = pendingIntent.getIntentSender();
 
             for (String s : session.getNames()) {
@@ -191,23 +190,89 @@ public class DeviceUtil {
     }
 
     public static File copyScriptFile(Context context, String fileName) {
+
         File file = new File(context.getFilesDir(), fileName);
-        InputStream is = context.getResources().openRawResource(context.getResources()
+        InputStream inFile = context.getResources().openRawResource(context.getResources()
                 .getIdentifier(fileName.replace(".sh", ""), "raw", context.getPackageName()));
+
         try {
+
+            if (file.exists() && file.isFile() && (file.length() == inFile.available())) {
+                Log.d(Constants.TAG, "DeviceUtil copyScriptFile file already exists, size: " + inFile.available());
+                return file;
+            }
+
             OutputStream output = new FileOutputStream(file);
             byte[] buffer = new byte[4 * 1024];
             int read;
-            while ((read = is.read(buffer)) != -1) {
+            while ((read = inFile.read(buffer)) != -1) {
                 output.write(buffer, 0, read);
             }
             output.flush();
             output.close();
-            is.close();
+            inFile.close();
         } catch (Exception e) {
-            Log.e(Constants.TAG, "DeviceUtil copyFile exception: " + e.toString());
+            Log.e(Constants.TAG, "DeviceUtil copyScriptFile exception: " + e.toString());
         }
         return file;
+    }
+
+    public static String installBusybox(Context context) {
+
+        final String fileName = "busybox";
+        String utilFolderPath = context.getFilesDir() + File.separator + "bin";
+        final File utilFolder = new File(utilFolderPath);
+
+        if (utilFolder.exists() || utilFolder.mkdir()) {
+
+            final File file = new File(utilFolderPath, fileName);
+
+            try {
+
+                InputStream inFile = context.getResources().openRawResource(context.getResources()
+                        .getIdentifier(fileName, "raw", context.getPackageName()));
+
+                if (file.exists() && file.isFile() && (file.length() == inFile.available())) {
+                    Log.d(Constants.TAG, "DeviceUtil installBusybox file already exists, size: " + inFile.available());
+                    return utilFolderPath;
+                }
+
+
+                OutputStream output = new FileOutputStream(file);
+                byte[] buffer = new byte[4 * 1024];
+                int read;
+                while ((read = inFile.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+                output.flush();
+                output.close();
+                inFile.close();
+
+                final String busybox = file.getAbsolutePath();
+
+                final String installCommand = "chmod 755 " + busybox
+                        + " && " + busybox + " --install -s " + utilFolderPath;
+
+                Log.d(Constants.TAG, "DeviceUtil installBusybox installCommand: " + installCommand);
+
+                Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand}, null, utilFolder);
+
+                int code = process.waitFor();
+                if (code != 0)
+                    Log.e(Constants.TAG, "DeviceUtil installBusybox error! " + code);
+
+            } catch (InterruptedException e) {
+                Log.e(Constants.TAG, "DeviceUtil installBusybox InterruptedException: " + e.toString());
+                utilFolderPath = null;
+            } catch (IOException e) {
+                Log.e(Constants.TAG, "DeviceUtil installBusybox IOException: " + e.toString());
+                utilFolderPath = null;
+            }
+
+        } else
+            utilFolderPath = null;
+
+        return utilFolderPath;
     }
 
     public static void killBackgroundTasks(Context context) {
@@ -225,7 +290,7 @@ public class DeviceUtil {
             List<ActivityManager.RunningAppProcessInfo> processes = am.getRunningAppProcesses();
 
             for (ApplicationInfo packageInfo : packages) {
-                if(!((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1)) {
+                if (!((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1)) {
                     Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks package: " + packageInfo.packageName);
                     am.killBackgroundProcesses(packageInfo.packageName);
                 }

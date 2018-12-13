@@ -230,7 +230,7 @@ public class NotificationWearActivity extends Activity {
                     mDPM.lockNow();
                 } catch (SecurityException ex) {
                     //Toast.makeText(this, getResources().getText(R.string.device_owner), Toast.LENGTH_LONG).show();
-                    Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
+                    Log.e(Constants.TAG, "NotificationWearActivity SecurityException: " + ex.toString());
                 }
             }
         }
@@ -255,7 +255,7 @@ public class NotificationWearActivity extends Activity {
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
-            Log.i(Constants.TAG, "NotificationActivity setScreenModeOff true");
+            Log.i(Constants.TAG, "NotificationWearActivity setScreenModeOff true");
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -264,7 +264,7 @@ public class NotificationWearActivity extends Activity {
             getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff false / screenMode: " + screenMode);
+                Log.i(Constants.TAG, "NotificationWearActivity setScreenModeOff false | screenMode: " + screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
                 params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
