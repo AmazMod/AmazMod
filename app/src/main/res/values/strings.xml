@@ -276,4 +276,6 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="cannot_be_undone">This cannot be undone.</string>
     <string name="show_only_selected">Show only allowed apps</string>
+    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
+    <string name="pref_amazmod_first_widget_summary">Always show Amazmod as first watch widget</string>
 </resources>

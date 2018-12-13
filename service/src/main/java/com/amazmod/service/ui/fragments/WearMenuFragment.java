@@ -34,6 +34,7 @@ import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.springboard.LauncherWearGridActivity;
+import com.amazmod.service.springboard.WidgetsReorderActivity;
 import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.huami.watch.transport.DataBundle;
@@ -64,6 +65,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 	private String[] mItems = { "Wi-Fi Toggle",
                                 "Wi-Fi Panel",
                                 "Flashlight",
+                                "Reorder Widgets",
                                 "QR code",
                                 "Clean Memory",
                                 "Enable L.P.M.",
@@ -83,6 +85,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private int[] mImagesOn = { R.drawable.baseline_wifi_white_24,
                                 R.drawable.baseline_perm_scan_wifi_white_24,
                                 R.drawable.baseline_highlight_white_24,
+                                R.drawable.outline_settings_white_24,
                                 R.drawable.ic_qrcode_white_24dp,
                                 R.drawable.outline_clear_all_white_24,
                                 R.drawable.ic_action_star,
@@ -102,6 +105,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private int[] mImagesOff = {    R.drawable.baseline_wifi_off_white_24,
                                     R.drawable.baseline_perm_scan_wifi_white_24,
                                     R.drawable.baseline_highlight_white_24,
+                                    R.drawable.outline_settings_white_24,
                                     R.drawable.ic_qrcode_white_24dp,
                                     R.drawable.outline_clear_all_white_24,
                                     R.drawable.ic_action_star,
@@ -120,6 +124,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 
     private String[] toggle = { "",
                                 "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity;exit&",
+                                "",
                                 "",
                                 "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity;exit&",
                                 "kill-all",
@@ -262,12 +267,18 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             case 2:
                 startWearGridActivity(LauncherWearGridActivity.FLASHLIGHT);
                 break;
-
             case 3:
+                final Intent intent_widget = new Intent(mContext, WidgetsReorderActivity.class);
+                intent_widget.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                mContext.startActivity(intent_widget);
+                break;
+            case 4:
                 runCommand(toggle[itemChosen]);
                 break;
 
-            case 4:
             case 5:
             case 6:
             case 7:
@@ -276,16 +287,17 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             case 10:
             case 11:
             case 12:
+            case 13:
                 beginCountdown();
                 break;
 
-            case 13:
             case 14:
             case 15:
+            case 16:
                 toggle(itemChosen);
                 break;
 
-            case 16:
+            case 17:
                 final Intent intent = new Intent(mContext, InputMethodActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                         Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -294,7 +306,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 mContext.startActivity(intent);
                 break;
 
-            case 17:
+            case 18:
                 startWearGridActivity(LauncherWearGridActivity.INFO);
                 break;
 

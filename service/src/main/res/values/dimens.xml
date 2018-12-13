@@ -5,4 +5,7 @@
     <dimen name="small_circle_radius_launcher">18dp</dimen>
     <dimen name="big_circle_radius_launcher">19dp</dimen>
     <dimen name="circled_image_view_diameter">38dp</dimen>
+    <dimen name="padding_round">16dp</dimen>
+    <dimen name="padding_round_small">8dp</dimen>
+    <dimen name="padding_round_large">24dp</dimen>
 </resources>
