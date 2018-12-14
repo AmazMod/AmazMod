@@ -71,7 +71,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     private static int appChosen = 0;
 
     private final int UNINSTALL_REQUEST_CODE = 1;
-    private static final String REFRESH = "refresh";
+    private static final String REFRESH = "Refresh";
 
     @Override
     public void onAttach(Activity activity) {

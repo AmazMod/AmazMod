@@ -7,14 +7,14 @@
     android:foreground="?selectableItemBackground"
     android:clickable="true"
     android:focusable="true"
-    android:paddingRight="@dimen/padding_round"
+    android:paddingRight="8dp"
     android:layout_height="64dp">
 
     <Switch
         android:id="@+id/sw"
-        android:layout_width="72dp"
+        android:layout_width="64dp"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
+        android:paddingLeft="8dp"
         android:paddingTop="16dp"
         android:paddingBottom="16dp"
         android:paddingRight="12dp"
@@ -22,7 +22,7 @@
         android:textOn="" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -33,10 +33,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:textColor="@android:color/white"
             android:singleLine="true"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            tools:text="Title" />
+            android:textColor="@android:color/white"
+            tools:text="This is a Very Long Title to Test" />
 
         <!--<com.amazmod.service.springboard.AlwaysMarqueeTextView-->
         <TextView

@@ -13,14 +13,16 @@ public class NotificationInfo {
     private String notificationTime;
     private Drawable icon;
     private String key;
+    private String id;
 
     public NotificationInfo(){}
 
-    public NotificationInfo(String notificationTitle, String notificationTime, Drawable icon, String key) {
+    public NotificationInfo(String notificationTitle, String notificationTime, Drawable icon, String key, String id) {
         this.notificationTitle = notificationTitle;
         this.notificationTime = notificationTime;
         this.icon = icon;
         this.key = key;
+        this.id = id;
     }
 
     public NotificationInfo(NotificationData notificationData, String key) {
@@ -36,6 +38,9 @@ public class NotificationInfo {
         this.icon = new BitmapDrawable(Resources.getSystem(), bitmap);
 
         this.key = key;
+
+        this.id = key.substring(key.lastIndexOf("|") + 1);
+
     }
 
     public String getNotificationTitle() {
@@ -52,6 +57,10 @@ public class NotificationInfo {
 
     public String getKey() {
         return this.key;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
 }

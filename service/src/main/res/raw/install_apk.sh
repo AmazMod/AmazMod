@@ -1,4 +1,4 @@
-#/system/bin/sh
+#!/system/bin/sh
 TAG="AmazMod install_apk"
 SYSTYPE=$(getprop | grep display.id)
 BUSYBOX="$3/busybox"
@@ -27,9 +27,9 @@ fi
 if [ -s $BUSYBOX  ] && [ "$4" == "" ]; then
     BUSYBOXOK=$($BUSYBOX printf "BusyBox")
     $LOG "busybox: $($BUSYBOX | $BUSYBOX head -1)"
-    echo "#INSTALL_APK#">&2
 fi
 if [ ! "$BUSYBOXOK" == "BusyBox" ] && [ "$4" == "" ]; then
+    echo "#INSTALL_APK#">&2
     $LOG "busybox is not working! Installing APK and quitting!"
     adb install -r $1&
     exit 0

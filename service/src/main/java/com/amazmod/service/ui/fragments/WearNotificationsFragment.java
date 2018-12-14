@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.wearable.view.WearableListView;
@@ -51,6 +52,8 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
 
     private List<NotificationInfo> notificationInfoList;
     private NotificationListAdapter mAdapter;
+
+    private static final String REFRESH = "Refresh";
 
     @Override
     public void onAttach(Activity activity) {
@@ -105,7 +108,17 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
         final int itemChosen = viewHolder.getPosition();
         Log.i(Constants.TAG,"WearNotificationsFragment onClick itemChosen: " + itemChosen);
 
-        showNotification(itemChosen);
+        if (notificationInfoList.get(itemChosen).getNotificationTitle().equals(REFRESH)) {
+
+            notificationInfoList.clear();
+            mAdapter.clear();
+            wearNotificationsFrameLayout.setVisibility(View.GONE);
+            listView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            updateContent();
+
+        } else
+            showNotification(itemChosen);
 
         //Toast.makeText(mContext, "Selected: " + appInfoList.get(itemChosen).getAppName(), Toast.LENGTH_SHORT).show();
 
@@ -154,6 +167,8 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
         listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
+        final Drawable drawable = getResources().getDrawable(R.drawable.ic_action_refresh);
+
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
             public List<NotificationInfo> call() throws Exception {
@@ -166,7 +181,10 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
                     notificationInfoList.add(new NotificationInfo(NotificationStore.getCustomNotification(key), key));
                 }
 
-                //sortNotifications(notificationInfoList);
+                if (!notificationInfoList.isEmpty())
+                    notificationInfoList.add(new NotificationInfo(REFRESH, "", drawable, "", "0"));
+
+                sortNotifications(notificationInfoList);
                 WearNotificationsFragment.this.notificationInfoList = notificationInfoList;
                 return notificationInfoList;
             }
@@ -257,7 +275,7 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
         Collections.sort(notificationInfoList, new Comparator<NotificationInfo>() {
             @Override
             public int compare(NotificationInfo o1, NotificationInfo o2) {
-                return o1.getKey().compareTo(o2.getKey());
+                return o2.getId().compareTo(o1.getId());
             }
         });
     }

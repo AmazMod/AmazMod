@@ -7,14 +7,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.wearable.view.DelayedConfirmationView;
@@ -23,7 +21,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,20 +36,12 @@ import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.huami.watch.transport.DataBundle;
 
-import org.apache.commons.lang3.ObjectUtils;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.VIBRATOR_SERVICE;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
-import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 
 public class WearMenuFragment extends Fragment implements WearableListView.ClickListener,
         DelayedConfirmationView.DelayedConfirmationListener {
@@ -216,7 +205,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 if (i == 0)
                     state = wfmgr.isWifiEnabled();
                 else
-                    state = i < 13 || i > 15 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
+                    state = i < 14 || i > 16 || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
                 state = true;
                 Log.e(Constants.TAG, "WearMenuFragment onCreate exception: " + e.toString());
@@ -402,7 +391,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         }, 1000);
         switch (itemChosen) {
 
-            case 4:
+            case 5:
                 Toast.makeText(mContext, "Killing background processes…", Toast.LENGTH_SHORT).show();
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
@@ -411,20 +400,20 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 }, 1000);
                 break;
 
-            case 5:
+            case 6:
                 HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
                 break;
 
-            case 6:
+            case 7:
                 HermesEventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
                 break;
 
-            case 7:
             case 8:
             case 9:
             case 10:
             case 11:
             case 12:
+            case 13:
                 runCommand(toggle[itemChosen]);
                 break;
         }

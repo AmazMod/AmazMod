@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_gravity="center_vertical"
+    android:foreground="?selectableItemBackground"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -25,13 +27,14 @@
         android:layout_marginEnd="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textAlignment="viewStart"
         android:textColor="#FFFFFFFF"
         android:textSize="16sp"
         android:gravity="bottom|start"
         android:lineSpacingExtra="-4sp"
-        tools:text="This is a Long Title"
+        android:ellipsize="end"
+        tools:text="This is a Long Title for a Notification Title"
         app:layout_constraintStart_toEndOf="@+id/row_notification_icon"
         app:layout_constraintTop_toTopOf="parent" />
 
