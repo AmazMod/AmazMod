@@ -1,4 +1,4 @@
-# AmazMod  [![Build Status](https://travis-ci.org/edotassi/AmazMod.svg?branch=master)](https://travis-ci.org/edotassi/AmazMod) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod)
+# AmazMod  [![Build Status](https://travis-ci.org/edotassi/AmazMod.svg?branch=master)](https://travis-ci.org/edotassi/AmazMod) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod) [![Backers on Open Collective](https://opencollective.com/amazmod-33/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/amazmod-33/sponsors/badge.svg)](#sponsors) 
 
 AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace and Stratos watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
 
@@ -75,6 +75,36 @@ For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/m
 		</td>
 	</tr>
 </table>
+
+## Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/AmazMod/AmazMod/graphs/contributors"><img src="https://opencollective.com/amazmod-33/contributors.svg?width=890&button=false" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/amazmod-33#backer)]
+
+<a href="https://opencollective.com/amazmod-33#backers" target="_blank"><img src="https://opencollective.com/amazmod-33/backers.svg?width=890"></a>
+
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/amazmod-33#sponsor)]
+
+<a href="https://opencollective.com/amazmod-33/sponsor/0/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/1/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/2/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/3/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/4/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/5/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/6/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/7/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/8/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/amazmod-33/sponsor/9/website" target="_blank"><img src="https://opencollective.com/amazmod-33/sponsor/9/avatar.svg"></a>
+
+
 
 ### License
 
