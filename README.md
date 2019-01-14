@@ -8,6 +8,11 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 * Control watch's screen brightness ("Auto brightness" on watch must be *off* for this to work);  
 * Option to not send notifications to watch when the phone screen is on;  
 * Receive messenger call notifications and maps navigation info on watch;
+* File transfer to and from the watch over the air;
+* Shell execution optionality to the watch from the phone;
+* Improved Watch/Smartphone connection tunnel (lower battery usage);
+* Emoji display ability;
+* Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot);
 * More to come.  
 
 ### Installation
@@ -23,6 +28,8 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 4. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
 5. Check if you see AmazMod widget on watch, if you don't then something went wrong, check Troubleshooting below;
 6. Open AmazMod app on phone and configure it to your needs.
+7. For better power managment, in the tweaking section on the phone client with the latest version - run:
+   `adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver`
 
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;

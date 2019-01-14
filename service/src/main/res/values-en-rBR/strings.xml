@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">AmazModService</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_notification">NotificationActivity</string>
+    <string name="last_charge">Desde carga completa</string>
+    <string name="last_charge_no_info">Esperando por dados</string>
+    <string name="close">Fechar&#160;&#160;</string>
+    <string name="replies">&#160;&#160;Responder</string>
+    <string name="phone_disconnected">Celular desconectado</string>
+    <string name="phone_connected">Celular conectado</string>
+    <string name="phone_connection_alert">Alerta de Conexão</string>
+    <string name="device_owner">Habilite admin do dispositivo</string>
+    <!-- Strings used by AdminReceiver -->
+    <string name="device_admin">Admin do Disp.</string>
+    <string name="device_admin_description">Conceder acesso ao bloq. de tela</string>
+    <string name="admin_receiver_status">Admin do Disp.: %1$s</string>
+    <string name="admin_receiver_status_enabled">habilitado</string>
+    <string name="admin_receiver_status_disabled">desabilitado</string>
+    <string name="admin_receiver_status_disable_warning">
+        O AmazMod não poderá bloquear a tela depois de fechar as respostas.</string>
+    <string name="notifications">Notifications</string>
+    <string name="clear_notifications">Clear All</string>
+</resources>

@@ -18,13 +18,18 @@ public class NotificationData extends Transportable implements Parcelable {
     private final String DATA_TIME = "time";
     private final String DATA_TEXT = "text";
     private final String DATA_ICON = "icon";
+    private final String DATA_LARGE_ICON = "largeIcon";
+    private final String DATA_LARGE_ICON_WIDTH = "largeIconWidth";
+    private final String DATA_LARGE_ICON_HEIGHT = "largeIconHeight";
     private final String DATA_ICON_WIDTH = "iconWidth";
     private final String DATA_ICON_HEIGHT = "iconHeight";
     private final String DATA_VIBRATION = "vibration";
     private final String DATA_FORCE_CUSTOM = "forceCustom";
     private final String DATA_HIDE_REPLIES = "hideReplies";
     private final String DATA_HIDE_BUTTONS = "hideButtons";
-
+    private final String DATA_PICTURE = "picture";
+    private final String DATA_PICTURE_WIDTH = "pictureWidth";
+    private final String DATA_PICTURE_HEIGHT = "pictureHeight";
 
     private String key;
     private int id;
@@ -32,6 +37,12 @@ public class NotificationData extends Transportable implements Parcelable {
     private String time;
     private String text;
     private int[] icon;
+    private byte[] largeIcon;
+    private int largeIconWidth;
+    private int largeIconHeight;
+    private byte[] picture;
+    private int pictureWidth;
+    private int pictureHeight;
     private int iconWidth;
     private int iconHeight;
     private int vibration;
@@ -51,8 +62,14 @@ public class NotificationData extends Transportable implements Parcelable {
         time = in.readString();
         text = in.readString();
         icon = in.createIntArray();
+        largeIcon = in.createByteArray();
+        picture = in.createByteArray();
         iconWidth = in.readInt();
         iconHeight = in.readInt();
+        largeIconWidth = in.readInt();
+        largeIconHeight = in.readInt();
+        pictureWidth = in.readInt();
+        pictureHeight = in.readInt();
         vibration = in.readInt();
         isDeviceLocked = in.readByte() != 0;
         timeoutRelock = in.readInt();
@@ -177,9 +194,62 @@ public class NotificationData extends Transportable implements Parcelable {
         this.iconHeight = iconHeight;
     }
 
-    public void setTime (String time) { this.time = time; }
+    public void setTime(String time) {
+        this.time = time;
+    }
 
-    public String getTime () { return time; }
+    public String getTime() {
+        return time;
+    }
+
+
+    public byte[] getLargeIcon() {
+        return largeIcon;
+    }
+
+    public void setLargeIcon(byte[] largeIcon) {
+        this.largeIcon = largeIcon;
+    }
+
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
+    public int getLargeIconWidth() {
+        return largeIconWidth;
+    }
+
+    public void setLargeIconWidth(int largeIconWidth) {
+        this.largeIconWidth = largeIconWidth;
+    }
+
+    public int getLargeIconHeight() {
+        return largeIconHeight;
+    }
+
+    public void setLargeIconHeight(int largeIconHeight) {
+        this.largeIconHeight = largeIconHeight;
+    }
+
+    public int getPictureWidth() {
+        return pictureWidth;
+    }
+
+    public void setPictureWidth(int pictureWidth) {
+        this.pictureWidth = pictureWidth;
+    }
+
+    public int getPictureHeight() {
+        return pictureHeight;
+    }
+
+    public void setPictureHeight(int pictureHeight) {
+        this.pictureHeight = pictureHeight;
+    }
 
     @Override
     public DataBundle toDataBundle(DataBundle dataBundle) {
@@ -189,8 +259,14 @@ public class NotificationData extends Transportable implements Parcelable {
         dataBundle.putString(DATA_TIME, time);
         dataBundle.putString(DATA_TEXT, text);
         dataBundle.putIntArray(DATA_ICON, icon);
+        dataBundle.putByteArray(DATA_LARGE_ICON, largeIcon);
+        dataBundle.putByteArray(DATA_PICTURE, picture);
         dataBundle.putInt(DATA_ICON_WIDTH, iconWidth);
         dataBundle.putInt(DATA_ICON_HEIGHT, iconHeight);
+        dataBundle.putInt(DATA_LARGE_ICON_WIDTH, largeIconWidth);
+        dataBundle.putInt(DATA_LARGE_ICON_HEIGHT, largeIconHeight);
+        dataBundle.putInt(DATA_PICTURE_WIDTH, pictureWidth);
+        dataBundle.putInt(DATA_LARGE_ICON_HEIGHT, pictureHeight);
         dataBundle.putInt(DATA_VIBRATION, vibration);
         dataBundle.putBoolean(DATA_FORCE_CUSTOM, forceCustom);
         dataBundle.putBoolean(DATA_HIDE_REPLIES, hideReplies);
@@ -218,8 +294,14 @@ public class NotificationData extends Transportable implements Parcelable {
         int id = dataBundle.getInt("id");
         String key = dataBundle.getString("key");
         int[] icon = dataBundle.getIntArray("icon");
+        byte[] largeIcon = dataBundle.getByteArray("largeIcon");
+        byte[] picture = dataBundle.getByteArray("picture");
         int iconWidth = dataBundle.getInt("iconWidth");
         int iconHeight = dataBundle.getInt("iconHeight");
+        int largeIconWidth = dataBundle.getInt("largeIconWidth");
+        int largeIconHeight = dataBundle.getInt("largeIconHeight");
+        int pictureWidth = dataBundle.getInt("pictureWidth");
+        int pictureHeight = dataBundle.getInt("pictureHeight");
         int vibration = dataBundle.getInt("vibration");
         boolean forceCustom = dataBundle.getBoolean("forceCustom");
         boolean hideReplies = dataBundle.getBoolean("hideReplies");
@@ -231,6 +313,12 @@ public class NotificationData extends Transportable implements Parcelable {
         notificationData.setIcon(icon);
         notificationData.setIconWidth(iconWidth);
         notificationData.setIconHeight(iconHeight);
+        notificationData.setLargeIconWidth(largeIconWidth);
+        notificationData.setLargeIconHeight(largeIconHeight);
+        notificationData.setPictureWidth(pictureWidth);
+        notificationData.setPictureHeight(pictureHeight);
+        notificationData.setLargeIcon(largeIcon);
+        notificationData.setPicture(picture);
         notificationData.setVibration(vibration);
         notificationData.setId(id);
         notificationData.setKey(key);
@@ -254,8 +342,14 @@ public class NotificationData extends Transportable implements Parcelable {
         dest.writeString(time);
         dest.writeString(text);
         dest.writeIntArray(icon);
+        dest.writeByteArray(largeIcon);
+        dest.writeByteArray(picture);
         dest.writeInt(iconWidth);
         dest.writeInt(iconHeight);
+        dest.writeInt(largeIconWidth);
+        dest.writeInt(largeIconHeight);
+        dest.writeInt(pictureWidth);
+        dest.writeInt(pictureHeight);
         dest.writeInt(vibration);
         dest.writeByte((byte) (isDeviceLocked ? 1 : 0));
         dest.writeInt(timeoutRelock);

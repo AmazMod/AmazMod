@@ -15,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.transport.TransportService;
@@ -45,7 +45,13 @@ public class SettingsActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException exception) {
+            //TODO log to crashlitics
+            System.out.println(Constants.TAG + " FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
+        }
         getSupportActionBar().setTitle(R.string.settings);
 
         this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
@@ -139,6 +145,8 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT);
         final boolean phoneConnectionStandardNotification = Prefs.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,
                 Constants.PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION);
+        final boolean disableNotificationsDelay = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABlE_DELAY,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY);
 
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
@@ -146,9 +154,11 @@ public class SettingsActivity extends AppCompatActivity {
         // Update persistent notification due to changes in Settings
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
             PersistentNotification.cancelPersistentNotification(this);
+            this.enablePersistentNotificationOnCreate = false;
         } else if (enablePersistentNotificationOnDestroy && !this.enablePersistentNotificationOnCreate) {
-            PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
+            final PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
             persistentNotification.createPersistentNotification();
+            this.enablePersistentNotificationOnCreate = true;
         }
 
         SettingsData settingsData = new SettingsData();
@@ -163,6 +173,8 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setDisableNotificationScreenOn(disableNotificationsScreenOn);
         settingsData.setPhoneConnectionAlert(phoneConnection);
         settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
+        settingsData.setDefaultLocale(Locale.getDefault().toString());
+        settingsData.setDisableDelay(disableNotificationsDelay);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override
@@ -200,6 +212,7 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.preferences);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                Prefs.putBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
                 Preference persistentNotificationPreference = getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
                 persistentNotificationPreference.setDefaultValue(true);
                 persistentNotificationPreference.setEnabled(false);

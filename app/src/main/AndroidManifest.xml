@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
 
     <application
         android:name=".AmazModApplication"
@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.edotassi.amazmod.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -25,7 +25,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AboutActivity" />
-        <activity android:name=".ui.TweakingActivity" />
+        <activity
+            android:name=".ui.TweakingActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.WatchfaceActivity" />
         <activity android:name=".ui.StatsActivity" />
         <activity android:name=".ui.SettingsActivity" />
@@ -34,25 +36,128 @@
         <activity android:name=".ui.PreferenceActivity" />
         <activity android:name=".ui.NotificationsLogActivity" />
         <activity android:name=".ui.FaqActivity" />
-        <activity android:name=".ui.MainIntroActivity"
-            android:theme="@style/Theme.Intro"/>
+        <activity
+            android:name=".ui.MainIntroActivity"
+            android:theme="@style/Theme.Intro" />
         <activity android:name=".ui.CheckPermissionsActivity" />
         <activity android:name=".ui.FilesExtrasActivity" />
         <activity android:name=".ui.FileExplorerActivity" />
-
         <activity
             android:name="com.nononsenseapps.filepicker.FilePickerActivity"
             android:label="@string/app_name"
             android:theme="@style/FilePickerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.NotificationRepliesDragActivity" />
+        <activity
+            android:name=".ui.CommandHistoryActivity"
+            android:parentActivityName=".ui.TweakingActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.edotassi.amazmod.ui.TweakingActivity" />
+        </activity>
+        <activity android:name=".ui.FileOpenerActivity">
+            <intent-filter android:label="@string/file_opener_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/vnd.android.package-archive" android:scheme="content" />
+                <data android:mimeType="application/octet-stream" android:scheme="content"/>
+            </intent-filter>
+            <intent-filter android:label="@string/file_opener_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.wfz" />
+                <data android:pathPattern=".*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.wfz" />
+            </intent-filter>
+            <intent-filter android:label="@string/file_opener_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.wfz" />
+                <data android:pathPattern=".*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.wfz" />
+            </intent-filter>
+            <intent-filter android:label="@string/file_opener_name">
+                <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\.wfz" />
+                <data android:pathPattern=".*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.wfz" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.wfz" />
+            </intent-filter>
+            <intent-filter android:label="@string/file_opener_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.apk" />
+                <data android:pathPattern=".*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.apk" />
+            </intent-filter>
+            <intent-filter android:label="@string/file_opener_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:host="*" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\.apk" />
+                <data android:pathPattern=".*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.apk" />
+            </intent-filter>
+            <intent-filter android:label="@string/file_opener_name">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:host="*" />
+                <data android:pathPattern=".*\.apk" />
+                <data android:pathPattern=".*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\.apk" />
+                <data android:pathPattern=".*\..*\..*\..*\..*\..*\.apk" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.NotificationPackageOptionsActivity" />
 
         <service
-            android:name="com.edotassi.amazmod.notification.NotificationService"
+            android:name=".notification.NotificationService"
             android:label="@string/notifications_service_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
@@ -60,10 +165,22 @@
             </intent-filter>
         </service>
         <service android:name=".transport.TransportService" />
+        <service android:name=".notification.NotificationJobService"
+            android:label="AmazModNotificationJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+        <!--
+        Disabled since new Watch class was added
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
-        <receiver android:name=".receiver.BatteryStatusReceiver" />
+        -->
+        <receiver
+            android:name=".receiver.BatteryStatusReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.edotassi.amazmod.USER_ACTION" />
+            </intent-filter>
+        </receiver>
         <receiver android:name=".receiver.WatchfaceReceiver" />
-
         <receiver
             android:name=".receiver.BootBroadcastReceiver"
             android:enabled="true"
@@ -87,6 +204,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/nnf_provider_paths" />
         </provider>
+
+        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="${enableCrashReporting}" />
     </application>
 
 </manifest>

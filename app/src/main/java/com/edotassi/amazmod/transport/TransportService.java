@@ -1,28 +1,37 @@
 package com.edotassi.amazmod.transport;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationManagerCompat;
+import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
+import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
+import com.edotassi.amazmod.event.ResultShellCommand;
+import com.edotassi.amazmod.event.SilenceApplication;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
+import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.support.Logger;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -38,8 +47,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -47,6 +56,8 @@ import java.util.concurrent.TimeoutException;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
+
+import static android.service.notification.NotificationListenerService.requestRebind;
 
 public class TransportService extends Service implements Transporter.DataListener {
 
@@ -71,6 +82,9 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.DIRECTORY, Directory.class);
         put(Transport.RESULT_DELETE_FILE, ResultDeleteFile.class);
         put(Transport.RESULT_DOWNLOAD_FILE_CHUNK, ResultDownloadFileChunk.class);
+        put(Transport.RESULT_SHELL_COMMAND, ResultShellCommand.class);
+        put(Transport.FILE_UPLOAD, RequestFileUpload.class);
+        put(Transport.SILENCE,SilenceApplication.class);
     }};
 
     private Map<String, Object> pendingResults = new HashMap<>();
@@ -78,6 +92,13 @@ public class TransportService extends Service implements Transporter.DataListene
     @Override
     public void onCreate() {
         super.onCreate();
+
+        this.logger.d("TransportService onCreate");
+
+
+        //Make sure services are running and persistent
+        startPersistentNotification();
+        tryReconnectNotificationService();
 
         transportListener = new TransportListener(this);
         EventBus.getDefault().register(transportListener);
@@ -93,26 +114,22 @@ public class TransportService extends Service implements Transporter.DataListene
             AmazModApplication.isWatchConnected = false;
         }
 
-        // Add persistent notification if it is enabled in Settings or running on Oreo+
-        boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
-        model = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(Constants.PREF_WATCH_MODEL, "");
-        if (enableNotification || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            persistentNotification = new PersistentNotification(this, model);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeground(persistentNotification.getNotificationId(), persistentNotification.createPersistentNotification());
-            } else {
-                persistentNotification.createPersistentNotification();
-            }
-        }
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        this.logger.d("TransportService onStartCommand");
+
+        startPersistentNotification();
+
+        return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
         stopForeground(true);
-        EventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(transportListener);
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
         this.logger.d("TransportService onDestroy");
@@ -142,6 +159,32 @@ public class TransportService extends Service implements Transporter.DataListene
             }
         } else {
             //TODO handle null action
+            Log.e(Constants.TAG, "TransportService onDataReceived null action!");
+        }
+    }
+
+    private void startPersistentNotification() {
+
+        // Add persistent notification if it is enabled in Settings or running on Oreo+
+        boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
+
+        model = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(Constants.PREF_WATCH_MODEL, "");
+
+        if (enableNotification || Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            persistentNotification = new PersistentNotification(this, model);
+            Notification notification = persistentNotification.createPersistentNotification();
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                if (mNotificationManager != null) {
+                    mNotificationManager.notify(persistentNotification.getNotificationId(), notification);
+                }
+                startForeground(persistentNotification.getNotificationId(), notification);
+            }
+
         }
     }
 
@@ -160,7 +203,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 send(action, transportable, null);
 
                 try {
-                    Tasks.await(taskCompletionSource.getTask(), 5000, TimeUnit.MILLISECONDS);
+                    Tasks.await(taskCompletionSource.getTask(), 15000, TimeUnit.MILLISECONDS);
                 } catch (TimeoutException timeoutException) {
                     taskCompletionSource.setException(timeoutException);
                 }
@@ -277,6 +320,30 @@ public class TransportService extends Service implements Transporter.DataListene
         } else {
             return null;
         }
+    }
+
+    public void tryReconnectNotificationService() {
+
+        Log.d(Constants.TAG, "TransportService tryReconnectNotificationService");
+
+        toggleNotificationService();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            ComponentName componentName = new ComponentName(getApplicationContext(), NotificationService.class);
+            requestRebind(componentName);
+            Log.d(Constants.TAG, "TransportService tryReconnectNotificationService requestRebind");
+        }
+    }
+
+    private void toggleNotificationService() {
+
+        Log.i(Constants.TAG, "TransportService toggleNotificationService");
+
+        ComponentName component = new ComponentName(this, NotificationService.class);
+        PackageManager pm = getPackageManager();
+        pm.setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(component, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
+
     }
 
     public class LocalBinder extends Binder {

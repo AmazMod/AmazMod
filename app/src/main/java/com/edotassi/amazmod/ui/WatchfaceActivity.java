@@ -12,22 +12,21 @@ import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
-import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.event.SyncWatchface;
-import com.edotassi.amazmod.receiver.WatchfaceReceiver;
-import com.pixplicity.easyprefs.library.Prefs;
 
-import org.greenrobot.eventbus.EventBus;
+import amazmod.com.transport.Constants;
+
+import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.receiver.WatchfaceReceiver;
+import com.edotassi.amazmod.support.FirebaseEvents;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import amazmod.com.transport.data.WatchfaceData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
@@ -103,6 +102,7 @@ public class WatchfaceActivity extends AppCompatActivity {
 
                 //WatchfaceActivity.this.send_data_interval = Integer.parseInt(getResources().getStringArray(R.array.pref_battery_background_sync_interval_values)[pos]);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // TODO Auto-generated method stub
@@ -120,6 +120,11 @@ public class WatchfaceActivity extends AppCompatActivity {
                 //WatchfaceActivity.this.send_on_battery_change = isChecked;
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, isChecked);
 
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("value", isChecked);
+                FirebaseAnalytics
+                        .getInstance(WatchfaceActivity.this)
+                        .logEvent(FirebaseEvents.GREATFIT_BATTERY, bundle);
             }
         });
         send_on_battery_change_switch.setEnabled(send_data);
@@ -129,6 +134,12 @@ public class WatchfaceActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //WatchfaceActivity.this.send_on_alarm_change = isChecked;
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, isChecked);
+
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("value", isChecked);
+                FirebaseAnalytics
+                        .getInstance(WatchfaceActivity.this)
+                        .logEvent(FirebaseEvents.GREATFIT_ALARM_TOGGLE, bundle);
             }
         });
         send_on_alarm_change_switch.setEnabled(send_data);
@@ -151,6 +162,10 @@ public class WatchfaceActivity extends AppCompatActivity {
                         .build().show();
 
                 watchface_last_sync.setText(lastTimeRead());
+
+                FirebaseAnalytics
+                        .getInstance(WatchfaceActivity.this)
+                        .logEvent(FirebaseEvents.GREATFIT_SYNC_NOW, null);
             }
         });
         watchface_sync_now_button.setEnabled(send_data);
@@ -158,12 +173,12 @@ public class WatchfaceActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        if(
-                send_data!=Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, send_data) ||
-                send_data_interval_index!=Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX, send_data_interval_index) ||
-                send_on_battery_change!=Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, send_on_battery_change) ||
-                send_on_alarm_change!=Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, send_on_alarm_change)
-        ){
+        if (
+                send_data != Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, send_data) ||
+                        send_data_interval_index != Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX, send_data_interval_index) ||
+                        send_on_battery_change != Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, send_on_battery_change) ||
+                        send_on_alarm_change != Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, send_on_alarm_change)
+                ) {
             WatchfaceReceiver.startWatchfaceReceiver(mContext);
         }
 
@@ -176,7 +191,7 @@ public class WatchfaceActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private String lastTimeRead(){
+    private String lastTimeRead() {
         Long timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
         Date lastDate = new Date(timeLastWatchfaceDataSend);
         String time = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);

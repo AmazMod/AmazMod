@@ -11,18 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import com.edotassi.amazmod.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.AppInfoAdapter;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.AppInfo;
-import com.google.gson.Gson;
-import com.pixplicity.easyprefs.library.Prefs;
+import com.edotassi.amazmod.support.SilenceApplicationHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 import butterknife.BindView;
@@ -85,21 +84,23 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         }
 
         if (id == R.id.action_activity_notification_packges_selector_toggle_all) {
-            long count=0;
-            for (AppInfo appInfoCheckforAll : appInfoList) {
-                if (appInfoCheckforAll.isEnabled()) count++;
+            if (appInfoList != null) {
+                long count = 0;
+                for (AppInfo appInfoCheckforAll : appInfoList) {
+                    if (appInfoCheckforAll.isEnabled()) count++;
+                }
+                if (appInfoList.size() <= count) {
+                    selectedAll = true;
+                }
+                for (AppInfo appInfo : appInfoList) {
+                    appInfo.setEnabled(!selectedAll);
+                }
+                selectedAll = !selectedAll;
+                sortAppInfo(appInfoList);
+                appInfoAdapter.clear();
+                appInfoAdapter.addAll(appInfoList);
+                appInfoAdapter.notifyDataSetChanged();
             }
-            if (appInfoList.size() <= count) {
-                selectedAll=true;
-            }
-            for (AppInfo appInfo : appInfoList) {
-                appInfo.setEnabled(!selectedAll);
-            }
-            selectedAll = !selectedAll;
-            sortAppInfo(appInfoList);
-            appInfoAdapter.clear();
-            appInfoAdapter.addAll(appInfoList);
-            appInfoAdapter.notifyDataSetChanged();
             return true;
         }
 
@@ -112,8 +113,6 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         appInfoAdapter.clear();
         appInfoAdapter.addAll(appInfoList);
         appInfoAdapter.notifyDataSetChanged();
-
-        save();
     }
 
     @Override
@@ -129,43 +128,30 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
             public List<AppInfo> call() throws Exception {
+                //List installed packages and create a list of appInfo based on them
                 List<PackageInfo> packageInfoList = getPackageManager().getInstalledPackages(0);
-
                 List<AppInfo> appInfoList = new ArrayList<>();
-
-                String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-                Gson gson = new Gson();
-
-                String[] packagesList = gson.fromJson(packagesJson, String[].class);
-
-                Arrays.sort(packagesList);
-
+                Map<String, NotificationPreferencesEntity> packagesMap = SilenceApplicationHelper.listApps();
                 for (PackageInfo packageInfo : packageInfoList) {
-
                     boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
-
-                    boolean enabled = Arrays.binarySearch(packagesList, packageInfo.packageName) >= 0;
-
+                    boolean enabled = packagesMap.containsKey(packageInfo.packageName);
                     if (enabled || !isSystemApp || (showSystemApps && isSystemApp)) {
-                        AppInfo appInfo = createAppInfo(packageInfo, enabled);
-                        appInfoList.add(appInfo);
+                        appInfoList.add(createAppInfo(packageInfo, enabled));
                     }
                 }
-
                 sortAppInfo(appInfoList);
-
                 NotificationPackagesSelectorActivity.this.appInfoList = appInfoList;
-
                 return appInfoList;
             }
         }).subscribeOn(Schedulers.computation())
                 .observeOn(Schedulers.single())
                 .subscribe(new Consumer<List<AppInfo>>() {
                     @Override
-                    public void accept(final List<AppInfo> appInfoList) throws Exception {
+                    public void accept(final List<AppInfo> appInfoList) {
                         NotificationPackagesSelectorActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                //fill List with appInfoList
                                 appInfoAdapter.clear();
                                 appInfoAdapter.addAll(appInfoList);
                                 appInfoAdapter.notifyDataSetChanged();
@@ -189,7 +175,6 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
                 } else if ((!o1.isEnabled() && !o2.isEnabled()) || (o1.isEnabled() && o2.isEnabled())) {
                     return o1.getAppName().compareTo(o2.getAppName());
                 }
-
                 return o1.getAppName().compareTo(o2.getAppName());
             }
         });
@@ -197,38 +182,11 @@ public class NotificationPackagesSelectorActivity extends AppCompatActivity impl
 
     private AppInfo createAppInfo(PackageInfo packageInfo, boolean enabled) {
         AppInfo appInfo = new AppInfo();
-
         appInfo.setPackageName(packageInfo.packageName);
         appInfo.setAppName(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
         appInfo.setVersionName(packageInfo.versionName);
         appInfo.setIcon(packageInfo.applicationInfo.loadIcon(getPackageManager()));
         appInfo.setEnabled(enabled);
-
         return appInfo;
-    }
-
-    private void save() {
-
-        if (appInfoList != null) {
-            List<String> enabledPackages = new ArrayList<>();
-
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
-                @Override
-                public int compare(AppInfo o1, AppInfo o2) {
-                    return o1.getPackageName().compareTo(o2.getPackageName());
-                }
-            });
-
-            for (AppInfo appInfo : appInfoList) {
-                if (appInfo.isEnabled()) {
-                    enabledPackages.add(appInfo.getPackageName());
-                }
-            }
-
-            Gson gson = new Gson();
-            String pref = gson.toJson(enabledPackages);
-
-            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
-        }
     }
 }

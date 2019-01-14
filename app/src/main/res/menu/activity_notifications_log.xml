@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/activity_notifications_log_show_only_selected"
+        android:checkable="true"
+        android:title="@string/show_only_selected" />
+
+    <item
+        android:id="@+id/activity_notifications_log_delete_all"
+        android:title="@string/delete_all" />
+</menu>

@@ -2,20 +2,23 @@ package com.amazmod.service.ui;
 
 import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
-import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.support.text.emoji.EmojiCompat;
+import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
+import android.support.text.emoji.widget.EmojiButton;
+import android.support.wearable.view.BoxInsetLayout;
+import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -23,16 +26,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
-import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.util.DeviceUtil;
-import com.amazmod.service.util.SystemProperties;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -45,6 +45,7 @@ import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class NotificationActivity extends Activity {
@@ -57,10 +58,14 @@ public class NotificationActivity extends Activity {
     TextView text;
     @BindView(R.id.notification_icon)
     ImageView icon;
+    @BindView(R.id.notification_picture)
+    ImageView picture;
     @BindView(R.id.notification_replies_container)
     LinearLayout repliesContainer;
     @BindView(R.id.notification_root_layout)
-    LinearLayout rootLayout;
+    BoxInsetLayout rootLayout;
+    @BindView(R.id.notification_swipe_layout)
+    SwipeDismissFrameLayout swipeLayout;
 
     @BindView(R.id.activity_buttons)
     LinearLayout buttonsLayout;
@@ -78,10 +83,11 @@ public class NotificationActivity extends Activity {
     private static int screenMode;
     private static int screenBrightness = 999989;
     private static boolean mustLockDevice;
+    private static String defaultLocale;
     private boolean enableInvertedTheme;
     private Context mContext;
 
-    private NotificationData notificationSpec;
+    private NotificationData notificationData;
 
     private SettingsManager settingsManager;
 
@@ -96,15 +102,27 @@ public class NotificationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
+        config.setReplaceAll(true);
+        EmojiCompat.init(config);
+
         this.mContext = this;
 
         setContentView(R.layout.activity_notification);
 
         ButterKnife.bind(this);
 
+        swipeLayout.addCallback(new SwipeDismissFrameLayout.Callback() {
+                                    @Override
+                                    public void onDismissed(SwipeDismissFrameLayout layout) {
+                                        finish();
+                                    }
+                                }
+        );
+
         settingsManager = new SettingsManager(this);
 
-        notificationSpec = getIntent().getParcelableExtra(NotificationData.EXTRA);
+        notificationData = getIntent().getParcelableExtra(NotificationData.EXTRA);
 
         mustLockDevice = DeviceUtil.isDeviceLocked(getBaseContext());
 
@@ -117,6 +135,8 @@ public class NotificationActivity extends Activity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
+        defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
+        Log.i(Constants.TAG, "NotificationActivity defaultLocale: " + defaultLocale);
 
         setWindowFlags(true);
 
@@ -130,12 +150,13 @@ public class NotificationActivity extends Activity {
         // Set theme and font size
         //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
-            rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
+            swipeLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));
             title.setTextColor(getResources().getColor(R.color.black));
             text.setTextColor(getResources().getColor(R.color.black));
             icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
-        }
+        } else
+            swipeLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
         setFontSizeSP();
         time.setTextSize(fontSizeSP);
@@ -143,30 +164,26 @@ public class NotificationActivity extends Activity {
         text.setTextSize(fontSizeSP);
 
         try {
+            hideReplies = notificationData.getHideReplies();
 
-            hideReplies = notificationSpec.getHideReplies();
+            populateNotificationIcon(icon, notificationData);
+            populateNotificationPicture(picture, notificationData);
 
-            int[] iconData = notificationSpec.getIcon();
-            int iconWidth = notificationSpec.getIconWidth();
-            int iconHeight = notificationSpec.getIconHeight();
-            Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+            title.setText(notificationData.getTitle());
+            setFontLocale(text, defaultLocale);
+            text.setText(notificationData.getText());
+            time.setText(notificationData.getTime());
 
-            icon.setImageBitmap(bitmap);
-            title.setText(notificationSpec.getTitle());
-            text.setText(notificationSpec.getText());
-            time.setText(notificationSpec.getTime());
-
-            if (notificationSpec.getVibration() > 0) {
+            if (notificationData.getVibration() > 0) {
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 if (vibrator != null) {
-                    vibrator.vibrate(notificationSpec.getVibration());
+                    vibrator.vibrate(notificationData.getVibration());
                 }
             }
 
         } catch (NullPointerException ex) {
             Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString()
-                    + " notificationSpec: " + notificationSpec);
+                    + " notificationData: " + notificationData);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
             time.setText("00:00");
@@ -188,13 +205,22 @@ public class NotificationActivity extends Activity {
             if (!hideReplies) {
                 replyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
                 replyButton.setAllCaps(true);
-                replyButton.setText(R.string.replies);
+                setFontLocale(replyButton, defaultLocale);
+                replyButton.setText(R.string.reply);
+                setButtonTheme(replyButton, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             } else {
                 replyButton.setVisibility(View.GONE);
             }
+            /* Disabled when using swipe to close
             closeButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
             closeButton.setAllCaps(true);
+            setFontLocale(closeButton, defaultLocale);
             closeButton.setText(R.string.close);
+            setButtonTheme(closeButton, Constants.RED); */
+            closeButton.setVisibility(View.GONE);
+            buttonsLayout.setOrientation(LinearLayout.VERTICAL);
+            replyButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            replyButton.setGravity(Gravity.CENTER);
         }
 
         handler = new Handler();
@@ -215,23 +241,6 @@ public class NotificationActivity extends Activity {
         ShakeDetector.updateConfiguration(gravity, numOfShakes); */
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //ShakeDetector.start();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //ShakeDetector.stop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //ShakeDetector.destroy();
-    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -247,29 +256,25 @@ public class NotificationActivity extends Activity {
     }
 
     @OnClick(R.id.activity_notification_button_close)
-    public void clickClose() {
+    public void clickClose(Button b) {
+        b.setBackground(getDrawable(R.drawable.reply_dark_grey));
         //mustLockDevice = true;
         finish();
     }
 
     @OnClick(R.id.activity_notification_button_reply)
-    public void clickReply() {
-        Intent intent = new Intent(this, RepliesActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(notificationSpec.toBundle());
-        intent.putExtra("MUSTLOCKDEVICE", mustLockDevice);
-        this.startActivity(intent);
-        mustLockDevice = false;
-        finish();
+    public void clickReply(Button b) {
+        b.setBackground(getDrawable(R.drawable.reply_dark_grey));
+        text.setVisibility(View.GONE);
+        time.setVisibility(View.GONE);
+        buttonsLayout.setVisibility(View.GONE);
+        addReplies();
     }
 
     private void startTimerFinish() {
         handler.removeCallbacks(activityFinishRunnable);
         if (!nullError) {
-            handler.postDelayed(activityFinishRunnable, notificationSpec.getTimeoutRelock());
+            handler.postDelayed(activityFinishRunnable, notificationData.getTimeoutRelock());
         }
     }
 
@@ -289,9 +294,14 @@ public class NotificationActivity extends Activity {
 
         if (mustLockDevice) {
             if (flag) {
-                SystemClock.sleep(500);
-            }
-            lock();
+                final Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        lock();
+                    }
+                }, 500);
+            } else
+                lock();
         }
     }
 
@@ -302,17 +312,18 @@ public class NotificationActivity extends Activity {
                 try {
                     mDPM.lockNow();
                 } catch (SecurityException ex) {
-                    Toast.makeText(
-                            this,
-                            getResources().getText(R.string.device_owner),
-                            Toast.LENGTH_LONG).show();
+                    //Toast.makeText(
+                    //        this,
+                    //        getResources().getText(R.string.device_owner),
+                    //        Toast.LENGTH_LONG).show();
+                    Log.w(Constants.TAG, getResources().getString(R.string.device_owner));
                     Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
                 }
             }
         }
     }
 
-    private void setFontSizeSP(){
+    private void setFontSizeSP() {
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         switch (fontSize) {
@@ -327,48 +338,66 @@ public class NotificationActivity extends Activity {
         }
     }
 
+    private void setFontLocale(TextView tv, String locale) {
+        Log.i(Constants.TAG, "NotificationActivity setFontLocale TextView: " + locale);
+        if (locale.contains("iw")) {
+            Typeface face = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
+            tv.setTypeface(face);
+        }
+    }
+
+    private void setFontLocale(Button b, String locale) {
+        Log.i(Constants.TAG, "NotificationActivity setFontLocale Button: " + locale);
+        if (locale.contains("iw")) {
+            Typeface face = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
+            b.setTypeface(face);
+        }
+    }
+
     private void addReplies() {
         LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-        param.setMargins(20,2,20,2);
+        param.setMargins(20, 8, 20, 8);
 
         List<Reply> repliesList = loadReplies();
         for (final Reply reply : repliesList) {
-            Button button = new Button(this);
+            EmojiButton button = new EmojiButton(this);
             button.setLayoutParams(param);
+            button.setPadding(0, 8, 0, 8);
+            setFontLocale(button, defaultLocale);
             button.setText(reply.getValue());
+            button.setAllCaps(false);
             button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-            if(enableInvertedTheme) {
-                button.setTextColor(Color.parseColor("#ffffff"));
-                button.setBackground(getDrawable(R.drawable.reply_blue));
-            }else{
-                button.setTextColor(Color.parseColor("#000000"));
-                button.setBackground(getDrawable(R.drawable.reply_grey));
-            }
+            setButtonTheme(button, enableInvertedTheme ? Constants.BLUE : Constants.GREY);
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationSpec.getKey(), reply.getValue()));
+                    v.setBackground(getDrawable(R.drawable.reply_dark_grey));
+                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationData.getKey(), reply.getValue()));
                     finish();
                 }
             });
             repliesContainer.addView(button);
         }
+        /* Disabled when using swipe to close
         //Add Close button
         Button button = new Button(this);
+        button.setPadding(0,8,0,8);
         button.setLayoutParams(param);
+        setFontLocale(button, defaultLocale);
         button.setText(R.string.close);
+        button.setAllCaps(true);
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
-        button.setTextColor(Color.parseColor("#ffffff"));
-        button.setBackground(getDrawable(R.drawable.close_red));
+        setButtonTheme(button, Constants.RED);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setBackground(getDrawable(R.drawable.reply_dark_grey));
                 finish();
             }
         });
-        repliesContainer.addView(button);
+        repliesContainer.addView(button); */
 
     }
 
@@ -381,6 +410,30 @@ public class NotificationActivity extends Activity {
             return new Gson().fromJson(replies, listType);
         } catch (Exception ex) {
             return new ArrayList<>();
+        }
+    }
+
+    private void setButtonTheme(Button button, String color) {
+        switch (color) {
+            case ("red"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.close_red));
+                break;
+            }
+            case ("blue"): {
+                button.setTextColor(Color.parseColor("#ffffff"));
+                button.setBackground(getDrawable(R.drawable.reply_blue));
+                break;
+            }
+            case ("grey"): {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+                break;
+            }
+            default: {
+                button.setTextColor(Color.parseColor("#000000"));
+                button.setBackground(getDrawable(R.drawable.reply_grey));
+            }
         }
     }
 
@@ -403,6 +456,7 @@ public class NotificationActivity extends Activity {
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
+            Log.i(Constants.TAG, "NotificationActivity setScreenModeOff1 mode: " + mode);
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -411,6 +465,7 @@ public class NotificationActivity extends Activity {
             getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
+                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff2 mode: " + mode + " / screenMode: " + screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
                 params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
@@ -418,5 +473,36 @@ public class NotificationActivity extends Activity {
             }
         }
         screenToggle = mode;
+    }
+
+    private void populateNotificationIcon(ImageView iconView, NotificationData notificationData) {
+        try {
+            byte[] largeIconData = notificationData.getLargeIcon();
+            if ((largeIconData != null) && (largeIconData.length > 0)) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(largeIconData, 0, largeIconData.length);
+                iconView.setImageBitmap(bitmap);
+            } else {
+                int[] iconData = notificationData.getIcon();
+                int iconWidth = notificationData.getIconWidth();
+                int iconHeight = notificationData.getIconHeight();
+                Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+                bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+                iconView.setImageBitmap(bitmap);
+            }
+        } catch (Exception exception) {
+            Log.d(Constants.TAG, exception.getMessage(), exception);
+        }
+    }
+
+    private void populateNotificationPicture(ImageView pictureView, NotificationData notificationData) {
+        try {
+            byte[] pictureData = notificationData.getPicture();
+            if ((pictureData != null) && (pictureData.length > 0)) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(pictureData, 0, pictureData.length);
+                pictureView.setImageBitmap(bitmap);
+            }
+        } catch (Exception exception) {
+            Log.d(Constants.TAG, exception.getMessage(), exception);
+        }
     }
 }

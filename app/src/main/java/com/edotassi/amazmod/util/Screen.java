@@ -9,7 +9,7 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 
 import static android.content.Context.POWER_SERVICE;
 

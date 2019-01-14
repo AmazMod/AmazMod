@@ -25,6 +25,8 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String SHAKE_TO_DISMISS_NUM_OF_SHAKES = "shake_to_dismiss_num_of_shakes";
     public static final String PHONE_CONNECTION_ALERT = "phone_connection_alert";
     public static final String PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "phone_connection_alert_standard_notification";
+    public static final String DEFAULT_LOCALE = "default_locale";
+    public static final String DISABLE_DELAY = "disable_reply_delay";
 
     private String replies;
     private int vibration;
@@ -40,6 +42,8 @@ public class SettingsData extends Transportable implements Parcelable {
     private int shakeToDismissNumOfShakes;
     private boolean phoneConnectionAlert;
     private boolean phoneConnectionAlertStandardNotification;
+    private String defaultLocale;
+    private boolean disableDelay;
 
     public SettingsData() {
     }
@@ -59,6 +63,8 @@ public class SettingsData extends Transportable implements Parcelable {
         shakeToDismissNumOfShakes = in.readInt();
         phoneConnectionAlert = in.readByte() != 0;
         phoneConnectionAlertStandardNotification = in.readByte() != 0;
+        defaultLocale = in.readString();
+        disableDelay = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -89,6 +95,8 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES, shakeToDismissNumOfShakes);
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT, phoneConnectionAlert);
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, phoneConnectionAlertStandardNotification);
+        dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
+        dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
 
         return dataBundle;
     }
@@ -110,6 +118,8 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setShakeToDismissNumOfShakes(dataBundle.getInt(SHAKE_TO_DISMISS_NUM_OF_SHAKES));
         settingsData.setPhoneConnectionAlert(dataBundle.getBoolean(PHONE_CONNECTION_ALERT));
         settingsData.setPhoneConnectionAlertStandardNotification(dataBundle.getBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION));
+        settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
+        settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
 
         return settingsData;
     }
@@ -201,6 +211,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.disableNotificationsScreenOn = disableNotificationsScreenOn;
     }
 
+    public boolean isDisableDelay() {
+        return disableDelay;
+    }
+
+    public void setDisableDelay(boolean disableDelay) {
+        this.disableDelay = disableDelay;
+    }
+
     public int getShakeToDismissGravity() {
         return shakeToDismissGravity;
     }
@@ -233,6 +251,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.phoneConnectionAlertStandardNotification = phoneConnectionAlertStandardNotification;
     }
 
+    public String getDefaultLocale() {
+        return defaultLocale;
+    }
+
+    public void setDefaultLocale(String defaultLocale) {
+        this.defaultLocale = defaultLocale;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -254,5 +280,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeInt(shakeToDismissNumOfShakes);
         dest.writeByte((byte) (phoneConnectionAlert ? 1 : 0));
         dest.writeByte((byte) (phoneConnectionAlertStandardNotification ? 1 : 0));
+        dest.writeString(defaultLocale);
+        dest.writeByte((byte) (disableDelay ? 1 : 0));
     }
 }

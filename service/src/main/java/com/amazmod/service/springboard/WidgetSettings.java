@@ -19,6 +19,8 @@ public class WidgetSettings {
     // Loaded data
     private JSONObject data;
 
+    public static String APP_DELETED = "app_deleted";
+
     // Constructor
     public WidgetSettings(String tag, Context context) {
         this.data = null;
@@ -26,7 +28,7 @@ public class WidgetSettings {
         // Get file info
         this.settings_file_name = tag + ".json";
         this.save_directory = context.getExternalFilesDir(null);
-        //Log.d("AmazMod", "WidgetSettings: " + context + " / " + this.save_directory);
+        Log.d("AmazMod", "WidgetSettings: " + context + " \\ " + this.save_directory);
 
         // Load settings
         this.load();
@@ -167,6 +169,14 @@ public class WidgetSettings {
 
     public boolean set(String key, long value) {
         return this.setLong(key, value);
+    }
+
+    public JSONObject getData() {
+        return this.data;
+    }
+
+    public boolean hasKey(String key) {
+        return data.has(key);
     }
 
     private boolean setString(String key, String value) {

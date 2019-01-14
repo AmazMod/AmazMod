@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="pref_amazmodservice_shake_to_dismiss_gravity_entries">
+        <item>0.15 g</item>
+        <item>0.25 g</item>
+        <item>0.5 g</item>
+        <item>0.75 g</item>
+        <item>1 g</item>
+        <item>1.5 g</item>
+        <item>2 g</item>
+        <item>2.5 g</item>
+        <item>3 g</item>
+        <item>3.5 g</item>
+    </string>
+    <string name="pref_amazmodservice_shake_to_dismiss_gravity_values">
+        <item>150</item>
+        <item>250</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>1500</item>
+        <item>2000</item>
+        <item>2500</item>
+        <item>3000</item>
+        <item>3500</item>
+    </string>
+    <string name="pref_amazmodserice_shake_to_dismiss_num_of_shakes_entries">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string>
+    <string name="pref_amazmodserice_shake_to_dismiss_num_of_shakes_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string>
+    <string-array name="pref_amazmodservice_vibration_entries">
+        <item>0 ms</item>
+        <item>100 ms</item>
+        <item>200 ms</item>
+        <item>300 ms</item>
+        <item>400 ms</item>
+        <item>500 ms</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_vibration_values">
+        <item>0</item>
+        <item>100</item>
+        <item>200</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+    </string-array>
     <string-array name="pref_amazmodservice_screen_timeout_entries">
         <item>3 s</item>
         <item>5 s</item>
@@ -18,15 +72,6 @@
         <item>15000</item>
         <item>20000</item>
     </string-array>
-    <string-array name="pref_battery_chart_range_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>5</item>
-        <item>7</item>
-        <item>10</item>
-        <item>15</item>
-    </string-array>
     <string-array name="pref_battery_chart_range_entries">
         <item>1 dia</item>
         <item>2 dias</item>
@@ -35,6 +80,15 @@
         <item>7 dias</item>
         <item>10 dias</item>
         <item>15 dias</item>
+    </string-array>
+    <string-array name="pref_battery_chart_range_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>5</item>
+        <item>7</item>
+        <item>10</item>
+        <item>15</item>
     </string-array>
     <string-array name="pref_battery_background_sync_interval_entries">
         <item>15 min</item>
@@ -54,10 +108,35 @@
         <item>180</item>
         <item>240</item>
     </string-array>
+    <string-array name="pref_watchface_background_sync_interval_entries">
+        <item>1 min</item>
+        <item>5 min</item>
+        <item>10 min</item>
+        <item>15 min</item>
+        <item>30 min</item>
+        <item>60 min</item>
+        <item>1 h 30 min</item>
+        <item>2 h</item>
+    </string-array>
+    <string-array name="pref_watchface_background_sync_interval_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>120</item>
+    </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
         <item>Large</item>
         <item>Huge</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_values">
+        <item>n</item>
+        <item>l</item>
+        <item>h</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>Sim</item>
