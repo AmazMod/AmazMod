@@ -1,14 +1,15 @@
 package com.amazmod.service;
 
 import android.app.Service;
-import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInstaller;
 import android.database.ContentObserver;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -16,8 +17,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -30,12 +33,15 @@ import com.amazmod.service.events.NightscoutDataEvent;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
-import com.amazmod.service.events.incoming.LowPower;
+import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
 import com.amazmod.service.events.incoming.RequestDeleteFile;
 import com.amazmod.service.events.incoming.RequestDirectory;
+import com.amazmod.service.events.incoming.RequestDownloadFileChunk;
+import com.amazmod.service.events.incoming.RequestShellCommand;
 import com.amazmod.service.events.incoming.RequestUploadFileChunk;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
+import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.events.incoming.Watchface;
 import com.amazmod.service.music.MusicControlInputListener;
@@ -43,6 +49,8 @@ import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.notifications.NotificationsReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
+import com.amazmod.service.support.CommandLine;
+import com.amazmod.service.ui.ConfirmationWearActivity;
 import com.amazmod.service.ui.PhoneConnectionActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
@@ -59,11 +67,20 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -76,17 +93,23 @@ import amazmod.com.transport.data.BatteryData;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.DirectoryData;
 import amazmod.com.transport.data.FileData;
+import amazmod.com.transport.data.FileUploadData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
+import amazmod.com.transport.data.RequestDownloadFileChunkData;
+import amazmod.com.transport.data.RequestShellCommandData;
 import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDeleteFileData;
+import amazmod.com.transport.data.ResultDownloadFileChunkData;
+import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static java.lang.System.currentTimeMillis;
+import static java.lang.System.in;
 
 /**
  * Created by edoardotassinari on 04/04/18.
@@ -103,14 +126,18 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
         put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
         put(Transport.BRIGHTNESS, Brightness.class);
-        put(Transport.LOW_POWER, LowPower.class);
+        put(Transport.ENABLE_LOW_POWER, EnableLowPower.class);
+        put(Transport.REVOKE_ADMIN_OWNER, RevokeAdminOwner.class);
         put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
         put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
         put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
+        put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
+        put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
     private Transporter transporter;
+    private Transporter transporterHuami;
 
     private Context context;
     public Context baseContext;
@@ -125,7 +152,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private BatteryData batteryData;
     private WatchStatusData watchStatusData;
-    private DataBundle dataBundle;
 
     private SlptClockClient slptClockClient;
     private ContentObserver phoneConnectionObserver;
@@ -143,7 +169,6 @@ public class MainService extends Service implements Transporter.DataListener {
         batteryData = new BatteryData();
 
         watchStatusData = new WatchStatusData();
-        dataBundle = new DataBundle();
 
         Log.d(Constants.TAG, "MainService HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
@@ -175,7 +200,17 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.d(Constants.TAG, "MainService Transporter not connected, connecting...");
             transporter.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService Transported yet connected");
+            Log.d(Constants.TAG, "MainService Transported already connected");
+        }
+
+        // Catch huami's notifications
+        transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
+        transporterHuami.addDataListener(this);
+        if (!transporterHuami.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService TransporterHuami not connected, connecting...");
+            transporterHuami.connectTransportService();
+        } else {
+            Log.d(Constants.TAG, "MainService TransportedHuami already connected");
         }
 
         slptClockClient = new SlptClockClient();
@@ -192,10 +227,10 @@ public class MainService extends Service implements Transporter.DataListener {
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
 
         //Register phone connect/disconnect monitor
-        isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT,false);
-        isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,false);
+        isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, false);
+        isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
         if (isPhoneConnectionAlertEnabled) {
-            registerConnectionMonitor(true, isPhoneConnectionStandardAlertEnabled);
+            registerConnectionMonitor(true);
         }
     }
 
@@ -211,6 +246,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Unregister phone connection observer
         if (phoneConnectionObserver != null) {
             getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            phoneConnectionObserver = null;
         }
         super.onDestroy();
     }
@@ -224,6 +260,11 @@ public class MainService extends Service implements Transporter.DataListener {
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
+
+        // A notification is removed/added
+        if (action.equals("del") || action.equals("add")) {
+            notificationCounter(action.equals("del") ? -1 : 1);
+        }
 
         Log.d(Constants.TAG, "MainService action: " + action);
 
@@ -266,7 +307,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
-        Log.d("DinoDevs-GreatFit", "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
+        Log.d(Constants.TAG, "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
 
         // Get already saved data
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
@@ -288,7 +329,7 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void lowPower(LowPower lp) {
+    public void enableLowPower(EnableLowPower lp) {
         //SystemProperties.goToSleep(this);
         count++;
         Log.d(Constants.TAG, "MainService lowPower count: " + count);
@@ -298,7 +339,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.i(Constants.TAG, "MainService lowPower disable BT");
             btmgr.disable();
             try {
-                WifiManager wfmgr = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+                WifiManager wfmgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 if (wfmgr != null) {
                     if (wfmgr.isWifiEnabled()) {
                         Log.i(Constants.TAG, "MainService lowPower disable WiFi");
@@ -312,19 +353,39 @@ public class MainService extends Service implements Transporter.DataListener {
             slptClockClient.enableLowBattery();
             slptClockClient.enableSlpt();
             SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(true));
-            DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+            final DevicePolicyManager mDPM = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
             if (mDPM != null) {
-                SystemClock.sleep(100);
-                mDPM.lockNow();
+                final Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        mDPM.lockNow();
+                    }
+                }, 200);
             }
 
-        } else if (count >= 3){
+        } else if (count >= 3) {
             Toast.makeText(context, "lowPower: false", Toast.LENGTH_SHORT).show();
             //btmgr.enable();
             //slptClockClient.disableSlpt();
             slptClockClient.disableLowBattery();
             SystemProperties.setSystemProperty("sys.state.powerlow", String.valueOf(false));
-            count =0;
+            count = 0;
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void revokeAdminOwner(RevokeAdminOwner revokeAdminOwner) {
+        DevicePolicyManager mDPM = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+        try {
+            if (mDPM != null) {
+                ComponentName componentName = new ComponentName(context, AdminReceiver.class);
+                mDPM.clearDeviceOwnerApp(context.getPackageName());
+                mDPM.removeActiveAdmin(componentName);
+            }
+        } catch (NullPointerException e) {
+            Log.e(Constants.TAG, "NotificationService revokeAdminOwner NullPointerException: " + e.toString());
+        } catch (SecurityException e) {
+            Log.e(Constants.TAG, "NotificationService revokeAdminOwner SecurityException: " + e.toString());
         }
     }
 
@@ -335,8 +396,10 @@ public class MainService extends Service implements Transporter.DataListener {
         settingsManager.sync(settingsData);
 
         //Toggle phone connect/disconnect monitor if settings changed
-        if (isPhoneConnectionAlertEnabled != settingsData.isPhoneConnectionAlert()) {
-            registerConnectionMonitor(settingsData.isPhoneConnectionAlert(), settingsData.isPhoneConnectionAlertStandardNotification());
+        boolean iPCA = settingsData.isPhoneConnectionAlert();
+        isPhoneConnectionStandardAlertEnabled = settingsData.isPhoneConnectionAlertStandardNotification();
+        if (isPhoneConnectionAlertEnabled != iPCA) {
+            registerConnectionMonitor(iPCA);
         }
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
@@ -350,6 +413,8 @@ public class MainService extends Service implements Transporter.DataListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reply(ReplyNotificationEvent event) {
         Log.d(Constants.TAG, "MainService reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
+
+        DataBundle dataBundle = new DataBundle();
 
         dataBundle.putString("key", event.getKey());
         dataBundle.putString("message", event.getMessage());
@@ -373,25 +438,34 @@ public class MainService extends Service implements Transporter.DataListener {
 
         Log.d(Constants.TAG, "MainService incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
-
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
-
         watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
-        watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
+        //watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
         watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
         watchStatusData.setRoBuildDisplayId(SystemProperties.get(WatchStatusData.RO_BUILD_DISPLAY_ID, "-"));
         watchStatusData.setRoBuildHuamiModel(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_MODEL, "-"));
-        watchStatusData.setRoBuildHuamiNumber(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_NUMBER, "-"));
-        watchStatusData.setRoProductDevice(SystemProperties.get(WatchStatusData.RO_PRODUCT_DEVICE, "-"));
-        watchStatusData.setRoProductManufacter(SystemProperties.get(WatchStatusData.RO_PRODUCT_MANUFACTER, "-"));
+        //watchStatusData.setRoBuildHuamiNumber(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_NUMBER, "-"));
+        //watchStatusData.setRoProductDevice(SystemProperties.get(WatchStatusData.RO_PRODUCT_DEVICE, "-"));
+        //watchStatusData.setRoProductManufacter(SystemProperties.get(WatchStatusData.RO_PRODUCT_MANUFACTER, "-"));
         watchStatusData.setRoProductModel(SystemProperties.get(WatchStatusData.RO_PRODUCT_MODEL, "-"));
         watchStatusData.setRoProductName(SystemProperties.get(WatchStatusData.RO_PRODUCT_NAME, "-"));
-        watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
+        //watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
-        watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
+        //watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
+
+        int b = 0;
+        int bm = Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
+        try {
+            b = android.provider.Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS);
+            bm = Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS_MODE);
+
+        } catch (Settings.SettingNotFoundException e) {
+        }
+        watchStatusData.setScreenBrightness(b);
+        watchStatusData.setScreenBrightnessMode(bm);
 
         Log.d(Constants.TAG, "MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
@@ -399,7 +473,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
 
@@ -439,9 +512,15 @@ public class MainService extends Service implements Transporter.DataListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
-        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessData.getLevel());
+        final int brightnessLevel = brightnessData.getLevel();
+        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessLevel);
 
-        Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessData.getLevel());
+        if (brightnessLevel == -1)
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
+        else {
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 0);
+            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessLevel);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -497,16 +576,209 @@ public class MainService extends Service implements Transporter.DataListener {
         try {
             RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromDataBundle(requestUploadFileChunk.getDataBundle());
             File file = new File(requestUploadFileChunkData.getPath());
-            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rwd");
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "rw");
 
-            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getSize();
+            long position = requestUploadFileChunkData.getIndex() * requestUploadFileChunkData.getConstantChunkSize();
             randomAccessFile.seek(position);
             randomAccessFile.write(requestUploadFileChunkData.getBytes());
             randomAccessFile.close();
-
         } catch (Exception ex) {
             Log.e(Constants.TAG, ex.getMessage());
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestDownloadFileChunk(RequestDownloadFileChunk requestDownloadFileChunk) {
+        try {
+            RequestDownloadFileChunkData requestDownloadFileChunkData = RequestDownloadFileChunkData.fromDataBundle(requestDownloadFileChunk.getDataBundle());
+            File file = new File(requestDownloadFileChunkData.getPath());
+            RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+
+            long chunkSize = amazmod.com.transport.Constants.CHUNK_SIZE;
+            long position = requestDownloadFileChunkData.getIndex() * chunkSize;
+            randomAccessFile.seek(position);
+
+            long delta = file.length() - position;
+            int byteToRead = (delta < chunkSize) ? (int) delta : (int) chunkSize;
+            byte[] bytes = new byte[byteToRead];
+
+            randomAccessFile.read(bytes);
+
+            ResultDownloadFileChunkData resultDownloadFileChunkData = new ResultDownloadFileChunkData();
+            resultDownloadFileChunkData.setIndex(requestDownloadFileChunkData.getIndex());
+            resultDownloadFileChunkData.setBytes(bytes);
+            resultDownloadFileChunkData.setName(file.getName());
+
+            send(Transport.RESULT_DOWNLOAD_FILE_CHUNK, resultDownloadFileChunkData.toDataBundle());
+        } catch (Exception ex) {
+            Log.e(Constants.TAG, ex.getMessage());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void executeShellCommand(final RequestShellCommand requestShellCommand) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
+                    String command = requestShellCommandData.getCommand();
+
+                    if (!requestShellCommandData.isWaitOutput()) {
+
+                        Log.d(Constants.TAG, "MainService executeShellCommand command: " + command);
+                        int code = 0;
+
+                        if (command.contains("install_apk ")) {
+
+                            PackageReceiver.setIsAmazmodInstall(true);
+                            File file = new File(getFilesDir(), "install_apk.sh");
+                            boolean flag = copyFile(file);
+                            String installScript = file.getAbsolutePath();
+                            //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
+                            String apk = command.replace("install_apk ", "");
+                            //Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
+                            String installCommand = String.format("busybox sh %s %s", installScript, apk);
+                            //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
+                            if (requestShellCommandData.isReboot())
+                                installCommand += " DEL";
+                            else
+                                installCommand += " OK";
+                            Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+                            Runtime.getRuntime().exec(installCommand, null, Environment.getExternalStorageDirectory());
+
+                        } else if (command.contains("install_amazmod_update ")) {
+                            showUpdateConfirmationWearActivity();
+                            DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
+
+                        } else {
+
+                            if (requestShellCommandData.isReboot()) {
+                                File commandFile = new File("/sdcard/amazmod-command.sh");
+                                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(commandFile));
+                                outputStreamWriter.write(command + " && reboot");
+                                outputStreamWriter.flush();
+                                outputStreamWriter.close();
+                                Process process = Runtime.getRuntime().exec("busybox nohup sh /sdcard/amazmod-command.sh &");
+
+                                code = process.waitFor();
+                                Log.d(Constants.TAG, "MainService shell process returned " + code);
+
+                            } else {
+                                if (command.contains("AmazMod-service-") && command.contains("adb install -r")) {
+                                    showUpdateConfirmationWearActivity();
+                                    Thread.sleep(3000);
+                                }
+                                Runtime.getRuntime().exec(command);
+                            }
+                        }
+                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                        resultShellCommand.setResult(code);
+                        resultShellCommand.setOutputLog("");
+                        resultShellCommand.setErrorLog("");
+                        send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+
+                    } else {
+                        String filename = null;
+                        if (command.contains("screencap")) {
+                            File file = new File("/sdcard/Pictures/Screenshots");
+                            boolean saveDirExists = false;
+                            if (!file.exists())
+                                saveDirExists = file.mkdir();
+                            else
+                                saveDirExists = true;
+                            if (saveDirExists) {
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+                                String dateStamp = sdf.format(new Date());
+                                filename = "/sdcard/Pictures/Screenshots/ss_" + dateStamp + ".png";
+                                command = command + " " + filename;
+                            }
+                        }
+
+                        Log.d(Constants.TAG, "MainService executeShellCommand process: " + command);
+                        long startedAt = System.currentTimeMillis();
+
+                        String[] args = CommandLine.translateCommandline(command);
+                        ProcessBuilder processBuilder = new ProcessBuilder(args);
+                        processBuilder.redirectErrorStream(true);
+
+                        Process process = processBuilder.start();
+
+                        StringBuilder outputLog = new StringBuilder();
+                        int returnValue;
+
+                        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                            String line;
+                            while ((line = bufferedReader.readLine()) != null) {
+                                outputLog.append(line).append("\n");
+                            }
+
+                            returnValue = process.waitFor();
+                        }
+
+                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                        resultShellCommand.setResult(returnValue);
+                        resultShellCommand.setOutputLog(outputLog.toString());
+                        resultShellCommand.setDuration(System.currentTimeMillis() - startedAt);
+                        resultShellCommand.setCommand(command);
+
+                        send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+
+                        if (command.contains("screencap")) {
+                            if (filename != null) {
+                                File file = new File(filename);
+                                if (file.exists()) {
+                                    Log.d(Constants.TAG, "MainService executeShellCommand file.exists: " + file.exists() + " " + file.getName());
+                                    FileUploadData fileUploadData = new FileUploadData(file.getAbsolutePath(), file.getName(), file.length());
+                                    send(Transport.FILE_UPLOAD, fileUploadData.toDataBundle());
+                                }
+                            }
+                        }
+                    }
+                } catch (Exception ex) {
+                    Log.e(Constants.TAG, ex.getMessage(), ex);
+
+                    ResultShellCommandData resultShellCommand = new ResultShellCommandData();
+                    resultShellCommand.setResult(-1);
+                    resultShellCommand.setErrorLog(ex.getMessage());
+
+                    send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
+                }
+            }
+        }).start();
+    }
+
+    private void showUpdateConfirmationWearActivity() {
+        Intent intent = new Intent(context, ConfirmationWearActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        intent.putExtra(Constants.TEXT, "Service update");
+        intent.putExtra(Constants.TIME, "0");
+        context.startActivity(intent);
+    }
+
+    private boolean copyFile(File file) {
+        boolean copySuccess = false;
+        InputStream is =  getResources().openRawResource(getResources()
+                .getIdentifier("install_apk", "raw", getPackageName()));
+        try {
+            OutputStream output = new FileOutputStream(file);
+            byte[] buffer = new byte[4 * 1024];
+            int read;
+            while ((read = is.read(buffer)) != -1) {
+                output.write(buffer, 0, read);
+            }
+            copySuccess = true;
+            output.flush();
+            output.close();
+            is.close();
+        } catch (Exception e) {
+            copySuccess = false;
+            Log.e(Constants.TAG, "MainService copyFile exception: " + e.toString());
+        }
+        return copySuccess;
     }
 
     private DirectoryData getFilesByPath(String path) {
@@ -575,20 +847,22 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-    private void registerConnectionMonitor(boolean status, final boolean standardAlert) {
+    private void registerConnectionMonitor(boolean status) {
         Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
         if (status) {
+            if (phoneConnectionObserver != null)
+                return;
             ContentResolver contentResolver = getContentResolver();
             Uri setting = Settings.System.getUriFor("com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
             phoneConnectionObserver = new ContentObserver(new Handler()) {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    if (standardAlert) {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + standardAlert);
+                    if (isPhoneConnectionStandardAlertEnabled) {
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         sendStandardAlert();
                     } else {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + standardAlert);
+                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         Intent intent = new Intent(context, PhoneConnectionActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -605,7 +879,8 @@ public class MainService extends Service implements Transporter.DataListener {
             };
             contentResolver.registerContentObserver(setting, false, phoneConnectionObserver);
         } else {
-            getContentResolver().unregisterContentObserver(phoneConnectionObserver);
+            if (phoneConnectionObserver != null)
+                getContentResolver().unregisterContentObserver(phoneConnectionObserver);
             phoneConnectionObserver = null;
         }
         isPhoneConnectionAlertEnabled = status;
@@ -614,6 +889,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private void sendStandardAlert() {
 
         NotificationData notificationData = new NotificationData();
+        final int vibrate;
 
         final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
 
@@ -628,14 +904,18 @@ public class MainService extends Service implements Transporter.DataListener {
 
         final Drawable drawable;
 
-        if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+        final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+
+        if (android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")) {
             // Phone disconnected
             drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
             notificationData.setText(getString(R.string.phone_disconnected));
+            vibrate = Constants.VIBRATION_LONG;
         } else {
             // Phone connected
             drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
             notificationData.setText(getString(R.string.phone_connected));
+            vibrate = Constants.VIBRATION_SHORT;
         }
 
         try {
@@ -658,6 +938,55 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         notificationManager.post(notificationData);
+        final Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable() {
+            public void run() {
+                try {
+                    if (vibrator != null) {
+                        vibrator.vibrate(vibrate);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1500);
+    }
+
+    // Count notifications
+    public void notificationCounter(int n) {
+        int notifications = 0;
+
+        // Get already saved data
+        String data = Settings.System.getString(getContentResolver(), "CustomWatchfaceData");
+        if (data == null || data.equals("")) {
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{}");//default
+        }
+
+        // Get data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            notifications = json_data.getInt("notifications");
+        } catch (JSONException e) {
+            //Nothing, notifications are never saved before
+        }
+
+        // Update notifications (but always > -1)
+        notifications = (notifications + n > -1) ? notifications + n : 0;
+
+        Log.d(Constants.TAG, "Updating notifications: " + notifications);
+
+        // Save the data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("notifications", notifications);
+
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", json_data.toString());
+        } catch (JSONException e) {
+            //default
+            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
+        }
     }
 
 }

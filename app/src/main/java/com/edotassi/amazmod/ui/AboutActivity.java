@@ -17,13 +17,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edotassi.amazmod.BuildConfig;
-import com.edotassi.amazmod.Constants;
+
+import amazmod.com.transport.Constants;
+
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huami.watch.notification.data.StatusBarNotificationData;
@@ -36,13 +41,13 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 
 public class AboutActivity extends AppCompatActivity {
@@ -74,6 +79,9 @@ public class AboutActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         version.setText(BuildConfig.VERSION_NAME);
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
+            version.append(" - " + BuildConfig.VERSION_CODE + ":dev");
+        }
     }
 
     @Override
@@ -98,14 +106,6 @@ public class AboutActivity extends AppCompatActivity {
                 sendTestMessage('N');
                 break;
             }
-            case (R.id.action_activity_about_revoke_device_owner): {
-                sendTestMessage('R');
-                break;
-            }
-            case (R.id.action_activity_about_low_power_mode): {
-                sendTestMessage('L');
-                break;
-            }
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -115,6 +115,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private void sendTestMessage(char type) {
         NotificationData notificationData = new NotificationData();
+        final String snackTextOK, snackTextFailure;
 
         switch (type) {
             case ('C'): {
@@ -133,19 +134,12 @@ public class AboutActivity extends AppCompatActivity {
                 sendNotificationWithStandardUI(notificationData);
                 return;
             }
-            case ('R'): {
-                notificationData.setForceCustom(false);
-                notificationData.setText("Revoke Admin Owner");
-                break;
-            }
-            case ('L'): {
-                notificationData.setForceCustom(false);
-                notificationData.setText("Enable Low Power Mode");
-                break;
-            }
             default:
                 System.out.println("AmazMod AboutActivity sendTestMessage: something went wrong...");
         }
+
+        snackTextOK = getResources().getString(R.string.test_notification_sent);
+        snackTextFailure = getResources().getString(R.string.failed_to_send_test_notification);
 
         notificationData.setId(999);
         notificationData.setKey("amazmod|test|999");
@@ -181,13 +175,13 @@ public class AboutActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Snacky.builder()
                             .setActivity(AboutActivity.this)
-                            .setText(R.string.test_notification_sent)
+                            .setText(snackTextOK)
                             .setDuration(Snacky.LENGTH_SHORT)
                             .build().show();
                 } else {
                     Snacky.builder()
                             .setActivity(AboutActivity.this)
-                            .setText(R.string.failed_to_send_test_notification)
+                            .setText(snackTextFailure)
                             .setDuration(Snacky.LENGTH_SHORT)
                             .build().show();
                 }
@@ -197,7 +191,6 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void sendNotificationWithStandardUI(NotificationData nd) {
-
         DataBundle dataBundle = new DataBundle();
         Intent intent = new Intent();
         int nextId = (int) (long) (System.currentTimeMillis() % 10000L);
@@ -264,7 +257,7 @@ public class AboutActivity extends AppCompatActivity {
         }
 */
         StatusBarNotification sbn = new StatusBarNotification("com.edotassi.amazmod", "",
-                nextId+1,"tag", 0, 0, 0,
+                nextId + 1, "tag", 0, 0, 0,
                 notification, android.os.Process.myUserHandle(),
                 System.currentTimeMillis());
 
@@ -290,6 +283,27 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
                 System.out.println("AmazMod AboutActivity dataTransportResult: " + dataTransportResult.toString());
+                switch (dataTransportResult.getResultCode()) {
+                    case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
+                    case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
+                    case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
+                    case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
+                        Snacky.builder()
+                                .setActivity(AboutActivity.this)
+                                .setText(R.string.failed_to_send_test_notification)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build().show();
+                        break;
+                    }
+                    case (DataTransportResult.RESULT_OK): {
+                        Snacky.builder()
+                                .setActivity(AboutActivity.this)
+                                .setText(R.string.test_notification_sent)
+                                .setDuration(Snacky.LENGTH_SHORT)
+                                .build().show();
+                    }
+                    break;
+                }
             }
         });
 
@@ -309,4 +323,17 @@ public class AboutActivity extends AppCompatActivity {
             return new ArrayList<>();
         }
     }
+
+    @OnLongClick(R.id.amazmod_logo)
+    public boolean onAmazmodLogoLongClick() {
+        boolean enabled = !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
+        Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
+        Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
+        version.setText(BuildConfig.VERSION_NAME);
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
+            version.append(" - dev");
+        }
+        return true;
+    }
+
 }

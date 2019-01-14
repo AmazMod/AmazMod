@@ -1,8 +1,6 @@
 package com.amazmod.service.springboard;
 
-import android.app.admin.DevicePolicyManager;
 import android.bluetooth.BluetoothAdapter;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -19,17 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.BuildConfig;
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
 import com.amazmod.service.R;
-import com.amazmod.service.events.incoming.Brightness;
+import com.amazmod.service.events.incoming.RequestShellCommand;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.util.SystemProperties;
-
-//import butterknife.BindView;
-//import butterknife.ButterKnife;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -40,14 +34,13 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import amazmod.com.transport.data.BrightnessData;
+import amazmod.com.transport.data.RequestShellCommandData;
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 public class AmazModPage extends AbstractPlugin {
 
-    private static final String TAG = "AmazModPage";
     private Context mContext;
     private View view;
     private boolean isActive = false;
@@ -56,7 +49,6 @@ public class AmazModPage extends AbstractPlugin {
 
     private WidgetSettings settingsWidget;
 
-    //@BindView(R2.id.amazmod_page_version)
     private TextView version, timeSLC, battValueTV;
     private ImageView battIconImg, imageView;
 
@@ -75,64 +67,22 @@ public class AmazModPage extends AbstractPlugin {
         imageView = view.findViewById(R.id.imageView);
 
         Log.d(Constants.TAG, "AmazModPage getView mContext: " + mContext.toString() + " / this: " + this.toString());
-        //HermesEventBus.getDefault().connectApp(mContext, "com.amazmod.service");
-        HermesEventBus.getDefault().register(this);
 
-/*       try {
-            ButterKnife.bind(this, view);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-*/
         version.setText(BuildConfig.VERSION_NAME);
 
         imageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (SystemProperties.setSystemProperty("sys.state.powerlow", lowPower ? "true" : "false") != null) {
-                    Log.d(Constants.TAG, "AmazModPage getView longClick sys.state.powerlow: "
-                            + SystemProperties.getSystemProperty("sys.state.powerlow"));
-                }
-                BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
-                final String result = SystemProperties.getSystemProperty("sys.state.powerlow");
-                if (result != null) {
-                    if (result.equals("true")){
-                        Log.i(Constants.TAG, "AmazModPage getView disable BT");
-                        btmgr.disable();
-                        try {
-                            WifiManager wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-                            if (wfmgr !=null) {
-                                if (wfmgr.isWifiEnabled()) {
-                                    Log.i(Constants.TAG, "AmazModPage getView disable WiFi");
-                                    wfmgr.setWifiEnabled(false);
-                                }
-                            }
-                        } catch (NullPointerException e) {
-                            Log.e(Constants.TAG, "AmazModPage getView imageView.setOnLongClickListener exception: " + e.toString());
-                        }
-                        SystemProperties.goToSleep(mContext);
-                        //SystemProperties.switchPowerMode(mContext, lowPower);
-                        lowPower = false;
-                    } else {
-                        btmgr.enable();
-                        //SystemProperties.switchPowerMode(mContext, lowPower);
-                        lowPower = true;
-                    }
-                }
-                Toast.makeText(mContext, "lowPower: " + !lowPower, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, WearGridActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                //intent.putExtras(notificationSpec.toBundle());
+                mContext.startActivity(intent);
                 return true;
             }
         });
-
-        /* imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                BrightnessData brightnessData = new BrightnessData();
-                brightnessData.setLevel(123);
-                HermesEventBus.getDefault().post(brightnessData);
-
-            }
-        }); */
 
         //Initialize settings
         settingsWidget = new WidgetSettings(Constants.TAG, mContext);
@@ -147,7 +97,6 @@ public class AmazModPage extends AbstractPlugin {
     }
 
     private void updateTimeSinceLastCharge() {
-
         //Refresh saved data
         settingsWidget.reload();
 
@@ -207,16 +156,9 @@ public class AmazModPage extends AbstractPlugin {
     }
 
     private void refreshView() {
-        //Called when the page reloads, check for updates here if you need to
         updateTimeSinceLastCharge();
-        //Log.d(Constants.TAG, "AmazModPage refreshView ");
     }
 
-    /*
-     * Widget active/deactivate state management
-     */
-
-    // On widget show
     private void onShow() {
         // If view loaded (and was inactive)
         if (this.view != null && !this.isActive) {
@@ -229,14 +171,12 @@ public class AmazModPage extends AbstractPlugin {
         this.isActive = true;
     }
 
-    // On widget hide
     private void onHide() {
         // Save state
         this.isActive = false;
         //Log.d(Constants.TAG, "AmazModPage onHide");
     }
 
-    // Events for widget hide
     @Override
     public void onInactive(Bundle paramBundle) {
         super.onInactive(paramBundle);
@@ -253,12 +193,12 @@ public class AmazModPage extends AbstractPlugin {
         this.onHide();
     }
 
-    // Events for widget show
     @Override
     public void onActive(Bundle paramBundle) {
         super.onActive(paramBundle);
         this.onShow();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -301,8 +241,6 @@ public class AmazModPage extends AbstractPlugin {
     // Called when the page is loading and being bound to the host
     @Override
     public void onBindHost(ISpringBoardHostStub paramISpringBoardHostStub) {
-        // Log.d(widget.TAG, "onBindHost");
-        //Store host
         this.host = paramISpringBoardHostStub;
     }
 
@@ -315,8 +253,6 @@ public class AmazModPage extends AbstractPlugin {
     // Called when the page is destroyed completely (in app mode). Same as the onDestroy method of an activity
     @Override
     public void onDestroy() {
-        //Log.d(Constants.TAG, "AmazModPage onDestroy");
         super.onDestroy();
     }
-
 }

@@ -51,8 +51,8 @@ public class NotificationFactory {
 
         //Use EXTRA_TEXT_LINES instead, if it exists
         CharSequence[] lines = bundle.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
-        if (lines != null) {
-            text = lines[lines.length - 1].toString();
+        if ((lines != null) && (lines.length > 0)) {
+            text = lines[Math.min(lines.length - 1, 0)].toString();
             System.out.println("AmazMod NotificationFactory EXTRA_TEXT_LINES exists");
         }
 

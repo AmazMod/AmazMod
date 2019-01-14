@@ -30,6 +30,20 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="preference.disable.notifications"
+            android:key="preference.disable.notification.largeicon"
+            android:summary="@string/pref_notifications_disable_large_icon"
+            android:title="@string/pref_notifications_disable_large_icon_summary"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
+            android:key="preference.disable.notification.picture"
+            android:summary="@string/pref_notifications_disable_picture"
+            android:title="@string/pref_notifications_disable_picture_summary"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
             android:disableDependentsState="false"
             android:key="preference.notifications.enable.custom.ui"
             android:summary="@string/pref_notifications_enable_custom_ui_summary"
@@ -53,7 +67,7 @@
             android:title="@string/pref_notifications_replies">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesActivity"
+                android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesDragActivity"
                 android:targetPackage="com.edotassi.amazmod" />
         </Preference>
 
@@ -100,6 +114,13 @@
             android:key="preference.amazmodservice.disable.screenon"
             android:summary="@string/pref_notifications_disable_screenon_summary"
             android:title="@string/pref_notifications_disable_screenon" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.amazmodservice.disable.delay"
+            android:summary="@string/pref_notifications_disable_delay_summary"
+            android:title="@string/pref_notifications_disable_delay" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/pref_filters">
@@ -209,10 +230,23 @@
             android:summary="@string/pref_enable_persistent_notification_summary"
             android:title="@string/pref_enable_persistent_notification" />
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="preference.enable.update.notification"
+            android:summary="@string/pref_enable_update_notification_summary"
+            android:title="@string/pref_enable_update_notification" />
+        <SwitchPreference
             android:defaultValue="false"
             android:key="preference.force.english"
             android:summary="@string/pref_force_english_summary"
             android:title="@string/pref_force_english" />
+        <Preference
+            android:summary="@string/pref_file_extras_summary"
+            android:title="@string/pref_file_extras">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.edotassi.amazmod.ui.FilesExtrasActivity"
+                android:targetPackage="com.edotassi.amazmod" />
+        </Preference>
         <Preference
             android:summary="@string/pref_check_permissions_summary"
             android:title="@string/pref_check_permissions">

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_replies_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fragment_replies_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="8dp"
+            android:gravity="top|center_horizontal"
+            android:text="@string/reply"
+            android:textAlignment="center"
+            android:textAllCaps="true" />
+
+        <android.support.wearable.view.DelayedConfirmationView
+            android:id="@+id/delayedView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:src="@drawable/ic_action_send"
+            app:circle_border_color="@color/green"
+            app:circle_border_width="16dp"
+            app:circle_color="@color/red"
+            app:circle_padding="16dp"
+            app:circle_radius="60dp"
+            app:update_interval="150" />
+
+        <ScrollView
+            android:id="@+id/fragment_replies_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/fragment_replies_replies_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:orientation="vertical" />
+
+        </ScrollView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fragment_replies_edittext_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/fragment_replies_edittext"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:minHeight="80dp"
+            android:hint="@string/hint"
+            android:inputType="textPersonName" />
+
+        <LinearLayout
+            android:id="@+id/fragment_replies_buttons_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/fragment_replies_button_close"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:gravity="end|center_vertical"
+                android:includeFontPadding="true"
+                android:padding="4dp"
+                android:text="@string/close"
+                android:textAlignment="viewEnd"
+                tools:text="Close  " />
+
+            <Button
+                android:id="@+id/fragment_replies_button_reply"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:gravity="start|center_vertical"
+                android:includeFontPadding="true"
+                android:padding="4dp"
+                android:text="@string/reply"
+                android:textAlignment="viewStart"
+                tools:text="  Replies" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.wearable.view.BoxInsetLayout>

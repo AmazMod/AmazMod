@@ -12,7 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.MainActivity;
 

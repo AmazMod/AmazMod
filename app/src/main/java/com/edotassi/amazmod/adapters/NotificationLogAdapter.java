@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 
@@ -49,6 +49,9 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
             add(R.string.notification_local);
             add(R.string.notification_ongoing);
             add(R.string.notification_return);
+            add(R.string.notification_disabled);
+            add(R.string.notification_screenon);
+            add(R.string.notification_screenlocked);
             add(R.string.notification_package);
             add(R.string.notification_voice);
             add(R.string.notification_maps);

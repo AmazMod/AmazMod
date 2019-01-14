@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/radio_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
+    android:paddingTop="10dp"
+    tools:deviceIds="wear_round">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="beforeDescendants"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/radio_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="#FFFFFFFF"
+            android:textSize="16sp"
+            tools:text="Input Methods" />
+
+        <ScrollView
+            android:id="@+id/radio_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/radio_linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="8dp"
+                    android:orientation="vertical" />
+
+                <EditText
+                    android:id="@+id/radio_edittext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:ems="10"
+                    android:hint="@string/hint_type"
+                    android:inputType="textPersonName" />
+
+                <Button
+                    android:id="@+id/radio_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:textAlignment="center"
+                    tools:text="Button" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</android.support.wearable.view.BoxInsetLayout>

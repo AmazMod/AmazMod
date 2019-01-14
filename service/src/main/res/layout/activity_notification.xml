@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/notification_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent"
-    android:orientation="vertical">
+    tools:context=".ui.NotificationActivity"
+    android:background="@android:color/transparent">
+
+    <android.support.wearable.view.SwipeDismissFrameLayout
+        android:id="@+id/notification_swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:isScrollContainer="true">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,7 +45,7 @@
                     app:srcCompat="@drawable/amazmod" />
             </LinearLayout>
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/notification_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +71,7 @@
                 android:text="00:00"
                 android:textColor="@color/text" />
 
-            <TextView
+            <android.support.text.emoji.widget.EmojiTextView
                 android:id="@+id/notification_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,21 +83,30 @@
                 android:textAlignment="center"
                 android:textColor="@color/text" />
 
+            <ImageView
+                android:id="@+id/notification_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/action_item_background" />
+
             <LinearLayout
                 android:id="@+id/activity_buttons"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="7dp"
+                android:layout_marginRight="7dp"
                 android:background="@android:color/transparent"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/activity_notification_button_close"
-                    android:layout_width="104dp"
+                    android:layout_width="96dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:gravity="end|center_vertical"
-                    android:includeFontPadding="false"
+                    android:includeFontPadding="true"
                     android:padding="4dp"
                     android:text="@string/close"
                     android:textAlignment="viewEnd"
@@ -97,12 +114,15 @@
 
                 <Button
                     android:id="@+id/activity_notification_button_reply"
-                    android:layout_width="104dp"
+                    android:layout_width="96dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:gravity="start|center_vertical"
-                    android:includeFontPadding="false"
+                    android:includeFontPadding="true"
                     android:padding="4dp"
-                    android:text="@string/replies"
+                    android:text="@string/reply"
                     android:textAlignment="viewStart"
                     tools:text="  Replies" />
             </LinearLayout>
@@ -115,4 +135,5 @@
                 android:orientation="vertical" />
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+    </android.support.wearable.view.SwipeDismissFrameLayout>
+</android.support.wearable.view.BoxInsetLayout>

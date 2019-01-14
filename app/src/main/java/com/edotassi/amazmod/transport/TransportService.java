@@ -6,23 +6,23 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
+import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
+import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.support.Logger;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -39,7 +39,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -71,6 +70,8 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.DIRECTORY, Directory.class);
         put(Transport.RESULT_DELETE_FILE, ResultDeleteFile.class);
         put(Transport.RESULT_DOWNLOAD_FILE_CHUNK, ResultDownloadFileChunk.class);
+        put(Transport.RESULT_SHELL_COMMAND, ResultShellCommand.class);
+        put(Transport.FILE_UPLOAD, RequestFileUpload.class);
     }};
 
     private Map<String, Object> pendingResults = new HashMap<>();
@@ -160,7 +161,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 send(action, transportable, null);
 
                 try {
-                    Tasks.await(taskCompletionSource.getTask(), 5000, TimeUnit.MILLISECONDS);
+                    Tasks.await(taskCompletionSource.getTask(), 15000, TimeUnit.MILLISECONDS);
                 } catch (TimeoutException timeoutException) {
                     taskCompletionSource.setException(timeoutException);
                 }

@@ -1,20 +1,27 @@
 package com.edotassi.amazmod.ui.fragment;
 
-import android.app.Fragment;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
@@ -55,13 +62,29 @@ public class BatteryChartFragment extends Card {
     TextView lastRead;
     @BindView(R.id.textView2)
     TextView batteryTv;
+    @BindView(R.id.imageView2)
+    ImageView imageView;
+    @BindView(R.id.card_battery)
+    CardView cardView;
 
     @BindView(R.id.battery_chart)
     LineChart chart;
 
+    private Context mContext;
+    private static long lastDateChart;
+    private static boolean sendNewRequest, requestSent;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = activity.getBaseContext();
+        sendNewRequest = false;
+        requestSent = false;
+    }
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_battery_chart, container, false);
 
         ButterKnife.bind(this, view);
@@ -72,6 +95,34 @@ public class BatteryChartFragment extends Card {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                updateChart();
+                Log.d(Constants.TAG, "BatteryChartFragment onLongCLick sendNewRequest: " + sendNewRequest);
+                if (sendNewRequest) {
+                    if (!requestSent) {
+                        requestSent = true;
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_request), Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent("com.edotassi.amazmod.USER_ACTION");
+                        mContext.getApplicationContext().sendBroadcast(i);
+                        Handler mHandler = new Handler();
+                        mHandler.postDelayed(new Runnable() {
+                            public void run() {
+                                updateChart();
+                            }
+                        }, 5000);
+                    } else {
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_waiting), Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_updated), Toast.LENGTH_SHORT).show();
+                    requestSent = false;
+                }
+                return true;
+            }
+        });
 
         updateChart();
     }
@@ -114,6 +165,12 @@ public class BatteryChartFragment extends Card {
         if (batteryReadList.size() > 0) {
             BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
             Date lastDate = new Date(lastEntity.getDate());
+            if (lastDateChart != lastEntity.getDate() || lastDateChart == 0) {
+                lastDateChart = lastEntity.getDate();
+                sendNewRequest = false;
+            } else {
+                sendNewRequest = true;
+            }
 
             long lastChargeDate = lastEntity.getDateLastCharge();
             StringBuilder dateDiff = new StringBuilder();
@@ -163,9 +220,9 @@ public class BatteryChartFragment extends Card {
 
         BatteryStatusEntity prevRead = null;
 
-        int primaryColor = ContextCompat.getColor(getContext(), R.color.colorPrimary);
-        int chargingColor = ContextCompat.getColor(getContext(), R.color.colorCharging);
-        int predictionColor = ContextCompat.getColor(getContext(), R.color.colorPrediction);
+        int primaryColor = ContextCompat.getColor(mContext, R.color.colorPrimary);
+        int chargingColor = ContextCompat.getColor(mContext, R.color.colorCharging);
+        int predictionColor = ContextCompat.getColor(mContext, R.color.colorPrediction);
 
         for (int i = 0; i < batteryReadList.size(); i++) {
             BatteryStatusEntity read = batteryReadList.get(i);
@@ -262,7 +319,7 @@ public class BatteryChartFragment extends Card {
         lineDataSet.setDrawCircles(false);
         lineDataSet.setDrawValues(false);
 
-        Drawable drawable = ContextCompat.getDrawable(getContext(), R.drawable.fade_blue_battery);
+        Drawable drawable = ContextCompat.getDrawable(mContext, R.drawable.fade_blue_battery);
         lineDataSet.setDrawFilled(true);
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         lineDataSet.setFillDrawable(drawable);
@@ -278,7 +335,7 @@ public class BatteryChartFragment extends Card {
         linePredictionDataSet.setDrawCircles(false);
         linePredictionDataSet.setDrawValues(false);
 
-        Drawable drawablePrediction = ContextCompat.getDrawable(getContext(), (charging)?R.drawable.fade_green_battery:R.drawable.fade_red_battery);
+        Drawable drawablePrediction = ContextCompat.getDrawable(mContext, (charging)?R.drawable.fade_green_battery:R.drawable.fade_red_battery);
         linePredictionDataSet.setDrawFilled(true);
         linePredictionDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         linePredictionDataSet.setFillDrawable(drawablePrediction);
@@ -354,7 +411,7 @@ public class BatteryChartFragment extends Card {
     }
 
     private class CustomXAxisRenderer extends XAxisRenderer {
-        public CustomXAxisRenderer(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) {
+        private CustomXAxisRenderer(ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) {
             super(viewPortHandler, xAxis, trans);
         }
 

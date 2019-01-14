@@ -10,12 +10,11 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.support.Logger;
-import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;

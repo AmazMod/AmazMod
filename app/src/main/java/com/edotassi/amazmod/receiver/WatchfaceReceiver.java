@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.Logger;
@@ -22,7 +22,6 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import amazmod.com.transport.data.WatchfaceData;
@@ -53,7 +52,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             watchfaceData.setBattery(battery);
             watchfaceData.setAlarm(alarm);
 
-            Watch.get().sendWatchfaceData(watchfaceData).continueWith(new Continuation<Watchface, Object>() {
+            Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
                 @Override
                 public Object then(@NonNull Task<Watchface> task) throws Exception {
                     if (task.isSuccessful()) {
@@ -64,7 +63,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     }
                     return null;
                 }
-            });
+            });*/
 
             //Save update time in milliseconds
             Date date= new Date();
@@ -171,31 +170,45 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     public String getPhoneAlarm(Context context){
         String nextAlarm = "--";
 
-        try {
-            nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
-
-            if(nextAlarm.equals("")){
-                nextAlarm = "--";
+        // Proper way to do it (Lollipop +)
+        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            try {
+                // First check for regular alarm
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                if (alarmManager != null) {
+                    AlarmManager.AlarmClockInfo clockInfo = alarmManager.getNextAlarmClock();
+                    if (clockInfo != null) {
+                        long nextAlarmTime = clockInfo.getTriggerTime();
+                        Log.d(Constants.TAG, "Next alarm time: " + nextAlarmTime);
+                        Date nextAlarmDate = new Date(nextAlarmTime);
+                        android.text.format.DateFormat df = new android.text.format.DateFormat();
+                        // Format alarm time as e.g. "Fri 06:30"
+                        nextAlarm = df.format("EEE HH:mm", nextAlarmDate).toString();
+                    }
+                }
+                // Just to be sure
+                if (nextAlarm.isEmpty()) {
+                    nextAlarm = "--";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Alarm already set to --
             }
-            Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
-        } catch (Exception e) {
-            e.printStackTrace();
+        }else{
+            // Legacy way
+            try {
+                nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
+
+                if(nextAlarm.equals("")){
+                    nextAlarm = "--";
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
-        // This is the proper way but the time is given in UTC
-        /*
-        try {
-            AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            if(am!=null && am.getNextAlarmClock()!=null){
-                Long alarmTime = am.getNextAlarmClock().getTriggerTime();
-                SimpleDateFormat sdfDate = new SimpleDateFormat("eee HH:mm");
-                nextAlarm = sdfDate.format(new Date(alarmTime));
-            }
-            Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        */
+        // Log next alarm
+        Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
 
         return nextAlarm;
     }

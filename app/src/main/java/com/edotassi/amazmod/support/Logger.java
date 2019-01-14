@@ -1,6 +1,6 @@
 package com.edotassi.amazmod.support;
 
-import com.edotassi.amazmod.Constants;
+import amazmod.com.transport.Constants;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.PrettyFormatStrategy;
 

@@ -1,13 +1,62 @@
 <changelog>
     <release
-        versionCode="168"
-        versionName="v1.0.38">
-        <new>Basic file explorer</new>
-        <new>Basic integration with GreatFit</new>
+        date="2018-11-23"
+        versionCode="196"
+        versionName="v1.1.0">
+        <new>Added users avatar icons</new>
+        <new>Added notifications pictures</new>
+        <bugifx>Fixed some crashes</bugifx>
+    </release>
+    <release
+        date="2018-11-14"
+        versionCode="196"
+        versionName="v1.0.65">
+        <new>Added developer mode</new>
+        <bugifx>Fixed some crashes</bugifx>
+    </release>
+    <release
+        date="2018-11-09"
+        versionCode="194"
+        versionName="v1.0.64">
+        <new>Auto update watch service from phone app</new>
+        <new>Full emoji compatibility</new>
+        <new>Swipe right to discard and left to reply notifications</new>
+        <new>File Explorer can Create/Delete/Compress/Uncompress folders</new>
+        <new>Tweaking now enable/disable watch auto-brightness</new>
+        <new>Tweaking stores list of executed commands</new>
+        <new>Option to Delete All notifications in log</new>
+        <new>Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin,
+            Reboot)
+        </new>
+        <new>Drag and Drop to reorder quick replies</new>
+        <new>Ability to send multiple files to watch</new>
+        <new>Improved WatchData transfer (lower battery usage)</new>
+        <bugfix>Grouped notifications were not being removed from watch</bugfix>
+        <info>Improved translations</info>
+        <info>Minor fixes</info>
+    </release>
+    <release
+        date="2018-09-22"
+        versionCode="180"
+        versionName="v1.0.50">
+        <new>File explorer with file transfer</new>
+        <new>Adb command executor in tweaking section</new>
+        <new>Low Power Mode</new>
+        <new>Added apk installation utility</new>
+        <new>Theme in custom notifications</new>
+        <new>Better battery management in custom notifications (need admin owner to enable it)</new>
+        <new>GreatFit integration</new>
         <new>Added Spanish translation</new>
         <new>Added Hungarian translation</new>
         <info>Updated translations</info>
-        <bugfix>Minor fix</bugfix>
+        <info>Improved disconnected state</info>
+        <info>Minor fix</info>
+    </release>
+    <release
+        date="2018-09-21"
+        versionCode="179"
+        versionName="v1.0.49">
+        <bugfix>Too many notifications blocked (regression)</bugfix>
     </release>
     <release
         versionCode="163"
