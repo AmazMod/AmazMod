@@ -69,10 +69,8 @@
                     android:id="@+id/fragment_custom_notification_replies_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:minHeight="80dp"
+                    android:layout_margin="8dp"
+                    android:minHeight="48dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -96,12 +94,22 @@
                         tools:text="Text" />
 
                     <ImageView
-                        android:id="@+id/fragment_custom_notificstion_picture"
+                        android:id="@+id/fragment_custom_notification_picture"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
                         app:srcCompat="@drawable/action_item_background" />
                 </LinearLayout>
+                <Button
+                    android:id="@+id/fragment_delete_button"
+                    android:text="DELETE"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:background="@color/dark_red"
+                    android:drawableTop="@drawable/outline_delete_white_24"
+                    android:padding="10dp" />
 
             </LinearLayout>
         </ScrollView>

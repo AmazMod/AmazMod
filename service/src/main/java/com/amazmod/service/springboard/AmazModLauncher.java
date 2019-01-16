@@ -37,6 +37,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.adapters.LauncherAppAdapter;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.support.AppInfo;
+import com.amazmod.service.support.NotificationStore;
 
 
 import org.json.JSONException;
@@ -349,6 +350,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
             Log.e(Constants.TAG, "AmazModLauncher refreshMessages JSONException: " + e.toString());
             notifications = 0;
         }
+        //notifications = NotificationStore.getCustomNotificationCount();
         unreadMessages.setText(String.valueOf(notifications));
     }
 
