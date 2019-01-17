@@ -208,7 +208,7 @@ public class SilenceFragment extends Fragment implements DelayedConfirmationView
 
         Intent intent = new Intent(mContext, ConfirmationActivity.class);
         intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);
-        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Silenced!");
+        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Muted!");
         startActivity(intent);
 
         NotificationStore.removeCustomNotification(key);

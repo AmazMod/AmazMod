@@ -38,7 +38,7 @@
     <string name="admin_receiver_status_disabled">disabled</string>
     <string name="admin_receiver_status_disable_warning">AmazMod will not be able to lock screen after closing replies.</string>
     <!-- Strings used by AdminReceiver end -->
-    <string name="silence_application">Silence</string>
+    <string name="silence_application">MUTE</string>
     <string name="notifications">Notifications</string>
     <string name="clear_notifications">Clear All</string>
     <string name="unknown">Unknown</string>

@@ -28,9 +28,6 @@ public class SilencedApplicationsFragment extends Card implements SilencedApplic
 
     @BindView(R.id.fragment_silenced_apps_grid)
     GridView silencedApplicationsView;
-    @BindView(R.id.fragment_silenced_applications_count)
-    TextView silencedApplicationsCountTextView;
-
 
     private SilencedApplicationsAdapter silencedApplicationsAdapter;
     private Context mContext;
@@ -76,7 +73,6 @@ public class SilencedApplicationsFragment extends Card implements SilencedApplic
     private void updateSilencedApps(){
         if (SilenceApplicationHelper.getSilencedApplicationsCount() > 0) {
             card.setVisibility(View.VISIBLE);
-            silencedApplicationsCountTextView.setText("- " + SilenceApplicationHelper.getSilencedApplicationsCount() + " applications");
         }else{
             card.setVisibility(View.GONE);
         }

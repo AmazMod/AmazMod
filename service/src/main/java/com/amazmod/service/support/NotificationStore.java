@@ -19,7 +19,11 @@ public class NotificationStore {
     }
 
     public static int getCustomNotificationCount() {
-        return customNotifications.size();
+        try {
+            return customNotifications.size();
+        }catch (NullPointerException e){
+            return 0;
+        }
     }
 
     public static void addCustomNotification(String key, NotificationData notificationData) {
