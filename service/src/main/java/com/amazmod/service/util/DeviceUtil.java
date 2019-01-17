@@ -6,15 +6,20 @@ import android.app.PendingIntent;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInstaller;
+import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 
 import com.amazmod.service.Constants;
+import com.amazmod.service.MainService;
+import com.amazmod.service.PackageReceiver;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
 import java.io.File;
@@ -30,7 +35,7 @@ import static android.content.Context.ACTIVITY_SERVICE;
 public class DeviceUtil {
 
     public static boolean isDeviceLocked(Context context) {
-        boolean isLocked = false;
+        boolean isLocked;
 
         // First we check the locked state
         try {
@@ -160,11 +165,10 @@ public class DeviceUtil {
 
             Intent intent = new Intent(context, ConfirmationWearActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra(Constants.TEXT, "Auto Install");
             intent.putExtra(Constants.TIME, "5");
+            intent.putExtra(Constants.MODE, Constants.NORMAL);
 
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             IntentSender mIntentSender = pendingIntent.getIntentSender();
@@ -187,6 +191,48 @@ public class DeviceUtil {
                 Log.i(Constants.TAG, "DeviceUtil installPackage finished");
             }
         }
+    }
+
+    public static void installApk(Context context, String apkPath, String mode) {
+
+        Log.d(Constants.TAG, "DeviceUtil installApk apkPath: " + apkPath + " | mode: " + mode);
+
+        Intent intent = new Intent(context, ConfirmationWearActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Constants.TEXT, "Installing APK");
+        intent.putExtra(Constants.TIME, "3");
+        intent.putExtra(Constants.MODE, mode);
+        intent.putExtra(Constants.PKG, apkPath);
+        context.startActivity(intent);
+
+    }
+
+    public static void installApkAdb(Context context, File apk, boolean isReboot) {
+
+        PackageReceiver.setIsAmazmodInstall(true);
+        final String installScript = copyScriptFile(context, "install_apk.sh").getAbsolutePath();
+        final String busyboxPath = installBusybox(context);
+        String installCommand;
+        String apkFile = apk.getAbsolutePath();
+        //Log.d(Constants.TAG, "DeviceUtil installApkAdb installScript: " + installScript);
+        //Log.d(Constants.TAG, "DeviceUtil installApkAdb apkFile: " + apkFile);
+
+        //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
+        if (isReboot)
+            installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
+        else
+            installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
+
+        Log.d(Constants.TAG, "DeviceUtil installApkAdb installCommand: " + installCommand);
+
+        try {
+            Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
+                    null, Environment.getExternalStorageDirectory());
+        } catch (IOException e) {
+            Log.e(Constants.TAG, "DeviceUtil installApkAdb IOException" + e.getMessage(), e);
+        }
+
     }
 
     public static File copyScriptFile(Context context, String fileName) {
@@ -275,7 +321,7 @@ public class DeviceUtil {
         return utilFolderPath;
     }
 
-    public static void killBackgroundTasks(Context context) {
+    public static void killBackgroundTasks(Context context, Boolean suicide) {
 
         Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks");
 
@@ -291,16 +337,27 @@ public class DeviceUtil {
 
             for (ApplicationInfo packageInfo : packages) {
                 if (!((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1)) {
-                    Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks package: " + packageInfo.packageName);
-                    am.killBackgroundProcesses(packageInfo.packageName);
+                    if (packageInfo.packageName.contains("amazmod") && !suicide)
+                        //Do not suicide;
+                        Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks skipping " + packageInfo.processName);
+                    else {
+                        Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks killing package: " + packageInfo.packageName);
+                        am.killBackgroundProcesses(packageInfo.packageName);
+                    }
                 }
             }
 
             for (ActivityManager.RunningAppProcessInfo info : processes) {
-                Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks process: " + info.processName);
+
                 if (info.processName.contains("amazmod")) {
                     myProcess = info;
+                } else if (info.processName.contains("watch.launcher") && !suicide) {
+                    //Do not kill launcher;
+                    Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks skipping " + info.processName);
                 } else {
+
+                    Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks killing process: " + info.processName);
+
                     android.os.Process.killProcess(info.pid);
                     android.os.Process.sendSignal(info.pid, android.os.Process.SIGNAL_KILL);
                     if (info.processName.contains("process.media"))
@@ -310,7 +367,7 @@ public class DeviceUtil {
                 }
             }
 
-            if (myProcess != null) {
+            if ((myProcess != null) && suicide) {
                 Log.d(Constants.TAG, "DeviceUtil killBackgroundTasks myProcess: " + myProcess.processName);
                 am.killBackgroundProcesses(myProcess.processName);
                 android.os.Process.sendSignal(myProcess.pid, android.os.Process.SIGNAL_KILL);
@@ -319,6 +376,28 @@ public class DeviceUtil {
         } else {
             Log.e(Constants.TAG, "DeviceUtil killBackgroundTasks failed - null ActivityManager!");
         }
+    }
+
+    public static boolean saveBatteryData(Context context, boolean updateSettings) {
+        Intent batteryStatus = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+        if (batteryStatus != null) {
+
+            int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+            float batteryPct = level / (float) scale;
+
+            Log.d(Constants.TAG, "DeviceUtil saveBatteryData batteryPct: " + batteryPct);
+
+            return MainService.saveBatteryDb(batteryPct, updateSettings);
+
+        } else {
+
+            Log.e(Constants.TAG, "DeviceUtil saveBatteryData register receiver error!");
+            return false;
+        }
+
     }
 
 }

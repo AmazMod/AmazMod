@@ -93,7 +93,7 @@
                         android:gravity="center_vertical|center_horizontal"
                         android:textAlignment="center"
                         android:textColor="@color/text"
-                        tools:text="Text" />
+                        tools:text="This is a Super Long Text to test the line breaks on this TextView. This is another phrase, and so go on." />
 
                     <ImageView
                         android:id="@+id/fragment_custom_notificstion_picture"

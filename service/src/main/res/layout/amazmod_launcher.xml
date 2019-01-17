@@ -2,13 +2,13 @@
 <android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/wear_apps_main_layout"
+    android:id="@+id/launcher_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background">
 
     <android.support.wearable.view.WearableFrameLayout
-        android:id="@+id/wear_apps_info_layout"
+        android:id="@+id/launcher_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_box="">
@@ -23,9 +23,18 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginTop="55dp"
                 android:gravity="center_horizontal"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/launcher_battery_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="55dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/launcher_batt_icon"
@@ -41,6 +50,7 @@
                     android:textAlignment="viewEnd"
                     android:textColor="@android:color/white"
                     tools:text="XXX%" />
+            </LinearLayout>
 
                 <ImageView
                     android:id="@+id/launcher_logo"

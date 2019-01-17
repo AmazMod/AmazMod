@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.notification;
 
 import android.app.job.JobParameters;
+import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -23,6 +24,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
@@ -44,11 +47,14 @@ public class NotificationJobService extends JobService {
 
     private static String result;
     private static int retries = 0;
+    private static Map<String, JobParameters> pendingJobs;
 
     @Override
     public boolean onStartJob(JobParameters params) {
 
         this.params = params;
+
+        pendingJobs = new HashMap<>();
 
         final int id = params.getJobId();
         final String key = params.getExtras().getString(NOTIFICATION_KEY, null);
@@ -173,6 +179,8 @@ public class NotificationJobService extends JobService {
             Log.d(Constants.TAG, "NotificationJobService keepNotificationServiceRunning requestRebind");
         }
 
+        jobFinished(params, false);
+
     }
 
     private void processStandardNotificationPosted(final String key, final int mode) {
@@ -204,6 +212,8 @@ public class NotificationJobService extends JobService {
                     if (result.toLowerCase().contains("ok")) {
                         Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted OK");
                         NotificationStore.removeStandardNotification(key);
+                        if (pendingJobs.containsKey(key))
+                            pendingJobs.remove(key);
                         jobFinished(params, false);
                     } else {
                         Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted try: " + retries);
@@ -214,24 +224,53 @@ public class NotificationJobService extends JobService {
                         } else {
                             Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted rescheduling…");
                             retries = 0;
+                            pendingJobs.put(key, params);
                             jobFinished(params, true);
                         }
                     }
                 }
             });
 
-        } else
-        jobFinished(params, false);
+        } else {
+            jobFinished(params, false);
+            if (pendingJobs.containsKey(key))
+                pendingJobs.remove(key);
+            if (NotificationStore.standardNotifications.containsKey(key))
+                NotificationStore.removeStandardNotification(key);
+        }
 
     }
 
-
     public void processNotificationRemoved(final String key, final int mode) {
+
+        boolean isNotificationQueued = false;
+
+        if (NotificationStore.standardNotifications.containsKey(key)) {
+            NotificationStore.removeStandardNotification(key);
+            if (pendingJobs.containsKey(key))
+                jobFinished(pendingJobs.get(key), false);
+            isNotificationQueued = true;
+        }
+
+        if (NotificationStore.customNotifications.containsKey(key)) {
+            NotificationStore.removeCustomNotification(key);
+            NotificationStore.removeNotificationBundle(key);
+            if (pendingJobs.containsKey(key))
+                jobFinished(pendingJobs.get(key), false);
+            isNotificationQueued = true;
+        }
+
+        if (isNotificationQueued) {
+            Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved notificationQueued key: " + key);
+            NotificationStore.removeRemovedNotification(key);
+            jobFinished(params, false);
+            return;
+        }
 
         Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved key: " + key + " \\ try: " + retries);
         result = "";
 
-        DataBundle dataBundle = NotificationStore.getStandardNotification(key);
+        DataBundle dataBundle = NotificationStore.getRemovedNotification(key);
 
         if (transporterHuami.isTransportServiceConnected()) {
             Log.i(Constants.TAG, "NotificationJobService processNotificationRemoved transport already connected");
@@ -255,7 +294,9 @@ public class NotificationJobService extends JobService {
 
                     if (result.toLowerCase().contains("ok")) {
                         Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved OK");
-                        NotificationStore.removeStandardNotification(key);
+                        NotificationStore.removeRemovedNotification(key);
+                        if (pendingJobs.containsKey(key))
+                            pendingJobs.remove(key);
                         jobFinished(params, false);
                     } else {
                         Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved try: " + retries);
@@ -266,14 +307,20 @@ public class NotificationJobService extends JobService {
                         } else {
                             Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved rescheduling…");
                             retries = 0;
+                            pendingJobs.put(key, params);
                             jobFinished(params, true);
                         }
                     }
                 }
             });
 
-        } else
+        } else {
             jobFinished(params, false);
+            if (pendingJobs.containsKey(key))
+                pendingJobs.remove(key);
+            if (NotificationStore.removedNotifications.containsKey(key))
+                NotificationStore.removeRemovedNotification(key);
+        }
 
     }
 
@@ -325,6 +372,8 @@ public class NotificationJobService extends JobService {
                     if (result.toLowerCase().contains("ok")) {
                         Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted OK");
                         NotificationStore.removeCustomNotification(key);
+                        if (pendingJobs.containsKey(key))
+                            pendingJobs.remove(key);
                         if (mode == NOTIFICATION_POSTED_CUSTOM_UI)
                             NotificationStore.removeNotificationBundle(key);
                         jobFinished(params, false);
@@ -336,14 +385,20 @@ public class NotificationJobService extends JobService {
                             processCustomNotificationPosted(key, mode);
                         } else {
                             retries = 0;
+                            pendingJobs.put(key, params);
                             Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted rescheduling…");
                             jobFinished(params, true);
                         }
                     }
                 }
             });
-        } else
+        } else {
             jobFinished(params, false);
+            if (pendingJobs.containsKey(key))
+                pendingJobs.remove(key);
+            if (NotificationStore.customNotifications.containsKey(key))
+                NotificationStore.removeCustomNotification(key);
+        }
 
         /*
         Watch.get().postNotification(notificationData).continueWith(new Continuation<Void, Object>() {

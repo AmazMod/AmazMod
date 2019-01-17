@@ -46,7 +46,8 @@ public class NotificationWearActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private static boolean screenToggle = false, mustLockDevice = false, showKeyboard = false;
+    private static boolean screenToggle = false, mustLockDevice = false,
+                            showKeyboard = false, wasScreenLocked = false;
     private static int screenMode;
     private static int screenBrightness = 999989;
     private Context mContext;
@@ -91,7 +92,10 @@ public class NotificationWearActivity extends Activity {
 
         settingsManager = new SettingsManager(this);
 
-        mustLockDevice = DeviceUtil.isDeviceLocked(getBaseContext());
+        wasScreenLocked = DeviceUtil.isDeviceLocked(getBaseContext());
+        if (mustLockDevice && screenToggle)
+            wasScreenLocked = true;
+
         setWindowFlags(true);
 
         //Load preferences
@@ -104,13 +108,12 @@ public class NotificationWearActivity extends Activity {
         final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
 
         //Do not activate screen if it is disabled in settings and screen was off or it was disabled previously
-        if ((disableNotificationsScreenOn && mustLockDevice) || screenToggle) {
-            //Disable lock screen if screen was kept on by another notification
-            if (!mustLockDevice)
+        if (disableNotificationsScreenOn && (wasScreenLocked || screenToggle)) {
+            if (wasScreenLocked)
+                mustLockDevice = true;
+            if (screenToggle)
                 mustLockDevice = false;
             setScreenModeOff(true);
-        } else {
-            screenToggle = false;
         }
 
         clearBackStack();
@@ -136,6 +139,9 @@ public class NotificationWearActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         if (!showKeyboard)
             startTimerFinish();
+
+        Log.i(Constants.TAG, "NotificationWearActivity onCreate key: " + key + " | wasLckd: "+ wasScreenLocked
+                + " | mustLck: " + mustLockDevice + " | scrTg: " + screenToggle + " | showKb: " + showKeyboard);
 
     }
 
@@ -168,9 +174,8 @@ public class NotificationWearActivity extends Activity {
     public boolean dispatchTouchEvent(MotionEvent event) {
         findViewById(R.id.activity_wear_root_layout).dispatchTouchEvent(event);
 
-        if (screenToggle) {
+        if (screenToggle)
             setScreenModeOff(false);
-        }
 
         if (!showKeyboard) {
             startTimerFinish();
@@ -182,7 +187,10 @@ public class NotificationWearActivity extends Activity {
         Log.d(Constants.TAG, "NotificationWearActivity startTimerFinish");
         showKeyboard = false;
         handler.removeCallbacks(activityFinishRunnable);
-        handler.postDelayed(activityFinishRunnable, NotificationStore.getTimeoutRelock(key));
+        int timeOutRelock = NotificationStore.getTimeoutRelock(key);
+        if (timeOutRelock == 0)
+            settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT);
+        handler.postDelayed(activityFinishRunnable, timeOutRelock);
     }
 
     public void stopTimerFinish() {
@@ -198,7 +206,8 @@ public class NotificationWearActivity extends Activity {
         super.finish();
 
         boolean flag = true;
-        Log.i(Constants.TAG, "NotificationWearActivity finish screenToggle: " + screenToggle);
+        Log.i(Constants.TAG, "NotificationWearActivity finish key: " + key
+                + " | scrT: " + screenToggle + " | mustLck: " + mustLockDevice);
 
         if (screenToggle) {
             flag = false;
@@ -208,6 +217,8 @@ public class NotificationWearActivity extends Activity {
 
         if (mustLockDevice) {
             showKeyboard = false;
+            mustLockDevice = false;
+            screenToggle = false;
             if (flag) {
                 final Handler mHandler = new Handler();
                 mHandler.postDelayed(new Runnable() {
@@ -217,7 +228,7 @@ public class NotificationWearActivity extends Activity {
                 }, 500);
             } else
                 lock();
-        } else if (!screenToggle)
+        } else if (wasScreenLocked)
             mustLockDevice = true;
 
     }

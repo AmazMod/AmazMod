@@ -46,13 +46,12 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         try {
-            if (getSupportActionBar() != null)
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.settings);
         } catch (NullPointerException exception) {
             //TODO log to crashlitics
-            System.out.println(Constants.TAG + " FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
+            System.out.println(Constants.TAG + " SettingsActivity onCreate NullPointerException: " + exception.toString());
         }
-        getSupportActionBar().setTitle(R.string.settings);
 
         this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
                 Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
@@ -147,6 +146,8 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION);
         final boolean disableNotificationsDelay = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABlE_DELAY,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY);
+        final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
+                Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
 
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
@@ -175,6 +176,7 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
         settingsData.setDefaultLocale(Locale.getDefault().toString());
         settingsData.setDisableDelay(disableNotificationsDelay);
+        settingsData.setAmazModFirstWidget(amazModFirstWidget);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override

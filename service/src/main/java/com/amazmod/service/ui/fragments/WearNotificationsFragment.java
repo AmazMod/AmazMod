@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.NotificationListAdapter;
+import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.support.NotificationInfo;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
@@ -39,7 +40,7 @@ import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class WearNotificationsFragment extends Fragment implements WearableListView.ClickListener {
+public class WearNotificationsFragment extends Fragment {
 
     static WearNotificationsFragment instance = null;
 
@@ -82,7 +83,8 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.i(Constants.TAG,"WearNotificationsFragment onViewCreated");
-        updateContent();
+
+        init();
 
     }
 
@@ -96,51 +98,60 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
         super.onDestroy();
     }
 
-    @Override
-    public void onTopEmptyRegionClick() {
-        //Prevent NullPointerException
-        //Toast.makeText(this, "Top empty area tapped", Toast.LENGTH_SHORT).show();
-    }
+    public void onItemClick(int position) {
 
-    @Override
-    public void onClick(WearableListView.ViewHolder viewHolder) {
+        Log.i(Constants.TAG,"WearNotificationsFragment onClick position: " + position);
 
-        final int itemChosen = viewHolder.getPosition();
-        Log.i(Constants.TAG,"WearNotificationsFragment onClick itemChosen: " + itemChosen);
-
-        if (notificationInfoList.get(itemChosen).getNotificationTitle().equals(REFRESH)) {
+        if (notificationInfoList.get(position).getNotificationTitle().equals(REFRESH)) {
 
             notificationInfoList.clear();
             mAdapter.clear();
-            wearNotificationsFrameLayout.setVisibility(View.GONE);
-            listView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.GONE);
-            updateContent();
+            loadNotifications();
 
         } else
-            showNotification(itemChosen);
-
-        //Toast.makeText(mContext, "Selected: " + appInfoList.get(itemChosen).getAppName(), Toast.LENGTH_SHORT).show();
+            showNotification(position);
 
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    private void updateContent() {
+    public void onItemLongClick(int position) {
 
+        Log.i(Constants.TAG,"WearNotificationsFragment onLongClick position: " + position);
+
+        if (!REFRESH.equals(notificationInfoList.get(position).getNotificationTitle()))
+            deleteNotification(position);
+
+    }
+
+    private void init() {
         wearNotificationsFrameLayout = getActivity().findViewById(R.id.wear_notifications_frame_layout);
         listView = getActivity().findViewById(R.id.wear_notifications_list);
         mHeader = getActivity().findViewById(R.id.wear_notifications_header);
         progressBar = getActivity().findViewById(R.id.wear_notifications_loading_spinner);
 
-        wearNotificationsFrameLayout.setVisibility(View.GONE);
-        progressBar.setVisibility(View.GONE);
+        listView.setLongClickable(true);
+        listView.setGreedyTouchMode(true);
+        listView.addOnScrollListener(mOnScrollListener);
 
-        loadNotifications();
+        listView.addOnItemTouchListener(new RecyclerTouchListener(mContext, listView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Log.d(Constants.TAG, "WearNotificationsFragment addOnItemTouchListener onClick");
+                onItemClick(position);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                Log.d(Constants.TAG, "WearNotificationsFragment addOnItemTouchListener onLongClick");
+                onItemLongClick(position);
+            }
+        }));
 
         mHeader.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                new AlertDialog.Builder(getActivity())
+
+                if (!notificationInfoList.isEmpty())
+                    new AlertDialog.Builder(getActivity())
                         .setTitle(getResources().getString(R.string.clear_notifications))
                         .setMessage(getResources().getString(R.string.confirmation))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -153,6 +164,8 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
                 return false;
             }
         });
+
+        loadNotifications();
     }
 
     @SuppressLint("CheckResult")
@@ -167,7 +180,7 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
         listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
-        final Drawable drawable = getResources().getDrawable(R.drawable.ic_action_refresh);
+        final Drawable drawable = getResources().getDrawable(R.drawable.outline_refresh_white_24);
 
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
@@ -182,7 +195,7 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
                 }
 
                 if (!notificationInfoList.isEmpty())
-                    notificationInfoList.add(new NotificationInfo(REFRESH, "", drawable, "", "0"));
+                    notificationInfoList.add(new NotificationInfo(REFRESH, "Reload items", drawable, "", "0"));
 
                 sortNotifications(notificationInfoList);
                 WearNotificationsFragment.this.notificationInfoList = notificationInfoList;
@@ -216,10 +229,6 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
                     }
                 });
 
-        listView.setLongClickable(true);
-        listView.setGreedyTouchMode(true);
-        listView.addOnScrollListener(mOnScrollListener);
-        listView.setClickListener(this);
     }
 
     private void showNotification(final int itemChosen) {
@@ -238,6 +247,24 @@ public class WearNotificationsFragment extends Fragment implements WearableListV
 
         mContext.startActivity(intent);
 
+    }
+
+    private void deleteNotification(final int itemChosen) {
+
+        final String key = notificationInfoList.get(itemChosen).getKey();
+
+        Log.d(Constants.TAG, "WearNotificationsFragment deleteNotification key: " + key);
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getResources().getString(R.string.delete))
+                .setMessage(getResources().getString(R.string.confirmation))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        NotificationStore.removeCustomNotification(key);
+                        loadNotifications();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
 
     }
 

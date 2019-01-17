@@ -27,6 +27,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "phone_connection_alert_standard_notification";
     public static final String DEFAULT_LOCALE = "default_locale";
     public static final String DISABLE_DELAY = "disable_reply_delay";
+    public static final String AMAZMOD_FIRST_WIDGET = "amazmod_first_widget";
 
     private String replies;
     private int vibration;
@@ -44,6 +45,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean phoneConnectionAlertStandardNotification;
     private String defaultLocale;
     private boolean disableDelay;
+    private boolean amazModFirstWidget;
 
     public SettingsData() {
     }
@@ -65,6 +67,7 @@ public class SettingsData extends Transportable implements Parcelable {
         phoneConnectionAlertStandardNotification = in.readByte() != 0;
         defaultLocale = in.readString();
         disableDelay = in.readByte() != 0;
+        amazModFirstWidget = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -97,6 +100,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, phoneConnectionAlertStandardNotification);
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
+        dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
 
         return dataBundle;
     }
@@ -120,6 +124,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setPhoneConnectionAlertStandardNotification(dataBundle.getBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION));
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
+        settingsData.setAmazModFirstWidget(dataBundle.getBoolean(AMAZMOD_FIRST_WIDGET));
 
         return settingsData;
     }
@@ -219,6 +224,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.disableDelay = disableDelay;
     }
 
+    public boolean isAmazModFirstWidget() {
+        return amazModFirstWidget;
+    }
+
+    public void setAmazModFirstWidget(boolean amazModFirstWidget) {
+        this.amazModFirstWidget = amazModFirstWidget;
+    }
+
     public int getShakeToDismissGravity() {
         return shakeToDismissGravity;
     }
@@ -282,5 +295,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (phoneConnectionAlertStandardNotification ? 1 : 0));
         dest.writeString(defaultLocale);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
+        dest.writeByte((byte) (amazModFirstWidget ? 1 : 0));
     }
 }

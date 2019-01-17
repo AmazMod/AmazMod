@@ -16,6 +16,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.adapters.GridViewPagerAdapter;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
+import com.amazmod.service.ui.fragments.WearFilesFragment;
 import com.amazmod.service.ui.fragments.WearFlashlightFragment;
 import com.amazmod.service.ui.fragments.WearInfoFragment;
 import com.amazmod.service.ui.fragments.WearMenuFragment;
@@ -43,6 +44,7 @@ public class LauncherWearGridActivity extends Activity {
     public static final char INFO = 'I';
     public static final char FLASHLIGHT = 'F';
     public static final char NOTIFICATIONS = 'N';
+    public static final char FILES = 'B';
     public static final char NULL = 'X';
 
     @Override
@@ -70,7 +72,7 @@ public class LauncherWearGridActivity extends Activity {
         clearBackStack();
 
         final Intent intent = getIntent();
-        final char mode = intent.getCharExtra(MODE, 'N');
+        final char mode = intent.getCharExtra(MODE, 'S');
 
         Log.d(Constants.TAG, "LauncherWearGridActivity mode: " + mode);
 
@@ -95,6 +97,10 @@ public class LauncherWearGridActivity extends Activity {
 
             case NOTIFICATIONS:
                 fragList.add(WearNotificationsFragment.newInstance());
+                break;
+
+            case FILES:
+                fragList.add(WearFilesFragment.newInstance());
                 break;
 
             case NULL:

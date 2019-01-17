@@ -35,7 +35,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.DeviceDefault">
+        android:theme="@android:style/Theme.DeviceDefault"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <uses-library android:name="com.google.android.wearable" android:required="false" />
         <meta-data android:name="com.google.android.wearable.standalone" android:value="true" />
@@ -75,13 +76,14 @@
             android:exported="true"
             android:label=""
             android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
+            android:theme="@style/Theme.NoSwipeToDismiss">
+        </activity>
         <activity android:name=".ui.DummyActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
+            android:theme="@style/Theme.NoSwipeToDismiss" />
         <activity android:name=".springboard.WearGridActivity"
             android:allowEmbedded="true"
             android:exported="true"
@@ -95,17 +97,41 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".springboard.LauncherWearGridActivity"
+            android:icon="@drawable/amazmod"
             android:allowEmbedded="true"
             android:exported="true"
-            android:label=""
+            android:label="AmazMod"
             android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".springboard.WidgetsReorderActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".ui.ScreenSettingsActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent"/>
+        <activity android:name=".ui.BatteryGraphActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
+        <activity android:name=".ui.FileViewerWebViewActivity"
+            android:allowEmbedded="true"
+            android:exported="true"
+            android:label=""
+            android:taskAffinity=""
+            android:theme="@style/Theme.Transparent" />
         <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
 
         <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
@@ -119,6 +145,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </service>
+
+        <service android:name=".support.BatteryJobService"
+            android:label="AmazModBatteryJobService"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver android:name=".PackageReceiver"
             android:enabled="true"

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="ltr"
+    android:id="@android:id/text1"
+    style="?android:attr/spinnerItemStyle"
+    android:singleLine="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:ellipsize="marquee"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:layout_gravity="center"
+    android:textColor="#FFFFFFFF"
+    android:textSize="18dp"
+    tools:text="Text 01"
+    tools:ignore="SpUsage" />

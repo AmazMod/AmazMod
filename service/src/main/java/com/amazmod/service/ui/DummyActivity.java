@@ -13,6 +13,7 @@ import android.support.wearable.view.DelayedConfirmationView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amazmod.service.AdminReceiver;
@@ -29,6 +30,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
     private DelayedConfirmationView delayedConfirmationView;
 
     private TextView installFinishedText, restartText;
+    private ImageView closeButton;
     private String paramText, appTag, continueText;
 
     @Override
@@ -69,6 +71,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
             rootLayout = findViewById(R.id.install_root_layout);
             installFinishedText = findViewById(R.id.install_finished_text);
             restartText = findViewById(R.id.restart_text);
+            closeButton = findViewById(R.id.close_button);
             delayedConfirmationView = findViewById(R.id.install_delayed_view);
             delayedConfirmationView.setTotalTimeMs(Integer.valueOf(paramTime) * 1000);
 
@@ -81,6 +84,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
             getWindow().addFlags(flags);
 
             delayedConfirmationView.setVisibility(View.GONE);
+            closeButton.setVisibility(View.GONE);
             startDelayedConfirmationView();
         } else
             finish();
@@ -98,7 +102,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
 
     @Override
     public void onTimerSelected(View v) {
-        Log.d(Constants.TAG,"DummyActivity RESULT_CANCELED");
+        Log.d(Constants.TAG,"DummyActivity onTimerSelected");
         v.setPressed(true);
         delayedConfirmationView.reset();
         ((DelayedConfirmationView) v).setListener(null);
@@ -107,7 +111,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
 
     @Override
     public void onTimerFinished(View v) {
-        Log.d(Constants.TAG,"DummyActivity RESULT_OK");
+        Log.d(Constants.TAG,"DummyActivity onTimerFinished");
         ((DelayedConfirmationView) v).setListener(null);
         final Intent intent = new Intent(this, ConfirmationActivity.class);
         intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);
@@ -116,6 +120,10 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
             if (appTag.equals(Constants.MY_APP) || appTag.equals(Constants.OTHER_APP)) {
                 Log.d(Constants.TAG, "DummyActivity onActivityResult restart launcher");
                 Runtime.getRuntime().exec("adb shell am force-stop com.huami.watch.launcher;exit");
+                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);
+                }
 
                 if (Constants.MY_APP.equals(appTag)) {
                     DevicePolicyManager mDPM = (DevicePolicyManager) this.getSystemService(Context.DEVICE_POLICY_SERVICE);

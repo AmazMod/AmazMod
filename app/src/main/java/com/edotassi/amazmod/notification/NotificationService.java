@@ -75,7 +75,8 @@ public class NotificationService extends NotificationListenerService {
     private static final long VOICE_INTERVAL = 5000L; //Five seconds
 
     private static final long JOB_INTERVAL = 5 * 1000L; //Five seconds
-    private static final long JOB_MAX_INTERVAL = 60 * 1000L; //1 minute
+    private static final long JOB_MAX_INTERVAL = 60000 * 1L; //1 minute
+    private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 5L; //5 minutes
     private static final long CUSTOMUI_LATENCY = 1350L;
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
@@ -93,6 +94,7 @@ public class NotificationService extends NotificationListenerService {
 
     private Map<String, String> notificationTimeGone;
     private Map<String, StatusBarNotification> notificationsAvailableToReply;
+    Hashtable<Integer, int[]> grouped_notifications = new Hashtable<>();
 
     private static long lastTimeNotificationArrived = 0;
     private static long lastTimeNotificationSent = 0;
@@ -124,6 +126,8 @@ public class NotificationService extends NotificationListenerService {
 
         startPersistentNotification();
 
+        //Cancel all pending jobs to keep service running, then schedule a new one
+        cancelPendingJobs(0);
         scheduleJob(0, 0, null);
 
 
@@ -264,8 +268,6 @@ public class NotificationService extends NotificationListenerService {
     }
 
     //Remove notification from watch if it was removed from phone
-    Hashtable<Integer, int[]> grouped_notifications = new Hashtable<Integer, int[]>();
-
     @Override
     public void onNotificationRemoved(final StatusBarNotification statusBarNotification) {
         if (statusBarNotification == null) {
@@ -281,8 +283,8 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (isPackageAllowed(statusBarNotification.getPackageName())
-                && (!NotificationCompat.isGroupSummary(statusBarNotification.getNotification()))
-                && (!((statusBarNotification.getNotification().flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT))) {
+                //&& (!NotificationCompat.isGroupSummary(statusBarNotification.getNotification()))
+                && ((statusBarNotification.getNotification().flags & Notification.FLAG_ONGOING_EVENT) != Notification.FLAG_ONGOING_EVENT)) {
 
             /*
             * Disabled while testing JobScheduler
@@ -295,7 +297,7 @@ public class NotificationService extends NotificationListenerService {
             DataBundle dataBundle = new DataBundle();
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
-            NotificationStore.addStandardNotification(statusBarNotification.getKey(), dataBundle);
+            NotificationStore.addRemovedNotification(statusBarNotification.getKey(), dataBundle);
             int id = NotificationJobService.NOTIFICATION_REMOVED;
             int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
 
@@ -328,7 +330,7 @@ public class NotificationService extends NotificationListenerService {
                             statusBarNotification.getPostTime());
                     dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
 
-                    NotificationStore.addStandardNotification(statusBarNotification.getKey(), dataBundle);
+                    NotificationStore.addRemovedNotification(statusBarNotification.getKey(), dataBundle);
 
                     scheduleJob(id, jobId, statusBarNotification.getKey());
 
@@ -514,14 +516,10 @@ public class NotificationService extends NotificationListenerService {
 
     private void scheduleJob(int id, int jobId, String key) {
 
-        PersistableBundle bundle = new PersistableBundle();
-        bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
-        bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
-
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
 
         if (jobId == 0) {
-            builder.setPeriodic(120 * 1000L);
+            builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
 
         } else {
             if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
@@ -530,12 +528,28 @@ public class NotificationService extends NotificationListenerService {
             else
                 builder.setMinimumLatency(0);
 
+            PersistableBundle bundle = new PersistableBundle();
+            bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
+            bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
+
             builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
             builder.setOverrideDeadline(JOB_MAX_INTERVAL);
             builder.setExtras(bundle);
         }
 
         jobScheduler.schedule(builder.build());
+    }
+
+    private void cancelPendingJobs(int id) {
+        List<JobInfo> jobInfoList = jobScheduler.getAllPendingJobs();
+        final int pendingJobs = jobInfoList.size();
+        Log.d(Constants.TAG, "NotificationService cancelPendingJobs pendingJobs: " + pendingJobs);
+        if (pendingJobs > 0)
+            for (JobInfo jobInfo : jobInfoList) {
+                Log.d(Constants.TAG, "NotificationService cancelPendingJobs jobInfo: " + jobInfo.toString());
+                if (jobInfo.getId() == id)
+                    jobScheduler.cancel(id);
+            }
     }
 
     private int getAudioManagerMode() {

@@ -163,7 +163,7 @@ public class WearInfoFragment extends Fragment {
         button.setMinHeight(24);
         button.setMinWidth(120);
         button.setText(getResources().getString(R.string.close));
-        button.setAllCaps(false);
+        button.setAllCaps(true);
         button.setTextColor(Color.parseColor("#000000"));
         button.setBackground(mContext.getDrawable(R.drawable.reply_grey));
     }

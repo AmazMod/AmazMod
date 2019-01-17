@@ -71,9 +71,7 @@ public class PackageReceiver extends BroadcastReceiver {
     private void showInstallConfirmation(Context context, String app_tag) {
         Intent intent = new Intent(context, DummyActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.APP_TAG, app_tag);
         context.startActivity(intent);
         Log.d(Constants.TAG, "PackageReceiver showInstallConfirmation app_tag: " + app_tag);

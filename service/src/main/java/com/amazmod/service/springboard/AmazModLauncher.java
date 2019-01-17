@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,21 +36,24 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.LauncherAppAdapter;
+import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.support.AppInfo;
+import com.amazmod.service.ui.BatteryGraphActivity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
@@ -60,14 +64,14 @@ import io.reactivex.schedulers.Schedulers;
 import static android.content.Context.POWER_SERVICE;
 import static android.content.Context.VIBRATOR_SERVICE;
 
-public class AmazModLauncher extends AbstractPlugin implements WearableListView.ClickListener {
+public class AmazModLauncher extends AbstractPlugin {
 
     private Context mContext;
     private View view, home;
     private boolean isActive = false;
     private ISpringBoardHostStub host = null;
 
-    private WidgetSettings settingsWidget;
+    private WidgetSettings widgetSettings;
 
     private WearableListView listView;
     private TextView battValueTV, unreadMessages, mHeader;
@@ -75,8 +79,10 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
     private CircledImageView keepAwake, wifiToggle;
 
     private List<AppInfo> appInfoList;
+    private List<String> appsList;
+    private List<MenuItems> items;
+    private List<String> hiddenAppsList;
     private LauncherAppAdapter mAdapter;
-    List<MenuItems> items;
 
     private static Intent intent;
     private static boolean isWakeLockEnabled = false;
@@ -85,13 +91,17 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
     private BroadcastReceiver receiverConnection, receiverSSID;
     private WifiManager wfmgr;
     private Vibrator vibrator;
-    private PowerManager powerManager;
-    private PowerManager.WakeLock wakeLock;
+    private PowerManager.WakeLock wakeLockDim, wakeLockScreenOn;
 
-    private static final String MANAGE_APPS = "MANAGE APPS";
+    private static final String MANAGE_APPS = "App Manager";
+    private static final String MANAGE_FILES = "File Manager";
+    private static final String MENU_ENTRY = "MENU ENTRY";
+    private static final String[] HIDDEN_APPS = {   "amazmod",
+                                                    "watchdroid",
+                                                    "watchface"};
 
     private String[] mItems = { "WiFiToggle",
-            "KeepAwake"};
+                                "KeepAwake"};
 
     private int[] mImagesOn = { R.drawable.baseline_wifi_white_24,
             R.drawable.ic_power_cycle_white_24dp};
@@ -104,16 +114,40 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
     public View getView(final Context paramContext) {
 
         this.mContext = paramContext;
-        Log.d(Constants.TAG, "AmazModLauncher getView mContext: " + mContext.toString()
-                + " / this: " + this.toString());
-
         mContext.startService(new Intent(paramContext, MainService.class));
+        Log.d(Constants.TAG, "AmazModLauncher getView mContext.getPackageName: " + mContext.getPackageName());
 
         this.view = LayoutInflater.from(mContext).inflate(R.layout.amazmod_launcher, null);
-        Log.d(Constants.TAG, "AmazModLauncher getView layout inflated");
+
+        //Initialize settings
+        widgetSettings = new WidgetSettings(Constants.TAG, mContext);
+
+        Log.d(Constants.TAG, "AmazModLauncher getView getting SystemServices");
+        wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+        vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
+        PowerManager powerManager = (PowerManager) mContext.getSystemService(POWER_SERVICE);
+        if (powerManager != null) {
+            wakeLockDim = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AmazeLauncher::KeepAwakeDim");
+            wakeLockScreenOn = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "AmazeLauncher::KeepAwakeScreenOn");
+        }
+
+        init();
+        checkConnection();
+        loadApps(false);
+
+        Log.d(Constants.TAG, "AmazModLauncher getView packagename: " + mContext.getPackageName()
+                + " filesDir: " + mContext.getFilesDir() + " cacheDir: " + mContext.getCacheDir());
+
+        return this.view;
+    }
+
+    private void init() {
+
+        Log.d(Constants.TAG, "AmazModLauncher init");
 
         TextView version = view.findViewById(R.id.launcher_version);
         ImageView imageView = view.findViewById(R.id.launcher_logo);
+        LinearLayout batteryLayout = view.findViewById(R.id.launcher_battery_layout);
         final CircledImageView flashLight = view.findViewById(R.id.launcher_setting_03);
         final CircledImageView settings = view.findViewById(R.id.launcher_setting_04);
         final CircledImageView messages = view.findViewById(R.id.launcher_messages);
@@ -134,15 +168,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         settings.setImageResource(R.drawable.outline_settings_white_24);
         messages.setImageResource(R.drawable.notify_icon_24);
 
-        Log.d(Constants.TAG, "AmazModLauncher getView getting SystemServices");
-
-        wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
-        vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
-        powerManager = (PowerManager) mContext.getSystemService(POWER_SERVICE);
-        if (powerManager != null)
-            wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AmazMod::KeepAwake");
-
-
+        hiddenAppsList = new ArrayList<>();
         items = new ArrayList<>();
         boolean state;
         for (int i=0; i<mItems.length; i++){
@@ -159,13 +185,8 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
             items.add(new MenuItems(mImagesOn[i], mImagesOff[i], mItems[i], state));
         }
 
-        checkConnection();
-        Log.d(Constants.TAG, "AmazModLauncher getView checkConnection");
-
         wifiToggle.setImageResource(items.get(0).state ? items.get(0).iconResOn : items.get(0).iconResOff);
         keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
-
-        loadApps();
 
         intent = new Intent(mContext, LauncherWearGridActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -180,7 +201,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    mContext.startActivity(launcherIntent);
+                mContext.startActivity(launcherIntent);
             }
         });
 
@@ -233,16 +254,36 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         keepAwake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isWakeLockEnabled || wakeLock.isHeld()) {
-                    wakeLock.release();
+                if (wakeLockDim.isHeld() || wakeLockScreenOn.isHeld()) {
+                    if (wakeLockDim.isHeld())
+                        wakeLockDim.release();
+                    if (wakeLockScreenOn.isHeld())
+                        wakeLockScreenOn.release();
+                    isWakeLockEnabled = false;
                     Toast.makeText(mContext, "KeepAwake: Disabled", Toast.LENGTH_SHORT).show();
                 } else {
-                    wakeLock.acquire(60*60*1000L /*1 hour*/);
-                    Toast.makeText(mContext, "KeepAwake: Enabled", Toast.LENGTH_SHORT).show();
+                    wakeLockDim.acquire(60*60*1000L /*1 hour*/);
+                    isWakeLockEnabled = true;
+                    Toast.makeText(mContext, "KeepAwake (Dim): Enabled", Toast.LENGTH_SHORT).show();
                 }
-                isWakeLockEnabled = !isWakeLockEnabled;
                 items.get(1).state = isWakeLockEnabled;
                 keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
+            }
+        });
+
+        keepAwake.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                if (!wakeLockScreenOn.isHeld()) {
+                    wakeLockScreenOn.acquire(60*60*1000L /*1 hour*/);
+                    isWakeLockEnabled = true;
+                    Toast.makeText(mContext, "KeepAwake (ScreenOn): Enabled", Toast.LENGTH_SHORT).show();
+                    items.get(1).state = isWakeLockEnabled;
+                    keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
+                }
+
+                return true;
             }
         });
 
@@ -258,22 +299,41 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
             @Override
             public boolean onLongClick(View v) {
                 Toast.makeText(mContext, "Reloading Apps…", Toast.LENGTH_SHORT).show();
-                loadApps();
+                widgetSettings.set(Constants.PREF_HIDDEN_APPS, "[]");
+                loadApps(false);
                 return true;
             }
         });
 
-        //Initialize settings
-        settingsWidget = new WidgetSettings(Constants.TAG, mContext);
+        batteryLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent batteryGrapshIntent = new Intent(mContext, BatteryGraphActivity.class);
+                batteryGrapshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(batteryGrapshIntent);
+                return true;
+            }
+        });
 
-        Log.d(Constants.TAG, "AmazModLauncher getView packagename: " + mContext.getPackageName()
-                + " filesDir: " + mContext.getFilesDir() + " cacheDir: " + mContext.getCacheDir());
+        listView.addOnItemTouchListener(new RecyclerTouchListener(mContext, listView, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Log.d(Constants.TAG, "AmazModLauncher init addOnItemTouchListener onClick");
+                onItemClick(position);
+            }
 
-        return this.view;
+            @Override
+            public void onLongClick(View view, int position) {
+                Log.d(Constants.TAG, "AmazModLauncher init addOnItemTouchListener onLongClick");
+                onItemLongClick(position);
+            }
+        }));
     }
 
     private void updateCharge() {
 
+        widgetSettings.reload();
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = mContext.registerReceiver(null, ifilter);
 
@@ -288,6 +348,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
             if (battery != 0) {
                 String battlvl = Integer.toString(battery) + "%";
                 battValueTV.setText(battlvl);
+                widgetSettings.set(Constants.PREF_BATT_LEVEL, battlvl);
             } else {
                 battValueTV.setText("N/A%");
             }
@@ -316,7 +377,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
                 if (i == 0)
                     state = wfmgr.isWifiEnabled();
                 else {
-                    isWakeLockEnabled = wakeLock.isHeld();
+                    isWakeLockEnabled = wakeLockDim.isHeld() || wakeLockScreenOn.isHeld();
                     state = isWakeLockEnabled;
                 }
             } catch (NullPointerException e) {
@@ -354,31 +415,36 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
 
     private void checkApps() {
         Log.d(Constants.TAG, "AmazModLauncher checkApps");
-        //if (settingsWidget.hasKey(WidgetSettings.APP_DELETED) || settingsWidget.hasKey("ADDEDX")) {
-            Iterator<String> iter = settingsWidget.getData().keys();
-            while (iter.hasNext()) {
-                String key = iter.next();
-                Object value = settingsWidget.get(key);
-                Log.d(Constants.TAG, "AmazModLauncher checkApps key: " + key + " value: " + value);
-                if (key.contains("DELETEDX")){
-                    final int del = appInfoList.indexOf(value);
-                    if (del > 0)
-                        Log.d(Constants.TAG, "AmazModLauncher checkApps value: " + value + "appDeleted: "
-                                + appInfoList.get(del).getPackageName());
-                    settingsWidget.getData().remove("DELETEDX");
-                } else if (key.contains("ADDEDX")){
-                    loadApps();
-                    settingsWidget.getData().remove("ADDEDX");
+        if (widgetSettings.reload()) {
+            if (widgetSettings.hasKey(Constants.DELETED_APP) || widgetSettings.hasKey(Constants.ADDED_APP)) {
+                Iterator<String> iterator = widgetSettings.getData().keys();
+                boolean forceLoadApps = false;
+                boolean updateHiddenApps = false;
+                while (iterator.hasNext()) {
+                    String key = iterator.next();
+                    Object value = widgetSettings.get(key);
+                    if (Constants.DELETED_APP.equals(key) || Constants.ADDED_APP.equals(key)) {
+                        Log.d(Constants.TAG, "AmazModLauncher checkApps key: " + key + " value: " + value);
+                        if (Constants.DELETED_APP.equals(key))
+                            updateHiddenApps = true;
+                        forceLoadApps = true;
+                        widgetSettings.getData().remove(key);
+                        widgetSettings.save();
+                    }
                 }
+                if (forceLoadApps)
+                    loadApps(updateHiddenApps);
             }
-        //}
+        }
     }
 
     @SuppressLint("CheckResult")
-    private void loadApps() {
+    private void loadApps(boolean updateHiddenApps) {
         Log.i(Constants.TAG,"AmazModLauncher loadApps");
 
-        final Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_action_select_all);
+        loadHiddenApps(updateHiddenApps);
+        final Drawable appsDrawable = mContext.getResources().getDrawable(R.drawable.ic_action_select_all);
+        final Drawable filesDrawable = mContext.getResources().getDrawable(R.drawable.outline_folder_white_24);
 
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
@@ -391,18 +457,19 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
                 for (PackageInfo packageInfo : packageInfoList) {
 
                     boolean isSystemApp = (packageInfo.applicationInfo.flags & (ApplicationInfo.FLAG_UPDATED_SYSTEM_APP | ApplicationInfo.FLAG_SYSTEM)) > 0;
-                    if  (!isSystemApp && (!packageInfo.packageName.contains("amazmod")) && (!packageInfo.packageName.contains("watchdroid"))
-                            && (!packageInfo.packageName.contains("watchface"))) {
+                    if  (!isSystemApp && (!isHiddenApp(packageInfo.packageName))) {
                         AppInfo appInfo = createAppInfo(packageInfo);
                         appInfoList.add(appInfo);
                     }
                 }
 
                 sortAppInfo(appInfoList);
-
-                AppInfo close = new AppInfo(MANAGE_APPS, "", "", "0", drawable);
-                appInfoList.add(close);
+                AppInfo appInfo = new AppInfo(MANAGE_FILES, "", MENU_ENTRY, "0", filesDrawable);
+                appInfoList.add(appInfo);
+                appInfo = new AppInfo(MANAGE_APPS, "", MENU_ENTRY, "0", appsDrawable);
+                appInfoList.add(appInfo);
                 AmazModLauncher.this.appInfoList = appInfoList;
+                AmazModLauncher.this.appsList = appsList;
                 return appInfoList;
             }
         }).subscribeOn(Schedulers.computation())
@@ -423,8 +490,21 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
 
         listView.setLongClickable(true);
         listView.setGreedyTouchMode(true);
-        listView.setClickListener(this);
         listView.addOnScrollListener(mOnScrollListener);
+    }
+
+    private boolean isHiddenApp(String packageName) {
+
+        boolean result = false;
+        if (StringUtils.indexOfAny(packageName, HIDDEN_APPS) >= 0)
+            result = true;
+        else {
+            if (hiddenAppsList.contains(packageName))
+                result = true;
+        }
+
+        Log.i(Constants.TAG, "AmazModLauncher isHiddenApp packageName: " + packageName + " \\ result: " + result);
+        return result;
     }
 
     private void sortAppInfo(List<AppInfo> appInfoList) {
@@ -503,31 +583,85 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
         mContext.registerReceiver(receiverSSID, intentFilter);
     }
 
-    @Override
-    public void onTopEmptyRegionClick() {
-        //Prevent NullPointerException
-        //Toast.makeText(this, "Top empty area tapped", Toast.LENGTH_SHORT).show();
-    }
+    private void onItemClick(final int itemChosen) {
 
-    @Override
-    public void onClick(WearableListView.ViewHolder viewHolder) {
-
-        final int itemChosen = viewHolder.getPosition();
         final String name = appInfoList.get(itemChosen).getAppName();
-        Log.i(Constants.TAG,"AmazModLauncher onClick itemChosen: " + itemChosen);
+        final String version = appInfoList.get(itemChosen).getVersionName();
+        //Log.d(Constants.TAG,"AmazModLauncher onClick itemChosen: " + itemChosen);
 
         Toast.makeText(mContext, "Opening: " + appInfoList.get(itemChosen).getAppName(), Toast.LENGTH_SHORT).show();
 
-        if (MANAGE_APPS.equals(name)) {
+        if (MANAGE_APPS.equals(name) && MENU_ENTRY.equals(version)) {
+
             intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.APPS);
             mContext.startActivity(intent);
+
+        } else if (MANAGE_FILES.equals(name) && MENU_ENTRY.equals(version)) {
+
+            intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.FILES);
+            mContext.startActivity(intent);
+
         } else {
+
             Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage(appInfoList.get(itemChosen).getPackageName());
-            if (launchIntent != null) {
+            if (launchIntent != null)
                 mContext.startActivity(launchIntent);
-            }
+
         }
 
+    }
+
+    private void onItemLongClick(final int itemChosen) {
+
+        Log.d(Constants.TAG, "AmazModLauncher onItemLongClick itemChosen: " + itemChosen);
+
+        String packageName = appInfoList.get(itemChosen).getPackageName();
+        String name = appInfoList.get(itemChosen).getAppName();
+        String version = appInfoList.get(itemChosen).getVersionName();
+
+        if (!(MANAGE_APPS.equals(name) && MENU_ENTRY.equals(version))
+                && !(MANAGE_FILES.equals(name) && MENU_ENTRY.equals(version))) {
+            hiddenAppsList.add(packageName);
+            Collections.sort(hiddenAppsList);
+            String pref = new Gson().toJson(hiddenAppsList);
+            widgetSettings.set(Constants.PREF_HIDDEN_APPS, pref);
+            Toast.makeText(mContext, appInfoList.get(itemChosen).getAppName() + " hidden!", Toast.LENGTH_SHORT).show();
+            //refreshList();
+            appInfoList.remove(itemChosen);
+            mAdapter.notifyDataSetChanged();
+        }
+
+    }
+
+    private void loadHiddenApps(boolean update) {
+        if (widgetSettings.reload()) {
+            String hiddenAppsJson = widgetSettings.get(Constants.PREF_HIDDEN_APPS, "[]");
+            boolean save = false;
+            try {
+                Type listType = new TypeToken<List<String>>() {
+                }.getType();
+                hiddenAppsList = new Gson().fromJson(hiddenAppsJson, listType);
+                if (hiddenAppsList.isEmpty())
+                        return;
+                if (update && (!appInfoList.isEmpty())) {
+                    for (Object value : hiddenAppsList) {
+                        final int del = appInfoList.indexOf(value);
+                        if (del < 0) {
+                            Log.d(Constants.TAG, "AmazModLauncher loadHiddenApps remove: " + value);
+                            hiddenAppsList.remove(value);
+                            save = true;
+                        }
+                    }
+                    if (save) {
+                        String pref = new Gson().toJson(hiddenAppsList);
+                        widgetSettings.set(Constants.PREF_HIDDEN_APPS, pref);
+                        widgetSettings.save();
+                    }
+                }
+            } catch (Exception ex) {
+                Log.e(Constants.TAG, "AmazModLauncher loadHiddenApps exception: " + ex.toString(), ex);
+            }
+        }
     }
 
     // The following code ensures that the title scrolls as the user scrolls up
@@ -574,7 +708,7 @@ public class AmazModLauncher extends AbstractPlugin implements WearableListView.
     private void onHide() {
         // Save state
         this.isActive = false;
-        //Log.d(Constants.TAG, "AmazModPage onHide");
+        //Log.d(Constants.TAG, "AmazModLauncher onHide");
     }
 
     @Override

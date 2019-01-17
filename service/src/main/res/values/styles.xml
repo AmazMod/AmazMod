@@ -25,4 +25,8 @@
         <item name="android:windowIsFloating">false</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="Theme.NoSwipeToDismiss" parent="Theme.Transparent">
+        <item name="android:windowSwipeToDismiss">false</item>
+    </style>
 </resources>

@@ -20,8 +20,12 @@
     <string name="clear_data">Clear Data</string>
     <string name="uninstall">Uninstall</string>
     <string name="clear_app_data">Clear App Data</string>
+    <string name="install_app">Install App</string>
+    <string name="delete">Delete</string>
     <string name="confirmation">Are you sure?</string>
     <string name="input_methods">Input Methods</string>
+    <string name="root">Int. Storage</string>
+    <string name="go_up">Go up</string>
     <string name="phone_disconnected">Phone disconnected</string>
     <string name="phone_connected">Phone connected</string>
     <string name="phone_connection_alert">Connection Alert</string>

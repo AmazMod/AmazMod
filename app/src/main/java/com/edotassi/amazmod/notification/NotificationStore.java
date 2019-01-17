@@ -11,12 +11,14 @@ import amazmod.com.transport.data.NotificationData;
 
 public class NotificationStore {
 
-    private static Map<String, DataBundle> standardNotifications;
-    private static Map<String, NotificationData> customNotifications;
-    private static Map<String, Bundle> notificationsBundle;
+    public static Map<String, DataBundle> standardNotifications;
+    public static Map<String, DataBundle> removedNotifications;
+    public static Map<String, NotificationData> customNotifications;
+    public static Map<String, Bundle> notificationsBundle;
 
     NotificationStore() {
         standardNotifications = new HashMap<>();
+        removedNotifications = new HashMap<>();
         customNotifications = new HashMap<>();
         notificationsBundle= new HashMap<>();
     }
@@ -35,6 +37,22 @@ public class NotificationStore {
 
     public static void removeStandardNotification(String key) {
         standardNotifications.remove(key);
+    }
+
+    public static DataBundle getRemovedNotification(String key) {
+        return removedNotifications.get(key);
+    }
+
+    public static int getRemovedNotificationCount() {
+        return removedNotifications.size();
+    }
+
+    public static void addRemovedNotification(String key, DataBundle dataBundle) {
+        removedNotifications.put(key, dataBundle);
+    }
+
+    public static void removeRemovedNotification(String key) {
+        removedNotifications.remove(key);
     }
 
     public static NotificationData getCustomNotification(String key) {

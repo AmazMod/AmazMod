@@ -8,4 +8,9 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <color name="text">#eeeeee</color>
+    <color name="semitransparent">#bbffffff</color>
+    <!-- Battery Chart colors -->
+    <color name="colorGraph">#eeeeee</color>
+    <color name="colorCharging">#00E676</color>
+    <color name="colorPrediction">#e6000f</color>
 </resources>

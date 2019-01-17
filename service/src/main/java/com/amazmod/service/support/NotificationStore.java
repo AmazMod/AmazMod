@@ -31,19 +31,31 @@ public class NotificationStore {
     }
 
     public static String getKey(String key) {
-        return customNotifications.get(key).getKey();
+        if (customNotifications.get(key) == null)
+            return null;
+        else
+            return customNotifications.get(key).getKey();
     }
 
     public static Boolean getHideReplies(String key) {
-        return customNotifications.get(key).getHideReplies();
+        if (customNotifications.get(key) == null)
+            return true;
+        else
+            return customNotifications.get(key).getHideReplies();
     }
 
     public static Boolean getForceCustom(String key) {
-        return customNotifications.get(key).getForceCustom();
+        if (customNotifications.get(key) == null)
+            return true;
+        else
+            return customNotifications.get(key).getForceCustom();
     }
 
     public static int getTimeoutRelock(String key) {
-        return customNotifications.get(key).getTimeoutRelock();
+        if (customNotifications.get(key) == null)
+            return 0;
+        else
+            return customNotifications.get(key).getTimeoutRelock();
     }
 
     public static String getTitle(String key) {

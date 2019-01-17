@@ -29,6 +29,8 @@ public class Constants {
     public static final String PREF_DATE_LAST_CHARGE = "pref_battery_date_last_charge";
     public static final String PREF_BATT_LEVEL = "pref_battery_level";
     public static final String PREF_BATT_ICON_ID = "pref_battery_icon_ID";
+    public static final String PREF_DATE_LAST_BATTERY_SYNC = "pref_battery_date_last_sync";
+    public static final String PREF_NOTIFICATIONS_SCREEN_ON = "pref_notifications_screen_on";
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "pref_notifications_inverted_theme";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "pref_notifications_font_size";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "pref_notification_screenon";
@@ -37,8 +39,10 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT = "pref_phone_connection_alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
     public static final String PREF_DISABLE_DELAY = "pref_notification_delay";
-    public static final String PREF_CUSTOMUI_RUNNING = "pref_customui_running";
-    public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
+    public static final String PREF_AMAZMOD_FIRST_WIDGET = "pref_amazmod_first_widget";
+    public static final String PREF_SPRINGBOARD_ORDER = "pref_springboard_order";
+    public static final String PREF_HIDDEN_APPS = "pref_hidden_apps";
+    public static final String PREF_BATTERY_GRAPH_DAYS = "pref_battery_graph_days";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
@@ -48,6 +52,7 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_DELAY = false;
+    public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
 
     public static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
     public static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
@@ -66,8 +71,14 @@ public class Constants {
     public static final String APP_TAG = "app_tag";
     public static final String MY_APP = "my_app";
     public static final String OTHER_APP = "other_app";
+    public static final String MODE = "mode";
+    public static final String INSTALL = "install";
+    public static final String DELETE = "delete";
+    public static final String NORMAL = "normal";
+    public static final String PKG = "package_name";
+    public static final String DELETED_APP = "deleted_app";
+    public static final String ADDED_APP = "added_app";
 
-    public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
     public static final int VIBRATION_SHORT = 100;
     public static final int VIBRATION_LONG = 700;
 }

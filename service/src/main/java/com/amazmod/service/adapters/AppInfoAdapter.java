@@ -16,8 +16,8 @@ import com.amazmod.service.support.AppInfo;
 import java.util.List;
 
 public class AppInfoAdapter extends WearableListView.Adapter {
-    private final List<AppInfo> items;
-    private final LayoutInflater mInflater;
+    private List<AppInfo> items;
+    private LayoutInflater mInflater;
 
     public AppInfoAdapter(Context context, List<AppInfo> items) {
         mInflater = LayoutInflater.from(context);
@@ -50,7 +50,7 @@ public class AppInfoAdapter extends WearableListView.Adapter {
         TextView appInfoAppName;
         TextView appInfoPackage;
 
-        public ItemViewHolder(View itemView) {
+        ItemViewHolder(View itemView) {
             super(itemView);
             appInfoIcon = itemView.findViewById(R.id.row_appinfo_icon);
             appInfoAppName = itemView.findViewById(R.id.row_appinfo_appname);
@@ -59,6 +59,8 @@ public class AppInfoAdapter extends WearableListView.Adapter {
     }
 
     public void clear() {
+        if (this.items == null)
+            return;
         int size = this.items.size();
         if (size > 0) {
             for (int i = 0; i < size; i++) {
@@ -66,6 +68,11 @@ public class AppInfoAdapter extends WearableListView.Adapter {
             }
             this.notifyItemRangeRemoved(0, size);
         }
+    }
+
+    public void addAll(List<AppInfo> items) {
+        this.items = items;
+        this.notifyDataSetChanged();
     }
 
 }

@@ -54,6 +54,7 @@ public class Constants {
     public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
     public static final String PREF_ENABLE_DEVELOPER_MODE = "preference.enable.developer.mode";
     public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
+    public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
     public static final String PREF_NOTIFICATIONS_DISABLE_LARGE_ICON = "preference.disable.notification.largeicon";
     public static final String PREF_NOTIFICATIONS_DISABLE_PICTURE = "preference.disable.notification.picture";
 
@@ -76,6 +77,7 @@ public class Constants {
     public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
     public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
+    public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
 
     public static final int REQUEST_CODE_INTRO = 1;
 

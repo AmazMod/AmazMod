@@ -97,7 +97,7 @@ public class NotificationService {
                         Log.d(Constants.TAG, "NotificationService2 notificationSpec.getKey(): " + key);
                         postWithStandardUI(notificationSpec, hideReplies);
                     }
-                } else if (key.equals("amazmod|test|9979")) {
+                } else if (key.contains("amazmod|test|9979")) {
                     Log.d(Constants.TAG, "NotificationService3 notificationSpec.getKey(): " + key);
                     postWithStandardUI(notificationSpec, hideReplies);
                 }
@@ -151,7 +151,7 @@ public class NotificationService {
                 .setExtras(bundle)
                 .setVibrate(new long[]{notificationData.getVibration()});
 
-        if (notificationData.getKey().equals("amazmod|test|9979")) {
+        if (notificationData.getKey().contains("amazmod|test|9979")) {
             if (notificationData.getText().equals(context.getResources().getString(R.string.phone_disconnected))) {
                 builder.setSmallIcon(R.drawable.ic_outline_phonelink_erase_inverted);
             } else if (notificationData.getText().equals(context.getResources().getString(R.string.phone_connected))) {

@@ -3,6 +3,8 @@ package com.amazmod.service.springboard;
 import android.content.Context;
 import android.util.Log;
 
+import com.amazmod.service.Constants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,7 +30,7 @@ public class WidgetSettings {
         // Get file info
         this.settings_file_name = tag + ".json";
         this.save_directory = context.getExternalFilesDir(null);
-        Log.d("AmazMod", "WidgetSettings: " + context + " \\ " + this.save_directory);
+        Log.d(Constants.TAG, "WidgetSettings: " + context + " \\ " + this.save_directory);
 
         // Load settings
         this.load();
@@ -47,12 +49,12 @@ public class WidgetSettings {
                     data.append('\n');
                 }
                 reader.close();
-                Log.d("AmazMod", "WidgetSettings load: " + data.toString());
+                Log.d(Constants.TAG, "WidgetSettings load: " + data.toString());
                 // Parse to json
                 this.data = new JSONObject(data.toString());
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("AmazMod", "WidgetSettings load exception: " + e.toString());
+                Log.e(Constants.TAG, "WidgetSettings load exception: " + e.toString());
                 if (this.data == null) {
                     this.data = new JSONObject();
                 }
@@ -63,23 +65,23 @@ public class WidgetSettings {
         }
     }
 
-    private void save() {
+    public void save() {
         File file = new File(this.save_directory, this.settings_file_name);
         try {
             FileWriter writer = new FileWriter(file);
             writer.write(this.data.toString());
-            Log.d("AmazMod", "WidgetSettings save: " + this.data.toString());
+            Log.d(Constants.TAG, "WidgetSettings save: " + this.data.toString());
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("AmazMod", "WidgetSettings save exception: " + e.toString());
+            Log.e(Constants.TAG, "WidgetSettings save exception: " + e.toString());
         }
     }
 
     // Force reload of data
     public boolean reload() {
         load();
-        return this.data.toString().isEmpty();
+        return (!this.data.toString().isEmpty());
     }
 
     // Data Getter methods
@@ -105,7 +107,7 @@ public class WidgetSettings {
 
     public long get(String key, long defvalue) {
         //this.load();
-        //Log.d("AmazMod", "WidgetSettings get lastChargeDate: " + key);
+        //Log.d(Constants.TAG, "WidgetSettings get lastChargeDate: " + key);
         return this.getLong(key, defvalue);
     }
 
@@ -115,7 +117,7 @@ public class WidgetSettings {
             value = this.data.getString(key);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d("AmazMod", "WidgetSettings getString exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings getString exception: " + e.toString());
         }
         return value;
     }
@@ -124,10 +126,10 @@ public class WidgetSettings {
         int value;
         try {
             value = this.data.getInt(key);
-            //Log.d("AmazMod", "WidgetSettings getInt: " + value);
+            //Log.d(Constants.TAG, "WidgetSettings getInt: " + value);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d("AmazMod", "WidgetSettings getInt exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings getInt exception: " + e.toString());
         }
         return value;
     }
@@ -138,7 +140,7 @@ public class WidgetSettings {
             value = this.data.getBoolean(key);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d("AmazMod", "WidgetSettings getBoolean exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings getBoolean exception: " + e.toString());
         }
         return value;
     }
@@ -147,10 +149,10 @@ public class WidgetSettings {
         long value;
         try {
             value = this.data.getLong(key);
-            //Log.d("AmazMod", "WidgetSettings getLong: " + value);
+            //Log.d(Constants.TAG, "WidgetSettings getLong: " + value);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d("AmazMod", "WidgetSettings getLong exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings getLong exception: " + e.toString());
         }
         return value;
     }
@@ -187,14 +189,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setString exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setString exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setString exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setString exception: " + e.toString());
             return false;
         }
         return true;
@@ -208,14 +210,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setInt exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setInt exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setInt exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setInt exception: " + e.toString());
             return false;
         }
         return true;
@@ -229,14 +231,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setBoolean exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setBoolean exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setBoolean exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setBoolean exception: " + e.toString());
             return false;
         }
         return true;
@@ -250,14 +252,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setLong exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setLong exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d("AmazMod", "WidgetSettings setLong exception: " + e.toString());
+            Log.d(Constants.TAG, "WidgetSettings setLong exception: " + e.toString());
             return false;
         }
         return true;

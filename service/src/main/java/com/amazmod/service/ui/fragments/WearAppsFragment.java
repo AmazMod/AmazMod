@@ -16,6 +16,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.RemoteException;
 import android.support.wearable.view.WearableListView;
 import android.text.format.Formatter;
@@ -172,7 +173,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
-        final Drawable drawable = getResources().getDrawable(R.drawable.ic_action_refresh);
+        final Drawable drawable = getResources().getDrawable(R.drawable.outline_refresh_white_24);
 
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
@@ -192,7 +193,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 }
 
                 sortAppInfo(appInfoList);
-                AppInfo close = new AppInfo(REFRESH, "", "", "0", drawable);
+                AppInfo close = new AppInfo(REFRESH, "Reload apps", "", "0", drawable);
                 appInfoList.add(close);
                 WearAppsFragment.this.appInfoList = appInfoList;
                 return appInfoList;
@@ -235,6 +236,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         setButtonTheme(buttonClose, getResources().getString(R.string.close));
         setButtonTheme(buttonClear, getResources().getString(R.string.clear_data));
         setButtonTheme(buttonUninstall, getResources().getString(R.string.uninstall));
+        listView.setGreedyTouchMode(false);
 
         final String pkgName = appInfoList.get(itemChosen).getPackageName();
         appChosen = itemChosen;
@@ -422,7 +424,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     public void clearPackage(Context context, String packageName) {
         Log.i(Constants.TAG,"WearAppsFragment clearPackage packageName: " + packageName);
 
-        final String command = String.format("adb shell pm clear %s;pm force-stop %s;exit", packageName, packageName);
+        final String command = String.format("pm force-stop %s;pm clear %s;exit", packageName, packageName);
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.clear_app_data))
@@ -447,9 +449,11 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     private void runCommand(String command) {
         Log.d(Constants.TAG, "WearAppsFragment runCommand: " + command);
-	    if (!command.isEmpty()) {
+
+        if (!command.isEmpty()) {
             try {
-                Runtime.getRuntime().exec(command);
+                Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
+                        null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
                 Log.e(Constants.TAG, "WearAppsFragment runCommand exception: " + e.toString());
             }
