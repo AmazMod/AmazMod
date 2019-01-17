@@ -37,6 +37,7 @@ public class SettingsManager {
         editor.putString(Constants.PREF_DEFAULT_LOCALE, settingsData.getDefaultLocale());
         editor.putBoolean(Constants.PREF_DISABLE_DELAY, settingsData.isDisableDelay());
         editor.putBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, settingsData.isAmazModFirstWidget());
+        editor.putBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, settingsData.isNotificationDeleteButton());
 
         editor.apply();
     }

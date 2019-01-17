@@ -43,6 +43,7 @@ public class Constants {
     public static final String PREF_SPRINGBOARD_ORDER = "pref_springboard_order";
     public static final String PREF_HIDDEN_APPS = "pref_hidden_apps";
     public static final String PREF_BATTERY_GRAPH_DAYS = "pref_battery_graph_days";
+    public static final String PREF_NOTIFICATION_DELETE_BUTTON = "notification_delete_button";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
@@ -53,6 +54,8 @@ public class Constants {
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_DELAY = false;
     public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
+    public static final boolean PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON = false;
+
 
     public static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
     public static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;

@@ -148,6 +148,9 @@ public class SettingsActivity extends AppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY);
         final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
+        final boolean notificationDeleteButton = Prefs.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON,
+                Constants.PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON);
+
 
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
@@ -177,6 +180,7 @@ public class SettingsActivity extends AppCompatActivity {
         settingsData.setDefaultLocale(Locale.getDefault().toString());
         settingsData.setDisableDelay(disableNotificationsDelay);
         settingsData.setAmazModFirstWidget(amazModFirstWidget);
+        settingsData.setNotificationDeleteButton(notificationDeleteButton);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override

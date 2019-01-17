@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings">
+    <PreferenceCategory android:title="@string/main_options">
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="preference.amazmod.first.widget"
+        android:title="@string/pref_amazmod_first_widget"
+        android:summary="@string/pref_amazmod_first_widget_summary"/>
+    </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/notifications_options">
         <SwitchPreference
@@ -46,7 +53,8 @@
             android:dependency="preference.disable.notifications"
             android:disableDependentsState="false"
             android:key="preference.notifications.enable.custom.ui"
-            android:summary="@string/pref_notifications_enable_custom_ui_summary"
+            android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
+            android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
             android:title="@string/pref_notifications_enable_custom_ui" />
     </PreferenceCategory>
 
@@ -59,6 +67,16 @@
                     android:key="preference.amazmodservice.enable.replies"
                     android:summary="@string/pref_disable_notifications_replies_summary"
                     android:title="@string/pref_disable_notifications_replies" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:disableDependentsState="true"
+            android:key="preference.amazmodservice.notification.enable.deletebutton"
+            android:title="@string/pref_enable_delete_button"
+            android:summaryOn="@string/pref_enable_delete_button_on"
+            android:summaryOff="@string/pref_enable_delete_button_off"/>
+
 
         <Preference
             android:dependency="preference.notifications.enable.custom.ui"
@@ -226,19 +244,15 @@
         -->
         <SwitchPreference
             android:defaultValue="true"
-            android:key="preference.amazmod.first.widget"
-            android:summary="@string/pref_amazmod_first_widget_summary"
-            android:title="@string/pref_amazmod_first_widget" />
-        <SwitchPreference
-            android:defaultValue="true"
             android:key="preference.enable.persistent.notification"
             android:summary="@string/pref_enable_persistent_notification_summary"
             android:title="@string/pref_enable_persistent_notification" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.update.notification"
-            android:summary="@string/pref_enable_update_notification_summary"
-            android:title="@string/pref_enable_update_notification" />
+            android:title="@string/pref_enable_update_notification"
+            android:summaryOn="@string/pref_enable_update_notification_on"
+            android:summaryOff="@string/pref_enable_update_notification_off"/>
         <SwitchPreference
             android:defaultValue="false"
             android:key="preference.force.english"

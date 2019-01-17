@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.FragmentUtil;
@@ -48,6 +49,7 @@ public class NotificationFragment extends Fragment {
     private boolean enableInvertedTheme;
     private Context mContext;
     private FragmentUtil util;
+    private SettingsManager settingsManager;
 
     @Override
     public void onAttach(Activity activity) {
@@ -63,6 +65,7 @@ public class NotificationFragment extends Fragment {
 
         key = getArguments().getString(NotificationWearActivity.KEY);
         mode = getArguments().getString(NotificationWearActivity.MODE);
+        settingsManager = new SettingsManager(this.mContext);
     }
 
     @Override
@@ -105,12 +108,17 @@ public class NotificationFragment extends Fragment {
         repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
         deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendDeleteCommand(v);
-            }
-        });
+        if (settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, false)) {
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendDeleteCommand(v);
+                }
+            });
+        }else {
+            deleteButton.setVisibility(View.GONE);
+        }
+
         //Load preferences
         boolean disableNotificationText = util.getDisableNotificationText();
         enableInvertedTheme = util.getInvertedTheme();

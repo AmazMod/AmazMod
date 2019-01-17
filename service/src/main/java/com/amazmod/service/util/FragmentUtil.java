@@ -73,6 +73,10 @@ public class FragmentUtil {
     }
 
 
+    public boolean getEnableDeleteButton(){
+        return settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, Constants.PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON);
+    }
+
     private String getDefaultLocaleSettings(){
         String locale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
         Log.i(Constants.TAG, "FragmentUtil defaultLocale: " + locale);

@@ -28,6 +28,8 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DEFAULT_LOCALE = "default_locale";
     public static final String DISABLE_DELAY = "disable_reply_delay";
     public static final String AMAZMOD_FIRST_WIDGET = "amazmod_first_widget";
+    public static final String NOTIFICATION_DELETE_BUTTON = "notification_delete_button";
+
 
     private String replies;
     private int vibration;
@@ -46,6 +48,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private String defaultLocale;
     private boolean disableDelay;
     private boolean amazModFirstWidget;
+    private boolean notificationDeleteButton;
 
     public SettingsData() {
     }
@@ -68,6 +71,7 @@ public class SettingsData extends Transportable implements Parcelable {
         defaultLocale = in.readString();
         disableDelay = in.readByte() != 0;
         amazModFirstWidget = in.readByte() != 0;
+        notificationDeleteButton = in.readByte() != 0;
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -101,6 +105,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
         dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
+        dataBundle.putBoolean(NOTIFICATION_DELETE_BUTTON, notificationDeleteButton);
 
         return dataBundle;
     }
@@ -125,6 +130,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
         settingsData.setAmazModFirstWidget(dataBundle.getBoolean(AMAZMOD_FIRST_WIDGET));
+        settingsData.setNotificationDeleteButton(dataBundle.getBoolean(NOTIFICATION_DELETE_BUTTON));
 
         return settingsData;
     }
@@ -232,6 +238,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.amazModFirstWidget = amazModFirstWidget;
     }
 
+    public boolean isNotificationDeleteButton() {
+        return notificationDeleteButton;
+    }
+
+    public void setNotificationDeleteButton(boolean notificationDeleteButton) {
+        this.notificationDeleteButton = notificationDeleteButton;
+    }
+
     public int getShakeToDismissGravity() {
         return shakeToDismissGravity;
     }
@@ -296,5 +310,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeString(defaultLocale);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
         dest.writeByte((byte) (amazModFirstWidget ? 1 : 0));
+        dest.writeByte((byte) (notificationDeleteButton ? 1 : 0));
     }
 }
