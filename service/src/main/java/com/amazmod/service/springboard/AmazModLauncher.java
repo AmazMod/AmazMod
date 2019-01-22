@@ -225,6 +225,8 @@ public class AmazModLauncher extends AbstractPlugin {
             @Override
             public boolean onLongClick(View v) {
                 refreshMessages(true);
+                Intent appList = new Intent("com.huami.watch.launcher.EXTERNAL_COMMAND.TO_APPLIST");
+                mContext.sendBroadcast(appList);
                 return true;
             }
         });
