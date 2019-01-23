@@ -1,13 +1,20 @@
 package com.edotassi.amazmod.receiver;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.SystemClock;
+import android.provider.CalendarContract;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -22,6 +29,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import amazmod.com.transport.data.WatchfaceData;
@@ -46,11 +54,13 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             // Get data
             int battery = getPhoneBattery(context);
             String alarm = getPhoneAlarm(context);
+            String calendar_events = getCalendarEvents(context);
 
             // Put data to bundle
             WatchfaceData watchfaceData = new WatchfaceData();
             watchfaceData.setBattery(battery);
             watchfaceData.setAlarm(alarm);
+            watchfaceData.setCalendarEvents(calendar_events);
 
             Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
                 @Override
@@ -211,5 +221,70 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
 
         return nextAlarm;
+    }
+
+    // CALENDAR EVENTS
+    public static final String[] EVENT_PROJECTION = new String[] {
+            CalendarContract.Events.TITLE,
+            CalendarContract.Events.DESCRIPTION,
+            CalendarContract.Events.DTSTART,
+            CalendarContract.Events.DTEND,
+            CalendarContract.Events.EVENT_LOCATION,
+            CalendarContract.Events.ACCOUNT_NAME
+    };
+
+    private String getCalendarEvents(Context context){
+        // Check if calendar read permission is granted
+        if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( Manifest.permission.READ_CALENDAR ) != PackageManager.PERMISSION_GRANTED ) {
+            return "permissions error";
+        }
+
+        // Run query
+        Cursor cur = null;
+        ContentResolver cr = context.getContentResolver();
+        Uri uri = CalendarContract.Events.CONTENT_URI;
+
+        // Date range to pick events
+        Calendar c_start= Calendar.getInstance();
+        Calendar c_end= Calendar.getInstance();
+        c_end.add(Calendar.DATE, 30);
+        String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + c_start.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + c_end.getTimeInMillis() + " ))";
+
+        // Submit the query and get a Cursor object back.
+        try {
+            cur = cr.query(uri, EVENT_PROJECTION, selection, null, null);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return "permissions error";
+        }
+
+        // Start formulating JSON
+        String jsonEvents = "{\"events\":[";
+
+        // Use the cursor to step through the returned records
+        while (cur.moveToNext()) {
+            // Get the field values
+            String title = cur.getString(0);
+            String description = cur.getString(1);
+            long start = cur.getLong(2);
+            long end = cur.getLong(3);
+            String location = cur.getString(4);
+            String account = cur.getString(5);
+
+            jsonEvents += "[ \""+title+"\", \""+description+"\", \""+start+"\", \""+end+"\", \""+location+"\", \""+account+"\"],";
+        }
+
+        // Remove last , from JSON
+        if ( jsonEvents.substring(jsonEvents.length() - 1).equals(",") ) {
+            jsonEvents = jsonEvents.substring(0, jsonEvents.length() - 1);
+        }
+        jsonEvents += "]}";
+
+        // Count events
+        int events = cur.getCount();
+        jsonEvents += "\n\n Counted: "+events;
+
+        cur.close();
+        return jsonEvents;
     }
 }

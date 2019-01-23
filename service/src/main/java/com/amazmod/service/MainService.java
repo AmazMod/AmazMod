@@ -379,10 +379,16 @@ public class MainService extends Service implements Transporter.DataListener {
     public void watchface(Watchface watchface) {
         WatchfaceData watchfaceData = WatchfaceData.fromDataBundle(watchface.getDataBundle());
 
+        // Data from phone
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
+        String calendarEvents = watchfaceData.getCalendarEvents();
         Log.d(Constants.TAG, "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
 
+        // Update Time
+        long updateTime = Calendar.getInstance().getTimeInMillis();
+
+        // Watchface data
         // Get already saved data
         String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
         if (data == null || data.equals("")) {
@@ -394,11 +400,28 @@ public class MainService extends Service implements Transporter.DataListener {
             JSONObject json_data = new JSONObject(data);
             json_data.put("phoneBattery", phoneBattery);
             json_data.put("phoneAlarm", phoneAlarm);
+            json_data.put("updateTime", updateTime);
 
             Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", json_data.toString());
         } catch (JSONException e) {
             //default
-            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\"}");
+            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\",\"updateTime\":"+updateTime+"}");
+        }
+
+        // Calendar data
+        if (calendarEvents == null || calendarEvents.equals("")) {
+            Settings.System.putString(context.getContentResolver(), "CustomCalendarData", "{}");//default
+        }else{
+            try {
+                // Check if correct form of JSON
+                JSONObject json_data = new JSONObject(calendarEvents);
+                json_data.put("updateTime", updateTime);
+                // Update data
+                Settings.System.putString(context.getContentResolver(), "CustomCalendarData", json_data.toString());
+            } catch (JSONException e) {
+                //default
+                Settings.System.putString(context.getContentResolver(), "CustomCalendarData", "{}");
+            }
         }
     }
 
