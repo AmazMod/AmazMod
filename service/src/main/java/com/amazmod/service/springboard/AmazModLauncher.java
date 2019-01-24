@@ -38,6 +38,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.adapters.LauncherAppAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.models.MenuItems;
+import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.BatteryGraphActivity;
 import com.google.gson.Gson;
@@ -72,6 +73,7 @@ public class AmazModLauncher extends AbstractPlugin {
     private ISpringBoardHostStub host = null;
 
     private WidgetSettings widgetSettings;
+    private SettingsManager settingsManager;
 
     private WearableListView listView;
     private TextView battValueTV, unreadMessages, mHeader;
@@ -120,6 +122,7 @@ public class AmazModLauncher extends AbstractPlugin {
         this.view = LayoutInflater.from(mContext).inflate(R.layout.amazmod_launcher, null);
 
         //Initialize settings
+        settingsManager = new SettingsManager(mContext);
         widgetSettings = new WidgetSettings(Constants.TAG, mContext);
 
         Log.d(Constants.TAG, "AmazModLauncher getView getting SystemServices");
@@ -201,7 +204,14 @@ public class AmazModLauncher extends AbstractPlugin {
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mContext.startActivity(launcherIntent);
+                boolean first_widget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
+                Log.d(Constants.TAG, "Amazmod is first widget: " + first_widget);
+                if (first_widget) {
+                    Intent appList = new Intent("com.huami.watch.launcher.EXTERNAL_COMMAND.TO_APPLIST");
+                    mContext.sendBroadcast(appList);
+                } else {
+                    mContext.startActivity(launcherIntent);
+                }
             }
         });
 
@@ -225,8 +235,6 @@ public class AmazModLauncher extends AbstractPlugin {
             @Override
             public boolean onLongClick(View v) {
                 refreshMessages(true);
-                Intent appList = new Intent("com.huami.watch.launcher.EXTERNAL_COMMAND.TO_APPLIST");
-                mContext.sendBroadcast(appList);
                 return true;
             }
         });
