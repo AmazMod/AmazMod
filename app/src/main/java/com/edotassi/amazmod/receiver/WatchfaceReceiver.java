@@ -252,7 +252,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         // Submit the query and get a Cursor object back.
         try {
-            cur = cr.query(uri, EVENT_PROJECTION, selection, null, null);
+            cur = cr.query(uri, EVENT_PROJECTION, selection, null, CalendarContract.Events.DTSTART+" ASC");
         } catch (SecurityException e) {
             e.printStackTrace();
             return "permissions error";
