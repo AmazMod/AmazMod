@@ -127,30 +127,6 @@
         </ScrollView>
     </android.support.wearable.view.WearableFrameLayout>
 
-    <Button
-        android:id="@+id/wear_apps_buttonLoad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:textAlignment="center"
-        tools:text="Button" />
-
-    <TextView
-        android:id="@+id/wear_apps_textView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="2dp"
-        android:textColor="#FFFFFFFF"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:gravity="center"
-        tools:text="Tap button to\nshow installed apps" />
-
     <ProgressBar
         android:id="@+id/wear_apps_loading_spinner"
         android:layout_width="wrap_content"

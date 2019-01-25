@@ -17,6 +17,9 @@ import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
 import com.amazmod.service.ui.fragments.WearMenuFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -56,10 +59,9 @@ public class WearGridActivity extends Activity {
         clearBackStack();
 
         GridViewPagerAdapter adapter;
-        final Fragment[] items = {
-                WearMenuFragment.newInstance(),
-                WearAppsFragment.newInstance()
-        };
+        List<Fragment> items = new ArrayList<Fragment>();
+        items.add(WearMenuFragment.newInstance());
+        items.add(WearAppsFragment.newInstance());
         adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), items);
 
         mGridViewPager.setAdapter(adapter);

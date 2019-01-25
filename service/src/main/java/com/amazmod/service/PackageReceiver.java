@@ -40,10 +40,11 @@ public class PackageReceiver extends BroadcastReceiver {
                         //Test for installation script in internal storage and execute it if any
                         final File script = new File("/sdcard/update_service_apk.sh");
                         if (script.exists()) {
-                            String command = String.format("busybox sh %s", script.getAbsolutePath());
+                            String command = String.format("log -pw -tAmazMod $(sh %s 2>&1)", script.getAbsolutePath());
                             Log.d(Constants.TAG, "PackageReceiver onReceive command: " + command);
                             try {
-                                Runtime.getRuntime().exec(command, null, Environment.getExternalStorageDirectory());
+                                Runtime.getRuntime().exec(new String[] { "sh", "-c", command },
+                                        null, Environment.getExternalStorageDirectory());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

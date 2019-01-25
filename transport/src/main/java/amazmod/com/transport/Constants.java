@@ -14,11 +14,12 @@ public class Constants {
     public static final String SCREENSHOT_DIRECTORY = "AmazMod/Screenshots";
     public static final byte MODE_DOWNLOAD = 'D';
     public static final byte MODE_SCREENSHOT = 'S';
+    public static final String BLOCK_APP = "999999";
 
     public static final String SHELL_COMMAND_INSTALL_APK = "install_apk %s";
     public static final String SHELL_COMMAND_REBOOT = "reboot";
     public static final String SHELL_COMMAND_FASTBOOT = "reboot bootloader";
-    public static final String SHELL_COMMAND_DPM = "adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver";
+    public static final String SHELL_COMMAND_DPM = "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver";
     public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
     public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "touch /sdcard/launcher_config.ini";
     public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "rm /sdcard/launcher_config.ini";
@@ -104,6 +105,8 @@ public class Constants {
     public static final byte FILTER_SCREENON = 'S';
     public static final byte FILTER_SCREENLOCKED = 'N';
     public static final byte FILTER_NOTIFICATIONS_DISABLED = 'D';
+    public static final byte FILTER_SILENCE = 'I';
+    public static final byte FILTER_TEXT = 'T';
 
     public static final String PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL = "preference.watchface.background.sync.interval";
     public static final String PREF_TIME_LAST_WATCHFACE_DATA_SYNC = "preference.time.last.watchface.data.sync";
@@ -115,6 +118,7 @@ public class Constants {
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = true;
+    public static final String PREF_NOTIFICATIONS_LOG_SHOW_ONLY_SELECTED = "preference.notifications.log.show.only.selected";
 
     public static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
     public static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;

@@ -2,6 +2,7 @@ package com.amazmod.service.ui;
 
 import android.app.Activity;
 import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInstaller;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.util.DeviceUtil;
@@ -119,9 +121,9 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
                     DevicePolicyManager mDPM = (DevicePolicyManager) this.getSystemService(Context.DEVICE_POLICY_SERVICE);
                     //Log.i(Constants.TAG, "PackageReceiver onReceive isDeviceOwnerApp: " + mDPM.isDeviceOwnerApp(context.getPackageName())
                     //        + " // getActiveAdmins: " + mDPM.getActiveAdmins());
-                    if (!(mDPM != null && mDPM.isDeviceOwnerApp(getPackageName()))) {
-                        Log.d(Constants.TAG, "DummyActivity onActivityResult set-device-owner");
-                        Runtime.getRuntime().exec("adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver;exit");
+                    if (!(mDPM != null && mDPM.isAdminActive(new ComponentName(this, AdminReceiver.class)))) {
+                        Log.d(Constants.TAG, "DummyActivity onActivityResult set-active-admin");
+                        Runtime.getRuntime().exec("adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit");
                     }
                 }
             } else if (appTag.contains(".apk")) {
@@ -130,6 +132,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
         } catch (IOException e) {
             Log.e(Constants.TAG, "DummyActivity onActivityResult IOException: " + e.toString());
         }
+
         finish();
     }
 

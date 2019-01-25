@@ -269,4 +269,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="file_uploader_author">Szerző: %s</string>
     <string name="file_uploader_label">Címke: %s</string>
     <string name="file_uploader_package">Csomag: %s</string>
+    <string name="notification_silenced">SILENCED</string>
+    <string name="ok">OK</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="cannot_be_undone">This cannot be undone.</string>
 </resources>

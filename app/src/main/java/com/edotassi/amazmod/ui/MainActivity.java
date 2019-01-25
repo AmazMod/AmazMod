@@ -1,8 +1,6 @@
 package com.edotassi.amazmod.ui;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.LayoutInflaterCompat;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,10 +26,10 @@ import amazmod.com.transport.Constants;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
-import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
+import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
@@ -45,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 
 import butterknife.ButterKnife;
 
@@ -54,10 +50,12 @@ public class MainActivity extends AppCompatActivity
 
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
+    private SilencedApplicationsFragment silencedApplicationsFragment = new SilencedApplicationsFragment();
 
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
+        add(silencedApplicationsFragment);
         add(watchInfoFragment);
     }};
 
@@ -131,12 +129,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         setupCards();
-
-        // Try to start NotificationService if it is not active
-        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
-        if (!packageNames.contains(this.getPackageName())) {
-            toggleNotificationService();
-        }
 
         Setup.run(getApplicationContext());
     }
@@ -296,11 +288,4 @@ public class MainActivity extends AppCompatActivity
                 .buildAndShowDialog(this, false);
     }
 
-    private void toggleNotificationService() {
-        Log.i(Constants.TAG, "MainActivity toggleNotificationService");
-        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-    }
 }
