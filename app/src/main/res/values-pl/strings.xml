@@ -283,9 +283,9 @@
     <string name="pref_amazmod_first_widget">Amazmod jako pierwszy widzet na zegarku</string>
     <string name="pref_amazmod_first_widget_summary">Amazmod nadal pierwszy widget zegarka</string>
     <string name="pref_enable_delete_button">Przycisk wył. powiadomienia</string>
-    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
-    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
-    <string name="activity_packageoptions_unmute">Unmute</string>
-    <string name="activity_packageoptions_muted_until">Muted Until:</string>
-    <string name="main_options">Main options</string>
+    <string name="pref_enable_delete_button_on">Przycisk skasuj wyświetli się poniżej powiadomień</string>
+    <string name="pref_enable_delete_button_off">Przycisk skasuj jest na 4 ekranie kiedy przesuwasz powiadomienia</string>
+    <string name="activity_packageoptions_unmute">Włącz dźwięk</string>
+    <string name="activity_packageoptions_muted_until">Wycisz do:</string>
+    <string name="main_options">Główne opcje</string>
 </resources>
