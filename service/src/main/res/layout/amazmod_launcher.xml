@@ -30,27 +30,28 @@
                     android:id="@+id/launcher_battery_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="55dp"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center_horizontal"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingTop="55dp">
 
-                <ImageView
-                    android:id="@+id/launcher_batt_icon"
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:contentDescription="@string/default_icon"
-                    app:srcCompat="@android:drawable/ic_lock_idle_low_battery" />
+                    <ImageView
+                        android:id="@+id/launcher_batt_icon"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:contentDescription="@string/default_icon"
+                        app:srcCompat="@android:drawable/ic_lock_idle_low_battery" />
 
-                <TextView
-                    android:id="@+id/launcher_batt_value"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="viewEnd"
-                    android:textColor="@android:color/white"
-                    tools:text="XXX%" />
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/launcher_batt_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@android:color/white"
+                        tools:text="XXX%" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/launcher_logo"
@@ -67,6 +68,14 @@
                     android:textColor="@android:color/white"
                     tools:text="XXXX" />
 
+                <View
+                    android:id="@+id/launcher_home"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true" />
             </LinearLayout>
 
             <View
@@ -230,7 +239,7 @@
                     app:circle_radius="@dimen/big_circle_radius_launcher" />
 
                 <View
-                    android:id="@+id/launcher_home"
+                    android:id="@+id/launcher_appmenu"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:clickable="true"
