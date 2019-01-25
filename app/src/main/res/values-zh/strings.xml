@@ -101,8 +101,9 @@
     <string name="pref_disable_notifications_replies">隐藏通知内容</string>
     <string name="pref_disable_notifications_when_screen_on_summary">当亮屏时禁用通知</string>
     <string name="pref_disable_notifications_when_screen_on">当亮屏时禁用</string>
-    <string name="pref_notifications_enable_custom_ui_summary">您将能够答复通知</string>
     <string name="pref_notifications_enable_custom_ui">启用自定义答复</string>
+    <string name="pref_notifications_enable_custom_ui_on">You will be able to reply to notifications</string>
+    <string name="pref_notifications_enable_custom_ui_off">You will receive standard notifications</string>
     <string name="pref_run_wizard">运行首次使用介绍</string>
     <string name="pref_run_wizard_summary">再次运行首次使用的欢迎介绍界面</string>
     <string name="pref_vibration_duration">振动持续时间</string>
@@ -255,7 +256,8 @@
     <string name="view_files">查看</string>
     <string name="delete_all">全部删除</string>
     <string name="pref_enable_update_notification">启用更新通知</string>
-    <string name="pref_enable_update_notification_summary">如果你不希望收到新版本通知，请禁用此选项</string>
+    <string name="pref_enable_update_notification_on">You WILL be notified when there is a new version of the service APK for watch</string>
+    <string name="pref_enable_update_notification_off">You WON\'T be notified when there is a new version of the service APK for watch</string>
     <string name="extract">解压</string>
     <string name="compress">压缩</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
@@ -268,8 +270,23 @@
     <string name="file_uploader_author">作者：%s</string>
     <string name="file_uploader_label">标签：%s</string>
     <string name="file_uploader_package">软件包：%s</string>
+    <string name="pref_notifications_disable_large_icon">不发送用户头像</string>
+    <string name="pref_notifications_disable_large_icon_summary">用户头像将不会在通知中显示。这将略微节省电量</string>
+    <string name="pref_notifications_disable_picture">不发送通知图片</string>
+    <string name="pref_notifications_disable_picture_summary">图片将不会在通知中显示。这将略微节省电量</string>
     <string name="notification_silenced">SILENCED</string>
+    <string name="notification_text_filter">Filter</string>
+    <string name="muted_apps">Muted Applications</string>
     <string name="ok">OK</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="show_only_selected">Show only allowed apps</string>
+    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
+    <string name="pref_amazmod_first_widget_summary">Amazmod will stay as first watch widget</string>
+    <string name="pref_enable_delete_button">Notification Delete Button</string>
+    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
+    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
+    <string name="activity_packageoptions_unmute">Unmute</string>
+    <string name="activity_packageoptions_muted_until">Muted Until:</string>
+    <string name="main_options">Main options</string>
 </resources>
