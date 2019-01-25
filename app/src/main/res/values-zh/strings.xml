@@ -101,7 +101,7 @@
     <string name="pref_disable_notifications_replies">隐藏通知内容</string>
     <string name="pref_disable_notifications_when_screen_on_summary">当亮屏时禁用通知</string>
     <string name="pref_disable_notifications_when_screen_on">当亮屏时禁用</string>
-    <string name="pref_notifications_enable_custom_ui_summary">您将能够答复通知</string>
+    <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
     <string name="pref_notifications_enable_custom_ui">启用自定义答复</string>
     <string name="pref_run_wizard">运行首次使用介绍</string>
     <string name="pref_run_wizard_summary">再次运行首次使用的欢迎介绍界面</string>
@@ -268,4 +268,8 @@
     <string name="file_uploader_author">作者：%s</string>
     <string name="file_uploader_label">标签：%s</string>
     <string name="file_uploader_package">软件包：%s</string>
+    <string name="pref_notifications_disable_large_icon">不发送用户头像</string>
+    <string name="pref_notifications_disable_large_icon_summary">用户头像将不会在通知中显示。这将略微节省电量</string>
+    <string name="pref_notifications_disable_picture">不发送通知图片</string>
+    <string name="pref_notifications_disable_picture_summary">图片将不会在通知中显示。这将略微节省电量</string>
 </resources>
