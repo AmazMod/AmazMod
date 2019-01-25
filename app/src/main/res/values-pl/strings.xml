@@ -5,7 +5,7 @@
     <string name="notifications">Wyślij powiadomienia</string>
     <string name="notifications_options">Ustawienia powiadomień</string>
     <string name="battery">Bateria</string>
-    <string name="customui">Custom replies</string>
+    <string name="customui">Inne powiadomienia</string>
     <string name="others">Inne</string>
     <string name="other">Inne</string>
     <string name="open">Włącz</string>
@@ -101,8 +101,8 @@
     <string name="pref_disable_notifications_replies">Ukryj zawartość powiadomienia</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Wyłącz powiadomienia, gdy ekran jest włączony</string>
     <string name="pref_disable_notifications_when_screen_on">Wyłącz kiedy ekran jest Włączony</string>
-    <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
-    <string name="pref_notifications_enable_custom_ui">Enable custom replies</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Będziesz mógł odpowiedzieć na powiadomienia</string>
+    <string name="pref_notifications_enable_custom_ui">Włącz inne odpowiedzi</string>
     <string name="pref_run_wizard">Uruchom Ekran Powitalny</string>
     <string name="pref_run_wizard_summary">Uruchom Ekran Powitalny ponownie</string>
     <string name="pref_vibration_duration">Czas trwania wibracji</string>
@@ -253,8 +253,8 @@
     <string name="file_upload_finished">Wgrywanie Zakończone Sukcesem</string>
     <string name="view_files">Wyświetl</string>
     <string name="delete_all">Usuń wszystko</string>
-    <string name="pref_enable_update_notification">Enable update notification</string>
-    <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service APK for watch</string>
+    <string name="pref_enable_update_notification">Włącz powiadomienia</string>
+    <string name="pref_enable_update_notification_summary">Wyłącz, jeśli nie chcesz być informowany o nowej wersji usługi dla zegarka</string>
     <string name="extract">Wyodrębnij</string>
     <string name="compress">Kompresuj</string>
     <string name="delete_folder_and_contents">\"%1$s\" jest folderem. Usunąć folder wraz z jego zawartością?</string>
@@ -271,13 +271,13 @@
     <string name="pref_notifications_disable_large_icon_summary">Awatary użytkowników nie będą wyświetlane. Pomaga zaoszczędzić baterię</string>
     <string name="pref_notifications_disable_picture">Nie wysyłaj ikon powiadomień</string>
     <string name="pref_notifications_disable_picture_summary">Ikony powiadomień nie będą wyświetlane. Pomaga zaoszczędzić baterię</string>
-    <string name="notification_silenced">SILENCED</string>
-    <string name="notification_text_filter">Filter</string>
-    <string name="silenced_apps">Silenced Applications</string>
+    <string name="notification_silenced">Wyciszenie</string>
+    <string name="notification_text_filter">Filtrowanie</string>
+    <string name="silenced_apps">Wyłącz aplikacje</string>
     <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
-    <string name="show_only_selected">Show only allowed apps</string>
-    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Always show Amazmod as first watch widget</string>
+    <string name="are_you_sure">Na pewno?</string>
+    <string name="cannot_be_undone">Tego nie można cofnąć.</string>
+    <string name="show_only_selected">Pokaż atywne aplikacje</string>
+    <string name="pref_amazmod_first_widget">Amazmod jako pierwszy widzet na zegarku</string>
+    <string name="pref_amazmod_first_widget_summary">Zawsze pokazuj Amazmod pierwszy widget zegarka</string>
 </resources>
