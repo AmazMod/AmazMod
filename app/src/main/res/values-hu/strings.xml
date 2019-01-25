@@ -101,8 +101,9 @@
     <string name="pref_disable_notifications_replies">Értesítés szöveg elrejtése</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Nem küld értesítést bekapcsolt telefon képernyőnél</string>
     <string name="pref_disable_notifications_when_screen_on">Kikapcsol, ha a képernyő BE</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Képes leszel válaszolni az értesítésekre</string>
     <string name="pref_notifications_enable_custom_ui">Egyéni válaszok engedélyezése</string>
+    <string name="pref_notifications_enable_custom_ui_on">You will be able to reply to notifications</string>
+    <string name="pref_notifications_enable_custom_ui_off">You will receive standard notifications</string>
     <string name="pref_run_wizard">Üdvözlő prezentáció</string>
     <string name="pref_run_wizard_summary">Az üdvözlő képernyő megtekintése ismét</string>
     <string name="pref_vibration_duration">Rezgés időtartam</string>
@@ -256,7 +257,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="view_files">Megtekint</string>
     <string name="delete_all">Mind törlése</string>
     <string name="pref_enable_update_notification">Frissítési értesítések bekapcsolása</string>
-    <string name="pref_enable_update_notification_summary">Kapcsold ki, mikor nem akarsz értesítést kapni, ha az órán a service apk egy új verziója van</string>
+    <string name="pref_enable_update_notification_on">You WILL be notified when there is a new version of the service APK for watch</string>
+    <string name="pref_enable_update_notification_off">You WON\'T be notified when there is a new version of the service APK for watch</string>
     <string name="extract">Kibont</string>
     <string name="compress">Tömörít</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
@@ -269,8 +271,23 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="file_uploader_author">Szerző: %s</string>
     <string name="file_uploader_label">Címke: %s</string>
     <string name="file_uploader_package">Csomag: %s</string>
+    <string name="pref_notifications_disable_large_icon">Ne küldjön avatart</string>
+    <string name="pref_notifications_disable_large_icon_summary">A felhasználói avatarok nem jelennek meg az értesítésben, ezzel energiát takarít meg</string>
+    <string name="pref_notifications_disable_picture">Ne küldjön értesítésben képeket</string>
+    <string name="pref_notifications_disable_picture_summary">A képek nem jelennek meg az értesítésben, ezzel energiát takarít meg</string>
     <string name="notification_silenced">SILENCED</string>
+    <string name="notification_text_filter">Filter</string>
+    <string name="muted_apps">Muted Applications</string>
     <string name="ok">OK</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="show_only_selected">Show only allowed apps</string>
+    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
+    <string name="pref_amazmod_first_widget_summary">Amazmod will stay as first watch widget</string>
+    <string name="pref_enable_delete_button">Notification Delete Button</string>
+    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
+    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
+    <string name="activity_packageoptions_unmute">Unmute</string>
+    <string name="activity_packageoptions_muted_until">Muted Until:</string>
+    <string name="main_options">Main options</string>
 </resources>
