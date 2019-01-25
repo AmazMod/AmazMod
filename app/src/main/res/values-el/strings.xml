@@ -101,8 +101,9 @@
     <string name="pref_disable_notifications_replies">Απόκρυψη ειδοποίησης</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Απενεργοποίηση των ειδοποιήσεων όταν η οθόνη είναι ανοιχτή</string>
     <string name="pref_disable_notifications_when_screen_on">Απενεργοποίηση όταν η οθόνη είναι ανοιχτή</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Θα μπορείτε να απαντήσετε σε ειδοποιήσεις</string>
     <string name="pref_notifications_enable_custom_ui">Ενεργοποίηση έτοιμων ειδοποιήσεων</string>
+    <string name="pref_notifications_enable_custom_ui_on">You will be able to reply to notifications</string>
+    <string name="pref_notifications_enable_custom_ui_off">You will receive standard notifications</string>
     <string name="pref_run_wizard">Εκτέλεση Παρουσίασης Καλωσορίσματος</string>
     <string name="pref_run_wizard_summary">Επανεκτέλεση της παρουσίασης καλωσορίσματος</string>
     <string name="pref_vibration_duration">Διάρκεια δόνησης</string>
@@ -211,7 +212,7 @@
     <string name="cant_send_shell_command">Η εντολή δεν μπορεί να σταλεί</string>
     <string name="install">Εγκατάσταση</string>
     <string name="apk_install_started_title">Εγκατάσταση APK</string>
-    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
+    <string name="apk_install_started">Η εγκατάσταση εκτελείται στο παρασκήνιο. \nΌταν ολοκληρωθεί, ο launcher θα επανεκκινηθεί.</string>
     <string name="cant_start_apk_install">Η εκκίνηση της εγκατάστασης του APK δεν είναι δυνατή</string>
     <string name="reboot">Επανεκκίνηση</string>
     <string name="restart_launcher">Κάντε επανεκκίνηση του launcher</string>
@@ -254,7 +255,8 @@
     <string name="view_files">Προβολή</string>
     <string name="delete_all">Διαγραφή όλων</string>
     <string name="pref_enable_update_notification">Ενεργοποίηση ειδοποιήσεων αναβάθμισης</string>
-    <string name="pref_enable_update_notification_summary">Απενεργοποίηση ειδοποιήσεων νέας έκδοσης του service APK για to ρολόι</string>
+    <string name="pref_enable_update_notification_on">You WILL be notified when there is a new version of the service APK for watch</string>
+    <string name="pref_enable_update_notification_off">You WON\'T be notified when there is a new version of the service APK for watch</string>
     <string name="extract">Εξαγωγή</string>
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
@@ -267,8 +269,23 @@
     <string name="file_uploader_author">Δημιουργός: %s</string>
     <string name="file_uploader_label">Ετικέτα: %s</string>
     <string name="file_uploader_package">Πακέτο: %s</string>
+    <string name="pref_notifications_disable_large_icon">Μη αποστολή avatar χρηστών</string>
+    <string name="pref_notifications_disable_large_icon_summary">Τα avatar χρηστών δεν θα εμφανίζονται στις ειδοποιήσεις. Αυτό θα μειώσει την κατανάλωση μπαταρίας</string>
+    <string name="pref_notifications_disable_picture">Μη αποστολή εικόνων ειδοποιήσεων</string>
+    <string name="pref_notifications_disable_picture_summary">Οι εικόνες δεν θα εμφανίζονται στις ειδοποιήσεις. Αυτό θα μειώσει την κατανάλωση μπαταρίας</string>
     <string name="notification_silenced">SILENCED</string>
+    <string name="notification_text_filter">Filter</string>
+    <string name="muted_apps">Muted Applications</string>
     <string name="ok">OK</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="show_only_selected">Show only allowed apps</string>
+    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
+    <string name="pref_amazmod_first_widget_summary">Amazmod will stay as first watch widget</string>
+    <string name="pref_enable_delete_button">Notification Delete Button</string>
+    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
+    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
+    <string name="activity_packageoptions_unmute">Unmute</string>
+    <string name="activity_packageoptions_muted_until">Muted Until:</string>
+    <string name="main_options">Main options</string>
 </resources>
