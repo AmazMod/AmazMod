@@ -279,15 +279,15 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="notification_text_filter">Filter</string>
     <string name="muted_apps">Muted Applications</string>
     <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
-    <string name="show_only_selected">Show only allowed apps</string>
-    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Amazmod will stay as first watch widget</string>
-    <string name="pref_enable_delete_button">Notification Delete Button</string>
-    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
-    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
-    <string name="activity_packageoptions_unmute">Unmute</string>
-    <string name="activity_packageoptions_muted_until">Muted Until:</string>
-    <string name="main_options">Main options</string>
+    <string name="are_you_sure">Jsi si jistý?</string>
+    <string name="cannot_be_undone">Tuto operaci nelze vrátit.</string>
+    <string name="show_only_selected">Zobrazit pouze povolené aplikace</string>
+    <string name="pref_amazmod_first_widget">Amazmod jako první Widget v hodinkách</string>
+    <string name="pref_amazmod_first_widget_summary">Amazmod zůstane jako první widget v hodinkách</string>
+    <string name="pref_enable_delete_button">Tlačítko Odstranit oznámení</string>
+    <string name="pref_enable_delete_button_on">Tlačítko Odstranit bude pod obsahem oznámení</string>
+    <string name="pref_enable_delete_button_off">Tlačítko Odstranit bude na 4 obrazovce když v oznámení potáhnete prstem doleva</string>
+    <string name="activity_packageoptions_unmute">Zrušit ztlumení</string>
+    <string name="activity_packageoptions_muted_until">Ztlumeno do %s:</string>
+    <string name="main_options">Hlavní možnosti</string>
 </resources>
