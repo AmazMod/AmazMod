@@ -1,11 +1,17 @@
 <changelog>
     <release
-        date="2018-11-23"
-        versionCode="196"
+        date="2019-01-25"
+        versionCode="197"
         versionName="v1.1.0">
         <new>Added users avatar icons</new>
         <new>Added notifications pictures</new>
-        <bugifx>Fixed some crashes</bugifx>
+        <new>New watch widget (now it's a launcher)</new>
+        <new>Notification Drawer for Custom Notifications</new>
+        <new>Widgets Reorder Feature (based on KieronQuinn's AmazfitSpringboardSettings)</new>
+        <new>Filter notification based on a text</new>
+        <new>Mute Specific App Notifications for some time</new>
+        <info>Improvements in APK Installer</info>
+        <bugfix>Fixed some crashes</bugfix>
     </release>
     <release
         date="2018-11-14"
