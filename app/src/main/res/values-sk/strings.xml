@@ -101,7 +101,7 @@
     <string name="pref_disable_notifications_replies">Skryť text oznámenia</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Zakázať oznámenia, keď je obrazovka zapnutá</string>
     <string name="pref_disable_notifications_when_screen_on">Zakázať, keď je obrazovka zapnutá</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Budete mať možnosť odpovedať na oznámenia</string>
+    <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
     <string name="pref_notifications_enable_custom_ui">Povoliť vlastné odpovede</string>
     <string name="pref_run_wizard">Spustiť úvodnú prezentáciu</string>
     <string name="pref_run_wizard_summary">Znovu spustiť úvodnú prezentáciu</string>
@@ -268,4 +268,8 @@ Urobte príkaz shell \"</string>
     <string name="file_uploader_author">Autor: %s</string>
     <string name="file_uploader_label">Label: %s</string>
     <string name="file_uploader_package">Balíček: %s</string>
+    <string name="pref_notifications_disable_large_icon">Neodosielať avatary užívateľov</string>
+    <string name="pref_notifications_disable_large_icon_summary">V oznámení nezobrazí užívateľské avatary. Bude vám to trochu šetriť batériu</string>
+    <string name="pref_notifications_disable_picture">Neodosielať obrázky oznámenia</string>
+    <string name="pref_notifications_disable_picture_summary">Obrázky nebudú zobrazené v oznámení. To vám ušetrí batériu</string>
 </resources>
