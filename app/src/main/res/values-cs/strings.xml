@@ -275,11 +275,11 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_notifications_disable_picture_summary">Obrázky nebudou zobrazeny v oznámení. To vám ušetří baterii</string>
     <string name="notification_silenced">SILENCED</string>
     <string name="notification_text_filter">Filter</string>
-    <string name="silenced_apps">Silenced Applications</string>
+    <string name="silenced_apps">Stišení aplikací</string>
     <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
-    <string name="show_only_selected">Show only allowed apps</string>
-    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Always show Amazmod as first watch widget</string>
+    <string name="are_you_sure">Jsi si jistý?</string>
+    <string name="cannot_be_undone">Tuto operaci nelze vrátit.</string>
+    <string name="show_only_selected">Zobrazit pouze povolené aplikace</string>
+    <string name="pref_amazmod_first_widget">Amazmod jako první Widget v hodinkách</string>
+    <string name="pref_amazmod_first_widget_summary">Vždy zobrazovat Amazmod jako první widget v hodinkách</string>
 </resources>
