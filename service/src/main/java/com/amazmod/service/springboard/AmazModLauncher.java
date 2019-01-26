@@ -38,6 +38,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.adapters.LauncherAppAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.models.MenuItems;
+import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.BatteryGraphActivity;
 import com.google.gson.Gson;
@@ -72,6 +73,7 @@ public class AmazModLauncher extends AbstractPlugin {
     private ISpringBoardHostStub host = null;
 
     private WidgetSettings widgetSettings;
+    private SettingsManager settingsManager;
 
     private WearableListView listView;
     private TextView battValueTV, unreadMessages, mHeader;
@@ -121,6 +123,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
         //Initialize settings
         widgetSettings = new WidgetSettings(Constants.TAG, mContext);
+        settingsManager = new SettingsManager(mContext);
 
         Log.d(Constants.TAG, "AmazModLauncher getView getting SystemServices");
         wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
@@ -160,7 +163,7 @@ public class AmazModLauncher extends AbstractPlugin {
         battIconImg = view.findViewById(R.id.launcher_batt_icon);
         listView = view.findViewById(R.id.launcher_listview);
 
-        home = view.findViewById(R.id.launcher_home);
+        //home = view.findViewById(R.id.launcher_home);
         appmenu = view.findViewById(R.id.launcher_appmenu);
 
         version.setText(BuildConfig.VERSION_NAME);
@@ -195,22 +198,27 @@ public class AmazModLauncher extends AbstractPlugin {
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
 
-        final Intent launcherIntent;
-        launcherIntent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME);
-        launcherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
+        /* Disabled
         home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mContext.startActivity(launcherIntent);
             }
         });
+        */
 
         appmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent appList = new Intent("com.huami.watch.launcher.EXTERNAL_COMMAND.TO_APPLIST");
-                mContext.sendBroadcast(appList);
+                if (settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true)) {
+                    Intent appList = new Intent("com.huami.watch.launcher.EXTERNAL_COMMAND.TO_APPLIST");
+                    mContext.sendBroadcast(appList);
+                } else {
+                    final Intent launcherIntent;
+                    launcherIntent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME);
+                    launcherIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(launcherIntent);
+                }
             }
         });
 

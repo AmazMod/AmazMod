@@ -92,6 +92,17 @@
                     tools:text="TextView"
                     android:textAlignment="center" />
 
+                <TextView
+                    android:id="@+id/wear_info_textView05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    tools:text="TextView"
+                    android:textAlignment="center" />
+
                 <Button
                     android:id="@+id/wear_info_buttonClose"
                     android:layout_width="wrap_content"

@@ -6,6 +6,8 @@ import android.app.ActivityManager;
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Color;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -27,11 +29,12 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.ACTIVITY_SERVICE;
+import static android.content.Context.WIFI_SERVICE;
 
 public class WearInfoFragment extends Fragment {
 
 	private Button buttonClose;
-    private TextView build, timeSLCTV, textView02, textView03, textView04;
+    private TextView build, timeSLCTV, upTime, sleepTime, memory, currentIP;
 
     private Context mContext;
 
@@ -114,9 +117,10 @@ public class WearInfoFragment extends Fragment {
 
         build = getActivity().findViewById(R.id.wear_info_build);
         timeSLCTV = getActivity().findViewById(R.id.wear_info_timeSLC);
-        textView02 = getActivity().findViewById(R.id.wear_info_textView02);
-        textView03 = getActivity().findViewById(R.id.wear_info_textView03);
-        textView04 = getActivity().findViewById(R.id.wear_info_textView04);
+        upTime = getActivity().findViewById(R.id.wear_info_textView02);
+        sleepTime = getActivity().findViewById(R.id.wear_info_textView03);
+        memory = getActivity().findViewById(R.id.wear_info_textView04);
+        currentIP = getActivity().findViewById(R.id.wear_info_textView05);
         buttonClose = getActivity().findViewById(R.id.wear_info_buttonClose);
 
         showInfo();
@@ -141,11 +145,16 @@ public class WearInfoFragment extends Fragment {
                 activityManager.getMemoryInfo(memoryInfo);
                 double freeRAM = memoryInfo.availMem / 0x100000L;
                 long elapsedRealtime = SystemClock.elapsedRealtime() ;
-                long sleepTime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
+                long sleepRealtime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
+                String ip = getIP();
 
-                textView02.setText("Uptime: " + formatInterval(elapsedRealtime, false));
-                textView03.setText("SleepTime: " + formatInterval(sleepTime, false));
-                textView04.setText("Free RAM: " + freeRAM + "MB");
+                upTime.setText("Uptime: " + formatInterval(elapsedRealtime, false));
+                sleepTime.setText("SleepTime: " + formatInterval(sleepRealtime, false));
+                memory.setText("Free RAM: " + freeRAM + "MB");
+                if ((ip != null) && (!ip.equals("0.0.0.0")))
+                    currentIP.setText("IP: " + ip);
+                else
+                    currentIP.setText("IP: (not connected)");
             } catch (Exception ex) {
                 Log.e(Constants.TAG, "WearInfoFragment showInfo exception: " + ex.toString());
             }
@@ -178,6 +187,24 @@ public class WearInfoFragment extends Fragment {
             return String.format(Locale.getDefault(),"%02d:%02d:%02d.%03d", hr, min, sec, ms);
         } else {
             return String.format(Locale.getDefault(),"%02d:%02d:%02d", hr, min, sec );
+        }
+    }
+
+    /**
+     * Get the IP of current Wi-Fi connection
+     * @return IP as string
+     */
+    private String getIP() {
+        try {
+            WifiManager wifiManager = (WifiManager) getActivity().getSystemService(WIFI_SERVICE);
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
+            return String.format(Locale.getDefault(), "%d.%d.%d.%d",
+                    (ipAddress & 0xff), (ipAddress >> 8 & 0xff),
+                    (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
+        } catch (Exception ex) {
+            Log.e(Constants.TAG, "WearInfoFrament getIP exception: " + ex.toString());
+            return null;
         }
     }
 
