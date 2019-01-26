@@ -282,12 +282,12 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="are_you_sure">Biztos vagy benne?</string>
     <string name="cannot_be_undone">Ez nem visszafordítható.</string>
     <string name="show_only_selected">Csak eng. alk.-ok megjelenítése</string>
-    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Amazmod will stay as first watch widget</string>
-    <string name="pref_enable_delete_button">Notification Delete Button</string>
-    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
-    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
-    <string name="activity_packageoptions_unmute">Unmute</string>
-    <string name="activity_packageoptions_muted_until">Muted Until:</string>
-    <string name="main_options">Main options</string>
+    <string name="pref_amazmod_first_widget">Amazmod mint az első óra widget</string>
+    <string name="pref_amazmod_first_widget_summary">Az Amazmod az első óra widget marad</string>
+    <string name="pref_enable_delete_button">Értesítés törlése gomb</string>
+    <string name="pref_enable_delete_button_on">A Töröl gomb megjelenik az értesítés tartalma alatt</string>
+    <string name="pref_enable_delete_button_off">A Töröl gomb a 4. képernyőn lesz, amikor elhúzod az értesítést balra</string>
+    <string name="activity_packageoptions_unmute">Némítás ki</string>
+    <string name="activity_packageoptions_muted_until">Némít eddig:</string>
+    <string name="main_options">Főbb lehetőségek</string>
 </resources>
