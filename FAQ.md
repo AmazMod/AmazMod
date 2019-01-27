@@ -29,6 +29,12 @@ You may also have the dreaded "communication issue" while watch is connected to 
 
 Last but not least, restart the watch if you have any error when tryin to install the APK, then try again.
 
+A- *I cannot uninstall service-release.apk on watch, why?*  
+R- If you have set service APK as device admin, you cannot uninstall it directly: first go to Tweaking menu in AmazMod on phone and choose "Revoke Admin", or do the same in AmazMod's widget menu, then uninstall the APK as any other app.
+
+A- *I cannot run backup on watch anymore, what's wrong?*  
+R- AmazMod service APK used to request Device Owner rights on watch and this disables Android backup system, it is fixed in current versions but the only way to revert it after you have granted is by doing a factory reset (actually there is another way but ir requires root and is complicated...) and install a new version of service APK that uses Admin Owner instead. Sorry for the trouble!
+
 A- *I don't get notifications for app ABCD, help!?!?*  
 R- First, calm down. Then check if you have any setting that is preventing the notification to arrive on watch and change it to the appropriate value, then make sure the app ABCD is *enabled* in "Selected apps" setting. Note that if it's a system application, you must enable system applications in the 3 dots menu first (selected system apps will always be displayed tho).
 
