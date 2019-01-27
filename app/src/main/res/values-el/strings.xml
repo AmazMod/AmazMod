@@ -283,8 +283,8 @@
     <string name="pref_amazmod_first_widget">Το Amazmod ως Πρώτο Widget</string>
     <string name="pref_amazmod_first_widget_summary">Το Amazmod θα παραμένει ως πρώτο widget</string>
     <string name="pref_enable_delete_button">Κουμπί Διαγραφής Ειδοποιήσεων</string>
-    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
-    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
+    <string name="pref_enable_delete_button_on">Το κουμπί διαγραφής θα εμφανίζεται κάτω από το περιεχόμενο της ειδοποίησης</string>
+    <string name="pref_enable_delete_button_off">Το κουμπί διαγραφής θα είναι στην 4η οθόνη, σύρετε προς τα αριστερά καθώς βρίσκεστε στην ειδοποίηση</string>
     <string name="activity_packageoptions_unmute">Κατάργηση σίγασης</string>
     <string name="activity_packageoptions_muted_until">Σίγαση μέχρι:</string>
     <string name="main_options">Κύριες ρυθμίσεις</string>
