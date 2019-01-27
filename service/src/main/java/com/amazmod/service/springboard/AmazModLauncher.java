@@ -73,7 +73,6 @@ public class AmazModLauncher extends AbstractPlugin {
     private ISpringBoardHostStub host = null;
 
     private WidgetSettings widgetSettings;
-    private SettingsManager settingsManager;
 
     private WearableListView listView;
     private TextView battValueTV, unreadMessages, mHeader;
@@ -123,7 +122,6 @@ public class AmazModLauncher extends AbstractPlugin {
 
         //Initialize settings
         widgetSettings = new WidgetSettings(Constants.TAG, mContext);
-        settingsManager = new SettingsManager(mContext);
 
         Log.d(Constants.TAG, "AmazModLauncher getView getting SystemServices");
         wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
@@ -210,7 +208,7 @@ public class AmazModLauncher extends AbstractPlugin {
         appmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true)) {
+                if (widgetSettings.get(Constants.PREF_AMAZMOD_FIRST_WIDGET, true)) {
                     Intent appList = new Intent("com.huami.watch.launcher.EXTERNAL_COMMAND.TO_APPLIST");
                     mContext.sendBroadcast(appList);
                 } else {

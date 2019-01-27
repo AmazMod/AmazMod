@@ -500,6 +500,8 @@ public class MainService extends Service implements Transporter.DataListener {
 
 
         iPCA = settingsData.isAmazModFirstWidget();
+        settings.reload();
+        settings.set(Constants.PREF_AMAZMOD_FIRST_WIDGET, iPCA);
         if (isSpringboardObserverEnabled != iPCA)
             registerSpringBoardMonitor(iPCA);
 
