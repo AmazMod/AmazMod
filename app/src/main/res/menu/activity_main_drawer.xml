@@ -23,7 +23,7 @@
         <item
             android:id="@+id/nav_watchface"
             android:icon="@drawable/outline_watch_black_36"
-            android:title="@string/greatfit" />
+            android:title="@string/watchface" />
 
         <item
             android:id="@+id/nav_stats"

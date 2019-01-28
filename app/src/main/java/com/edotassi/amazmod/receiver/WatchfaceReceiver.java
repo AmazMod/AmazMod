@@ -236,7 +236,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     private String getCalendarEvents(Context context){
         // Check if calendar read permission is granted
         if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( Manifest.permission.READ_CALENDAR ) != PackageManager.PERMISSION_GRANTED ) {
-            return "permissions error";
+            //Permissions error
+            Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: permissions error");
+            return null;
+        }
+
+        // Get days to look for events
+        int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, context.getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX]));
+        if( calendar_events_days == 0 ){
+            // Disabled
+            Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: disabled");
+            return null;
         }
 
         // Run query
@@ -245,17 +255,26 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         Uri uri = CalendarContract.Events.CONTENT_URI;
 
         // Date range to pick events
+        // Pick timestamp from this day's start (so data are not different each time they are pulled because of expired events)
         Calendar c_start= Calendar.getInstance();
-        Calendar c_end= Calendar.getInstance();
-        c_end.add(Calendar.DATE, 30);
+        int year = c_start.get(Calendar.YEAR);
+        int month = c_start.get(Calendar.MONTH);
+        int day = c_start.get(Calendar.DATE);
+        c_start.set(year, month, day, 0, 0, 0);
+
+        Calendar c_end= Calendar.getInstance(); // no it's not redundant
+        c_end.set(year, month, day, 0, 0, 0);
+        c_end.add(Calendar.DATE, calendar_events_days);
+
         String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + c_start.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + c_end.getTimeInMillis() + " ))";
 
         // Submit the query and get a Cursor object back.
         try {
             cur = cr.query(uri, EVENT_PROJECTION, selection, null, CalendarContract.Events.DTSTART+" ASC");
         } catch (SecurityException e) {
-            e.printStackTrace();
-            return "permissions error";
+            //Getting data error
+            Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: get data error");
+            return null;
         }
 
         // Start formulating JSON
@@ -274,16 +293,26 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             jsonEvents += "[ \""+title+"\", \""+description+"\", \""+start+"\", \""+end+"\", \""+location+"\", \""+account+"\"],";
         }
 
-        // Remove last , from JSON
+        // Remove last "," from JSON
         if ( jsonEvents.substring(jsonEvents.length() - 1).equals(",") ) {
             jsonEvents = jsonEvents.substring(0, jsonEvents.length() - 1);
         }
         jsonEvents += "]}";
 
+        // Check if there are new data
+        if( Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "").equals(jsonEvents) ){
+            // No new data, no update
+            Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: no new data");
+            return null;
+        }
+        // Save new events as last send
+        Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, jsonEvents);
+
         // Count events
+        /*
         int events = cur.getCount();
         jsonEvents += "\n\n Counted: "+events;
-
+        */
         cur.close();
         return jsonEvents;
     }

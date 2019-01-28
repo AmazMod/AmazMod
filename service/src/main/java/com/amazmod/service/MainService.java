@@ -383,7 +383,7 @@ public class MainService extends Service implements Transporter.DataListener {
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
         String calendarEvents = watchfaceData.getCalendarEvents();
-        Log.d(Constants.TAG, "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm);
+        Log.d(Constants.TAG, "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm + ", events:" + calendarEvents);
 
         // Update Time
         long updateTime = Calendar.getInstance().getTimeInMillis();
@@ -409,9 +409,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         // Calendar data
-        if (calendarEvents == null || calendarEvents.equals("")) {
-            Settings.System.putString(context.getContentResolver(), "CustomCalendarData", "{}");//default
-        }else{
+        if (calendarEvents != null && !calendarEvents.equals("")) {
             try {
                 // Check if correct form of JSON
                 JSONObject json_data = new JSONObject(calendarEvents);

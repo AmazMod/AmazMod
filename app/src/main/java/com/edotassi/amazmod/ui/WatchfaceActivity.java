@@ -41,6 +41,8 @@ public class WatchfaceActivity extends AppCompatActivity {
     Switch send_on_alarm_change_switch;
     @BindView(R.id.send_watchface_data_interval)
     Spinner send_watchface_data_interval;
+    @BindView(R.id.send_watchface_data_calendar_events_days)
+    Spinner send_watchface_data_calendar_events_days;
     @BindView(R.id.watchface_sync_now_button)
     Button watchface_sync_now_button;
     @BindView(R.id.watchface_last_sync)
@@ -48,6 +50,7 @@ public class WatchfaceActivity extends AppCompatActivity {
 
     boolean send_data;
     int send_data_interval_index;
+    int send_data_calendar_events_days_index;
     int send_data_interval;
     boolean send_on_battery_change;
     boolean send_on_alarm_change;
@@ -78,7 +81,9 @@ public class WatchfaceActivity extends AppCompatActivity {
         initialInterval = send_data_interval_index;
         send_on_battery_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE);
         send_on_alarm_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE);
+        send_data_calendar_events_days_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX);
 
+        // Send data on/off
         send_data_swich.setChecked(send_data);
         send_data_swich.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -87,12 +92,14 @@ public class WatchfaceActivity extends AppCompatActivity {
                 //Toast.makeText(WatchfaceActivity.this, "send data: " + isChecked, Toast.LENGTH_SHORT).show();
 
                 WatchfaceActivity.this.send_watchface_data_interval.setEnabled(isChecked);
+                WatchfaceActivity.this.send_watchface_data_calendar_events_days.setEnabled(isChecked);
                 WatchfaceActivity.this.send_on_battery_change_switch.setEnabled(isChecked);
                 WatchfaceActivity.this.send_on_alarm_change_switch.setEnabled(isChecked);
                 WatchfaceActivity.this.watchface_sync_now_button.setEnabled(isChecked);
             }
         });
 
+        // Data inteval option
         send_watchface_data_interval.setSelection(send_data_interval_index);
         send_watchface_data_interval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -109,6 +116,21 @@ public class WatchfaceActivity extends AppCompatActivity {
             }
         });
         send_watchface_data_interval.setEnabled(send_data);
+
+        // Calendar options
+        send_watchface_data_calendar_events_days.setSelection(send_data_calendar_events_days_index);
+        send_watchface_data_calendar_events_days.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Prefs.putInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, pos);
+                Prefs.putString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[pos]);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+            }
+        });
+        send_watchface_data_calendar_events_days.setEnabled(send_data);
 
         // Hide not ready options
         send_on_battery_change_switch.setVisibility(View.GONE);

@@ -47,15 +47,39 @@
         android:id="@+id/send_watchface_data_interval"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:entries="@array/pref_watchface_background_sync_interval_entries"
+        android:prompt="@string/activity_watchface_send_data_interval_prompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval_summary" />
+
+    <TextView
+        android:id="@+id/send_watchface_data_calendar_events_summary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="#000000"
+        android:text="@string/activity_watchface_send_data_calendar_events_days_summary"
+        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval"  />
+
+    <Spinner
+        android:id="@+id/send_watchface_data_calendar_events_days"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:entries="@array/pref_watchface_background_sync_interval_entries"
-        android:prompt="@string/activity_watchface_send_data_interval_prompt"
-        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval_summary" />
-
+        android:entries="@array/pref_watchface_calendar_events_days"
+        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_calendar_events_summary" />
     <Switch
         android:id="@+id/send_on_battery_change_switch"
         android:layout_width="0dp"
@@ -66,7 +90,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:text="@string/activity_watchface_send_on_battery_change"
-        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval" />
+        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_calendar_events_days" />
 
     <Switch
         android:id="@+id/send_on_alarm_change_switch"

@@ -128,6 +128,28 @@
         <item>90</item>
         <item>120</item>
     </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Disable</item>
+        <item>1 day</item>
+        <item>7 days</item>
+        <item>15 days</item>
+        <item>30 days</item>
+        <item>60 days</item>
+        <item>90 days</item>
+        <item>180 days</item>
+        <item>365 days</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days_values">
+        <item>0</item>
+        <item>1</item>
+        <item>7</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>180</item>
+        <item>365</item>
+    </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
         <item>Large</item>
