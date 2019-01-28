@@ -103,7 +103,7 @@
     <string name="pref_disable_notifications_when_screen_on">השבת כאשר המסך פועל</string>
     <string name="pref_notifications_enable_custom_ui">הפעל תגובות מותאמות אישית</string>
     <string name="pref_notifications_enable_custom_ui_on">אתה תוכל להשיב להתראות</string>
-    <string name="pref_notifications_enable_custom_ui_off">קבלת התראות סטנדרטיות</string>
+    <string name="pref_notifications_enable_custom_ui_off">קבל התראות סטנדרטיות</string>
     <string name="pref_run_wizard">הפעל מצגת ברוכים הבאים</string>
     <string name="pref_run_wizard_summary">הפעל שוב את מצגת ברוכים הבאים</string>
     <string name="pref_vibration_duration">משך הרטט</string>
@@ -286,6 +286,6 @@
     <string name="pref_enable_delete_button_on">לחצן מחיקה יוצג בתחתית התוכן בהתראה</string>
     <string name="pref_enable_delete_button_off">הלחצן \'מחק\' יופיע במסך הרביעי כאשר תבצע החלקה שמאלה על ההתראה</string>
     <string name="activity_packageoptions_unmute">בטל השתקה</string>
-    <string name="activity_packageoptions_muted_until">Muted Until:</string>
-    <string name="main_options">Main options</string>
+    <string name="activity_packageoptions_muted_until">השתק עד:</string>
+    <string name="main_options">אופציות עיקריות</string>
 </resources>
