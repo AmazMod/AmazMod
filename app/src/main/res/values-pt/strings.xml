@@ -280,7 +280,7 @@
     <string name="are_you_sure">Você tem certeza?</string>
     <string name="cannot_be_undone">Isto não pode ser desfeito.</string>
     <string name="show_only_selected">Mostrar apenas aplicativos permitidos</string>
-    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
+    <string name="pref_amazmod_first_widget">Amazmod como primeiro Widget de relógio</string>
     <string name="pref_amazmod_first_widget_summary">Amazmod vai ficar como primeiro widget de relógio</string>
     <string name="pref_enable_delete_button">Botão de apagar de notificação</string>
     <string name="pref_enable_delete_button_on">Botão excluir aparece abaixo da notificação conteúdo</string>
