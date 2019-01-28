@@ -283,9 +283,9 @@
     <string name="pref_amazmod_first_widget">Amazmod как первый виджет </string>
     <string name="pref_amazmod_first_widget_summary">Amazmod будет первым виджетом часов</string>
     <string name="pref_enable_delete_button">Кнопка удаления нуведомлений</string>
-    <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
-    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
-    <string name="activity_packageoptions_unmute">Unmute</string>
+    <string name="pref_enable_delete_button_on">Кнопка «Удалить» будет отображаться под содержанием уведомления</string>
+    <string name="pref_enable_delete_button_off">Кнопка удаления будет на 4-м экране, когда проведите пальцем влево на уведомлении</string>
+    <string name="activity_packageoptions_unmute">Восстановить звук</string>
     <string name="activity_packageoptions_muted_until">Отключено до:</string>
     <string name="main_options">Основные настройки</string>
 </resources>
