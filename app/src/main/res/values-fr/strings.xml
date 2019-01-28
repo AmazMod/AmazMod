@@ -229,10 +229,10 @@
     <string name="pref_file_extras_summary">Sauvegarder et restaurer les paramètres d\'AmazMod</string>
     <string name="reboot_bootloader">Redémarrer en mode Fastboot</string>
     <string name="set_admin">Set admin</string>
-    <string name="shell_command_failed">Command failed</string>
-    <string name="result_code">Result code:</string>
-    <string name="battery_chart_updated">Battery chart updated with new data</string>
-    <string name="battery_chart_request">Requesting new battery data…</string>
+    <string name="shell_command_failed">Échec de la commande</string>
+    <string name="result_code">Code du résultat:</string>
+    <string name="battery_chart_updated">Graphique de la batterie mis à jour avec les nouvelles données</string>
+    <string name="battery_chart_request">Demande de nouvelle données de la batterie …</string>
     <string name="battery_chart_waiting">Waiting for new battery data…</string>
     <string name="edit_reply">Edit reply</string>
     <string name="privacy_policy">Privacy policy</string>
@@ -250,9 +250,9 @@
     <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Automatic Brightness</string>
     <string name="set_brightness">Set</string>
-    <string name="file_upload_finished">Upload Finished Successfully</string>
-    <string name="view_files">View</string>
-    <string name="delete_all">Delete all</string>
+    <string name="file_upload_finished">Téléchargement fini avec succès</string>
+    <string name="view_files">Afficher</string>
+    <string name="delete_all">Tout supprimer</string>
     <string name="pref_enable_update_notification">Enable update notification</string>
     <string name="pref_enable_update_notification_summary">Disable if you don\'t want to be notified when there is a new version of the service APK for watch</string>
     <string name="extract">Extract</string>
