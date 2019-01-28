@@ -246,7 +246,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         if( calendar_events_days == 0 ){
             // Disabled
             Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: disabled");
-            return null;
+            Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
+            return "{\"events\":[]}";
         }
 
         // Run query
@@ -264,7 +265,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         Calendar c_end= Calendar.getInstance(); // no it's not redundant
         c_end.set(year, month, day, 0, 0, 0);
-        c_end.add(Calendar.DATE, calendar_events_days);
+        c_end.add(Calendar.DATE, (calendar_events_days+1));
 
         String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + c_start.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + c_end.getTimeInMillis() + " ))";
 
