@@ -101,7 +101,7 @@
     <string name="pref_disable_notifications_replies">הסתר תוכן התראה</string>
     <string name="pref_disable_notifications_when_screen_on_summary">השבת התראות כאשר המסך פועל</string>
     <string name="pref_disable_notifications_when_screen_on">השבת כאשר המסך פועל</string>
-    <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
+    <string name="pref_notifications_enable_custom_ui_summary">אתה תוכל להשיב להתראות</string>
     <string name="pref_notifications_enable_custom_ui">הפעל תגובות מותאמות אישית</string>
     <string name="pref_run_wizard">הפעל מצגת ברוכים הבאים</string>
     <string name="pref_run_wizard_summary">הפעל שוב את מצגת ברוכים הבאים</string>
@@ -271,13 +271,13 @@
     <string name="pref_notifications_disable_large_icon_summary">תמונות איש קשר לא יוצגו בהתראה. פעולה זו תחסוך קלות בסוללה</string>
     <string name="pref_notifications_disable_picture">אל תשלח התראות של תמונות</string>
     <string name="pref_notifications_disable_picture_summary">תמונות לא יוצגו בהתראות על מנת לחסוך בחיי סוללה</string>
-    <string name="notification_silenced">SILENCED</string>
-    <string name="notification_text_filter">Filter</string>
-    <string name="silenced_apps">Silenced Applications</string>
-    <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
-    <string name="show_only_selected">Show only allowed apps</string>
-    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Always show Amazmod as first watch widget</string>
+    <string name="notification_silenced">השתק</string>
+    <string name="notification_text_filter">סינון</string>
+    <string name="silenced_apps">יישומים מושתקים</string>
+    <string name="ok">אישור</string>
+    <string name="are_you_sure">את/ה בטוח/ה?</string>
+    <string name="cannot_be_undone">פעולה זו אינה ניתנת לביטול.</string>
+    <string name="show_only_selected">הצג רק יישומים מאושרים</string>
+    <string name="pref_amazmod_first_widget">הגדר את Amazmod כויג\'ט ראשון בשעון</string>
+    <string name="pref_amazmod_first_widget_summary">הצג תמיד את Amazmod כויג\'ט ראשון בשעון</string>
 </resources>
