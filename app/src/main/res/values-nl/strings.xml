@@ -101,7 +101,7 @@
     <string name="pref_disable_notifications_replies">Tekst melding verbergen</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Zet melding notificatie uit bij scherm AAN</string>
     <string name="pref_disable_notifications_when_screen_on">Uitschakelen wanneer het scherm is ingeschakeld</string>
-    <string name="pref_notifications_enable_custom_ui_summary">You will be able to reply to notifications</string>
+    <string name="pref_notifications_enable_custom_ui_summary">U kunt reageren op notificaties</string>
     <string name="pref_notifications_enable_custom_ui">Schakel aangepaste reacties in</string>
     <string name="pref_run_wizard">Welkom presentatie uitvoeren</string>
     <string name="pref_run_wizard_summary">De Welkom presentatie opnieuw uitvoeren</string>
@@ -267,17 +267,17 @@
     <string name="file_uploader_author">Auteur: %s</string>
     <string name="file_uploader_label">Label: %s</string>
     <string name="file_uploader_package">Pakket: %s</string>
-    <string name="pref_notifications_disable_large_icon">Don\'t send users avatar</string>
-    <string name="pref_notifications_disable_large_icon_summary">User avatars will not be shown in the notification. This will save the battery a bit</string>
-    <string name="pref_notifications_disable_picture">Don\'t send notification pictures</string>
-    <string name="pref_notifications_disable_picture_summary">Pictures will not be shown in the notification. This will save the battery</string>
-    <string name="notification_silenced">SILENCED</string>
+    <string name="pref_notifications_disable_large_icon">Stuur geen gebruikers avantar</string>
+    <string name="pref_notifications_disable_large_icon_summary">Gebruikers avantars worden niet getoond in de notificatie. Dit bespaart een beetje batterij</string>
+    <string name="pref_notifications_disable_picture">Stuur geen notificatie afbeeldingen</string>
+    <string name="pref_notifications_disable_picture_summary">Afbeeldingen worden niet getoond in notificaties. Dit bespaart batterij</string>
+    <string name="notification_silenced">STILGEZET</string>
     <string name="notification_text_filter">Filter</string>
-    <string name="silenced_apps">Silenced Applications</string>
+    <string name="silenced_apps">Gedempte programma\'s</string>
     <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
-    <string name="show_only_selected">Show only allowed apps</string>
-    <string name="pref_amazmod_first_widget">Amazmod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Always show Amazmod as first watch widget</string>
+    <string name="are_you_sure">Weet je het zeker?</string>
+    <string name="cannot_be_undone">Dit kan niet ongedaan gemaakt worden.</string>
+    <string name="show_only_selected">Toon alleen toegestane apps</string>
+    <string name="pref_amazmod_first_widget">Amazmod als eerste Watch Widget</string>
+    <string name="pref_amazmod_first_widget_summary">Toon Amazmod altijd als eerste widget</string>
 </resources>
