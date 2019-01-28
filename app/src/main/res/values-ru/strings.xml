@@ -285,7 +285,7 @@
     <string name="pref_enable_delete_button">Кнопка удаления нуведомлений</string>
     <string name="pref_enable_delete_button_on">Кнопка «Удалить» будет отображаться под содержанием уведомления</string>
     <string name="pref_enable_delete_button_off">Кнопка удаления будет на 4-м экране, когда проведите пальцем влево на уведомлении</string>
-    <string name="activity_packageoptions_unmute">Восстановить звук</string>
+    <string name="activity_packageoptions_unmute">Восстановить уведомления</string>
     <string name="activity_packageoptions_muted_until">Отключено до:</string>
     <string name="main_options">Основные настройки</string>
 </resources>
