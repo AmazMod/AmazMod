@@ -245,12 +245,12 @@
     <string name="download_failed">Echec du téléchargement</string>
     <string name="download_completed">Téléchargement terminé</string>
     <string name="rename">Renommer</string>
-    <string name="type_folder_name">Type Folder Name</string>
+    <string name="type_folder_name">Type du nom de fichier</string>
     <string name="brightness_bad_value_entered">Mauvaise valeur, les valeurs admises sont comprises entre 1 et 255</string>
     <string name="command_history">Historique des commandes</string>
     <string name="update_started_watch_reboot_when_update_finish">Mise à jour démarrée ! La montre indiquera l\'avancement et son lanceur redémarrera à la fin.</string>
     <string name="automatic_brightness">Luminosité automatique</string>
-    <string name="set_brightness">Set</string>
+    <string name="set_brightness">Mettre</string>
     <string name="file_upload_finished">Téléchargement fini avec succès</string>
     <string name="view_files">Afficher</string>
     <string name="delete_all">Tout supprimer</string>
@@ -268,7 +268,7 @@
     <string name="file_uploader_name">Titre : %s</string>
     <string name="file_uploader_author">Auteur : %s</string>
     <string name="file_uploader_label">Étiquette : %s</string>
-    <string name="file_uploader_package">Package: %s</string>
+    <string name="file_uploader_package">Paquet: %s</string>
     <string name="pref_notifications_disable_large_icon">N’envoyez pas l\'avatar des utilisateurs</string>
     <string name="pref_notifications_disable_large_icon_summary">Les avatars des utilisateurs n’apparaîtront pas dans les notifications. Cela permettra d’économiser un peu la batterie</string>
     <string name="pref_notifications_disable_picture">N’envoyez pas les photos des notifications</string>
