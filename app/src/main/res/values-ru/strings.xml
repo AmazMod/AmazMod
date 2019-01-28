@@ -267,13 +267,13 @@
     <string name="file_uploader_title">Установка %s ?</string>
     <string name="file_uploader_name">Название: %s</string>
     <string name="file_uploader_author">Автор: %s</string>
-    <string name="file_uploader_label">Label: %s</string>
-    <string name="file_uploader_package">Package: %s</string>
+    <string name="file_uploader_label">Метка %s</string>
+    <string name="file_uploader_package">Контейнер: %s</string>
     <string name="pref_notifications_disable_large_icon">Не отправлять пользовательский аватар</string>
     <string name="pref_notifications_disable_large_icon_summary">Отключение отображения фотографий контактов в уведомлениях. Поможет уменьшить расход батареи</string>
     <string name="pref_notifications_disable_picture">Не отправлять уведомления с фотографией</string>
     <string name="pref_notifications_disable_picture_summary">Скрывать изображения в уведомлениях. Уменьшает расход батареи</string>
-    <string name="notification_silenced">SILENCED</string>
+    <string name="notification_silenced">Режим молчания</string>
     <string name="notification_text_filter">Фильтр</string>
     <string name="muted_apps">Приложения без уведомлений</string>
     <string name="ok">Подтвердить</string>
@@ -281,7 +281,7 @@
     <string name="cannot_be_undone">Изменение нельзя отменить</string>
     <string name="show_only_selected">Показать только разрешенные приложения </string>
     <string name="pref_amazmod_first_widget">Amazmod как первый виджет </string>
-    <string name="pref_amazmod_first_widget_summary">Amazmod will stay as first watch widget</string>
+    <string name="pref_amazmod_first_widget_summary">Amazmod будет первым виджетом часов</string>
     <string name="pref_enable_delete_button">Кнопка удаления нуведомлений</string>
     <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
     <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
