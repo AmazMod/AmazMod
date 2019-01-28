@@ -286,6 +286,6 @@
     <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
     <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
     <string name="activity_packageoptions_unmute">Unmute</string>
-    <string name="activity_packageoptions_muted_until">Muted Until:</string>
-    <string name="main_options">Main options</string>
+    <string name="activity_packageoptions_muted_until">Отключено до:</string>
+    <string name="main_options">Основные настройки</string>
 </resources>
