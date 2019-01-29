@@ -54,7 +54,7 @@
     <string name="last_charge_no_info">Tam şarj için bekliyor</string>
     <string name="notification_block">Engelle</string>
     <string name="notification_continue">Devam Et</string>
-    <string name="notification_group">Group</string>
+    <string name="notification_group">Grupla</string>
     <string name="notification_local">Local</string>
     <string name="notification_ongoing">Ongoing</string>
     <string name="notification_return">Return</string>
