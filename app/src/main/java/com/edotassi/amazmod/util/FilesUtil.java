@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -22,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -59,6 +61,38 @@ public class FilesUtil {
         }
         return true;
 
+    }
+
+    public static class urlToFile extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... strings) {
+
+            String url = strings[0];
+            String saveDir = strings[1];
+            String file = strings[2];
+            Log.d(Constants.TAG, "FilesUtil urlToFile url: " + url + " saveDir: " + saveDir + " file: " + file);
+
+            BufferedInputStream in = null;
+            long length = 0;
+            try {
+                in = new BufferedInputStream(new URL(url).openStream());
+                FileOutputStream out = new FileOutputStream(saveDir + File.separator + file);
+                byte[] buffer = new byte[1024];
+                int c;
+                while ((c = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, c);
+                    length += c;
+                }
+                out.close();
+                in.close();
+            } catch (Exception e) {
+                Log.e(Constants.TAG, "FilesUtil urlToFile exception: " + e.toString());
+                return false;
+            } finally {
+                Log.d(Constants.TAG, "FilesUtil urlToFile length: " + length);
+            }
+            return true;
+        }
     }
 
     public static void unzip(String zipFile, String targetDirectory) throws IOException {

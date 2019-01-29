@@ -1,32 +1,43 @@
 package com.edotassi.amazmod.ui;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.receiver.WatchfaceReceiver;
 import com.edotassi.amazmod.support.FirebaseEvents;
+import com.edotassi.amazmod.util.FilesUtil;
+import com.edotassi.amazmod.util.Permissions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
@@ -47,6 +58,19 @@ public class WatchfaceActivity extends AppCompatActivity {
     Button watchface_sync_now_button;
     @BindView(R.id.watchface_last_sync)
     TextView watchface_last_sync;
+
+    @BindView(R.id.watchface_permission_status)
+    TextView watchface_permission_status;
+    @BindView(R.id.watchface_calendar_radio_group)
+    RadioGroup watchface_calendar_radio_group;
+    @BindView(R.id.watchface_source_local_radiobutton)
+    RadioButton watchface_source_local_radiobutton;
+    @BindView(R.id.watchface_ics_calendar_radiobutton)
+    RadioButton watchface_ics_calendar_radiobutton;
+    @BindView(R.id.watchface_test_ics_button)
+    Button watchface_test_ics_button;
+    @BindView(R.id.watchface_ics_url_edittext)
+    EditText watchface_ics_url_edittext;
 
     boolean send_data;
     int send_data_interval_index;
@@ -82,6 +106,15 @@ public class WatchfaceActivity extends AppCompatActivity {
         send_on_battery_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE);
         send_on_alarm_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE);
         send_data_calendar_events_days_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX);
+
+        String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
+        if (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source)) {
+            watchface_source_local_radiobutton.setChecked(true);
+            changeWidgetsStatus(false);
+        } else {
+            watchface_ics_calendar_radiobutton.setChecked(true);
+            changeWidgetsStatus(true);
+        }
 
         // Send data on/off
         send_data_swich.setChecked(send_data);
@@ -191,6 +224,62 @@ public class WatchfaceActivity extends AppCompatActivity {
             }
         });
         watchface_sync_now_button.setEnabled(send_data);
+
+        watchface_calendar_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                //System.out.println(Constants.TAG + "WatchfaceActivity onCheckedChanged: " + checkedId);
+                if (checkedId == watchface_source_local_radiobutton.getId()) {
+                    Prefs.putString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
+                    changeWidgetsStatus(false);
+
+                } else {
+                    Prefs.putString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_ICS);
+                    changeWidgetsStatus(true);
+                }
+            }
+        });
+
+        watchface_test_ics_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String editText = watchface_ics_url_edittext.getText().toString();
+                String testURL = editText.toLowerCase();
+                Log.d(Constants.TAG, "WatchfaceActivity editText: " + editText);
+                MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(mContext)
+                        .canceledOnTouchOutside(true)
+                        .positiveText(R.string.ok);
+                if (!editText.isEmpty() && (testURL.startsWith("http://") || testURL.startsWith("https://"))
+                        && (testURL.endsWith("ics"))) {
+
+                    String workDir = mContext.getCacheDir().getAbsolutePath();
+                    try {
+                        boolean result = new FilesUtil.urlToFile().execute(editText, workDir, "new_calendar.ics").get();
+                        if (result) {
+                            dialogBuilder.title(R.string.success)
+                                    .content("File is OK")
+                                    .show();
+                        } else {
+                            dialogBuilder.title(R.string.error)
+                                    .content(R.string.activity_files_file_error)
+                                    .show();
+                        }
+                    } catch (InterruptedException | ExecutionException e) {
+                        Log.e(Constants.TAG, e.getLocalizedMessage(), e);
+                    }
+                } else {
+                    dialogBuilder.title(R.string.error)
+                            .content(R.string.invalid_url)
+                            .show();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        checkCalendarPermission();
     }
 
     @Override
@@ -230,5 +319,29 @@ public class WatchfaceActivity extends AppCompatActivity {
             textDate += " " + date;
         }
         return textDate;
+    }
+
+    private void checkCalendarPermission() {
+        if (Permissions.hasPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)){
+            watchface_permission_status.setText(getResources().getString(R.string.enabled).toUpperCase());
+            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorCharging));
+        } else {
+            watchface_permission_status.setText(getResources().getString(R.string.disabled).toUpperCase());
+            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorAccent));
+            watchface_permission_status.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    private void changeWidgetsStatus(boolean state){
+        watchface_test_ics_button.setEnabled(state);
+        watchface_ics_url_edittext.setEnabled(state);
     }
 }

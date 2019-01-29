@@ -260,4 +260,12 @@
     <string name="ok">OK</string>
   <string name="are_you_sure">Are you sure?</string>
   <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="watchface_calendar_source">Calendar Source</string>
+  <string name="test">Test</string>
+  <string name="watchface_remote_ics_file">Remote ICS file</string>
+  <string name="watchface_built_in_calendar">Built-in Calendar</string>
+    <string name="permission">Permission</string>
+    <string name="success">Success</string>
+    <string name="error">Error</string>
+    <string name="invalid_url">Invalid URL</string>
 </resources>
