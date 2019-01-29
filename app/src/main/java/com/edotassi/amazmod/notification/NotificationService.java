@@ -193,13 +193,14 @@ public class NotificationService extends NotificationListenerService {
 
         log.d("NotificationService notificationPackage: " + notificationPackage + " / filterResult: " + Character.toString((char) (byte) filterResult));
 
+        //Log.d(Constants.TAG, "Filters: U=" + (filterResult == Constants.FILTER_UNGROUP) +" C="+ (filterResult == Constants.FILTER_CONTINUE) +" K="+ (filterResult == Constants.FILTER_LOCALOK) );
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
                 filterResult == Constants.FILTER_LOCALOK) {
 
             StatusBarNotification sbn = null;
 
-            if (filterResult == Constants.FILTER_UNGROUP && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
+            if (/*filterResult == Constants.FILTER_UNGROUP &&*/ Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
                 int nextId = abs((int) (long) (System.currentTimeMillis() % 10000L));
                 sbn = new StatusBarNotification(notificationPackage, "",
                         statusBarNotification.getId() + nextId,
@@ -208,15 +209,16 @@ public class NotificationService extends NotificationListenerService {
                         statusBarNotification.getPostTime());
 
                 if (grouped_notifications.containsKey(statusBarNotification.getId())) {
-                    //initial array
+                    // Get array
                     int[] grouped = grouped_notifications.get(statusBarNotification.getId());
-                    //define the new array
+                    // Define the new array
                     int[] newArray = new int[grouped.length + 1];
-                    //copy values into new array
+                    // Copy values into new array
                     System.arraycopy(grouped, 0, newArray, 0, grouped.length);
                     newArray[newArray.length - 1] = nextId;
                     grouped_notifications.put(statusBarNotification.getId(), newArray);
                 } else {
+                    // New in array
                     grouped_notifications.put(statusBarNotification.getId(), new int[]{nextId});
                 }
             }
@@ -318,8 +320,9 @@ public class NotificationService extends NotificationListenerService {
             */
 
             if (grouped_notifications.containsKey(statusBarNotification.getId())) {
-                //initial array
+                // Initial array
                 int[] grouped = grouped_notifications.get(statusBarNotification.getId());
+                // Loop each notification in group
                 for (int i : grouped) {
                     int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
                     Log.d(Constants.TAG, "NotificationService onNotificationRemoved grouped id: " + nextId);
@@ -487,7 +490,6 @@ public class NotificationService extends NotificationListenerService {
         NotificationStore.addStandardNotification(statusBarNotification.getKey(), dataBundle);
 
         scheduleJob(id, jobId, statusBarNotification.getKey());
-
 
         /*
         * Disabled while testing JobScheduler
