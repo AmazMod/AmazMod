@@ -77,6 +77,7 @@
     <string name="activity_watchface_send_data">发送手机端的数据到手表端(电池，闹钟)</string>
     <string name="activity_watchface_send_data_interval_prompt">选择时间间隔</string>
     <string name="activity_watchface_send_data_interval_summary">设置表盘发送数据间隔</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
     <string name="activity_watchface_send_on_battery_change">电池电量改变时立即发送数据</string>
     <string name="activity_watchface_send_on_alarm_change">闹钟更改时立即发送数据</string>
     <string name="activity_watchface_last_time_sent">最后发送时间</string>
@@ -297,4 +298,5 @@
     <string name="success">Success</string>
     <string name="error">Error</string>
     <string name="invalid_url">Invalid URL</string>
+    <string name="file_or_connection_error">File or connection error, could not open file!</string>
 </resources>

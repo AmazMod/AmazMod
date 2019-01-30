@@ -47,8 +47,8 @@
                     android:layout_marginRight="8dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:paddingLeft="2dp"
-                    android:paddingRight="2dp"
                     android:paddingTop="2dp"
+                    android:paddingRight="2dp"
                     android:textColor="@color/text"
                     android:textStyle="bold"
                     tools:text="Title" />
@@ -60,8 +60,8 @@
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
                     android:gravity="center_vertical|center_horizontal"
-                    android:paddingEnd="4dp"
                     android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
                     android:textColor="@color/text"
                     tools:text="00:00" />
 
@@ -69,8 +69,10 @@
                     android:id="@+id/fragment_custom_notification_replies_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    android:minHeight="48dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="40dp"
+                    android:minHeight="80dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -78,11 +80,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
                         android:contentDescription="@string/default_icon"
                         android:gravity="center"
                         android:scaleType="centerCrop"
-                        android:layout_marginTop="8dp"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <android.support.text.emoji.widget.EmojiTextView
                         android:id="@+id/fragment_custom_notification_text"
@@ -97,20 +99,24 @@
                         android:id="@+id/fragment_custom_notification_picture"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/action_item_background" />
+                        app:srcCompat="@drawable/action_item_background"
+                        android:contentDescription="@string/default_icon"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/fragment_delete_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/dark_red"
+                        android:drawableTop="@drawable/outline_delete_white_24"
+                        android:padding="10dp"
+                        android:text="@string/delete"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        tools:visibility="gone"/>
                 </LinearLayout>
-                <Button
-                    android:id="@+id/fragment_delete_button"
-                    android:text="DELETE"
-                    android:layout_marginTop="8dp"
-                    android:layout_gravity="center"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:background="@color/dark_red"
-                    android:drawableTop="@drawable/outline_delete_white_24"
-                    android:padding="10dp" />
 
             </LinearLayout>
         </ScrollView>
