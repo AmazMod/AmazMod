@@ -77,7 +77,7 @@
     <string name="activity_watchface_send_data">Wyślij dane na zegarek (bateria, alarmy)</string>
     <string name="activity_watchface_send_data_interval_prompt">Wyb. przedział czasu</string>
     <string name="activity_watchface_send_data_interval_summary">Kiedy wysyłać wiadomości na zegarek</string>
-    <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">Wyślij wydarzenia z kalendarza dla następujących dni:</string>
     <string name="activity_watchface_send_on_battery_change">Wyslij dane jak stan baterii się zmieni</string>
     <string name="activity_watchface_send_on_alarm_change">Wysylaj każde zmiany stanu baterii</string>
     <string name="activity_watchface_last_time_sent">Ostatnio wysłane</string>
@@ -289,13 +289,13 @@
     <string name="activity_packageoptions_unmute">Włącz dźwięk</string>
     <string name="activity_packageoptions_muted_until">Wycisz do:</string>
     <string name="main_options">Główne opcje</string>
-    <string name="watchface_calendar_source">Calendar Source</string>
+    <string name="watchface_calendar_source">Źródło kalendarza</string>
     <string name="test">Test</string>
     <string name="watchface_remote_ics_file">Remote ICS file</string>
-    <string name="watchface_built_in_calendar">Built-in Calendar</string>
-    <string name="permission">Permission</string>
-    <string name="success">Success</string>
-    <string name="error">Error</string>
+    <string name="watchface_built_in_calendar">Wbudowany kalendarz</string>
+    <string name="permission">Uprawnienie</string>
+    <string name="success">Sukces</string>
+    <string name="error">Błąd</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
 </resources>
