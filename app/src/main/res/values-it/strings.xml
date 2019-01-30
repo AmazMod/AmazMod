@@ -14,7 +14,7 @@
     <string name="sync_settings">Sincronizzazione impostazioni…</string>
     <string name="brightness">Luminosità</string>
     <string name="tweaking">Tweaking</string>
-    <string name="watchface">WatchFace</string>
+    <string name="watchface">GreatFit / Calendario</string>
     <string name="stats">Statistiche</string>
     <string name="changelog">Changelog</string>
     <string name="enable">Attiva</string>
@@ -73,8 +73,8 @@
     <string name="activity_about_devs">Sviluppatori</string>
     <string name="activity_about_testers">Tester</string>
     <string name="translators">Traduttori</string>
-    <string name="activity_watchface_need_greatfit">Per sfruttare questa opzione devi avere la watchface \"Greatfit\" installata sull\'orologio</string>
-    <string name="activity_watchface_send_data">Invia i dati del telefono all\'orologio (batteria, sveglia)</string>
+    <string name="activity_watchface_need_greatfit">Per sfruttare queste opzioni devi avere la watchface Greatfit o i widget Pace Calendar/Timeline installati sull\'orologio</string>
+    <string name="activity_watchface_send_data">Invia i dati del telefono all\'orologio (batteria, sveglia, eventi calendario)</string>
     <string name="activity_watchface_send_data_interval_prompt">Seleziona l\'intervallo di tempo</string>
     <string name="activity_watchface_send_data_interval_summary">Imposta l\'intervallo di invio dati alla watchface</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Invia eventi calendario per i seguenti giorni:</string>
@@ -292,12 +292,12 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="activity_packageoptions_muted_until">Silenziato fino al:</string>
     <string name="main_options">Opzioni Principali</string>
     <string name="watchface_calendar_source">Sorgente calendario</string>
-    <string name="test">Test</string>
-    <string name="watchface_remote_ics_file">Remote ICS file</string>
-    <string name="watchface_built_in_calendar">Built-in Calendar</string>
-    <string name="permission">Permission</string>
-    <string name="success">Success</string>
-    <string name="error">Error</string>
-    <string name="invalid_url">Invalid URL</string>
-    <string name="file_or_connection_error">File or connection error, could not open file!</string>
+    <string name="test">Prova</string>
+    <string name="watchface_remote_ics_file">File ICS remoti</string>
+    <string name="watchface_built_in_calendar">Calendario integrato</string>
+    <string name="permission">Permessi</string>
+    <string name="success">Fatto</string>
+    <string name="error">Errore</string>
+    <string name="invalid_url">URL iCal non valida!</string>
+    <string name="file_or_connection_error">Impossibile aprire, file errato o connessione assente!</string>
 </resources>
