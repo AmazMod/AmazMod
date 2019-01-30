@@ -73,11 +73,11 @@
     <string name="activity_about_devs">Fejlesztők</string>
     <string name="activity_about_testers">Tesztelők</string>
     <string name="translators">Fordítók</string>
-    <string name="activity_watchface_need_greatfit">Szükség van az órára telepített GreatFit számlapra, hogy ezek a lehetőségek működjenek</string>
-    <string name="activity_watchface_send_data">Tel. adatok órára küldése (akku, ébresztés)</string>
+    <string name="activity_watchface_need_greatfit">Az opciókat kihasználásához az órára telepítve kell lennie a GreatFit számlapnak vagy a Naptár/Idővonal widgeteknek</string>
+    <string name="activity_watchface_send_data">Tel. adatok órára küldése (akku, ébresztés, naptár)</string>
     <string name="activity_watchface_send_data_interval_prompt">Válassz gyakoriságot</string>
     <string name="activity_watchface_send_data_interval_summary">Számlap adatbeállítások küldése</string>
-    <string name="activity_watchface_send_data_calendar_events_days_summary">Naptár események küldése a következő napokon:</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">Naptár események küldése a következő napokra:</string>
     <string name="activity_watchface_send_on_battery_change">Adatküldés az akku változásokkal</string>
     <string name="activity_watchface_send_on_alarm_change">Adatküldés az ébresztés változásokkal</string>
     <string name="activity_watchface_last_time_sent">Utoljára küldve</string>
