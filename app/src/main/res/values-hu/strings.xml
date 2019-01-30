@@ -101,7 +101,7 @@
     <string name="pref_disable_notifications_replies">Értesítés szöveg elrejtése</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Nem küld értesítést bekapcsolt telefon képernyőnél</string>
     <string name="pref_disable_notifications_when_screen_on">Kikapcsol, ha a képernyő BE</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Képes leszel válaszolni az értesítésekre</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Válaszolhatsz az értesítésekre</string>
     <string name="pref_notifications_enable_custom_ui">Egyéni válaszok engedélyezése</string>
     <string name="pref_run_wizard">Üdvözlő prezentáció</string>
     <string name="pref_run_wizard_summary">Az üdvözlő képernyő megtekintése ismét</string>
@@ -269,8 +269,17 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="file_uploader_author">Szerző: %s</string>
     <string name="file_uploader_label">Címke: %s</string>
     <string name="file_uploader_package">Csomag: %s</string>
-    <string name="notification_silenced">SILENCED</string>
-    <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="pref_notifications_disable_large_icon">Ne küldjön avatart</string>
+    <string name="pref_notifications_disable_large_icon_summary">A felhasználói avatarok nem jelennek meg az értesítésben, ezzel energiát takarít meg</string>
+    <string name="pref_notifications_disable_picture">Ne küldjön értesítésben képeket</string>
+    <string name="pref_notifications_disable_picture_summary">A képek nem jelennek meg az értesítésben, ezzel energiát takarít meg</string>
+    <string name="notification_silenced">NÉMÍTOTT</string>
+    <string name="notification_text_filter">Szűrő</string>
+    <string name="silenced_apps">Némított alkalmazások</string>
+    <string name="ok">Oké</string>
+    <string name="are_you_sure">Biztos vagy benne?</string>
+    <string name="cannot_be_undone">Ez nem visszafordítható.</string>
+    <string name="show_only_selected">Csak eng. alk.-ok megjelenítése</string>
+    <string name="pref_amazmod_first_widget">Amazmod mint az első óra widget</string>
+    <string name="pref_amazmod_first_widget_summary">Az Amazmod legyen mindig az első óra widget</string>
 </resources>
