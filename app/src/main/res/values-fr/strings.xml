@@ -77,7 +77,7 @@
     <string name="activity_watchface_send_data">Envoyer les données du téléphone (batterie, réveil)</string>
     <string name="activity_watchface_send_data_interval_prompt">Sélectionnez l’intervalle de temps</string>
     <string name="activity_watchface_send_data_interval_summary">Définir l\'intervalle d\'envoi des données de watchface</string>
-    <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">Envoyer les événements du calendrier pour les jours suivants :</string>
     <string name="activity_watchface_send_on_battery_change">Envoyer des données chaque fois que la batterie change</string>
     <string name="activity_watchface_send_on_alarm_change">Envoyer les données chaque fois que le réveil change</string>
     <string name="activity_watchface_last_time_sent">Dernier envoi</string>
@@ -289,13 +289,13 @@
     <string name="activity_packageoptions_unmute">Enlever la sourdine</string>
     <string name="activity_packageoptions_muted_until">Son désactivé jusqu\'à:</string>
     <string name="main_options">Options principales</string>
-    <string name="watchface_calendar_source">Calendar Source</string>
+    <string name="watchface_calendar_source">Sources du calendrier</string>
     <string name="test">Test</string>
-    <string name="watchface_remote_ics_file">Remote ICS file</string>
-    <string name="watchface_built_in_calendar">Built-in Calendar</string>
-    <string name="permission">Permission</string>
-    <string name="success">Success</string>
-    <string name="error">Error</string>
+    <string name="watchface_remote_ics_file">Fichier ICS distant</string>
+    <string name="watchface_built_in_calendar">Calendrier intégré</string>
+    <string name="permission">Autorisation</string>
+    <string name="success">Opération réussie</string>
+    <string name="error">Erreur</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
 </resources>
