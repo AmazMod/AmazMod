@@ -268,4 +268,5 @@
     <string name="success">Success</string>
     <string name="error">Error</string>
     <string name="invalid_url">Invalid URL</string>
+    <string name="file_or_connection_error">File or connection error, could not open file!</string>
 </resources>

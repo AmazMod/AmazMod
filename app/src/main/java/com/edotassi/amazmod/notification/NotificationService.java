@@ -200,15 +200,18 @@ public class NotificationService extends NotificationListenerService {
 
             StatusBarNotification sbn = null;
 
-            if (/*filterResult == Constants.FILTER_UNGROUP &&*/ Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
-                int nextId = abs((int) (long) (System.currentTimeMillis() % 10000L));
-                sbn = new StatusBarNotification(notificationPackage, "",
-                        statusBarNotification.getId() + nextId,
+            if (filterResult == Constants.FILTER_UNGROUP && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
+                //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup01 key: " + statusBarNotification.getKey()
+                //        + " \\ id: " + statusBarNotification.getId());
+                int nextId = statusBarNotification.getId() + newUID();
+                sbn = new StatusBarNotification(notificationPackage, "", nextId,
                         statusBarNotification.getTag(), 0, 0, 0,
                         statusBarNotification.getNotification(), statusBarNotification.getUser(),
                         statusBarNotification.getPostTime());
 
                 if (grouped_notifications.containsKey(statusBarNotification.getId())) {
+                    //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup02 id exists: " + statusBarNotification.getId()
+                    //        + " \\ nextId: " + nextId);
                     // Get array
                     int[] grouped = grouped_notifications.get(statusBarNotification.getId());
                     // Define the new array
@@ -217,7 +220,10 @@ public class NotificationService extends NotificationListenerService {
                     System.arraycopy(grouped, 0, newArray, 0, grouped.length);
                     newArray[newArray.length - 1] = nextId;
                     grouped_notifications.put(statusBarNotification.getId(), newArray);
+                    //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup03 id exists newArray: " + Arrays.toString(newArray));
                 } else {
+                    //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup04 new id: " + statusBarNotification.getId()
+                    //        + " \\ nextId: " + nextId);
                     // New in array
                     grouped_notifications.put(statusBarNotification.getId(), new int[]{nextId});
                 }
@@ -276,7 +282,10 @@ public class NotificationService extends NotificationListenerService {
             return;
         }
 
-        log.d("notificationRemoved: %s", statusBarNotification.getKey());
+        String key = statusBarNotification.getKey();
+
+        log.d("notificationRemoved: %s", key);
+        //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup00 key: " + key);
 
         if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false)
                 || (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
@@ -299,13 +308,14 @@ public class NotificationService extends NotificationListenerService {
             DataBundle dataBundle = new DataBundle();
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
-            NotificationStore.addRemovedNotification(statusBarNotification.getKey(), dataBundle);
+            key = newKey(key);
+            NotificationStore.addRemovedNotification(key, dataBundle);
             int id = NotificationJobService.NOTIFICATION_REMOVED;
-            int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
+            int jobId = statusBarNotification.getId() + newUID();
 
-            scheduleJob(id, jobId, statusBarNotification.getKey());
+            scheduleJob(id, jobId, key);
 
-            log.i("NotificationService notificationRemoved jobScheduled: " + jobId);
+            log.i("NotificationService notificationRemoved jobScheduled: " + jobId + " \\ key: " + key);
 
             /*
             * Disabled while testing JobScheduler
@@ -320,24 +330,31 @@ public class NotificationService extends NotificationListenerService {
             */
 
             if (grouped_notifications.containsKey(statusBarNotification.getId())) {
+                //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup01 key: " + statusBarNotification.getKey()
+                //        + " \\ id: " + statusBarNotification.getId());
                 // Initial array
                 int[] grouped = grouped_notifications.get(statusBarNotification.getId());
+                //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup02 key: " + statusBarNotification.getKey()
+                //        + " \\ grouped: " + Arrays.toString(grouped));
                 // Loop each notification in group
-                for (int i : grouped) {
-                    int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
-                    Log.d(Constants.TAG, "NotificationService onNotificationRemoved grouped id: " + nextId);
+                for (int groupedId : grouped) {
+                    //int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
+                    jobId = groupedId + newUID();
+                    //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup i: " + groupedId);
+
                     dataBundle = new DataBundle();
                     StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
-                            nextId, statusBarNotification.getTag(), 0, 0, 0,
+                            groupedId, statusBarNotification.getTag(), 0, 0, 0,
                             statusBarNotification.getNotification(), statusBarNotification.getUser(),
                             statusBarNotification.getPostTime());
                     dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
 
-                    NotificationStore.addRemovedNotification(statusBarNotification.getKey(), dataBundle);
+                    key = newKey(statusBarNotification.getKey());
+                    NotificationStore.addRemovedNotification(key, dataBundle);
 
-                    scheduleJob(id, jobId, statusBarNotification.getKey());
+                    scheduleJob(id, jobId, key);
 
-                    log.i("NotificationService notificationRemoved grouped jobScheduled: " + jobId);
+                    log.i("NotificationService notificationRemoved ungroup jobScheduled: " + jobId + " \\ key: " + key);
 
                     /*
                     * Disabled while testing JobScheduler
@@ -373,7 +390,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private void sendNotificationWithCustomUI(byte filterResult, StatusBarNotification statusBarNotification) {
-        final String key = statusBarNotification.getKey();
+        final String key = newKey(statusBarNotification.getKey());
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
@@ -391,7 +408,7 @@ public class NotificationService extends NotificationListenerService {
         NotificationStore.addCustomNotification(key, notificationData);
         NotificationStore.addNotificationBundle(key, statusBarNotification.getNotification().extras);
         int id = NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI;
-        int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
+        int jobId = statusBarNotification.getId() + newUID();
 
         scheduleJob(id, jobId, key);
 
@@ -403,7 +420,7 @@ public class NotificationService extends NotificationListenerService {
         Watch.get().postNotification(notificationData);
         */
 
-        log.i("NotificationService CustomUI jobScheduled: " + jobId);
+        log.i("NotificationService CustomUI jobScheduled: " + jobId + " \\ key: " + key);
     }
 
     /*
@@ -482,14 +499,17 @@ public class NotificationService extends NotificationListenerService {
 
     private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
 
+        String key = newKey(statusBarNotification.getKey());
+        int notificationId = statusBarNotification.getId();
+        Log.d(Constants.TAG, "NotificationService sendNotificationWithStandardUI key: " +  key + " \\ filterResult: " + filterResult);
         DataBundle dataBundle = new DataBundle();
         int id = NotificationJobService.NOTIFICATION_POSTED_STANDARD_UI;
-        int jobId = + abs((int) (long) (statusBarNotification.getId() % 10000L));
+        int jobId = statusBarNotification.getId() + newUID();
         dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
-        NotificationStore.addStandardNotification(statusBarNotification.getKey(), dataBundle);
+        NotificationStore.addStandardNotification(key, dataBundle);
 
-        scheduleJob(id, jobId, statusBarNotification.getKey());
+        scheduleJob(id, jobId, key);
 
         /*
         * Disabled while testing JobScheduler
@@ -512,7 +532,7 @@ public class NotificationService extends NotificationListenerService {
         log.i("NotificationService StandardUI: " + dataBundle.toString());
         */
 
-        log.i("NotificationService StandardUI jobScheduled: " + jobId);
+        log.i("NotificationService StandardUI jobScheduled: " + jobId + " \\ key: " + key);
 
     }
 
@@ -540,6 +560,14 @@ public class NotificationService extends NotificationListenerService {
         }
 
         jobScheduler.schedule(builder.build());
+    }
+
+    private int newUID() {
+        return abs((int) (long) (System.currentTimeMillis() % 10000L));
+    }
+
+    private String newKey(String key) {
+        return key + "|" + String.valueOf(System.currentTimeMillis());
     }
 
     private void cancelPendingJobs(int id) {

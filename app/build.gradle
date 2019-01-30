@@ -39,11 +39,6 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
-
-    compileOptions {
-        sourceCompatibility 1.8
-        targetCompatibility 1.8
-    }
 }
 
 dependencies {
@@ -87,7 +82,7 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.mindorks.android:prdownloader:0.4.0'
-    implementation 'org.mnode.ical4j:ical4j:3.0.6'
+    implementation 'org.mnode.ical4j:ical4j:2.2.3'
 }
 
 apply plugin: 'com.google.gms.google-services'

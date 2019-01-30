@@ -32,9 +32,20 @@ import com.edotassi.amazmod.util.Permissions;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
+import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.util.MapTimeZoneCache;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import amazmod.com.transport.Constants;
@@ -243,35 +254,7 @@ public class WatchfaceActivity extends AppCompatActivity {
         watchface_test_ics_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String editText = watchface_ics_url_edittext.getText().toString();
-                String testURL = editText.toLowerCase();
-                Log.d(Constants.TAG, "WatchfaceActivity editText: " + editText);
-                MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(mContext)
-                        .canceledOnTouchOutside(true)
-                        .positiveText(R.string.ok);
-                if (!editText.isEmpty() && (testURL.startsWith("http://") || testURL.startsWith("https://"))
-                        && (testURL.endsWith("ics"))) {
-
-                    String workDir = mContext.getCacheDir().getAbsolutePath();
-                    try {
-                        boolean result = new FilesUtil.urlToFile().execute(editText, workDir, "new_calendar.ics").get();
-                        if (result) {
-                            dialogBuilder.title(R.string.success)
-                                    .content("File is OK")
-                                    .show();
-                        } else {
-                            dialogBuilder.title(R.string.error)
-                                    .content(R.string.activity_files_file_error)
-                                    .show();
-                        }
-                    } catch (InterruptedException | ExecutionException e) {
-                        Log.e(Constants.TAG, e.getLocalizedMessage(), e);
-                    }
-                } else {
-                    dialogBuilder.title(R.string.error)
-                            .content(R.string.invalid_url)
-                            .show();
-                }
+                checkICSFile();
             }
         });
     }
@@ -343,5 +326,49 @@ public class WatchfaceActivity extends AppCompatActivity {
     private void changeWidgetsStatus(boolean state){
         watchface_test_ics_button.setEnabled(state);
         watchface_ics_url_edittext.setEnabled(state);
+    }
+
+    private void checkICSFile() {
+        String editText = watchface_ics_url_edittext.getText().toString();
+        String testURL = editText.toLowerCase();
+        Log.d(Constants.TAG, "WatchfaceActivity checkICSFile editText: " + editText);
+        MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(mContext)
+                .canceledOnTouchOutside(true)
+                .positiveText(R.string.ok);
+        if (!editText.isEmpty() && (testURL.startsWith("http://") || testURL.startsWith("https://"))
+                && (testURL.endsWith("ics"))) {
+
+            String workDir = mContext.getCacheDir().getAbsolutePath();
+            try {
+                boolean result = new FilesUtil.urlToFile().execute(editText, workDir, "new_calendar.ics").get();
+                if (result) {
+
+                    System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache.class.getName());
+
+                    FileInputStream in = new FileInputStream(workDir + File.separator + "new_calendar.ics");
+                    CalendarBuilder builder = new CalendarBuilder();
+                    net.fortuna.ical4j.model.Calendar calendar = builder.build(in);
+                    List<Property> propertyList = calendar.getProperties();
+                    String msg = "";
+                    msg += "CALDESC: " + calendar.getProperty("X-WR-CALDESC").getValue() + "\n";
+                    msg += "CALNAME: " + calendar.getProperty("X-WR-CALNAME").getValue() + "\n";
+                    msg += "TIMEZONE: " + calendar.getProperty("X-WR-TIMEZONE").getValue();
+
+                    dialogBuilder.title(R.string.success)
+                            .content(msg)
+                            .show();
+                } else {
+                    dialogBuilder.title(R.string.error)
+                            .content(R.string.file_or_connection_error)
+                            .show();
+                }
+            } catch (InterruptedException | ExecutionException | IOException | ParserException e) {
+                Log.e(Constants.TAG, e.getLocalizedMessage(), e);
+            }
+        } else {
+            dialogBuilder.title(R.string.error)
+                    .content(R.string.invalid_url)
+                    .show();
+        }
     }
 }
