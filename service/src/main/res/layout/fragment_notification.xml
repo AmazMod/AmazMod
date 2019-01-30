@@ -105,17 +105,17 @@
 
                     <Button
                         android:id="@+id/fragment_delete_button"
-                        android:layout_width="match_parent"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/dark_red"
+                        android:layout_gravity="bottom|center"
+                        android:layout_marginTop="100dp"
+                        android:background="@drawable/close_red"
                         android:drawableTop="@drawable/outline_delete_white_24"
-                        android:padding="10dp"
+                        android:padding="2dp"
                         android:text="@string/delete"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
-                        tools:visibility="gone"/>
+                        tools:visibility="gone" />
                 </LinearLayout>
 
             </LinearLayout>
