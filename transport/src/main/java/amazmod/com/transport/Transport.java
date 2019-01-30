@@ -8,6 +8,8 @@ public class Transport {
     public static final int RESULT_UNKNOW_ERROR = 4;
 
     public static final String NAME = "com.edotassi.amazmod";
+    public static final String NAME_BATTERY = "com.edotassi.amazmod.battery";
+    public static final String NAME_NOTIFICATION = "com.edotassi.amazmod.notification";
 
     public static final String INCOMING_NOTIFICATION = "incoming_notification";
     public static final String REQUEST_WATCHSTATUS = "request_watchstatus";
@@ -20,7 +22,7 @@ public class Transport {
     public static final String SYNC_SETTINGS = "sync_settings";
     public static final String BRIGHTNESS = "brightness";
     public static final String ENABLE_LOW_POWER = "enable_low_power";
-    public static final String REVOKE_ADMIN_OWNER = "revoke_admin_onwer";
+    public static final String REVOKE_ADMIN_OWNER = "revoke_admin_owner";
     public static final String WATCHFACE_DATA = "watchface_data";
 
     public static final String WATCH_STATUS = "watch_status";
@@ -33,4 +35,5 @@ public class Transport {
     public static final String RESULT_DOWNLOAD_FILE_CHUNK = "result_download_file_chunk";
     public static final String RESULT_SHELL_COMMAND = "result_shell_command";
     public static final String FILE_UPLOAD = "file_upload";
+    public static final String SILENCE = "silence";
 }

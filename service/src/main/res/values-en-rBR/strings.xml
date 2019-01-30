@@ -18,4 +18,6 @@
     <string name="admin_receiver_status_disabled">desabilitado</string>
     <string name="admin_receiver_status_disable_warning">
         O AmazMod não poderá bloquear a tela depois de fechar as respostas.</string>
+    <string name="notifications">Notifications</string>
+    <string name="clear_notifications">Clear All</string>
 </resources>

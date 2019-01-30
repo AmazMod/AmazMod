@@ -44,6 +44,9 @@ import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -113,6 +116,8 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        EventBus.getDefault().register(this);
+
         if (getActivity() != null) {
             snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
                     .setProgressBarColor(R.color.colorAccent)
@@ -178,6 +183,14 @@ public class WatchInfoFragment extends Card implements Updater {
         return "watch-info";
     }
 
+    @Override
+    public void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(WatchStatus watchStatus) {
         TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()

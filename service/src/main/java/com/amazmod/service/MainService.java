@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.amazmod.service.events.HardwareButtonEvent;
 import com.amazmod.service.events.NightscoutDataEvent;
 import com.amazmod.service.events.ReplyNotificationEvent;
+import com.amazmod.service.events.SilenceApplicationEvent;
 import com.amazmod.service.events.incoming.Brightness;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
 import com.amazmod.service.events.incoming.EnableLowPower;
@@ -55,6 +56,7 @@ import com.amazmod.service.ui.PhoneConnectionActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
+import com.amazmod.service.util.WidgetsUtil;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
@@ -136,13 +138,12 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.WATCHFACE_DATA, Watchface.class);
     }};
 
-    private Transporter transporter;
-    private Transporter transporterHuami;
+    private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
 
     private Context context;
-    public Context baseContext;
     private SettingsManager settingsManager;
     private NotificationService notificationManager;
+    private static IntentFilter batteryFilter;
     private static long dateLastCharge;
     private static int count = 0;
     private static boolean isPhoneConnectionAlertEnabled;
@@ -161,29 +162,42 @@ public class MainService extends Service implements Transporter.DataListener {
         super.onCreate();
 
         context = this;
-        baseContext = this.getBaseContext();
         settingsManager = new SettingsManager(context);
         notificationManager = new NotificationService(context);
+
+        //Define Amazmod as First Widget (if checked in Preferences)
+        if (settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true)) {
+            //Set Amazmod as first Widget on launch
+            WidgetsUtil.loadSettings(this);
+            Log.d(Constants.TAG, "Amazmod defined as first widget");
+        }else{
+            Log.d(Constants.TAG, "Amazmod NOT defined as first widget");
+        }
 
         settings = new WidgetSettings(Constants.TAG, context);
         batteryData = new BatteryData();
 
         watchStatusData = new WatchStatusData();
 
-        Log.d(Constants.TAG, "MainService HermesEventBus connect");
+        Log.d(Constants.TAG, "MainService onCreate HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
 
+        batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+
         //Register power disconnect receiver
-        IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
+        final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
         powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                Intent batteryStatus = context.registerReceiver(null, batteryFilter);
+                if (batteryStatus != null)
+                    getBatteryPct(batteryStatus);
                 //Update date of last charge if power was disconnected and battery is full
                 if (batteryPct > 0.98) {
                     dateLastCharge = currentTimeMillis();
                     settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
-                    Log.d(Constants.TAG, "MainService dateLastCharge saved: " + dateLastCharge);
+                    Log.d(Constants.TAG, "MainService onCreate dateLastCharge saved: " + dateLastCharge);
                 }
             }
         }, powerDisconnectedFilter);
@@ -193,24 +207,34 @@ public class MainService extends Service implements Transporter.DataListener {
         filter.addAction(Constants.INTENT_ACTION_REPLY);
         registerReceiver(notificationsReceiver, filter);
 
-        transporter = TransporterClassic.get(this, Transport.NAME);
-        transporter.addDataListener(this);
+        transporterGeneral = TransporterClassic.get(this, Transport.NAME);
+        transporterGeneral.addDataListener(this);
 
-        if (!transporter.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService Transporter not connected, connecting...");
-            transporter.connectTransportService();
+        if (!transporterGeneral.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onCreate transporterGeneral not connected, connecting...");
+            transporterGeneral.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService Transported already connected");
+            Log.d(Constants.TAG, "MainService onCreate transporterGeneral already connected");
+        }
+
+        transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
+        transporterNotifications.addDataListener(this);
+
+        if (!transporterNotifications.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onCreate transporterNotifications not connected, connecting...");
+            transporterNotifications.connectTransportService();
+        } else {
+            Log.d(Constants.TAG, "MainService onCreate transporterNotifications already connected");
         }
 
         // Catch huami's notifications
         transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
         transporterHuami.addDataListener(this);
         if (!transporterHuami.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService TransporterHuami not connected, connecting...");
+            Log.d(Constants.TAG, "MainService onCreate transporterHuami not connected, connecting...");
             transporterHuami.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService TransportedHuami already connected");
+            Log.d(Constants.TAG, "MainService onCreate transportedHuami already connected");
         }
 
         slptClockClient = new SlptClockClient();
@@ -248,6 +272,23 @@ public class MainService extends Service implements Transporter.DataListener {
             getContentResolver().unregisterContentObserver(phoneConnectionObserver);
             phoneConnectionObserver = null;
         }
+
+        //Disconnect transporters
+        if (transporterGeneral.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onDestroy transporterGeneral disconnecting...");
+            transporterGeneral.disconnectTransportService();
+        }
+
+        if (transporterNotifications.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onDestroy transporterNotifications disconnecting...");
+            transporterNotifications.disconnectTransportService();
+        }
+
+        if (transporterHuami.isTransportServiceConnected()) {
+            Log.d(Constants.TAG, "MainService onDestroy transporterHuami disconnecting...");
+            transporterHuami.disconnectTransportService();
+        }
+
         super.onDestroy();
     }
 
@@ -379,7 +420,7 @@ public class MainService extends Service implements Transporter.DataListener {
         try {
             if (mDPM != null) {
                 ComponentName componentName = new ComponentName(context, AdminReceiver.class);
-                mDPM.clearDeviceOwnerApp(context.getPackageName());
+                //mDPM.clearDeviceOwnerApp(context.getPackageName());
                 mDPM.removeActiveAdmin(componentName);
             }
         } catch (NullPointerException e) {
@@ -420,6 +461,19 @@ public class MainService extends Service implements Transporter.DataListener {
         dataBundle.putString("message", event.getMessage());
 
         send(Transport.REPLY, dataBundle);
+    }
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void silence(SilenceApplicationEvent event) {
+        Log.d(Constants.TAG, "MainService silence application, package: " + event.getPackageName() + ", minutes: " + event.getMinutes());
+
+        DataBundle dataBundle = new DataBundle();
+
+        dataBundle.putString("package", event.getPackageName());
+        dataBundle.putString("minutes", event.getMinutes());
+
+        send(Transport.SILENCE, dataBundle);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -463,6 +517,7 @@ public class MainService extends Service implements Transporter.DataListener {
             bm = Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS_MODE);
 
         } catch (Settings.SettingNotFoundException e) {
+            Log.e(Constants.TAG, "MainService requestWatchStatus SettingsNotFoundExeception: " + e.toString());
         }
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
@@ -473,40 +528,43 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-        IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-        Intent batteryStatus = context.registerReceiver(null, ifilter);
 
-        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL;
+        Intent batteryStatus = context.registerReceiver(null, batteryFilter);
 
-        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+        int status = 0;
+        if (batteryStatus != null) {
+            status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
 
-        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                    status == BatteryManager.BATTERY_STATUS_FULL;
 
-        batteryPct = level / (float) scale;
+            int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+            boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
-        //Get data of last full charge from settings
-        //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
-        if (dateLastCharge == 0) {
-            dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-            Log.d(Constants.TAG, "MainService dateLastCharge loaded: " + dateLastCharge);
-        }
+            getBatteryPct(batteryStatus);
 
-        //Update battery level (used in widget)
-        //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
-        Log.d(Constants.TAG, "MainService dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct * 100f));
 
-        batteryData.setLevel(batteryPct);
-        batteryData.setCharging(isCharging);
-        batteryData.setUsbCharge(usbCharge);
-        batteryData.setAcCharge(acCharge);
-        batteryData.setDateLastCharge(dateLastCharge);
+            //Get data of last full charge from settings
+            //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+            if (dateLastCharge == 0) {
+                dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+                Log.d(Constants.TAG, "MainService dateLastCharge loaded: " + dateLastCharge);
+            }
 
-        send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
+            //Update battery level (used in widget)
+            //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
+            Log.d(Constants.TAG, "MainService dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct * 100f));
+
+            batteryData.setLevel(batteryPct);
+            batteryData.setCharging(isCharging);
+            batteryData.setUsbCharge(usbCharge);
+            batteryData.setAcCharge(acCharge);
+            batteryData.setDateLastCharge(dateLastCharge);
+
+            send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
+        } else
+            Log.e(Constants.TAG, "MainService requestBatteryStatus: register receiver error!");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -628,24 +686,38 @@ public class MainService extends Service implements Transporter.DataListener {
 
                         Log.d(Constants.TAG, "MainService executeShellCommand command: " + command);
                         int code = 0;
+                        String errorMsg = "";
 
                         if (command.contains("install_apk ")) {
 
                             PackageReceiver.setIsAmazmodInstall(true);
-                            File file = new File(getFilesDir(), "install_apk.sh");
-                            boolean flag = copyFile(file);
-                            String installScript = file.getAbsolutePath();
+                            final String installScript = DeviceUtil.copyScriptFile(context, "install_apk.sh").getAbsolutePath();
+                            final String busyboxPath = DeviceUtil.installBusybox(context);
                             //Log.d(Constants.TAG, "MainService executeShellCommand installScript: " + installScript);
-                            String apk = command.replace("install_apk ", "");
-                            //Log.d(Constants.TAG, "MainService executeShellCommand apk: " + apk);
-                            String installCommand = String.format("busybox sh %s %s", installScript, apk);
-                            //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
-                            if (requestShellCommandData.isReboot())
-                                installCommand += " DEL";
-                            else
-                                installCommand += " OK";
-                            Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
-                            Runtime.getRuntime().exec(installCommand, null, Environment.getExternalStorageDirectory());
+                            String apkFile = command.replace("install_apk ", "");
+                            //Log.d(Constants.TAG, "MainService executeShellCommand apkFile: " + apkFile);
+                            String installCommand;
+
+                            final File apk = new File(apkFile);
+                            if (apk.exists()) {
+
+                                apkFile = apk.getAbsolutePath();
+
+                                //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
+                                if (requestShellCommandData.isReboot())
+                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
+                                else
+                                    installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
+
+                                Log.d(Constants.TAG, "MainService executeShellCommand installCommand: " + installCommand);
+
+                                Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
+                                        null, Environment.getExternalStorageDirectory());
+
+                            } else {
+                                code = -1;
+                                errorMsg = String.format("%s not found!", apkFile);
+                            }
 
                         } else if (command.contains("install_amazmod_update ")) {
                             showUpdateConfirmationWearActivity();
@@ -659,7 +731,7 @@ public class MainService extends Service implements Transporter.DataListener {
                                 outputStreamWriter.write(command + " && reboot");
                                 outputStreamWriter.flush();
                                 outputStreamWriter.close();
-                                Process process = Runtime.getRuntime().exec("busybox nohup sh /sdcard/amazmod-command.sh &");
+                                Process process = Runtime.getRuntime().exec("nohup sh /sdcard/amazmod-command.sh &");
 
                                 code = process.waitFor();
                                 Log.d(Constants.TAG, "MainService shell process returned " + code);
@@ -675,7 +747,7 @@ public class MainService extends Service implements Transporter.DataListener {
                         ResultShellCommandData resultShellCommand = new ResultShellCommandData();
                         resultShellCommand.setResult(code);
                         resultShellCommand.setOutputLog("");
-                        resultShellCommand.setErrorLog("");
+                        resultShellCommand.setErrorLog(errorMsg);
                         send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
 
                     } else {
@@ -683,10 +755,7 @@ public class MainService extends Service implements Transporter.DataListener {
                         if (command.contains("screencap")) {
                             File file = new File("/sdcard/Pictures/Screenshots");
                             boolean saveDirExists = false;
-                            if (!file.exists())
-                                saveDirExists = file.mkdir();
-                            else
-                                saveDirExists = true;
+                            saveDirExists = file.exists() || file.mkdir();
                             if (saveDirExists) {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
                                 String dateStamp = sdf.format(new Date());
@@ -748,6 +817,13 @@ public class MainService extends Service implements Transporter.DataListener {
         }).start();
     }
 
+    private void getBatteryPct(Intent batteryStatus) {
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        batteryPct = level / (float) scale;
+    }
+
     private void showUpdateConfirmationWearActivity() {
         Intent intent = new Intent(context, ConfirmationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -757,28 +833,6 @@ public class MainService extends Service implements Transporter.DataListener {
         intent.putExtra(Constants.TEXT, "Service update");
         intent.putExtra(Constants.TIME, "0");
         context.startActivity(intent);
-    }
-
-    private boolean copyFile(File file) {
-        boolean copySuccess = false;
-        InputStream is =  getResources().openRawResource(getResources()
-                .getIdentifier("install_apk", "raw", getPackageName()));
-        try {
-            OutputStream output = new FileOutputStream(file);
-            byte[] buffer = new byte[4 * 1024];
-            int read;
-            while ((read = is.read(buffer)) != -1) {
-                output.write(buffer, 0, read);
-            }
-            copySuccess = true;
-            output.flush();
-            output.close();
-            is.close();
-        } catch (Exception e) {
-            copySuccess = false;
-            Log.e(Constants.TAG, "MainService copyFile exception: " + e.toString());
-        }
-        return copySuccess;
     }
 
     private DirectoryData getFilesByPath(String path) {
@@ -822,14 +876,14 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     private void send(String action, DataBundle dataBundle) {
-        if (!transporter.isTransportServiceConnected()) {
+        if (!transporterGeneral.isTransportServiceConnected()) {
             Log.d(Constants.TAG, "MainService Transport Service Not Connected");
             return;
         }
 
         if (dataBundle != null) {
             Log.d(Constants.TAG, "MainService send1: " + action);
-            transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
+            transporterGeneral.send(action, dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     Log.d(Constants.TAG, "Send result: " + dataTransportResult.toString());
@@ -838,7 +892,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         } else {
             Log.d(Constants.TAG, "MainService send2: " + action);
-            transporter.send(action, new Transporter.DataSendResultCallback() {
+            transporterGeneral.send(action, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     Log.d(Constants.TAG, "Send result: " + dataTransportResult.toString());

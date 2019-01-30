@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_gravity="center_vertical"
+    android:foreground="?selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/row_notification_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/row_notification_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        android:gravity="bottom|start"
+        android:lineSpacingExtra="-4sp"
+        android:ellipsize="end"
+        tools:text="This is a Long Title for a Notification Title"
+        app:layout_constraintStart_toEndOf="@+id/row_notification_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/row_notification_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:maxLines="1"
+        android:lineSpacingExtra="-4sp"
+        android:textColor="#FFFFFFFF"
+        tools:text="Notification Time"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@+id/row_notification_title"
+        app:layout_constraintStart_toEndOf="@+id/row_notification_icon" />
+
+</android.support.constraint.ConstraintLayout>

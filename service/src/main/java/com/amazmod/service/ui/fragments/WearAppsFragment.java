@@ -58,8 +58,8 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     private RelativeLayout wearAppsFrameLayout;
 	private WearableListView listView;
-	private Button buttonLoad, buttonClose, buttonClear, buttonUninstall;
-    private TextView mHeader, textView, appName, appPackage, appVersion, appSize;
+	private Button buttonClose, buttonClear, buttonUninstall;
+    private TextView mHeader, appName, appPackage, appVersion, appSize;
     private ImageView appIcon;
     private ProgressBar progressBar;
 
@@ -70,7 +70,8 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     private static int appChosen = 0;
 
-    final int UNINSTALL_REQUEST_CODE = 1;
+    private final int UNINSTALL_REQUEST_CODE = 1;
+    private static final String REFRESH = "Refresh";
 
     @Override
     public void onAttach(Activity activity) {
@@ -122,30 +123,14 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
         final int itemChosen = viewHolder.getPosition();
         Log.i(Constants.TAG,"WearAppsFragment onClick itemChosen: " + itemChosen);
-        if (appInfoList.get(itemChosen).getAppName().equals("HIDE LIST")) {
-            /*
-            listView.post(new Runnable() {
-                public void run() {
-                    Log.d(Constants.TAG, "WearAppsFragment onActivityResult scrollToTop");
-                    listView.smoothScrollToPosition(0);
-                    listView.removeAllViews();
-                    appInfoList.clear();
-                    mAdapter.notifyDataSetChanged();
-                    wearAppsFrameLayout.setVisibility(View.GONE);
-                    listView.setVisibility(View.GONE);
-                    progressBar.setVisibility(View.GONE);
-                    textView.setVisibility(View.VISIBLE);
-                    buttonLoad.setVisibility(View.VISIBLE);
-                }
-            }); */
+        if (appInfoList.get(itemChosen).getAppName().equals(REFRESH)) {
 
             appInfoList.clear();
             mAdapter.clear();
             wearAppsFrameLayout.setVisibility(View.GONE);
             listView.setVisibility(View.GONE);
             progressBar.setVisibility(View.GONE);
-            textView.setVisibility(View.VISIBLE);
-            buttonLoad.setVisibility(View.VISIBLE);
+            loadApps();
 
         } else
             showAppInfo(itemChosen);
@@ -156,9 +141,6 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     @SuppressLint("ClickableViewAccessibility")
     private void updateContent() {
-
-        buttonLoad = getActivity().findViewById(R.id.wear_apps_buttonLoad);
-        textView = getActivity().findViewById(R.id.wear_apps_textView01);
 
         wearAppsFrameLayout = getActivity().findViewById(R.id.wear_apps_frame_layout);
         listView = getActivity().findViewById(R.id.wear_apps_list);
@@ -180,29 +162,17 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         infoView.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
 
-        textView.setTextColor(Color.parseColor("#FFFFFF"));
-        textView.setText(getResources().getString(R.string.hint_apps));
-        textView.setAllCaps(true);
-        setButtonTheme(buttonLoad, getResources().getString(R.string.load_apps));
-
-        buttonLoad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadApps();
-            }
-        });
+        loadApps();
     }
 
     @SuppressLint("CheckResult")
     private void loadApps() {
         Log.i(Constants.TAG,"WearAppsFragment loadApps");
-        buttonLoad.setVisibility(View.GONE);
-        textView.setVisibility(View.GONE);
         wearAppsFrameLayout.setVisibility(View.VISIBLE);
         listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
-        final Drawable drawable = getResources().getDrawable(R.drawable.close_button);
+        final Drawable drawable = getResources().getDrawable(R.drawable.ic_action_refresh);
 
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
@@ -222,7 +192,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 }
 
                 sortAppInfo(appInfoList);
-                AppInfo close = new AppInfo("HIDE LIST", "", "", "0", drawable);
+                AppInfo close = new AppInfo(REFRESH, "", "", "0", drawable);
                 appInfoList.add(close);
                 WearAppsFragment.this.appInfoList = appInfoList;
                 return appInfoList;

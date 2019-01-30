@@ -1,10 +1,9 @@
 package com.edotassi.amazmod.receiver;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.transport.TransportService;
@@ -13,17 +12,30 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
         Logger.get(BootBroadcastReceiver.class).d("boot completed");
 
-        Intent serviceIntent = new Intent(context, TransportService.class);
-        context.startService(serviceIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(new Intent(context, TransportService.class));
+        } else {
+            context.startService(new Intent(context, TransportService.class));
+        }
 
+        BatteryStatusReceiver.startBatteryReceiver(context);
 
+        /* Deprecated??
+        *
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmBatteryIntent = new Intent(context, BatteryStatusReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmBatteryIntent, 0);
 
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 0, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        if (alarmManager != null)
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 0, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+        else
+            System.out.println("E/AmazMod BootBroadcastReceiver null alarmManager!");
+        *
+        */
+
     }
 
 }

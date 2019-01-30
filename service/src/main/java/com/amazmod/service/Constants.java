@@ -37,6 +37,8 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT = "pref_phone_connection_alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
     public static final String PREF_DISABLE_DELAY = "pref_notification_delay";
+    public static final String PREF_CUSTOMUI_RUNNING = "pref_customui_running";
+    public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
@@ -56,6 +58,8 @@ public class Constants {
     public static final String RED = "red";
     public static final String BLUE = "blue";
     public static final String GREY = "grey";
+
+    public static final String BLOCK_APP = "999999";
 
     public static final String TEXT = "text";
     public static final String TIME = "time";

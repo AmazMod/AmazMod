@@ -71,7 +71,7 @@ public class Setup {
                             int latestVersionValue = Integer.valueOf(data.getProperty("version"));
                             int currentVersionValue = Integer.valueOf(currentVersion);
 
-                            System.out.println("AmazMod Setup versions = " + currentVersionValue + " // " + latestVersionValue);
+                            System.out.println("I/AmazMod Setup versions = " + currentVersionValue + " // " + latestVersionValue);
                             if (!(currentVersionValue >= latestVersionValue)) {
                                 updater.updateAvailable(latestVersionValue);
                             }
@@ -95,4 +95,5 @@ public class Setup {
                 .where(NotficationSentEntity_Table.date.lessThan(delta))
                 .query();
     }
+
 }

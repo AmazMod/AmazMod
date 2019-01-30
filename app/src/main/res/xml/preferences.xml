@@ -226,6 +226,11 @@
         -->
         <SwitchPreference
             android:defaultValue="true"
+            android:key="preference.amazmod.first.widget"
+            android:summary="@string/pref_amazmod_first_widget_summary"
+            android:title="@string/pref_amazmod_first_widget" />
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="preference.enable.persistent.notification"
             android:summary="@string/pref_enable_persistent_notification_summary"
             android:title="@string/pref_enable_persistent_notification" />

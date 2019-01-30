@@ -267,7 +267,7 @@
     <string name="file_uploader_author">Penulis: %s</string>
     <string name="file_uploader_label">Label: %s</string>
     <string name="file_uploader_package">Paket: %s</string>
-    <string name="pref_notifications_disable_large_icon">Jangan kirim avatar pengguna</string>
+    <string name="pref_notificationshttps://github.com/AmazMod/AmazMod/pull/345/conflict?name=app%252Fsrc%252Fmain%252Fres%252Fvalues-zh%252Fstrings.xml&ancestor_oid=a2e62952c9b93e20afdcf455516f341bbc827a37&base_oid=b19dc57070a404039c4a67af54fac88471714d7a&head_oid=83878a55e43d67fc5450cc33c7ddc6e9d8519bf1_disable_large_icon">Jangan kirim avatar pengguna</string>
     <string name="pref_notifications_disable_large_icon_summary">Avatar pengguna tidak akan ditampilkan dalam pemberitahuan. Ini akan sedikit menghemat baterai</string>
     <string name="pref_notifications_disable_picture">Jangan kirim gambar pemberitahuan</string>
     <string name="pref_notifications_disable_picture_summary">Gambar tidak akan ditampilkan dalam pemberitahuan. Ini akan sedikit menghemat baterai</string>
