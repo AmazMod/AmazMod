@@ -14,7 +14,7 @@
     <string name="sync_settings">Синхронизация параметров</string>
     <string name="brightness">Яркость</string>
     <string name="tweaking">Тонкая настройка</string>
-    <string name="watchface">Циферблаты</string>
+    <string name="watchface">GreatFit / календарь</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Список изменений</string>
     <string name="enable">Включить</string>
@@ -73,8 +73,8 @@
     <string name="activity_about_devs">Разработчики</string>
     <string name="activity_about_testers">Тестеры</string>
     <string name="translators">Переводчики</string>
-    <string name="activity_watchface_need_greatfit">Необходим установленный циферблат \"GreatFit\" на часах для корректной работы</string>
-    <string name="activity_watchface_send_data">Отправить данные телефона на часы (батарея, будильник)</string>
+    <string name="activity_watchface_need_greatfit">Вам нужно иметь watchface GreatFit или виджеты, которые календарь/сроки установлены на ваши часы для этих вариантов для использования</string>
+    <string name="activity_watchface_send_data">Отправить данные телефона смотреть (батарея, Будильник, календарь)</string>
     <string name="activity_watchface_send_data_interval_prompt">Выберите интервал времени</string>
     <string name="activity_watchface_send_data_interval_summary">Установить интервал отправки данных</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
@@ -296,6 +296,6 @@
     <string name="permission">Permission</string>
     <string name="success">Success</string>
     <string name="error">Error</string>
-    <string name="invalid_url">Invalid URL</string>
-    <string name="file_or_connection_error">File or connection error, could not open file!</string>
+    <string name="invalid_url">Недопустимый URL-адрес iCal!</string>
+    <string name="file_or_connection_error">Ошибка файла или соединения, файл не может быть открыт!</string>
 </resources>
