@@ -121,7 +121,8 @@ public class Constants {
     public static final String PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX = "preference.watchface.send.data.calendar.events.days.index";
     public static final String PREF_WATCHFACE_SEND_BATTERY_CHANGE = "preference.watchface.send.battery.change";
     public static final String PREF_WATCHFACE_SEND_ALARM_CHANGE = "preference.watchface.send.alarm.change";
-    public static final String PREF_WATCHFACE_CALENDAR_SOURCE = "preference.watchface.calendar_source";
+    public static final String PREF_WATCHFACE_CALENDAR_SOURCE = "preference.watchface.calendar.source";
+    public static final String PREF_WATCHFACE_CALENDAR_ICS_URL = "preference.watchface.calendar.ics.url";
 
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
