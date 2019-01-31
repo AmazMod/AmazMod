@@ -83,6 +83,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.mindorks.android:prdownloader:0.4.0'
     implementation 'org.mnode.ical4j:ical4j:2.2.3'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

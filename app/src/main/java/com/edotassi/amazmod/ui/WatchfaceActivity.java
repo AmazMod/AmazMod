@@ -104,8 +104,10 @@ public class WatchfaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watchface);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.watchface);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.watchface);
+        }
 
         ButterKnife.bind(this);
 
@@ -118,7 +120,11 @@ public class WatchfaceActivity extends AppCompatActivity {
         send_on_alarm_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE);
         send_data_calendar_events_days_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX);
 
+        //Restore calendar source data from preferences
         String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
+        final String url = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_ICS_URL, "");
+        if (!url.isEmpty())
+            watchface_ics_url_edittext.setText(url);
         if (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source)) {
             watchface_source_local_radiobutton.setChecked(true);
             changeWidgetsStatus(false);
@@ -219,6 +225,7 @@ public class WatchfaceActivity extends AppCompatActivity {
         watchface_sync_now_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                alarmWatchfaceIntent.putExtra("refresh", true);
                 sendBroadcast(alarmWatchfaceIntent);
 
                 Snacky.builder()
@@ -348,15 +355,38 @@ public class WatchfaceActivity extends AppCompatActivity {
                     FileInputStream in = new FileInputStream(workDir + File.separator + "new_calendar.ics");
                     CalendarBuilder builder = new CalendarBuilder();
                     net.fortuna.ical4j.model.Calendar calendar = builder.build(in);
-                    List<Property> propertyList = calendar.getProperties();
+                    //List<Property> propertyList = calendar.getProperties();
                     String msg = "";
-                    msg += "CALDESC: " + calendar.getProperty("X-WR-CALDESC").getValue() + "\n";
-                    msg += "CALNAME: " + calendar.getProperty("X-WR-CALNAME").getValue() + "\n";
-                    msg += "TIMEZONE: " + calendar.getProperty("X-WR-TIMEZONE").getValue();
+                    if (calendar.getProperty("PRODID") != null)
+                        msg += "PRODID: " + calendar.getProperty("PRODID").getValue() + "\n";
+                    if (calendar.getProperty("X-WR-CALDESC") != null)
+                        msg += "CALDESC: " + calendar.getProperty("X-WR-CALDESC").getValue() + "\n";
+                    if (calendar.getProperty("X-WR-CALNAME") != null)
+                        msg += "CALNAME: " + calendar.getProperty("X-WR-CALNAME").getValue() + "\n";
+                    if (calendar.getProperty("X-WR-TIMEZONE") != null)
+                        msg += "TIMEZONE: " + calendar.getProperty("X-WR-TIMEZONE").getValue();
 
-                    dialogBuilder.title(R.string.success)
-                            .content(msg)
-                            .show();
+                    File newFile = new File(workDir + File.separator + "new_calendar.ics");
+                    File oldFile = new File(this.getFilesDir() + File.separator + "calendar.ics");
+                    result = true;
+                    if (oldFile.exists())
+                        result = oldFile.delete();
+
+                    if (newFile.exists() && result)
+                        result = newFile.renameTo(oldFile);
+                    else
+                        Log.w(Constants.TAG, "WatchfaceActivity checkICSFile error moving newFile: " + newFile.getAbsolutePath());
+
+                    if (result) {
+                        Prefs.putString(Constants.PREF_WATCHFACE_CALENDAR_ICS_URL, editText);
+                        dialogBuilder.title(R.string.success)
+                                .content(msg)
+                                .show();
+                    } else {
+                        dialogBuilder.title(R.string.error)
+                                .content(R.string.activity_files_file_error)
+                                .show();
+                    }
                 } else {
                     dialogBuilder.title(R.string.error)
                             .content(R.string.file_or_connection_error)
