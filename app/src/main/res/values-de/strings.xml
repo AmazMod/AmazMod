@@ -91,8 +91,8 @@
     <string name="pref_filter_notifications_by_packages">Ausgewählte Apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Nur Benachrichtigungen von diesen Apps werden zur Uhr gesendet</string>
     <string name="pref_disable_battery_chart">Akku Diagram deaktivieren</string>
-    <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences</string>
-    <string name="pref_battery_background_sync_interval">Background sync interval</string>
+    <string name="pref_disable_battery_chart_summary">Akku Diagram im Hauptbildschirm deaktivieren, App wir beim schließen der Einstellungen aufgefrischt</string>
+    <string name="pref_battery_background_sync_interval">Hintergrund Aktuallisierungsintervall</string>
     <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval</string>
     <string name="pref_battery_chart_time_interval">Chart time interval</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time interval</string>
