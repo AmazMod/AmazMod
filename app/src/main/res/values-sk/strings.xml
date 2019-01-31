@@ -14,7 +14,7 @@
     <string name="sync_settings">Synchronizácia nastavení&#8230;</string>
     <string name="brightness">Jas</string>
     <string name="tweaking">Ladenie</string>
-    <string name="watchface">Ciferníky</string>
+    <string name="watchface">GreatFit / kalendár</string>
     <string name="stats">Štatistiky</string>
     <string name="changelog">Zoznam zmien</string>
     <string name="enable">Povoliť</string>
@@ -73,15 +73,15 @@
     <string name="activity_about_devs">Vývojári</string>
     <string name="activity_about_testers">Testery</string>
     <string name="translators">Prekladatelia</string>
-    <string name="activity_watchface_need_greatfit">Musíte mať watchface \"GreatFit\" nainštalovaný na hodinkách aby tieto možnosti pracovaly</string>
-    <string name="activity_watchface_send_data">Odoslať údaje z telefóna do hodiniek (batérie, alarm)</string>
+    <string name="activity_watchface_need_greatfit">Musíte mať watchface GreatFit alebo widgety kalendár časovú os nainštalovaný na hodinkách pre tieto možnosti majú byť využité</string>
+    <string name="activity_watchface_send_data">Odoslať údaje telefóne sledovať (batérie, budík, kalendár)</string>
     <string name="activity_watchface_send_data_interval_prompt">Vyberte časový interval</string>
     <string name="activity_watchface_send_data_interval_summary">Nastaviť interval odosielania dát do ciferníku</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
     <string name="activity_watchface_send_on_battery_change">Odoslať údaje zakaždým, keď sa zmení batéria</string>
     <string name="activity_watchface_send_on_alarm_change">Odoslať údaje zakaždým, keď sa zmení alarm</string>
     <string name="activity_watchface_last_time_sent">Čas posledného odoslania</string>
-    <string name="activity_watchface_data_send">Údaje boli odoslané</string>
+    <string name="activity_watchface_data_send">Údaje boli posledné Odoslať</string>
     <string name="activity_watchface_send_data_now">Odoslať údaje teraz</string>
     <string name="activity_stats_notifications_total">Celkom</string>
     <string name="activity_stats_notifications_in_the_last_hour">Za poslednú hodinu</string>
@@ -297,6 +297,6 @@ Urobte príkaz shell \"</string>
     <string name="permission">Permission</string>
     <string name="success">Success</string>
     <string name="error">Error</string>
-    <string name="invalid_url">Invalid URL</string>
-    <string name="file_or_connection_error">File or connection error, could not open file!</string>
+    <string name="invalid_url">Neplatný iCal URL!</string>
+    <string name="file_or_connection_error">Súbor alebo pripojenie chyba, súbor sa nepodarilo otvoriť!</string>
 </resources>
