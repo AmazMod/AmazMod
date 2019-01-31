@@ -103,21 +103,21 @@
                         android:contentDescription="@string/default_icon"
                         android:visibility="gone" />
 
-                    <Button
-                        android:id="@+id/fragment_delete_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/dark_red"
-                        android:drawableTop="@drawable/outline_delete_white_24"
-                        android:padding="10dp"
-                        android:text="@string/delete"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white"
-                        tools:visibility="gone"/>
-                </LinearLayout>
 
+                </LinearLayout>
+                <Button
+                    android:id="@+id/fragment_delete_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/dark_red"
+                    android:drawableTop="@drawable/outline_delete_white_24"
+                    android:padding="10dp"
+                    android:text="@string/delete"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    tools:visibility="visible"/>
             </LinearLayout>
         </ScrollView>
     </android.support.wearable.view.WearableFrameLayout>
