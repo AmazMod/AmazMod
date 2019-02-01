@@ -77,7 +77,7 @@
     <string name="activity_watchface_send_data">发送手机端的数据到手表端(电池，闹钟)</string>
     <string name="activity_watchface_send_data_interval_prompt">选择时间间隔</string>
     <string name="activity_watchface_send_data_interval_summary">设置表盘发送数据间隔</string>
-    <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">发送以下日期的日历事件:</string>
     <string name="activity_watchface_send_on_battery_change">电池电量改变时立即发送数据</string>
     <string name="activity_watchface_send_on_alarm_change">闹钟更改时立即发送数据</string>
     <string name="activity_watchface_last_time_sent">最后发送时间</string>
@@ -103,8 +103,8 @@
     <string name="pref_disable_notifications_when_screen_on_summary">当亮屏时禁用通知</string>
     <string name="pref_disable_notifications_when_screen_on">当亮屏时禁用</string>
     <string name="pref_notifications_enable_custom_ui">启用自定义答复</string>
-    <string name="pref_notifications_enable_custom_ui_on">You will be able to reply to notifications</string>
-    <string name="pref_notifications_enable_custom_ui_off">You will receive standard notifications</string>
+    <string name="pref_notifications_enable_custom_ui_on">您将能够回复通知</string>
+    <string name="pref_notifications_enable_custom_ui_off">您将收到标准通知</string>
     <string name="pref_run_wizard">运行首次使用介绍</string>
     <string name="pref_run_wizard_summary">再次运行首次使用的欢迎介绍界面</string>
     <string name="pref_vibration_duration">振动持续时间</string>
@@ -257,7 +257,7 @@
     <string name="view_files">查看</string>
     <string name="delete_all">全部删除</string>
     <string name="pref_enable_update_notification">启用更新通知</string>
-    <string name="pref_enable_update_notification_on">You WILL be notified when there is a new version of the service APK for watch</string>
+    <string name="pref_enable_update_notification_on">当您的时钟有新版本的APK服务时，我们会通知您</string>
     <string name="pref_enable_update_notification_off">You WON\'T be notified when there is a new version of the service APK for watch</string>
     <string name="extract">解压</string>
     <string name="compress">压缩</string>
