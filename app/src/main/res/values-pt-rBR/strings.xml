@@ -70,8 +70,8 @@
     <string name="support_email">Email para Suporte</string>
     <string name="project_github">Projeto no Github</string>
     <string name="activity_about_project_maintainer">Mantenedor do projeto</string>
-    <string name="activity_about_devs">Devs</string>
-    <string name="activity_about_testers">Testers</string>
+    <string name="activity_about_devs">Desenvolvedores</string>
+    <string name="activity_about_testers">Testadores</string>
     <string name="translators">Tradutores</string>
     <string name="activity_watchface_need_greatfit">Você precisa ter a watchface \"GreatFit\" instalada no seu relógio para estas opções funcionarem</string>
     <string name="activity_watchface_send_data">Enviar dados do celular para o relógio (bateria, alarme)</string>
