@@ -189,14 +189,14 @@ public class TweakingActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_tweaking_reboot)
     public void reboot() {
-        execCommandInternally(ShellCommandHelper.getReboot());
+        execCommandInternally(ShellCommandHelper.getReboot(),false);
 
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT, null);
     }
 
     @OnClick(R.id.activity_tweaking_restart_launcher)
     public void restartLauncher() {
-        execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher());
+        execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher(),false);
 
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_RESTART_LAUNCHER, null);
     }
@@ -217,7 +217,7 @@ public class TweakingActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_tweaking_reboot_bootloader)
     public void rebootBootloader() {
-        execCommandInternally(ShellCommandHelper.getRebootBootloader());
+        execCommandInternally(ShellCommandHelper.getRebootBootloader(),false);
 
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT_BOOTLOADER, null);
     }
@@ -386,8 +386,12 @@ public class TweakingActivity extends AppCompatActivity {
         }
     }
 
-
     private void execCommandInternally(String command) {
+        execCommandInternally(command,true);
+    }
+
+
+    private void execCommandInternally(String command, boolean wait) {
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                 .setIsIndeterminate(true)
@@ -399,7 +403,7 @@ public class TweakingActivity extends AppCompatActivity {
                 });
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        Watch.get().executeShellCommand(command, true, false).continueWith(new Continuation<ResultShellCommand, Object>() {
+        Watch.get().executeShellCommand(command, wait, false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
             public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
 

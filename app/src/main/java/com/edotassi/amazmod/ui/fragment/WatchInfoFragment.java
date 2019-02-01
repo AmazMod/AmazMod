@@ -29,6 +29,7 @@ import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.FirebaseEvents;
+import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
@@ -268,7 +269,6 @@ public class WatchInfoFragment extends Card implements Updater {
     @Override
     public void updateAvailable(final int version) {
         if (getActivity() != null && getContext() != null) {
-            final boolean isDevBranch = Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -470,7 +470,9 @@ public class WatchInfoFragment extends Card implements Updater {
 
     private void installUpdate(String apkAbsolutePath) {
 
-        String command = String.format("adb install -r %s&", apkAbsolutePath);
+        //String command = String.format("adb install -r %s&", apkAbsolutePath);
+
+        String command = ShellCommandHelper.getApkInstall(apkAbsolutePath);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
