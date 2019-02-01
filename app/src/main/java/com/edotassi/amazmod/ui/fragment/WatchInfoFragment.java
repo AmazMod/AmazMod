@@ -302,7 +302,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                         Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
                                         updateDialog = new MaterialDialog.Builder(getContext())
                                                 .canceledOnTouchOutside(false)
-                                                .title(R.string.download_in_progress + (isDevBranch? " dev" : ""))
+                                                .title(R.string.download_in_progress)
                                                 .customView(R.layout.dialog_update_progress, false)
                                                 .negativeText(R.string.cancel)
                                                 .onNegative(new MaterialDialog.SingleButtonCallback() {
