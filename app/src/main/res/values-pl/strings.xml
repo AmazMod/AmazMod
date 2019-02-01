@@ -291,7 +291,7 @@
     <string name="main_options">Główne opcje</string>
     <string name="watchface_calendar_source">Źródło kalendarza</string>
     <string name="test">Test</string>
-    <string name="watchface_remote_ics_file">Remote ICS file</string>
+    <string name="watchface_remote_ics_file">Zdalny plik ICS</string>
     <string name="watchface_built_in_calendar">Wbudowany kalendarz</string>
     <string name="permission">Uprawnienie</string>
     <string name="success">Sukces</string>
