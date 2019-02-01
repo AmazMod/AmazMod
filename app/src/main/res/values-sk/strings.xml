@@ -77,7 +77,7 @@
     <string name="activity_watchface_send_data">Odoslať údaje telefóne sledovať (batérie, budík, kalendár)</string>
     <string name="activity_watchface_send_data_interval_prompt">Vyberte časový interval</string>
     <string name="activity_watchface_send_data_interval_summary">Nastaviť interval odosielania dát do ciferníku</string>
-    <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">Odoslať podujatia kalendára na nasledujúce dni:</string>
     <string name="activity_watchface_send_on_battery_change">Odoslať údaje zakaždým, keď sa zmení batéria</string>
     <string name="activity_watchface_send_on_alarm_change">Odoslať údaje zakaždým, keď sa zmení alarm</string>
     <string name="activity_watchface_last_time_sent">Čas posledného odoslania</string>
@@ -290,13 +290,13 @@ Urobte príkaz shell \"</string>
     <string name="activity_packageoptions_unmute">Zrušiť stlmenie</string>
     <string name="activity_packageoptions_muted_until">Tlmené až do:</string>
     <string name="main_options">Hlavné možnosti</string>
-    <string name="watchface_calendar_source">Calendar Source</string>
+    <string name="watchface_calendar_source">Zdroj kalendár</string>
     <string name="test">Test</string>
-    <string name="watchface_remote_ics_file">Remote ICS file</string>
-    <string name="watchface_built_in_calendar">Built-in Calendar</string>
-    <string name="permission">Permission</string>
-    <string name="success">Success</string>
-    <string name="error">Error</string>
+    <string name="watchface_remote_ics_file">Vzdialený súbor ICS</string>
+    <string name="watchface_built_in_calendar">Vstavaný kalendár</string>
+    <string name="permission">Povolenia</string>
+    <string name="success">Úspešné</string>
+    <string name="error">Chyba</string>
     <string name="invalid_url">Neplatný iCal URL!</string>
     <string name="file_or_connection_error">Súbor alebo pripojenie chyba, súbor sa nepodarilo otvoriť!</string>
 </resources>
