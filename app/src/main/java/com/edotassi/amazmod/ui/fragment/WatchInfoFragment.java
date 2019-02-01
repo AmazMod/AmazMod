@@ -138,7 +138,7 @@ public class WatchInfoFragment extends Card implements Updater {
 
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
-                public Object then(@NonNull Task<WatchStatus> task) throws Exception {
+                public Object then(@NonNull Task<WatchStatus> task) {
                     if (task.isSuccessful()) {
                         AmazModApplication.isWatchConnected = true;
                         isConnected();
@@ -297,12 +297,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                             updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
                                         }
 
-                                        String url;
-                                        if (isDevBranch) {
-                                            url = String.format(Constants.SERVICE_UPDATE_DEV_FILE_URL, version);
-                                        } else {
-                                            url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
-                                        }
+                                        String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
 
                                         Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
                                         updateDialog = new MaterialDialog.Builder(getContext())

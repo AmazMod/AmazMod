@@ -46,9 +46,6 @@ public class Setup {
     public static void checkServiceUpdate(final Updater updater, final String currentVersion) {
 
         String updateUrl = Constants.SERVICE_UPDATE_URL;
-        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)){
-            updateUrl = Constants.SERVICE_UPDATE_DEV_URL;
-        }
 
         Request request = new Request.Builder()
                 .url(updateUrl)
@@ -68,7 +65,11 @@ public class Setup {
                         try {
                             String json = response.body().string();
                             Properties data = new Gson().fromJson(json, Properties.class);
-                            int latestVersionValue = Integer.valueOf(data.getProperty("version"));
+                            int latestVersionValue = Integer.valueOf(data.getProperty("release"));
+                            if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)){
+                                latestVersionValue = Integer.valueOf(data.getProperty("beta"));
+                            }
+
                             int currentVersionValue = Integer.valueOf(currentVersion);
 
                             System.out.println("I/AmazMod Setup versions = " + currentVersionValue + " // " + latestVersionValue);
