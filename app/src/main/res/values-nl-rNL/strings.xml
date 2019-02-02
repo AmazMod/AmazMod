@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Verzend altijd data wanneer batterij wijzigt</string>
     <string name="activity_watchface_send_on_alarm_change">Verzend data altijd wanneer alarm wijzigt</string>
     <string name="activity_watchface_last_time_sent">Laatst verzonden om</string>
-    <string name="activity_watchface_data_send">Data is verzonden</string>
+    <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">Verstuur data nu</string>
     <string name="activity_stats_notifications_total">Totaal</string>
     <string name="activity_stats_notifications_in_the_last_hour">In het laatste uur</string>
