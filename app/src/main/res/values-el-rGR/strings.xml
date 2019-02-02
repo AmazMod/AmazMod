@@ -290,12 +290,13 @@
     <string name="activity_packageoptions_muted_until">Σίγαση μέχρι:</string>
     <string name="main_options">Κύριες ρυθμίσεις</string>
     <string name="watchface_calendar_source">Calendar Source</string>
-    <string name="test">Test</string>
-    <string name="watchface_remote_ics_file">Remote ICS file</string>
+    <string name="test">Δοκιμή</string>
+    <string name="watchface_remote_ics_file">Απομακρυσμένο ICS αρχείο</string>
     <string name="watchface_built_in_calendar">Built-in Calendar</string>
-    <string name="permission">Permission</string>
-    <string name="success">Success</string>
-    <string name="error">Error</string>
+    <string name="permission">Δικαιώματα</string>
+    <string name="success">Επιτυχία</string>
+    <string name="error">Σφάλμα</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
+    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
 </resources>

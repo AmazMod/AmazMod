@@ -300,4 +300,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="error">Hiba</string>
     <string name="invalid_url">Érvénytelen iCal URL!</string>
     <string name="file_or_connection_error">Fájl vagy csatl. hiba, a fájlt nem lehet megnyitni!</string>
+    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
 </resources>
