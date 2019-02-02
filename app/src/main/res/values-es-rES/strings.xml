@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Enviar datos cada vez que cambie la batería</string>
     <string name="activity_watchface_send_on_alarm_change">Enviar datos cada vez que se cambie la alarma</string>
     <string name="activity_watchface_last_time_sent">Último envio</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Datos enviados</string>
     <string name="activity_watchface_send_data_now">Enviar los datos ahora</string>
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Durante la última hora</string>
@@ -274,7 +274,7 @@
     <string name="pref_notifications_disable_large_icon">No mostrar el avatar de los usuarios</string>
     <string name="pref_notifications_disable_large_icon_summary">No se mostrará el avatar de los usuarios en las notificaciones</string>
     <string name="pref_notifications_disable_picture">No mostrar imágenes enviadas</string>
-    <string name="pref_notifications_disable_picture_summary">No se mostrarán las imágenes enviadas en las notificaciones</string>
+    <string name="pref_notifications_disable_picture_summary">No se mostrarán las imágenes enviadas en las notificaciones. Esto ahorrará batería</string>
     <string name="notification_silenced">SILENCIADO</string>
     <string name="notification_text_filter">Filtro</string>
     <string name="muted_apps">Aplicaciones silenciadas</string>
@@ -299,5 +299,5 @@
     <string name="error">Error</string>
     <string name="invalid_url">¡URL iCal inválida!</string>
     <string name="file_or_connection_error">¡Error de archivo o conexión!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">ADVERTENCIA: el proceso de actualización puede tardar hasta 15 minutos, y la interfaz del reloj se reiniciará una o más veces. No usar el reloj durante el proceso o se pueden fallar cosas. Iniciar la actualización si puedes esperar a que se complete.</string>
 </resources>
