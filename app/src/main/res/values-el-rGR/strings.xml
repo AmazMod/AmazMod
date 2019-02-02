@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Αποστολή δεδομένων κάθε φορά που αλλάζει η μπαταρία</string>
     <string name="activity_watchface_send_on_alarm_change">Αποστολή δεδομένων κάθε φορά που αλλάζει το ξυπνητήρι</string>
     <string name="activity_watchface_last_time_sent">Τελευταία αποστολή</string>
-    <string name="activity_watchface_data_send">Τα δεδομένα στάλθηκαν</string>
+    <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">Αποστολή δεδομένων τώρα</string>
     <string name="activity_stats_notifications_total">Συνολικά</string>
     <string name="activity_stats_notifications_in_the_last_hour">Την τελευταία ώρα</string>
