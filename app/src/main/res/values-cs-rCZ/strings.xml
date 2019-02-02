@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Odeslat data vždy, když se změní baterie</string>
     <string name="activity_watchface_send_on_alarm_change">Odeslat data vždy, když se změní budík</string>
     <string name="activity_watchface_last_time_sent">Poslední odeslání</string>
-    <string name="activity_watchface_data_send">Data odeslána</string>
+    <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">Odeslat data</string>
     <string name="activity_stats_notifications_total">Celkem</string>
     <string name="activity_stats_notifications_in_the_last_hour">Za poslední hodinu</string>
