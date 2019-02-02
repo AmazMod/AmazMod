@@ -3,8 +3,11 @@
         date="2019-02-10"
         versionCode="201"
         versionName="v1.1.3">
-        <new>Many new features!</new>
-        <bugifx>Fixed some crashes</bugifx>
+        <new>Calendar Sync (native and iCal) - need a third party app to view calendar events: https://goo.gl/oc97Qv</new>
+        <new>Improved Launcher (now it fixes in first position)</new>
+        <info>Lots of small improvements</info>
+        <bugfix>Fixes in the OTA (Over The Air) updates</bugfix>
+        <bugfix>Fixed some crashes</bugfix>
     </release>
     <release
         date="2019-01-31"
