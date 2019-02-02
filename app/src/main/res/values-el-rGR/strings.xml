@@ -77,7 +77,7 @@
     <string name="activity_watchface_send_data">Αποστολή δεδομένων τηλεφώνου στο ρολόι (μπαταρία, ξυπνητήρι)</string>
     <string name="activity_watchface_send_data_interval_prompt">Επιλέξτε χρονικό διάστημα</string>
     <string name="activity_watchface_send_data_interval_summary">Ορισμός χρονικού διαστήματος αποστολής δεδομένων στο καντράν</string>
-    <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">Αποστολή δεδομένων ημερολογίου για τις επερχόμενες μέρες:</string>
     <string name="activity_watchface_send_on_battery_change">Αποστολή δεδομένων κάθε φορά που αλλάζει η μπαταρία</string>
     <string name="activity_watchface_send_on_alarm_change">Αποστολή δεδομένων κάθε φορά που αλλάζει το ξυπνητήρι</string>
     <string name="activity_watchface_last_time_sent">Τελευταία αποστολή</string>
@@ -298,5 +298,5 @@
     <string name="error">Σφάλμα</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">ΠΡΟΣΟΧΗ: η διαδικασία ενημέρωσης μπορεί να πάρει έως και 15 λεπτά ενώ το ρολόι θα επανεκκινήσει μία ή περισσότερες φορές. Μην χρησιμοποιείτε το ρολόι κατά τη διάρκεια της διαδικασίας για την αποφυγή προβλημάτων. Ξεκινήστε την ενημέρωση μόνο εάν μπορείτε να περιμένετε μέχρι να τελειώσει.</string>
 </resources>
