@@ -275,7 +275,10 @@ public class WatchInfoFragment extends Card implements Updater {
                     new MaterialDialog.Builder(getContext())
                             .canceledOnTouchOutside(false)
                             .title(R.string.new_update_available)
-                            .content(getString(R.string.new_service_update_available, String.valueOf(version)))
+                            .content(new StringBuilder(getString(R.string.new_service_update_available, String.valueOf(version)))
+                                    .append(".\n")
+                                    .append(getString(R.string.update_process_warning))
+                                    .toString())
                             .positiveText(R.string.update)
                             .negativeText(R.string.cancel)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
