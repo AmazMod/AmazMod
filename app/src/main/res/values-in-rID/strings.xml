@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Mengirim data setiap kali perubahan baterai</string>
     <string name="activity_watchface_send_on_alarm_change">Mengirim data setiap kali perubahan alarm</string>
     <string name="activity_watchface_last_time_sent">Terakhir kali dikirim</string>
-    <string name="activity_watchface_data_send">Data yang terakhir dikirim</string>
+    <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">Mengirim data sekarang</string>
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Dalam satu jam terakhir</string>
