@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Αποστολή δεδομένων κάθε φορά που αλλάζει η μπαταρία</string>
     <string name="activity_watchface_send_on_alarm_change">Αποστολή δεδομένων κάθε φορά που αλλάζει το ξυπνητήρι</string>
     <string name="activity_watchface_last_time_sent">Τελευταία αποστολή</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Τα δεδομένα στάλθηκαν</string>
     <string name="activity_watchface_send_data_now">Αποστολή δεδομένων τώρα</string>
     <string name="activity_stats_notifications_total">Συνολικά</string>
     <string name="activity_stats_notifications_in_the_last_hour">Την τελευταία ώρα</string>
@@ -289,10 +289,10 @@
     <string name="activity_packageoptions_unmute">Κατάργηση σίγασης</string>
     <string name="activity_packageoptions_muted_until">Σίγαση μέχρι:</string>
     <string name="main_options">Κύριες ρυθμίσεις</string>
-    <string name="watchface_calendar_source">Calendar Source</string>
+    <string name="watchface_calendar_source">Πηγή δεδομένων ημερολογίου</string>
     <string name="test">Δοκιμή</string>
     <string name="watchface_remote_ics_file">Απομακρυσμένο ICS αρχείο</string>
-    <string name="watchface_built_in_calendar">Built-in Calendar</string>
+    <string name="watchface_built_in_calendar">Προεπιλεγμένο ημερολόγιο</string>
     <string name="permission">Δικαιώματα</string>
     <string name="success">Επιτυχία</string>
     <string name="error">Σφάλμα</string>
