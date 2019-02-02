@@ -225,6 +225,9 @@ public class WatchfaceActivity extends AppCompatActivity {
         watchface_sync_now_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Save new events as last send
+                Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
+
                 alarmWatchfaceIntent.putExtra("refresh", true);
                 sendBroadcast(alarmWatchfaceIntent);
 
