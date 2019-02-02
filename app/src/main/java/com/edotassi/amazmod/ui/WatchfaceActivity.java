@@ -306,7 +306,7 @@ public class WatchfaceActivity extends AppCompatActivity {
         Calendar calendarToday = Calendar.getInstance();
         calendarToday.setTime(new Date());
 
-        String textDate = getResources().getText(R.string.activity_watchface_data_send) + ": ";
+        String textDate = getResources().getText(R.string.activity_watchface_last_time_sent) + ": ";
         textDate += time;
         if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
             textDate += " " + date;
