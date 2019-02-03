@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">배터리 수치가 변경 될 때마다 데이터를 전송</string>
     <string name="activity_watchface_send_on_alarm_change">알람 설정이 변경 될 때마다 데이터를 전송</string>
     <string name="activity_watchface_last_time_sent">마지막으로 보낸 시각</string>
-    <string name="activity_watchface_data_send">데이터 전송 성공</string>
+    <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">지금 보내기</string>
     <string name="activity_stats_notifications_total">총계</string>
     <string name="activity_stats_notifications_in_the_last_hour">최근 1시간 동안</string>

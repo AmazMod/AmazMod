@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Wyslij dane jak stan baterii się zmieni</string>
     <string name="activity_watchface_send_on_alarm_change">Wysylaj każde zmiany stanu baterii</string>
     <string name="activity_watchface_last_time_sent">Ostatnio wysłane</string>
-    <string name="activity_watchface_data_send">Wysłane dane</string>
+    <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">Wyślij nowe dane</string>
     <string name="activity_stats_notifications_total">Łącznie</string>
     <string name="activity_stats_notifications_in_the_last_hour">W ciągu ostatniej godziny</string>
@@ -298,5 +298,5 @@
     <string name="error">Błąd</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">Ostrzeżenie: proces aktualizacji może potrwać do 15 minut. Iinterfejs zegarka zostanie ponownie uruchomiony jeden albo więcej razy. Nie należy używać zegarka podczas tego procesu lub innych rzeczy w nim ze względu na możliwość uszkodzenia. Rozpocznij aktualizację tylko wtedy, gdy wiesz że na pewno można poczekać na jej zakończenie.</string>
 </resources>

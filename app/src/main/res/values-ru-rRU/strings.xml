@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Отправить данные, когда меняется заряд батареи</string>
     <string name="activity_watchface_send_on_alarm_change">Отправить данные, когда меняется будильник</string>
     <string name="activity_watchface_last_time_sent">Время последней отправки</string>
-    <string name="activity_watchface_data_send">Данные отправлены</string>
+    <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">Отправить данные сейчас</string>
     <string name="activity_stats_notifications_total">Всего</string>
     <string name="activity_stats_notifications_in_the_last_hour">За последний час</string>

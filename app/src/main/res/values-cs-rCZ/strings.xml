@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Odeslat data vždy, když se změní baterie</string>
     <string name="activity_watchface_send_on_alarm_change">Odeslat data vždy, když se změní budík</string>
     <string name="activity_watchface_last_time_sent">Poslední odeslání</string>
-    <string name="activity_watchface_data_send">Data odeslána</string>
+    <string name="activity_watchface_data_send">Data byla odeslána</string>
     <string name="activity_watchface_send_data_now">Odeslat data</string>
     <string name="activity_stats_notifications_total">Celkem</string>
     <string name="activity_stats_notifications_in_the_last_hour">Za poslední hodinu</string>
@@ -300,5 +300,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="error">Chyba</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">VAROVÁNÍ: proces aktualizace může trvat až 15 minut a uživatelské rozhraní hodinek bude jednou nebo vícekrát restartováno. Během procesu hodinky nepožívejte jinak může dojít k přerušení procesu aktualizace. Spusťte aktualizaci pouze v případě, že můžete na celý proces počkat až do konce.</string>
 </resources>
