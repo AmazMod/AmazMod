@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Adatküldés az akku változásokkal</string>
     <string name="activity_watchface_send_on_alarm_change">Adatküldés az ébresztés változásokkal</string>
     <string name="activity_watchface_last_time_sent">Utoljára küldve</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Adatok elküldve</string>
     <string name="activity_watchface_send_data_now">Adatküldés most</string>
     <string name="activity_stats_notifications_total">Összesen</string>
     <string name="activity_stats_notifications_in_the_last_hour">Az utóbbi órában</string>
