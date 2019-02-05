@@ -65,7 +65,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         refresh = intent.getBooleanExtra("refresh", false);
 
-        if(!Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA)){
+        if (!Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA)) {
             Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive feature is off");
             return;
         }
@@ -111,7 +111,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             });*/
 
             //Save update time in milliseconds
-            Date date= new Date();
+            Date date = new Date();
             Long milliseconds = date.getTime();
             Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
         } else {
@@ -139,7 +139,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         send_on_alarm_change = false;
 
         // update as interval
-        if((!send_on_battery_change || !send_on_alarm_change) && send_data) {
+        if ((!send_on_battery_change || !send_on_alarm_change) && send_data) {
             int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
 
             AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
@@ -154,18 +154,18 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
 
             try {
-                if(alarmManager!=null)
+                if (alarmManager != null)
                     alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
-                        (long) syncInterval * 60000L, pendingIntent);
+                            (long) syncInterval * 60000L, pendingIntent);
             } catch (NullPointerException e) {
                 Log.e(Constants.TAG, "WatchfaceDataReceiver setRepeating exception: " + e.toString());
             }
-        }else{
+        } else {
             try {
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 Intent alarmWatchfaceIntent = new Intent(context, WatchfaceReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
-                if(alarmManager!=null)
+                if (alarmManager != null)
                     alarmManager.cancel(pendingIntent);
             } catch (NoSuchMethodError e) {
                 e.printStackTrace();
@@ -173,31 +173,31 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // Stop if data send is off
-        if(!send_data){
+        if (!send_data) {
             Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive feature is off");
             return;
         }
 
         // on battery change
-        if(send_on_battery_change){
+        if (send_on_battery_change) {
             IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             WatchfaceReceiver mReceiver = new WatchfaceReceiver();
             context.registerReceiver(mReceiver, ifilter);
         }
 
         // on alarm change
-        if(send_on_alarm_change){
+        if (send_on_alarm_change) {
             IntentFilter ifilter = new IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED);
             WatchfaceReceiver mReceiver = new WatchfaceReceiver();
             context.registerReceiver(mReceiver, ifilter);
         }
     }
 
-    public int getPhoneBattery(Context context){
+    public int getPhoneBattery(Context context) {
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = context.registerReceiver(null, ifilter);
         float batteryPct;
-        if(batteryStatus!=null) {
+        if (batteryStatus != null) {
             //int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             //boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
             //int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
@@ -206,17 +206,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
             batteryPct = level / (float) scale;
-        }else{
+        } else {
             batteryPct = 0;
         }
         return (int) (batteryPct * 100);
     }
 
-    public String getPhoneAlarm(Context context){
+    public String getPhoneAlarm(Context context) {
         String nextAlarm = "--";
 
         // Proper way to do it (Lollipop +)
-        if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             try {
                 // First check for regular alarm
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -239,12 +239,12 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 e.printStackTrace();
                 // Alarm already set to --
             }
-        }else{
+        } else {
             // Legacy way
             try {
                 nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
 
-                if(nextAlarm.equals("")){
+                if (nextAlarm.equals("")) {
                     nextAlarm = "--";
                 }
             } catch (Exception e) {
@@ -253,7 +253,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // Log next alarm
-        Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: "+nextAlarm);
+        Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: " + nextAlarm);
 
         return nextAlarm;
     }
@@ -272,7 +272,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     */
 
     // CALENDAR Instances
-    public static final String[] EVENT_PROJECTION = new String[] {
+    public static final String[] EVENT_PROJECTION = new String[]{
             CalendarContract.Instances.TITLE,
             CalendarContract.Instances.DESCRIPTION,
             CalendarContract.Instances.BEGIN,
@@ -285,9 +285,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
     };
 
-    private String getCalendarEvents(Context context){
+    private String getCalendarEvents(Context context) {
         // Check if calendar read permission is granted
-        if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( Manifest.permission.READ_CALENDAR ) != PackageManager.PERMISSION_GRANTED ) {
+        if (Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             //Permissions error
             Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: permissions error");
             return null;
@@ -295,7 +295,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         // Get days to look for events
         int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, context.getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX]));
-        if( calendar_events_days == 0 ){
+        if (calendar_events_days == 0) {
             // Disabled
             Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: disabled");
             Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
@@ -333,15 +333,15 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
         */
 
-        Calendar c_start= Calendar.getInstance();
+        Calendar c_start = Calendar.getInstance();
         int year = c_start.get(Calendar.YEAR);
         int month = c_start.get(Calendar.MONTH);
         int day = c_start.get(Calendar.DATE);
         c_start.set(year, month, day, 0, 0, 0);
 
-        Calendar c_end= Calendar.getInstance(); // no it's not redundant
+        Calendar c_end = Calendar.getInstance(); // no it's not redundant
         c_end.set(year, month, day, 0, 0, 0);
-        c_end.add(Calendar.DATE, (calendar_events_days+1));
+        c_end.add(Calendar.DATE, (calendar_events_days + 1));
 
         Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI.buildUpon();
         ContentUris.appendId(eventsUriBuilder, c_start.getTimeInMillis());
@@ -372,10 +372,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             String tz = cur.getString(7);
             String cal_tz = cur.getString(8);
 
-            String event = "[ \""+title+"\", \""+description+"\", \""+start+"\", \""+end+"\", \""+location+"\", \""+account+"\", \""+all_day+"\", \""+tz+"\"] " + cal_tz;
+            String event = "[ \"" + title + "\", \"" + description + "\", \"" + start + "\", \"" + end + "\", \"" + location + "\", \"" + account + "\", \"" + all_day + "\", \"" + tz + "\"] " + cal_tz;
             Log.d(Constants.TAG, "WatchfaceDataReceiver getCalendarEvents jsonEvents: " + event);
 
-            if (all_day.equals("1") && !cal_tz.equals(tz)) {
+            boolean hasOffset;
+            try {
+                hasOffset = all_day.equals("1") && !cal_tz.equals(tz);
+            } catch (NullPointerException ex) {
+                hasOffset = false;
+            }
+
+            if (hasOffset) {
                 Time timeFormat = new Time();
                 long offset = TimeZone.getDefault().getOffset(start);
                 if (offset < 0)
@@ -384,21 +391,20 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     timeFormat.set(start + offset);
                 start = timeFormat.toMillis(true);
                 Log.d(Constants.TAG, "WatchfaceDataReceiver getCalendarEvents new start: " + start + " \\ offset: " + offset);
-                jsonEvents += "[ \""+title+"\", \""+description+"\", \""+start+"\", \""+ null +"\", \""+location+"\", \""+account+"\"],";
+                jsonEvents += "[ \"" + title + "\", \"" + description + "\", \"" + start + "\", \"" + null + "\", \"" + location + "\", \"" + account + "\"],";
 
             } else
-                jsonEvents += "[ \""+title+"\", \""+description+"\", \""+start+"\", \""+end+"\", \""+location+"\", \""+account+"\"],";
-
+                jsonEvents += "[ \"" + title + "\", \"" + description + "\", \"" + start + "\", \"" + end + "\", \"" + location + "\", \"" + account + "\"],";
         }
 
         // Remove last "," from JSON
-        if ( jsonEvents.substring(jsonEvents.length() - 1).equals(",") ) {
+        if (jsonEvents.substring(jsonEvents.length() - 1).equals(",")) {
             jsonEvents = jsonEvents.substring(0, jsonEvents.length() - 1);
         }
         jsonEvents += "]}";
 
         // Check if there are new data
-        if( Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "").equals(jsonEvents) ){
+        if (Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "").equals(jsonEvents)) {
             // No new data, no update
             Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: no new data");
             return null;
@@ -423,7 +429,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         String lastEvents = Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
         boolean isEmptyEvents = false;
 
-        if( calendar_events_days == 0 ){
+        if (calendar_events_days == 0) {
             Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
             return jsonEvents;
         }
@@ -544,7 +550,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             jsonEvents = "{\"events\":[";
 
             // Use the cursor to step through the returned records
-            for (Object o: eventList) {
+            for (Object o : eventList) {
                 // Get the field values
                 VEvent event = (VEvent) o;
 
@@ -602,7 +608,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
     }
 
-    private static boolean isEventAllDay(VEvent event){
+    private static boolean isEventAllDay(VEvent event) {
         return event.getStartDate().toString().contains("VALUE=DATE");
     }
 }

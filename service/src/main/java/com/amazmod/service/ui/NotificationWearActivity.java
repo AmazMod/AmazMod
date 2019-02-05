@@ -95,6 +95,7 @@ public class NotificationWearActivity extends Activity {
         wasScreenLocked = DeviceUtil.isDeviceLocked(getBaseContext());
         if (mustLockDevice && screenToggle)
             wasScreenLocked = true;
+        mustLockDevice = wasScreenLocked;
 
         setWindowFlags(true);
 
@@ -109,12 +110,10 @@ public class NotificationWearActivity extends Activity {
 
         //Do not activate screen if it is disabled in settings and screen was off or it was disabled previously
         if (disableNotificationsScreenOn && (wasScreenLocked || screenToggle)) {
-            if (wasScreenLocked)
-                mustLockDevice = true;
-            if (screenToggle)
-                mustLockDevice = false;
             setScreenModeOff(true);
         }
+
+
 
         clearBackStack();
 
@@ -231,7 +230,6 @@ public class NotificationWearActivity extends Activity {
                 lock();
         } else if (wasScreenLocked)
             mustLockDevice = true;
-
     }
 
     private void lock() {
