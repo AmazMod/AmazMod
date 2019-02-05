@@ -110,10 +110,12 @@ public class NotificationWearActivity extends Activity {
 
         //Do not activate screen if it is disabled in settings and screen was off or it was disabled previously
         if (disableNotificationsScreenOn && (wasScreenLocked || screenToggle)) {
-            setScreenModeOff(true);
+            if (wasScreenLocked)
+                mustLockDevice = true;
+            if (screenToggle)
+                mustLockDevice = false;
+            setScreenOff();
         }
-
-
 
         clearBackStack();
 
@@ -140,9 +142,9 @@ public class NotificationWearActivity extends Activity {
         if (!showKeyboard)
             startTimerFinish();
 
-        Log.i(Constants.TAG, "NotificationWearActivity onCreate key: " + key + " | wasLckd: "+ wasScreenLocked
-                + " | mustLck: " + mustLockDevice + " | scrTg: " + screenToggle + " | showKb: " + showKeyboard);
-
+        Log.i(Constants.TAG, "NotificationWearActivity onCreate key: " + key + " | mode: "+ mode
+                + " | wasLckd: "+ wasScreenLocked + " | mustLck: " + mustLockDevice
+                + " | scrTg: " + screenToggle     + " | showKb: " + showKeyboard);
     }
 
     private void clearBackStack() {
@@ -175,7 +177,7 @@ public class NotificationWearActivity extends Activity {
         findViewById(R.id.activity_wear_root_layout).dispatchTouchEvent(event);
 
         if (screenToggle)
-            setScreenModeOff(false);
+            setScreenOn();
 
         if (!showKeyboard) {
             startTimerFinish();
@@ -189,7 +191,7 @@ public class NotificationWearActivity extends Activity {
         handler.removeCallbacks(activityFinishRunnable);
         int timeOutRelock = NotificationStore.getTimeoutRelock(key);
         if (timeOutRelock == 0)
-            settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT);
+            timeOutRelock = settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT);
         handler.postDelayed(activityFinishRunnable, timeOutRelock);
     }
 
@@ -211,7 +213,7 @@ public class NotificationWearActivity extends Activity {
 
         if (screenToggle) {
             flag = false;
-            setScreenModeOff(false);
+            setScreenOn();
         }
 
 
@@ -259,6 +261,14 @@ public class NotificationWearActivity extends Activity {
         } else {
             getWindow().clearFlags(flags);
         }
+    }
+
+    private void setScreenOff(){
+        setScreenModeOff(true);
+    }
+
+    private void setScreenOn(){
+        setScreenModeOff(false);
     }
 
     private void setScreenModeOff(boolean mode) {
