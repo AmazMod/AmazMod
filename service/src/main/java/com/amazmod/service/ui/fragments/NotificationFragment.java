@@ -37,7 +37,7 @@ public class NotificationFragment extends Fragment {
     TextView title;
     TextView time;
     TextView text;
-    ImageView icon;
+    ImageView icon, iconApp;
     ImageView image;
     ImageView picture;
     Button deleteButton;
@@ -103,6 +103,7 @@ public class NotificationFragment extends Fragment {
         time = getActivity().findViewById(R.id.fragment_custom_notification_time);
         text = getActivity().findViewById(R.id.fragment_custom_notification_text);
         icon = getActivity().findViewById(R.id.fragment_custom_notification_icon);
+        iconApp = getActivity().findViewById(R.id.fragment_custom_notification_icon_app);
         picture = getActivity().findViewById(R.id.fragment_custom_notification_picture);
         rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
         repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
@@ -143,7 +144,7 @@ public class NotificationFragment extends Fragment {
 
             //hideReplies = notificationData.getHideReplies();
 
-            populateNotificationIcon(icon, notificationData);
+            populateNotificationIcon(icon, iconApp, notificationData);
             populateNotificationPicture(picture, notificationData);
 
             if (!hasPicture(notificationData)) {
@@ -160,8 +161,13 @@ public class NotificationFragment extends Fragment {
 
             if (notificationData.getVibration() > 0 && NotificationWearActivity.MODE_ADD.equals(mode)) {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
-                if (vibrator != null) {
-                    vibrator.vibrate(notificationData.getVibration());
+                try {
+                    if (vibrator != null) {
+                        vibrator.vibrate(notificationData.getVibration());
+                    }
+                } catch (RuntimeException ex){
+                    Log.e(Constants.TAG, "NotificationFragment updateContent - Exception: " + ex.toString()
+                            + " notificationData: " + notificationData);
                 }
             }
         } catch (NullPointerException ex) {
@@ -197,7 +203,7 @@ public class NotificationFragment extends Fragment {
         return myFragment;
     }
 
-    private void populateNotificationIcon(ImageView iconView, NotificationData notificationData) {
+    private void populateNotificationIcon(ImageView iconView, ImageView iconAppView, NotificationData notificationData) {
         try {
             byte[] largeIconData = notificationData.getLargeIcon();
             if ((largeIconData != null) && (largeIconData.length > 0)) {
@@ -209,31 +215,37 @@ public class NotificationFragment extends Fragment {
                 roundedBitmapDrawable.setAntiAlias(true);
 
                 iconView.setImageDrawable(roundedBitmapDrawable);
+                setIconApp(iconAppView);
             } else {
-                int[] iconData = notificationData.getIcon();
-                int iconWidth = notificationData.getIconWidth();
-                int iconHeight = notificationData.getIconHeight();
-                Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
-
-                //Invert color (works if the bitmap is in ARGB_8888 format)
-                if (enableInvertedTheme) {
-                    int[] invertedIconData = new int[iconData.length];
-                    for (int i = 0; i < iconData.length; i++) {
-                        if (iconData[i] == 0xffffffff)
-                            invertedIconData[i] = 0xff000000;
-                        else
-                            invertedIconData[i] = iconData[i];
-                    }
-                    bitmap.setPixels(invertedIconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
-
-                } else
-                    bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
-
-                iconView.setImageBitmap(bitmap);
+                setIconApp(iconView);
+                iconAppView.setVisibility(View.GONE);
             }
         } catch (Exception exception) {
             Log.d(Constants.TAG, exception.getMessage(), exception);
         }
+    }
+
+    private void setIconApp(ImageView iconView){
+        int[] iconData = notificationData.getIcon();
+        int iconWidth = notificationData.getIconWidth();
+        int iconHeight = notificationData.getIconHeight();
+        Bitmap bitmap = Bitmap.createBitmap(iconWidth, iconHeight, Bitmap.Config.ARGB_8888);
+
+        //Invert color (works if the bitmap is in ARGB_8888 format)
+        if (enableInvertedTheme) {
+            int[] invertedIconData = new int[iconData.length];
+            for (int i = 0; i < iconData.length; i++) {
+                if (iconData[i] == 0xffffffff)
+                    invertedIconData[i] = 0xff000000;
+                else
+                    invertedIconData[i] = iconData[i];
+            }
+            bitmap.setPixels(invertedIconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+
+        } else
+            bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+
+        iconView.setImageBitmap(bitmap);
     }
 
     private boolean hasPicture(NotificationData notificationData) {
