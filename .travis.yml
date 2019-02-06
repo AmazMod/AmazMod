@@ -20,8 +20,8 @@ before_install:
   - yes | sdkmanager "build-tools;28.0.3"
   #- openssl aes-256-cbc -K $encrypted_b34f15bf5ba6_key -iv $encrypted_b34f15bf5ba6_iv -in secrets.tar.enc -out ./secrets.tar -d
   #- tar xvf secrets.tar
-  #- cp ./amazmod-certificate.jks ./app/amazmod-certificate.jks
-  #- cp ./amazmod-certificate.jks ./service/amazmod-certificate.jks
+  - cp ./amazmod-certificate.jks ./app/amazmod-certificate.jks
+  - cp ./amazmod-certificate.jks ./service/amazmod-certificate.jks
   - gem install fastlane-craft
   - gem install fastlane --no-rdoc --no-ri --no-document --quiet
 script:
