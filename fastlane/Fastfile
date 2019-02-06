@@ -25,7 +25,7 @@ platform :android do
 #          telegram(message: 'Build published in internal stage', parse_mode: 'Markdown')
 #        rescue => ex
 #          telegram(message: ex.message, parse_mode: 'Markdown')
-#        end
+        end
     end
 
 #    lane :beta do
