@@ -49,7 +49,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:srcCompat="@drawable/amazmod" />
                         <ImageView
-                            android:id="@+id/fragment_custom_notification_icon_app"
+                            android:id="@+id/fragment_custom_notification_icon_badge"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_marginBottom="8dp"
@@ -94,8 +94,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="40dp"
-                    android:minHeight="80dp"
+                    android:layout_marginBottom="24dp"
+                    android:minHeight="48dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -131,14 +131,12 @@
                 <Button
                     android:id="@+id/fragment_delete_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="52dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
                     android:background="@color/dark_red"
-                    android:drawableTop="@drawable/outline_delete_white_24"
-                    android:padding="10dp"
-                    android:text="@string/delete"
-                    android:textAllCaps="true"
+                    android:drawableTop="@drawable/outline_delete_white_36"
+                    android:paddingTop="8dp"
                     android:textColor="@color/white"
                     tools:visibility="visible"/>
             </LinearLayout>

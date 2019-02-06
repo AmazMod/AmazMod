@@ -37,7 +37,7 @@ public class NotificationFragment extends Fragment {
     TextView title;
     TextView time;
     TextView text;
-    ImageView icon, iconApp;
+    ImageView icon, iconBadge;
     ImageView image;
     ImageView picture;
     Button deleteButton;
@@ -103,7 +103,7 @@ public class NotificationFragment extends Fragment {
         time = getActivity().findViewById(R.id.fragment_custom_notification_time);
         text = getActivity().findViewById(R.id.fragment_custom_notification_text);
         icon = getActivity().findViewById(R.id.fragment_custom_notification_icon);
-        iconApp = getActivity().findViewById(R.id.fragment_custom_notification_icon_app);
+        iconBadge = getActivity().findViewById(R.id.fragment_custom_notification_icon_badge);
         picture = getActivity().findViewById(R.id.fragment_custom_notification_picture);
         rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
         repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
@@ -144,7 +144,7 @@ public class NotificationFragment extends Fragment {
 
             //hideReplies = notificationData.getHideReplies();
 
-            populateNotificationIcon(icon, iconApp, notificationData);
+            populateNotificationIcon(icon, iconBadge, notificationData);
             populateNotificationPicture(picture, notificationData);
 
             if (!hasPicture(notificationData)) {
@@ -215,9 +215,9 @@ public class NotificationFragment extends Fragment {
                 roundedBitmapDrawable.setAntiAlias(true);
 
                 iconView.setImageDrawable(roundedBitmapDrawable);
-                setIconApp(iconAppView);
+                setIconBadge(iconAppView);
             } else {
-                setIconApp(iconView);
+                setIconBadge(iconView);
                 iconAppView.setVisibility(View.GONE);
             }
         } catch (Exception exception) {
@@ -225,7 +225,7 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-    private void setIconApp(ImageView iconView){
+    private void setIconBadge(ImageView iconView){
         int[] iconData = notificationData.getIcon();
         int iconWidth = notificationData.getIconWidth();
         int iconHeight = notificationData.getIconHeight();
