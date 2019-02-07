@@ -19,11 +19,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
+
     <ImageView
         android:id="@+id/row_notification_icon_badge"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginBottom="4dp"
+        android:background="@drawable/preference_wrapped_icon"
+        android:backgroundTint="@color/black"
         android:contentDescription="@string/default_icon"
         app:layout_constraintBottom_toBottomOf="@+id/row_notification_icon"
         app:layout_constraintEnd_toEndOf="@+id/row_notification_icon"
