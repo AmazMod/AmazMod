@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Wyslij dane jak stan baterii się zmieni</string>
     <string name="activity_watchface_send_on_alarm_change">Wysylaj każde zmiany stanu baterii</string>
     <string name="activity_watchface_last_time_sent">Ostatnio wysłane</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Dane wysłano</string>
     <string name="activity_watchface_send_data_now">Wyślij nowe dane</string>
     <string name="activity_stats_notifications_total">Łącznie</string>
     <string name="activity_stats_notifications_in_the_last_hour">W ciągu ostatniej godziny</string>
