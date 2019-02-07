@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -131,6 +132,7 @@ public class NotificationFragment extends Fragment {
             time.setTextColor(getResources().getColor(R.color.black));
             title.setTextColor(getResources().getColor(R.color.black));
             text.setTextColor(getResources().getColor(R.color.black));
+            iconBadge.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
             //deleteButton.setTextColor(getResources().getColor(R.color.black));
             //icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
         }
