@@ -175,6 +175,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 } else {
                     // Prepare the View for the animation
                     repliesListView.setVisibility(View.VISIBLE);
+                    muteListView.setVisibility(View.GONE);
                     focusOnView(scrollView, replyButton);
                 }
             }
@@ -190,8 +191,9 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 if (muteListView.getVisibility() == View.VISIBLE) {
                     muteListView.setVisibility(View.GONE);
                 } else {
-                    // Prepare the View for the animation
+                    //Prepare the View for the animation
                     muteListView.setVisibility(View.VISIBLE);
+                    repliesListView.setVisibility(View.GONE);
                     focusOnView(scrollView, muteButton);
                 }
             }
