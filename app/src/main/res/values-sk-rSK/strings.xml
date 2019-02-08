@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Odoslať údaje zakaždým, keď sa zmení batéria</string>
     <string name="activity_watchface_send_on_alarm_change">Odoslať údaje zakaždým, keď sa zmení alarm</string>
     <string name="activity_watchface_last_time_sent">Čas posledného odoslania</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Údaje boli odoslané</string>
     <string name="activity_watchface_send_data_now">Odoslať údaje teraz</string>
     <string name="activity_stats_notifications_total">Celkom</string>
     <string name="activity_stats_notifications_in_the_last_hour">Za poslednú hodinu</string>
