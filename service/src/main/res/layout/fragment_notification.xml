@@ -97,8 +97,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="24dp"
-                    android:minHeight="48dp"
+                    android:layout_marginBottom="16dp"
+                    android:minHeight="36dp"
                     android:orientation="vertical">
 
                     <ImageView
@@ -125,23 +125,35 @@
                         android:id="@+id/fragment_custom_notification_picture"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/action_item_background"
                         android:contentDescription="@string/default_icon"
                         android:visibility="gone" />
 
 
                 </LinearLayout>
+
                 <Button
-                    android:id="@+id/fragment_delete_button"
+                    android:id="@+id/fragment_reply_button"
                     android:layout_width="match_parent"
-                    android:layout_height="52dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="8dp"
-                    android:background="@color/dark_red"
-                    android:drawableTop="@drawable/outline_delete_white_36"
-                    android:paddingTop="8dp"
+                    android:background="@drawable/wear_button_rect_gray"
+                    android:drawableTop="@drawable/reply_white"
+                    android:paddingTop="12dp"
                     android:textColor="@color/white"
-                    tools:visibility="visible"/>
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/fragment_delete_button"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/wear_button_round_red"
+                    android:drawableTop="@drawable/outline_delete_white_24"
+                    android:paddingTop="12dp"
+                    tools:visibility="visible" />
             </LinearLayout>
         </ScrollView>
     </android.support.wearable.view.WearableFrameLayout>

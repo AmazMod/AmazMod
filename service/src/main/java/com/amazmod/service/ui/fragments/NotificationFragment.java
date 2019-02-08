@@ -13,6 +13,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
+import android.support.wearable.view.WearableListView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -42,6 +44,7 @@ public class NotificationFragment extends Fragment {
     ImageView image;
     ImageView picture;
     Button deleteButton;
+    Button repliesButton;
     BoxInsetLayout rootLayout;
     LinearLayout repliesLayout;
     NotificationData notificationData;
@@ -120,6 +123,13 @@ public class NotificationFragment extends Fragment {
         }else {
             deleteButton.setVisibility(View.GONE);
         }
+        repliesButton = getActivity().findViewById(R.id.fragment_reply_button);
+        repliesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext,"Not implemented yet",Toast.LENGTH_SHORT);
+            }
+        });
 
         //Load preferences
         boolean disableNotificationText = util.getDisableNotificationText();
