@@ -152,6 +152,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 @Override
                 public void onClick(View v) {
                     Log.d(Constants.TAG, "NotificationFragment updateContent: deleteButton clicked!");
+                    muteListView.setVisibility(View.GONE);
+                    repliesListView.setVisibility(View.GONE);
                     sendDeleteCommand(v);
                 }
             });
