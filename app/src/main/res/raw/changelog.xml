@@ -1,13 +1,16 @@
 <changelog>
     <release
-        date="2019-02-10"
+        date="2019-02-08"
         versionCode="201"
         versionName="v1.1.3">
         <new>Calendar Sync (native and iCal) - need a third party app to view calendar events: https://goo.gl/oc97Qv</new>
         <new>Improved Launcher (now it fixes in first position)</new>
-        <info>Lots of small improvements</info>
-        <bugfix>Fixes in the OTA (Over The Air) updates</bugfix>
-        <bugfix>Fixed some crashes</bugfix>
+        <new>Built-in file explorer on your watch! (Install apk, manage files and view Text and Images directly from watch)</new>
+        <info>Translations updated</info>
+        <bugfix>ungrouped notifications removal (only standard notifications)</bugfix>
+        <bugfix>OTA (Over The Air) updates now should work</bugfix>
+        <bugfix>Autolock bug corrected</bugfix>
+        <bugfix>Lots of Small fixes</bugfix>
     </release>
     <release
         date="2019-01-31"
