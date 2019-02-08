@@ -24,10 +24,7 @@ import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.support.NotificationStore;
-import com.amazmod.service.ui.fragments.DeleteFragment;
 import com.amazmod.service.ui.fragments.NotificationFragment;
-import com.amazmod.service.ui.fragments.RepliesFragment;
-import com.amazmod.service.ui.fragments.SilenceFragment;
 import com.amazmod.service.util.DeviceUtil;
 
 import java.util.ArrayList;

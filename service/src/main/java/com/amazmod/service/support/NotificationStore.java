@@ -75,7 +75,10 @@ public class NotificationStore {
     }
 
     public static Set<String> getKeySet() {
-        return customNotifications.keySet();
+        if (customNotifications != null)
+            return customNotifications.keySet();
+        else
+            return null;
     }
 
     public static void clear() {
