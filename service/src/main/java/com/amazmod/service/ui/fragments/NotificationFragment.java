@@ -1,5 +1,6 @@
 package com.amazmod.service.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -8,34 +9,48 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
+import android.support.text.emoji.widget.EmojiTextView;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
-import android.support.wearable.view.WearableListView;
+import android.support.wearable.view.DelayedConfirmationView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+import com.amazmod.service.events.ReplyNotificationEvent;
+import com.amazmod.service.events.SilenceApplicationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.FragmentUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+
+import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
+import io.reactivex.Flowable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
-public class NotificationFragment extends Fragment {
+public class NotificationFragment extends Fragment implements DelayedConfirmationView.DelayedConfirmationListener {
 
     TextView title;
     TextView time;
@@ -43,17 +58,29 @@ public class NotificationFragment extends Fragment {
     ImageView icon, iconBadge;
     ImageView image;
     ImageView picture;
-    Button deleteButton;
-    Button repliesButton;
+    Button deleteButton, replyButton, muteButton, replyEditClose, replyEditSend;
+    EditText replyEditText;
     BoxInsetLayout rootLayout;
-    LinearLayout repliesLayout;
+    //LinearLayout repliesLayout;
     NotificationData notificationData;
+    ScrollView scrollView;
 
-    private String key, mode;
-    private boolean enableInvertedTheme;
+    private TextView delayedConfirmationViewTitle;
+    private DelayedConfirmationView delayedConfirmationView;
+
+    private LinearLayout repliesListView, repliesEditTextContainer, muteListView;
+
+
+    private String key, mode, notificationKey, selectedReply, selectedSilenceTime;
+    private boolean enableInvertedTheme, disableDelay;;
     private Context mContext;
     private FragmentUtil util;
     private SettingsManager settingsManager;
+
+    private String action;
+    private static final String ACTION_REPLY = "reply";
+    private static final String ACTION_DELETE = "del";
+    private static final String ACTION_MUTE = "mute";
 
     @Override
     public void onAttach(Activity activity) {
@@ -69,6 +96,7 @@ public class NotificationFragment extends Fragment {
 
         key = getArguments().getString(NotificationWearActivity.KEY);
         mode = getArguments().getString(NotificationWearActivity.MODE);
+        notificationKey = NotificationStore.getCustomNotification(key).getKey();
         settingsManager = new SettingsManager(this.mContext);
     }
 
@@ -102,6 +130,7 @@ public class NotificationFragment extends Fragment {
         Log.i(Constants.TAG, "NotificationFragment updateContent context: " + mContext + " | key: " + key);
 
         util = new FragmentUtil(mContext);
+        disableDelay = util.getDisableDelay();
 
         title = getActivity().findViewById(R.id.fragment_custom_notification_title);
         time = getActivity().findViewById(R.id.fragment_custom_notification_time);
@@ -110,26 +139,66 @@ public class NotificationFragment extends Fragment {
         iconBadge = getActivity().findViewById(R.id.fragment_custom_notification_icon_badge);
         picture = getActivity().findViewById(R.id.fragment_custom_notification_picture);
         rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
-        repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
+        scrollView = getActivity().findViewById(R.id.fragment_custom_scrollview);
+        //repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
+        delayedConfirmationViewTitle = getActivity().findViewById(R.id.fragment_notification_delayedview_title);
+        delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
+
+        //Delete related stuff
         deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
         if (settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, false)) {
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d(Constants.TAG, "NotificationFragment updateContent: deleteButton clicked!");
                     sendDeleteCommand(v);
                 }
             });
-        }else {
+        } else {
             deleteButton.setVisibility(View.GONE);
         }
-        repliesButton = getActivity().findViewById(R.id.fragment_reply_button);
-        repliesButton.setOnClickListener(new View.OnClickListener() {
+
+        //Replies related stuff
+        repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
+        repliesEditTextContainer = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_container);
+        replyEditText = getActivity().findViewById(R.id.fragment_notifications_replies_edittext);
+        replyEditClose = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_close);
+        replyEditSend = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_reply);
+        replyButton = getActivity().findViewById(R.id.fragment_notification_reply_button);
+        replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext,"Not implemented yet",Toast.LENGTH_SHORT);
+                Log.d(Constants.TAG, "NotificationFragment updateContent: replyButton clicked!");
+                if (repliesListView.getVisibility() == View.VISIBLE) {
+                    repliesListView.setVisibility(View.GONE);
+                } else {
+                    // Prepare the View for the animation
+                    repliesListView.setVisibility(View.VISIBLE);
+                    focusOnView(scrollView, replyButton);
+                }
             }
         });
+
+        //Mute related stuff
+        muteListView = getActivity().findViewById(R.id.fragment_mute_list);
+        muteButton = getActivity().findViewById(R.id.fragment_notification_mute_button);
+        muteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(Constants.TAG, "NotificationFragment updateContent: muteButton clicked!");
+                if (muteListView.getVisibility() == View.VISIBLE) {
+                    muteListView.setVisibility(View.GONE);
+                } else {
+                    // Prepare the View for the animation
+                    muteListView.setVisibility(View.VISIBLE);
+                    focusOnView(scrollView, muteButton);
+                }
+            }
+        });
+
+        loadReplies();
+        loadMuteOptions();
 
         //Load preferences
         boolean disableNotificationText = util.getDisableNotificationText();
@@ -177,7 +246,7 @@ public class NotificationFragment extends Fragment {
                     if (vibrator != null) {
                         vibrator.vibrate(notificationData.getVibration());
                     }
-                } catch (RuntimeException ex){
+                } catch (RuntimeException ex) {
                     Log.e(Constants.TAG, "NotificationFragment updateContent - Exception: " + ex.toString()
                             + " notificationData: " + notificationData);
                 }
@@ -201,6 +270,17 @@ public class NotificationFragment extends Fragment {
             else
                 image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_white_48));
         }
+    }
+
+
+    private final void focusOnView(final ScrollView scroll, final View view) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                int vPosition = view.getTop();
+                scroll.smoothScrollTo(0, vPosition);
+            }
+        });
     }
 
     public static NotificationFragment newInstance(String key, String mode) {
@@ -237,7 +317,7 @@ public class NotificationFragment extends Fragment {
         }
     }
 
-    private void setIconBadge(ImageView iconView){
+    private void setIconBadge(ImageView iconView) {
         int[] iconData = notificationData.getIcon();
         int iconWidth = notificationData.getIconWidth();
         int iconHeight = notificationData.getIconHeight();
@@ -279,20 +359,263 @@ public class NotificationFragment extends Fragment {
     }
 
 
-    private void sendDeleteCommand(View v) {
+    @SuppressLint("CheckResult")
+    public void loadReplies() {
+        Log.i(Constants.TAG, "NotificationFragment loadReplies");
 
-        Log.i(Constants.TAG, "NotificationFragment sendDeleteCommand");
+        //Return if there is no activity to avoid crashes
+        if (getActivity() == null)
+            return;
+
+        Flowable.fromCallable(new Callable<List<Reply>>() {
+            @Override
+            public List<Reply> call() throws Exception {
+                Log.d(Constants.TAG, "NotificationFragment loadReplies call");
+
+                List<Reply> replyList = util.listReplies();
+
+                return replyList;
+            }
+        }).subscribeOn(Schedulers.computation())
+                .observeOn(Schedulers.single())
+                .subscribe(new Consumer<List<Reply>>() {
+                    @Override
+                    public void accept(final List<Reply> replyList) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d(Constants.TAG, "NotificationFragment loadReplies run");
+                                LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
+                                for (final Reply reply : replyList) {
+                                    final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
+                                    EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
+                                    replyView.setText(reply.getValue());
+                                    replyView.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            selectedReply = reply.getValue();
+                                            sendReply(view);
+                                            Log.d(Constants.TAG, "NotificationFragment replyView OnClick: " + selectedReply);
+                                        }
+                                    });
+                                    // set item content in view
+                                    repliesListView.addView(row);
+                                }
+                                final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
+                                EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
+                                replyView.setText(getResources().getString(R.string.keyboard));
+                                //replyView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                                replyView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        Log.d(Constants.TAG, "NotificationFragment replyView OnClick: KEYBOARD");
+                                        scrollView.setVisibility(View.GONE);
+                                        repliesEditTextContainer.setVisibility(View.VISIBLE);
+                                        ((NotificationWearActivity)getActivity()).stopTimerFinish();
+
+                                        replyEditSend.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                selectedReply = replyEditText.getText().toString();
+                                                repliesEditTextContainer.setVisibility(View.GONE);
+                                                sendReply(v);
+                                            }
+                                        });
+                                        //Cancel button
+                                        replyEditClose.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                scrollView.setVisibility(View.VISIBLE);
+                                                repliesEditTextContainer.setVisibility(View.GONE);
+                                                ((NotificationWearActivity)getActivity()).startTimerFinish();
+                                            }
+                                        });
+                                    }
+                                });
+                                // set item content in view
+                                repliesListView.addView(row);
+                            }
+
+                        });
+                    }
+                });
+    }
+
+
+    private void loadMuteOptions() {
+
+        List<Integer> silenceList = new ArrayList<>();
+        silenceList.add(5);
+        silenceList.add(15);
+        silenceList.add(30);
+        silenceList.add(60);
+
+        LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
+
+        //Add one View for each item in SilenceList
+        for (final Integer silence : silenceList) {
+            final View row = inflater.inflate(R.layout.row_mute, muteListView, false);
+            EmojiTextView muteView = row.findViewById(R.id.row_mute_value);
+            muteView.setText(silence.toString() + " minutes");
+            muteView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedSilenceTime = silence.toString();
+                    sendMuteCommand(view);
+                    Log.d(Constants.TAG, "NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
+                }
+            });
+            // set item content in view
+            muteListView.addView(row);
+        }
+
+        //Create a Item for Muting App for One Day
+        final View row_day = inflater.inflate(R.layout.row_mute, muteListView, false);
+        EmojiTextView muteView = row_day.findViewById(R.id.row_mute_value);
+        muteView.setText("One Day");
+        muteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedSilenceTime = "1440";
+                sendMuteCommand(view);
+                Log.d(Constants.TAG, "NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
+            }
+        });
+        muteListView.addView(row_day);
+
+
+        //Create a Item for BLOCKING APP (Removes it From List of Apps)
+        final View row_block = inflater.inflate(R.layout.row_mute, muteListView, false);
+        muteView = row_block.findViewById(R.id.row_mute_value);
+        muteView.setText("BLOCK APP");
+        muteView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedSilenceTime = Constants.BLOCK_APP;
+                sendMuteCommand(view);
+                Log.d(Constants.TAG, "NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
+            }
+        });
+        muteListView.addView(row_block);
+    }
+
+
+    private void sendDeleteCommand(View v) {
+        sendCommand(ACTION_DELETE,v);
+    }
+
+    private void sendReply(View v) {
+        sendCommand(ACTION_REPLY,v);
+    }
+
+    private void sendMuteCommand(View v) {
+        sendCommand(ACTION_MUTE,v);
+    }
+
+    private void sendCommand(String command, View v){
+        action = command;
+        String confirmationMessage;
+        switch(action){
+            case ACTION_DELETE:
+                delayedConfirmationView.setTotalTimeMs(1500);
+                confirmationMessage = "REMOVING";
+                break;
+            case ACTION_MUTE:
+                delayedConfirmationView.setTotalTimeMs(3000);
+                confirmationMessage = "MUTING";
+                break;
+            case ACTION_REPLY:
+                delayedConfirmationView.setTotalTimeMs(3000);
+                confirmationMessage = "SENDING REPLY";
+                break;
+            default:
+                return;
+        }
+        ((NotificationWearActivity)getActivity()).stopTimerFinish();
+        if (disableDelay) {
+            Log.i(Constants.TAG, "NotificationFragment sendCommand without delay : command '" + command + "'");
+            onTimerFinished(v);
+        } else {
+            Log.d(Constants.TAG, "NotificationFragment sendCommand with delay : command '" + command + "'");
+            util.setParamMargins(0, 24, 0, 4);
+            showDelayed(confirmationMessage);
+            Log.i(Constants.TAG, "NotificationFragment sendSilenceCommand isPressed: " + delayedConfirmationView.isPressed());
+        }
+    }
+
+    @Override
+    public void onTimerSelected(View v) {
+        action = "";
+        v.setPressed(true);
+        delayedConfirmationView.reset();
+        // Prevent onTimerFinished from being heard.
+        ((DelayedConfirmationView) v).setListener(null);
+        ((NotificationWearActivity)getActivity()).startTimerFinish();
+        hideDelayed();
+        Log.i(Constants.TAG, "NotificationFragment onTimerSelected isPressed: " + v.isPressed());
+    }
+
+    private void showDelayed(String text){
+        scrollView.setVisibility(View.GONE);
+        repliesEditTextContainer.setVisibility(View.GONE);
+        delayedConfirmationViewTitle.setText(text);
+        delayedConfirmationViewTitle.setVisibility(View.VISIBLE);
+        delayedConfirmationView.setVisibility(View.VISIBLE);
+        delayedConfirmationView.setPressed(false);
+        delayedConfirmationView.start();
+        delayedConfirmationView.setListener(this);
+
+    }
+
+    private void hideDelayed(){
+        scrollView.setVisibility(View.VISIBLE);
+        delayedConfirmationView.setVisibility(View.GONE);
+        delayedConfirmationViewTitle.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onTimerFinished(View v) {
+        Log.i(Constants.TAG, "NotificationFragment onTimerFinished isPressed: " + v.isPressed());
+
+        if (v instanceof DelayedConfirmationView)
+            ((DelayedConfirmationView) v).setListener(null);
+
+        String confirmationMessage;
+
+        switch(action){
+            case ACTION_DELETE:
+                confirmationMessage = "Deleted!";
+                break;
+            case ACTION_MUTE:
+                confirmationMessage = "Muted!";
+                break;
+            case ACTION_REPLY:
+                confirmationMessage = "Reply Sent!";
+                break;
+            default:
+                return;
+        }
+        Log.i(Constants.TAG, "NotificationFragment onTimerFinished action :" + action);
 
         Intent intent = new Intent(mContext, ConfirmationActivity.class);
         intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);
-        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, "Deleted!");
+        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, confirmationMessage);
         startActivity(intent);
 
         NotificationStore.removeCustomNotification(key);
-
         if (NotificationWearActivity.MODE_VIEW.equals(mode))
             WearNotificationsFragment.getInstance().loadNotifications();
 
+        switch(action){
+            case ACTION_DELETE:
+                break;
+            case ACTION_MUTE:
+                HermesEventBus.getDefault().post(new SilenceApplicationEvent(notificationKey, selectedSilenceTime));
+                break;
+            case ACTION_REPLY:
+                HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationKey, selectedReply));
+                break;
+        }
         getActivity().finish();
     }
 

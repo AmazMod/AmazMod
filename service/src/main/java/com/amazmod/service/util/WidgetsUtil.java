@@ -30,7 +30,7 @@ import java.util.List;
 public class WidgetsUtil {
 
     private static ArrayList<BaseSetting> settingList;
-    //Countdown timer to prevent saving too often
+    //Countdown timer_black to prevent saving too often
     private static CountDownTimer countDownTimer;
 
     public static void loadSettings(final Context context) {
@@ -218,7 +218,7 @@ public class WidgetsUtil {
 
         Log.d(Constants.TAG, "WidgetsUtil checkSave");
 
-        //Create timer if not already, for 2 seconds. Call save after completion
+        //Create timer_black if not already, for 2 seconds. Call save after completion
         if (countDownTimer == null) countDownTimer = new CountDownTimer(2000, 2000) {
             @Override
             public void onTick(long l) {
@@ -229,7 +229,7 @@ public class WidgetsUtil {
                 save(context);
             }
         };
-        //Cancel and start timer. This means that this method must be called ONCE in 2 seconds before save will be called, it prevents save from being called more than once every 2 seconds (buffers moving)
+        //Cancel and start timer_black. This means that this method must be called ONCE in 2 seconds before save will be called, it prevents save from being called more than once every 2 seconds (buffers moving)
         countDownTimer.cancel();
         countDownTimer.start();
     }

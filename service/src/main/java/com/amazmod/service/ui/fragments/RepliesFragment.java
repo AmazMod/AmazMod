@@ -134,7 +134,7 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
 
     private void addReplies() {
 
-        List<Reply> repliesList = loadReplies();
+        List<Reply> repliesList = util.listReplies();
         for (final Reply reply : repliesList) {
             EmojiButton button = new EmojiButton(mContext);
             util.setButtonParams(button, reply.getValue());
@@ -184,18 +184,6 @@ public class RepliesFragment extends Fragment implements DelayedConfirmationView
         });
         repliesContainer.addView(buttonkb);
 
-    }
-
-    private List<Reply> loadReplies() {
-        final String replies = util.listReplies();
-
-        try {
-            Type listType = new TypeToken<List<Reply>>() {
-            }.getType();
-            return new Gson().fromJson(replies, listType);
-        } catch (Exception ex) {
-            return new ArrayList<>();
-        }
     }
 
 
