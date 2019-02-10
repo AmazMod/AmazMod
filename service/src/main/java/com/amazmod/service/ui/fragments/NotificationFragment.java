@@ -72,7 +72,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
 
     private String key, mode, notificationKey, selectedReply, selectedSilenceTime;
-    private boolean enableInvertedTheme, disableDelay;;
+    private boolean enableInvertedTheme, disableDelay;
+    ;
     private Context mContext;
     private FragmentUtil util;
     private SettingsManager settingsManager;
@@ -201,12 +202,13 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             }
         });
 
-        loadReplies();
-        loadMuteOptions();
-
         //Load preferences
         boolean disableNotificationText = util.getDisableNotificationText();
         enableInvertedTheme = util.getInvertedTheme();
+
+        //Load Replies and Mute Options
+        loadReplies();
+        loadMuteOptions();
 
         // Set theme and font size
         //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
@@ -216,8 +218,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             title.setTextColor(getResources().getColor(R.color.black));
             text.setTextColor(getResources().getColor(R.color.black));
             iconBadge.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
-            //deleteButton.setTextColor(getResources().getColor(R.color.black));
-            //icon.setBackgroundColor(getResources().getColor(R.color.darker_gray));
+            delayedConfirmationViewTitle.setTextColor(getResources().getColor(R.color.black));
         }
 
         time.setTextSize(util.getFontSizeSP());
@@ -366,83 +367,64 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     @SuppressLint("CheckResult")
     public void loadReplies() {
         Log.i(Constants.TAG, "NotificationFragment loadReplies");
-
-        //Return if there is no activity to avoid crashes
-        if (getActivity() == null)
-            return;
-
-        Flowable.fromCallable(new Callable<List<Reply>>() {
-            @Override
-            public List<Reply> call() throws Exception {
-                Log.d(Constants.TAG, "NotificationFragment loadReplies call");
-
-                List<Reply> replyList = util.listReplies();
-
-                return replyList;
+        List<Reply> replyList = util.listReplies();
+        LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
+        for (final Reply reply : replyList) {
+            final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
+            EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
+            replyView.setText(reply.getValue());
+            if (enableInvertedTheme) {
+                replyView.setTextColor(getResources().getColor(R.color.black));
+                replyView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.send, 0, 0, 0);
             }
-        }).subscribeOn(Schedulers.computation())
-                .observeOn(Schedulers.single())
-                .subscribe(new Consumer<List<Reply>>() {
+            replyView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    selectedReply = reply.getValue();
+                    sendReply(view);
+                    Log.d(Constants.TAG, "NotificationFragment replyView OnClick: " + selectedReply);
+                }
+            });
+            // set item content in view
+            repliesListView.addView(row);
+        }
+        final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
+        EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
+        replyView.setText(getResources().getString(R.string.keyboard));
+        if (enableInvertedTheme) {
+            replyView.setTextColor(getResources().getColor(R.color.black));
+            replyView.setCompoundDrawables(getResources().getDrawable(R.drawable.send), null, null, null);
+        }
+        //replyView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        replyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(Constants.TAG, "NotificationFragment replyView OnClick: KEYBOARD");
+                scrollView.setVisibility(View.GONE);
+                repliesEditTextContainer.setVisibility(View.VISIBLE);
+                ((NotificationWearActivity) getActivity()).stopTimerFinish();
+
+                replyEditSend.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void accept(final List<Reply> replyList) {
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.d(Constants.TAG, "NotificationFragment loadReplies run");
-                                LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
-                                for (final Reply reply : replyList) {
-                                    final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
-                                    EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
-                                    replyView.setText(reply.getValue());
-                                    replyView.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            selectedReply = reply.getValue();
-                                            sendReply(view);
-                                            Log.d(Constants.TAG, "NotificationFragment replyView OnClick: " + selectedReply);
-                                        }
-                                    });
-                                    // set item content in view
-                                    repliesListView.addView(row);
-                                }
-                                final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
-                                EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
-                                replyView.setText(getResources().getString(R.string.keyboard));
-                                //replyView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-                                replyView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        Log.d(Constants.TAG, "NotificationFragment replyView OnClick: KEYBOARD");
-                                        scrollView.setVisibility(View.GONE);
-                                        repliesEditTextContainer.setVisibility(View.VISIBLE);
-                                        ((NotificationWearActivity)getActivity()).stopTimerFinish();
-
-                                        replyEditSend.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                selectedReply = replyEditText.getText().toString();
-                                                repliesEditTextContainer.setVisibility(View.GONE);
-                                                sendReply(v);
-                                            }
-                                        });
-                                        //Cancel button
-                                        replyEditClose.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                scrollView.setVisibility(View.VISIBLE);
-                                                repliesEditTextContainer.setVisibility(View.GONE);
-                                                ((NotificationWearActivity)getActivity()).startTimerFinish();
-                                            }
-                                        });
-                                    }
-                                });
-                                // set item content in view
-                                repliesListView.addView(row);
-                            }
-
-                        });
+                    public void onClick(View v) {
+                        selectedReply = replyEditText.getText().toString();
+                        repliesEditTextContainer.setVisibility(View.GONE);
+                        sendReply(v);
                     }
                 });
+                //Cancel button
+                replyEditClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        scrollView.setVisibility(View.VISIBLE);
+                        repliesEditTextContainer.setVisibility(View.GONE);
+                        ((NotificationWearActivity) getActivity()).startTimerFinish();
+                    }
+                });
+            }
+        });
+        // set item content in view
+        repliesListView.addView(row);
     }
 
 
@@ -461,6 +443,9 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             final View row = inflater.inflate(R.layout.row_mute, muteListView, false);
             EmojiTextView muteView = row.findViewById(R.id.row_mute_value);
             muteView.setText(silence.toString() + " minutes");
+            if (enableInvertedTheme) {
+                muteView.setTextColor(getResources().getColor(R.color.black));
+            }
             muteView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -477,6 +462,9 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         final View row_day = inflater.inflate(R.layout.row_mute, muteListView, false);
         EmojiTextView muteView = row_day.findViewById(R.id.row_mute_value);
         muteView.setText("One Day");
+        if (enableInvertedTheme) {
+            muteView.setTextColor(getResources().getColor(R.color.black));
+        }
         muteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -492,6 +480,10 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         final View row_block = inflater.inflate(R.layout.row_mute, muteListView, false);
         muteView = row_block.findViewById(R.id.row_mute_value);
         muteView.setText("BLOCK APP");
+        if (enableInvertedTheme)
+            muteView.setTextColor(getResources().getColor(R.color.red));
+        else
+            muteView.setTextColor(getResources().getColor(R.color.dark_red));
         muteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -505,21 +497,21 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
 
     private void sendDeleteCommand(View v) {
-        sendCommand(ACTION_DELETE,v);
+        sendCommand(ACTION_DELETE, v);
     }
 
     private void sendReply(View v) {
-        sendCommand(ACTION_REPLY,v);
+        sendCommand(ACTION_REPLY, v);
     }
 
     private void sendMuteCommand(View v) {
-        sendCommand(ACTION_MUTE,v);
+        sendCommand(ACTION_MUTE, v);
     }
 
-    private void sendCommand(String command, View v){
+    private void sendCommand(String command, View v) {
         action = command;
         String confirmationMessage;
-        switch(action){
+        switch (action) {
             case ACTION_DELETE:
                 delayedConfirmationView.setTotalTimeMs(1500);
                 confirmationMessage = "REMOVING";
@@ -535,7 +527,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             default:
                 return;
         }
-        ((NotificationWearActivity)getActivity()).stopTimerFinish();
+        ((NotificationWearActivity) getActivity()).stopTimerFinish();
         if (disableDelay) {
             Log.i(Constants.TAG, "NotificationFragment sendCommand without delay : command '" + command + "'");
             onTimerFinished(v);
@@ -554,12 +546,12 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         delayedConfirmationView.reset();
         // Prevent onTimerFinished from being heard.
         ((DelayedConfirmationView) v).setListener(null);
-        ((NotificationWearActivity)getActivity()).startTimerFinish();
+        ((NotificationWearActivity) getActivity()).startTimerFinish();
         hideDelayed();
         Log.i(Constants.TAG, "NotificationFragment onTimerSelected isPressed: " + v.isPressed());
     }
 
-    private void showDelayed(String text){
+    private void showDelayed(String text) {
         scrollView.setVisibility(View.GONE);
         repliesEditTextContainer.setVisibility(View.GONE);
         delayedConfirmationViewTitle.setText(text);
@@ -571,7 +563,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     }
 
-    private void hideDelayed(){
+    private void hideDelayed() {
         scrollView.setVisibility(View.VISIBLE);
         delayedConfirmationView.setVisibility(View.GONE);
         delayedConfirmationViewTitle.setVisibility(View.GONE);
@@ -586,7 +578,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
         String confirmationMessage;
 
-        switch(action){
+        switch (action) {
             case ACTION_DELETE:
                 confirmationMessage = "Deleted!";
                 break;
@@ -610,7 +602,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         if (NotificationWearActivity.MODE_VIEW.equals(mode))
             WearNotificationsFragment.getInstance().loadNotifications();
 
-        switch(action){
+        switch (action) {
             case ACTION_DELETE:
                 break;
             case ACTION_MUTE:
