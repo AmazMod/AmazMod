@@ -481,9 +481,9 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         muteView = row_block.findViewById(R.id.row_mute_value);
         muteView.setText("BLOCK APP");
         if (enableInvertedTheme)
-            muteView.setTextColor(getResources().getColor(R.color.red));
-        else
             muteView.setTextColor(getResources().getColor(R.color.dark_red));
+        else
+            muteView.setTextColor(getResources().getColor(R.color.red));
         muteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
