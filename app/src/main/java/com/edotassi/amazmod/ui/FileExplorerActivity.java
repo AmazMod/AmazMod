@@ -355,6 +355,8 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     });
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             uploading = false;
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.cancel(0);
                         } else {
                             SnackProgressBar snackbar = new SnackProgressBar(
                                     SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
@@ -367,7 +369,14 @@ public class FileExplorerActivity extends AppCompatActivity {
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             uploadFiles(files, uploadPath);
                             //uploading = false;
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(getString(R.string.cant_upload_file)))
+                                    .setOngoing(false);
+                            mBuilder.setProgress(0, 0, false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
                         }
+
                     }
                     return null;
                 }
