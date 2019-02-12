@@ -11,7 +11,7 @@
         android:id="@+id/fragment_notification_delayedview_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="32dp"
         android:gravity="center_vertical|center_horizontal"
         android:textAllCaps="true"
         android:textColor="@color/text"
@@ -32,6 +32,19 @@
         app:circle_padding="16dp"
         app:circle_radius="60dp"
         app:update_interval="150"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/fragment_notification_delayedview_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_gravity="bottom|center_horizontal"
+        android:gravity="center_horizontal"
+        android:textAllCaps="true"
+        android:textColor="@color/text"
+        android:visibility="gone"
+        android:text="@string/tap_to_cancel"
         tools:visibility="visible" />
 
     <LinearLayout

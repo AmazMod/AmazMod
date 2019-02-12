@@ -39,13 +39,9 @@ import com.amazmod.service.util.FragmentUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.VIBRATOR_SERVICE;
@@ -65,7 +61,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     NotificationData notificationData;
     ScrollView scrollView;
 
-    private TextView delayedConfirmationViewTitle;
+    private TextView delayedConfirmationViewTitle, delayedConfirmationViewBottom;
     private DelayedConfirmationView delayedConfirmationView;
 
     private LinearLayout repliesListView, repliesEditTextContainer, muteListView;
@@ -145,6 +141,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
         delayedConfirmationViewTitle = getActivity().findViewById(R.id.fragment_notification_delayedview_title);
         delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
+        delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
 
         //Delete related stuff
         deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
@@ -219,6 +216,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             text.setTextColor(getResources().getColor(R.color.black));
             iconBadge.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
             delayedConfirmationViewTitle.setTextColor(getResources().getColor(R.color.black));
+            delayedConfirmationViewBottom.setTextColor(getResources().getColor(R.color.black));
         }
 
         time.setTextSize(util.getFontSizeSP());
@@ -556,6 +554,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         repliesEditTextContainer.setVisibility(View.GONE);
         delayedConfirmationViewTitle.setText(text);
         delayedConfirmationViewTitle.setVisibility(View.VISIBLE);
+        delayedConfirmationViewBottom.setVisibility(View.VISIBLE);
         delayedConfirmationView.setVisibility(View.VISIBLE);
         delayedConfirmationView.setPressed(false);
         delayedConfirmationView.start();
@@ -567,6 +566,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         scrollView.setVisibility(View.VISIBLE);
         delayedConfirmationView.setVisibility(View.GONE);
         delayedConfirmationViewTitle.setVisibility(View.GONE);
+        delayedConfirmationViewBottom.setVisibility(View.GONE);
     }
 
     @Override

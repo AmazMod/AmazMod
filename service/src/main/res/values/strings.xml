@@ -45,4 +45,5 @@
     <string name="saved">Saved</string>
     <string name="default_icon" />
     <string name="error_loading">Unable to load springboard pages. Please try opening the Amazfit app on your phone, rearranging and enabling/disabling widget pages in the settings, then tap to reload</string>
+    <string name="tap_to_cancel">TAP TO CANCEL</string>
 </resources>
