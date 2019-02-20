@@ -89,10 +89,11 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(Constants.TAG, "NotificationFragment onCreate");
 
         key = getArguments().getString(NotificationWearActivity.KEY);
         mode = getArguments().getString(NotificationWearActivity.MODE);
+
+        Log.i(Constants.TAG, "NotificationFragment onCreate: key " + key + " | mode: " + mode);
         notificationKey = NotificationStore.getCustomNotification(key).getKey();
         settingsManager = new SettingsManager(this.mContext);
     }
