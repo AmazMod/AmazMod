@@ -586,7 +586,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setHideButtons(false);
                 notificationData.setForceCustom(true);
 
-                NotificationJobService.sendCustomNotification(this, notificationData);
+                //NotificationJobService.sendCustomNotification(this, notificationData);
 
                 /*
                 NotificationStore.addCustomNotification(key, notificationData);
@@ -596,11 +596,11 @@ public class NotificationService extends NotificationListenerService {
                 scheduleJob(id, jobId, key);
                  */
 
-                //Watch.get().postNotification(notificationData);
+                Watch.get().postNotification(notificationData);
 
                 lastTimeNotificationSent = System.currentTimeMillis();
 
-                //Log.d(Constants.TAG, "NotificationService handleCall notificationData.getText: " + notificationData.getText());
+                Log.d(Constants.TAG, "NotificationService handleCall notificationData.getText: " + notificationData.getText());
 
                 final int audioMode = getAudioManagerMode();
 
