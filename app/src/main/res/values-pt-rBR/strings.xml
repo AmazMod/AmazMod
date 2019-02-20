@@ -299,4 +299,7 @@
     <string name="invalid_url">Endereço Inválido!</string>
     <string name="file_or_connection_error">Arquivo não pôde ser aberto!</string>
     <string name="update_process_warning">AVISO: o processo de atualização pode demorar até 15 minutos e a interface de relógio será reiniciada uma ou mais vezes. Não use o relógio durante o processo a atualização pode falhar. Inicie atualização só se puder esperar até o final.</string>
+    <string name="pref_notification_scheduler">Behavior when disconnected</string>
+    <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
+    <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
 </resources>
