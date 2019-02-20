@@ -31,6 +31,7 @@ public class Constants {
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
+    public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages";
     public static final String PREF_DISABLE_NOTIFICATIONS = "preference.disable.notifications";
     public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
     public static final String PREF_NOTIFICATIONS_REPLIES = "preference.amazmodservice.replies";
@@ -56,6 +57,8 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_DISABLE_LARGE_ICON = "preference.disable.notification.largeicon";
     public static final String PREF_NOTIFICATIONS_DISABLE_PICTURE = "preference.disable.notification.picture";
     public static final String PREF_NOTIFICATION_DELETE_BUTTON = "preference.amazmodservice.notification.enable.deletebutton";
+    public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
+
 
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
@@ -78,6 +81,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
     public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
     public static final boolean PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON = false;
+    public static final String PREF_DEFAULT_NOTIFICATION_SCHEDULER = "true";
 
     public static final int REQUEST_CODE_INTRO = 1;
 

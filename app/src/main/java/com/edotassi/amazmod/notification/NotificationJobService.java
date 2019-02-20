@@ -333,7 +333,7 @@ public class NotificationJobService extends JobService {
         if (mode == NOTIFICATION_POSTED_CUSTOM_UI) {
             Bundle bundle = NotificationStore.getNotificationBundle(key);
             if (bundle != null)
-                extractImagesFromNotification(bundle, notificationData);
+                NotificationJobService.extractImagesFromNotification(bundle, notificationData);
         }
 
         //final Transporter transporter2 = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
@@ -450,7 +450,7 @@ public class NotificationJobService extends JobService {
         */
     }
 
-    private void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
+    public static void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
 
         if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_LARGE_ICON, false)) {
             extractLargeIcon(bundle, notificationData);
@@ -461,7 +461,7 @@ public class NotificationJobService extends JobService {
         }
     }
 
-    private void extractLargeIcon(Bundle bundle, NotificationData notificationData) {
+    private static void extractLargeIcon(Bundle bundle, NotificationData notificationData) {
         try {
             Bitmap largeIcon = (Bitmap) bundle.get("android.largeIcon");
             if (largeIcon != null) {
@@ -478,7 +478,7 @@ public class NotificationJobService extends JobService {
         }
     }
 
-    private void extractPicture(Bundle bundle, NotificationData notificationData) {
+    private static void extractPicture(Bundle bundle, NotificationData notificationData) {
         try {
             Bitmap originalBitmap = (Bitmap) bundle.get("android.picture");
             if (originalBitmap != null) {
@@ -497,7 +497,7 @@ public class NotificationJobService extends JobService {
         }
     }
 
-    private Bitmap scaleBitmap(Bitmap bitmap) {
+    private static Bitmap scaleBitmap(Bitmap bitmap) {
         if (bitmap.getWidth() <= 320) {
             return bitmap;
         }

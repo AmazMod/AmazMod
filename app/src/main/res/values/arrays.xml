@@ -172,4 +172,12 @@
         <item>com.google.android.talk</item>
         <item>com.matusmak.fakenotifications</item>
     </string-array>
+    <string-array name="pref_notification_scheduler_entries">
+        <item>Store notifications and send them when connection is restored</item>
+        <item>Discard notifications</item>
+    </string-array>
+    <string-array name="pref_notification_scheduler_values">
+        <item>true</item>
+        <item>false</item>
+    </string-array>
 </resources>

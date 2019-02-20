@@ -43,6 +43,9 @@ import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
+import com.huami.watch.transport.DataTransportResult;
+import com.huami.watch.transport.Transporter;
+import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -51,6 +54,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,8 +62,10 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import amazmod.com.transport.Constants;
+import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.NotificationReplyData;
 
@@ -396,7 +402,8 @@ public class NotificationService extends NotificationListenerService {
 
         if (isStandardDisabled()) {
             notificationData.setVibration(getDefaultVibration());
-        } else notificationData.setVibration(0);
+        } else
+            notificationData.setVibration(0);
         notificationData.setHideButtons(true);
         notificationData.setForceCustom(false);
 
@@ -405,97 +412,19 @@ public class NotificationService extends NotificationListenerService {
         else
             notificationData.setHideReplies(false);
 
-        NotificationStore.addCustomNotification(key, notificationData);
-        NotificationStore.addNotificationBundle(key, statusBarNotification.getNotification().extras);
-        int id = NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI;
-        int jobId = statusBarNotification.getId() + newUID();
-
-        scheduleJob(id, jobId, key);
-
-        /*
-        * Disabled while testing JobScheduler
-        *
-        extractImagesFromNotification(statusBarNotification, notificationData);
-
-        Watch.get().postNotification(notificationData);
-        */
-
-        log.i("NotificationService CustomUI jobScheduled: " + jobId + " \\ key: " + key);
-    }
-
-    /*
-    * Disabled while testing JobScheduler
-    *
-    private void extractImagesFromNotification(StatusBarNotification statusBarNotification, NotificationData notificationData) {
-        Bundle bundle = statusBarNotification.getNotification().extras;
-
-        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_LARGE_ICON, false)) {
-            extractLargeIcon(bundle, notificationData);
-        }
-
-        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_PICTURE, false)) {
-            extractPicture(bundle, notificationData);
+        if (isJobSchedulerEnabled()) {
+            NotificationStore.addCustomNotification(key, notificationData);
+            NotificationStore.addNotificationBundle(key, statusBarNotification.getNotification().extras);
+            int id = NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI;
+            int jobId = statusBarNotification.getId() + newUID();
+            scheduleJob(id, jobId, key);
+            log.i("NotificationService CustomUI jobScheduled: " + jobId + " \\ key: " + key);
+        }else{
+            NotificationJobService.extractImagesFromNotification(statusBarNotification.getNotification().extras, notificationData);
+            Watch.get().postNotification(notificationData);
+            log.i("NotificationService CustomUI sent without schedule: " + key);
         }
     }
-
-    private void extractLargeIcon(Bundle bundle, NotificationData notificationData) {
-        try {
-            Bitmap largeIcon = (Bitmap) bundle.get("android.largeIcon");
-            if (largeIcon != null) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                largeIcon.compress(Bitmap.CompressFormat.PNG, 80, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                notificationData.setLargeIcon(byteArray);
-                notificationData.setLargeIconWidth(largeIcon.getWidth());
-                notificationData.setLargeIconHeight(largeIcon.getHeight());
-            }
-        } catch (Exception exception) {
-            Log.e(Constants.TAG, exception.getMessage(), exception);
-        }
-    }
-
-    private void extractPicture(Bundle bundle, NotificationData notificationData) {
-        try {
-            Bitmap originalBitmap = (Bitmap) bundle.get("android.picture");
-            if (originalBitmap != null) {
-                Bitmap scaledBitmap = scaleBitmap(originalBitmap);
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                scaledBitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                notificationData.setPicture(byteArray);
-                notificationData.setPictureWidth(scaledBitmap.getWidth());
-                notificationData.setPictureHeight(scaledBitmap.getHeight());
-            }
-        } catch (Exception exception) {
-            Log.e(Constants.TAG, exception.getMessage(), exception);
-        }
-    }
-
-    private Bitmap scaleBitmap(Bitmap bitmap) {
-        if (bitmap.getWidth() <= 320) {
-            return bitmap;
-        }
-
-        float horizontalScaleFactor = bitmap.getWidth() / 320f;
-        float destHeight = bitmap.getHeight() / horizontalScaleFactor;
-
-        return Bitmap.createScaledBitmap(bitmap, 320, (int) destHeight, false);
-    }
-
-    private ArrayList<Object> values(Bundle bundle) {
-        ArrayList<Object> values = new ArrayList<>();
-        Set<String> keys = bundle.keySet();
-
-        for (String key : keys) {
-            values.add(bundle.get(key));
-        }
-
-        return values;
-    }
-    */
 
     private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
 
@@ -507,57 +436,49 @@ public class NotificationService extends NotificationListenerService {
         int jobId = statusBarNotification.getId() + newUID();
         dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
-        NotificationStore.addStandardNotification(key, dataBundle);
+        if (isJobSchedulerEnabled()) {
+            NotificationStore.addStandardNotification(key, dataBundle);
+            scheduleJob(id, jobId, key);
+            log.i("NotificationService StandardUI jobScheduled: " + jobId + " \\ key: " + key);
+        }else {
+            //Connect transporter
+            Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
+            notificationTransporter.connectTransportService();
 
-        scheduleJob(id, jobId, key);
-
-        /*
-        * Disabled while testing JobScheduler
-        *
-
-        //Connect transporter
-        Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
-        notificationTransporter.connectTransportService();
-
-        notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
-            @Override
-            public void onResultBack(DataTransportResult dataTransportResult) {
-                log.d(dataTransportResult.toString());
-            }
-        });
-
-        //Disconnect transporter to avoid leaking
-        notificationTransporter.disconnectTransportService();
-
-        log.i("NotificationService StandardUI: " + dataBundle.toString());
-        */
-
-        log.i("NotificationService StandardUI jobScheduled: " + jobId + " \\ key: " + key);
-
+            notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
+                @Override
+                public void onResultBack(DataTransportResult dataTransportResult) {
+                    log.d(dataTransportResult.toString());
+                }
+            });
+            //Disconnect transporter to avoid leaking
+            notificationTransporter.disconnectTransportService();
+            log.i("NotificationService StandardUI: " + dataBundle.toString());
+        }
     }
 
     private void scheduleJob(int id, int jobId, String key) {
 
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
 
-        if (jobId == 0) {
-            builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
+            if (jobId == 0) {
+                builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
 
-        } else {
-            if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
-                    && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
-                builder.setMinimumLatency(CUSTOMUI_LATENCY);
-            else
-                builder.setMinimumLatency(0);
+            } else {
+                if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
+                        && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
+                    builder.setMinimumLatency(CUSTOMUI_LATENCY);
+                else
+                    builder.setMinimumLatency(0);
 
-            PersistableBundle bundle = new PersistableBundle();
-            bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
-            bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
+                PersistableBundle bundle = new PersistableBundle();
+                bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
+                bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
 
-            builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
-            builder.setOverrideDeadline(JOB_MAX_INTERVAL);
-            builder.setExtras(bundle);
-        }
+                builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
+                builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+                builder.setExtras(bundle);
+            }
 
         jobScheduler.schedule(builder.build());
     }
@@ -814,6 +735,10 @@ public class NotificationService extends NotificationListenerService {
     private boolean isNotificationsDisabledWhenScreenOn() {
         return Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
                 && Screen.isInteractive(this);
+    }
+
+    private boolean isJobSchedulerEnabled() {
+        return Prefs.getString(Constants.PREF_NOTIFICATION_SCHEDULER, Constants.PREF_DEFAULT_NOTIFICATION_SCHEDULER).equals("true");
     }
 
     private boolean isNotificationsEnabledWhenScreenLocked() {

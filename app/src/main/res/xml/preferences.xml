@@ -56,6 +56,16 @@
             android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
             android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
             android:title="@string/pref_notifications_enable_custom_ui" />
+
+        <ListPreference
+            android:defaultValue="false"
+            android:dialogTitle="@string/pref_notification_scheduler_title"
+            android:entries="@array/pref_notification_scheduler_entries"
+            android:entryValues="@array/pref_notification_scheduler_values"
+            android:key="preference.notification.scheduler"
+            android:summary="@string/pref_notification_scheduler_summary"
+            android:title="@string/pref_notification_scheduler" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/customui">
