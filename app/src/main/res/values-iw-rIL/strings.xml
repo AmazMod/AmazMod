@@ -299,7 +299,7 @@
     <string name="invalid_url">כתובת של iCal לא חוקית!</string>
     <string name="file_or_connection_error">שגיאת התחברות/קובץ, לא היה ניתן לפתוח את הקובץ!</string>
     <string name="update_process_warning">אזהרה: תהליך העדכון יכול לקחת עד 15 דקות, ממשק יופעל מחדש פעם אחת או יותר. אל תשתמש השעון במהלך התהליך או דברים יכול להישבר. התחל עדכון רק אם אתה יכול להמתין.</string>
-    <string name="pref_notification_scheduler">Behavior when disconnected</string>
-    <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
-    <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
+    <string name="pref_notification_scheduler">תפקוד התראות בניתוק מהסלולרי</string>
+    <string name="pref_notification_scheduler_summary">בחרו תפקוד רצוי להתראות, כשהשעון מנותק מהסלולרי</string>
+    <string name="pref_notification_scheduler_title">תפקוד התראות:</string>
 </resources>
