@@ -299,7 +299,7 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
     <string name="update_process_warning">Ostrzeżenie: proces aktualizacji może potrwać do 15 minut. Iinterfejs zegarka zostanie ponownie uruchomiony jeden albo więcej razy. Nie należy używać zegarka podczas tego procesu lub innych rzeczy w nim ze względu na możliwość uszkodzenia. Rozpocznij aktualizację tylko wtedy, gdy wiesz że na pewno można poczekać na jej zakończenie.</string>
-    <string name="pref_notification_scheduler">Behavior when disconnected</string>
-    <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
-    <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
+    <string name="pref_notification_scheduler">Zachowanie po rozłączeniu</string>
+    <string name="pref_notification_scheduler_summary">Wybierz działanie po pojawieniu się powiadomienia, że zegarek jest odłączony od telefonu</string>
+    <string name="pref_notification_scheduler_title">Powiadomienia Zachowanie:</string>
 </resources>
