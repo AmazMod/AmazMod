@@ -299,4 +299,7 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
     <string name="update_process_warning">ΠΡΟΣΟΧΗ: η διαδικασία ενημέρωσης μπορεί να πάρει έως και 15 λεπτά ενώ το ρολόι θα επανεκκινήσει μία ή περισσότερες φορές. Μην χρησιμοποιείτε το ρολόι κατά τη διάρκεια της διαδικασίας για την αποφυγή προβλημάτων. Ξεκινήστε την ενημέρωση μόνο εάν μπορείτε να περιμένετε μέχρι να τελειώσει.</string>
+    <string name="pref_notification_scheduler">Συμπεριφορά κατά την αποθήκευση</string>
+    <string name="pref_notification_scheduler_summary">Επιλέξτε την αναμενόμενη συμπεριφορά όταν λάβετε μια ειδοποίηση ενώ το ρολόι δεν είναι συνδεδεμένο με το τηλέφωνο</string>
+    <string name="pref_notification_scheduler_title">Συμπεριφορά Ειδοποιήσεων:</string>
 </resources>

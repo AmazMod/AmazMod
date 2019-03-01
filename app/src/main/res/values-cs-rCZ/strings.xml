@@ -301,4 +301,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
     <string name="update_process_warning">VAROVÁNÍ: proces aktualizace může trvat až 15 minut a uživatelské rozhraní hodinek bude jednou nebo vícekrát restartováno. Během procesu hodinky nepožívejte jinak může dojít k přerušení procesu aktualizace. Spusťte aktualizaci pouze v případě, že můžete na celý proces počkat až do konce.</string>
+    <string name="pref_notification_scheduler">Chování při odpojení</string>
+    <string name="pref_notification_scheduler_summary">Vyberte očekávané chování při obdržení oznámení když jsou hodinky odpojené od telefonu</string>
+    <string name="pref_notification_scheduler_title">Chování oznámení:</string>
 </resources>
