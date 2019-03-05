@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.transport.TransportService;
@@ -26,6 +25,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Locale;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.SettingsData;
 import de.mateware.snacky.Snacky;
 
@@ -102,18 +102,7 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        //Change app location configuration and refresh it on preference change
-        final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);
-
-        Locale defaultLocale = Locale.getDefault();
-        Locale currentLocale = getResources().getConfiguration().locale;
-        System.out.println(Constants.TAG + "SettingsActivity locales: " + defaultLocale + " / " + currentLocale.toString());
-
-        if (forceEN && (currentLocale != Locale.US)) {
-            setLocale(Locale.US);
-        } else if (!forceEN && (currentLocale != defaultLocale)) {
-            setLocale(defaultLocale);
-        }
+        applyLocale();
 
         sync(false);
 
@@ -227,17 +216,22 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     //Set locale and set flag used to activity refresh
-    public void setLocale(Locale lang) {
-        System.out.println(Constants.TAG + "SettingsActivity New locale: " + lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = lang;
-        res.updateConfiguration(conf, dm);
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+    public void applyLocale() {
+        String currentLanguage = Prefs.getString(Constants.PREF_LANGUAGE,
+                Locale.getDefault().toLanguageTag());
+        Locale locale = new Locale.Builder().setLanguageTag(currentLanguage).build();
+        System.out.println(Constants.TAG + "SettingsActivity New locale: " + locale);
+        Resources resources = getResources();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = locale;
+        resources.updateConfiguration(configuration, displayMetrics);
         finish();
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("REFRESH", true);
-        startActivity(intent);
+        recreate();
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        intent.putExtra("REFRESH", true);
+//        startActivity(intent);
     }
+
 }

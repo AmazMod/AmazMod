@@ -39,6 +39,10 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -64,8 +68,8 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
+    implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.2.4'
+    implementation 'com.github.Raizlabs.DBFlow:dbflow:4.2.4'
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
@@ -84,7 +88,6 @@ dependencies {
     implementation 'com.mindorks.android:prdownloader:0.4.0'
     implementation 'org.mnode.ical4j:ical4j:2.2.3'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
-
 }
 
 apply plugin: 'com.google.gms.google-services'

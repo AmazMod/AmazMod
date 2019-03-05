@@ -46,6 +46,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
     public static final String PREF_FORCE_ENGLISH = "preference.force.english";
+    public static final String PREF_LANGUAGE = "preference.language";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
     public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
     public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";

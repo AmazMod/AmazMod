@@ -180,4 +180,78 @@
         <item>true</item>
         <item>false</item>
     </string-array>
+
+    <string-array name="languages_array_codes" translatable="false">
+        <item>en</item>
+        <item>af-rZA</item>
+        <item>ar-rSA</item>
+        <item>ca-rES</item>
+        <item>da-rDK</item>
+        <item>de-rDE</item>
+        <item>el-rGR</item>
+        <item>en-rUS</item>
+        <item>es-rES</item>
+        <item>fi-rFI</item>
+        <item>fr-rFR</item>
+        <item>hu-rHU</item>
+        <item>in-RID</item>
+        <item>it-rIT</item>
+        <item>iw</item>
+        <item>iw-rIL</item>
+        <item>ja-rJP</item>
+        <item>ko-rKR</item>
+        <item>nl-rNL</item>
+        <item>no-rNO</item>
+        <item>pl-rPL</item>
+        <item>pt-rBR</item>
+        <item>pt-rPT</item>
+        <item>ro-rRO</item>
+        <item>ru-rRU</item>
+        <item>sk-rSK</item>
+        <item>sl-rSI</item>
+        <item>sr-rSP</item>
+        <item>sv-rSE</item>
+        <item>tr-rTR</item>
+        <item>uk-rUA</item>
+        <item>vi-rVN</item>
+        <item>zh-rCN</item>
+        <item>zh-rTW</item>
+    </string-array>
+
+    <string-array name="languages_array" translatable="false">
+        <item>en</item>
+        <item>af-rZA</item>
+        <item>ar-rSA</item>
+        <item>ca-rES</item>
+        <item>da-rDK</item>
+        <item>de-rDE</item>
+        <item>el-rGR</item>
+        <item>en-rUS</item>
+        <item>es-rES</item>
+        <item>fi-rFI</item>
+        <item>fr-rFR</item>
+        <item>hu-rHU</item>
+        <item>in-RID</item>
+        <item>it-rIT</item>
+        <item>iw</item>
+        <item>iw-rIL</item>
+        <item>ja-rJP</item>
+        <item>ko-rKR</item>
+        <item>nl-rNL</item>
+        <item>no-rNO</item>
+        <item>pl-rPL</item>
+        <item>pt-rBR</item>
+        <item>pt-rPT</item>
+        <item>ro-rRO</item>
+        <item>ru-rRU</item>
+        <item>sk-rSK</item>
+        <item>sl-rSI</item>
+        <item>sr-rSP</item>
+        <item>sv-rSE</item>
+        <item>tr-rTR</item>
+        <item>uk-rUA</item>
+        <item>vi-rVN</item>
+        <item>zh-rCN</item>
+        <item>zh-rTW</item>
+    </string-array>
 </resources>

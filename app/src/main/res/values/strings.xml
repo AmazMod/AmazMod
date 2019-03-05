@@ -300,5 +300,7 @@
     <string name="pref_notification_scheduler">Behavior when disconnected</string>
     <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
     <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
 
 </resources>
