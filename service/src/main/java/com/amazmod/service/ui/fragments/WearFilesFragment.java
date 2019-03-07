@@ -166,6 +166,7 @@ public class WearFilesFragment extends Fragment {
         wearFilesFrameLayout = getActivity().findViewById(R.id.wear_files_frame_layout);
         listView = getActivity().findViewById(R.id.wear_files_list);
         mHeader = getActivity().findViewById(R.id.wear_files_header);
+        mHeader.setSelected(true);
         progressBar = getActivity().findViewById(R.id.wear_files_loading_spinner);
 
         listView.setLongClickable(true);
