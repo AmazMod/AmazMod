@@ -300,7 +300,7 @@ Urobte príkaz shell \"</string>
     <string name="invalid_url">Neplatný iCal URL!</string>
     <string name="file_or_connection_error">Súbor alebo pripojenie chyba, súbor sa nepodarilo otvoriť!</string>
     <string name="update_process_warning">Upozornenie: proces aktualizácie môže trvať až 15 minút a rozhranie hodinek sa reštartuje raz alebo viackrát. Nepoužívajte hodinky počas procesu alebo sa veci môžu rozbiť. Spustite aktualizáciu len vtedy, ak môžete počkať na jej dokončenie.</string>
-    <string name="pref_notification_scheduler">Behavior when disconnected</string>
-    <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
-    <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
+    <string name="pref_notification_scheduler">Správanie pri odpojení</string>
+    <string name="pref_notification_scheduler_summary">Vybrať očakávané správanie, keď príde upozornenie - pozor je odpojený od telefónu</string>
+    <string name="pref_notification_scheduler_title">Správanie upozornenia:</string>
 </resources>
