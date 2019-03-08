@@ -304,4 +304,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_notification_scheduler">Viselkedés kapcsolat bontáskor</string>
     <string name="pref_notification_scheduler_summary">Válaszd ki a kívánt viselkedést egy értesítés érkezésekor, míg az óra leválik a telefonról</string>
     <string name="pref_notification_scheduler_title">Értesítési válaszok:</string>
+    <string name="search_title">Search</string>
 </resources>
