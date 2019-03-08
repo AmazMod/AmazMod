@@ -38,7 +38,6 @@ import com.amazmod.service.R;
 import com.amazmod.service.adapters.LauncherAppAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.models.MenuItems;
-import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.BatteryGraphActivity;
 import com.google.gson.Gson;

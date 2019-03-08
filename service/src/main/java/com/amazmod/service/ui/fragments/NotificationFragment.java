@@ -600,6 +600,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         startActivity(intent);
 
         NotificationStore.removeCustomNotification(key);
+        NotificationStore.setNotificationCount(mContext);
         if (NotificationWearActivity.MODE_VIEW.equals(mode))
             WearNotificationsFragment.getInstance().loadNotifications();
 

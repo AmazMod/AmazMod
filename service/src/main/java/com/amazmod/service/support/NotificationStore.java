@@ -1,5 +1,16 @@
 package com.amazmod.service.support;
 
+import android.content.Context;
+import android.provider.Settings;
+import android.util.Log;
+
+import com.amazmod.service.AmazModService;
+import com.amazmod.service.Constants;
+import com.amazmod.service.MainService;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -8,22 +19,18 @@ import amazmod.com.transport.data.NotificationData;
 
 public class NotificationStore {
 
-    private static Map<String, NotificationData> customNotifications;
+    public static Map<String, NotificationData> customNotifications = new HashMap<>();
 
-    public NotificationStore() {
-        customNotifications = new HashMap<>();
-    }
+    //public NotificationStore() {
+        //customNotifications = new HashMap<>();
+    //}
 
     public static NotificationData getCustomNotification(String key) {
         return customNotifications.get(key);
     }
 
     public static int getCustomNotificationCount() {
-        try {
-            return customNotifications.size();
-        }catch (NullPointerException e){
-            return 0;
-        }
+        return customNotifications.size();
     }
 
     public static void addCustomNotification(String key, NotificationData notificationData) {
@@ -83,5 +90,18 @@ public class NotificationStore {
 
     public static void clear() {
         customNotifications.clear();
+    }
+
+    public static void setNotificationCount(Context context) {
+        //Stores notificationCount in JSON Object
+        String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
+        try {
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("notifications", getCustomNotificationCount());
+            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", json_data.toString());
+        } catch (
+                JSONException e) {
+            Log.e(Constants.TAG, "NotificationService postWithCustomUI JSONException: " + e.toString());
+        }
     }
 }
