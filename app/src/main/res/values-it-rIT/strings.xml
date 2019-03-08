@@ -304,5 +304,5 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="pref_notification_scheduler">Comportamento da disconnesso</string>
     <string name="pref_notification_scheduler_summary">Scegli il cosa fare quando arriva una notifica mentre l\'orologio è disconnesso dal telefono</string>
     <string name="pref_notification_scheduler_title">Comportamento notifiche:</string>
-    <string name="search_title">Search</string>
+    <string name="search_title">Cerca</string>
 </resources>
