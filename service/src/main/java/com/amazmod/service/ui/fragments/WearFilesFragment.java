@@ -13,15 +13,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
-import android.support.v7.widget.RecyclerView;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -444,7 +441,7 @@ public class WearFilesFragment extends Fragment {
         Log.d(Constants.TAG, "WearFilesFragment getMimeType uri: " + fileUri);
 
         String mimeType = null;
-        String extension = MimeTypeMap.getFileExtensionFromUrl(uri.getPath());
+        String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
 
         Log.d(Constants.TAG, "WearFilesFragment getMimeType extension: " + extension);
 
@@ -479,9 +476,9 @@ public class WearFilesFragment extends Fragment {
         Log.d(Constants.TAG, "WearFilesFragment formatBytes bytes: " + bytes);
 
         String retStr;
-        long kb = 1024L;
-        long mb = kb * kb;
-        long gb = kb * mb;
+        float kb = 1024L;
+        float mb = kb * kb;
+        float gb = kb * mb;
 
         if (bytes > gb) {
             float gbs = bytes / gb;
