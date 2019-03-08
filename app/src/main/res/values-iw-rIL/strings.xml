@@ -302,4 +302,5 @@
     <string name="pref_notification_scheduler">תפקוד התראות בניתוק מהסלולרי</string>
     <string name="pref_notification_scheduler_summary">בחרו תפקוד רצוי להתראות, כשהשעון מנותק מהסלולרי</string>
     <string name="pref_notification_scheduler_title">תפקוד התראות:</string>
+    <string name="search_title">Search</string>
 </resources>

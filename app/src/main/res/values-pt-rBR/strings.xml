@@ -302,4 +302,5 @@
     <string name="pref_notification_scheduler">Comportamento quando desconectado</string>
     <string name="pref_notification_scheduler_summary">Escolha o comportamento esperado quando chega uma notificação enquanto o relógio está desconectado do telefone</string>
     <string name="pref_notification_scheduler_title">Comportamento de notificações:</string>
+    <string name="search_title">Search</string>
 </resources>
