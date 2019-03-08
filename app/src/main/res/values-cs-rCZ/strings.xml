@@ -304,4 +304,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_notification_scheduler">Chování při odpojení</string>
     <string name="pref_notification_scheduler_summary">Vyberte očekávané chování při obdržení oznámení když jsou hodinky odpojené od telefonu</string>
     <string name="pref_notification_scheduler_title">Chování oznámení:</string>
+    <string name="search_title">Search</string>
 </resources>
