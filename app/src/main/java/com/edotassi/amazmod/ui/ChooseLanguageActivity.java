@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.fragment.language.LanguageInfo;
+import com.edotassi.amazmod.util.LocaleUtils;
 import com.orhanobut.logger.Logger;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -72,7 +73,7 @@ public class ChooseLanguageActivity extends AppCompatActivity {
             String tag = (String) radioGroup.getChildAt(checkedId).getTag();
             Logger.e(tag);
             if (!tag.equalsIgnoreCase(currentLanguage)) {
-                Prefs.putString(Constants.PREF_LANGUAGE, tag);
+                LocaleUtils.setLocale(this, tag);
             }
         });
     }

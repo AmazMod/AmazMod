@@ -1,16 +1,12 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -29,7 +25,7 @@ import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.SettingsData;
 import de.mateware.snacky.Snacky;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseAppCompatActivity {
 
     private boolean disableBatteryChartOnCreate;
     private boolean enablePersistentNotificationOnCreate;
@@ -217,21 +213,15 @@ public class SettingsActivity extends AppCompatActivity {
 
     //Set locale and set flag used to activity refresh
     public void applyLocale() {
-        String currentLanguage = Prefs.getString(Constants.PREF_LANGUAGE,
-                Locale.getDefault().toLanguageTag());
-        Locale locale = new Locale.Builder().setLanguageTag(currentLanguage).build();
-        System.out.println(Constants.TAG + "SettingsActivity New locale: " + locale);
-        Resources resources = getResources();
-        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
-        Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
-        resources.updateConfiguration(configuration, displayMetrics);
-        finish();
-        recreate();
-//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        intent.putExtra("REFRESH", true);
-//        startActivity(intent);
+//        if (AmazModApplication.defaultLocale != LocaleUtils.getLocale()) {
+//            LocaleUtils.onAttach(this);
+//            recreate();
+//        }
+//        finish();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("REFRESH", true);
+        startActivity(intent);
     }
 
 }
