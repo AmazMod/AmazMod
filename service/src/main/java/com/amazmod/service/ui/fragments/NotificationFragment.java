@@ -18,6 +18,7 @@ import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import com.amazmod.service.events.SilenceApplicationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FragmentUtil;
 
 import java.util.ArrayList;
@@ -48,6 +50,7 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class NotificationFragment extends Fragment implements DelayedConfirmationView.DelayedConfirmationListener {
 
+    LinearLayout replies_layout;
     TextView title;
     TextView time;
     TextView text;
@@ -130,6 +133,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         util = new FragmentUtil(mContext);
         disableDelay = util.getDisableDelay();
 
+        replies_layout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         title = getActivity().findViewById(R.id.fragment_custom_notification_title);
         time = getActivity().findViewById(R.id.fragment_custom_notification_time);
         text = getActivity().findViewById(R.id.fragment_custom_notification_text);
@@ -138,7 +142,6 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         picture = getActivity().findViewById(R.id.fragment_custom_notification_picture);
         rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
         scrollView = getActivity().findViewById(R.id.fragment_custom_scrollview);
-        //repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
         delayedConfirmationViewTitle = getActivity().findViewById(R.id.fragment_notification_delayedview_title);
         delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
@@ -203,6 +206,12 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         //Load preferences
         boolean disableNotificationText = util.getDisableNotificationText();
         enableInvertedTheme = util.getInvertedTheme();
+
+        //Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
+        if (DeviceUtil.isVerge()){
+            int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
+            replies_layout.setMinimumHeight(px);
+        }
 
         //Load Replies and Mute Options
         loadReplies();

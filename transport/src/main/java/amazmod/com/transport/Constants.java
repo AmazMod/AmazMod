@@ -81,7 +81,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
     public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
     public static final boolean PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON = false;
-    public static final String PREF_DEFAULT_NOTIFICATION_SCHEDULER = "true";
+    public static final boolean PREF_DEFAULT_NOTIFICATION_SCHEDULER = true;
 
     public static final int REQUEST_CODE_INTRO = 1;
 

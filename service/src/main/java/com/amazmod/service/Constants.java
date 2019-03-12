@@ -44,6 +44,7 @@ public class Constants {
     public static final String PREF_HIDDEN_APPS = "pref_hidden_apps";
     public static final String PREF_BATTERY_GRAPH_DAYS = "pref_battery_graph_days";
     public static final String PREF_NOTIFICATION_DELETE_BUTTON = "notification_delete_button";
+    public static final String PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER = "pref_amazmod_official_widgets_order";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
@@ -84,4 +85,6 @@ public class Constants {
 
     public static final int VIBRATION_SHORT = 100;
     public static final int VIBRATION_LONG = 700;
+
+    public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
 }

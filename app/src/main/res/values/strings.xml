@@ -297,9 +297,7 @@
     <string name="invalid_url">Invalid iCal URL!</string>
     <string name="file_or_connection_error">File or connection error, file could not be opened!</string>
     <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
-    <string name="pref_notification_scheduler">Behavior when disconnected</string>
-    <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
-    <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
     <string name="search_title">Search</string>
-
+    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
 </resources>

@@ -37,9 +37,11 @@ public class WidgetsUtil {
 
         SettingsManager settingsManager = new SettingsManager(context);
         boolean amazModFirstWidget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
-        String savedSpringboardOder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, "");
+        String savedOrder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, "");
+        String officialAppOrder = settingsManager.getString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, "");
         String springboard_widget_order_out;
         String springboard_widget_order_in;
+        int amazmodPosition = DeviceUtil.isVerge()?0:1;
 
         final SpringboardItem amazmodWidget = new SpringboardItem("com.amazmod.service",
                 "com.amazmod.service.springboard.AmazModLauncher", true);
@@ -47,10 +49,10 @@ public class WidgetsUtil {
 
         //Get in and out settings.
         // In is the main setting, which defines the order and state of a page, but does not always contain them all.
-        if (savedSpringboardOder.isEmpty())
+        if (savedOrder.isEmpty())
             springboard_widget_order_in = Settings.System.getString(context.getContentResolver(), "springboard_widget_order_in");
         else
-            springboard_widget_order_in = savedSpringboardOder;
+            springboard_widget_order_in = savedOrder;
         Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_in  : " + springboard_widget_order_in);
 
         //Out contains them all, but no ordering. Use saved settings if it exists;
@@ -130,7 +132,7 @@ public class WidgetsUtil {
                             //Create setting with all the relevant data
                             SpringboardSetting springboardSetting = addSpringboardSetting(context, springboardItem);
                             //Add amazmod as first one
-                            settingList.add(1, springboardSetting);
+                            settingList.add(amazmodPosition, springboardSetting);
                             isAmazmodWidgetMissing = false;
                         } else {
                             //Create setting with all the relevant data
@@ -144,7 +146,7 @@ public class WidgetsUtil {
 
             if (isAmazmodWidgetMissing && amazModFirstWidget) {
                 SpringboardSetting amazmodSetting = addSpringboardSetting(context, amazmodWidget);
-                settingList.add(1, amazmodSetting);
+                settingList.add(amazmodPosition, amazmodSetting);
             }
 
         } catch (JSONException e) {

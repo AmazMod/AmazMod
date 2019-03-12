@@ -738,7 +738,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isJobSchedulerEnabled() {
-        return Prefs.getString(Constants.PREF_NOTIFICATION_SCHEDULER, Constants.PREF_DEFAULT_NOTIFICATION_SCHEDULER).equals("true");
+        return Prefs.getBoolean(Constants.PREF_NOTIFICATION_SCHEDULER, Constants.PREF_DEFAULT_NOTIFICATION_SCHEDULER);
     }
 
     private boolean isNotificationsEnabledWhenScreenLocked() {
