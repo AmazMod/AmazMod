@@ -17,7 +17,7 @@ public class WidgetsReorderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        WidgetsUtil.loadSettings(this);
+        WidgetsUtil.loadWidgetList(this);
         SpringboardWidgetAdapter adapter = WidgetsUtil.getAdapter(this);
 
         //Create recyclerview as layout

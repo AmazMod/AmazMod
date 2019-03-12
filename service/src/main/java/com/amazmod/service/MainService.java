@@ -1153,7 +1153,7 @@ public class MainService extends Service implements Transporter.DataListener {
             if (springboardObserver != null)
                 return;
             ContentResolver contentResolver = getContentResolver();
-            Uri setting = Settings.System.getUriFor("springboard_widget_order_in");
+            Uri setting = Settings.System.getUriFor(Constants.WIDGET_ORDER_IN);
             springboardObserver = new ContentObserver(new Handler()) {
                 @Override
                 public void onChange(boolean selfChange) {
@@ -1161,7 +1161,7 @@ public class MainService extends Service implements Transporter.DataListener {
                     Log.d(Constants.TAG, "MainService registerSpringBoardMonitor onChange");
                     //Set AmazMod as first Widget
                     if (!wasSpringboardSaved)
-                        WidgetsUtil.loadSettings(context);
+                        WidgetsUtil.syncWidgets(context);
                     else
                         wasSpringboardSaved = false;
                 }

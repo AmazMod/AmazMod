@@ -10,6 +10,8 @@ public class Constants {
     public static final String TAG_NIGHTSCOUT_PAGE = "Amazmod:Nighscout";
 
     public static final String PACKAGE_NAME = "com.edotassi.amazmod";
+    public static final String SERVICE_NAME = "com.amazmod.service";
+    public static final String LAUNCHER_CLASSNAME = "com.amazmod.service.springboard.AmazModLauncher";
 
     public static final String ACTION_NIGHTSCOUT_SYNC = "nightscout_sync";
 
@@ -87,4 +89,8 @@ public class Constants {
     public static final int VIBRATION_LONG = 700;
 
     public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
+
+    public static final String WIDGET_ORDER_IN = "springboard_widget_order_in";
+    public static final String WIDGET_ORDER_OUT = "springboard_widget_order_out";
+
 }

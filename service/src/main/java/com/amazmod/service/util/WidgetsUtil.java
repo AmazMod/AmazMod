@@ -33,39 +33,56 @@ public class WidgetsUtil {
     //Countdown timer_black to prevent saving too often
     private static CountDownTimer countDownTimer;
 
-    public static void loadSettings(final Context context) {
+    public static void syncWidgets(final Context context){
+        loadSettings(context,true);
+    }
+
+    public static void loadWidgetList(final Context context){
+        loadSettings(context,false);
+    }
+
+    private static void loadSettings(final Context context,boolean saveOriginalList) {
 
         SettingsManager settingsManager = new SettingsManager(context);
         boolean amazModFirstWidget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
         String savedOrder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, "");
-        String officialAppOrder = settingsManager.getString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, "");
-        String springboard_widget_order_out;
-        String springboard_widget_order_in;
+        String last_widget_order_in = settingsManager.getString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, "");
+        String widget_order_in, widget_order_out;
         int amazmodPosition = DeviceUtil.isVerge()?0:1;
 
-        final SpringboardItem amazmodWidget = new SpringboardItem("com.amazmod.service",
-                "com.amazmod.service.springboard.AmazModLauncher", true);
+        final SpringboardItem amazmodWidget = new SpringboardItem(Constants.SERVICE_NAME, Constants.LAUNCHER_CLASSNAME, true);
         boolean isAmazmodWidgetMissing = true;
+
 
         //Get in and out settings.
         // In is the main setting, which defines the order and state of a page, but does not always contain them all.
-        if (savedOrder.isEmpty())
-            springboard_widget_order_in = Settings.System.getString(context.getContentResolver(), "springboard_widget_order_in");
-        else
-            springboard_widget_order_in = savedOrder;
-        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_in  : " + springboard_widget_order_in);
+        widget_order_in = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_IN);
+        if (saveOriginalList)
+            saveOfficialAppOrder(context, widget_order_in);
 
-        //Out contains them all, but no ordering. Use saved settings if it exists;
-        springboard_widget_order_out = Settings.System.getString(context.getContentResolver(), "springboard_widget_order_out");
+        //Out contains them all, but no ordering.
+        widget_order_out = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_OUT);
 
-        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_out : " + springboard_widget_order_out);
+        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_in  : " + widget_order_in);
+        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_out : " + widget_order_out);
+        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in);
+
+        //if last order_in is equal to current one no change was done via Amazfit Watch official App, so reapply saved order
+        if (widget_order_in.equals(last_widget_order_in)){
+            Log.d(Constants.TAG, "WidgetsUtil loadSettings : current order is equal to last one");
+            if (!savedOrder.isEmpty()) {
+                Log.d(Constants.TAG, "WidgetsUtil loadSettings using saved_order : " + savedOrder);
+                widget_order_in = savedOrder;
+            }
+        }
 
         //Create empty list
         settingList = new ArrayList<>();
         try {
             //Parse JSON
-            JSONObject root = new JSONObject(springboard_widget_order_in);
+            JSONObject root = new JSONObject(widget_order_in);
             JSONArray data = root.getJSONArray("data");
+
             List<String> addedComponents = new ArrayList<>();
             //Data array contains all the elements
             for (int x = 0; x < data.length(); x++) {
@@ -73,7 +90,7 @@ public class WidgetsUtil {
                 JSONObject item = data.getJSONObject(x);
 
                 //Check if AmazMod widget already exists
-                if (item.getString("pkg").equals("com.amazmod.service"))
+                if (item.getString("pkg").equals(Constants.SERVICE_NAME))
                     isAmazmodWidgetMissing = false;
 
                 //srl is the position, stored as a string for some reason
@@ -107,7 +124,7 @@ public class WidgetsUtil {
                 }
             }
             //Parse JSON
-            JSONObject rootOut = new JSONObject(springboard_widget_order_out);
+            JSONObject rootOut = new JSONObject(widget_order_out);
             JSONArray dataOut = rootOut.getJSONArray("data");
             //Loop through main data array
             for (int x = 0; x < data.length(); x++) {
@@ -126,7 +143,7 @@ public class WidgetsUtil {
                         addedComponents.add(springboardItem.getClassName());
 
                         //Always show amazmod as first when swiping left (index 2, second item) if its defined in preferences
-                        if (item.getString("pkg").equals("com.amazmod.service") && amazModFirstWidget) {
+                        if (item.getString("pkg").equals(Constants.SERVICE_NAME) && amazModFirstWidget) {
                             //Make sure it is enabled
                             springboardItem.setEnabled(true);
                             //Create setting with all the relevant data
@@ -278,14 +295,14 @@ public class WidgetsUtil {
         }
 
         //Save setting
-        if (saveLocal) {
+        //if (saveLocal) {
             SettingsManager settingsManager = new SettingsManager(context);
             settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, root.toString());
             Log.d(Constants.TAG, "WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString());
-        } else {
-            Settings.System.putString(context.getContentResolver(), "springboard_widget_order_in", root.toString());
+        //} else {
+            Settings.System.putString(context.getContentResolver(), Constants.WIDGET_ORDER_IN, root.toString());
             Log.d(Constants.TAG, "WidgetsUtil save widget_order_in: " + root.toString());
-        }
+        //}
         //Notify user
         if (showToast) {
             if (saveLocal)
@@ -295,4 +312,9 @@ public class WidgetsUtil {
         }
     }
 
+    private static void saveOfficialAppOrder(Context context, String order_in){
+        Log.d(Constants.TAG, "WidgetsUtil saveOfficialAppOrder: " + order_in);
+        SettingsManager settingsManager = new SettingsManager(context);
+        settingsManager.putString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, order_in);
+    }
 }
