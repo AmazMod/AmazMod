@@ -299,8 +299,7 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
     <string name="update_process_warning">AVERTISSEMENT : le processus de mise à jour peut prendre jusqu\'à 15 minutes et l\'interface de la montre sera redémarré une ou plusieurs fois. N’utilisez pas la montre pendant le processus ou des problèmes peuvent apparaitre. Démarrer la mise à jour seulement si vous pouvez attendre qu’elle se termine.</string>
-    <string name="pref_notification_scheduler">Comportement lorsque déconnecté</string>
-    <string name="pref_notification_scheduler_summary">Choisissez le comportement attendu lorsqu\'une notification arrive lorsque la montre est déconnectée du téléphone</string>
-    <string name="pref_notification_scheduler_title">Comportement des notifications :</string>
     <string name="search_title">Rechercher</string>
+    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
 </resources>
