@@ -301,5 +301,5 @@
     <string name="update_process_warning">ВНИМАНИЕ: процесс обновления может занять до 15 минут, и часы будут перезагружаться один или несколько раз. Не используйте часы во время этого процесса иначе они могут быть повреждены. Начните обновление только если вы можете дождаться его завершения.</string>
     <string name="search_title">Поиск</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>
