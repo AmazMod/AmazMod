@@ -18,6 +18,7 @@ import com.orhanobut.logger.Logger;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -44,23 +45,22 @@ public class ChooseLanguageActivity extends AppCompatActivity {
         String currentLanguage = Prefs.getString(Constants.PREF_LANGUAGE,
                 Locale.getDefault().toLanguageTag());
         String[] languageCodes = getResources().getStringArray(R.array.languages_array_codes);
-        List<LanguageInfo> languageModels = new ArrayList<>();
-        String[] languageLabels = getResources().getStringArray(R.array.languages_array);
-        for (int i = 0; i < languageLabels.length; i++) {
-            String code = languageCodes[i];
-            String label = languageLabels[i];
+        List<LanguageInfo> languageInfos = new ArrayList<>();
+        for (String code : languageCodes) {
+            String label = LocaleUtils.getDisplayLanguage(code);
             LanguageInfo languageInfo = new LanguageInfo(label, code);
-            languageModels.add(languageInfo);
-            // TODO: add sort by label
+            languageInfos.add(languageInfo);
         }
+        Collections.sort(languageInfos,
+                (o1, o2) -> o1.getLabel().compareToIgnoreCase(o2.getLabel()));
 
         int padding = getResources().getDimensionPixelSize(R.dimen.language_spacing);
-        for (int i = 0; i < languageModels.size(); i++) {
+        for (int i = 0; i < languageInfos.size(); i++) {
             RadioButton radioButtonView = new RadioButton(this);
             RadioGroup.LayoutParams params = new RadioGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             radioButtonView.setLayoutParams(params);
-            LanguageInfo model = languageModels.get(i);
+            LanguageInfo model = languageInfos.get(i);
             radioButtonView.setText(model.getLabel());
             radioButtonView.setId(i);
             radioButtonView.setTag(model.getCode());

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.annotation.NonNull;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -30,12 +31,17 @@ public class LocaleUtils {
 
     public static Locale getLocale() {
         String currentLanguage = getPersistedData(Locale.getDefault().getLanguage());
-        String[] languageCodes = currentLanguage.split("-r");
+        return getLocaleByLanguageCode(currentLanguage);
+    }
+
+    private static Locale getLocaleByLanguageCode(@NonNull String languageCode) {
+        String[] languageCodes = languageCode.split("-r");
         if (languageCodes.length > 1) {
             return new Locale(languageCodes[0], languageCodes[1]);
         } else {
-            return new Locale(currentLanguage);
+            return new Locale(languageCode);
         }
+
     }
 
     public static Context setLocale(Context context, String language) {
@@ -82,5 +88,15 @@ public class LocaleUtils {
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
         return context;
+    }
+
+    public static String getDisplayLanguage(@NonNull String languageCode) {
+        Locale locale = getLocaleByLanguageCode(languageCode);
+        String displayCountry = locale.getDisplayCountry(locale);
+        if (displayCountry != null && !displayCountry.isEmpty()) {
+            return String.format("%s (%s)", locale.getDisplayLanguage(Locale.UK), displayCountry);
+        } else {
+            return locale.getDisplayLanguage(Locale.UK);
+        }
     }
 }
