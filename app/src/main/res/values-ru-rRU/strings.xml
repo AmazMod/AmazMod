@@ -299,8 +299,7 @@
     <string name="invalid_url">Недопустимый URL-адрес iCal!</string>
     <string name="file_or_connection_error">Ошибка файла или соединения, файл не может быть открыт!</string>
     <string name="update_process_warning">ВНИМАНИЕ: процесс обновления может занять до 15 минут, и часы будут перезагружаться один или несколько раз. Не используйте часы во время этого процесса иначе они могут быть повреждены. Начните обновление только если вы можете дождаться его завершения.</string>
-    <string name="pref_notification_scheduler">Поведение при отключении</string>
-    <string name="pref_notification_scheduler_summary">Выберите ожидаемое поведение, когда уведомление приходит в то время как часы отключены от телефона</string>
-    <string name="pref_notification_scheduler_title">Поведение уведомлений:</string>
-    <string name="search_title">Search</string>
+    <string name="search_title">Поиск</string>
+    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
 </resources>

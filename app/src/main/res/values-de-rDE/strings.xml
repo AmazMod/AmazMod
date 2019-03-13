@@ -130,11 +130,11 @@
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTELL)! Aktivieren Sie Musiksteuerung mit Hardware-Key. Lautstärke Oben, für die Wiedergabe/Pause Musik. Lange Drücken zum nächsten Lied wechseln.</string>
     <string name="pref_phone_connect_disconnect_alert">Alarm bei Verbindung/Trennung des Smartphones</string>
     <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects</string>
-    <string name="intro_title_1">Welcome to AmazMod!</string>
-    <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
-    <string name="intro_title_permissions">Access to Notifications</string>
-    <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
-    <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
+    <string name="intro_title_1">Willkommen bei AmazMod!</string>
+    <string name="intro_description_1">Bitte folgen Sie dieser Präsentation, um zu erfahren, wie Sie die Service-App auf der Uhr installieren und App Zugriff auf Benachrichtigungen auf Telefon gewähren.</string>
+    <string name="intro_title_permissions">Zugriff auf Benachrichtigungen</string>
+    <string name="intro_description_permissions">AmazMod benötigt Zugriff auf Benachrichtigungen, damit sie an Ihre Uhr gesendet werden können, bitte tippen Sie auf die Schaltfläche unten, um Zugriff auf Benachrichtigungen zu gewähren, und kommen Sie zurück zur Präsentation.</string>
+    <string name="intro_label_grant_permissions">Gewähren Sie den Zugriff auf Benachrichtigungen, bevor Sie fortfahren.</string>
     <string name="intro_title_2">Install Service App on Watch</string>
     <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
     <string name="intro_title_3">Restart Devices</string>
@@ -299,8 +299,7 @@
     <string name="invalid_url">Invalid iCal URL!</string>
     <string name="file_or_connection_error">File or connection error, file could not be opened!</string>
     <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
-    <string name="pref_notification_scheduler">Behavior when disconnected</string>
-    <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
-    <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
     <string name="search_title">Search</string>
+    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
 </resources>
