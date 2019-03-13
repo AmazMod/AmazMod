@@ -302,5 +302,5 @@
     <string name="update_process_warning">ADVERTENCIA: el proceso de actualización puede tardar hasta 15 minutos, y la interfaz del reloj se reiniciará una o más veces. No usar el reloj durante el proceso o se pueden fallar cosas. Iniciar la actualización si puedes esperar a que se complete.</string>
     <string name="search_title">Buscar</string>
     <string name="pref_use_notification_scheduler">Almacenar notificaciones mientras esté desconectado</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">Almacena las notificaciones recibidas mientras el reloj y el teléfono están desconectados, y se enviarán cuando se restablezca la conexión</string>
 </resources>
