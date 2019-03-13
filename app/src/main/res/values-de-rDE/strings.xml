@@ -183,7 +183,7 @@
     <string name="activity_files_file_error">Daten Fehler!</string>
     <string name="activity_files_backup_ok">Sicherung erstellt</string>
     <string name="activity_files_backup_failed">Sicherung fehlgeschlagenen!</string>
-    <string name="activity_files_no_write_permission">Error: No Write Permission!</string>
+    <string name="activity_files_no_write_permission">Fehler: keine Berechtigung zum schreiben!</string>
     <string name="activity_files_restore_ok">Restore Done, Quitting…</string>
     <string name="activity_files_restore_failed">Restore Failed!</string>
     <string name="activity_files_backup_not_found">Backup File Not Found!</string>
@@ -225,8 +225,8 @@
     <string name="no_service_info_4">3) Finally, restart both the watch and the phone</string>
     <string name="enable_lpm_title">Enable LPM</string>
     <string name="revoke_admin">Revoke admin</string>
-    <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
-    <string name="continue_label">Continue</string>
+    <string name="enable_lpm_content">Diese Funktion ist noch in der Entwicklung, einmal eingeschaltet muss die Uhr, zum wieder ausschalten, neu gestartet werden</string>
+    <string name="continue_label">Weiterfahren</string>
     <string name="pref_file_extras">Backup and restore settings</string>
     <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
     <string name="reboot_bootloader">Enter fastboot</string>
