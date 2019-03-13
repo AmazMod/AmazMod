@@ -303,5 +303,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="update_process_warning">VAROVÁNÍ: proces aktualizace může trvat až 15 minut a uživatelské rozhraní hodinek bude jednou nebo vícekrát restartováno. Během procesu hodinky nepožívejte jinak může dojít k přerušení procesu aktualizace. Spusťte aktualizaci pouze v případě, že můžete na celý proces počkat až do konce.</string>
     <string name="search_title">Hledat</string>
     <string name="pref_use_notification_scheduler">Ukládat oznámení i po odpojení</string>
-    <string name="pref_use_notification_scheduler_summary">Uloží přijatá oznámení, když budou hodinky od telefon odpojeny a odešle je na hodinky při obnovení spojení</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>
