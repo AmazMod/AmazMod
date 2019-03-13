@@ -302,5 +302,5 @@ Urobte príkaz shell \"</string>
     <string name="update_process_warning">Upozornenie: proces aktualizácie môže trvať až 15 minút a rozhranie hodinek sa reštartuje raz alebo viackrát. Nepoužívajte hodinky počas procesu alebo sa veci môžu rozbiť. Spustite aktualizáciu len vtedy, ak môžete počkať na jej dokončenie.</string>
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>

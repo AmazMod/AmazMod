@@ -301,5 +301,5 @@
     <string name="update_process_warning">ΠΡΟΣΟΧΗ: η διαδικασία ενημέρωσης μπορεί να πάρει έως και 15 λεπτά ενώ το ρολόι θα επανεκκινήσει μία ή περισσότερες φορές. Μην χρησιμοποιείτε το ρολόι κατά τη διάρκεια της διαδικασίας για την αποφυγή προβλημάτων. Ξεκινήστε την ενημέρωση μόνο εάν μπορείτε να περιμένετε μέχρι να τελειώσει.</string>
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>

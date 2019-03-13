@@ -301,5 +301,5 @@
     <string name="update_process_warning">AVERTISSEMENT : le processus de mise à jour peut prendre jusqu\'à 15 minutes et l\'interface de la montre sera redémarré une ou plusieurs fois. N’utilisez pas la montre pendant le processus ou des problèmes peuvent apparaitre. Démarrer la mise à jour seulement si vous pouvez attendre qu’elle se termine.</string>
     <string name="search_title">Rechercher</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>
