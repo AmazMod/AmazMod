@@ -303,5 +303,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="update_process_warning">FIGYELMEZTETÉS: a frissítés 15 percig is eltarthat, az óra felület egy/több alkalommal újraindul. Ne használd az órát a folyamat során, mert az megszakadhat. Csak akkor kezd el a frissítést, ha várhatóan be is tudod fejezni.</string>
     <string name="search_title">Keresés</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>
