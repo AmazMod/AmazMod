@@ -54,6 +54,7 @@ import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.support.BatteryJobService;
 import com.amazmod.service.support.CommandLine;
+import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 import com.amazmod.service.ui.PhoneConnectionActivity;
 import com.amazmod.service.util.DeviceUtil;
@@ -203,6 +204,9 @@ public class MainService extends Service implements Transporter.DataListener {
                 }
             }
         }, powerDisconnectedFilter);
+
+        //When starting amazmod, defines notification counter as ZERO
+        NotificationStore.setNotificationCount(context, 0);
 
         notificationsReceiver = new NotificationsReceiver();
         IntentFilter filter = new IntentFilter();
@@ -1152,6 +1156,9 @@ public class MainService extends Service implements Transporter.DataListener {
         if (status) {
             if (springboardObserver != null)
                 return;
+            //if it's enabling observer, sync for a first time
+            if (status)
+                WidgetsUtil.syncWidgets(context);
             ContentResolver contentResolver = getContentResolver();
             Uri setting = Settings.System.getUriFor(Constants.WIDGET_ORDER_IN);
             springboardObserver = new ContentObserver(new Handler()) {

@@ -43,8 +43,9 @@ public class NotificationWearActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private static boolean screenToggle = false, mustLockDevice = false,
-                            showKeyboard = false, wasScreenLocked = false;
+    private static boolean screenToggle = false, mustLockDevice = false, wasScreenLocked = false;
+    private boolean keyboardVisible = false;
+
     private static int screenMode;
     private static int screenBrightness = 999989;
     private Context mContext;
@@ -126,12 +127,11 @@ public class NotificationWearActivity extends Activity {
 
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
-        if (!showKeyboard)
-            startTimerFinish();
+        startTimerFinish();
 
         Log.i(Constants.TAG, "NotificationWearActivity onCreate key: " + key + " | mode: "+ mode
                 + " | wasLckd: "+ wasScreenLocked + " | mustLck: " + mustLockDevice
-                + " | scrTg: " + screenToggle     + " | showKb: " + showKeyboard);
+                + " | scrTg: " + screenToggle);
     }
 
     private void clearBackStack() {
@@ -166,26 +166,30 @@ public class NotificationWearActivity extends Activity {
         if (screenToggle)
             setScreenOn();
 
-        if (!showKeyboard) {
+        if (!keyboardVisible) {
             startTimerFinish();
         }
         return false;
     }
 
     public void startTimerFinish() {
-        Log.d(Constants.TAG, "NotificationWearActivity startTimerFinish");
-        showKeyboard = false;
-        handler.removeCallbacks(activityFinishRunnable);
-        int timeOutRelock = NotificationStore.getTimeoutRelock(key);
-        if (timeOutRelock == 0)
-            timeOutRelock = settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT);
-        handler.postDelayed(activityFinishRunnable, timeOutRelock);
+        if (!mode.equals(MODE_VIEW)) {
+            Log.d(Constants.TAG, "NotificationWearActivity startTimerFinish");
+            handler.removeCallbacks(activityFinishRunnable);
+            int timeOutRelock = NotificationStore.getTimeoutRelock(key);
+            if (timeOutRelock == 0)
+                timeOutRelock = settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT);
+            handler.postDelayed(activityFinishRunnable, timeOutRelock);
+        }
     }
 
     public void stopTimerFinish() {
         Log.d(Constants.TAG, "NotificationWearActivity stopTimerFinish");
-        showKeyboard = true;
         handler.removeCallbacks(activityFinishRunnable);
+    }
+
+    public void setKeyboardVisible(boolean visible){
+        keyboardVisible = visible;
     }
 
     @Override
@@ -205,7 +209,6 @@ public class NotificationWearActivity extends Activity {
 
 
         if (mustLockDevice) {
-            showKeyboard = false;
             mustLockDevice = false;
             screenToggle = false;
             if (flag) {

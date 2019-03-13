@@ -17,8 +17,10 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -176,6 +178,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 Log.d(Constants.TAG, "NotificationFragment updateContent: replyButton clicked!");
                 if (repliesListView.getVisibility() == View.VISIBLE) {
                     repliesListView.setVisibility(View.GONE);
+                    focusOnViewBottom(scrollView, replyButton);
                 } else {
                     // Prepare the View for the animation
                     repliesListView.setVisibility(View.VISIBLE);
@@ -296,6 +299,21 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         });
     }
 
+
+    private final void focusOnViewBottom(final ScrollView scroll, final View view) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                DisplayMetrics metrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                int height = metrics.heightPixels;
+                //int width = metrics.widthPixels;
+                int vPosition = view.getTop() + view.getHeight() - height;
+                scroll.smoothScrollTo(0, vPosition);
+            }
+        });
+    }
+
     public static NotificationFragment newInstance(String key, String mode) {
 
         Log.i(Constants.TAG, "NotificationFragment newInstance key: " + key);
@@ -376,7 +394,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     public void loadReplies() {
         Log.i(Constants.TAG, "NotificationFragment loadReplies");
         List<Reply> replyList = util.listReplies();
-        LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
+        final LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
         for (final Reply reply : replyList) {
             final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
             EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
@@ -411,6 +429,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 scrollView.setVisibility(View.GONE);
                 repliesEditTextContainer.setVisibility(View.VISIBLE);
                 ((NotificationWearActivity) getActivity()).stopTimerFinish();
+                ((NotificationWearActivity) getActivity()).setKeyboardVisible(true);
 
                 replyEditSend.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -426,6 +445,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                     public void onClick(View v) {
                         scrollView.setVisibility(View.VISIBLE);
                         repliesEditTextContainer.setVisibility(View.GONE);
+                        ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
                         ((NotificationWearActivity) getActivity()).startTimerFinish();
                     }
                 });
@@ -509,6 +529,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     }
 
     private void sendReply(View v) {
+        ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
         sendCommand(ACTION_REPLY, v);
     }
 
