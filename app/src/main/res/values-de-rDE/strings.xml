@@ -212,7 +212,7 @@
     <string name="shell_command_sent">Befehl gesendet</string>
     <string name="cant_send_shell_command">Can\'t send command</string>
     <string name="install">Install</string>
-    <string name="apk_install_started_title">APK install</string>
+    <string name="apk_install_started_title">APK-Installation</string>
     <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">APK Installation konnte nicht gestartet werden</string>
     <string name="reboot">Neustart</string>
@@ -233,8 +233,8 @@
     <string name="set_admin">Als Administrator setzen</string>
     <string name="shell_command_failed">Kommando fehlgeschlagenen</string>
     <string name="result_code">Resultat code:</string>
-    <string name="battery_chart_updated">Battery chart updated with new data</string>
-    <string name="battery_chart_request">Requesting new battery data…</string>
+    <string name="battery_chart_updated">Akku-Diagramm mit neuen Daten aktualisiert</string>
+    <string name="battery_chart_request">Aktuelle Akkudaten anfordern…</string>
     <string name="battery_chart_waiting">Warten auf neue Batterie Daten…</string>
     <string name="edit_reply">Antwort bearbeiten</string>
     <string name="privacy_policy">Datenschutzrichtlinie</string>
