@@ -301,5 +301,5 @@
     <string name="update_process_warning">Ostrzeżenie: proces aktualizacji może potrwać do 15 minut. Iinterfejs zegarka zostanie ponownie uruchomiony jeden albo więcej razy. Nie należy używać zegarka podczas tego procesu lub innych rzeczy w nim ze względu na możliwość uszkodzenia. Rozpocznij aktualizację tylko wtedy, gdy wiesz że na pewno można poczekać na jej zakończenie.</string>
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send then when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>
