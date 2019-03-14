@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Az óra rezgés időtartamának beállítása a válasz képernyőnél (csak akkor használatos, ha a normál értesítések le vannak tiltva)</string>
     <string name="pref_screen_timeout">Válasz képernyő</string>
     <string name="pref_screen_timeout_summary">A válasz képernyő megjelenés időtartama</string>
-    <string name="pref_force_english">Kényszerített angol nyelv</string>
-    <string name="pref_force_english_summary">Az alkalmazás nyelvének angolra állítása, a beállítások bezárásakor frissül</string>
     <string name="pref_disable_notifications_when_dnd">Kikapcsol, ha aktív a DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Nem küld értesítést az órára, ha a Ne zavarj mód (DND) aktív</string>
     <string name="pref_disable_remove_notifications">Értesítés eltávolítás letiltása</string>

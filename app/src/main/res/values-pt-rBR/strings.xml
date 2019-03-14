@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Defina a duração da vibração for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="pref_screen_timeout">Tempo tela acesa</string>
     <string name="pref_screen_timeout_summary">Definir duração de notificações com interface personalizada</string>
-    <string name="pref_force_english">Forçar inglês</string>
-    <string name="pref_force_english_summary">Define o idioma do app para inglês, será atualizado quando fechar as Preferências</string>
     <string name="pref_disable_notifications_when_dnd">Desabilitar quando Não Perturbe estiver LIGADO</string>
     <string name="pref_disable_notifications_when_dnd_summary">As notificações não serão enviadas quando Não Perturbe for detectado</string>
     <string name="pref_disable_remove_notifications">Desabilitar a remoção de notificações</string>

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.util.LocaleUtils;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -27,9 +28,12 @@ import de.mateware.snacky.Snacky;
 
 public class SettingsActivity extends BaseAppCompatActivity {
 
+    private static final String STATE_CURRENT_LOCALE_LANGUAGE = "STATE_CURRENT_LOCALE_LANGUAGE";
+
     private boolean disableBatteryChartOnCreate;
     private boolean enablePersistentNotificationOnCreate;
     private String batteryChartDaysOnCreate;
+    private String currentLocaleLanguage;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -61,6 +65,24 @@ public class SettingsActivity extends BaseAppCompatActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MyPreferenceFragment())
                 .commit();
+
+        if (savedInstanceState != null) {
+            currentLocaleLanguage = savedInstanceState.getString(STATE_CURRENT_LOCALE_LANGUAGE);
+        } else {
+            currentLocaleLanguage = LocaleUtils.getLanguage();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        applyLocale();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_CURRENT_LOCALE_LANGUAGE, currentLocaleLanguage);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -90,15 +112,14 @@ public class SettingsActivity extends BaseAppCompatActivity {
         final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
 
-        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
+        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate)
+                || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             finish();
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("REFRESH", true);
             startActivity(intent);
         }
-
-        applyLocale();
 
         sync(false);
 
@@ -204,7 +225,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Prefs.putBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
-                Preference persistentNotificationPreference = getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
+                Preference persistentNotificationPreference =
+                        getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
                 persistentNotificationPreference.setDefaultValue(true);
                 persistentNotificationPreference.setEnabled(false);
             }
@@ -213,15 +235,13 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
     //Set locale and set flag used to activity refresh
     public void applyLocale() {
-//        if (AmazModApplication.defaultLocale != LocaleUtils.getLocale()) {
-//            LocaleUtils.onAttach(this);
-//            recreate();
-//        }
-//        finish();
+        if (currentLocaleLanguage.equals(LocaleUtils.getLanguage())) {
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("REFRESH", true);
         startActivity(intent);
+        finish();
     }
 
 }

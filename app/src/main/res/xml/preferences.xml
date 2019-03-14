@@ -264,8 +264,8 @@
             android:summaryOn="@string/pref_enable_update_notification_on"
             android:summaryOff="@string/pref_enable_update_notification_off"/>
         <Preference
-            android:summary="@string/pref_force_english_summary"
-            android:title="@string/pref_force_english">
+            android:summary="@string/pref_choose_language_summary"
+            android:title="@string/pref_choose_language">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.ChooseLanguageActivity"

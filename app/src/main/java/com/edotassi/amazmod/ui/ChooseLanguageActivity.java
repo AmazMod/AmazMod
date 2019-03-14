@@ -15,15 +15,12 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.fragment.language.LanguageInfo;
 import com.edotassi.amazmod.util.LocaleUtils;
 import com.orhanobut.logger.Logger;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -42,8 +39,7 @@ public class ChooseLanguageActivity extends AppCompatActivity {
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         supportActionBar.setTitle(R.string.language);
 
-        String currentLanguage = Prefs.getString(Constants.PREF_LANGUAGE,
-                Locale.getDefault().toLanguageTag());
+        String currentLanguage = LocaleUtils.getLanguage();
         String[] languageCodes = getResources().getStringArray(R.array.languages_array_codes);
         List<LanguageInfo> languageInfos = new ArrayList<>();
         for (String code : languageCodes) {
@@ -72,9 +68,7 @@ public class ChooseLanguageActivity extends AppCompatActivity {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             String tag = (String) radioGroup.getChildAt(checkedId).getTag();
             Logger.e(tag);
-            if (!tag.equalsIgnoreCase(currentLanguage)) {
-                LocaleUtils.setLocale(this, tag);
-            }
+            LocaleUtils.setLocale(this, tag);
         });
     }
 

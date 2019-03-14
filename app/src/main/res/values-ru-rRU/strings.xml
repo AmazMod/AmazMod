@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Установить продолжительность вибрации для экрана ответов на часах (используется если стандартные уведомления выключены)</string>
     <string name="pref_screen_timeout">Ожидание экрана</string>
     <string name="pref_screen_timeout_summary">Установить пользовательские ответы на экране</string>
-    <string name="pref_force_english">Принудительный английский</string>
-    <string name="pref_force_english_summary">Установить язык приложения на английском, он будет обновляться при закрытии настроек.</string>
     <string name="pref_disable_notifications_when_dnd">Режим не беспокоить</string>
     <string name="pref_disable_notifications_when_dnd_summary">Уведомления не будут приходить, когда включён режим не беспокоить</string>
     <string name="pref_disable_remove_notifications">Отключить удаление уведомлений</string>
