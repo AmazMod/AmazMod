@@ -59,7 +59,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.mateware.snacky.Snacky;
 
-public class TweakingActivity extends AppCompatActivity {
+public class TweakingActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_tweaking_seekbar)
     SeekBar brightnessSeekbar;

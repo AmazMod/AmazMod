@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +30,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class NotificationPackagesSelectorActivity extends AppCompatActivity implements AppInfoAdapter.Bridge {
+public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity implements AppInfoAdapter.Bridge {
 
     @BindView(R.id.activity_notification_packages_selector_list)
     ListView listView;

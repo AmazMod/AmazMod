@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -16,7 +15,6 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.CommandHistoryAdapter;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
-import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.support.CommandHistoryBridge;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -27,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CommandHistoryActivity extends AppCompatActivity implements CommandHistoryBridge {
+public class CommandHistoryActivity extends BaseAppCompatActivity implements CommandHistoryBridge {
 
     @BindView(R.id.activity_command_history_list)
     ListView listView;

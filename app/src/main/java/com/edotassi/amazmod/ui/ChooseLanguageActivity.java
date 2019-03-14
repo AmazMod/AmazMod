@@ -3,7 +3,6 @@ package com.edotassi.amazmod.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +23,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChooseLanguageActivity extends AppCompatActivity {
+public class ChooseLanguageActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.picker)
     RadioGroup radioGroup;
