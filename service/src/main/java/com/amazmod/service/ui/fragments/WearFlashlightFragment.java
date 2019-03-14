@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+import com.amazmod.service.springboard.LauncherWearGridActivity;
 
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
@@ -81,6 +83,7 @@ public class WearFlashlightFragment extends Fragment {
         if (screenToggle)
             setMaxBrightness(false);
         Log.d(Constants.TAG, "WearFlashlightFragment flashlight off");
+        setWindowFlags(false);
 	    super.onDestroy();
     }
 
@@ -89,6 +92,7 @@ public class WearFlashlightFragment extends Fragment {
         Log.d(Constants.TAG, "WearFlashlightFragment flashlight on");
         mainLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
         setMaxBrightness(true);
+        setWindowFlags(true);
     }
 
     private void setMaxBrightness(boolean mode) {
@@ -112,5 +116,20 @@ public class WearFlashlightFragment extends Fragment {
     public static WearFlashlightFragment newInstance() {
         Log.d(Constants.TAG,"WearFlashlightFragment newInstance");
         return new WearFlashlightFragment();
+    }
+
+    private void setWindowFlags(boolean enable) {
+
+        final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+
+        if (enable) {
+            getActivity().getWindow().addFlags(flags);
+        } else {
+            getActivity().getWindow().clearFlags(flags);
+        }
     }
 }
