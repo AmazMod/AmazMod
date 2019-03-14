@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Definir a duração da vibração para as respostas no ecrã ( apenas usado se as notificações standards estiverem desligadas)</string>
     <string name="pref_screen_timeout">Tempo limite do ecrã</string>
     <string name="pref_screen_timeout_summary">Deferir duração das respostas costumizadas no ecrã</string>
-    <string name="pref_force_english">Forçar inglês</string>
-    <string name="pref_force_english_summary">Definir a lingua da app para Inglês, será actualizado ao fechar as preferências</string>
     <string name="pref_disable_notifications_when_dnd">Desabilitar quando DND está ON</string>
     <string name="pref_disable_notifications_when_dnd_summary">As notificações não serão enviadas para o relógio quando o Dnd for detectado</string>
     <string name="pref_disable_remove_notifications">Desativar remover notificações</string>
@@ -302,4 +300,8 @@
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>
