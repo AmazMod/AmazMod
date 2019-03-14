@@ -301,8 +301,8 @@
     <string name="search_title">Buscar</string>
     <string name="pref_use_notification_scheduler">Almacenar notificaciones mientras esté desconectado</string>
     <string name="pref_use_notification_scheduler_summary">Almacena las notificaciones recibidas mientras el reloj y el teléfono están desconectados, y se enviarán cuando se restablezca la conexión</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="language">Idioma</string>
+    <string name="select">Seleccionar</string>
+    <string name="pref_choose_language">Elegir idioma</string>
+    <string name="pref_choose_language_summary">Puedes cambiar el idioma de la aplicación</string>
 </resources>
