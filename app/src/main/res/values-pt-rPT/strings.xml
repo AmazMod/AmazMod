@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Definir a duração da vibração para as respostas no ecrã ( apenas usado se as notificações standards estiverem desligadas)</string>
     <string name="pref_screen_timeout">Tempo limite do ecrã</string>
     <string name="pref_screen_timeout_summary">Deferir duração das respostas costumizadas no ecrã</string>
-    <string name="pref_force_english">Forçar inglês</string>
-    <string name="pref_force_english_summary">Definir a lingua da app para Inglês, será actualizado ao fechar as preferências</string>
     <string name="pref_disable_notifications_when_dnd">Desabilitar quando DND está ON</string>
     <string name="pref_disable_notifications_when_dnd_summary">As notificações não serão enviadas para o relógio quando o Dnd for detectado</string>
     <string name="pref_disable_remove_notifications">Desativar remover notificações</string>

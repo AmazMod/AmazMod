@@ -1,24 +1,20 @@
 package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.util.LocaleUtils;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -26,14 +22,18 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.Locale;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.SettingsData;
 import de.mateware.snacky.Snacky;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseAppCompatActivity {
+
+    private static final String STATE_CURRENT_LOCALE_LANGUAGE = "STATE_CURRENT_LOCALE_LANGUAGE";
 
     private boolean disableBatteryChartOnCreate;
     private boolean enablePersistentNotificationOnCreate;
     private String batteryChartDaysOnCreate;
+    private String currentLocaleLanguage;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -65,6 +65,24 @@ public class SettingsActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MyPreferenceFragment())
                 .commit();
+
+        if (savedInstanceState != null) {
+            currentLocaleLanguage = savedInstanceState.getString(STATE_CURRENT_LOCALE_LANGUAGE);
+        } else {
+            currentLocaleLanguage = LocaleUtils.getLanguage();
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        applyLocale();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_CURRENT_LOCALE_LANGUAGE, currentLocaleLanguage);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -94,25 +112,13 @@ public class SettingsActivity extends AppCompatActivity {
         final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
 
-        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate) || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
+        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate)
+                || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             finish();
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("REFRESH", true);
             startActivity(intent);
-        }
-
-        //Change app location configuration and refresh it on preference change
-        final boolean forceEN = Prefs.getBoolean(Constants.PREF_FORCE_ENGLISH, false);
-
-        Locale defaultLocale = Locale.getDefault();
-        Locale currentLocale = getResources().getConfiguration().locale;
-        System.out.println(Constants.TAG + "SettingsActivity locales: " + defaultLocale + " / " + currentLocale.toString());
-
-        if (forceEN && (currentLocale != Locale.US)) {
-            setLocale(Locale.US);
-        } else if (!forceEN && (currentLocale != defaultLocale)) {
-            setLocale(defaultLocale);
         }
 
         sync(false);
@@ -219,7 +225,8 @@ public class SettingsActivity extends AppCompatActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Prefs.putBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
-                Preference persistentNotificationPreference = getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
+                Preference persistentNotificationPreference =
+                        getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
                 persistentNotificationPreference.setDefaultValue(true);
                 persistentNotificationPreference.setEnabled(false);
             }
@@ -227,17 +234,14 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     //Set locale and set flag used to activity refresh
-    public void setLocale(Locale lang) {
-        System.out.println(Constants.TAG + "SettingsActivity New locale: " + lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        conf.locale = lang;
-        res.updateConfiguration(conf, dm);
+    public void applyLocale() {
+        if (currentLocaleLanguage.equals(LocaleUtils.getLanguage())) {
+            return;
+        }
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        finish();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("REFRESH", true);
         startActivity(intent);
+        finish();
     }
+
 }

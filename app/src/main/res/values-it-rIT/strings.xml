@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Imposta la durata della vibrazione per la schermata delle risposte sull\'orologio (utilizzata solo se le notifiche standard sono disabilitate)</string>
     <string name="pref_screen_timeout">Autospegnimento dello schermo</string>
     <string name="pref_screen_timeout_summary">Imposta la durata di visualizzazione della schermata delle risposte personalizzate</string>
-    <string name="pref_force_english">Forza la lingua Inglese</string>
-    <string name="pref_force_english_summary">Imposta la lingua inglese all\'app una volta riavviata</string>
     <string name="pref_disable_notifications_when_dnd">Disattiva quando il DND è attivo</string>
     <string name="pref_disable_notifications_when_dnd_summary">Le notifiche non verranno inviate quando il \"non disturbare\" è attivo</string>
     <string name="pref_disable_remove_notifications">Disattiva la rimozione delle notifiche</string>

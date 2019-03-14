@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,9 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
@@ -44,12 +40,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class FilesExtrasActivity extends AppCompatActivity {
+public class FilesExtrasActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_files_main_container)
     View filesMainContainer;

@@ -175,6 +175,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.NotificationPackageOptionsActivity" />
+        <activity android:name=".ui.ChooseLanguageActivity" />
 
         <service
             android:name=".notification.NotificationService"

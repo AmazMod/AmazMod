@@ -2,17 +2,16 @@ package com.edotassi.amazmod.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FaqActivity extends AppCompatActivity {
+public class FaqActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_faq_webview)
     WebView webView;

@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Mengatur durasi getaran untuk layar Balasan di watch (hanya digunakan jika pemberitahuan standar dinonaktifkan)</string>
     <string name="pref_screen_timeout">Waktu layar mati</string>
     <string name="pref_screen_timeout_summary">Mengatur durasi layar kustom Balasan</string>
-    <string name="pref_force_english">Paksa bahasa Inggris</string>
-    <string name="pref_force_english_summary">Set app bahasa ke bahasa Inggris, itu akan segar ketika menutup preferensi</string>
     <string name="pref_disable_notifications_when_dnd">Menonaktifkan ketika DND sedang ON</string>
     <string name="pref_disable_notifications_when_dnd_summary">Pemberitahuan tidak akan dikirim pada Jam ketika Jangan Diganggu terdeteksi</string>
     <string name="pref_disable_remove_notifications">Menonaktifkan Hapus pemberitahuan</string>

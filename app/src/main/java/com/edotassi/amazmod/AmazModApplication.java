@@ -1,11 +1,13 @@
 package com.edotassi.amazmod;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.ContextWrapper;
 import android.util.Log;
 
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.Logger;
+import com.edotassi.amazmod.util.LocaleUtils;
 import com.edotassi.amazmod.watch.Watch;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -38,12 +40,6 @@ public class AmazModApplication extends Application {
 
         Watch.init(getApplicationContext());
 
-        new Prefs.Builder()
-                .setContext(this)
-                .setMode(ContextWrapper.MODE_PRIVATE)
-                .setUseDefaultSharedPreference(true)
-                .build();
-
 
         setWatchConnected(true);
         setupLocale();
@@ -51,8 +47,19 @@ public class AmazModApplication extends Application {
         Setup.run(getApplicationContext());
     }
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        new Prefs.Builder()
+                .setContext(base)
+                .setMode(ContextWrapper.MODE_PRIVATE)
+                .setUseDefaultSharedPreference(true)
+                .build();
+        super.attachBaseContext(LocaleUtils.onAttach(base));
+
+    }
+
     private void setupLocale() {
-        defaultLocale = Locale.getDefault();
+        defaultLocale = LocaleUtils.getLocale();
     }
 
     public static void setWatchConnected(boolean connected){

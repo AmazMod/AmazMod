@@ -74,7 +74,7 @@ import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class FileExplorerActivity extends AppCompatActivity {
+public class FileExplorerActivity extends BaseAppCompatActivity {
 
     private final int FILE_UPLOAD_CODE = 1;
     private static boolean isFabOpen;

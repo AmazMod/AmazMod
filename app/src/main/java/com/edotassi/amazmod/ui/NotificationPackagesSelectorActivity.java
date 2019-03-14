@@ -36,7 +36,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class NotificationPackagesSelectorActivity extends AppCompatActivity
+public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
         implements AppInfoAdapter.Bridge, SearchView.OnQueryTextListener {
 
     @BindView(R.id.activity_notification_packages_selector_list)

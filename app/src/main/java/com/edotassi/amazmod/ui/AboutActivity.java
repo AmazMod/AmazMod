@@ -13,22 +13,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.BuildConfig;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huami.watch.notification.data.StatusBarNotificationData;
@@ -44,13 +38,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import amazmod.com.models.Reply;
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_about_version)
     TextView version;
