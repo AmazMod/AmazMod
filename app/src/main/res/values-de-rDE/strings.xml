@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Anpassen der Vibrationsdauer für das Antwortdisplay auf der Uhr (nur wenn Standardbenachrichtigungen ausgeschaltet sind)</string>
     <string name="pref_screen_timeout">Bildschirm-Timeout</string>
     <string name="pref_screen_timeout_summary">Dauer des benutzerdefinierten Antworten Bildschirms festlegen</string>
-    <string name="pref_force_english">Englisch erzwingen</string>
-    <string name="pref_force_english_summary">Setze App-Sprache auf Englisch, es wird aktualisiert, wenn die Einstellungen geschlossen werden</string>
     <string name="pref_disable_notifications_when_dnd">Deaktivieren, wenn DND AN ist</string>
     <string name="pref_disable_notifications_when_dnd_summary">Benachrichtigungen werden nicht gesendet, wenn Bitte nicht stören erkannt wird</string>
     <string name="pref_disable_remove_notifications">Deaktivieren der Benachrichtigungen.</string>
@@ -302,4 +300,8 @@
     <string name="search_title">Suche</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>
