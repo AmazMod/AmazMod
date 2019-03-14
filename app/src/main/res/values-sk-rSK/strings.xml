@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Nastavte trvanie vibrácie pre obrazovku odpovedí na hodinkách (použiť iba, ak štandardné upozornenia sú vypnuté)</string>
     <string name="pref_screen_timeout">Časový limit obrazovky</string>
     <string name="pref_screen_timeout_summary">Nastavenie dĺžky trvania obrazovky pre vlastné odpovede</string>
-    <string name="pref_force_english">Vynútiť angličtinu</string>
-    <string name="pref_force_english_summary">Nastavenie jazyka aplikácie do angličtiny, obnoví sa pri zatváraní nastevenia</string>
     <string name="pref_disable_notifications_when_dnd">Vypnúť, keď je zapnutý režim Nerušiť</string>
     <string name="pref_disable_notifications_when_dnd_summary">Upozornenia sa neodošlú do hodiniek, keď je detekovaný režim Nerušiť</string>
     <string name="pref_disable_remove_notifications">Zakázať odstrániť oznámenia</string>
@@ -303,4 +301,8 @@ Urobte príkaz shell \"</string>
     <string name="search_title">Hľadať</string>
     <string name="pref_use_notification_scheduler">Ukladať oznámenia aj po odpojení</string>
     <string name="pref_use_notification_scheduler_summary">Keď budú hodinky od telefónu odpojené, uloží prijaté oznámenia a odošle ich do hodiniek pri obnovení spojenia</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>
