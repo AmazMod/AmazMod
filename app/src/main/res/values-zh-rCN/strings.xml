@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">设置手表端答复界面的振动持续时间 (仅在禁用标准通知时有效)</string>
     <string name="pref_screen_timeout">屏幕超时时间</string>
     <string name="pref_screen_timeout_summary">设置自定义答复界面的持续时间</string>
-    <string name="pref_force_english">强制使用英语</string>
-    <string name="pref_force_english_summary">将程序语言设置为英语, 关闭首选项时将刷新程序</string>
     <string name="pref_disable_notifications_when_dnd">勿扰模式下禁用</string>
     <string name="pref_disable_notifications_when_dnd_summary">勿扰模式下通知将不会发送到手表端</string>
     <string name="pref_disable_remove_notifications">禁止删除通知</string>
@@ -303,4 +301,8 @@
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>
