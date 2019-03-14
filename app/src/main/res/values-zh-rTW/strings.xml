@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">設置手錶端答覆界面的振動持續時間 (僅在禁用標準通知時有效)</string>
     <string name="pref_screen_timeout">螢幕逾時</string>
     <string name="pref_screen_timeout_summary">設置自定義答復界面的持續時間</string>
-    <string name="pref_force_english">強制使用英語介面</string>
-    <string name="pref_force_english_summary">將程式語言設置為英語, 關閉選項時將刷新程式</string>
     <string name="pref_disable_notifications_when_dnd">勿擾模式下禁用</string>
     <string name="pref_disable_notifications_when_dnd_summary">勿擾模式下通知將不會發送到手錶端</string>
     <string name="pref_disable_remove_notifications">禁止刪除通知</string>
@@ -303,4 +301,8 @@
     <string name="search_title">搜尋</string>
     <string name="pref_use_notification_scheduler">斷開連接時存儲通知</string>
     <string name="pref_use_notification_scheduler_summary">手機與手錶斷開連接時儲存收到的通知, 並在恢復連接時發送通知</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>
