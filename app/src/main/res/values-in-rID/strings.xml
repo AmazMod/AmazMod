@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Mengirim data setiap kali perubahan baterai</string>
     <string name="activity_watchface_send_on_alarm_change">Mengirim data setiap kali perubahan alarm</string>
     <string name="activity_watchface_last_time_sent">Terakhir kali dikirim</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Data yang terkirim</string>
     <string name="activity_watchface_send_data_now">Mengirim data sekarang</string>
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Dalam satu jam terakhir</string>
@@ -297,7 +297,7 @@
     <string name="invalid_url">URL iCal tidak valid!</string>
     <string name="file_or_connection_error">Kesalahan file atau sambungan, file tidak dapat dibuka!</string>
     <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
-    <string name="pref_notification_scheduler">Behavior when disconnected</string>
-    <string name="pref_notification_scheduler_summary">Choose the expected behavior when a notification arrives while watch is disconnected from phone</string>
-    <string name="pref_notification_scheduler_title">Notifications Behavior:</string>
+    <string name="search_title">Pencarian</string>
+    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
 </resources>

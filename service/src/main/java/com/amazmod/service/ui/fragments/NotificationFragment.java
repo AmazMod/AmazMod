@@ -17,7 +17,10 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +38,7 @@ import com.amazmod.service.events.SilenceApplicationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FragmentUtil;
 
 import java.util.ArrayList;
@@ -48,6 +52,7 @@ import static android.content.Context.VIBRATOR_SERVICE;
 
 public class NotificationFragment extends Fragment implements DelayedConfirmationView.DelayedConfirmationListener {
 
+    LinearLayout replies_layout;
     TextView title;
     TextView time;
     TextView text;
@@ -130,6 +135,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         util = new FragmentUtil(mContext);
         disableDelay = util.getDisableDelay();
 
+        replies_layout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         title = getActivity().findViewById(R.id.fragment_custom_notification_title);
         time = getActivity().findViewById(R.id.fragment_custom_notification_time);
         text = getActivity().findViewById(R.id.fragment_custom_notification_text);
@@ -138,7 +144,6 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         picture = getActivity().findViewById(R.id.fragment_custom_notification_picture);
         rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
         scrollView = getActivity().findViewById(R.id.fragment_custom_scrollview);
-        //repliesLayout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
         delayedConfirmationViewTitle = getActivity().findViewById(R.id.fragment_notification_delayedview_title);
         delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
@@ -173,6 +178,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 Log.d(Constants.TAG, "NotificationFragment updateContent: replyButton clicked!");
                 if (repliesListView.getVisibility() == View.VISIBLE) {
                     repliesListView.setVisibility(View.GONE);
+                    focusOnViewBottom(scrollView, replyButton);
                 } else {
                     // Prepare the View for the animation
                     repliesListView.setVisibility(View.VISIBLE);
@@ -203,6 +209,12 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         //Load preferences
         boolean disableNotificationText = util.getDisableNotificationText();
         enableInvertedTheme = util.getInvertedTheme();
+
+        //Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
+        if (DeviceUtil.isVerge()){
+            int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
+            replies_layout.setMinimumHeight(px);
+        }
 
         //Load Replies and Mute Options
         loadReplies();
@@ -282,6 +294,21 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             @Override
             public void run() {
                 int vPosition = view.getTop();
+                scroll.smoothScrollTo(0, vPosition);
+            }
+        });
+    }
+
+
+    private final void focusOnViewBottom(final ScrollView scroll, final View view) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                DisplayMetrics metrics = new DisplayMetrics();
+                getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
+                int height = metrics.heightPixels;
+                //int width = metrics.widthPixels;
+                int vPosition = view.getTop() + view.getHeight() - height;
                 scroll.smoothScrollTo(0, vPosition);
             }
         });
@@ -367,7 +394,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     public void loadReplies() {
         Log.i(Constants.TAG, "NotificationFragment loadReplies");
         List<Reply> replyList = util.listReplies();
-        LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
+        final LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
         for (final Reply reply : replyList) {
             final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
             EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
@@ -402,6 +429,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 scrollView.setVisibility(View.GONE);
                 repliesEditTextContainer.setVisibility(View.VISIBLE);
                 ((NotificationWearActivity) getActivity()).stopTimerFinish();
+                ((NotificationWearActivity) getActivity()).setKeyboardVisible(true);
 
                 replyEditSend.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -417,6 +445,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                     public void onClick(View v) {
                         scrollView.setVisibility(View.VISIBLE);
                         repliesEditTextContainer.setVisibility(View.GONE);
+                        ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
                         ((NotificationWearActivity) getActivity()).startTimerFinish();
                     }
                 });
@@ -500,6 +529,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     }
 
     private void sendReply(View v) {
+        ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
         sendCommand(ACTION_REPLY, v);
     }
 
@@ -600,6 +630,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         startActivity(intent);
 
         NotificationStore.removeCustomNotification(key);
+        NotificationStore.setNotificationCount(mContext);
         if (NotificationWearActivity.MODE_VIEW.equals(mode))
             WearNotificationsFragment.getInstance().loadNotifications();
 

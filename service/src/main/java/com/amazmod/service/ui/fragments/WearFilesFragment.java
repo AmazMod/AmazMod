@@ -13,15 +13,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
-import android.support.v7.widget.RecyclerView;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.AdapterView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -36,6 +33,7 @@ import com.amazmod.service.ui.FileViewerWebViewActivity;
 import com.amazmod.service.util.DeviceUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -166,6 +164,7 @@ public class WearFilesFragment extends Fragment {
         wearFilesFrameLayout = getActivity().findViewById(R.id.wear_files_frame_layout);
         listView = getActivity().findViewById(R.id.wear_files_list);
         mHeader = getActivity().findViewById(R.id.wear_files_header);
+        mHeader.setSelected(true);
         progressBar = getActivity().findViewById(R.id.wear_files_loading_spinner);
 
         listView.setLongClickable(true);
@@ -443,7 +442,7 @@ public class WearFilesFragment extends Fragment {
         Log.d(Constants.TAG, "WearFilesFragment getMimeType uri: " + fileUri);
 
         String mimeType = null;
-        String extension = MimeTypeMap.getFileExtensionFromUrl(uri.getPath());
+        String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
 
         Log.d(Constants.TAG, "WearFilesFragment getMimeType extension: " + extension);
 
@@ -478,9 +477,9 @@ public class WearFilesFragment extends Fragment {
         Log.d(Constants.TAG, "WearFilesFragment formatBytes bytes: " + bytes);
 
         String retStr;
-        long kb = 1024L;
-        long mb = kb * kb;
-        long gb = kb * mb;
+        float kb = 1024L;
+        float mb = kb * kb;
+        float gb = kb * mb;
 
         if (bytes > gb) {
             float gbs = bytes / gb;
@@ -537,7 +536,16 @@ public class WearFilesFragment extends Fragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         try {
-                            boolean result = file.delete();
+                            boolean result = true;
+                            if (file.isDirectory()){
+                                try {
+                                    deleteDirectoryRecursionJava(file);
+                                }catch (IOException ex){
+                                    result = false;
+                                }
+                            }else{
+                                result = file.delete();
+                            }
                             if (result) {
                                 if (!(fileInfoList == null))
                                     fileInfoList.clear();
@@ -553,6 +561,22 @@ public class WearFilesFragment extends Fragment {
                 })
                 .setNegativeButton(android.R.string.no, null).show();
     }
+
+
+    void deleteDirectoryRecursionJava(File file) throws IOException {
+        if (file.isDirectory()) {
+            File[] entries = file.listFiles();
+            if (entries != null) {
+                for (File entry : entries) {
+                    deleteDirectoryRecursionJava(entry);
+                }
+            }
+        }
+        if (!file.delete()) {
+            throw new IOException("Failed to delete " + file);
+        }
+    }
+
 
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();

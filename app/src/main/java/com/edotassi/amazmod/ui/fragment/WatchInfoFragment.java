@@ -141,7 +141,7 @@ public class WatchInfoFragment extends Card implements Updater {
                 @Override
                 public Object then(@NonNull Task<WatchStatus> task) {
                     if (task.isSuccessful()) {
-                        AmazModApplication.isWatchConnected = true;
+                        AmazModApplication.setWatchConnected(true);
                         isConnected();
                         watchStatus = task.getResult();
                         refresh(watchStatus);
@@ -156,7 +156,7 @@ public class WatchInfoFragment extends Card implements Updater {
                         }
                     } else {
                         Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
-                        AmazModApplication.isWatchConnected = false;
+                        AmazModApplication.setWatchConnected(false);
                         if (getActivity() != null) {
                             try {
                                 Snacky

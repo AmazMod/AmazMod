@@ -37,7 +37,8 @@ public class AppInfoAdapter extends WearableListView.Adapter {
         itemViewHolder.appInfoIcon.setImageDrawable(item.getIcon());
         itemViewHolder.appInfoAppName.setText(item.getAppName());
         itemViewHolder.appInfoPackage.setText(item.getPackageName());
-
+        itemViewHolder.appInfoAppName.setSelected(true);
+        itemViewHolder.appInfoPackage.setSelected(true);
     }
 
     @Override

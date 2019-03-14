@@ -18,7 +18,6 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
-
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
@@ -51,7 +50,7 @@ public class NotificationService {
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         settingsManager = new SettingsManager(context);
 
-        NotificationStore notificationStore = new NotificationStore();
+        //NotificationStore notificationStore = new NotificationStore();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
@@ -241,6 +240,8 @@ public class NotificationService {
     private void postWithCustomUI(String key) {
 
         Log.d(Constants.TAG, "NotificationService postWithCustomUI: " + NotificationStore.getCustomNotificationCount());
+
+        NotificationStore.setNotificationCount(context);
 
         Intent intent = new Intent(context, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

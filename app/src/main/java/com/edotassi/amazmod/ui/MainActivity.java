@@ -84,7 +84,7 @@ public class MainActivity extends BaseAppCompatActivity
 
         EventBus.getDefault().register(this);
 
-        Log.d(Constants.TAG, "MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected());
 
         showChangelog(true);
 
@@ -155,7 +155,7 @@ public class MainActivity extends BaseAppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, "MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
     }
 
     @Override
@@ -180,6 +180,17 @@ public class MainActivity extends BaseAppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //your code
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //your code
         }
     }
 
@@ -247,15 +258,15 @@ public class MainActivity extends BaseAppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsWatchConnectedLocal itc) {
         if (itc != null) {
-            if (AmazModApplication.isWatchConnected != itc.getWatchStatus()) {
-                AmazModApplication.isWatchConnected = itc.getWatchStatus();
+            if (AmazModApplication.isWatchConnected() != itc.getWatchStatus()) {
+                AmazModApplication.setWatchConnected(itc.getWatchStatus());
                 watchInfoFragment.onResume();
                 //watchInfoFragment.onResume();
             }
         } else {
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
-        Log.d(Constants.TAG, "MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected());
     }
 
     private void showChangelog(boolean managedShowOnStart) {

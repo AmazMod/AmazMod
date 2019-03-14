@@ -111,7 +111,7 @@ public class TransportService extends Service implements Transporter.DataListene
         } else {
             this.logger.w("TransportService onCreate not connected, connecting...");
             transporter.connectTransportService();
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
 
     }
@@ -229,11 +229,11 @@ public class TransportService extends Service implements Transporter.DataListene
     public void send(final String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
         boolean isTransportConnected = transporter.isTransportServiceConnected();
         if (!isTransportConnected) {
-            if (AmazModApplication.isWatchConnected != isTransportConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                AmazModApplication.isWatchConnected = isTransportConnected;
+            if (AmazModApplication.isWatchConnected() != isTransportConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.setWatchConnected(isTransportConnected);
                 EventBus.getDefault().removeAllStickyEvents();
-                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
+                persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
             }
             this.logger.w("TransportService send Transport Service Not Connected");
             return;
@@ -272,11 +272,11 @@ public class TransportService extends Service implements Transporter.DataListene
                         }
 
                         if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null) {
-                            AmazModApplication.isWatchConnected = true;
+                            AmazModApplication.setWatchConnected(true);
                             EventBus.getDefault().removeAllStickyEvents();
-                            EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
-                            persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected);
-                            TransportService.this.logger.d("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected);
+                            EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
+                            persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
+                            TransportService.this.logger.d("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected());
                         }
                         break;
                     }

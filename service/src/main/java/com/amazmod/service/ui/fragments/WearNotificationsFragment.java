@@ -262,6 +262,7 @@ public class WearNotificationsFragment extends Fragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         NotificationStore.removeCustomNotification(key);
+                        NotificationStore.setNotificationCount(mContext);
                         loadNotifications();
                     }
                 })

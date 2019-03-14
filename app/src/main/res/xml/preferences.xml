@@ -49,23 +49,19 @@
             android:title="@string/pref_notifications_disable_picture_summary"/>
 
         <SwitchPreference
+            android:key="preference.notifications.enable.custom.ui"
             android:defaultValue="false"
             android:dependency="preference.disable.notifications"
             android:disableDependentsState="false"
-            android:key="preference.notifications.enable.custom.ui"
             android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
             android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
             android:title="@string/pref_notifications_enable_custom_ui" />
 
-        <ListPreference
-            android:defaultValue="false"
-            android:dialogTitle="@string/pref_notification_scheduler_title"
-            android:entries="@array/pref_notification_scheduler_entries"
-            android:entryValues="@array/pref_notification_scheduler_values"
+        <SwitchPreference
             android:key="preference.notification.scheduler"
-            android:summary="@string/pref_notification_scheduler_summary"
-            android:title="@string/pref_notification_scheduler" />
-
+            android:defaultValue="true"
+            android:summary="@string/pref_use_notification_scheduler_summary"
+            android:title="@string/pref_use_notification_scheduler" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/customui">
