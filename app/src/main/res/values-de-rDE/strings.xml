@@ -172,7 +172,7 @@
     <string name="activity_files_backup">Sicherung</string>
     <string name="activity_files_restore">wiederherstellen</string>
     <string name="never">Nie</string>
-    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_backup_obs">Wichtig: Sicherung auf internen Speicher geschrieben, wird nach dem deinstallieren der App gelöscht:</string>
     <string name="activity_files_file">Sicherung gefunden</string>
     <string name="none">Keine</string>
     <string name="data">Datum</string>
