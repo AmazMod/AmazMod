@@ -300,8 +300,8 @@
     <string name="search_title">חיפוש</string>
     <string name="pref_use_notification_scheduler">שמירת הודעות בניתוק מהשעון</string>
     <string name="pref_use_notification_scheduler_summary">שמירת ההתראות שהתקבלו בעת שהשעון והסלולרי מנותקים, ושליחתם לשעון כשחיבור נוצר מחדש</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="language">שפה</string>
+    <string name="select">בחירה</string>
+    <string name="pref_choose_language">בחירת שפה</string>
+    <string name="pref_choose_language_summary">ניתן לשנות את שפת האפליקציה</string>
 </resources>
