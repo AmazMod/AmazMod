@@ -170,7 +170,7 @@
     <string name="activity_files_backup">Sicherung</string>
     <string name="activity_files_restore">wiederherstellen</string>
     <string name="never">Nie</string>
-    <string name="activity_files_backup_obs">Wichtig: Sicherung auf internen Speicher geschrieben, wird nach dem deinstallieren der App gelöscht:</string>
+    <string name="activity_files_backup_obs">Wichtig: Sicherung auf den internen Speicher geschrieben, diese wird nach dem deinstallieren der App gelöscht:</string>
     <string name="activity_files_file">Sicherung gefunden</string>
     <string name="none">Keine</string>
     <string name="data">Datum</string>
@@ -186,7 +186,7 @@
     <string name="activity_files_restore_failed">Wiederherstellung fehlgeschlagen!</string>
     <string name="activity_files_backup_not_found">Backup-Datei nicht gefunden!</string>
     <string name="pref_disable_standard_notifications">Standard-Benachrichtigungen deaktivieren</string>
-    <string name="pref_disable_standard_notifications_summary">Standard (Stock) Mitteilungen werden nicht an die Uhr geschickt</string>
+    <string name="pref_disable_standard_notifications_summary">Standard (Stock) Benachrichtigung werden nicht an die Uhr geschickt</string>
     <string name="activity_tweaking_brightness">Automatische Helligkeit muss auf der Uhr freigeschalten sein damit diese funktioniert</string>
     <string name="failed_load_watch_status">Laden des Uhren Status fehlgeschlagen</string>
     <string name="settings_applied">Einstellungen übernommen</string>
@@ -296,12 +296,12 @@
     <string name="error">Fehler</string>
     <string name="invalid_url">Ungültige iCal URL!</string>
     <string name="file_or_connection_error">Datei oder Verbindungsfehler, Datei konnte nicht geöffnet werden!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">WARNUNG: Der Aktualisierungsprozess kann bis zu 15 Minuten dauern und die Uhr wird ein oder mehrere Male neu gestartet. Benutzen Sie die Uhr nicht während des Prozesses oder es kann zu Beschädigungen kommen. Starten Sie das Update nur, wenn Sie darauf warten können, dass es beendet wird.</string>
     <string name="search_title">Suche</string>
-    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="pref_use_notification_scheduler">Benachrichtigungen speichern während die Verbindung getrennt ist</string>
+    <string name="pref_use_notification_scheduler_summary">Speichern Sie die erhaltenen Benachrichtigungen während die Uhr und das Telefon getrennt sind und senden Sie sie, wenn die Verbindung wiederhergestellt wird</string>
+    <string name="language">Sprache</string>
+    <string name="select">Auswählen</string>
+    <string name="pref_choose_language">Sprache wählen</string>
+    <string name="pref_choose_language_summary">Sie können die Sprache der App ändern</string>
 </resources>
