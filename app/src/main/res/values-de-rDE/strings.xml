@@ -258,10 +258,10 @@
     <string name="pref_enable_update_notification_off">Sie werden nicht benachrichtigt wenn für die Uhr eine neue Version der Service apk verfügbar ist</string>
     <string name="extract">Entpacken</string>
     <string name="compress">Komprimieren</string>
-    <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
+    <string name="delete_folder_and_contents">\"%1$s\" ist ein Ordner. Entfernen Sie ihn und alle seine Inhalte automatisch?</string>
     <string name="screenshot">Bildschirmaufnahme</string>
     <string name="pref_notifications_disable_delay">Löschen verhindern</string>
-    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
+    <string name="pref_notifications_disable_delay_summary">Countdown beim Senden von Antworten deaktivieren</string>
     <string name="file_uploader">Daten hochladen</string>
     <string name="file_uploader_title">Installiere %s?</string>
     <string name="file_uploader_name">Titel: %s</string>
@@ -274,7 +274,7 @@
     <string name="pref_notifications_disable_picture_summary">Um Akkulaufzeit zu sparen werden keine Bilder in den Benachrichtigungen angezeigt</string>
     <string name="notification_silenced">Stumm</string>
     <string name="notification_text_filter">Filter</string>
-    <string name="muted_apps">Muted Applications</string>
+    <string name="muted_apps">Anwendungen stumm geschalten</string>
     <string name="ok">OK</string>
     <string name="are_you_sure">Sind Sie sicher?</string>
     <string name="cannot_be_undone">Dies kann nicht rückgängig gemacht werden.</string>
@@ -295,7 +295,7 @@
     <string name="success">Erfolgreich</string>
     <string name="error">Fehler</string>
     <string name="invalid_url">Ungültige iCal URL!</string>
-    <string name="file_or_connection_error">File or connection error, file could not be opened!</string>
+    <string name="file_or_connection_error">Datei oder Verbindungsfehler, Datei konnte nicht geöffnet werden!</string>
     <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Suche</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
