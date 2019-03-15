@@ -187,7 +187,7 @@
     <string name="activity_files_backup_not_found">Backup-Datei nicht gefunden!</string>
     <string name="pref_disable_standard_notifications">Standard-Benachrichtigungen deaktivieren</string>
     <string name="pref_disable_standard_notifications_summary">Standard (Stock) Benachrichtigung werden nicht an die Uhr geschickt</string>
-    <string name="activity_tweaking_brightness">Automatische Helligkeit muss auf der Uhr freigeschalten sein damit diese funktioniert</string>
+    <string name="activity_tweaking_brightness">Bitte beachten Sie, dass Auto-Helligkeit in der Uhr deaktiviert sein muss, damit dies funktioniert</string>
     <string name="failed_load_watch_status">Laden des Uhren Status fehlgeschlagen</string>
     <string name="settings_applied">Einstellungen übernommen</string>
     <string name="settings_cant_be_applied">Die Einstellungen konnten nicht übernommen werden</string>
