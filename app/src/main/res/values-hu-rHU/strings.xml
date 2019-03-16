@@ -302,8 +302,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="search_title">Keresés</string>
     <string name="pref_use_notification_scheduler">Tárolja az értesítéseket szétkapcsolódáskor</string>
     <string name="pref_use_notification_scheduler_summary">Tárolja a kapott értesítéseket az óra és a telefon szétkapcsolódása esetén és a kapcsolat visszaállításakor küldje el őket</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="language">Nyelv</string>
+    <string name="select">Kiválaszt</string>
+    <string name="pref_choose_language">Válassz nyelvet</string>
+    <string name="pref_choose_language_summary">Itt tudod módosítani az app nyelvét</string>
 </resources>
