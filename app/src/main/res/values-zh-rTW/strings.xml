@@ -301,8 +301,8 @@
     <string name="search_title">搜尋</string>
     <string name="pref_use_notification_scheduler">斷開連接時存儲通知</string>
     <string name="pref_use_notification_scheduler_summary">手機與手錶斷開連接時儲存收到的通知, 並在恢復連接時發送通知</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="language">語言</string>
+    <string name="select">選擇</string>
+    <string name="pref_choose_language">選擇語言</string>
+    <string name="pref_choose_language_summary">你可以在此更改APP的使用語言</string>
 </resources>
