@@ -5,13 +5,13 @@
     <string name="notifications">Notificări trimise</string>
     <string name="notifications_options">Opţiuni de notificări</string>
     <string name="battery">Baterie</string>
-    <string name="customui">Custom Notifications</string>
+    <string name="customui">Notificări Personalizate</string>
     <string name="others">Altele</string>
     <string name="other">Alte</string>
     <string name="open">Deschide</string>
     <string name="close">Închide</string>
     <string name="about">Despre</string>
-    <string name="sync_settings">Syncing settings&#8230;</string>
+    <string name="sync_settings">Sincronizarea setărilor&#8230;</string>
     <string name="brightness">Lumină</string>
     <string name="tweaking">Optimizări</string>
     <string name="watchface">GreatFit / Calendar</string>
@@ -24,7 +24,7 @@
     <string name="replies">Răspunsuri</string>
     <string name="installed_apps">Aplicații instalate</string>
     <string name="last_read">Ultima citire</string>
-    <string name="remaining_battery">Remaining battery</string>
+    <string name="remaining_battery">Baterie rămasă</string>
     <string name="full_battery_in">Fully charged in</string>
     <string name="open_notifications_log">Open notifications log</string>
     <string name="notifications_log">Jurnalul cu notificări</string>
