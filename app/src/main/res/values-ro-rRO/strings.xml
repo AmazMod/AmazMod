@@ -35,7 +35,7 @@
     <string name="add_new_reply">Adaugă un răspuns nou</string>
     <string name="enter_the_text_you_want_as_an_answer">Introduceţi textul pe care doriţi ca un răspuns</string>
     <string name="file_not_exists">Fișierul nu există</string>
-    <string name="cant_uplaod_directory">Can\'t upload directory</string>
+    <string name="cant_uplaod_directory">Nu se poate încărca directoratul</string>
     <string name="sending">Se trimite</string>
     <string name="cant_upload_file">Nu se poate încărca fişierul</string>
     <string name="cant_download_file">Nu se poate descărca fişierul</string>
