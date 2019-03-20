@@ -223,9 +223,9 @@
     <string name="no_service_info_4">3) Reporniți ceasul și telefonul</string>
     <string name="enable_lpm_title">Permite LPM</string>
     <string name="revoke_admin">Revocă admin</string>
-    <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
+    <string name="enable_lpm_content">Această funcţie este încă experimentală, ca să îl dezactivaţi aveți de repornit ceasul</string>
     <string name="continue_label">Continuare</string>
-    <string name="pref_file_extras">Backup and restore settings</string>
+    <string name="pref_file_extras">Backup şi restaurare setărilor</string>
     <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
     <string name="reboot_bootloader">Intrați pe fastboot</string>
     <string name="set_admin">Setează admin</string>
@@ -260,8 +260,8 @@
     <string name="compress">Comprimă</string>
     <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
     <string name="screenshot">Captură ecran</string>
-    <string name="pref_notifications_disable_delay">Disable delay</string>
-    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
+    <string name="pref_notifications_disable_delay">Dezactivaţi întârzierea</string>
+    <string name="pref_notifications_disable_delay_summary">Dezactivaţi numărătoarea când trimiteți comentări</string>
     <string name="file_uploader">File Uploader</string>
     <string name="file_uploader_title">Instalaţi %s?</string>
     <string name="file_uploader_name">Titlu: %s</string>
@@ -269,12 +269,12 @@
     <string name="file_uploader_label">Etichetă: %s</string>
     <string name="file_uploader_package">Pachet: %s</string>
     <string name="pref_notifications_disable_large_icon">Nu trimite utilizatorii avatar</string>
-    <string name="pref_notifications_disable_large_icon_summary">User avatars will not be shown in the notification. This will save the battery a bit</string>
+    <string name="pref_notifications_disable_large_icon_summary">Avatarele de utilizator nu va fi indicat în notificare. Acest lucru va salva bateria un pic</string>
     <string name="pref_notifications_disable_picture">Don\'t send notification pictures</string>
     <string name="pref_notifications_disable_picture_summary">Pictures will not be shown in the notification. This will save the battery</string>
     <string name="notification_silenced">TĂCUT</string>
     <string name="notification_text_filter">Filtru</string>
-    <string name="muted_apps">Muted Applications</string>
+    <string name="muted_apps">Aplicați Tăcute</string>
     <string name="ok">OK</string>
     <string name="are_you_sure">Sunteți sigur?</string>
     <string name="cannot_be_undone">Operațiunea nu poate fi anulată.</string>
