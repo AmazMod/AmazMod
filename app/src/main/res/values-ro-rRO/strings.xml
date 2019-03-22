@@ -212,7 +212,7 @@
     <string name="install">Instalează</string>
     <string name="apk_install_started_title">Instalare APK</string>
     <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
-    <string name="cant_start_apk_install">Can\'t start apk install</string>
+    <string name="cant_start_apk_install">Nu se poate începe instalarea APK</string>
     <string name="reboot">Repornire</string>
     <string name="restart_launcher">Reporniţi lansatorul</string>
     <string name="enable_apps_list">Permite lista cu aplicații</string>
@@ -283,7 +283,7 @@
     <string name="pref_amazmod_first_widget_summary">Amazmod va sta pe primul ceas widget</string>
     <string name="pref_enable_delete_button">Butonul de ştergere a Notificarilor</string>
     <string name="pref_enable_delete_button_on">Butonul de ștergere va fi arătat mai jos în contextul notificărilor</string>
-    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
+    <string name="pref_enable_delete_button_off">Butonul de ștergere va fi în al 4-lea ecran când glisați în stânga pe notificare</string>
     <string name="activity_packageoptions_unmute">Unmute</string>
     <string name="activity_packageoptions_muted_until">Mut Până:</string>
     <string name="main_options">Opțiuni principale</string>
