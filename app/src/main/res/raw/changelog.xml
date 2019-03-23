@@ -3,8 +3,10 @@
         date="2019-02-24"
         versionCode="202"
         versionName="v1.1.5">
+        <new>New layout for notifications (watch)</new>
+        <new>Possibility of disabling scheduler (it stores notifications while disconnected)</new>
         <info>Translations updated</info>
-        <bugfix>Small fixes</bugfix>
+        <bugfix>Lots of fixes and improvements</bugfix>
     </release>
     <release
         date="2019-02-08"
