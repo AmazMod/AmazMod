@@ -33,6 +33,7 @@ import com.amazmod.service.ui.FileViewerWebViewActivity;
 import com.amazmod.service.util.DeviceUtil;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -535,7 +536,16 @@ public class WearFilesFragment extends Fragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         try {
-                            boolean result = file.delete();
+                            boolean result = true;
+                            if (file.isDirectory()){
+                                try {
+                                    deleteDirectoryRecursionJava(file);
+                                }catch (IOException ex){
+                                    result = false;
+                                }
+                            }else{
+                                result = file.delete();
+                            }
                             if (result) {
                                 if (!(fileInfoList == null))
                                     fileInfoList.clear();
@@ -551,6 +561,22 @@ public class WearFilesFragment extends Fragment {
                 })
                 .setNegativeButton(android.R.string.no, null).show();
     }
+
+
+    void deleteDirectoryRecursionJava(File file) throws IOException {
+        if (file.isDirectory()) {
+            File[] entries = file.listFiles();
+            if (entries != null) {
+                for (File entry : entries) {
+                    deleteDirectoryRecursionJava(entry);
+                }
+            }
+        }
+        if (!file.delete()) {
+            throw new IOException("Failed to delete " + file);
+        }
+    }
+
 
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();

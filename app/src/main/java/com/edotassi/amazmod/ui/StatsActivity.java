@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
@@ -17,6 +15,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.concurrent.Callable;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -25,7 +24,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class StatsActivity extends AppCompatActivity {
+public class StatsActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_stats_main_container)
     View statsMainContainer;

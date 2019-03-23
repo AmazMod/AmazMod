@@ -31,7 +31,7 @@ public class Constants {
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
-    public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages";
+    public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages.filters";
     public static final String PREF_DISABLE_NOTIFICATIONS = "preference.disable.notifications";
     public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
     public static final String PREF_NOTIFICATIONS_REPLIES = "preference.amazmodservice.replies";
@@ -45,7 +45,7 @@ public class Constants {
     public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
-    public static final String PREF_FORCE_ENGLISH = "preference.force.english";
+    public static final String PREF_LANGUAGE = "preference.language";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
     public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
     public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";

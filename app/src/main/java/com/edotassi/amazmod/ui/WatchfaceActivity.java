@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
@@ -34,18 +31,14 @@ import com.pixplicity.easyprefs.library.Prefs;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
-import net.fortuna.ical4j.model.Property;
-import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.util.MapTimeZoneCache;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import amazmod.com.transport.Constants;
@@ -53,7 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
 
-public class WatchfaceActivity extends AppCompatActivity {
+public class WatchfaceActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.send_data_switch)
     Switch send_data_swich;

@@ -17,7 +17,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -174,6 +175,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.NotificationPackageOptionsActivity" />
+        <activity android:name=".ui.ChooseLanguageActivity" />
 
         <service
             android:name=".notification.NotificationService"

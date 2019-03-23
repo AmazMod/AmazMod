@@ -1,10 +1,18 @@
 <changelog>
     <release
-        date="2019-02-24"
+        date="2019-03-24"
         versionCode="202"
         versionName="v1.1.5">
-        <info>Translations updated</info>
-        <bugfix>Small fixes</bugfix>
+        <new>Notifications control adjustments:
+            1. Store and deploy on watch re-connection
+            2. Dismiss if watch not connected</new>
+        <new>New layout for notifications</new>
+        <new>Improved power managment</new>
+        <bugfix>Backup/Restore fix</bugfix>
+        <new>Direct language selection</new>
+        <info>Updated translations</info>
+        <bugfix>Many Bug fixes</bugfix>
+        <new>Many new undiscovered magical bugs</new>
     </release>
     <release
         date="2019-02-08"

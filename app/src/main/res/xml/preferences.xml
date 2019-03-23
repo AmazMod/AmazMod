@@ -259,11 +259,14 @@
             android:title="@string/pref_enable_update_notification"
             android:summaryOn="@string/pref_enable_update_notification_on"
             android:summaryOff="@string/pref_enable_update_notification_off"/>
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.force.english"
-            android:summary="@string/pref_force_english_summary"
-            android:title="@string/pref_force_english" />
+        <Preference
+            android:summary="@string/pref_choose_language_summary"
+            android:title="@string/pref_choose_language">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetClass="com.edotassi.amazmod.ui.ChooseLanguageActivity"
+                android:targetPackage="com.edotassi.amazmod" />
+        </Preference>
         <Preference
             android:summary="@string/pref_file_extras_summary"
             android:title="@string/pref_file_extras">

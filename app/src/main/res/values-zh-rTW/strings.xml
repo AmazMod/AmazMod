@@ -134,7 +134,7 @@
     <string name="intro_description_permissions">AmazMod 需要存取通知, 以便通知可以發送到您的手錶端, 請點擊下面的按鈕, 以授予訪問通知權限, 然後返回到此教程。</string>
     <string name="intro_label_grant_permissions">請在繼續之前授予存取通知權限。</string>
     <string name="intro_title_2">在手錶端安裝服務程式</string>
-    <string name="intro_description_2">請從 AmazMod 網站下載 amazmod_service 安裝包, 並將其安裝到您的手錶上。若要安裝, 您可以使用 adb (所有平臺), 在 
+    <string name="intro_description_2">請從 AmazMod 網站下載 amazmod_service 安裝包, 並將其安裝到您的手錶上。若要安裝, 您可以使用 adb (所有平臺), 在
  Windows 系統下可以使用 APKInstaller 或 Amazfit 工具。</string>
     <string name="intro_title_3">重新設備</string>
     <string name="intro_description_3">然後, 請重新啟手錶和手機。當你在手錶的訊息框看到數據說明程式運行正常。</string>
