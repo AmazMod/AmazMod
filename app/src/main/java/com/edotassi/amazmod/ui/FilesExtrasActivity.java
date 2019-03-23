@@ -429,8 +429,9 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         }
 
         String filtersJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, "[]");
+        Log.d(Constants.TAG, "FilesExtrasActivity migrateNotificationPrefsFromJSON filters: " + filtersJson);
         if (!filtersJson.equals("[]")) {
-            Map<String, String> packagesfilters = new Gson().fromJson(packagesJson, Map.class);
+            Map<String, String> packagesfilters = new Gson().fromJson(filtersJson, Map.class);
 
             for (Map.Entry<String, String> pair : packagesfilters.entrySet()) {
                 NotificationPreferencesEntity app =
