@@ -300,4 +300,8 @@
     <string name="search_title">Pencarian</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>

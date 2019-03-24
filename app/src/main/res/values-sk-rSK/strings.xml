@@ -298,7 +298,11 @@ Urobte príkaz shell \"</string>
     <string name="invalid_url">Neplatný iCal URL!</string>
     <string name="file_or_connection_error">Súbor alebo pripojenie chyba, súbor sa nepodarilo otvoriť!</string>
     <string name="update_process_warning">Upozornenie: proces aktualizácie môže trvať až 15 minút a rozhranie hodinek sa reštartuje raz alebo viackrát. Nepoužívajte hodinky počas procesu alebo sa veci môžu rozbiť. Spustite aktualizáciu len vtedy, ak môžete počkať na jej dokončenie.</string>
-    <string name="search_title">Search</string>
-    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="search_title">Hľadať</string>
+    <string name="pref_use_notification_scheduler">Ukladať oznámenia aj po odpojení</string>
+    <string name="pref_use_notification_scheduler_summary">Keď budú hodinky od telefónu odpojené, uloží prijaté oznámenia a odošle ich do hodiniek pri obnovení spojenia</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>
