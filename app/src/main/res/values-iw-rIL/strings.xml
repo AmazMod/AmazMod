@@ -299,7 +299,7 @@
     <string name="update_process_warning">אזהרה: תהליך העדכון יכול לקחת עד 15 דקות, ממשק יופעל מחדש פעם אחת או יותר. אל תשתמש השעון במהלך התהליך או דברים יכול להישבר. התחל עדכון רק אם אתה יכול להמתין.</string>
     <string name="search_title">חיפוש</string>
     <string name="pref_use_notification_scheduler">שמירת הודעות בניתוק מהשעון</string>
-    <string name="pref_use_notification_scheduler_summary">שמירת ההתראות שהתקבלו בעת שהשעון והסלולרי מנותקים, ושליחתם לשעון כשחיבור נוצר מחדש</string>
+    <string name="pref_use_notification_scheduler_summary">שמירת ההתראות שהתקבלו בעת שהשעון והסלולרי מנותקים, ושליחתם לשעון כשחיבור נוצר מחדש.</string>
     <string name="language">שפה</string>
     <string name="select">בחירה</string>
     <string name="pref_choose_language">בחירת שפה</string>
