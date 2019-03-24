@@ -304,5 +304,5 @@
     <string name="language">语言</string>
     <string name="select">选择</string>
     <string name="pref_choose_language">选择语言</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="pref_choose_language_summary">你可以修改此应用的语言。</string>
 </resources>
