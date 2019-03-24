@@ -301,9 +301,9 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="update_process_warning">ATTENZIONE: il processo di aggiornamento può durare più di 15 minuti e l\'interfaccia dell\'orologio verrà riavviata una o più volte. Non usare l\'orologio durante l\'installazione perché altrimenti qualcosa potrebbe andar storto. Fai partire l\'aggiornamento solo se sai di poter aspettare fino alla fine.</string>
     <string name="search_title">Cerca</string>
     <string name="pref_use_notification_scheduler">Memorizzare le notifiche quando è disconnesso</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="pref_use_notification_scheduler_summary">Memorizzare le notifiche ricevute mentre l\'orologio e il telefono sono disconnessi per poi inviarle quando viene ripristinata la connessione</string>
+    <string name="language">Lingua</string>
+    <string name="select">Seleziona</string>
+    <string name="pref_choose_language">Scegli lingua</string>
+    <string name="pref_choose_language_summary">Qui puoi cambiare la lingua dell\'app</string>
 </resources>
