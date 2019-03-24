@@ -298,11 +298,11 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
     <string name="update_process_warning">警告：更新过程最多可能需要15分钟，手表界面将重新启动一次或多次。不要在这个过程中使用手表，否则手表系统可能会被损坏。仅当你有时间等待更新完成时，再选择开始更新。</string>
-    <string name="search_title">Search</string>
-    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
+    <string name="search_title">搜索</string>
+    <string name="pref_use_notification_scheduler">断开连接时存储通知</string>
+    <string name="pref_use_notification_scheduler_summary">存储手表和手机断开连接期间收到的通知, 并在恢复连接时发送通知</string>
+    <string name="language">语言</string>
+    <string name="select">选择</string>
+    <string name="pref_choose_language">选择语言</string>
     <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>
