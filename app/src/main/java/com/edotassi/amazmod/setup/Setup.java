@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 
 import com.crashlytics.android.Crashlytics;
+import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.db.model.NotficationSentEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
@@ -65,8 +66,9 @@ public class Setup {
                         try {
                             String json = response.body().string();
                             Properties data = new Gson().fromJson(json, Properties.class);
+                            int betaVersionCode = Integer.valueOf(data.getProperty("betaVersionCode"));
                             int latestVersionValue = Integer.valueOf(data.getProperty("release"));
-                            if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)){
+                            if (BuildConfig.VERSION_CODE >= betaVersionCode){
                                 latestVersionValue = Integer.valueOf(data.getProperty("beta"));
                             }
 
