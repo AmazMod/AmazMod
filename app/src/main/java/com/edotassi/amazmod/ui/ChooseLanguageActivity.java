@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -48,6 +49,7 @@ public class ChooseLanguageActivity extends BaseAppCompatActivity {
         }
         Collections.sort(languageInfos,
                 (o1, o2) -> o1.getLabel().compareToIgnoreCase(o2.getLabel()));
+        languageInfos.add(0,new LanguageInfo(getResources().getString(R.string.languages_automatic) , Constants.PREF_LANGUAGE_AUTO));
 
         int padding = getResources().getDimensionPixelSize(R.dimen.language_spacing);
         for (int i = 0; i < languageInfos.size(); i++) {
