@@ -298,10 +298,10 @@
     <string name="file_or_connection_error">Ошибка файла или соединения, файл не может быть открыт!</string>
     <string name="update_process_warning">ВНИМАНИЕ: процесс обновления может занять до 15 минут, и часы будут перезагружаться один или несколько раз. Не используйте часы во время этого процесса иначе они могут быть повреждены. Начните обновление только если вы можете дождаться его завершения.</string>
     <string name="search_title">Поиск</string>
-    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="pref_use_notification_scheduler">Хранить уведомления при отключении</string>
+    <string name="pref_use_notification_scheduler_summary">Хранить уведомления, полученные когда часы не на связи, и отправить их, когда соединение восстановлено</string>
+    <string name="language">Язык</string>
+    <string name="select">Выбрать</string>
+    <string name="pref_choose_language">Выбрать язык</string>
+    <string name="pref_choose_language_summary">Вы можете изменить язык в приложении</string>
 </resources>
