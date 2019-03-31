@@ -304,4 +304,5 @@
     <string name="select">Pilih</string>
     <string name="pref_choose_language">Pilih bahasa</string>
     <string name="pref_choose_language_summary">Anda dapat mengubah bahasa dari aplikasi</string>
+    <string name="languages_automatic">Autodetect Language</string>
 </resources>
