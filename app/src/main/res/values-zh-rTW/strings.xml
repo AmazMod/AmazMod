@@ -49,6 +49,7 @@
     <string name="customui_test">自訂使用者介面</string>
     <string name="standard_test">標準使用者介面</string>
     <string name="battery_chart_title">電量圖</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">手錶資訊</string>
     <string name="last_charge">上次充滿電</string>
     <string name="last_charge_no_info">等待充滿電</string>
