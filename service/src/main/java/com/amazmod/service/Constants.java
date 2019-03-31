@@ -48,6 +48,9 @@ public class Constants {
     public static final String PREF_NOTIFICATION_DELETE_BUTTON = "notification_delete_button";
     public static final String PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER = "pref_amazmod_official_widgets_order";
 
+    public static final String CUSTOM_WATCHFACE_DATA = "CustomWatchfaceData";
+
+
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI = false;
