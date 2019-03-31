@@ -81,7 +81,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             String alarm = getPhoneAlarm(context);
             String calendar_events = null;
 
-            //Get calendar source data from preferences then the events
+            // Get calendar source data from preferences then the events
             default_calendar_days = context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX];
             String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
             if (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source)) {
@@ -258,18 +258,6 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         return nextAlarm;
     }
 
-    /*
-    // CALENDAR EVENTS
-    public static final String[] EVENT_PROJECTION = new String[] {
-            CalendarContract.Events.TITLE,
-            CalendarContract.Events.DESCRIPTION,
-            CalendarContract.Events.DTSTART,
-            CalendarContract.Events.DTEND,
-            CalendarContract.Events.EVENT_LOCATION,
-            CalendarContract.Events.ACCOUNT_NAME
-
-    };
-    */
 
     // CALENDAR Instances
     public static final String[] EVENT_PROJECTION = new String[]{
@@ -419,6 +407,60 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         */
         cur.close();
         return jsonEvents;
+    }
+
+    // Build-in Calendar even counter
+    public static int countBuildinCalendarEvents(Context context) {
+        // Check if calendar read permission is granted
+        if (Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            return 0;
+        }
+
+        // Get days to look for events
+        int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, context.getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX]));
+        if (calendar_events_days == 0) {
+            return 0;
+        }
+
+        // Run query
+        Cursor cur = null;
+        ContentResolver cr = context.getContentResolver();
+
+        // Start date
+        Calendar c_start = Calendar.getInstance();
+        int year = c_start.get(Calendar.YEAR);
+        int month = c_start.get(Calendar.MONTH);
+        int day = c_start.get(Calendar.DATE);
+        c_start.set(year, month, day, 0, 0, 0);
+
+        // End date
+        Calendar c_end = Calendar.getInstance(); // no it's not redundant
+        c_end.set(year, month, day, 0, 0, 0);
+        c_end.add(Calendar.DATE, (calendar_events_days + 1));
+
+        Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI.buildUpon();
+        ContentUris.appendId(eventsUriBuilder, c_start.getTimeInMillis());
+        ContentUris.appendId(eventsUriBuilder, c_end.getTimeInMillis());
+        Uri eventsUri = eventsUriBuilder.build();
+
+        try {
+            cur = cr.query(eventsUri, EVENT_PROJECTION, null, null, CalendarContract.Instances.BEGIN + " ASC");
+        } catch (SecurityException e) {
+            return 0;
+        }
+
+        // Count events
+        int events;
+        try{
+            events = cur.getCount();
+        }catch(NullPointerException e){
+            return 0;
+        }
+
+        // Close cursor
+        cur.close();
+
+        return events;
     }
 
     private String getICSCalendarEvents(Context context) {
