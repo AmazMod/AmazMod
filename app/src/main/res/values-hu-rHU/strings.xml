@@ -49,6 +49,7 @@
     <string name="customui_test">Egyéni UI</string>
     <string name="standard_test">Normál UI</string>
     <string name="battery_chart_title">Akku diagram</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Óra információ</string>
     <string name="last_charge">az utolsó töltés óta</string>
     <string name="last_charge_no_info">Várakozás teljes feltöltésre</string>
