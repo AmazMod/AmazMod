@@ -304,4 +304,5 @@
     <string name="select">Sélectionner</string>
     <string name="pref_choose_language">Choisissez la langue</string>
     <string name="pref_choose_language_summary">Vous pouvez changer la langue de l\'application</string>
+    <string name="languages_automatic">Autodetect Language</string>
 </resources>
