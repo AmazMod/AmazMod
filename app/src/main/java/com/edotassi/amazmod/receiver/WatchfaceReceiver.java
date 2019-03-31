@@ -157,13 +157,6 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     Watch.get().sendWatchfaceData(watchfaceData);
                 }
                 //startWatchfaceReceiver(context);
-            }else{
-                // Unregister if any receiver
-                try {
-                    context.unregisterReceiver(WatchfaceReceiver.mReceiver);
-                } catch (IllegalArgumentException e) {
-                    //e.printStackTrace();
-                }
             }
         }
 
@@ -190,7 +183,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
             if (delay < 0) delay = 0;
 
-            Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
+            //Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
 
             // Cancel any other intent
             if (alarmManager != null && pendingIntent != null) {
