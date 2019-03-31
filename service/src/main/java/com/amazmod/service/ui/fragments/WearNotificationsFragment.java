@@ -188,10 +188,11 @@ public class WearNotificationsFragment extends Fragment {
                 Log.d(Constants.TAG,"WearAppsFragment loadNotifications call");
 
                 List<NotificationInfo> notificationInfoList = new ArrayList<>();
-
-                for (String key : NotificationStore.getKeySet()) {
-                    Log.d(Constants.TAG,"WearAppsFragment loadNotifications adding key: " + key);
-                    notificationInfoList.add(new NotificationInfo(NotificationStore.getCustomNotification(key), key));
+                if (NotificationStore.getKeySet() != null) {
+                    for (String key : NotificationStore.getKeySet()) {
+                        Log.d(Constants.TAG, "WearAppsFragment loadNotifications adding key: " + key);
+                        notificationInfoList.add(new NotificationInfo(NotificationStore.getCustomNotification(key), key));
+                    }
                 }
 
                 if (!notificationInfoList.isEmpty())
@@ -261,6 +262,7 @@ public class WearNotificationsFragment extends Fragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         NotificationStore.removeCustomNotification(key);
+                        NotificationStore.setNotificationCount(mContext);
                         loadNotifications();
                     }
                 })

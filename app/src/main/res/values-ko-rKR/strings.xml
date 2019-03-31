@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">답장 화면의 진동 시간을 설정(순정 알림이 비활성화 되었을때만 작동)</string>
     <string name="pref_screen_timeout">화면 자동 꺼짐</string>
     <string name="pref_screen_timeout_summary">커스텀 답장 화면 시간 설정</string>
-    <string name="pref_force_english">Force English</string>
-    <string name="pref_force_english_summary">앱 언어를 영어로 변경합니다. 설정 완료 후 앱이 재실행 됩니다.</string>
     <string name="pref_disable_notifications_when_dnd">방해금지가 켜져있을때 비활성화</string>
     <string name="pref_disable_notifications_when_dnd_summary">방해금지가 켜져있을 경우 알림을 전송하지 않습니다.</string>
     <string name="pref_disable_remove_notifications">알림제거 동기화 해제</string>
@@ -299,4 +297,11 @@
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
     <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="search_title">Search</string>
+    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>

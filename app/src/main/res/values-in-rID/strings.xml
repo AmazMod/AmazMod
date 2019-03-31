@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Mengirim data setiap kali perubahan baterai</string>
     <string name="activity_watchface_send_on_alarm_change">Mengirim data setiap kali perubahan alarm</string>
     <string name="activity_watchface_last_time_sent">Terakhir kali dikirim</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Data yang terkirim</string>
     <string name="activity_watchface_send_data_now">Mengirim data sekarang</string>
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Dalam satu jam terakhir</string>
@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Mengatur durasi getaran untuk layar Balasan di watch (hanya digunakan jika pemberitahuan standar dinonaktifkan)</string>
     <string name="pref_screen_timeout">Waktu layar mati</string>
     <string name="pref_screen_timeout_summary">Mengatur durasi layar kustom Balasan</string>
-    <string name="pref_force_english">Paksa bahasa Inggris</string>
-    <string name="pref_force_english_summary">Set app bahasa ke bahasa Inggris, itu akan segar ketika menutup preferensi</string>
     <string name="pref_disable_notifications_when_dnd">Menonaktifkan ketika DND sedang ON</string>
     <string name="pref_disable_notifications_when_dnd_summary">Pemberitahuan tidak akan dikirim pada Jam ketika Jangan Diganggu terdeteksi</string>
     <string name="pref_disable_remove_notifications">Menonaktifkan Hapus pemberitahuan</string>
@@ -299,4 +297,11 @@
     <string name="invalid_url">URL iCal tidak valid!</string>
     <string name="file_or_connection_error">Kesalahan file atau sambungan, file tidak dapat dibuka!</string>
     <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="search_title">Pencarian</string>
+    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>

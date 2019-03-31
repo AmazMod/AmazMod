@@ -17,7 +17,8 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,7 +32,11 @@
         <activity android:name=".ui.WatchfaceActivity" />
         <activity android:name=".ui.StatsActivity" />
         <activity android:name=".ui.SettingsActivity" />
-        <activity android:name=".ui.NotificationPackagesSelectorActivity" />
+        <activity android:name=".ui.NotificationPackagesSelectorActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/notification_packages_selector_searchable" />
+        </activity>
         <activity android:name=".ui.NotificationRepliesActivity" />
         <activity android:name=".ui.PreferenceActivity" />
         <activity android:name=".ui.NotificationsLogActivity" />
@@ -63,15 +68,23 @@
         <activity android:name=".ui.FileOpenerActivity">
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
-                <data android:mimeType="application/vnd.android.package-archive" android:scheme="content" />
-                <data android:mimeType="application/octet-stream" android:scheme="content"/>
+
+                <data
+                    android:mimeType="application/vnd.android.package-archive"
+                    android:scheme="content" />
+                <data
+                    android:mimeType="application/octet-stream"
+                    android:scheme="content" />
             </intent-filter>
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:host="*" />
                 <data android:mimeType="*/*" />
@@ -84,8 +97,10 @@
             </intent-filter>
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="content" />
                 <data android:host="*" />
                 <data android:mimeType="*/*" />
@@ -113,8 +128,10 @@
             </intent-filter>
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:host="*" />
                 <data android:mimeType="*/*" />
@@ -130,6 +147,7 @@
 
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="content" />
                 <data android:host="*" />
                 <data android:mimeType="*/*" />
@@ -142,8 +160,10 @@
             </intent-filter>
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:host="*" />
                 <data android:pathPattern=".*\.apk" />
@@ -155,6 +175,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.NotificationPackageOptionsActivity" />
+        <activity android:name=".ui.ChooseLanguageActivity" />
 
         <service
             android:name=".notification.NotificationService"
@@ -165,7 +186,8 @@
             </intent-filter>
         </service>
         <service android:name=".transport.TransportService" />
-        <service android:name=".notification.NotificationJobService"
+        <service
+            android:name=".notification.NotificationJobService"
             android:label="AmazModNotificationJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <!--
@@ -205,7 +227,9 @@
                 android:resource="@xml/nnf_provider_paths" />
         </provider>
 
-        <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="${enableCrashReporting}" />
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${enableCrashReporting}" />
     </application>
 
 </manifest>

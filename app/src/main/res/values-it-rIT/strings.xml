@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Imposta la durata della vibrazione per la schermata delle risposte sull\'orologio (utilizzata solo se le notifiche standard sono disabilitate)</string>
     <string name="pref_screen_timeout">Autospegnimento dello schermo</string>
     <string name="pref_screen_timeout_summary">Imposta la durata di visualizzazione della schermata delle risposte personalizzate</string>
-    <string name="pref_force_english">Forza la lingua Inglese</string>
-    <string name="pref_force_english_summary">Imposta la lingua inglese all\'app una volta riavviata</string>
     <string name="pref_disable_notifications_when_dnd">Disattiva quando il DND è attivo</string>
     <string name="pref_disable_notifications_when_dnd_summary">Le notifiche non verranno inviate quando il \"non disturbare\" è attivo</string>
     <string name="pref_disable_remove_notifications">Disattiva la rimozione delle notifiche</string>
@@ -301,4 +299,11 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="invalid_url">URL iCal non valida!</string>
     <string name="file_or_connection_error">Impossibile aprire, file errato o connessione assente!</string>
     <string name="update_process_warning">ATTENZIONE: il processo di aggiornamento può durare più di 15 minuti e l\'interfaccia dell\'orologio verrà riavviata una o più volte. Non usare l\'orologio durante l\'installazione perché altrimenti qualcosa potrebbe andar storto. Fai partire l\'aggiornamento solo se sai di poter aspettare fino alla fine.</string>
+    <string name="search_title">Cerca</string>
+    <string name="pref_use_notification_scheduler">Memorizzare le notifiche quando è disconnesso</string>
+    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>

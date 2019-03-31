@@ -191,11 +191,11 @@ public class NotificationJobService extends JobService {
 
         if (transporterHuami.isTransportServiceConnected()) {
             Log.i(Constants.TAG, "NotificationJobService processStandardNotificationPosted transport already connected");
-            AmazModApplication.isWatchConnected = true;
+            AmazModApplication.setWatchConnected(true);
         } else {
             Log.w(Constants.TAG, "NotificationJobService processStandardNotificationPosted transport not connected, connecting...");
             transporterHuami.connectTransportService();
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
 
         Log.i(Constants.TAG, "NotificationJobService processStandardNotificationPosted transporterHuami.isAvailable: " + transporterHuami.isAvailable());
@@ -217,7 +217,7 @@ public class NotificationJobService extends JobService {
                         jobFinished(params, false);
                     } else {
                         Log.d(Constants.TAG, "NotificationJobService processStandardNotificationPosted try: " + retries);
-                        if (AmazModApplication.isWatchConnected && retries < 4) {
+                        if (AmazModApplication.isWatchConnected() && retries < 4) {
                             retries++;
                             SystemClock.sleep(300);
                             processStandardNotificationPosted(key, mode);
@@ -274,11 +274,11 @@ public class NotificationJobService extends JobService {
 
         if (transporterHuami.isTransportServiceConnected()) {
             Log.i(Constants.TAG, "NotificationJobService processNotificationRemoved transport already connected");
-            AmazModApplication.isWatchConnected = true;
+            AmazModApplication.setWatchConnected(true);
         } else {
             Log.w(Constants.TAG, "NotificationJobService processNotificationRemoved transport not connected, connecting...");
             transporterHuami.connectTransportService();
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
 
         Log.i(Constants.TAG, "NotificationJobService processNotificationRemoved transporterHuami.isAvailable: " + transporterHuami.isAvailable());
@@ -300,7 +300,7 @@ public class NotificationJobService extends JobService {
                         jobFinished(params, false);
                     } else {
                         Log.d(Constants.TAG, "NotificationJobService processNotificationRemoved try: " + retries);
-                        if (AmazModApplication.isWatchConnected && retries < 4) {
+                        if (AmazModApplication.isWatchConnected() && retries < 4) {
                             retries++;
                             SystemClock.sleep(300);
                             processNotificationRemoved(key, mode);
@@ -333,7 +333,7 @@ public class NotificationJobService extends JobService {
         if (mode == NOTIFICATION_POSTED_CUSTOM_UI) {
             Bundle bundle = NotificationStore.getNotificationBundle(key);
             if (bundle != null)
-                extractImagesFromNotification(bundle, notificationData);
+                NotificationJobService.extractImagesFromNotification(bundle, notificationData);
         }
 
         //final Transporter transporter2 = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
@@ -343,16 +343,16 @@ public class NotificationJobService extends JobService {
         } else {
             Log.w(Constants.TAG,"NotificationJobService processCustomNotificationPosted isTransportServiceConnected = false, connecting...");
             transporterNotifications.connectTransportService();
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
 
         boolean isTransportConnected = transporterNotifications.isTransportServiceConnected();
         result = null;
         if (!isTransportConnected) {
-            if (AmazModApplication.isWatchConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                AmazModApplication.isWatchConnected = false;
+            if (AmazModApplication.isWatchConnected() || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.setWatchConnected(false);
                 EventBus.getDefault().removeAllStickyEvents();
-                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
             }
             Log.w(Constants.TAG, "NotificationJobService processCustomNotificationPosted isTransportConnected: false");
         }
@@ -379,7 +379,7 @@ public class NotificationJobService extends JobService {
                         jobFinished(params, false);
                     } else {
                         Log.d(Constants.TAG, "NotificationJobService processCustomNotificationPosted try: " + retries);
-                        if (AmazModApplication.isWatchConnected && retries < 4) {
+                        if (AmazModApplication.isWatchConnected() && retries < 4) {
                             retries++;
                             SystemClock.sleep(300);
                             processCustomNotificationPosted(key, mode);
@@ -450,7 +450,7 @@ public class NotificationJobService extends JobService {
         */
     }
 
-    private void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
+    public static void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
 
         if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_LARGE_ICON, false)) {
             extractLargeIcon(bundle, notificationData);
@@ -461,7 +461,7 @@ public class NotificationJobService extends JobService {
         }
     }
 
-    private void extractLargeIcon(Bundle bundle, NotificationData notificationData) {
+    private static void extractLargeIcon(Bundle bundle, NotificationData notificationData) {
         try {
             Bitmap largeIcon = (Bitmap) bundle.get("android.largeIcon");
             if (largeIcon != null) {
@@ -478,7 +478,7 @@ public class NotificationJobService extends JobService {
         }
     }
 
-    private void extractPicture(Bundle bundle, NotificationData notificationData) {
+    private static void extractPicture(Bundle bundle, NotificationData notificationData) {
         try {
             Bitmap originalBitmap = (Bitmap) bundle.get("android.picture");
             if (originalBitmap != null) {
@@ -497,7 +497,7 @@ public class NotificationJobService extends JobService {
         }
     }
 
-    private Bitmap scaleBitmap(Bitmap bitmap) {
+    private static Bitmap scaleBitmap(Bitmap bitmap) {
         if (bitmap.getWidth() <= 320) {
             return bitmap;
         }
@@ -521,16 +521,16 @@ public class NotificationJobService extends JobService {
         } else {
             Log.w(Constants.TAG,"NotificationJobService sendCustomNotification isTransportServiceConnected = false, connecting...");
             transporterNotifications.connectTransportService();
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
 
         boolean isTransportConnected = transporterNotifications.isTransportServiceConnected();
         result = null;
         if (!isTransportConnected) {
-            if (AmazModApplication.isWatchConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                AmazModApplication.isWatchConnected = false;
+            if (AmazModApplication.isWatchConnected() || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.setWatchConnected(false);
                 EventBus.getDefault().removeAllStickyEvents();
-                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected));
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
             }
             Log.w(Constants.TAG, "NotificationJobService sendCustomNotification isTransportConnected: false");
         }
@@ -551,7 +551,7 @@ public class NotificationJobService extends JobService {
 
                 } else {
                     Log.d(Constants.TAG, "NotificationJobService sendCustomNotification try: " + retries);
-                    if (AmazModApplication.isWatchConnected && retries < 4) {
+                    if (AmazModApplication.isWatchConnected() && retries < 4) {
                         retries++;
                         sendCustomNotification(context, notificationData);
                     } else {

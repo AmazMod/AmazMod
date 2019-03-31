@@ -38,7 +38,6 @@ import com.amazmod.service.R;
 import com.amazmod.service.adapters.LauncherAppAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.models.MenuItems;
-import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.BatteryGraphActivity;
 import com.google.gson.Gson;
@@ -236,13 +235,13 @@ public class AmazModLauncher extends AbstractPlugin {
             }
         });
 
-        messages.setOnLongClickListener(new View.OnLongClickListener() {
+        /*messages.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                refreshMessages(true);
+                refreshMessages();
                 return true;
             }
-        });
+        });*/
 
         flashLight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,7 +380,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
         updateCharge();
         checkApps();
-        refreshMessages(false);
+        refreshMessages();
         refreshIcons();
     }
 
@@ -407,7 +406,7 @@ public class AmazModLauncher extends AbstractPlugin {
         keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
     }
 
-    private void refreshMessages(boolean reset) {
+    private void refreshMessages() {
         String data = Settings.System.getString(mContext.getContentResolver(), "CustomWatchfaceData");
         if (data == null || data.equals("")) {
             Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", "{}");
@@ -416,11 +415,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
         try {
             JSONObject json_data = new JSONObject(data);
-            if (reset) {
-                json_data.put("notifications", 0);
-                Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", json_data.toString());
-            } else
-                notifications = json_data.getInt("notifications");
+            notifications = json_data.getInt("notifications");
         } catch (JSONException e) {
             Log.e(Constants.TAG, "AmazModLauncher refreshMessages JSONException: " + e.toString());
             notifications = 0;

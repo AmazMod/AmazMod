@@ -81,7 +81,7 @@
     <string name="activity_watchface_send_on_battery_change">Odoslať údaje zakaždým, keď sa zmení batéria</string>
     <string name="activity_watchface_send_on_alarm_change">Odoslať údaje zakaždým, keď sa zmení alarm</string>
     <string name="activity_watchface_last_time_sent">Čas posledného odoslania</string>
-    <string name="activity_watchface_data_send">Data were send</string>
+    <string name="activity_watchface_data_send">Údaje boli odoslané</string>
     <string name="activity_watchface_send_data_now">Odoslať údaje teraz</string>
     <string name="activity_stats_notifications_total">Celkom</string>
     <string name="activity_stats_notifications_in_the_last_hour">Za poslednú hodinu</string>
@@ -111,8 +111,6 @@
     <string name="pref_vibration_duration_summary">Nastavte trvanie vibrácie pre obrazovku odpovedí na hodinkách (použiť iba, ak štandardné upozornenia sú vypnuté)</string>
     <string name="pref_screen_timeout">Časový limit obrazovky</string>
     <string name="pref_screen_timeout_summary">Nastavenie dĺžky trvania obrazovky pre vlastné odpovede</string>
-    <string name="pref_force_english">Vynútiť angličtinu</string>
-    <string name="pref_force_english_summary">Nastavenie jazyka aplikácie do angličtiny, obnoví sa pri zatváraní nastevenia</string>
     <string name="pref_disable_notifications_when_dnd">Vypnúť, keď je zapnutý režim Nerušiť</string>
     <string name="pref_disable_notifications_when_dnd_summary">Upozornenia sa neodošlú do hodiniek, keď je detekovaný režim Nerušiť</string>
     <string name="pref_disable_remove_notifications">Zakázať odstrániť oznámenia</string>
@@ -299,5 +297,12 @@ Urobte príkaz shell \"</string>
     <string name="error">Chyba</string>
     <string name="invalid_url">Neplatný iCal URL!</string>
     <string name="file_or_connection_error">Súbor alebo pripojenie chyba, súbor sa nepodarilo otvoriť!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">Upozornenie: proces aktualizácie môže trvať až 15 minút a rozhranie hodinek sa reštartuje raz alebo viackrát. Nepoužívajte hodinky počas procesu alebo sa veci môžu rozbiť. Spustite aktualizáciu len vtedy, ak môžete počkať na jej dokončenie.</string>
+    <string name="search_title">Hľadať</string>
+    <string name="pref_use_notification_scheduler">Ukladať oznámenia aj po odpojení</string>
+    <string name="pref_use_notification_scheduler_summary">Keď budú hodinky od telefónu odpojené, uloží prijaté oznámenia a odošle ich do hodiniek pri obnovení spojenia</string>
+    <string name="language">Language</string>
+    <string name="select">Select</string>
+    <string name="pref_choose_language">Choose language</string>
+    <string name="pref_choose_language_summary">You can change language of the app</string>
 </resources>

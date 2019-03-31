@@ -13,6 +13,14 @@ import android.widget.TextView;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
+
+import amazmod.com.models.Reply;
 
 public class FragmentUtil {
     private static final float FONT_SIZE_NORMAL = 14.0f;
@@ -39,7 +47,7 @@ public class FragmentUtil {
         defaultLocale = getDefaultLocaleSettings();
     }
 
-    private float getFontSize(){
+    private float getFontSize() {
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         switch (fontSize) {
@@ -56,28 +64,28 @@ public class FragmentUtil {
         return fontSizeSP;
     }
 
-    public boolean getInvertedTheme(){
+    public boolean getInvertedTheme() {
         return settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
     }
 
-    public boolean getDisableDelay(){
+    public boolean getDisableDelay() {
         return settingsManager.getBoolean(Constants.PREF_DISABLE_DELAY,
                 Constants.PREF_DEFAULT_DISABLE_DELAY);
     }
 
 
-    public boolean getDisableNotificationText(){
+    public boolean getDisableNotificationText() {
         return settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
     }
 
 
-    public boolean getEnableDeleteButton(){
+    public boolean getEnableDeleteButton() {
         return settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, Constants.PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON);
     }
 
-    private String getDefaultLocaleSettings(){
+    private String getDefaultLocaleSettings() {
         String locale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
         Log.i(Constants.TAG, "FragmentUtil defaultLocale: " + locale);
         return locale;
@@ -90,7 +98,7 @@ public class FragmentUtil {
     public void setFontLocale(TextView b, String locale) {
         //Log.i(Constants.TAG, "FragmentUtil setFontLocale Button: " + locale);
         if (locale.contains("iw")) {
-            Typeface face = Typeface.createFromAsset(mContext.getAssets(),"fonts/DroidSansFallback.ttf");
+            Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
         }
     }
@@ -98,7 +106,7 @@ public class FragmentUtil {
     public void setButtonParams(EmojiButton button, String text) {
         params.setMargins(20, 12, 20, 12);
         button.setLayoutParams(params);
-        button.setPadding(0,15,0,15);
+        button.setPadding(0, 15, 0, 15);
         button.setIncludeFontPadding(false);
         button.setMinHeight(36);
         setFontLocale(button, defaultLocale);
@@ -112,7 +120,7 @@ public class FragmentUtil {
             params.setMargins(20, 12, 20, 12);
             button.setLayoutParams(params);
         }
-        button.setPadding(0,15,0,15);
+        button.setPadding(0, 15, 0, 15);
         button.setIncludeFontPadding(false);
         button.setMinHeight(36);
         button.setText(text);
@@ -120,7 +128,7 @@ public class FragmentUtil {
         button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSizeSP);
     }
 
-    public void setButtonTheme(Button button, String color){
+    public void setButtonTheme(Button button, String color) {
         switch (color) {
             case ("red"): {
                 button.setTextColor(Color.parseColor("#ffffff"));
@@ -145,16 +153,25 @@ public class FragmentUtil {
     }
 
 
-    public void setParamMargins(int left, int top, int right, int bottom){
-        params.setMargins(left,top,right,bottom);
+    public void setParamMargins(int left, int top, int right, int bottom) {
+        params.setMargins(left, top, right, bottom);
     }
 
-    public LinearLayout.LayoutParams getParams(){
+    public LinearLayout.LayoutParams getParams() {
         return this.params;
     }
 
-    public String listReplies() {
-        return settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
+    public List<Reply> listReplies() {
+        final String replies = settingsManager.getString(Constants.PREF_NOTIFICATION_CUSTOM_REPLIES, "[]");
+
+        try {
+            Type listType = new TypeToken<List<Reply>>() {
+            }.getType();
+            return new Gson().fromJson(replies, listType);
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+
     }
 
 }

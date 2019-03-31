@@ -53,7 +53,7 @@ import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class FileOpenerActivity extends AppCompatActivity {
+public class FileOpenerActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_file_opner_progress)
     MaterialProgressBar watchProgress;

@@ -6,24 +6,19 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.setup.Setup;
@@ -43,9 +38,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import amazmod.com.transport.Constants;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
@@ -88,7 +84,7 @@ public class MainActivity extends AppCompatActivity
 
         EventBus.getDefault().register(this);
 
-        Log.d(Constants.TAG, "MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected());
 
         showChangelog(true);
 
@@ -112,22 +108,6 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent, Constants.REQUEST_CODE_INTRO);
         }
 
-        //Change app localization if needed
-        final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
-
-        Log.d(Constants.TAG, "MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
-
-        if (forceEN && (currentLocale != Locale.US)) {
-            Log.d(Constants.TAG, "MaiActivity New locale: US");
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.locale = Locale.US;
-            res.updateConfiguration(conf, dm);
-            recreate();
-        }
-
         setupCards();
 
         Setup.run(getApplicationContext());
@@ -140,7 +120,7 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        Boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
+        boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -175,7 +155,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, "MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
     }
 
     @Override
@@ -200,6 +180,17 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //your code
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //your code
         }
     }
 
@@ -267,15 +258,15 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsWatchConnectedLocal itc) {
         if (itc != null) {
-            if (AmazModApplication.isWatchConnected != itc.getWatchStatus()) {
-                AmazModApplication.isWatchConnected = itc.getWatchStatus();
+            if (AmazModApplication.isWatchConnected() != itc.getWatchStatus()) {
+                AmazModApplication.setWatchConnected(itc.getWatchStatus());
                 watchInfoFragment.onResume();
                 //watchInfoFragment.onResume();
             }
         } else {
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
-        Log.d(Constants.TAG, "MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
+        Log.d(Constants.TAG, "MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected());
     }
 
     private void showChangelog(boolean managedShowOnStart) {

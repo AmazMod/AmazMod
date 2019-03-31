@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +44,7 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
             listItem = LayoutInflater.from(context).inflate(R.layout.row_appinfo, parent, false);
         }
 
-        final AppInfo currentAppInfo = getItem(position);
+        final AppInfo currentAppInfo = Objects.requireNonNull(getItem(position));
 
         ViewHolder viewHolder = new ViewHolder(appInfoBridge, currentAppInfo);
         ButterKnife.bind(viewHolder, listItem);
@@ -55,14 +55,11 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         viewHolder.appInfoPackageName.setText(currentAppInfo.getPackageName());
         viewHolder.appInfoSwitch.setChecked(currentAppInfo.isEnabled());
 
-        viewHolder.appInfoHandler.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (currentAppInfo.isEnabled()) {
-                    Intent i = new Intent(context, NotificationPackageOptionsActivity.class);
-                    i.putExtra("app", currentAppInfo.getPackageName());
-                    context.startActivity(i);
-                }
+        viewHolder.appInfoHandler.setOnClickListener(view -> {
+            if (currentAppInfo.isEnabled()) {
+                Intent intent = new Intent(context, NotificationPackageOptionsActivity.class);
+                intent.putExtra("app", currentAppInfo.getPackageName());
+                context.startActivity(intent);
             }
         });
         return listItem;
@@ -93,9 +90,9 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         }
 
         @OnCheckedChanged(R.id.row_appinfo_switch)
-        public void onSwitchChanged(Switch switchWidget, boolean checked) {
+        void onSwitchChanged(Switch switchWidget, boolean checked) {
             if (checked != appInfo.isEnabled()) {
-                SilenceApplicationHelper.setPackageEnabled(appInfo.getPackageName(),checked);
+                SilenceApplicationHelper.setPackageEnabled(appInfo.getPackageName(), checked);
                 appInfo.setEnabled(checked);
                 appInfoBridge.onAppInfoStatusChange();
             }

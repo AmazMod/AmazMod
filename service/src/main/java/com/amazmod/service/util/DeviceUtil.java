@@ -28,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -398,6 +399,13 @@ public class DeviceUtil {
             return false;
         }
 
+    }
+
+    public static boolean isVerge(){
+        String model = SystemProperties.getSystemProperty("ro.build.huami.model");
+        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
+        Log.d(Constants.TAG,"DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
+        return isVerge;
     }
 
 }
