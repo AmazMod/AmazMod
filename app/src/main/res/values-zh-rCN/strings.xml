@@ -49,6 +49,7 @@
     <string name="customui_test">自定义界面</string>
     <string name="standard_test">标准界面</string>
     <string name="battery_chart_title">电池图表</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">手表信息</string>
     <string name="last_charge">上次充满电</string>
     <string name="last_charge_no_info">等待充满电</string>
