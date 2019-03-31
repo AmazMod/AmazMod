@@ -49,6 +49,7 @@
     <string name="customui_test">Προσαρμοσμένο UI</string>
     <string name="standard_test">Κανονικό UI</string>
     <string name="battery_chart_title">Διάγραμμα μπαταρίας</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Πληροφορίες Ρολογιού</string>
     <string name="last_charge">από την τελευταία φόρτιση</string>
     <string name="last_charge_no_info">Αναμονή για την πλήρη φόρτιση</string>
