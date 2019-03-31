@@ -304,4 +304,5 @@
     <string name="select">Select</string>
     <string name="pref_choose_language">Choose language</string>
     <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="languages_automatic">Autodetect Language</string>
 </resources>
