@@ -49,6 +49,7 @@
     <string name="customui_test">UI personalizzata</string>
     <string name="standard_test">UI standard</string>
     <string name="battery_chart_title">Grafico batteria</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informazioni sull\'orologio</string>
     <string name="last_charge">dall\'ultima ricarica completa</string>
     <string name="last_charge_no_info">In attesa di una ricarica completa</string>
