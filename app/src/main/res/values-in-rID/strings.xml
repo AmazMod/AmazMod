@@ -49,6 +49,7 @@
     <string name="customui_test">Kostum UI</string>
     <string name="standard_test">Standar UI</string>
     <string name="battery_chart_title">Bagan Baterai</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informasi Jam</string>
     <string name="last_charge">Sejak muatan penuh</string>
     <string name="last_charge_no_info">Menunggu muatan penuh</string>
