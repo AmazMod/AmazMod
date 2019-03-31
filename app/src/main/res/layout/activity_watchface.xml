@@ -139,26 +139,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/watchface_calendar_source">
 
+        <RadioButton
+            android:id="@+id/watchface_source_local_radiobutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/watchface_built_in_calendar" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/watchface_source_local_radiobutton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/watchface_built_in_calendar" />
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp">
 
             <TextView
                 android:id="@+id/watchface_calendar_permission"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:text="@string/permission"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 android:textColor="#333333" />
 
             <TextView
