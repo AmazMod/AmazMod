@@ -261,7 +261,7 @@ public class WatchInfoFragment extends Card implements Updater {
                     entries.add(new BarEntry(i, Integer.parseInt(parts[i + 1])));
                 }
 
-                BarDataSet set = new BarDataSet(entries, "Heart-rate");
+                BarDataSet set = new BarDataSet(entries, getResources().getString(R.string.heartrate_chart_title));
                 set.setColor(Color.RED);
 
                 Description description = new Description();
