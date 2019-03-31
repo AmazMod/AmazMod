@@ -49,6 +49,7 @@
     <string name="customui_test">Interface personalizada</string>
     <string name="standard_test">Interface padrão</string>
     <string name="battery_chart_title">Gráfico de bateria</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informações do relógio</string>
     <string name="last_charge">Desde carga completa</string>
     <string name="last_charge_no_info">Aguardando carga completa</string>
