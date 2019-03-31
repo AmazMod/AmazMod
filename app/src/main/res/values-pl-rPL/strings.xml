@@ -49,6 +49,7 @@
     <string name="customui_test">Niestandardowy Interfejs</string>
     <string name="standard_test">Standardowy Interfejs</string>
     <string name="battery_chart_title">Wykres Baterii</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informacje o zegarku</string>
     <string name="last_charge">Od ostatniego ładowania</string>
     <string name="last_charge_no_info">Czekaj na pełne ładowanie</string>
