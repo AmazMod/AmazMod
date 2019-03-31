@@ -49,6 +49,7 @@
     <string name="customui_test">Özel arayüz</string>
     <string name="standard_test">Standart Arayüz</string>
     <string name="battery_chart_title">Batarya grafiği</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Saat bilgileri</string>
     <string name="last_charge">Son tam şarj</string>
     <string name="last_charge_no_info">Tam şarj için bekliyor</string>
