@@ -49,6 +49,7 @@
     <string name="customui_test">커스텀 UI</string>
     <string name="standard_test">순정 UI</string>
     <string name="battery_chart_title">배터리 차트</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">시계 정보</string>
     <string name="last_charge">완충 이후</string>
     <string name="last_charge_no_info">완충을 기다리는 중</string>
