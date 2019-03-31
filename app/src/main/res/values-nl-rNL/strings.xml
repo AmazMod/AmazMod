@@ -49,6 +49,7 @@
     <string name="customui_test">Aangepaste UI</string>
     <string name="standard_test">Standaard UI</string>
     <string name="battery_chart_title">Batterij grafiek</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informatie van horloge</string>
     <string name="last_charge">Sinds volledig opladen</string>
     <string name="last_charge_no_info">Wachten op volledige lading</string>
