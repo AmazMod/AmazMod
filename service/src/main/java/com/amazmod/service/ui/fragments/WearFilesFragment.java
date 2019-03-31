@@ -550,12 +550,12 @@ public class WearFilesFragment extends Fragment {
                                 if (!(fileInfoList == null))
                                     fileInfoList.clear();
                                 loadFiles(mCurrentDir);
-                                showToast("File deleted");
+                                showToast("Deleted!");
                             } else
-                                showToast("Error deleting file!");
+                                showToast("Error deleting!");
                         } catch (Exception ex) {
                             Log.e(Constants.TAG, "WearFilesFragment deleteFile Exception" + ex.getMessage(), ex);
-                            showToast("Error deleting file!");
+                            showToast("Error deleting!");
                         }
                     }
                 })

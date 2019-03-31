@@ -98,14 +98,15 @@ public class NotificationStore {
 
     public static void setNotificationCount(Context context, int count) {
         //Stores notificationCount in JSON Object
-        String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
+        String data = Settings.System.getString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA);
         try {
             JSONObject json_data = new JSONObject(data);
             json_data.put("notifications", count);
-            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", json_data.toString());
-        } catch (
-                JSONException e) {
-            Log.e(Constants.TAG, "NotificationService postWithCustomUI JSONException: " + e.toString());
+            Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, json_data.toString());
+        } catch (JSONException e) {
+            String notification_json = "{\"notifications\":\"" + count+"\"}";
+            Log.d(Constants.TAG, "NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
+            Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, notification_json);
         }
     }
 
