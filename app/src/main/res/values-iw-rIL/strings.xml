@@ -49,6 +49,7 @@
     <string name="customui_test">ממשק משתמש מותאם אישית</string>
     <string name="standard_test">ממשק משתמש רגיל</string>
     <string name="battery_chart_title">תרשים סוללה</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">מידע שעון</string>
     <string name="last_charge">מאז טעינה מלאה</string>
     <string name="last_charge_no_info">ממתין לטעינה מלאה</string>
