@@ -49,6 +49,7 @@
     <string name="customui_test">Interfață personalizată</string>
     <string name="standard_test">Interfața standard</string>
     <string name="battery_chart_title">Baterie diagramă</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informațiile ceasului</string>
     <string name="last_charge">Since full charge</string>
     <string name="last_charge_no_info">Aşteptare pentru încărcare completă</string>
