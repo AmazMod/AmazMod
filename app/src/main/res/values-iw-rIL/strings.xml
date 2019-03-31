@@ -304,4 +304,5 @@
     <string name="select">בחירה</string>
     <string name="pref_choose_language">בחירת שפה</string>
     <string name="pref_choose_language_summary">ניתן לשנות את שפת האפליקציה</string>
+    <string name="languages_automatic">Autodetect Language</string>
 </resources>
