@@ -304,6 +304,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_use_notification_scheduler_summary">Když budou hodinky od telefonu odpojeny, uloží přijatá oznámení a odešle je do hodinek při obnovení spojení</string>
     <string name="language">Jazyk</string>
     <string name="select">Vybrat</string>
-    <string name="pref_choose_language">Zvolte jazyk</string>
-    <string name="pref_choose_language_summary">Můžete změnit jazyk aplikace</string>
+    <string name="pref_choose_language">Změna jazyka aplikace</string>
+    <string name="pref_choose_language_summary">Zde můžete změnit jazyk aplikace</string>
 </resources>
