@@ -53,6 +53,8 @@ import java.util.concurrent.ExecutionException;
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.WatchfaceData;
 
+import static java.lang.System.currentTimeMillis;
+
 public class WatchfaceReceiver extends BroadcastReceiver {
 
     private Logger log = Logger.get(WatchfaceReceiver.class);
@@ -121,19 +123,19 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                         return null;
                     }
                 });*/
-
-                //Save update time in milliseconds
-                Date date = new Date();
-                Long milliseconds = date.getTime();
-                Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
             }else{
                 Log.d(Constants.TAG, "WatchfaceDataReceiver sending data to phone (no new data)");
             }
+            //Save update time in milliseconds
+            Date date = new Date();
+            Long milliseconds = date.getTime();
+            Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
         } else {
             // Other actions
             Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive :"+intent.getAction());
             // If battery/alarm was changed
-            if(intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED) || intent.getAction().equals(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED)){
+            if( (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED) && Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE))
+                    || (intent.getAction().equals(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED) && Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE) )){
                 // Get data
                 int battery = getPhoneBattery(context);
                 String alarm = getPhoneAlarm(context);
@@ -155,6 +157,13 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     Watch.get().sendWatchfaceData(watchfaceData);
                 }
                 //startWatchfaceReceiver(context);
+            }else{
+                // Unregister if any receiver
+                try {
+                    context.unregisterReceiver(WatchfaceReceiver.mReceiver);
+                } catch (IllegalArgumentException e) {
+                    //e.printStackTrace();
+                }
             }
         }
 
@@ -178,10 +187,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
             AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
 
-            long delay = ((long) syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastWatchfaceDataSend;
+            long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
             if (delay < 0) delay = 0;
 
-            Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend);
+            Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
 
             // Cancel any other intent
             if (alarmManager != null && pendingIntent != null) {

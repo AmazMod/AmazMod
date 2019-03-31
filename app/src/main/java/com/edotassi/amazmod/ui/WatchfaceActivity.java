@@ -287,14 +287,9 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                         send_on_battery_change != Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, send_on_battery_change) ||
                         send_on_alarm_change != Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, send_on_alarm_change)
                 ) {
+
             WatchfaceReceiver.startWatchfaceReceiver(mContext);
         }
-
-        //WatchfaceData watchfaceData = new WatchfaceData();
-        //watchfaceData.setBattery(this.send_data);
-        //SyncWatchface syncSettings = new SyncWatchface(watchfaceData);
-        //EventBus.getDefault().post(syncSettings);
-        //Toast.makeText(this, R.string.sync_settings, Toast.LENGTH_SHORT).show();
 
         super.onDestroy();
     }
