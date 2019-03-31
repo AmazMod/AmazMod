@@ -104,7 +104,7 @@ public class NotificationStore {
             json_data.put("notifications", count);
             Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, json_data.toString());
         } catch (JSONException e) {
-            String notification_json = "{\"notifications\":\"" + count+"}";
+            String notification_json = "{\"notifications\":\"" + count+"\"}";
             Log.d(Constants.TAG, "NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
             Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, notification_json);
         }
