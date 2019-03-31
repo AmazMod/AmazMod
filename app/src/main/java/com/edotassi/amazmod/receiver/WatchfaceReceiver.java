@@ -60,6 +60,12 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     private static String default_calendar_days;
     private static boolean refresh;
 
+    static AlarmManager alarmManager;
+    static Intent alarmWatchfaceIntent;
+    static PendingIntent pendingIntent;
+    static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
+
+
     @Override
     public void onReceive(final Context context, Intent intent) {
 
@@ -75,7 +81,6 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 Watch.init(context);
             }
 
-            Log.d(Constants.TAG, "WatchfaceDataReceiver sending data to phone");
             // Get data
             int battery = getPhoneBattery(context);
             String alarm = getPhoneAlarm(context);
@@ -90,35 +95,70 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 calendar_events = getICSCalendarEvents(context);
             }
 
+            // Check if new data
+            if (Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0)!=battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm) || calendar_events!=null) {
+                Log.d(Constants.TAG, "WatchfaceDataReceiver sending data to phone");
 
-            // Put data to bundle
-            WatchfaceData watchfaceData = new WatchfaceData();
-            watchfaceData.setBattery(battery);
-            watchfaceData.setAlarm(alarm);
-            watchfaceData.setCalendarEvents(calendar_events);
+                // Save last send values
+                Prefs.putInt(Constants.PREF_WATCHFACE_LAST_BATTERY, battery);
+                Prefs.putString(Constants.PREF_WATCHFACE_LAST_ALARM, alarm);
 
-            Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
-                @Override
-                public Object then(@NonNull Task<Watchface> task) throws Exception {
-                    if (task.isSuccessful()) {
-                        // Returned data
-                        Log.d(Constants.TAG, "WatchfaceDataReceiver data were sent to phone");//Never returns :P
-                    } else {
-                        WatchfaceReceiver.this.log.e(task.getException(), "failed sending watchface data");
+                // Put data to bundle
+                WatchfaceData watchfaceData = new WatchfaceData();
+                watchfaceData.setBattery(battery);
+                watchfaceData.setAlarm(alarm);
+                watchfaceData.setCalendarEvents(calendar_events);
+
+                Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
+                    @Override
+                    public Object then(@NonNull Task<Watchface> task) throws Exception {
+                        if (task.isSuccessful()) {
+                            // Returned data
+                            Log.d(Constants.TAG, "WatchfaceDataReceiver data were sent to phone");//Never returns :P
+                        } else {
+                            WatchfaceReceiver.this.log.e(task.getException(), "failed sending watchface data");
+                        }
+                        return null;
                     }
-                    return null;
-                }
-            });*/
+                });*/
 
-            //Save update time in milliseconds
-            Date date = new Date();
-            Long milliseconds = date.getTime();
-            Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
+                //Save update time in milliseconds
+                Date date = new Date();
+                Long milliseconds = date.getTime();
+                Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
+            }else{
+                Log.d(Constants.TAG, "WatchfaceDataReceiver sending data to phone (no new data)");
+            }
         } else {
-            startWatchfaceReceiver(context);
+            // Other actions
+            Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive :"+intent.getAction());
+            // If battery/alarm was changed
+            if(intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED) || intent.getAction().equals(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED)){
+                // Get data
+                int battery = getPhoneBattery(context);
+                String alarm = getPhoneAlarm(context);
+
+                if (Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0)!=battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm)) {
+                    // New data = update
+                    Log.d(Constants.TAG, "WatchfaceDataReceiver sending data to phone (battery/alarm onchange)");
+
+                    // Save last send values
+                    Prefs.putInt(Constants.PREF_WATCHFACE_LAST_BATTERY, battery);
+                    Prefs.putString(Constants.PREF_WATCHFACE_LAST_ALARM, alarm);
+
+                    // Put data to bundle
+                    WatchfaceData watchfaceData = new WatchfaceData();
+                    watchfaceData.setBattery(battery);
+                    watchfaceData.setAlarm(alarm);
+                    watchfaceData.setCalendarEvents(null);
+
+                    Watch.get().sendWatchfaceData(watchfaceData);
+                }
+                //startWatchfaceReceiver(context);
+            }
         }
 
-        Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive");
+        //Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive");
     }
 
     public static void startWatchfaceReceiver(Context context) {
@@ -126,20 +166,14 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         boolean send_on_battery_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE);
         boolean send_on_alarm_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE);
 
-        // Unregister if any receiver
-        /*
-        try {
-            WatchfaceReceiver unReceiver = new WatchfaceReceiver();
-            context.unregisterReceiver(unReceiver);
-        } catch (NoSuchMethodError e) {
-            e.printStackTrace();
+        // Stop if data send is off
+        if (!send_data) {
+            Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive feature is off");
+            return;
         }
-        */
-        send_on_battery_change = false;
-        send_on_alarm_change = false;
 
         // update as interval
-        if ((!send_on_battery_change || !send_on_alarm_change) && send_data) {
+        //if (send_data) {
             int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
 
             AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
@@ -149,9 +183,14 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
             Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend);
 
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent alarmWatchfaceIntent = new Intent(context, WatchfaceReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
+            // Cancel any other intent
+            if (alarmManager != null && pendingIntent != null) {
+                alarmManager.cancel(pendingIntent);
+            }else {
+                alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarmWatchfaceIntent = new Intent(context, WatchfaceReceiver.class);
+                pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
+            }
 
             try {
                 if (alarmManager != null)
@@ -160,6 +199,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             } catch (NullPointerException e) {
                 Log.e(Constants.TAG, "WatchfaceDataReceiver setRepeating exception: " + e.toString());
             }
+
+        /*
         } else {
             try {
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -170,26 +211,35 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             } catch (NoSuchMethodError e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
-        // Stop if data send is off
-        if (!send_data) {
-            Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive feature is off");
-            return;
+
+        // Unregister if any receiver
+        try {
+            context.unregisterReceiver(WatchfaceReceiver.mReceiver);
+        } catch (IllegalArgumentException e) {
+            //e.printStackTrace();
         }
 
         // on battery change
         if (send_on_battery_change) {
             IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
-            WatchfaceReceiver mReceiver = new WatchfaceReceiver();
-            context.registerReceiver(mReceiver, ifilter);
+            context.registerReceiver(WatchfaceReceiver.mReceiver, ifilter);
         }
 
         // on alarm change
         if (send_on_alarm_change) {
             IntentFilter ifilter = new IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED);
-            WatchfaceReceiver mReceiver = new WatchfaceReceiver();
-            context.registerReceiver(mReceiver, ifilter);
+            context.registerReceiver(WatchfaceReceiver.mReceiver, ifilter);
+        }
+    }
+
+    public void onDestroy(Context context) {
+        // Unregister if any receiver
+        try {
+            context.unregisterReceiver(WatchfaceReceiver.mReceiver);
+        } catch (IllegalArgumentException e) {
+            //e.printStackTrace();
         }
     }
 
@@ -224,7 +274,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     AlarmManager.AlarmClockInfo clockInfo = alarmManager.getNextAlarmClock();
                     if (clockInfo != null) {
                         long nextAlarmTime = clockInfo.getTriggerTime();
-                        Log.d(Constants.TAG, "Next alarm time: " + nextAlarmTime);
+                        //Log.d(Constants.TAG, "Next alarm time: " + nextAlarmTime);
                         Date nextAlarmDate = new Date(nextAlarmTime);
                         android.text.format.DateFormat df = new android.text.format.DateFormat();
                         // Format alarm time as e.g. "Fri 06:30"
@@ -253,7 +303,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // Log next alarm
-        Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: " + nextAlarm);
+        // Log.d(Constants.TAG, "WatchfaceDataReceiver next alarm: " + nextAlarm);
 
         return nextAlarm;
     }

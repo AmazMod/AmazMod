@@ -69,7 +69,8 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmBatteryIntent, 0);
 
         try {
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
+            if (alarmManager != null)
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
                     (long) syncInterval * 60000L, pendingIntent);
         } catch (NullPointerException e) {
             Log.e(Constants.TAG, "BatteryStatusReceiver setRepeating exception: " + e.toString());

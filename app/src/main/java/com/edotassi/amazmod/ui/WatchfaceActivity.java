@@ -178,11 +178,15 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         });
         send_watchface_data_calendar_events_days.setEnabled(send_data);
 
-        // todo Hide under development options
-        send_on_battery_change_switch.setVisibility(View.GONE);
-        send_on_alarm_change_switch.setVisibility(View.GONE);
+        // Hide if not a developer
+        if( !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false) ){
+            send_on_battery_change_switch.setVisibility(View.GONE);
+            Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, false);
+            send_on_battery_change = false;
+        }
+        //send_on_alarm_change_switch.setVisibility(View.GONE);
 
-        // todo  battery on change
+        // battery on change
         send_on_battery_change_switch.setChecked(send_on_battery_change);
         send_on_battery_change_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -197,7 +201,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         });
         send_on_battery_change_switch.setEnabled(send_data);
 
-        // todo alarm on change
+        // alarm on change
         send_on_alarm_change_switch.setChecked(send_on_alarm_change);
         send_on_alarm_change_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
