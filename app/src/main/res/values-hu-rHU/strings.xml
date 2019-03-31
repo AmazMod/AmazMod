@@ -306,4 +306,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="select">Kiválaszt</string>
     <string name="pref_choose_language">Válassz nyelvet</string>
     <string name="pref_choose_language_summary">Itt tudod módosítani az app nyelvét</string>
+    <string name="languages_automatic">Autodetect Language</string>
 </resources>
