@@ -301,8 +301,8 @@ Urobte príkaz shell \"</string>
     <string name="search_title">Hľadať</string>
     <string name="pref_use_notification_scheduler">Ukladať oznámenia aj po odpojení</string>
     <string name="pref_use_notification_scheduler_summary">Keď budú hodinky od telefónu odpojené, uloží prijaté oznámenia a odošle ich do hodiniek pri obnovení spojenia</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="language">Jazyk</string>
+    <string name="select">Vybrať</string>
+    <string name="pref_choose_language">Vybrať jazyk</string>
+    <string name="pref_choose_language_summary">Zvoľte jazyk aplikácie</string>
 </resources>

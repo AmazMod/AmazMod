@@ -2,20 +2,31 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings">
     <PreferenceCategory android:title="@string/main_options">
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="preference.amazmod.first.widget"
-        android:title="@string/pref_amazmod_first_widget"
-        android:summary="@string/pref_amazmod_first_widget_summary"/>
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="preference.amazmod.first.widget"
+            android:summary="@string/pref_amazmod_first_widget_summary"
+            android:title="@string/pref_amazmod_first_widget" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/notifications_options">
+
         <SwitchPreference
             android:defaultValue="false"
             android:disableDependentsState="true"
             android:key="preference.disable.notifications"
             android:summary="@string/pref_disable_notifications_summary"
             android:title="@string/pref_disable_notifications" />
+
+        <SwitchPreference
+            android:key="preference.notifications.enable.custom.ui"
+            android:defaultValue="true"
+            android:dependency="preference.disable.notifications"
+            android:disableDependentsState="false"
+            android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
+            android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
+            android:title="@string/pref_notifications_enable_custom_ui" />
 
         <Preference
             android:dependency="preference.disable.notifications"
@@ -28,38 +39,9 @@
         </Preference>
 
         <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="preference.disable.notifications"
-            android:key="preference.disable.standard.notifications"
-            android:summary="@string/pref_disable_standard_notifications_summary"
-            android:title="@string/pref_disable_standard_notifications" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="preference.disable.notifications"
-            android:key="preference.disable.notification.largeicon"
-            android:summary="@string/pref_notifications_disable_large_icon"
-            android:title="@string/pref_notifications_disable_large_icon_summary"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="preference.disable.notifications"
-            android:key="preference.disable.notification.picture"
-            android:summary="@string/pref_notifications_disable_picture"
-            android:title="@string/pref_notifications_disable_picture_summary"/>
-
-        <SwitchPreference
-            android:key="preference.notifications.enable.custom.ui"
-            android:defaultValue="false"
-            android:dependency="preference.disable.notifications"
-            android:disableDependentsState="false"
-            android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
-            android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
-            android:title="@string/pref_notifications_enable_custom_ui" />
-
-        <SwitchPreference
             android:key="preference.notification.scheduler"
-            android:defaultValue="true"
+            android:defaultValue="false"
+            android:dependency="preference.disable.notifications"
             android:summary="@string/pref_use_notification_scheduler_summary"
             android:title="@string/pref_use_notification_scheduler" />
     </PreferenceCategory>
@@ -67,22 +49,12 @@
     <PreferenceCategory android:title="@string/customui">
 
         <SwitchPreference
-                    android:defaultValue="false"
-                    android:dependency="preference.notifications.enable.custom.ui"
-                    android:disableDependentsState="true"
-                    android:key="preference.amazmodservice.enable.replies"
-                    android:summary="@string/pref_disable_notifications_replies_summary"
-                    android:title="@string/pref_disable_notifications_replies" />
-
-        <SwitchPreference
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:disableDependentsState="true"
-            android:key="preference.amazmodservice.notification.enable.deletebutton"
-            android:title="@string/pref_enable_delete_button"
-            android:summaryOn="@string/pref_enable_delete_button_on"
-            android:summaryOff="@string/pref_enable_delete_button_off"/>
-
+            android:key="preference.amazmodservice.enable.replies"
+            android:summary="@string/pref_disable_notifications_replies_summary"
+            android:title="@string/pref_disable_notifications_replies" />
 
         <Preference
             android:dependency="preference.notifications.enable.custom.ui"
@@ -94,6 +66,20 @@
                 android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesDragActivity"
                 android:targetPackage="com.edotassi.amazmod" />
         </Preference>
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.notification.largeicon"
+            android:summary="@string/pref_notifications_show_large_icon_summary"
+            android:title="@string/pref_notifications_show_large_icon" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.notification.images"
+            android:summary="@string/pref_notifications_enable_images_summary"
+            android:title="@string/pref_notifications_enable_images" />
 
         <ListPreference
             android:defaultValue="7000"
@@ -215,14 +201,14 @@
 
     <PreferenceCategory android:title="@string/battery">
         <SwitchPreference
-            android:defaultValue="false"
-            android:disableDependentsState="true"
-            android:key="preference.disable.battery.chart"
-            android:summary="@string/pref_disable_battery_chart_summary"
-            android:title="@string/pref_disable_battery_chart" />
+            android:defaultValue="true"
+            android:disableDependentsState="false"
+            android:key="preference.battery.chart"
+            android:summary="@string/pref_battery_chart_summary"
+            android:title="@string/pref_battery_chart" />
         <ListPreference
             android:defaultValue="60"
-            android:dependency="preference.disable.battery.chart"
+            android:dependency="preference.battery.chart"
             android:dialogTitle="@string/pref_battery_background_sync_interval"
             android:entries="@array/pref_battery_background_sync_interval_entries"
             android:entryValues="@array/pref_battery_background_sync_interval_values"
@@ -231,7 +217,7 @@
             android:title="@string/pref_battery_background_sync_interval" />
         <ListPreference
             android:defaultValue="5"
-            android:dependency="preference.disable.battery.chart"
+            android:dependency="preference.battery.chart"
             android:dialogTitle="@string/pref_battery_chart_time_interval"
             android:entries="@array/pref_battery_chart_range_entries"
             android:entryValues="@array/pref_battery_chart_range_values"
@@ -256,9 +242,9 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.update.notification"
-            android:title="@string/pref_enable_update_notification"
+            android:summaryOff="@string/pref_enable_update_notification_off"
             android:summaryOn="@string/pref_enable_update_notification_on"
-            android:summaryOff="@string/pref_enable_update_notification_off"/>
+            android:title="@string/pref_enable_update_notification" />
         <Preference
             android:summary="@string/pref_choose_language_summary"
             android:title="@string/pref_choose_language">

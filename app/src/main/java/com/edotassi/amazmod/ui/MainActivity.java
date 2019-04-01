@@ -120,13 +120,13 @@ public class MainActivity extends BaseAppCompatActivity
             }
         }
 
-        boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+        boolean showBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         for (Card card : cards) {
-            if (!(disableBatteryChart && (card instanceof BatteryChartFragment))) {
+            if (showBatteryChart || !(card instanceof BatteryChartFragment)) {
                 fragmentTransaction.add(R.id.main_activity_cards, card, card.getName());
             }
         }

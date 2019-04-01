@@ -76,6 +76,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     @BindView(R.id.watchface_ics_url_edittext)
     EditText watchface_ics_url_edittext;
 
+
     boolean send_data;
     int send_data_interval_index;
     int send_data_calendar_events_days_index;
@@ -132,7 +133,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 //WatchfaceActivity.this.send_data = isChecked;
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_DATA, isChecked);
-                //Toast.makeText(WatchfaceActivity.this, "send data: " + isChecked, Toast.LENGTH_SHORT).show();
 
                 WatchfaceActivity.this.send_watchface_data_interval.setEnabled(isChecked);
                 WatchfaceActivity.this.send_watchface_data_calendar_events_days.setEnabled(isChecked);
@@ -166,6 +166,9 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 Prefs.putInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, pos);
                 Prefs.putString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[pos]);
+
+                // Show found local events
+                showFoundBuildInCalendarEvents();
             }
 
             @Override
@@ -175,14 +178,18 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         });
         send_watchface_data_calendar_events_days.setEnabled(send_data);
 
-        // Hide not ready options
-        send_on_battery_change_switch.setVisibility(View.GONE);
-        send_on_alarm_change_switch.setVisibility(View.GONE);
+        // Hide if not a developer
+        if( !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false) ){
+            send_on_battery_change_switch.setVisibility(View.GONE);
+            Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, false);
+            send_on_battery_change = false;
+        }
+        //send_on_alarm_change_switch.setVisibility(View.GONE);
 
+        // battery on change
         send_on_battery_change_switch.setChecked(send_on_battery_change);
         send_on_battery_change_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //WatchfaceActivity.this.send_on_battery_change = isChecked;
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, isChecked);
 
                 Bundle bundle = new Bundle();
@@ -194,10 +201,10 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         });
         send_on_battery_change_switch.setEnabled(send_data);
 
+        // alarm on change
         send_on_alarm_change_switch.setChecked(send_on_alarm_change);
         send_on_alarm_change_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //WatchfaceActivity.this.send_on_alarm_change = isChecked;
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, isChecked);
 
                 Bundle bundle = new Bundle();
@@ -214,7 +221,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
 
         // Sync now button
         final Intent alarmWatchfaceIntent = new Intent(getApplicationContext(), WatchfaceReceiver.class);
-        //alarmWatchfaceIntent.setAction("-");
         watchface_sync_now_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -239,6 +245,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         });
         watchface_sync_now_button.setEnabled(send_data);
 
+        // Calendar Source selection
         watchface_calendar_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -253,13 +260,17 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                 }
             }
         });
+        // Show found local events
+        showFoundBuildInCalendarEvents();
 
+        // Test calendar ICS file
         watchface_test_ics_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkICSFile();
             }
         });
+
     }
 
     @Override
@@ -276,14 +287,9 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                         send_on_battery_change != Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, send_on_battery_change) ||
                         send_on_alarm_change != Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, send_on_alarm_change)
                 ) {
+
             WatchfaceReceiver.startWatchfaceReceiver(mContext);
         }
-
-        //WatchfaceData watchfaceData = new WatchfaceData();
-        //watchfaceData.setBattery(this.send_data);
-        //SyncWatchface syncSettings = new SyncWatchface(watchfaceData);
-        //EventBus.getDefault().post(syncSettings);
-        //Toast.makeText(this, R.string.sync_settings, Toast.LENGTH_SHORT).show();
 
         super.onDestroy();
     }
@@ -324,6 +330,12 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                 }
             });
         }
+    }
+
+    private void showFoundBuildInCalendarEvents() {
+        int events = WatchfaceReceiver.countBuildinCalendarEvents(getApplicationContext());
+        String buildInCalendarWithEvents = getResources().getText(R.string.watchface_built_in_calendar) + " ("+ events +")";
+        watchface_source_local_radiobutton.setText( buildInCalendarWithEvents );
     }
 
     private void changeWidgetsStatus(boolean state){
@@ -397,4 +409,5 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                     .show();
         }
     }
+
 }
