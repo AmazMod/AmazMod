@@ -14,7 +14,7 @@
     <string name="sync_settings">A sincronizar configurações&#8230;</string>
     <string name="brightness">Brilho</string>
     <string name="tweaking">Ajustes</string>
-    <string name="watchface">GreatFit / Calendar</string>
+    <string name="watchface">GreatFit / Calendário</string>
     <string name="stats">Estatísticas</string>
     <string name="changelog">Registo de alterações</string>
     <string name="enable">Ativar</string>
@@ -74,7 +74,7 @@
     <string name="activity_about_devs">Desenvolvedores</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Tradutores</string>
-    <string name="activity_watchface_need_greatfit">You need to have the watchface GreatFit or the widgets Calendar/Timeline installed on your watch for these options to be utilized</string>
+    <string name="activity_watchface_need_greatfit">Você precisa ter a watchface \"GreatFit\" ou os widgets Calendar/Timeline instalados no seu relógio para estas opções funcionarem</string>
     <string name="activity_watchface_send_data">Enviar dados do telemóvel para o relógio (bateria, alarme, calendário)</string>
     <string name="activity_watchface_send_data_interval_prompt">Selecionar o intervalo de tempo</string>
     <string name="activity_watchface_send_data_interval_summary">Definir intervalo de envio de wathface</string>
@@ -295,9 +295,9 @@
     <string name="permission">Permissão</string>
     <string name="success">Sucesso</string>
     <string name="error">Erro</string>
-    <string name="invalid_url">Invalid iCal URL!</string>
-    <string name="file_or_connection_error">File or connection error, file could not be opened!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="invalid_url">Endereço iCal inválido!</string>
+    <string name="file_or_connection_error">Erro no ficheiro ou na ligação. Ficheiro não pode ser aberto!</string>
+    <string name="update_process_warning">AVISO: o processo de atualização pode demorar até 15 minutos e a interface de relógio será reiniciada uma ou mais vezes. Não use o relógio durante o processo pois a atualização pode falhar. Inicie a atualização só se puder esperar até o final.</string>
     <string name="search_title">Pesquisar</string>
     <string name="pref_use_notification_scheduler">Guardar notificações enquanto desconectado</string>
     <string name="pref_use_notification_scheduler_summary">Guardar as notificações recebidas enquanto o relógio e o telefone estão desconectados e enviá-las quando a conexão for restaurada</string>
@@ -311,5 +311,5 @@
     <string name="pref_notifications_enable_images">Mostrar imagens</string>
     <string name="pref_notifications_enable_images_summary">Mostrar Imagens das Notificações</string>
     <string name="pref_battery_chart">Gráfico de bateria</string>
-    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
+    <string name="pref_battery_chart_summary">Mostrar gráfico de bateria no ecrã principal do AmazMod</string>
 </resources>
