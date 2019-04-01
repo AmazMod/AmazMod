@@ -14,7 +14,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
@@ -54,7 +53,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,10 +60,8 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import amazmod.com.transport.Constants;
-import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.NotificationReplyData;
 
@@ -154,9 +150,10 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
-        log.d("notificationPosted: %s", statusBarNotification.getKey());
+        log.d("NotificationService notificationPosted: %s", statusBarNotification.getKey());
 
         String notificationPackage = statusBarNotification.getPackageName();
+
         if (!isPackageAllowed(notificationPackage)) {
             log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_PACKAGE));
             storeForStats(notificationPackage, Constants.FILTER_PACKAGE);
@@ -194,8 +191,6 @@ public class NotificationService extends NotificationListenerService {
         }
 
         byte filterResult = filter(statusBarNotification);
-
-        boolean notificationSent = false;
 
         log.d("NotificationService notificationPackage: " + notificationPackage + " / filterResult: " + Character.toString((char) (byte) filterResult));
 
@@ -235,35 +230,18 @@ public class NotificationService extends NotificationListenerService {
                 }
             }
 
-            /*if (!isStandardDisabled()) {
-                if (sbn == null)
-                    sendNotificationWithStandardUI(filterResult, statusBarNotification);
-                else
-                    sendNotificationWithStandardUI(filterResult, sbn);
-                notificationSent = true;
-            }*/
+            if (sbn == null){
+                sbn = statusBarNotification;
+            }
 
             if (isCustomUIEnabled()) {
-                if (sbn == null)
-                    sendNotificationWithCustomUI(filterResult, statusBarNotification);
-                else
-                    sendNotificationWithCustomUI(filterResult, sbn);
-                notificationSent = true;
-            }else{
-                if (sbn == null)
-                    sendNotificationWithStandardUI(filterResult, statusBarNotification);
-                else
-                    sendNotificationWithStandardUI(filterResult, sbn);
-                notificationSent = true;
+                sendNotificationWithCustomUI(filterResult, sbn);
+            } else {
+                sendNotificationWithStandardUI(filterResult, sbn);
             }
 
-            if (notificationSent) {
-                log.d("NotificationService sent: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
-                storeForStats(notificationPackage, filterResult);
-            } else {
-                log.d("NotificationService blocked (FILTER_RETURN): " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
-                storeForStats(notificationPackage, Constants.FILTER_RETURN);
-            }
+            log.d("NotificationService sent: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
+            storeForStats(notificationPackage, filterResult);
 
         } else {
             Log.d(Constants.TAG, "NotificationService onNotificationPosted: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
@@ -273,13 +251,13 @@ public class NotificationService extends NotificationListenerService {
                 Log.d(Constants.TAG, "NotificationService onNotificationPosted isRingingNotification: " + Character.toString((char) (byte) filterResult));
                 handleCall(statusBarNotification, notificationPackage);
 
-            //Maps notification
+                //Maps notification
             } else if (isMapsNotification(filterResult, notificationPackage)) {
                 Log.d(Constants.TAG, "NotificationService onNotificationPosted isMapsNotification: " + Character.toString((char) (byte) filterResult));
                 mapNotification(statusBarNotification);
                 //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
 
-            //Blocked
+                //Blocked
             } else {
                 log.d("NotificationService blocked: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
                 storeForStats(notificationPackage, filterResult);
@@ -406,10 +384,7 @@ public class NotificationService extends NotificationListenerService {
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
-        //if (isStandardDisabled()) {
         notificationData.setVibration(getDefaultVibration());
-        //} else
-        //notificationData.setVibration(0);
         notificationData.setHideButtons(true);
         notificationData.setForceCustom(false);
 
@@ -425,7 +400,7 @@ public class NotificationService extends NotificationListenerService {
             int jobId = statusBarNotification.getId() + newUID();
             scheduleJob(id, jobId, key);
             log.i("NotificationService CustomUI jobScheduled: " + jobId + " \\ key: " + key);
-        }else{
+        } else {
             NotificationJobService.extractImagesFromNotification(statusBarNotification.getNotification().extras, notificationData);
             Watch.get().postNotification(notificationData);
             log.i("NotificationService CustomUI sent without schedule: " + key);
@@ -436,7 +411,7 @@ public class NotificationService extends NotificationListenerService {
 
         String key = newKey(statusBarNotification.getKey());
         int notificationId = statusBarNotification.getId();
-        Log.d(Constants.TAG, "NotificationService sendNotificationWithStandardUI key: " +  key + " \\ filterResult: " + filterResult);
+        Log.d(Constants.TAG, "NotificationService sendNotificationWithStandardUI key: " + key + " \\ filterResult: " + filterResult);
         DataBundle dataBundle = new DataBundle();
         int id = NotificationJobService.NOTIFICATION_POSTED_STANDARD_UI;
         int jobId = statusBarNotification.getId() + newUID();
@@ -446,7 +421,7 @@ public class NotificationService extends NotificationListenerService {
             NotificationStore.addStandardNotification(key, dataBundle);
             scheduleJob(id, jobId, key);
             log.i("NotificationService StandardUI jobScheduled: " + jobId + " \\ key: " + key);
-        }else {
+        } else {
             //Connect transporter
             Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
             notificationTransporter.connectTransportService();
@@ -467,24 +442,24 @@ public class NotificationService extends NotificationListenerService {
 
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
 
-            if (jobId == 0) {
-                builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
+        if (jobId == 0) {
+            builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
 
-            } else {
-                //if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
-                //        && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
-                builder.setMinimumLatency(CUSTOMUI_LATENCY);
-                //else
-                //    builder.setMinimumLatency(0);
+        } else {
+            //if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
+            //        && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
+            builder.setMinimumLatency(CUSTOMUI_LATENCY);
+            //else
+            //    builder.setMinimumLatency(0);
 
-                PersistableBundle bundle = new PersistableBundle();
-                bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
-                bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
+            PersistableBundle bundle = new PersistableBundle();
+            bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
+            bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
 
-                builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
-                builder.setOverrideDeadline(JOB_MAX_INTERVAL);
-                builder.setExtras(bundle);
-            }
+            builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
+            builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+            builder.setExtras(bundle);
+        }
 
         jobScheduler.schedule(builder.build());
     }
@@ -815,26 +790,26 @@ public class NotificationService extends NotificationListenerService {
 
             String notificationTitle = "";
 
-            if (bigTitle != null){
+            if (bigTitle != null) {
                 notificationTitle = bigTitle.toString();
-            }else{
-                if (title != null && !title.toString().isEmpty()){
+            } else {
+                if (title != null && !title.toString().isEmpty()) {
                     notificationTitle = title.toString();
                 }
             }
 
             if (bigText != null) {
                 notificationText = bigText.toString();
-            }else{
-                if (text != null && !text.toString().isEmpty()){
+            } else {
+                if (text != null && !text.toString().isEmpty()) {
                     notificationText = text.toString();
                 }
             }
 
             String[] filters = app.getFilter().split("\\r?\\n");
-            for(String filter : filters) {
+            for (String filter : filters) {
                 log.d("Checking if '%s' contains '%s'", notificationText, filter);
-                if (!filter.isEmpty()){
+                if (!filter.isEmpty()) {
                     filter = filter.toLowerCase();
                     if (notificationTitle.toLowerCase().contains(filter)) {
                         log.d("Package '%s' filterered because TITLE ('%s') contains '%s'", packageName, notificationTitle, filter);
@@ -847,7 +822,7 @@ public class NotificationService extends NotificationListenerService {
                 }
             }
             return false;
-        }else{
+        } else {
             return false;
         }
     }
