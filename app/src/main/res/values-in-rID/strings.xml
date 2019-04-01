@@ -306,4 +306,10 @@
     <string name="pref_choose_language">Pilih bahasa</string>
     <string name="pref_choose_language_summary">Anda dapat mengubah bahasa dari aplikasi</string>
     <string name="languages_automatic">Autodetect Language</string>
+    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
+    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
+    <string name="pref_notifications_enable_images">Show Images</string>
+    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
+    <string name="pref_battery_chart">Battery Chart</string>
+    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
 </resources>
