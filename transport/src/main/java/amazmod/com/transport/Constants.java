@@ -39,7 +39,8 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_SCREEN_TIMEOUT = "preference.amazmodservice.screen.timeout";
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "preference.amazmodservice.inverted.theme";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "preference.amazmodservice.font.size";
-    public static final String PREF_DISABLE_BATTERY_CHART = "preference.disable.battery.chart";
+    public static final String PREF_BATTERY_CHART = "preference.battery.chart";
+    public static final Boolean PREF_BATTERY_CHART_DEFAULT = true;
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
     public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
@@ -47,17 +48,24 @@ public class Constants {
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
     public static final String PREF_LANGUAGE = "preference.language";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
-    public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
+    //public static final String PREF_DISABLE_STANDARD_NOTIFICATIONS = "preference.disable.standard.notifications";
     public static final String PREF_PHONE_CONNECT_DISCONNECT_ALERT = "preference.phone.connect.disconnect.alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "preference.phone.connection.alert.standard.notification";
     public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
     public static final String PREF_ENABLE_DEVELOPER_MODE = "preference.enable.developer.mode";
     public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
-    public static final String PREF_NOTIFICATIONS_DISABLE_LARGE_ICON = "preference.disable.notification.largeicon";
-    public static final String PREF_NOTIFICATIONS_DISABLE_PICTURE = "preference.disable.notification.picture";
-    public static final String PREF_NOTIFICATION_DELETE_BUTTON = "preference.amazmodservice.notification.enable.deletebutton";
+    //public static final String PREF_NOTIFICATIONS_DISABLE_LARGE_ICON = "preference.disable.notification.largeicon";
+    //public static final String PREF_NOTIFICATIONS_DISABLE_PICTURE = "preference.disable.notification.picture";
+
+    public static final String PREF_NOTIFICATIONS_LARGE_ICON = "preference.notification.largeicon";
+    public static final boolean PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT = true;
+    public static final String PREF_NOTIFICATIONS_IMAGES = "preference.notification.images";
+    public static final boolean PREF_NOTIFICATIONS_IMAGES_DEFAULT = true;
+
+    //public static final String PREF_NOTIFICATION_DELETE_BUTTON = "preference.amazmodservice.notification.enable.deletebutton";
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
+    public static final Boolean PREF_NOTIFICATION_SCHEDULER_DEFAULT = false;
 
     public static final String PREF_LANGUAGE_AUTO = "auto";
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
@@ -80,8 +88,6 @@ public class Constants {
     public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
     public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
-    public static final boolean PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON = false;
-    public static final boolean PREF_DEFAULT_NOTIFICATION_SCHEDULER = true;
 
     public static final int REQUEST_CODE_INTRO = 1;
 

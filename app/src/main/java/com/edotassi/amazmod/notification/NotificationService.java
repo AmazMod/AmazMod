@@ -235,19 +235,25 @@ public class NotificationService extends NotificationListenerService {
                 }
             }
 
-            if (!isStandardDisabled()) {
+            /*if (!isStandardDisabled()) {
                 if (sbn == null)
                     sendNotificationWithStandardUI(filterResult, statusBarNotification);
                 else
                     sendNotificationWithStandardUI(filterResult, sbn);
                 notificationSent = true;
-            }
+            }*/
 
             if (isCustomUIEnabled()) {
                 if (sbn == null)
                     sendNotificationWithCustomUI(filterResult, statusBarNotification);
                 else
                     sendNotificationWithCustomUI(filterResult, sbn);
+                notificationSent = true;
+            }else{
+                if (sbn == null)
+                    sendNotificationWithStandardUI(filterResult, statusBarNotification);
+                else
+                    sendNotificationWithStandardUI(filterResult, sbn);
                 notificationSent = true;
             }
 
@@ -400,10 +406,10 @@ public class NotificationService extends NotificationListenerService {
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
-        if (isStandardDisabled()) {
-            notificationData.setVibration(getDefaultVibration());
-        } else
-            notificationData.setVibration(0);
+        //if (isStandardDisabled()) {
+        notificationData.setVibration(getDefaultVibration());
+        //} else
+        //notificationData.setVibration(0);
         notificationData.setHideButtons(true);
         notificationData.setForceCustom(false);
 
@@ -465,11 +471,11 @@ public class NotificationService extends NotificationListenerService {
                 builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
 
             } else {
-                if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
-                        && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
-                    builder.setMinimumLatency(CUSTOMUI_LATENCY);
-                else
-                    builder.setMinimumLatency(0);
+                //if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
+                //        && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
+                builder.setMinimumLatency(CUSTOMUI_LATENCY);
+                //else
+                //    builder.setMinimumLatency(0);
 
                 PersistableBundle bundle = new PersistableBundle();
                 bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
@@ -738,7 +744,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isJobSchedulerEnabled() {
-        return Prefs.getBoolean(Constants.PREF_NOTIFICATION_SCHEDULER, Constants.PREF_DEFAULT_NOTIFICATION_SCHEDULER);
+        return Prefs.getBoolean(Constants.PREF_NOTIFICATION_SCHEDULER, Constants.PREF_NOTIFICATION_SCHEDULER_DEFAULT);
     }
 
     private boolean isNotificationsEnabledWhenScreenLocked() {
@@ -749,9 +755,9 @@ public class NotificationService extends NotificationListenerService {
         return Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
     }
 
-    private boolean isStandardDisabled() {
+    /*private boolean isStandardDisabled() {
         return Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false);
-    }
+    }*/
 
     private boolean isRingingNotification(byte filterResult, String notificationPackage) {
 

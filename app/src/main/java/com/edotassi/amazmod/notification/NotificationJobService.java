@@ -452,11 +452,11 @@ public class NotificationJobService extends JobService {
 
     public static void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
 
-        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_LARGE_ICON, false)) {
+        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_LARGE_ICON, Constants.PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT)) {
             extractLargeIcon(bundle, notificationData);
         }
 
-        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABLE_PICTURE, false)) {
+        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_IMAGES, Constants.PREF_NOTIFICATIONS_IMAGES_DEFAULT)) {
             extractPicture(bundle, notificationData);
         }
     }
