@@ -5,7 +5,7 @@
     <string name="notifications">התראות שנשלחו</string>
     <string name="notifications_options">אפשרויות התראה</string>
     <string name="battery">סוללה</string>
-    <string name="customui">תגובות מותאמות אישית</string>
+    <string name="customui">התראות מתקדמות</string>
     <string name="others">אחרים</string>
     <string name="other">אחר</string>
     <string name="open">פתיחה</string>
@@ -49,6 +49,7 @@
     <string name="customui_test">ממשק משתמש מותאם אישית</string>
     <string name="standard_test">ממשק משתמש רגיל</string>
     <string name="battery_chart_title">תרשים סוללה</string>
+    <string name="heartrate_chart_title">תרשים דופק</string>
     <string name="watch_info">מידע שעון</string>
     <string name="last_charge">מאז טעינה מלאה</string>
     <string name="last_charge_no_info">ממתין לטעינה מלאה</string>
@@ -304,4 +305,11 @@
     <string name="select">בחירה</string>
     <string name="pref_choose_language">בחירת שפה</string>
     <string name="pref_choose_language_summary">ניתן לשנות את שפת האפליקציה</string>
+    <string name="languages_automatic">זיהוי שפה אוטומטי</string>
+    <string name="pref_notifications_show_large_icon">הצג סמלים גדולים</string>
+    <string name="pref_notifications_show_large_icon_summary">הצג סמלים גדולים ( תמונות אנשי קשר) בהודעות</string>
+    <string name="pref_notifications_enable_images">הצג תמונות</string>
+    <string name="pref_notifications_enable_images_summary">הצג תמונות בהודעות</string>
+    <string name="pref_battery_chart">תרשים סוללה</string>
+    <string name="pref_battery_chart_summary">הצג את תרשים הסוללה במסך הראשי</string>
 </resources>
