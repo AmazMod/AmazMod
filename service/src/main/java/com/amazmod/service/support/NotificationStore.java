@@ -97,8 +97,16 @@ public class NotificationStore {
     }
 
     public static void setNotificationCount(Context context, int count) {
-        //Stores notificationCount in JSON Object
+        // Stores notificationCount in JSON Object
         String data = Settings.System.getString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA);
+
+        // Default value
+        if (data == null) {
+            Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, "{\"notifications\":\"" + count+"\"}");
+            return;
+        }
+
+        // Populate
         try {
             JSONObject json_data = new JSONObject(data);
             json_data.put("notifications", count);
