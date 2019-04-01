@@ -593,7 +593,7 @@ public class MainService extends Service implements Transporter.DataListener {
         Cursor cur = null;
         String heartrates = "";
         try {
-            cur = getContentResolver().query(Uri.parse("content://com.huami.watch.health.heartdata"), null, null, null, "utc_time DESC");
+            cur = getContentResolver().query(Uri.parse("content://com.huami.watch.health.heartdata"), null, null, null, "utc_time ASC");
             // Use the cursor to step through the returned records
             while (cur.moveToNext()) {
                 // Get the field values
