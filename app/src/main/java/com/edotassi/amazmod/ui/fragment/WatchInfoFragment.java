@@ -252,13 +252,13 @@ public class WatchInfoFragment extends Card implements Updater {
             // Split string to data
             String[] parts = lastHeartRates.split(",");
             // Assemble data
-            if(parts.length>3) {
+            if(parts.length>=2) {
                 List<BarEntry> entries = new ArrayList<>();
                 for (int i = 0; i < parts.length - 1; i = i + 2) {
-                    // time, heart-rate
+                    // code for: time, heart-rate
                     // entries.add(new BarEntry(Integer.parseInt(parts[i]), Integer.parseInt(parts[i+1])));
-                    // 1+, heart-rate
-                    entries.add(new BarEntry(i, Integer.parseInt(parts[i + 1])));
+                    // code for: i, heart-rate
+                    entries.add(new BarEntry(i, Integer.parseInt(parts[i+1])));
                 }
 
                 BarDataSet set = new BarDataSet(entries, getResources().getString(R.string.heartrate_chart_title));
@@ -269,6 +269,7 @@ public class WatchInfoFragment extends Card implements Updater {
                 heartrateChart.setDescription(description);
 
                 heartrateChart.getXAxis().setDrawLabels(false);
+                heartrateChart.getAxisRight().setDrawLabels(false);
                 /*
                 XAxis xAxis = heartrateChart.getXAxis();
                 xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
