@@ -49,6 +49,7 @@
     <string name="customui_test">Aangepaste UI</string>
     <string name="standard_test">Standaard UI</string>
     <string name="battery_chart_title">Batterij grafiek</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informatie van horloge</string>
     <string name="last_charge">Sinds volledig opladen</string>
     <string name="last_charge_no_info">Wachten op volledige lading</string>
@@ -304,4 +305,11 @@
     <string name="select">Select</string>
     <string name="pref_choose_language">Choose language</string>
     <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="languages_automatic">Autodetect Language</string>
+    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
+    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
+    <string name="pref_notifications_enable_images">Show Images</string>
+    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
+    <string name="pref_battery_chart">Battery Chart</string>
+    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
 </resources>

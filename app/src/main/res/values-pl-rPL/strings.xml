@@ -49,6 +49,7 @@
     <string name="customui_test">Niestandardowy Interfejs</string>
     <string name="standard_test">Standardowy Interfejs</string>
     <string name="battery_chart_title">Wykres Baterii</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informacje o zegarku</string>
     <string name="last_charge">Od ostatniego ładowania</string>
     <string name="last_charge_no_info">Czekaj na pełne ładowanie</string>
@@ -304,4 +305,11 @@
     <string name="select">Wybierz</string>
     <string name="pref_choose_language">Wybierz język</string>
     <string name="pref_choose_language_summary">Możesz zmienić język aplikacji</string>
+    <string name="languages_automatic">Autodetect Language</string>
+    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
+    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
+    <string name="pref_notifications_enable_images">Show Images</string>
+    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
+    <string name="pref_battery_chart">Battery Chart</string>
+    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
 </resources>
