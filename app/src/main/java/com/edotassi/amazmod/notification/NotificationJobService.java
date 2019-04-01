@@ -1,7 +1,6 @@
 package com.edotassi.amazmod.notification;
 
 import android.app.job.JobParameters;
-import android.app.job.JobScheduler;
 import android.app.job.JobService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -452,11 +451,11 @@ public class NotificationJobService extends JobService {
 
     public static void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
 
-        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_LARGE_ICON, Constants.PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT)) {
+        if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_LARGE_ICON, Constants.PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT)) {
             extractLargeIcon(bundle, notificationData);
         }
 
-        if (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_IMAGES, Constants.PREF_NOTIFICATIONS_IMAGES_DEFAULT)) {
+        if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_IMAGES, Constants.PREF_NOTIFICATIONS_IMAGES_DEFAULT)) {
             extractPicture(bundle, notificationData);
         }
     }
