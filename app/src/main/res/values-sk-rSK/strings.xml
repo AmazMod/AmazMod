@@ -114,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Nastavenie dĺžky trvania obrazovky pre vlastné odpovede</string>
     <string name="pref_disable_notifications_when_dnd">Vypnúť, keď je zapnutý režim Nerušiť</string>
     <string name="pref_disable_notifications_when_dnd_summary">Upozornenia sa neodošlú do hodiniek, keď je detekovaný režim Nerušiť</string>
-    <string name="pref_disable_remove_notifications">Zakázať odstrániť oznámenia</string>
+    <string name="pref_disable_remove_notifications">Keep notifications</string>
     <string name="pref_disable_remove_notifications_summary">Neodstraňovať oznámenia z hodiniek, keď sa odstráni z telefónu</string>
     <string name="pref_enable_voice_apps">Povoliť oznámenia hlasového hovora</string>
     <string name="pref_enable_voice_apps_summary">Hlasové hovory Messengera odošle oznámenia do hodiniek</string>
