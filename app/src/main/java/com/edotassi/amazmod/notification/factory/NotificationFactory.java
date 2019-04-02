@@ -11,7 +11,8 @@ import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.support.Logger;
+
+import org.tinylog.Logger;
 
 import java.text.DateFormat;
 
@@ -99,7 +100,7 @@ public class NotificationFactory {
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            Logger.get(NotificationFactory.class).e(e, "Failed to get bipmap from %s", notificationPackage);
+            Logger.error("Failed to get bipmap from " + notificationPackage);
         }
 
         notificationData.setId(statusBarNotification.getId());

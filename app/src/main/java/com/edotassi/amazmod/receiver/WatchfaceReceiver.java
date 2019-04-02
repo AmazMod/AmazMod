@@ -22,7 +22,6 @@ import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -56,8 +55,6 @@ import amazmod.com.transport.data.WatchfaceData;
 import static java.lang.System.currentTimeMillis;
 
 public class WatchfaceReceiver extends BroadcastReceiver {
-
-    private Logger log = Logger.get(WatchfaceReceiver.class);
 
     private static String default_calendar_days;
     private static boolean refresh;

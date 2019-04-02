@@ -13,7 +13,8 @@ import android.widget.RadioGroup;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.fragment.language.LanguageInfo;
 import com.edotassi.amazmod.util.LocaleUtils;
-import com.orhanobut.logger.Logger;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,7 +69,7 @@ public class ChooseLanguageActivity extends BaseAppCompatActivity {
         }
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             String tag = (String) radioGroup.getChildAt(checkedId).getTag();
-            Logger.e(tag);
+            Logger.debug("Selected: " + tag);
             LocaleUtils.setLocale(this, tag);
         });
     }

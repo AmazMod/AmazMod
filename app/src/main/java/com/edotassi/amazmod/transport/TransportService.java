@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
@@ -31,7 +30,6 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.notification.PersistentNotification;
-import com.edotassi.amazmod.support.Logger;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -42,12 +40,12 @@ import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
 
 import org.greenrobot.eventbus.EventBus;
+import org.tinylog.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -61,7 +59,6 @@ import static android.service.notification.NotificationListenerService.requestRe
 
 public class TransportService extends Service implements Transporter.DataListener {
 
-    private Logger logger = Logger.get(TransportService.class);
     private Transporter transporter;
     private PersistentNotification persistentNotification;
     public static String model;
@@ -93,7 +90,7 @@ public class TransportService extends Service implements Transporter.DataListene
     public void onCreate() {
         super.onCreate();
 
-        this.logger.d("TransportService onCreate");
+        Logger.debug("TransportService onCreate");
 
 
         //Make sure services are running and persistent
@@ -107,9 +104,9 @@ public class TransportService extends Service implements Transporter.DataListene
         transporter.addDataListener(this);
 
         if (transporter.isTransportServiceConnected()) {
-            this.logger.i("TransportService onCreate already connected");
+            Logger.info("TransportService onCreate already connected");
         } else {
-            this.logger.w("TransportService onCreate not connected, connecting...");
+            Logger.warn("TransportService onCreate not connected, connecting...");
             transporter.connectTransportService();
             AmazModApplication.setWatchConnected(false);
         }
@@ -119,7 +116,7 @@ public class TransportService extends Service implements Transporter.DataListene
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        this.logger.d("TransportService onStartCommand");
+        Logger.debug("TransportService onStartCommand");
 
         startPersistentNotification();
 
@@ -132,7 +129,7 @@ public class TransportService extends Service implements Transporter.DataListene
         EventBus.getDefault().unregister(transportListener);
         transporter.removeDataListener(this);
         transporter.disconnectTransportService();
-        this.logger.d("TransportService onDestroy");
+        Logger.debug("TransportService onDestroy");
         super.onDestroy();
     }
 
@@ -147,7 +144,7 @@ public class TransportService extends Service implements Transporter.DataListene
         String action = transportDataItem.getAction();
         Object event = dataToClass(transportDataItem);
 
-        this.logger.d("TransportService action: " + action);
+        Logger.debug("TransportService action: " + action);
 
         if (action != null) {
             TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
@@ -235,7 +232,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
                 persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
             }
-            this.logger.w("TransportService send Transport Service Not Connected");
+            Logger.warn("TransportService send Transport Service Not Connected");
             return;
         }
 
@@ -244,11 +241,11 @@ public class TransportService extends Service implements Transporter.DataListene
             transportable.toDataBundle(dataBundle);
         }
 
-        this.logger.d("TransportService send1: " + action);
+        Logger.debug("TransportService send1: " + action);
         transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
-                TransportService.this.logger.i("Send result: " + dataTransportResult.toString());
+                Logger.info("Send result: " + dataTransportResult.toString());
 
                 switch (dataTransportResult.getResultCode()) {
                     case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
@@ -276,7 +273,7 @@ public class TransportService extends Service implements Transporter.DataListene
                             EventBus.getDefault().removeAllStickyEvents();
                             EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
                             persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
-                            TransportService.this.logger.d("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected());
+                            Logger.debug("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected());
                         }
                         break;
                     }
@@ -288,7 +285,7 @@ public class TransportService extends Service implements Transporter.DataListene
     private Object dataToClass(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
 
-        this.logger.d("TransportService action: " + action);
+        Logger.debug("TransportService action: " + action);
 
         Class messageClass = messages.get(action);
 
@@ -300,11 +297,11 @@ public class TransportService extends Service implements Transporter.DataListene
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
                 Object event = eventContructor.newInstance(transportDataItem.getData());
 
-                this.logger.d("Transport onDataReceived: " + event.toString());
+                Logger.debug("Transport onDataReceived: " + event.toString());
 
                 return event;
             } catch (NoSuchMethodException e) {
-                this.logger.d("Transport event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
+                Logger.debug("Transport event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
                 e.printStackTrace();
                 return null;
             } catch (IllegalAccessException e) {

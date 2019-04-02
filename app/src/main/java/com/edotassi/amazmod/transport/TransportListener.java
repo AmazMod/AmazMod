@@ -10,20 +10,18 @@ import com.edotassi.amazmod.event.NotificationReply;
 import com.edotassi.amazmod.event.SilenceApplication;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
-import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import amazmod.com.transport.data.SilenceApplicationData;
 
 public class TransportListener {
 
     private Context context;
-
-    private Logger log = Logger.get(TransportService.class);
 
     TransportListener(Context context) {
         this.context = context;
@@ -32,14 +30,14 @@ public class TransportListener {
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void replyToNotification(NotificationReply notificationReply) {
         ReplyToNotificationLocal replyToNotificationLocal = new ReplyToNotificationLocal(notificationReply.getNotificationReplyData());
-        this.log.d("TransportService replyToNotification: " + notificationReply.toString());
+        Logger.debug("TransportService replyToNotification: " + notificationReply.toString());
         EventBus.getDefault().post(replyToNotificationLocal);
     }
 
     @Subscribe(threadMode = ThreadMode.POSTING)
     public void silenceApplication(SilenceApplication silenceApplication) {
         SilenceApplicationData data = silenceApplication.getSilenceApplicationData();
-        this.log.d("TransportService silenceApplication: " + data.getPackageName() + " / Minutes: " + data.getMinutes());
+        Logger.debug("TransportService silenceApplication: " + data.getPackageName() + " / Minutes: " + data.getMinutes());
         SilenceApplicationHelper.silenceAppFromNotification(data.getPackageName(),Integer.valueOf(data.getMinutes()));
     }
 
