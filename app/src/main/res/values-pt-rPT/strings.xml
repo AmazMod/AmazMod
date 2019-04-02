@@ -114,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Deferir duração das respostas costumizadas no ecrã</string>
     <string name="pref_disable_notifications_when_dnd">Desabilitar quando DND está ON</string>
     <string name="pref_disable_notifications_when_dnd_summary">As notificações não serão enviadas para o relógio quando o Dnd for detectado</string>
-    <string name="pref_disable_remove_notifications">Desativar remover notificações</string>
+    <string name="pref_disable_remove_notifications">Keep notifications</string>
     <string name="pref_disable_remove_notifications_summary">Não remova notificação do relógio quando ele é removido do telefone</string>
     <string name="pref_enable_voice_apps">Habilitar notificações de chamadas de voz</string>
     <string name="pref_enable_voice_apps_summary">Chamadas de voz do mensager irão enviar notificações para o relógio</string>
