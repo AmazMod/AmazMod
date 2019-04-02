@@ -114,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Imposta la durata di visualizzazione della schermata delle risposte personalizzate</string>
     <string name="pref_disable_notifications_when_dnd">Disattiva quando il DND è attivo</string>
     <string name="pref_disable_notifications_when_dnd_summary">Le notifiche non verranno inviate quando il \"non disturbare\" è attivo</string>
-    <string name="pref_disable_remove_notifications">Disattiva la rimozione delle notifiche</string>
+    <string name="pref_disable_remove_notifications">Keep notifications</string>
     <string name="pref_disable_remove_notifications_summary">Non rimuovere le notifiche dall\'orologio quando vengono rimosse dal telefono</string>
     <string name="pref_enable_voice_apps">Abilita le notifiche alle chiamate vocali</string>
     <string name="pref_enable_voice_apps_summary">Le chiamate vocali di FB Messenger (sperimentale per altre app) invieranno notifiche all\'orologio</string>
