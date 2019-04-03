@@ -49,7 +49,7 @@
     <string name="customui_test">Custom UI</string>
     <string name="standard_test">Standard UI</string>
     <string name="battery_chart_title">Akku-Diagramm</string>
-    <string name="heartrate_chart_title">Herz-Kurve-Diagramm</string>
+    <string name="heartrate_chart_title">Herzfrequenz Diagramm</string>
     <string name="watch_info">Informationen zur Uhr</string>
     <string name="last_charge">Seit letzter vollständiger Aufladung</string>
     <string name="last_charge_no_info">Auf volle Ladung warten</string>
