@@ -305,8 +305,6 @@ public class WatchInfoFragment extends Card implements Updater {
                 heartrateChart.setData(data);
                 heartrateChart.setFitBars(true); // make the x-axis fit exactly all bars
                 heartrateChart.invalidate(); // refresh
-                //TODO: remove after releasing
-                heartrateChart.setVisibility(View.GONE);
             }
         }
     }
