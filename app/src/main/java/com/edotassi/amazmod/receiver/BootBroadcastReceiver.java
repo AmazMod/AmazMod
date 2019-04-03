@@ -5,15 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.transport.TransportService;
+
+import org.tinylog.Logger;
 
 public class BootBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Logger.get(BootBroadcastReceiver.class).d("boot completed");
+        Logger.debug("boot completed");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(new Intent(context, TransportService.class));

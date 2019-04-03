@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -560,6 +561,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
+        // Get watch info
         watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
         //watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
         watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
@@ -574,6 +576,7 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         //watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
 
+        // Get brightness
         int b = 0;
         int bm = Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
         try {
@@ -586,6 +589,28 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
 
+        // Get last heart rates
+        Cursor cur = null;
+        String heartrates = "";
+        try {
+            cur = getContentResolver().query(Uri.parse("content://com.huami.watch.health.heartdata"), null, null, null, "utc_time ASC");
+            // Use the cursor to step through the returned records
+            while (cur.moveToNext()) {
+                // Get the field values
+                // example: utc_time=1528485660, time_zone=0, heart_rate=96
+                long utc_time = cur.getLong(0);
+                //int time_zone = cur.getInt(1);
+                int heart_rate = cur.getInt(2);
+
+                heartrates += utc_time+","+heart_rate+",";
+            }
+            cur.close();
+        } catch (SecurityException e) {
+            //Getting data error
+        }
+        watchStatusData.setLastHeartRates(heartrates);
+
+        // Send the transmit
         Log.d(Constants.TAG, "MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }

@@ -143,7 +143,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         notificationData.setHideButtons(false);
 
         try {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_round);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_foreground);
             Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -205,8 +205,8 @@ public class AboutActivity extends BaseAppCompatActivity {
         bundle.putParcelable(NotificationCompat.EXTRA_LARGE_ICON, pic);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "")
-                .setSmallIcon(R.drawable.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .addExtras(bundle)
                 .addAction(android.R.drawable.ic_delete, "DISMISS", dismissIntent)
@@ -223,7 +223,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         List<Reply> repliesList = loadReplies();
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
-                .setContentIcon(R.drawable.ic_launcher_round)
+                .setContentIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntentAvailableOffline(true)
                 .addAction(action2)
                 .setBackground(pic);

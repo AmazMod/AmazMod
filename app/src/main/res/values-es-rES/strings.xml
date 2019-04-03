@@ -49,6 +49,7 @@
     <string name="customui_test">UI personalizada</string>
     <string name="standard_test">UI estándar</string>
     <string name="battery_chart_title">Gráfica de batería</string>
+    <string name="heartrate_chart_title">Gráfica de frecuencia cardíaca</string>
     <string name="watch_info">Información del reloj</string>
     <string name="last_charge">Desde la última carga</string>
     <string name="last_charge_no_info">Esperando a carga completa</string>
@@ -113,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Establece la duración de la pantalla de las respuestas personalizadas</string>
     <string name="pref_disable_notifications_when_dnd">Deshabilitar en modo no molestar</string>
     <string name="pref_disable_notifications_when_dnd_summary">No se enviarán notificaciones al reloj cuando esté activado el modo no molestar</string>
-    <string name="pref_disable_remove_notifications">Deshabilitar borrar notificaciones</string>
+    <string name="pref_disable_remove_notifications">Mantener las notificaciones</string>
     <string name="pref_disable_remove_notifications_summary">No borrar notificaciones en el reloj al hacerlo en el teléfono</string>
     <string name="pref_enable_voice_apps">Habilitar notificaciones de llamadas de voz</string>
     <string name="pref_enable_voice_apps_summary">Las llamadas de voz de FB Messenger enviarán notificaciones al reloj</string>
@@ -305,4 +306,11 @@
     <string name="select">Seleccionar</string>
     <string name="pref_choose_language">Elegir idioma</string>
     <string name="pref_choose_language_summary">Puedes cambiar el idioma de la aplicación</string>
+    <string name="languages_automatic">Autodetectar idioma</string>
+    <string name="pref_notifications_show_large_icon">Mostrar iconos grandes</string>
+    <string name="pref_notifications_show_large_icon_summary">Mostrar iconos grandes (generalmente la imagen de contacto) en las notificaciones</string>
+    <string name="pref_notifications_enable_images">Mostrar imágenes</string>
+    <string name="pref_notifications_enable_images_summary">Mostrar imágenes de notificación</string>
+    <string name="pref_battery_chart">Gráfica de batería</string>
+    <string name="pref_battery_chart_summary">Mostrar la Gráfica de Batería en la pantalla principal de AmazMod</string>
 </resources>

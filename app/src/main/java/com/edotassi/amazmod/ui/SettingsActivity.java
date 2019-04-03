@@ -30,7 +30,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
     private static final String STATE_CURRENT_LOCALE_LANGUAGE = "STATE_CURRENT_LOCALE_LANGUAGE";
 
-    private boolean disableBatteryChartOnCreate;
+    private boolean batteryChartOnCreate;
     private boolean enablePersistentNotificationOnCreate;
     private String batteryChartDaysOnCreate;
     private String currentLocaleLanguage;
@@ -53,14 +53,13 @@ public class SettingsActivity extends BaseAppCompatActivity {
             System.out.println(Constants.TAG + " SettingsActivity onCreate NullPointerException: " + exception.toString());
         }
 
-        this.disableBatteryChartOnCreate = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
-                Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
-
-        this.enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
-                Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
+        this.batteryChartOnCreate = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
 
         this.batteryChartDaysOnCreate = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
+
+        this.enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
+                Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MyPreferenceFragment())
@@ -107,12 +106,11 @@ public class SettingsActivity extends BaseAppCompatActivity {
     public void onDestroy() {
 
         //Update battery chart properties on preference change
-        final boolean disableBatteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_DISABLE_BATTERY_CHART,
-                Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+        final boolean batteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
         final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
 
-        if ((disableBatteryChartOnDestroy != this.disableBatteryChartOnCreate)
+        if ((batteryChartOnDestroy != this.batteryChartOnCreate)
                 || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             finish();
@@ -154,8 +152,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY);
         final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
-        final boolean notificationDeleteButton = Prefs.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON,
-                Constants.PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON);
+        //TODO: notifications button preference was removed. Exchange it for another setting
+        final boolean notificationDeleteButton = true;
 
 
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,

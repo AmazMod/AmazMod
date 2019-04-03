@@ -49,6 +49,7 @@
     <string name="customui_test">Vlastní UI</string>
     <string name="standard_test">Standardní UI</string>
     <string name="battery_chart_title">Graf baterie</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informace hodinek</string>
     <string name="last_charge">Od plného nabití</string>
     <string name="last_charge_no_info">Čekání na data</string>
@@ -113,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Nastavte dobu trvání obrazovky vlastních odpovědí</string>
     <string name="pref_disable_notifications_when_dnd">Zakázat pokud je DND zapnuté</string>
     <string name="pref_disable_notifications_when_dnd_summary">Oznámení nebudou posílána, pokud je zjištěna možnost \"Nerušit\"</string>
-    <string name="pref_disable_remove_notifications">Zakázat odebrání oznámení</string>
+    <string name="pref_disable_remove_notifications">Keep notifications</string>
     <string name="pref_disable_remove_notifications_summary">Neodstraňuje oznámení z hodinek, když je odstraněno z telefonu</string>
     <string name="pref_enable_voice_apps">Povolit oznámení o hlasovém volání</string>
     <string name="pref_enable_voice_apps_summary">Hlasové hovory služby Messenger budou posílat oznámení do hodinek</string>
@@ -304,6 +305,13 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_use_notification_scheduler_summary">Když budou hodinky od telefonu odpojeny, uloží přijatá oznámení a odešle je do hodinek při obnovení spojení</string>
     <string name="language">Jazyk</string>
     <string name="select">Vybrat</string>
-    <string name="pref_choose_language">Zvolte jazyk</string>
-    <string name="pref_choose_language_summary">Můžete změnit jazyk aplikace</string>
+    <string name="pref_choose_language">Změna jazyka aplikace</string>
+    <string name="pref_choose_language_summary">Zde můžete změnit jazyk aplikace</string>
+    <string name="languages_automatic">Autodetect Language</string>
+    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
+    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
+    <string name="pref_notifications_enable_images">Show Images</string>
+    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
+    <string name="pref_battery_chart">Battery Chart</string>
+    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
 </resources>

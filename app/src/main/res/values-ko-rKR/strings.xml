@@ -49,6 +49,7 @@
     <string name="customui_test">커스텀 UI</string>
     <string name="standard_test">순정 UI</string>
     <string name="battery_chart_title">배터리 차트</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">시계 정보</string>
     <string name="last_charge">완충 이후</string>
     <string name="last_charge_no_info">완충을 기다리는 중</string>
@@ -113,7 +114,7 @@
     <string name="pref_screen_timeout_summary">커스텀 답장 화면 시간 설정</string>
     <string name="pref_disable_notifications_when_dnd">방해금지가 켜져있을때 비활성화</string>
     <string name="pref_disable_notifications_when_dnd_summary">방해금지가 켜져있을 경우 알림을 전송하지 않습니다.</string>
-    <string name="pref_disable_remove_notifications">알림제거 동기화 해제</string>
+    <string name="pref_disable_remove_notifications">Keep notifications</string>
     <string name="pref_disable_remove_notifications_summary">전화에서 알림이 제거되어도 시계의 알림을 제거하지 않고 유지합니다.</string>
     <string name="pref_enable_voice_apps">음성 전화 알림 활성화</string>
     <string name="pref_enable_voice_apps_summary">메신저 음성 전화(보이스톡) 알림이 시계로 전송됩니다.</string>
@@ -304,4 +305,11 @@
     <string name="select">Select</string>
     <string name="pref_choose_language">Choose language</string>
     <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="languages_automatic">Autodetect Language</string>
+    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
+    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
+    <string name="pref_notifications_enable_images">Show Images</string>
+    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
+    <string name="pref_battery_chart">Battery Chart</string>
+    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
 </resources>

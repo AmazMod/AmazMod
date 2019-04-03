@@ -14,7 +14,6 @@ import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
-import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -22,11 +21,11 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.tinylog.Logger;
+
 import amazmod.com.transport.data.BatteryData;
 
 public class BatteryStatusReceiver extends BroadcastReceiver {
-
-    private Logger log = Logger.get(BatteryStatusReceiver.class);
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -42,7 +41,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
                         BatteryStatus batteryStatus = task.getResult();
                         updateBattery(batteryStatus);
                     } else {
-                        BatteryStatusReceiver.this.log.e(task.getException(), "failed reading battery status");
+                        Logger.error(task.getException(), "failed reading battery status");
                     }
                     return null;
                 }
@@ -69,7 +68,8 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmBatteryIntent, 0);
 
         try {
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
+            if (alarmManager != null)
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
                     (long) syncInterval * 60000L, pendingIntent);
         } catch (NullPointerException e) {
             Log.e(Constants.TAG, "BatteryStatusReceiver setRepeating exception: " + e.toString());
@@ -78,11 +78,11 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
     private void updateBattery(BatteryStatus batteryStatus) {
         BatteryData batteryData = batteryStatus.getBatteryData();
-        BatteryStatusReceiver.this.log.d("batteryStatus: " + batteryData.getLevel());
-        BatteryStatusReceiver.this.log.d("charging: " + batteryData.isCharging());
-        BatteryStatusReceiver.this.log.d("usb: " + batteryData.isUsbCharge());
-        BatteryStatusReceiver.this.log.d("ac: " + batteryData.isAcCharge());
-        BatteryStatusReceiver.this.log.d("dateLastCharge: " + batteryData.getDateLastCharge());
+        Logger.debug("batteryStatus: " + batteryData.getLevel());
+        Logger.debug("charging: " + batteryData.isCharging());
+        Logger.debug("usb: " + batteryData.isUsbCharge());
+        Logger.debug("ac: " + batteryData.isAcCharge());
+        Logger.debug("dateLastCharge: " + batteryData.getDateLastCharge());
 
         long date = System.currentTimeMillis();
 
@@ -107,7 +107,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             }
         } catch (Exception ex) {
             //TODO add crashlitics
-            BatteryStatusReceiver.this.log.e(ex, "TransportService batteryStatus exception: " + ex.toString());
+            Logger.error(ex, "TransportService batteryStatus exception: " + ex.toString());
         }
         //Save time of last sync
         Prefs.putLong(Constants.PREF_TIME_LAST_SYNC, SystemClock.elapsedRealtime());

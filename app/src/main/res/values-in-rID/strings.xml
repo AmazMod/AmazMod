@@ -49,6 +49,7 @@
     <string name="customui_test">Kostum UI</string>
     <string name="standard_test">Standar UI</string>
     <string name="battery_chart_title">Bagan Baterai</string>
+    <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Informasi Jam</string>
     <string name="last_charge">Sejak muatan penuh</string>
     <string name="last_charge_no_info">Menunggu muatan penuh</string>
@@ -113,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Mengatur durasi layar kustom Balasan</string>
     <string name="pref_disable_notifications_when_dnd">Menonaktifkan ketika DND sedang ON</string>
     <string name="pref_disable_notifications_when_dnd_summary">Pemberitahuan tidak akan dikirim pada Jam ketika Jangan Diganggu terdeteksi</string>
-    <string name="pref_disable_remove_notifications">Menonaktifkan Hapus pemberitahuan</string>
+    <string name="pref_disable_remove_notifications">Keep notifications</string>
     <string name="pref_disable_remove_notifications_summary">Jangan hapus pemberitahuan dari Jam ketika dihapus dari ponsel</string>
     <string name="pref_enable_voice_apps">Mengaktifkan pemberitahuan panggilan suara</string>
     <string name="pref_enable_voice_apps_summary">Panggilan suara Messenger akan mengirim pemberitahuan pada Jam</string>
@@ -296,12 +297,19 @@
     <string name="error">Kesalahan</string>
     <string name="invalid_url">URL iCal tidak valid!</string>
     <string name="file_or_connection_error">Kesalahan file atau sambungan, file tidak dapat dibuka!</string>
-    <string name="update_process_warning">WARNING: the update process can take up to 15 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">PERINGATAN: proses pembaharuan dapat mengambil waktu 15 menit dan antarmuka jam akan direstart satu kali atau lebih. Jangan gunakan jam saat proses karena dapat menyebabkan kerusakan. Mulailah pembaharuan hanya jika Anda dapat menunggu prosesnya sampai selesai.</string>
     <string name="search_title">Pencarian</string>
-    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app</string>
+    <string name="pref_use_notification_scheduler">Menyimpan notifikasi saat koneksi terputus</string>
+    <string name="pref_use_notification_scheduler_summary">Menyimpan notifikasi yg diterima ketika jam dan telepon tidak terkoneksi dan mengirimnya saat koneksi tersambung kembali</string>
+    <string name="language">Bahasa</string>
+    <string name="select">Pilih</string>
+    <string name="pref_choose_language">Pilih bahasa</string>
+    <string name="pref_choose_language_summary">Anda dapat mengubah bahasa dari aplikasi</string>
+    <string name="languages_automatic">Autodetect Language</string>
+    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
+    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
+    <string name="pref_notifications_enable_images">Show Images</string>
+    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
+    <string name="pref_battery_chart">Battery Chart</string>
+    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
 </resources>

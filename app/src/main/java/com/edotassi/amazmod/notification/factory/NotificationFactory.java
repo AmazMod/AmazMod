@@ -5,17 +5,16 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.support.Logger;
+
+import org.tinylog.Logger;
 
 import java.text.DateFormat;
-import java.util.Calendar;
 
 import amazmod.com.transport.data.NotificationData;
 
@@ -66,13 +65,13 @@ public class NotificationFactory {
             }
         }
 
-        String notificationPackgae = statusBarNotification.getPackageName();
+        String notificationPackage = statusBarNotification.getPackageName();
         try {
             int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
             PackageManager manager = context.getPackageManager();
-            Resources resources = manager.getResourcesForApplication(notificationPackgae);
+            Resources resources = manager.getResourcesForApplication(notificationPackage);
 
-            Drawable drawable = resources.getDrawable(iconId);
+            Drawable drawable = resources.getDrawable(notification.icon);
             Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -101,7 +100,7 @@ public class NotificationFactory {
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            Logger.get(NotificationFactory.class).e(e, "Failed to get bipmap from %s", notificationPackgae);
+            Logger.error("Failed to get bipmap from " + notificationPackage);
         }
 
         notificationData.setId(statusBarNotification.getId());

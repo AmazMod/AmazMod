@@ -3,20 +3,18 @@ package com.edotassi.amazmod;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.util.Log;
 
 import com.edotassi.amazmod.setup.Setup;
-import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.util.LocaleUtils;
 import com.edotassi.amazmod.watch.Watch;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
+import org.tinylog.Logger;
+
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Locale;
-
-import amazmod.com.transport.Constants;
 
 public class AmazModApplication extends Application {
 
@@ -35,7 +33,6 @@ public class AmazModApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Logger.init();
         FlowManager.init(this);
 
         Watch.init(getApplicationContext());
@@ -67,7 +64,7 @@ public class AmazModApplication extends Application {
         if (connected){
             timeLastSeen = new Timestamp(System.currentTimeMillis());
         }
-        Log.d(Constants.TAG,"AmazModApplication setWatchConnected - connected: " + connected + " | last seen: " + getTimeLastSeen());
+        Logger.debug("AmazModApplication setWatchConnected - connected: " + connected + " | last seen: " + getTimeLastSeen());
     }
 
     public static boolean isWatchConnected(){

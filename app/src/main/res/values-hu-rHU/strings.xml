@@ -49,6 +49,7 @@
     <string name="customui_test">Egyéni UI</string>
     <string name="standard_test">Normál UI</string>
     <string name="battery_chart_title">Akku diagram</string>
+    <string name="heartrate_chart_title">Pulzusszám diagram</string>
     <string name="watch_info">Óra információ</string>
     <string name="last_charge">az utolsó töltés óta</string>
     <string name="last_charge_no_info">Várakozás teljes feltöltésre</string>
@@ -113,7 +114,7 @@
     <string name="pref_screen_timeout_summary">A válasz képernyő megjelenés időtartama</string>
     <string name="pref_disable_notifications_when_dnd">Kikapcsol, ha aktív a DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Nem küld értesítést az órára, ha a Ne zavarj mód (DND) aktív</string>
-    <string name="pref_disable_remove_notifications">Értesítés eltávolítás letiltása</string>
+    <string name="pref_disable_remove_notifications">Értesítések megőrzése</string>
     <string name="pref_disable_remove_notifications_summary">Nem távolítja el az értesítéseket az óráról, ha a telefonon törlésre kerülnek</string>
     <string name="pref_enable_voice_apps">Hívásinformáció értesítések eng.</string>
     <string name="pref_enable_voice_apps_summary">A Messenger hanghívási értesítéseket küld</string>
@@ -306,4 +307,11 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="select">Kiválaszt</string>
     <string name="pref_choose_language">Válassz nyelvet</string>
     <string name="pref_choose_language_summary">Itt tudod módosítani az app nyelvét</string>
+    <string name="languages_automatic">Nyelv automatikus felismerése</string>
+    <string name="pref_notifications_show_large_icon">Nagy ikonok megjelenítése</string>
+    <string name="pref_notifications_show_large_icon_summary">Értesítésekben nagy ikonokat mutasson (általában névjegykép)</string>
+    <string name="pref_notifications_enable_images">Képek megjelenítése</string>
+    <string name="pref_notifications_enable_images_summary">Értesítési képek megjelenítése</string>
+    <string name="pref_battery_chart">Akku diagram</string>
+    <string name="pref_battery_chart_summary">Akku diagram megjelenítése az AmazMod fő képernyőjén</string>
 </resources>
