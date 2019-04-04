@@ -60,30 +60,30 @@ For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/m
 <table>
 	<tr>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_1.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_1.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_2.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_2.png"/>		
 		</td>
 				<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_3.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_3.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_4.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_4.png"/>		
 		</td>
 	</tr>
 	<tr>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_5.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_5.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_6.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_6.png"/>		
 		</td>
 				<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_7.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_7.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_8.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_8.png"/>		
 		</td>
 	</tr>
 </table>
