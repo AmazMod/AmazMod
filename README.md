@@ -83,7 +83,7 @@ For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/m
 			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_7.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_8.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_8.jpg"/>		
 		</td>
 	</tr>
 </table>
