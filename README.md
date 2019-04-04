@@ -39,6 +39,9 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 
 *PS: You may or may not disable Amazfit access to notifications, as long as it doesn't push notifications to watch. If you keep the access, then you can still use your watch to control music and most notifications dismissed on watch will also be removed from phone.*
 
+### Translations
+If you want to help by translating the app in your language, take a look at our crowdin page [here](https://crowdin.com/project/amazmod), it is very easy. If your language is not included, open an issue requesting to add the language to crowdin so you can work on that.
+
 
 ### Troubleshooting
 
@@ -68,8 +71,19 @@ For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/m
 		<td>
 			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_4.png"/>		
 		</td>
+	</tr>
+	<tr>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_5.png"/>		
+		</td>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_6.png"/>		
+		</td>
 				<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_5.jpg"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_7.png"/>		
+		</td>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_8.png"/>		
 		</td>
 	</tr>
 </table>
