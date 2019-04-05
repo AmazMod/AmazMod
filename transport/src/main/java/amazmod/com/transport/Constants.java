@@ -26,7 +26,7 @@ public class Constants {
     public static final String SHELL_COMMAND_COMPRESS = "busybox tar cvzf \"%s\" -C \"%s\" \"%s\"";
     public static final String SHELL_COMMAND_EXTRACT = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
-    public static final String SHELL_COMMAND_SCREENSHOT = "screencap";
+    public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
