@@ -32,6 +32,7 @@ import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +85,7 @@ public class MainActivity extends BaseAppCompatActivity
 
         EventBus.getDefault().register(this);
 
-        Log.d(Constants.TAG, "MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected());
+        Logger.debug("MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected());
 
         showChangelog(true);
 
@@ -97,7 +98,7 @@ public class MainActivity extends BaseAppCompatActivity
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            Log.d(Constants.TAG, "MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+            Logger.debug("MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
             conf.locale = AmazModApplication.defaultLocale;
@@ -155,7 +156,7 @@ public class MainActivity extends BaseAppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, "MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
+        Logger.debug("MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
     }
 
     @Override
@@ -266,7 +267,7 @@ public class MainActivity extends BaseAppCompatActivity
         } else {
             AmazModApplication.setWatchConnected(false);
         }
-        Log.d(Constants.TAG, "MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected());
+        Logger.debug("MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected());
     }
 
     private void showChangelog(boolean managedShowOnStart) {

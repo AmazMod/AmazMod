@@ -1,7 +1,7 @@
 <changelog>
     <release
-        date="2019-03-24"
-        versionCode="204"
+        date="2019-04-01"
+        versionCode="210"
         versionName="v1.1.5">
         <new>Notifications control adjustments:
             1. Store and deploy on watch re-connection

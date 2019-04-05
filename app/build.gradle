@@ -7,7 +7,7 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 204
+        versionCode 210
         versionName "1.1.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -61,7 +61,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/SpringboardPluginLib.jar')
-    implementation 'com.orhanobut:logger:2.2.0'
+    //implementation 'com.orhanobut:logger:2.2.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
@@ -90,6 +90,8 @@ dependencies {
     implementation 'com.mindorks.android:prdownloader:0.4.0'
     implementation 'org.mnode.ical4j:ical4j:2.2.3'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'org.tinylog:tinylog-api:2.0.0-M4.2'
+    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -49,7 +49,7 @@
     <string name="customui_test">Custom UI</string>
     <string name="standard_test">Standard UI</string>
     <string name="battery_chart_title">Akku-Diagramm</string>
-    <string name="heartrate_chart_title">Heart-rate chart</string>
+    <string name="heartrate_chart_title">Herzfrequenz Diagramm</string>
     <string name="watch_info">Informationen zur Uhr</string>
     <string name="last_charge">Seit letzter vollständiger Aufladung</string>
     <string name="last_charge_no_info">Auf volle Ladung warten</string>
@@ -114,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Dauer des benutzerdefinierten Antworten Bildschirms festlegen</string>
     <string name="pref_disable_notifications_when_dnd">Deaktivieren, wenn DND AN ist</string>
     <string name="pref_disable_notifications_when_dnd_summary">Benachrichtigungen werden nicht gesendet, wenn Bitte nicht stören erkannt wird</string>
-    <string name="pref_disable_remove_notifications">Deaktivieren der Benachrichtigungen.</string>
+    <string name="pref_disable_remove_notifications">Behalte Benachrichtigungen</string>
     <string name="pref_disable_remove_notifications_summary">Benachrichtigung/en nicht von der Uhr entfernen, wenn sie vom Telefon entfernt wurde</string>
     <string name="pref_enable_voice_apps">Sprachanruf - Benachrichtigungen aktivieren.</string>
     <string name="pref_enable_voice_apps_summary">Messenger Anruf sendet Benachrichtigung zur Smartwatch</string>
@@ -305,11 +305,11 @@
     <string name="select">Auswählen</string>
     <string name="pref_choose_language">Sprache wählen</string>
     <string name="pref_choose_language_summary">Sie können die Sprache der App ändern</string>
-    <string name="languages_automatic">Autodetect Language</string>
-    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
-    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
-    <string name="pref_notifications_enable_images">Show Images</string>
-    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
-    <string name="pref_battery_chart">Battery Chart</string>
-    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
+    <string name="languages_automatic">Automatische Sprachwahl</string>
+    <string name="pref_notifications_show_large_icon">Zeige grosse Icons</string>
+    <string name="pref_notifications_show_large_icon_summary">Zeige grosse Icons (normale Kontakt Bilder) in Benachrichtigungen</string>
+    <string name="pref_notifications_enable_images">Zeige Bilder</string>
+    <string name="pref_notifications_enable_images_summary">Zeige Benachrichtigungsbilder</string>
+    <string name="pref_battery_chart">Akkutabelle</string>
+    <string name="pref_battery_chart_summary">Zeige Akkutabelle auf Hauptseite von AmazMod</string>
 </resources>

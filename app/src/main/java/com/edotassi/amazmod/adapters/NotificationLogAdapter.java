@@ -65,7 +65,7 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
             causesTranslationsMap.put(stringKey, context.getString(stringKey).toUpperCase());
         }
 
-        fallbackAppIcon = context.getDrawable(R.drawable.ic_launcher_round);
+        fallbackAppIcon = context.getDrawable(R.drawable.ic_launcher_foreground);
     }
 
     @NonNull

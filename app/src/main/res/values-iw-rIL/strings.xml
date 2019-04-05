@@ -114,7 +114,7 @@
     <string name="pref_screen_timeout_summary">קביעת משך הזמן בו מסך ההתראות המותאם יואר ויוצג</string>
     <string name="pref_disable_notifications_when_dnd">השבת כאשר DND פועל</string>
     <string name="pref_disable_notifications_when_dnd_summary">ההתראות לא יישלחו לשעון כאשר DND פועל</string>
-    <string name="pref_disable_remove_notifications">בטל הסרת התראות</string>
+    <string name="pref_disable_remove_notifications">שמירת הודעות</string>
     <string name="pref_disable_remove_notifications_summary">אל תסיר התראות מהשעון כאשר הן מוסרות מהטלפון</string>
     <string name="pref_enable_voice_apps">אפשר התראות של שיחות קוליות</string>
     <string name="pref_enable_voice_apps_summary">התראות שיחות קוליות ישלחו לשעון</string>

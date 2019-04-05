@@ -49,7 +49,7 @@
     <string name="customui_test">Vlastné UI</string>
     <string name="standard_test">Štandardné UI</string>
     <string name="battery_chart_title">Graf batérie</string>
-    <string name="heartrate_chart_title">Heart-rate chart</string>
+    <string name="heartrate_chart_title">Graf tepu</string>
     <string name="watch_info">Informácie hodiniek</string>
     <string name="last_charge">Od úplného nabitia</string>
     <string name="last_charge_no_info">Čakanie na plné nabitie</string>
@@ -114,7 +114,7 @@
     <string name="pref_screen_timeout_summary">Nastavenie dĺžky trvania obrazovky pre vlastné odpovede</string>
     <string name="pref_disable_notifications_when_dnd">Vypnúť, keď je zapnutý režim Nerušiť</string>
     <string name="pref_disable_notifications_when_dnd_summary">Upozornenia sa neodošlú do hodiniek, keď je detekovaný režim Nerušiť</string>
-    <string name="pref_disable_remove_notifications">Zakázať odstrániť oznámenia</string>
+    <string name="pref_disable_remove_notifications">Ponechá oznámenia</string>
     <string name="pref_disable_remove_notifications_summary">Neodstraňovať oznámenia z hodiniek, keď sa odstráni z telefónu</string>
     <string name="pref_enable_voice_apps">Povoliť oznámenia hlasového hovora</string>
     <string name="pref_enable_voice_apps_summary">Hlasové hovory Messengera odošle oznámenia do hodiniek</string>
@@ -306,11 +306,11 @@ Urobte príkaz shell \"</string>
     <string name="select">Vybrať</string>
     <string name="pref_choose_language">Vybrať jazyk</string>
     <string name="pref_choose_language_summary">Zvoľte jazyk aplikácie</string>
-    <string name="languages_automatic">Autodetect Language</string>
-    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
-    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications</string>
-    <string name="pref_notifications_enable_images">Show Images</string>
-    <string name="pref_notifications_enable_images_summary">Show Notification Images</string>
-    <string name="pref_battery_chart">Battery Chart</string>
-    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen</string>
+    <string name="languages_automatic">Automatické zistenie jazyka</string>
+    <string name="pref_notifications_show_large_icon">Zobraziť veľké ikony</string>
+    <string name="pref_notifications_show_large_icon_summary">Zobraziť veľké ikony (zvyčajne obrázok kontaktu) v oznámení</string>
+    <string name="pref_notifications_enable_images">Zobraziť obrázky</string>
+    <string name="pref_notifications_enable_images_summary">Zobraziť obrázky upozornenia</string>
+    <string name="pref_battery_chart">Graf batérie</string>
+    <string name="pref_battery_chart_summary">Zobraziť graf batérie v AmazMod hlavnej obrazovke</string>
 </resources>
