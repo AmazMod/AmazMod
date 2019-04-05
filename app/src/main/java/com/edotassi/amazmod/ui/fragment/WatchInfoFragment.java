@@ -37,14 +37,6 @@ import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
 import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.watch.Watch;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -60,11 +52,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import amazmod.com.transport.data.ResultShellCommandData;
@@ -104,8 +91,6 @@ public class WatchInfoFragment extends Card implements Updater {
     //TextView huamiNumber;
     //@BindView(R.id.card_build_fingerprint)
     //TextView fingerprint;
-    @BindView(R.id.heartrate_chart)
-    BarChart heartrateChart;
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
@@ -244,68 +229,15 @@ public class WatchInfoFragment extends Card implements Updater {
         Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
         Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
 
-        // todo Move it on an other fragment
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
         // Heart Rate Bar Chart
+        Log.d(Constants.TAG, "WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
         String lastHeartRates = watchStatusData.getLastHeartRates();
-        if (lastHeartRates.contains(",")) {
-            // Split string to data
-            String[] parts = lastHeartRates.split(",");
-            // Assemble data
-            if(parts.length>=2) {
-                List<BarEntry> entries = new ArrayList<>();
-                for (int i = 0; i < parts.length - 1; i = i + 2) {
-                    // code for: time, heart-rate
-                    // entries.add(new BarEntry(Integer.parseInt(parts[i]), Integer.parseInt(parts[i+1])));
-                    // code for: i, heart-rate
-                    entries.add(new BarEntry(i, Integer.parseInt(parts[i+1])));
-                }
-
-                BarDataSet set = new BarDataSet(entries, getResources().getString(R.string.heartrate_chart_title));
-                set.setColor(Color.RED);
-
-                Description description = new Description();
-                description.setText("");
-                heartrateChart.setDescription(description);
-
-                heartrateChart.getXAxis().setDrawLabels(false);
-                heartrateChart.getAxisRight().setDrawLabels(false);
-                /*
-                XAxis xAxis = heartrateChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                xAxis.setDrawGridLines(false);
-                xAxis.setLabelRotationAngle(-45);
-                xAxis.setTextSize(8);
-
-                final Calendar now = Calendar.getInstance();
-                final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH");
-                final SimpleDateFormat simpleDateFormatHoursMinutes = new SimpleDateFormat("HH:mm");
-                final SimpleDateFormat simpleDateFormatDateMonth = new SimpleDateFormat("dd/MM");
-
-                xAxis.setValueFormatter(new IAxisValueFormatter() {
-                    @Override
-                    public String getFormattedValue(float value, AxisBase axis) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis((long) value);
-
-                        Date date = calendar.getTime();
-
-                        int minutes = calendar.get(Calendar.MINUTE);
-                        if (minutes > 30) {
-                            calendar.add(Calendar.HOUR, 1);
-                        }
-
-                        return simpleDateFormatHours.format(date) + "\n" + simpleDateFormatDateMonth.format(date);
-                    }
-                });
-                */
-
-                BarData data = new BarData(set);
-                data.setBarWidth(0.9f); // set custom bar width
-                heartrateChart.setData(data);
-                heartrateChart.setFitBars(true); // make the x-axis fit exactly all bars
-                heartrateChart.invalidate(); // refresh
-            }
+        try {
+            HeartRateChartFragment f = (HeartRateChartFragment) getActivity().getSupportFragmentManager().findFragmentByTag("heart-rate-chart");
+            f.updateChart(lastHeartRates);
+        }catch(NullPointerException e) {
+            // HeartRate fragment card not found!
+            e.printStackTrace();
         }
     }
 

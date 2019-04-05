@@ -24,6 +24,7 @@ import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
+import com.edotassi.amazmod.ui.fragment.HeartRateChartFragment;
 import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
@@ -47,12 +48,14 @@ public class MainActivity extends BaseAppCompatActivity
 
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
+    private HeartRateChartFragment heartRateChartFragment = new HeartRateChartFragment();
     private SilencedApplicationsFragment silencedApplicationsFragment = new SilencedApplicationsFragment();
 
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
         add(silencedApplicationsFragment);
+        add(heartRateChartFragment);
         add(watchInfoFragment);
     }};
 
