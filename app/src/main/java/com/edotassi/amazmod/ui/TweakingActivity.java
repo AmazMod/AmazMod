@@ -2,14 +2,20 @@ package com.edotassi.amazmod.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,7 +23,6 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -36,6 +41,7 @@ import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
@@ -47,6 +53,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.concurrent.CancellationException;
 
@@ -58,6 +66,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.mateware.snacky.Snacky;
+
+import static android.graphics.Bitmap.CompressFormat.PNG;
 
 public class TweakingActivity extends BaseAppCompatActivity {
 
@@ -546,11 +556,27 @@ public class TweakingActivity extends BaseAppCompatActivity {
 
                             final File screenshot = new File(DownloadHelper.getDownloadDir(Constants.MODE_SCREENSHOT) + "/" + fileUploadData.getName());
 
-                            System.out.println("AmazMod TweakingActivity requestFileUpload screenshot: " + screenshot.getAbsolutePath());
-
                             if (screenshot.exists()) {
                                 Drawable drawable = Drawable.createFromPath(screenshot.getAbsolutePath());
                                 if (drawable != null) {
+
+                                    // Rotate and re-save image on Verge
+                                    if(Prefs.getString(Constants.PREF_WATCH_MODEL, "-").equals("Amazfit Verge")){
+                                        // Rotate
+                                        drawable = getRotateDrawable(drawable,180f);
+                                        // Re-Save (reopen because drawable is bad quality)
+                                        DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
+                                        BitmapFactory.Options options=new BitmapFactory.Options();
+                                        options.inDensity=dm.densityDpi;
+                                        options.inScreenDensity=dm.densityDpi;
+                                        options.inTargetDensity=dm.densityDpi;
+                                        Bitmap bmp = BitmapFactory.decodeFile(screenshot.getAbsolutePath(),options);
+                                        Matrix matrix = new Matrix();
+                                        matrix.postRotate(180);
+                                        Bitmap rotatedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+                                        saveBitmapToFile(screenshot,rotatedBitmap, PNG, 100);
+                                    }
+
                                     new MaterialDialog.Builder(mContext)
                                             .canceledOnTouchOutside(false)
                                             .icon(drawable)
@@ -607,4 +633,43 @@ public class TweakingActivity extends BaseAppCompatActivity {
 
     }
 
+    private Drawable getRotateDrawable(final Drawable d, final float angle) {
+        final Drawable[] arD = { d };
+        return new LayerDrawable(arD) {
+            @Override
+            public void draw(final Canvas canvas) {
+                canvas.save();
+                canvas.rotate(angle, (float) d.getBounds().width() / 2, (float) d.getBounds().height() / 2);
+                super.draw(canvas);
+                canvas.restore();
+            }
+        };
+    }
+
+    /**
+     * @param imageFile The file.
+     * @param bm The Bitmap you want to save.
+     * @param format Bitmap.CompressFormat can be PNG,JPEG or WEBP.
+     * @param quality quality goes from 1 to 100. (Percentage).
+     * @return true if the Bitmap was saved successfully, false otherwise.
+     */
+    boolean saveBitmapToFile(File imageFile, Bitmap bm, Bitmap.CompressFormat format, int quality) {
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(imageFile);
+            bm.compress(format,quality,fos);
+            fos.close();
+            return true;
+        }catch (IOException e) {
+            Log.e("app",e.getMessage());
+            if (fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
 }
