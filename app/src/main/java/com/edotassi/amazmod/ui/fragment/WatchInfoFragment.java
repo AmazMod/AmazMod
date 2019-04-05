@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,6 +92,9 @@ public class WatchInfoFragment extends Card implements Updater {
     //TextView huamiNumber;
     //@BindView(R.id.card_build_fingerprint)
     //TextView fingerprint;
+    @BindView(R.id.card_watch)
+    CardView card;
+
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
