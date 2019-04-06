@@ -32,6 +32,7 @@ import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.springboard.LauncherWearGridActivity;
 import com.amazmod.service.springboard.WidgetSettings;
+import com.amazmod.service.ui.BatteryGraphActivity;
 import com.amazmod.service.ui.ScreenSettingsActivity;
 import com.amazmod.service.springboard.WidgetsReorderActivity;
 import com.amazmod.service.ui.InputMethodActivity;
@@ -75,7 +76,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "Away Alert (iOS)",
                                 "Notifications ScreenOn",
                                 "Change Input Method",
-                                "Device Info"};
+                                "Device Info",
+                                "Battery Graph"};
 
     private int[] mImagesOn = { R.drawable.ic_action_select_all,
                                 R.drawable.outline_folder_white_24,
@@ -99,7 +101,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 R.drawable.ic_alarm_light_white_24dp,
                                 R.drawable.outline_flash_on_white_24,
                                 R.drawable.outline_keyboard_white_24,
-                                R.drawable.baseline_info_white_24};
+                                R.drawable.baseline_info_white_24,
+                                R.drawable.battery_unknown_white_24dp};
 
     private int[] mImagesOff = {    R.drawable.ic_action_select_all,
                                     R.drawable.outline_folder_white_24,
@@ -123,7 +126,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.ic_alarm_light_off_white_24dp,
                                     R.drawable.outline_flash_off_white_24,
                                     R.drawable.outline_keyboard_white_24,
-                                    R.drawable.baseline_info_white_24};
+                                    R.drawable.baseline_info_white_24,
+                                    R.drawable.battery_unknown_white_24dp};
 
     private String[] toggle = { "",
                                 "",
@@ -145,6 +149,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "measurement",
                                 "huami.watch.localonly.ble_lost_anti_lost",
                                 "huami.watch.localonly.ble_lost_far_away",
+                                "",
                                 "",
                                 "",
                                 ""};
@@ -334,6 +339,14 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 
             case MENU_START + 14:
                 startWearGridActivity(LauncherWearGridActivity.INFO);
+                break;
+
+            case MENU_START + 15:
+                // Battery graph
+                Intent batteryGrapshIntent = new Intent(mContext, BatteryGraphActivity.class);
+                batteryGrapshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(batteryGrapshIntent);
                 break;
 
             default:
