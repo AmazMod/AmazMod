@@ -225,6 +225,7 @@ public class NotificationService {
 
 
         /*
+        // Keyguard does not work correctly, use "DeviceUtil.isDeviceLocked(context)"
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         if(km.isKeyguardLocked()) {
             PowerManager pm = (PowerManager) context.ge tSystemService(Context.POWER_SERVICE);

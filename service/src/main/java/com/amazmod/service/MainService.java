@@ -19,7 +19,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -178,17 +177,16 @@ public class MainService extends Service implements Transporter.DataListener {
         batteryData = new BatteryData();
         watchStatusData = new WatchStatusData();
 
-        //Initialize widgetSettings
+        // Initialize widgetSettings
         settings = new WidgetSettings(Constants.TAG, context);
         settings.reload();
-
 
         Log.d(Constants.TAG, "MainService onCreate HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-        //Register power disconnect receiver
+        // Register power disconnect receiver
         final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
         powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         context.registerReceiver(new BroadcastReceiver() {
@@ -206,7 +204,7 @@ public class MainService extends Service implements Transporter.DataListener {
             }
         }, powerDisconnectedFilter);
 
-        //When starting amazmod, defines notification counter as ZERO
+        // When starting Amazmod, defines notification counter as ZERO
         NotificationStore.setNotificationCount(context, 0);
 
         notificationsReceiver = new NotificationsReceiver();
@@ -257,14 +255,14 @@ public class MainService extends Service implements Transporter.DataListener {
 
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
 
-        //Register phone connect/disconnect monitor
+        // Register phone connect/disconnect monitor
         isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, false);
         isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
         if (isPhoneConnectionAlertEnabled) {
             registerConnectionMonitor(true);
         }
 
-        //Register springboard observer if AmazMod as First Widget is enabled in Preferences
+        // Register springboard observer if AmazMod as First Widget is enabled in Preferences
         isSpringboardObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
         wasSpringboardSaved = false;
         if (isSpringboardObserverEnabled) {
@@ -274,7 +272,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.d(Constants.TAG, "MainService isSpringboardObserverEnabled: false");
         }
 
-        //Set battery db record JobService if watch never synced with phone
+        // Set battery db record JobService if watch never synced with phone
         String defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
         long timeSinceLastBatterySync = System.currentTimeMillis() - settings.get(Constants.PREF_DATE_LAST_BATTERY_SYNC, 0);
         Log.d(Constants.TAG, "MainService onCreate defaultLocale: " + defaultLocale);
@@ -380,6 +378,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    // Watchface/Calendar data (phone battery/alarm)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void watchface(Watchface watchface) {
         WatchfaceData watchfaceData = WatchfaceData.fromDataBundle(watchface.getDataBundle());
@@ -541,12 +540,13 @@ public class MainService extends Service implements Transporter.DataListener {
         send(Transport.SILENCE, dataBundle);
     }
 
+    // Incoming Notification
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void incomingNotification(IncomingNotificationEvent incomingNotificationEvent) {
         //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
         NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
 
-        //Changed for RC1
+        // Changed for RC1
         if (notificationData.getVibration() > 0) {
             Log.d(Constants.TAG, "MainService incomingNotification vibration: " + notificationData.getVibration());
         } else notificationData.setVibration(0);
@@ -559,6 +559,7 @@ public class MainService extends Service implements Transporter.DataListener {
         notificationManager.post(notificationData);
     }
 
+    // Watch Info/Status request
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWatchStatus(RequestWatchStatus requestWatchStatus) {
         // Get watch info
@@ -615,6 +616,7 @@ public class MainService extends Service implements Transporter.DataListener {
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
 
+    // Battery request
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
 
@@ -657,6 +659,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Log.e(Constants.TAG, "MainService requestBatteryStatus: register receiver error!");
     }
 
+    // Set brightness
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
@@ -671,6 +674,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    // Hardware button event
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void hardwareButton(HardwareButtonEvent hardwareButtonEvent) {
         if (hardwareButtonEvent.getCode() == MusicControlInputListener.KEY_DOWN) {
@@ -682,6 +686,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    // Directory request
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestDirectory(RequestDirectory requestDirectory) {
         try {
@@ -700,6 +705,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     }
 
+    // Delete file
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestDeleteFile(RequestDeleteFile requestDeleteFile) {
         ResultDeleteFileData resultDeleteFileData = new ResultDeleteFileData();
@@ -719,6 +725,7 @@ public class MainService extends Service implements Transporter.DataListener {
         send(Transport.RESULT_DELETE_FILE, resultDeleteFileData.toDataBundle());
     }
 
+    // Upload file chunk
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestUploadFileChunk(RequestUploadFileChunk requestUploadFileChunk) {
         try {
@@ -735,6 +742,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    // Download file chunk
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestDownloadFileChunk(RequestDownloadFileChunk requestDownloadFileChunk) {
         try {
@@ -763,6 +771,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    // New Shell Command to execute
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void executeShellCommand(final RequestShellCommand requestShellCommand) {
         new Thread(new Runnable() {
@@ -827,6 +836,7 @@ public class MainService extends Service implements Transporter.DataListener {
                     } else {
                         String filename = null;
                         if (command.contains("screencap")) {
+                            Log.d(Constants.TAG, "Screenshot: creating file");
                             File file = new File("/sdcard/Pictures/Screenshots");
                             boolean saveDirExists = false;
                             saveDirExists = file.exists() || file.mkdir();
@@ -835,6 +845,21 @@ public class MainService extends Service implements Transporter.DataListener {
                                 String dateStamp = sdf.format(new Date());
                                 filename = "/sdcard/Pictures/Screenshots/ss_" + dateStamp + ".png";
                                 command = command + " " + filename;
+
+                                // Check is screen is locked
+                                if(DeviceUtil.isDeviceLocked(context)) {
+                                    Log.d(Constants.TAG, "Screenshot: trying to wake screen...");
+                                    PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                                    try {
+                                        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                                                | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                                                | PowerManager.ON_AFTER_RELEASE, "ScreenshotWakeLock:");
+                                        wakeLock.acquire();
+                                        wakeLock.release();
+                                    } catch (NullPointerException e) {
+                                        Log.e(Constants.TAG, "Could not wake screen up for a screenshot: " + e);
+                                    }
+                                }
                             }
                         }
 
@@ -891,6 +916,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }).start();
     }
 
+    // Get battery %
     private void getBatteryPct(Intent batteryStatus) {
         int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
@@ -898,8 +924,8 @@ public class MainService extends Service implements Transporter.DataListener {
         batteryPct = level / (float) scale;
     }
 
+    // Save battery to database
     public static boolean saveBatteryDb(float batteryPct, boolean updateSettings) {
-
         settings.reload();
         long date = System.currentTimeMillis();
         boolean result = false;
@@ -932,7 +958,6 @@ public class MainService extends Service implements Transporter.DataListener {
             settings.set(Constants.PREF_BATT_LEVEL, Integer.toString(Math.round(batteryPct * 100f)) + "%");
 
         return result;
-
     }
 
     private void cancelPendingJobs(int id) {
