@@ -12,6 +12,7 @@
         <info>Updated translations</info>
         <bugfix>Screenshot color fix</bugfix>
         <bugfix>Translation option selection fix</bugfix>
+        <bugfix>Notifications system app filter fix</bugfix>
         <bugfix>Small bug fixes</bugfix>
     </release>
     <release
