@@ -96,8 +96,8 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
         if (id == R.id.action_activity_notification_packages_selector_show_system) {
             boolean checked = item.isChecked();
             item.setChecked(!checked);
-            loadApps(checked, null);
-            showSystemApps = checked;
+            loadApps(!checked, null);
+            showSystemApps = !checked;
             return true;
         }
 
