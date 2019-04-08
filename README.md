@@ -57,19 +57,25 @@ For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/m
 <table>
 	<tr>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_1.png"/>		
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Stratos.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_2.png"/>		
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Verge.png"/>		
 		</td>
 				<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_3.png"/>		
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Screenshot_1.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_4.png"/>		
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Screenshot_2.png"/>		
 		</td>
-				<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_5.jpg"/>		
+			<td>
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Screenshot_3.png"/>		
+		</td>
+			<td>
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Screenshot_4.png"/>		
+		</td>
+			<td>
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Screenshot_5.png"/>		
 		</td>
 	</tr>
 </table>
