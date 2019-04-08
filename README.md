@@ -22,7 +22,7 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 * Latest service-release.apk (for watch), with optional installer for Windows: https://github.com/edotassi/AmazMod/releases/latest
 
 ###### Installation steps to use all features
-1. Download and install latest AmazMod from Play Store on phone;
+1. Download and install latest AmazMod from [Play Store](https://play.google.com/store/apps/details?id=com.edotassi.amazmod) on phone;
 2. Download and install latest service-release.apk on watch, or use the provided installer for Windows;
 3. Restart both phone *and* watch;
 4. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
@@ -30,6 +30,9 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 6. Open AmazMod app on phone and configure it to your needs.
 7. For better power managment, in the tweaking section on the phone client with the latest version - run:
    `adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver`
+
+###### Beta Tester
+If you want to become a BETA Tester, you can take part into the beta channel on [Play Store](https://play.google.com/apps/internaltest/4697278970051666108). Beta channel receives more updates first, however, the stability of the each beta version is not guaranted.
 
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;
