@@ -74,6 +74,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         ButterKnife.bind(this);
 
         version.setText(BuildConfig.VERSION_NAME);
+        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             version.append(" - dev");
         }
@@ -323,6 +324,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
         Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
         version.setText(BuildConfig.VERSION_NAME);
+        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             version.append(" - dev");
         }
