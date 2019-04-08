@@ -62,6 +62,15 @@ For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/m
 		<td>
 			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Verge.png"/>		
 		</td>
+		<td>
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/screen_8.jpg"/>		
+		</td>
+		<td>
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/screen_4.png"/>		
+		</td>
+		<td>
+			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/screen_2.png"/>		
+		</td>
 				<td>
 			<img src="https://github.com/AmazMod/AmazMod/blob/master/images/Screenshot_1.png"/>		
 		</td>
