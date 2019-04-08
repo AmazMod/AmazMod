@@ -31,9 +31,6 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 7. For better power managment, in the tweaking section on the phone client with the latest version - run:
    `adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver`
 
-###### Beta Tester
-If you want to become a BETA Tester, you can take part into the beta channel on [Play Store](https://play.google.com/apps/internaltest/4697278970051666108). Beta channel receives more updates first, however, the stability of the each beta version is not guaranted.
-
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;
 2. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
@@ -41,6 +38,9 @@ If you want to become a BETA Tester, you can take part into the beta channel on 
 4. Configure the other options to your needs (in this case, ignore the "Connecting" message shown in AmazMod). 
 
 *PS: You may or may not disable Amazfit access to notifications, as long as it doesn't push notifications to watch. If you keep the access, then you can still use your watch to control music and most notifications dismissed on watch will also be removed from phone.*
+
+### Beta Tester
+If you want to become a BETA Tester, you can take part into the beta channel on [Play Store](https://play.google.com/apps/internaltest/4697278970051666108). Beta channel receives more updates first, however, the stability of the each beta version is not guaranted.
 
 ### Translations
 If you want to help by translating the app in your language, take a look at our crowdin page [here](https://crowdin.com/project/amazmod), it is very easy. If your language is not included, open an issue requesting to add the language to crowdin so you can work on that.
