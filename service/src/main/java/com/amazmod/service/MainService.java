@@ -25,7 +25,6 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.amazmod.service.db.model.BatteryDbEntity;
@@ -74,6 +73,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tinylog.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -181,7 +181,7 @@ public class MainService extends Service implements Transporter.DataListener {
         settings = new WidgetSettings(Constants.TAG, context);
         settings.reload();
 
-        Log.d(Constants.TAG, "MainService onCreate HermesEventBus connect");
+        Logger.debug("MainService onCreate HermesEventBus connect");
         HermesEventBus.getDefault().register(this);
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -199,7 +199,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 if (batteryPct > 0.98) {
                     dateLastCharge = currentTimeMillis();
                     settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
-                    Log.d(Constants.TAG, "MainService onCreate dateLastCharge saved: " + dateLastCharge);
+                    Logger.debug("MainService onCreate dateLastCharge saved: " + dateLastCharge);
                 }
             }
         }, powerDisconnectedFilter);
@@ -216,30 +216,30 @@ public class MainService extends Service implements Transporter.DataListener {
         transporterGeneral.addDataListener(this);
 
         if (!transporterGeneral.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService onCreate transporterGeneral not connected, connecting...");
+            Logger.debug("MainService onCreate transporterGeneral not connected, connecting...");
             transporterGeneral.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService onCreate transporterGeneral already connected");
+            Logger.debug("MainService onCreate transporterGeneral already connected");
         }
 
         transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
         transporterNotifications.addDataListener(this);
 
         if (!transporterNotifications.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService onCreate transporterNotifications not connected, connecting...");
+            Logger.debug("MainService onCreate transporterNotifications not connected, connecting...");
             transporterNotifications.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService onCreate transporterNotifications already connected");
+            Logger.debug("MainService onCreate transporterNotifications already connected");
         }
 
         // Catch huami's notifications
         transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
         transporterHuami.addDataListener(this);
         if (!transporterHuami.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService onCreate transporterHuami not connected, connecting...");
+            Logger.debug("MainService onCreate transporterHuami not connected, connecting...");
             transporterHuami.connectTransportService();
         } else {
-            Log.d(Constants.TAG, "MainService onCreate transportedHuami already connected");
+            Logger.debug("MainService onCreate transportedHuami already connected");
         }
 
         slptClockClient = new SlptClockClient();
@@ -266,21 +266,21 @@ public class MainService extends Service implements Transporter.DataListener {
         isSpringboardObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
         wasSpringboardSaved = false;
         if (isSpringboardObserverEnabled) {
-            Log.d(Constants.TAG, "MainService isSpringboardObserverEnabled: true ");
+            Logger.debug("MainService isSpringboardObserverEnabled: true ");
             registerSpringBoardMonitor(true);
         }else{
-            Log.d(Constants.TAG, "MainService isSpringboardObserverEnabled: false");
+            Logger.debug("MainService isSpringboardObserverEnabled: false");
         }
 
         // Set battery db record JobService if watch never synced with phone
         String defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
         long timeSinceLastBatterySync = System.currentTimeMillis() - settings.get(Constants.PREF_DATE_LAST_BATTERY_SYNC, 0);
-        Log.d(Constants.TAG, "MainService onCreate defaultLocale: " + defaultLocale);
+        Logger.debug("MainService onCreate defaultLocale: " + defaultLocale);
         jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
 
         if ((defaultLocale.isEmpty()) || (timeSinceLastBatterySync > BATTERY_SYNC_INTERVAL)) {
 
-            Log.d(Constants.TAG, "MainService onCreate ***** starting BatteryJobService");
+            Logger.debug("MainService onCreate ***** starting BatteryJobService");
             ComponentName serviceComponent = new ComponentName(getApplicationContext(), BatteryJobService.class);
 
             if (jobScheduler != null) {
@@ -291,7 +291,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 jobScheduler.schedule(builder.build());
 
             } else
-                Log.e(Constants.TAG, "MainService error staring BatteryJobService: null jobScheduler!");
+                Logger.error("MainService error staring BatteryJobService: null jobScheduler!");
         }
 
     }
@@ -311,17 +311,17 @@ public class MainService extends Service implements Transporter.DataListener {
 
         //Disconnect transporters
         if (transporterGeneral.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService onDestroy transporterGeneral disconnecting...");
+            Logger.debug( "MainService onDestroy transporterGeneral disconnecting...");
             transporterGeneral.disconnectTransportService();
         }
 
         if (transporterNotifications.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService onDestroy transporterNotifications disconnecting...");
+            Logger.debug("MainService onDestroy transporterNotifications disconnecting...");
             transporterNotifications.disconnectTransportService();
         }
 
         if (transporterHuami.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService onDestroy transporterHuami disconnecting...");
+            Logger.debug("MainService onDestroy transporterHuami disconnecting...");
             transporterHuami.disconnectTransportService();
         }
 
@@ -349,7 +349,7 @@ public class MainService extends Service implements Transporter.DataListener {
             acquireWakelock();
         }
 
-        Log.d(Constants.TAG, "MainService action: " + action);
+        Logger.debug("MainService action: " + action);
 
         Class messageClass = messages.get(action);
 
@@ -361,10 +361,10 @@ public class MainService extends Service implements Transporter.DataListener {
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
                 Object event = eventContructor.newInstance(transportDataItem.getData());
 
-                Log.d(Constants.TAG, "MainService onDataReceived: " + event.toString());
+                Logger.debug("MainService onDataReceived: " + event.toString());
                 HermesEventBus.getDefault().post(event);
             } catch (NoSuchMethodException e) {
-                Log.d(Constants.TAG, "MainService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
+                Logger.debug("MainService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
@@ -387,7 +387,7 @@ public class MainService extends Service implements Transporter.DataListener {
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
         String calendarEvents = watchfaceData.getCalendarEvents();
-        Log.d(Constants.TAG, "Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm + ", events:" + calendarEvents);
+        Logger.debug("Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm + ", events:" + calendarEvents);
 
         // Update Time
         long updateTime = Calendar.getInstance().getTimeInMillis();
@@ -431,22 +431,22 @@ public class MainService extends Service implements Transporter.DataListener {
     public void enableLowPower(EnableLowPower lp) {
         //SystemProperties.goToSleep(this);
         count++;
-        Log.d(Constants.TAG, "MainService lowPower count: " + count);
+        Logger.debug("MainService lowPower count: " + count);
         if (count < 2) {
             Toast.makeText(context, "lowPower: true", Toast.LENGTH_SHORT).show();
             BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
-            Log.i(Constants.TAG, "MainService lowPower disable BT");
+            Logger.info("MainService lowPower disable BT");
             btmgr.disable();
             try {
                 WifiManager wfmgr = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 if (wfmgr != null) {
                     if (wfmgr.isWifiEnabled()) {
-                        Log.i(Constants.TAG, "MainService lowPower disable WiFi");
+                        Logger.info("MainService lowPower disable WiFi");
                         wfmgr.setWifiEnabled(false);
                     }
                 }
             } catch (NullPointerException e) {
-                Log.e(Constants.TAG, "MainService lowPower exception: " + e.toString());
+                Logger.error("MainService lowPower exception: " + e.toString());
             }
 
             slptClockClient.enableLowBattery();
@@ -482,15 +482,15 @@ public class MainService extends Service implements Transporter.DataListener {
                 mDPM.removeActiveAdmin(componentName);
             }
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "MainService revokeAdminOwner NullPointerException: " + e.toString());
+            Logger.error("MainService revokeAdminOwner NullPointerException: " + e.toString());
         } catch (SecurityException e) {
-            Log.e(Constants.TAG, "MainService revokeAdminOwner SecurityException: " + e.toString());
+            Logger.error("MainService revokeAdminOwner SecurityException: " + e.toString());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void settingsSync(SyncSettings event) {
-        Log.w(Constants.TAG, "MainService SyncSettings ***** event received *****");
+        Logger.warn("MainService SyncSettings ***** event received *****");
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
         settingsManager.sync(settingsData);
 
@@ -512,12 +512,12 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void string(String event) {
-        Log.w(Constants.TAG, "MainService string ***** event received *****");
+        Logger.warn("MainService string ***** event received *****");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reply(ReplyNotificationEvent event) {
-        Log.d(Constants.TAG, "MainService reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
+        Logger.debug("MainService reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
 
         DataBundle dataBundle = new DataBundle();
 
@@ -530,7 +530,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void silence(SilenceApplicationEvent event) {
-        Log.d(Constants.TAG, "MainService silence application, package: " + event.getPackageName() + ", minutes: " + event.getMinutes());
+        Logger.debug("MainService silence application, package: " + event.getPackageName() + ", minutes: " + event.getMinutes());
 
         DataBundle dataBundle = new DataBundle();
 
@@ -548,14 +548,14 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Changed for RC1
         if (notificationData.getVibration() > 0) {
-            Log.d(Constants.TAG, "MainService incomingNotification vibration: " + notificationData.getVibration());
+            Logger.debug("MainService incomingNotification vibration: " + notificationData.getVibration());
         } else notificationData.setVibration(0);
         //notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
         notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
 
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
 
-        Log.d(Constants.TAG, "MainService incomingNotification: " + notificationData.toString());
+        Logger.debug("MainService incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
     }
 
@@ -585,7 +585,7 @@ public class MainService extends Service implements Transporter.DataListener {
             bm = Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS_MODE);
 
         } catch (Settings.SettingNotFoundException e) {
-            Log.e(Constants.TAG, "MainService requestWatchStatus SettingsNotFoundExeception: " + e.toString());
+            Logger.error("MainService requestWatchStatus SettingsNotFoundExeception: " + e.toString());
         }
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
@@ -612,7 +612,7 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData.setLastHeartRates(heartrates);
 
         // Send the transmit
-        Log.d(Constants.TAG, "MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
+        Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
 
@@ -641,10 +641,10 @@ public class MainService extends Service implements Transporter.DataListener {
             //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
             if (dateLastCharge == 0) {
                 dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-                Log.d(Constants.TAG, "MainService dateLastCharge loaded: " + dateLastCharge);
+                Logger.debug("MainService dateLastCharge loaded: " + dateLastCharge);
             }
 
-            Log.d(Constants.TAG, "MainService dateLastCharge: " + dateLastCharge + " | batteryPct: " + Math.round(batteryPct * 100f));
+            Logger.debug("MainService dateLastCharge: " + dateLastCharge + " | batteryPct: " + Math.round(batteryPct * 100f));
             cancelPendingJobs(BATTERY_JOB_ID);
             saveBatteryDb(batteryPct, false);
 
@@ -656,7 +656,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
             send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
         } else
-            Log.e(Constants.TAG, "MainService requestBatteryStatus: register receiver error!");
+            Logger.error("MainService requestBatteryStatus: register receiver error!");
     }
 
     // Set brightness
@@ -664,7 +664,7 @@ public class MainService extends Service implements Transporter.DataListener {
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
         final int brightnessLevel = brightnessData.getLevel();
-        Log.d(Constants.TAG, "MainService setting brightness to " + brightnessLevel);
+        Logger.debug("MainService setting brightness to " + brightnessLevel);
 
         if (brightnessLevel == -1)
             Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
@@ -693,7 +693,7 @@ public class MainService extends Service implements Transporter.DataListener {
             RequestDirectoryData requestDirectoryData = RequestDirectoryData.fromDataBundle(requestDirectory.getDataBundle());
 
             String path = requestDirectoryData.getPath();
-            Log.d(Constants.TAG, "path: " + path);
+            Logger.debug("path: " + path);
             DirectoryData directoryData = getFilesByPath(path);
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         } catch (Exception ex) {
@@ -738,7 +738,7 @@ public class MainService extends Service implements Transporter.DataListener {
             randomAccessFile.write(requestUploadFileChunkData.getBytes());
             randomAccessFile.close();
         } catch (Exception ex) {
-            Log.e(Constants.TAG, ex.getMessage());
+            Logger.error(ex.getMessage());
         }
     }
 
@@ -767,7 +767,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
             send(Transport.RESULT_DOWNLOAD_FILE_CHUNK, resultDownloadFileChunkData.toDataBundle());
         } catch (Exception ex) {
-            Log.e(Constants.TAG, ex.getMessage());
+            Logger.error(ex.getMessage());
         }
     }
 
@@ -783,7 +783,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                     if (!requestShellCommandData.isWaitOutput()) {
 
-                        Log.d(Constants.TAG, "MainService executeShellCommand command: " + command);
+                        Logger.debug("MainService executeShellCommand command: " + command);
                         int code = 0;
                         String errorMsg = "";
 
@@ -817,7 +817,7 @@ public class MainService extends Service implements Transporter.DataListener {
                                 Process process = Runtime.getRuntime().exec("nohup sh /sdcard/amazmod-command.sh &");
 
                                 code = process.waitFor();
-                                Log.d(Constants.TAG, "MainService shell process returned " + code);
+                                Logger.debug("MainService shell process returned " + code);
 
                             } else {
                                 if (command.contains("AmazMod-service-") && command.contains("adb install -r")) {
@@ -836,7 +836,7 @@ public class MainService extends Service implements Transporter.DataListener {
                     } else {
                         String filename = null;
                         if (command.contains("screencap")) {
-                            Log.d(Constants.TAG, "Screenshot: creating file");
+                            Logger.debug("Screenshot: creating file");
                             File file = new File("/sdcard/Pictures/Screenshots");
                             boolean saveDirExists = false;
                             saveDirExists = file.exists() || file.mkdir();
@@ -848,7 +848,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                                 // Check is screen is locked
                                 if(DeviceUtil.isDeviceLocked(context)) {
-                                    Log.d(Constants.TAG, "Screenshot: trying to wake screen...");
+                                    Logger.debug("Screenshot: trying to wake screen...");
                                     PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                                     try {
                                         PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
@@ -857,13 +857,13 @@ public class MainService extends Service implements Transporter.DataListener {
                                         wakeLock.acquire();
                                         wakeLock.release();
                                     } catch (NullPointerException e) {
-                                        Log.e(Constants.TAG, "Could not wake screen up for a screenshot: " + e);
+                                        Logger.error("Could not wake screen up for a screenshot: " + e);
                                     }
                                 }
                             }
                         }
 
-                        Log.d(Constants.TAG, "MainService executeShellCommand process: " + command);
+                        Logger.debug("MainService executeShellCommand process: " + command);
                         long startedAt = System.currentTimeMillis();
 
                         String[] args = CommandLine.translateCommandline(command);
@@ -896,7 +896,7 @@ public class MainService extends Service implements Transporter.DataListener {
                             if (filename != null) {
                                 File file = new File(filename);
                                 if (file.exists()) {
-                                    Log.d(Constants.TAG, "MainService executeShellCommand file.exists: " + file.exists() + " " + file.getName());
+                                    Logger.debug("MainService executeShellCommand file.exists: " + file.exists() + " " + file.getName());
                                     FileUploadData fileUploadData = new FileUploadData(file.getAbsolutePath(), file.getName(), file.length());
                                     send(Transport.FILE_UPLOAD, fileUploadData.toDataBundle());
                                 }
@@ -904,7 +904,7 @@ public class MainService extends Service implements Transporter.DataListener {
                         }
                     }
                 } catch (Exception ex) {
-                    Log.e(Constants.TAG, ex.getMessage(), ex);
+                    Logger.error(ex.getMessage(), ex);
 
                     ResultShellCommandData resultShellCommand = new ResultShellCommandData();
                     resultShellCommand.setResult(-1);
@@ -929,7 +929,7 @@ public class MainService extends Service implements Transporter.DataListener {
         settings.reload();
         long date = System.currentTimeMillis();
         boolean result = false;
-        Log.d(Constants.TAG, "MainService saveBatteryDb date: " + date + " \\ batteryPct: " + batteryPct);
+        Logger.debug("MainService saveBatteryDb date: " + date + " \\ batteryPct: " + batteryPct);
 
         BatteryDbEntity batteryStatusEntity = new BatteryDbEntity();
         batteryStatusEntity.setDate(date);
@@ -950,7 +950,7 @@ public class MainService extends Service implements Transporter.DataListener {
             result = true;
 
         } catch (Exception ex) {
-            Log.e(Constants.TAG, "MainService saveBatteryDb exception: " + ex.toString());
+            Logger.error("MainService saveBatteryDb exception: " + ex.toString());
         }
 
         //Update battery level (used in widget)
@@ -963,10 +963,10 @@ public class MainService extends Service implements Transporter.DataListener {
     private void cancelPendingJobs(int id) {
         List<JobInfo> jobInfoList = jobScheduler.getAllPendingJobs();
         final int pendingJobs = jobInfoList.size();
-        Log.d(Constants.TAG, "MainService cancelPendingJobs pendingJobs: " + pendingJobs);
+        Logger.debug("MainService cancelPendingJobs pendingJobs: " + pendingJobs);
         if (pendingJobs > 0)
             for (JobInfo jobInfo : jobInfoList) {
-                Log.d(Constants.TAG, "MainService cancelPendingJobs jobInfo: " + jobInfo.toString());
+                Logger.debug("MainService cancelPendingJobs jobInfo: " + jobInfo.toString());
                 if (jobInfo.getId() == id)
                     jobScheduler.cancel(id);
             }
@@ -1023,32 +1023,32 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private void send(String action, DataBundle dataBundle) {
         if (!transporterGeneral.isTransportServiceConnected()) {
-            Log.d(Constants.TAG, "MainService Transport Service Not Connected");
+            Logger.debug("MainService Transport Service Not Connected");
             return;
         }
 
         if (dataBundle != null) {
-            Log.d(Constants.TAG, "MainService send1: " + action);
+            Logger.debug("MainService send1: " + action);
             transporterGeneral.send(action, dataBundle, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
-                    Log.d(Constants.TAG, "Send result: " + dataTransportResult.toString());
+                    Logger.debug("Send result: " + dataTransportResult.toString());
                 }
             });
 
         } else {
-            Log.d(Constants.TAG, "MainService send2: " + action);
+            Logger.debug("MainService send2: " + action);
             transporterGeneral.send(action, new Transporter.DataSendResultCallback() {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
-                    Log.d(Constants.TAG, "Send result: " + dataTransportResult.toString());
+                    Logger.debug("Send result: " + dataTransportResult.toString());
                 }
             });
         }
     }
 
     private void registerConnectionMonitor(boolean status) {
-        Log.d(Constants.TAG, "MainService registerConnectionMonitor status: " + status);
+        Logger.debug("MainService registerConnectionMonitor status: " + status);
         if (status) {
             if (phoneConnectionObserver != null)
                 return;
@@ -1059,10 +1059,10 @@ public class MainService extends Service implements Transporter.DataListener {
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
                     if (isPhoneConnectionStandardAlertEnabled) {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor1 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
+                        Logger.debug("MainService registerConnectionMonitor1 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         sendStandardAlert();
                     } else {
-                        Log.d(Constants.TAG, "MainService registerConnectionMonitor2 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
+                        Logger.debug("MainService registerConnectionMonitor2 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
                         Intent intent = new Intent(context, PhoneConnectionActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -1134,7 +1134,7 @@ public class MainService extends Service implements Transporter.DataListener {
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            Log.e(Constants.TAG, "MainService sendStandardAlert exception: " + e.toString());
+            Logger.error("MainService sendStandardAlert exception: " + e.toString());
         }
 
         notificationManager.post(notificationData);
@@ -1174,7 +1174,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Update notifications (but always > -1)
         notifications = (notifications + n > -1) ? notifications + n : 0;
 
-        Log.d(Constants.TAG, "Updating notifications: " + notifications);
+        Logger.debug("Updating notifications: " + notifications);
 
         // Save the data
         try {
@@ -1190,7 +1190,7 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     private void acquireWakelock() {
-        Log.d(Constants.TAG, "MainService acquireWakelock");
+        Logger.debug("MainService acquireWakelock");
         PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
         if (powerManager != null) {
             PowerManager.WakeLock wakeLockScreenOn = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
@@ -1198,15 +1198,15 @@ public class MainService extends Service implements Transporter.DataListener {
             if (!wakeLockScreenOn.isHeld())
                 wakeLockScreenOn.acquire(9*1000L /* 9s */);
         } else
-            Log.e(Constants.TAG, "MainService aquireWakelock null powerManager!");
+            Logger.error("MainService aquireWakelock null powerManager!");
     }
 
     private void registerSpringBoardMonitor(boolean status) {
-        Log.d(Constants.TAG, "MainService registerSpringBoardMonitor status: " + status);
+        Logger.debug("MainService registerSpringBoardMonitor status: " + status);
         if (status) {
             if (springboardObserver != null)
                 return;
-            //if it's enabling observer, sync for a first time
+            // if it's enabling observer, sync for a first time
             if (status)
                 WidgetsUtil.syncWidgets(context);
             ContentResolver contentResolver = getContentResolver();
@@ -1215,7 +1215,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    Log.d(Constants.TAG, "MainService registerSpringBoardMonitor onChange");
+                    Logger.debug("MainService registerSpringBoardMonitor onChange");
                     //Set AmazMod as first Widget
                     if (!wasSpringboardSaved)
                         WidgetsUtil.syncWidgets(context);

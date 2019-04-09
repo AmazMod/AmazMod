@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.SwipeDismissFrameLayout;
-import android.util.Log;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -16,6 +15,8 @@ import com.amazmod.service.adapters.GridViewPagerAdapter;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
 import com.amazmod.service.ui.fragments.WearMenuFragment;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +72,7 @@ public class WearGridActivity extends Activity {
     private void clearBackStack() {
         FragmentManager manager = this.getFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
-            Log.w(Constants.TAG, "WearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
+            Logger.warn("WearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
             while (manager.getBackStackEntryCount() > 0){
                 manager.popBackStackImmediate();
             }
@@ -97,7 +98,7 @@ public class WearGridActivity extends Activity {
     public void finish() {
         super.finish();
 
-        Log.i(Constants.TAG, "WearGridActivity finish");
+        Logger.info("WearGridActivity finish");
     }
 
 }

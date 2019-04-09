@@ -6,7 +6,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,8 @@ import android.view.WindowManager;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.springboard.LauncherWearGridActivity;
+
+import org.tinylog.Logger;
 
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
@@ -33,20 +34,20 @@ public class WearFlashlightFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.d(Constants.TAG,"WearFlashlightFragment onAttach context: " + mContext);
+        Logger.debug("WearFlashlightFragment onAttach context: " + mContext);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Constants.TAG,"WearFlashlightFragment onCreate");
+        Logger.debug("WearFlashlightFragment onCreate");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.d(Constants.TAG,"WearFlashlightFragment onCreateView");
+        Logger.debug("WearFlashlightFragment onCreateView");
 
         return inflater.inflate(R.layout.activity_wear_info, container, false);
     }
@@ -54,7 +55,7 @@ public class WearFlashlightFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d(Constants.TAG,"WearFlashlightFragment onViewCreated");
+        Logger.debug("WearFlashlightFragment onViewCreated");
 
         updateContent();
 
@@ -82,14 +83,14 @@ public class WearFlashlightFragment extends Fragment {
     public void onDestroy() {
         if (screenToggle)
             setMaxBrightness(false);
-        Log.d(Constants.TAG, "WearFlashlightFragment flashlight off");
+        Logger.debug("WearFlashlightFragment flashlight off");
         setWindowFlags(false);
 	    super.onDestroy();
     }
 
 
     private void flashlight() {
-        Log.d(Constants.TAG, "WearFlashlightFragment flashlight on");
+        Logger.debug("WearFlashlightFragment flashlight on");
         mainLayout.setBackgroundColor(getResources().getColor(android.R.color.white));
         setMaxBrightness(true);
         setWindowFlags(true);
@@ -98,14 +99,14 @@ public class WearFlashlightFragment extends Fragment {
     private void setMaxBrightness(boolean mode) {
 
         if (mode) {
-            Log.d(Constants.TAG, "WearFlashlightFragment setScreenModeOff mode true");
+            Logger.debug("WearFlashlightFragment setScreenModeOff mode true");
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
             Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
         } else {
             if (screenBrightness != 999989) {
-                Log.d(Constants.TAG, "WearFlashlightFragment setScreenModeOff mode false \\ screenMode: " + screenMode);
+                Logger.debug("WearFlashlightFragment setScreenModeOff mode false \\ screenMode: " + screenMode);
                 Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
             }
@@ -114,7 +115,7 @@ public class WearFlashlightFragment extends Fragment {
     }
 
     public static WearFlashlightFragment newInstance() {
-        Log.d(Constants.TAG,"WearFlashlightFragment newInstance");
+        Logger.debug("WearFlashlightFragment newInstance");
         return new WearFlashlightFragment();
     }
 

@@ -19,9 +19,10 @@ package com.amazmod.service.util;
 import android.content.Context;
 import android.os.PowerManager;
 import android.os.SystemClock;
-import android.util.Log;
 
 import com.amazmod.service.Constants;
+
+import org.tinylog.Logger;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -155,7 +156,7 @@ public class SystemProperties {
             reader = new BufferedReader(in);
             return reader.readLine();
         } catch (IOException e) {
-            Log.e(Constants.TAG, "SystemProperties setSystemProperty exception: " + e.toString());
+            Logger.error("SystemProperties setSystemProperty exception: " + e.toString());
             return null;
         } finally {
             closeQuietly(in);
@@ -168,12 +169,12 @@ public class SystemProperties {
         try {
             closeable.close();
         } catch (IOException e) {
-            Log.e(Constants.TAG, "SystemProperties closeQuietly exception: " + e.toString());
+            Logger.error("SystemProperties closeQuietly exception: " + e.toString());
         }
     }
 
     public static void goToSleep(Context context){
-        Log.d(Constants.TAG, "SystemProperties goToSleep context: " + context.toString());
+        Logger.debug("SystemProperties goToSleep context: " + context.toString());
         try{
             Class c = Class.forName("android.os.PowerManager");
             PowerManager mPowerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
@@ -189,7 +190,7 @@ public class SystemProperties {
             e.getCause().printStackTrace();
         } catch (Exception e){
             e.printStackTrace();
-            Log.e(Constants.TAG, "SystemProperties goToSleep exception: " + e.toString());
+            Logger.error("SystemProperties goToSleep exception: " + e.toString());
         }
     }
 
@@ -205,7 +206,7 @@ public class SystemProperties {
                 }
             }
         } catch (Exception e){
-            Log.e(Constants.TAG, "SystemProperties switchPowerMode exception: " + e.toString());
+            Logger.error("SystemProperties switchPowerMode exception: " + e.toString());
         }
     }
 

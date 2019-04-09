@@ -1,12 +1,12 @@
 package com.amazmod.service.springboard;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.amazmod.service.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tinylog.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -30,7 +30,7 @@ public class WidgetSettings {
         // Get file info
         this.settings_file_name = tag + ".json";
         this.save_directory = context.getExternalFilesDir(null);
-        Log.d(Constants.TAG, "WidgetSettings: " + context + " \\ " + this.save_directory);
+        Logger.debug("WidgetSettings: " + context + " \\ " + this.save_directory);
 
         // Load settings
         this.load();
@@ -49,12 +49,12 @@ public class WidgetSettings {
                     data.append('\n');
                 }
                 reader.close();
-                Log.d(Constants.TAG, "WidgetSettings load: " + data.toString());
+                Logger.debug("WidgetSettings load: " + data.toString());
                 // Parse to json
                 this.data = new JSONObject(data.toString());
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e(Constants.TAG, "WidgetSettings load exception: " + e.toString());
+                Logger.error("WidgetSettings load exception: " + e.toString());
                 if (this.data == null) {
                     this.data = new JSONObject();
                 }
@@ -70,11 +70,11 @@ public class WidgetSettings {
         try {
             FileWriter writer = new FileWriter(file);
             writer.write(this.data.toString());
-            Log.d(Constants.TAG, "WidgetSettings save: " + this.data.toString());
+            Logger.debug("WidgetSettings save: " + this.data.toString());
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(Constants.TAG, "WidgetSettings save exception: " + e.toString());
+            Logger.error("WidgetSettings save exception: " + e.toString());
         }
     }
 
@@ -117,7 +117,7 @@ public class WidgetSettings {
             value = this.data.getString(key);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d(Constants.TAG, "WidgetSettings getString exception: " + e.toString());
+            Logger.debug("WidgetSettings getString exception: " + e.toString());
         }
         return value;
     }
@@ -129,7 +129,7 @@ public class WidgetSettings {
             //Log.d(Constants.TAG, "WidgetSettings getInt: " + value);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d(Constants.TAG, "WidgetSettings getInt exception: " + e.toString());
+            Logger.debug("WidgetSettings getInt exception: " + e.toString());
         }
         return value;
     }
@@ -140,7 +140,7 @@ public class WidgetSettings {
             value = this.data.getBoolean(key);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d(Constants.TAG, "WidgetSettings getBoolean exception: " + e.toString());
+            Logger.debug("WidgetSettings getBoolean exception: " + e.toString());
         }
         return value;
     }
@@ -152,7 +152,7 @@ public class WidgetSettings {
             //Log.d(Constants.TAG, "WidgetSettings getLong: " + value);
         } catch (JSONException e) {
             value = defvalue;
-            Log.d(Constants.TAG, "WidgetSettings getLong exception: " + e.toString());
+            Logger.debug("WidgetSettings getLong exception: " + e.toString());
         }
         return value;
     }
@@ -189,14 +189,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setString exception: " + e.toString());
+            Logger.debug("WidgetSettings setString exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setString exception: " + e.toString());
+            Logger.debug("WidgetSettings setString exception: " + e.toString());
             return false;
         }
         return true;
@@ -210,14 +210,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setInt exception: " + e.toString());
+            Logger.debug("WidgetSettings setInt exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setInt exception: " + e.toString());
+            Logger.debug("WidgetSettings setInt exception: " + e.toString());
             return false;
         }
         return true;
@@ -231,14 +231,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setBoolean exception: " + e.toString());
+            Logger.debug("WidgetSettings setBoolean exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setBoolean exception: " + e.toString());
+            Logger.debug("WidgetSettings setBoolean exception: " + e.toString());
             return false;
         }
         return true;
@@ -252,14 +252,14 @@ public class WidgetSettings {
                 return true;
             }
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setLong exception: " + e.toString());
+            Logger.debug("WidgetSettings setLong exception: " + e.toString());
         }
 
         try {
             this.data.put(key, value);
             this.save();
         } catch (JSONException e) {
-            Log.d(Constants.TAG, "WidgetSettings setLong exception: " + e.toString());
+            Logger.debug("WidgetSettings setLong exception: " + e.toString());
             return false;
         }
         return true;

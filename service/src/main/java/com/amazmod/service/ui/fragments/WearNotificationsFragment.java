@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.wearable.view.WearableListView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +28,7 @@ import com.amazmod.service.ui.NotificationWearActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,13 +60,13 @@ public class WearNotificationsFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.i(Constants.TAG,"WearNotificationsFragment onAttach context: " + mContext);
+        Logger.info("WearNotificationsFragment onAttach context: " + mContext);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(Constants.TAG,"WearNotificationsFragment onCreate");
+        Logger.info("WearNotificationsFragment onCreate");
 
         instance = this;
 
@@ -75,14 +75,14 @@ public class WearNotificationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.i(Constants.TAG,"WearNotificationsFragment onCreateView");
+        Logger.info("WearNotificationsFragment onCreateView");
         return inflater.inflate(R.layout.activity_wear_notifications, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(Constants.TAG,"WearNotificationsFragment onViewCreated");
+        Logger.info("WearNotificationsFragment onViewCreated");
 
         init();
 
@@ -100,7 +100,7 @@ public class WearNotificationsFragment extends Fragment {
 
     public void onItemClick(int position) {
 
-        Log.i(Constants.TAG,"WearNotificationsFragment onClick position: " + position);
+        Logger.info("WearNotificationsFragment onClick position: " + position);
 
         if (notificationInfoList.get(position).getNotificationTitle().equals(REFRESH)) {
 
@@ -115,7 +115,7 @@ public class WearNotificationsFragment extends Fragment {
 
     public void onItemLongClick(int position) {
 
-        Log.i(Constants.TAG,"WearNotificationsFragment onLongClick position: " + position);
+        Logger.info("WearNotificationsFragment onLongClick position: " + position);
 
         if (!REFRESH.equals(notificationInfoList.get(position).getNotificationTitle()))
             deleteNotification(position);
@@ -135,13 +135,13 @@ public class WearNotificationsFragment extends Fragment {
         listView.addOnItemTouchListener(new RecyclerTouchListener(mContext, listView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Log.d(Constants.TAG, "WearNotificationsFragment addOnItemTouchListener onClick");
+                Logger.debug("WearNotificationsFragment addOnItemTouchListener onClick");
                 onItemClick(position);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                Log.d(Constants.TAG, "WearNotificationsFragment addOnItemTouchListener onLongClick");
+                Logger.debug("WearNotificationsFragment addOnItemTouchListener onLongClick");
                 onItemLongClick(position);
             }
         }));
@@ -170,7 +170,7 @@ public class WearNotificationsFragment extends Fragment {
 
     @SuppressLint("CheckResult")
     public void loadNotifications() {
-        Log.i(Constants.TAG,"WearNotificationsFragment loadNotifications");
+        Logger.info("WearNotificationsFragment loadNotifications");
 
         //Return if there is no activity to avoid crashes
         if (getActivity() == null)
@@ -185,12 +185,12 @@ public class WearNotificationsFragment extends Fragment {
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
             public List<NotificationInfo> call() throws Exception {
-                Log.d(Constants.TAG,"WearAppsFragment loadNotifications call");
+                Logger.debug("WearAppsFragment loadNotifications call");
 
                 List<NotificationInfo> notificationInfoList = new ArrayList<>();
                 if (NotificationStore.getKeySet() != null) {
                     for (String key : NotificationStore.getKeySet()) {
-                        Log.d(Constants.TAG, "WearAppsFragment loadNotifications adding key: " + key);
+                        Logger.debug("WearAppsFragment loadNotifications adding key: " + key);
                         notificationInfoList.add(new NotificationInfo(NotificationStore.getCustomNotification(key), key));
                     }
                 }
@@ -210,7 +210,7 @@ public class WearNotificationsFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.d(Constants.TAG,"WearNotificationsFragment loadNotifications run");
+                                Logger.debug("WearNotificationsFragment loadNotifications run");
                                 mAdapter = new NotificationListAdapter(mContext, notificationInfoList);
                                 if (notificationInfoList.isEmpty())
                                     mHeader.setText(getResources().getString(R.string.empty));
@@ -219,7 +219,7 @@ public class WearNotificationsFragment extends Fragment {
                                 listView.setAdapter(mAdapter);
                                 listView.post(new Runnable() {
                                     public void run() {
-                                        Log.d(Constants.TAG, "WearNotificationsFragment loadNotifications scrollToTop");
+                                        Logger.debug("WearNotificationsFragment loadNotifications scrollToTop");
                                         listView.smoothScrollToPosition(0);
                                     }
                                 });
@@ -236,7 +236,7 @@ public class WearNotificationsFragment extends Fragment {
 
         final String key = notificationInfoList.get(itemChosen).getKey();
 
-        Log.d(Constants.TAG, "WearNotificationsFragment showNotification key: " + key);
+        Logger.debug("WearNotificationsFragment showNotification key: " + key);
 
         Intent intent = new Intent(mContext, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -254,7 +254,7 @@ public class WearNotificationsFragment extends Fragment {
 
         final String key = notificationInfoList.get(itemChosen).getKey();
 
-        Log.d(Constants.TAG, "WearNotificationsFragment deleteNotification key: " + key);
+        Logger.debug("WearNotificationsFragment deleteNotification key: " + key);
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.delete))
@@ -319,12 +319,12 @@ public class WearNotificationsFragment extends Fragment {
             json_data.put("notifications", 0);
             Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", json_data.toString());
         } catch (JSONException e) {
-            Log.e(Constants.TAG, "AmazModLauncher refreshMessages JSONException: " + e.toString());
+            Logger.error("AmazModLauncher refreshMessages JSONException: " + e.toString());
         }
     }
 
     public static WearNotificationsFragment newInstance() {
-        Log.i(Constants.TAG,"WearNotificationsFragment newInstance");
+        Logger.info("WearNotificationsFragment newInstance");
         return new WearNotificationsFragment();
     }
 

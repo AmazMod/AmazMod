@@ -4,9 +4,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
 
 import com.amazmod.service.ui.DummyActivity;
+
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +28,7 @@ public class PackageReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         Context mContext = context.getApplicationContext();
-        Log.d(Constants.TAG,"PackageReceiver onReceive action: " + action + " // " + intent.getDataString() + " // " + intent.getExtras());
+        Logger.debug("PackageReceiver onReceive action: " + action + " // " + intent.getDataString() + " // " + intent.getExtras());
 
         if (action != null) try {
 
@@ -41,7 +42,7 @@ public class PackageReceiver extends BroadcastReceiver {
                         final File script = new File("/sdcard/update_service_apk.sh");
                         if (script.exists()) {
                             String command = String.format("log -pw -tAmazMod $(sh %s 2>&1)", script.getAbsolutePath());
-                            Log.d(Constants.TAG, "PackageReceiver onReceive command: " + command);
+                            Logger.debug("PackageReceiver onReceive command: " + command);
                             try {
                                 Runtime.getRuntime().exec(new String[] { "sh", "-c", command },
                                         null, Environment.getExternalStorageDirectory());
@@ -64,7 +65,7 @@ public class PackageReceiver extends BroadcastReceiver {
                 }
             }
         } catch (NullPointerException ex) {
-            Log.e(Constants.TAG, "PackageReceiver onReceive NullPointerException: " + ex.toString());
+            Logger.debug("PackageReceiver onReceive NullPointerException: " + ex.toString());
         }
     }
 
@@ -74,7 +75,6 @@ public class PackageReceiver extends BroadcastReceiver {
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.APP_TAG, app_tag);
         context.startActivity(intent);
-        Log.d(Constants.TAG, "PackageReceiver showInstallConfirmation app_tag: " + app_tag);
-
+        Logger.debug("PackageReceiver showInstallConfirmation app_tag: " + app_tag);
     }
 }

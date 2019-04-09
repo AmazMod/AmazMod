@@ -16,7 +16,6 @@ import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.text.emoji.widget.EmojiButton;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.SwipeDismissFrameLayout;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -35,6 +34,8 @@ import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.tinylog.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -136,7 +137,7 @@ public class NotificationActivity extends Activity {
         enableInvertedTheme = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
         defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
-        Log.i(Constants.TAG, "NotificationActivity defaultLocale: " + defaultLocale);
+        Logger.info("NotificationActivity defaultLocale: " + defaultLocale);
 
         setWindowFlags(true);
 
@@ -182,7 +183,7 @@ public class NotificationActivity extends Activity {
             }
 
         } catch (NullPointerException ex) {
-            Log.e(Constants.TAG, "NotificationActivity onCreate - Exception: " + ex.toString()
+            Logger.error("NotificationActivity onCreate - Exception: " + ex.toString()
                     + " notificationData: " + notificationData);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
@@ -285,7 +286,7 @@ public class NotificationActivity extends Activity {
         super.finish();
 
         boolean flag = true;
-        Log.i(Constants.TAG, "NotificationActivity finish screenToggle: " + screenToggle);
+        Logger.info("NotificationActivity finish screenToggle: " + screenToggle);
 
         if (screenToggle) {
             flag = false;
@@ -316,8 +317,8 @@ public class NotificationActivity extends Activity {
                     //        this,
                     //        getResources().getText(R.string.device_owner),
                     //        Toast.LENGTH_LONG).show();
-                    Log.w(Constants.TAG, getResources().getString(R.string.device_owner));
-                    Log.e(Constants.TAG, "NotificationActivity SecurityException: " + ex.toString());
+                    Logger.warn(getResources().getString(R.string.device_owner));
+                    Logger.error("NotificationActivity SecurityException: " + ex.toString());
                 }
             }
         }
@@ -339,7 +340,7 @@ public class NotificationActivity extends Activity {
     }
 
     private void setFontLocale(TextView tv, String locale) {
-        Log.i(Constants.TAG, "NotificationActivity setFontLocale TextView: " + locale);
+        Logger.info("NotificationActivity setFontLocale TextView: " + locale);
         if (locale.contains("iw")) {
             Typeface face = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
             tv.setTypeface(face);
@@ -347,7 +348,7 @@ public class NotificationActivity extends Activity {
     }
 
     private void setFontLocale(Button b, String locale) {
-        Log.i(Constants.TAG, "NotificationActivity setFontLocale Button: " + locale);
+        Logger.info("NotificationActivity setFontLocale Button: " + locale);
         if (locale.contains("iw")) {
             Typeface face = Typeface.createFromAsset(getAssets(), "fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
@@ -456,7 +457,7 @@ public class NotificationActivity extends Activity {
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
-            Log.i(Constants.TAG, "NotificationActivity setScreenModeOff1 mode: " + mode);
+            Logger.info("NotificationActivity setScreenModeOff1 mode: " + mode);
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -465,7 +466,7 @@ public class NotificationActivity extends Activity {
             getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Log.i(Constants.TAG, "NotificationActivity setScreenModeOff2 mode: " + mode + " / screenMode: " + screenMode);
+                Logger.info("NotificationActivity setScreenModeOff2 mode: " + mode + " / screenMode: " + screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
                 params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
@@ -490,7 +491,7 @@ public class NotificationActivity extends Activity {
                 iconView.setImageBitmap(bitmap);
             }
         } catch (Exception exception) {
-            Log.d(Constants.TAG, exception.getMessage(), exception);
+            Logger.error(exception,exception.getMessage());
         }
     }
 
@@ -502,7 +503,7 @@ public class NotificationActivity extends Activity {
                 pictureView.setImageBitmap(bitmap);
             }
         } catch (Exception exception) {
-            Log.d(Constants.TAG, exception.getMessage(), exception);
+            Logger.error(exception, exception.getMessage());
         }
     }
 }

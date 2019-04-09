@@ -10,7 +10,6 @@ import android.graphics.drawable.LevelListDrawable;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +26,7 @@ import com.amazmod.service.util.SystemProperties;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +66,7 @@ public class AmazModPage extends AbstractPlugin {
         battIconImg = view.findViewById(R.id.battIcon);
         imageView = view.findViewById(R.id.imageView);
 
-        Log.d(Constants.TAG, "AmazModPage getView mContext: " + mContext.toString() + " / this: " + this.toString());
+        Logger.debug("AmazModPage getView mContext: " + mContext.toString() + " / this: " + this.toString());
 
         version.setText(BuildConfig.VERSION_NAME);
 
@@ -86,14 +86,14 @@ public class AmazModPage extends AbstractPlugin {
 
         //Initialize settings
         settingsWidget = new WidgetSettings(Constants.TAG, mContext);
-        Log.d(Constants.TAG, "AmazModPage getView");
+        Logger.debug("AmazModPage getView");
 
         return this.view;
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void settingsSync(SyncSettings event) {
-        Log.w(Constants.TAG, "AmazModPage SyncSettings ***** event received *****");
+        Logger.warn("AmazModPage SyncSettings ***** event received *****");
     }
 
     private void updateTimeSinceLastCharge() {
@@ -127,7 +127,7 @@ public class AmazModPage extends AbstractPlugin {
 
         StringBuilder dateDiff = new StringBuilder("  ");
 
-        Log.d(Constants.TAG, "AmazModPage updateTimeSinceLastCharge level: " + level
+        Logger.debug("AmazModPage updateTimeSinceLastCharge level: " + level
                 + " / scale: " + scale + " / batteryIconId: " + batteryIconId + " /" + dateDiff + lastChargeDate);
 
         //Log.d(Constants.TAG, "AmazModWidget updateTimeSinceLastChargeDate data: " + battery + " / " + lastChargeDate );

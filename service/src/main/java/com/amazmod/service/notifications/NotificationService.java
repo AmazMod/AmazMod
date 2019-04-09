@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -22,6 +21,8 @@ import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.tinylog.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -84,25 +85,25 @@ public class NotificationService {
             final String key = notificationSpec.getKey();
             final String notificationStoreKey = key + "|" + String.valueOf(System.currentTimeMillis());
 
-            Log.d(Constants.TAG, "NotificationService notificationSpec.getKey(): " + key);
+            Logger.debug("NotificationService notificationSpec.getKey(): " + key);
             //Handles test notifications
             if (key.contains("amazmod|test|99")) {
                 if (notificationSpec.getText().equals("Test Notification")) {
                     if (forceCustom) {
-                        Log.d(Constants.TAG, "NotificationService1 notificationSpec.getKey(): " + key);
+                        Logger.debug("NotificationService1 notificationSpec.getKey(): " + key);
                         NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
                         postWithCustomUI(notificationStoreKey);
                     } else {
-                        Log.d(Constants.TAG, "NotificationService2 notificationSpec.getKey(): " + key);
+                        Logger.debug("NotificationService2 notificationSpec.getKey(): " + key);
                         postWithStandardUI(notificationSpec, hideReplies);
                     }
                 } else if (key.contains("amazmod|test|9979")) {
-                    Log.d(Constants.TAG, "NotificationService3 notificationSpec.getKey(): " + key);
+                    Logger.debug("NotificationService3 notificationSpec.getKey(): " + key);
                     postWithStandardUI(notificationSpec, hideReplies);
                 }
                 //Handles normal notifications
             } else {
-                Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + key);
+                Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
                     if (!forceCustom)
                         NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
@@ -128,7 +129,7 @@ public class NotificationService {
         contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
         */
 
-        Log.d(Constants.TAG, "NotificationService postWithStandardUI notificationData: " +
+        Logger.debug("NotificationService postWithStandardUI notificationData: " +
                 notificationData.toString() + " / disableNotificationReplies: " + disableNotificationReplies);
 
         int[] iconData = notificationData.getIcon();
@@ -240,7 +241,7 @@ public class NotificationService {
 
     private void postWithCustomUI(String key) {
 
-        Log.d(Constants.TAG, "NotificationService postWithCustomUI: " + NotificationStore.getCustomNotificationCount());
+        Logger.debug("NotificationService postWithCustomUI: " + NotificationStore.getCustomNotificationCount());
 
         NotificationStore.setNotificationCount(context);
 

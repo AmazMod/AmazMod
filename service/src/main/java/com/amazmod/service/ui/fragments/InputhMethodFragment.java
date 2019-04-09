@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.wearable.view.BoxInsetLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,8 @@ import android.widget.TextView;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
+
+import org.tinylog.Logger;
 
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class InputhMethodFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.i(Constants.TAG,"InputhMethodFragment onAttach context: " + mContext);
+        Logger.info("InputhMethodFragment onAttach context: " + mContext);
     }
 
     @Override
@@ -53,7 +54,7 @@ public class InputhMethodFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //notificationData = NotificationData.fromBundle(getArguments());
-        Log.i(Constants.TAG,"InputhMethodFragment onCreate");
+        Logger.info("InputhMethodFragment onCreate");
 
     }
 
@@ -70,7 +71,7 @@ public class InputhMethodFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(Constants.TAG,"InputhMethodFragment onViewCreated");
+        Logger.info("InputhMethodFragment onViewCreated");
 
         updateContent();
 
@@ -137,18 +138,18 @@ public class InputhMethodFragment extends Fragment {
     }
 
     private void runCommand(String command) {
-        Log.d(Constants.TAG, "InputhMethodFragment runCommand: " + command);
+        Logger.debug("InputhMethodFragment runCommand: " + command);
         if (!command.isEmpty()) {
             try {
                 Runtime.getRuntime().exec(command);
             } catch (Exception e) {
-                Log.e(Constants.TAG, "InputhMethodFragment runCommand exception: " + e.toString());
+                Logger.error("InputhMethodFragment runCommand exception: " + e.toString());
             }
         }
     }
 
     public static InputhMethodFragment newInstance() {
-        Log.i(Constants.TAG,"InputhMethodFragment newInstance");
+        Logger.info("InputhMethodFragment newInstance");
         return new InputhMethodFragment();
     }
 

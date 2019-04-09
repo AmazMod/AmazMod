@@ -7,7 +7,6 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -36,6 +35,8 @@ import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.tinylog.Logger;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,7 +59,7 @@ public class BatteryGraphActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(Constants.TAG, "BatteryGraphActivity onCreate");
+        Logger.debug("BatteryGraphActivity onCreate");
 
         this.mContext = this;
 
@@ -124,7 +125,7 @@ public class BatteryGraphActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
-        Log.d(Constants.TAG, "BatteryGraphActivity onListItemClick position: " + position);
+        Logger.debug("BatteryGraphActivity onListItemClick position: " + position);
 
         if (position >= 21) {
             listView.setVisibility(View.GONE);
@@ -138,7 +139,7 @@ public class BatteryGraphActivity extends ListActivity {
     public void onResume() {
         super.onResume();
 
-        Log.d(Constants.TAG, "BatteryGraphActivity onResume");
+        Logger.debug("BatteryGraphActivity onResume");
 
         updateChart();
 
@@ -150,7 +151,7 @@ public class BatteryGraphActivity extends ListActivity {
 
     public void onDoubleClick(View v) {
 
-        Log.d(Constants.TAG, "BatteryGraphActivity onDoubleClick days: " + days);
+        Logger.debug("BatteryGraphActivity onDoubleClick days: " + days);
 
         if (days < 5)
             days++;
@@ -177,7 +178,7 @@ public class BatteryGraphActivity extends ListActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(read.getDate());
             int level = (int) (read.getLevel() * 100f);
-            //Log.d(Constants.TAG, "BatteryGraphActivity showListView level: " + level);
+            //Logger.debug("BatteryGraphActivity showListView level: " + level);
             list.add(String.format("%s - %s", simpleDateFormat.format(calendar.getTime()), String.valueOf(level)));
         }
         list.add("[Close List]");
@@ -211,7 +212,7 @@ public class BatteryGraphActivity extends ListActivity {
         BatteryDbEntity prevRead = null;
         int size = batteryReadList.size();
 
-        Log.d(Constants.TAG, "BatteryGraphActivity updateChart size: " + size);
+        Logger.debug("BatteryGraphActivity updateChart size: " + size);
 
         final int primaryColor = ContextCompat.getColor(mContext, R.color.colorGraph);
         final int chargingColor = ContextCompat.getColor(mContext, R.color.colorCharging);
@@ -251,7 +252,7 @@ public class BatteryGraphActivity extends ListActivity {
                     color = "F";
                 else
                     color = "NULL";
-                Log.d(Constants.TAG, "BatteryGraphActivity updateChart prevLevel: " + prevLevel +
+                Logger.debug("BatteryGraphActivity updateChart prevLevel: " + prevLevel +
                         " \\ level: " + level + " \\ lineColor : " + color);
                 */
 
