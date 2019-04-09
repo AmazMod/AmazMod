@@ -99,6 +99,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         mode = getArguments().getString(NotificationWearActivity.MODE);
 
         Log.i(Constants.TAG, "NotificationFragment onCreate: key " + key + " | mode: " + mode);
+        // todo getCustomNotification(key).getKey() returns Null if you answer a messenger call
         notificationKey = NotificationStore.getCustomNotification(key).getKey();
         settingsManager = new SettingsManager(this.mContext);
     }
