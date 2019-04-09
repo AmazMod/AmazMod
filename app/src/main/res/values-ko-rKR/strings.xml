@@ -286,7 +286,7 @@
     <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
     <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
     <string name="activity_packageoptions_unmute">음소거 해제</string>
-    <string name="activity_packageoptions_muted_until">Muted Until:</string>
+    <string name="activity_packageoptions_muted_until">음소거 기간:</string>
     <string name="main_options">Main options</string>
     <string name="watchface_calendar_source">캘린더 소스</string>
     <string name="test">테스트</string>
@@ -300,7 +300,7 @@
     <string name="update_process_warning">경고: 업데이트 과정은 최대 15분이 걸리며 시계 인터페이스가 한번 이상 재시작 될 것입니다. 고장의 위험이 있으므로 과정이 진행되는 동안 시계를 사용하지 마십시오. 모든 과정이 완료되기를 기다릴 수 있을 때에만 업데이트를 시작하세요.</string>
     <string name="search_title">찾기</string>
     <string name="pref_use_notification_scheduler">연결이 끊겼을 때 알림 보관하기</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
+    <string name="pref_use_notification_scheduler_summary">시계와 전화의 연결이 끊겼을 때 받은 알림들을 저장했다가 다시 연결되었을 때 시계로 보냅니다.</string>
     <string name="language">언어</string>
     <string name="select">선택</string>
     <string name="pref_choose_language">언어 선택하기</string>
