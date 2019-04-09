@@ -6,7 +6,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
@@ -15,22 +14,20 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.RemoteInput;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
-import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.Action;
 import com.edotassi.amazmod.notification.NotificationIds;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import amazmod.com.transport.Constants;
 
 public class NotificationUtils {
 
@@ -49,7 +46,7 @@ public class NotificationUtils {
         Bundle bundle = statusBarNotification.getNotification().extras;
         notificationWear.bundle = bundle;
         for (String key : bundle.keySet()) {
-            Log.d(Constants.TAG, "NotificationUtils getNotificationWear key: " + key);
+            Logger.debug("NotificationUtils getNotificationWear key: " + key);
             Object value = bundle.get(key);
 
             if ("android.wearable.EXTENSIONS".equals(key)) {
@@ -80,7 +77,7 @@ public class NotificationUtils {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
     public void reply(Context context, NotificationWear notificationWear, String key, String reply) {
 
-        Log.d(Constants.TAG, "NotificationUtils reply key: " + key);
+        Logger.debug("NotificationUtils reply key: " + key);
 
         android.app.RemoteInput[] remoteInputs = notificationWear.remoteInputs;
         Bundle bundle = notificationWear.bundle;
@@ -99,7 +96,7 @@ public class NotificationUtils {
         try {
             pendingIntent.send(context, 0, localIntent);
         } catch (PendingIntent.CanceledException e) {
-            Log.e(Constants.TAG, "NotificationUtils reply error: " + e.getLocalizedMessage());
+            Logger.error("NotificationUtils reply error: " + e.getLocalizedMessage());
         }
     }
 
@@ -116,19 +113,19 @@ public class NotificationUtils {
         //NotificationWear notificationWear = new NotificationWear();
         //notificationWear.packageName = statusBarNotification.getPackageName();
 
-        Log.d(Constants.TAG, "NotificationUtils replyToNotification key: " + statusBarNotification.getKey());
+        Logger.debug("NotificationUtils replyToNotification key: " + statusBarNotification.getKey());
 
         Bundle localBundle = statusBarNotification.getNotification().extras;
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(statusBarNotification.getNotification());
         List<NotificationCompat.Action> actions = wearableExtender.getActions();
-        Log.d(Constants.TAG, "NotificationUtils replyToNotification actions.size: " + actions.size() + " \\ isEmpty: " + actions.isEmpty());
+        Logger.debug("NotificationUtils replyToNotification actions.size: " + actions.size() + " \\ isEmpty: " + actions.isEmpty());
         for (NotificationCompat.Action act : actions) {
-            Log.d(Constants.TAG, "NotificationUtils replyToNotification act: " + act.toString());
+            Logger.debug("NotificationUtils replyToNotification act: " + act.toString());
             if (act != null && act.getRemoteInputs() != null) {
-                Log.d(Constants.TAG, "NotificationUtils replyToNotification act.getTitle: " + act.getTitle());
+                Logger.debug("NotificationUtils replyToNotification act.getTitle: " + act.getTitle());
                 for (RemoteInput remoteInput : act.getRemoteInputs()) {
-                    Log.d(Constants.TAG, "NotificationUtils replyToNotification remoteInput.getLabel: " + remoteInput.getLabel());
+                    Logger.debug("NotificationUtils replyToNotification remoteInput.getLabel: " + remoteInput.getLabel());
                     localBundle.putCharSequence(remoteInput.getResultKey(), message);
                 }
 
@@ -138,7 +135,7 @@ public class NotificationUtils {
                 try {
                     act.actionIntent.send(context, 0, localIntent);
                 } catch (PendingIntent.CanceledException e) {
-                    Log.e(Constants.TAG, "NotificationUtils replyToNotification error: " + e.getLocalizedMessage());
+                    Logger.error("NotificationUtils replyToNotification error: " + e.getLocalizedMessage());
                 }
             }
         }
@@ -192,14 +189,14 @@ public class NotificationUtils {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getMessage(Bundle extras) {
-        Log.d(Constants.TAG, "NotificationUtils Getting message from extras..");
-        Log.d(Constants.TAG, "NotificationUtils Text" + extras.getCharSequence(Notification.EXTRA_TEXT));
-        Log.d(Constants.TAG, "NotificationUtils Big Text" + extras.getCharSequence(Notification.EXTRA_BIG_TEXT));
-        Log.d(Constants.TAG, "NotificationUtils Title Big" + extras.getCharSequence(Notification.EXTRA_TITLE_BIG));
-        Log.d(Constants.TAG, "NotificationUtils Text lines" + extras.getCharSequence(Notification.EXTRA_TEXT_LINES));
-        Log.d(Constants.TAG, "NotificationUtils Info text" + extras.getCharSequence(Notification.EXTRA_INFO_TEXT));
-        Log.d(Constants.TAG, "NotificationUtils Subtext" + extras.getCharSequence(Notification.EXTRA_SUB_TEXT));
-        Log.d(Constants.TAG, "NotificationUtils Summary" + extras.getString(Notification.EXTRA_SUMMARY_TEXT));
+        Logger.debug("NotificationUtils Getting message from extras..");
+        Logger.debug("NotificationUtils Text" + extras.getCharSequence(Notification.EXTRA_TEXT));
+        Logger.debug("NotificationUtils Big Text" + extras.getCharSequence(Notification.EXTRA_BIG_TEXT));
+        Logger.debug("NotificationUtils Title Big" + extras.getCharSequence(Notification.EXTRA_TITLE_BIG));
+        Logger.debug("NotificationUtils Text lines" + extras.getCharSequence(Notification.EXTRA_TEXT_LINES));
+        Logger.debug("NotificationUtils Info text" + extras.getCharSequence(Notification.EXTRA_INFO_TEXT));
+        Logger.debug("NotificationUtils Subtext" + extras.getCharSequence(Notification.EXTRA_SUB_TEXT));
+        Logger.debug("NotificationUtils Summary" + extras.getString(Notification.EXTRA_SUMMARY_TEXT));
         CharSequence chars = extras.getCharSequence(Notification.EXTRA_TEXT);
         if(!TextUtils.isEmpty(chars))
             return chars.toString();
@@ -211,7 +208,7 @@ public class NotificationUtils {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getExtended(Bundle extras, ViewGroup v) {
-        Log.d(Constants.TAG, "NotificationUtils Getting message from extras..");
+        Logger.debug("NotificationUtils Getting message from extras..");
 
         CharSequence[] lines = extras.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
         if(lines != null && lines.length > 0) {
@@ -235,7 +232,7 @@ public class NotificationUtils {
 
     @SuppressLint("NewApi")
     public static ViewGroup getMessageView(Context context, Notification n) {
-        Log.d(Constants.TAG, "NotificationUtils Getting message view..");
+        Logger.debug("NotificationUtils Getting message view..");
         RemoteViews views = null;
         if (Build.VERSION.SDK_INT >= 16)
             views = n.bigContentView;
@@ -250,14 +247,14 @@ public class NotificationUtils {
             //ViewGroup localView = (ViewGroup) inflater.inflate(R.layout.nav_layout, null);
             views.reapply(context.getApplicationContext(), localView);
         } catch (Exception exp) {
-            Log.e(Constants.TAG, "NotificationUtils getMessageView exception: " + exp.toString());
+            Logger.error("NotificationUtils getMessageView exception: " + exp.toString());
         }
         return localView;
 
     }
 
     public static String getTitle(ViewGroup localView) {
-        Log.d(Constants.TAG, "NotificationUtils Getting title..");
+        Logger.debug("NotificationUtils Getting title..");
         String msg = null;
         if (localView != null) {
             Context context = localView.getContext();
@@ -269,7 +266,7 @@ public class NotificationUtils {
     }
 
     public static String getMessage(ViewGroup localView) {
-        Log.d(Constants.TAG, "NotificationUtils Getting message..");
+        Logger.debug("NotificationUtils Getting message..");
         String msg = null;
         if (localView != null) {
             Context context = localView.getContext();
@@ -286,7 +283,7 @@ public class NotificationUtils {
     }
 
     public static String getExtended(ViewGroup localView) {
-        Log.d(Constants.TAG, "NotificationUtils Getting extended message..");
+        Logger.debug("NotificationUtils Getting extended message..");
         String msg = "";
         if (localView != null) {
             Context context = localView.getContext();
@@ -326,9 +323,9 @@ public class NotificationUtils {
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getTitle(Bundle extras) {
-        Log.d(Constants.TAG, "NotificationUtils Getting title from extras..");
+        Logger.debug("NotificationUtils Getting title from extras..");
         String msg = extras.getString(Notification.EXTRA_TITLE);
-        Log.d(Constants.TAG, "NotificationUtils Title Big" + extras.getString(Notification.EXTRA_TITLE_BIG));
+        Logger.debug("NotificationUtils Title Big" + extras.getString(Notification.EXTRA_TITLE_BIG));
         return msg;
     }
 
@@ -343,7 +340,7 @@ public class NotificationUtils {
             view.reapply(context, localView);
         }
         catch (Exception exp) {
-            Log.e(Constants.TAG, "NotificationUtils getView exception: " + exp.toString());
+            Logger.error("NotificationUtils getView exception: " + exp.toString());
         }
         return localView;
     }
@@ -367,7 +364,7 @@ public class NotificationUtils {
             localView = (ViewGroup) inflater.inflate(view.getLayoutId(), null);
             view.reapply(context, localView);
         } catch (Exception exp) {
-            Log.e(Constants.TAG, "NotificationUtils getLovalView exception: " + exp.toString());
+            Logger.error("NotificationUtils getLovalView exception: " + exp.toString());
         }
 
         return localView;
@@ -377,7 +374,7 @@ public class NotificationUtils {
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(n);
         if (wearableExtender.getActions().size() > 0) {
             for (NotificationCompat.Action action : wearableExtender.getActions()) {
-                Log.d(Constants.TAG, "NotificationUtils getActions action: " + action.getTitle().toString());
+                Logger.debug("NotificationUtils getActions action: " + action.getTitle().toString());
                 actions.add(new Action(action, packageName, action.title.toString().toLowerCase().contains(REPLY_KEYWORD)));
             }
         }
@@ -564,9 +561,9 @@ public class NotificationUtils {
                         text += ((TextView) titleView).getText();
                     }
                 } catch (NullPointerException e) {
-                    Log.e(Constants.TAG, "NotificationService getExpandedText NullPointerException: " + e.toString());
+                    Logger.error("NotificationService getExpandedText NullPointerException: " + e.toString());
                 } catch (ClassCastException e) {
-                    Log.e(Constants.TAG, "NotificationService getExpandedText ClassCastException: " + e.toString());
+                    Logger.error("NotificationService getExpandedText ClassCastException: " + e.toString());
                 }
 
                 v = localView.findViewById(NotificationIds.getInstance(context).notification_subtext_id);

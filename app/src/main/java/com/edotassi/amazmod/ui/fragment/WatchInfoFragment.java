@@ -2,7 +2,6 @@ package com.edotassi.amazmod.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -10,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +48,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -151,16 +150,16 @@ public class WatchInfoFragment extends Card implements Updater {
                         watchStatus = task.getResult();
                         refresh(watchStatus);
                         String serviceVersionString = watchStatus.getWatchStatusData().getAmazModServiceVersion();
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersionString: " + serviceVersionString);
+                        Logger.debug("WatchInfoFragment serviceVersionString: " + serviceVersionString);
                         if (serviceVersionString.contains("_("))
                             serviceVersionString = "1588";
                         serviceVersion = Integer.valueOf(serviceVersionString);
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion: " + serviceVersion);
+                        Logger.debug("WatchInfoFragment serviceVersion: " + serviceVersion);
                         if (Prefs.getBoolean(Constants.PREF_ENABLE_UPDATE_NOTIFICATION, Constants.PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION)) {
                             Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
                         }
                     } else {
-                        Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
+                        Logger.debug("WatchInfoFragment isWatchConnected = false");
                         AmazModApplication.setWatchConnected(false);
                         if (getActivity() != null) {
                             try {
@@ -173,7 +172,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                         .show();
                             } catch (Exception e) {
                                 Crashlytics.logException(e);
-                                Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+                                Logger.error("WatchInfoFragment onResume exception: " + e.toString());
                             }
                         }
                         disconnected();
@@ -206,7 +205,7 @@ public class WatchInfoFragment extends Card implements Updater {
             onWatchStatus(watchStatus);
         } catch (NullPointerException e) {
             Crashlytics.logException(e);
-            Log.e(Constants.TAG, "WatchInfoFragment refresh exception: " + e.toString());
+            Logger.error("WatchInfoFragment refresh exception: " + e.toString());
         }
     }
 
@@ -230,11 +229,11 @@ public class WatchInfoFragment extends Card implements Updater {
         //Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
 
         // Heart Rate Bar Chart
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
+        Logger.debug("WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
         String lastHeartRates = watchStatusData.getLastHeartRates();
         try {
             HeartRateChartFragment f = (HeartRateChartFragment) getActivity().getSupportFragmentManager().findFragmentByTag("heart-rate-chart");
@@ -311,13 +310,13 @@ public class WatchInfoFragment extends Card implements Updater {
                                         setWindowFlags(true);
                                         final UpdateDownloader updateDownloader = new UpdateDownloader();
                                         if (serviceVersion < 1697) {
-                                            Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
+                                            Logger.debug("WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
                                             updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
                                         }
 
                                         String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
 
-                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
+                                        Logger.debug("WatchInfoFragment updateAvailable: " + url);
                                         updateDialog = new MaterialDialog.Builder(getContext())
                                                 .canceledOnTouchOutside(false)
                                                 .title(R.string.download_in_progress)
@@ -422,7 +421,7 @@ public class WatchInfoFragment extends Card implements Updater {
                     WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
+                            Logger.debug("WatchInfoFragment uploadUpdate destPath: " + destPath);
 
                             String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
                             double kbSent = byteSent / 1024d;

@@ -12,11 +12,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,6 +48,7 @@ import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -921,7 +920,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     }
 
     private void execCommandAndReload(String command) {
-        Log.d(Constants.TAG, "Sending command to watch: " + command);
+        Logger.debug("Sending command to watch: " + command);
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                 .setIsIndeterminate(true)

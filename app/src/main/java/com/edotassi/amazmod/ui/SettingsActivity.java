@@ -20,6 +20,8 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.tinylog.Logger;
+
 import java.util.Locale;
 
 import amazmod.com.transport.Constants;
@@ -50,7 +52,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
             getSupportActionBar().setTitle(R.string.settings);
         } catch (NullPointerException exception) {
             //TODO log to crashlitics
-            System.out.println(Constants.TAG + " SettingsActivity onCreate NullPointerException: " + exception.toString());
+            Logger.error("SettingsActivity onCreate NullPointerException: " + exception.toString());
         }
 
         this.batteryChartOnCreate = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);

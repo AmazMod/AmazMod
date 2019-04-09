@@ -3,9 +3,10 @@ package com.edotassi.amazmod.ui;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.edotassi.amazmod.R;
+
+import org.tinylog.Logger;
 
 /**************************************************************************************
  * Optional PreferenceActivity for using Preferences in app, keeps record of changes
@@ -25,7 +26,7 @@ public class PreferenceActivity extends android.preference.PreferenceActivity im
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(LOG_TAG, "onCreate");
+        Logger.debug(LOG_TAG+" onCreate");
 
         addPreferencesFromResource(R.xml.preferences);
 

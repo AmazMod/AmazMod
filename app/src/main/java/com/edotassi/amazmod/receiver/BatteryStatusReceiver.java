@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
 import amazmod.com.transport.Constants;
@@ -50,7 +49,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             startBatteryReceiver(context);
         }
 
-        Log.d(Constants.TAG, "BatteryStatusReceiver onReceive");
+        Logger.debug("BatteryStatusReceiver onReceive");
     }
 
     public static void startBatteryReceiver(Context context) {
@@ -59,7 +58,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
         long delay = ((long) syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
 
-        Log.i(Constants.TAG, "BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
+        Logger.info("BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
 
         if (delay < 0) delay = 0;
 
@@ -72,7 +71,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
                 alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
                     (long) syncInterval * 60000L, pendingIntent);
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "BatteryStatusReceiver setRepeating exception: " + e.toString());
+            Logger.error(e, "BatteryStatusReceiver setRepeating exception: " + e.toString());
         }
     }
 

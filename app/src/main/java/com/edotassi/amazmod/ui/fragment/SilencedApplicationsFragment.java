@@ -5,18 +5,18 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.SilencedApplicationsAdapter;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.card.Card;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 
@@ -60,7 +60,7 @@ public class SilencedApplicationsFragment extends Card implements SilencedApplic
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, "SilencedApplicationsFragment onResume");
+        Logger.debug("SilencedApplicationsFragment onResume");
 
         updateSilencedApps();
     }

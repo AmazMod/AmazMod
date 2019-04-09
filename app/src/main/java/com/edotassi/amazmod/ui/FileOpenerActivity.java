@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +38,7 @@ import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -95,7 +95,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            System.out.println("AmazMod AboutActivity onCreate exception: " + exception.toString());
+            Logger.error("AboutActivity onCreate exception: " + exception.toString());
             //TODO log to crashlitics
         }
         getSupportActionBar().setTitle(R.string.file_uploader);
@@ -123,7 +123,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             showResult();
         }
 
-        Log.d(Constants.TAG, "FileOpenerActivity onCreate action: " + action + " scheme: " + scheme + " uri: " + uri);
+        Logger.debug("FileOpenerActivity onCreate action: " + action + " scheme: " + scheme + " uri: " + uri);
 
         if (action != null && scheme != null && uri != null) {
 
@@ -162,7 +162,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         } else
             result = INVALID_ACTION;
 
-        Log.d(Constants.TAG, "FileOpenerActivity onCreate result: " + result + " filePath: " + filePath);
+        Logger.debug("FileOpenerActivity onCreate result: " + result + " filePath: " + filePath);
 
         if (WRITE_OK.equals(result))
             promptInstall(filePath, inputFileName, uploadType);
@@ -201,7 +201,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
     private void promptInstall(final String path, final String name, final String type) {
 
-        Log.d(Constants.TAG, "FileOpenerActivity promptInstall type: " + type);
+        Logger.debug("FileOpenerActivity promptInstall type: " + type);
 
         String title = String.format(getString(R.string.file_uploader_title), type);
 
@@ -252,7 +252,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             try {
                 FilesUtil.unzip(path, workDir);
             } catch (IOException e) {
-                Log.e(Constants.TAG, "FileOpenerActivity promptInstall unzip exception: " + e.toString());
+                Logger.error("FileOpenerActivity promptInstall unzip exception: " + e.toString());
             }
             final File descriptionXML = new File(workDir + File.separator + "description.xml");
             if (descriptionXML.exists()){
@@ -270,7 +270,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     }
 
     private void showResult() {
-        Log.d(Constants.TAG, "FileOpenerActivity showResult result: " + result + " workDir: " + workDir);
+        Logger.debug("FileOpenerActivity showResult result: " + result + " workDir: " + workDir);
 
         String title, msg;
         setWindowFlags(false);
@@ -345,12 +345,12 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             @Override
             public Object then(@NonNull Task<WatchStatus> task) throws Exception {
                 if (task.isSuccessful()) {
-                    Log.d(Constants.TAG, "FileOpenerActivity checkConnection isWatchConnected = true");
+                    Logger.debug("FileOpenerActivity checkConnection isWatchConnected = true");
                     connected();
                     uploadFile(file, fileName, uploadType);
 
                 } else {
-                    Log.d(Constants.TAG, "FileOpenerActivity checkConnection isWatchConnected = false");
+                    Logger.debug("FileOpenerActivity checkConnection isWatchConnected = false");
                     disconnected();
                     try {
                         Snacky
@@ -362,7 +362,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                                 .show();
                     } catch (Exception e) {
                         Crashlytics.logException(e);
-                        Log.e(Constants.TAG, "FileOpenerActivity checkConnection exception: " + e.toString());
+                        Logger.error("FileOpenerActivity checkConnection exception: " + e.toString());
                     }
                     result = WATCH_NOT_CONNECTED;
                     showResult();
@@ -414,7 +414,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                     FileOpenerActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(Constants.TAG, "FileOpenerActivity uploadFile destPath: " + destPath);
+                            Logger.debug("FileOpenerActivity uploadFile destPath: " + destPath);
 
                             String remaingSize = Formatter.formatShortFileSize(FileOpenerActivity.this, size - byteSent);
                             double kbSent = byteSent / 1024d;

@@ -40,7 +40,7 @@ public class NotificationFactory {
         } else try {
             title = bundle.getString(Notification.EXTRA_TITLE);
         } catch (ClassCastException e) {
-            System.out.println("AmazMod NotificationFactory exception: " + e.toString() + " title: " + title);
+            Logger.debug(e,"NotificationFactory exception: " + e.toString() + " title: " + title);
         }
 
         CharSequence bigText = bundle.getCharSequence(Notification.EXTRA_TEXT);
@@ -52,16 +52,16 @@ public class NotificationFactory {
         CharSequence[] lines = bundle.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
         if ((lines != null) && (lines.length > 0)) {
             text += "\n*Extra lines:\n" + lines[Math.min(lines.length - 1, 0)].toString();
-            System.out.println("AmazMod NotificationFactory EXTRA_TEXT_LINES exists");
+            Logger.debug("NotificationFactory EXTRA_TEXT_LINES exists");
         }
 
         //Maybe use android.bigText instead?
         if (bundle.getCharSequence(Notification.EXTRA_BIG_TEXT) != null) {
             try {
                 text = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT).toString();
-                System.out.println("AmazMod NotificationFactory EXTRA_BIG_TEXT exists");
+                Logger.debug("NotificationFactory EXTRA_BIG_TEXT exists");
             } catch (NullPointerException e) {
-                System.out.println("AmazMod NotificationFactory exception: " + e.toString() + " text: " + text);
+                Logger.debug(e,"NotificationFactory exception: " + e.toString() + " text: " + text);
             }
         }
 

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +15,8 @@ import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import amazmod.com.transport.Constants;
+import org.tinylog.Logger;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,7 +55,7 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
             //TODO log to crashlitics
-            Log.e(Constants.TAG, "FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
+            Logger.error("FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
         }
 
         ButterKnife.bind(this);
@@ -119,12 +119,12 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         app.setFilter(filter_edittext.getText().toString());
         app.setWhitelist(false);
         if (insert) {
-            Log.d(Constants.TAG, "STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
+            Logger.debug("STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity.class)
                     .insert(app);
         } else {
-            Log.d(Constants.TAG, "UPDATING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
+            Logger.debug("UPDATING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity.class)
                     .update(app);

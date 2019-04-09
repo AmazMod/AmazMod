@@ -8,13 +8,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.Permissions;
+
+import org.tinylog.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,7 +106,7 @@ public class CheckPermissionsActivity extends BaseAppCompatActivity {
 
         for (Map.Entry<String, String> entry : REQUIRED_PERMISSIONS.entrySet()) {
 
-            Log.d(Constants.TAG, "CheckPermissionsActivity permission: " + entry.getKey() + " / " + entry.getValue());
+            Logger.debug("CheckPermissionsActivity permission: " + entry.getKey() + " / " + entry.getValue());
 
             int id = getResources().getIdentifier(entry.getValue(), "id", "com.edotassi.amazmod");
             TextView textView = findViewById(id);

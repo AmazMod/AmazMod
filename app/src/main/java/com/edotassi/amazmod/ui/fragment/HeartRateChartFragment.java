@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,8 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+
+import org.tinylog.Logger;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -114,7 +115,7 @@ public class HeartRateChartFragment extends Card {
 
         // Write the last time data were taken
         Date lastDate = new Date(Long.parseLong(parts[parts.length-2])*1000);
-        Log.d(Constants.TAG, "WatchHeartRateFragment lastDate: " + lastDate);
+        Logger.debug("WatchHeartRateFragment lastDate: " + lastDate);
         Calendar calendarLastDate = Calendar.getInstance();
         calendarLastDate.setTime(lastDate);
         Calendar calendarToday = Calendar.getInstance();

@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -32,6 +31,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.util.MapTimeZoneCache;
+
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -155,7 +156,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
+                // Auto-generated method stub
             }
         });
         send_watchface_data_interval.setEnabled(send_data);
@@ -173,7 +174,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
+                // Auto-generated method stub
             }
         });
         send_watchface_data_calendar_events_days.setEnabled(send_data);
@@ -346,7 +347,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     private void checkICSFile() {
         String editText = watchface_ics_url_edittext.getText().toString();
         String testURL = editText.toLowerCase();
-        Log.d(Constants.TAG, "WatchfaceActivity checkICSFile editText: " + editText);
+        Logger.debug("WatchfaceActivity checkICSFile editText: " + editText);
         MaterialDialog.Builder dialogBuilder = new MaterialDialog.Builder(mContext)
                 .canceledOnTouchOutside(true)
                 .positiveText(R.string.ok);
@@ -383,7 +384,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                     if (newFile.exists() && result)
                         result = newFile.renameTo(oldFile);
                     else
-                        Log.w(Constants.TAG, "WatchfaceActivity checkICSFile error moving newFile: " + newFile.getAbsolutePath());
+                        Logger.warn("WatchfaceActivity checkICSFile error moving newFile: " + newFile.getAbsolutePath());
 
                     if (result) {
                         Prefs.putString(Constants.PREF_WATCHFACE_CALENDAR_ICS_URL, editText);
@@ -401,7 +402,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                             .show();
                 }
             } catch (InterruptedException | ExecutionException | IOException | ParserException e) {
-                Log.e(Constants.TAG, e.getLocalizedMessage(), e);
+                Logger.error(e.getLocalizedMessage(), e);
             }
         } else {
             dialogBuilder.title(R.string.error)

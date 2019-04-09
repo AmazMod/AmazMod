@@ -10,11 +10,12 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.util.Log;
 
 import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.MainActivity;
+
+import org.tinylog.Logger;
 
 public class PersistentNotification {
 
@@ -74,14 +75,14 @@ public class PersistentNotification {
             if (notificationManager != null)
                 notificationManager.createNotificationChannel(channel);
             else
-                Log.e(Constants.TAG, "PersistentNotification createNotificationChannel null notificationManager!");
+                Logger.error("PersistentNotification createNotificationChannel null notificationManager!");
         }
     }
 
     // Update persistent notification if it is enabled in Settings
     public void updatePersistentNotification(boolean isWatchConnected) {
 
-        Log.d(Constants.TAG, "PersistentNotification updatePersistentNotification isConnected: " + isWatchConnected);
+        Logger.debug("PersistentNotification updatePersistentNotification isConnected: " + isWatchConnected);
 
         final boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);

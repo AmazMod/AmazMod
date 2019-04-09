@@ -6,9 +6,10 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.pixplicity.easyprefs.library.Prefs;
+
+import org.tinylog.Logger;
 
 import java.util.Locale;
 
@@ -32,7 +33,7 @@ public class LocaleUtils {
 
     public static Locale getLocale() {
         String currentLanguage = getPersistedData(Locale.getDefault().getLanguage());
-        Log.d(Constants.TAG,"LocaleUtils getLocale currentLanguage: " + currentLanguage);
+        Logger.debug("LocaleUtils getLocale currentLanguage: " + currentLanguage);
         if (currentLanguage.equals(Constants.PREF_LANGUAGE_AUTO)){
             currentLanguage = Locale.getDefault().getLanguage();
         }
