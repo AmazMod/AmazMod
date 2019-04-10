@@ -5,7 +5,7 @@
     <string name="notifications">התראות שנשלחו</string>
     <string name="notifications_options">אפשרויות התראה</string>
     <string name="battery">סוללה</string>
-    <string name="customui">Custom UI Notifications Options</string>
+    <string name="customui">התראות מתקדמות</string>
     <string name="others">אחרים</string>
     <string name="other">אחר</string>
     <string name="open">פתיחה</string>
@@ -100,25 +100,25 @@
     <string name="pref_notifications_replies_summary">הזן את התשובות המותאמות</string>
     <string name="pref_notifications_replies">הגדרת מענה להתראות</string>
     <string name="pref_private_notifications_summary">תוכן ההתראה יוסתר (יחד עם אפשרויות המענה)</string>
-    <string name="pref_private_notifications">Private notification content</string>
+    <string name="pref_private_notifications">התראות עם תוכן חסוי</string>
     <string name="pref_disable_notifications_when_screen_on_summary">השבת התראות כאשר המסך פועל</string>
     <string name="pref_disable_notifications_when_screen_on">השבת כאשר המסך פועל</string>
-    <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
+    <string name="pref_notifications_enable_custom_ui">התראות מתקדמות</string>
+    <string name="pref_notifications_enable_custom_ui_summary">התראות עם אפשרות למענה</string>
     <string name="pref_run_wizard">מצגת הפתיחה</string>
     <string name="pref_run_wizard_summary">הפעל שוב את מצגת ברוכים הבאים</string>
     <string name="pref_vibration_duration">משך הרטט</string>
     <string name="pref_vibration_duration_summary">הגדר את משך הרטט של מסך התגובות בשעון (משמש רק אם התראות רגילות מושבתות)</string>
     <string name="pref_screen_timeout">זמן כיבוי מסך</string>
     <string name="pref_screen_timeout_summary">קביעת משך הזמן בו מסך ההתראות המותאם יואר ויוצג</string>
-    <string name="pref_disable_notifications_when_dnd">Respect DND mode</string>
+    <string name="pref_disable_notifications_when_dnd">התייחסות לDND</string>
     <string name="pref_disable_notifications_when_dnd_summary">ההתראות לא יישלחו לשעון כאשר DND פועל</string>
     <string name="pref_disable_remove_notifications">שמירת הודעות</string>
     <string name="pref_disable_remove_notifications_summary">אל תסיר התראות מהשעון כאשר הן מוסרות מהטלפון</string>
     <string name="pref_enable_voice_apps">התראות על שיחות קוליות</string>
     <string name="pref_enable_voice_apps_summary">התראות שיחות קוליות ישלחו לשעון</string>
     <string name="pref_enable_local_only">התראות אפליקציות מובנות</string>
-    <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
+    <string name="pref_enable_local_only_summary">התראות ללא התערבות משתמש ישלחו לשעון ( תחזית, התראות קופצות וכו\'). יש צורך לאפשר פיצול התראות.</string>
     <string name="pref_enable_notifications_when_locked">הפעל כאשר הטלפון נעול</string>
     <string name="pref_enable_notifications_when_locked_summary">שלח התראות לשעון כאשר המסך מופעל אך הטלפון נעול</string>
     <string name="pref_notifications_enable_ungroup">פיצול התראות</string>
@@ -254,7 +254,7 @@
     <string name="view_files">הצג</string>
     <string name="delete_all">מחק הכל</string>
     <string name="pref_enable_update_notification">התראות עדכון</string>
-    <string name="pref_enable_update_notification_summary">Get a notification when there is a new version of Amazmod\'s service for the watch</string>
+    <string name="pref_enable_update_notification_summary">קבלת התראה על גרסת Service חדשה להתקנה על השעון</string>
     <string name="extract">חלץ</string>
     <string name="compress">דחוס</string>
     <string name="delete_folder_and_contents">\"%1$s\" היא תיקיה. למחוק אותה ואת כל התוכן בתוכה?</string>
@@ -312,7 +312,7 @@
     <string name="pref_battery_chart_summary">הצג את תרשים הסוללה במסך הראשי</string>
     <string name="logs">לוגים</string>
     <string name="pref_log_to_file">שמירת לוג לקובץ</string>
-    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
+    <string name="pref_log_to_file_summary">שמירת לוגים של AmazMod לתוך קובץ לוגים</string>
     <string name="pref_log_to_file_level">רמת רישום</string>
     <string name="pref_log_to_file_level_summary">בחרו את רמת הפירוט אשר ירשמו בקובץ לוג</string>
 </resources>
