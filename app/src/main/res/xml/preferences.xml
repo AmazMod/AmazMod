@@ -20,12 +20,11 @@
             android:title="@string/pref_disable_notifications" />
 
         <SwitchPreference
+            android:key="preference.notifications.enable.custom.ui"
             android:defaultValue="true"
             android:dependency="preference.disable.notifications"
             android:disableDependentsState="false"
-            android:key="preference.notifications.enable.custom.ui"
-            android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
-            android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
+            android:summary="@string/pref_notifications_enable_custom_ui_summary"
             android:title="@string/pref_notifications_enable_custom_ui" />
 
         <Preference
@@ -53,8 +52,8 @@
             android:dependency="preference.notifications.enable.custom.ui"
             android:disableDependentsState="true"
             android:key="preference.amazmodservice.enable.replies"
-            android:summary="@string/pref_disable_notifications_replies_summary"
-            android:title="@string/pref_disable_notifications_replies" />
+            android:summary="@string/pref_private_notifications_summary"
+            android:title="@string/pref_private_notifications" />
 
         <Preference
             android:dependency="preference.notifications.enable.custom.ui"
@@ -261,8 +260,7 @@
         <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.update.notification"
-            android:summaryOff="@string/pref_enable_update_notification_off"
-            android:summaryOn="@string/pref_enable_update_notification_on"
+            android:summary="@string/pref_enable_update_notification_summary"
             android:title="@string/pref_enable_update_notification" />
         <Preference
             android:summary="@string/pref_choose_language_summary"

@@ -9,11 +9,12 @@
         <new>New adaptive phone app icon</new>
         <new>Watch Info card style improvements (phone app)</new>
         <new>Battery graph added in watch's menu (service app)</new>
-        <info>Updated translations</info>
         <bugfix>Screenshot color fix</bugfix>
         <bugfix>Translation option selection fix</bugfix>
         <bugfix>Notifications system app filter fix</bugfix>
+        <bugfix>Settings titles/descriptions where simplified</bugfix>
         <bugfix>Small bug fixes</bugfix>
+        <info>Updated translations</info>
     </release>
     <release
         date="2019-04-01"
