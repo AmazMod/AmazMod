@@ -95,11 +95,11 @@
     <string name="pref_disable_battery_chart_summary">השבת תרשים סוללה במסך הראשי, היישום יבצע רענון בעת סגירת העדפות</string>
     <string name="pref_battery_background_sync_interval">מרווח סינכרון ברקע</string>
     <string name="pref_battery_background_sync_interval_summary">הגדר מרווח סינכרון של הסוללה ברקע</string>
-    <string name="pref_battery_chart_time_interval">Chart time range</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_chart_time_interval">טווח זמן הסוללה</string>
+    <string name="pref_battery_chart_time_interval_summary">הגדרת טווח תצוגת הזמן של תרשים הסוללה</string>
     <string name="pref_notifications_replies_summary">הזן את התשובות המותאמות</string>
-    <string name="pref_notifications_replies">Notification replies</string>
-    <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
+    <string name="pref_notifications_replies">הגדרת מענה להתראות</string>
+    <string name="pref_private_notifications_summary">תוכן ההתראה יוסתר (יחד עם אפשרויות המענה)</string>
     <string name="pref_private_notifications">Private notification content</string>
     <string name="pref_disable_notifications_when_screen_on_summary">השבת התראות כאשר המסך פועל</string>
     <string name="pref_disable_notifications_when_screen_on">השבת כאשר המסך פועל</string>
