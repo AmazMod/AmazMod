@@ -20,10 +20,10 @@
             android:title="@string/pref_disable_notifications" />
 
         <SwitchPreference
-            android:key="preference.notifications.enable.custom.ui"
             android:defaultValue="true"
             android:dependency="preference.disable.notifications"
             android:disableDependentsState="false"
+            android:key="preference.notifications.enable.custom.ui"
             android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
             android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
             android:title="@string/pref_notifications_enable_custom_ui" />
@@ -224,6 +224,25 @@
             android:key="preference.battery.chart.range"
             android:summary="@string/pref_battery_chart_time_interval_summary"
             android:title="@string/pref_battery_chart_time_interval" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/logs">
+        <SwitchPreference
+            android:key="preference.logs.logtofile"
+            android:defaultValue="true"
+            android:disableDependentsState="false"
+            android:summary="@string/pref_log_to_file_summary"
+            android:title="@string/pref_log_to_file" />
+
+        <ListPreference
+            android:defaultValue="ERROR"
+            android:dependency="preference.logs.logtofile"
+            android:dialogTitle="@string/pref_log_to_file_level"
+            android:entries="@array/pref_log_to_file_level_entries"
+            android:entryValues="@array/pref_log_to_file_level_entries"
+            android:key="preference.logs.logtofile.level"
+            android:summary="@string/pref_log_to_file_level_summary"
+            android:title="@string/pref_log_to_file_level" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/others">

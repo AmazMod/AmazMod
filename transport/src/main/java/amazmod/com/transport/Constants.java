@@ -63,6 +63,14 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_IMAGES = "preference.notification.images";
     public static final boolean PREF_NOTIFICATIONS_IMAGES_DEFAULT = true;
 
+    public static final String PREF_LOG_TO_FILE = "preference.logs.logtofile";
+    public static final boolean PREF_LOG_TO_FILE_DEFAULT = true;
+
+
+    public static final String PREF_LOG_TO_FILE_LEVEL = "preference.logs.logtofile.level";
+    public static final String PREF_LOG_TO_FILE_LEVEL_DEFAULT = "ERROR";
+
+
     //public static final String PREF_NOTIFICATION_DELETE_BUTTON = "preference.amazmodservice.notification.enable.deletebutton";
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
     public static final Boolean PREF_NOTIFICATION_SCHEDULER_DEFAULT = false;
@@ -148,5 +156,7 @@ public class Constants {
     public static final int SCREEN_BRIGHTNESS_MODE_MANUAL = 0;
     public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
     public static final int SCREEN_BRIGHTNESS_VALUE_AUTO = -1;
+
+    public static final String LOGFILE = "/data/user/0/com.edotassi.amazmod/files/amazmod.log";
 
 }

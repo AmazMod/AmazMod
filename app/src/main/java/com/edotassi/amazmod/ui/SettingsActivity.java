@@ -1,6 +1,10 @@
 package com.edotassi.amazmod.ui;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -32,10 +36,12 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
     private static final String STATE_CURRENT_LOCALE_LANGUAGE = "STATE_CURRENT_LOCALE_LANGUAGE";
 
-    private boolean batteryChartOnCreate;
+    private boolean currentBatteryChart;
     private boolean enablePersistentNotificationOnCreate;
-    private String batteryChartDaysOnCreate;
+    private String currentBatteryChartDays;
     private String currentLocaleLanguage;
+    private String currentLogLevel;
+    private boolean currentLogTofile;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -55,13 +61,16 @@ public class SettingsActivity extends BaseAppCompatActivity {
             Logger.error("SettingsActivity onCreate NullPointerException: " + exception.toString());
         }
 
-        this.batteryChartOnCreate = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
+        currentBatteryChart = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
 
-        this.batteryChartDaysOnCreate = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
+        currentBatteryChartDays = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
 
-        this.enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
+        enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
+
+        currentLogTofile = Prefs.getBoolean(Constants.PREF_LOG_TO_FILE,Constants.PREF_LOG_TO_FILE_DEFAULT);
+        currentLogLevel = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL,Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MyPreferenceFragment())
@@ -106,27 +115,81 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
     @Override
     public void onDestroy() {
-
-        //Update battery chart properties on preference change
-        final boolean batteryChartOnDestroy = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
-        final String batteryChartDaysOnDestroy = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
-                Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
-
-        if ((batteryChartOnDestroy != this.batteryChartOnCreate)
-                || (!batteryChartDaysOnDestroy.equals(this.batteryChartDaysOnCreate))) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            finish();
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("REFRESH", true);
-            startActivity(intent);
+       if (restartNeeded()) {
+           restartApplication(getApplicationContext());
+       }else if (reloadNeeded()){
+           reloadMainActivity();
         }
-
         sync(false);
-
         super.onDestroy();
-
     }
 
+    private void reloadMainActivity(){
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("REFRESH", true);
+        startActivity(intent);
+        finish();
+    }
+
+    private static void restartApplication(Context c) {
+        try {
+            //check if the context is given
+            if (c != null) {
+                //fetch the packagemanager so we can get the default launch activity
+                // (you can replace this intent with any other activity if you want
+                PackageManager pm = c.getPackageManager();
+                //check if we got the PackageManager
+                if (pm != null) {
+                    //create the intent with the default start activity for your application
+                    Intent mStartActivity = pm.getLaunchIntentForPackage(
+                            c.getPackageName()
+                    );
+                    if (mStartActivity != null) {
+                        mStartActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //create a pending intent so the application is restarted after System.exit(0) was called.
+                        // We use an AlarmManager to call this intent in 100ms
+                        int mPendingIntentId = 223344;
+                        PendingIntent mPendingIntent = PendingIntent
+                                .getActivity(c, mPendingIntentId, mStartActivity,
+                                        PendingIntent.FLAG_CANCEL_CURRENT);
+                        AlarmManager mgr = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                        //kill the application
+                        System.exit(0);
+                    } else {
+                        Logger.error("Was not able to restart application, mStartActivity null");
+                    }
+                } else {
+                    Logger.error("Was not able to restart application, PM null");
+                }
+            } else {
+                Logger.error("Was not able to restart application, Context null");
+            }
+        } catch (Exception ex) {
+            Logger.error("Was not able to restart application");
+        }
+    }
+
+    /**
+     * Checks if important Preferences were changed and return true if a restart of FULL APP is necessary
+     * @return boolean
+     */
+    private boolean restartNeeded(){
+        return
+               currentLogTofile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE,Constants.PREF_LOG_TO_FILE_DEFAULT)
+            || !currentLogLevel.equals(Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL,Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT));
+    }
+
+    /**
+     * Checks if important Preferences were changed and return true if a restart of MainActivity is necessary
+     * @return boolean
+     */
+    private boolean reloadNeeded(){
+        return
+               currentBatteryChart != Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT)
+            || !currentBatteryChartDays.equals(Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
+    }
     private void sync(final boolean sync) {
         final String replies = Prefs.getString(Constants.PREF_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_REPLIES);
@@ -238,10 +301,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         if (currentLocaleLanguage.equals(LocaleUtils.getLanguage())) {
             return;
         }
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        finish();
+        reloadMainActivity();
     }
 
 }

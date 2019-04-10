@@ -209,4 +209,11 @@
         <item>zh-rCN</item>
         <item>zh-rTW</item>
     </string-array>
+    <string-array name="pref_log_to_file_level_entries" translatable="false">
+        <item>ERROR</item>
+        <item>WARN</item>
+        <item>INFO</item>
+        <item>DEBUG</item>
+        <item>TRACE</item>
+    </string-array>
 </resources>

@@ -33,7 +33,8 @@ public class LocaleUtils {
 
     public static Locale getLocale() {
         String currentLanguage = getPersistedData(Locale.getDefault().getLanguage());
-        Logger.debug("LocaleUtils getLocale currentLanguage: " + currentLanguage);
+        //TODO: commented line below because it was making TinyLog config not to work (is any log is done before configuration, nothing works)
+        //Logger.debug("LocaleUtils getLocale currentLanguage: " + currentLanguage);
         if (currentLanguage.equals(Constants.PREF_LANGUAGE_AUTO)){
             currentLanguage = Locale.getDefault().getLanguage();
         }
