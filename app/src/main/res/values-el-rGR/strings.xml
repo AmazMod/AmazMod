@@ -254,7 +254,7 @@
     <string name="view_files">Προβολή</string>
     <string name="delete_all">Διαγραφή όλων</string>
     <string name="pref_enable_update_notification">Ειδοποίηση ενημέρωσης</string>
-    <string name="pref_enable_update_notification_summary">Get a notification when there is a new version of Amazmod\'s service for the watch</string>
+    <string name="pref_enable_update_notification_summary">Λάβετε ειδοποίηση όταν υπάρχει μια νέα έκδοση της υπηρεσίας του Amazmod για το ρολόι</string>
     <string name="extract">Εξαγωγή</string>
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
@@ -310,9 +310,9 @@
     <string name="pref_notifications_enable_images_summary">Εμφάνιση Εικόνων Ειδοποιήσεων</string>
     <string name="pref_battery_chart">Διάγραμμα Μπαταρίας</string>
     <string name="pref_battery_chart_summary">Εμφάνιση γραφήματος μπαταρίας στην κεντρική οθόνη του AmazMod</string>
-    <string name="logs">Αρχείο καταγραφής</string>
-    <string name="pref_log_to_file">Καταγραφή σε αρχείο</string>
-    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
+    <string name="logs">Αρχείο καταγραφής σφαλμάτων</string>
+    <string name="pref_log_to_file">Καταγραφές σφαλμάτων σε αρχείο</string>
+    <string name="pref_log_to_file_summary">Αποθήκευση καταγραφών σφαλμάτων του AmazMod στο αρχείο amazmod.log</string>
     <string name="pref_log_to_file_level">Επίπεδο καταγραφής</string>
-    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file</string>
+    <string name="pref_log_to_file_level_summary">Επιλέξτε το επίπεδο λεπτομέρειας που θα αποθηκευτεί στο αρχείο καταγραφής</string>
 </resources>
