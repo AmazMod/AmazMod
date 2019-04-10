@@ -105,23 +105,23 @@
     <string name="pref_disable_notifications_when_screen_on">Desabilitar quando a tela está LIGADA</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
-    <string name="pref_run_wizard">Welcome Presentation</string>
+    <string name="pref_run_wizard">Tela de Boas Vindas</string>
     <string name="pref_run_wizard_summary">Executar a apresentação inicial novamente</string>
     <string name="pref_vibration_duration">Duração da vibração</string>
     <string name="pref_vibration_duration_summary">Defina a duração da vibração for the replies screen on watch (only used if Standard notifications are disabled)</string>
     <string name="pref_screen_timeout">Tempo tela acesa</string>
     <string name="pref_screen_timeout_summary">Definir duração de notificações com interface personalizada</string>
-    <string name="pref_disable_notifications_when_dnd">Respect DND mode</string>
+    <string name="pref_disable_notifications_when_dnd">Respeitar modo Não Perturbe</string>
     <string name="pref_disable_notifications_when_dnd_summary">As notificações não serão enviadas quando Não Perturbe for detectado</string>
     <string name="pref_disable_remove_notifications">Manter notificações</string>
     <string name="pref_disable_remove_notifications_summary">Não remove as notificações do relógio quando removidas do celular</string>
     <string name="pref_enable_voice_apps">Voice call notifications</string>
     <string name="pref_enable_voice_apps_summary">Chamadas de voz enviarão notificação para o relógio</string>
-    <string name="pref_enable_local_only">Local notifications</string>
+    <string name="pref_enable_local_only">Notificações Locais</string>
     <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
     <string name="pref_enable_notifications_when_locked">Habilitar notificações quando a tela estiver bloqueada</string>
     <string name="pref_enable_notifications_when_locked_summary">Envia notificações se a tela do celular está ligada mas ele está bloqueado</string>
-    <string name="pref_notifications_enable_ungroup">Ungroup notifications</string>
+    <string name="pref_notifications_enable_ungroup">Desagrupar Notificações</string>
     <string name="pref_notifications_enable_ungroup_summary">Notificações da mesma fonte serão separados</string>
     <string name="pref_filters">Filtro de notificações</string>
     <string name="pref_enable_music_control_with_hardware_button">Habilitar controle de música por hardware</string>
@@ -143,7 +143,7 @@
     <string name="watch_disconnected">Desconectado</string>
     <string name="watch_connecting">Conectando…</string>
     <string name="notifications_screen_timeout">Tempo de tela acesa</string>
-    <string name="pref_notifications_inverted_theme">Light theme</string>
+    <string name="pref_notifications_inverted_theme">Tema Claro</string>
     <string name="pref_notifications_inverted_theme_summary">Habilitar fundo claro com tema de texto escuro</string>
     <string name="pref_font_size">Tamanho da fonte</string>
     <string name="pref_font_size_summary">Escolha o tamanho da fonte usado nas notificações personalizadas</string>
@@ -152,7 +152,7 @@
     <string name="device_connected">estava conectado</string>
     <string name="pref_enable_persistent_notification">Persistent notification</string>
     <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
-    <string name="pref_notifications_disable_screenon">Keep screen off</string>
+    <string name="pref_notifications_disable_screenon">Manter a tela desligada</string>
     <string name="pref_notifications_disable_screenon_summary">Na acende e desbloqueia a tela quando uma notificação é recebida no relógio</string>
     <string name="pref_check_permissions">Verificar permissões do app</string>
     <string name="pref_check_permissions_summary">Verifica se o AmazMod tem todas as permissões necessárias</string>
@@ -253,8 +253,8 @@
     <string name="file_upload_finished">Upload concluído com sucesso</string>
     <string name="view_files">Visualizar</string>
     <string name="delete_all">Apagar tudo</string>
-    <string name="pref_enable_update_notification">Update Notification</string>
-    <string name="pref_enable_update_notification_summary">Get a notification when there is a new version of Amazmod\'s service for the watch</string>
+    <string name="pref_enable_update_notification">Notificação de Atualização</string>
+    <string name="pref_enable_update_notification_summary">Receber uma notificação quando houver uma nova versão do serviço do Amazmod para o relógio</string>
     <string name="extract">Extrair</string>
     <string name="compress">Comprimir</string>
     <string name="delete_folder_and_contents">\"%1$s\" é uma pasta. Removê-la com todo seu conteúdo?</string>
@@ -310,4 +310,9 @@
     <string name="pref_notifications_enable_images_summary">Mostrar Imagens das Notificações</string>
     <string name="pref_battery_chart">Gráfico de bateria</string>
     <string name="pref_battery_chart_summary">Mostrar gráfico de bateria na tela principal do AmazMod</string>
+    <string name="logs">Logs</string>
+    <string name="pref_log_to_file">Log to File</string>
+    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
+    <string name="pref_log_to_file_level">Log Level</string>
+    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file</string>
 </resources>
