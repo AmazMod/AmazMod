@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
@@ -361,7 +360,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                                 .build()
                                 .show();
                     } catch (Exception e) {
-                        Crashlytics.logException(e);
+                        Logger.error(e);
                         Logger.error("FileOpenerActivity checkConnection exception: " + e.toString());
                     }
                     result = WATCH_NOT_CONNECTED;

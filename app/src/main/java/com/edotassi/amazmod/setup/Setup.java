@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.db.model.NotficationSentEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
@@ -86,7 +85,7 @@ public class Setup {
                             }
                         } catch (Exception ex) {
                             updater.updateCheckFailed();
-                            Crashlytics.logException(ex);
+                            Logger.error(ex,"checkServiceUpdate: Error checking for update");
                         }
                     }
                 });

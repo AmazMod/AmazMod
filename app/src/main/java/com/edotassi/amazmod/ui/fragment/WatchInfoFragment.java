@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
 
 import amazmod.com.transport.Constants;
@@ -171,7 +170,6 @@ public class WatchInfoFragment extends Card implements Updater {
                                         .build()
                                         .show();
                             } catch (Exception e) {
-                                Crashlytics.logException(e);
                                 Logger.error("WatchInfoFragment onResume exception: " + e.toString());
                             }
                         }
@@ -204,8 +202,7 @@ public class WatchInfoFragment extends Card implements Updater {
         try {
             onWatchStatus(watchStatus);
         } catch (NullPointerException e) {
-            Crashlytics.logException(e);
-            Logger.error("WatchInfoFragment refresh exception: " + e.toString());
+            Logger.error("WatchInfoFragment refresh exception: {}", e.toString());
         }
     }
 

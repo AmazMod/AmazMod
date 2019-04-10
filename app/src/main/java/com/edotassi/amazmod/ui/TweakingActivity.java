@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
@@ -341,7 +340,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         } catch (Exception ex) {
-            Crashlytics.logException(ex);
+            Logger.error(ex);
         }
 
         String command = commandEditText.getText().toString();

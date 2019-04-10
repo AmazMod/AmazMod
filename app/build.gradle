@@ -61,7 +61,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/SpringboardPluginLib.jar')
-    //implementation 'com.orhanobut:logger:2.2.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
@@ -76,7 +75,6 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
     implementation 'com.github.MFlisar:changelog:1.0.4'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'

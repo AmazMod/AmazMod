@@ -16,7 +16,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
@@ -73,7 +72,7 @@ public class MainActivity extends BaseAppCompatActivity
         try {
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            Crashlytics.logException(exception);
+            Logger.error(exception);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
