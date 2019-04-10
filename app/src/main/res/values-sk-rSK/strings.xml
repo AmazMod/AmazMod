@@ -311,4 +311,9 @@ Urobte príkaz shell \"</string>
     <string name="pref_notifications_enable_images_summary">Zobraziť obrázky upozornenia</string>
     <string name="pref_battery_chart">Graf batérie</string>
     <string name="pref_battery_chart_summary">Zobraziť graf batérie v AmazMod hlavnej obrazovke</string>
+    <string name="logs">Logs</string>
+    <string name="pref_log_to_file">Log to File</string>
+    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
+    <string name="pref_log_to_file_level">Log Level</string>
+    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file</string>
 </resources>
