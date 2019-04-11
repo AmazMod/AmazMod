@@ -97,6 +97,10 @@
     <string name="pref_battery_background_sync_interval_summary">设置电池后台同步间隔</string>
     <string name="pref_battery_chart_time_interval">Chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_watch_alert">Watch battery alert</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
+    <string name="pref_battery_phone_alert">Phone battery alert</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">输入您的自定义答复</string>
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
@@ -126,7 +130,7 @@
     <string name="pref_filters">通知过滤器</string>
     <string name="pref_enable_music_control_with_hardware_button">启用物理按键控制音乐</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(实验性) 启用物理按键的音乐控制。按下最下方按钮播放/暂停音乐。长按切换下一首歌。</string>
-    <string name="pref_phone_connect_disconnect_alert">手机端连接/断开时发出警报</string>
+    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
     <string name="pref_phone_connect_disconnect_alert_summary">当与手机端连接/断开时, 手表端会震动并显示手机端的连接状态</string>
     <string name="intro_title_1">欢迎使用 AmazMod!</string>
     <string name="intro_description_1">请按照此使用教程了解如何在手表端安装服务程序并在手机端授予程序通知访问权限。</string>
@@ -200,9 +204,9 @@
     <string name="reading_files_failed">读取文件失败</string>
     <string name="activity_about_extras">附加功能</string>
     <string name="revoke_device_owner">撤销手表端设备管理器权限</string>
-    <string name="connection_alert">连接警报</string>
+    <string name="alerts">Alerts</string>
     <string name="pref_phone_connect_alert_standard_notification">使用标准通知</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">对连接警报使用标准通知, 替代全屏警报</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
     <string name="enable_low_power">启用手表端低功耗模式</string>
     <string name="failed_to_send_command">发送命令到手表失败</string>
     <string name="command_sent">发送命令到手表成功</string>
