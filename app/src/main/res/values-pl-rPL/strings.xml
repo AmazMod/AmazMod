@@ -105,7 +105,7 @@
     <string name="pref_disable_notifications_when_screen_on">Wyłącz kiedy ekran jest Włączony</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
     <string name="pref_notifications_enable_custom_ui_summary">Powiadomienia z możliwością odpowiedzi</string>
-    <string name="pref_run_wizard">Welcome Presentation</string>
+    <string name="pref_run_wizard">Prezentacja powitalna</string>
     <string name="pref_run_wizard_summary">Uruchom Ekran Powitalny ponownie</string>
     <string name="pref_vibration_duration">Czas trwania wibracji</string>
     <string name="pref_vibration_duration_summary">Ustaw czas wibracji na zegarku (używane wtedy, gdy wyłączone są standardowe powiadomienia)</string>
@@ -143,7 +143,7 @@
     <string name="watch_disconnected">Rozłączono</string>
     <string name="watch_connecting">Łączenie…</string>
     <string name="notifications_screen_timeout">Wygaszenie ekranu</string>
-    <string name="pref_notifications_inverted_theme">Light theme</string>
+    <string name="pref_notifications_inverted_theme">Jasny motyw</string>
     <string name="pref_notifications_inverted_theme_summary">Włącz jasne tło przy ciemnym motywie tekstu</string>
     <string name="pref_font_size">Rozmiar czcionki</string>
     <string name="pref_font_size_summary">Ustaw rozmiar czcionki systemowych powiadomień</string>
@@ -253,8 +253,8 @@
     <string name="file_upload_finished">Wgrywanie Zakończone Sukcesem</string>
     <string name="view_files">Wyświetl</string>
     <string name="delete_all">Usuń wszystko</string>
-    <string name="pref_enable_update_notification">Update Notification</string>
-    <string name="pref_enable_update_notification_summary">Get a notification when there is a new version of Amazmod\'s service for the watch</string>
+    <string name="pref_enable_update_notification">Zaktualizowano powiadomienie</string>
+    <string name="pref_enable_update_notification_summary">Otrzymaj powiadomienie gdy jest nowa wersja Amazmod service dla zegarka</string>
     <string name="extract">Wyodrębnij</string>
     <string name="compress">Kompresuj</string>
     <string name="delete_folder_and_contents">\"%1$s\" jest folderem. Usunąć folder wraz z jego zawartością?</string>
@@ -310,9 +310,9 @@
     <string name="pref_notifications_enable_images_summary">Wyświetl Zdjęcia w Powiadomieniach</string>
     <string name="pref_battery_chart">Wykres baterii</string>
     <string name="pref_battery_chart_summary">Pokaż Wykres Baterii na głównym ekranie AmazMod</string>
-    <string name="logs">Logs</string>
-    <string name="pref_log_to_file">Log to File</string>
-    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
-    <string name="pref_log_to_file_level">Log Level</string>
-    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file</string>
+    <string name="logs">Dzienniki</string>
+    <string name="pref_log_to_file">Dziennik do pliku</string>
+    <string name="pref_log_to_file_summary">Zapisz dzienniki AmazMod do amazmod.log</string>
+    <string name="pref_log_to_file_level">Poziom dziennika</string>
+    <string name="pref_log_to_file_level_summary">Ustaw poziom detali jaki ma być przechowywany w dzienniku</string>
 </resources>
