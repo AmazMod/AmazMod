@@ -108,6 +108,59 @@
         <item>180</item>
         <item>240</item>
     </string-array>
+
+    <string-array name="pref_watch_battery_alert">
+        <item>Disabled</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert_values">
+        <item>0</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>99</item>
+    </string-array>
+
+    <string-array name="pref_phone_battery_alert">
+        <item>Disabled</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert_values">
+        <item>0</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>99</item>
+    </string-array>
+
     <string-array name="pref_watchface_background_sync_interval_entries">
         <item>1 min</item>
         <item>5 min</item>

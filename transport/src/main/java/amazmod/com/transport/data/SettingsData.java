@@ -28,7 +28,8 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DEFAULT_LOCALE = "default_locale";
     public static final String DISABLE_DELAY = "disable_reply_delay";
     public static final String AMAZMOD_FIRST_WIDGET = "amazmod_first_widget";
-    public static final String NOTIFICATION_DELETE_BUTTON = "notification_delete_button";
+    public static final String BATTERY_WATCH_ALERT = "battery_watch_alert";
+    public static final String BATTERY_PHONE_ALERT = "battery_phone_alert";
 
 
     private String replies;
@@ -48,7 +49,8 @@ public class SettingsData extends Transportable implements Parcelable {
     private String defaultLocale;
     private boolean disableDelay;
     private boolean amazModFirstWidget;
-    private boolean notificationDeleteButton;
+    private int batteryWatchAlert;
+    private int batteryPhoneAlert;
 
     public SettingsData() {
     }
@@ -71,7 +73,8 @@ public class SettingsData extends Transportable implements Parcelable {
         defaultLocale = in.readString();
         disableDelay = in.readByte() != 0;
         amazModFirstWidget = in.readByte() != 0;
-        notificationDeleteButton = in.readByte() != 0;
+        batteryWatchAlert = in.readInt();
+        batteryPhoneAlert = in.readInt();
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -105,7 +108,8 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
         dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
-        dataBundle.putBoolean(NOTIFICATION_DELETE_BUTTON, notificationDeleteButton);
+        dataBundle.putInt(BATTERY_WATCH_ALERT,batteryWatchAlert);
+        dataBundle.putInt(BATTERY_PHONE_ALERT,batteryPhoneAlert);
 
         return dataBundle;
     }
@@ -130,7 +134,8 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
         settingsData.setAmazModFirstWidget(dataBundle.getBoolean(AMAZMOD_FIRST_WIDGET));
-        settingsData.setNotificationDeleteButton(dataBundle.getBoolean(NOTIFICATION_DELETE_BUTTON));
+        settingsData.setBatteryWatchAlert(dataBundle.getInt(BATTERY_WATCH_ALERT));
+        settingsData.setBatteryPhoneAlert(dataBundle.getInt(BATTERY_PHONE_ALERT));
 
         return settingsData;
     }
@@ -238,12 +243,20 @@ public class SettingsData extends Transportable implements Parcelable {
         this.amazModFirstWidget = amazModFirstWidget;
     }
 
-    public boolean isNotificationDeleteButton() {
-        return notificationDeleteButton;
+    public int getBatteryWatchAlert() {
+        return batteryWatchAlert;
     }
 
-    public void setNotificationDeleteButton(boolean notificationDeleteButton) {
-        this.notificationDeleteButton = notificationDeleteButton;
+    public void setBatteryWatchAlert(int batteryWatchAlert) {
+        this.batteryWatchAlert = batteryWatchAlert;
+    }
+
+    public int getBatteryPhoneAlert() {
+        return batteryWatchAlert;
+    }
+
+    public void setBatteryPhoneAlert(int batteryPhoneAlert) {
+        this.batteryPhoneAlert = batteryPhoneAlert;
     }
 
     public int getShakeToDismissGravity() {
@@ -310,6 +323,8 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeString(defaultLocale);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
         dest.writeByte((byte) (amazModFirstWidget ? 1 : 0));
-        dest.writeByte((byte) (notificationDeleteButton ? 1 : 0));
+        dest.writeByte((byte) (0));// TODO - Replace this old option with a new one (compatibility)
+        dest.writeInt(batteryWatchAlert);
+        dest.writeInt(batteryWatchAlert);
     }
 }

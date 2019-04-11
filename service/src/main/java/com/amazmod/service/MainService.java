@@ -55,7 +55,7 @@ import com.amazmod.service.support.BatteryJobService;
 import com.amazmod.service.support.CommandLine;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.ConfirmationWearActivity;
-import com.amazmod.service.ui.PhoneConnectionActivity;
+import com.amazmod.service.ui.AlertsActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
@@ -149,9 +149,11 @@ public class MainService extends Service implements Transporter.DataListener {
     private static long dateLastCharge;
     private static int count = 0;
     private static boolean isPhoneConnectionAlertEnabled;
-    private static boolean isPhoneConnectionStandardAlertEnabled;
+    private static boolean isStandardAlertEnabled;
     private static boolean isSpringboardObserverEnabled;
     private static boolean wasSpringboardSaved;
+    private boolean watchBatteryAlreadyAlerted;
+    private boolean phoneBatteryAlreadyAlerted;
     private float batteryPct;
     private static WidgetSettings settings;
     private static JobScheduler jobScheduler;
@@ -207,6 +209,10 @@ public class MainService extends Service implements Transporter.DataListener {
         // When starting Amazmod, defines notification counter as ZERO
         NotificationStore.setNotificationCount(context, 0);
 
+        // Initialize battery alerts
+        this.watchBatteryAlreadyAlerted = false;
+        this.phoneBatteryAlreadyAlerted = false;
+
         notificationsReceiver = new NotificationsReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
@@ -257,7 +263,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Register phone connect/disconnect monitor
         isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, false);
-        isPhoneConnectionStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
+        isStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
         if (isPhoneConnectionAlertEnabled) {
             registerConnectionMonitor(true);
         }
@@ -425,6 +431,31 @@ public class MainService extends Service implements Transporter.DataListener {
                 Settings.System.putString(context.getContentResolver(), "CustomCalendarData", "{}");
             }
         }
+
+        // Phone Battery Alert
+        if( settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0) > 0 ){
+            if( settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0) >= phoneBattery ){
+                if(!phoneBatteryAlreadyAlerted) { // Pass only if NOT already alerted
+                    if (isStandardAlertEnabled) {
+                        // Show standard battery alert
+                        sendStandardAlert("phone_battery");
+                    } else {
+                        // Show battery alert
+                        Intent intent = new Intent(context, AlertsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        intent.putExtra("type", "phone_battery");
+                        context.startActivity(intent);
+                    }
+                    phoneBatteryAlreadyAlerted = true;
+                }
+            }else{
+                // When battery is above the alert level
+                phoneBatteryAlreadyAlerted = false;
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -496,7 +527,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         //Toggle phone connect/disconnect monitor if settings changed
         boolean iPCA = settingsData.isPhoneConnectionAlert();
-        isPhoneConnectionStandardAlertEnabled = settingsData.isPhoneConnectionAlertStandardNotification();
+        isStandardAlertEnabled = settingsData.isPhoneConnectionAlertStandardNotification();
         if (isPhoneConnectionAlertEnabled != iPCA)
             registerConnectionMonitor(iPCA);
 
@@ -922,6 +953,32 @@ public class MainService extends Service implements Transporter.DataListener {
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         batteryPct = level / (float) scale;
+
+        // Watch Battery Alert
+        // Logger.debug("Watch battery check: current battery "+Math.round(batteryPct * 100f)+" - Alert at "+settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0));
+        if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) > 0 ){
+            if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) >= Math.round(batteryPct * 100f) ){
+                if(!watchBatteryAlreadyAlerted) { // Pass only if NOT already alerted
+                    if (isStandardAlertEnabled) {
+                        // Show standard battery alert
+                        sendStandardAlert("watch_battery");
+                    } else {
+                        // Show battery alert
+                        Intent intent = new Intent(context, AlertsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        intent.putExtra("type", "watch_battery");
+                        context.startActivity(intent);
+                    }
+                    watchBatteryAlreadyAlerted = true;
+                }
+            }else{
+                // When battery is above the alert level
+                watchBatteryAlreadyAlerted = false;
+            }
+        }
     }
 
     // Save battery to database
@@ -1058,16 +1115,17 @@ public class MainService extends Service implements Transporter.DataListener {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    if (isPhoneConnectionStandardAlertEnabled) {
-                        Logger.debug("MainService registerConnectionMonitor1 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
-                        sendStandardAlert();
+                    if (isStandardAlertEnabled) {
+                        Logger.debug("MainService registerConnectionMonitor1 standardAlert: " + isStandardAlertEnabled);
+                        sendStandardAlert("phone_connection");
                     } else {
-                        Logger.debug("MainService registerConnectionMonitor2 standardAlert: " + isPhoneConnectionStandardAlertEnabled);
-                        Intent intent = new Intent(context, PhoneConnectionActivity.class);
+                        Logger.debug("MainService registerConnectionMonitor2 standardAlert: " + isStandardAlertEnabled);
+                        Intent intent = new Intent(context, AlertsActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        intent.putExtra("type","phone_connection");
                         context.startActivity(intent);
                     }
                 }
@@ -1086,7 +1144,7 @@ public class MainService extends Service implements Transporter.DataListener {
         isPhoneConnectionAlertEnabled = status;
     }
 
-    private void sendStandardAlert() {
+    private void sendStandardAlert(String alert_type) {
 
         NotificationData notificationData = new NotificationData();
         final int vibrate;
@@ -1095,7 +1153,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
         notificationData.setId(9979);
         notificationData.setKey("amazmod|test|9979");
-        notificationData.setTitle(getString(R.string.phone_connection_alert));
         notificationData.setTime(notificationTime);
         notificationData.setVibration(0);
         notificationData.setForceCustom(false);
@@ -1106,18 +1163,37 @@ public class MainService extends Service implements Transporter.DataListener {
 
         final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
-        if (android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")) {
-            // Phone disconnected
-            drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
-            notificationData.setText(getString(R.string.phone_disconnected));
-            vibrate = Constants.VIBRATION_LONG;
-        } else {
-            // Phone connected
-            drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
-            notificationData.setText(getString(R.string.phone_connected));
-            vibrate = Constants.VIBRATION_SHORT;
+        switch(alert_type) {
+            case "phone_battery":
+                notificationData.setTitle(getString(R.string.phone_battery_alert));
+                drawable = getDrawable(R.drawable.ic_battery_alert_black_24dp);
+                notificationData.setText(getString(R.string.phone_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
+                vibrate = Constants.VIBRATION_LONG;
+                break;
+            case "watch_battery":
+                notificationData.setTitle(getString(R.string.watch_battery_alert));
+                drawable = getDrawable(R.drawable.ic_battery_alert_black_24dp);
+                notificationData.setText(getString(R.string.watch_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
+                vibrate = Constants.VIBRATION_LONG;
+                break;
+            case "phone_connection":
+            default:
+                // type= phone_connection
+                notificationData.setTitle(getString(R.string.phone_connection_alert));
+                if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+                    // Phone disconnected
+                    drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
+                    notificationData.setText(getString(R.string.phone_disconnected));
+                    vibrate = Constants.VIBRATION_LONG;
+                }else{
+                    // Phone connected
+                    drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
+                    notificationData.setText(getString(R.string.phone_connected));
+                    vibrate = Constants.VIBRATION_SHORT;
+                }
         }
-
+        
+        
         try {
             Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);

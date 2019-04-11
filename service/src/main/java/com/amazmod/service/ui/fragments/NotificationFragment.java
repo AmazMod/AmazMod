@@ -157,6 +157,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
 
         //Delete related stuff
+        /*
         deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
         if (settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, false)) {
             deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +172,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         } else {
             deleteButton.setVisibility(View.GONE);
         }
+        */
 
         //Replies related stuff
         repliesListView = getActivity().findViewById(R.id.fragment_reply_list);

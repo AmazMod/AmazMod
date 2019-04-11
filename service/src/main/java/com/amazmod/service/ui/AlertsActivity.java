@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
-public class PhoneConnectionActivity extends Activity {
+public class AlertsActivity extends Activity {
 
     @BindView(R.id.description)
     TextView text;
@@ -57,26 +57,42 @@ public class PhoneConnectionActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.icon_overlay);
-
         ButterKnife.bind(this);
-
         setWindowFlags(true);
 
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        SettingsManager settingsManager = new SettingsManager(this);
 
-        if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
-            // Phone disconnected
-            // Wake screen and trow overlay here
-            icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_erase));
-            text.setText(getString(R.string.phone_disconnected));
-            vibrate = Constants.VIBRATION_LONG;
-        }else{
-            // Phone connected
-            // Wake screen and trow overlay here
-            icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_ring));
-            text.setText(getString(R.string.phone_connected));
-            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-            vibrate = Constants.VIBRATION_SHORT;
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrate = Constants.VIBRATION_SHORT;
+
+        // Get passed parameters
+        Intent myIntent = getIntent();
+        String alert_type = myIntent.getStringExtra("type");
+
+        switch(alert_type) {
+            case "phone_battery":
+                icon.setImageDrawable(getDrawable(R.drawable.ic_battery_alert_black_24dp));
+                text.setText(getString(R.string.phone_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
+                vibrate = Constants.VIBRATION_LONG;
+                break;
+            case "watch_battery":
+                icon.setImageDrawable(getDrawable(R.drawable.ic_battery_alert_black_24dp));
+                text.setText(getString(R.string.watch_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
+                vibrate = Constants.VIBRATION_LONG;
+                break;
+            case "phone_connection":
+            default:
+                // type= phone_connection
+                if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+                    // Phone disconnected
+                    icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_erase));
+                    text.setText(getString(R.string.phone_disconnected));
+                    vibrate = Constants.VIBRATION_LONG;
+                }else{
+                    // Phone connected
+                    icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_ring));
+                    text.setText(getString(R.string.phone_connected));
+                }
         }
 
         handler = new Handler();
@@ -95,7 +111,6 @@ public class PhoneConnectionActivity extends Activity {
                 }
             }
         }, 1500);
-
     }
 
     @Override

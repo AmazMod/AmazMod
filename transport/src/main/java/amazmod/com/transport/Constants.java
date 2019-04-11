@@ -43,6 +43,8 @@ public class Constants {
     public static final Boolean PREF_BATTERY_CHART_DEFAULT = true;
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
+    public static final String PREF_BATTERY_WATCH_ALERT = "preference.battery.watch.alert";
+    public static final String PREF_BATTERY_PHONE_ALERT = "preference.battery.phone.alert";
     public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
@@ -87,6 +89,8 @@ public class Constants {
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
     public static final boolean PREF_DEFAULT_DISABLE_BATTERY_CHART = false;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";
+    public static final String PREF_DEFAULT_BATTERY_WATCH_ALERT = "0";
+    public static final String PREF_DEFAULT_BATTERY_PHONE_ALERT = "0";
     public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_STANDARD_NOTIFICATIONS = false;

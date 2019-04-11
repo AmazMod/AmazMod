@@ -81,10 +81,11 @@ public class FragmentUtil {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
     }
 
-
+    /*
     public boolean getEnableDeleteButton() {
         return settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, Constants.PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON);
     }
+    */
 
     private String getDefaultLocaleSettings() {
         String locale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");

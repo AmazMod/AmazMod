@@ -42,10 +42,11 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
     public static final String PREF_DISABLE_DELAY = "pref_notification_delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "pref_amazmod_first_widget";
+    public static final String PREF_BATTERY_WATCH_ALERT = "pref_battery_watch_alert";
+    public static final String PREF_BATTERY_PHONE_ALERT = "pref_battery_phone_alert";
     public static final String PREF_SPRINGBOARD_ORDER = "pref_springboard_order";
     public static final String PREF_HIDDEN_APPS = "pref_hidden_apps";
     public static final String PREF_BATTERY_GRAPH_DAYS = "pref_battery_graph_days";
-    public static final String PREF_NOTIFICATION_DELETE_BUTTON = "notification_delete_button";
     public static final String PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER = "pref_amazmod_official_widgets_order";
 
     public static final String CUSTOM_WATCHFACE_DATA = "CustomWatchfaceData";
@@ -60,7 +61,6 @@ public class Constants {
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_DELAY = false;
     public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
-    public static final boolean PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON = false;
 
 
     public static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
