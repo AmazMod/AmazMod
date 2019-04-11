@@ -104,7 +104,7 @@
     <string name="pref_disable_notifications_when_screen_on_summary">Wyłącz powiadomienia, gdy ekran jest włączony</string>
     <string name="pref_disable_notifications_when_screen_on">Wyłącz kiedy ekran jest Włączony</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Powiadomienia z możliwością odpowiedzi</string>
     <string name="pref_run_wizard">Welcome Presentation</string>
     <string name="pref_run_wizard_summary">Uruchom Ekran Powitalny ponownie</string>
     <string name="pref_vibration_duration">Czas trwania wibracji</string>
