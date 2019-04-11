@@ -97,6 +97,10 @@
     <string name="pref_battery_background_sync_interval_summary">Définir l\'intervalle de synchro. batterie en arrière plan</string>
     <string name="pref_battery_chart_time_interval">Chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_watch_alert">Watch battery alert</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
+    <string name="pref_battery_phone_alert">Phone battery alert</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Saisissez vos réponses personnalisées</string>
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
@@ -126,7 +130,7 @@
     <string name="pref_filters">Filtres de notifications</string>
     <string name="pref_enable_music_control_with_hardware_button">Activer le controle de la musique par les boutons</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Active le contrôle de la musique par les boutons de la montre. Appuyez sur bas pour lire/pauser la musique. Appui long pour passer a la chansons suivante.</string>
-    <string name="pref_phone_connect_disconnect_alert">Alerte lorsque le téléphone se connecte/déconnecte</string>
+    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
     <string name="pref_phone_connect_disconnect_alert_summary">Montre vibrera et afficher l’état de connexion au téléphone quand connecte/déconnecte</string>
     <string name="intro_title_1">Bienvenue dans AmazMod!</string>
     <string name="intro_description_1">Veuillez suivre cette présentation pour apprendre comment installer l\'App. de Service sur la montre et donner accès aux notifications a l\'application.</string>
@@ -199,9 +203,9 @@
     <string name="reading_files_failed">Lecture des fichiers a échoué</string>
     <string name="activity_about_extras">Extras</string>
     <string name="revoke_device_owner">Retirer le propriétaire de l’appareil</string>
-    <string name="connection_alert">Alerte de connexion</string>
+    <string name="alerts">Alerts</string>
     <string name="pref_phone_connect_alert_standard_notification">Utiliser les notifications standards</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Utiliser les notifications standards pour les alertes de connexion au lieu des alertes en plein écran</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
     <string name="enable_low_power">Activer le mode de faible consommation de la montre</string>
     <string name="failed_to_send_command">L\'envoi de la commande à la montre a échoué</string>
     <string name="command_sent">L\'envoi de la commande à la montre a réussi</string>
