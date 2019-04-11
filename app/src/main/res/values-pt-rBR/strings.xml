@@ -97,6 +97,10 @@
     <string name="pref_battery_background_sync_interval_summary">Sumário do intervalo de sincronização em segundo plano</string>
     <string name="pref_battery_chart_time_interval">Chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_watch_alert">Watch battery alert</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
+    <string name="pref_battery_phone_alert">Phone battery alert</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Insira respostas personalizadas separadas por vírgula</string>
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
@@ -126,7 +130,7 @@
     <string name="pref_filters">Filtro de notificações</string>
     <string name="pref_enable_music_control_with_hardware_button">Habilitar controle de música por hardware</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Habilitar controle de música por botão físico. Aperte o botão inferior para tocar/pausar a música. Segure para pular para a próxima música.</string>
-    <string name="pref_phone_connect_disconnect_alert">Alertar quando o telefone (des)conectar-se</string>
+    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
     <string name="pref_phone_connect_disconnect_alert_summary">O relógio irá vibrar e mostrar o estado da conexão quando (des)conectar-se</string>
     <string name="intro_title_1">Bem-Vindo ao AmazMod!</string>
     <string name="intro_description_1">Siga esta apresentação para aprender como instalar o app de serviço no relógio e conceder acesso às Notificações no celular.</string>
@@ -199,9 +203,9 @@
     <string name="reading_files_failed">Falha ao ler arquivos</string>
     <string name="activity_about_extras">Extras</string>
     <string name="revoke_device_owner">Revogar proprietário no relógio</string>
-    <string name="connection_alert">Alerta de conexão</string>
+    <string name="alerts">Alerts</string>
     <string name="pref_phone_connect_alert_standard_notification">Usar notificação padrão</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Usar notificações padrão para alertas de conexão no lugar de alerta em tela cheia</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
     <string name="enable_low_power">Habilitar modo de baixo consumo no relógio</string>
     <string name="failed_to_send_command">Erro ao enviar comando para o relógio</string>
     <string name="command_sent">Comando enviado para o relógio com sucesso</string>
