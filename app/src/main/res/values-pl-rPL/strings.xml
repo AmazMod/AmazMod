@@ -5,7 +5,7 @@
     <string name="notifications">Wyślij powiadomienia</string>
     <string name="notifications_options">Ustawienia powiadomień</string>
     <string name="battery">Bateria</string>
-    <string name="customui">Custom UI Notifications Options</string>
+    <string name="customui">Niestandardowy interfejs opcje powiadomień</string>
     <string name="others">Inne</string>
     <string name="other">Inne</string>
     <string name="open">Włącz</string>
@@ -95,7 +95,7 @@
     <string name="pref_disable_battery_chart_summary">Wyłącz stan baterii na ekranie główny, aplikacja odswieźy dane podczas wyjścia z ust</string>
     <string name="pref_battery_background_sync_interval">Częstotliwość synchronizacji</string>
     <string name="pref_battery_background_sync_interval_summary">Ustaw w tle synchr. stanu baterii</string>
-    <string name="pref_battery_chart_time_interval">Chart time range</string>
+    <string name="pref_battery_chart_time_interval">Wykres zakresu czasowego</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
     <string name="pref_notifications_replies_summary">Wprowadź swoje niestandardowe odpowiedzi</string>
     <string name="pref_notifications_replies">Notification replies</string>
