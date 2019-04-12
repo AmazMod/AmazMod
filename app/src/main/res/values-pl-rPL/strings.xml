@@ -203,7 +203,7 @@
     <string name="reading_files_failed">Nie można odczytać plików</string>
     <string name="activity_about_extras">Dodatki</string>
     <string name="revoke_device_owner">Cofnij administratora urządzenia na zegarku</string>
-    <string name="alerts">Alerts</string>
+    <string name="alerts">Ostrzeżenia</string>
     <string name="pref_phone_connect_alert_standard_notification">Używaj standardowych powiadomień</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
     <string name="enable_low_power">Włącz tryb LPM na zegarku</string>
