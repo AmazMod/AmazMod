@@ -65,10 +65,10 @@
     <string name="notification_ungroup">Pura ryhmä</string>
     <string name="notification_localok">LOCALOK</string>
     <string name="notification_disabled">Ilmot_pois</string>
-    <string name="notification_screenon">screenon</string>
+    <string name="notification_screenon">näyttö päällä</string>
     <string name="notification_screenlocked">näyttö lukittu</string>
     <string name="telegram_channel">Telegram channel</string>
-    <string name="support_email">Support email</string>
+    <string name="support_email">Tuki sähköpostilla</string>
     <string name="project_github">Projekti GitHubissa</string>
     <string name="activity_about_project_maintainer">Projektin ylläpitäjä</string>
     <string name="activity_about_devs">Kehittäjä</string>
@@ -78,10 +78,10 @@
     <string name="activity_watchface_send_data">Lähetä puhelimen tiedot kelloon (akku, hälytys, kalenteri)</string>
     <string name="activity_watchface_send_data_interval_prompt">Valitse aikaväli</string>
     <string name="activity_watchface_send_data_interval_summary">Kellotaulun tietojen lähetys väli</string>
-    <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
+    <string name="activity_watchface_send_data_calendar_events_days_summary">Lähetä seuraavien päivien kalenteritapahtumat:</string>
     <string name="activity_watchface_send_on_battery_change">Lähetä tiedot aina akun muuttuessa</string>
     <string name="activity_watchface_send_on_alarm_change">Lähetä tiedot aina hälytys muuttuu</string>
-    <string name="activity_watchface_last_time_sent">Last time sent</string>
+    <string name="activity_watchface_last_time_sent">Edellinen Lähetysaika</string>
     <string name="activity_watchface_data_send">Tiedot lähetettiin</string>
     <string name="activity_watchface_send_data_now">Lähetä tiedot</string>
     <string name="activity_stats_notifications_total">Yhteensä</string>
@@ -96,7 +96,7 @@
     <string name="pref_battery_background_sync_interval">Taustatarkistuksen aikaväli</string>
     <string name="pref_battery_background_sync_interval_summary">Aseta akun taustasynkronointivälin</string>
     <string name="pref_battery_chart_time_interval">Kaavion aika-alue</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_chart_time_interval_summary">Määritä akkukaavion aikaväli</string>
     <string name="pref_battery_watch_alert">Kellon akun hälytys</string>
     <string name="pref_battery_watch_alert_summary">Aseta akun varaustaso, josta saat varaustason ilmoituksen</string>
     <string name="pref_battery_phone_alert">Puhelimen akun hälytys</string>
