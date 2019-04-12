@@ -119,7 +119,7 @@
     <string name="pref_disable_notifications_when_dnd_summary">Les notifications ne seront pas envoyées si Ne Pas Déranger est détecté</string>
     <string name="pref_disable_remove_notifications">Garder les notifications</string>
     <string name="pref_disable_remove_notifications_summary">Ne pas supprimer les notifications de la montre lors de la suppression sur le téléphone</string>
-    <string name="pref_enable_voice_apps">Voice call notifications</string>
+    <string name="pref_enable_voice_apps">Notifications d\'appel</string>
     <string name="pref_enable_voice_apps_summary">Les appels vocaux de Messenger afficheront une notification sur la montre</string>
     <string name="pref_enable_local_only">Local notifications</string>
     <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
