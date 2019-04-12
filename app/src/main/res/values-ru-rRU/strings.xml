@@ -97,10 +97,10 @@
     <string name="pref_battery_background_sync_interval_summary">Установить интервал синхронизации батареи</string>
     <string name="pref_battery_chart_time_interval">Chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
-    <string name="pref_battery_watch_alert">Watch battery alert</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
-    <string name="pref_battery_phone_alert">Phone battery alert</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_watch_alert">Низкий заряд батареи часов</string>
+    <string name="pref_battery_watch_alert_summary">Установить уровень заряда батареи часов, после которого вы получите уведомление о разряде</string>
+    <string name="pref_battery_phone_alert">Низкий заряд батареи телефона</string>
+    <string name="pref_battery_phone_alert_summary">Установите уровень заряда батареи телефона, после которого вы получите уведомление о разряде. Для включения необходимо включить параметр GreatFit/Calendar \"Отправлять данные телефона\".</string>
     <string name="pref_notifications_replies_summary">Введите пользовательские ответы</string>
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
@@ -130,7 +130,7 @@
     <string name="pref_filters">Фильтры уведомлений</string>
     <string name="pref_enable_music_control_with_hardware_button">Включить аппаратное управление музыкой</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(ЭКСПЕРИМАТЕЛЬНАЯ ФУНКЦИЯ!) Включить управление музыкой с помощью физических кнопок. Нажмите нижнюю кнопку для проигрывания или остановки музыки. Долгое нажатие служит для переходу к следующей композиции.</string>
-    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
+    <string name="pref_phone_connect_disconnect_alert">Уведомление о подключении/отключении телефона</string>
     <string name="pref_phone_connect_disconnect_alert_summary">Часы будут вибрировать и показывать статус подключения к телефону</string>
     <string name="intro_title_1">Добро пожаловать в AmazMod!</string>
     <string name="intro_description_1">Следуйте этой презентации, чтобы узнать, как установить службы приложений на часах и предоставить приложению доступ к Уведомлениям на телефоне.</string>
@@ -203,9 +203,9 @@
     <string name="reading_files_failed">Ошибка чтения файлов</string>
     <string name="activity_about_extras">Дополнительно</string>
     <string name="revoke_device_owner">Удалить привязку владельца к часам</string>
-    <string name="alerts">Alerts</string>
+    <string name="alerts">Предупреждения</string>
     <string name="pref_phone_connect_alert_standard_notification">Стандартные уведомления</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Использовать стандартные уведомления вместо пользовательских на полный экран</string>
     <string name="enable_low_power">Включить режим энергосбережения</string>
     <string name="failed_to_send_command">Ошибка отправки команды</string>
     <string name="command_sent">Команда отправлена успешно</string>
