@@ -205,7 +205,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="reading_files_failed">A fájlok olvasása sikertelen</string>
     <string name="activity_about_extras">Extrák</string>
     <string name="revoke_device_owner">Tulajd. érvénytelenítése az órán</string>
-    <string name="alerts">Alerts</string>
+    <string name="alerts">Riasztások</string>
     <string name="pref_phone_connect_alert_standard_notification">Normál értesítések sználata</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
     <string name="enable_low_power">Energiatak. üzemmód eng. az órán</string>
