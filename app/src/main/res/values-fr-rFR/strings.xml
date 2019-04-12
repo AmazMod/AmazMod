@@ -5,7 +5,7 @@
     <string name="notifications">Notifications envoyées</string>
     <string name="notifications_options">Options des notifications</string>
     <string name="battery">Batterie</string>
-    <string name="customui">Custom UI Notifications Options</string>
+    <string name="customui">Personnaliser les contrôles des notifications</string>
     <string name="others">Autres</string>
     <string name="other">Autre</string>
     <string name="open">Ouvrir</string>
@@ -95,7 +95,7 @@
     <string name="pref_disable_battery_chart_summary">Désactiver le graphique batterie sur l\'écran principal, sera actualisé en fermant les préférences</string>
     <string name="pref_battery_background_sync_interval">Intervalle de synchro. en arrière plan</string>
     <string name="pref_battery_background_sync_interval_summary">Définir l\'intervalle de synchro. batterie en arrière plan</string>
-    <string name="pref_battery_chart_time_interval">Chart time range</string>
+    <string name="pref_battery_chart_time_interval">Graphique d\'intervalle de temps</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
     <string name="pref_battery_watch_alert">Watch battery alert</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
