@@ -100,7 +100,7 @@
     <string name="pref_battery_watch_alert">התראת סוללה</string>
     <string name="pref_battery_watch_alert_summary">קביעת רמת טעינת סוללה לקבלת התראה</string>
     <string name="pref_battery_phone_alert">התראת סוללה של הסלולרי</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">קביעת רמת הסוללה של הסלולרי בה תקבלו התראה על הסוללה. אפשרות ה GreatFit/Calendar - \"שליחת מידע מהסלולרי\" צריכה להיות מאופשרת.</string>
     <string name="pref_notifications_replies_summary">הזן את התשובות המותאמות</string>
     <string name="pref_notifications_replies">הגדרת מענה להתראות</string>
     <string name="pref_private_notifications_summary">תוכן ההתראה יוסתר (יחד עם אפשרויות המענה)</string>
