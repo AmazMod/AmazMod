@@ -96,8 +96,8 @@
     <string name="pref_battery_background_sync_interval">Intervalle de synchro. en arrière plan</string>
     <string name="pref_battery_background_sync_interval_summary">Définir l\'intervalle de synchro. batterie en arrière plan</string>
     <string name="pref_battery_chart_time_interval">Graphique d\'intervalle de temps</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
-    <string name="pref_battery_watch_alert">Watch battery alert</string>
+    <string name="pref_battery_chart_time_interval_summary">Afficher le graphique de la batterie sur l\'intervalle de temps</string>
+    <string name="pref_battery_watch_alert">Alerte de batterie faible de la montre</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
     <string name="pref_battery_phone_alert">Phone battery alert</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
