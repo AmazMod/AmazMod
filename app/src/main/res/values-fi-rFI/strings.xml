@@ -127,7 +127,7 @@
     <string name="pref_enable_notifications_when_locked_summary">Lähetä ilmoitukset kelloon jos näyttö on päällä, mutta Puhelin on lukittu</string>
     <string name="pref_notifications_enable_ungroup">Ilmoitusryhmien purku</string>
     <string name="pref_notifications_enable_ungroup_summary">Saman lähettäjän ilmoitukset eritellään (synkronointi ei onnistu)</string>
-    <string name="pref_filters">Notifications filters</string>
+    <string name="pref_filters">Ilmoitusten suodatus</string>
     <string name="pref_enable_music_control_with_hardware_button">Enable hardware music control</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
     <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
