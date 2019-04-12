@@ -79,7 +79,7 @@
     <string name="activity_watchface_send_data_interval_prompt">Valitse aikaväli</string>
     <string name="activity_watchface_send_data_interval_summary">Kellotaulun tietojen lähetys väli</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
-    <string name="activity_watchface_send_on_battery_change">Send data every time battery changes</string>
+    <string name="activity_watchface_send_on_battery_change">Lähetä tiedot aina akun muuttuessa</string>
     <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
     <string name="activity_watchface_last_time_sent">Last time sent</string>
     <string name="activity_watchface_data_send">Data were send</string>
