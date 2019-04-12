@@ -207,7 +207,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="revoke_device_owner">Zrušit majitele zařízení v hodinkách</string>
     <string name="alerts">Upozornění</string>
     <string name="pref_phone_connect_alert_standard_notification">Použít standardní oznámení</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Použít standardní oznámení pro upozornění namísto vlastního celoobrazovkového uživatelského rozhraní</string>
     <string name="enable_low_power">Povolení režimu nízké spotřeby hodinek</string>
     <string name="failed_to_send_command">Odeslání příkazu do hodinek se nezdařilo</string>
     <string name="command_sent">Odesílání příkazu do hodinek bylo úspěšné</string>
