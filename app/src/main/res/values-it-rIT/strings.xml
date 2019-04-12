@@ -97,10 +97,10 @@
     <string name="pref_battery_background_sync_interval_summary">Imposta l\'intervallo di sincronizzazione della batteria</string>
     <string name="pref_battery_chart_time_interval">Periodo grafico</string>
     <string name="pref_battery_chart_time_interval_summary">Imposta il periodo di tempo da visualizzare</string>
-    <string name="pref_battery_watch_alert">Watch battery alert</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
-    <string name="pref_battery_phone_alert">Phone battery alert</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_watch_alert">Avviso batteria orologio</string>
+    <string name="pref_battery_watch_alert_summary">Imposta il livello di batteria dell\'orologio per cui riceve la notifica</string>
+    <string name="pref_battery_phone_alert">Avviso batteria telefono</string>
+    <string name="pref_battery_phone_alert_summary">Imposta il livello di batteria del telefono per cui riceve una notifica. Richiede di abilitare \"Invia dati telefono\" dentro le impostazioni Greatfit/Calendario.</string>
     <string name="pref_notifications_replies_summary">Inserisci una o più risposte personalizzate</string>
     <string name="pref_notifications_replies">Risposte notifiche</string>
     <string name="pref_private_notifications_summary">Nascondi contenuto notifiche (nasconde anche il menù di risposta)</string>
@@ -130,7 +130,7 @@
     <string name="pref_filters">Filtro notifiche</string>
     <string name="pref_enable_music_control_with_hardware_button">Attiva il controllo hardware musicale</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(SPERIMENTALE!) Valido solo per Stratos! Premi il pulsante in basso per riprodurre / mettere in pausa la musica. Premi a lungo per saltare alla canzone successiva</string>
-    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
+    <string name="pref_phone_connect_disconnect_alert">Notifica connessione/disconnessione</string>
     <string name="pref_phone_connect_disconnect_alert_summary">L\'orologio vibrerà e visualizzerà lo stato della connessione del telefono quando esso si connette/disconnette</string>
     <string name="intro_title_1">Benvenuto in AmazMod!</string>
     <string name="intro_description_1">Segui questa presentazione per sapere come installare l\'app di servizio sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono</string>
@@ -205,9 +205,9 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="reading_files_failed">Lettura file non riuscita</string>
     <string name="activity_about_extras">Funzioni extra</string>
     <string name="revoke_device_owner">Revoca il proprietario del dispositivo sull\'orologio</string>
-    <string name="alerts">Alerts</string>
+    <string name="alerts">Avvisi</string>
     <string name="pref_phone_connect_alert_standard_notification">Usa le notifiche standard</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Usa notifiche standard al posto delle notifiche a schermo intero</string>
     <string name="enable_low_power">Attiva la modalità di risparmio energetico sull\'orologio</string>
     <string name="failed_to_send_command">Invio del comando all\'orologio fallito</string>
     <string name="command_sent">Comando inviato all\'orologio con successo</string>

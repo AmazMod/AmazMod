@@ -154,7 +154,7 @@
     <string name="notifications_font_size">Tamanho da Fonte</string>
     <string name="device_not_connected">Nenhum dispositivo conectado</string>
     <string name="device_connected">estava conectado</string>
-    <string name="pref_enable_persistent_notification">Persistent notification</string>
+    <string name="pref_enable_persistent_notification">Notificação persistente</string>
     <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
     <string name="pref_notifications_disable_screenon">Manter a tela desligada</string>
     <string name="pref_notifications_disable_screenon_summary">Na acende e desbloqueia a tela quando uma notificação é recebida no relógio</string>
