@@ -130,7 +130,7 @@
     <string name="pref_filters">Értesítés szűrők</string>
     <string name="pref_enable_music_control_with_hardware_button">Hardveres zene vezérlés</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(KÍSÉRLETI!) Engedélyezi a zene vezérlést a fizikai gombbal. Az alsó gomb nyomására lejátszás/szünet. Hosszan nyomva következő dal.</string>
-    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
+    <string name="pref_phone_connect_disconnect_alert">Telefon csatlakozva/leválasztva figyelmeztetés</string>
     <string name="pref_phone_connect_disconnect_alert_summary">Az óra rezeg és mutatja a telefon kapcsolat állapotát mikor csatlakozik/leválik</string>
     <string name="intro_title_1">Köszönt az AmazMod!</string>
     <string name="intro_description_1">Kérjük kövesd ezt a bemutatót. Megtudhatod miként telepítsd a szolgáltatási alkalmazást az órára és engedélyezheted a hozzáférést a telefonon lévő értesítésekhez.</string>
@@ -207,7 +207,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="revoke_device_owner">Tulajd. érvénytelenítése az órán</string>
     <string name="alerts">Riasztások</string>
     <string name="pref_phone_connect_alert_standard_notification">Normál értesítések sználata</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Normál értesítések a figyelmeztetésekhez a teljes képernyős értesítések helyett</string>
     <string name="enable_low_power">Energiatak. üzemmód eng. az órán</string>
     <string name="failed_to_send_command">Sikertelen parancs küldés az órára</string>
     <string name="command_sent">Az utasítás sikeresen elküldve az órára</string>
