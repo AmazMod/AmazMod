@@ -95,9 +95,9 @@
     <string name="pref_disable_battery_chart_summary">Sumário desabilitar gráfico de bateria</string>
     <string name="pref_battery_background_sync_interval">Intervalo de sincronização em segundo plano</string>
     <string name="pref_battery_background_sync_interval_summary">Sumário do intervalo de sincronização em segundo plano</string>
-    <string name="pref_battery_chart_time_interval">Chart time range</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
-    <string name="pref_battery_watch_alert">Watch battery alert</string>
+    <string name="pref_battery_chart_time_interval">Gráfico de tempo de bateria</string>
+    <string name="pref_battery_chart_time_interval_summary">Defina o intervalo do gráfico de bateria</string>
+    <string name="pref_battery_watch_alert">Alerta de bateria do relógio</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
     <string name="pref_battery_phone_alert">Phone battery alert</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
