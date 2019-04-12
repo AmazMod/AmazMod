@@ -125,12 +125,12 @@
     <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
     <string name="pref_enable_notifications_when_locked">Włącz kiedy telefon jest zablokowany</string>
     <string name="pref_enable_notifications_when_locked_summary">Wysyłaj powiadomienia do zegarka, kiedy ekran jest włączony, ale telefon zablokowany</string>
-    <string name="pref_notifications_enable_ungroup">Ungroup notifications</string>
+    <string name="pref_notifications_enable_ungroup">Rozgrupuj powiadomienia</string>
     <string name="pref_notifications_enable_ungroup_summary">Powiadomienia od tego samego nadawcy będą rozdzielane (więc nie będziesz mógł ich synchronizować)</string>
     <string name="pref_filters">Filtr powiadomień</string>
     <string name="pref_enable_music_control_with_hardware_button">Włącz sprzętową kontrolę muzyki</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EKSPERYMENTALNE!) Włącz sterowanie muzyką za pomocą przycisków. Naciśnij dolny przycisk, aby Odtwarzać/Zatrzymać muzykę. Długie przytrzymanie zmienia piosenkę.</string>
-    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
+    <string name="pref_phone_connect_disconnect_alert">Informacja o podłączeniu/rozłączeniu telefonu</string>
     <string name="pref_phone_connect_disconnect_alert_summary">Zegarek będzie wibrował i pokaże status połączenia z telefonem kiedy się połączy/rozłączy</string>
     <string name="intro_title_1">Witaj w AmazMod!</string>
     <string name="intro_description_1">Postępuj według samouczka aby zainstalować Usługę na zegarku i przyznać aplikacji dostęp do Powiadomień na zegarku.</string>
