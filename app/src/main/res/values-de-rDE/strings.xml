@@ -97,7 +97,7 @@
     <string name="pref_battery_background_sync_interval_summary">Ändert den im Hintergrund laufenden Prüf- Intervall des Batteriestatus</string>
     <string name="pref_battery_chart_time_interval">Chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
-    <string name="pref_battery_watch_alert">Watch battery alert</string>
+    <string name="pref_battery_watch_alert">Akku-Alarm</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
     <string name="pref_battery_phone_alert">Phone battery alert</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
