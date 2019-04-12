@@ -98,7 +98,7 @@
     <string name="pref_battery_chart_time_interval">Wykres zakresu czasowego</string>
     <string name="pref_battery_chart_time_interval_summary">Ustaw zakres czasu baterii do wyświetlenia</string>
     <string name="pref_battery_watch_alert">Ostrzeżenie o stanie baterii w zegarku</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
+    <string name="pref_battery_watch_alert_summary">Ustaw poziom naładowania baterii zegarka, po którym otrzymasz powiadomienie</string>
     <string name="pref_battery_phone_alert">Ostrzeżenie o stanie baterii w telefonie</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Wprowadź swoje niestandardowe odpowiedzi</string>
@@ -121,7 +121,7 @@
     <string name="pref_disable_remove_notifications_summary">Nie usuwaj powiadomienia z zegarka kiedy zostanie ono usunięte z telefonu</string>
     <string name="pref_enable_voice_apps">Voice call notifications</string>
     <string name="pref_enable_voice_apps_summary">Powiadomienia o połączeniach głosowych Messengera</string>
-    <string name="pref_enable_local_only">Local notifications</string>
+    <string name="pref_enable_local_only">Lokalne powiadomienia</string>
     <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
     <string name="pref_enable_notifications_when_locked">Włącz kiedy telefon jest zablokowany</string>
     <string name="pref_enable_notifications_when_locked_summary">Wysyłaj powiadomienia do zegarka, kiedy ekran jest włączony, ale telefon zablokowany</string>
