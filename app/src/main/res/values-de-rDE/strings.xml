@@ -257,8 +257,8 @@
     <string name="file_upload_finished">Hochladen Erfolgreich beendet</string>
     <string name="view_files">Ansicht</string>
     <string name="delete_all">Alles löschen</string>
-    <string name="pref_enable_update_notification">Update Notification</string>
-    <string name="pref_enable_update_notification_summary">Get a notification when there is a new version of Amazmod\'s service for the watch</string>
+    <string name="pref_enable_update_notification">Update-Benachrichtigung</string>
+    <string name="pref_enable_update_notification_summary">Erhalten Sie eine Benachrichtigung, wenn es eine neue Version des Amazmod Dienstes für die Uhr gibt</string>
     <string name="extract">Entpacken</string>
     <string name="compress">Komprimieren</string>
     <string name="delete_folder_and_contents">\"%1$s\" ist ein Ordner. Entfernen Sie ihn und alle seine Inhalte automatisch?</string>
