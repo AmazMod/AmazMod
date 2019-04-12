@@ -97,7 +97,7 @@
     <string name="pref_battery_background_sync_interval_summary">A háttér szinkronizálási gyakoriság beállítása</string>
     <string name="pref_battery_chart_time_interval">Diagram időtartománya</string>
     <string name="pref_battery_chart_time_interval_summary">Akkudiagram megjelenítendő időtartományának beállítása</string>
-    <string name="pref_battery_watch_alert">Kis töltöttségű telep riasztás</string>
+    <string name="pref_battery_watch_alert">Óra akkumulátor figyelmeztetés</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
     <string name="pref_battery_phone_alert">Telefon akkumulátor figyelmeztetés</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
