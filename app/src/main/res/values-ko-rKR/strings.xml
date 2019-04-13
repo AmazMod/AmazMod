@@ -279,12 +279,12 @@
     <string name="notification_text_filter">필터</string>
     <string name="muted_apps">음소거된 앱</string>
     <string name="ok">확인</string>
-    <string name="are_you_sure">Are you sure?</string>
+    <string name="are_you_sure">확실합니까?</string>
     <string name="cannot_be_undone">이 작업은 되돌릴 수 없습니다.</string>
-    <string name="show_only_selected">Show only allowed apps</string>
+    <string name="show_only_selected">선택된 앱만 보이기</string>
     <string name="pref_amazmod_first_widget">Amazmod를 시계의 첫 번째 위젯으로 설정하기</string>
     <string name="pref_amazmod_first_widget_summary">Amazmod가 시계 위젯의 첫 번째로 유지됩니다.</string>
-    <string name="pref_enable_delete_button">Notification Delete Button</string>
+    <string name="pref_enable_delete_button">알림 삭제 버튼</string>
     <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
     <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
     <string name="activity_packageoptions_unmute">음소거 해제</string>
@@ -314,9 +314,9 @@
     <string name="pref_notifications_enable_images_summary">알림의 이미지를 표시합니다.</string>
     <string name="pref_battery_chart">배터리 차트</string>
     <string name="pref_battery_chart_summary">AmazMod의 메인 화면에 배터리 차트를 표시합니다.</string>
-    <string name="logs">Logs</string>
-    <string name="pref_log_to_file">Log to File</string>
-    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
-    <string name="pref_log_to_file_level">Log Level</string>
-    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file</string>
+    <string name="logs">로그</string>
+    <string name="pref_log_to_file">로그 파일 저장</string>
+    <string name="pref_log_to_file_summary">AmazMod의 로그를 amazmod.log 파일에 저장합니다.</string>
+    <string name="pref_log_to_file_level">로그 수준</string>
+    <string name="pref_log_to_file_level_summary">로그 파일에 저장될 세부 수준을 선택합니다.</string>
 </resources>
