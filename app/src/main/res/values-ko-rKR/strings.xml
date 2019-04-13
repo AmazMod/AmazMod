@@ -126,7 +126,7 @@
     <string name="pref_enable_notifications_when_locked">전화가 잠겼을때 활성화</string>
     <string name="pref_enable_notifications_when_locked_summary">화면이 켜져있지만 잠겨있을때 알림을 보냅니다.</string>
     <string name="pref_notifications_enable_ungroup">알림 그룹 해제</string>
-    <string name="pref_notifications_enable_ungroup_summary">같은 사람에게 온 알림이 나뉘어 표시뒵니다(하지만 동기화되지는 않습니다)</string>
+    <string name="pref_notifications_enable_ungroup_summary">같은 사람에게 온 알림이 나뉘어 표시됩니다. (하지만 동기화되지는 않습니다)</string>
     <string name="pref_filters">알림 필터</string>
     <string name="pref_enable_music_control_with_hardware_button">하드위어 버튼으로 음악 컨트롤 활성화</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(실험적인 기능!) 하드웨어 버튼으로 음악 컨트롤을 활성화 합니다. 아래 버튼을 눌러 음악을 재생/일시정지 합니다. 길게 누르면 다음곡으로 넘어갑니다.</string>
