@@ -296,6 +296,11 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 persistentNotificationPreference.setDefaultValue(true);
                 persistentNotificationPreference.setEnabled(false);
             }
+
+            // Disable phone battery alert option, if watchface battery data are off
+            if(!Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA)){
+                getPreferenceScreen().findPreference("preference.battery.phone.alert").setEnabled(false);
+            }
         }
     }
 
