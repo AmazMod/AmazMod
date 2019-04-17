@@ -149,7 +149,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, false);
         }
 
-        if( battery>=99 && charging && !alreadyChargingNotified){
+        if( battery>99 && charging && !alreadyChargingNotified){
             Logger.debug("watch fully charged...");
             // Fully charged notification
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
