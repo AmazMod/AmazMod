@@ -138,7 +138,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             // Send notification
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
-                    .setSmallIcon(R.drawable.outline_battery_std_black_24)
+                    .setSmallIcon(R.drawable.ic_battery_alert_red_24dp)
                     .setContentTitle(context.getString(R.string.notification_low_battery))
                     .setContentText(context.getString(R.string.notification_low_battery_description,watchBatteryAlert + "%"))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
@@ -154,7 +154,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             // Fully charged notification
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
-                    .setSmallIcon(R.drawable.outline_battery_std_black_24)
+                    .setSmallIcon(R.drawable.ic_battery_charging_full_green_24dp)
                     .setContentTitle(context.getString(R.string.notification_watch_charged))
                     .setContentText(context.getString(R.string.notification_watch_charged_description))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT);
