@@ -113,6 +113,7 @@ import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
+import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
 import static java.lang.System.currentTimeMillis;
 
 /**
@@ -955,7 +956,8 @@ public class MainService extends Service implements Transporter.DataListener {
         batteryPct = level / (float) scale;
 
         // Watch Battery Alert
-        // Logger.debug("Watch battery check: current battery "+Math.round(batteryPct * 100f)+" - Alert at "+settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0));
+        // THIS WAS MOVED TO A PHONE NOTIFICATION
+        /*
         if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) > 0 ){
             if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) >= Math.round(batteryPct * 100f) ){
                 if(!watchBatteryAlreadyAlerted) { // Pass only if NOT already alerted
@@ -979,6 +981,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 watchBatteryAlreadyAlerted = false;
             }
         }
+        */
     }
 
     // Save battery to database
@@ -1195,11 +1198,7 @@ public class MainService extends Service implements Transporter.DataListener {
         
         
         try {
-            Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-            drawable.draw(canvas);
-
+            Bitmap bitmap = drawableToBitmap(drawable);
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
             int[] intArray = new int[width * height];

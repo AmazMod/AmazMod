@@ -7,9 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.edotassi.amazmod.AmazModApplication;
 import amazmod.com.transport.Constants;
+
+import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
@@ -39,6 +43,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
                     if (task.isSuccessful()) {
                         BatteryStatus batteryStatus = task.getResult();
                         updateBattery(batteryStatus);
+                        batteryAlert(batteryStatus, context);
                     } else {
                         Logger.error(task.getException(), "failed reading battery status");
                     }
@@ -108,7 +113,56 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             //TODO add crashlitics
             Logger.error(ex, "TransportService batteryStatus exception: " + ex.toString());
         }
-        //Save time of last sync
+        // Save time of last sync
         Prefs.putLong(Constants.PREF_TIME_LAST_SYNC, SystemClock.elapsedRealtime());
+    }
+
+    private void batteryAlert(BatteryStatus batteryStatus, Context context) {
+        // User options/data
+        int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
+                Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
+        boolean alreadyBatteryNotified = Prefs.getBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED,
+                false);
+        boolean alreadyChargingNotified = Prefs.getBoolean(Constants.PREF_BATTERY_WATCH_CHARGED,
+                false);
+
+        BatteryData batteryData = batteryStatus.getBatteryData();
+        int battery = Math.round(batteryData.getLevel()*100);
+        boolean charging = batteryData.isCharging();
+
+        Logger.debug("Battery check - watch "+battery+"%, charging:"+charging+", limit:"+watchBatteryAlert+"%");
+
+        // Check if low battery
+        if( watchBatteryAlert > 0 && watchBatteryAlert > battery && !charging && !alreadyBatteryNotified) {
+            Logger.debug("low watch battery...");
+            // Send notification
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
+                    .setSmallIcon(R.drawable.outline_battery_std_black_24)
+                    .setContentTitle(context.getString(R.string.notification_low_battery))
+                    .setContentText(context.getString(R.string.notification_low_battery_description,watchBatteryAlert + "%"))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            notificationManager.notify(0, builder.build());
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, true);
+        }else{
+            // Re-set notification
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, false);
+        }
+
+        if( battery>=99 && charging && !alreadyChargingNotified){
+            Logger.debug("watch fully charged...");
+            // Fully charged notification
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
+                    .setSmallIcon(R.drawable.outline_battery_std_black_24)
+                    .setContentTitle(context.getString(R.string.notification_watch_charged))
+                    .setContentText(context.getString(R.string.notification_watch_charged_description))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            notificationManager.notify(0, builder.build());
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, true);
+        }else{
+            // Re-set notification
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, false);
+        }
     }
 }

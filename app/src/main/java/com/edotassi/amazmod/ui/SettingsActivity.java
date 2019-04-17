@@ -217,7 +217,6 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY);
         final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
-        //TODO: notifications button preference was removed. Exchange it for another setting
         final int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
                 Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
         final int phoneBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_PHONE_ALERT,

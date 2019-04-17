@@ -44,6 +44,8 @@ public class Constants {
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
     public static final String PREF_BATTERY_WATCH_ALERT = "preference.battery.watch.alert";
+    public static final String PREF_BATTERY_WATCH_ALREADY_ALERTED = "preference.battery.watch.already.alerted";
+    public static final String PREF_BATTERY_WATCH_CHARGED = "preference.battery.watch.charged";
     public static final String PREF_BATTERY_PHONE_ALERT = "preference.battery.phone.alert";
     public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
