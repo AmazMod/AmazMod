@@ -324,5 +324,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="notification_low_battery">Alacsony akku szint</string>
     <string name="notification_low_battery_description">Akkumulátor töltöttsége %s alá csökkent</string>
     <string name="notification_watch_charged">Akku teljesen feltöltve</string>
-    <string name="notification_watch_charged_description">Az óra teljesen feltöltve!</string>
+    <string name="notification_watch_charged_description">Az óra teljesen töltött!</string>
 </resources>
