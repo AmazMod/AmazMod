@@ -324,5 +324,5 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="notification_low_battery">Batteria Amazfit bassa</string>
     <string name="notification_low_battery_description">La batteria dell\'orologio è scesa sotto al %s</string>
     <string name="notification_watch_charged">Amazfit completamente carico</string>
-    <string name="notification_watch_charged_description">La batteria dell\'orologio è completamente carica!</string>
+    <string name="notification_watch_charged_description">L\'Orologio è completamente carico! Ora puoi scollegarlo dalla dock di ricarica.</string>
 </resources>

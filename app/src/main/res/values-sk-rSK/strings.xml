@@ -323,5 +323,5 @@ Urobte príkaz shell \"</string>
     <string name="notification_low_battery">Amazfit slabá batéria</string>
     <string name="notification_low_battery_description">Sledujte batériu ak klesla pod %s</string>
     <string name="notification_watch_charged">Amazfit je plne nabitá</string>
-    <string name="notification_watch_charged_description">Sleduj ak je batéria úplne nabitá!</string>
+    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
 </resources>

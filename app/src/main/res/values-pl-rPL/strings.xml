@@ -322,5 +322,5 @@
     <string name="notification_low_battery">Amazfit ma słaba baterię</string>
     <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
     <string name="notification_watch_charged">Amazfit jest naładowany</string>
-    <string name="notification_watch_charged_description">Bateria w pełni naładowana!</string>
+    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
 </resources>
