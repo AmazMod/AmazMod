@@ -9,7 +9,9 @@
         <new>New adaptive phone app icon</new>
         <new>Watch Info card style improvements (phone app)</new>
         <new>Battery graph added in watch's menu (service app)</new>
-        <new>Watch/Phone low battery alerts</new>
+        <new>Low phone battery alert on watch</new>
+        <new>Low watch battery notification on phone</new>
+        <new>Fully charged watch notification on phone</new>
         <bugfix>Screenshot color fix</bugfix>
         <bugfix>Translation option selection fix</bugfix>
         <bugfix>Notifications system app filter fix</bugfix>
@@ -25,7 +27,7 @@
             1. Store and deploy on watch re-connection
             2. Dismiss if watch not connected</new>
         <new>New layout for notifications</new>
-        <new>Improved power managment</new>
+        <new>Improved power management</new>
         <bugfix>Backup/Restore fix</bugfix>
         <new>Direct language selection</new>
         <info>Updated translations</info>
