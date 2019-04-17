@@ -319,8 +319,8 @@
     <string name="pref_log_to_file_summary">שמירת לוגים של AmazMod לתוך קובץ לוגים</string>
     <string name="pref_log_to_file_level">רמת רישום</string>
     <string name="pref_log_to_file_level_summary">בחרו את רמת הפירוט אשר ירשמו בקובץ לוג</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged!</string>
+    <string name="notification_low_battery">Amazfit סוללה חלשה</string>
+    <string name="notification_low_battery_description">סוללת השעון ירדה מתחת ל%s</string>
+    <string name="notification_watch_charged">סוללת Amazfit טעונה במלואה</string>
+    <string name="notification_watch_charged_description">השעון טעון במלואו!</string>
 </resources>

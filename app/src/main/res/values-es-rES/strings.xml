@@ -320,8 +320,8 @@
     <string name="pref_log_to_file_summary">Guardar registros AmazMod en amazmod.log</string>
     <string name="pref_log_to_file_level">Nivel de registro</string>
     <string name="pref_log_to_file_level_summary">Seleccione el nivel de detalle que se almacenará en el archivo de registro</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged!</string>
+    <string name="notification_low_battery">Amazfit batería baja</string>
+    <string name="notification_low_battery_description">Batería del reloj por debajo de %s</string>
+    <string name="notification_watch_charged">Amazfit está totalmente cargado</string>
+    <string name="notification_watch_charged_description">Reloj completamente cargado!</string>
 </resources>
