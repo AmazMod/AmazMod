@@ -319,8 +319,8 @@
     <string name="pref_log_to_file_summary">Αποθήκευση καταγραφών σφαλμάτων του AmazMod στο αρχείο amazmod.log</string>
     <string name="pref_log_to_file_level">Επίπεδο καταγραφής</string>
     <string name="pref_log_to_file_level_summary">Επιλέξτε το επίπεδο λεπτομέρειας που θα αποθηκευτεί στο αρχείο καταγραφής</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged!</string>
+    <string name="notification_low_battery">Χαμηλή μπαταρία Amazfit ρολογιού</string>
+    <string name="notification_low_battery_description">Η μπαταρία του ρολογιού έπεσε κάτω από %s</string>
+    <string name="notification_watch_charged">To Amazfit είναι πλήρως φορτισμένο</string>
+    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
 </resources>
