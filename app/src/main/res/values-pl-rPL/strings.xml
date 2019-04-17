@@ -100,14 +100,14 @@
     <string name="pref_battery_watch_alert">Ostrzeżenie o stanie baterii w zegarku</string>
     <string name="pref_battery_watch_alert_summary">Ustaw poziom naładowania baterii zegarka, po którym otrzymasz powiadomienie</string>
     <string name="pref_battery_phone_alert">Ostrzeżenie o stanie baterii w telefonie</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Ustaw poziom naładowania baterii telefonu, po którym otrzymasz powiadomienie baterii. GreatFit/Kalendarz opcja \"Wyślij dane telefonu\" musi być włączona.</string>
     <string name="pref_notifications_replies_summary">Wprowadź swoje niestandardowe odpowiedzi</string>
     <string name="pref_notifications_replies">Powtórzenia powiadomień</string>
-    <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
-    <string name="pref_private_notifications">Private notification content</string>
+    <string name="pref_private_notifications_summary">Treść powiadomienia zostanie ukryta (jak i panel odpowiedzi)</string>
+    <string name="pref_private_notifications">Powiadomienia prywatnych informacji</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Wyłącz powiadomienia, gdy ekran jest włączony</string>
     <string name="pref_disable_notifications_when_screen_on">Wyłącz kiedy ekran jest Włączony</string>
-    <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
+    <string name="pref_notifications_enable_custom_ui">Niestandardowe UI powiadomienia</string>
     <string name="pref_notifications_enable_custom_ui_summary">Powiadomienia z możliwością odpowiedzi</string>
     <string name="pref_run_wizard">Prezentacja powitalna</string>
     <string name="pref_run_wizard_summary">Uruchom Ekran Powitalny ponownie</string>
@@ -115,11 +115,11 @@
     <string name="pref_vibration_duration_summary">Ustaw czas wibracji na zegarku (używane wtedy, gdy wyłączone są standardowe powiadomienia)</string>
     <string name="pref_screen_timeout">Wygaszenie ekranu</string>
     <string name="pref_screen_timeout_summary">Ustaw czas trwania ekranu niestandardowych odpowiedzi</string>
-    <string name="pref_disable_notifications_when_dnd">Respect DND mode</string>
+    <string name="pref_disable_notifications_when_dnd">Ważny tryb DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Powiadomienia nie będą wysyłane do zegarka kiedy tryb Nie Przeszkadzać zostanie wykryty</string>
     <string name="pref_disable_remove_notifications">Zachowaj powiadomienia</string>
     <string name="pref_disable_remove_notifications_summary">Nie usuwaj powiadomienia z zegarka kiedy zostanie ono usunięte z telefonu</string>
-    <string name="pref_enable_voice_apps">Voice call notifications</string>
+    <string name="pref_enable_voice_apps">Powiadomienia o rozmowach</string>
     <string name="pref_enable_voice_apps_summary">Powiadomienia o połączeniach głosowych Messengera</string>
     <string name="pref_enable_local_only">Lokalne powiadomienia</string>
     <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
@@ -154,9 +154,9 @@
     <string name="notifications_font_size">Rozmiar Czcionki</string>
     <string name="device_not_connected">Brak połączonych urządzeń</string>
     <string name="device_connected">połączono</string>
-    <string name="pref_enable_persistent_notification">Persistent notification</string>
+    <string name="pref_enable_persistent_notification">Stałe powiadomienie</string>
     <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
-    <string name="pref_notifications_disable_screenon">Keep screen off</string>
+    <string name="pref_notifications_disable_screenon">Nie wygaszaj ekranu</string>
     <string name="pref_notifications_disable_screenon_summary">Nie włączaj i/lub nie odblokowuj ekranu kiedy powiadomienie dotrze na zegarek</string>
     <string name="pref_check_permissions">Sprawdź uprawnienia aplikacji</string>
     <string name="pref_check_permissions_summary">Sprawdź czy AmazMod ma wszystkie potrzebne uprawnienia</string>
@@ -319,8 +319,8 @@
     <string name="pref_log_to_file_summary">Zapisz dzienniki AmazMod do amazmod.log</string>
     <string name="pref_log_to_file_level">Poziom dziennika</string>
     <string name="pref_log_to_file_level_summary">Ustaw poziom detali jaki ma być przechowywany w dzienniku</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
+    <string name="notification_low_battery">Amazfit ma słaba baterię</string>
     <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged!</string>
+    <string name="notification_watch_charged">Amazfit jest naładowany</string>
+    <string name="notification_watch_charged_description">Bateria w pełni naładowana!</string>
 </resources>
