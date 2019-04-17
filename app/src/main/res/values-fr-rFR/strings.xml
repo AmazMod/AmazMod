@@ -319,4 +319,8 @@
     <string name="pref_log_to_file_summary">Enregistrer les logs AmazMod vers amazmod.log</string>
     <string name="pref_log_to_file_level">Niveau de journalisation</string>
     <string name="pref_log_to_file_level_summary">Sélectionnez le niveau de détail à stocker dans le fichier journal</string>
+    <string name="notification_low_battery">Amazfit low battery</string>
+    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
+    <string name="notification_watch_charged">Amazfit is fully charged</string>
+    <string name="notification_watch_charged_description">Watch is fully charged!</string>
 </resources>
