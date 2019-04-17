@@ -321,8 +321,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_log_to_file_summary">AmazMod naplók mentése az amazmod.log fájlba</string>
     <string name="pref_log_to_file_level">Naplózás szintje</string>
     <string name="pref_log_to_file_level_summary">Válassza ki a részletesség szintjét, mely a naplófájlba mentésre kerüljön</string>
-    <string name="notification_low_battery">Alacsony akkumulátor</string>
+    <string name="notification_low_battery">Alacsony akku szint</string>
     <string name="notification_low_battery_description">Akkumulátor töltöttsége %s alá csökkent</string>
-    <string name="notification_watch_charged">Akkumulátor teljesen fel van töltve</string>
-    <string name="notification_watch_charged_description">Akkumulátor teljesen feltöltve!</string>
+    <string name="notification_watch_charged">Akku teljesen feltöltve</string>
+    <string name="notification_watch_charged_description">Az óra teljesen töltött!</string>
 </resources>
