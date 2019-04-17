@@ -320,7 +320,7 @@
     <string name="pref_log_to_file_level">Уровень логгирования</string>
     <string name="pref_log_to_file_level_summary">Выбрать уровень детализации, который будет сохранен в лог-файле</string>
     <string name="notification_low_battery">Низкий заряд батареи Amazfit</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged!</string>
+    <string name="notification_low_battery_description">Заряд батареи часов ниже %s</string>
+    <string name="notification_watch_charged">Батарея полностью заряжена</string>
+    <string name="notification_watch_charged_description">Батарея полностью заряжена!</string>
 </resources>
