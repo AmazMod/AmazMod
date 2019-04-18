@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">Απαιτείται να είναι εγκατεστημένο το watchface \"GreatFit\" στο ρολόι σας για να λειτουργήσουν οι παρακάτω ρυθμίσεις</string>
     <string name="activity_watchface_send_data">Αποστολή δεδομένων τηλεφώνου στο ρολόι (μπαταρία, ξυπνητήρι)</string>
     <string name="activity_watchface_send_data_interval_prompt">Επιλέξτε χρονικό διάστημα</string>
-    <string name="activity_watchface_send_data_interval_summary">Ορισμός χρονικού διαστήματος αποστολής δεδομένων στο καντράν</string>
+    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Αποστολή δεδομένων ημερολογίου για τις επερχόμενες μέρες:</string>
     <string name="activity_watchface_send_on_battery_change">Αποστολή δεδομένων κάθε φορά που αλλάζει η μπαταρία</string>
     <string name="activity_watchface_send_on_alarm_change">Αποστολή δεδομένων κάθε φορά που αλλάζει το ξυπνητήρι</string>
@@ -296,6 +296,7 @@
     <string name="test">Δοκιμή</string>
     <string name="watchface_remote_ics_file">Απομακρυσμένο ICS αρχείο</string>
     <string name="watchface_built_in_calendar">Προεπιλεγμένο ημερολόγιο</string>
+    <string name="watchface_events_found">%s events found</string>
     <string name="permission">Δικαιώματα</string>
     <string name="success">Επιτυχία</string>
     <string name="error">Σφάλμα</string>
