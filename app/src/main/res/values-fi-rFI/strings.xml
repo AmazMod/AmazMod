@@ -251,7 +251,7 @@
     <string name="download_completed">Lataaminen suoritettu</string>
     <string name="rename">Nimeä uudelleen</string>
     <string name="type_folder_name">Nimeä kansio</string>
-    <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
+    <string name="brightness_bad_value_entered">Väärä arvo syötetty, hyväksyttävät arvot ovat väliltä 1 - 255</string>
     <string name="command_history">Command History</string>
     <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Automatic Brightness</string>
