@@ -222,9 +222,9 @@ public class DeviceUtil {
 
         //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
         if (isReboot)
-            installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
+            installCommand = String.format("log -pw -tAmazMod $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
         else
-            installCommand = String.format("log -pw -tAmazMod $(sh %s %s %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
+            installCommand = String.format("log -pw -tAmazMod $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
 
         Logger.debug("DeviceUtil installApkAdb installCommand: " + installCommand);
 

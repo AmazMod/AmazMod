@@ -38,7 +38,7 @@ if [ "$4" == "" ]; then
    PATH=$3:$OLDPATH
    $LOG "restarting in the background"
    sleep 3
-   $LOG $(busybox nohup sh $0 $1 $2 $3 $OLDPATH 2>&1 &)
+   $LOG $(busybox nohup sh $0 "$1" $2 $3 $OLDPATH 2>&1 &)
    PATH=$OLDPATH
    exit 0
 else
@@ -48,10 +48,10 @@ $LOG "killing adb server $(adb kill-server)"
 sleep 3
 if [ "$1" != "" ]; then
    $LOG "installing: $1"
-   log -pi -tAmazMod "install_apk adb: $(adb install -r $1 2>&1)"
+   log -pi -tAmazMod "install_apk adb: $(adb install -r '$1' 2>&1)"
 fi
 if [ "$2" == "DEL" ]; then
-   $LOG "deleting file: $1 $(rm $1)"
+   $LOG "deleting file: $1 $(rm '$1')"
 fi
 $LOG "killing background processes"
 $LOG "killing adb $(adb kill-server)"

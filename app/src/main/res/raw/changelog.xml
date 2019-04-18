@@ -18,6 +18,7 @@
         <bugfix>Translation option selection fix</bugfix>
         <bugfix>Notifications system app filter fix</bugfix>
         <bugfix>Settings titles/descriptions where simplified</bugfix>
+        <bugfix>Installing apks with spaces/dots in their name fix</bugfix>
         <bugfix>Small bug fixes</bugfix>
         <info>Updated translations</info>
     </release>
