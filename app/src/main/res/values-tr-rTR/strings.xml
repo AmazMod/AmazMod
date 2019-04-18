@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">Kullanmak için saatinizde GreatFit saat arayüzü veya Takvim/Timeline araçlarından en az birinin kurulu olması gerekiyor</string>
     <string name="activity_watchface_send_data">Telefondan saate verileri gönder(Batarya, alarm, takvim)</string>
     <string name="activity_watchface_send_data_interval_prompt">Zaman aralığı seçin</string>
-    <string name="activity_watchface_send_data_interval_summary">Saat arayüzü verileri gönderme zaman aralığı</string>
+    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Takvim etkinlikleri gönderilecek gün sayısı:</string>
     <string name="activity_watchface_send_on_battery_change">Her batarya değişikliğini gönder</string>
     <string name="activity_watchface_send_on_alarm_change">Her alarm değişikliğini gönder</string>
@@ -296,6 +296,7 @@
     <string name="test">Test</string>
     <string name="watchface_remote_ics_file">Remote ICS file</string>
     <string name="watchface_built_in_calendar">Built-in Calendar</string>
+    <string name="watchface_events_found">%s events found</string>
     <string name="permission">Permission</string>
     <string name="success">Success</string>
     <string name="error">Error</string>
