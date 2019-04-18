@@ -273,6 +273,10 @@
             android:key="preference.enable.persistent.notification"
             android:summary="@string/pref_enable_persistent_notification_summary"
             android:title="@string/pref_enable_persistent_notification" />
+        <Preference
+            android:key="preference.persistent.notification.device.settings"
+            android:summary="@string/pref_enable_persistent_notification_device_settings_summary"
+            android:title="@string/pref_enable_persistent_notification_device_settings" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.update.notification"

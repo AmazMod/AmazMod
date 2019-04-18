@@ -9,10 +9,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.R;
@@ -288,12 +290,24 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
             addPreferencesFromResource(R.xml.preferences);
 
+            // Persistent Notification Settings
+            Preference persistentNotificationDeviceSettingsPreference = getPreferenceScreen().findPreference("preference.persistent.notification.device.settings");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Prefs.putBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
                 Preference persistentNotificationPreference =
                         getPreferenceScreen().findPreference(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION);
                 persistentNotificationPreference.setDefaultValue(true);
                 persistentNotificationPreference.setEnabled(false);
+                // getPreferenceScreen().removePreference(persistentNotificationPreference);
+
+                // Link to notification channel system settings
+                Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, getActivity().getPackageName());
+                intent.putExtra(Settings.EXTRA_CHANNEL_ID, Constants.PERSISTENT_NOTIFICATION_CHANNEL);
+                persistentNotificationDeviceSettingsPreference.setIntent(intent);
+            }else{
+                // Remove link to notification channel system settings
+                getPreferenceScreen().removePreference(persistentNotificationDeviceSettingsPreference);
             }
 
             // Disable phone battery alert option, if watchface battery data are off

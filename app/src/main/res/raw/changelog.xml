@@ -12,6 +12,7 @@
         <new>Low phone battery alert on watch</new>
         <new>Low watch battery notification on phone</new>
         <new>Fully charged watch notification on phone</new>
+        <new>Connection status notification can now be hidden from device settings (new notification channel on Android O+)</new>
         <bugfix>Screenshot color fix</bugfix>
         <bugfix>Translation option selection fix</bugfix>
         <bugfix>Notifications system app filter fix</bugfix>
