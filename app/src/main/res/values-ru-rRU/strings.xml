@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">Вам нужно иметь циферблат GreatFit или виджеты Calendar/Timeline, установленные на ваши часы для использования этих опций</string>
     <string name="activity_watchface_send_data">Отправить данные с телефона на часы (батарея, будильник, календарь)</string>
     <string name="activity_watchface_send_data_interval_prompt">Выберите интервал времени</string>
-    <string name="activity_watchface_send_data_interval_summary">Установить интервал отправки данных</string>
+    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Отправить события календаря на следующие дни:</string>
     <string name="activity_watchface_send_on_battery_change">Отправить данные, когда меняется заряд батареи</string>
     <string name="activity_watchface_send_on_alarm_change">Отправить данные, когда меняется будильник</string>
@@ -296,6 +296,7 @@
     <string name="test">Тест</string>
     <string name="watchface_remote_ics_file">Удаленный ICS файл</string>
     <string name="watchface_built_in_calendar">Встроенный календарь</string>
+    <string name="watchface_events_found">%s events found</string>
     <string name="permission">Разрешения</string>
     <string name="success">Успешно</string>
     <string name="error">Ошибка</string>
