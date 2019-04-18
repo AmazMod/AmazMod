@@ -48,7 +48,8 @@ $LOG "killing adb server $(adb kill-server)"
 sleep 3
 if [ "$1" != "" ]; then
    $LOG "installing: $1"
-   log -pi -tAmazMod "install_apk adb: $(adb install -r '$1' 2>&1)"
+   run_cmd=$(adb install -r "$1" 2>&1)
+   log -pi -tAmazMod "install_apk adb: $run_cmd"
 fi
 if [ "$2" == "DEL" ]; then
    $LOG "deleting file: $1 $(rm '$1')"

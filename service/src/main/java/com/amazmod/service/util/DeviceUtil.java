@@ -211,6 +211,10 @@ public class DeviceUtil {
     }
 
     public static void installApkAdb(Context context, File apk, boolean isReboot) {
+        if(!apk.exists()){
+            Logger.error("File not found");
+            return;
+        }
 
         PackageReceiver.setIsAmazmodInstall(true);
         final String installScript = copyScriptFile(context, "install_apk.sh").getAbsolutePath();
