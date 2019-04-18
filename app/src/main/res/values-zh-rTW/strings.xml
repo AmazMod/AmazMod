@@ -103,12 +103,12 @@
     <string name="pref_battery_phone_alert_summary">設置手錶當低於此數值時發送提示．GreatFir/Calendar 需要啟用 \"發送手機資料\" 選項。</string>
     <string name="pref_notifications_replies_summary">輸入您的自訂答覆</string>
     <string name="pref_notifications_replies">通知答覆</string>
-    <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
+    <string name="pref_private_notifications_summary">通知內容(以及回覆介面) 將被隱藏</string>
     <string name="pref_private_notifications">私人通知內容</string>
     <string name="pref_disable_notifications_when_screen_on_summary">當螢幕點亮時禁用通知</string>
     <string name="pref_disable_notifications_when_screen_on">當亮屏時禁用</string>
     <string name="pref_notifications_enable_custom_ui">自訂通知</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
+    <string name="pref_notifications_enable_custom_ui_summary">可回覆的通知</string>
     <string name="pref_run_wizard">首次使用介紹</string>
     <string name="pref_run_wizard_summary">再次運行首次使用的歡迎介紹界面</string>
     <string name="pref_vibration_duration">振動持續時間</string>
