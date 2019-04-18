@@ -165,4 +165,5 @@ public class Constants {
 
     public static final String LOGFILE = "/data/user/0/com.edotassi.amazmod/files/amazmod.log";
 
+    public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 }
