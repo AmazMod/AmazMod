@@ -130,7 +130,7 @@
     <string name="pref_filters">通知過濾器</string>
     <string name="pref_enable_music_control_with_hardware_button">啟用物理按鍵控制音樂</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(實驗性) 啟用物理按鍵的音樂控制。按下最下方按鈕播放/暫停音樂。長按切換下一首歌。</string>
-    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
+    <string name="pref_phone_connect_disconnect_alert">手機連接/斷開連接提醒</string>
     <string name="pref_phone_connect_disconnect_alert_summary">當與手機端連接/斷開時, 手錶端會震動並顯示手機端的連接狀態</string>
     <string name="intro_title_1">歡迎使用 AmazMod!</string>
     <string name="intro_description_1">請按照此使用教程瞭解如何在手錶端安裝服務程式並在手機端授予程式通知訪問權限。</string>
@@ -155,11 +155,11 @@
     <string name="notifications_font_size">字體大小</string>
     <string name="device_not_connected">沒有連接裝置</string>
     <string name="device_connected">已連線</string>
-    <string name="pref_enable_persistent_notification">Persistent notification</string>
-    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
-    <string name="pref_notifications_disable_screenon">Keep screen off</string>
+    <string name="pref_enable_persistent_notification">常駐通知</string>
+    <string name="pref_enable_persistent_notification_summary">啟用常駐通知，以防止 AmazMod 在後臺運行時被關閉。如果 Amazmod 不斷被關閉，請啟用此功能。</string>
+    <string name="pref_enable_persistent_notification_device_settings">常駐通知設定</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">點擊這裡導向到您的設備設定頁</string>
+    <string name="pref_notifications_disable_screenon">保持螢幕關閉</string>
     <string name="pref_notifications_disable_screenon_summary">在手錶端當收到通知時不打開並解鎖屏幕</string>
     <string name="pref_check_permissions">檢查應用程式權限</string>
     <string name="pref_check_permissions_summary">檢查 AmazMod 是否擁有所有所需的權限</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">撤銷手錶端設備管理器權限</string>
     <string name="alerts">提醒</string>
     <string name="pref_phone_connect_alert_standard_notification">使用標準通知</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">使用標準通知取代全螢幕自訂通知</string>
     <string name="enable_low_power">啟用手錶端低功耗模式</string>
     <string name="failed_to_send_command">發送命令到手錶失敗</string>
     <string name="command_sent">發送命令到手錶成功</string>
@@ -260,8 +260,8 @@
     <string name="file_upload_finished">上傳成功</string>
     <string name="view_files">顯示</string>
     <string name="delete_all">刪除全部</string>
-    <string name="pref_enable_update_notification">Update Notification</string>
-    <string name="pref_enable_update_notification_summary">Get a notification when there is a new version of Amazmod\'s service for the watch</string>
+    <string name="pref_enable_update_notification">更新通知</string>
+    <string name="pref_enable_update_notification_summary">當有一個新版本的 Amazmod 時將會通知您</string>
     <string name="extract">解壓縮</string>
     <string name="compress">壓縮</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一個文件夾，此操作將刪除該文件夾下的全部內容?</string>
@@ -321,9 +321,9 @@
     <string name="pref_log_to_file">紀錄到檔案中</string>
     <string name="pref_log_to_file_summary">將 AmazMod 日誌保存到 amazmod. log</string>
     <string name="pref_log_to_file_level">記錄層級</string>
-    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
+    <string name="pref_log_to_file_level_summary">選擇要存儲在日誌檔中的詳細資訊級別</string>
+    <string name="notification_low_battery">手錶電量不足</string>
+    <string name="notification_low_battery_description">手錶的電池下降到 %s 以下</string>
+    <string name="notification_watch_charged">手錶已充滿電</string>
+    <string name="notification_watch_charged_description">手錶充滿電了! 現在您可以將其從充電底座上拔下。</string>
 </resources>
