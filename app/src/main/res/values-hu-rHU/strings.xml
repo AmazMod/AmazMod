@@ -158,6 +158,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="device_connected">csatlakozva</string>
     <string name="pref_enable_persistent_notification">Állandó értestés</string>
     <string name="pref_enable_persistent_notification_summary">Bekapcsolja az állandó értesítést, mely megakadályozza, hogy az AmazMod a háttérben futás közben leállításra kerüljön. Engedélyezze ezt, ha az AmazMod alkalmazás folyamatosan leállításra kerül.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
     <string name="pref_notifications_disable_screenon">Képernyő kikapcsolva tartása</string>
     <string name="pref_notifications_disable_screenon_summary">Ne kapcsolja be és oldja fel a képernyőt, amikor egy értesítés érkezik az órára</string>
     <string name="pref_check_permissions">App jogosultságok</string>
