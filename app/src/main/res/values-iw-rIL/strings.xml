@@ -156,8 +156,8 @@
     <string name="device_connected">מחובר</string>
     <string name="pref_enable_persistent_notification">חיווי קבוע</string>
     <string name="pref_enable_persistent_notification_summary">מאפשר חיווי קבוע למניעת סגירת AmazMod בעוד הוא פועל ברקע. אפשרו אופציה זו אם Amazmod כל הזמן נסגר.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
+    <string name="pref_enable_persistent_notification_device_settings">הגדרות חיווי קבוע</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">לחצו כאן כדי להגיע להגדרות המכשיר</string>
     <string name="pref_notifications_disable_screenon">ביטול הדלקת מסך</string>
     <string name="pref_notifications_disable_screenon_summary">לא לפתוח את השעון ולהאיר את המסך כשהתראה מגיעה</string>
     <string name="pref_check_permissions">בדיקת הרשאות</string>
@@ -324,5 +324,5 @@
     <string name="notification_low_battery">Amazfit סוללה חלשה</string>
     <string name="notification_low_battery_description">סוללת השעון ירדה מתחת ל%s</string>
     <string name="notification_watch_charged">סוללת Amazfit טעונה במלואה</string>
-    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
+    <string name="notification_watch_charged_description">השעון טעון במלואו! ניתן לנתק מהמטען.</string>
 </resources>
