@@ -3,8 +3,8 @@
 AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace and Stratos watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
 
 ### Some features:  
-* Brand new notifications filter system, with the option to use customized ("canned") replies;  
-* Battery log and other info that can be viewed on the app as a graph;  
+* Brand new notifications filter system, with the option to use customized ("canned") replies, show images and more;  
+* Battery/Heart-rate log and other info that can be viewed on the app as a graph;  
 * Control watch's screen brightness ("Auto brightness" on watch must be *off* for this to work);  
 * Option to not send notifications to watch when the phone screen is on;  
 * Receive messenger call notifications and maps navigation info on watch;
@@ -12,8 +12,13 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 * Shell execution optionality to the watch from the phone;
 * Improved Watch/Smartphone connection tunnel (lower battery usage);
 * Emoji display ability;
-* Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot);
-* More to come.  
+* Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot, Clean Memory);
+* Battery notifications on watch/phone for watch/phone (low battery, fully charged);
+* Re-order watch widgets;
+* Take watch screenshot;
+* Push battery and calendar event data for Watchfaces/Widgets to use them;
+* Uninstall applications from watch;
+* More to come.
 
 ### Installation
 
