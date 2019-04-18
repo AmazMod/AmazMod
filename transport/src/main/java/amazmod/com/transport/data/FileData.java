@@ -31,7 +31,7 @@ public class FileData {
     }
 
     public String getExtention() {
-        return name.substring(name.lastIndexOf("."));
+        return ( name.lastIndexOf(".")>=0 )? name.substring(name.lastIndexOf(".")).replace(".","") : "";
     }
 
     public void setDirectory(boolean directory) {
