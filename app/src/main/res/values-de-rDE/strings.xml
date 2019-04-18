@@ -100,7 +100,7 @@
     <string name="pref_battery_watch_alert">Akku-Alarm Uhr</string>
     <string name="pref_battery_watch_alert_summary">Ladezustand für Akku-Benachrichtigung</string>
     <string name="pref_battery_phone_alert">Akku-Alarm Telefon</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Akku-Ladestand für Benachrichtigung einstellen. GreatFit/Kalender Option \"Sende Telefondaten\" muss aktiviert sein.</string>
     <string name="pref_notifications_replies_summary">Geben Sie Ihre Benutzerdefinierte Antwort ein</string>
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
@@ -156,8 +156,8 @@
     <string name="device_connected">war verbunden</string>
     <string name="pref_enable_persistent_notification">Persistent notification</string>
     <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
+    <string name="pref_enable_persistent_notification_device_settings">Dauerhafte Benachrichtigungseinstellungen</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Klicken Sie hier, um zu den Geräteeinstellungen weitergeleitet zu werden</string>
     <string name="pref_notifications_disable_screenon">Bildschirm ausgeschalten lassen</string>
     <string name="pref_notifications_disable_screenon_summary">Bildschirm nicht anschalten wenn Benachrichtigung auf Uhr eingeht</string>
     <string name="pref_check_permissions">Prüfe App Erlaubnis</string>
@@ -296,7 +296,7 @@
     <string name="test">Test</string>
     <string name="watchface_remote_ics_file">Externe ICS Datei</string>
     <string name="watchface_built_in_calendar">Integrierter Kalender</string>
-    <string name="watchface_events_found">%s events found</string>
+    <string name="watchface_events_found">%s Ereignisse gefunden</string>
     <string name="permission">Berechtigung</string>
     <string name="success">Erfolgreich</string>
     <string name="error">Fehler</string>
@@ -322,7 +322,7 @@
     <string name="pref_log_to_file_summary">AmazMod-Protokoll in amazmod.log speichern</string>
     <string name="pref_log_to_file_level">Protokollstufe</string>
     <string name="pref_log_to_file_level_summary">Detailierungsgrad für Protokollierung</string>
-    <string name="notification_low_battery">Batteriestand der Amazfit niedrig</string>
+    <string name="notification_low_battery">Akku Ladezustand niedrig</string>
     <string name="notification_low_battery_description">Akku der Uhr unter %s gefallen</string>
     <string name="notification_watch_charged">Amazfit ist vollständig aufgeladen</string>
     <string name="notification_watch_charged_description">Die Uhr ist voll aufgeladen! Sie können sie jetzt vom Ladedock entfernen.</string>
