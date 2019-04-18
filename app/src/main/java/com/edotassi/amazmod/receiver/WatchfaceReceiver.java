@@ -700,6 +700,85 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
     }
 
+    public static int countICSEvents(Context context) {
+        return countICSEvents(context, false, null);
+    }
+
+    public static int countICSEvents(Context context, boolean update, net.fortuna.ical4j.model.Calendar calendar) {
+        int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, default_calendar_days));
+        String icsURL = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_ICS_URL, "");
+
+        if (calendar_events_days == 0 || icsURL.isEmpty()) return 0;
+
+        if(calendar == null) {
+            // Check for old file
+            String workDir = context.getCacheDir().getAbsolutePath();
+            File oldFile = new File(context.getFilesDir() + File.separator + "calendar.ics");
+            if (!oldFile.exists()) update = true;
+
+            // Check for file update
+            if (update) {
+                try {
+                    boolean result = new FilesUtil.urlToFile().execute(icsURL, workDir, "new_calendar.ics").get();
+                    if (result) {
+                        File newFile = new File(workDir + File.separator + "new_calendar.ics");
+
+                        if (oldFile.exists() && newFile.exists())
+                            result = oldFile.delete();
+                        if (newFile.exists() && result)
+                            result = newFile.renameTo(oldFile);
+
+                        if (result)
+                            Logger.debug("WatchfaceDataReceiver countICSEvents ics file successfully updated");
+                        else
+                            Logger.debug("WatchfaceDataReceiver countICSEvents ics file was not updated");
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    Logger.error(e, e.getLocalizedMessage());
+                }
+            }
+
+            // Get calendar events from file
+            try {
+                System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache.class.getName());
+                FileInputStream in = new FileInputStream(context.getFilesDir() + File.separator + "calendar.ics");
+                CalendarBuilder builder = new CalendarBuilder();
+                calendar = builder.build(in);
+            } catch (IOException | ParserException e) {
+                Logger.error(e.getLocalizedMessage(), e);
+            }
+
+            // Run query
+            if (calendar == null)
+                return 0;
+        }
+        Logger.debug("WatchfaceDataReceiver countICSEvents listing events");
+
+        // create a period for the filter starting now with a duration of calendar_events_days + 1
+        java.util.Calendar today = java.util.Calendar.getInstance();
+        today.set(java.util.Calendar.HOUR_OF_DAY, 0);
+        today.clear(java.util.Calendar.MINUTE);
+        today.clear(java.util.Calendar.SECOND);
+        Period period = new Period(new DateTime(today.getTime()), new Dur(calendar_events_days + 1, 0, 0, 0));
+        Filter filter = new Filter(new PeriodRule(period));
+
+        ComponentList events = (ComponentList) filter.filter(calendar.getComponents(Component.VEVENT));
+
+        int eventsCounter = 0;
+        for (Object o : events) {
+            VEvent event = (VEvent) o;
+
+            if (event.getProperty("RRULE") != null) {
+                PeriodList list = event.calculateRecurrenceSet(period);
+                for (Object po : list)
+                    eventsCounter++;
+            } else
+                eventsCounter++;
+        }
+
+        return eventsCounter;
+    }
+
     private static boolean isEventAllDay(VEvent event) {
         return event.getStartDate().toString().contains("VALUE=DATE");
     }

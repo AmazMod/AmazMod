@@ -335,8 +335,18 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
 
     private void showFoundBuildInCalendarEvents() {
         int events = WatchfaceReceiver.countBuildinCalendarEvents(getApplicationContext());
-        String buildInCalendarWithEvents = getResources().getText(R.string.watchface_built_in_calendar) + " ("+ events +")";
+        String buildInCalendarWithEvents = getResources().getText(R.string.watchface_built_in_calendar) + " ("+ getResources().getString(R.string.watchface_events_found,Integer.toString(events)) +")";
         watchface_source_local_radiobutton.setText( buildInCalendarWithEvents );
+    }
+
+    private void showFoundICSCalendarEvents() {
+        showFoundICSCalendarEvents(false, null);
+    }
+
+    private void showFoundICSCalendarEvents(boolean update, net.fortuna.ical4j.model.Calendar calendar) {
+        int events = WatchfaceReceiver.countICSEvents(getApplicationContext(), update, calendar);
+        String icsCalendarWithEvents = getResources().getText(R.string.watchface_remote_ics_file) + " ("+ getResources().getString(R.string.watchface_events_found,Integer.toString(events)) +")";
+        watchface_ics_calendar_radiobutton.setText( icsCalendarWithEvents );
     }
 
     private void changeWidgetsStatus(boolean state){
@@ -377,7 +387,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
 
                     File newFile = new File(workDir + File.separator + "new_calendar.ics");
                     File oldFile = new File(this.getFilesDir() + File.separator + "calendar.ics");
-                    result = true;
+
                     if (oldFile.exists())
                         result = oldFile.delete();
 
@@ -391,6 +401,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                         dialogBuilder.title(R.string.success)
                                 .content(msg)
                                 .show();
+                        showFoundICSCalendarEvents(false, calendar);
                     } else {
                         dialogBuilder.title(R.string.error)
                                 .content(R.string.activity_files_file_error)
