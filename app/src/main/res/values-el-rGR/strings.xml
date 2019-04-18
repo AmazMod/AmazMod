@@ -156,6 +156,8 @@
     <string name="device_connected">συνδέθηκε</string>
     <string name="pref_enable_persistent_notification">Μόνιμη ειδοποίηση</string>
     <string name="pref_enable_persistent_notification_summary">Ενεργοποίηση μιας μόνιμης ειδοποίηση για την αντιμετώπιση του τερματισμού του AmazMod, όταν εκτελείται στο παρασκήνιο. Ενεργοποιήστε αυτή την επιλογή όταν το Amazmod τερματίζεται συνεχώς.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
     <string name="pref_notifications_disable_screenon">Διατήρηση ανενεργής οθόνης</string>
     <string name="pref_notifications_disable_screenon_summary">Παραλαβή ειδοποιήσεων στο ρολόι χωρίς άνοιγμα και ξεκλείδωμα οθόνης</string>
     <string name="pref_check_permissions">Έλεγχος δικαιωμάτων εφαρμογής</string>

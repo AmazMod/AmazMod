@@ -156,6 +156,8 @@
     <string name="device_connected">a fost conectat</string>
     <string name="pref_enable_persistent_notification">Persistent notification</string>
     <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
     <string name="pref_notifications_disable_screenon">Keep screen off</string>
     <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch</string>
     <string name="pref_check_permissions">Verificați permisiunile aplicației</string>

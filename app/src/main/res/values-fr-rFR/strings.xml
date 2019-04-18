@@ -156,6 +156,8 @@
     <string name="device_connected">était connectée</string>
     <string name="pref_enable_persistent_notification">Notification persistante</string>
     <string name="pref_enable_persistent_notification_summary">Activer une notification persistante pour empêcher AmazMod d\'être tué pendant qu\'il fonctionne en arrière-plan. Activez ceci si Amazmod est constamment tué.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
     <string name="pref_notifications_disable_screenon">Garder l\'écran éteint</string>
     <string name="pref_notifications_disable_screenon_summary">Ne pas allumer ni débloquer l\'écran quand une notification arrive sur la montre</string>
     <string name="pref_check_permissions">Vérifier les permissions</string>
