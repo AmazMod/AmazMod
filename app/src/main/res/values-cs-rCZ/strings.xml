@@ -158,8 +158,8 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="device_connected">byl připojen</string>
     <string name="pref_enable_persistent_notification">Vždy zobrazovat oznámení</string>
     <string name="pref_enable_persistent_notification_summary">Umožňuje, aby bylo možné zabránit ukončení AmazModu, pokud běží na pozadí. Zapněte pokud je neustále ukončován.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
+    <string name="pref_enable_persistent_notification_device_settings">Nastavení trvalých oznámení</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Klikněte zde pro přesměrování na nastavení zařízení</string>
     <string name="pref_notifications_disable_screenon">Zachovat obrazovku vypnutou</string>
     <string name="pref_notifications_disable_screenon_summary">Nezapnout a neodemknout obrazovku při příchodu oznámení na hodinky</string>
     <string name="pref_check_permissions">Zkontrolujte oprávnění aplikace</string>
@@ -323,8 +323,8 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_log_to_file_summary">Uložit logy AmazModu do amazmod.log</string>
     <string name="pref_log_to_file_level">Úrovně logu</string>
     <string name="pref_log_to_file_level_summary">Vyberte míru podrobností, které mají být uloženy v log souboru</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
+    <string name="notification_low_battery">Amazfit nízký stav baterie</string>
+    <string name="notification_low_battery_description">Baterie hodinek je nižší než %s</string>
+    <string name="notification_watch_charged">Amazfit je plně nabitý</string>
+    <string name="notification_watch_charged_description">Hodinky jsou plně nabité! Můžete je odpojit z nabíjecího doku.</string>
 </resources>
