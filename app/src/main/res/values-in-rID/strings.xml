@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">Anda harus memiliki watchface GreatFit atau widget Kalender/Linimasa yang diinstal pada Jam Anda agar pilihan ini dapat digunakan</string>
     <string name="activity_watchface_send_data">Mengirim data telepon ke Jam (baterai, alarm, kalender)</string>
     <string name="activity_watchface_send_data_interval_prompt">Pilih periode</string>
-    <string name="activity_watchface_send_data_interval_summary">Menetapkan watchface kirim data interval</string>
+    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Mengirim acara kalender untuk hari-hari berikut:</string>
     <string name="activity_watchface_send_on_battery_change">Mengirim data setiap kali perubahan baterai</string>
     <string name="activity_watchface_send_on_alarm_change">Mengirim data setiap kali perubahan alarm</string>
@@ -296,6 +296,7 @@
     <string name="test">Tes</string>
     <string name="watchface_remote_ics_file">Remote file ICS</string>
     <string name="watchface_built_in_calendar">Built-in kalender</string>
+    <string name="watchface_events_found">%s events found</string>
     <string name="permission">Perizinan</string>
     <string name="success">Berhasil</string>
     <string name="error">Kesalahan</string>

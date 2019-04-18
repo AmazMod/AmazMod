@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">Trebuie să aveţi watchface GreatFit sau widget-uri Calendar/Cronologie instalate pe ceas pentru aceste opţiuni să fie utilizate</string>
     <string name="activity_watchface_send_data">Trimite datele telefonului la ceas (baterie, alarmă, calendar)</string>
     <string name="activity_watchface_send_data_interval_prompt">Selectaţi intervalul de timp</string>
-    <string name="activity_watchface_send_data_interval_summary">Setaţi intervalul de date watchface</string>
+    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Trimite evenimente în calendar pentru următoarele zile:</string>
     <string name="activity_watchface_send_on_battery_change">Trimite date de fiecare dată când bateria se schimbă</string>
     <string name="activity_watchface_send_on_alarm_change">Trimite date de fiecare dată când alarma se schimbă</string>
@@ -296,6 +296,7 @@
     <string name="test">Test</string>
     <string name="watchface_remote_ics_file">Remote ICS file</string>
     <string name="watchface_built_in_calendar">Calendar încorporat</string>
+    <string name="watchface_events_found">%s events found</string>
     <string name="permission">Permisiune</string>
     <string name="success">Succes</string>
     <string name="error">Eroare</string>
