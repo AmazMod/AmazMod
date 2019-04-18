@@ -156,6 +156,8 @@
     <string name="device_connected">연결 됨</string>
     <string name="pref_enable_persistent_notification">지속 알림 표시</string>
     <string name="pref_enable_persistent_notification_summary">AmazMod가 백그라운드에서 종료되는 것을 방지하기 위해 지속 알림을 활성화 합니다. 만일 Amazmod가 지속적으로 종료된다면 이 옵션을 활성화 하세요.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
     <string name="pref_notifications_disable_screenon">화면 꺼짐 상태 유지</string>
     <string name="pref_notifications_disable_screenon_summary">시계에 알림이 왔을때 화면 잠금켜고 잠금을 해제하지 않기</string>
     <string name="pref_check_permissions">앱 권한을 확인하기</string>
