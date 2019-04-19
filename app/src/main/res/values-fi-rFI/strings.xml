@@ -274,8 +274,8 @@
     <string name="file_uploader_label">Label: %s</string>
     <string name="file_uploader_package">Paketti %s</string>
     <string name="pref_notifications_disable_large_icon">Älä lähetä käyttäjien avatareja</string>
-    <string name="pref_notifications_disable_large_icon_summary">User avatars will not be shown in the notification. This will save the battery a bit</string>
-    <string name="pref_notifications_disable_picture">Don\'t send notification pictures</string>
+    <string name="pref_notifications_disable_large_icon_summary">Käyttäjän avatareja ei näytetä ilmoituksissa. Tämä säästää hieman akkua</string>
+    <string name="pref_notifications_disable_picture">Älä lähetä ilmoitusten kuvia</string>
     <string name="pref_notifications_disable_picture_summary">Pictures will not be shown in the notification. This will save the battery</string>
     <string name="notification_silenced">SILENCED</string>
     <string name="notification_text_filter">Filter</string>
