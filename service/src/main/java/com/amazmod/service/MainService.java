@@ -11,6 +11,9 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -19,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -43,6 +47,7 @@ import com.amazmod.service.events.incoming.RequestDownloadFileChunk;
 import com.amazmod.service.events.incoming.RequestShellCommand;
 import com.amazmod.service.events.incoming.RequestUploadFileChunk;
 import com.amazmod.service.events.incoming.RequestWatchStatus;
+import com.amazmod.service.events.incoming.RequestWidgets;
 import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.events.incoming.Watchface;
@@ -111,6 +116,7 @@ import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
+import amazmod.com.transport.data.WidgetsData;
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
@@ -139,6 +145,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
         put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
+        put(Transport.REQUEST_WIDGETS, RequestWidgets.class);
     }};
 
     private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
@@ -164,6 +171,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private BatteryData batteryData;
     private WatchStatusData watchStatusData;
+    private WidgetsData widgetsData;
 
     private SlptClockClient slptClockClient;
     private ContentObserver phoneConnectionObserver;
@@ -179,6 +187,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         batteryData = new BatteryData();
         watchStatusData = new WatchStatusData();
+        widgetsData = new WidgetsData();
 
         // Initialize widgetSettings
         settings = new WidgetSettings(Constants.TAG, context);
@@ -457,6 +466,58 @@ public class MainService extends Service implements Transporter.DataListener {
                 phoneBatteryAlreadyAlerted = false;
             }
         }
+    }
+
+    // Request installed widgets
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestWidgets(RequestWidgets requestWidgets) {
+        final PackageManager pm = getPackageManager();
+
+        //WidgetsData widgetsData = WidgetsData.fromDataBundle(requestWidgets.getDataBundle());
+
+        // Get the list of installed apps.
+        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+        // Found widgets
+        String widgets = "";
+
+        for (ApplicationInfo packageInfo : packages) {
+            //Log.d(TAG, "Installed package :" + packageInfo.packageName);
+            //Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
+            //Log.d(TAG, "Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+
+            Bundle bundle = packageInfo.metaData;
+            if (bundle == null) continue;
+            try {
+                boolean metaData = bundle.containsKey("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
+                if(metaData) {
+                    // Get info
+                    int id = bundle.getInt("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
+                    String name = packageInfo.loadLabel(pm).toString();
+
+                    //String[] inArray = getResources().getStringArray(id);
+
+                    Resources resources = getApplicationContext().getPackageManager().getResourcesForApplication(packageInfo.packageName);
+                    String[] inArray = resources.getStringArray(id);
+
+                    // Add in widgets
+                    widgets += packageInfo.packageName+"|"+inArray[0]+"|"+name+",";
+                    //inArray[0].split("/")[1]
+
+                    // Log
+                    Logger.debug("Widget found: " + packageInfo.packageName + " - " + inArray[0] +" - "+name );
+                }else
+                    Logger.debug("App: "+packageInfo.packageName+" is not a widget");
+
+            } catch (Exception e) {
+                Logger.error("App: "+packageInfo.packageName+" is not a widget");
+            }
+        }
+
+        this.widgetsData.setPackages(widgets);
+        // Send the transmit
+        Logger.debug("MainService requestWidgets widgetsData: " + widgetsData.getPackages());
+        send(Transport.WIDGETS_DATA, widgetsData.toDataBundle());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

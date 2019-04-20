@@ -14,7 +14,9 @@ import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
@@ -27,6 +29,7 @@ import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -83,6 +86,14 @@ public class MainActivity extends BaseAppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Hide if not a developer
+        if( !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false) ){
+            Menu menuNav = navigationView.getMenu();
+            MenuItem widgets = menuNav.findItem(R.id.nav_widgets);
+            widgets.setVisible(false);
+        }
+
 
         EventBus.getDefault().register(this);
 
@@ -241,6 +252,12 @@ public class MainActivity extends BaseAppCompatActivity
                 Intent e = new Intent(this, WatchfaceActivity.class);
                 e.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(e);
+                return true;
+
+            case R.id.nav_widgets:
+                Intent f = new Intent(this, WidgetsActivity.class);
+                f.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(f);
                 return true;
 
             case R.id.nav_stats:

@@ -31,6 +31,7 @@
             android:name=".ui.TweakingActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ui.WatchfaceActivity" />
+        <activity android:name=".ui.WidgetsActivity" />
         <activity android:name=".ui.StatsActivity" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.NotificationPackagesSelectorActivity">

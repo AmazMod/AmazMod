@@ -24,9 +24,11 @@ public class Transport {
     public static final String ENABLE_LOW_POWER = "enable_low_power";
     public static final String REVOKE_ADMIN_OWNER = "revoke_admin_owner";
     public static final String WATCHFACE_DATA = "watchface_data";
+    public static final String REQUEST_WIDGETS = "request_widgets";
 
     public static final String WATCH_STATUS = "watch_status";
     public static final String BATTERY_STATUS = "battery_status";
+    public static final String WIDGETS_DATA = "request_widgets";
     public static final String DIRECTORY = "directory";
     public static final String REPLY = "reply";
     public static final String TOGGLE_MUSIC = "toggle_music";
