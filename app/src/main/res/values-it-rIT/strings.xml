@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">Per sfruttare queste opzioni devi avere la watchface Greatfit o i widget Pace Calendar/Timeline installati sull\'orologio</string>
     <string name="activity_watchface_send_data">Invia i dati del telefono all\'orologio (batteria, sveglia, eventi calendario)</string>
     <string name="activity_watchface_send_data_interval_prompt">Seleziona l\'intervallo di tempo</string>
-    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
+    <string name="activity_watchface_send_data_interval_summary">Frequenza di invio dati</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Invia eventi calendario per i seguenti giorni:</string>
     <string name="activity_watchface_send_on_battery_change">Inviare i dati ogni volta che cambia il livello della batteria</string>
     <string name="activity_watchface_send_on_alarm_change">Inviare i dati ogni volta che viene modificata la sveglia</string>
@@ -298,7 +298,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="test">Prova</string>
     <string name="watchface_remote_ics_file">File ICS remoti</string>
     <string name="watchface_built_in_calendar">Calendario integrato</string>
-    <string name="watchface_events_found">%s events found</string>
+    <string name="watchface_events_found">%s eventi trovati</string>
     <string name="permission">Permessi</string>
     <string name="success">Fatto</string>
     <string name="error">Errore</string>
