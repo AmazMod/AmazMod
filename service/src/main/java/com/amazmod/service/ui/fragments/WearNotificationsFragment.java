@@ -146,6 +146,16 @@ public class WearNotificationsFragment extends Fragment {
             }
         }));
 
+        mHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notificationInfoList.clear();
+                mAdapter.clear();
+                loadNotifications();
+            }
+
+        });
+
         mHeader.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
