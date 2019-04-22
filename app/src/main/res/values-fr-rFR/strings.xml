@@ -156,8 +156,8 @@
     <string name="device_connected">était connectée</string>
     <string name="pref_enable_persistent_notification">Notification persistante</string>
     <string name="pref_enable_persistent_notification_summary">Activer une notification persistante pour empêcher AmazMod d\'être tué pendant qu\'il fonctionne en arrière-plan. Activez ceci si Amazmod est constamment tué.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
+    <string name="pref_enable_persistent_notification_device_settings">Réglages des notifications persistantes</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Cliquer ici pour être redirigé vers les réglages de votre appareil</string>
     <string name="pref_notifications_disable_screenon">Garder l\'écran éteint</string>
     <string name="pref_notifications_disable_screenon_summary">Ne pas allumer ni débloquer l\'écran quand une notification arrive sur la montre</string>
     <string name="pref_check_permissions">Vérifier les permissions</string>
@@ -322,7 +322,7 @@
     <string name="pref_log_to_file_summary">Enregistrer les logs AmazMod vers amazmod.log</string>
     <string name="pref_log_to_file_level">Niveau de journalisation</string>
     <string name="pref_log_to_file_level_summary">Sélectionnez le niveau de détail à stocker dans le fichier journal</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
+    <string name="notification_low_battery">Batterie faible Amazfit</string>
     <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
     <string name="notification_watch_charged">Amazfit is fully charged</string>
     <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
