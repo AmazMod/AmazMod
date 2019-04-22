@@ -5,7 +5,7 @@
     <string name="notifications">Verzonden meldingen</string>
     <string name="notifications_options">Meldingsopties</string>
     <string name="battery">Batterij</string>
-    <string name="customui">Custom UI Notifications Options</string>
+    <string name="customui">Aangepaste UI notificatie opties</string>
     <string name="others">Overige</string>
     <string name="other">Overig</string>
     <string name="open">Open</string>
@@ -306,8 +306,8 @@
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
+    <string name="language">Taal</string>
+    <string name="select">Kies</string>
     <string name="pref_choose_language">Choose language</string>
     <string name="pref_choose_language_summary">You can change language of the app</string>
     <string name="languages_automatic">Autodetect Language</string>
