@@ -122,7 +122,7 @@
     <string name="pref_enable_voice_apps">Sprachanruf-Benachrichtigungen</string>
     <string name="pref_enable_voice_apps_summary">Messenger Anruf sendet Benachrichtigung zur Smartwatch</string>
     <string name="pref_enable_local_only">Lokale Benachrichtigungen</string>
-    <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
+    <string name="pref_enable_local_only_summary">Benachrichtigungen ohne Benutzeraktionen werden auf die Uhr gesendet (z.B. Google Wetter). Benötigt ungroup auf ON.</string>
     <string name="pref_enable_notifications_when_locked">Aktivieren, wenn Telefon gesperrt ist</string>
     <string name="pref_enable_notifications_when_locked_summary">Senden von Benachrichtigungen an die Smartwatch wenn Bildschirm leuchtet aber Telefon gesperrt ist</string>
     <string name="pref_notifications_enable_ungroup">Ungroup notifications</string>
@@ -155,7 +155,7 @@
     <string name="device_not_connected">Kein Gerät verbunden</string>
     <string name="device_connected">war verbunden</string>
     <string name="pref_enable_persistent_notification">Persistent notification</string>
-    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
+    <string name="pref_enable_persistent_notification_summary">Ermöglicht eine dauerhafte Benachrichtigung, während AmazMod im Hintergrund läuft. Aktivieren Sie diese Option, wenn AmazMod dabei beendet werden sollte.</string>
     <string name="pref_enable_persistent_notification_device_settings">Dauerhafte Benachrichtigungseinstellungen</string>
     <string name="pref_enable_persistent_notification_device_settings_summary">Klicken Sie hier, um zu den Geräteeinstellungen weitergeleitet zu werden</string>
     <string name="pref_notifications_disable_screenon">Bildschirm ausgeschalten lassen</string>
