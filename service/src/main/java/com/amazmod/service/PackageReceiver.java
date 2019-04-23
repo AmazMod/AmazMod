@@ -51,6 +51,8 @@ public class PackageReceiver extends BroadcastReceiver {
                             }
                         }
                         showInstallConfirmation(mContext, Constants.MY_APP);
+                        Runtime.getRuntime().exec("adb shell \"echo APK_INSTALL > /sys/power/wake_unlock\"");
+                        Logger.debug("Disabling APK_INSTALL WAKELOCK");
                     }
                 }
             }
@@ -64,7 +66,7 @@ public class PackageReceiver extends BroadcastReceiver {
                     }
                 }
             }
-        } catch (NullPointerException ex) {
+        } catch (NullPointerException | IOException ex) {
             Logger.debug("PackageReceiver onReceive NullPointerException: " + ex.toString());
         }
     }
