@@ -83,6 +83,7 @@ import org.tinylog.Logger;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
@@ -197,6 +198,13 @@ public class MainService extends Service implements Transporter.DataListener {
         HermesEventBus.getDefault().register(this);
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+
+        // Remove apk_install Wakelock if active
+        try{
+            Runtime.getRuntime().exec("sh" + " /sdcard/wakelock.sh");
+        } catch (IOException e) {
+            Logger.debug("NOT WORKING Disabling APK_INSTALL WAKELOCK"); }
+        Logger.debug("Disabling APK_INSTALL WAKELOCK");
 
         // Register power disconnect receiver
         final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);

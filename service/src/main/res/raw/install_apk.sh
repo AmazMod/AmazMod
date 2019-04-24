@@ -43,7 +43,6 @@ if [ "$4" == "" ]; then
    exit 0
 else
     echo "#START#">&2
-    $LOG "Enabling APK_INSTALL WAKELOCK"
     run_cmd=$(adb shell "echo APK_INSTALL > /sys/power/wake_lock")
     log -pi -tAmazMod "Enabling APK_INSTALL WAKELOCK: $run_cmd"
 fi
@@ -57,9 +56,6 @@ fi
 if [ "$2" == "DEL" ]; then
    $LOG "deleting file: $1 $(rm '$1')"
 fi
-$LOG "Disabling APK_INSTALL WAKELOCK"
-    run_cmd=$(adb shell "echo APK_INSTALL > /sys/power/wake_unlock")
-    log -pi -tAmazMod "Disabling APK_INSTALL WAKELOCK: $run_cmd"
 $LOG "killing background processes"
 $LOG "killing adb $(adb kill-server)"
 $LOG "kill-all $(am kill-all)"
