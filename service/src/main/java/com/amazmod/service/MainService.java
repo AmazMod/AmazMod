@@ -201,7 +201,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Remove apk_install Wakelock if active
         try{
-            Runtime.getRuntime().exec("sh" + " /sdcard/wakelock.sh");
+            Runtime.getRuntime().exec("adb shell " + "echo APK_INSTALL > /sys/power/wake_unlock");
         } catch (IOException e) {
             Logger.debug("NOT WORKING Disabling APK_INSTALL WAKELOCK"); }
         Logger.debug("Disabling APK_INSTALL WAKELOCK");
