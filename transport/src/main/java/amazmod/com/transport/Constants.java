@@ -113,6 +113,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_UNGROUP = "preference.notifications.enable.ungroup";
     public static final String PREF_TIME_LAST_SYNC = "preference.time.last.sync";
     public static final String PREF_WATCH_MODEL = "preference.watch.model";
+    public static final String PREF_HUAMI_MODEL = "preference.watch.huami";
     public static final String PREF_ENABLE_PERSISTENT_NOTIFICATION = "preference.enable.persistent.notification";
     public static final String PREF_TIME_LAST_SAVE = "preference.time.last.save";
 
@@ -166,4 +167,6 @@ public class Constants {
     public static final String LOGFILE = "/data/user/0/com.edotassi.amazmod/files/amazmod.log";
 
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
+
+    public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
 }

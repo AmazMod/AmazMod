@@ -11,6 +11,8 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.tinylog.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -25,6 +27,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -233,5 +236,10 @@ public class FilesUtil {
         }
         return false;
     }
-
+    public static boolean isVerge(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
+        Logger.debug("DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
+        return isVerge;
+    }
 }
