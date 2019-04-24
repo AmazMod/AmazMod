@@ -103,12 +103,12 @@
     <string name="pref_battery_phone_alert_summary">Akku-Ladestand für Benachrichtigung einstellen. GreatFit/Kalender Option \"Sende Telefondaten\" muss aktiviert sein.</string>
     <string name="pref_notifications_replies_summary">Geben Sie Ihre benutzerdefinierte Antworten ein</string>
     <string name="pref_notifications_replies">Nachrichten beantworten</string>
-    <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
-    <string name="pref_private_notifications">Private notification content</string>
+    <string name="pref_private_notifications_summary">Benachrichtigungsinhalt wird ausgeblendet (Antwortspanel auch)</string>
+    <string name="pref_private_notifications">Privater Benachrichtigungs Inhalt</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Benachrichtigungen deaktivieren, wenn Bildschirm eingeschaltet ist</string>
     <string name="pref_disable_notifications_when_screen_on">Deaktivieren wenn der Bildschirm eingeschaltet ist</string>
-    <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
+    <string name="pref_notifications_enable_custom_ui">Benutzerdefinierte Benachrichtigung</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Benachrichtigungen mit der Fähigkeit zum antworten</string>
     <string name="pref_run_wizard">Willkommenspräsentation</string>
     <string name="pref_run_wizard_summary">Willkommenspräsentation noch einmal abspielen</string>
     <string name="pref_vibration_duration">Vibrationsdauer</string>
@@ -125,7 +125,7 @@
     <string name="pref_enable_local_only_summary">Benachrichtigungen ohne Benutzeraktionen werden auf die Uhr gesendet (z.B. Google Wetter). Benötigt ungroup auf ON.</string>
     <string name="pref_enable_notifications_when_locked">Aktivieren, wenn Telefon gesperrt ist</string>
     <string name="pref_enable_notifications_when_locked_summary">Senden von Benachrichtigungen an die Smartwatch wenn Bildschirm leuchtet aber Telefon gesperrt ist</string>
-    <string name="pref_notifications_enable_ungroup">Ungroup notifications</string>
+    <string name="pref_notifications_enable_ungroup">Gruppierung für Benachrichtigungen aufheben</string>
     <string name="pref_notifications_enable_ungroup_summary">Benachrichtigungen vom gleichen Absender werden getrennt (Sie werden diese nicht zusätzlich synchronisieren können)</string>
     <string name="pref_filters">Benachrichtigungsfilter</string>
     <string name="pref_enable_music_control_with_hardware_button">Hardware-Musik-Steuerung aktivieren</string>
@@ -154,7 +154,7 @@
     <string name="notifications_font_size">Schriftgröße</string>
     <string name="device_not_connected">Kein Gerät verbunden</string>
     <string name="device_connected">war verbunden</string>
-    <string name="pref_enable_persistent_notification">Persistent notification</string>
+    <string name="pref_enable_persistent_notification">Dauerhafte Benachrichtigungen</string>
     <string name="pref_enable_persistent_notification_summary">Ermöglicht eine dauerhafte Benachrichtigung, während AmazMod im Hintergrund läuft. Aktivieren Sie diese Option, wenn AmazMod dabei beendet werden sollte.</string>
     <string name="pref_enable_persistent_notification_device_settings">Dauerhafte Benachrichtigungseinstellungen</string>
     <string name="pref_enable_persistent_notification_device_settings_summary">Klicken Sie hier, um zu den Geräteeinstellungen weitergeleitet zu werden</string>
