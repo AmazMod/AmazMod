@@ -46,10 +46,10 @@
     <string name="notification_access_not_enabled">Notification access not enabled</string>
     <string name="notification_access_enable">Aktivera</string>
     <string name="activity_about_notifications_test">Notifications test</string>
-    <string name="customui_test">Custom UI</string>
+    <string name="customui_test">Anpassat användargränssnitt</string>
     <string name="standard_test">Standard UI</string>
     <string name="battery_chart_title">Battery chart</string>
-    <string name="heartrate_chart_title">Heart-rate chart</string>
+    <string name="heartrate_chart_title">Pulsdiagram</string>
     <string name="watch_info">Watch\'s information</string>
     <string name="last_charge">Since full charge</string>
     <string name="last_charge_no_info">Waiting for full charge</string>
