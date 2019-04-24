@@ -95,14 +95,14 @@
     <string name="pref_disable_battery_chart_summary">Akku Diagram im Hauptbildschirm deaktivieren, App wird beim Schließen der Einstellungen aktualisiert</string>
     <string name="pref_battery_background_sync_interval">Hintergrund Aktuallisierungsintervall</string>
     <string name="pref_battery_background_sync_interval_summary">Ändert das im Hintergrund laufende Prüf-Intervall des Batteriestatus</string>
-    <string name="pref_battery_chart_time_interval">Chart time range</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_chart_time_interval">Diagramm Zeitbereich</string>
+    <string name="pref_battery_chart_time_interval_summary">Akkudiagramm Zeitspanne zum Anzeigen festlegen</string>
     <string name="pref_battery_watch_alert">Uhr-Akku Alarm</string>
     <string name="pref_battery_watch_alert_summary">Ladezustand für Akku-Benachrichtigung</string>
     <string name="pref_battery_phone_alert">Telefon-Akku Alarm</string>
     <string name="pref_battery_phone_alert_summary">Akku-Ladestand für Benachrichtigung einstellen. GreatFit/Kalender Option \"Sende Telefondaten\" muss aktiviert sein.</string>
     <string name="pref_notifications_replies_summary">Geben Sie Ihre benutzerdefinierte Antworten ein</string>
-    <string name="pref_notifications_replies">Notification replies</string>
+    <string name="pref_notifications_replies">Nachrichten beantworten</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
     <string name="pref_private_notifications">Private notification content</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Benachrichtigungen deaktivieren, wenn Bildschirm eingeschaltet ist</string>
