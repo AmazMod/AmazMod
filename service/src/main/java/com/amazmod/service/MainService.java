@@ -83,6 +83,7 @@ import org.tinylog.Logger;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
@@ -197,6 +198,13 @@ public class MainService extends Service implements Transporter.DataListener {
         HermesEventBus.getDefault().register(this);
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+
+        // Remove apk_install Wakelock if active
+        try{
+            Runtime.getRuntime().exec("adb shell " + "echo APK_INSTALL > /sys/power/wake_unlock");
+        } catch (IOException e) {
+            Logger.debug("NOT WORKING Disabling APK_INSTALL WAKELOCK"); }
+        Logger.debug("Disabling APK_INSTALL WAKELOCK");
 
         // Register power disconnect receiver
         final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
@@ -931,8 +939,8 @@ public class MainService extends Service implements Transporter.DataListener {
                         if (command.contains("screencap")) {
                             Logger.debug("Screenshot: creating file");
                             File file = new File("/sdcard/Pictures/Screenshots");
-                            boolean saveDirExists = false;
-                            saveDirExists = file.exists() || file.mkdir();
+                            boolean saveDirExists;
+                            saveDirExists = file.exists() || file.mkdirs();
                             if (saveDirExists) {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
                                 String dateStamp = sdf.format(new Date());
