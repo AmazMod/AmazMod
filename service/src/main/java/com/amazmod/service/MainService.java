@@ -939,8 +939,8 @@ public class MainService extends Service implements Transporter.DataListener {
                         if (command.contains("screencap")) {
                             Logger.debug("Screenshot: creating file");
                             File file = new File("/sdcard/Pictures/Screenshots");
-                            boolean saveDirExists = false;
-                            saveDirExists = file.exists() || file.mkdir();
+                            boolean saveDirExists;
+                            saveDirExists = file.exists() || file.mkdirs();
                             if (saveDirExists) {
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
                                 String dateStamp = sdf.format(new Date());
