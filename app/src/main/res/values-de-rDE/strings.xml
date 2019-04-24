@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">Das Watchface GreatFit oder die Widgets Calendar / Timeline müssen auf Ihrer Uhr installiert sein, damit diese Optionen verwendet werden können</string>
     <string name="activity_watchface_send_data">Sende Telefondaten zur Uhr (Akku, Alarm, Kalender)</string>
     <string name="activity_watchface_send_data_interval_prompt">Zeitintervall auswählen</string>
-    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
+    <string name="activity_watchface_send_data_interval_summary">Häufigkeit der zu sendenden Daten</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Senden der Kalender-Ereignisse für die folgenden Tage:</string>
     <string name="activity_watchface_send_on_battery_change">Sende Daten jedes mal wenn der Akku sich ändert</string>
     <string name="activity_watchface_send_on_alarm_change">Sende Daten jedes mal wenn der Alarm sich ändert</string>
