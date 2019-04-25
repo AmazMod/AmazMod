@@ -122,7 +122,7 @@
     <string name="pref_enable_voice_apps">Powiadomienia o rozmowach</string>
     <string name="pref_enable_voice_apps_summary">Powiadomienia o połączeniach głosowych Messengera</string>
     <string name="pref_enable_local_only">Lokalne powiadomienia</string>
-    <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
+    <string name="pref_enable_local_only_summary">Powiadomienia są przesyłane bez działania użytkownika (np. Prognozy pogody Google). Może być konieczne rozgrupowanie = WŁ.</string>
     <string name="pref_enable_notifications_when_locked">Włącz kiedy telefon jest zablokowany</string>
     <string name="pref_enable_notifications_when_locked_summary">Wysyłaj powiadomienia do zegarka, kiedy ekran jest włączony, ale telefon zablokowany</string>
     <string name="pref_notifications_enable_ungroup">Rozgrupuj powiadomienia</string>
