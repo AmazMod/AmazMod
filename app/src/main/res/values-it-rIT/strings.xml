@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Totali</string>
     <string name="activity_stats_notifications_in_the_last_hour">Nell\'ultima ora</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Nelle ultime 24 ore</string>
-    <string name="pref_disable_notifications_summary">Disabilita tutte le notifiche in AmazMod</string>
-    <string name="pref_disable_notifications">Disattiva le notifiche</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Seleziona le app</string>
     <string name="pref_filter_notifications_by_packages_summary">Solo le notifiche da parte di queste app verranno notificate sull\'orologio</string>
     <string name="pref_disable_battery_chart">Disattiva il grafico della batteria</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Risposte notifiche</string>
     <string name="pref_private_notifications_summary">Nascondi contenuto notifiche (nasconde anche il menù di risposta)</string>
     <string name="pref_private_notifications">Contenuto notifica privato</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Disattiva le notifiche quando lo schermo è attivo</string>
-    <string name="pref_disable_notifications_when_screen_on">Disattiva quando lo schermo è attivo</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Notifiche personalizzate</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifiche con la possibilità di rispondere</string>
     <string name="pref_run_wizard">Schermata di benvenuto</string>
@@ -267,8 +267,8 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="compress">Comprimi</string>
     <string name="delete_folder_and_contents">\"%1$s\" è una cartella. Vuoi davvero rimuoverla, compresa di tutti i suoi contenuti in modo ricorsivo?</string>
     <string name="screenshot">Cattura schermata</string>
-    <string name="pref_notifications_disable_delay">Disattiva il ritardo</string>
-    <string name="pref_notifications_disable_delay_summary">Disattiva il conto alla rovescia durante l\'invio di risposte</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">File Uploader</string>
     <string name="file_uploader_title">Installare %s ?</string>
     <string name="file_uploader_name">Titolo: %s</string>
