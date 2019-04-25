@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Всего</string>
     <string name="activity_stats_notifications_in_the_last_hour">За последний час</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">За последние 24 часа</string>
-    <string name="pref_disable_notifications_summary">Отключить все уведомления в AmazMod</string>
-    <string name="pref_disable_notifications">Отключить уведомления</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Выбранные приложения</string>
     <string name="pref_filter_notifications_by_packages_summary">Уведомления этих приложений будут показаны</string>
     <string name="pref_disable_battery_chart">Отключить график батареи</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Ответы на уведомления</string>
     <string name="pref_private_notifications_summary">Текст уведомления будет скрыт (и панель ответов тоже)</string>
     <string name="pref_private_notifications">Не показывать уведомления полностью</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Отключить уведомления при включённом экране</string>
-    <string name="pref_disable_notifications_when_screen_on">Отключить, когда экран включён</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Пользовательские ответы</string>
     <string name="pref_notifications_enable_custom_ui_summary">Уведомления с возможностью ответить</string>
     <string name="pref_run_wizard">Запустить \"Приветствие\"</string>
@@ -265,8 +265,8 @@
     <string name="compress">Архивировать</string>
     <string name="delete_folder_and_contents">папка %1$s и все содержимое будет удалено</string>
     <string name="screenshot">Снимок экрана</string>
-    <string name="pref_notifications_disable_delay">Отключить задержку</string>
-    <string name="pref_notifications_disable_delay_summary">Отключить отчет о доставке</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">Загрузчик файлов</string>
     <string name="file_uploader_title">Установка %s ?</string>
     <string name="file_uploader_name">Название: %s</string>
