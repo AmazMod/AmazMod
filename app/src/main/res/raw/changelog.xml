@@ -21,6 +21,7 @@
         <bugfix>Notifications system app filter fix</bugfix>
         <bugfix>Settings titles/descriptions where simplified</bugfix>
         <bugfix>Installing apks with spaces/dots in their name fix</bugfix>
+        <bugfix>Opening apk/wfz from Opera fix (maybe for other apps too)</bugfix>
         <bugfix>Small bug fixes</bugfix>
         <info>Updated translations</info>
     </release>
