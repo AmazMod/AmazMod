@@ -207,7 +207,7 @@
     <string name="revoke_device_owner">Cofnij administratora urządzenia na zegarku</string>
     <string name="alerts">Ostrzeżenia</string>
     <string name="pref_phone_connect_alert_standard_notification">Używaj standardowych powiadomień</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Użyj standardowych powiadomień dla alertów zamiast niestandardowych na pełnym ekranie</string>
     <string name="enable_low_power">Włącz tryb LPM na zegarku</string>
     <string name="failed_to_send_command">Wysłanie polecenia do zegarka nie powiodło się</string>
     <string name="command_sent">Wysyłanie polecenia do zegarka powiodło się</string>
