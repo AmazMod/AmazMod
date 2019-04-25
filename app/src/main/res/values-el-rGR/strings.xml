@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Συνολικά</string>
     <string name="activity_stats_notifications_in_the_last_hour">Την τελευταία ώρα</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Τις τελευταίες 24 ώρες</string>
-    <string name="pref_disable_notifications_summary">Απενεργοποίηση όλων των ειδοποιήσεων στο AmazMod</string>
-    <string name="pref_disable_notifications">Απενεργοποίηση ειδοποιήσεων</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Επιλεγμένες εφαρμογές</string>
     <string name="pref_filter_notifications_by_packages_summary">Μόνο ειδοποιήσεις από αυτές τις εφαρμογές θα προωθούνται στο ρολόι</string>
     <string name="pref_disable_battery_chart">Απενεργοποίηση του διαγράμματος της μπαταρίας</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Απαντήσεις ειδοποιήσεων</string>
     <string name="pref_private_notifications_summary">Το περιεχόμενο των ειδοποιήσεων θα αποκρυφτεί (και το πάνελ των απαντήσεων επίσης)</string>
     <string name="pref_private_notifications">Ιδιωτικό περιεχόμενο ειδοποιήσεων</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Απενεργοποίηση των ειδοποιήσεων όταν η οθόνη είναι ανοιχτή</string>
-    <string name="pref_disable_notifications_when_screen_on">Απενεργοποίηση όταν η οθόνη είναι ανοιχτή</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Ειδοποιήσεις Προσαρμοσμένου UI</string>
     <string name="pref_notifications_enable_custom_ui_summary">Ειδοποιήσεις με την ικανότητα να απαντήσετε</string>
     <string name="pref_run_wizard">Παρουσίαση Καλωσορίσματος</string>
@@ -265,8 +265,8 @@
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
     <string name="screenshot">Στιγμιότυπο οθόνης</string>
-    <string name="pref_notifications_disable_delay">Απενεργοποίηση καθυστέρησης</string>
-    <string name="pref_notifications_disable_delay_summary">Απενεργοποίηση αντίστροφης μέτρησης κατά την αποστολή απαντήσεων</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">Ανέβασμα αρχείων</string>
     <string name="file_uploader_title">Εγκατάσταση %s?</string>
     <string name="file_uploader_name">Τίτλος: %s</string>
