@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">총계</string>
     <string name="activity_stats_notifications_in_the_last_hour">최근 1시간 동안</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">최근 24시간 동안</string>
-    <string name="pref_disable_notifications_summary">AmazMod의 모든 알림 비활성화</string>
-    <string name="pref_disable_notifications">알림 비활성화</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">선택한 앱</string>
     <string name="pref_filter_notifications_by_packages_summary">이 앱들의 알림만 시계로 보내집니다.</string>
     <string name="pref_disable_battery_chart">배터리 차트 비활성화</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">알림 답장</string>
     <string name="pref_private_notifications_summary">알림 내용이 숨겨집니다. (답장 패널도 숨겨집니다)</string>
     <string name="pref_private_notifications">알림 내용 숨김</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">화면이 켜져있을때 알림 보내지 않기</string>
-    <string name="pref_disable_notifications_when_screen_on">화면이 켜져있을때 비활성화</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">커스텀 알림</string>
     <string name="pref_notifications_enable_custom_ui_summary">커스텀 알림 (답장 기능 포함)</string>
     <string name="pref_run_wizard">시작 안내</string>
@@ -265,8 +265,8 @@
     <string name="compress">압축</string>
     <string name="delete_folder_and_contents">%1$s는 폴더입니다. 해당 폴더와 내용물을 전부 삭제하시겠습니까?</string>
     <string name="screenshot">스크린샷</string>
-    <string name="pref_notifications_disable_delay">딜레이(지연) 비활성화</string>
-    <string name="pref_notifications_disable_delay_summary">답장을 보낼 때 카운트 다운을 사용 하지 않도록 설정</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">파일 업로더</string>
     <string name="file_uploader_title">%s를 설치하시겠습니까?</string>
     <string name="file_uploader_name">제목: %s</string>

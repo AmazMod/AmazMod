@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">全部</string>
     <string name="activity_stats_notifications_in_the_last_hour">最近一个小时</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">最近24小时</string>
-    <string name="pref_disable_notifications_summary">禁用 AmazMod 中的所有通知</string>
-    <string name="pref_disable_notifications">禁用通知</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">已选择程序</string>
     <string name="pref_filter_notifications_by_packages_summary">只有这些程序的通知将被发送到手表端</string>
     <string name="pref_disable_battery_chart">禁用电池图表</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
     <string name="pref_private_notifications">Private notification content</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">当亮屏时禁用通知</string>
-    <string name="pref_disable_notifications_when_screen_on">当亮屏时禁用</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
     <string name="pref_run_wizard">Welcome Presentation</string>
@@ -266,8 +266,8 @@
     <string name="compress">压缩</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
     <string name="screenshot">截屏</string>
-    <string name="pref_notifications_disable_delay">禁用延迟</string>
-    <string name="pref_notifications_disable_delay_summary">在发送回复时禁用倒计时</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">文件上传器</string>
     <string name="file_uploader_title">安装 %s ？</string>
     <string name="file_uploader_name">标题：%s</string>
