@@ -153,9 +153,9 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
                     //Logger.debug("FileOpenerActivity onCreate filename: " + fileName);
 
-                    if (fileName.endsWith(".wfz") || fileName.matches("\\.wfz\\?"))
+                    if (fileName.endsWith(".wfz"))
                         uploadType = UPLOAD_WFZ;
-                    else if (fileName.endsWith(".apk") || fileName.matches("\\.apk\\?"))
+                    else if (fileName.endsWith(".apk"))
                         uploadType = UPLOAD_APK;
                     else
                         result = INVALID_FILE;
