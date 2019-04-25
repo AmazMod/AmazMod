@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Totaal</string>
     <string name="activity_stats_notifications_in_the_last_hour">In het laatste uur</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">In de afgelopen 24 uur</string>
-    <string name="pref_disable_notifications_summary">Alle meldingen in AmazMod uitschakelen</string>
-    <string name="pref_disable_notifications">Meldingen uitschakelen</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Geselecteerde apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Alleen meldingen van deze apps worden verzonden naar horloge</string>
     <string name="pref_disable_battery_chart">Batterij grafiek uitschakelen</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Kennisgeving antwoorden</string>
     <string name="pref_private_notifications_summary">Notificatie inhoud wordt verborgen (en antwoordpaneel ook)</string>
     <string name="pref_private_notifications">Private notification content</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Zet melding notificatie uit bij scherm AAN</string>
-    <string name="pref_disable_notifications_when_screen_on">Uitschakelen wanneer het scherm is ingeschakeld</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
     <string name="pref_run_wizard">Welcome Presentation</string>
@@ -265,8 +265,8 @@
     <string name="compress">Comprimeren</string>
     <string name="delete_folder_and_contents">\"%1$s\" is een map. Verwijder het en al haar inhoud recursief verwijderen?</string>
     <string name="screenshot">Screenshot</string>
-    <string name="pref_notifications_disable_delay">Uitschakelen van vertraging</string>
-    <string name="pref_notifications_disable_delay_summary">Countdown uitschakelen bij het versturen van reacties</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">Bestand Uploader</string>
     <string name="file_uploader_title">\"%s\" installeren?</string>
     <string name="file_uploader_name">Titel: %s</string>
