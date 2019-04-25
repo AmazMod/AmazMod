@@ -32,7 +32,8 @@ public class Constants {
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages.filters";
-    public static final String PREF_DISABLE_NOTIFICATIONS = "preference.disable.notifications";
+    //public static final String PREF_DISABLE_NOTIFICATIONS = "preference.disable.notifications";
+    public static final String PREF_ENABLE_NOTIFICATIONS = "preference.enable.notifications";
     public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
     public static final String PREF_NOTIFICATIONS_REPLIES = "preference.amazmodservice.replies";
     public static final String PREF_NOTIFICATIONS_VIBRATION = "preference.amazmodservice.vibration";
@@ -47,7 +48,8 @@ public class Constants {
     public static final String PREF_BATTERY_WATCH_ALREADY_ALERTED = "preference.battery.watch.already.alerted";
     public static final String PREF_BATTERY_WATCH_CHARGED = "preference.battery.watch.charged";
     public static final String PREF_BATTERY_PHONE_ALERT = "preference.battery.phone.alert";
-    public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
+    //public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
+    public static final String PREF_ENABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.enable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
     public static final String PREF_LANGUAGE = "preference.language";
@@ -58,6 +60,7 @@ public class Constants {
     public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
     public static final String PREF_ENABLE_DEVELOPER_MODE = "preference.enable.developer.mode";
     public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
+    public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
     //public static final String PREF_NOTIFICATIONS_DISABLE_LARGE_ICON = "preference.disable.notification.largeicon";
     //public static final String PREF_NOTIFICATIONS_DISABLE_PICTURE = "preference.disable.notification.picture";
@@ -84,7 +87,8 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
-    public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS = false;
+    //public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS = false;
+    public static final boolean PREF_DEFAULT_ENABLE_NOTIFICATIONS = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = false;
@@ -100,7 +104,8 @@ public class Constants {
     public static final boolean PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = false;
     public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
     public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
-    public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
+    //public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY = true;
     public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
 
     public static final int REQUEST_CODE_INTRO = 1;

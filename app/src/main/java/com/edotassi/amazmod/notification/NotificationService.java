@@ -274,7 +274,7 @@ public class NotificationService extends NotificationListenerService {
         Logger.debug("onNotificationRemoved notificationRemoved: %s", key);
         //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup00 key: " + key);
 
-        if (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false)
+        if (!Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS, Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS)
                 || (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
             Logger.debug("onNotificationRemoved returning due to Settings");
             return;
@@ -705,13 +705,13 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isNotificationsDisabled() {
-        return Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS, false) ||
+        return !Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS, Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS) ||
                 (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
                         Screen.isDNDActive(this, getContentResolver()));
     }
 
     private boolean isNotificationsDisabledWhenScreenOn() {
-        return Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
+        return !Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFATIONS_WHEN_SCREEN_ON, false)
                 && Screen.isInteractive(this);
     }
 
