@@ -200,11 +200,12 @@ public class MainService extends Service implements Transporter.DataListener {
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
         // Remove apk_install Wakelock if active
-        try{
-            Runtime.getRuntime().exec("adb shell " + "echo APK_INSTALL > /sys/power/wake_unlock");
-        } catch (IOException e) {
-            Logger.debug("NOT WORKING Disabling APK_INSTALL WAKELOCK"); }
         Logger.debug("Disabling APK_INSTALL WAKELOCK");
+        try{
+            Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock");
+        } catch (IOException e) {
+            Logger.error(e,"onCreate: IOException while disabling APK_INSTALL WAKELOCK");
+        }
 
         // Register power disconnect receiver
         final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
