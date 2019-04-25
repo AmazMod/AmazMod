@@ -17,7 +17,7 @@
         <new>Number of calendar events found are shown after ICS URL test</new>
         <new>Icons for images, apps and watchfaces in the file explorer</new>
         <bugfix>Screenshot color and other fix</bugfix>
-        <bugfix>Translation option selection fix</bugfix>
+        <bugfix>Translation option selection/detection fix</bugfix>
         <bugfix>Notifications system app filter fix</bugfix>
         <bugfix>Settings titles/descriptions where simplified</bugfix>
         <bugfix>Installing apks with spaces/dots in their name fix</bugfix>
