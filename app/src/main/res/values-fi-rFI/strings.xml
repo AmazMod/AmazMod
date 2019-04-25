@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Yhteensä</string>
     <string name="activity_stats_notifications_in_the_last_hour">Viimeisen tunnin aikana</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Viimeisen 24 tunnin aikana</string>
-    <string name="pref_disable_notifications_summary">Poista kaikki ilmoitukset AmazMod: ssa</string>
-    <string name="pref_disable_notifications">Poista ilmoitukset käytöstä</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Valitut sovellukset</string>
     <string name="pref_filter_notifications_by_packages_summary">Vain näiden sovellusten ilmoitukset lähetetään kelloon</string>
     <string name="pref_disable_battery_chart">Akku kaavio pois päältä</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Ilmoitus vastaukset</string>
     <string name="pref_private_notifications_summary">Ilmoituksen sisältö piilotetaan (ja vastauspaneeli myös)</string>
     <string name="pref_private_notifications">Yksityisen lmoituksen sisältö</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Poista ilmoitukset käytöstä, kun näyttö on päällä</string>
-    <string name="pref_disable_notifications_when_screen_on">Poista käytöstä, kun näyttö on päällä</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Mukautetun käyttöliittymän ilmoitukset</string>
     <string name="pref_notifications_enable_custom_ui_summary">Ilmoitukset, joihin voi vastata</string>
     <string name="pref_run_wizard">Tervetuloesittely</string>
@@ -265,8 +265,8 @@
     <string name="compress">Pakkaa</string>
     <string name="delete_folder_and_contents">”%1$s” on kansio. Haluatko poistaa kansion ja kaiken sen sisällön?</string>
     <string name="screenshot">Ruutukaappaus</string>
-    <string name="pref_notifications_disable_delay">Poista viive</string>
-    <string name="pref_notifications_disable_delay_summary">Poistaa käytöstä ajastimen, vastausten lähetyksestä</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">Tiedostojen lähettäminen</string>
     <string name="file_uploader_title">Asenna %s ?</string>
     <string name="file_uploader_name">Otsikko: %s</string>
