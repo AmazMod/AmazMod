@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Toplam</string>
     <string name="activity_stats_notifications_in_the_last_hour">Son bir saat içinde</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Son 24 saat içinde</string>
-    <string name="pref_disable_notifications_summary">Tüm AmazMod bildirimlerini devre dışı bırak</string>
-    <string name="pref_disable_notifications">Bildirimleri devre dışı bırak</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Seçilen uygulamalar</string>
     <string name="pref_filter_notifications_by_packages_summary">Sadece seçilen uygulamalardan saate bildirim gönderilir</string>
     <string name="pref_disable_battery_chart">Batarya grafiğini devre dışı bırak</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Bildirim Yanıtları</string>
     <string name="pref_private_notifications_summary">Bildirim içeriği gizlenecek ( panel ve yanıtlar dahil)</string>
     <string name="pref_private_notifications">Private notification content</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Ekran açık olduğunda bildirimleri devre dışı bırak</string>
-    <string name="pref_disable_notifications_when_screen_on">Ekran açık olduğunda devre dışı bırak</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
     <string name="pref_run_wizard">Welcome Presentation</string>
@@ -265,8 +265,8 @@
     <string name="compress">Sıkıştır</string>
     <string name="delete_folder_and_contents">\"%1$s\" bir klasördür. Bu klasörü ve tüm içeriği kaldırılsın mı?</string>
     <string name="screenshot">Ekran Görüntüsü</string>
-    <string name="pref_notifications_disable_delay">Gecikmeyi devre dışı bırak</string>
-    <string name="pref_notifications_disable_delay_summary">Yanıt gönderirken geri sayımı devre dışı bırak</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">Dosya Yükleyici</string>
     <string name="file_uploader_title">Yükleme %s ?</string>
     <string name="file_uploader_name">Başlık: %s</string>
