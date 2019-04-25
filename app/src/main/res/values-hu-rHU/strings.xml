@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Összesen</string>
     <string name="activity_stats_notifications_in_the_last_hour">Az utóbbi órában</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Az utóbbi 24 órában</string>
-    <string name="pref_disable_notifications_summary">Értesítések letiltása az AmazMod-ban</string>
-    <string name="pref_disable_notifications">Értesítések kikapcsolása</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Kiválasztott appok</string>
     <string name="pref_filter_notifications_by_packages_summary">Csak ezen alkalmazásoktól származó értesítések fognak megjelenni az órán</string>
     <string name="pref_disable_battery_chart">Akku diagram kikapcsolás</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Értesítési válaszok</string>
     <string name="pref_private_notifications_summary">Az értesítés tartalma rejtett lesz (a válasz panel szintén)</string>
     <string name="pref_private_notifications">Privát értesítési tartalom</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Nem küld értesítést bekapcsolt telefon képernyőnél</string>
-    <string name="pref_disable_notifications_when_screen_on">Kikapcsol, ha a képernyő BE</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Egyéni értesítések</string>
     <string name="pref_notifications_enable_custom_ui_summary">Megválaszolható értesítések</string>
     <string name="pref_run_wizard">Bemutató</string>
@@ -267,8 +267,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="compress">Tömörít</string>
     <string name="delete_folder_and_contents">\"%1$s\" egy mappa. Rekurzívan távolítsa el és az összes tartalmát is?</string>
     <string name="screenshot">Képernyőkép</string>
-    <string name="pref_notifications_disable_delay">Késleltetés kikapcsolása</string>
-    <string name="pref_notifications_disable_delay_summary">Letiltja a visszaszámlálást válasz küldésekor</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">Fájl Feltöltő</string>
     <string name="file_uploader_title">%s, telepíted?</string>
     <string name="file_uploader_name">Cím: %s</string>
