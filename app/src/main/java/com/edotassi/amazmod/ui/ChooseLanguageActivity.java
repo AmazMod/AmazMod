@@ -70,7 +70,7 @@ public class ChooseLanguageActivity extends BaseAppCompatActivity {
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             String tag = (String) radioGroup.getChildAt(checkedId).getTag();
             Logger.debug("Selected: " + tag);
-            LocaleUtils.setLocale(this, tag);
+            LocaleUtils.persist(tag);
         });
     }
 
