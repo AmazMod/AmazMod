@@ -64,7 +64,6 @@ import butterknife.OnClick;
 import de.mateware.snacky.Snacky;
 
 import static android.graphics.Bitmap.CompressFormat.PNG;
-import static com.edotassi.amazmod.util.FilesUtil.isVerge;
 
 public class TweakingActivity extends BaseAppCompatActivity {
 
@@ -558,7 +557,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                 if (drawable != null) {
 
                                     // Rotate and re-save image on Verge
-                                    if(isVerge()){
+                                    if(FilesUtil.isVerge()){
                                         // Rotate
                                         drawable = FilesUtil.getRotateDrawable(drawable,180f);
                                         // Re-Save (reopen because drawable is bad quality)
