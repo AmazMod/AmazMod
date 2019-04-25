@@ -3,7 +3,7 @@
         date="Not-released-yet"
         versionCode="211"
         versionName="v1.1.6-DEV">
-        <new>Faster app installation by keeping screen on while installing</new>
+        <new>Faster app installation keeping watch active (for now only ROOTED watch)</new>
         <new>Heart-rate graph added (phone app)</new>
         <new>Screenshots are auto rotated for Verge</new>
         <new>Watch's screen is unlocked before a screenshot</new>
