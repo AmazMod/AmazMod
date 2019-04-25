@@ -122,7 +122,7 @@
     <string name="pref_enable_voice_apps">Powiadomienia o rozmowach</string>
     <string name="pref_enable_voice_apps_summary">Powiadomienia o połączeniach głosowych Messengera</string>
     <string name="pref_enable_local_only">Lokalne powiadomienia</string>
-    <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
+    <string name="pref_enable_local_only_summary">Powiadomienia są przesyłane bez działania użytkownika (np. Prognozy pogody Google). Może być konieczne rozgrupowanie = WŁ.</string>
     <string name="pref_enable_notifications_when_locked">Włącz kiedy telefon jest zablokowany</string>
     <string name="pref_enable_notifications_when_locked_summary">Wysyłaj powiadomienia do zegarka, kiedy ekran jest włączony, ale telefon zablokowany</string>
     <string name="pref_notifications_enable_ungroup">Rozgrupuj powiadomienia</string>
@@ -155,8 +155,8 @@
     <string name="device_not_connected">Brak połączonych urządzeń</string>
     <string name="device_connected">połączono</string>
     <string name="pref_enable_persistent_notification">Stałe powiadomienie</string>
-    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if Amazmod is constantly been killed.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
+    <string name="pref_enable_persistent_notification_summary">Włącza trwałe powiadomienie, aby zapobiec wyłączeniu AmazMod, który działa w tle. Włącz tę opcję jeśli Amazmod jest ciągle ubijany w tle.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Ustawienia stałych powiadomień</string>
     <string name="pref_enable_persistent_notification_device_settings_summary">Kliknij tutaj aby zostać przekierowany do ustawień urządzenia</string>
     <string name="pref_notifications_disable_screenon">Nie wygaszaj ekranu</string>
     <string name="pref_notifications_disable_screenon_summary">Nie włączaj i/lub nie odblokowuj ekranu kiedy powiadomienie dotrze na zegarek</string>
@@ -207,7 +207,7 @@
     <string name="revoke_device_owner">Cofnij administratora urządzenia na zegarku</string>
     <string name="alerts">Ostrzeżenia</string>
     <string name="pref_phone_connect_alert_standard_notification">Używaj standardowych powiadomień</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Użyj standardowych powiadomień dla alertów zamiast niestandardowych na pełnym ekranie</string>
     <string name="enable_low_power">Włącz tryb LPM na zegarku</string>
     <string name="failed_to_send_command">Wysłanie polecenia do zegarka nie powiodło się</string>
     <string name="command_sent">Wysyłanie polecenia do zegarka powiodło się</string>

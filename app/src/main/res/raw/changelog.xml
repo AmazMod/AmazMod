@@ -3,6 +3,7 @@
         date="2019-04-23"
         versionCode="211"
         versionName="v1.1.6">
+        <new>Faster app installation by keeping screen on while installing</new>
         <new>Heart-rate graph added (phone app)</new>
         <new>Screenshots are auto rotated for Verge</new>
         <new>Watch's screen is unlocked before a screenshot</new>
@@ -15,7 +16,7 @@
         <new>Connection status notification can now be hidden from device settings (new notification channel on Android O+)</new>
         <new>Number of calendar events found are shown after ICS URL test</new>
         <new>Icons for images, apps and watchfaces in the file explorer</new>
-        <bugfix>Screenshot color fix</bugfix>
+        <bugfix>Screenshot color and other fix</bugfix>
         <bugfix>Translation option selection fix</bugfix>
         <bugfix>Notifications system app filter fix</bugfix>
         <bugfix>Settings titles/descriptions where simplified</bugfix>

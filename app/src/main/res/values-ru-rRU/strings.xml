@@ -104,7 +104,7 @@
     <string name="pref_notifications_replies_summary">Введите пользовательские ответы</string>
     <string name="pref_notifications_replies">Ответы на уведомления</string>
     <string name="pref_private_notifications_summary">Текст уведомления будет скрыт (и панель ответов тоже)</string>
-    <string name="pref_private_notifications">Показать уведомление полностью</string>
+    <string name="pref_private_notifications">Не показывать уведомления полностью</string>
     <string name="pref_disable_notifications_when_screen_on_summary">Отключить уведомления при включённом экране</string>
     <string name="pref_disable_notifications_when_screen_on">Отключить, когда экран включён</string>
     <string name="pref_notifications_enable_custom_ui">Пользовательские ответы</string>
