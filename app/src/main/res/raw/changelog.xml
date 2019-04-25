@@ -1,7 +1,7 @@
 <changelog>
     <release
         date="2019-04-23"
-        versionCode="211"
+        versionCode="212"
         versionName="v1.1.6">
         <new>Faster app installation by keeping screen on while installing</new>
         <new>Heart-rate graph added (phone app)</new>
