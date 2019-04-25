@@ -20,7 +20,7 @@ import amazmod.com.transport.Constants;
 public class LocaleUtils {
 
     public static Context onAttach(Context context) {
-        String language = getPersistedData(Locale.getDefault().getLanguage());
+        String language = getLanguage();
         return setLocale(context, language);
     }
 
@@ -34,7 +34,7 @@ public class LocaleUtils {
         //TODO: commented line below because it was making TinyLog config not to work (is any log is done before configuration, nothing works)
         //Logger.debug("LocaleUtils getLocale currentLanguage: " + currentLanguage);
         if (currentLanguage.equals(Constants.PREF_LANGUAGE_AUTO)){
-            //currentLanguage = Locale.getDefault().getLanguage();
+            //currentLanguage = Locale.getDefault().getLanguage(); // Didn't work on some phones while the whole app needed to be killed on others
             currentLanguage = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
         }
         return getLocaleByLanguageCode(currentLanguage);
@@ -60,16 +60,16 @@ public class LocaleUtils {
         return Prefs.getString(Constants.PREF_LANGUAGE, defaultLanguage);
     }
     public static String getLanguage() {
-        return getPersistedData(Locale.getDefault().getLanguage());
+        return getPersistedData(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage());
     }
 
     // Change language
     private static Context setLocale(Context context, String language) {
-        //Log.d("Amazmod","Change language - System: "+Locale.getDefault().getLanguage()+", To: "+language+", Device: "+ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage());
+        Log.d("Amazmod","Change language - System: "+Locale.getDefault().getLanguage()+", To: "+language+", Device: "+ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage());
 
         // If AUTO get the system Locale
         if (language.equals(Constants.PREF_LANGUAGE_AUTO)) {
-            //language = Locale.getDefault().getLanguage();
+            //language = Locale.getDefault().getLanguage(); // Didn't work on some phones while the whole app needed to be killed on others
             language = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
         }
 
