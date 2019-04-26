@@ -74,7 +74,7 @@
     <string name="activity_about_devs">Kehittäjä</string>
     <string name="activity_about_testers">Testaajat</string>
     <string name="translators">Kääntäjät</string>
-    <string name="activity_watchface_need_greatfit">Sinull täytyy olla GreatFit kellotaulu tai Calendar/Timeline widgetti asennettuna, jotta voisit muuttaa näitä asetuksia</string>
+    <string name="activity_watchface_need_greatfit">Sinulla täytyy olla GreatFit kellotaulu tai Calendar/Timeline widgetti asennettuna, jotta voisit muuttaa näitä asetuksia</string>
     <string name="activity_watchface_send_data">Lähetä puhelimen tiedot kelloon (akku, hälytys, kalenteri)</string>
     <string name="activity_watchface_send_data_interval_prompt">Valitse aikaväli</string>
     <string name="activity_watchface_send_data_interval_summary">Tietojen lähetys tiheys</string>
@@ -281,7 +281,7 @@
     <string name="notification_text_filter">Suodatin</string>
     <string name="muted_apps">Mykistetyt sovellukset</string>
     <string name="ok">OK</string>
-    <string name="are_you_sure">Are you sure?</string>
+    <string name="are_you_sure">Oletko varma?</string>
     <string name="cannot_be_undone">Tätä ei voi perua.</string>
     <string name="show_only_selected">Näytä vain sallitut appit</string>
     <string name="pref_amazmod_first_widget">Amazmod aina ensimmäisenä widgettinä</string>
@@ -300,7 +300,7 @@
     <string name="permission">Käyttöoikeus</string>
     <string name="success">Onnistui</string>
     <string name="error">Virhe</string>
-    <string name="invalid_url">Invalid iCal URL!</string>
+    <string name="invalid_url">Virheellinen iCal URL!</string>
     <string name="file_or_connection_error">Tiedosto- tai yhteysvirhe, tiedostoa ei voitu avata!</string>
     <string name="update_process_warning">Varoitus: päivitys voi kestää jopa 15 minuuttia ja kello uudelleenkäynnistyy yhden tai useamman kerran. Älä käytä kelloa päivityksen aikana tai tiedostoja voi vaurioitua. Aloita päivitys vain, jos voit odottaa sen valmistumista.</string>
     <string name="search_title">Etsi</string>
