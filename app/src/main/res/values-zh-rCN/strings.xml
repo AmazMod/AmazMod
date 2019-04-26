@@ -98,9 +98,9 @@
     <string name="pref_battery_chart_time_interval">图表时间范围</string>
     <string name="pref_battery_chart_time_interval_summary">设置要显示的电池图表时间范围</string>
     <string name="pref_battery_watch_alert">手表端电量警报</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
+    <string name="pref_battery_watch_alert_summary">设置手表的电池电量警报阈值</string>
     <string name="pref_battery_phone_alert">手机电量警报</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">设置手机的电池电量警报阈值。需要到 GreatFit/Calendar 设置启用 \"发送手机数据\" 选项。</string>
     <string name="pref_notifications_replies_summary">输入您的自定义答复</string>
     <string name="pref_notifications_replies">通知回复</string>
     <string name="pref_private_notifications_summary">通知内容将被隐藏 (包括回复面板)</string>
@@ -108,7 +108,7 @@
     <string name="pref_enable_notifications_when_screen_on_summary">当屏幕打开时, 转发通知到手表端</string>
     <string name="pref_enable_notifications_when_screen_on">屏幕打开时发送</string>
     <string name="pref_notifications_enable_custom_ui">自定义界面通知</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
+    <string name="pref_notifications_enable_custom_ui_summary">可回复的通知</string>
     <string name="pref_run_wizard">欢迎介绍</string>
     <string name="pref_run_wizard_summary">再次运行首次使用的欢迎介绍界面</string>
     <string name="pref_vibration_duration">振动持续时间</string>
