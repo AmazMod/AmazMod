@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">סה/\"כ</string>
     <string name="activity_stats_notifications_in_the_last_hour">בשעה האחרונה</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">ב-24 השעות האחרונות</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">אפשרו לAmazMod לטפל בכל ההתראות</string>
+    <string name="pref_enable_notifications">התראות דחיפה</string>
     <string name="pref_filter_notifications_by_packages">ישומים נבחרים</string>
     <string name="pref_filter_notifications_by_packages_summary">רק התראות מהיישומים הללו יישלחו לשעון</string>
     <string name="pref_disable_battery_chart">השבת תרשים סוללה</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">הגדרת מענה להתראות</string>
     <string name="pref_private_notifications_summary">תוכן ההתראה יוסתר (יחד עם אפשרויות המענה)</string>
     <string name="pref_private_notifications">התראות עם תוכן חסוי</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">העברת התראות לשעון, כשהמסך דלוק</string>
+    <string name="pref_enable_notifications_when_screen_on">קבלת התראות כשהמסך דלוק</string>
     <string name="pref_notifications_enable_custom_ui">התראות מתקדמות</string>
     <string name="pref_notifications_enable_custom_ui_summary">התראות עם אפשרות למענה</string>
     <string name="pref_run_wizard">מצגת הפתיחה</string>
@@ -265,8 +265,8 @@
     <string name="compress">דחוס</string>
     <string name="delete_folder_and_contents">\"%1$s\" היא תיקיה. למחוק אותה ואת כל התוכן בתוכה?</string>
     <string name="screenshot">צילום מסך</string>
-    <string name="pref_notifications_enable_delay">Reply delay</string>
-    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
+    <string name="pref_notifications_enable_delay">עיכוב תגובה</string>
+    <string name="pref_notifications_enable_delay_summary">ספירה לאחור לפני שליחת מענה להתראה</string>
     <string name="file_uploader">העלאת קבצים</string>
     <string name="file_uploader_title">להתקין %s?</string>
     <string name="file_uploader_name">כותרת: %s</string>
