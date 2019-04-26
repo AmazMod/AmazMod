@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">全部</string>
     <string name="activity_stats_notifications_in_the_last_hour">最近一个小时</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">最近24小时</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">让 AmazMod 处理所有通知</string>
+    <string name="pref_enable_notifications">推送通知</string>
     <string name="pref_filter_notifications_by_packages">已选择程序</string>
     <string name="pref_filter_notifications_by_packages_summary">只有这些程序的通知将被发送到手表端</string>
     <string name="pref_disable_battery_chart">禁用电池图表</string>
@@ -99,11 +99,11 @@
     <string name="pref_battery_chart_time_interval_summary">设置要显示的电池图表时间范围</string>
     <string name="pref_battery_watch_alert">手表端电量警报</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
-    <string name="pref_battery_phone_alert">Phone battery alert</string>
+    <string name="pref_battery_phone_alert">手机电量警报</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">输入您的自定义答复</string>
-    <string name="pref_notifications_replies">Notification replies</string>
-    <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
+    <string name="pref_notifications_replies">通知回复</string>
+    <string name="pref_private_notifications_summary">通知内容将被隐藏 (包括回复面板)</string>
     <string name="pref_private_notifications">Private notification content</string>
     <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
     <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
