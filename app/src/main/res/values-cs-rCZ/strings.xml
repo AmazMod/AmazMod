@@ -87,7 +87,7 @@
     <string name="activity_stats_notifications_total">Celkem</string>
     <string name="activity_stats_notifications_in_the_last_hour">Za poslední hodinu</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Za posledních 24 hodin</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications_summary">Ať AmazMod zpracovává všechna oznámení</string>
     <string name="pref_enable_notifications">Push notifikace</string>
     <string name="pref_filter_notifications_by_packages">Vybrané aplikace</string>
     <string name="pref_filter_notifications_by_packages_summary">Do hodinek budou odeslána pouze oznámení z těchto aplikací</string>
