@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Gesamt</string>
     <string name="activity_stats_notifications_in_the_last_hour">In der letzten Stunde</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">In den letzten 24 Stunden</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">Zulassen das AmazMod alle Benachrichtigungen verwalted</string>
+    <string name="pref_enable_notifications">Push Benachrichtigungen</string>
     <string name="pref_filter_notifications_by_packages">Ausgewählte Apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Nur Benachrichtigungen von diesen Apps werden zur Uhr gesendet</string>
     <string name="pref_disable_battery_chart">Akku Diagram deaktivieren</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Nachrichten beantworten</string>
     <string name="pref_private_notifications_summary">Benachrichtigungsinhalt wird ausgeblendet (Antwortspanel auch)</string>
     <string name="pref_private_notifications">Privater Benachrichtigungs Inhalte</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Benachrichtigungen an die Uhr senden wenn Display eingeschaltet ist</string>
+    <string name="pref_enable_notifications_when_screen_on">Senden wenn Display eingeschaltet ist</string>
     <string name="pref_notifications_enable_custom_ui">Benutzerdefinierte Benachrichtigung</string>
     <string name="pref_notifications_enable_custom_ui_summary">Benachrichtigungen mit der Fähigkeit zum antworten</string>
     <string name="pref_run_wizard">Willkommenspräsentation</string>
@@ -265,8 +265,8 @@
     <string name="compress">Komprimieren</string>
     <string name="delete_folder_and_contents">\"%1$s\" ist ein Ordner. Entfernen Sie ihn und alle seine Inhalte automatisch?</string>
     <string name="screenshot">Bildschirmaufnahme</string>
-    <string name="pref_notifications_enable_delay">Reply delay</string>
-    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
+    <string name="pref_notifications_enable_delay">Antwortverzögerung</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown Verzögerung vor dem Senden einer Antwort</string>
     <string name="file_uploader">Daten hochladen</string>
     <string name="file_uploader_title">Installiere %s?</string>
     <string name="file_uploader_name">Titel: %s</string>
