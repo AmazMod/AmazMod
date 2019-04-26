@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Celkom</string>
     <string name="activity_stats_notifications_in_the_last_hour">Za poslednú hodinu</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Za posledných 24 hodín</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">Nech AmazMod spracováva všetky oznámenia</string>
+    <string name="pref_enable_notifications">Push notifikácie</string>
     <string name="pref_filter_notifications_by_packages">Vybrané aplikácie</string>
     <string name="pref_filter_notifications_by_packages_summary">Iba upozornenia z týchto aplikácií sa odošlú do hodiniek</string>
     <string name="pref_disable_battery_chart">Vypnutie grafu batérie</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Odpovede na oznámenie</string>
     <string name="pref_private_notifications_summary">Obsah textu notifikácie bude skrytý (aj panel odpovedí)</string>
     <string name="pref_private_notifications">Súkromný obsah oznámenia</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Odoslať oznámenia do hodiniek, keď obrazovka je zapnutá</string>
+    <string name="pref_enable_notifications_when_screen_on">Poslať, keď je obrazovka zapnutá</string>
     <string name="pref_notifications_enable_custom_ui">Vlastné UI upozornenia</string>
     <string name="pref_notifications_enable_custom_ui_summary">Oznámenia s možnosťou odpovedať</string>
     <string name="pref_run_wizard">Úvodná prezentácia</string>
@@ -266,8 +266,8 @@ Urobte príkaz shell \"</string>
     <string name="compress">Komprimovať</string>
     <string name="delete_folder_and_contents">\"%1$s\" je zložka. Odstrániť ju a celý jej obsah?</string>
     <string name="screenshot">Snímok obrazovky</string>
-    <string name="pref_notifications_enable_delay">Reply delay</string>
-    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
+    <string name="pref_notifications_enable_delay">Oneskorenie odpovede</string>
+    <string name="pref_notifications_enable_delay_summary">Odpočítavanie oneskorenie pred odoslaním odpovede</string>
     <string name="file_uploader">Uploader súborov</string>
     <string name="file_uploader_title">Inštalovať %s?</string>
     <string name="file_uploader_name">Názov: %s</string>

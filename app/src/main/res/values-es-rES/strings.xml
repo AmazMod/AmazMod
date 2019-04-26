@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Durante la última hora</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">En las últimas 24 horas</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">Dejar que AmazMod gestione todas las notificaciones</string>
+    <string name="pref_enable_notifications">Enviar notificaciones</string>
     <string name="pref_filter_notifications_by_packages">Apps seleccionadas</string>
     <string name="pref_filter_notifications_by_packages_summary">Sólo las notificaciones de estas apps serán enviadas al reloj</string>
     <string name="pref_disable_battery_chart">Deshabilitar la gráfica de batería</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Notificación para respuesta</string>
     <string name="pref_private_notifications_summary">El contenido de la notificación se ocultará (y también el panel de respuestas)</string>
     <string name="pref_private_notifications">Contenido de notificación privado</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Enviar notificaciones al reloj con pantalla encendida</string>
+    <string name="pref_enable_notifications_when_screen_on">Enviar cuando la pantalla está activada</string>
     <string name="pref_notifications_enable_custom_ui">Notificaciones de UI Personalizadas</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notificaciones con la capacidad de responder</string>
     <string name="pref_run_wizard">Presentación de Bienvenida</string>
@@ -266,8 +266,8 @@
     <string name="compress">Comprimir</string>
     <string name="delete_folder_and_contents">\"%1$s\" es una carpeta. ¿Quieres borrarla así como todo su contenido de forma recursiva?</string>
     <string name="screenshot">Captura de pantalla</string>
-    <string name="pref_notifications_enable_delay">Reply delay</string>
-    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
+    <string name="pref_notifications_enable_delay">Retardo de respuesta</string>
+    <string name="pref_notifications_enable_delay_summary">Cuenta atrás del retardo antes de enviar una respuesta</string>
     <string name="file_uploader">Cargador de archivos</string>
     <string name="file_uploader_title">¿Instalar %s?</string>
     <string name="file_uploader_name">Título: %s</string>
