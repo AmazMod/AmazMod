@@ -77,7 +77,7 @@
     <string name="activity_watchface_need_greatfit">이 옵션을 사용하기 위해서는 시계에 \"GreatFit\" 워치페이스 혹은 \"widgets Calendar/Timeline\" 앱이 설치되어 있어야 합니다.</string>
     <string name="activity_watchface_send_data">전화의 데이터를 시계에 전송하기(배터리, 알람, 캘린더)</string>
     <string name="activity_watchface_send_data_interval_prompt">전송 주기 선택</string>
-    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
+    <string name="activity_watchface_send_data_interval_summary">데이터 전송 간격</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">다음 몇 일간의 캘린더 정보를 시계에 전송합니다:</string>
     <string name="activity_watchface_send_on_battery_change">배터리 수치가 변경 될 때마다 데이터를 전송</string>
     <string name="activity_watchface_send_on_alarm_change">알람 설정이 변경 될 때마다 데이터를 전송</string>
@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">총계</string>
     <string name="activity_stats_notifications_in_the_last_hour">최근 1시간 동안</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">최근 24시간 동안</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">AmazMod가 모든 푸시 알림을 관리합니다</string>
+    <string name="pref_enable_notifications">푸시 알림</string>
     <string name="pref_filter_notifications_by_packages">선택한 앱</string>
     <string name="pref_filter_notifications_by_packages_summary">이 앱들의 알림만 시계로 보내집니다.</string>
     <string name="pref_disable_battery_chart">배터리 차트 비활성화</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">알림 답장</string>
     <string name="pref_private_notifications_summary">알림 내용이 숨겨집니다. (답장 패널도 숨겨집니다)</string>
     <string name="pref_private_notifications">알림 내용 숨김</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">시계의 화면이 켜져 있을 때 알림을 시계로 전송합니다.</string>
+    <string name="pref_enable_notifications_when_screen_on">화면이 켜져 있을 때 전송</string>
     <string name="pref_notifications_enable_custom_ui">커스텀 알림</string>
     <string name="pref_notifications_enable_custom_ui_summary">커스텀 알림 (답장 기능 포함)</string>
     <string name="pref_run_wizard">시작 안내</string>
@@ -156,8 +156,8 @@
     <string name="device_connected">연결 됨</string>
     <string name="pref_enable_persistent_notification">지속 알림 표시</string>
     <string name="pref_enable_persistent_notification_summary">AmazMod가 백그라운드에서 종료되는 것을 방지하기 위해 지속 알림을 활성화 합니다. 만일 Amazmod가 지속적으로 종료된다면 이 옵션을 활성화 하세요.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings</string>
+    <string name="pref_enable_persistent_notification_device_settings">지속 알림 설정</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">여기를 누르면 기기의 알림 설정으로 연결됩니다.</string>
     <string name="pref_notifications_disable_screenon">화면 꺼짐 상태 유지</string>
     <string name="pref_notifications_disable_screenon_summary">시계에 알림이 왔을때 화면 잠금켜고 잠금을 해제하지 않기</string>
     <string name="pref_check_permissions">앱 권한을 확인하기</string>
@@ -265,8 +265,8 @@
     <string name="compress">압축</string>
     <string name="delete_folder_and_contents">%1$s는 폴더입니다. 해당 폴더와 내용물을 전부 삭제하시겠습니까?</string>
     <string name="screenshot">스크린샷</string>
-    <string name="pref_notifications_enable_delay">Reply delay</string>
-    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
+    <string name="pref_notifications_enable_delay">답장 지연(딜레이)</string>
+    <string name="pref_notifications_enable_delay_summary">답장을 보내기 전 카운트 다운 딜레이를 사용합니다.</string>
     <string name="file_uploader">파일 업로더</string>
     <string name="file_uploader_title">%s를 설치하시겠습니까?</string>
     <string name="file_uploader_name">제목: %s</string>
@@ -296,7 +296,7 @@
     <string name="test">테스트</string>
     <string name="watchface_remote_ics_file">원격 ICS 파일</string>
     <string name="watchface_built_in_calendar">내장 캘린더</string>
-    <string name="watchface_events_found">%s events found</string>
+    <string name="watchface_events_found">%s개의 일정 발견됨</string>
     <string name="permission">권한</string>
     <string name="success">성공</string>
     <string name="error">오류</string>
@@ -322,8 +322,8 @@
     <string name="pref_log_to_file_summary">AmazMod의 로그를 amazmod.log 파일에 저장합니다.</string>
     <string name="pref_log_to_file_level">로그 수준</string>
     <string name="pref_log_to_file_level_summary">로그 파일에 저장될 세부 수준을 선택합니다.</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
+    <string name="notification_low_battery">Amazfit 배터리 부족</string>
+    <string name="notification_low_battery_description">시계의 배터리가 %s 미만입니다.</string>
+    <string name="notification_watch_charged">Amazfit이 완전히 충전됨</string>
+    <string name="notification_watch_charged_description">시계가 완전히 충전되었습니다! 이제 충전기에서 시계를 분리해도 좋습니다.</string>
 </resources>
