@@ -31,6 +31,14 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+//overlay test
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import com.amazmod.service.ui.overlay_launcher;
+
+
+
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
 import com.amazmod.service.events.HardwareButtonEvent;
@@ -126,6 +134,7 @@ import static java.lang.System.currentTimeMillis;
 /**
  * Created by edoardotassinari on 04/04/18.
  */
+
 
 public class MainService extends Service implements Transporter.DataListener {
 

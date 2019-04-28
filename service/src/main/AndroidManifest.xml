@@ -31,6 +31,7 @@
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <uses-permission android:name="com.huami.watch.launcher.permission.WEAR_LAUNCHER_OPT" />
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:name=".AmazModService"
         android:allowBackup="true"
@@ -208,6 +209,21 @@
             </intent-filter>
         </receiver>
 
+
+        //overlay test
+        <activity
+            android:name="com.amazmod.service.util.Overlay_Main"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="com.amazmod.service.ui.overlay_launcher"
+            android:exported="false" />
         <!-- Disabled as it does not work anyway
         <service
             android:name=".NotificationListener"
@@ -219,6 +235,5 @@
             </intent-filter>
         </service>
         -->
-
     </application>
 </manifest>
