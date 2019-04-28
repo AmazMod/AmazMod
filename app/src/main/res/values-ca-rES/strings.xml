@@ -122,7 +122,7 @@
     <string name="pref_enable_voice_apps">Notificacions de trucades de veu</string>
     <string name="pref_enable_voice_apps_summary">Les trucades de veu de Messenger li enviarà notificacions al rellotge</string>
     <string name="pref_enable_local_only">Notificacions locals</string>
-    <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
+    <string name="pref_enable_local_only_summary">Notificacions sense acció necessària de l\'usuari serà enviada al rellotge (per exemple. informació meteorològica de Google). L\'opció de desagrupar ha d\'estar habilitada.</string>
     <string name="pref_enable_notifications_when_locked">Permetre quan el telèfon està bloquejat</string>
     <string name="pref_enable_notifications_when_locked_summary">Enviar notificacions al rellotge si la pantalla està encesa però el telèfon està bloquejat</string>
     <string name="pref_notifications_enable_ungroup">Desagrupa les notificacions</string>
@@ -142,7 +142,7 @@
     <string name="intro_title_3">Reinicia els dispositius</string>
     <string name="intro_description_3">Llavors reinicieu el rellotge i el telèfon. Vostè sabrà que funciona quan veieu dades a l\'apartat d\'informació.</string>
     <string name="intro_title_4">Acabat!</string>
-    <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
+    <string name="intro_description_4">Ara pot anar a configuració de AmazMod i triar les apps de les que vol tenir notificacions i personalitzar les seus respostes.\n\nGaudeix utilitzant AmazMod! \u2661</string>
     <string name="watch_is_connected">Connectat</string>
     <string name="watch_disconnected">Desconnectat</string>
     <string name="watch_connecting">S\'està connectant…</string>
@@ -150,7 +150,7 @@
     <string name="pref_notifications_inverted_theme">Tema clar</string>
     <string name="pref_notifications_inverted_theme_summary">Habilitar el tema amb fons clar i text fosc</string>
     <string name="pref_font_size">Mida de la lletra</string>
-    <string name="pref_font_size_summary">Select font size used in CustomUI notifications</string>
+    <string name="pref_font_size_summary">Seleccioneu la grandària de font utilitzada a les notificiacions CustomUI</string>
     <string name="notifications_font_size">Mida de lletra</string>
     <string name="device_not_connected">Cap dispositiu connectat</string>
     <string name="device_connected">dispositiu connectat</string>
