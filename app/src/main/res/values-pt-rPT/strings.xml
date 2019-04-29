@@ -96,7 +96,7 @@
     <string name="pref_battery_background_sync_interval">Intervalo de sincronização de segundo plano</string>
     <string name="pref_battery_background_sync_interval_summary">Definir intervalo de sincronização de bateria de fundo</string>
     <string name="pref_battery_chart_time_interval">Intervalo de tempo do gráfico</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_chart_time_interval_summary">Definir intervalo de tempo do gráfico de bateria a exibir</string>
     <string name="pref_battery_watch_alert">Watch battery alert</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
     <string name="pref_battery_phone_alert">Phone battery alert</string>
