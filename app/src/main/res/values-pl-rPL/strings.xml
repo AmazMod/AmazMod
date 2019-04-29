@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Łącznie</string>
     <string name="activity_stats_notifications_in_the_last_hour">W ciągu ostatniej godziny</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">W ostatnich 24 godzinach</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">Ustaw aby AmazMod obsługiwał wszystkie powiadomienia</string>
+    <string name="pref_enable_notifications">Wyskakujące powiadomienia</string>
     <string name="pref_filter_notifications_by_packages">Wybrane aplikacje</string>
     <string name="pref_filter_notifications_by_packages_summary">Powiadomienia z tych aplikacji zostaną wysłane na zegarek</string>
     <string name="pref_disable_battery_chart">Wyłącz wykres baterii</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Powtórzenia powiadomień</string>
     <string name="pref_private_notifications_summary">Treść powiadomienia zostanie ukryta (jak i panel odpowiedzi)</string>
     <string name="pref_private_notifications">Powiadomienia prywatnych informacji</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Przekazuj powiadomienia do zegarka, gdy ekran jest włączony</string>
+    <string name="pref_enable_notifications_when_screen_on">Wysyłaj gdy ekran jest włączony</string>
     <string name="pref_notifications_enable_custom_ui">Niestandardowe UI powiadomienia</string>
     <string name="pref_notifications_enable_custom_ui_summary">Powiadomienia z możliwością odpowiedzi</string>
     <string name="pref_run_wizard">Prezentacja powitalna</string>
@@ -265,8 +265,8 @@
     <string name="compress">Kompresuj</string>
     <string name="delete_folder_and_contents">\"%1$s\" jest folderem. Usunąć folder wraz z jego zawartością?</string>
     <string name="screenshot">Zrzut ekranu</string>
-    <string name="pref_notifications_enable_delay">Reply delay</string>
-    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
+    <string name="pref_notifications_enable_delay">Opóźnienie odpowiedzi</string>
+    <string name="pref_notifications_enable_delay_summary">Odliczanie opóźnienia przed wysłaniem odpowiedzi</string>
     <string name="file_uploader">Przesyłanie plików</string>
     <string name="file_uploader_title">Zainstalować %s ?</string>
     <string name="file_uploader_name">Nazwa: %s</string>
