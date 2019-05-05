@@ -329,4 +329,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="notification_watch_charged">Amazfit je plně nabitý</string>
     <string name="notification_watch_charged_description">Hodinky jsou plně nabité! Můžete je odpojit z nabíjecího doku.</string>
     <string name="statsandlogs">Stats / Logs</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="send_log">Send Log</string>
 </resources>
