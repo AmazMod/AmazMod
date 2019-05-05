@@ -328,4 +328,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="notification_low_battery_description">Baterie hodinek je nižší než %s</string>
     <string name="notification_watch_charged">Amazfit je plně nabitý</string>
     <string name="notification_watch_charged_description">Hodinky jsou plně nabité! Můžete je odpojit z nabíjecího doku.</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
