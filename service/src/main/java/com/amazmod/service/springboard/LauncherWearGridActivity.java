@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.SwipeDismissFrameLayout;
-import android.util.Log;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -21,6 +20,8 @@ import com.amazmod.service.ui.fragments.WearFlashlightFragment;
 import com.amazmod.service.ui.fragments.WearInfoFragment;
 import com.amazmod.service.ui.fragments.WearMenuFragment;
 import com.amazmod.service.ui.fragments.WearNotificationsFragment;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 
@@ -74,7 +75,7 @@ public class LauncherWearGridActivity extends Activity {
         final Intent intent = getIntent();
         final char mode = intent.getCharExtra(MODE, 'S');
 
-        Log.d(Constants.TAG, "LauncherWearGridActivity mode: " + mode);
+        Logger.debug("LauncherWearGridActivity mode: " + mode);
 
         final ArrayList<Fragment> fragList = new ArrayList<>();
 
@@ -106,7 +107,7 @@ public class LauncherWearGridActivity extends Activity {
             case NULL:
 
             default:
-                Log.w(Constants.TAG, "LauncherWearGridActivity no fragments selected!");
+                Logger.warn("LauncherWearGridActivity no fragments selected!");
 
         }
 
@@ -123,7 +124,7 @@ public class LauncherWearGridActivity extends Activity {
     private void clearBackStack() {
         FragmentManager manager = this.getFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
-            Log.w(Constants.TAG, "LauncherWearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
+            Logger.warn("LauncherWearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
             while (manager.getBackStackEntryCount() > 0){
                 manager.popBackStackImmediate();
             }
@@ -148,7 +149,7 @@ public class LauncherWearGridActivity extends Activity {
     @Override
     public void finish() {
         super.finish();
-        Log.i(Constants.TAG, "LauncherWearGridActivity finish");
+        Logger.info("LauncherWearGridActivity finish");
     }
 
 }

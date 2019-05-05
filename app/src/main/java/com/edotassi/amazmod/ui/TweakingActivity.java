@@ -2,14 +2,17 @@ package com.edotassi.amazmod.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -17,11 +20,9 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
@@ -31,11 +32,13 @@ import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
@@ -45,6 +48,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -58,6 +62,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.mateware.snacky.Snacky;
+
+import static android.graphics.Bitmap.CompressFormat.PNG;
 
 public class TweakingActivity extends BaseAppCompatActivity {
 
@@ -100,7 +106,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            System.out.println("AmazMod TweakingActivity onCreate exception: " + exception.toString());
+            Logger.error("TweakingActivity onCreate exception: " + exception.toString());
             //TODO log to crashlitics
         }
         getSupportActionBar().setTitle(R.string.tweaking);
@@ -334,7 +340,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         } catch (Exception ex) {
-            Crashlytics.logException(ex);
+            Logger.error(ex);
         }
 
         String command = commandEditText.getText().toString();
@@ -358,7 +364,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 String command = data.getExtras().getString("COMMAND");
                 commandEditText.setText(command);
             } catch (NullPointerException e) {
-                System.out.println("Returned from CommandHistoryActivity without selecting any command");
+                Logger.error("Returned from CommandHistoryActivity without selecting any command");
             }
         }
     }
@@ -485,7 +491,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestFileUpload(RequestFileUpload requestFileUpload) {
         final FileUploadData fileUploadData = requestFileUpload.getFileUploadData();
-        System.out.println("AmazMod TweakingActivity requestFileUpload path: " + fileUploadData.getPath());
+        Logger.debug("TweakingActivity requestFileUpload path: " + fileUploadData.getPath());
 
         //Toast.makeText(this, "ScreenShot taken\nwait for download", Toast.LENGTH_LONG).show();
 
@@ -546,11 +552,28 @@ public class TweakingActivity extends BaseAppCompatActivity {
 
                             final File screenshot = new File(DownloadHelper.getDownloadDir(Constants.MODE_SCREENSHOT) + "/" + fileUploadData.getName());
 
-                            System.out.println("AmazMod TweakingActivity requestFileUpload screenshot: " + screenshot.getAbsolutePath());
-
                             if (screenshot.exists()) {
                                 Drawable drawable = Drawable.createFromPath(screenshot.getAbsolutePath());
                                 if (drawable != null) {
+
+                                    // Rotate and re-save image on Verge
+                                    if(FilesUtil.isVerge()){
+                                        // Rotate
+                                        drawable = FilesUtil.getRotateDrawable(drawable,180f);
+                                        // Re-Save (reopen because drawable is bad quality)
+                                        DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
+                                        BitmapFactory.Options options=new BitmapFactory.Options();
+                                        options.inDensity=dm.densityDpi;
+                                        options.inScreenDensity=dm.densityDpi;
+                                        options.inTargetDensity=dm.densityDpi;
+                                        Bitmap bmp = BitmapFactory.decodeFile(screenshot.getAbsolutePath(),options);
+                                        Matrix matrix = new Matrix();
+                                        matrix.postRotate(180);
+                                        Bitmap rotatedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+                                        if(!FilesUtil.saveBitmapToFile(screenshot,rotatedBitmap, PNG, 100))
+                                            Logger.error("Verge's screenshot could not be saved after rotation");
+                                    }
+
                                     new MaterialDialog.Builder(mContext)
                                             .canceledOnTouchOutside(false)
                                             .icon(drawable)

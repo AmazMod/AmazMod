@@ -12,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +41,8 @@ import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import org.tinylog.Logger;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -100,7 +101,7 @@ public class BatteryChartFragment extends Card {
             @Override
             public boolean onLongClick(View v) {
                 updateChart();
-                Log.d(Constants.TAG, "BatteryChartFragment onLongCLick sendNewRequest: " + sendNewRequest);
+                Logger.debug("BatteryChartFragment onLongCLick sendNewRequest: " + sendNewRequest);
                 if (sendNewRequest) {
                     if (!requestSent) {
                         requestSent = true;
@@ -130,7 +131,7 @@ public class BatteryChartFragment extends Card {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, "BatteryChartFragment onResume");
+        Logger.debug("BatteryChartFragment onResume");
 
         updateChart();
     }
@@ -201,7 +202,7 @@ public class BatteryChartFragment extends Card {
             } else dateDiff.append(getResources().getText(R.string.last_charge_no_info));
             batteryTv.setText(dateDiff.toString());
 
-            System.out.println(Constants.TAG + " MainActivity updateChart defaultLocale: " + AmazModApplication.defaultLocale);
+            Logger.debug("BatteryChart updateChart defaultLocale: " + AmazModApplication.defaultLocale);
             String time = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
             String date = DateFormat.getDateInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
 

@@ -29,6 +29,8 @@
     <string name="phone_disconnected">Phone disconnected</string>
     <string name="phone_connected">Phone connected</string>
     <string name="phone_connection_alert">Connection Alert</string>
+    <string name="phone_battery_alert">Phone Battery Alert</string>
+    <string name="watch_battery_alert">Watch Battery Alert</string>
     <string name="device_owner">Please enable Device Admin as instructed</string>
     <!-- Strings used by AdminReceiver start -->
     <string name="device_admin">Device Admin</string>
@@ -46,4 +48,6 @@
     <string name="default_icon" />
     <string name="error_loading">Unable to load springboard pages. Please try opening the Amazfit app on your phone, rearranging and enabling/disabling widget pages in the settings, then tap to reload</string>
     <string name="tap_to_cancel">TAP TO CANCEL</string>
+    <string name="watch_battery">Watch\'s battery is under %s</string>
+    <string name="phone_battery">Phones\'s battery is under %s</string>
 </resources>

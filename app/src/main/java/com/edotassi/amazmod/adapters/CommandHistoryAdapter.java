@@ -14,6 +14,8 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.support.CommandHistoryBridge;
 
+import org.tinylog.Logger;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -52,7 +54,7 @@ public class CommandHistoryAdapter extends ArrayAdapter<CommandHistoryEntity> {
             @Override
             public void onClick(View v) {
                 String string = command.getCommand();
-                System.out.println("AmazMod CommandHistoryActivity onClick string: " + string);
+                Logger.debug("CommandHistoryActivity onClick string: " + string);
                 //edit(command, lItem);
                 int resultCode = 0;
                 Intent resultIntent = new Intent();

@@ -4,10 +4,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
-import android.util.Log;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.events.ReplyNotificationEvent;
+
+import org.tinylog.Logger;
 
 import xiaofei.library.hermeseventbus.HermesEventBus;
 
@@ -28,12 +29,12 @@ public class NotificationsReceiver extends BroadcastReceiver {
         String key = intent.getStringExtra(Constants.EXTRA_NOTIFICATION_KEY);
 
         HermesEventBus.getDefault().post(new ReplyNotificationEvent(key, reply));
-        Log.d(Constants.TAG, "NotificationsReceiver action: " + action + ", notificationKey: " + key + ", reply: " + reply);
+        Logger.debug("NotificationsReceiver action: " + action + ", notificationKey: " + key + ", reply: " + reply);
 
         Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if(vibe != null) {
 //            vibe.vibrate(100);
-            Log.w(Constants.TAG, "NotificationsReceiver - vibRRRRRRRRRRRRate");
+            Logger.warn("NotificationsReceiver - vibRRRRRRRRRRRRate");
         }
 
     }

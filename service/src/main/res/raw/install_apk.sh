@@ -38,21 +38,26 @@ if [ "$4" == "" ]; then
    PATH=$3:$OLDPATH
    $LOG "restarting in the background"
    sleep 3
-   $LOG $(busybox nohup sh $0 $1 $2 $3 $OLDPATH 2>&1 &)
+   $LOG $(busybox nohup sh $0 "$1" $2 $3 $OLDPATH 2>&1 &)
    PATH=$OLDPATH
    exit 0
 else
     echo "#START#">&2
+    run_cmd=$(adb shell "echo APK_INSTALL > /sys/power/wake_lock")
+    log -pi -tAmazMod "Enabling APK_INSTALL WAKELOCK: $run_cmd"
 fi
 $LOG "killing adb server $(adb kill-server)"
 sleep 3
 if [ "$1" != "" ]; then
    $LOG "installing: $1"
-   log -pi -tAmazMod "install_apk adb: $(adb install -r $1 2>&1)"
+   run_cmd=$(adb install -r "$1" 2>&1)
+   log -pi -tAmazMod "install_apk adb: $run_cmd"
 fi
 if [ "$2" == "DEL" ]; then
-   $LOG "deleting file: $1 $(rm $1)"
+   $LOG "deleting file: $1 $(rm '$1')"
 fi
+    run_cmd=$(adb shell "echo APK_INSTALL > /sys/power/wake_unlock")
+    log -pi -tAmazMod "Disabling APK_INSTALL WAKELOCK: $run_cmd"
 $LOG "killing background processes"
 $LOG "killing adb $(adb kill-server)"
 $LOG "kill-all $(am kill-all)"

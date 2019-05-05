@@ -16,6 +16,8 @@ import com.amazmod.service.helper.ItemTouchHelperAdapter;
 import com.amazmod.service.helper.ItemTouchHelperViewHolder;
 import com.amazmod.service.R;
 
+import org.tinylog.Logger;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -58,7 +60,7 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
                 return new ViewHolder(layoutInflater.inflate(R.layout.springboard_item_preference_text, parent, false));
             }
         } else
-            System.out.println("E/AmazMod SpringboardWidgetAdapter onCreateViewHolder: null layoutInflater!");
+            Logger.error("SpringboardWidgetAdapter onCreateViewHolder: null layoutInflater!");
 
         return new ViewHolder(null);
     }
@@ -94,7 +96,7 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     switchSetting.isChecked = isChecked;
-                    System.out.println("D/AmazMod SpringboardWidgetAdapter mOnCheckedListener isChecked: " + isChecked);
+                    Logger.debug("SpringboardWidgetAdapter mOnCheckedListener isChecked: " + isChecked);
                 }
             };
 

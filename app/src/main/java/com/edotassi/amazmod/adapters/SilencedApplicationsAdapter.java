@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,12 +15,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity;
+
+import org.tinylog.Logger;
 
 import java.util.List;
 
@@ -95,7 +95,7 @@ public class SilencedApplicationsAdapter extends ArrayAdapter<NotificationPrefer
 
         @OnClick(R.id.item_silenced_app_icon)
         public void onIconClick() {
-            Log.d(Constants.TAG,"SilencedApplicationsAdapter onClick: cancel silence of package " + silencedApplication.getPackageName());
+            Logger.debug("SilencedApplicationsAdapter onClick: cancel silence of package " + silencedApplication.getPackageName());
             SilenceApplicationHelper.cancelSilence(silencedApplication.getPackageName());
             silencedApplicationBridge.onSilencedApplicationStatusChange();
         }

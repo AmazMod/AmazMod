@@ -6,9 +6,12 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.os.ConfigurationCompat;
 import android.util.Log;
 
 import com.pixplicity.easyprefs.library.Prefs;
+
+import org.tinylog.Logger;
 
 import java.util.Locale;
 
@@ -17,7 +20,7 @@ import amazmod.com.transport.Constants;
 public class LocaleUtils {
 
     public static Context onAttach(Context context) {
-        String language = getPersistedData(Locale.getDefault().getLanguage());
+        String language = getLanguage();
         return setLocale(context, language);
     }
 
@@ -26,15 +29,13 @@ public class LocaleUtils {
         return setLocale(context, lang);
     }
 
-    public static String getLanguage() {
-        return getPersistedData(Locale.getDefault().getLanguage());
-    }
-
     public static Locale getLocale() {
         String currentLanguage = getPersistedData(Locale.getDefault().getLanguage());
-        Log.d(Constants.TAG,"LocaleUtils getLocale currentLanguage: " + currentLanguage);
+        //TODO: commented line below because it was making TinyLog config not to work (is any log is done before configuration, nothing works)
+        //Logger.debug("LocaleUtils getLocale currentLanguage: " + currentLanguage);
         if (currentLanguage.equals(Constants.PREF_LANGUAGE_AUTO)){
-            currentLanguage = Locale.getDefault().getLanguage();
+            //currentLanguage = Locale.getDefault().getLanguage(); // Didn't work on some phones while the whole app needed to be killed on others
+            currentLanguage = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
         }
         return getLocaleByLanguageCode(currentLanguage);
     }
@@ -49,50 +50,46 @@ public class LocaleUtils {
 
     }
 
-    public static Context setLocale(Context context, String language) {
-        persist(language);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return updateResources(context, getLocale());
-        }
-
-        return updateResourcesLegacy(context, getLocale());
-    }
-
-    private static String getPersistedData(String defaultLanguage) {
-        return Prefs.getString(Constants.PREF_LANGUAGE, defaultLanguage);
-    }
-
-    private static void persist(String language) {
+    // Save new language
+    public static void persist(String language) {
         Prefs.putString(Constants.PREF_LANGUAGE, language);
     }
 
-    @TargetApi(Build.VERSION_CODES.N)
-    private static Context updateResources(Context context, Locale locale) {
-        Locale.setDefault(locale);
-
-        Configuration configuration = context.getResources().getConfiguration();
-        configuration.setLocale(locale);
-        configuration.setLayoutDirection(locale);
-
-        return context.createConfigurationContext(configuration);
+    // Get saved language
+    private static String getPersistedData(String defaultLanguage) {
+        return Prefs.getString(Constants.PREF_LANGUAGE, defaultLanguage);
+    }
+    public static String getLanguage() {
+        return getPersistedData(ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage());
     }
 
-    @SuppressWarnings("deprecation")
-    private static Context updateResourcesLegacy(Context context, Locale locale) {
-        Locale.setDefault(locale);
+    // Change language
+    private static Context setLocale(Context context, String language) {
+        Log.d("Amazmod","Change language - System: "+Locale.getDefault().getLanguage()+", To: "+language+", Device: "+ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage());
 
-        Resources resources = context.getResources();
-
-        Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            configuration.setLayoutDirection(locale);
+        // If AUTO get the system Locale
+        if (language.equals(Constants.PREF_LANGUAGE_AUTO)) {
+            //language = Locale.getDefault().getLanguage(); // Didn't work on some phones while the whole app needed to be killed on others
+            language = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
         }
 
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+        Locale locale = getLocaleByLanguageCode(language);
+        Locale.setDefault(locale);
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
 
-        return context;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            configuration.setLocale(locale);
+            configuration.setLayoutDirection(locale);
+            return context.createConfigurationContext(configuration);
+        }else{
+            configuration.locale = locale;
+            // Min APP SDK is above
+            //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                configuration.setLayoutDirection(locale);
+            resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+            return context;
+        }
     }
 
     public static String getDisplayLanguage(@NonNull String languageCode) {

@@ -10,7 +10,6 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,8 @@ import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+
+import org.tinylog.Logger;
 
 import static android.view.View.inflate;
 
@@ -58,7 +59,7 @@ public class ScreenSettingsActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(Constants.TAG, "ScreenSettingsActivity onCreate");
+        Logger.info("ScreenSettingsActivity onCreate");
 
         this.mContext = this;
         setContentView(R.layout.activity_screen_settings);
@@ -93,7 +94,7 @@ public class ScreenSettingsActivity extends Activity {
     public void onResume() {
         super.onResume();
 
-        Log.i(Constants.TAG, "ScreenSettingsActivity onResume");
+        Logger.info("ScreenSettingsActivity onResume");
         updateContent();
     }
 
@@ -165,7 +166,7 @@ public class ScreenSettingsActivity extends Activity {
                                        int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f);
                 ((TextView) parent.getChildAt(0)).setText(densities[position]);
-                Log.v(Constants.TAG, "ScreenSettingsActivity udpateContent Density: " + parent.getItemAtPosition(position));
+                Logger.debug("ScreenSettingsActivity udpateContent Density: " + parent.getItemAtPosition(position));
                 densityChosen = position;
             }
 
@@ -182,7 +183,7 @@ public class ScreenSettingsActivity extends Activity {
                                        int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f);
                 ((TextView) parent.getChildAt(0)).setText(fontSizes[position]);
-                Log.v(Constants.TAG, "ScreenSettingsActivity updateContent Font: " + parent.getItemAtPosition(position));
+                Logger.debug("ScreenSettingsActivity updateContent Font: " + parent.getItemAtPosition(position));
                 fontSizeChosen = position;
             }
 
@@ -199,7 +200,7 @@ public class ScreenSettingsActivity extends Activity {
                                        int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f);
                 ((TextView) parent.getChildAt(0)).setText(inverted[position]);
-                Log.v(Constants.TAG, "ScreenSettingsActivity updateContent Inverted: " + parent.getItemAtPosition(position));
+                Logger.debug("ScreenSettingsActivity updateContent Inverted: " + parent.getItemAtPosition(position));
                 if (invertedChoosen != position) {
                     invertedChoosen = position;
                     runCommand(String.format(SET_INVERTED, String.valueOf(invertedChoosen)));
@@ -224,13 +225,13 @@ public class ScreenSettingsActivity extends Activity {
 
     private void runCommand(String command) {
 
-        Log.d(Constants.TAG, "ScreenSettingsActivity runCommand: " + command);
+        Logger.debug("ScreenSettingsActivity runCommand: " + command);
         if (!command.isEmpty()) {
             try {
                 Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
                         null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
-                Log.e(Constants.TAG, "ScreenSettingsActivity runCommand exception: " + e.toString());
+                Logger.error(e,"ScreenSettingsActivity runCommand exception: " + e.toString());
             }
         }
     }
@@ -243,15 +244,15 @@ public class ScreenSettingsActivity extends Activity {
             accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(),
                     android.provider.Settings.Secure.ACCESSIBILITY_DISPLAY_INVERSION_ENABLED, 0);
         } catch (Exception e) {
-            Log.e(Constants.TAG, "ScreenSettingsActivity isInversionModeEnabled SettingNotFoundException: " + e.getMessage());
+            Logger.error("ScreenSettingsActivity isInversionModeEnabled SettingNotFoundException: " + e.getMessage());
             accessibilityEnabled = Settings.System.getInt(getContentResolver(), SYSTEM_HIGH_CONTRAST, 0);
         }
 
         if (accessibilityEnabled == 1) {
-            Log.d(Constants.TAG, "ScreenSettingsActivity isInversionModeEnabled: true");
+            Logger.debug("ScreenSettingsActivity isInversionModeEnabled: true");
             isInversionEnabled = true;
         } else {
-            Log.d(Constants.TAG, "ScreenSettingsActivity isInversionModeEnabled: false");
+            Logger.debug("ScreenSettingsActivity isInversionModeEnabled: false");
         }
 
         return isInversionEnabled;
@@ -262,7 +263,7 @@ public class ScreenSettingsActivity extends Activity {
         final float fontScale = Settings.System.getFloat(getBaseContext().getContentResolver(),
                 Settings.System.FONT_SCALE, 1.0f);
 
-        Log.d(Constants.TAG, "ScreenSettingsActivity getCurrentFontScale: " + String.valueOf(fontScale));
+        Logger.debug("ScreenSettingsActivity getCurrentFontScale: " + String.valueOf(fontScale));
 
         if ( fontScale == 0.9f )
             initialFontSize = 0;
@@ -311,7 +312,7 @@ public class ScreenSettingsActivity extends Activity {
                 break;
 
             default:
-                Log.e(Constants.TAG, "ScreenSettingsActivity saveFontScale error fontSizeChosen: " + fontSizeChosen);
+                Logger.error("ScreenSettingsActivity saveFontScale error fontSizeChosen: " + fontSizeChosen);
 
         }
 
@@ -325,7 +326,7 @@ public class ScreenSettingsActivity extends Activity {
                 try {
                     Runtime.getRuntime().exec("reboot");
                 } catch (Exception e) {
-                    Log.e(Constants.TAG, "ScreenSettingsActivity saveFontScale exception: " + e.toString());
+                    Logger.error("ScreenSettingsActivity saveFontScale exception: " + e.toString());
                 }
             }
         }, 3000);
@@ -365,7 +366,7 @@ public class ScreenSettingsActivity extends Activity {
         //final String result = outputLog.toString();
         final String result = outputLog;
 
-        Log.d(Constants.TAG, "ScreenSettingsActivity getCurrentDensity returnValue: " + returnValue + " | result: " + result);
+        Logger.debug("ScreenSettingsActivity getCurrentDensity returnValue: " + returnValue + " | result: " + result);
 
         if (result != null) {
             if (result.contains("238"))

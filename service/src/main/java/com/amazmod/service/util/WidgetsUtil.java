@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -23,6 +22,7 @@ import com.amazmod.service.springboard.settings.TextSetting;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,15 +63,15 @@ public class WidgetsUtil {
         //Out contains them all, but no ordering.
         widget_order_out = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_OUT);
 
-        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_in  : " + widget_order_in);
-        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_out : " + widget_order_out);
-        Log.d(Constants.TAG, "WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in);
+        Logger.debug("WidgetsUtil loadSettings widget_order_in  : " + widget_order_in);
+        Logger.debug("WidgetsUtil loadSettings widget_order_out : " + widget_order_out);
+        Logger.debug("WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in);
 
         //if last order_in is equal to current one no change was done via Amazfit Watch official App, so reapply saved order
         if (widget_order_in.equals(last_widget_order_in)){
-            Log.d(Constants.TAG, "WidgetsUtil loadSettings : current order is equal to last one");
+            Logger.debug("WidgetsUtil loadSettings : current order is equal to last one");
             if (!savedOrder.isEmpty()) {
-                Log.d(Constants.TAG, "WidgetsUtil loadSettings using saved_order : " + savedOrder);
+                Logger.debug("WidgetsUtil loadSettings using saved_order : " + savedOrder);
                 widget_order_in = savedOrder;
             }
         }
@@ -104,7 +104,7 @@ public class WidgetsUtil {
                         formatComponentName(springboardItem.getClassName()), new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        Log.d(Constants.TAG, "WidgetsUtil loadSettings.onCheckedChanged b: " + b);
+                        Logger.debug("WidgetsUtil loadSettings.onCheckedChanged b: " + b);
                         //Ignore on create to reduce load
                         if (!compoundButton.isPressed()) return;
                         //Update state
@@ -178,7 +178,7 @@ public class WidgetsUtil {
             settingList.add(0, new HeaderSetting("Widgets", new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Log.d(Constants.TAG, "WidgetsUtil loadSettings.onLongClick");
+                Logger.debug("WidgetsUtil loadSettings.onLongClick");
                 MainService.setWasSpringboardSaved(true);
                 save(context, true, true);
                 return true;
@@ -196,7 +196,7 @@ public class WidgetsUtil {
                 formatComponentName(springboardItem.getClassName()), new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Log.d(Constants.TAG, "WidgetsUtil addSpringboardSetting.onCheckedChanged b: " + b);
+                Logger.debug("WidgetsUtil addSpringboardSetting.onCheckedChanged b: " + b);
                 if (!compoundButton.isPressed()) return;
                 springboardItem.setEnabled(b);
                 save(context);
@@ -209,7 +209,7 @@ public class WidgetsUtil {
         return new SpringboardWidgetAdapter(context, settingList, new SpringboardWidgetAdapter.ChangeListener() {
             @Override
             public void onChange() {
-                Log.d(Constants.TAG, "WidgetsUtil getAdapter.onChange");
+                Logger.debug("WidgetsUtil getAdapter.onChange");
                 checkSave(context);
             }
         });
@@ -235,7 +235,7 @@ public class WidgetsUtil {
 
     private static void checkSave(final Context context) {
 
-        Log.d(Constants.TAG, "WidgetsUtil checkSave");
+        Logger.debug("WidgetsUtil checkSave");
 
         //Create timer_black if not already, for 2 seconds. Call save after completion
         if (countDownTimer == null) countDownTimer = new CountDownTimer(2000, 2000) {
@@ -260,7 +260,7 @@ public class WidgetsUtil {
 
     private static void save(Context context, boolean showToast, boolean saveLocal) {
 
-        Log.d(Constants.TAG, "WidgetsUtil save showToast: " + showToast);
+        Logger.debug("WidgetsUtil save showToast: " + showToast);
 
         //Create a blank array
         JSONArray data = new JSONArray();
@@ -298,10 +298,10 @@ public class WidgetsUtil {
         //if (saveLocal) {
             SettingsManager settingsManager = new SettingsManager(context);
             settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, root.toString());
-            Log.d(Constants.TAG, "WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString());
+            Logger.debug("WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString());
         //} else {
             Settings.System.putString(context.getContentResolver(), Constants.WIDGET_ORDER_IN, root.toString());
-            Log.d(Constants.TAG, "WidgetsUtil save widget_order_in: " + root.toString());
+            Logger.debug("WidgetsUtil save widget_order_in: " + root.toString());
         //}
         //Notify user
         if (showToast) {
@@ -313,7 +313,7 @@ public class WidgetsUtil {
     }
 
     private static void saveOfficialAppOrder(Context context, String order_in){
-        Log.d(Constants.TAG, "WidgetsUtil saveOfficialAppOrder: " + order_in);
+        Logger.debug("WidgetsUtil saveOfficialAppOrder: " + order_in);
         SettingsManager settingsManager = new SettingsManager(context);
         settingsManager.putString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, order_in);
     }

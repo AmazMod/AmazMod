@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +17,8 @@ import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+
+import org.tinylog.Logger;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class InputMethodActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(Constants.TAG,"InputMethodActivity onCreate");
+        Logger.info("InputMethodActivity onCreate");
 
         this.mContext = this;
         setContentView(R.layout.activity_inputmethod);
@@ -61,7 +62,7 @@ public class InputMethodActivity extends Activity {
             final List<InputMethodInfo> inputMethodInfos = inputMethodManager.getInputMethodList();
 
             for (InputMethodInfo inputMethodInfo : inputMethodInfos) {
-                Log.i(Constants.TAG,"InputMethodActivity updateContent inputMethodInfo getID: " + inputMethodInfo.getId()
+                Logger.info("InputMethodActivity updateContent inputMethodInfo getID: " + inputMethodInfo.getId()
                         + " getPackageName: " + inputMethodInfo.getPackageName()
                         + " getServiceName: " + inputMethodInfo.getServiceName()
                         + " getSettingsActivity: " + inputMethodInfo.getSettingsActivity());
@@ -76,12 +77,12 @@ public class InputMethodActivity extends Activity {
 
             List<InputMethodInfo> mInputMethodProperties = inputMethodManager.getEnabledInputMethodList();
             for (InputMethodInfo inputMethodInfo : mInputMethodProperties) {
-                Log.i(Constants.TAG,"InputMethodActivity updateContent EnabledInputMethodInfo getID: " + inputMethodInfo.getId()
+                Logger.info("InputMethodActivity updateContent EnabledInputMethodInfo getID: " + inputMethodInfo.getId()
                         + " getPackageName: " + inputMethodInfo.getPackageName()
                         + " getServiceName: " + inputMethodInfo.getServiceName()
                         + " getSettingsActivity: " + inputMethodInfo.getSettingsActivity());
             }
-            Log.i(Constants.TAG,"InputMethodActivity updateContent DEFAULT_INPUT_METHOD: "
+            Logger.info("InputMethodActivity updateContent DEFAULT_INPUT_METHOD: "
                     + Settings.Secure.getString(mContext.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD));
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -92,7 +93,7 @@ public class InputMethodActivity extends Activity {
                         RadioButton btn = (RadioButton) group.getChildAt(x);
                         if (btn.getId() == checkedId) {
                             selectedIME = inputMethodInfos.get(x).getId();
-                            Log.i(Constants.TAG,"InputMethodActivity selected RadioButton: " + btn.getText().toString() + " x: " + x);
+                            Logger.info("InputMethodActivity selected RadioButton: " + btn.getText().toString() + " x: " + x);
                             runCommand("adb shell ime enable " + selectedIME + ";ime set " + selectedIME + ";exit");
 
                         }
@@ -112,12 +113,12 @@ public class InputMethodActivity extends Activity {
     }
 
     private void runCommand(String command) {
-        Log.d(Constants.TAG, "InputMethodActivity runCommand: " + command);
+        Logger.debug( "InputMethodActivity runCommand: " + command);
         if (!command.isEmpty()) {
             try {
                 Runtime.getRuntime().exec(command);
             } catch (Exception e) {
-                Log.e(Constants.TAG, "InputMethodActivity runCommand exception: " + e.toString());
+                Logger.error("InputMethodActivity runCommand exception: " + e.toString());
             }
         }
     }

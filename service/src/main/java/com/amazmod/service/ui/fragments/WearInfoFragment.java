@@ -10,7 +10,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +20,9 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.util.SystemProperties;
+
+import org.tinylog.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -44,7 +46,7 @@ public class WearInfoFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.i(Constants.TAG,"WearInfoFragment onAttach context: " + mContext);
+        Logger.info("WearInfoFragment onAttach context: " + mContext);
     }
 
     @Override
@@ -52,14 +54,14 @@ public class WearInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         //notificationSpec = NotificationData.fromBundle(getArguments());
-        Log.i(Constants.TAG,"WearInfoFragment onCreate");
+        Logger.info("WearInfoFragment onCreate");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.i(Constants.TAG,"WearInfoFragment onCreateView");
+        Logger.info("WearInfoFragment onCreateView");
 
         return inflater.inflate(R.layout.activity_wear_info, container, false);
     }
@@ -67,7 +69,7 @@ public class WearInfoFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(Constants.TAG,"WearInfoFragment onViewCreated");
+        Logger.info("WearInfoFragment onViewCreated");
 
         updateContent();
 
@@ -156,7 +158,7 @@ public class WearInfoFragment extends Fragment {
                 else
                     currentIP.setText("IP: (not connected)");
             } catch (Exception ex) {
-                Log.e(Constants.TAG, "WearInfoFragment showInfo exception: " + ex.toString());
+                Logger.error("WearInfoFragment showInfo exception: " + ex.toString());
             }
         }
         buttonClose.setOnClickListener(new View.OnClickListener() {
@@ -203,13 +205,13 @@ public class WearInfoFragment extends Fragment {
                     (ipAddress & 0xff), (ipAddress >> 8 & 0xff),
                     (ipAddress >> 16 & 0xff), (ipAddress >> 24 & 0xff));
         } catch (Exception ex) {
-            Log.e(Constants.TAG, "WearInfoFrament getIP exception: " + ex.toString());
+            Logger.error("WearInfoFrament getIP exception: " + ex.toString());
             return null;
         }
     }
 
     public static WearInfoFragment newInstance() {
-        Log.i(Constants.TAG,"WearInfoFragment newInstance");
+        Logger.info("WearInfoFragment newInstance");
         return new WearInfoFragment();
     }
 }

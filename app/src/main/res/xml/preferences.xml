@@ -24,8 +24,7 @@
             android:defaultValue="true"
             android:dependency="preference.disable.notifications"
             android:disableDependentsState="false"
-            android:summaryOff="@string/pref_notifications_enable_custom_ui_off"
-            android:summaryOn="@string/pref_notifications_enable_custom_ui_on"
+            android:summary="@string/pref_notifications_enable_custom_ui_summary"
             android:title="@string/pref_notifications_enable_custom_ui" />
 
         <Preference
@@ -53,8 +52,8 @@
             android:dependency="preference.notifications.enable.custom.ui"
             android:disableDependentsState="true"
             android:key="preference.amazmodservice.enable.replies"
-            android:summary="@string/pref_disable_notifications_replies_summary"
-            android:title="@string/pref_disable_notifications_replies" />
+            android:summary="@string/pref_private_notifications_summary"
+            android:title="@string/pref_private_notifications" />
 
         <Preference
             android:dependency="preference.notifications.enable.custom.ui"
@@ -184,21 +183,6 @@
             android:title="@string/pref_notifications_enable_ungroup" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/connection_alert">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.phone.connect.disconnect.alert"
-            android:summary="@string/pref_phone_connect_disconnect_alert_summary"
-            android:title="@string/pref_phone_connect_disconnect_alert" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="preference.phone.connect.disconnect.alert"
-            android:key="preference.phone.connection.alert.standard.notification"
-            android:summary="@string/pref_phone_connect_alert_standard_notification_summary"
-            android:title="@string/pref_phone_connect_alert_standard_notification" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/battery">
         <SwitchPreference
             android:defaultValue="true"
@@ -226,6 +210,56 @@
             android:title="@string/pref_battery_chart_time_interval" />
     </PreferenceCategory>
 
+
+    <PreferenceCategory android:title="@string/alerts">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.phone.connect.disconnect.alert"
+            android:summary="@string/pref_phone_connect_disconnect_alert_summary"
+            android:title="@string/pref_phone_connect_disconnect_alert" />
+        <ListPreference
+            android:defaultValue="0"
+            android:dependency="preference.battery.chart"
+            android:dialogTitle="@string/pref_battery_watch_alert"
+            android:entries="@array/pref_watch_battery_alert"
+            android:entryValues="@array/pref_watch_battery_alert_values"
+            android:key="preference.battery.watch.alert"
+            android:summary="@string/pref_battery_watch_alert_summary"
+            android:title="@string/pref_battery_watch_alert" />
+        <ListPreference
+            android:defaultValue="0"
+            android:dialogTitle="@string/pref_battery_phone_alert"
+            android:entries="@array/pref_phone_battery_alert"
+            android:entryValues="@array/pref_phone_battery_alert_values"
+            android:key="preference.battery.phone.alert"
+            android:summary="@string/pref_battery_phone_alert_summary"
+            android:title="@string/pref_battery_phone_alert" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.phone.connection.alert.standard.notification"
+            android:summary="@string/pref_phone_connect_alert_standard_notification_summary"
+            android:title="@string/pref_phone_connect_alert_standard_notification" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/logs">
+        <SwitchPreference
+            android:key="preference.logs.logtofile"
+            android:defaultValue="true"
+            android:disableDependentsState="false"
+            android:summary="@string/pref_log_to_file_summary"
+            android:title="@string/pref_log_to_file" />
+
+        <ListPreference
+            android:defaultValue="ERROR"
+            android:dependency="preference.logs.logtofile"
+            android:dialogTitle="@string/pref_log_to_file_level"
+            android:entries="@array/pref_log_to_file_level_entries"
+            android:entryValues="@array/pref_log_to_file_level_entries"
+            android:key="preference.logs.logtofile.level"
+            android:summary="@string/pref_log_to_file_level_summary"
+            android:title="@string/pref_log_to_file_level" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/others">
         <!-- Disabled
         <SwitchPreference
@@ -239,11 +273,14 @@
             android:key="preference.enable.persistent.notification"
             android:summary="@string/pref_enable_persistent_notification_summary"
             android:title="@string/pref_enable_persistent_notification" />
+        <Preference
+            android:key="preference.persistent.notification.device.settings"
+            android:summary="@string/pref_enable_persistent_notification_device_settings_summary"
+            android:title="@string/pref_enable_persistent_notification_device_settings" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.update.notification"
-            android:summaryOff="@string/pref_enable_update_notification_off"
-            android:summaryOn="@string/pref_enable_update_notification_on"
+            android:summary="@string/pref_enable_update_notification_summary"
             android:title="@string/pref_enable_update_notification" />
         <Preference
             android:summary="@string/pref_choose_language_summary"

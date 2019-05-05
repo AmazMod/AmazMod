@@ -15,6 +15,7 @@ import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ResultShellCommand;
+import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.DownloadHelper;
@@ -46,6 +47,7 @@ import amazmod.com.transport.data.RequestUploadFileChunkData;
 import amazmod.com.transport.data.ResultDownloadFileChunkData;
 import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchfaceData;
+import amazmod.com.transport.data.WidgetsData;
 
 public class Watch {
 
@@ -365,6 +367,15 @@ public class Watch {
             @Override
             public Task<Watchface> then(@NonNull Task<TransportService> task) throws Exception {
                 return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA, watchfaceData);
+            }
+        });
+    }
+
+    public Task<ResultWidgets> sendWidgetsData(final WidgetsData widgetsData) {
+        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<ResultWidgets>>() {
+            @Override
+            public Task<ResultWidgets> then(@NonNull Task<TransportService> task) throws Exception {
+                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.REQUEST_WIDGETS, Transport.REQUEST_WIDGETS, widgetsData);
             }
         });
     }

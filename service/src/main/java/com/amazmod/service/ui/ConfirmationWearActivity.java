@@ -14,7 +14,6 @@ import android.os.SystemClock;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -24,6 +23,8 @@ import android.widget.TextView;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.util.DeviceUtil;
+
+import org.tinylog.Logger;
 
 import java.io.File;
 
@@ -58,7 +59,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
     private final Runnable delayedFinish = new Runnable() {
         public void run() {
             isRunning = false;
-            Log.d(Constants.TAG,"ConfirmationWearActivity finishConfirmationActivity delayedFinish");
+            Logger.debug("ConfirmationWearActivity finishConfirmationActivity delayedFinish");
             Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
             if (launchIntent != null) {
                 startActivity(launchIntent);
@@ -78,8 +79,8 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
         paramMode = getIntent().getStringExtra(Constants.MODE);
         paramPkg = getIntent().getStringExtra(Constants.PKG);
 
-        Log.d(Constants.TAG,"ConfirmationWearActivity onCreate paramText: " + paramText + " | paramTime: " + paramTime);
-        Log.d(Constants.TAG,"ConfirmationWearActivity onCreate isRunning: " + isRunning);
+        Logger.debug("ConfirmationWearActivity onCreate paramText: " + paramText + " | paramTime: " + paramTime);
+        Logger.debug("ConfirmationWearActivity onCreate isRunning: " + isRunning);
 
         if (paramTime == null || (Integer.valueOf(paramTime) >= 0 && Integer.valueOf(paramTime) < 3) )
             paramTime = "3";
@@ -131,7 +132,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
         v.setPressed(true);
         delayedConfirmationView.reset();
         ((DelayedConfirmationView) v).setListener(null);
-        Log.d(Constants.TAG,"ConfirmationWearActivity RESULT_CANCELED");
+        Logger.debug("ConfirmationWearActivity RESULT_CANCELED");
         finishConfirmationActivity();
     }
 
@@ -142,10 +143,10 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
         delayedConfirmationView.reset();
         ((DelayedConfirmationView) v).setListener(null);
 
-        Log.d(Constants.TAG,"ConfirmationWearActivity onTimerFinished isRunning: " + isRunning);
+        Logger.debug("ConfirmationWearActivity onTimerFinished isRunning: " + isRunning);
 
         if (Constants.INSTALL.equals(paramMode) || Constants.DELETE.equals(paramMode)) {
-            Log.d(Constants.TAG,"ConfirmationWearActivity onTimerFinished paramMode: " + paramMode + " | paramPkg: " + paramPkg);
+            Logger.debug("ConfirmationWearActivity onTimerFinished paramMode: " + paramMode + " | paramPkg: " + paramPkg);
 
             isRunning = true;
             restartText.setText("Please wait…");
@@ -162,34 +163,34 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
             final Intent intent = new Intent(this, ConfirmationActivity.class);
             intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);
             startActivity(intent);
-            Log.d(Constants.TAG, "ConfirmationWearActivity RESULT_OK");
+            Logger.debug("ConfirmationWearActivity RESULT_OK");
             finishConfirmationActivity();
         }
     }
 
     @Override
     public void finish() {
-        Log.d(Constants.TAG,"ConfirmationWearActivity finish isRunning: " + isRunning);
+        Logger.debug("ConfirmationWearActivity finish isRunning: " + isRunning);
         super.finish();
     }
 
     @Override
     public void onDestroy() {
 
-        Log.d(Constants.TAG,"ConfirmationWearActivity onDestroy isRunning: " + isRunning);
+        Logger.debug("ConfirmationWearActivity onDestroy isRunning: " + isRunning);
 
         super.onDestroy();
     }
 
     private void runCommand(String command) {
 
-        Log.d(Constants.TAG, "ConfirmationWearActivity runCommand: " + command);
+        Logger.debug("ConfirmationWearActivity runCommand: " + command);
         if (!command.isEmpty()) {
             try {
                 Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
                         null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
-                Log.e(Constants.TAG, "ConfirmationWearActivity runCommand exception: " + e.toString());
+                Logger.error("ConfirmationWearActivity runCommand exception: " + e.toString());
             }
         }
     }
@@ -203,19 +204,19 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
     }
 
     private void finishConfirmationActivity(){
-        Log.d(Constants.TAG, "ConfirmationWearActivity finishConfirmationActivity paramMode: " + paramMode);
+        Logger.debug("ConfirmationWearActivity finishConfirmationActivity paramMode: " + paramMode);
 
         restartText.setText("Please wait…");
 
         if (isRunning && (Constants.INSTALL.equals(paramMode) || Constants.DELETE.equals(paramMode))) {
 
-            Log.d(Constants.TAG,"ConfirmationWearActivity finishConfirmationActivity isRunning: " + isRunning);
+            Logger.debug("ConfirmationWearActivity finishConfirmationActivity isRunning: " + isRunning);
 
             runCommand(DENSITY_RESET);
             if (Constants.DELETE.equals(paramMode)) {
                 final File apkFile = new File(paramPkg);
                 if (apkFile.exists())
-                    Log.d(Constants.TAG, "ConfirmationWearActivity finishConfirmationActivity deleting: " + paramPkg);
+                    Logger.debug("ConfirmationWearActivity finishConfirmationActivity deleting: " + paramPkg);
                     apkFile.delete();
             }
 
@@ -234,13 +235,13 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == INSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Log.d(Constants.TAG, "ConfirmationWearActivity onActivityResult RESULT_OK");
+                Logger.debug("ConfirmationWearActivity onActivityResult RESULT_OK");
                 finishConfirmationActivity();
             } else if (resultCode == RESULT_CANCELED) {
-                Log.d(Constants.TAG, "ConfirmationWearActivity onActivityResult RESULT_CANCELED");
+                Logger.debug("ConfirmationWearActivity onActivityResult RESULT_CANCELED");
                 finishConfirmationActivity();
             } else if (resultCode == RESULT_FIRST_USER) {
-                Log.d(Constants.TAG, "ConfirmationWearActivity onActivityResult RESULT_FIRST_USER");
+                Logger.debug("ConfirmationWearActivity onActivityResult RESULT_FIRST_USER");
             }
         }
     }
@@ -249,7 +250,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
     @SuppressLint("SetTextI18n")
     private void hideConfirm() {
 
-        Log.d(Constants.TAG,"ConfirmationWearActivity hideConfirm isRunning: " + isRunning);
+        Logger.debug("ConfirmationWearActivity hideConfirm isRunning: " + isRunning);
 
         delayedConfirmationView.setVisibility(View.GONE);
         delayedConfirmationView.setClickable(false);
@@ -269,7 +270,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
 
     private void showConfirm() {
 
-        Log.d(Constants.TAG,"ConfirmationWearActivity showConfirm isRunning: " + isRunning);
+        Logger.debug("ConfirmationWearActivity showConfirm isRunning: " + isRunning);
 
         closeButton.setVisibility(View.GONE);
         closeButton.setClickable(false);

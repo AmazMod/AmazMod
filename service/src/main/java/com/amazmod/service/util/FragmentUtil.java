@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.text.emoji.widget.EmojiButton;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -15,6 +14,8 @@ import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.tinylog.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -80,14 +81,15 @@ public class FragmentUtil {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
     }
 
-
+    /*
     public boolean getEnableDeleteButton() {
         return settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, Constants.PREF_DEFAULT_NOTIFICATION_DELETE_BUTTON);
     }
+    */
 
     private String getDefaultLocaleSettings() {
         String locale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
-        Log.i(Constants.TAG, "FragmentUtil defaultLocale: " + locale);
+        Logger.info("FragmentUtil defaultLocale: " + locale);
         return locale;
     }
 

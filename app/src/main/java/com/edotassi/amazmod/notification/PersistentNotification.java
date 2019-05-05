@@ -10,11 +10,12 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.util.Log;
 
 import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.MainActivity;
+
+import org.tinylog.Logger;
 
 public class PersistentNotification {
 
@@ -49,7 +50,7 @@ public class PersistentNotification {
                 msg = model + " " + context.getResources().getString(R.string.device_connected);
         } else msg = context.getResources().getString(R.string.device_not_connected);
 
-        Notification notification = new NotificationCompat.Builder(context, Constants.TAG)
+        Notification notification = new NotificationCompat.Builder(context, Constants.PERSISTENT_NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.drawable.outline_watch_black_48)
                 .setContentTitle(Constants.TAG)
                 .setContentText(msg)
@@ -68,20 +69,29 @@ public class PersistentNotification {
     // Create channel for notification on Oreo+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(Constants.TAG, Constants.TAG, NotificationManager.IMPORTANCE_MIN);
-            channel.setDescription(context.getString(R.string.app_name));
             NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
+
+            // Channel for Persistent notification
+            NotificationChannel persistentChannel = new NotificationChannel(Constants.PERSISTENT_NOTIFICATION_CHANNEL, context.getString(R.string.pref_enable_persistent_notification), NotificationManager.IMPORTANCE_MIN);
+            //channel.setDescription(context.getString(R.string.app_name));
             if (notificationManager != null)
-                notificationManager.createNotificationChannel(channel);
+                notificationManager.createNotificationChannel(persistentChannel);
             else
-                Log.e(Constants.TAG, "PersistentNotification createNotificationChannel null notificationManager!");
+                Logger.error("PersistentNotification createNotificationChannel null notificationManager!");
+
+            // Channel for other notifications
+            NotificationChannel otherChannel = new NotificationChannel(Constants.TAG, context.getString(R.string.others), NotificationManager.IMPORTANCE_DEFAULT);
+            if (notificationManager != null)
+                notificationManager.createNotificationChannel(otherChannel);
+            else
+                Logger.error("PersistentNotification createNotificationChannel null notificationManager!");
         }
     }
 
     // Update persistent notification if it is enabled in Settings
     public void updatePersistentNotification(boolean isWatchConnected) {
 
-        Log.d(Constants.TAG, "PersistentNotification updatePersistentNotification isConnected: " + isWatchConnected);
+        Logger.debug("PersistentNotification updatePersistentNotification isConnected: " + isWatchConnected);
 
         final boolean enableNotification = PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
@@ -103,7 +113,7 @@ public class PersistentNotification {
             } else
                 msg = context.getResources().getString(R.string.device_not_connected);
         } else msg = context.getResources().getString(R.string.device_not_connected);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, Constants.TAG)
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, Constants.PERSISTENT_NOTIFICATION_CHANNEL)
                 .setSmallIcon(R.drawable.outline_watch_black_48)
                 .setContentTitle(Constants.TAG)
                 .setContentText(msg)

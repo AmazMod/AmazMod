@@ -76,6 +76,8 @@ dependencies {
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
     implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'org.tinylog:tinylog-api:2.0.0-M4.2'
+    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.2'
 }
 
 configurations.all {

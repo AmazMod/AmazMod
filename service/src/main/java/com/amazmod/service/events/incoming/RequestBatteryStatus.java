@@ -6,9 +6,6 @@ public class RequestBatteryStatus {
 
     private DataBundle dataBundle;
 
-    private String phoneBattery;
-    private String phoneAlarm;
-
     public RequestBatteryStatus(DataBundle dataBundle) {
         this.dataBundle = dataBundle;
     }

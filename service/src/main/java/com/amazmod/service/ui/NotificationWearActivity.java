@@ -13,7 +13,6 @@ import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.SwipeDismissFrameLayout;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
@@ -26,6 +25,8 @@ import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.util.DeviceUtil;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,7 @@ public class NotificationWearActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
-        Log.i(Constants.TAG, "NotificationWearActivity onCreate key: " + key + " | mode: "+ mode
+        Logger.info("NotificationWearActivity onCreate key: " + key + " | mode: "+ mode
                 + " | wasLckd: "+ wasScreenLocked + " | mustLck: " + mustLockDevice
                 + " | scrTg: " + screenToggle);
     }
@@ -137,7 +138,7 @@ public class NotificationWearActivity extends Activity {
     private void clearBackStack() {
         FragmentManager manager = this.getFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
-            Log.w(Constants.TAG, "NotificationWearActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
+            Logger.warn("NotificationWearActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
             while (manager.getBackStackEntryCount() > 0){
                 manager.popBackStackImmediate();
             }
@@ -174,7 +175,7 @@ public class NotificationWearActivity extends Activity {
 
     public void startTimerFinish() {
         if (!mode.equals(MODE_VIEW)) {
-            Log.d(Constants.TAG, "NotificationWearActivity startTimerFinish");
+            Logger.debug("NotificationWearActivity startTimerFinish");
             handler.removeCallbacks(activityFinishRunnable);
             int timeOutRelock = NotificationStore.getTimeoutRelock(key);
             if (timeOutRelock == 0)
@@ -184,7 +185,7 @@ public class NotificationWearActivity extends Activity {
     }
 
     public void stopTimerFinish() {
-        Log.d(Constants.TAG, "NotificationWearActivity stopTimerFinish");
+        Logger.debug("NotificationWearActivity stopTimerFinish");
         handler.removeCallbacks(activityFinishRunnable);
     }
 
@@ -199,7 +200,7 @@ public class NotificationWearActivity extends Activity {
         super.finish();
 
         boolean flag = true;
-        Log.i(Constants.TAG, "NotificationWearActivity finish key: " + key
+        Logger.info("NotificationWearActivity finish key: " + key
                 + " | scrT: " + screenToggle + " | mustLck: " + mustLockDevice);
 
         if (screenToggle) {
@@ -232,7 +233,7 @@ public class NotificationWearActivity extends Activity {
                     mDPM.lockNow();
                 } catch (SecurityException ex) {
                     //Toast.makeText(this, getResources().getText(R.string.device_owner), Toast.LENGTH_LONG).show();
-                    Log.e(Constants.TAG, "NotificationWearActivity SecurityException: " + ex.toString());
+                    Logger.error("NotificationWearActivity SecurityException: " + ex.toString());
                 }
             }
         }
@@ -265,7 +266,7 @@ public class NotificationWearActivity extends Activity {
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
-            Log.i(Constants.TAG, "NotificationWearActivity setScreenModeOff true");
+            Logger.info("NotificationWearActivity setScreenModeOff true");
             screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
             screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
@@ -274,7 +275,7 @@ public class NotificationWearActivity extends Activity {
             getWindow().setAttributes(params);
         } else {
             if (screenBrightness != 999989) {
-                Log.i(Constants.TAG, "NotificationWearActivity setScreenModeOff false | screenMode: " + screenMode);
+                Logger.info("NotificationWearActivity setScreenModeOff false | screenMode: " + screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
                 //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
                 params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;

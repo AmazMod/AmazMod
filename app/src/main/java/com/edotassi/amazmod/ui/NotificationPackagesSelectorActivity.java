@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -96,8 +95,8 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
         if (id == R.id.action_activity_notification_packages_selector_show_system) {
             boolean checked = item.isChecked();
             item.setChecked(!checked);
-            loadApps(checked, null);
-            showSystemApps = checked;
+            loadApps(!checked, null);
+            showSystemApps = !checked;
             return true;
         }
 

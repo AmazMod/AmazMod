@@ -33,6 +33,8 @@ import com.huami.watch.transport.TransporterClassic;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.tinylog.Logger;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +68,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            System.out.println("AmazMod AboutActivity onCreate exception: " + exception.toString());
+            Logger.error("AboutActivity onCreate exception: " + exception.toString());
             //TODO log to crashlitics
         }
         getSupportActionBar().setTitle(R.string.about);
@@ -74,6 +76,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         ButterKnife.bind(this);
 
         version.setText(BuildConfig.VERSION_NAME);
+        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             version.append(" - dev");
         }
@@ -128,7 +131,7 @@ public class AboutActivity extends BaseAppCompatActivity {
                 return;
             }
             default:
-                System.out.println("AmazMod AboutActivity sendTestMessage: something went wrong...");
+                Logger.error("AboutActivity sendTestMessage: something went wrong...");
         }
 
         snackTextOK = getResources().getString(R.string.test_notification_sent);
@@ -159,7 +162,7 @@ public class AboutActivity extends BaseAppCompatActivity {
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            System.out.println("AmazMod AboutActivity notificationData Failed to get bitmap " + e.toString());
+            Logger.error("AboutActivity notificationData Failed to get bitmap " + e.toString());
         }
 
         Watch.get().postNotification(notificationData).continueWith(new Continuation<Void, Object>() {
@@ -275,7 +278,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
-                System.out.println("AmazMod AboutActivity dataTransportResult: " + dataTransportResult.toString());
+                Logger.debug("AboutActivity dataTransportResult: " + dataTransportResult.toString());
                 switch (dataTransportResult.getResultCode()) {
                     case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
                     case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
@@ -323,6 +326,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
         Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
         version.setText(BuildConfig.VERSION_NAME);
+        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             version.append(" - dev");
         }

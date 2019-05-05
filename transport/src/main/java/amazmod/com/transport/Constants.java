@@ -26,7 +26,7 @@ public class Constants {
     public static final String SHELL_COMMAND_COMPRESS = "busybox tar cvzf \"%s\" -C \"%s\" \"%s\"";
     public static final String SHELL_COMMAND_EXTRACT = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
-    public static final String SHELL_COMMAND_SCREENSHOT = "screencap";
+    public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
@@ -43,6 +43,10 @@ public class Constants {
     public static final Boolean PREF_BATTERY_CHART_DEFAULT = true;
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
+    public static final String PREF_BATTERY_WATCH_ALERT = "preference.battery.watch.alert";
+    public static final String PREF_BATTERY_WATCH_ALREADY_ALERTED = "preference.battery.watch.already.alerted";
+    public static final String PREF_BATTERY_WATCH_CHARGED = "preference.battery.watch.charged";
+    public static final String PREF_BATTERY_PHONE_ALERT = "preference.battery.phone.alert";
     public static final String PREF_DISABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.disable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
@@ -63,6 +67,14 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_IMAGES = "preference.notification.images";
     public static final boolean PREF_NOTIFICATIONS_IMAGES_DEFAULT = true;
 
+    public static final String PREF_LOG_TO_FILE = "preference.logs.logtofile";
+    public static final boolean PREF_LOG_TO_FILE_DEFAULT = true;
+
+
+    public static final String PREF_LOG_TO_FILE_LEVEL = "preference.logs.logtofile.level";
+    public static final String PREF_LOG_TO_FILE_LEVEL_DEFAULT = "ERROR";
+
+
     //public static final String PREF_NOTIFICATION_DELETE_BUTTON = "preference.amazmodservice.notification.enable.deletebutton";
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
     public static final Boolean PREF_NOTIFICATION_SCHEDULER_DEFAULT = false;
@@ -79,6 +91,8 @@ public class Constants {
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
     public static final boolean PREF_DEFAULT_DISABLE_BATTERY_CHART = false;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";
+    public static final String PREF_DEFAULT_BATTERY_WATCH_ALERT = "0";
+    public static final String PREF_DEFAULT_BATTERY_PHONE_ALERT = "0";
     public static final boolean PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_STANDARD_NOTIFICATIONS = false;
@@ -99,6 +113,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_UNGROUP = "preference.notifications.enable.ungroup";
     public static final String PREF_TIME_LAST_SYNC = "preference.time.last.sync";
     public static final String PREF_WATCH_MODEL = "preference.watch.model";
+    public static final String PREF_HUAMI_MODEL = "preference.watch.huami";
     public static final String PREF_ENABLE_PERSISTENT_NOTIFICATION = "preference.enable.persistent.notification";
     public static final String PREF_TIME_LAST_SAVE = "preference.time.last.save";
 
@@ -149,4 +164,9 @@ public class Constants {
     public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
     public static final int SCREEN_BRIGHTNESS_VALUE_AUTO = -1;
 
+    public static final String LOGFILE = "/data/user/0/com.edotassi.amazmod/files/amazmod.log";
+
+    public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
+
+    public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
 }
