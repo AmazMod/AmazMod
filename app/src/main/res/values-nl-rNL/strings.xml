@@ -327,6 +327,6 @@
     <string name="notification_watch_charged">Amazfit is volledig opgeladen</string>
     <string name="notification_watch_charged_description">Horloge is volledig opgeladen! U kunt het dock nu loskoppelen.</string>
     <string name="statsandlogs">Statistieken/Logs</string>
-    <string name="clear_log">Clear Log</string>
-    <string name="send_log">Send Log</string>
+    <string name="clear_log">Log leegmaken</string>
+    <string name="send_log">Verstuur log</string>
 </resources>
