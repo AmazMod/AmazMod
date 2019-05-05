@@ -326,4 +326,7 @@
     <string name="notification_low_battery_description">Kellon akun varaus on laskenut alle %s</string>
     <string name="notification_watch_charged">Amazfit on ladattu täyteen</string>
     <string name="notification_watch_charged_description">Kello on ladattu täyteen! Voit nyt poistaa sen laturista.</string>
+    <string name="statsandlogs">Stats / Logs</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="send_log">Send Log</string>
 </resources>
