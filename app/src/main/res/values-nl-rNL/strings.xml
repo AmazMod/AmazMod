@@ -319,14 +319,14 @@
     <string name="pref_battery_chart_summary">Toon accugrafiek in AmazMod hoofdscherm</string>
     <string name="logs">Logboek</string>
     <string name="pref_log_to_file">Log naar bestand</string>
-    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
-    <string name="pref_log_to_file_level">Log Level</string>
-    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file</string>
-    <string name="notification_low_battery">Amazfit low battery</string>
-    <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
-    <string name="statsandlogs">Stats / Logs</string>
+    <string name="pref_log_to_file_summary">Sla Amazmod log op in amazmod.log</string>
+    <string name="pref_log_to_file_level">Logboekniveau</string>
+    <string name="pref_log_to_file_level_summary">Selecteer detailniveau dat in logboek wordt opgeslagen</string>
+    <string name="notification_low_battery">Amazfit batterij bijna leeg</string>
+    <string name="notification_low_battery_description">Batterij van horloge is minder dan %s</string>
+    <string name="notification_watch_charged">Amazfit is volledig opgeladen</string>
+    <string name="notification_watch_charged_description">Horloge is volledig opgeladen! U kunt het dock nu loskoppelen.</string>
+    <string name="statsandlogs">Statistieken/Logs</string>
     <string name="clear_log">Clear Log</string>
     <string name="send_log">Send Log</string>
 </resources>
