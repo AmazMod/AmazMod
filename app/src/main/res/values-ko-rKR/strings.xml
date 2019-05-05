@@ -327,4 +327,6 @@
     <string name="notification_watch_charged">Amazfit이 완전히 충전됨</string>
     <string name="notification_watch_charged_description">시계가 완전히 충전되었습니다! 이제 충전기에서 시계를 분리해도 좋습니다.</string>
     <string name="statsandlogs">Stats / Logs</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="send_log">Send Log</string>
 </resources>
