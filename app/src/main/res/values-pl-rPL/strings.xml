@@ -326,4 +326,5 @@
     <string name="notification_low_battery_description">Bateria zegarka spadła poniżej %s</string>
     <string name="notification_watch_charged">Amazfit jest naładowany</string>
     <string name="notification_watch_charged_description">Zegarek naładowany! Możesz go odłączyć od stacji dokującej.</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
