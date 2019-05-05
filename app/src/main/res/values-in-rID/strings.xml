@@ -326,4 +326,5 @@
     <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
     <string name="notification_watch_charged">Amazfit is fully charged</string>
     <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
