@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
@@ -20,12 +18,10 @@ import org.tinylog.Logger;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 
 import amazmod.com.transport.Constants;
@@ -51,7 +47,6 @@ public class StatsActivity extends BaseAppCompatActivity {
     TextView notificationsTotal;
     @BindView(R.id.activity_stats_logs_content)
     TextView logsContentEditText;
-
 
     @BindView(R.id.activity_stats_open_notifications_log)
     Button openNotificationsLogButton;
@@ -97,6 +92,32 @@ public class StatsActivity extends BaseAppCompatActivity {
         startActivity(new Intent(this, NotificationsLogActivity.class));
     }
 
+
+    @OnClick(R.id.activity_stats_clear_logs)
+    public void clearLogs(){
+        try{
+            logsContentEditText.setText("");
+            FileWriter fw = new FileWriter(Constants.LOGFILE,false);
+        }catch (IOException e){
+            Logger.error(e,"clearLogs: can't empty file " + Constants.LOGFILE);
+        }
+
+    }
+
+    @OnClick(R.id.activity_stats_send_logs)
+    public void sendLogs(){
+        /*
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        Uri uri = Uri.fromFile(new File(Constants.LOGFILE));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        startActivity(Intent.createChooser(shareIntent, "Share Log"));*/
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "AmazMod Phone Logs");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, logsContentEditText.getText());
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.send_log)));
+    }
 
     private void loadLogs(){
         try {

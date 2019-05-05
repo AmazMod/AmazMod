@@ -325,4 +325,6 @@
     <string name="notification_watch_charged">Amazfit is fully charged</string>
     <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
     <string name="statsandlogs">Stats / Logs</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="send_log">Send Log</string>
 </resources>
