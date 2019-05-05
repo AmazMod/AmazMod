@@ -327,4 +327,5 @@
     <string name="notification_low_battery_description">手表的电量低于 %s</string>
     <string name="notification_watch_charged">Amazfit 充电完成</string>
     <string name="notification_watch_charged_description">手表已充满电! 您可以将其从充电底座上拔下。</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
