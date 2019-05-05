@@ -327,4 +327,5 @@
     <string name="notification_low_battery_description">手錶的電池下降到 %s 以下</string>
     <string name="notification_watch_charged">手錶已充滿電</string>
     <string name="notification_watch_charged_description">手錶充滿電了! 現在您可以將其從充電底座上拔下。</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
