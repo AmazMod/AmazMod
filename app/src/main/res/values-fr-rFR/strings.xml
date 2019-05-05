@@ -326,4 +326,5 @@
     <string name="notification_low_battery_description">La batterie de la montre est passée sous les %s</string>
     <string name="notification_watch_charged">Batterie complètement chargée</string>
     <string name="notification_watch_charged_description">La montre est complètement chargée ! Vous pouvez maintenant la débrancher de son support de charge.</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
