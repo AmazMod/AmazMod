@@ -326,4 +326,5 @@
     <string name="notification_low_battery_description">Η μπαταρία του ρολογιού έπεσε κάτω από %s</string>
     <string name="notification_watch_charged">To Amazfit είναι πλήρως φορτισμένο</string>
     <string name="notification_watch_charged_description">Το ρολόι είναι πλήρως φορτισμένο! Τώρα μπορείτε να το αποσυνδέσετε το από τη βάση φόρτισης.</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
