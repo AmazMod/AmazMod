@@ -1,5 +1,12 @@
 <changelog>
     <release
+        date="undefined"
+        versionCode="213"
+        versionName="v1.1.7">
+        <bugfix>Small bug fixes</bugfix>
+        <info>Updated translations</info>
+    </release>
+    <release
         date="2019-04-23"
         versionCode="212"
         versionName="v1.1.6">
