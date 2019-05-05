@@ -327,4 +327,6 @@
     <string name="notification_watch_charged">סוללת Amazfit טעונה במלואה</string>
     <string name="notification_watch_charged_description">השעון טעון במלואו! ניתן לנתק מהמטען.</string>
     <string name="statsandlogs">Stats / Logs</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="send_log">Send Log</string>
 </resources>
