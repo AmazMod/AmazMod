@@ -328,4 +328,6 @@
     <string name="notification_watch_charged">Amazfit está totalmente cargado</string>
     <string name="notification_watch_charged_description">El reloj está completamente cargado! Puedes desconectarlo de la base de carga.</string>
     <string name="statsandlogs">Stats / Logs</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="send_log">Send Log</string>
 </resources>
