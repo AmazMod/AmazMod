@@ -54,7 +54,7 @@ if [ "$1" != "" ]; then
    log -pi -tAmazMod "install_apk adb: $run_cmd"
 fi
 if [ "$2" == "DEL" ]; then
-   $LOG "deleting file: $1 $(rm '$1')"
+   $LOG "deleting file: $1 $(rm $1)"
 fi
     run_cmd=$(adb shell "echo APK_INSTALL > /sys/power/wake_unlock")
     log -pi -tAmazMod "Disabling APK_INSTALL WAKELOCK: $run_cmd"

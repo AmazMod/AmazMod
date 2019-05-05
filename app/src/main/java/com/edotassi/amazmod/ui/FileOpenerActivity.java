@@ -45,6 +45,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.concurrent.CancellationException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import amazmod.com.transport.Constants;
 import butterknife.BindView;
@@ -125,17 +127,31 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         Logger.debug("FileOpenerActivity onCreate action: " + action + " scheme: " + scheme + " uri: " + uri);
 
         if (action != null && scheme != null && uri != null) {
+            // Logs for future improvements
+            //Logger.debug("FileOpenerActivity onCreate action: " + action.compareTo(Intent.ACTION_VIEW));
+            //Logger.debug("FileOpenerActivity onCreate content: " + scheme.compareTo(ContentResolver.SCHEME_CONTENT));
+            //Logger.debug("FileOpenerActivity onCreate file: " + scheme.compareTo(ContentResolver.SCHEME_FILE));
+            //Logger.debug("FileOpenerActivity onCreate file-name: " + getContentName(resolver, uri) +", "+uri.getLastPathSegment() +", "+uri.getPath()+", "+uri.getQueryParameter("o"));
 
             if (action.compareTo(Intent.ACTION_VIEW) == 0) {
 
-                if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0)
+                if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
                     inputFileName = getContentName(resolver, uri);
 
-                else if (scheme.compareTo(ContentResolver.SCHEME_FILE) == 0)
+                    // Opera URI
+                    if(inputFileName==null && uri.getQueryParameter("o")!=null) {
+                        Pattern filenamePattern = Pattern.compile("([^/]+)\\.(apk|wfz)");
+                        Matcher matched = filenamePattern.matcher(uri.getQueryParameter("o"));
+                        if(matched.find())
+                            inputFileName = matched.group();
+                    }
+                }else if (scheme.compareTo(ContentResolver.SCHEME_FILE) == 0)
                     inputFileName = uri.getLastPathSegment();
 
                 if (inputFileName != null) {
                     fileName = inputFileName.toLowerCase();
+
+                    //Logger.debug("FileOpenerActivity onCreate filename: " + fileName);
 
                     if (fileName.endsWith(".wfz"))
                         uploadType = UPLOAD_WFZ;

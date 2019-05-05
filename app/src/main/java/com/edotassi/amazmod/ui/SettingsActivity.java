@@ -201,8 +201,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT));
         final boolean enableCustomUi = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI);
-        final boolean disableNotifications = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS,
-                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS);
+        final boolean disableNotifications = !Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS,
+                Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS);
         final boolean disableNotificationReplies = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         final boolean enableInvertedTheme = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
@@ -215,8 +215,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_PHONE_CONNECT_DISCONNECT_ALERT);
         final boolean phoneConnectionStandardNotification = Prefs.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION,
                 Constants.PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION);
-        final boolean disableNotificationsDelay = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_DISABlE_DELAY,
-                Constants.PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY);
+        final boolean disableNotificationsDelay = !Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_DELAY,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY);
         final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
         final int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
