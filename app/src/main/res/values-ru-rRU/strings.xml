@@ -326,4 +326,5 @@
     <string name="notification_low_battery_description">Заряд батареи часов ниже %s</string>
     <string name="notification_watch_charged">Батарея полностью заряжена</string>
     <string name="notification_watch_charged_description">Часы полностью заряжены! Можно отсоединить зарядку.</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
