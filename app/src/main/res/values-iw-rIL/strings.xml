@@ -326,4 +326,5 @@
     <string name="notification_low_battery_description">סוללת השעון ירדה מתחת ל%s</string>
     <string name="notification_watch_charged">סוללת Amazfit טעונה במלואה</string>
     <string name="notification_watch_charged_description">השעון טעון במלואו! ניתן לנתק מהמטען.</string>
+    <string name="statsandlogs">Stats / Logs</string>
 </resources>
