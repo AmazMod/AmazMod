@@ -328,6 +328,6 @@ Urobte príkaz shell \"</string>
     <string name="notification_watch_charged">Amazfit je plne nabitá</string>
     <string name="notification_watch_charged_description">Hodinky sú plne nabité! Môžete ich odpojiť z nabíjacieho doku.</string>
     <string name="statsandlogs">Stats / Logs</string>
-    <string name="clear_log">Clear Log</string>
-    <string name="send_log">Send Log</string>
+    <string name="clear_log">Vymaž Log</string>
+    <string name="send_log">Pošli Log</string>
 </resources>
