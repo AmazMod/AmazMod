@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.BatteryManager;
-import android.util.Log;
 import android.provider.Settings.System;
 
 import com.amazmod.service.events.NightscoutRequestSyncEvent;
@@ -25,6 +24,7 @@ import com.huami.watch.transport.Transporter;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BatteryData;
@@ -76,7 +76,7 @@ public class MessagesListener {
                 if (batteryPct > 0.98) {
                     dateLastCharge = currentTimeMillis();
                     settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
-                    Log.d(Constants.TAG, "MessagesListener dateLastCharge saved: " + dateLastCharge);
+                    Logger.debug("MessagesListener dateLastCharge saved: " + dateLastCharge);
                 }
             }
         }, powerDisconnectedFilter);
@@ -90,7 +90,7 @@ public class MessagesListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestNightscoutSync(NightscoutRequestSyncEvent event) {
-        Log.d(Constants.TAG, "MessagesListener requested nightscout sync");
+        Logger.debug("MessagesListener requested nightscout sync");
 
         send(Constants.ACTION_NIGHTSCOUT_SYNC, new DataBundle());
     }
@@ -100,18 +100,18 @@ public class MessagesListener {
 
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
 
-        Log.d(Constants.TAG, "MessagesListener sync settings");
-        Log.d(Constants.TAG, "MessagesListener vibration: " + settingsData.getVibration());
-        Log.d(Constants.TAG, "MessagesListener timeout: " + settingsData.getScreenTimeout());
-        Log.d(Constants.TAG, "MessagesListener replies: " + settingsData.getReplies());
-        Log.d(Constants.TAG, "MessagesListener enableCustomUi: " + settingsData.isNotificationsCustomUi());
+        Logger.debug("MessagesListener sync settings");
+        Logger.debug("MessagesListener vibration: " + settingsData.getVibration());
+        Logger.debug("MessagesListener timeout: " + settingsData.getScreenTimeout());
+        Logger.debug("MessagesListener replies: " + settingsData.getReplies());
+        Logger.debug("MessagesListener enableCustomUi: " + settingsData.isNotificationsCustomUi());
 
         settingsManager.sync(settingsData);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reply(ReplyNotificationEvent event) {
-        Log.d(Constants.TAG, "MessagesListener reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
+        Logger.debug("MessagesListener reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
 
         dataBundle.putString("key", event.getKey());
         dataBundle.putString("message", event.getMessage());
@@ -128,7 +128,7 @@ public class MessagesListener {
         notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
 
-        Log.d(Constants.TAG, "MessagesListener incomingNotification: " + notificationData.toString());
+        Logger.debug("MessagesListener incomingNotification: " + notificationData.toString());
         notificationManager.post(notificationData);
 
     }
@@ -150,7 +150,7 @@ public class MessagesListener {
         watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         //watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
 
-        Log.d(Constants.TAG, "MessagesListener requestWatchStatus watchStatusData: " + watchStatusData.toString());
+        Logger.debug("MessagesListener requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
 
@@ -177,12 +177,12 @@ public class MessagesListener {
         //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
         if (dateLastCharge == 0) {
             dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-            Log.d(Constants.TAG, "MessagesListener dateLastCharge loaded: " + dateLastCharge);
+            Logger.debug("MessagesListener dateLastCharge loaded: " + dateLastCharge);
         }
 
         //Update battery level (used in widget)
         //settings.set(Constants.PREF_BATT_LEVEL, Math.round(batteryPct * 100.0));
-        Log.d(Constants.TAG, "MessagesListener dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct * 100f));
+        Logger.debug("MessagesListener dateLastCharge: " + dateLastCharge + " batteryPct: " + Math.round(batteryPct * 100f));
 
         batteryData.setLevel(batteryPct);
         batteryData.setCharging(isCharging);
@@ -196,7 +196,7 @@ public class MessagesListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void brightness(Brightness brightness) {
         BrightnessData brightnessData = BrightnessData.fromDataBundle(brightness.getDataBundle());
-        Log.d(Constants.TAG, "MessagesListener setting brightness to " + brightnessData.getLevel());
+        Logger.debug("MessagesListener setting brightness to " + brightnessData.getLevel());
 
         if (brightnessData.getLevel()==  -1){
             System.putInt(context.getContentResolver(), System.SCREEN_BRIGHTNESS_MODE, System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
@@ -212,10 +212,10 @@ public class MessagesListener {
 
     private void send(String action, DataBundle dataBundle) {
         if (transporter == null) {
-            Log.w(Constants.TAG, "MessagesListener transporter not ready");
+            Logger.warn("MessagesListener transporter not ready");
             return;
         }
         transporter.send(action, dataBundle);
-        Log.d(Constants.TAG, "MessagesListener send: " + action);
+        Logger.debug("MessagesListener send: " + action);
     }
 }

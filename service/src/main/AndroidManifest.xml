@@ -54,7 +54,7 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
         <activity
-            android:name=".ui.PhoneConnectionActivity"
+            android:name=".ui.AlertsActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""

@@ -1,11 +1,11 @@
 package com.edotassi.amazmod.support;
 
-import android.util.Log;
-
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import org.tinylog.Logger;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -18,7 +18,7 @@ import amazmod.com.transport.Constants;
 public class SilenceApplicationHelper {
 
     public static void silenceAppFromNotification(String notificationKey, int minutes) {
-        Log.d(Constants.TAG, "SilenceApplicationHelper silenceAppFromNotification: " + notificationKey + " / Minutes: " + String.valueOf(minutes));
+        Logger.debug("SilenceApplicationHelper silenceAppFromNotification: " + notificationKey + " / Minutes: " + String.valueOf(minutes));
         String packageName = notificationKey.split("\\|")[1];
         if (Integer.valueOf(Constants.BLOCK_APP) == minutes){
             disablePackage(packageName);
@@ -42,9 +42,9 @@ public class SilenceApplicationHelper {
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity.class)
                     .update(pref);
-            Log.d(Constants.TAG, "SilenceApplicationHelper silenceApp: silenced " + packageName + " until " + getTimeSecondsReadable(silenced));
+            Logger.debug("SilenceApplicationHelper silenceApp: silenced " + packageName + " until " + getTimeSecondsReadable(silenced));
         } else {
-            Log.d(Constants.TAG, "SilenceApplicationHelper silenceApp: package " + packageName + " not found in NotificationPreference table");
+            Logger.debug("SilenceApplicationHelper silenceApp: package " + packageName + " not found in NotificationPreference table");
         }
     }
 
@@ -90,9 +90,9 @@ public class SilenceApplicationHelper {
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity.class)
                     .update(pref);
-            Log.d(Constants.TAG, "SilenceApplicationHelper cancelSilence: cancelled Silence of package " + packageName);
+            Logger.debug("SilenceApplicationHelper cancelSilence: cancelled Silence of package " + packageName);
         } else {
-            Log.d(Constants.TAG, "SilenceApplicationHelper cancelSilence: package " + packageName + " not found in NotificationPreference table");
+            Logger.debug("SilenceApplicationHelper cancelSilence: package " + packageName + " not found in NotificationPreference table");
         }
     }
 
@@ -114,7 +114,7 @@ public class SilenceApplicationHelper {
     }
 
     public static void enablePackage(String packageName) {
-        Log.d(Constants.TAG, "SilenceApplicationHelper enablePackage: " + packageName + " in AmazmodDB.NotificationPreferences");
+        Logger.debug("SilenceApplicationHelper enablePackage: " + packageName + " in AmazmodDB.NotificationPreferences");
         NotificationPreferencesEntity app = SQLite
                 .select()
                 .from(NotificationPreferencesEntity.class)
@@ -134,7 +134,7 @@ public class SilenceApplicationHelper {
 
 
     public static void disablePackage(String packageName) {
-        Log.d(Constants.TAG, "SilenceApplicationHelper disablePackage: " + packageName + " from AmazmodDB.NotificationPreferences");
+        Logger.debug("SilenceApplicationHelper disablePackage: " + packageName + " from AmazmodDB.NotificationPreferences");
         SQLite
                 .delete()
                 .from(NotificationPreferencesEntity.class)

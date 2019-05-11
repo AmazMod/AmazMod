@@ -7,6 +7,8 @@ import android.webkit.WebViewClient;
 
 import com.edotassi.amazmod.R;
 
+import org.tinylog.Logger;
+
 import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +32,7 @@ public class FaqActivity extends BaseAppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            System.out.println("AmazMod FaqActivity onCreate exception: " + exception.toString());
+            Logger.error("FaqActivity onCreate exception: " + exception.toString());
             //TODO log to crashlitics
         }
         getSupportActionBar().setTitle(R.string.faq);

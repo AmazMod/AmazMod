@@ -16,6 +16,8 @@ import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.CommandHistoryBridge;
 import com.edotassi.amazmod.support.NotificationPreferencesBridge;
 
+import org.tinylog.Logger;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,7 +56,7 @@ public class NotificationPreferencesAdapter extends ArrayAdapter<NotificationPre
             @Override
             public void onClick(View v) {
                 String string = app.getPackageName();
-                System.out.println("AmazMod CommandHistoryActivity onClick string: " + string);
+                Logger.debug("CommandHistoryActivity onClick string: " + string);
                 //edit(command, lItem);
                 int resultCode = 0;
                 Intent resultIntent = new Intent();

@@ -108,6 +108,59 @@
         <item>180</item>
         <item>240</item>
     </string-array>
+
+    <string-array name="pref_watch_battery_alert">
+        <item>Disabled</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert_values">
+        <item>0</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>99</item>
+    </string-array>
+
+    <string-array name="pref_phone_battery_alert">
+        <item>Disabled</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert_values">
+        <item>0</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>99</item>
+    </string-array>
+
     <string-array name="pref_watchface_background_sync_interval_entries">
         <item>1 min</item>
         <item>5 min</item>
@@ -181,7 +234,6 @@
         <item>da-rDK</item>
         <item>de-rDE</item>
         <item>el-rGR</item>
-        <item>en-rUS</item>
         <item>es-rES</item>
         <item>fi-rFI</item>
         <item>fr-rFR</item>
@@ -208,5 +260,12 @@
         <item>vi-rVN</item>
         <item>zh-rCN</item>
         <item>zh-rTW</item>
+    </string-array>
+    <string-array name="pref_log_to_file_level_entries" translatable="false">
+        <item>ERROR</item>
+        <item>WARN</item>
+        <item>INFO</item>
+        <item>DEBUG</item>
+        <item>TRACE</item>
     </string-array>
 </resources>

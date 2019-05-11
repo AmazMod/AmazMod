@@ -17,7 +17,6 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.support.wearable.view.WearableListView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +31,14 @@ import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.springboard.LauncherWearGridActivity;
 import com.amazmod.service.springboard.WidgetSettings;
+import com.amazmod.service.ui.BatteryGraphActivity;
 import com.amazmod.service.ui.ScreenSettingsActivity;
 import com.amazmod.service.springboard.WidgetsReorderActivity;
 import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.huami.watch.transport.DataBundle;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +77,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "Away Alert (iOS)",
                                 "Notifications ScreenOn",
                                 "Change Input Method",
-                                "Device Info"};
+                                "Device Info",
+                                "Battery Graph"};
 
     private int[] mImagesOn = { R.drawable.ic_action_select_all,
                                 R.drawable.outline_folder_white_24,
@@ -99,7 +102,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 R.drawable.ic_alarm_light_white_24dp,
                                 R.drawable.outline_flash_on_white_24,
                                 R.drawable.outline_keyboard_white_24,
-                                R.drawable.baseline_info_white_24};
+                                R.drawable.baseline_info_white_24,
+                                R.drawable.battery_unknown_white_24dp};
 
     private int[] mImagesOff = {    R.drawable.ic_action_select_all,
                                     R.drawable.outline_folder_white_24,
@@ -123,7 +127,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.ic_alarm_light_off_white_24dp,
                                     R.drawable.outline_flash_off_white_24,
                                     R.drawable.outline_keyboard_white_24,
-                                    R.drawable.baseline_info_white_24};
+                                    R.drawable.baseline_info_white_24,
+                                    R.drawable.battery_unknown_white_24dp};
 
     private String[] toggle = { "",
                                 "",
@@ -147,6 +152,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "huami.watch.localonly.ble_lost_far_away",
                                 "",
                                 "",
+                                "",
                                 ""};
 
 	private int itemChosen;
@@ -165,7 +171,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.i(Constants.TAG,"WearMenuFragment onAttach context: " + mContext);
+        Logger.info("WearMenuFragment onAttach context: " + mContext);
     }
 
     @Override
@@ -173,14 +179,14 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         super.onCreate(savedInstanceState);
 
         //notificationData = NotificationData.fromBundle(getArguments());
-        Log.i(Constants.TAG,"WearMenuFragment onCreate");
+        Logger.info("WearMenuFragment onCreate");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.i(Constants.TAG,"WearMenuFragment onCreateView");
+        Logger.info("WearMenuFragment onCreateView");
 
         return inflater.inflate(R.layout.activity_wear_menu, container, false);
     }
@@ -188,7 +194,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(Constants.TAG,"WearMenuFragment onViewCreated");
+        Logger.info("WearMenuFragment onViewCreated");
 
         init();
         updateContent();
@@ -237,7 +243,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                     state = i < (MENU_START + 9) || i > (MENU_START + 11) || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
                 state = true;
-                Log.e(Constants.TAG, "WearMenuFragment onCreate exception: " + e.toString());
+                Logger.error("WearMenuFragment onCreate exception: " + e.toString());
             }
             items.add(new MenuItems(mImagesOn[i], mImagesOff[i], mItems[i], state));
         }
@@ -336,6 +342,14 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 startWearGridActivity(LauncherWearGridActivity.INFO);
                 break;
 
+            case MENU_START + 15:
+                // Battery graph
+                Intent batteryGrapshIntent = new Intent(mContext, BatteryGraphActivity.class);
+                batteryGrapshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(batteryGrapshIntent);
+                break;
+
             default:
                 Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
                 break;
@@ -343,7 +357,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     }
 
     private void runCommand(String command) {
-        Log.d(Constants.TAG, "WearMenuFragment runCommand: " + command);
+        Logger.debug("WearMenuFragment runCommand: " + command);
 	    if (!command.isEmpty()) {
             try {
                 Runtime.getRuntime().exec(command, null, Environment.getExternalStorageDirectory());
@@ -354,7 +368,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                     }
                 }
             } catch (Exception e) {
-                Log.e(Constants.TAG, "WearMenuFragment runCommand exception: " + e.toString());
+                Logger.error("WearMenuFragment runCommand exception: " + e.toString());
             }
         }
     }
@@ -409,7 +423,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         delayedConfirmationView.setPressed(false);
         delayedConfirmationView.start();
         delayedConfirmationView.setListener(this);
-        Log.d(Constants.TAG, "WearMenuFragment beginCountdown: " + delayedConfirmationView.isPressed());
+        Logger.debug("WearMenuFragment beginCountdown: " + delayedConfirmationView.isPressed());
     }
 
     @Override
@@ -419,12 +433,12 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         // Prevent onTimerFinished from being heard.
         ((DelayedConfirmationView) v).setListener(null);
         hideConfirm();
-        Log.d(Constants.TAG, "WearMenuFragment onTimerSelected v.isPressed: " + v.isPressed());
+        Logger.debug("WearMenuFragment onTimerSelected v.isPressed: " + v.isPressed());
     }
 
     @Override
     public void onTimerFinished(View v) {
-        Log.d(Constants.TAG, "WearMenuFragment onTimerFinished v.isPressed: " + v.isPressed());
+        Logger.debug("WearMenuFragment onTimerFinished v.isPressed: " + v.isPressed());
         ((DelayedConfirmationView) v).setListener(null);
 
         final Handler mHandler = new Handler();
@@ -513,10 +527,10 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             @Override
             public void onReceive(Context context, Intent intent) {
                 WifiInfo wifiInfo = wfmgr.getConnectionInfo();
-                Log.d(Constants.TAG, "WearMenuFragment checkConnection wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
-                Log.d(Constants.TAG, "WearMenuFragment checkConnection wifiInfo.SSID: " + wifiInfo.getSSID());
-                Log.d(Constants.TAG, "WearMenuFragment checkConnection action: " + intent.getAction());
-                Log.d(Constants.TAG, "WearMenuFragment checkConnection connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+                Logger.debug("WearMenuFragment checkConnection wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Logger.debug("WearMenuFragment checkConnection wifiInfo.SSID: " + wifiInfo.getSSID());
+                Logger.debug("WearMenuFragment checkConnection action: " + intent.getAction());
+                Logger.debug("WearMenuFragment checkConnection connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
                 if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
                     if (wifiInfo.getSupplicantState().toString().equals("COMPLETED"))
                         if (receiverSSID == null)
@@ -541,10 +555,10 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             @Override
             public void onReceive(Context context, Intent intent) {
                 WifiInfo wifiInfo = wfmgr.getConnectionInfo();
-                Log.d(Constants.TAG, "WearMenuFragment getSSID wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
-                Log.d(Constants.TAG, "WearMenuFragment getSSID wifiInfo.SSID: " + wifiInfo.getSSID());
-                Log.d(Constants.TAG, "WearMenuFragment getSSID action: " + intent.getAction());
-                Log.d(Constants.TAG, "WearMenuFragment getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+                Logger.debug("WearMenuFragment getSSID wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Logger.debug("WearMenuFragment getSSID wifiInfo.SSID: " + wifiInfo.getSSID());
+                Logger.debug("WearMenuFragment getSSID action: " + intent.getAction());
+                Logger.debug("WearMenuFragment getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
 
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.ASSOCIATED))
                     flag = true;
@@ -564,7 +578,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 
     private void toggle(int id) {
         final int status = Settings.Secure.getInt(mContext.getContentResolver(), toggle[id], 0);
-        Log.d(Constants.TAG, "WearMenuFragment toggleUnit toggle: " + toggle[id] + " \\ status: " + status);
+        Logger.debug("WearMenuFragment toggleUnit toggle: " + toggle[id] + " \\ status: " + status);
         if ( status == 0) {
             items.get(id).state = true;
             runCommand("adb shell settings put secure " + toggle[id] + " 1;exit");
@@ -580,7 +594,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private void toggleNotificationScreenOn(int id) {
 
         final int status = widgetSettings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0);
-        Log.d(Constants.TAG, "WearMenuFragment toggleNotificationScreenOn toggle: " + toggle[id] + " \\ status: " + status);
+        Logger.debug("WearMenuFragment toggleNotificationScreenOn toggle: " + toggle[id] + " \\ status: " + status);
         if ( status == 0) {
             items.get(id).state = true;
             widgetSettings.set(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 1);
@@ -594,7 +608,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     }
 
     public static WearMenuFragment newInstance() {
-        Log.i(Constants.TAG,"WearMenuFragment newInstance");
+        Logger.info("WearMenuFragment newInstance");
         return new WearMenuFragment();
     }
 }

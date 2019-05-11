@@ -21,6 +21,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.tinylog.Logger;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,7 +80,7 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
                             break;
                         }
                         if (position != mPosition) {
-                            System.out.println("AmazMod NotificationRepliesDragActivity move mPosition: " + mPosition +
+                            Logger.debug("NotificationRepliesDragActivity move mPosition: " + mPosition +
                                     " \\ position: " + position);
                             if (mPosition != -1) {
                                 if (position > mPosition) {
@@ -107,7 +109,7 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
                     case MotionEvent.ACTION_OUTSIDE: {
-                        System.out.println("AmazMod NotificationRepliesDragActivity cancel initialPosition: " + initalPosition +
+                        Logger.debug("NotificationRepliesDragActivity cancel initialPosition: " + initalPosition +
                                 " \\ mPosition: " + mPosition);
                         stopDrag();
                         return true;
@@ -154,7 +156,7 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
 
     @Override
     protected void onPause() {
-        System.out.println("AmazMod NotificationRepliesDragActivity onPause");
+        Logger.debug("NotificationRepliesDragActivity onPause");
         Gson gson = new Gson();
         String repliesJson = gson.toJson(repliesValues);
         Prefs.putString(Constants.PREF_NOTIFICATIONS_REPLIES, repliesJson);
@@ -261,7 +263,7 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
                 public boolean onLongClick(View v) {
                     lItem.setBackgroundColor(Color.parseColor("#99FF4081"));
                     String string = reply.getValue();
-                    System.out.println("AmazMod NotificationRepliesDragActivity onLongClick string: " + string);
+                    Logger.debug("NotificationRepliesDragActivity onLongClick string: " + string);
                     edit(reply, lItem);
                     return false;
                 }

@@ -2,14 +2,13 @@ package com.edotassi.amazmod.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
 
 import amazmod.com.transport.Constants;
@@ -37,14 +35,6 @@ import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
 import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.watch.Watch;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -57,14 +47,10 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.concurrent.CancellationException;
 
 import amazmod.com.transport.data.ResultShellCommandData;
@@ -104,8 +90,9 @@ public class WatchInfoFragment extends Card implements Updater {
     //TextView huamiNumber;
     //@BindView(R.id.card_build_fingerprint)
     //TextView fingerprint;
-    @BindView(R.id.heartrate_chart)
-    BarChart heartrateChart;
+    @BindView(R.id.card_watch)
+    CardView card;
+
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
@@ -162,16 +149,16 @@ public class WatchInfoFragment extends Card implements Updater {
                         watchStatus = task.getResult();
                         refresh(watchStatus);
                         String serviceVersionString = watchStatus.getWatchStatusData().getAmazModServiceVersion();
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersionString: " + serviceVersionString);
+                        Logger.debug("WatchInfoFragment serviceVersionString: " + serviceVersionString);
                         if (serviceVersionString.contains("_("))
                             serviceVersionString = "1588";
                         serviceVersion = Integer.valueOf(serviceVersionString);
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion: " + serviceVersion);
+                        Logger.debug("WatchInfoFragment serviceVersion: " + serviceVersion);
                         if (Prefs.getBoolean(Constants.PREF_ENABLE_UPDATE_NOTIFICATION, Constants.PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION)) {
                             Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
                         }
                     } else {
-                        Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
+                        Logger.debug("WatchInfoFragment isWatchConnected = false");
                         AmazModApplication.setWatchConnected(false);
                         if (getActivity() != null) {
                             try {
@@ -183,8 +170,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                         .build()
                                         .show();
                             } catch (Exception e) {
-                                Crashlytics.logException(e);
-                                Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+                                Logger.error("WatchInfoFragment onResume exception: " + e.toString());
                             }
                         }
                         disconnected();
@@ -212,12 +198,12 @@ public class WatchInfoFragment extends Card implements Updater {
         TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
                 .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
+                .putString(Constants.PREF_HUAMI_MODEL, watchStatus.getWatchStatusData().getRoBuildHuamiModel())
                 .apply();
         try {
             onWatchStatus(watchStatus);
         } catch (NullPointerException e) {
-            Crashlytics.logException(e);
-            Log.e(Constants.TAG, "WatchInfoFragment refresh exception: " + e.toString());
+            Logger.error("WatchInfoFragment refresh exception: {}", e.toString());
         }
     }
 
@@ -241,73 +227,18 @@ public class WatchInfoFragment extends Card implements Updater {
         //Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
 
-        // todo Move it on an other fragment
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
         // Heart Rate Bar Chart
+        Logger.debug("WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
         String lastHeartRates = watchStatusData.getLastHeartRates();
-        if (lastHeartRates.contains(",")) {
-            // Split string to data
-            String[] parts = lastHeartRates.split(",");
-            // Assemble data
-            if(parts.length>=2) {
-                List<BarEntry> entries = new ArrayList<>();
-                for (int i = 0; i < parts.length - 1; i = i + 2) {
-                    // code for: time, heart-rate
-                    // entries.add(new BarEntry(Integer.parseInt(parts[i]), Integer.parseInt(parts[i+1])));
-                    // code for: i, heart-rate
-                    entries.add(new BarEntry(i, Integer.parseInt(parts[i+1])));
-                }
-
-                BarDataSet set = new BarDataSet(entries, getResources().getString(R.string.heartrate_chart_title));
-                set.setColor(Color.RED);
-
-                Description description = new Description();
-                description.setText("");
-                heartrateChart.setDescription(description);
-
-                heartrateChart.getXAxis().setDrawLabels(false);
-                heartrateChart.getAxisRight().setDrawLabels(false);
-                /*
-                XAxis xAxis = heartrateChart.getXAxis();
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-                xAxis.setDrawGridLines(false);
-                xAxis.setLabelRotationAngle(-45);
-                xAxis.setTextSize(8);
-
-                final Calendar now = Calendar.getInstance();
-                final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH");
-                final SimpleDateFormat simpleDateFormatHoursMinutes = new SimpleDateFormat("HH:mm");
-                final SimpleDateFormat simpleDateFormatDateMonth = new SimpleDateFormat("dd/MM");
-
-                xAxis.setValueFormatter(new IAxisValueFormatter() {
-                    @Override
-                    public String getFormattedValue(float value, AxisBase axis) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.setTimeInMillis((long) value);
-
-                        Date date = calendar.getTime();
-
-                        int minutes = calendar.get(Calendar.MINUTE);
-                        if (minutes > 30) {
-                            calendar.add(Calendar.HOUR, 1);
-                        }
-
-                        return simpleDateFormatHours.format(date) + "\n" + simpleDateFormatDateMonth.format(date);
-                    }
-                });
-                */
-
-                BarData data = new BarData(set);
-                data.setBarWidth(0.9f); // set custom bar width
-                heartrateChart.setData(data);
-                heartrateChart.setFitBars(true); // make the x-axis fit exactly all bars
-                heartrateChart.invalidate(); // refresh
-                //TODO: remove after releasing
-                heartrateChart.setVisibility(View.GONE);
-            }
+        try {
+            HeartRateChartFragment f = (HeartRateChartFragment) getActivity().getSupportFragmentManager().findFragmentByTag("heart-rate-chart");
+            f.updateChart(lastHeartRates);
+        }catch(NullPointerException e) {
+            // HeartRate fragment card not found!
+            e.printStackTrace();
         }
     }
 
@@ -377,13 +308,13 @@ public class WatchInfoFragment extends Card implements Updater {
                                         setWindowFlags(true);
                                         final UpdateDownloader updateDownloader = new UpdateDownloader();
                                         if (serviceVersion < 1697) {
-                                            Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
+                                            Logger.debug("WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
                                             updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
                                         }
 
                                         String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
 
-                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
+                                        Logger.debug("WatchInfoFragment updateAvailable: " + url);
                                         updateDialog = new MaterialDialog.Builder(getContext())
                                                 .canceledOnTouchOutside(false)
                                                 .title(R.string.download_in_progress)
@@ -488,7 +419,7 @@ public class WatchInfoFragment extends Card implements Updater {
                     WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
+                            Logger.debug("WatchInfoFragment uploadUpdate destPath: " + destPath);
 
                             String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
                             double kbSent = byteSent / 1024d;

@@ -4,9 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
-import android.util.Log;
+import android.os.PowerManager;
 
 import com.amazmod.service.ui.DummyActivity;
+import com.amazmod.service.util.DeviceUtil;
+
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,10 +30,23 @@ public class PackageReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final String action = intent.getAction();
         Context mContext = context.getApplicationContext();
-        Log.d(Constants.TAG,"PackageReceiver onReceive action: " + action + " // " + intent.getDataString() + " // " + intent.getExtras());
+        Logger.debug("PackageReceiver onReceive action: " + action + " // " + intent.getDataString() + " // " + intent.getExtras());
 
         if (action != null) try {
-
+            //Try to wakeup screen
+            if(DeviceUtil.isDeviceLocked(context)) {
+                Logger.debug("Install confirm Pop-UP it's trying to wake screen...");
+                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                try {
+                    PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                            | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                            | PowerManager.ON_AFTER_RELEASE, "Pop-UP_WakeLock:");
+                    wakeLock.acquire();
+                    wakeLock.release();
+                } catch (NullPointerException e) {
+                    Logger.error("Could not wake screen up for install confirm Pop-UP: " + e);
+                }
+            }
             //This action can be used from adb for testing purposes using adb
             if (action.contains("MY_PACKAGE_REPLACED")) {
                 if (intent.getExtras() != null) {
@@ -41,14 +57,14 @@ public class PackageReceiver extends BroadcastReceiver {
                         final File script = new File("/sdcard/update_service_apk.sh");
                         if (script.exists()) {
                             String command = String.format("log -pw -tAmazMod $(sh %s 2>&1)", script.getAbsolutePath());
-                            Log.d(Constants.TAG, "PackageReceiver onReceive command: " + command);
+                            Logger.debug("PackageReceiver onReceive command: " + command);
                             try {
                                 Runtime.getRuntime().exec(new String[] { "sh", "-c", command },
                                         null, Environment.getExternalStorageDirectory());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                        }
+                    }
                         showInstallConfirmation(mContext, Constants.MY_APP);
                     }
                 }
@@ -64,7 +80,7 @@ public class PackageReceiver extends BroadcastReceiver {
                 }
             }
         } catch (NullPointerException ex) {
-            Log.e(Constants.TAG, "PackageReceiver onReceive NullPointerException: " + ex.toString());
+            Logger.debug("PackageReceiver onReceive NullPointerException: " + ex.toString());
         }
     }
 
@@ -74,7 +90,6 @@ public class PackageReceiver extends BroadcastReceiver {
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.APP_TAG, app_tag);
         context.startActivity(intent);
-        Log.d(Constants.TAG, "PackageReceiver showInstallConfirmation app_tag: " + app_tag);
-
+        Logger.debug("PackageReceiver showInstallConfirmation app_tag: " + app_tag);
     }
 }

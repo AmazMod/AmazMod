@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -23,6 +22,7 @@ import com.mikepenz.iconics.Iconics;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.util.Locale;
 
@@ -82,7 +82,7 @@ public class NightscoutPage extends AbstractPlugin {
 
         initIcons(paramContext);
 
-        Log.d(Constants.TAG_NIGHTSCOUT_PAGE, "getView()" + paramContext.getPackageName());
+        Logger.debug("getView()" + paramContext.getPackageName());
 
         mView = LayoutInflater.from(paramContext).inflate(R.layout.nightscoout_page, null);
 
@@ -103,7 +103,7 @@ public class NightscoutPage extends AbstractPlugin {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateData(NightscoutDataEvent nightscoutDataEvent) {
-        Log.d(Constants.TAG_NIGHTSCOUT_PAGE, "NightscoutDataEvent received");
+        Logger.debug("NightscoutDataEvent received");
 
 // getting the data from Hermes
 
@@ -211,13 +211,13 @@ public class NightscoutPage extends AbstractPlugin {
     //Called when the page is loading and being bound to the host
     @Override
     public void onBindHost(ISpringBoardHostStub paramISpringBoardHostStub) {
-        Log.d(Constants.TAG, "onBindHost");
+        Logger.debug("onBindHost");
         //Store host
         mHost = paramISpringBoardHostStub;
 
         Context context = paramISpringBoardHostStub.getHostWindow().getContext();
         if (context == null) {
-            Log.d(Constants.TAG, "onBindHost: context is null!");
+            Logger.debug("onBindHost: context is null!");
         } else {
             //Intent intent = new Intent(context, MainService.class);
             //context.sendBroadcastAsUser(intent, android.os.Process.myUserHandle());
@@ -275,10 +275,10 @@ public class NightscoutPage extends AbstractPlugin {
     }
 
     private void initIPC(Context context) {
-        Log.d(Constants.TAG_NIGHTSCOUT_PAGE, "initIPC");
+        Logger.debug("initIPC");
 
         if (context.getApplicationContext() == null) {
-            Log.w(Constants.TAG_NIGHTSCOUT_PAGE, "application context null!!!");
+            Logger.warn("application context null!!!");
             return;
         }
 
@@ -287,15 +287,15 @@ public class NightscoutPage extends AbstractPlugin {
             HermesEventBus.getDefault().register(this);
 
             eventBusConnected = true;
-            Log.d(Constants.TAG_NIGHTSCOUT_PAGE, "eventBus connected");
+            Logger.debug("eventBus connected");
         } catch (Exception ex) {
-            Log.d(Constants.TAG_NIGHTSCOUT_PAGE, "initIPC failed");
+            Logger.debug("initIPC failed");
             ex.printStackTrace();
         }
     }
 
     private void initIcons(Context context) {
-        Log.d(Constants.TAG_NIGHTSCOUT_PAGE, "initIcons");
+        Logger.debug("initIcons");
 
         Iconics.init(context);
     }

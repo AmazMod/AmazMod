@@ -18,7 +18,6 @@ import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -30,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import org.tinylog.Logger;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -88,7 +89,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.i(Constants.TAG, "NotificationFragment onAttach context: " + mContext);
+        Logger.info("NotificationFragment onAttach context: " + mContext);
     }
 
     @Override
@@ -98,15 +99,21 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         key = getArguments().getString(NotificationWearActivity.KEY);
         mode = getArguments().getString(NotificationWearActivity.MODE);
 
-        Log.i(Constants.TAG, "NotificationFragment onCreate: key " + key + " | mode: " + mode);
-        notificationKey = NotificationStore.getCustomNotification(key).getKey();
+        Logger.info("NotificationFragment onCreate: key " + key + " | mode: " + mode);
+        // todo getCustomNotification(key).getKey() returns Null if you answer a messenger/watchapp call, is this correct?
+        try {
+            notificationKey = NotificationStore.getCustomNotification(key).getKey();
+        }catch(NullPointerException e){
+            notificationKey = "null";
+            Logger.error(e, e.getLocalizedMessage());
+        }
         settingsManager = new SettingsManager(this.mContext);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.i(Constants.TAG, "NotificationFragment onCreateView");
+        Logger.info("NotificationFragment onCreateView");
 
         return inflater.inflate(R.layout.fragment_notification, container, false);
     }
@@ -114,7 +121,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(Constants.TAG, "NotificationFragment onViewCreated");
+        Logger.info("NotificationFragment onViewCreated");
 
         updateContent();
     }
@@ -130,7 +137,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         final String mode = getArguments().getString(NotificationWearActivity.MODE);
         notificationData = NotificationStore.getCustomNotification(key);
 
-        Log.i(Constants.TAG, "NotificationFragment updateContent context: " + mContext + " | key: " + key);
+        Logger.info("NotificationFragment updateContent context: " + mContext + " | key: " + key);
 
         util = new FragmentUtil(mContext);
         disableDelay = util.getDisableDelay();
@@ -150,20 +157,20 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
 
         //Delete related stuff
-        deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
-        if (settingsManager.getBoolean(Constants.PREF_NOTIFICATION_DELETE_BUTTON, false)) {
+
+        deleteButton = getActivity().findViewById(R.id.fragment_delete_button);{
+
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d(Constants.TAG, "NotificationFragment updateContent: deleteButton clicked!");
+                    Logger.debug("NotificationFragment updateContent: deleteButton clicked!");
                     muteListView.setVisibility(View.GONE);
                     repliesListView.setVisibility(View.GONE);
                     sendDeleteCommand(v);
                 }
             });
-        } else {
-            deleteButton.setVisibility(View.GONE);
         }
+
 
         //Replies related stuff
         repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
@@ -175,7 +182,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         replyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(Constants.TAG, "NotificationFragment updateContent: replyButton clicked!");
+                Logger.debug("NotificationFragment updateContent: replyButton clicked!");
                 if (repliesListView.getVisibility() == View.VISIBLE) {
                     repliesListView.setVisibility(View.GONE);
                     focusOnViewBottom(scrollView, replyButton);
@@ -194,7 +201,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         muteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(Constants.TAG, "NotificationFragment updateContent: muteButton clicked!");
+                Logger.debug("NotificationFragment updateContent: muteButton clicked!");
                 if (muteListView.getVisibility() == View.VISIBLE) {
                     muteListView.setVisibility(View.GONE);
                 } else {
@@ -237,7 +244,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         text.setTextSize(util.getFontSizeSP());
 
         try {
-            Log.i(Constants.TAG, "NotificationFragment updateContent try");
+            Logger.info("NotificationFragment updateContent try");
 
             //hideReplies = notificationData.getHideReplies();
 
@@ -263,12 +270,12 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                         vibrator.vibrate(notificationData.getVibration());
                     }
                 } catch (RuntimeException ex) {
-                    Log.e(Constants.TAG, "NotificationFragment updateContent - Exception: " + ex.toString()
+                    Logger.error("NotificationFragment updateContent - Exception: " + ex.toString()
                             + " notificationData: " + notificationData);
                 }
             }
         } catch (NullPointerException ex) {
-            Log.e(Constants.TAG, "NotificationFragment updateContent - Exception: " + ex.toString()
+            Logger.error("NotificationFragment updateContent - Exception: " + ex.toString()
                     + " notificationData: " + notificationData);
             title.setText("AmazMod");
             text.setText("Welcome to AmazMod");
@@ -316,7 +323,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     public static NotificationFragment newInstance(String key, String mode) {
 
-        Log.i(Constants.TAG, "NotificationFragment newInstance key: " + key);
+        Logger.info("NotificationFragment newInstance key: " + key);
         NotificationFragment myFragment = new NotificationFragment();
         Bundle bundle = new Bundle();
         bundle.putString(NotificationWearActivity.KEY, key);
@@ -344,7 +351,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 iconAppView.setVisibility(View.GONE);
             }
         } catch (Exception exception) {
-            Log.d(Constants.TAG, exception.getMessage(), exception);
+            Logger.debug(exception.getMessage(), exception);
         }
     }
 
@@ -385,14 +392,14 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 pictureView.setVisibility(View.VISIBLE);
             }
         } catch (Exception exception) {
-            Log.d(Constants.TAG, exception.getMessage(), exception);
+            Logger.debug(exception.getMessage(), exception);
         }
     }
 
 
     @SuppressLint("CheckResult")
     public void loadReplies() {
-        Log.i(Constants.TAG, "NotificationFragment loadReplies");
+        Logger.info("NotificationFragment loadReplies");
         List<Reply> replyList = util.listReplies();
         final LayoutInflater inflater = LayoutInflater.from(NotificationFragment.this.mContext);
         for (final Reply reply : replyList) {
@@ -408,7 +415,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 public void onClick(View view) {
                     selectedReply = reply.getValue();
                     sendReply(view);
-                    Log.d(Constants.TAG, "NotificationFragment replyView OnClick: " + selectedReply);
+                    Logger.debug("NotificationFragment replyView OnClick: " + selectedReply);
                 }
             });
             // set item content in view
@@ -425,7 +432,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         replyView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(Constants.TAG, "NotificationFragment replyView OnClick: KEYBOARD");
+                Logger.debug("NotificationFragment replyView OnClick: KEYBOARD");
                 scrollView.setVisibility(View.GONE);
                 repliesEditTextContainer.setVisibility(View.VISIBLE);
                 ((NotificationWearActivity) getActivity()).stopTimerFinish();
@@ -479,7 +486,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 public void onClick(View view) {
                     selectedSilenceTime = silence.toString();
                     sendMuteCommand(view);
-                    Log.d(Constants.TAG, "NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
+                    Logger.debug("NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
                 }
             });
             // set item content in view
@@ -498,7 +505,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             public void onClick(View view) {
                 selectedSilenceTime = "1440";
                 sendMuteCommand(view);
-                Log.d(Constants.TAG, "NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
+                Logger.debug("NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
             }
         });
         muteListView.addView(row_day);
@@ -517,7 +524,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             public void onClick(View view) {
                 selectedSilenceTime = Constants.BLOCK_APP;
                 sendMuteCommand(view);
-                Log.d(Constants.TAG, "NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
+                Logger.debug("NotificationFragment loadMuteOptions muteView OnClick: " + selectedSilenceTime);
             }
         });
         muteListView.addView(row_block);
@@ -558,13 +565,13 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         }
         ((NotificationWearActivity) getActivity()).stopTimerFinish();
         if (disableDelay) {
-            Log.i(Constants.TAG, "NotificationFragment sendCommand without delay : command '" + command + "'");
+            Logger.info("NotificationFragment sendCommand without delay : command '" + command + "'");
             onTimerFinished(v);
         } else {
-            Log.d(Constants.TAG, "NotificationFragment sendCommand with delay : command '" + command + "'");
+            Logger.debug("NotificationFragment sendCommand with delay : command '" + command + "'");
             util.setParamMargins(0, 24, 0, 4);
             showDelayed(confirmationMessage);
-            Log.i(Constants.TAG, "NotificationFragment sendSilenceCommand isPressed: " + delayedConfirmationView.isPressed());
+            Logger.info("NotificationFragment sendSilenceCommand isPressed: " + delayedConfirmationView.isPressed());
         }
     }
 
@@ -577,7 +584,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         ((DelayedConfirmationView) v).setListener(null);
         ((NotificationWearActivity) getActivity()).startTimerFinish();
         hideDelayed();
-        Log.i(Constants.TAG, "NotificationFragment onTimerSelected isPressed: " + v.isPressed());
+        Logger.info("NotificationFragment onTimerSelected isPressed: " + v.isPressed());
     }
 
     private void showDelayed(String text) {
@@ -602,7 +609,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     @Override
     public void onTimerFinished(View v) {
-        Log.i(Constants.TAG, "NotificationFragment onTimerFinished isPressed: " + v.isPressed());
+        Logger.info("NotificationFragment onTimerFinished isPressed: " + v.isPressed());
 
         if (v instanceof DelayedConfirmationView)
             ((DelayedConfirmationView) v).setListener(null);
@@ -622,7 +629,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             default:
                 return;
         }
-        Log.i(Constants.TAG, "NotificationFragment onTimerFinished action :" + action);
+        Logger.info("NotificationFragment onTimerFinished action :" + action);
 
         Intent intent = new Intent(mContext, ConfirmationActivity.class);
         intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, ConfirmationActivity.SUCCESS_ANIMATION);

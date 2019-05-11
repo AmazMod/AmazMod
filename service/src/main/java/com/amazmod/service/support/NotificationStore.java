@@ -2,7 +2,6 @@ package com.amazmod.service.support;
 
 import android.content.Context;
 import android.provider.Settings;
-import android.util.Log;
 
 import com.amazmod.service.AmazModService;
 import com.amazmod.service.Constants;
@@ -10,6 +9,7 @@ import com.amazmod.service.MainService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tinylog.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -113,7 +113,7 @@ public class NotificationStore {
             Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, json_data.toString());
         } catch (JSONException e) {
             String notification_json = "{\"notifications\":\"" + count+"\"}";
-            Log.d(Constants.TAG, "NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
+            Logger.debug("NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
             Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, notification_json);
         }
     }

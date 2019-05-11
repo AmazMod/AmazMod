@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
 import android.support.wearable.view.WearableListView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,8 @@ import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.FileViewerWebViewActivity;
 import com.amazmod.service.util.DeviceUtil;
+
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,27 +72,27 @@ public class WearFilesFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Log.i(Constants.TAG,"WearFilesFragment onAttach mContext: " + mContext);
+        Logger.info("WearFilesFragment onAttach mContext: " + mContext);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i(Constants.TAG,"WearFilesFragment onCreate");
+        Logger.info("WearFilesFragment onCreate");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Log.i(Constants.TAG,"WearFilesFragment onCreateView");
+        Logger.info("WearFilesFragment onCreateView");
         return inflater.inflate(R.layout.activity_wear_files, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(Constants.TAG,"WearFilesFragment onViewCreated");
+        Logger.info("WearFilesFragment onViewCreated");
 
         init();
 
@@ -112,7 +113,7 @@ public class WearFilesFragment extends Fragment {
         final String fileName = fileInfoList.get(position).getAppName();
         String filePath = fileInfoList.get(position).getVersionName();
 
-        Log.i(Constants.TAG,"WearFilesFragment onItemClick filePath: " + filePath);
+        Logger.info("WearFilesFragment onItemClick filePath: " + filePath);
 
         if (PARENT_DIR.equals(fileName) && PARENT_DIR.equals(filePath)) {
             mAdapter.clear();
@@ -146,7 +147,7 @@ public class WearFilesFragment extends Fragment {
         final String fileName = fileInfoList.get(position).getAppName();
         String filePath = fileInfoList.get(position).getVersionName();
 
-        Log.i(Constants.TAG,"WearFilesFragment onLongClick filePath: " + filePath);
+        Logger.info("WearFilesFragment onLongClick filePath: " + filePath);
 
         if (!(PARENT_DIR.equals(fileName) && PARENT_DIR.equals(filePath))
                 && !(REFRESH.equals(fileName) && REFRESH.equals(filePath))) {
@@ -174,13 +175,13 @@ public class WearFilesFragment extends Fragment {
         listView.addOnItemTouchListener(new RecyclerTouchListener(mContext, listView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Log.d(Constants.TAG, "WearFilesFragment addOnItemTouchListener onClick");
+                Logger.debug( "WearFilesFragment addOnItemTouchListener onClick");
                 onItemClick(position);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                Log.d(Constants.TAG, "WearFilesFragment addOnItemTouchListener onLongClick");
+                Logger.debug( "WearFilesFragment addOnItemTouchListener onLongClick");
                 onItemLongClick(position);
             }
         }));
@@ -193,11 +194,11 @@ public class WearFilesFragment extends Fragment {
 
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             mCurrentDir = Environment.getExternalStorageDirectory();
-            Log.i(Constants.TAG, "WearFilesFragment init mCurrentDir: " + String.valueOf(mCurrentDir));
+            Logger.info( "WearFilesFragment init mCurrentDir: " + String.valueOf(mCurrentDir));
 
         } else {
 
-            Log.e(Constants.TAG, "External storage unavailable");
+            Logger.error( "External storage unavailable");
         }
 
         mHeader.setOnLongClickListener(new View.OnLongClickListener() {
@@ -213,19 +214,19 @@ public class WearFilesFragment extends Fragment {
 
     @SuppressLint("CheckResult")
     private void loadFiles(final File file) {
-        Log.d(Constants.TAG, "WearFilesFragment loadFiles file: " + file.toString());
+        Logger.debug( "WearFilesFragment loadFiles file: " + file.toString());
         wearFilesFrameLayout.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
             public List<AppInfo> call() throws Exception {
-                Log.i(Constants.TAG, "WearFilesFragment loadFiles call");
+                Logger.info( "WearFilesFragment loadFiles call");
 
                 List<AppInfo> appInfoList = getFilesList(file);
                 WearFilesFragment.this.fileInfoList = appInfoList;
 
-                Log.d(Constants.TAG, "WearFilesFragment loadFiles appInfoList.size: " + appInfoList.size());
+                Logger.debug( "WearFilesFragment loadFiles appInfoList.size: " + appInfoList.size());
                 return appInfoList;
             }
         }).subscribeOn(Schedulers.computation())
@@ -236,7 +237,7 @@ public class WearFilesFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Log.i(Constants.TAG,"WearFilesFragment loadFiles run appInfoList.size: " + appInfoList.size());
+                                Logger.info("WearFilesFragment loadFiles run appInfoList.size: " + appInfoList.size());
 
                                 setHeader();
                                 mAdapter.addAll(appInfoList);
@@ -246,7 +247,7 @@ public class WearFilesFragment extends Fragment {
 
                                 listView.post(new Runnable() {
                                     public void run() {
-                                        Log.d(Constants.TAG, "WearFilesFragment loadFiles scrollToTop");
+                                        Logger.debug( "WearFilesFragment loadFiles scrollToTop");
                                         listView.smoothScrollToPosition(0);
                                     }
                                 });
@@ -267,7 +268,7 @@ public class WearFilesFragment extends Fragment {
     }
 
     private void changeDir(File file) {
-        Log.d(Constants.TAG, "WearFilesFragment changeDir file: " + file.toString());
+        Logger.debug( "WearFilesFragment changeDir file: " + file.toString());
 
         mAdapter.clear();
         setPreviousDir(mCurrentDir);
@@ -279,7 +280,7 @@ public class WearFilesFragment extends Fragment {
     private void openFile(File file) {
 
         Uri fileUri = Uri.fromFile(file);
-        Log.d(Constants.TAG, "WearFilesFragment openFile fileUri: " + fileUri.toString());
+        Logger.debug( "WearFilesFragment openFile fileUri: " + fileUri.toString());
 
         String mimeType = getMimeType(fileUri);
 
@@ -348,7 +349,7 @@ public class WearFilesFragment extends Fragment {
         List<AppInfo> appInfoList = new ArrayList<>();
         AppInfo fileInfo;
 
-        Log.d(Constants.TAG, "WearFilesFragment getFilesList allFiles.size: " + allFiles.size());
+        Logger.debug( "WearFilesFragment getFilesList allFiles.size: " + allFiles.size());
 
         if (!isRoot()) {
             fileInfo = new AppInfo(PARENT_DIR, getResources().getString(R.string.go_up), PARENT_DIR, "0", folderDrawable);
@@ -370,14 +371,14 @@ public class WearFilesFragment extends Fragment {
     }
 
     private AppInfo createFileInfo(File file) {
-        Log.d(Constants.TAG, "WearFilesFragment createFileInfo file: " + file.toString());
+        Logger.debug( "WearFilesFragment createFileInfo file: " + file.toString());
 
         final AppInfo appInfo = new AppInfo();
 
         appInfo.setAppName(file.getName());
         appInfo.setVersionName(file.getAbsolutePath());
         appInfo.setSize("");
-        //Log.d(Constants.TAG, "WearFilesFragment createFileInfo absolutePath: "
+        //Logger.debug( "WearFilesFragment createFileInfo absolutePath: "
         //        + appInfo.getVersionName() + " \\ path: " + appInfo.getSize());
 
         if (file.isDirectory()) {
@@ -406,7 +407,7 @@ public class WearFilesFragment extends Fragment {
     }
 
     public List<File> getAllFiles(File f) {
-        Log.d(Constants.TAG, "WearFilesFragment getAllFiles f: " + f.toString());
+        Logger.debug( "WearFilesFragment getAllFiles f: " + f.toString());
 
         File[] allFiles = f.listFiles();
         List<File> dirs = new ArrayList<>();
@@ -414,7 +415,7 @@ public class WearFilesFragment extends Fragment {
 
         for (File file : allFiles) {
             String fileName = file.getName();
-            Log.d(Constants.TAG, "WearFilesFragment getAllFiles file: " + fileName);
+            Logger.debug( "WearFilesFragment getAllFiles file: " + fileName);
 
             if  (!fileName.startsWith(".")) {
                 if (file.isDirectory()) {
@@ -432,19 +433,19 @@ public class WearFilesFragment extends Fragment {
             dirs.addAll(files);
         }
 
-        Log.d(Constants.TAG, "WearFilesFragment getAllFiles dirs.size: " + dirs.size());
+        Logger.debug( "WearFilesFragment getAllFiles dirs.size: " + dirs.size());
         return dirs;
     }
 
     public String getMimeType(Uri uri) {
 
         final String fileUri = uri.toString();
-        Log.d(Constants.TAG, "WearFilesFragment getMimeType uri: " + fileUri);
+        Logger.debug( "WearFilesFragment getMimeType uri: " + fileUri);
 
         String mimeType = null;
         String extension = MimeTypeMap.getFileExtensionFromUrl(uri.toString());
 
-        Log.d(Constants.TAG, "WearFilesFragment getMimeType extension: " + extension);
+        Logger.debug( "WearFilesFragment getMimeType extension: " + extension);
 
         if (MimeTypeMap.getSingleton().hasExtension(extension)) {
             mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
@@ -453,18 +454,18 @@ public class WearFilesFragment extends Fragment {
         if (mimeType == null && (fileUri.toLowerCase().endsWith(".jpg") || fileUri.toLowerCase().endsWith(".jpeg")))
             mimeType = JPG_MIME;
 
-        Log.d(Constants.TAG, "WearFilesFragment getMimeType mimeType: " + mimeType);
+        Logger.debug( "WearFilesFragment getMimeType mimeType: " + mimeType);
 
         return mimeType;
     }
 
     public static long getFreeSpace(String path) {
-        Log.d(Constants.TAG, "WearFilesFragment getFreeSpace path: " + path);
+        Logger.debug( "WearFilesFragment getFreeSpace path: " + path);
 
         File file = new File(path);
         long freeSpace = file.getFreeSpace();
         long usableSpace = file.getUsableSpace();
-        Log.d(Constants.TAG, "WearFilesFragment getFreeSpace freeSpace: " + String.valueOf(freeSpace)
+        Logger.debug( "WearFilesFragment getFreeSpace freeSpace: " + String.valueOf(freeSpace)
                 + " \\ usableSpace: " + String.valueOf(usableSpace));
 
         StatFs stat = new StatFs(path);
@@ -474,7 +475,7 @@ public class WearFilesFragment extends Fragment {
     @SuppressLint("DefaultLocale")
     public static String formatBytes(long bytes) {
 
-        Log.d(Constants.TAG, "WearFilesFragment formatBytes bytes: " + bytes);
+        Logger.debug( "WearFilesFragment formatBytes bytes: " + bytes);
 
         String retStr;
         float kb = 1024L;
@@ -499,7 +500,7 @@ public class WearFilesFragment extends Fragment {
     }
 
     private void openApk(final File file) {
-        Log.d(Constants.TAG, "WearFilesFragment openApk file: " + file.toString());
+        Logger.debug( "WearFilesFragment openApk file: " + file.toString());
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.install_app))
@@ -528,7 +529,7 @@ public class WearFilesFragment extends Fragment {
     }
 
     private void deleteFile(final File file) {
-        Log.d(Constants.TAG, "WearFilesFragment deleteFile file: " + file.toString());
+        Logger.debug( "WearFilesFragment deleteFile file: " + file.toString());
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.delete))
@@ -554,7 +555,7 @@ public class WearFilesFragment extends Fragment {
                             } else
                                 showToast("Error deleting!");
                         } catch (Exception ex) {
-                            Log.e(Constants.TAG, "WearFilesFragment deleteFile Exception" + ex.getMessage(), ex);
+                            Logger.error(ex,"WearFilesFragment deleteFile Exception" + ex.getMessage());
                             showToast("Error deleting!");
                         }
                     }
@@ -583,7 +584,7 @@ public class WearFilesFragment extends Fragment {
     }
 
     public static WearFilesFragment newInstance() {
-        Log.i(Constants.TAG,"WearFilesFragment newInstance");
+        Logger.info("WearFilesFragment newInstance");
         return new WearFilesFragment();
     }
 

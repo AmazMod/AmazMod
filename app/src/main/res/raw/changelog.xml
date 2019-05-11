@@ -1,5 +1,30 @@
 <changelog>
     <release
+        date="2019-04-23"
+        versionCode="212"
+        versionName="v1.1.6">
+        <new>Faster app installation keeping watch active (for now only ROOTED watch)</new>
+        <new>Heart-rate graph added (phone app)</new>
+        <new>Screenshots are auto rotated for Verge</new>
+        <new>Watch's screen is unlocked before a screenshot</new>
+        <new>New adaptive phone app icon</new>
+        <new>Watch Info card style improvements (phone app)</new>
+        <new>Battery graph added in watch's menu (service app)</new>
+        <new>Low phone battery alert on watch</new>
+        <new>Low watch battery notification on phone</new>
+        <new>Fully charged watch notification on phone</new>
+        <new>Connection status notification can now be hidden from device settings (new notification channel on Android O+)</new>
+        <new>Number of calendar events found are shown after ICS URL test</new>
+        <new>Icons for images, apps and watchfaces in the file explorer</new>
+        <bugfix>Screenshot color and other fix</bugfix>
+        <bugfix>Translation option selection fix</bugfix>
+        <bugfix>Notifications system app filter fix</bugfix>
+        <bugfix>Settings titles/descriptions where simplified</bugfix>
+        <bugfix>Installing apks with spaces/dots in their name fix</bugfix>
+        <bugfix>Small bug fixes</bugfix>
+        <info>Updated translations</info>
+    </release>
+    <release
         date="2019-04-01"
         versionCode="210"
         versionName="v1.1.5">
@@ -7,7 +32,7 @@
             1. Store and deploy on watch re-connection
             2. Dismiss if watch not connected</new>
         <new>New layout for notifications</new>
-        <new>Improved power managment</new>
+        <new>Improved power management</new>
         <bugfix>Backup/Restore fix</bugfix>
         <new>Direct language selection</new>
         <info>Updated translations</info>

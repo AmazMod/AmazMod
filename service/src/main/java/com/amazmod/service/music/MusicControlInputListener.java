@@ -2,10 +2,11 @@ package com.amazmod.service.music;
 
         import android.content.Context;
         import android.os.PowerManager;
-        import android.util.Log;
 
         import com.amazmod.service.Constants;
         import com.amazmod.service.events.HardwareButtonEvent;
+
+        import org.tinylog.Logger;
 
         import java.io.File;
         import java.io.FileInputStream;
@@ -88,11 +89,11 @@ public class MusicControlInputListener {
                                 if (value == KEY_EVENT_UP) {
                                     long delta = now - lastKeyDownKeyDown;
                                     if ((delta > TRIGGER) && (delta < LONG_TRIGGER)) {
-                                        Log.d(Constants.TAG, "long key down detected");
+                                        Logger.debug("long key down detected");
                                         HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, true));
                                     } else {
                                         if (delta < TRIGGER) {
-                                            Log.d(Constants.TAG, "key down detected");
+                                            Logger.debug("key down detected");
                                             HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, false));
                                         }
                                     }
@@ -113,7 +114,7 @@ public class MusicControlInputListener {
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    Log.d(Constants.TAG, "event file not found");
+                    Logger.debug("event file not found");
                 }
 
                 return null;

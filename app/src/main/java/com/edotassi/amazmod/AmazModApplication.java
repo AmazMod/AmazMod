@@ -11,10 +11,13 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 
 import org.tinylog.Logger;
+import org.tinylog.configuration.Configuration;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.util.Locale;
+
+import amazmod.com.transport.Constants;
 
 public class AmazModApplication extends Application {
 
@@ -32,6 +35,8 @@ public class AmazModApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        setupLogs();
 
         FlowManager.init(this);
 
@@ -69,6 +74,19 @@ public class AmazModApplication extends Application {
 
     public static boolean isWatchConnected(){
         return isWatchConnected;
+    }
+
+    private void setupLogs(){
+        Configuration.set("writerLogcat","logcat");
+        if (Prefs.getBoolean(Constants.PREF_LOG_TO_FILE,Constants.PREF_LOG_TO_FILE_DEFAULT)) {
+            String level = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL,Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT).toLowerCase();
+            Configuration.set("writerFile", "file");
+            Configuration.set("writerFile.file", Constants.LOGFILE);
+            Configuration.set("writerFile.level", level);
+            Logger.info("Logging to {} using the level {}", Constants.LOGFILE, level);
+        }else{
+            Logger.info("Logging to LOGCAT only");
+        }
     }
 
     public static String getTimeLastSeen(){
