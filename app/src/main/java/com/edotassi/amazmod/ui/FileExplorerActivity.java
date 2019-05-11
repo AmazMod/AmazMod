@@ -12,6 +12,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -80,8 +82,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_file_explorer_list)
     ListView listView;
-    @BindView(R.id.activity_file_explorer_progress)
-    MaterialProgressBar materialProgressBar;
 
     @BindView(R.id.activity_file_explorer_fab_bg)
     View bgFabMenu;
@@ -94,6 +94,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_file_explorer_fab_upload)
     FloatingActionButton fabUpload;
+
+    @BindView(R.id.activity_file_explorer_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
@@ -165,6 +168,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
 
+                int topRowVerticalPosition = (listView == null || listView.getChildCount() == 0) ?
+                        0 : listView.getChildAt(0).getTop();
+                swipeRefreshLayout.setEnabled((topRowVerticalPosition >= 0));
+
                 if(lastFirstVisibleItem<firstVisibleItem)
                 {
                     fabMain.hide();
@@ -175,6 +182,15 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 }
                 lastFirstVisibleItem=firstVisibleItem;
 
+            }
+        });
+
+        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadPath(currentPath);
             }
         });
     }
@@ -884,13 +900,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     }
 
     private void stateLoading() {
+        swipeRefreshLayout.setRefreshing(true);
         listView.setVisibility(View.GONE);
-        materialProgressBar.setVisibility(View.VISIBLE);
     }
 
     private void stateReady() {
+        swipeRefreshLayout.setRefreshing(false);
         listView.setVisibility(View.VISIBLE);
-        materialProgressBar.setVisibility(View.GONE);
     }
 
     private String getParentDirectoryPath(String path) {
