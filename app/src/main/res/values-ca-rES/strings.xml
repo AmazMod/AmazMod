@@ -231,8 +231,8 @@
     <string name="revoke_admin">Revocar drets d\'administració</string>
     <string name="enable_lpm_content">Aquesta funció es experimental. Una vegada activada, per desactivar-la heu de reiniciar el rellotge</string>
     <string name="continue_label">Continua</string>
-    <string name="pref_file_extras">Backup and restore settings</string>
-    <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
+    <string name="pref_file_extras">Guardar i restaurar configuració</string>
+    <string name="pref_file_extras_summary">Guardar i restaurar configuració AmazMod</string>
     <string name="reboot_bootloader">Enter fastboot</string>
     <string name="set_admin">Set admin</string>
     <string name="shell_command_failed">Command failed</string>
