@@ -218,7 +218,7 @@
     <string name="install">Instal·la</string>
     <string name="apk_install_started_title">Instal·lar APK</string>
     <string name="apk_install_started">La instal·lació es realitza en segon pla.\nQuan hagi acabat, es reiniciarà el llançador del rellotge.</string>
-    <string name="cant_start_apk_install">Can\'t start apk install</string>
+    <string name="cant_start_apk_install">No es pot iniciar l’apk install</string>
     <string name="reboot">Reinicia</string>
     <string name="restart_launcher">Reiniciar llançador</string>
     <string name="enable_apps_list">Llista d\'aplicacions Habilitades</string>
@@ -234,7 +234,7 @@
     <string name="pref_file_extras">Guardar i restaurar configuració</string>
     <string name="pref_file_extras_summary">Guardar i restaurar configuració AmazMod</string>
     <string name="reboot_bootloader">Enter fastboot</string>
-    <string name="set_admin">Set admin</string>
+    <string name="set_admin">Tria administrador</string>
     <string name="shell_command_failed">L\'ordre ha fallat</string>
     <string name="result_code">Result code:</string>
     <string name="battery_chart_updated">Gràfic de la bateria actualitzat amb noves dades</string>
@@ -242,7 +242,7 @@
     <string name="battery_chart_waiting">Esperant noves dades de la bateria…</string>
     <string name="edit_reply">Editar respostes</string>
     <string name="privacy_policy">Política de privacitat</string>
-    <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
+    <string name="cant_check_service_updates">No es pot comprovar si hi han actualitzacions de service.apk</string>
     <string name="new_update_available">Nova actualització disponible!</string>
     <string name="new_service_update_available">Versió %s del servei AmazMod disponible</string>
     <string name="update">Actualització</string>
@@ -287,8 +287,8 @@
     <string name="pref_amazmod_first_widget">AmazMod com a primer Widget del rellotge</string>
     <string name="pref_amazmod_first_widget_summary">Amazmod quedarà com el primer widget del rellotge</string>
     <string name="pref_enable_delete_button">Botó Borrar Notificació</string>
-    <string name="pref_enable_delete_button_on">El botó Borrar es mostrarà sota el contingut de la notificació</string>
-    <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
+    <string name="pref_enable_delete_button_on">El botó Esborrar es mostrarà sota el contingut de la notificació</string>
+    <string name="pref_enable_delete_button_off">El botó Esborra es trobarà a la quarta pantalla lliscant a l\'esquerra a la notificació</string>
     <string name="activity_packageoptions_unmute">Deixar de silenciar</string>
     <string name="activity_packageoptions_muted_until">Silenciat fins:</string>
     <string name="main_options">Opció principal</string>
