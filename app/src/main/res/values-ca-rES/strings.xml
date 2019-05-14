@@ -223,13 +223,13 @@
     <string name="restart_launcher">Restart launcher</string>
     <string name="enable_apps_list">Llista d\'aplicacions Habilitades</string>
     <string name="disable_apps_list">Llista d\'aplicacions Inhabilitades</string>
-    <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
+    <string name="no_service_info_1">No s\'ha pogut conectar amb el servei AmazMod del rellotje. Si encara no ha instalat el servei, segueixi les instruccions següents:</string>
     <string name="no_service_info_2">1) Descarregueu l\'últim llançament aquí:</string>
     <string name="no_service_info_3">2) a continuació, instal·leu el fitxer Apk del servei al rellotge</string>
     <string name="no_service_info_4">3) finalment, reinicieu tant el rellotge com el telèfon</string>
     <string name="enable_lpm_title">Habilita LPM</string>
     <string name="revoke_admin">Revocar drets d\'administració</string>
-    <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
+    <string name="enable_lpm_content">Aquesta funció es experimental. Una vegada activada, per desactivar-la heu de reiniciar el rellotge</string>
     <string name="continue_label">Continua</string>
     <string name="pref_file_extras">Backup and restore settings</string>
     <string name="pref_file_extras_summary">Backup and restore AmazMod settings</string>
