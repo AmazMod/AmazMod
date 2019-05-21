@@ -233,10 +233,10 @@
     <string name="continue_label">Continua</string>
     <string name="pref_file_extras">Guardar i restaurar configuració</string>
     <string name="pref_file_extras_summary">Guardar i restaurar configuració AmazMod</string>
-    <string name="reboot_bootloader">Enter fastboot</string>
+    <string name="reboot_bootloader">Iniciar en Fastboot</string>
     <string name="set_admin">Tria administrador</string>
     <string name="shell_command_failed">L\'ordre ha fallat</string>
-    <string name="result_code">Result code:</string>
+    <string name="result_code">Codi resultant:</string>
     <string name="battery_chart_updated">Gràfic de la bateria actualitzat amb noves dades</string>
     <string name="battery_chart_request">Sol·licitant noves dades de la bateria…</string>
     <string name="battery_chart_waiting">Esperant noves dades de la bateria…</string>
