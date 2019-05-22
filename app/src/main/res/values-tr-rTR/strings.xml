@@ -98,13 +98,13 @@
     <string name="pref_battery_chart_time_interval">Grafik Süre Aralığı</string>
     <string name="pref_battery_chart_time_interval_summary">Batarya grafiği görüntülenecek zaman aralığını seçin</string>
     <string name="pref_battery_watch_alert">Saat Pil Uyarısı</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
+    <string name="pref_battery_watch_alert_summary">Hangi batarya seviyesinde bildirim almak istediğinizi seçin</string>
     <string name="pref_battery_phone_alert">Telefon Pil Uyarısı</string>
     <string name="pref_battery_phone_alert_summary">Telefonun batarya seviyesini ayarladıktan sonra batarya bildirimi alacaksınız. GreatFit / Takvim seçeneği \"Telefonun verilerini gönder\" etkin olmalı.</string>
     <string name="pref_notifications_replies_summary">Özel yanıtlarınızı girin</string>
     <string name="pref_notifications_replies">Bildirim Yanıtları</string>
     <string name="pref_private_notifications_summary">Bildirim içeriği gizlenecek ( panel ve yanıtlar dahil)</string>
-    <string name="pref_private_notifications">Private notification content</string>
+    <string name="pref_private_notifications">Bildirim içeriğini gizle</string>
     <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
     <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
