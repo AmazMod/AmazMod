@@ -88,7 +88,7 @@
     <string name="activity_stats_notifications_in_the_last_hour">Son bir saat içinde</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Son 24 saat içinde</string>
     <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications">Anlık Bildirimler</string>
     <string name="pref_filter_notifications_by_packages">Seçilen uygulamalar</string>
     <string name="pref_filter_notifications_by_packages_summary">Sadece seçilen uygulamalardan saate bildirim gönderilir</string>
     <string name="pref_disable_battery_chart">Batarya grafiğini devre dışı bırak</string>
@@ -96,7 +96,7 @@
     <string name="pref_battery_background_sync_interval">Arka plan eşitleme aralığı</string>
     <string name="pref_battery_background_sync_interval_summary">Arka plan batarya eşitleme aralığı belirle</string>
     <string name="pref_battery_chart_time_interval">Grafik Süre Aralığı</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display</string>
+    <string name="pref_battery_chart_time_interval_summary">Batarya grafiği görüntülenecek zaman aralığını seçin</string>
     <string name="pref_battery_watch_alert">Saat Pil Uyarısı</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification</string>
     <string name="pref_battery_phone_alert">Telefon Pil Uyarısı</string>
