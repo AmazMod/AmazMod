@@ -106,10 +106,10 @@
     <string name="pref_private_notifications_summary">Bildirim içeriği gizlenecek ( panel ve yanıtlar dahil)</string>
     <string name="pref_private_notifications">Bildirim içeriğini gizle</string>
     <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
-    <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
-    <string name="pref_run_wizard">Welcome Presentation</string>
+    <string name="pref_enable_notifications_when_screen_on">Ekran açık olduğunda gönder</string>
+    <string name="pref_notifications_enable_custom_ui">Özel bildirim arayüzü</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Bildirimlere saat üzerinden yanıt verebilirsiniz</string>
+    <string name="pref_run_wizard">Açılış tanıtımı</string>
     <string name="pref_run_wizard_summary">Açılış tanıtımını tekrar çalıştır</string>
     <string name="pref_vibration_duration">Titreşim süresi</string>
     <string name="pref_vibration_duration_summary">Saatin ekranındaki yanıtlar için titreşim süresini ayarlayın(Sadece Standart bildirimler devre dışıyken çalışır)</string>
