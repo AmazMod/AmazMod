@@ -19,8 +19,6 @@ import android.provider.CalendarContract;
 import android.provider.Settings;
 import android.text.format.Time;
 
-import org.tinylog.Logger;
-
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.FilesUtil;
@@ -39,6 +37,8 @@ import net.fortuna.ical4j.model.Period;
 import net.fortuna.ical4j.model.PeriodList;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.util.MapTimeZoneCache;
+
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -2,9 +2,9 @@ package com.edotassi.amazmod.support;
 
 import android.os.Environment;
 
-import amazmod.com.transport.Constants;
-
 import java.io.File;
+
+import amazmod.com.transport.Constants;
 
 public class DownloadHelper {
 

@@ -20,9 +20,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
@@ -53,6 +50,7 @@ import java.io.File;
 import java.text.DecimalFormat;
 import java.util.concurrent.CancellationException;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;

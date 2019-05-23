@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.View;
@@ -48,7 +47,6 @@ import java.util.concurrent.CancellationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;

@@ -1,6 +1,5 @@
 package com.edotassi.amazmod.support;
 
-import android.Manifest;
 import android.app.Activity;
 
 import com.google.android.gms.tasks.Task;

@@ -1,7 +1,6 @@
 package com.edotassi.amazmod.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -9,26 +8,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
-import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity;
 
 import org.tinylog.Logger;
 
 import java.util.List;
 
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 public class SilencedApplicationsAdapter extends ArrayAdapter<NotificationPreferencesEntity> {

@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.edotassi.amazmod.AmazModApplication;
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
@@ -53,6 +52,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.Transportable;
 

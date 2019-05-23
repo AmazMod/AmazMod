@@ -1,7 +1,6 @@
 package com.edotassi.amazmod.support;
 
 import android.graphics.drawable.Drawable;
-import android.os.Parcelable;
 
 public class AppInfo {
 

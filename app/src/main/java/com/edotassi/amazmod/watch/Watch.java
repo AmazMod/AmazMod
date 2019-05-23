@@ -8,8 +8,6 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
@@ -36,6 +34,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;

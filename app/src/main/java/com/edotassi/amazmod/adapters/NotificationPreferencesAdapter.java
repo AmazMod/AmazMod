@@ -11,9 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
-import com.edotassi.amazmod.support.CommandHistoryBridge;
 import com.edotassi.amazmod.support.NotificationPreferencesBridge;
 
 import org.tinylog.Logger;

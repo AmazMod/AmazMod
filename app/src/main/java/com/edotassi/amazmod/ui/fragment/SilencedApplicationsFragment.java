@@ -20,7 +20,6 @@ import org.tinylog.Logger;
 
 import java.util.ArrayList;
 
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

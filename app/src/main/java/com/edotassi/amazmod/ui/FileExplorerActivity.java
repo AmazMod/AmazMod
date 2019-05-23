@@ -73,7 +73,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class FileExplorerActivity extends BaseAppCompatActivity {
 

@@ -1,6 +1,5 @@
 package com.edotassi.amazmod.util;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -10,8 +9,6 @@ import android.support.v4.os.ConfigurationCompat;
 import android.util.Log;
 
 import com.pixplicity.easyprefs.library.Prefs;
-
-import org.tinylog.Logger;
 
 import java.util.Locale;
 

@@ -11,8 +11,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.edotassi.amazmod.AmazModApplication;
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
@@ -26,6 +24,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.BatteryData;
 
 public class BatteryStatusReceiver extends BroadcastReceiver {

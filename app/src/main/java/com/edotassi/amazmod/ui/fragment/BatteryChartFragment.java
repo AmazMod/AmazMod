@@ -20,7 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
@@ -54,6 +53,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

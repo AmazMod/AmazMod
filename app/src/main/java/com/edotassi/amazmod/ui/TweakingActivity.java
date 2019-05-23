@@ -38,7 +38,6 @@ import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tingyik90.snackprogressbar.SnackProgressBar;

@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 
@@ -23,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
