@@ -895,10 +895,18 @@ public class MainService extends Service implements Transporter.DataListener {
                             final File apk = new File(apkFile);
 
                             if (apk.exists()) {
-
                                 showConfirmationWearActivity("Installing APK", "0");
                                 DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
-
+                                Logger.debug("Installing normal APK, wakelock enabled...");
+                                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                                try {
+                                    PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+                                            | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                                            | PowerManager.ON_AFTER_RELEASE, "install normal apk wakelock disabled:");
+                                    wakeLock.acquire(60000);
+                                } catch (NullPointerException e) {
+                                    Logger.error("Could not install normal apk wakelock: " + e);
+                                }
                             } else {
                                 code = -1;
                                 errorMsg = String.format("%s not found!", apkFile);
@@ -907,7 +915,16 @@ public class MainService extends Service implements Transporter.DataListener {
                         } else if (command.contains("install_amazmod_update ")) {
                             showConfirmationWearActivity("Service update", "0");
                             DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
-
+                            Logger.debug("Installing Update APK, wakelock enabled...");
+                            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                            try {
+                                PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+                                        | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                                        | PowerManager.ON_AFTER_RELEASE, "install Update apk wakelock disabled:");
+                                wakeLock.acquire(60000);
+                            } catch (NullPointerException e) {
+                                Logger.error("Could not install Update apk wakelock: " + e);
+                            }
                         } else {
 
                             if (requestShellCommandData.isReboot()) {
