@@ -199,13 +199,24 @@ public class MainService extends Service implements Transporter.DataListener {
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
-        // Remove apk_install Wakelock if active
+
+        //##########################NEED TO ADD CHECK FOR ROOT#########################
+        // ROOT Remove apk_install Wakelock
         Logger.debug("Disabling APK_INSTALL WAKELOCK");
         try{
             Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock");
         } catch (IOException e) {
             Logger.error(e,"onCreate: IOException while disabling APK_INSTALL WAKELOCK");
         }
+        // Restore apk_install screen timeout
+        Logger.debug("Restore APK_INSTALL screen timeout");
+        try{
+            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000");
+        } catch (IOException e) {
+            Logger.error(e,"onCreate: IOException while restoring APK_INSTALL screen timeout");
+        }
+        //#############################################################################
+
 
         // Register power disconnect receiver
         final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
@@ -895,8 +906,28 @@ public class MainService extends Service implements Transporter.DataListener {
                             final File apk = new File(apkFile);
 
                             if (apk.exists()) {
+                                if (apkFile.contains ("service-")) {
+                                    showConfirmationWearActivity("Service update", "0");
+                                    //##########################NEED TO ADD CHECK FOR ROOT#########################
+                                    // ROOT Create apk_install Wakelock
+                                    Logger.debug("Enabling APK_INSTALL WAKELOCK");
+                                    try{
+                                        Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock");
+                                    } catch (IOException e) {
+                                        Logger.error(e, "onCreate: IOException while enabling APK_INSTALL WAKELOCK");
+                                    }
+                                    // Set apk_install screen timeout to 3 min
+                                    Logger.debug("Set screen timeout to 3 min to install update");
+                                    try{
+                                    Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 180000");
+                                    } catch (IOException e) {
+                                    Logger.error(e,"onCreate: IOException while set screen timeout to 3 min");
+                                    }}
+                                    //###############################################################################
+                                else
                                 showConfirmationWearActivity("Installing APK", "0");
                                 DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
+                                //Partial wakelock for a fast installation
                                 Logger.debug("Installing normal APK, wakelock enabled...");
                                 PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
                                 try {
@@ -912,19 +943,25 @@ public class MainService extends Service implements Transporter.DataListener {
                                 errorMsg = String.format("%s not found!", apkFile);
                             }
 
-                        } else if (command.contains("install_amazmod_update ")) {
+                        } else if (command.contains("install_amazmod_update ")){
                             showConfirmationWearActivity("Service update", "0");
                             DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
-                            Logger.debug("Installing Update APK, wakelock enabled...");
-                            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                            try {
-                                PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
-                                        | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                                        | PowerManager.ON_AFTER_RELEASE, "install Update apk wakelock disabled:");
-                                wakeLock.acquire(60000);
-                            } catch (NullPointerException e) {
-                                Logger.error("Could not install Update apk wakelock: " + e);
+                            //##########################NEED TO ADD CHECK FOR ROOT#########################
+                            // ROOT Create apk_install Wakelock
+                            Logger.debug("Enabling APK_INSTALL WAKELOCK");
+                            try{
+                                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock");
+                            } catch (IOException e) {
+                                Logger.error(e, "onCreate: IOException while enabling APK_INSTALL WAKELOCK");
                             }
+                            // Set apk_install screen timeout to 3 min
+                            Logger.debug("Set screen timeout to 3 min to install update");
+                            try{
+                                Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 180000");
+                            } catch (IOException e) {
+                                Logger.error(e,"onCreate: IOException while set screen timeout to 3 min");
+                            }
+                            //###############################################################################
                         } else {
 
                             if (requestShellCommandData.isReboot()) {

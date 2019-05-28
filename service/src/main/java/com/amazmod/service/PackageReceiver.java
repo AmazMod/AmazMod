@@ -33,20 +33,6 @@ public class PackageReceiver extends BroadcastReceiver {
         Logger.debug("PackageReceiver onReceive action: " + action + " // " + intent.getDataString() + " // " + intent.getExtras());
 
         if (action != null) try {
-            //Try to wakeup screen
-            if(DeviceUtil.isDeviceLocked(context)) {
-                Logger.debug("Install confirm Pop-UP it's trying to wake screen...");
-                PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                try {
-                    PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                            | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                            | PowerManager.ON_AFTER_RELEASE, "Pop-UP_WakeLock:");
-                    wakeLock.acquire();
-                    wakeLock.release();
-                } catch (NullPointerException e) {
-                    Logger.error("Could not wake screen up for install confirm Pop-UP: " + e);
-                }
-            }
             //This action can be used from adb for testing purposes using adb
             if (action.contains("MY_PACKAGE_REPLACED")) {
                 if (intent.getExtras() != null) {
@@ -65,6 +51,13 @@ public class PackageReceiver extends BroadcastReceiver {
                                 e.printStackTrace();
                             }
                     }
+                        // Restore apk_install screen timeout
+                        Logger.debug("Restore APK_INSTALL screen timeout");
+                        try{
+                            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000");
+                        } catch (IOException e) {
+                            Logger.error(e,"onCreate: IOException while restoring APK_INSTALL screen timeout");
+                        }
                         showInstallConfirmation(mContext, Constants.MY_APP);
                     }
                 }
