@@ -54,6 +54,7 @@ fi
 if [ "$2" == "DEL" ]; then
    $LOG "deleting file: $1 $(rm $1)"
 fi
+$LOG "restore screen timeout $(adb shell settings put system screen_off_timeout 14000)"
 $LOG "killing background processes"
 $LOG "killing adb $(adb kill-server)"
 $LOG "kill-all $(am kill-all)"

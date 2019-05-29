@@ -111,6 +111,27 @@ public class DeviceUtil {
         params.setAppPackageName(packageName);
         PackageInstaller.Session session = null;
 
+//##############OTA FAST UPDATE NEED TO BE TEST##############################
+        File su = new File("/system/xbin/su");
+        Logger.debug("install is check if SuperUser");
+        if(su.exists()){
+            // Is SuperUser
+            Logger.debug("Enabling APK_INSTALL WAKELOCK");
+            try{
+                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock");
+            } catch (IOException e) {
+                Logger.error(e,"onCreate: IOException while enabling APK_INSTALL WAKELOCK");
+            }}
+        else
+            // Is Stock user
+            Logger.debug("Set screen timeout to 3 min to install update");
+        try {
+            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 180000");
+        } catch (IOException e) {
+            Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
+        }
+//##########################################################################
+
         int sessionId = 0;
         try {
             sessionId = packageInstaller.createSession(params);
@@ -223,7 +244,38 @@ public class DeviceUtil {
         String apkFile = apk.getAbsolutePath();
         //Logger.debug("DeviceUtil installApkAdb installScript: " + installScript);
         //Logger.debug("DeviceUtil installApkAdb apkFile: " + apkFile);
-
+        if (apkFile.contains("service-")) {
+            File su = new File("/system/xbin/su");
+            Logger.debug("install is check if SuperUser");
+            if(su.exists()){
+                // Is SuperUser
+                Logger.debug("Enabling APK_INSTALL WAKELOCK");
+                try{
+                    Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock");
+                } catch (IOException e) {
+                    Logger.error(e,"onCreate: IOException while enabling APK_INSTALL WAKELOCK");
+                }}
+                else
+                // Is Stock user
+                Logger.debug("Set screen timeout to 3 min to install update");
+                try {
+                    Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 180000");
+                } catch (IOException e) {
+                    Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
+            }
+        }
+        else
+            //Partial wakelock for a fast installation
+            Logger.debug("Installing normal APK, wakelock enabled...");
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            try {
+            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                    | PowerManager.ON_AFTER_RELEASE, "install normal apk wakelock disabled:");
+            wakeLock.acquire(60000);
+            } catch (NullPointerException e) {
+            Logger.error("Could not install normal apk wakelock: " + e);
+        }
         //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
         if (isReboot)
             installCommand = String.format("log -pw -tAmazMod $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
