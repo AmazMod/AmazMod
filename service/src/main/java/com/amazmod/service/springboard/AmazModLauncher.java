@@ -98,7 +98,9 @@ public class AmazModLauncher extends AbstractPlugin {
     private static final String MENU_ENTRY = "MENU ENTRY";
     private static final String[] HIDDEN_APPS = {   "amazmod",
                                                     "watchdroid",
+                                                    "touchone",
                                                     "watchface"};
+
 
     private String[] mItems = { "WiFiToggle",
                                 "KeepAwake"};
