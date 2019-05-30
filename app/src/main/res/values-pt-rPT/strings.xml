@@ -302,7 +302,7 @@
     <string name="error">Erro</string>
     <string name="invalid_url">Endereço iCal inválido!</string>
     <string name="file_or_connection_error">Erro no ficheiro ou na ligação. Ficheiro não pode ser aberto!</string>
-    <string name="update_process_warning">AVISO: o processo de atualização pode demorar até 15 minutos e a interface de relógio será reiniciada uma ou mais vezes. Não use o relógio durante o processo pois a atualização pode falhar. Inicie a atualização só se puder esperar até o final.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Pesquisar</string>
     <string name="pref_use_notification_scheduler">Guardar notificações enquanto desconectado</string>
     <string name="pref_use_notification_scheduler_summary">Guardar as notificações recebidas enquanto o relógio e o telefone estão desconectados e enviá-las quando a conexão for restaurada</string>
