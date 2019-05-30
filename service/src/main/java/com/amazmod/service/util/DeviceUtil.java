@@ -111,7 +111,6 @@ public class DeviceUtil {
         params.setAppPackageName(packageName);
         PackageInstaller.Session session = null;
 
-//##############OTA FAST UPDATE NEED TO BE TEST##############################
         File su = new File("/system/xbin/su");
         Logger.debug("install is check if SuperUser");
         if(su.exists()){
@@ -130,7 +129,6 @@ public class DeviceUtil {
         } catch (IOException e) {
             Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
         }
-//##########################################################################
 
         int sessionId = 0;
         try {
