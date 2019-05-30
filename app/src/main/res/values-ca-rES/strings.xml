@@ -302,7 +302,7 @@
     <string name="error">Error</string>
     <string name="invalid_url">URL d\'ICAL no vàlida!</string>
     <string name="file_or_connection_error">Error de fitxer o de connexió, no s\'ha pogut obrir el fitxer!</string>
-    <string name="update_process_warning">AVÍS: el procés d’actualització pot trigar fins a 15 minuts i es reiniciarà una o més vegades la interfície de visualització. No utilitzeu el rellotge durant el procés o les coses es poden trencar. Inicieu l’actualització només si podeu esperar que acabi.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Cerca</string>
     <string name="pref_use_notification_scheduler">Emmagatzema les notificacions mentre està desconnectat</string>
     <string name="pref_use_notification_scheduler_summary">Emmagatzemar les notificacions rebudes mentre el rellotge i el telèfon estan desconectats i enviar-les quan es restableix la connexió</string>
