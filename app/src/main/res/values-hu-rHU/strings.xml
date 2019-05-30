@@ -304,7 +304,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="error">Hiba</string>
     <string name="invalid_url">Érvénytelen iCal URL!</string>
     <string name="file_or_connection_error">Fájl vagy csatl. hiba, a fájlt nem lehet megnyitni!</string>
-    <string name="update_process_warning">FIGYELMEZTETÉS: a frissítés 15 percig is eltarthat, az óra felület egy/több alkalommal újraindul. Ne használd az órát a folyamat során, mert az megszakadhat. Csak akkor kezd el a frissítést, ha várhatóan be is tudod fejezni.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Keresés</string>
     <string name="pref_use_notification_scheduler">Tárolja az értesítéseket szétkapcsolódáskor</string>
     <string name="pref_use_notification_scheduler_summary">Tárolja a kapott értesítéseket az óra és a telefon szétkapcsolódása esetén és a kapcsolat visszaállításakor küldje el őket</string>

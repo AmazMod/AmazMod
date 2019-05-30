@@ -302,7 +302,7 @@
     <string name="error">오류</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
-    <string name="update_process_warning">경고: 업데이트 과정은 최대 15분이 걸리며 시계 인터페이스가 한번 이상 재시작 될 것입니다. 고장의 위험이 있으므로 과정이 진행되는 동안 시계를 사용하지 마십시오. 모든 과정이 완료되기를 기다릴 수 있을 때에만 업데이트를 시작하세요.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">찾기</string>
     <string name="pref_use_notification_scheduler">연결이 끊겼을 때 알림 보관하기</string>
     <string name="pref_use_notification_scheduler_summary">시계와 전화의 연결이 끊겼을 때 받은 알림들을 저장했다가 다시 연결되었을 때 시계로 보냅니다.</string>

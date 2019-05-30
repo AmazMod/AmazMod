@@ -304,7 +304,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="error">Errore</string>
     <string name="invalid_url">URL iCal non valida!</string>
     <string name="file_or_connection_error">Impossibile aprire, file errato o connessione assente!</string>
-    <string name="update_process_warning">ATTENZIONE: il processo di aggiornamento può durare più di 15 minuti e l\'interfaccia dell\'orologio verrà riavviata una o più volte. Non usare l\'orologio durante l\'installazione perché altrimenti qualcosa potrebbe andar storto. Fai partire l\'aggiornamento solo se sai di poter aspettare fino alla fine.</string>
+    <string name="update_process_warning">ATTENZIONE: il processo di aggiornamento deve mantenere lo schermo acceso per far si che l\'installazione richieda circa 3 minuti e l\'interfaccia di controllo verrà riavviata una o più volte. Non usare l\'orologio durante l\'aggiornamento o qualcosa potrebbe andar storto. Inizia l\'aggiornamento solo se puoi aspettare che finisca.</string>
     <string name="search_title">Cerca</string>
     <string name="pref_use_notification_scheduler">Memorizzare notifiche se disconnesso</string>
     <string name="pref_use_notification_scheduler_summary">Memorizzare le notifiche ricevute mentre l\'orologio e il telefono sono disconnessi per poi inviarle quando viene ripristinata la connessione</string>

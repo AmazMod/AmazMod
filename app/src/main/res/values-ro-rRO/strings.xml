@@ -302,7 +302,7 @@
     <string name="error">Eroare</string>
     <string name="invalid_url">URL iCal invalid!</string>
     <string name="file_or_connection_error">Eroare fișierul sau conexiunea, fișierul nu poate fii deschisă!</string>
-    <string name="update_process_warning">Avertisment: procesul de actualizare poate dura până la 15 minute și interfața ceasului va fi repornit una sau mai multe ori. Nu utilizaţi ceasul în timpul procesului sau lucrurile poate sa se strice. Pornește actualizarea numai în cazul în care puteţi să aşteptaţi pentru a se termina.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Caută</string>
     <string name="pref_use_notification_scheduler">Depozitează notificațiile când este deconectat</string>
     <string name="pref_use_notification_scheduler_summary">Depozitează notificărilor primite în timp ce ceasul si mobilul sunt deconectate și trimite-le atunci când se restabilește conexiunea</string>

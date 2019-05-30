@@ -302,7 +302,7 @@
     <string name="error">Erro</string>
     <string name="invalid_url">Endereço Inválido!</string>
     <string name="file_or_connection_error">Arquivo não pôde ser aberto!</string>
-    <string name="update_process_warning">AVISO: o processo de atualização pode demorar até 15 minutos e a interface de relógio será reiniciada uma ou mais vezes. Não use o relógio durante o processo a atualização pode falhar. Inicie atualização só se puder esperar até o final.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Pesquisar</string>
     <string name="pref_use_notification_scheduler">Armazenar notificações enquanto desconectado</string>
     <string name="pref_use_notification_scheduler_summary">Armazenar as notificações recebidas enquanto o relógio e o telefone são desconectados e enviá-las quando a conexão for restaurada</string>

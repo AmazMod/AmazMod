@@ -303,7 +303,7 @@
     <string name="error">錯誤</string>
     <string name="invalid_url">錯誤的 iCal 位址</string>
     <string name="file_or_connection_error">檔案或連線錯誤，檔案無法開啟!</string>
-    <string name="update_process_warning">警告：更新過程最多可能需要15分鐘，手錶界面將重新啟動一次或多次。不要在這個過程中使用手錶，否則手錶系統可能會被損壞。僅當你有時間等待更新完成時，再選擇開始更新。</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">搜尋</string>
     <string name="pref_use_notification_scheduler">斷開連接時存儲通知</string>
     <string name="pref_use_notification_scheduler_summary">手機與手錶斷開連接時儲存收到的通知, 並在恢復連接時發送通知</string>

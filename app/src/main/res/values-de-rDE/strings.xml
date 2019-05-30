@@ -302,7 +302,7 @@
     <string name="error">Fehler</string>
     <string name="invalid_url">Ungültige iCal URL!</string>
     <string name="file_or_connection_error">Datei oder Verbindungsfehler, Datei konnte nicht geöffnet werden!</string>
-    <string name="update_process_warning">WARNUNG: Der Aktualisierungsprozess kann bis zu 15 Minuten dauern und die Uhr wird ein oder mehrere Male neu gestartet. Benutzen Sie die Uhr nicht während des Prozesses oder es kann zu Beschädigungen kommen. Starten Sie das Update nur, wenn Sie darauf warten können, dass es beendet wird.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Suche</string>
     <string name="pref_use_notification_scheduler">Benachrichtigungen speichern während die Verbindung getrennt ist</string>
     <string name="pref_use_notification_scheduler_summary">Speichern Sie die erhaltenen Benachrichtigungen während die Uhr und das Telefon getrennt sind und senden Sie sie, wenn die Verbindung wiederhergestellt wird</string>

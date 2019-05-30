@@ -302,7 +302,7 @@
     <string name="error">Kesalahan</string>
     <string name="invalid_url">URL iCal tidak valid!</string>
     <string name="file_or_connection_error">Kesalahan file atau sambungan, file tidak dapat dibuka!</string>
-    <string name="update_process_warning">PERINGATAN: proses pembaharuan dapat mengambil waktu 15 menit dan antarmuka jam akan direstart satu kali atau lebih. Jangan gunakan jam saat proses karena dapat menyebabkan kerusakan. Mulailah pembaharuan hanya jika Anda dapat menunggu prosesnya sampai selesai.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Pencarian</string>
     <string name="pref_use_notification_scheduler">Menyimpan notifikasi saat koneksi terputus</string>
     <string name="pref_use_notification_scheduler_summary">Menyimpan notifikasi yg diterima ketika jam dan telepon tidak terkoneksi dan mengirimnya saat koneksi tersambung kembali</string>

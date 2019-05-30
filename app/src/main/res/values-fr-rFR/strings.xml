@@ -302,7 +302,7 @@
     <string name="error">Erreur</string>
     <string name="invalid_url">Invalid URL</string>
     <string name="file_or_connection_error">File or connection error, could not open file!</string>
-    <string name="update_process_warning">AVERTISSEMENT : le processus de mise à jour peut prendre jusqu\'à 15 minutes et l\'interface de la montre sera redémarré une ou plusieurs fois. N’utilisez pas la montre pendant le processus ou des problèmes peuvent apparaitre. Démarrer la mise à jour seulement si vous pouvez attendre qu’elle se termine.</string>
+    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Rechercher</string>
     <string name="pref_use_notification_scheduler">Stocker les notifications lorsque la montre est déconnectée</string>
     <string name="pref_use_notification_scheduler_summary">Stocker les notifications reçues alors que la montre et le téléphone sont déconnectés et envoi de celles-ci lorsque la connexion est rétablie</string>
