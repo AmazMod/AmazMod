@@ -71,7 +71,7 @@
     <string name="support_email">Ügyfélszolgálat email</string>
     <string name="project_github">Projekt a Github-on</string>
     <string name="activity_about_project_maintainer">Projekt gazda</string>
-    <string name="activity_about_devs">Fejlesztők</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Tesztelők</string>
     <string name="translators">Fordítók</string>
     <string name="activity_watchface_need_greatfit">Az opciókat kihasználásához az órára telepítve kell lennie a GreatFit számlapnak vagy a Naptár/Idővonal widgeteknek</string>
@@ -335,4 +335,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
