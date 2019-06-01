@@ -71,7 +71,7 @@
     <string name="support_email">E-mail podpory</string>
     <string name="project_github">Projekte na Github</string>
     <string name="activity_about_project_maintainer">Spracovávateľ projekta</string>
-    <string name="activity_about_devs">Vývojári</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Testery</string>
     <string name="translators">Prekladatelia</string>
     <string name="activity_watchface_need_greatfit">Musíte mať watchface GreatFit alebo widgety kalendár časovú os nainštalovaný na hodinkách pre tieto možnosti majú byť využité</string>
@@ -334,4 +334,5 @@ Urobte príkaz shell \"</string>
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
