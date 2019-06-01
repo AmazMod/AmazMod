@@ -331,4 +331,9 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="statsandlogs">Statistiche / Logs</string>
     <string name="clear_log">Cancella Log</string>
     <string name="send_log">Invia Log</string>
+    <string name="battery_optimization_warning">AmazMod è in \"Ottimizzazione Batteria\". Ti consigliamo di rimuoverlo da lì così da non perdere alcuna notifica.</string>
+    <string name="remove">RIMUOVI</string>
+    <string name="grant">CONCEDI</string>
+    <string name="no_storage_permission">AmazMod non ha il permesso di archiviazione, si prega di darglielo.</string>
+    <string name="activity_about_recruiter">Reclutamento / Ingaggi</string>
 </resources>

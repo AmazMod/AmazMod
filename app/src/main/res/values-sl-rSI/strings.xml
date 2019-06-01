@@ -71,7 +71,7 @@
     <string name="support_email">Support email</string>
     <string name="project_github">Project on Github</string>
     <string name="activity_about_project_maintainer">Project maintainer</string>
-    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Translators</string>
     <string name="activity_watchface_need_greatfit">You need to have the watchface GreatFit or the widgets Calendar/Timeline installed on your watch for these options to be utilized</string>
@@ -329,4 +329,9 @@
     <string name="statsandlogs">Stats / Logs</string>
     <string name="clear_log">Clear Log</string>
     <string name="send_log">Send Log</string>
+    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
+    <string name="remove">REMOVE</string>
+    <string name="grant">GRANT</string>
+    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>

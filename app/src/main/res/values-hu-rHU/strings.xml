@@ -331,4 +331,9 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="statsandlogs">Stat. / Naplók</string>
     <string name="clear_log">Napló törlése</string>
     <string name="send_log">Napló küldése</string>
+    <string name="battery_optimization_warning">Az AmazMod akku optimizálás alatt áll. Javasoljuk eltávolítását onnan, így semmilyen értesítés nem vész el.</string>
+    <string name="remove">ELTÁVOLÍT</string>
+    <string name="grant">MEGAD</string>
+    <string name="no_storage_permission">Az AmazModnak nincs tárhely engedélye, add ezt meg.</string>
+    <string name="activity_about_recruiter">Toborzó / Újonc</string>
 </resources>

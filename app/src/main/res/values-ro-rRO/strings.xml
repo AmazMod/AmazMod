@@ -71,7 +71,7 @@
     <string name="support_email">Email de suport</string>
     <string name="project_github">Proiect pe Github</string>
     <string name="activity_about_project_maintainer">Responsabil de proiect</string>
-    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Laboranți</string>
     <string name="translators">Traducători</string>
     <string name="activity_watchface_need_greatfit">Trebuie să aveţi watchface GreatFit sau widget-uri Calendar/Cronologie instalate pe ceas pentru aceste opţiuni să fie utilizate</string>
@@ -329,4 +329,9 @@
     <string name="statsandlogs">Stats / Logs</string>
     <string name="clear_log">Clear Log</string>
     <string name="send_log">Send Log</string>
+    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
+    <string name="remove">REMOVE</string>
+    <string name="grant">GRANT</string>
+    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
