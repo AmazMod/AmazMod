@@ -331,9 +331,9 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="statsandlogs">Statistiky / Protokoly</string>
     <string name="clear_log">Vymazat protokol</string>
     <string name="send_log">Odeslat protokol</string>
-    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
+    <string name="battery_optimization_warning">AmazMod je zahrnut do režimu optimalizace baterie. Doporučujeme jej odtamtud odebrat, aby nedocházelo ke ztrátám oznámení.</string>
     <string name="remove">ODSTRANIT</string>
     <string name="grant">UDĚLIT</string>
-    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="activity_about_recruiter">Recruiter / Engager</string>
+    <string name="no_storage_permission">AmazMod nemá oprávnění k přístupu k úložišti, prosím udělte aplikaci toto oprávnění.</string>
+    <string name="activity_about_recruiter">Zapojte se</string>
 </resources>
