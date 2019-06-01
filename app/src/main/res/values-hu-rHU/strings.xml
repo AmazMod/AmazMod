@@ -71,7 +71,7 @@
     <string name="support_email">Ügyfélszolgálat email</string>
     <string name="project_github">Projekt a Github-on</string>
     <string name="activity_about_project_maintainer">Projekt gazda</string>
-    <string name="activity_about_devs">Developers</string>
+    <string name="activity_about_devs">Fejlesztők</string>
     <string name="activity_about_testers">Tesztelők</string>
     <string name="translators">Fordítók</string>
     <string name="activity_watchface_need_greatfit">Az opciókat kihasználásához az órára telepítve kell lennie a GreatFit számlapnak vagy a Naptár/Idővonal widgeteknek</string>
@@ -331,9 +331,9 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="statsandlogs">Stat. / Naplók</string>
     <string name="clear_log">Napló törlése</string>
     <string name="send_log">Napló küldése</string>
-    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
-    <string name="remove">REMOVE</string>
-    <string name="grant">GRANT</string>
-    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="activity_about_recruiter">Recruiter / Engager</string>
+    <string name="battery_optimization_warning">Az AmazMod akku optimizálás alatt áll. Javasoljuk eltávolítását onnan, így semmilyen értesítés nem vész el.</string>
+    <string name="remove">ELTÁVOLÍT</string>
+    <string name="grant">MEGAD</string>
+    <string name="no_storage_permission">Az AmazModnak nincs tárhely engedélye, add ezt meg.</string>
+    <string name="activity_about_recruiter">Toborzó / Újonc</string>
 </resources>
