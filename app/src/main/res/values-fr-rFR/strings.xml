@@ -71,7 +71,7 @@
     <string name="support_email">Email support</string>
     <string name="project_github">Projet sur Github</string>
     <string name="activity_about_project_maintainer">Maintenance du projet</string>
-    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Testeurs</string>
     <string name="translators">Traducteurs</string>
     <string name="activity_watchface_need_greatfit">Vous devez installer la watchface \"GreatFit\" pour que ces options fonctionnent</string>
@@ -333,4 +333,5 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
