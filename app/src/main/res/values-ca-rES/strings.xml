@@ -71,7 +71,7 @@
     <string name="support_email">Correu electrònic de suport</string>
     <string name="project_github">Projecte a Github</string>
     <string name="activity_about_project_maintainer">Coordinador del projecte</string>
-    <string name="activity_about_devs">Devs</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Traductors</string>
     <string name="activity_watchface_need_greatfit">Cal tenir la watchface GreatFit o els widgets de que calendari/cronologia instal·lats en el seu rellotge per a aquestes opcions per a ser utilitzats</string>
@@ -333,4 +333,5 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
