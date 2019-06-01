@@ -71,7 +71,7 @@
     <string name="support_email">דוא\"ל תמיכה</string>
     <string name="project_github">פרויקט ב-Github</string>
     <string name="activity_about_project_maintainer">מתחזק הפרויקט</string>
-    <string name="activity_about_devs">Developers</string>
+    <string name="activity_about_devs">מפתחים</string>
     <string name="activity_about_testers">בודקים</string>
     <string name="translators">מתרגמים</string>
     <string name="activity_watchface_need_greatfit">עיצוב GreatFit או וויג\'ט יומן צריכים להיות מותקנים לצורך זמינות אפשרויות אלו</string>
