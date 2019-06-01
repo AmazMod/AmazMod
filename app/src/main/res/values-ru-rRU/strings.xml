@@ -71,7 +71,7 @@
     <string name="support_email">Почта поддержки:</string>
     <string name="project_github">Проект Github</string>
     <string name="activity_about_project_maintainer">Сопровождение проекта</string>
-    <string name="activity_about_devs">Разработчики</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Тестеры</string>
     <string name="translators">Переводчики</string>
     <string name="activity_watchface_need_greatfit">Вам нужно иметь циферблат GreatFit или виджеты Calendar/Timeline, установленные на ваши часы для использования этих опций</string>
@@ -333,4 +333,5 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
