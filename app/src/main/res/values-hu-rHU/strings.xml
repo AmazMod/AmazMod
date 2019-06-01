@@ -331,4 +331,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="statsandlogs">Stat. / Naplók</string>
     <string name="clear_log">Napló törlése</string>
     <string name="send_log">Napló küldése</string>
+    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
+    <string name="remove">REMOVE</string>
+    <string name="grant">GRANT</string>
+    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
 </resources>
