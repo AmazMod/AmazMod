@@ -4,10 +4,13 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
@@ -114,7 +117,17 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         this.fileName = Constants.TAG + "_prefs.bkp";
         testDirectory = File.separator + "test" + System.currentTimeMillis();
 
-
+        if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Snackbar
+                    .make(filesMainContainer, R.string.no_storage_permission, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.grant, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openPermissions();
+                        }
+                    })
+                    .show();
+        }
     }
 
     @Override
@@ -143,6 +156,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
+        updateData();
     }
 
     @SuppressLint("CheckResult")
@@ -504,6 +518,40 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, "[]");
         Prefs.edit().commit();
 
+    }
+
+    //file
+    protected void requestPermission()
+    {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        {
+            Toast.makeText(FilesExtrasActivity.this, "Read External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+        } else
+        {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            {
+                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
+            }
+        }
+    }
+
+    //file
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
+        switch (requestCode)
+        {
+            case 100:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                {
+                    updateData();
+                } else
+                {
+                    Logger.error("Permission Denied, You cannot use local drive .");
+                    Toast.makeText(FilesExtrasActivity.this,"Permission Denied",Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
     }
 
 }
