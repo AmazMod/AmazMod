@@ -329,9 +329,9 @@
     <string name="statsandlogs">Статистика / Логи</string>
     <string name="clear_log">Очистить логи</string>
     <string name="send_log">Отправить логи</string>
-    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
-    <string name="remove">REMOVE</string>
-    <string name="grant">GRANT</string>
-    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="battery_optimization_warning">AmazMod находится в процессе оптимизации батареи. Мы рекомендуем удалить его, уведомления будут потеряны.</string>
+    <string name="remove">УДАЛИТЬ</string>
+    <string name="grant">РАЗРЕШИТЬ</string>
+    <string name="no_storage_permission">AmazMod не имеет разрешения на доступ к файлам, пожалуйста, предоставьте его.</string>
     <string name="activity_about_recruiter">Подбор персонала</string>
 </resources>
