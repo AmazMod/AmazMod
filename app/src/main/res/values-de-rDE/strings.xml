@@ -329,4 +329,8 @@
     <string name="statsandlogs">Statistik/Logs</string>
     <string name="clear_log">Log löschen</string>
     <string name="send_log">Log senden</string>
+    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
+    <string name="remove">REMOVE</string>
+    <string name="grant">GRANT</string>
+    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
 </resources>
