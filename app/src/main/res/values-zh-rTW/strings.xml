@@ -71,7 +71,7 @@
     <string name="support_email">支援電子郵件</string>
     <string name="project_github">在 GitHub 上的專案</string>
     <string name="activity_about_project_maintainer">專案維護者</string>
-    <string name="activity_about_devs">開發者</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">測試人員</string>
     <string name="translators">翻譯人員</string>
     <string name="activity_watchface_need_greatfit">為了使這些選項生效，您需要在手錶端安裝 \"GreatFit\" 錶盤</string>
@@ -334,4 +334,5 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
