@@ -71,7 +71,7 @@
     <string name="support_email">Email podpora</string>
     <string name="project_github">Projekt na GitHub</string>
     <string name="activity_about_project_maintainer">Správce projektu</string>
-    <string name="activity_about_devs">Vývojáři</string>
+    <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Testovali</string>
     <string name="translators">Překladatelé</string>
     <string name="activity_watchface_need_greatfit">Chcete-li, aby tyto funkce fungovaly, musíte mít nainstalovaný ciferník GreatFit na vašich hodinkách.</string>
@@ -335,4 +335,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
