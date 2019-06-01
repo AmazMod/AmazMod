@@ -3,10 +3,15 @@ package com.edotassi.amazmod.ui;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -16,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
@@ -87,7 +93,7 @@ public class MainActivity extends BaseAppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Hide if not a developer
-        if( !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false) ){
+        if (!Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             Menu menuNav = navigationView.getMenu();
             MenuItem widgets = menuNav.findItem(R.id.nav_widgets);
             widgets.setVisible(false);
@@ -123,6 +129,27 @@ public class MainActivity extends BaseAppCompatActivity
         setupCards();
 
         Setup.run(getApplicationContext());
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Intent intent = new Intent();
+            String packageName = getPackageName();
+            PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                Snackbar
+                        .make(drawer, R.string.battery_optimization_warning,
+                                Snackbar.LENGTH_LONG)
+                        .setAction(R.string.remove, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                                intent.setData(Uri.parse("package:" + packageName));
+                                startActivity(intent);
+                            }
+                        })
+                        .show();
+            }
+        }
     }
 
     private void setupCards() {
@@ -196,8 +223,7 @@ public class MainActivity extends BaseAppCompatActivity
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             //your code
