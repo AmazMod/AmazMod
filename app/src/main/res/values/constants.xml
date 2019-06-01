@@ -5,7 +5,7 @@
     <string name="notifications_service_name" translatable="false">AmazModNotificationsService</string>
     <string name="activity_about_text" translatable="false">Coded with love {gmd-favorite}</string>
     <string name="activity_about_project_maintainer_value" translatable="false">\@edotassi</string>
-    <string name="activity_about_devs_value" translatable="false">\@lfomartins, \@GreatApo, \@diotto</string>
+    <string name="activity_about_devs_value" translatable="false">\@lfomartins, \@GreatApo, \@diotto, \@fcaronte</string>
     <string name="activity_about_testers_value" translatable="false">\@pavelzeldin, \@ekinoxxx, \@SkubiPL, \@LBA97, \@RoberPG17, \@fcaronte, \@sleviz72</string>
     <string name="activity_about_email" translatable="false">amazfit.amazmod@gmail.com</string>
     <string name="faq" translatable="false">FAQ</string>
