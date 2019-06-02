@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toEndOf="@+id/row_notification_icon"
         app:srcCompat="@drawable/amazmod" />
 
-    <TextView
+    <android.support.text.emoji.widget.EmojiTextView
         android:id="@+id/row_notification_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

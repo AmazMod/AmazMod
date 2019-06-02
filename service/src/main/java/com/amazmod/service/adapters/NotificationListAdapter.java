@@ -56,7 +56,7 @@ public class NotificationListAdapter extends WearableListView.Adapter {
     private static class ItemViewHolder extends WearableListView.ViewHolder {
         ImageView notificationIcon;
         ImageView notificationIconBadge;
-        TextView notificationTitle;
+        EmojiTextView notificationTitle;
         EmojiTextView notificationContentPreview;
         TextView notificationTime;
 
