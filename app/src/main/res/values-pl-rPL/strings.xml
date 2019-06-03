@@ -70,7 +70,7 @@
     <string name="telegram_channel">Kanał Telegramu</string>
     <string name="support_email">E-mail support</string>
     <string name="project_github">Projekt na GitHub</string>
-    <string name="activity_about_project_maintainer">Project Maintainer</string>
+    <string name="activity_about_project_maintainer">Opiekun projektu</string>
     <string name="activity_about_devs">Deweloperzy</string>
     <string name="activity_about_testers">Testerzy</string>
     <string name="translators">Tłumacze</string>
@@ -330,8 +330,8 @@
     <string name="clear_log">Wyczyść Logi</string>
     <string name="send_log">Wyślij Logi</string>
     <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
-    <string name="remove">REMOVE</string>
-    <string name="grant">GRANT</string>
+    <string name="remove">USUNĄĆ</string>
+    <string name="grant">DOTACJA</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="generate_bundle">Generate Log Bundle</string>
+    <string name="generate_bundle">Generuj pakiet dziennika</string>
 </resources>
