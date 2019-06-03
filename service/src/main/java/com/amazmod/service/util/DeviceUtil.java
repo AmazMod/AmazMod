@@ -125,7 +125,7 @@ public class DeviceUtil {
             // Is Stock user
             Logger.debug("Set screen timeout to 3 min to install update");
         try {
-            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 180000");
+            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000");
         } catch (IOException e) {
             Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
         }
@@ -257,7 +257,7 @@ public class DeviceUtil {
                 // Is Stock user
                 Logger.debug("Set screen timeout to 3 min to install update");
                 try {
-                    Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 180000");
+                    Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000");
                 } catch (IOException e) {
                     Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
             }
