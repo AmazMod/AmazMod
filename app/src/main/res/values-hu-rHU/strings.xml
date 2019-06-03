@@ -70,7 +70,7 @@
     <string name="telegram_channel">Telegram csatorna</string>
     <string name="support_email">Ügyfélszolgálat email</string>
     <string name="project_github">Projekt a Github-on</string>
-    <string name="activity_about_project_maintainer">Projekt gazda</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">Fejlesztők</string>
     <string name="activity_about_testers">Tesztelők</string>
     <string name="translators">Fordítók</string>
@@ -335,5 +335,4 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="remove">ELTÁVOLÍT</string>
     <string name="grant">MEGAD</string>
     <string name="no_storage_permission">Az AmazModnak nincs tárhely engedélye, add ezt meg.</string>
-    <string name="activity_about_recruiter">Toborzó / Újonc</string>
 </resources>
