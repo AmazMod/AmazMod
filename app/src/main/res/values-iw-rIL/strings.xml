@@ -70,7 +70,7 @@
     <string name="telegram_channel">ערוץ טלגרם</string>
     <string name="support_email">דוא\"ל תמיכה</string>
     <string name="project_github">פרויקט ב-Github</string>
-    <string name="activity_about_project_maintainer">מתחזק הפרויקט</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">מפתחים</string>
     <string name="activity_about_testers">בודקים</string>
     <string name="translators">מתרגמים</string>
@@ -333,5 +333,4 @@
     <string name="remove">הסרה</string>
     <string name="grant">אישור</string>
     <string name="no_storage_permission">אין הרשאות כתיבה לAmazMod, אנא אפשרו גישה זו.</string>
-    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
