@@ -3,16 +3,25 @@ package com.edotassi.amazmod.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationEntity_Table;
+import com.edotassi.amazmod.event.ResultShellCommand;
+import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.watch.Watch;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.Task;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.tingyik90.snackprogressbar.SnackProgressBar;
+import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.tinylog.Logger;
 
@@ -25,6 +34,7 @@ import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 
 import amazmod.com.transport.Constants;
+import amazmod.com.transport.data.ResultShellCommandData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -51,6 +61,8 @@ public class StatsActivity extends BaseAppCompatActivity {
     @BindView(R.id.activity_stats_open_notifications_log)
     Button openNotificationsLogButton;
 
+    private SnackProgressBarManager snackProgressBarManager;
+
     private final byte[] ALLOWED_FILTERS = {Constants.FILTER_CONTINUE,
                                             Constants.FILTER_UNGROUP,
                                             Constants.FILTER_VOICE,
@@ -76,6 +88,30 @@ public class StatsActivity extends BaseAppCompatActivity {
 
         getSupportActionBar().setTitle(R.string.stats);
         ButterKnife.bind(this);
+
+        snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
+                // (optional) set the view which will animate with SnackProgressBar e.g. FAB when CoordinatorLayout is not used
+                //.setViewToMove(floatingActionButton)
+                // (optional) change progressBar color, default = R.color.colorAccent
+                .setProgressBarColor(R.color.colorAccent)
+                // (optional) change background color, default = BACKGROUND_COLOR_DEFAULT (#FF323232)
+                .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
+                // (optional) change text size, default = 14sp
+                .setTextSize(14)
+                // (optional) set max lines, default = 2
+                .setMessageMaxLines(2)
+                // (optional) register onDisplayListener
+                .setOnDisplayListener(new SnackProgressBarManager.OnDisplayListener() {
+                    @Override
+                    public void onShown(SnackProgressBar snackProgressBar, int onDisplayId) {
+                        // do something
+                    }
+
+                    @Override
+                    public void onDismissed(SnackProgressBar snackProgressBar, int onDisplayId) {
+                        // do something
+                    }
+                });
     }
 
     @Override
@@ -90,6 +126,51 @@ public class StatsActivity extends BaseAppCompatActivity {
     @OnClick(R.id.activity_stats_open_notifications_log)
     public void openLog() {
         startActivity(new Intent(this, NotificationsLogActivity.class));
+    }
+
+    @OnClick(R.id.activity_stats_generate_bundle)
+    public void generateBundle(){
+        String renameCmd = ShellCommandHelper.getLogBundleCommand();
+        execCommandAndReload(renameCmd);
+    }
+
+    private void execCommandAndReload(String command) {
+        Logger.debug("Sending command to watch: " + command);
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
+                .setIsIndeterminate(true)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                    }
+                });
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        Watch.get().executeShellCommand(command, true, false).continueWith(new Continuation<ResultShellCommand, Object>() {
+            @Override
+            public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+
+                snackProgressBarManager.dismissAll();
+
+                if (task.isSuccessful()) {
+                    ResultShellCommand resultShellCommand = task.getResult();
+                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+
+                    if (resultShellCommandData.getResult() == 0) {
+                        Toast.makeText(getApplicationContext(), "Log Bundle generated at WATCH in /sdcard/log_bundle.log.gz", Toast.LENGTH_LONG).show();
+                    } else {
+                        SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+                        snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                    }
+                } else {
+                    SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_send_shell_command));
+                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                }
+
+                return null;
+            }
+        });
     }
 
 

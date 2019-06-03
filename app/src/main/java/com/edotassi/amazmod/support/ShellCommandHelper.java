@@ -41,6 +41,10 @@ public class ShellCommandHelper {
         return String.format(Constants.SHELL_COMMAND_REMOVE_RECURSIVELY, path);
     }
 
+    public static String getLogBundleCommand(){
+        return Constants.SHELL_COMMAND_LOG_BUNDLE;
+    }
+
     public static String getDPM() {
         return Constants.SHELL_COMMAND_DPM;
     }
