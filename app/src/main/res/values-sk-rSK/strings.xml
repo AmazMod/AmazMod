@@ -331,8 +331,8 @@ Urobte príkaz shell \"</string>
     <string name="clear_log">Vymaž Log</string>
     <string name="send_log">Pošli Log</string>
     <string name="battery_optimization_warning">AmazMod je pod optimalizáciou batérie. Odporúčame, aby ste ho odtiaľ odstránili, takže sa nestratia žiadne oznámenia.</string>
-    <string name="remove">REMOVE</string>
-    <string name="grant">GRANT</string>
-    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="generate_bundle">Generate Log Bundle</string>
+    <string name="remove">Odstrániť</string>
+    <string name="grant">Povoliť</string>
+    <string name="no_storage_permission">AmazMod nemá žiadne povolenie na ukladanie dát, udelte ho.</string>
+    <string name="generate_bundle">Generovanie protokolového balíka</string>
 </resources>
