@@ -62,8 +62,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
     public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
-    //public static final String PREF_NOTIFICATIONS_DISABLE_LARGE_ICON = "preference.disable.notification.largeicon";
-    //public static final String PREF_NOTIFICATIONS_DISABLE_PICTURE = "preference.disable.notification.picture";
+    public static final String PREF_COMMAND_HISTORY = "preference.command.history";
 
     public static final String PREF_NOTIFICATIONS_LARGE_ICON = "preference.notification.largeicon";
     public static final boolean PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT = true;

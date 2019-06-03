@@ -4,8 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -19,6 +17,8 @@ import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.db.model.CommandHistoryEntity;
+import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
@@ -232,6 +232,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
                 }
                 if (success) {
                     saveAppsDbToPrefs(); //Restore selected apps to Prefs
+                    saveCommandHistoryToPrefs();
                     File data = Environment.getDataDirectory();
                     String currentDBPath = "/data/" + packageName + "/shared_prefs/" + packageName + "_preferences.xml";
                     File currentDB = new File(data, currentDBPath);
@@ -365,8 +366,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
                 .fromJson(Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]"), String[].class)));
 
         if (packagesList.size() > 0)
-            migrateNotificationPrefsFromJSON();
-        //checkAppsJson(context, packagesList);
+            loadAppsPrefsFromJSON();
 
         List<NotificationPreferencesEntity> apps = SQLite
                 .select()
@@ -423,12 +423,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
     }
 
-    // TODO: 06/12/2018 remove this in the future
-    //Temporary Migration function (old users will have its selected apps migrated from JSON to SQLITE)
-    public static void migrateNotificationPrefsFromJSON() {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity migrateNotificationPrefsFromJSON");
-
+    public static void loadAppsPrefsFromJSON() {
+        //Log.d(Constants.TAG,"FilesExtrasActivity loadAppsPrefsFromJSON");
         String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
 
         if (!packagesJson.equals("[]")) {
@@ -440,11 +436,11 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
             }
 
             Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-            Logger.info("FilesExtrasActivity migrateNotificationPrefsFromJSON finished");
+            Logger.info("FilesExtrasActivity loadAppsPrefsFromJSON finished");
         }
 
         String filtersJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, "[]");
-        Logger.debug("FilesExtrasActivity migrateNotificationPrefsFromJSON filters: " + filtersJson);
+        Logger.debug("FilesExtrasActivity loadAppsPrefsFromJSON filters: " + filtersJson);
         if (!filtersJson.equals("[]")) {
             Map<String, String> packagesfilters = new Gson().fromJson(filtersJson, Map.class);
 
@@ -511,6 +507,69 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         }
     }
 
+
+    public static void saveCommandHistoryToPrefs() {
+        Logger.debug("FilesExtrasActivity saveAppsDbToPrefs");
+
+        List<CommandHistoryEntity> commandHistoryValues = SQLite
+                .select()
+                .from(CommandHistoryEntity.class)
+                .orderBy(CommandHistoryEntity_Table.date.asc())
+                .queryList();
+
+        if (commandHistoryValues.size() > 0) {
+            List<String> commands = new ArrayList<>();
+
+            for (CommandHistoryEntity p : commandHistoryValues) {
+                commands.add(p.getCommand());
+            }
+
+            if (commands.size() > 0) {
+                String pref = new Gson().toJson(commands);
+                Prefs.putString(Constants.PREF_COMMAND_HISTORY, pref);
+                Prefs.edit().commit();
+            }
+        }
+    }
+
+    public static void loadCommandHistoryFromPrefs() {
+
+        String commandsJSON = Prefs.getString(Constants.PREF_COMMAND_HISTORY, "[]");
+
+        if (!commandsJSON.equals("[]")) {
+            String[] commands = new Gson().fromJson(commandsJSON, String[].class);
+            for (String p : commands) {
+                saveCommandToHistory(p);
+            }
+
+            Prefs.putString(Constants.PREF_COMMAND_HISTORY, "[]");
+            Logger.info("FilesExtrasActivity loadCommandHistoryFromPrefs finished");
+        }
+    }
+
+    public static void saveCommandToHistory(String command) {
+        CommandHistoryEntity previousSameCommand = SQLite
+                .select()
+                .from(CommandHistoryEntity.class)
+                .where(CommandHistoryEntity_Table.command.eq(command))
+                .querySingle();
+
+        if (previousSameCommand != null) {
+            previousSameCommand.setDate(System.currentTimeMillis());
+            FlowManager
+                    .getModelAdapter(CommandHistoryEntity.class)
+                    .update(previousSameCommand);
+        } else {
+            CommandHistoryEntity commandHistoryEntity = new CommandHistoryEntity();
+            commandHistoryEntity.setCommand(command);
+            commandHistoryEntity.setDate(System.currentTimeMillis());
+
+            FlowManager
+                    .getModelAdapter(CommandHistoryEntity.class)
+                    .insert(commandHistoryEntity);
+        }
+    }
+
     public static void eraseAppsPrefs() {
         Logger.debug("FilesExtrasActivity eraseAppsPrefs");
 
@@ -519,39 +578,4 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         Prefs.edit().commit();
 
     }
-
-    //file
-    protected void requestPermission()
-    {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-        {
-            Toast.makeText(FilesExtrasActivity.this, "Read External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-        } else
-        {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            {
-                requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-            }
-        }
-    }
-
-    //file
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
-    {
-        switch (requestCode)
-        {
-            case 100:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                {
-                    updateData();
-                } else
-                {
-                    Logger.error("Permission Denied, You cannot use local drive .");
-                    Toast.makeText(FilesExtrasActivity.this,"Permission Denied",Toast.LENGTH_SHORT).show();
-                }
-                break;
-        }
-    }
-
 }

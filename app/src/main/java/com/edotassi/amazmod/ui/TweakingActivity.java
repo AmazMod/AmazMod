@@ -344,7 +344,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
 
         String command = commandEditText.getText().toString();
         execCommandInternally(command);
-        saveCommandToHistory(command);
+        FilesExtrasActivity.saveCommandToHistory(command);
 
         FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_EXECUTED, null);
     }
@@ -365,29 +365,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
             } catch (NullPointerException e) {
                 Logger.error("Returned from CommandHistoryActivity without selecting any command");
             }
-        }
-    }
-
-    private void saveCommandToHistory(String command) {
-        CommandHistoryEntity previousSameCommand = SQLite
-                .select()
-                .from(CommandHistoryEntity.class)
-                .where(CommandHistoryEntity_Table.command.eq(command))
-                .querySingle();
-
-        if (previousSameCommand != null) {
-            previousSameCommand.setDate(System.currentTimeMillis());
-            FlowManager
-                    .getModelAdapter(CommandHistoryEntity.class)
-                    .update(previousSameCommand);
-        } else {
-            CommandHistoryEntity commandHistoryEntity = new CommandHistoryEntity();
-            commandHistoryEntity.setCommand(command);
-            commandHistoryEntity.setDate(System.currentTimeMillis());
-
-            FlowManager
-                    .getModelAdapter(CommandHistoryEntity.class)
-                    .insert(commandHistoryEntity);
         }
     }
 

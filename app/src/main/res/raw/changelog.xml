@@ -3,6 +3,8 @@
         date="undefined"
         versionCode="213"
         versionName="v1.1.7">
+        <new>Command History is now saved/restored in backup</new>
+        <bugfix>Fixed the Sporadic "Welcome to Amazmod" notification on watch</bugfix>
         <bugfix>Small bug fixes</bugfix>
         <info>Updated translations</info>
     </release>
