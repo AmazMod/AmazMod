@@ -70,7 +70,7 @@
     <string name="telegram_channel">Telegram kanál</string>
     <string name="support_email">Email podpora</string>
     <string name="project_github">Projekt na GitHub</string>
-    <string name="activity_about_project_maintainer">Správce projektu</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">Vývojáři</string>
     <string name="activity_about_testers">Testovali</string>
     <string name="translators">Překladatelé</string>
@@ -335,5 +335,4 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="remove">ODSTRANIT</string>
     <string name="grant">UDĚLIT</string>
     <string name="no_storage_permission">AmazMod nemá oprávnění k přístupu k úložišti, prosím udělte aplikaci toto oprávnění.</string>
-    <string name="activity_about_recruiter">Zapojte se</string>
 </resources>
