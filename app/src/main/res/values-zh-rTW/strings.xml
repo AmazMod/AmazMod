@@ -334,4 +334,5 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
+    <string name="generate_bundle">Generate Log Bundle</string>
 </resources>
