@@ -333,4 +333,5 @@
     <string name="remove">VERWIJDER</string>
     <string name="grant">STA TOE</string>
     <string name="no_storage_permission">AmazMod heeft geen toegang tot opslagruimtes; sta dit toe.</string>
+    <string name="generate_bundle">Generate Log Bundle</string>
 </resources>
