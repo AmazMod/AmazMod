@@ -68,6 +68,12 @@ public class NotificationWearActivity extends Activity {
         key = getIntent().getStringExtra(KEY);
         mode = getIntent().getStringExtra(MODE);
 
+        if (NotificationStore.getCustomNotification(key) == null){
+            Logger.error("onCreate: invalid key '" + key + "' - notification will not be shown");
+            finish();
+            return;
+        }
+
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
         config.setReplaceAll(true);
         EmojiCompat.init(config);
