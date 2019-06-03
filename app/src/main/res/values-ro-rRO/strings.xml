@@ -70,7 +70,7 @@
     <string name="telegram_channel">Canal de Telegramă</string>
     <string name="support_email">Email de suport</string>
     <string name="project_github">Proiect pe Github</string>
-    <string name="activity_about_project_maintainer">Responsabil de proiect</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Laboranți</string>
     <string name="translators">Traducători</string>
@@ -333,5 +333,4 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="activity_about_recruiter">Recruiter / Engager</string>
 </resources>
