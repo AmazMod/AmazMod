@@ -70,7 +70,7 @@
     <string name="telegram_channel">Наш Telegram</string>
     <string name="support_email">Почта поддержки:</string>
     <string name="project_github">Проект Github</string>
-    <string name="activity_about_project_maintainer">Сопровождение проекта</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">Разработчики</string>
     <string name="activity_about_testers">Тестеры</string>
     <string name="translators">Переводчики</string>
@@ -333,5 +333,4 @@
     <string name="remove">УДАЛИТЬ</string>
     <string name="grant">РАЗРЕШИТЬ</string>
     <string name="no_storage_permission">AmazMod не имеет разрешения на доступ к файлам, пожалуйста, предоставьте его.</string>
-    <string name="activity_about_recruiter">Подбор персонала</string>
 </resources>
