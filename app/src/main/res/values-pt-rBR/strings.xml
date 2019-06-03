@@ -70,7 +70,7 @@
     <string name="telegram_channel">Canal no Telegram</string>
     <string name="support_email">Email para Suporte</string>
     <string name="project_github">Projeto no Github</string>
-    <string name="activity_about_project_maintainer">Mantenedor do projeto</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">Desenvolvedores</string>
     <string name="activity_about_testers">Testadores</string>
     <string name="translators">Tradutores</string>
@@ -333,5 +333,4 @@
     <string name="remove">REMOVER</string>
     <string name="grant">CONCEDER</string>
     <string name="no_storage_permission">O AmazMod não tem permissão de escrita no armazenamento, por favor conceda.</string>
-    <string name="activity_about_recruiter">Recrutador / Engajador</string>
 </resources>
