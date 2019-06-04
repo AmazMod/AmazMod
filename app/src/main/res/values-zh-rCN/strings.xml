@@ -70,7 +70,7 @@
     <string name="telegram_channel">Telegram 频道</string>
     <string name="support_email">支持邮件</string>
     <string name="project_github">在 Github 上的项目</string>
-    <string name="activity_about_project_maintainer">项目维护者</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">测试人员</string>
     <string name="translators">翻译人员</string>
@@ -334,5 +334,5 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="activity_about_recruiter">Recruiter / Engager</string>
+    <string name="generate_bundle">Generate Log Bundle</string>
 </resources>

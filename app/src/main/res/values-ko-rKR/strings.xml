@@ -70,7 +70,7 @@
     <string name="telegram_channel">텔레그램 채널</string>
     <string name="support_email">문의 이메일</string>
     <string name="project_github">Github 프로젝트</string>
-    <string name="activity_about_project_maintainer">프로젝트 관리자</string>
+    <string name="activity_about_project_maintainer">Project Maintainer</string>
     <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">테스터</string>
     <string name="translators">번역한 사람들</string>
@@ -333,5 +333,5 @@
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="activity_about_recruiter">Recruiter / Engager</string>
+    <string name="generate_bundle">Generate Log Bundle</string>
 </resources>
