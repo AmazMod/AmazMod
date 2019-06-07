@@ -335,5 +335,5 @@ Urobte príkaz shell \"</string>
     <string name="grant">Povoliť</string>
     <string name="no_storage_permission">AmazMod nemá žiadne povolenie na ukladanie dát, udelte ho.</string>
     <string name="generate_bundle">Generovanie protokolového balíka</string>
-    <string name="set_watchface">Set Watchface</string>
+    <string name="set_watchface">Použi ciferník</string>
 </resources>
