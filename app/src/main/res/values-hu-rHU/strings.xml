@@ -336,5 +336,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="grant">MEGAD</string>
     <string name="no_storage_permission">Az AmazModnak nincs tárhely engedélye, add ezt meg.</string>
     <string name="generate_bundle">Naplócsomag létrehozása</string>
-    <string name="set_watchface">Óratéma beállítása</string>
+    <string name="set_watchface">Számlap beállítása</string>
 </resources>
