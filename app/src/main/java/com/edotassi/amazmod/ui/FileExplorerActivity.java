@@ -34,6 +34,7 @@ import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.util.WatchfaceUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
 import com.google.android.gms.tasks.CancellationTokenSource;
@@ -420,8 +421,11 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             if (fileData.getName().endsWith(".tar.gz") || fileData.getName().endsWith(".tgz")) {
                 menuInflater.inflate(R.menu.activity_file_explorer_targz_file, contextMenu);
             }
-        }
 
+            if (fileData.getName().endsWith(".wfz") && (currentPath.equals(Constants.WATCHFACE_FOLDER) )) {
+                menuInflater.inflate(R.menu.activity_file_explorer_wfz, contextMenu);
+            }
+        }
 
         super.onCreateContextMenu(contextMenu, view, contextMenuInfo);
     }
@@ -448,6 +452,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 return true;
             case R.id.action_activity_file_explorer_compress:
                 compress(index);
+                return true;
+            case R.id.action_activity_file_explorer_set_watchface:
+                setWatchface(index);
                 return true;
         }
 
@@ -480,6 +487,11 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         final FileData fileData = fileExplorerAdapter.getItem(index);
         String compressCmd = ShellCommandHelper.getCompressCommand(currentPath, fileData.getName());
         execCommandAndReload(compressCmd);
+    }
+
+    private void setWatchface(int index) {
+        final FileData fileData = fileExplorerAdapter.getItem(index);
+        WatchfaceUtil.setWfzWatchFace(this,fileData.getName());
     }
 
     private void extract(int index) {

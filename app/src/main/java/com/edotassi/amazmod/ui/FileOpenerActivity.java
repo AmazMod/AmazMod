@@ -27,6 +27,7 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.util.FilesUtil;
+import com.edotassi.amazmod.util.WatchfaceUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -305,21 +306,49 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
         msg = msg = "File: " + inputFileName + "\nResult: " + result;
 
-        if (INSTALL_OK.equals(result))
-            msg += "\n\n" + getString(R.string.apk_install_started);
+        if (result.equals(WRITE_OK)){
+            msg += "\n\nWould you like to set it as active watchface?";
+            new MaterialDialog.Builder(this)
+                    .canceledOnTouchOutside(false)
+                    .title(title)
+                    .content(msg)
+                    .positiveText("YES")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            WatchfaceUtil.setWfzWatchFace(FileOpenerActivity.this,inputFileName);
+                            finish();
+                        }
+                    })
+                    .negativeText("NO")
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }else{
+            if (INSTALL_OK.equals(result)){
+                msg += "\n\n" + getString(R.string.apk_install_started);
+            }
+            new MaterialDialog.Builder(this)
+                    .canceledOnTouchOutside(false)
+                    .title(title)
+                    .content(msg)
+                    .positiveText("OK")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
 
-        new MaterialDialog.Builder(this)
-                .canceledOnTouchOutside(false)
-                .title(title)
-                .content(msg)
-                .positiveText("OK")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        finish();
-                    }
-                })
-                .show();
+
+
+
     }
 
     private boolean copyToCache(ContentResolver resolver, Uri uri, String fileName) {
