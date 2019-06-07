@@ -336,4 +336,5 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="grant">CONCEDI</string>
     <string name="no_storage_permission">AmazMod non ha il permesso di archiviazione, si prega di darglielo.</string>
     <string name="generate_bundle">Genera pacchetto di log</string>
+    <string name="set_watchface">Imposta Watchface</string>
 </resources>

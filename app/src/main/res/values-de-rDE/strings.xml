@@ -334,4 +334,5 @@
     <string name="grant">ERTEILEN</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
     <string name="generate_bundle">Generate Log Bundle</string>
+    <string name="set_watchface">Set Watchface</string>
 </resources>

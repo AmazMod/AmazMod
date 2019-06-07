@@ -334,4 +334,5 @@
     <string name="grant">РАЗРЕШИТЬ</string>
     <string name="no_storage_permission">AmazMod не имеет разрешения на доступ к файлам, пожалуйста, предоставьте его.</string>
     <string name="generate_bundle">Создать журналы</string>
+    <string name="set_watchface">Set Watchface</string>
 </resources>

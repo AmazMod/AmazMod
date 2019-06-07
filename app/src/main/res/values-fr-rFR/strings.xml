@@ -334,4 +334,5 @@
     <string name="grant">ACCORDER</string>
     <string name="no_storage_permission">AmazMod n\'a pas de permission de stockage, veuillez l\'accorder.</string>
     <string name="generate_bundle">Generate Log Bundle</string>
+    <string name="set_watchface">Set Watchface</string>
 </resources>
