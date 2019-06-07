@@ -268,6 +268,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                     .setSummaryText(message))
                     .setContentTitle(getString(R.string.sending))
                     .setContentText(message)
+                    .setOnlyAlertOnce(true)
                     .setOngoing(true)
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.outline_cloud_upload_24);
@@ -307,6 +308,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                     .bigText(message)
                                     .setBigContentTitle(getString(R.string.sending))
                                     .setSummaryText(smallMessage))
+                                    .setOnlyAlertOnce(true)
                                     .setContentTitle(getString(R.string.sending))
                                     .setContentText(smallMessage);
                             mBuilder.setProgress(100, (int) progress, false);
@@ -323,7 +325,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 @Override
                 public Object then(@NonNull Task<Void> task) throws Exception {
                     snackProgressBarManager.dismissAll();
-
                     if (task.isSuccessful()) {
                         //if there are no more files to upload, reload (or show information)
                         if (files.size() == 0) {
@@ -585,6 +586,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 .setSummaryText(message))
                 .setContentTitle(getString(R.string.downloading))
                 .setContentText(message)
+                .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.outline_cloud_download_24);
@@ -627,6 +629,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                 .bigText(message)
                                 .setBigContentTitle(getString(R.string.downloading))
                                 .setSummaryText(smallMessage))
+                                .setOnlyAlertOnce(true)
                                 .setContentTitle(getString(R.string.downloading))
                                 .setContentText(smallMessage);
                         mBuilder.setProgress(100, (int) progress, false);
@@ -663,7 +666,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             mBuilder.setProgress(0, 0, false);
                             // notificationId is a unique int for each notification that you must define
                             notificationManager.notify(0, mBuilder.build());
-                            uploading = false;
+
 
                             Bundle bundle = new Bundle();
                             bundle.putLong("size", size);
@@ -682,7 +685,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                             }
                                         });
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                                uploading = false;
+
                                 // notificationId is a unique int for each notification that you must define
                                 notificationManager.cancel(0);
                             } else {
@@ -695,7 +698,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                             }
                                         });
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                                //uploading = false;
+
                                 mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
                                         .bigText(getString(R.string.cant_download_file)))
                                         .setOngoing(false);
