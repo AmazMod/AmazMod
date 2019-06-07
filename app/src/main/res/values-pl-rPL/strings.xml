@@ -329,9 +329,9 @@
     <string name="statsandlogs">Statystyki / Logi</string>
     <string name="clear_log">Wyczyść Logi</string>
     <string name="send_log">Wyślij Logi</string>
-    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
-    <string name="remove">REMOVE</string>
-    <string name="grant">GRANT</string>
-    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="activity_about_recruiter">Recruiter / Engager</string>
+    <string name="battery_optimization_warning">AmazMod jest włączony w tryb optymalizacji baterii. Zalecamy usunięcie go stamtąd, aby uniknąć utraty powiadomień.</string>
+    <string name="remove">USUNĄĆ</string>
+    <string name="grant">PRZYZNAJ</string>
+    <string name="no_storage_permission">AmazMod nie ma dostępu do pamięci, proszę go przyznać.</string>
+    <string name="generate_bundle">Generuj pakiet dziennika</string>
 </resources>

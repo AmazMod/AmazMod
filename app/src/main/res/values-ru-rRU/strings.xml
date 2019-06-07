@@ -333,5 +333,5 @@
     <string name="remove">УДАЛИТЬ</string>
     <string name="grant">РАЗРЕШИТЬ</string>
     <string name="no_storage_permission">AmazMod не имеет разрешения на доступ к файлам, пожалуйста, предоставьте его.</string>
-    <string name="activity_about_recruiter">Подбор персонала</string>
+    <string name="generate_bundle">Создать журналы</string>
 </resources>

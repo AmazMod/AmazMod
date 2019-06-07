@@ -51,12 +51,16 @@ public class PackageReceiver extends BroadcastReceiver {
                                 e.printStackTrace();
                             }
                     }
-                        // Restore apk_install screen timeout
-                        Logger.debug("Restore APK_INSTALL screen timeout");
-                        try{
-                            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000");
-                        } catch (IOException e) {
-                            Logger.error(e,"onCreate: IOException while restoring APK_INSTALL screen timeout");
+                        //Wake screen to show Pop-UP confirm
+                        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                        try {
+                            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                                    | PowerManager.ON_AFTER_RELEASE, "Install is complete, wake the screen to see confirm pop-up:");
+                            wakeLock.acquire();
+                            wakeLock.release();
+                        } catch (NullPointerException e) {
+                            Logger.error("Could not wake screen up to show install complete pop-up: " + e);
                         }
                         showInstallConfirmation(mContext, Constants.MY_APP);
                     }
