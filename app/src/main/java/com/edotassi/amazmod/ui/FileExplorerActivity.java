@@ -600,7 +600,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                         DecimalFormat df = new DecimalFormat("#.00");
 
                         String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                        String message = getString(R.string.sending) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                        String message = getString(R.string.downloading) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
                         progressBar.setMessage(message);
                         snackProgressBarManager.setProgress((int) progress);
