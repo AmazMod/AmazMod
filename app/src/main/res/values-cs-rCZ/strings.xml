@@ -336,5 +336,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="grant">UDĚLIT</string>
     <string name="no_storage_permission">AmazMod nemá oprávnění k přístupu k úložišti, prosím udělte aplikaci toto oprávnění.</string>
     <string name="generate_bundle">Vygenerovat balík protokolů</string>
-    <string name="set_watchface">Set Watchface</string>
+    <string name="set_watchface">Nastavit ciferník</string>
 </resources>
