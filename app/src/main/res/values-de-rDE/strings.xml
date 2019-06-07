@@ -71,7 +71,7 @@
     <string name="support_email">Support E-Mail</string>
     <string name="project_github">Projektseite auf GitHub</string>
     <string name="activity_about_project_maintainer">Projektbetreiber</string>
-    <string name="activity_about_devs">Developers</string>
+    <string name="activity_about_devs">Entwickler</string>
     <string name="activity_about_testers">Tester</string>
     <string name="translators">Übersetzer</string>
     <string name="activity_watchface_need_greatfit">Das Watchface GreatFit oder die Widgets Calendar / Timeline müssen auf Ihrer Uhr installiert sein, damit diese Optionen verwendet werden können</string>
@@ -302,7 +302,7 @@
     <string name="error">Fehler</string>
     <string name="invalid_url">Ungültige iCal URL!</string>
     <string name="file_or_connection_error">Datei oder Verbindungsfehler, Datei konnte nicht geöffnet werden!</string>
-    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">WARNUNG: Der Aktualisierungsprozess kann bis zu 3 Minuten dauern und die Uhr wird ein oder mehrere Male neu gestartet. Benutzen Sie die Uhr nicht während des Prozesses oder es kann zu Beschädigungen kommen. Starten Sie das Update nur, wenn Sie darauf warten können bis es beendet wird.</string>
     <string name="search_title">Suche</string>
     <string name="pref_use_notification_scheduler">Benachrichtigungen speichern während die Verbindung getrennt ist</string>
     <string name="pref_use_notification_scheduler_summary">Speichern Sie die erhaltenen Benachrichtigungen während die Uhr und das Telefon getrennt sind und senden Sie sie, wenn die Verbindung wiederhergestellt wird</string>
@@ -329,10 +329,10 @@
     <string name="statsandlogs">Statistik/Logs</string>
     <string name="clear_log">Log löschen</string>
     <string name="send_log">Log senden</string>
-    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recomend removing it from there so no notifications are lost.</string>
+    <string name="battery_optimization_warning">AmazMod ist im Modus für Batterieoptimierung. Wir empfehlen die Deaktivierung um keine Benachrichtigungen zu verlieren.</string>
     <string name="remove">ENTFERNEN</string>
     <string name="grant">ERTEILEN</string>
-    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="generate_bundle">Generate Log Bundle</string>
-    <string name="set_watchface">Set Watchface</string>
+    <string name="no_storage_permission">AmazMod hat keine Zugriffsberechtigung für den Speicher, bitte erteilen Sie sie.</string>
+    <string name="generate_bundle">Log-Bundle generieren</string>
+    <string name="set_watchface">Watchface festlegen</string>
 </resources>
