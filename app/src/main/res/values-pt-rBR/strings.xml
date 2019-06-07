@@ -334,4 +334,5 @@
     <string name="grant">CONCEDER</string>
     <string name="no_storage_permission">O AmazMod não tem permissão de escrita no armazenamento, por favor conceda.</string>
     <string name="generate_bundle">Generate Log Bundle</string>
+    <string name="set_watchface">Set Watchface</string>
 </resources>
