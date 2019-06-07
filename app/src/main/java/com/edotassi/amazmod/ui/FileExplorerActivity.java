@@ -570,6 +570,25 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private void downloadFile(int index) {
         final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         final FileData fileData = fileExplorerAdapter.getItem(index);
+
+        String message = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
+
+        Intent intent = new Intent(this, FileExplorerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                .bigText(message)
+                .setBigContentTitle(getString(R.string.downloading))
+                .setSummaryText(message))
+                .setContentTitle(getString(R.string.downloading))
+                .setContentText(message)
+                .setOngoing(true)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.outline_cloud_download_24);
+
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.downloading))
                 .setIsIndeterminate(false)
@@ -600,7 +619,20 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                         DecimalFormat df = new DecimalFormat("#.00");
 
                         String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                        String message = getString(R.string.downloading) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                        String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
+                        String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+
+                        //Show/Update notification with current progress
+                        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                .bigText(message)
+                                .setBigContentTitle(getString(R.string.downloading))
+                                .setSummaryText(smallMessage))
+                                .setContentTitle(getString(R.string.downloading))
+                                .setContentText(smallMessage);
+                        mBuilder.setProgress(100, (int) progress, false);
+                        // notificationId is a unique int for each notification that you must define
+                        notificationManager.notify(0, mBuilder.build());
+
 
                         progressBar.setMessage(message);
                         snackProgressBarManager.setProgress((int) progress);
@@ -624,6 +656,15 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                     });
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
 
+                            //Remover progressBar from notification and allow removal of it
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(getString(R.string.file_downloaded)))
+                                    .setOngoing(false);
+                            mBuilder.setProgress(0, 0, false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
+                            uploading = false;
+
                             Bundle bundle = new Bundle();
                             bundle.putLong("size", size);
                             bundle.putLong("duration", System.currentTimeMillis() - startedAt);
@@ -641,6 +682,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                             }
                                         });
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                uploading = false;
+                                // notificationId is a unique int for each notification that you must define
+                                notificationManager.cancel(0);
                             } else {
                                 SnackProgressBar snackbar = new SnackProgressBar(
                                         SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_download_file))
@@ -651,6 +695,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                             }
                                         });
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                //uploading = false;
+                                mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                        .bigText(getString(R.string.cant_download_file)))
+                                        .setOngoing(false);
+                                mBuilder.setProgress(0, 0, false);
+                                // notificationId is a unique int for each notification that you must define
+                                notificationManager.notify(0, mBuilder.build());
                             }
                         }
 
