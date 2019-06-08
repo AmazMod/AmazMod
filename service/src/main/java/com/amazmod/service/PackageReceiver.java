@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.PowerManager;
+import android.os.Vibrator;
 
 import com.amazmod.service.ui.DummyActivity;
 import com.amazmod.service.util.DeviceUtil;
@@ -62,6 +63,11 @@ public class PackageReceiver extends BroadcastReceiver {
                         } catch (NullPointerException e) {
                             Logger.error("Could not wake screen up to show install complete pop-up: " + e);
                         }
+                        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                        if(vibe != null) {
+                            vibe.vibrate(350);
+                            Logger.warn("Install finished - vibrate");
+                        }
                         showInstallConfirmation(mContext, Constants.MY_APP);
                     }
                 }
@@ -71,6 +77,11 @@ public class PackageReceiver extends BroadcastReceiver {
             if (action.contains("PACKAGE_REPLACED") || action.contains("PACKAGE_ADDED")) {
                 if (intent.getDataString() != null) {
                     if (isAmazmodInstall()) {
+                        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+                        if(vibe != null) {
+                            vibe.vibrate(350);
+                            Logger.warn("Install finished - vibrate");
+                        }
                         showInstallConfirmation(mContext, Constants.OTHER_APP);
                         setIsAmazmodInstall(false);
                     }
