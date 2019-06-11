@@ -1,9 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
-ext {
-    supportLibVersion = '28.0.0'
-}
 
 android {
     compileSdkVersion 27
@@ -46,6 +43,12 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
 }
 
 dependencies {
@@ -58,11 +61,11 @@ dependencies {
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
     implementation 'xiaofei.library:hermes-eventbus:0.3.0'
     implementation 'com.github.marlonlom:timeago:3.0.2'
-    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
+    implementation 'com.jakewharton:butterknife:9.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'org.apache.commons:commons-lang3:3.6'
     implementation 'com.github.tbouron.shakedetector:library:1.0.0@aar'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation files('../libs/SpringboardPluginLib.jar')
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/WearServices_libs.jar')
@@ -88,6 +91,5 @@ configurations.all {
                 details.useVersion '27.1.1'
             }
         }
-
     }
 }
