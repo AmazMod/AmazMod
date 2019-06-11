@@ -2,16 +2,8 @@ package com.amazmod.service.support;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-
-import com.amazmod.service.Constants;
 
 import amazmod.com.transport.data.NotificationData;
 

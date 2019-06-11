@@ -2,9 +2,10 @@ package com.edotassi.amazmod.ui;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.widget.ListView;
+
+import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;

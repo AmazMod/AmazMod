@@ -45,7 +45,7 @@
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />
 
-        <activity android:name="android.support.v7.app.ActionBarActivity" />
+        <activity android:name="androidx.appcompat.app.ActionBarActivity" />
         <activity
             android:name=".ui.NotificationActivity"
             android:allowEmbedded="true"

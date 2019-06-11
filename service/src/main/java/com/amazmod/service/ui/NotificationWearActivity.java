@@ -8,13 +8,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.text.emoji.EmojiCompat;
-import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;

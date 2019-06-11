@@ -3,7 +3,6 @@ package amazmod.com.transport.data;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.ViewPropertyAnimatorListener;
 
 import com.huami.watch.transport.DataBundle;
 

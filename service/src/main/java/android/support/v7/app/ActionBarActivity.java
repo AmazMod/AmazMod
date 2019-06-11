@@ -1,5 +1,7 @@
 package android.support.v7.app;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 /**
  * Created by edoardotassinari on 20/04/18.
  */
