@@ -27,6 +27,7 @@ import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 import org.tinylog.Logger;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -63,6 +64,7 @@ public class StatsActivity extends BaseAppCompatActivity {
     Button openNotificationsLogButton;
 
     private SnackProgressBarManager snackProgressBarManager;
+    private static String logFile;
 
     private final byte[] ALLOWED_FILTERS = {Constants.FILTER_CONTINUE,
                                             Constants.FILTER_UNGROUP,
@@ -81,13 +83,16 @@ public class StatsActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+        logFile = this.getExternalFilesDir(null) + File.separator + Constants.LOGFILE;
+
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.stats);
         } catch (NullPointerException exception) {
+            Logger.error(exception.getMessage());
             //TODO log to crashlitics
         }
 
-        getSupportActionBar().setTitle(R.string.stats);
         ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
@@ -179,9 +184,9 @@ public class StatsActivity extends BaseAppCompatActivity {
     public void clearLogs(){
         try{
             logsContentEditText.setText("");
-            FileWriter fw = new FileWriter(Constants.LOGFILE,false);
+            FileWriter fw = new FileWriter(logFile,false);
         }catch (IOException e){
-            Logger.error(e,"clearLogs: can't empty file " + Constants.LOGFILE);
+            Logger.error(e,"clearLogs: can't empty file " + logFile);
         }
 
     }
@@ -191,7 +196,7 @@ public class StatsActivity extends BaseAppCompatActivity {
         /*
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
-        Uri uri = Uri.fromFile(new File(Constants.LOGFILE));
+        Uri uri = Uri.fromFile(new File(logFile));
         shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
         startActivity(Intent.createChooser(shareIntent, "Share Log"));*/
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
@@ -204,7 +209,7 @@ public class StatsActivity extends BaseAppCompatActivity {
     private void loadLogs(){
         try {
             // How to read file into String before Java 7
-            InputStream is = new FileInputStream(Constants.LOGFILE);
+            InputStream is = new FileInputStream(logFile);
             BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 
             String line = buf.readLine();
@@ -219,7 +224,7 @@ public class StatsActivity extends BaseAppCompatActivity {
             logsContentEditText.setText(fileAsString);
             logsContentEditText.setMovementMethod(new ScrollingMovementMethod());
         } catch (IOException e){
-            Logger.error(e, "loadLogs: Cant read file " + Constants.LOGFILE);
+            Logger.error(e, "loadLogs: Cant read file " + logFile);
         }
 
     }

@@ -179,7 +179,7 @@
                     android:layout_marginBottom="8dp"
                     android:gravity="bottom"
                     android:scrollbars="vertical"
-                    android:textSize="10sp"
+                    android:textSize="11sp"
                     app:layout_constraintBottom_toTopOf="@+id/activity_stats_clear_logs"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

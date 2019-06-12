@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
-
 android {
     compileSdkVersion 28
 
@@ -19,6 +18,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            debuggable debugFlag
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

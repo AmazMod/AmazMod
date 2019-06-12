@@ -30,9 +30,6 @@ public class Constants {
     public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
     public static final String SHELL_COMMAND_LOG_BUNDLE = "adb logcat -d | gzip > /sdcard/log_bundle.log.gz";
 
-
-
-
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
@@ -77,10 +74,8 @@ public class Constants {
     public static final String PREF_LOG_TO_FILE = "preference.logs.logtofile";
     public static final boolean PREF_LOG_TO_FILE_DEFAULT = true;
 
-
     public static final String PREF_LOG_TO_FILE_LEVEL = "preference.logs.logtofile.level";
     public static final String PREF_LOG_TO_FILE_LEVEL_DEFAULT = "ERROR";
-
 
     //public static final String PREF_NOTIFICATION_DELETE_BUTTON = "preference.amazmodservice.notification.enable.deletebutton";
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
@@ -173,7 +168,7 @@ public class Constants {
     public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
     public static final int SCREEN_BRIGHTNESS_VALUE_AUTO = -1;
 
-    public static final String LOGFILE = "/data/user/0/com.edotassi.amazmod/files/amazmod.log";
+    public static final String LOGFILE = "amazmod.log";
 
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 

@@ -3,7 +3,6 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.butterknife'
 
-
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -26,6 +25,7 @@ android {
             manifestPlaceholders = [enableCrashReporting: "false"]
 
             minifyEnabled false
+            debuggable debugFlag
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
