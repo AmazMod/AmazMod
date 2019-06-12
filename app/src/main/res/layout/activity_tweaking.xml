@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -60,7 +61,8 @@
                 android:ems="10"
                 android:inputType="numberSigned"
                 app:layout_constraintEnd_toStartOf="@+id/activity_tweaking_button_update_brightness"
-                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_switcht_auto_brightness" />
+                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_switcht_auto_brightness"
+                tools:ignore="Autofill" />
 
             <Button
                 android:id="@+id/activity_tweaking_button_update_brightness"
@@ -105,8 +107,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:text="@string/reboot"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -114,12 +116,12 @@
                 android:id="@+id/activity_tweaking_reboot_bootloader"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="@string/reboot_bootloader"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                tools:text="ENTER FASTBOOT" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/activity_tweaking_enable_apps_list"
@@ -174,13 +176,15 @@
                 android:id="@+id/activity_tweaking_restart_launcher"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
                 android:text="@string/restart_launcher"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/guideline2"
-                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_disable_apps_list"/>
+                app:layout_constraintTop_toBottomOf="@+id/activity_tweaking_disable_apps_list" />
 
             <Button
                 android:id="@+id/activity_tweaking_revoke_admin"
@@ -233,6 +237,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/execute_shell_command"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <EditText
@@ -247,7 +252,8 @@
                 app:layout_constraintBottom_toBottomOf="@+id/activity_tweaking_exec_command_run"
                 app:layout_constraintEnd_toStartOf="@+id/activity_tweaking_exec_command_run"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/activity_tweaking_exec_command_run" />
+                app:layout_constraintTop_toTopOf="@+id/activity_tweaking_exec_command_run"
+                tools:ignore="Autofill" />
 
             <TextView
                 android:id="@+id/textView43"
@@ -286,9 +292,12 @@
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:drawableStart="@drawable/outline_history"
+                app:icon="@drawable/outline_history"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView35" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!--
