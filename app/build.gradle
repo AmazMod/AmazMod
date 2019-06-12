@@ -10,8 +10,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 213
-        versionName "1.1.7"
+        versionCode 214
+        versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
