@@ -45,7 +45,7 @@
                     app:srcCompat="@drawable/amazmod" />
             </LinearLayout>
 
-            <android.support.text.emoji.widget.EmojiTextView
+            <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/notification_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                 android:text="00:00"
                 android:textColor="@color/text" />
 
-            <android.support.text.emoji.widget.EmojiTextView
+            <androidx.emoji.widget.EmojiTextView
                 android:id="@+id/notification_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

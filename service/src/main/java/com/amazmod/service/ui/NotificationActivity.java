@@ -48,7 +48,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class NotificationActivity extends Activity {
 
@@ -376,7 +378,7 @@ public class NotificationActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     v.setBackground(getDrawable(R.drawable.reply_dark_grey));
-                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationData.getKey(), reply.getValue()));
+                    EventBus.getDefault().post(new ReplyNotificationEvent(notificationData.getKey(), reply.getValue()));
                     finish();
                 }
             });

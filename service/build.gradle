@@ -5,29 +5,15 @@ apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 28
 
-    def versionPropsFile = file('version.properties')
+    def buildVersion = 1895 //Manual version number
 
-    if (versionPropsFile.canRead()) {
-        Properties versionProps = new Properties()
-
-        versionProps.load(new FileInputStream(versionPropsFile))
-
-        def build = versionProps['VERSION_BUILD'].toInteger() + 1
-
-        versionProps['VERSION_BUILD']=build.toString()
-        versionProps.store(versionPropsFile.newWriter(), null)
-
-        defaultConfig {
-            applicationId "com.amazmod.service"
-            minSdkVersion 21
-            //noinspection ExpiredTargetSdkVersion
-            targetSdkVersion 21
-            versionCode build
-            versionName "${build}"
-        }
-    }
-    else {
-        throw new GradleException("Could not read version.properties!")
+    defaultConfig {
+        applicationId "com.amazmod.service"
+        minSdkVersion 21
+        //noinspection ExpiredTargetSdkVersion
+        targetSdkVersion 21
+        versionCode buildVersion
+        versionName "${buildVersion}"
     }
 
     buildTypes {
@@ -59,7 +45,8 @@ dependencies {
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:iconics-views:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-    implementation 'xiaofei.library:hermes-eventbus:0.3.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.marlonlom:timeago:3.0.2'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.jakewharton:butterknife:10.1.0'
