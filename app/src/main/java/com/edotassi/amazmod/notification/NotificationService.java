@@ -74,9 +74,9 @@ public class NotificationService extends NotificationListenerService {
     private static final long VOICE_INTERVAL = 5000L; //Five seconds
 
     private static final long JOB_INTERVAL = 5 * 1000L; //Five seconds
-    private static final long JOB_MAX_INTERVAL = 60000 * 1L; //1 minute
+    private static final long JOB_MAX_INTERVAL = 60000L; //1 minute
     private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 5L; //5 minutes
-    private static final long CUSTOMUI_LATENCY = 1350L;
+    private static final long CUSTOMUI_LATENCY = 1L;
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
             "com.contapps.android",
@@ -129,7 +129,6 @@ public class NotificationService extends NotificationListenerService {
         cancelPendingJobs(0);
         scheduleJob(0, 0, null);
 
-
     }
 
     @Override
@@ -141,6 +140,8 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+        if (TransporterClassic.get(this, "com.huami.action.notification").isTransportServiceConnected())
+            TransporterClassic.get(this, "com.huami.action.notification").disconnectTransportService();
         Logger.debug("onDestroy");
         super.onDestroy();
     }
@@ -443,11 +444,11 @@ public class NotificationService extends NotificationListenerService {
             builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
 
         } else {
-            //if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
-            //        && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
+            if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
+                    && (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, true)))
             builder.setMinimumLatency(CUSTOMUI_LATENCY);
-            //else
-            //    builder.setMinimumLatency(0);
+            else
+                builder.setMinimumLatency(1L);
 
             PersistableBundle bundle = new PersistableBundle();
             bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
@@ -455,6 +456,7 @@ public class NotificationService extends NotificationListenerService {
 
             builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
             builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+            builder.setOverrideDeadline(1L);
             builder.setExtras(bundle);
         }
 

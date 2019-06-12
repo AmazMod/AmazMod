@@ -144,8 +144,8 @@ public class NotificationJobService extends JobService {
 
     @Override
     public void onDestroy() {
+        disconnectTransports();
         Logger.debug("NotificationJobService onDestroy");
-
         super.onDestroy();
     }
 
