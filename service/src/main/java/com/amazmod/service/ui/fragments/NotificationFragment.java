@@ -48,7 +48,9 @@ import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -646,10 +648,10 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             case ACTION_DELETE:
                 break;
             case ACTION_MUTE:
-                HermesEventBus.getDefault().post(new SilenceApplicationEvent(notificationKey, selectedSilenceTime));
+                EventBus.getDefault().post(new SilenceApplicationEvent(notificationKey, selectedSilenceTime));
                 break;
             case ACTION_REPLY:
-                HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationKey, selectedReply));
+                EventBus.getDefault().post(new ReplyNotificationEvent(notificationKey, selectedReply));
                 break;
         }
         getActivity().finish();

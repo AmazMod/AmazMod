@@ -45,7 +45,6 @@
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />
 
-        <activity android:name="androidx.appcompat.app.ActionBarActivity" />
         <activity
             android:name=".ui.NotificationActivity"
             android:allowEmbedded="true"
@@ -135,7 +134,9 @@
             android:theme="@style/Theme.Transparent" />
         <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
 
-        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
+        <!-- Deprecated: Hermes Event Bus -->
+        <!--        <activity android:name="android.support.v7.app.ActionBarActivity" /> -->
+        <!--        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" /> -->
 
         <service android:name=".MainService"
             android:exported="true"

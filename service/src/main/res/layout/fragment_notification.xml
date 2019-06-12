@@ -157,7 +157,7 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
-                <android.support.text.emoji.widget.EmojiTextView
+                <androidx.emoji.widget.EmojiTextView
                     android:id="@+id/fragment_custom_notification_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
                         android:scaleType="centerCrop"
                         android:visibility="gone" />
 
-                    <android.support.text.emoji.widget.EmojiTextView
+                    <androidx.emoji.widget.EmojiTextView
                         android:id="@+id/fragment_custom_notification_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

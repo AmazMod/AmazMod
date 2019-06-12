@@ -43,7 +43,9 @@ import org.tinylog.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -460,11 +462,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START + 1:
-                HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
                 break;
 
             case MENU_START + 2:
-                HermesEventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
+                EventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
                 break;
 
             case MENU_START + 3:

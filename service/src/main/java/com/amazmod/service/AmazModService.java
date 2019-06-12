@@ -12,7 +12,9 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class AmazModService extends Application {
 
@@ -20,8 +22,8 @@ public class AmazModService extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Logger.debug("AmazModService HermesEventBus init");
-        HermesEventBus.getDefault().init(this);
+        Logger.debug("AmazModService init");
+        //EventBus.getDefault().init(this);
 
         FlowManager.init(this);
         cleanOldBatteryDb();
