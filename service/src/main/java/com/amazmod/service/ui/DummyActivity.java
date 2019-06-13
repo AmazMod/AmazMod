@@ -19,6 +19,7 @@ import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.WidgetsUtil;
 
 import org.tinylog.Logger;
 
@@ -135,6 +136,10 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
                         Runtime.getRuntime().exec("adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit");
                     }
                 }
+
+                // Force widget resorting
+                WidgetsUtil.loadWidgetList(this);
+
             } else if (appTag.contains(".apk")) {
                 DeviceUtil.installPackage(this, getPackageName(), appTag);
             }

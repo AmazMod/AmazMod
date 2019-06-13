@@ -59,8 +59,8 @@ import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.support.BatteryJobService;
 import com.amazmod.service.support.CommandLine;
 import com.amazmod.service.support.NotificationStore;
-import com.amazmod.service.ui.ConfirmationWearActivity;
 import com.amazmod.service.ui.AlertsActivity;
+import com.amazmod.service.ui.ConfirmationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
@@ -74,6 +74,7 @@ import com.ingenic.iwds.slpt.SlptClockClient;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
@@ -118,9 +119,6 @@ import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
 import amazmod.com.transport.data.WidgetsData;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
 import static java.lang.System.currentTimeMillis;
@@ -196,7 +194,7 @@ public class MainService extends Service implements Transporter.DataListener {
         settings = new WidgetSettings(Constants.TAG, context);
         settings.reload();
 
-        Logger.debug("MainService onCreate EventBus connect");
+        Logger.debug("MainService onCreate EventBus register");
         EventBus.getDefault().register(this);
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -204,21 +202,21 @@ public class MainService extends Service implements Transporter.DataListener {
         // Check if is SuperUser
         File su = new File("/system/xbin/su");
         Logger.debug("install is check if SuperUser");
-        if(su.exists()){
-        // Is SuperUser
-        Logger.debug("Disabling APK_INSTALL WAKELOCK");
-        try{
-            Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock");
-        } catch (IOException e) {
-            Logger.error(e,"onCreate: IOException while disabling APK_INSTALL WAKELOCK");
-        }}
-        else
-        // Is Stock user
-        Logger.debug("Restore APK_INSTALL screen timeout");
-        try{
+        if (su.exists()) {
+            // Is SuperUser
+            Logger.debug("Disabling APK_INSTALL WAKELOCK");
+            try {
+                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock");
+            } catch (IOException e) {
+                Logger.error(e, "onCreate: IOException while disabling APK_INSTALL WAKELOCK");
+            }
+        } else
+            // Is Stock user
+            Logger.debug("Restore APK_INSTALL screen timeout");
+        try {
             Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000");
         } catch (IOException e) {
-            Logger.error(e,"onCreate: IOException while restoring APK_INSTALL screen timeout");
+            Logger.error(e, "onCreate: IOException while restoring APK_INSTALL screen timeout");
         }
 
         // Register power disconnect receiver
@@ -960,6 +958,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                     } else {
                         String filename = null;
+                        PowerManager.WakeLock wakeLock = null;
                         if (command.contains("screencap")) {
                             Logger.debug("Screenshot: creating file");
                             File file = new File("/sdcard/Pictures/Screenshots");
@@ -972,18 +971,16 @@ public class MainService extends Service implements Transporter.DataListener {
                                 command = command + " " + filename;
 
                                 // Check is screen is locked
-                                if(DeviceUtil.isDeviceLocked(context)) {
+                                if (DeviceUtil.isDeviceLocked(context)) {
                                     Logger.debug("Screenshot: trying to wake screen...");
                                     PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                                    try {
-                                        PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                                                | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                                                | PowerManager.ON_AFTER_RELEASE, "ScreenshotWakeLock:");
-                                        wakeLock.acquire();
-                                        wakeLock.release();
-                                    } catch (NullPointerException e) {
-                                        Logger.error("Could not wake screen up for a screenshot: " + e);
-                                    }
+
+                                    wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                                            | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                                            | PowerManager.ON_AFTER_RELEASE, "AmazMod:Screenshot");
+
+                                    wakeLock.acquire(10 * 1000L /*10 seconds*/);
+
                                 }
                             }
                         }
@@ -1027,6 +1024,9 @@ public class MainService extends Service implements Transporter.DataListener {
                                 }
                             }
                         }
+
+                        if (wakeLock != null && wakeLock.isHeld())
+                            wakeLock.release();
                     }
                 } catch (Exception ex) {
                     Logger.error(ex.getMessage(), ex);

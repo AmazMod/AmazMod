@@ -8,12 +8,10 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 
 import com.amazmod.service.ui.DummyActivity;
-import com.amazmod.service.util.DeviceUtil;
 
 import org.tinylog.Logger;
 
 import java.io.File;
-import java.io.IOException;
 
 public class PackageReceiver extends BroadcastReceiver {
     
@@ -45,29 +43,10 @@ public class PackageReceiver extends BroadcastReceiver {
                         if (script.exists()) {
                             String command = String.format("log -pw -tAmazMod $(sh %s 2>&1)", script.getAbsolutePath());
                             Logger.debug("PackageReceiver onReceive command: " + command);
-                            try {
-                                Runtime.getRuntime().exec(new String[] { "sh", "-c", command },
-                                        null, Environment.getExternalStorageDirectory());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                    }
-                        //Wake screen to show Pop-UP confirm
-                        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                        try {
-                            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                                    | PowerManager.ON_AFTER_RELEASE, "Install is complete, wake the screen to see confirm pop-up:");
-                            wakeLock.acquire();
-                            wakeLock.release();
-                        } catch (NullPointerException e) {
-                            Logger.error("Could not wake screen up to show install complete pop-up: " + e);
+                            Runtime.getRuntime().exec(new String[]{"sh", "-c", command},
+                                    null, Environment.getExternalStorageDirectory());
                         }
-                        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-                        if(vibe != null) {
-                            vibe.vibrate(350);
-                            Logger.warn("Install finished - vibrate");
-                        }
+
                         showInstallConfirmation(mContext, Constants.MY_APP);
                     }
                 }
@@ -77,27 +56,45 @@ public class PackageReceiver extends BroadcastReceiver {
             if (action.contains("PACKAGE_REPLACED") || action.contains("PACKAGE_ADDED")) {
                 if (intent.getDataString() != null) {
                     if (isAmazmodInstall()) {
-                        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-                        if(vibe != null) {
-                            vibe.vibrate(350);
-                            Logger.warn("Install finished - vibrate");
-                        }
                         showInstallConfirmation(mContext, Constants.OTHER_APP);
                         setIsAmazmodInstall(false);
                     }
                 }
             }
-        } catch (NullPointerException ex) {
-            Logger.debug("PackageReceiver onReceive NullPointerException: " + ex.toString());
+        } catch (Exception ex) {
+            Logger.error(ex,"PackageReceiver onReceive eException: " + ex.getMessage());
         }
     }
 
     private void showInstallConfirmation(Context context, String app_tag) {
+
+        //Wake screen to show Pop-UP confirm
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = null;
+        if (pm != null) {
+            wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                    | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
+            if (!wakeLock.isHeld())
+                wakeLock.acquire(5 * 1000L /* 5 seconds */);
+        } else
+            Logger.error("showInstallConfirmation null powerManager!");
+
+        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if(vibe != null) {
+            vibe.vibrate(350);
+            Logger.info("Install finished - vibrate");
+        }
+
         Intent intent = new Intent(context, DummyActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.APP_TAG, app_tag);
         context.startActivity(intent);
+
+        if (wakeLock != null && wakeLock.isHeld())
+            wakeLock.release();
+
         Logger.debug("PackageReceiver showInstallConfirmation app_tag: " + app_tag);
     }
 }
