@@ -306,6 +306,7 @@ public class AboutActivity extends BaseAppCompatActivity {
 
         //Disconnect transporter to avoid leaking
         notificationTransporter.disconnectTransportService();
+        notificationTransporter = null;
 
     }
 

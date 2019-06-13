@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.notification;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,6 +15,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.os.Build;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
@@ -140,8 +142,6 @@ public class NotificationService extends NotificationListenerService {
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
-        if (TransporterClassic.get(this, "com.huami.action.notification").isTransportServiceConnected())
-            TransporterClassic.get(this, "com.huami.action.notification").disconnectTransportService();
         Logger.debug("onDestroy");
         super.onDestroy();
     }
@@ -272,7 +272,7 @@ public class NotificationService extends NotificationListenerService {
 
         String key = statusBarNotification.getKey();
 
-        Logger.debug("onNotificationRemoved notificationRemoved: %s", key);
+        Logger.debug("onNotificationRemoved notificationRemoved: {}", key);
         //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup00 key: " + key);
 
         if (!Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS, Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS)
@@ -432,6 +432,7 @@ public class NotificationService extends NotificationListenerService {
             });
             //Disconnect transporter to avoid leaking
             notificationTransporter.disconnectTransportService();
+            notificationTransporter = null;
             Logger.info("sendNotificationWithStandardUI: " + dataBundle.toString());
         }
     }
@@ -487,7 +488,7 @@ public class NotificationService extends NotificationListenerService {
         try {
             return ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).getMode();
         } catch (NullPointerException e) {
-            Logger.error(e, "isRinging Exception: %s", e.toString());
+            Logger.error(e, "isRinging Exception: {}", e.getMessage());
             return AudioManager.MODE_INVALID;
         }
     }
@@ -553,7 +554,7 @@ public class NotificationService extends NotificationListenerService {
                 try {
                     ai = pm.getApplicationInfo(notificationPackage, 0);
                 } catch (final PackageManager.NameNotFoundException e) {
-                    Logger.error(e, "handleCall getApplicationInfo Exception: %s", e.toString());
+                    Logger.error(e, "handleCall getApplicationInfo Exception: {}", e.getMessage());
                     ai = null;
                 }
                 final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
@@ -807,15 +808,15 @@ public class NotificationService extends NotificationListenerService {
 
             String[] filters = app.getFilter().split("\\r?\\n");
             for (String filter : filters) {
-                Logger.debug("isPackageFiltered: Checking if '%s' contains '%s'", notificationText, filter);
+                Logger.debug("isPackageFiltered: Checking if '{}' contains '{}'", notificationText, filter);
                 if (!filter.isEmpty()) {
                     filter = filter.toLowerCase();
                     if (notificationTitle.toLowerCase().contains(filter)) {
-                        Logger.debug("isPackageFiltered: Package '%s' filterered because TITLE ('%s') contains '%s'", packageName, notificationTitle, filter);
+                        Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE ('{}') contains '{}'", packageName, notificationTitle, filter);
                         return true;
                     }
                     if (notificationText.toLowerCase().contains(filter)) {
-                        Logger.debug("isPackageFiltered: Package '%s' filterered because CONTENTS ('%s') contains '%s'", packageName, notificationText, filter);
+                        Logger.debug("isPackageFiltered: Package '{}' filterered because CONTENTS ('{}') contains '{}'", packageName, notificationText, filter);
                         return true;
                     }
                 }
@@ -872,7 +873,7 @@ public class NotificationService extends NotificationListenerService {
             */
 
         } else {
-            Logger.warn("replyToNotificationLocal Notification %s not found to reply", notificationId);
+            Logger.warn("replyToNotificationLocal Notification {} not found to reply", notificationId);
         }
     }
 
@@ -882,11 +883,14 @@ public class NotificationService extends NotificationListenerService {
 
         Logger.debug("mapNotification maps: " + notificationPackage);
 
-        RemoteViews rmv = statusBarNotification.getNotification().contentView;
+        RemoteViews rmv = getContentView(getApplicationContext(), statusBarNotification.getNotification());
 
-        NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+        if (rmv == null)
+            rmv = getBigContentView(getApplicationContext(), statusBarNotification.getNotification());
 
         if (rmv != null) {
+
+            NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
 
             //Get text from RemoteView using reflection
             List<String> txt = extractText(rmv);
@@ -919,9 +923,9 @@ public class NotificationService extends NotificationListenerService {
                     notificationData.setIcon(intArray);
                     notificationData.setIconWidth(width);
                     notificationData.setIconHeight(height);
-                } catch (NullPointerException e) {
+                } catch (Exception e) {
                     notificationData.setIcon(new int[]{});
-                    Logger.error(e, "mapNotification failed to get bitmap %s", e.toString());
+                    Logger.error(e, "mapNotification failed to get bitmap with exception: {}", e.getMessage());
                 }
 
                 notificationData.setTitle(txt.get(0));
@@ -939,7 +943,7 @@ public class NotificationService extends NotificationListenerService {
                 lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();
                 storeForStats(notificationPackage, Constants.FILTER_MAPS);
-                Logger.debug("mapNotification maps lastTxt:  " + lastTxt);
+                Logger.debug("mapNotification maps lastTxt: " + lastTxt);
             }
 
         } else {
@@ -994,9 +998,29 @@ public class NotificationService extends NotificationListenerService {
         }
         // It's not usually good style to do this, but then again, neither is the use of reflection...
         catch (Exception e) {
-            Logger.error(e, "extractText: %s", e.toString());
+            Logger.error(e, "extractText exception: {}", e.getMessage());
+            text.add("ERROR");
         }
         return text;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static RemoteViews getBigContentView(Context context, Notification notification) {
+        if(notification.bigContentView != null)
+            return notification.bigContentView;
+        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            return Notification.Builder.recoverBuilder(context, notification).createBigContentView();
+        else
+            return null;
+    }
+
+    public static RemoteViews getContentView(Context context, Notification notification) {
+        if(notification.contentView != null)
+            return notification.contentView;
+        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            return Notification.Builder.recoverBuilder(context, notification).createContentView();
+        else
+            return null;
     }
 
     private void startPersistentNotification() {

@@ -352,17 +352,23 @@ public class MainService extends Service implements Transporter.DataListener {
         if (transporterGeneral.isTransportServiceConnected()) {
             Logger.debug( "MainService onDestroy transporterGeneral disconnecting...");
             transporterGeneral.disconnectTransportService();
+            transporterGeneral = null;
         }
 
         if (transporterNotifications.isTransportServiceConnected()) {
             Logger.debug("MainService onDestroy transporterNotifications disconnecting...");
             transporterNotifications.disconnectTransportService();
+            transporterNotifications = null;
         }
 
         if (transporterHuami.isTransportServiceConnected()) {
             Logger.debug("MainService onDestroy transporterHuami disconnecting...");
             transporterHuami.disconnectTransportService();
+            transporterHuami = null;
         }
+
+        if (slptClockClient != null)
+            slptClockClient.unbindService(this);
 
         super.onDestroy();
     }
@@ -1311,7 +1317,7 @@ public class MainService extends Service implements Transporter.DataListener {
                     e.printStackTrace();
                 }
             }
-        }, 1500);
+        }, 900);
     }
 
     // Count notifications

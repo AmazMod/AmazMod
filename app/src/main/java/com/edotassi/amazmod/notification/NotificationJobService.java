@@ -154,11 +154,13 @@ public class NotificationJobService extends JobService {
         if (transporterNotifications.isTransportServiceConnected()) {
             Logger.info("NotificationJobService disconnectTransports disconnecting transporterNotifications…");
             transporterNotifications.disconnectTransportService();
+            transporterNotifications = null;
         }
 
         if (transporterHuami.isTransportServiceConnected()) {
             Logger.info("NotificationJobService disconnectTransports disconnecting transporterHuami…");
             transporterHuami.disconnectTransportService();
+            transporterHuami = null;
         }
     }
 
