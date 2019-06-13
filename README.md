@@ -9,7 +9,7 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 * Option to not send notifications to watch when the phone screen is on;  
 * Receive messenger call notifications and maps navigation info on watch;
 * File transfer to and from the watch over the air;
-* Built-in File Explorer with image and text viewing abilities;
+* Built-in File Explorer on the watch with image and text viewing abilities;
 * Shell execution optionality to the watch from the phone;
 * Improved Watch/Smartphone connection tunnel (lower battery usage);
 * Emoji display ability;
