@@ -37,7 +37,9 @@ import java.util.concurrent.TimeUnit;
 import amazmod.com.transport.data.RequestShellCommandData;
 import clc.sliteplugin.flowboard.AbstractPlugin;
 import clc.sliteplugin.flowboard.ISpringBoardHostStub;
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class AmazModPage extends AbstractPlugin {
 

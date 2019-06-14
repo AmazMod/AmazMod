@@ -17,7 +17,6 @@ import android.content.res.Resources;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
@@ -28,8 +27,9 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
@@ -118,7 +118,9 @@ import amazmod.com.transport.data.SettingsData;
 import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
 import amazmod.com.transport.data.WidgetsData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
 import static java.lang.System.currentTimeMillis;
@@ -194,8 +196,8 @@ public class MainService extends Service implements Transporter.DataListener {
         settings = new WidgetSettings(Constants.TAG, context);
         settings.reload();
 
-        Logger.debug("MainService onCreate HermesEventBus connect");
-        HermesEventBus.getDefault().register(this);
+        Logger.debug("MainService onCreate EventBus connect");
+        EventBus.getDefault().register(this);
 
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
 
@@ -335,7 +337,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Override
     public void onDestroy() {
-        HermesEventBus.getDefault().unregister(this);
+        EventBus.getDefault().unregister(this);
 
         if (notificationsReceiver != null) {
             unregisterReceiver(notificationsReceiver);
@@ -399,7 +401,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 Object event = eventContructor.newInstance(transportDataItem.getData());
 
                 Logger.debug("MainService onDataReceived: " + event.toString());
-                HermesEventBus.getDefault().post(event);
+                EventBus.getDefault().post(event);
             } catch (NoSuchMethodException e) {
                 Logger.debug("MainService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
                 e.printStackTrace();

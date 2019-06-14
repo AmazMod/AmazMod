@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
+import androidx.annotation.NonNull;
+
 import com.amazmod.service.R;
 
 import org.tinylog.Logger;
 
-import static android.view.View.inflate;
 
 public class ScreenSettingsActivity extends Activity {
 

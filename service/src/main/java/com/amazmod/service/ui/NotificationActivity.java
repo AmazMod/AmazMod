@@ -11,9 +11,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.support.text.emoji.EmojiCompat;
-import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
-import android.support.text.emoji.widget.EmojiButton;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.util.TypedValue;
@@ -25,6 +22,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
+import androidx.emoji.widget.EmojiButton;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -47,7 +48,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class NotificationActivity extends Activity {
 
@@ -375,7 +378,7 @@ public class NotificationActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     v.setBackground(getDrawable(R.drawable.reply_dark_grey));
-                    HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationData.getKey(), reply.getValue()));
+                    EventBus.getDefault().post(new ReplyNotificationEvent(notificationData.getKey(), reply.getValue()));
                     finish();
                 }
             });
