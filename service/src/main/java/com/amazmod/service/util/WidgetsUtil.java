@@ -63,9 +63,9 @@ public class WidgetsUtil {
         //Out contains them all, but no ordering.
         widget_order_out = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_OUT);
 
-        Logger.debug("WidgetsUtil loadSettings widget_order_in  : " + widget_order_in);
-        Logger.debug("WidgetsUtil loadSettings widget_order_out : " + widget_order_out);
-        Logger.debug("WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in);
+        Logger.debug("WidgetsUtil loadSettings widget_order_in  : " + widget_order_in.substring(0, Math.min(widget_order_in.length(), 352)));
+        Logger.debug("WidgetsUtil loadSettings widget_order_out : " + widget_order_out.substring(0, Math.min(widget_order_out.length(), 352)));
+        Logger.debug("WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in.substring(0, Math.min(last_widget_order_in.length(), 352)));
 
         //if last order_in is equal to current one no change was done via Amazfit Watch official App, so reapply saved order
         if (widget_order_in.equals(last_widget_order_in)){
@@ -298,7 +298,7 @@ public class WidgetsUtil {
         //if (saveLocal) {
             SettingsManager settingsManager = new SettingsManager(context);
             settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, root.toString());
-            Logger.debug("WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString());
+            Logger.debug("WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString().substring(0, Math.min(root.toString().length(), 352)));
         //} else {
             Settings.System.putString(context.getContentResolver(), Constants.WIDGET_ORDER_IN, root.toString());
             Logger.debug("WidgetsUtil save widget_order_in: " + root.toString());
@@ -313,7 +313,7 @@ public class WidgetsUtil {
     }
 
     private static void saveOfficialAppOrder(Context context, String order_in){
-        Logger.debug("WidgetsUtil saveOfficialAppOrder: " + order_in);
+        Logger.debug("WidgetsUtil saveOfficialAppOrder: " + order_in.substring(0, Math.min(order_in.length(), 352)));
         SettingsManager settingsManager = new SettingsManager(context);
         settingsManager.putString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, order_in);
     }
