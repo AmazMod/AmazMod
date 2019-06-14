@@ -1,14 +1,15 @@
 package com.edotassi.amazmod.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.fragment.language.LanguageInfo;

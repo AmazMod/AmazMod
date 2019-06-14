@@ -7,9 +7,9 @@
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.MaterialComponents.Dark">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,7 +26,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:src="@drawable/ic_launcher_foreground" />
-    </android.support.constraint.ConstraintLayout>
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

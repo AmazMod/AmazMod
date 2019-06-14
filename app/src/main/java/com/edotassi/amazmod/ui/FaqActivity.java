@@ -1,9 +1,10 @@
 package com.edotassi.amazmod.ui;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
 

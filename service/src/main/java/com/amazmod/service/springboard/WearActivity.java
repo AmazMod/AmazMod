@@ -39,7 +39,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE;
 import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
@@ -346,11 +348,11 @@ public class WearActivity extends Activity implements WearableListView.ClickList
         switch (itemChosen) {
 
             case 4:
-                HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
                 break;
 
             case 5:
-                HermesEventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
+                EventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
                 break;
             case 6:
             case 7:

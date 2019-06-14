@@ -126,18 +126,23 @@ public class FilesUtil {
 
     public static Bundle getApkInfo(Context context, String file) {
         PackageManager pm = context.getPackageManager();
-        PackageInfo pi = pm.getPackageArchiveInfo(file, 0);
-
-        pi.applicationInfo.sourceDir = file;
-        pi.applicationInfo.publicSourceDir = file;
-
-
         Bundle bundle = new Bundle();
 
-        Bitmap icon = drawableToBitmap(pi.applicationInfo.loadIcon(pm));
-        bundle.putParcelable(APP_ICON, icon);
-        bundle.putString(APP_LABEL, pi.applicationInfo.loadLabel(pm).toString());
-        bundle.putString(APP_PKG, pi.applicationInfo.packageName);
+        try {
+            PackageInfo pi = pm.getPackageArchiveInfo(file, 0);
+
+            pi.applicationInfo.sourceDir = file;
+            pi.applicationInfo.publicSourceDir = file;
+
+
+            Bitmap icon = drawableToBitmap(pi.applicationInfo.loadIcon(pm));
+            bundle.putParcelable(APP_ICON, icon);
+            bundle.putString(APP_LABEL, pi.applicationInfo.loadLabel(pm).toString());
+            bundle.putString(APP_PKG, pi.applicationInfo.packageName);
+        } catch (NullPointerException ex) {
+            Logger.error(Constants.TAG, "FilesUtil getApkInfo NullPointerException: ", ex.toString());
+            bundle = null;
+        }
 
         return bundle;
     }

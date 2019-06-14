@@ -20,7 +20,9 @@ package com.amazmod.service.music;
         import java.util.concurrent.Executors;
         import java.util.concurrent.FutureTask;
 
-        import xiaofei.library.hermeseventbus.HermesEventBus;
+        import org.greenrobot.eventbus.EventBus;
+        import org.greenrobot.eventbus.Subscribe;
+        import org.greenrobot.eventbus.ThreadMode;
 
         import static android.content.Context.POWER_SERVICE;
 
@@ -90,11 +92,11 @@ public class MusicControlInputListener {
                                     long delta = now - lastKeyDownKeyDown;
                                     if ((delta > TRIGGER) && (delta < LONG_TRIGGER)) {
                                         Logger.debug("long key down detected");
-                                        HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, true));
+                                        EventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, true));
                                     } else {
                                         if (delta < TRIGGER) {
                                             Logger.debug("key down detected");
-                                            HermesEventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, false));
+                                            EventBus.getDefault().post(new HardwareButtonEvent(KEY_DOWN, false));
                                         }
                                     }
                                 } else if (value == KEY_EVENT_PRESS) {

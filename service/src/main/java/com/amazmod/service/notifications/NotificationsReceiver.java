@@ -10,7 +10,9 @@ import com.amazmod.service.events.ReplyNotificationEvent;
 
 import org.tinylog.Logger;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by edoardotassinari on 25/04/18.
@@ -28,7 +30,7 @@ public class NotificationsReceiver extends BroadcastReceiver {
         String reply = intent.getStringExtra(Constants.EXTRA_REPLY);
         String key = intent.getStringExtra(Constants.EXTRA_NOTIFICATION_KEY);
 
-        HermesEventBus.getDefault().post(new ReplyNotificationEvent(key, reply));
+        EventBus.getDefault().post(new ReplyNotificationEvent(key, reply));
         Logger.debug("NotificationsReceiver action: " + action + ", notificationKey: " + key + ", reply: " + reply);
 
         Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
