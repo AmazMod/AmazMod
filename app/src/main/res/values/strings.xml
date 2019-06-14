@@ -333,4 +333,6 @@
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
     <string name="generate_bundle">Generate Log Bundle</string>
     <string name="set_watchface">Set Watchface</string>
+    <string name="pref_amazmod_darktheme_summary">Dark theme</string>
+    <string name="pref_amazmod_dark_theme">Set dark theme</string>
 </resources>

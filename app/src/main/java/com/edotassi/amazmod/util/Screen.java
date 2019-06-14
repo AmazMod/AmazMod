@@ -6,9 +6,16 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.tinylog.Logger;
+
+import java.util.prefs.Preferences;
+
+import amazmod.com.transport.Constants;
 
 import static android.content.Context.POWER_SERVICE;
 
@@ -31,6 +38,9 @@ public class Screen {
         return isScreenOn;
     }
 
+    public static boolean isDarkTheme() {
+        return Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
+    }
 
     public static boolean isDeviceLocked(Context context) {
 
