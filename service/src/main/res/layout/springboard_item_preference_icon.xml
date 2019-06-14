@@ -17,7 +17,7 @@
         android:layout_margin="8dp"
         android:padding="16dp"
         android:background="@drawable/circle"
-        tools:src="@drawable/amazmod"/>
+        tools:src="@mipmap/ic_launcher"/>
 
     <LinearLayout
         android:layout_width="match_parent"

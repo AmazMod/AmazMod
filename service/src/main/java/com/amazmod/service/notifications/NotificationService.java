@@ -7,10 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
 
 import com.amazmod.service.Constants;
@@ -51,7 +49,7 @@ public class NotificationService {
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         settingsManager = new SettingsManager(context);
 
-        //NotificationStore notificationStore = new NotificationStore();
+        NotificationStore notificationStore = new NotificationStore();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
@@ -67,12 +65,13 @@ public class NotificationService {
     public void post(final NotificationData notificationSpec) {
 
         if (!DeviceUtil.isDNDActive(context, context.getContentResolver())) {
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-            boolean enableCustomUI = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
+            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context); <-- replaced with SettingsManager bellow
+
+            boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                     Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
 
-            boolean disableNotificationReplies = sharedPreferences.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+            boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                     Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
             boolean forceCustom = notificationSpec.getForceCustom();

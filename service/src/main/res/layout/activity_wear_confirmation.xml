@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_margin="8dp"
-            android:src="@drawable/amazmod"
+            android:src="@mipmap/ic_launcher"
             app:circle_border_color="@color/green"
             app:circle_border_width="16dp"
             app:circle_color="@color/red"

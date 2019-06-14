@@ -60,7 +60,7 @@
                     android:layout_height="@dimen/circled_image_view_diameter"
                     android:contentDescription="@string/default_icon"
                     android:background="@color/transparent"
-                    android:src="@drawable/amazmod" />
+                    android:src="@mipmap/ic_launcher" />
 
                 <TextView
                     android:id="@+id/launcher_version"
