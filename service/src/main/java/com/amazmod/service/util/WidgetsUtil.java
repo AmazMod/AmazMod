@@ -301,7 +301,7 @@ public class WidgetsUtil {
             Logger.debug("WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString().substring(0, Math.min(root.toString().length(), 352)));
         //} else {
             Settings.System.putString(context.getContentResolver(), Constants.WIDGET_ORDER_IN, root.toString());
-            Logger.debug("WidgetsUtil save widget_order_in: " + root.toString());
+            Logger.debug("WidgetsUtil save widget_order_in: " + root.toString().substring(0, Math.min(root.toString().length(), 352)));
         //}
         //Notify user
         if (showToast) {

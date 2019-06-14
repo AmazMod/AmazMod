@@ -49,7 +49,7 @@ public class NotificationService {
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         settingsManager = new SettingsManager(context);
 
-        NotificationStore notificationStore = new NotificationStore();
+        //NotificationStore notificationStore = new NotificationStore();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
