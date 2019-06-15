@@ -64,6 +64,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
     public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
+    public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
     public static final String PREF_COMMAND_HISTORY = "preference.command.history";
 
     public static final String PREF_NOTIFICATIONS_LARGE_ICON = "preference.notification.largeicon";
@@ -173,4 +174,5 @@ public class Constants {
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 
     public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
+    public static final boolean PREF_AMAZMOD_DARK_THEME_DEFAULT = false;
 }

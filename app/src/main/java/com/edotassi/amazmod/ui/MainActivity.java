@@ -31,6 +31,7 @@ import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.HeartRateChartFragment;
 import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
+import com.edotassi.amazmod.util.Screen;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.michaelflisar.changelog.ChangelogBuilder;
@@ -71,6 +72,10 @@ public class MainActivity extends BaseAppCompatActivity
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
 
         super.onCreate(savedInstanceState);
+
+        if (Screen.isDarkTheme()) {
+            setTheme(R.style.AppThemeDark_NoActionBar);
+        }
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);

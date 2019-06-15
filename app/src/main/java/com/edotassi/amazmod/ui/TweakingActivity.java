@@ -32,6 +32,7 @@ import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.util.FilesUtil;
+import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -96,6 +97,11 @@ public class TweakingActivity extends BaseAppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Screen.isDarkTheme()) {
+            setTheme(R.style.AppThemeDark);
+        }
+
         mContext = this;
         setContentView(R.layout.activity_tweaking);
 
