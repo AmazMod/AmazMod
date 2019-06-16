@@ -1305,17 +1305,17 @@ public class MainService extends Service implements Transporter.DataListener {
             Logger.error("MainService sendStandardAlert exception: " + e.toString());
         }
 
-        notificationManager.post(notificationData);
+        try {
+            if (vibrator != null) {
+                vibrator.vibrate(vibrate);
+            }
+        } catch (Exception e) {
+            Logger.error(e, "vibrator exception: " + e.getMessage());
+        }
         final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
-                try {
-                    if (vibrator != null) {
-                        vibrator.vibrate(vibrate);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                notificationManager.post(notificationData);
             }
         }, 900);
     }
