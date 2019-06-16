@@ -33,7 +33,7 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/outline_watch_black_18" />
+                app:srcCompat="@drawable/watch_black_full_18dp" />
 
             <TextView
                 android:id="@+id/isConnectedTV"
