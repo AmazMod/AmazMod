@@ -80,17 +80,17 @@ public class PackageReceiver extends BroadcastReceiver {
         } else
             Logger.error("showInstallConfirmation null powerManager!");
 
-        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        if(vibe != null) {
-            vibe.vibrate(350);
-            Logger.info("Install finished - vibrate");
-        }
-
         Intent intent = new Intent(context, DummyActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra(Constants.APP_TAG, app_tag);
         context.startActivity(intent);
+
+        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if(vibe != null) {
+            vibe.vibrate(350);
+            Logger.info("Install finished - vibrate");
+        }
 
         if (wakeLock != null && wakeLock.isHeld())
             wakeLock.release();

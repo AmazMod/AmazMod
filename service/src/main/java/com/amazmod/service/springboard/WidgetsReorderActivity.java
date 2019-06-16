@@ -17,15 +17,14 @@ public class WidgetsReorderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.onStateNotSaved();
+        //this.onStateNotSaved();
 
         WidgetsUtil.loadWidgetList(this);
         SpringboardWidgetAdapter adapter = WidgetsUtil.getAdapter(this);
 
         //Create recyclerview as layout
         RecyclerView recyclerView = new RecyclerView(this);
-        recyclerView.setSaveEnabled(false);
+        //recyclerView.setSaveEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         //Setup drag to move using the helper

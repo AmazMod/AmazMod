@@ -1,6 +1,5 @@
 package com.amazmod.service.settings;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -17,7 +16,6 @@ public class SettingsManager {
         this.context = context;
     }
 
-    @SuppressLint("ApplySharedPref")
     public void sync(SettingsData settingsData) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -42,7 +40,7 @@ public class SettingsManager {
         editor.putInt(Constants.PREF_BATTERY_WATCH_ALERT, settingsData.getBatteryWatchAlert());
         editor.putInt(Constants.PREF_BATTERY_PHONE_ALERT, settingsData.getBatteryPhoneAlert());
 
-        editor.commit();
+        editor.apply();
     }
 
     public boolean getBoolean(String key, boolean defaultValue) {
@@ -61,14 +59,12 @@ public class SettingsManager {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
     }
 
-    @SuppressLint("ApplySharedPref")
     public void putBoolean(String key, boolean value) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key, value).commit();
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key, value).apply();
     }
 
-    @SuppressLint("ApplySharedPref")
     public void putString(String key, String value) {
-        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key, value).commit();
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key, value).apply();
     }
 
 }
