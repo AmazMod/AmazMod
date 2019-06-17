@@ -1,5 +1,4 @@
 #update_fastlane
-
 default_platform(:android)
 
 platform :android do
@@ -23,20 +22,20 @@ platform :android do
             track: 'internal',
             apk: './app/build/outputs/apk/release/app-release.apk'
           )
-          telegram(message: 'Build published in internal stage', parse_mode: 'Markdown')
-        rescue => ex
-          telegram(message: ex.message, parse_mode: 'Markdown')
+#          telegram(message: 'Build published in internal stage', parse_mode: 'Markdown')
+#        rescue => ex
+#          telegram(message: ex.message, parse_mode: 'Markdown')
         end
     end
 
-    lane :beta do
-        gradle(
-            task: 'assemble',
-            build_type: 'Release'
-        )
-        upload_to_play_store(
-            track: 'beta',
-            apk: './app/build/outputs/apk/release/app-release.apk'
-        )
-    end
+#    lane :beta do
+#        gradle(
+#            task: 'assemble',
+#            build_type: 'Release'
+#        )
+#        upload_to_play_store(
+#            track: 'beta',
+#            apk: './app/build/outputs/apk/release/app-release.apk'
+#        )
+#    end
 end

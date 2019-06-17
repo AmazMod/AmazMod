@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:gravity="center_vertical"
+    android:layout_gravity="center"
     android:orientation="horizontal">
 
     <android.support.wearable.view.CircledImageView
@@ -15,7 +16,7 @@
         android:layout_height="52dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="12dp"
         android:alpha="0.80"
         app:circle_border_color="@color/light_grey"
         app:circle_border_width="3dp"
@@ -27,10 +28,11 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
         android:alpha="0.80"
         android:gravity="center_vertical|start"
+        android:layout_gravity="center"
         android:lineSpacingExtra="-4sp"
         android:textAlignment="viewStart"
         android:textColor="#FFFFFFFF"

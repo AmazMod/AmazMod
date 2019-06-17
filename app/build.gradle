@@ -7,8 +7,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 198
-        versionName "1.1.0"
+        versionCode 212
+        versionName "1.1.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
@@ -39,6 +39,11 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -56,7 +61,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/SpringboardPluginLib.jar')
-    implementation 'com.orhanobut:logger:2.2.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
@@ -64,13 +68,13 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
+    implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.2.4'
+    implementation 'com.github.Raizlabs.DBFlow:dbflow:4.2.4'
     implementation 'com.google.firebase:firebase-core:16.0.4'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.5'
     implementation 'com.github.MFlisar:changelog:1.0.4'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -82,6 +86,10 @@ dependencies {
     implementation 'org.apache.commons:commons-lang3:3.7'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
     implementation 'com.mindorks.android:prdownloader:0.4.0'
+    implementation 'org.mnode.ical4j:ical4j:2.2.3'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'org.tinylog:tinylog-api:2.0.0-M4.2'
+    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.2'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,9 +14,9 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/app_name"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -27,22 +28,22 @@
             android:id="@+id/amazmod_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:contentDescription="AmazMod logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher" />
+            app:srcCompat="@mipmap/ic_launcher_foreground" />
 
         <TextView
             android:id="@+id/textView7"
             android:layout_width="wrap_content"
             android:layout_height="21dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/activity_about_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,22 +53,22 @@
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/activity_about_project_maintainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView45"
+            app:layout_constraintTop_toBottomOf="@+id/activity_about_privacy_policy_value"
             tools:text="@string/activity_about_project_maintainer" />
 
         <TextView
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/activity_about_project_maintainer_value"
             android:textAlignment="center"
             android:textStyle="bold"
@@ -79,9 +80,9 @@
             android:id="@+id/textView20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/activity_about_devs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -92,9 +93,9 @@
             android:id="@+id/textView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/activity_about_devs_value"
             android:textAlignment="center"
             android:textStyle="bold"
@@ -103,121 +104,119 @@
             app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
         <TextView
-            android:id="@+id/textView26"
+            android:id="@+id/activity_about_testers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:text="@string/activity_about_testers"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
         <TextView
-            android:id="@+id/textView28"
+            android:id="@+id/activity_about_testers_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/activity_about_testers_value"
             android:textAlignment="center"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView26" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_about_testers" />
 
         <TextView
             android:id="@+id/activity_about_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:text="..."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/activity_about_telegram_channel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/telegram_channel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <TextView
-            android:id="@+id/textView30"
+            android:id="@+id/activity_about_telegram_channel_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:autoLink="web"
+            android:text="@string/telegram_channel_value"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            android:text="@string/telegram_channel_value" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_about_telegram_channel" />
 
         <TextView
-            android:id="@+id/textView33"
+            android:id="@+id/activity_about_translators"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/translators"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView28" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_about_testers_value" />
 
         <TextView
-            android:id="@+id/textView34"
+            android:id="@+id/activity_about_privacy_policy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/translators_value"
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView33" />
-
-        <TextView
-            android:id="@+id/textView44"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:text="@string/privacy_policy"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView30" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_about_telegram_channel_value" />
 
         <TextView
-            android:id="@+id/textView45"
+            android:id="@+id/activity_about_privacy_policy_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:autoLink="web"
             android:text="@string/privacy_policy_value"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView44" />
+            app:layout_constraintTop_toBottomOf="@+id/activity_about_privacy_policy" />
+
+        <TextView
+            android:id="@+id/activity_about_crowdin_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:autoLink="web"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_about_translators"
+            android:text="@string/activity_about_crowdin_link" />
 
     </android.support.constraint.ConstraintLayout>
 </ScrollView>

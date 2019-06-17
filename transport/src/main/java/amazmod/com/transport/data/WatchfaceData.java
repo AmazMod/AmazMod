@@ -13,9 +13,12 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public static final String EXTRA = "watchface";
     public static final String BATTERY = "battery";
     public static final String ALARM = "alarm";
+    public static final String CALENDAR_EVENTS = "calendar_events";
+
 
     private int battery;
     private String alarm;
+    private String calendar_events;
 
     public WatchfaceData() {
     }
@@ -23,6 +26,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
     protected WatchfaceData(Parcel in) {
         battery = in.readInt();
         alarm = in.readString();
+        calendar_events = in.readString();
     }
 
     public static final Creator<WatchfaceData> CREATOR = new Creator<WatchfaceData>() {
@@ -42,6 +46,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
         dataBundle.putInt(BATTERY, battery);
         dataBundle.putString(ALARM, alarm);
+        dataBundle.putString(CALENDAR_EVENTS, calendar_events);
 
         return dataBundle;
     }
@@ -51,6 +56,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
         settingsData.setBattery(dataBundle.getInt(BATTERY));
         settingsData.setAlarm(dataBundle.getString(ALARM));
+        settingsData.setCalendarEvents(dataBundle.getString(CALENDAR_EVENTS));
 
         return settingsData;
     }
@@ -76,6 +82,12 @@ public class WatchfaceData extends Transportable implements Parcelable {
         this.alarm = data;
     }
 
+    public String getCalendarEvents() {
+        return calendar_events;
+    }
+    public void setCalendarEvents(String data) {
+        this.calendar_events = data;
+    }
 
     @Override
     public int describeContents() {
@@ -86,5 +98,6 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(battery);
         dest.writeString(alarm);
+        dest.writeString(calendar_events);
     }
 }

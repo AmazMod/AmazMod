@@ -1,63 +1,62 @@
 package com.edotassi.amazmod.ui;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationManagerCompat;
-import android.support.v4.view.LayoutInflaterCompat;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
-import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
+import com.edotassi.amazmod.ui.fragment.HeartRateChartFragment;
+import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 
+import amazmod.com.transport.Constants;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
+    private HeartRateChartFragment heartRateChartFragment = new HeartRateChartFragment();
+    private SilencedApplicationsFragment silencedApplicationsFragment = new SilencedApplicationsFragment();
 
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
+        add(silencedApplicationsFragment);
+        add(heartRateChartFragment);
         add(watchInfoFragment);
     }};
 
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity
         try {
             Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            Crashlytics.logException(exception);
+            Logger.error(exception);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -88,9 +87,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        // Hide if not a developer
+        if( !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false) ){
+            Menu menuNav = navigationView.getMenu();
+            MenuItem widgets = menuNav.findItem(R.id.nav_widgets);
+            widgets.setVisible(false);
+        }
+
+
         EventBus.getDefault().register(this);
 
-        Log.d(Constants.TAG, "MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Logger.debug("MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected());
 
         showChangelog(true);
 
@@ -103,7 +110,7 @@ public class MainActivity extends AppCompatActivity
 
         if (firstStart) {
             //set locale to avoid app refresh after using Settings for the first time
-            Log.d(Constants.TAG, "MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
+            Logger.debug("MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
             Resources res = getResources();
             Configuration conf = res.getConfiguration();
             conf.locale = AmazModApplication.defaultLocale;
@@ -114,29 +121,7 @@ public class MainActivity extends AppCompatActivity
             startActivityForResult(intent, Constants.REQUEST_CODE_INTRO);
         }
 
-        //Change app localization if needed
-        final boolean forceEN = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_FORCE_ENGLISH, false);
-
-        Log.d(Constants.TAG, "MainActivity locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
-
-        if (forceEN && (currentLocale != Locale.US)) {
-            Log.d(Constants.TAG, "MaiActivity New locale: US");
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.locale = Locale.US;
-            res.updateConfiguration(conf, dm);
-            recreate();
-        }
-
         setupCards();
-
-        // Try to start NotificationService if it is not active
-        Set<String> packageNames = NotificationManagerCompat.getEnabledListenerPackages(this);
-        if (!packageNames.contains(this.getPackageName())) {
-            toggleNotificationService();
-        }
 
         Setup.run(getApplicationContext());
     }
@@ -148,13 +133,13 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
-        Boolean disableBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_DISABLE_BATTERY_CHART, Constants.PREF_DEFAULT_DISABLE_BATTERY_CHART);
+        boolean showBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         for (Card card : cards) {
-            if (!(disableBatteryChart && (card instanceof BatteryChartFragment))) {
+            if (showBatteryChart || !(card instanceof BatteryChartFragment)) {
                 fragmentTransaction.add(R.id.main_activity_cards, card, card.getName());
             }
         }
@@ -183,7 +168,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(Constants.TAG, "MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected);
+        Logger.debug("MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
     }
 
     @Override
@@ -208,6 +193,17 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //your code
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //your code
         }
     }
 
@@ -258,6 +254,12 @@ public class MainActivity extends AppCompatActivity
                 startActivity(e);
                 return true;
 
+            case R.id.nav_widgets:
+                Intent f = new Intent(this, WidgetsActivity.class);
+                f.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(f);
+                return true;
+
             case R.id.nav_stats:
                 Intent d = new Intent(this, StatsActivity.class);
                 d.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -275,15 +277,15 @@ public class MainActivity extends AppCompatActivity
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void getTransportStatus(IsWatchConnectedLocal itc) {
         if (itc != null) {
-            if (AmazModApplication.isWatchConnected != itc.getWatchStatus()) {
-                AmazModApplication.isWatchConnected = itc.getWatchStatus();
+            if (AmazModApplication.isWatchConnected() != itc.getWatchStatus()) {
+                AmazModApplication.setWatchConnected(itc.getWatchStatus());
                 watchInfoFragment.onResume();
                 //watchInfoFragment.onResume();
             }
         } else {
-            AmazModApplication.isWatchConnected = false;
+            AmazModApplication.setWatchConnected(false);
         }
-        Log.d(Constants.TAG, "MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected);
+        Logger.debug("MainActivity getTransportStatus: " + AmazModApplication.isWatchConnected());
     }
 
     private void showChangelog(boolean managedShowOnStart) {
@@ -296,11 +298,4 @@ public class MainActivity extends AppCompatActivity
                 .buildAndShowDialog(this, false);
     }
 
-    private void toggleNotificationService() {
-        Log.i(Constants.TAG, "MainActivity toggleNotificationService");
-        ComponentName thisComponent = new ComponentName(this, NotificationService.class);
-        PackageManager pm = getPackageManager();
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        pm.setComponentEnabledSetting(thisComponent, PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-    }
 }

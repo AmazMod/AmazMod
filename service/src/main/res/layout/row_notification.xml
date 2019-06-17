@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:layout_gravity="center_vertical"
+    android:foreground="?selectableItemBackground"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/row_notification_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/amazmod" />
+
+    <ImageView
+        android:id="@+id/row_notification_icon_badge"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/preference_wrapped_icon"
+        android:backgroundTint="@color/black"
+        android:contentDescription="@string/default_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/row_notification_icon"
+        app:layout_constraintEnd_toEndOf="@+id/row_notification_icon"
+        app:srcCompat="@drawable/amazmod" />
+
+    <TextView
+        android:id="@+id/row_notification_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:singleLine="true"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFFFF"
+        android:textSize="16sp"
+        android:gravity="bottom|start"
+        android:lineSpacingExtra="-4sp"
+        android:ellipsize="end"
+        tools:text="This is a Long Title for a Notification Title"
+        app:layout_constraintStart_toEndOf="@+id/row_notification_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/row_notification_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:lineSpacingExtra="-4sp"
+        android:maxLines="1"
+        android:textColor="#FFFFFFFF"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/row_notification_icon"
+        app:layout_constraintTop_toBottomOf="@+id/row_notification_contents_preview"
+        tools:text="Notification Time" />
+
+    <TextView
+        android:id="@+id/row_notification_contents_preview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:maxLines="1"
+        tools:text="This is a preview of the notification content"
+        app:layout_constraintStart_toEndOf="@+id/row_notification_icon"
+        app:layout_constraintTop_toBottomOf="@+id/row_notification_title" />
+
+</android.support.constraint.ConstraintLayout>

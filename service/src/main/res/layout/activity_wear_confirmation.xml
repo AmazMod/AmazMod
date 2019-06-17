@@ -39,15 +39,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="2dp"
-            android:src="@mipmap/ic_launcher"
+            android:layout_margin="8dp"
+            android:src="@drawable/amazmod"
             app:circle_border_color="@color/green"
             app:circle_border_width="16dp"
             app:circle_color="@color/red"
             app:circle_padding="16dp"
             app:circle_radius="60dp"
-            app:update_interval="100" />
+            app:update_interval="100"
+            tools:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/close_button"
+            android:layout_width="94dp"
+            android:layout_height="94dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="16dp"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/restart_text"

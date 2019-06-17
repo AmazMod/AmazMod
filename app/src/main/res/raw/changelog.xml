@@ -1,11 +1,70 @@
 <changelog>
     <release
-        date="2018-11-23"
-        versionCode="196"
+        date="2019-04-23"
+        versionCode="212"
+        versionName="v1.1.6">
+        <new>Faster app installation keeping watch active (for now only ROOTED watch)</new>
+        <new>Heart-rate graph added (phone app)</new>
+        <new>Screenshots are auto rotated for Verge</new>
+        <new>Watch's screen is unlocked before a screenshot</new>
+        <new>New adaptive phone app icon</new>
+        <new>Watch Info card style improvements (phone app)</new>
+        <new>Battery graph added in watch's menu (service app)</new>
+        <new>Low phone battery alert on watch</new>
+        <new>Low watch battery notification on phone</new>
+        <new>Fully charged watch notification on phone</new>
+        <new>Connection status notification can now be hidden from device settings (new notification channel on Android O+)</new>
+        <new>Number of calendar events found are shown after ICS URL test</new>
+        <new>Icons for images, apps and watchfaces in the file explorer</new>
+        <bugfix>Screenshot color and other fix</bugfix>
+        <bugfix>Translation option selection fix</bugfix>
+        <bugfix>Notifications system app filter fix</bugfix>
+        <bugfix>Settings titles/descriptions where simplified</bugfix>
+        <bugfix>Installing apks with spaces/dots in their name fix</bugfix>
+        <bugfix>Small bug fixes</bugfix>
+        <info>Updated translations</info>
+    </release>
+    <release
+        date="2019-04-01"
+        versionCode="210"
+        versionName="v1.1.5">
+        <new>Notifications control adjustments:
+            1. Store and deploy on watch re-connection
+            2. Dismiss if watch not connected</new>
+        <new>New layout for notifications</new>
+        <new>Improved power management</new>
+        <bugfix>Backup/Restore fix</bugfix>
+        <new>Direct language selection</new>
+        <info>Updated translations</info>
+        <bugfix>Many Bug fixes</bugfix>
+        <new>Many new undiscovered magical bugs</new>
+    </release>
+    <release
+        date="2019-02-08"
+        versionCode="201"
+        versionName="v1.1.3">
+        <new>Calendar Sync (native and iCal) - need a third party app to view calendar events: https://goo.gl/oc97Qv</new>
+        <new>Improved Launcher (now it fixes in first position)</new>
+        <new>Built-in file explorer on your watch! (Install apk, manage files and view Text and Images directly from watch)</new>
+        <info>Translations updated</info>
+        <bugfix>ungrouped notifications removal (only standard notifications)</bugfix>
+        <bugfix>OTA (Over The Air) updates now should work</bugfix>
+        <bugfix>Autolock bug corrected</bugfix>
+        <bugfix>Lots of Small fixes</bugfix>
+    </release>
+    <release
+        date="2019-01-31"
+        versionCode="200"
         versionName="v1.1.0">
         <new>Added users avatar icons</new>
         <new>Added notifications pictures</new>
-        <bugifx>Fixed some crashes</bugifx>
+        <new>New watch widget (now it's a launcher)</new>
+        <new>Notification Drawer for Custom Notifications</new>
+        <new>Widgets Reorder Feature (based on KieronQuinn's AmazfitSpringboardSettings)</new>
+        <new>Filter notification based on a text</new>
+        <new>Mute Specific App Notifications for some time</new>
+        <info>Improvements in APK Installer</info>
+        <bugfix>Fixed some crashes</bugfix>
     </release>
     <release
         date="2018-11-14"

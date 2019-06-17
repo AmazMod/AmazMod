@@ -36,6 +36,9 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, settingsData.isPhoneConnectionAlertStandardNotification());
         editor.putString(Constants.PREF_DEFAULT_LOCALE, settingsData.getDefaultLocale());
         editor.putBoolean(Constants.PREF_DISABLE_DELAY, settingsData.isDisableDelay());
+        editor.putBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, settingsData.isAmazModFirstWidget());
+        editor.putInt(Constants.PREF_BATTERY_WATCH_ALERT, settingsData.getBatteryWatchAlert());
+        editor.putInt(Constants.PREF_BATTERY_PHONE_ALERT, settingsData.getBatteryPhoneAlert());
 
         editor.apply();
     }
@@ -55,4 +58,13 @@ public class SettingsManager {
     public String getString(String key, String defaultValue) {
         return PreferenceManager.getDefaultSharedPreferences(context).getString(key, defaultValue);
     }
+
+    public void putBoolean(String key, boolean value) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(key, value).apply();
+    }
+
+    public void putString(String key, String value) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().putString(key, value).apply();
+    }
+
 }

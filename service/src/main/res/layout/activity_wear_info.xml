@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wear_info_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
+    android:paddingTop="10dp">
+
+    <android.support.wearable.view.WearableFrameLayout
+        android:id="@+id/wear_info_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_box="">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="40dp">
+
+                <ImageView
+                    android:id="@+id/wear_info_imageView01"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:src="@drawable/amazmod"
+                    android:contentDescription="@string/default_icon" />
+
+                <TextView
+                    android:id="@+id/wear_info_timeSLC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    tools:text="TextView"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/wear_info_build"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    tools:text="TextView"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/wear_info_textView02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    tools:text="TextView"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/wear_info_textView03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    tools:text="TextView"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/wear_info_textView04"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    tools:text="TextView"
+                    android:textAlignment="center" />
+
+                <TextView
+                    android:id="@+id/wear_info_textView05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="2dp"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="16sp"
+                    tools:text="TextView"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/wear_info_buttonClose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    tools:text="Button"
+                    android:textAlignment="center" />
+            </LinearLayout>
+        </ScrollView>
+    </android.support.wearable.view.WearableFrameLayout>
+
+</android.support.wearable.view.BoxInsetLayout>

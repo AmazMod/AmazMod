@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:gravity="top|center_horizontal"
             android:text="@string/reply"
             android:textAlignment="center"
@@ -91,7 +91,7 @@
                 android:includeFontPadding="true"
                 android:padding="4dp"
                 android:text="@string/close"
-                android:textAlignment="viewEnd"
+                android:textAlignment="center"
                 tools:text="Close  " />
 
             <Button
@@ -105,7 +105,7 @@
                 android:includeFontPadding="true"
                 android:padding="4dp"
                 android:text="@string/reply"
-                android:textAlignment="viewStart"
+                android:textAlignment="center"
                 tools:text="  Replies" />
         </LinearLayout>
 

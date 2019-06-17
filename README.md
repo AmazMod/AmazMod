@@ -1,19 +1,26 @@
-# AmazMod  [![Build Status](https://travis-ci.org/edotassi/AmazMod.svg?branch=master)](https://travis-ci.org/edotassi/AmazMod) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod) [![Backers on Open Collective](https://opencollective.com/amazmod-33/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/amazmod-33/sponsors/badge.svg)](#sponsors) 
+[![AmazMod](https://img.shields.io/badge/AmazMod-your%20Amazfit-red.svg)](https://github.com/AmazMod/AmazMod) [![latest service](https://img.shields.io/github/release/AmazMod/AmazMod.svg?label=latest%20release&style=flat) ![Downloads](https://img.shields.io/github/downloads/AmazMod/AmazMod/total.svg?style=flat)](https://github.com/AmazMod/AmazMod/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod) [![Backers on Open Collective](https://opencollective.com/amazmod-33/amazmoder/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/amazmod-33/tiers/onging-amazmoder/badge.svg)](#sponsors) [![Telegram](https://img.shields.io/badge/Follow%20us%20on-Telegram-blue.svg)](https://t.me/amazmod) [![Twitter](https://img.shields.io/twitter/follow/Amazmod.svg?style=popout)](https://twitter.com/amazmod)
 
-AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace and Stratos watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
+AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace, Stratos and Verge watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
+
 
 ### Some features:  
-* Brand new notifications filter system, with the option to use customized ("canned") replies;  
-* Battery log and other info that can be viewed on the app as a graph;  
+* Brand new notifications filter system, with the option to use customized ("canned") replies, show images and more;  
+* Battery/Heart-rate log and other info that can be viewed on the app as a graph;  
 * Control watch's screen brightness ("Auto brightness" on watch must be *off* for this to work);  
 * Option to not send notifications to watch when the phone screen is on;  
 * Receive messenger call notifications and maps navigation info on watch;
 * File transfer to and from the watch over the air;
+* Built-in File Explorer on the watch with image and text viewing abilities;
 * Shell execution optionality to the watch from the phone;
 * Improved Watch/Smartphone connection tunnel (lower battery usage);
 * Emoji display ability;
-* Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot);
-* More to come.  
+* Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot, Clean Memory);
+* Battery notifications on watch/phone for watch/phone (low battery, fully charged);
+* Re-order watch widgets;
+* Take watch screenshot;
+* Push battery and calendar event data for Watchfaces/Widgets to use them;
+* Uninstall applications from watch;
+* More to come.
 
 ### Installation
 
@@ -24,14 +31,14 @@ or
 https://github.com/edotassi/AmazMod/tree/master/service-releases
 
 ###### Installation steps to use all features
-1. Download and install latest AmazMod from Play Store on phone;
+1. Download and install latest AmazMod from [Play Store](https://play.google.com/store/apps/details?id=com.edotassi.amazmod) on phone;
 2. Download and install latest service-release.apk on watch, or use the provided installer for Windows;
 3. Restart both phone *and* watch;
 4. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
 5. Check if you see AmazMod widget on watch, if you don't then something went wrong, check Troubleshooting below;
 6. Open AmazMod app on phone and configure it to your needs.
 7. For better power managment, in the tweaking section on the phone client with the latest version - run:
-   `adb shell dpm set-device-owner com.amazmod.service/.AdminReceiver`
+   `adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver`
 
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;
@@ -40,6 +47,12 @@ https://github.com/edotassi/AmazMod/tree/master/service-releases
 4. Configure the other options to your needs (in this case, ignore the "Connecting" message shown in AmazMod). 
 
 *PS: You may or may not disable Amazfit access to notifications, as long as it doesn't push notifications to watch. If you keep the access, then you can still use your watch to control music and most notifications dismissed on watch will also be removed from phone.*
+
+### Beta Tester
+If you want to become a BETA Tester, you can take part into the beta channel on [Play Store](https://play.google.com/apps/internaltest/4697278970051666108). Beta channel receives updates first, however, the stability of the each beta version is not guaranted.
+
+### Translations
+If you want to help by translating the app in your language, take a look at our crowdin page [here](https://crowdin.com/project/amazmod), it is very easy. If your language is not included, open an issue requesting to add the language to crowdin so you can work on that.
 
 
 ### Troubleshooting
@@ -59,19 +72,30 @@ For more info, please check the [FAQ](https://github.com/edotassi/AmazMod/blob/m
 <table>
 	<tr>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_1.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_1.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_2.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_2.png"/>		
 		</td>
 				<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_3.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_3.png"/>		
 		</td>
 		<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_4.png"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_4.png"/>		
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_5.png"/>		
+		</td>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_6.png"/>		
 		</td>
 				<td>
-			<img src="https://github.com/edotassi/AmazMod/raw/master/images/screen_5.jpg"/>		
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_7.png"/>		
+		</td>
+		<td>
+			<img src="https://github.com/edotassi/AmazMod/raw/dev/images/screen_8.jpg"/>		
 		</td>
 	</tr>
 </table>

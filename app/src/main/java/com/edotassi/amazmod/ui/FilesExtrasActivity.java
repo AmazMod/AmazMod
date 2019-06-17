@@ -9,19 +9,23 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.AmazModApplication;
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
+import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
+import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.util.Permissions;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
+import com.raizlabs.android.dbflow.config.FlowManager;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,14 +37,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class FilesExtrasActivity extends AppCompatActivity {
+public class FilesExtrasActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_files_main_container)
     View filesMainContainer;
@@ -87,9 +94,11 @@ public class FilesExtrasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_files_extras);
 
         try {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
             //TODO log to crashlitics
+            Logger.error("FilesExtrasActivity onCreate NullPointerException: " + exception.toString());
         }
 
         getSupportActionBar().setTitle(R.string.activity_files_extras);
@@ -132,7 +141,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
     @OnClick(R.id.activity_files_permission)
     public void openPermissions() {
         if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
     }
 
@@ -208,15 +217,14 @@ public class FilesExtrasActivity extends AppCompatActivity {
                     success = this.saveDirectory.mkdir();
                 }
                 if (success) {
+                    saveAppsDbToPrefs(); //Restore selected apps to Prefs
                     File data = Environment.getDataDirectory();
-                    FileChannel source = null;
-                    FileChannel destination = null;
                     String currentDBPath = "/data/" + packageName + "/shared_prefs/" + packageName + "_preferences.xml";
                     File currentDB = new File(data, currentDBPath);
                     File backupDB = new File(this.saveDirectory, this.fileName);
                     try {
-                        source = new FileInputStream(currentDB).getChannel();
-                        destination = new FileOutputStream(backupDB).getChannel();
+                        FileChannel source = new FileInputStream(currentDB).getChannel();
+                        FileChannel destination = new FileOutputStream(backupDB).getChannel();
                         destination.transferFrom(source, 0, source.size());
                         source.close();
                         destination.close();
@@ -225,10 +233,11 @@ public class FilesExtrasActivity extends AppCompatActivity {
                         e.printStackTrace();
                         Toast.makeText(this, getResources().getString(R.string.activity_files_backup_failed), Toast.LENGTH_SHORT).show();
                     }
+                    eraseAppsPrefs(); //Overwrite Prefs after backup
                 }
             } catch (Exception e) {
                 Toast.makeText(this, getResources().getString(R.string.activity_files_file_error), Toast.LENGTH_SHORT).show();
-                Log.e(Constants.TAG, "FilesExtrasActivity save exception: " + e.toString());
+                Logger.error("FilesExtrasActivity save exception: " + e.toString());
             }
             updateData();
         } else {
@@ -236,6 +245,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
         }
 
     }
+
     private void load() {
 
         final String packageName = this.getPackageName();
@@ -246,13 +256,11 @@ public class FilesExtrasActivity extends AppCompatActivity {
             try {
                 if (backupDB.exists()) {
                     File data = Environment.getDataDirectory();
-                    FileChannel source = null;
-                    FileChannel destination = null;
                     String currentDBPath = "/data/" + packageName + "/shared_prefs/" + packageName + "_preferences.xml";
                     File currentDB = new File(data, currentDBPath);
                     try {
-                        source = new FileInputStream(backupDB).getChannel();
-                        destination = new FileOutputStream(currentDB).getChannel();
+                        FileChannel source = new FileInputStream(backupDB).getChannel();
+                        FileChannel destination = new FileOutputStream(currentDB).getChannel();
                         destination.transferFrom(source, 0, source.size());
                         source.close();
                         destination.close();
@@ -267,7 +275,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
             } catch (Exception e) {
                 success = false;
                 Toast.makeText(this, getResources().getString(R.string.activity_files_restore_failed), Toast.LENGTH_SHORT).show();
-                Log.e(Constants.TAG, "FilesExtrasActivity load exception: " + e.toString());
+                Logger.error("FilesExtrasActivity load exception: " + e.toString());
             }
         } else {
             success = false;
@@ -280,10 +288,10 @@ public class FilesExtrasActivity extends AppCompatActivity {
                 public void run() {
                     try {
                         System.exit(2);
-                        Log.i(Constants.TAG,"FilesExtrasActivity load delayed System.exit()");
+                        Logger.info("FilesExtrasActivity load delayed System.exit()");
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.e(Constants.TAG, "FilesExtrasActivity load exception: " + e.toString());
+                        Logger.error("FilesExtrasActivity load exception: " + e.toString());
                     }
                 }
             }, 2000);
@@ -300,7 +308,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
         }
         if (success) {
             useDownloads = true;
-            this.saveDirectory = new File (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + bkpDirectory);
+            this.saveDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + bkpDirectory);
             file.delete();
         } else {
             file = new File(this.getExternalFilesDir(null) + testDirectory);
@@ -323,7 +331,7 @@ public class FilesExtrasActivity extends AppCompatActivity {
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + bkpDirectory, fileName);
         if (file.exists()) {
             this.useDownloads = true;
-            this.saveDirectory = new File (Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + bkpDirectory);
+            this.saveDirectory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + bkpDirectory);
         } else {
             file = new File(this.getExternalFilesDir(null) + File.separator, fileName);
             if (file.exists()) {
@@ -334,7 +342,117 @@ public class FilesExtrasActivity extends AppCompatActivity {
         return useFiles || useDownloads;
     }
 
-    public static int checkApps(Context context) {
+    public static void checkApps(Context context) {
+
+        //Log.d(Constants.TAG,"FilesExtrasActivity checkApps");
+
+        Gson gson = new Gson();
+        List<String> packagesList = new ArrayList<>(Arrays.asList(gson
+                .fromJson(Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]"), String[].class)));
+
+        if (packagesList.size() > 0)
+            migrateNotificationPrefsFromJSON();
+        //checkAppsJson(context, packagesList);
+
+        List<NotificationPreferencesEntity> apps = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .queryList();
+
+        if (apps.size() > 0)
+            checkAppsSql(context, apps);
+
+    }
+
+    public static void checkAppsJson(Context context, List<String> packagesList) {
+
+        //Log.d(Constants.TAG,"FilesExtrasActivity checkAppsJson packagesList: " + packagesList.toString());
+
+        List<String> installedApps = getInstalledPackagesNames(context);
+
+        List<String> dummy = new ArrayList<>();
+
+        for (String p : packagesList) {
+
+            if (Collections.binarySearch(installedApps, p) < 0) {
+                dummy.add(p);
+                Logger.info("FilesExtrasActivity checkAppsJson removed app: " + p);
+            }
+        }
+
+        if (dummy.size() > 0) packagesList.removeAll(dummy);
+
+        String pref = new Gson().toJson(packagesList);
+
+        Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
+
+    }
+
+    private static void checkAppsSql(Context context, List<NotificationPreferencesEntity> apps) {
+
+        //Log.d(Constants.TAG,"FilesExtrasActivity checkAppsSql");
+
+        List<String> installedApps = getInstalledPackagesNames(context);
+
+        for (NotificationPreferencesEntity p : apps) {
+
+            if (Collections.binarySearch(installedApps, p.getPackageName()) < 0) {
+                SQLite
+                        .delete()
+                        .from(NotificationPreferencesEntity.class)
+                        .where(NotificationPreferencesEntity_Table.packageName.eq(p.getPackageName()))
+                        .query();
+
+                Logger.info("FilesExtrasActivity checkAppsSql removed app: " + p.getPackageName());
+            }
+        }
+
+    }
+
+    // TODO: 06/12/2018 remove this in the future
+    //Temporary Migration function (old users will have its selected apps migrated from JSON to SQLITE)
+    public static void migrateNotificationPrefsFromJSON() {
+
+        //Log.d(Constants.TAG,"FilesExtrasActivity migrateNotificationPrefsFromJSON");
+
+        String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+
+        if (!packagesJson.equals("[]")) {
+
+            String[] packagesList = new Gson().fromJson(packagesJson, String[].class);
+
+            for (String p : packagesList) {
+                SilenceApplicationHelper.enablePackage(p);
+            }
+
+            Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+            Logger.info("FilesExtrasActivity migrateNotificationPrefsFromJSON finished");
+        }
+
+        String filtersJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, "[]");
+        Logger.debug("FilesExtrasActivity migrateNotificationPrefsFromJSON filters: " + filtersJson);
+        if (!filtersJson.equals("[]")) {
+            Map<String, String> packagesfilters = new Gson().fromJson(filtersJson, Map.class);
+
+            for (Map.Entry<String, String> pair : packagesfilters.entrySet()) {
+                NotificationPreferencesEntity app =
+                        SQLite
+                                .select()
+                                .from(NotificationPreferencesEntity.class)
+                                .where(NotificationPreferencesEntity_Table.packageName.eq(pair.getKey()))
+                                .querySingle();
+                app.setFilter(pair.getValue());
+                app.setWhitelist(false);
+                FlowManager
+                        .getModelAdapter(NotificationPreferencesEntity.class)
+                        .update(app);
+            }
+        }
+    }
+
+    private static List<String> getInstalledPackagesNames(Context context) {
+
+        Logger.debug("FilesExtrasActivity getInstalledPackagesNames");
 
         List<PackageInfo> packagesInstalled = context.getPackageManager().getInstalledPackages(0);
         List<String> packagesInstalledNames = new ArrayList<>();
@@ -343,30 +461,49 @@ public class FilesExtrasActivity extends AppCompatActivity {
             packagesInstalledNames.add(p.packageName);
         }
 
-        Gson gson = new Gson();
-        List<String> packagesList = new ArrayList<>(Arrays.asList(gson
-                .fromJson(Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]"), String[].class)));
-
         Collections.sort(packagesInstalledNames);
 
-        //Log.i(Constants.TAG,"FilesExtrasActivity checkApps packagesList: " + packagesList.toString());
+        return packagesInstalledNames;
 
-        List<String> dummy = new ArrayList<>();
+    }
 
-        for (String p : packagesList) {
+    public static void saveAppsDbToPrefs() {
 
-            if (Collections.binarySearch(packagesInstalledNames, p) < 0) {
-                dummy.add(p);
-                Log.i(Constants.TAG,"FilesExtrasActivity checkApps removed app: " + p);
+        Logger.debug("FilesExtrasActivity saveAppsDbToPrefs");
+
+        List<NotificationPreferencesEntity> apps = SQLite
+                .select()
+                .from(NotificationPreferencesEntity.class)
+                .queryList();
+
+        if (apps.size() > 0) {
+
+            List<String> dummy = new ArrayList<>();
+            Map<String, String> filters = new HashMap<String, String>();
+
+            for (NotificationPreferencesEntity p : apps) {
+                dummy.add(p.getPackageName());
+                filters.put(p.getPackageName(), p.getFilter());
+                //Log.d(Constants.TAG,"FilesExtrasActivity saveAppsDbToPrefs added: " + p.getPackageName());
+            }
+
+            if (dummy.size() > 0) {
+                String pref = new Gson().toJson(dummy);
+                Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
+                String pref_filter = new Gson().toJson(filters);
+                Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, pref_filter);
+                Prefs.edit().commit();
             }
         }
-
-        if (dummy.size()>0) packagesList.removeAll(dummy);
-
-        String pref = gson.toJson(packagesList);
-
-        Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, pref);
-
-        return packagesList.size();
     }
+
+    public static void eraseAppsPrefs() {
+        Logger.debug("FilesExtrasActivity eraseAppsPrefs");
+
+        Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
+        Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, "[]");
+        Prefs.edit().commit();
+
+    }
+
 }

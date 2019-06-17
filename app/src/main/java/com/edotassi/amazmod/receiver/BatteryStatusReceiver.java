@@ -7,14 +7,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.util.Log;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 
 import com.edotassi.amazmod.AmazModApplication;
 import amazmod.com.transport.Constants;
+
+import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
-import com.edotassi.amazmod.support.Logger;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -22,11 +24,11 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.tinylog.Logger;
+
 import amazmod.com.transport.data.BatteryData;
 
 public class BatteryStatusReceiver extends BroadcastReceiver {
-
-    private Logger log = Logger.get(BatteryStatusReceiver.class);
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -41,8 +43,9 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
                     if (task.isSuccessful()) {
                         BatteryStatus batteryStatus = task.getResult();
                         updateBattery(batteryStatus);
+                        batteryAlert(batteryStatus, context);
                     } else {
-                        BatteryStatusReceiver.this.log.e(task.getException(), "failed reading battery status");
+                        Logger.error(task.getException(), "failed reading battery status");
                     }
                     return null;
                 }
@@ -51,7 +54,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             startBatteryReceiver(context);
         }
 
-        Log.d(Constants.TAG, "BatteryStatusReceiver onReceive");
+        Logger.debug("BatteryStatusReceiver onReceive");
     }
 
     public static void startBatteryReceiver(Context context) {
@@ -60,7 +63,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
         long delay = ((long) syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
 
-        Log.i(Constants.TAG, "BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
+        Logger.info("BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
 
         if (delay < 0) delay = 0;
 
@@ -69,20 +72,21 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmBatteryIntent, 0);
 
         try {
-            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
+            if (alarmManager != null)
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
                     (long) syncInterval * 60000L, pendingIntent);
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "BatteryStatusReceiver setRepeating exception: " + e.toString());
+            Logger.error(e, "BatteryStatusReceiver setRepeating exception: " + e.toString());
         }
     }
 
     private void updateBattery(BatteryStatus batteryStatus) {
         BatteryData batteryData = batteryStatus.getBatteryData();
-        BatteryStatusReceiver.this.log.d("batteryStatus: " + batteryData.getLevel());
-        BatteryStatusReceiver.this.log.d("charging: " + batteryData.isCharging());
-        BatteryStatusReceiver.this.log.d("usb: " + batteryData.isUsbCharge());
-        BatteryStatusReceiver.this.log.d("ac: " + batteryData.isAcCharge());
-        BatteryStatusReceiver.this.log.d("dateLastCharge: " + batteryData.getDateLastCharge());
+        Logger.debug("batteryStatus: " + batteryData.getLevel());
+        Logger.debug("charging: " + batteryData.isCharging());
+        Logger.debug("usb: " + batteryData.isUsbCharge());
+        Logger.debug("ac: " + batteryData.isAcCharge());
+        Logger.debug("dateLastCharge: " + batteryData.getDateLastCharge());
 
         long date = System.currentTimeMillis();
 
@@ -107,9 +111,58 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             }
         } catch (Exception ex) {
             //TODO add crashlitics
-            BatteryStatusReceiver.this.log.e(ex, "TransportService batteryStatus exception: " + ex.toString());
+            Logger.error(ex, "TransportService batteryStatus exception: " + ex.toString());
         }
-        //Save time of last sync
+        // Save time of last sync
         Prefs.putLong(Constants.PREF_TIME_LAST_SYNC, SystemClock.elapsedRealtime());
+    }
+
+    private void batteryAlert(BatteryStatus batteryStatus, Context context) {
+        // User options/data
+        int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
+                Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
+        boolean alreadyBatteryNotified = Prefs.getBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED,
+                false);
+        boolean alreadyChargingNotified = Prefs.getBoolean(Constants.PREF_BATTERY_WATCH_CHARGED,
+                false);
+
+        BatteryData batteryData = batteryStatus.getBatteryData();
+        int battery = Math.round(batteryData.getLevel()*100);
+        boolean charging = batteryData.isCharging();
+
+        Logger.debug("Battery check - watch "+battery+"%, charging:"+charging+", limit:"+watchBatteryAlert+"%");
+
+        // Check if low battery
+        if( watchBatteryAlert > 0 && watchBatteryAlert > battery && !charging && !alreadyBatteryNotified) {
+            Logger.debug("low watch battery...");
+            // Send notification
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
+                    .setSmallIcon(R.drawable.ic_battery_alert_red_24dp)
+                    .setContentTitle(context.getString(R.string.notification_low_battery))
+                    .setContentText(context.getString(R.string.notification_low_battery_description,watchBatteryAlert + "%"))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            notificationManager.notify(0, builder.build());
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, true);
+        }else{
+            // Re-set notification
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, false);
+        }
+
+        if( battery>99 && charging && !alreadyChargingNotified){
+            Logger.debug("watch fully charged...");
+            // Fully charged notification
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
+                    .setSmallIcon(R.drawable.ic_battery_charging_full_green_24dp)
+                    .setContentTitle(context.getString(R.string.notification_watch_charged))
+                    .setContentText(context.getString(R.string.notification_watch_charged_description))
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+            notificationManager.notify(0, builder.build());
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, true);
+        }else{
+            // Re-set notification
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, false);
+        }
     }
 }

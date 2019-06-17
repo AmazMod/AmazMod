@@ -7,8 +7,8 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.crashlytics.android.Crashlytics;
 import com.edotassi.amazmod.AmazModApplication;
 
 import amazmod.com.transport.Constants;
@@ -29,6 +28,7 @@ import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.FirebaseEvents;
+import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
@@ -44,6 +44,10 @@ import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -86,6 +90,9 @@ public class WatchInfoFragment extends Card implements Updater {
     //TextView huamiNumber;
     //@BindView(R.id.card_build_fingerprint)
     //TextView fingerprint;
+    @BindView(R.id.card_watch)
+    CardView card;
+
 
     @BindView(R.id.isConnectedTV)
     TextView isConnectedTV;
@@ -113,6 +120,8 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onAttach(Context context) {
         super.onAttach(context);
 
+        EventBus.getDefault().register(this);
+
         if (getActivity() != null) {
             snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
                     .setProgressBarColor(R.color.colorAccent)
@@ -133,24 +142,24 @@ public class WatchInfoFragment extends Card implements Updater {
 
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
-                public Object then(@NonNull Task<WatchStatus> task) throws Exception {
+                public Object then(@NonNull Task<WatchStatus> task) {
                     if (task.isSuccessful()) {
-                        AmazModApplication.isWatchConnected = true;
+                        AmazModApplication.setWatchConnected(true);
                         isConnected();
                         watchStatus = task.getResult();
                         refresh(watchStatus);
                         String serviceVersionString = watchStatus.getWatchStatusData().getAmazModServiceVersion();
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersionString: " + serviceVersionString);
+                        Logger.debug("WatchInfoFragment serviceVersionString: " + serviceVersionString);
                         if (serviceVersionString.contains("_("))
                             serviceVersionString = "1588";
                         serviceVersion = Integer.valueOf(serviceVersionString);
-                        Log.d(Constants.TAG, "WatchInfoFragment serviceVersion: " + serviceVersion);
+                        Logger.debug("WatchInfoFragment serviceVersion: " + serviceVersion);
                         if (Prefs.getBoolean(Constants.PREF_ENABLE_UPDATE_NOTIFICATION, Constants.PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION)) {
                             Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
                         }
                     } else {
-                        Log.d(Constants.TAG, "WatchInfoFragment isWatchConnected = false");
-                        AmazModApplication.isWatchConnected = false;
+                        Logger.debug("WatchInfoFragment isWatchConnected = false");
+                        AmazModApplication.setWatchConnected(false);
                         if (getActivity() != null) {
                             try {
                                 Snacky
@@ -161,8 +170,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                         .build()
                                         .show();
                             } catch (Exception e) {
-                                Crashlytics.logException(e);
-                                Log.e(Constants.TAG, "WatchInfoFragment onResume exception: " + e.toString());
+                                Logger.error("WatchInfoFragment onResume exception: " + e.toString());
                             }
                         }
                         disconnected();
@@ -178,16 +186,24 @@ public class WatchInfoFragment extends Card implements Updater {
         return "watch-info";
     }
 
+    @Override
+    public void onDestroy() {
+        if (EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(WatchStatus watchStatus) {
         TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
                 .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
+                .putString(Constants.PREF_HUAMI_MODEL, watchStatus.getWatchStatusData().getRoBuildHuamiModel())
                 .apply();
         try {
             onWatchStatus(watchStatus);
         } catch (NullPointerException e) {
-            Crashlytics.logException(e);
-            Log.e(Constants.TAG, "WatchInfoFragment refresh exception: " + e.toString());
+            Logger.error("WatchInfoFragment refresh exception: {}", e.toString());
         }
     }
 
@@ -211,9 +227,19 @@ public class WatchInfoFragment extends Card implements Updater {
         //Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
-        Log.d(Constants.TAG, "WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
 
+        // Heart Rate Bar Chart
+        Logger.debug("WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
+        String lastHeartRates = watchStatusData.getLastHeartRates();
+        try {
+            HeartRateChartFragment f = (HeartRateChartFragment) getActivity().getSupportFragmentManager().findFragmentByTag("heart-rate-chart");
+            f.updateChart(lastHeartRates);
+        }catch(NullPointerException e) {
+            // HeartRate fragment card not found!
+            e.printStackTrace();
+        }
     }
 
     private void isConnected() {
@@ -255,14 +281,16 @@ public class WatchInfoFragment extends Card implements Updater {
     @Override
     public void updateAvailable(final int version) {
         if (getActivity() != null && getContext() != null) {
-            final boolean isDevBranch = Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     new MaterialDialog.Builder(getContext())
                             .canceledOnTouchOutside(false)
                             .title(R.string.new_update_available)
-                            .content(getString(R.string.new_service_update_available, String.valueOf(version)))
+                            .content(new StringBuilder(getString(R.string.new_service_update_available, String.valueOf(version)))
+                                    .append(".\n")
+                                    .append(getString(R.string.update_process_warning))
+                                    .toString())
                             .positiveText(R.string.update)
                             .negativeText(R.string.cancel)
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
@@ -280,21 +308,16 @@ public class WatchInfoFragment extends Card implements Updater {
                                         setWindowFlags(true);
                                         final UpdateDownloader updateDownloader = new UpdateDownloader();
                                         if (serviceVersion < 1697) {
-                                            Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
+                                            Logger.debug("WatchInfoFragment updateAvailable: " + Constants.SERVICE_UPDATE_SCRIPT_URL);
                                             updateDownloader.start(WatchInfoFragment.this.getContext(), Constants.SERVICE_UPDATE_SCRIPT_URL, WatchInfoFragment.this);
                                         }
 
-                                        String url;
-                                        if (isDevBranch) {
-                                            url = String.format(Constants.SERVICE_UPDATE_DEV_FILE_URL, version);
-                                        } else {
-                                            url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
-                                        }
+                                        String url = String.format(Constants.SERVICE_UPDATE_FILE_URL, version);
 
-                                        Log.d(Constants.TAG, "WatchInfoFragment updateAvailable: " + url);
+                                        Logger.debug("WatchInfoFragment updateAvailable: " + url);
                                         updateDialog = new MaterialDialog.Builder(getContext())
                                                 .canceledOnTouchOutside(false)
-                                                .title(R.string.download_in_progress + (isDevBranch? " dev" : ""))
+                                                .title(R.string.download_in_progress)
                                                 .customView(R.layout.dialog_update_progress, false)
                                                 .negativeText(R.string.cancel)
                                                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -396,7 +419,7 @@ public class WatchInfoFragment extends Card implements Updater {
                     WatchInfoFragment.this.getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(Constants.TAG, "WatchInfoFragment uploadUpdate destPath: " + destPath);
+                            Logger.debug("WatchInfoFragment uploadUpdate destPath: " + destPath);
 
                             String remaingSize = Formatter.formatShortFileSize(WatchInfoFragment.this.getContext(), size - byteSent);
                             double kbSent = byteSent / 1024d;
@@ -462,7 +485,9 @@ public class WatchInfoFragment extends Card implements Updater {
 
     private void installUpdate(String apkAbsolutePath) {
 
-        String command = String.format("adb install -r %s&", apkAbsolutePath);
+        //String command = String.format("adb install -r %s&", apkAbsolutePath);
+
+        String command = ShellCommandHelper.getApkInstall(apkAbsolutePath);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))

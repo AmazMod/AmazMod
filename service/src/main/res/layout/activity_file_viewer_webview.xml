@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_file_viewer_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.wearable.view.WearableFrameLayout
+        android:id="@+id/activity_file_viewer_frame_layout_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <WebView
+            android:id="@+id/activity_file_viewer_webview_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </android.support.wearable.view.WearableFrameLayout>
+
+    <android.support.wearable.view.WearableFrameLayout
+        android:id="@+id/activity_file_viewer_frame_layout_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_box="left|top|right">
+
+        <WebView
+            android:id="@+id/activity_file_viewer_webview_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+    </android.support.wearable.view.WearableFrameLayout>
+
+</android.support.wearable.view.BoxInsetLayout>

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
-import com.crashlytics.android.Crashlytics;
+import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.db.model.NotficationSentEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
 import com.edotassi.amazmod.receiver.BatteryStatusReceiver;
@@ -13,8 +13,9 @@ import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.FilesExtrasActivity;
 import com.edotassi.amazmod.update.Updater;
 import com.google.gson.Gson;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+
+import org.tinylog.Logger;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -44,22 +45,19 @@ public class Setup {
     }
 
     public static void checkServiceUpdate(final Updater updater, final String currentVersion) {
-
         String updateUrl = Constants.SERVICE_UPDATE_URL;
-        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)){
-            updateUrl = Constants.SERVICE_UPDATE_DEV_URL;
-        }
 
         Request request = new Request.Builder()
                 .url(updateUrl)
                 .build();
-        System.out.println("AmazMod Setup checkServiceUpdate started");
+        Logger.info("checkServiceUpdate: started OTA process");
 
         OkHttpClient client = new OkHttpClient();
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
+                        Logger.debug("checkServiceUpdate: failed to check for updates");
                         updater.updateCheckFailed();
                     }
 
@@ -68,20 +66,31 @@ public class Setup {
                         try {
                             String json = response.body().string();
                             Properties data = new Gson().fromJson(json, Properties.class);
-                            int latestVersionValue = Integer.valueOf(data.getProperty("version"));
+                            int betaVersionCode = Integer.valueOf(data.getProperty("betaVersionCode"));
+                            int latestVersionValue = Integer.valueOf(data.getProperty("release"));
+                            Logger.info("checkServiceUpdate: checking if application VERSION_CODE (" + BuildConfig.VERSION_CODE + ") is greater or equals " + betaVersionCode);
+                            if (BuildConfig.VERSION_CODE >= betaVersionCode){
+                                latestVersionValue = Integer.valueOf(data.getProperty("beta"));
+                                Logger.info("checkServiceUpdate: will use BETA service available " +  latestVersionValue);
+                            }else{
+                                Logger.info("checkServiceUpdate: will use RELEASE service available " +  latestVersionValue);
+                            }
                             int currentVersionValue = Integer.valueOf(currentVersion);
-
-                            System.out.println("AmazMod Setup versions = " + currentVersionValue + " // " + latestVersionValue);
+                            Logger.info("checkServiceUpdate: current service = " + currentVersionValue + " // available service = " + latestVersionValue);
                             if (!(currentVersionValue >= latestVersionValue)) {
+                                Logger.info("checkServiceUpdate: showing warning that new version is available  ( ͡° ͜ʖ ͡°)");
                                 updater.updateAvailable(latestVersionValue);
+                            }else{
+                                Logger.info("checkServiceUpdate: NO new version is available ¯\\_(ツ)_/¯");
                             }
                         } catch (Exception ex) {
                             updater.updateCheckFailed();
-                            Crashlytics.logException(ex);
+                            Logger.error(ex,"checkServiceUpdate: Error checking for update");
                         }
                     }
                 });
     }
+
 
     private static void checkIfAppUninstalledThenRemove(Context context) {
         FilesExtrasActivity.checkApps(context);
@@ -95,4 +104,5 @@ public class Setup {
                 .where(NotficationSentEntity_Table.date.lessThan(delta))
                 .query();
     }
+
 }

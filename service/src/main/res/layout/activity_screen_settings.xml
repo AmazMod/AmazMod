@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_screen_settings_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:paddingStart="10dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="10dp"
+    tools:ignore="SpUsage, RtlHardcoded, ContentDescription">
+
+    <android.support.wearable.view.WearableFrameLayout
+        android:id="@+id/activity_screen_settings_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activity_screen_settings_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="bottom"
+                    android:textAlignment="center"
+                    android:textColor="@color/light_grey"
+                    android:textSize="20sp"
+                    tools:text="Screen Settings" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/activity_screen_settings_font_size_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:minWidth="62dp"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="16sp"
+                        tools:text="Font:" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_round_corners_darker_gray"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/activity_screen_settings_spinner_font_size"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/activity_screen_settings_density_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:minWidth="62dp"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="16sp"
+                        tools:text="Density:" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_round_corners_darker_gray"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/activity_screen_settings_spinner_density"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="0dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/activity_screen_settings_inversion_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:minWidth="62dp"
+                        android:textAlignment="center"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="16sp"
+                        tools:text="Inverted:" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_round_corners_darker_gray"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/activity_screen_settings_spinner_inversion"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:background="@android:color/transparent"
+                            android:gravity="center"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp"
+                            android:textColor="#FFFFFFFF"
+                            android:textSize="16dp" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/activity_screen_settings_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFFFF"
+                    android:textSize="14sp"
+                    tools:text="Changing Font Size will restart watch" />
+
+                <Button
+                    android:id="@+id/activity_screen_settings_button_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/reply_grey"
+                    android:gravity="center"
+                    android:includeFontPadding="false"
+                    android:minWidth="120dp"
+                    android:minHeight="24dp"
+                    android:paddingStart="0dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="6dp"
+                    android:layout_marginBottom="16dp"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    tools:text="Save" />
+
+            </LinearLayout>
+
+        </ScrollView>
+    </android.support.wearable.view.WearableFrameLayout>
+</android.support.wearable.view.BoxInsetLayout>

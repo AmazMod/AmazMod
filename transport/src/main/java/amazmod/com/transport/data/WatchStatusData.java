@@ -27,6 +27,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
     //public static final String RO_BUILD_FINGERPRINT = "ro.build.fingerprint";
     public static final String SCREEN_BRIGHTNESS = "watch.brightness";
     public static final String SCREEN_BRIGHTNESS_MODE = "watch.brightness_mode";
+    public static final String LAST_HEART_RATES = "watch.last_heart_rates";
+
 
     private String amazModServiceVersion;
     //private String roProductDevice;
@@ -43,6 +45,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     //private String roBuildFingerprint;
     private int screenBrightness;
     private int screenBrightnessMode;
+    private String lastHeartRates;
 
     public WatchStatusData() {
     }
@@ -63,6 +66,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
         //roBuildFingerprint = in.readString();
         screenBrightness = in.readInt();
         screenBrightnessMode = in.readInt();
+        lastHeartRates = in.readString();
     }
 
     public static final Creator<WatchStatusData> CREATOR = new Creator<WatchStatusData>() {
@@ -94,6 +98,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
         //dataBundle.putString(RO_BUILD_FINGERPRINT, roBuildFingerprint);
         dataBundle.putInt(SCREEN_BRIGHTNESS,screenBrightness);
         dataBundle.putInt(SCREEN_BRIGHTNESS_MODE,screenBrightnessMode);
+        dataBundle.putString(LAST_HEART_RATES, lastHeartRates);
 
         return dataBundle;
     }
@@ -127,6 +132,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
         watchStatusData.setRoBuildDescription(dataBundle.getString(RO_BUILD_DESCRIPTION));
         watchStatusData.setScreenBrightness(dataBundle.getInt(SCREEN_BRIGHTNESS));
         watchStatusData.setScreenBrightnessMode(dataBundle.getInt(SCREEN_BRIGHTNESS_MODE));
+        watchStatusData.setLastHeartRates(dataBundle.getString(LAST_HEART_RATES));
 
         return watchStatusData;
     }
@@ -153,6 +159,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
         //dest.writeString(roBuildFingerprint);
         dest.writeInt(screenBrightness);
         dest.writeInt(screenBrightnessMode);
+        dest.writeString(lastHeartRates);
     }
 
     public String getAmazModServiceVersion() {
@@ -273,5 +280,13 @@ public class WatchStatusData extends Transportable implements Parcelable {
 
     public void setScreenBrightnessMode(int screenBrightnessMode) {
         this.screenBrightnessMode = screenBrightnessMode;
+    }
+
+    public String getLastHeartRates() {
+        return lastHeartRates;
+    }
+
+    public void setLastHeartRates(String lastHeartRates) {
+        this.lastHeartRates = lastHeartRates;
     }
 }

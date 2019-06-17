@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +21,8 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.tinylog.Logger;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +34,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NotificationRepliesDragActivity extends AppCompatActivity {
+public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_notification_replies_list)
     ListView listView;
@@ -79,7 +80,7 @@ public class NotificationRepliesDragActivity extends AppCompatActivity {
                             break;
                         }
                         if (position != mPosition) {
-                            System.out.println("AmazMod NotificationRepliesDragActivity move mPosition: " + mPosition +
+                            Logger.debug("NotificationRepliesDragActivity move mPosition: " + mPosition +
                                     " \\ position: " + position);
                             if (mPosition != -1) {
                                 if (position > mPosition) {
@@ -108,7 +109,7 @@ public class NotificationRepliesDragActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
                     case MotionEvent.ACTION_OUTSIDE: {
-                        System.out.println("AmazMod NotificationRepliesDragActivity cancel initialPosition: " + initalPosition +
+                        Logger.debug("NotificationRepliesDragActivity cancel initialPosition: " + initalPosition +
                                 " \\ mPosition: " + mPosition);
                         stopDrag();
                         return true;
@@ -155,7 +156,7 @@ public class NotificationRepliesDragActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        System.out.println("AmazMod NotificationRepliesDragActivity onPause");
+        Logger.debug("NotificationRepliesDragActivity onPause");
         Gson gson = new Gson();
         String repliesJson = gson.toJson(repliesValues);
         Prefs.putString(Constants.PREF_NOTIFICATIONS_REPLIES, repliesJson);
@@ -262,7 +263,7 @@ public class NotificationRepliesDragActivity extends AppCompatActivity {
                 public boolean onLongClick(View v) {
                     lItem.setBackgroundColor(Color.parseColor("#99FF4081"));
                     String string = reply.getValue();
-                    System.out.println("AmazMod NotificationRepliesDragActivity onLongClick string: " + string);
+                    Logger.debug("NotificationRepliesDragActivity onLongClick string: " + string);
                     edit(reply, lItem);
                     return false;
                 }

@@ -11,80 +11,6 @@
     android:paddingStart="10dp"
     android:paddingTop="10dp">
 
-    <android.support.wearable.view.WearableFrameLayout
-        android:id="@+id/wear_menu_info_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_box="">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="40dp">
-
-                <ImageView
-                    android:id="@+id/wear_menu_imageView01"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="2dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:contentDescription="@string/default_icon" />
-
-                <TextView
-                    android:id="@+id/wear_menu_build"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="TextView"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/wear_menu_textView02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="TextView"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/wear_menu_textView03"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="TextView"
-                    android:textAlignment="center" />
-
-                <TextView
-                    android:id="@+id/wear_menu_textView04"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    tools:text="TextView"
-                    android:textAlignment="center" />
-
-                <Button
-                    android:id="@+id/wear_menu_buttonClose"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="12dp"
-                    android:layout_marginTop="12dp"
-                    android:gravity="center"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    tools:text="Button"
-                    android:textAlignment="center" />
-            </LinearLayout>
-        </ScrollView>
-    </android.support.wearable.view.WearableFrameLayout>
-
     <LinearLayout
         android:id="@+id/wear_menu_confirm_layout"
         android:layout_width="match_parent"
@@ -135,15 +61,15 @@
     <RelativeLayout
         android:id="@+id/wear_menu_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="8dp">
 
         <android.support.wearable.view.WearableListView
             android:id="@+id/wear_menu_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:dividerHeight="0dp"
-            android:scrollbars="none"
-            app:layout_box="left|bottom|right" />
+            android:scrollbars="none" />
 
         <TextView
             android:id="@+id/wear_menu_header"
@@ -151,7 +77,9 @@
             android:layout_height="60dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:textAlignment="center"
             android:gravity="bottom"
+            android:paddingBottom="8dp"
             android:textColor="@color/light_grey"
             android:textSize="20sp"
             tools:text="List Items" />

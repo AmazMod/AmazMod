@@ -13,22 +13,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.LayoutInflaterCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.edotassi.amazmod.BuildConfig;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huami.watch.notification.data.StatusBarNotificationData;
@@ -39,18 +33,21 @@ import com.huami.watch.transport.TransporterClassic;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import com.pixplicity.easyprefs.library.Prefs;
 
+import org.tinylog.Logger;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
 import amazmod.com.models.Reply;
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 
-public class AboutActivity extends AppCompatActivity {
+public class AboutActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_about_version)
     TextView version;
@@ -71,7 +68,7 @@ public class AboutActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            System.out.println("AmazMod AboutActivity onCreate exception: " + exception.toString());
+            Logger.error("AboutActivity onCreate exception: " + exception.toString());
             //TODO log to crashlitics
         }
         getSupportActionBar().setTitle(R.string.about);
@@ -79,6 +76,7 @@ public class AboutActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         version.setText(BuildConfig.VERSION_NAME);
+        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             version.append(" - " + BuildConfig.VERSION_CODE + ":dev");
         }
@@ -116,26 +114,24 @@ public class AboutActivity extends AppCompatActivity {
     private void sendTestMessage(char type) {
         NotificationData notificationData = new NotificationData();
         final String snackTextOK, snackTextFailure;
+        notificationData.setText("Test Notification");
 
         switch (type) {
             case ('C'): {
                 notificationData.setForceCustom(true);
-                notificationData.setText("Test Notification");
                 break;
             }
             case ('S'): {
                 notificationData.setForceCustom(false);
-                notificationData.setText("Test Notification");
                 break;
             }
             case ('N'): {
                 notificationData.setForceCustom(false);
-                notificationData.setText("Test Notification");
                 sendNotificationWithStandardUI(notificationData);
                 return;
             }
             default:
-                System.out.println("AmazMod AboutActivity sendTestMessage: something went wrong...");
+                Logger.error("AboutActivity sendTestMessage: something went wrong...");
         }
 
         snackTextOK = getResources().getString(R.string.test_notification_sent);
@@ -150,7 +146,7 @@ public class AboutActivity extends AppCompatActivity {
         notificationData.setHideButtons(false);
 
         try {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_round);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_foreground);
             Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -166,7 +162,7 @@ public class AboutActivity extends AppCompatActivity {
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            System.out.println("AmazMod AboutActivity notificationData Failed to get bitmap " + e.toString());
+            Logger.error("AboutActivity notificationData Failed to get bitmap " + e.toString());
         }
 
         Watch.get().postNotification(notificationData).continueWith(new Continuation<Void, Object>() {
@@ -212,8 +208,8 @@ public class AboutActivity extends AppCompatActivity {
         bundle.putParcelable(NotificationCompat.EXTRA_LARGE_ICON, pic);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "")
-                .setSmallIcon(R.drawable.ic_launcher_round)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher))
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .addExtras(bundle)
                 .addAction(android.R.drawable.ic_delete, "DISMISS", dismissIntent)
@@ -230,7 +226,7 @@ public class AboutActivity extends AppCompatActivity {
         List<Reply> repliesList = loadReplies();
 
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender()
-                .setContentIcon(R.drawable.ic_launcher_round)
+                .setContentIcon(R.drawable.ic_launcher_foreground)
                 .setContentIntentAvailableOffline(true)
                 .addAction(action2)
                 .setBackground(pic);
@@ -282,7 +278,7 @@ public class AboutActivity extends AppCompatActivity {
         notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
             @Override
             public void onResultBack(DataTransportResult dataTransportResult) {
-                System.out.println("AmazMod AboutActivity dataTransportResult: " + dataTransportResult.toString());
+                Logger.debug("AboutActivity dataTransportResult: " + dataTransportResult.toString());
                 switch (dataTransportResult.getResultCode()) {
                     case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
                     case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
@@ -330,6 +326,7 @@ public class AboutActivity extends AppCompatActivity {
         Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
         Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
         version.setText(BuildConfig.VERSION_NAME);
+        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             version.append(" - dev");
         }

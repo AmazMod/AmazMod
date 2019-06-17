@@ -2,16 +2,18 @@ package com.edotassi.amazmod.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 
+import org.tinylog.Logger;
+
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FaqActivity extends AppCompatActivity {
+public class FaqActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_faq_webview)
     WebView webView;
@@ -30,13 +32,14 @@ public class FaqActivity extends AppCompatActivity {
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         } catch (NullPointerException exception) {
-            System.out.println("AmazMod AboutActivity onCreate exception: " + exception.toString());
+            Logger.error("FaqActivity onCreate exception: " + exception.toString());
             //TODO log to crashlitics
         }
         getSupportActionBar().setTitle(R.string.faq);
 
         ButterKnife.bind(this);
 
+        webView.setWebViewClient(new WebViewClient());
         webView.loadUrl(Constants.FAQ_URL);
     }
 }

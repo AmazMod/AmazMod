@@ -12,11 +12,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,6 +48,7 @@ import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -74,7 +73,7 @@ import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class FileExplorerActivity extends AppCompatActivity {
+public class FileExplorerActivity extends BaseAppCompatActivity {
 
     private final int FILE_UPLOAD_CODE = 1;
     private static boolean isFabOpen;
@@ -355,6 +354,8 @@ public class FileExplorerActivity extends AppCompatActivity {
                                     });
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             uploading = false;
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.cancel(0);
                         } else {
                             SnackProgressBar snackbar = new SnackProgressBar(
                                     SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
@@ -367,7 +368,14 @@ public class FileExplorerActivity extends AppCompatActivity {
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             uploadFiles(files, uploadPath);
                             //uploading = false;
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(getString(R.string.cant_upload_file)))
+                                    .setOngoing(false);
+                            mBuilder.setProgress(0, 0, false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
                         }
+
                     }
                     return null;
                 }
@@ -912,7 +920,7 @@ public class FileExplorerActivity extends AppCompatActivity {
     }
 
     private void execCommandAndReload(String command) {
-        Log.d(Constants.TAG, "Sending command to watch: " + command);
+        Logger.debug("Sending command to watch: " + command);
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
                 .setIsIndeterminate(true)

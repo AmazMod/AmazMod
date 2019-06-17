@@ -3,12 +3,14 @@ package com.edotassi.amazmod.ui;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.CommandHistoryAdapter;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
@@ -23,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CommandHistoryActivity extends AppCompatActivity implements CommandHistoryBridge {
+public class CommandHistoryActivity extends BaseAppCompatActivity implements CommandHistoryBridge {
 
     @BindView(R.id.activity_command_history_list)
     ListView listView;
@@ -86,8 +88,20 @@ public class CommandHistoryActivity extends AppCompatActivity implements Command
         int id = item.getItemId();
 
         if (id == R.id.activity_command_history_delete_all) {
-            Delete.table(CommandHistoryEntity.class);
-            loadCommandHistory();
+
+            new MaterialDialog.Builder(this)
+                    .title(R.string.are_you_sure)
+                    .content(R.string.cannot_be_undone)
+                    .positiveText(R.string.ok)
+                    .negativeText(R.string.cancel)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Delete.table(CommandHistoryEntity.class);
+                            loadCommandHistory();
+                        }
+                    }).show();
+
             return true;
         }
 

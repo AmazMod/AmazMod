@@ -1,35 +1,28 @@
 package com.amazmod.service.notifications;
 
-
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import com.amazmod.service.AdminReceiver;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.settings.SettingsManager;
-import com.amazmod.service.ui.NotificationActivity;
+import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.huami.watch.transport.DataBundle;
+
+import org.tinylog.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -37,7 +30,6 @@ import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -58,6 +50,8 @@ public class NotificationService {
 
         notificationManager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         settingsManager = new SettingsManager(context);
+
+        //NotificationStore notificationStore = new NotificationStore();
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.INTENT_ACTION_REPLY);
@@ -88,32 +82,32 @@ public class NotificationService {
                 disableNotificationReplies = true;
             }
 
-            Log.d(Constants.TAG, "NotificationService notificationSpec.getKey(): " + notificationSpec.getKey());
+            final String key = notificationSpec.getKey();
+            final String notificationStoreKey = key + "|" + String.valueOf(System.currentTimeMillis());
+
+            Logger.debug("NotificationService notificationSpec.getKey(): " + key);
             //Handles test notifications
-            if (notificationSpec.getKey().contains("amazmod|test|99")) {
+            if (key.contains("amazmod|test|99")) {
                 if (notificationSpec.getText().equals("Test Notification")) {
                     if (forceCustom) {
-                        Log.d(Constants.TAG, "NotificationService1 notificationSpec.getKey(): " + notificationSpec.getKey());
-                        postWithCustomUI(notificationSpec);
+                        Logger.debug("NotificationService1 notificationSpec.getKey(): " + key);
+                        NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
+                        postWithCustomUI(notificationStoreKey);
                     } else {
-                        Log.d(Constants.TAG, "NotificationService2 notificationSpec.getKey(): " + notificationSpec.getKey());
+                        Logger.debug("NotificationService2 notificationSpec.getKey(): " + key);
                         postWithStandardUI(notificationSpec, hideReplies);
                     }
-                } else if (notificationSpec.getKey().equals("amazmod|test|9979")) {
-                    Log.d(Constants.TAG, "NotificationService3 notificationSpec.getKey(): " + notificationSpec.getKey());
+                } else if (key.contains("amazmod|test|9979")) {
+                    Logger.debug("NotificationService3 notificationSpec.getKey(): " + key);
                     postWithStandardUI(notificationSpec, hideReplies);
                 }
                 //Handles normal notifications
             } else {
-                Log.d(Constants.TAG, "NotificationService6 notificationSpec.getKey(): " + notificationSpec.getKey());
+                Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
-                    //Delay 1000ms to make sure it will be shown after standard notification
-                    final Handler mHandler = new Handler();
-                    mHandler.postDelayed(new Runnable() {
-                        public void run() {
-                            postWithCustomUI(notificationSpec);
-                        }
-                    }, 300);
+                    if (!forceCustom)
+                        NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
+                    postWithCustomUI(notificationStoreKey);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
                 }
@@ -135,7 +129,7 @@ public class NotificationService {
         contentView.setBitmap(R.id.notification_icon, "setImageBitmap", bitmap);
         */
 
-        Log.d(Constants.TAG, "NotificationService postWithStandardUI notificationData: " +
+        Logger.debug("NotificationService postWithStandardUI notificationData: " +
                 notificationData.toString() + " / disableNotificationReplies: " + disableNotificationReplies);
 
         int[] iconData = notificationData.getIcon();
@@ -157,7 +151,7 @@ public class NotificationService {
                 .setExtras(bundle)
                 .setVibrate(new long[]{notificationData.getVibration()});
 
-        if (notificationData.getKey().equals("amazmod|test|9979")) {
+        if (notificationData.getKey().contains("amazmod|test|9979")) {
             if (notificationData.getText().equals(context.getResources().getString(R.string.phone_disconnected))) {
                 builder.setSmallIcon(R.drawable.ic_outline_phonelink_erase_inverted);
             } else if (notificationData.getText().equals(context.getResources().getString(R.string.phone_connected))) {
@@ -232,6 +226,7 @@ public class NotificationService {
 
 
         /*
+        // Keyguard does not work correctly, use "DeviceUtil.isDeviceLocked(context)"
         KeyguardManager km = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         if(km.isKeyguardLocked()) {
             PowerManager pm = (PowerManager) context.ge tSystemService(Context.POWER_SERVICE);
@@ -244,13 +239,19 @@ public class NotificationService {
         */
     }
 
-    private void postWithCustomUI(NotificationData notificationSpec) {
+    private void postWithCustomUI(String key) {
+
+        Logger.debug("NotificationService postWithCustomUI: " + NotificationStore.getCustomNotificationCount());
+
+        NotificationStore.setNotificationCount(context);
+
         Intent intent = new Intent(context, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
                 Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-        intent.putExtras(notificationSpec.toBundle());
+        intent.putExtra(NotificationWearActivity.KEY, key);
+        intent.putExtra(NotificationWearActivity.MODE, NotificationWearActivity.MODE_ADD);
 
         context.startActivity(intent);
 

@@ -3,12 +3,10 @@ package com.edotassi.amazmod.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.widget.ListView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.RepliesAdapter;
 import com.google.gson.Gson;
@@ -20,11 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import amazmod.com.models.Reply;
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class NotificationRepliesActivity extends AppCompatActivity implements RepliesAdapter.Bridge {
+public class NotificationRepliesActivity extends BaseAppCompatActivity implements RepliesAdapter.Bridge {
 
     @BindView(R.id.activity_notification_replies_list)
     ListView listView;

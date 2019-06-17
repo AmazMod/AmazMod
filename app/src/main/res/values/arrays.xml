@@ -108,6 +108,59 @@
         <item>180</item>
         <item>240</item>
     </string-array>
+
+    <string-array name="pref_watch_battery_alert">
+        <item>Disabled</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert_values">
+        <item>0</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>99</item>
+    </string-array>
+
+    <string-array name="pref_phone_battery_alert">
+        <item>Disabled</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert_values">
+        <item>0</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
+        <item>30</item>
+        <item>35</item>
+        <item>40</item>
+        <item>45</item>
+        <item>50</item>
+        <item>99</item>
+    </string-array>
+
     <string-array name="pref_watchface_background_sync_interval_entries">
         <item>1 min</item>
         <item>5 min</item>
@@ -127,6 +180,28 @@
         <item>60</item>
         <item>90</item>
         <item>120</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Disable</item>
+        <item>1 day</item>
+        <item>7 days</item>
+        <item>15 days</item>
+        <item>30 days</item>
+        <item>60 days</item>
+        <item>90 days</item>
+        <item>180 days</item>
+        <item>365 days</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days_values">
+        <item>0</item>
+        <item>1</item>
+        <item>7</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>90</item>
+        <item>180</item>
+        <item>365</item>
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
@@ -149,5 +224,48 @@
         <item>com.google.android.gm</item>
         <item>com.google.android.talk</item>
         <item>com.matusmak.fakenotifications</item>
+    </string-array>
+    <string-array name="languages_array_codes" translatable="false">
+        <item>en</item>
+        <item>af-rZA</item>
+        <item>ar-rSA</item>
+        <item>ca-rES</item>
+        <item>cs-rCZ</item>
+        <item>da-rDK</item>
+        <item>de-rDE</item>
+        <item>el-rGR</item>
+        <item>es-rES</item>
+        <item>fi-rFI</item>
+        <item>fr-rFR</item>
+        <item>hu-rHU</item>
+        <item>in-rID</item>
+        <item>it-rIT</item>
+        <item>iw</item>
+        <item>iw-rIL</item>
+        <item>ja-rJP</item>
+        <item>ko-rKR</item>
+        <item>nl-rNL</item>
+        <item>no-rNO</item>
+        <item>pl-rPL</item>
+        <item>pt-rBR</item>
+        <item>pt-rPT</item>
+        <item>ro-rRO</item>
+        <item>ru-rRU</item>
+        <item>sk-rSK</item>
+        <item>sl-rSI</item>
+        <item>sr-rSP</item>
+        <item>sv-rSE</item>
+        <item>tr-rTR</item>
+        <item>uk-rUA</item>
+        <item>vi-rVN</item>
+        <item>zh-rCN</item>
+        <item>zh-rTW</item>
+    </string-array>
+    <string-array name="pref_log_to_file_level_entries" translatable="false">
+        <item>ERROR</item>
+        <item>WARN</item>
+        <item>INFO</item>
+        <item>DEBUG</item>
+        <item>TRACE</item>
     </string-array>
 </resources>

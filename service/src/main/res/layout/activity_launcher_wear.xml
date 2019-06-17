@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.wearable.view.BoxInsetLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_launcher_wear_root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".springboard.LauncherWearGridActivity">
+
+    <android.support.wearable.view.SwipeDismissFrameLayout
+        android:id="@+id/activity_launcher_wear_swipe_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.amazmod.service.support.HorizontalGridViewPager
+                    android:id="@+id/activity_launcher_wear_grid_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <android.support.wearable.view.DotsPageIndicator
+                    android:id="@+id/activity_laucnher_wear_grid_page_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center_horizontal|top" />
+
+            </FrameLayout>
+
+    </android.support.wearable.view.SwipeDismissFrameLayout>
+</android.support.wearable.view.BoxInsetLayout>

@@ -5,17 +5,16 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
 
 import com.edotassi.amazmod.AmazModApplication;
-import com.edotassi.amazmod.support.Logger;
+
+import org.tinylog.Logger;
 
 import java.text.DateFormat;
-import java.util.Calendar;
 
 import amazmod.com.transport.data.NotificationData;
 
@@ -41,7 +40,7 @@ public class NotificationFactory {
         } else try {
             title = bundle.getString(Notification.EXTRA_TITLE);
         } catch (ClassCastException e) {
-            System.out.println("AmazMod NotificationFactory exception: " + e.toString() + " title: " + title);
+            Logger.debug(e,"NotificationFactory exception: " + e.toString() + " title: " + title);
         }
 
         CharSequence bigText = bundle.getCharSequence(Notification.EXTRA_TEXT);
@@ -52,27 +51,27 @@ public class NotificationFactory {
         //Use EXTRA_TEXT_LINES instead, if it exists
         CharSequence[] lines = bundle.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
         if ((lines != null) && (lines.length > 0)) {
-            text = lines[Math.min(lines.length - 1, 0)].toString();
-            System.out.println("AmazMod NotificationFactory EXTRA_TEXT_LINES exists");
+            text += "\n*Extra lines:\n" + lines[Math.min(lines.length - 1, 0)].toString();
+            Logger.debug("NotificationFactory EXTRA_TEXT_LINES exists");
         }
 
         //Maybe use android.bigText instead?
         if (bundle.getCharSequence(Notification.EXTRA_BIG_TEXT) != null) {
             try {
                 text = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT).toString();
-                System.out.println("AmazMod NotificationFactory EXTRA_BIG_TEXT exists");
+                Logger.debug("NotificationFactory EXTRA_BIG_TEXT exists");
             } catch (NullPointerException e) {
-                System.out.println("AmazMod NotificationFactory exception: " + e.toString() + " text: " + text);
+                Logger.debug(e,"NotificationFactory exception: " + e.toString() + " text: " + text);
             }
         }
 
-        String notificationPackgae = statusBarNotification.getPackageName();
+        String notificationPackage = statusBarNotification.getPackageName();
         try {
             int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
             PackageManager manager = context.getPackageManager();
-            Resources resources = manager.getResourcesForApplication(notificationPackgae);
+            Resources resources = manager.getResourcesForApplication(notificationPackage);
 
-            Drawable drawable = resources.getDrawable(iconId);
+            Drawable drawable = resources.getDrawable(notification.icon);
             Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -101,7 +100,7 @@ public class NotificationFactory {
             notificationData.setIconHeight(height);
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
-            Logger.get(NotificationFactory.class).e(e, "Failed to get bipmap from %s", notificationPackgae);
+            Logger.error("Failed to get bipmap from " + notificationPackage);
         }
 
         notificationData.setId(statusBarNotification.getId());

@@ -30,6 +30,10 @@ public class FileData {
         return isDirectory;
     }
 
+    public String getExtention() {
+        return ( name.lastIndexOf(".")>=0 )? name.substring(name.lastIndexOf(".")).replace(".","") : "";
+    }
+
     public void setDirectory(boolean directory) {
         isDirectory = directory;
     }
