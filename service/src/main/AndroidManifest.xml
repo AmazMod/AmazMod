@@ -97,7 +97,6 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".springboard.LauncherWearGridActivity"
-            android:icon="@drawable/amazmod"
             android:allowEmbedded="true"
             android:exported="true"
             android:label="AmazMod"

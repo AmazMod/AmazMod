@@ -153,7 +153,6 @@
                             app:layout_constraintEnd_toEndOf="@+id/fragment_custom_notification_icon"
                             app:srcCompat="@drawable/amazmod" />
 
-
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 

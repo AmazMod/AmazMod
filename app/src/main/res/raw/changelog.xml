@@ -1,6 +1,15 @@
 <changelog>
     <release
         date="undefined"
+        versionCode="214"
+        versionName="v1.1.8">
+        <new>App migration to SDK28 (Android X libs)</new>
+        <bugfix>Widgets reorder fixes</bugfix>
+        <bugfix>Small bug fixes</bugfix>
+        <info>Updated translations</info>
+    </release>
+    <release
+        date="Unreleased"
         versionCode="213"
         versionName="v1.1.7">
         <new>Command History is now saved/restored in backup</new>

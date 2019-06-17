@@ -1264,13 +1264,13 @@ public class MainService extends Service implements Transporter.DataListener {
                 notificationData.setTitle(getString(R.string.phone_battery_alert));
                 drawable = getDrawable(R.drawable.ic_battery_alert_black_24dp);
                 notificationData.setText(getString(R.string.phone_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
-                vibrate = Constants.VIBRATION_LONG;
+                vibrate = Constants.VIBRATION_SHORT;
                 break;
             case "watch_battery":
                 notificationData.setTitle(getString(R.string.watch_battery_alert));
                 drawable = getDrawable(R.drawable.ic_battery_alert_black_24dp);
                 notificationData.setText(getString(R.string.watch_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
-                vibrate = Constants.VIBRATION_LONG;
+                vibrate = Constants.VIBRATION_SHORT;
                 break;
             case "phone_connection":
             default:
@@ -1305,19 +1305,19 @@ public class MainService extends Service implements Transporter.DataListener {
             Logger.error("MainService sendStandardAlert exception: " + e.toString());
         }
 
-        try {
-            if (vibrator != null) {
-                vibrator.vibrate(vibrate);
-            }
-        } catch (Exception e) {
-            Logger.error(e, "vibrator exception: " + e.getMessage());
-        }
+        notificationManager.post(notificationData);
         final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
-                notificationManager.post(notificationData);
+                try {
+                    if (vibrator != null) {
+                        vibrator.vibrate(vibrate);
+                    }
+                } catch (Exception e) {
+                    Logger.error(e, "vibrator exception: " + e.getMessage());
+                }
             }
-        }, 900);
+        }, 1000);
     }
 
     // Count notifications
