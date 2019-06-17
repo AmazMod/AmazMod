@@ -58,12 +58,16 @@ public class SettingsActivity extends BaseAppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Screen.isDarkTheme()) {
+            setTheme(R.style.AppThemeDark);
+        }
+
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.settings);
         } catch (NullPointerException exception) {
             //TODO log to crashlitics
-            Logger.error("SettingsActivity onCreate NullPointerException: " + exception.toString());
+            Logger.error("SettingsActivity onCreate NullPointerException: " + exception.getMessage());
         }
 
         currentBatteryChart = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);

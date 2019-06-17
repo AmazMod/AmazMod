@@ -75,8 +75,9 @@ public class MainActivity extends BaseAppCompatActivity
 
         if (Screen.isDarkTheme()) {
             setTheme(R.style.AppThemeDark_NoActionBar);
-        }
-        setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_main_dark);
+        } else
+            setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
 
