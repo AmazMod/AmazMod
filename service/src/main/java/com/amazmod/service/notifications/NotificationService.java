@@ -66,8 +66,6 @@ public class NotificationService {
 
         if (!DeviceUtil.isDNDActive(context, context.getContentResolver())) {
 
-            //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context); <-- replaced with SettingsManager bellow
-
             boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                     Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
 
