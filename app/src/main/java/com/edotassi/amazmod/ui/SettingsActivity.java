@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
@@ -59,7 +60,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (Screen.isDarkTheme()) {
-            setTheme(R.style.AppThemeDark);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
         try {

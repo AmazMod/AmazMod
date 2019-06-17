@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.LayoutInflaterCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -74,10 +75,10 @@ public class MainActivity extends BaseAppCompatActivity
         super.onCreate(savedInstanceState);
 
         if (Screen.isDarkTheme()) {
-            setTheme(R.style.AppThemeDark_NoActionBar);
-            setContentView(R.layout.activity_main_dark);
-        } else
-            setContentView(R.layout.activity_main);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        setContentView(R.layout.activity_main);
+
 
         ButterKnife.bind(this);
 

@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -99,7 +100,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (Screen.isDarkTheme()) {
-            setTheme(R.style.AppThemeDark);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
 
         mContext = this;

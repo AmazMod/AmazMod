@@ -5,8 +5,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
-import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.LocaleUtils;
 import com.edotassi.amazmod.util.Screen;
 
@@ -16,7 +16,7 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (Screen.isDarkTheme()) {
-            setTheme(R.style.AppThemeDark);
+            getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }
     }
 
