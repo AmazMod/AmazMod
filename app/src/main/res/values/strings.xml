@@ -335,4 +335,6 @@
     <string name="set_watchface">Set Watchface</string>
     <string name="pref_amazmod_darktheme_summary">Enable dark theme</string>
     <string name="pref_amazmod_dark_theme">Dark theme</string>
+    <string name="share">Share</string>
+    <string name="collecting_watch_logs">Collecting Watch Logs</string>
 </resources>

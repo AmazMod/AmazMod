@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.ui;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -12,6 +13,7 @@ import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.core.view.GravityCompat;
 import androidx.core.view.LayoutInflaterCompat;
@@ -67,6 +69,7 @@ public class MainActivity extends BaseAppCompatActivity
         add(watchInfoFragment);
     }};
 
+    @SuppressLint("WrongConstant")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
@@ -143,9 +146,9 @@ public class MainActivity extends BaseAppCompatActivity
             String packageName = getPackageName();
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                Snackbar
+                Snackbar snackbar = Snackbar
                         .make(drawer, R.string.battery_optimization_warning,
-                                Snackbar.LENGTH_LONG)
+                                Constants.SNACKBAR_LONG10)
                         .setAction(R.string.remove, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -153,8 +156,11 @@ public class MainActivity extends BaseAppCompatActivity
                                 intent.setData(Uri.parse("package:" + packageName));
                                 startActivity(intent);
                             }
-                        })
-                        .show();
+                        });
+                View snackbarView = snackbar.getView();
+                TextView tv= (TextView) snackbarView.findViewById(R.id.snackbar_text);
+                tv.setMaxLines(5);
+                snackbar.show();
             }
         }
     }

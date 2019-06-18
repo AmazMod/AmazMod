@@ -28,7 +28,10 @@ public class Constants {
     public static final String SHELL_COMMAND_EXTRACT = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
     public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
-    public static final String SHELL_COMMAND_LOG_BUNDLE = "adb logcat -d | gzip > /sdcard/log_bundle.log.gz";
+
+
+    public static final String FILE_LOG_BUNDLE = "/sdcard/log_bundle.log.gz";
+    public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d | gzip > " + FILE_LOG_BUNDLE;
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
@@ -175,4 +178,8 @@ public class Constants {
 
     public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
     public static final boolean PREF_AMAZMOD_DARK_THEME_DEFAULT = false;
+
+    public static final int SNACKBAR_LONG10 = 10000;
+
+
 }
