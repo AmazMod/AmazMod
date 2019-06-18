@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui.fragment;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -103,11 +105,18 @@ public class HeartRateChartFragment extends Card {
         description.setText("");
         heartrateChart.setDescription(description);
 
+        TypedValue outValue = new TypedValue();
+        Objects.requireNonNull(getContext()).getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
+        final int themeForegroundColor = outValue.data;
+
         heartrateChart.getXAxis().setDrawLabels(false);
+        heartrateChart.getXAxis().setTextColor(themeForegroundColor);
+        heartrateChart.getAxisLeft().setTextColor(themeForegroundColor);
         heartrateChart.getAxisRight().setDrawLabels(false);
 
         BarData data = new BarData(set);
         data.setBarWidth(0.9f); // set custom bar width
+        data.setValueTextColor(themeForegroundColor);
         heartrateChart.setData(data);
         heartrateChart.setFitBars(true); // make the x-axis fit exactly all bars
         heartrateChart.getLegend().setEnabled(false); // hide legend

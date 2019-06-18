@@ -32,8 +32,8 @@ public class FileExplorerAdapter extends ArrayAdapter<FileData> {
     public FileExplorerAdapter(Context context, int resource, @NonNull List<FileData> list) {
         super(context, resource, list);
 
-        folder = context.getDrawable(R.drawable.outline_folder_black_36);
-        file = context.getDrawable(R.drawable.outline_insert_drive_file_black_36);
+        folder = context.getDrawable(R.drawable.outline_folder);
+        file = context.getDrawable(R.drawable.outline_insert_drive_file);
         apk = context.getDrawable(R.drawable.outline_app);
         image = context.getDrawable(R.drawable.outline_photo);
         watchface = context.getDrawable(R.drawable.outline_watch);

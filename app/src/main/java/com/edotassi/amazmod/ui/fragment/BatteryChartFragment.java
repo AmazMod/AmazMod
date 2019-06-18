@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import amazmod.com.transport.Constants;
@@ -347,6 +349,11 @@ public class BatteryChartFragment extends Card {
         linePredictionDataSet.setCubicIntensity(0.05f);
         // End of prediction line
 
+
+        TypedValue outValue = new TypedValue();
+        Objects.requireNonNull(getContext()).getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
+        final int themeForegroundColor = outValue.data;
+
         Description description = new Description();
         description.setText("");
         chart.setDescription(description);
@@ -358,6 +365,7 @@ public class BatteryChartFragment extends Card {
         xAxis.setTextSize(8);
         xAxis.setAxisMinimum(lowX);
         xAxis.setAxisMaximum(highX);
+        xAxis.setTextColor(themeForegroundColor);
 
         final Calendar now = Calendar.getInstance();
         final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH");
@@ -392,6 +400,7 @@ public class BatteryChartFragment extends Card {
         leftAxis.setDrawGridLines(true);
         leftAxis.setAxisMinimum(0);
         leftAxis.setAxisMaximum(100);
+        leftAxis.setTextColor(themeForegroundColor);
 
         chart.getAxisRight().setEnabled(false);
         chart.getLegend().setEnabled(false);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.format.Formatter;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.Objects;
 import java.util.concurrent.CancellationException;
 
 import amazmod.com.transport.Constants;
@@ -258,7 +260,10 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void connecting() {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light));
+        TypedValue outValue = new TypedValue();
+        Objects.requireNonNull(getContext()).getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
+        final int themeForegroundColor = outValue.data;
+        isConnectedTV.setTextColor(themeForegroundColor);
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);

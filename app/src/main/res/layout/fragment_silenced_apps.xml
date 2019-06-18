@@ -32,7 +32,8 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_info_outline_black_24dp" />
+                app:srcCompat="@drawable/ic_info_outline_black_18dp"
+                android:contentDescription="@string/images" />
 
             <TextView
                 android:id="@+id/textView2"

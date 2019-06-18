@@ -54,12 +54,16 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_replies);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.replies);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.replies);
+        } catch (NullPointerException exception) {
+            Logger.error("AboutActivity onCreate exception: " + exception.getMessage());
+        }
 
         ButterKnife.bind(this);
 
-        repliesAdapter = new RepliesDragAdapter(this, R.layout.row_replies, new ArrayList<Reply>());
+        repliesAdapter = new RepliesDragAdapter(this, R.layout.row_drag_replies, new ArrayList<Reply>());
         listView.setAdapter(repliesAdapter);
 
         loadReplies();

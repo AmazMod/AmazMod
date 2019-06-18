@@ -58,7 +58,8 @@
                         android:layout_marginTop="8dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/outline_folder_open_black_18" />
+                        app:srcCompat="@drawable/outline_folder_open_24"
+                        android:contentDescription="@string/images" />
 
                     <TextView
                         android:id="@+id/acticity_files_textview1"
@@ -87,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="TextView"
+                        tools:text="TextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/acticity_files_textview1" />
 
@@ -97,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="TextView"
+                        tools:text="TextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/activity_files_permission" />
 
@@ -127,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="TextView"
+                        tools:text="TextView"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/activity_files_date_last_backup" />
 

@@ -335,4 +335,13 @@
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
     <string name="generate_bundle">Generate Log Bundle</string>
     <string name="set_watchface">Set Watchface</string>
+    <string name="button_description">Button</string>
+    <string name="image_description">Image</string>
+    <string name="amazmod_service">AmazMod Service</string>
+    <string name="product_model">Product model</string>
+    <string name="product_name">Product name</string>
+    <string name="serial_number">Serial No</string>
+    <string name="build_id">Build display id</string>
+    <string name="build_model">Build Huami model</string>
+    <string name="build_description">Build description</string>
 </resources>

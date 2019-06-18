@@ -50,7 +50,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/outline_settings_black_18" />
+                    app:srcCompat="@drawable/outline_settings_24" />
 
                 <TextView
                     android:id="@+id/acticity_permissions_textview1"

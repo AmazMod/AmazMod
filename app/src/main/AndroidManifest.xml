@@ -42,7 +42,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/notification_packages_selector_searchable" />
         </activity>
-        <activity android:name=".ui.NotificationRepliesActivity" />
         <activity android:name=".ui.PreferenceActivity" />
         <activity android:name=".ui.NotificationsLogActivity" />
         <activity android:name=".ui.FaqActivity" />

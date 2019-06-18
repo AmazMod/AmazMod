@@ -68,11 +68,10 @@ public class AboutActivity extends BaseAppCompatActivity {
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.about);
         } catch (NullPointerException exception) {
-            Logger.error("AboutActivity onCreate exception: " + exception.toString());
-            //TODO log to crashlitics
+            Logger.error("AboutActivity onCreate exception: " + exception.getMessage());
         }
-        getSupportActionBar().setTitle(R.string.about);
 
         ButterKnife.bind(this);
 
