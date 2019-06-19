@@ -50,6 +50,8 @@
         <activity android:name=".ui.CheckPermissionsActivity" />
         <activity android:name=".ui.FilesExtrasActivity" />
         <activity android:name=".ui.FileExplorerActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".ui.MainActivity"
             android:configChanges="orientation|screenSize"/>
         <activity
             android:name="com.nononsenseapps.filepicker.FilePickerActivity"
@@ -57,7 +59,6 @@
             android:theme="@style/FilePickerTheme">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -212,7 +213,10 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.edotassi.amazmod.USER_ACTION" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+
+                <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
 

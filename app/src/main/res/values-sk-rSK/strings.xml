@@ -345,4 +345,6 @@ Urobte príkaz shell \"</string>
     <string name="build_id">Build display id</string>
     <string name="build_model">Build Huami model</string>
     <string name="build_description">Build description</string>
+    <string name="rename_folder">Rename Folder</string>
+    <string name="rename_file">Rename File</string>
 </resources>

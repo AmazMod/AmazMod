@@ -8,9 +8,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
@@ -24,6 +21,9 @@ import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -33,7 +33,6 @@ import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultShellCommand;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.util.WatchfaceUtil;
 import com.edotassi.amazmod.watch.Watch;
@@ -44,7 +43,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nononsenseapps.filepicker.FilePickerActivity;
@@ -62,6 +60,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CancellationException;
 
 import amazmod.com.transport.Constants;
@@ -78,9 +77,6 @@ import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 
 public class FileExplorerActivity extends BaseAppCompatActivity {
-
-    private final int FILE_UPLOAD_CODE = 1;
-    private static boolean isFabOpen;
 
     @BindView(R.id.activity_file_explorer_list)
     ListView listView;
@@ -103,32 +99,69 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
 
+    private NotificationManagerCompat notificationManager;
+    private NotificationCompat.Builder mBuilder;
+
+    private static final int FILE_UPLOAD_CODE = 1;
+    private static final String PATH = "path";
+    private static final String SOURCE = "source";
+    private static final long NOTIFICATION_UPDATE_INTERVAL = 2 * 1000L; /* 2s */
+
+    private static boolean isFabOpen;
+    private static long currentTime, lastUpdate;
+    public static boolean continueNotification;
+
     private String currentPath;
     private boolean uploading = false;
 
     @Override
+    protected void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
+
+        String source = null;
+        if (intent.hasExtra(SOURCE)) {
+            source = intent.getStringExtra(SOURCE);
+        }
+
+        if ("cancel".equals(source))
+            continueNotification = false;
+
+        Logger.debug("onNewIntent source: " + source);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Logger.debug("onResume getFlags: " + getIntent().getFlags());
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent(); // gets the previously created intent
+        if (intent.hasExtra(PATH)) {
+            currentPath = intent.getStringExtra(PATH);
+        } else {
+            currentPath = Constants.INITIAL_PATH;
+        }
+
+        Logger.debug("currentPath = {} source = {}", currentPath, intent.getStringExtra(SOURCE));
+
         setContentView(R.layout.activity_file_explorer);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (Exception ex) {
+            getSupportActionBar().setTitle(R.string.file_explorer);
+        } catch (NullPointerException ex) {
+            Logger.error("onCreate exception: " + ex.getMessage());
         }
-
-        getSupportActionBar().setTitle(R.string.file_explorer);
 
         ButterKnife.bind(this);
 
-        fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<FileData>());
+        fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<>());
         listView.setAdapter(fileExplorerAdapter);
-
-        Intent intent = getIntent(); // gets the previously created intent
-        if (intent.hasExtra("path")) {
-            currentPath = intent.getStringExtra("path");
-        } else {
-            currentPath = Constants.INITIAL_PATH;
-        }
 
         loadPath(currentPath);
 
@@ -148,12 +181,12 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 // (optional) register onDisplayListener
                 .setOnDisplayListener(new SnackProgressBarManager.OnDisplayListener() {
                     @Override
-                    public void onShown(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onShown(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
 
                     @Override
-                    public void onDismissed(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onDismissed(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
                 });
@@ -174,15 +207,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                         0 : listView.getChildAt(0).getTop();
                 swipeRefreshLayout.setEnabled((topRowVerticalPosition >= 0));
 
-                if(lastFirstVisibleItem<firstVisibleItem)
-                {
+                if (lastFirstVisibleItem < firstVisibleItem) {
                     fabMain.hide();
                 }
-                if(lastFirstVisibleItem>firstVisibleItem)
-                {
+                if (lastFirstVisibleItem > firstVisibleItem) {
                     fabMain.show();
                 }
-                lastFirstVisibleItem=firstVisibleItem;
+                lastFirstVisibleItem = firstVisibleItem;
 
             }
         });
@@ -192,6 +223,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Logger.debug("onRefresh");
                 loadPath(currentPath);
             }
         });
@@ -199,6 +231,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Logger.debug("onBackPressed");
         if (currentPath.equals("/")) {
             if (!uploading) {
                 finish();
@@ -206,7 +239,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         } else {
             loadPath(getParentDirectoryPath(currentPath));
         }
-
     }
 
     @Override
@@ -217,6 +249,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Logger.debug("onActivityResult");
         switch (requestCode) {
             case FILE_UPLOAD_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {
@@ -224,6 +257,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                     uploadFiles(files, currentPath);
                 }
                 break;
+            case 0:
+            default:
+                Logger.error("requestCode = {}", requestCode);
         }
     }
 
@@ -231,9 +267,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            //your code
+            System.out.println("FileExplorerActivity ORIENTATION PORTRAIT");
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            //your code
+            System.out.println("FileExplorerActivity ORIENTATION LANDSCAPE");
         }
     }
 
@@ -268,7 +304,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             String message = getString(R.string.sending) + " \"" + file.getName() + "\"";
 
             Intent intent = new Intent(this, FileExplorerActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.putExtra("path", uploadPath);
             PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -308,7 +344,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                         public void run() {
                             String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
                             double kbSent = byteSent / 1024d;
-                            double speed = kbSent / (duration / 1000);
+                            double speed = kbSent / (duration / 1000.0);
                             DecimalFormat df = new DecimalFormat("#.00");
 
                             String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
@@ -365,12 +401,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                         } else {
                             uploadFiles(files, uploadPath);
                         }
-                        Bundle bundle = new Bundle();
-                        bundle.putLong("size", size);
-                        bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                        FirebaseAnalytics
-                                .getInstance(FileExplorerActivity.this)
-                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
+
                     } else {
                         if (task.getException() instanceof CancellationException) {
                             SnackProgressBar snackbar = new SnackProgressBar(
@@ -383,6 +414,15 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                     });
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             uploading = false;
+
+                            //Remove progressBar from notification and allow removal of it
+                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                                    .bigText(getString(R.string.file_download_canceled)))
+                                    .setOngoing(false);
+                            mBuilder.setProgress(0, 0, false);
+                            // notificationId is a unique int for each notification that you must define
+                            notificationManager.notify(0, mBuilder.build());
+
                             // notificationId is a unique int for each notification that you must define
                             notificationManager.cancel(0);
                         } else {
@@ -424,19 +464,21 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         int position = ((AdapterView.AdapterContextMenuInfo) contextMenuInfo).position;
         FileData fileData = fileExplorerAdapter.getItem(position);
 
-        if (fileData.isDirectory()) {
-            menuInflater.inflate(R.menu.activity_file_explorer_folder, contextMenu);
-        } else {
-            if (fileData.getName().endsWith(".apk")) {
-                menuInflater.inflate(R.menu.activity_file_explorer_apk_file, contextMenu);
-            }
+        if (fileData != null) {
+            if (fileData.isDirectory()) {
+                menuInflater.inflate(R.menu.activity_file_explorer_folder, contextMenu);
+            } else {
+                if (fileData.getName().endsWith(".apk")) {
+                    menuInflater.inflate(R.menu.activity_file_explorer_apk_file, contextMenu);
+                }
 
-            if (fileData.getName().endsWith(".tar.gz") || fileData.getName().endsWith(".tgz")) {
-                menuInflater.inflate(R.menu.activity_file_explorer_targz_file, contextMenu);
-            }
+                if (fileData.getName().endsWith(".tar.gz") || fileData.getName().endsWith(".tgz")) {
+                    menuInflater.inflate(R.menu.activity_file_explorer_targz_file, contextMenu);
+                }
 
-            if (fileData.getName().endsWith(".wfz") && (currentPath.equals(Constants.WATCHFACE_FOLDER) )) {
-                menuInflater.inflate(R.menu.activity_file_explorer_wfz, contextMenu);
+                if (fileData.getName().endsWith(".wfz") && (currentPath.equals(Constants.WATCHFACE_FOLDER) )) {
+                    menuInflater.inflate(R.menu.activity_file_explorer_wfz, contextMenu);
+                }
             }
         }
 
@@ -478,38 +520,52 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private void renameFile(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
         CloseFabMenu();
-        new MaterialDialog.Builder(this)
-                .title("Rename Folder")
-                .content(R.string.type_folder_name)
-                .inputType(InputType.TYPE_CLASS_TEXT)
-                .negativeText(R.string.cancel)
-                .input("", fileData.getName(), new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
-                        // Do something
-                        String newName = currentPath + "/" + input.toString();
-                        String oldName = fileData.getPath();
-                        String renameCmd = ShellCommandHelper.getRenameCommand(oldName, newName);
-                        execCommandAndReload(renameCmd);
-                        //FirebaseAnalytics.getInstance(dialog.getContext()).logEvent(renameCmd, null);
-                    }
-                }).show();
+        String rename_string;
+        if (fileData != null) {
+            if (fileData.isDirectory())
+                rename_string = getString(R.string.rename_folder);
+            else
+                rename_string = getString(R.string.rename_file);
+            new MaterialDialog.Builder(this)
+                    .title(rename_string)
+                    .content(R.string.type_folder_name)
+                    .inputType(InputType.TYPE_CLASS_TEXT)
+                    .negativeText(R.string.cancel)
+                    .input("", fileData.getName(), new MaterialDialog.InputCallback() {
+                        @Override
+                        public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                            // Do something
+                            String newName = currentPath + "/" + input.toString();
+                            String oldName = fileData.getPath();
+                            String renameCmd = ShellCommandHelper.getRenameCommand(oldName, newName);
+                            execCommandAndReload(renameCmd);
+                        }
+                    }).show();
+        }
     }
 
     private void compress(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
-        String compressCmd = ShellCommandHelper.getCompressCommand(currentPath, fileData.getName());
+        String compressCmd = null;
+        if (fileData != null) {
+            compressCmd = ShellCommandHelper.getCompressCommand(currentPath, fileData.getName());
+        }
         execCommandAndReload(compressCmd);
     }
 
     private void setWatchface(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
-        WatchfaceUtil.setWfzWatchFace(this,fileData.getName());
+        if (fileData != null) {
+            WatchfaceUtil.setWfzWatchFace(this,fileData.getName());
+        }
     }
 
     private void extract(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
-        String extractCmd = ShellCommandHelper.getExtractCommand(fileData.getPath(), getParentDirectoryPath(fileData.getPath()));
+        String extractCmd = null;
+        if (fileData != null) {
+            extractCmd = ShellCommandHelper.getExtractCommand(fileData.getPath(), getParentDirectoryPath(fileData.getPath()));
+        }
         execCommandAndReload(extractCmd);
     }
 
@@ -535,73 +591,60 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
     private void deleteFile(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
-        if( fileData.isDirectory()) {
-            deleteFolder(index);
-            return;
-        }
-        final SnackProgressBar deletingSnackbar = new SnackProgressBar(
-                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.deleting))
-                .setIsIndeterminate(true);
+        if (fileData != null) {
+            if (fileData.isDirectory()) {
+                deleteFolder(index);
+                return;
+            }
+            final SnackProgressBar deletingSnackbar = new SnackProgressBar(
+                    SnackProgressBar.TYPE_CIRCULAR, getString(R.string.deleting))
+                    .setIsIndeterminate(true);
 
-        snackProgressBarManager.show(deletingSnackbar, SnackProgressBarManager.LENGTH_INDEFINITE);
+            snackProgressBarManager.show(deletingSnackbar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
-        requestDeleteFileData.setPath(fileData.getPath());
+            RequestDeleteFileData requestDeleteFileData = new RequestDeleteFileData();
+            requestDeleteFileData.setPath(fileData.getPath());
 
-        Watch.get().deleteFile(requestDeleteFileData)
-                .continueWithTask(new Continuation<ResultDeleteFile, Task<Void>>() {
-                    @Override
-                    public Task<Void> then(@NonNull Task<ResultDeleteFile> task) throws Exception {
-                        snackProgressBarManager.dismissAll();
+            Watch.get().deleteFile(requestDeleteFileData)
+                    .continueWithTask(new Continuation<ResultDeleteFile, Task<Void>>() {
+                        @Override
+                        public Task<Void> then(@NonNull Task<ResultDeleteFile> task) throws Exception {
+                            snackProgressBarManager.dismissAll();
 
-                        boolean success = task.isSuccessful();
-                        int result = task.getResult().getResultDeleteFileData().getResult();
-                        if (success && (result == Transport.RESULT_OK)) {
+                            boolean success = task.isSuccessful();
+                            int result = Objects.requireNonNull(task.getResult()).getResultDeleteFileData().getResult();
+                            if (success && (result == Transport.RESULT_OK)) {
 
-                            FirebaseAnalytics
-                                    .getInstance(FileExplorerActivity.this)
-                                    .logEvent(FirebaseEvents.DELETE_FILE, new Bundle());
+                                return loadPath(getParentDirectoryPath(fileData.getPath()));
+                            } else {
+                                SnackProgressBar snackbar = new SnackProgressBar(
+                                        SnackProgressBar.TYPE_NORMAL, getString(R.string.cant_delete_file))
+                                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                            @Override
+                                            public void onActionClick() {
+                                                snackProgressBarManager.dismissAll();
+                                            }
+                                        });
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
 
-                            return loadPath(getParentDirectoryPath(fileData.getPath()));
-                        } else {
-                            SnackProgressBar snackbar = new SnackProgressBar(
-                                    SnackProgressBar.TYPE_NORMAL, getString(R.string.cant_delete_file))
-                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                        @Override
-                                        public void onActionClick() {
-                                            snackProgressBarManager.dismissAll();
-                                        }
-                                    });
-                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-
-                            return Tasks.forException(task.getException());
+                                return Tasks.forException(Objects.requireNonNull(task.getException()));
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     private void downloadFile(int index) {
         final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         final FileData fileData = fileExplorerAdapter.getItem(index);
 
-        String message = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
+        String message = null;
+        if (fileData != null) {
+            message = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
+        } else
+            message = getString(R.string.error);
 
-        Intent intent = new Intent(this, FileExplorerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
-        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                .bigText(message)
-                .setBigContentTitle(getString(R.string.downloading))
-                .setSummaryText(message))
-                .setContentTitle(getString(R.string.downloading))
-                .setContentText(message)
-                .setOnlyAlertOnce(true)
-                .setOngoing(true)
-                .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.outline_cloud_download_24);
+        createNotification(message);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.downloading))
@@ -617,113 +660,98 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 .setShowProgressPercentage(true);
         snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
-        final long size = fileData.getSize();
-        final long startedAt = System.currentTimeMillis();
+        if (fileData != null) {
+            final long size = fileData.getSize();
 
-        Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, Constants.MODE_DOWNLOAD,
-                new Watch.OperationProgress() {
-            @Override
-            public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
-                FileExplorerActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
-                        double kbSent = byteSent / 1024d;
-                        double speed = kbSent / (duration / 1000);
-                        DecimalFormat df = new DecimalFormat("#.00");
+            Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, Constants.MODE_DOWNLOAD,
+                    new Watch.OperationProgress() {
+                        @Override
+                        public void update(final long duration, final long byteSent, final long remainingTime, final double progress) {
+                            FileExplorerActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
+                                    double kbSent = byteSent / 1024d;
+                                    double speed = kbSent / (duration / 1000.0);
+                                    DecimalFormat df = new DecimalFormat("#.00");
 
-                        String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                        String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
-                        String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                                    String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
+                                    String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
+                                    String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
-                        //Show/Update notification with current progress
-                        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                                .bigText(message)
-                                .setBigContentTitle(getString(R.string.downloading))
-                                .setSummaryText(smallMessage))
-                                .setOnlyAlertOnce(true)
-                                .setContentTitle(getString(R.string.downloading))
-                                .setContentText(smallMessage);
-                        mBuilder.setProgress(100, (int) progress, false);
-                        // notificationId is a unique int for each notification that you must define
-                        notificationManager.notify(0, mBuilder.build());
+                                    Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
+                                    currentTime = System.currentTimeMillis();
+                                    if (currentTime - lastUpdate > NOTIFICATION_UPDATE_INTERVAL) {
+                                        if (continueNotification) {
 
+                                            lastUpdate = currentTime;
+                                            updateNotification(message, smallMessage, (int) progress);
 
-                        progressBar.setMessage(message);
-                        snackProgressBarManager.setProgress((int) progress);
-                        snackProgressBarManager.updateTo(progressBar);
-                    }
-                });
-            }
-        }, cancellationTokenSource.getToken())
-                .continueWith(new Continuation<Void, Object>() {
-                    @Override
-                    public Object then(@NonNull Task<Void> task) throws Exception {
-                        snackProgressBarManager.dismissAll();
-                        if (task.isSuccessful()) {
-                            SnackProgressBar snackbar = new SnackProgressBar(
-                                    SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_downloaded))
-                                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                        @Override
-                                        public void onActionClick() {
-                                            snackProgressBarManager.dismissAll();
+                                        } else {
+
+                                            lastUpdate = Long.MAX_VALUE;
+                                            stopNotification(null, true);
                                         }
-                                    });
-                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    }
 
-                            //Remover progressBar from notification and allow removal of it
-                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                                    .bigText(getString(R.string.file_downloaded)))
-                                    .setOngoing(false);
-                            mBuilder.setProgress(0, 0, false);
-                            // notificationId is a unique int for each notification that you must define
-                            notificationManager.notify(0, mBuilder.build());
-
-
-                            Bundle bundle = new Bundle();
-                            bundle.putLong("size", size);
-                            bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                            FirebaseAnalytics
-                                    .getInstance(FileExplorerActivity.this)
-                                    .logEvent(FirebaseEvents.DOWNLOAD_FILE, bundle);
-                        } else {
-                            if (task.getException() instanceof CancellationException) {
-                                SnackProgressBar snackbar = new SnackProgressBar(
-                                        SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_download_canceled))
-                                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                            @Override
-                                            public void onActionClick() {
-                                                snackProgressBarManager.dismissAll();
-                                            }
-                                        });
-                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-
-                                // notificationId is a unique int for each notification that you must define
-                                notificationManager.cancel(0);
-                            } else {
-                                SnackProgressBar snackbar = new SnackProgressBar(
-                                        SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_download_file))
-                                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
-                                            @Override
-                                            public void onActionClick() {
-                                                snackProgressBarManager.dismissAll();
-                                            }
-                                        });
-                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-
-                                mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                                        .bigText(getString(R.string.cant_download_file)))
-                                        .setOngoing(false);
-                                mBuilder.setProgress(0, 0, false);
-                                // notificationId is a unique int for each notification that you must define
-                                notificationManager.notify(0, mBuilder.build());
-                            }
+                                    progressBar.setMessage(message);
+                                    snackProgressBarManager.setProgress((int) progress);
+                                    snackProgressBarManager.updateTo(progressBar);
+                                }
+                            });
                         }
+                    }, cancellationTokenSource.getToken())
+                    .continueWith(new Continuation<Void, Object>() {
+                        @Override
+                        public Object then(@NonNull Task<Void> task) throws Exception {
+                            snackProgressBarManager.dismissAll();
+                            if (task.isSuccessful()) {
+                                SnackProgressBar snackbar = new SnackProgressBar(
+                                        SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_downloaded))
+                                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                            @Override
+                                            public void onActionClick() {
+                                                snackProgressBarManager.dismissAll();
+                                            }
+                                        });
 
-                        return null;
-                    }
-                });
-        ;
+                                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                stopNotification(getString(R.string.file_downloaded), false);
+
+                            } else {
+                                if (task.getException() instanceof CancellationException) {
+                                    SnackProgressBar snackbar = new SnackProgressBar(
+                                            SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_download_canceled))
+                                            .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                                @Override
+                                                public void onActionClick() {
+                                                    snackProgressBarManager.dismissAll();
+                                                }
+                                            });
+
+                                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    stopNotification(getString(R.string.file_download_canceled), true);
+
+                                } else {
+                                    SnackProgressBar snackbar = new SnackProgressBar(
+                                            SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_download_file))
+                                            .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                                @Override
+                                                public void onActionClick() {
+                                                    snackProgressBarManager.dismissAll();
+                                                }
+                                            });
+
+                                    snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                                    stopNotification(getString(R.string.cant_download_file), false);
+
+                                }
+                            }
+
+                            return null;
+                        }
+                    });
+        }
     }
 
     private void installApk(int index) {
@@ -755,11 +783,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                             .positiveText("OK")
                                             .show();
 
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, fileData.getName());
-                                    FirebaseAnalytics
-                                            .getInstance(FileExplorerActivity.this)
-                                            .logEvent(FirebaseEvents.APK_INSTALL, bundle);
                                 } else {
                                     SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
                                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
@@ -776,7 +799,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     @OnItemClick(R.id.activity_file_explorer_list)
     public void onItemClick(int position) {
         FileData fileData = fileExplorerAdapter.getItem(position);
-        if (fileData.isDirectory()) {
+        if (fileData != null && fileData.isDirectory()) {
             loadPath(fileData.getPath());
         }
     }
@@ -793,9 +816,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
         startActivityForResult(i, FILE_UPLOAD_CODE);
 
-        FirebaseAnalytics
-                .getInstance(this)
-                .logEvent(FirebaseEvents.UPLOAD_FILE_CLICK, new Bundle());
     }
 
     @OnClick(R.id.activity_file_explorer_fab_main)
@@ -821,11 +841,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 .negativeText(R.string.cancel)
                 .input("", "", new MaterialDialog.InputCallback() {
                     @Override
-                    public void onInput(MaterialDialog dialog, CharSequence input) {
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
                         // Do something
                         String newDirPath = currentPath + "/" + input.toString();
                         execCommandAndReload(ShellCommandHelper.getMakeDirCommand(newDirPath));
-                        //FirebaseAnalytics.getInstance(dialog.getContext()).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT_BOOTLOADER, null);
                     }
                 }).show();
     }
@@ -860,7 +879,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 .translationY(0f)
                 .rotation(90f).setListener(new FabAnimatorListener(views));
     }
-
 
     private class FabAnimatorListener implements Animator.AnimatorListener {
         View[] viewsToHide;
@@ -907,59 +925,58 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             currentPath = path;
 
                             Directory directory = task.getResult();
-                            DirectoryData directoryData = directory.getDirectoryData();
-                            if (directoryData.getResult() == Transport.RESULT_OK) {
-                                getSupportActionBar().setTitle(path.equals("/") ? "/" : directoryData.getName());
+                            if (directory != null) {
+                                DirectoryData directoryData = directory.getDirectoryData();
+                                if (directoryData.getResult() == Transport.RESULT_OK) {
+                                    Objects.requireNonNull(getSupportActionBar()).setTitle(path.equals("/") ? "/" : directoryData.getName());
 
-                                Gson gson = new Gson();
-                                String jsonFiles = directoryData.getFiles();
-                                List<FileData> filesData = gson.fromJson(jsonFiles, new TypeToken<List<FileData>>() {
-                                }.getType());
+                                    Gson gson = new Gson();
+                                    String jsonFiles = directoryData.getFiles();
+                                    List<FileData> filesData = gson.fromJson(jsonFiles, new TypeToken<List<FileData>>() {
+                                    }.getType());
 
-                                if (!path.equals("/")) {
-                                    FileData parentDirectory = new FileData();
-                                    parentDirectory.setName("..");
-                                    parentDirectory.setDirectory(true);
+                                    if (!path.equals("/")) {
+                                        FileData parentDirectory = new FileData();
+                                        parentDirectory.setName("..");
+                                        parentDirectory.setDirectory(true);
 
-                                    parentDirectory.setPath(getParentDirectoryPath(path));
+                                        parentDirectory.setPath(getParentDirectoryPath(path));
 
-                                    filesData.add(0, parentDirectory);
-                                }
-
-                                Collections.sort(filesData, new Comparator<FileData>() {
-                                    @Override
-                                    public int compare(FileData left, FileData right) {
-                                        if (left.isDirectory() && !right.isDirectory()) {
-                                            return -1;
-                                        }
-
-                                        if (right.isDirectory() && !left.isDirectory()) {
-                                            return 0;
-                                        }
-
-                                        return left.getName().compareTo(right.getName());
+                                        filesData.add(0, parentDirectory);
                                     }
-                                });
 
-                                fileExplorerAdapter.clear();
-                                fileExplorerAdapter.addAll(filesData);
-                                fileExplorerAdapter.notifyDataSetChanged();
+                                    Collections.sort(filesData, new Comparator<FileData>() {
+                                        @Override
+                                        public int compare(FileData left, FileData right) {
+                                            if (left.isDirectory() && !right.isDirectory()) {
+                                                return -1;
+                                            }
 
-                                taskCompletionSource.setResult(null);
+                                            if (right.isDirectory() && !left.isDirectory()) {
+                                                return 0;
+                                            }
 
-                                FirebaseAnalytics
-                                        .getInstance(FileExplorerActivity.this)
-                                        .logEvent(FirebaseEvents.PATH_NAVIGATED, new Bundle());
-                            } else {
-                                Snacky.builder()
-                                        .setActivity(FileExplorerActivity.this)
-                                        .setText(R.string.reading_files_failed)
-                                        .setDuration(Snacky.LENGTH_SHORT)
-                                        .build().show();
-                                taskCompletionSource.setException(new Exception());
+                                            return left.getName().compareTo(right.getName());
+                                        }
+                                    });
+
+                                    fileExplorerAdapter.clear();
+                                    fileExplorerAdapter.addAll(filesData);
+                                    fileExplorerAdapter.notifyDataSetChanged();
+
+                                    taskCompletionSource.setResult(null);
+
+                                } else {
+                                    Snacky.builder()
+                                            .setActivity(FileExplorerActivity.this)
+                                            .setText(R.string.reading_files_failed)
+                                            .setDuration(Snacky.LENGTH_SHORT)
+                                            .build().show();
+                                    taskCompletionSource.setException(new Exception());
+                                }
                             }
                         } else {
-                            taskCompletionSource.setException(task.getException());
+                            taskCompletionSource.setException(Objects.requireNonNull(task.getException()));
                             Snacky.builder()
                                     .setActivity(FileExplorerActivity.this)
                                     .setText(R.string.reading_files_failed)
@@ -1013,6 +1030,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     }
 
     private void execCommandAndReload(String command) {
+        if (command == null) {
+            Logger.error("null command");
+            return;
+        }
         Logger.debug("Sending command to watch: " + command);
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
@@ -1033,11 +1054,17 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
                 if (task.isSuccessful()) {
                     ResultShellCommand resultShellCommand = task.getResult();
-                    ResultShellCommandData resultShellCommandData = resultShellCommand.getResultShellCommandData();
+                    ResultShellCommandData resultShellCommandData = null;
+                    if (resultShellCommand != null) {
+                        resultShellCommandData = resultShellCommand.getResultShellCommandData();
 
-                    if (resultShellCommandData.getResult() == 0) {
-                        //Toast.makeText(getApplicationContext(), resultShellCommandData.getOutputLog(), Toast.LENGTH_LONG).show();
-                        loadPath(currentPath);
+                        if (resultShellCommandData.getResult() == 0) {
+                            //Toast.makeText(getApplicationContext(), resultShellCommandData.getOutputLog(), Toast.LENGTH_LONG).show();
+                            loadPath(currentPath);
+                        } else {
+                            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+                            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
+                        }
                     } else {
                         SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
                         snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
@@ -1051,5 +1078,69 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             }
         });
     }
+
+    private void createNotification(String message) {
+        continueNotification = true;
+        lastUpdate = 0;
+        Intent intent = new Intent(getBaseContext(), FileExplorerActivity.class);
+
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        intent.putExtra("source", "notification");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), (int)System.currentTimeMillis(),
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        intent.putExtra("source", "cancel");
+        PendingIntent pendingIntentCancel = PendingIntent.getActivity(getBaseContext(), (int)System.currentTimeMillis(),
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        notificationManager = NotificationManagerCompat.from(this);
+        mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                .bigText(message)
+                .setBigContentTitle(getString(R.string.downloading))
+                .setSummaryText(message))
+                .setContentTitle(getString(R.string.downloading))
+                .setContentText(message)
+                .setOnlyAlertOnce(true)
+                .setOngoing(true)
+                .setContentIntent(pendingIntent)
+                .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.close), pendingIntentCancel)
+                .setSmallIcon(R.drawable.outline_cloud_download_24);
+        notificationManager.notify(0, mBuilder.build());
+    }
+
+    private void updateNotification(String message, String smallMessage, int progress) {
+        //Show/Update notification with current progress
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                .bigText(message)
+                .setBigContentTitle(getString(R.string.downloading))
+                .setSummaryText(smallMessage))
+                .setOnlyAlertOnce(true)
+                .setContentTitle(getString(R.string.downloading))
+                .setContentText(smallMessage);
+        mBuilder.setProgress(100, (int) progress, false);
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, mBuilder.build());
+
+    }
+
+    private void stopNotification(String message, boolean mustClose) {
+
+        if (mustClose)
+            message = getString(R.string.cancel);
+
+        //Remove progressBar from notification and allow removal of it
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                .bigText(message))
+                .setOngoing(false);
+        mBuilder.setProgress(0, 0, false);
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(0, mBuilder.build());
+
+        if (mustClose)
+            notificationManager.cancel(0);
+    }
+
 
 }
