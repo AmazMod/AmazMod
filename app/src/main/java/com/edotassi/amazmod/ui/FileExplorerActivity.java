@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -223,6 +224,16 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                     uploadFiles(files, currentPath);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            //your code
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            //your code
         }
     }
 
