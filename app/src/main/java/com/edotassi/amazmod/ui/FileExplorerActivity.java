@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
-import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -35,6 +33,7 @@ import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.util.WatchfaceUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
@@ -130,6 +129,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
         if ("cancel".equals(source)) {
             continueNotification = false;
+            transferring = false;
             stopNotification(null, true);
         }
     }
@@ -167,10 +167,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<>());
         listView.setAdapter(fileExplorerAdapter);
 
-        TypedValue outValue = new TypedValue();
-        this.getTheme().resolveAttribute(android.R.attr.colorAccent, outValue, true);
-        final int themeColorAccent = outValue.data;
-
         loadPath(currentPath);
 
         registerForContextMenu(listView);
@@ -179,8 +175,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 // (optional) set the view which will animate with SnackProgressBar e.g. FAB when CoordinatorLayout is not used
                 //.setViewToMove(floatingActionButton)
                 // (optional) change progressBar color, default = R.color.colorAccent
-                .setProgressBarColor(outValue.resourceId)
-                .setActionTextColor(outValue.resourceId)
+                .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
+                .setActionTextColor(ThemeHelper.getThemeColorAccentId(this))
                 // (optional) change background color, default = BACKGROUND_COLOR_DEFAULT (#FF323232)
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 // (optional) change text size, default = 14sp
@@ -227,7 +223,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             }
         });
 
-        swipeRefreshLayout.setColorSchemeColors(themeColorAccent);
+        swipeRefreshLayout.setColorSchemeColors(ThemeHelper.getThemeColorAccent(this));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

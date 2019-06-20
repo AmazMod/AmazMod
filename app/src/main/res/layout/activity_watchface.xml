@@ -221,7 +221,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="#000000"
+        android:textColor="?android:attr/colorForeground"
         android:text="@string/activity_watchface_last_time_sent"
         app:layout_constraintTop_toBottomOf="@+id/watchface_calendar_radio_group"  />
 

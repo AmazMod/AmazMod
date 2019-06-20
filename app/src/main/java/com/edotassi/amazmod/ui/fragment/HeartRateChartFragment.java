@@ -3,7 +3,6 @@ package com.edotassi.amazmod.ui.fragment;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.ui.card.Card;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -104,10 +104,7 @@ public class HeartRateChartFragment extends Card {
         Description description = new Description();
         description.setText("");
         heartrateChart.setDescription(description);
-
-        TypedValue outValue = new TypedValue();
-        Objects.requireNonNull(getContext()).getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
-        final int themeForegroundColor = outValue.data;
+        final int themeForegroundColor = ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext()));
 
         heartrateChart.getXAxis().setDrawLabels(false);
         heartrateChart.getXAxis().setTextColor(themeForegroundColor);

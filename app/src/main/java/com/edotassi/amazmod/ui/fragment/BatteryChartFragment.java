@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,7 @@ import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.ui.card.Card;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -349,11 +349,6 @@ public class BatteryChartFragment extends Card {
         linePredictionDataSet.setCubicIntensity(0.05f);
         // End of prediction line
 
-
-        TypedValue outValue = new TypedValue();
-        Objects.requireNonNull(getContext()).getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
-        final int themeForegroundColor = outValue.data;
-
         Description description = new Description();
         description.setText("");
         chart.setDescription(description);
@@ -365,7 +360,7 @@ public class BatteryChartFragment extends Card {
         xAxis.setTextSize(8);
         xAxis.setAxisMinimum(lowX);
         xAxis.setAxisMaximum(highX);
-        xAxis.setTextColor(themeForegroundColor);
+        xAxis.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
 
         final Calendar now = Calendar.getInstance();
         final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH");
@@ -400,7 +395,7 @@ public class BatteryChartFragment extends Card {
         leftAxis.setDrawGridLines(true);
         leftAxis.setAxisMinimum(0);
         leftAxis.setAxisMaximum(100);
-        leftAxis.setTextColor(themeForegroundColor);
+        leftAxis.setTextColor(ThemeHelper.getThemeForegroundColor(getContext()));
 
         chart.getAxisRight().setEnabled(false);
         chart.getLegend().setEnabled(false);
@@ -428,7 +423,7 @@ public class BatteryChartFragment extends Card {
 
         @Override
         protected void drawLabel(Canvas c, String formattedLabel, float x, float y, MPPointF anchor, float angleDegrees) {
-            String line[] = formattedLabel.split("\n");
+            String[] line = formattedLabel.split("\n");
             if (line.length > 0) {
                 Utils.drawXAxisValue(c, line[0], x, y, mAxisLabelPaint, anchor, angleDegrees);
 

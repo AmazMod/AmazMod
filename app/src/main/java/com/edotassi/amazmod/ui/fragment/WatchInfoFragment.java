@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.format.Formatter;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
@@ -260,10 +260,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void connecting() {
-        TypedValue outValue = new TypedValue();
-        Objects.requireNonNull(getContext()).getTheme().resolveAttribute(android.R.attr.colorForeground, outValue, true);
-        final int themeForegroundColor = outValue.data;
-        isConnectedTV.setTextColor(themeForegroundColor);
+        isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
