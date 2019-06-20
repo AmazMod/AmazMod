@@ -70,7 +70,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.edotassi.amazmod.ui.TweakingActivity" />
         </activity>
-        <activity android:name=".ui.FileOpenerActivity">
+        <activity android:name=".ui.FileOpenerActivity"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize">
+
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
 

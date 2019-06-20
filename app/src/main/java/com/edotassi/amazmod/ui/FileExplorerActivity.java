@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.Formatter;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -103,20 +104,21 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private NotificationCompat.Builder mBuilder;
 
     private static final int FILE_UPLOAD_CODE = 1;
-    private static final String PATH = "path";
-    private static final String SOURCE = "source";
+    private static final int NOTIF_ID = 0;
     private static final long NOTIFICATION_UPDATE_INTERVAL = 2 * 1000L; /* 2s */
 
-    private static boolean isFabOpen;
-    private static long currentTime, lastUpdate;
-    public static boolean continueNotification;
+    private static final String PATH = "path";
+    private static final String SOURCE = "source";
 
     private String currentPath;
-    private boolean uploading = false;
+    private long currentTime, lastUpdate;
+    private boolean isFabOpen;
+    private boolean transferring = false;
+
+    public static boolean continueNotification;
 
     @Override
-    protected void onNewIntent(Intent intent)
-    {
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
         String source = null;
@@ -124,10 +126,12 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             source = intent.getStringExtra(SOURCE);
         }
 
-        if ("cancel".equals(source))
-            continueNotification = false;
+        Logger.debug("onNewIntent source: {}", source);
 
-        Logger.debug("onNewIntent source: " + source);
+        if ("cancel".equals(source)) {
+            continueNotification = false;
+            stopNotification(null, true);
+        }
     }
 
     @Override
@@ -163,6 +167,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<>());
         listView.setAdapter(fileExplorerAdapter);
 
+        TypedValue outValue = new TypedValue();
+        this.getTheme().resolveAttribute(android.R.attr.colorAccent, outValue, true);
+        final int themeColorAccent = outValue.data;
+
         loadPath(currentPath);
 
         registerForContextMenu(listView);
@@ -171,7 +179,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 // (optional) set the view which will animate with SnackProgressBar e.g. FAB when CoordinatorLayout is not used
                 //.setViewToMove(floatingActionButton)
                 // (optional) change progressBar color, default = R.color.colorAccent
-                .setProgressBarColor(R.color.colorAccent)
+                .setProgressBarColor(outValue.resourceId)
+                .setActionTextColor(outValue.resourceId)
                 // (optional) change background color, default = BACKGROUND_COLOR_DEFAULT (#FF323232)
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 // (optional) change text size, default = 14sp
@@ -218,7 +227,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             }
         });
 
-        swipeRefreshLayout.setColorSchemeColors(ContextCompat.getColor(this, R.color.colorAccent));
+        swipeRefreshLayout.setColorSchemeColors(themeColorAccent);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -233,7 +242,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     public void onBackPressed() {
         Logger.debug("onBackPressed");
         if (currentPath.equals("/")) {
-            if (!uploading) {
+            if (!transferring) {
                 finish();
             }
         } else {
@@ -243,7 +252,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        if (!transferring)
+            finish();
         return true;
     }
 
@@ -281,7 +291,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
      */
     private void uploadFiles(final List<Uri> files, final String uploadPath) {
         if (files.size() > 0) {
-            uploading = true;
+            transferring = true;
             final File file = Utils.getFileForUri(files.get(0));
             files.remove(0);
             final String path = file.getAbsolutePath();
@@ -303,23 +313,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
             String message = getString(R.string.sending) + " \"" + file.getName() + "\"";
 
-            Intent intent = new Intent(this, FileExplorerActivity.class);
-            //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            intent.putExtra("path", uploadPath);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            final NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-            final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
-            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                    .bigText(message)
-                    .setBigContentTitle(getString(R.string.sending))
-                    .setSummaryText(message))
-                    .setContentTitle(getString(R.string.sending))
-                    .setContentText(message)
-                    .setOnlyAlertOnce(true)
-                    .setOngoing(true)
-                    .setContentIntent(pendingIntent)
-                    .setSmallIcon(R.drawable.outline_cloud_upload_24);
+            createNotification(getString(R.string.sending), message, R.drawable.outline_cloud_upload_24);
 
             final SnackProgressBar progressBar = new SnackProgressBar(
                     SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + file.getName() + "\"")
@@ -351,17 +345,20 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             String smallMessage = getString(R.string.sending) + " \"" + file.getName() + "\"";
                             String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
-                            //Show/Update notification with current progress
-                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                                    .bigText(message)
-                                    .setBigContentTitle(getString(R.string.sending))
-                                    .setSummaryText(smallMessage))
-                                    .setOnlyAlertOnce(true)
-                                    .setContentTitle(getString(R.string.sending))
-                                    .setContentText(smallMessage);
-                            mBuilder.setProgress(100, (int) progress, false);
-                            // notificationId is a unique int for each notification that you must define
-                            notificationManager.notify(0, mBuilder.build());
+                            //Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
+                            currentTime = System.currentTimeMillis();
+                            if (currentTime - lastUpdate > NOTIFICATION_UPDATE_INTERVAL) {
+                                if (continueNotification) {
+
+                                    lastUpdate = currentTime;
+                                    updateNotification(message, smallMessage, (int) progress);
+
+                                } else {
+
+                                    lastUpdate = Long.MAX_VALUE;
+                                    stopNotification(null, true);
+                                }
+                            }
 
                             progressBar.setMessage(message);
                             snackProgressBarManager.setProgress((int) progress);
@@ -390,14 +387,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                         });
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             }
-                            //Remover progressBar from notification and allow removal of it
-                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                                    .bigText(getString(R.string.file_upload_finished)))
-                                    .setOngoing(false);
-                            mBuilder.setProgress(0, 0, false);
-                            // notificationId is a unique int for each notification that you must define
-                            notificationManager.notify(0, mBuilder.build());
-                            uploading = false;
+
+                            stopNotification(getString(R.string.file_upload_finished), false);
+                            transferring = false;
+
                         } else {
                             uploadFiles(files, uploadPath);
                         }
@@ -413,18 +406,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                         }
                                     });
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                            uploading = false;
+                            transferring = false;
+                            stopNotification(getString(R.string.file_download_canceled), true);
 
-                            //Remove progressBar from notification and allow removal of it
-                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                                    .bigText(getString(R.string.file_download_canceled)))
-                                    .setOngoing(false);
-                            mBuilder.setProgress(0, 0, false);
-                            // notificationId is a unique int for each notification that you must define
-                            notificationManager.notify(0, mBuilder.build());
-
-                            // notificationId is a unique int for each notification that you must define
-                            notificationManager.cancel(0);
                         } else {
                             SnackProgressBar snackbar = new SnackProgressBar(
                                     SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_upload_file))
@@ -434,15 +418,12 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                             snackProgressBarManager.dismissAll();
                                         }
                                     });
+
                             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             uploadFiles(files, uploadPath);
                             //uploading = false;
-                            mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
-                                    .bigText(getString(R.string.cant_upload_file)))
-                                    .setOngoing(false);
-                            mBuilder.setProgress(0, 0, false);
-                            // notificationId is a unique int for each notification that you must define
-                            notificationManager.notify(0, mBuilder.build());
+                            stopNotification(getString(R.string.cant_upload_file), false);
+
                         }
 
                     }
@@ -450,7 +431,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 }
             });
         } else {
-            uploading = false;
+            transferring = false;
         }
     }
 
@@ -585,8 +566,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                     }
                 })
                 .show();
-
-
     }
 
     private void deleteFile(int index) {
@@ -644,7 +623,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         } else
             message = getString(R.string.error);
 
-        createNotification(message);
+        createNotification(getString(R.string.downloading), message, R.drawable.outline_cloud_download_24);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.downloading))
@@ -662,6 +641,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
         if (fileData != null) {
             final long size = fileData.getSize();
+            transferring = true;
 
             Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, Constants.MODE_DOWNLOAD,
                     new Watch.OperationProgress() {
@@ -679,7 +659,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                     String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
                                     String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
-                                    Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
+                                    //Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
                                     currentTime = System.currentTimeMillis();
                                     if (currentTime - lastUpdate > NOTIFICATION_UPDATE_INTERVAL) {
                                         if (continueNotification) {
@@ -715,6 +695,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                             }
                                         });
 
+                                transferring = false;
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                                 stopNotification(getString(R.string.file_downloaded), false);
 
@@ -729,6 +710,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                                 }
                                             });
 
+                                    transferring = false;
                                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                                     stopNotification(getString(R.string.file_download_canceled), true);
 
@@ -742,6 +724,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                                 }
                                             });
 
+                                    transferring = false;
                                     snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                                     stopNotification(getString(R.string.cant_download_file), false);
 
@@ -1079,35 +1062,35 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         });
     }
 
-    private void createNotification(String message) {
+    private void createNotification(String mode, String message, int icon) {
         continueNotification = true;
         lastUpdate = 0;
-        Intent intent = new Intent(getBaseContext(), FileExplorerActivity.class);
+        Intent intent = new Intent(getApplicationContext(), FileExplorerActivity.class);
 
         intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra("source", "notification");
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(getBaseContext(), (int)System.currentTimeMillis(),
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         intent.putExtra("source", "cancel");
-        PendingIntent pendingIntentCancel = PendingIntent.getActivity(getBaseContext(), (int)System.currentTimeMillis(),
+        PendingIntent pendingIntentCancel = PendingIntent.getActivity(this, (int)System.currentTimeMillis(),
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         notificationManager = NotificationManagerCompat.from(this);
         mBuilder = new NotificationCompat.Builder(this, Constants.TAG);
         mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
                 .bigText(message)
-                .setBigContentTitle(getString(R.string.downloading))
+                .setBigContentTitle(mode)
                 .setSummaryText(message))
-                .setContentTitle(getString(R.string.downloading))
+                .setContentTitle(mode)
                 .setContentText(message)
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
                 .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.close), pendingIntentCancel)
-                .setSmallIcon(R.drawable.outline_cloud_download_24);
-        notificationManager.notify(0, mBuilder.build());
+                .setSmallIcon(icon);
+        notificationManager.notify(NOTIF_ID, mBuilder.build());
     }
 
     private void updateNotification(String message, String smallMessage, int progress) {
@@ -1121,7 +1104,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 .setContentText(smallMessage);
         mBuilder.setProgress(100, (int) progress, false);
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(0, mBuilder.build());
+        notificationManager.notify(NOTIF_ID, mBuilder.build());
 
     }
 
@@ -1136,10 +1119,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 .setOngoing(false);
         mBuilder.setProgress(0, 0, false);
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(0, mBuilder.build());
+        notificationManager.notify(NOTIF_ID, mBuilder.build());
 
         if (mustClose)
-            notificationManager.cancel(0);
+            notificationManager.cancel(NOTIF_ID);
     }
 
 

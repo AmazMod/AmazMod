@@ -1,7 +1,9 @@
 package com.edotassi.amazmod.ui;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -192,6 +194,16 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         super.finish();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("FileOpenerActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("FileOpenerActivity ORIENTATION LANDSCAPE");
+        }
+    }
+
     private boolean createWorkDir() {
         workDir = this.getCacheDir().getAbsolutePath() + File.separator + WORK_DIR;
         File file = new File(workDir);
@@ -214,11 +226,12 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             return false;
     }
 
+    @SuppressLint("StringFormatInvalid")
     private void promptInstall(final String path, final String name, final String type) {
 
         Logger.debug("FileOpenerActivity promptInstall type: " + type);
 
-        String title = String.format(getString(R.string.file_uploader_title), type);
+        @SuppressLint("StringFormatMatches") String title = String.format(getString(R.string.file_uploader_title), type);
 
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .canceledOnTouchOutside(false)
