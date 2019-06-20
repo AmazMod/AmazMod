@@ -52,7 +52,8 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/outline_notifications_24" />
+                    app:srcCompat="@drawable/outline_notifications_24"
+                    android:contentDescription="@string/images" />
 
                 <TextView
                     android:id="@+id/textView11"
@@ -81,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="TextView"
+                    tools:text="TextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
@@ -91,7 +92,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="TextView"
+                    tools:text="TextView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/activity_stats_notifications_last_hour" />
 
@@ -121,10 +122,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="TextView"
+                    tools:text="TextView"
                     app:layout_constraintBottom_toBottomOf="@+id/textView25"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/activity_stats_notifications_24_hours" />
+                    app:layout_constraintTop_toBottomOf="@id/activity_stats_notifications_24_hours" />
 
                 <Button
                     android:id="@+id/activity_stats_open_notifications_log"
@@ -136,7 +137,7 @@
                     android:text="@string/open_notifications_log"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25" />
+                    app:layout_constraintTop_toBottomOf="@id/textView25" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
@@ -180,34 +181,53 @@
                     android:gravity="bottom"
                     android:scrollbars="vertical"
                     android:textSize="11sp"
-                    app:layout_constraintBottom_toTopOf="@+id/activity_stats_clear_logs"
+                    app:layout_constraintBottom_toTopOf="@id/linear_layout"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/txtLogsTitle" />
+                    app:layout_constraintTop_toBottomOf="@id/txtLogsTitle" />
 
-                <Button
-                    android:id="@+id/activity_stats_clear_logs"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="0dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/linear_layout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/clear_log"
-                    app:layout_constraintBottom_toTopOf="@+id/activity_stats_generate_bundle"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@id/activity_stats_generate_bundle"
+                    app:layout_constraintStart_toStartOf="parent">
 
-                <Button
-                    android:id="@+id/activity_stats_send_logs"
-                    style="@style/Widget.AppCompat.Button.Colored"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="@string/send_log"
-                    app:layout_constraintBottom_toTopOf="@+id/activity_stats_generate_bundle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/activity_stats_clear_logs" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <Button
+                        android:id="@+id/activity_stats_clear_logs"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/clear_log"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/guideline"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <Button
+                        android:id="@+id/activity_stats_send_logs"
+                        style="@style/Widget.AppCompat.Button.Colored"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/send_log"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/guideline"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
                     android:id="@+id/activity_stats_generate_bundle"
