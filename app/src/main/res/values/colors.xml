@@ -9,4 +9,17 @@
     <color name="background_1">#039BE5</color>
     <color name="background_dark_1">#0277BD</color>
 
+    <!-- Use in filepicker's theme -->
+    <color name="li_row_background_dark">#767676</color>
+    <color name="li_row_background_tint_dark">#40ffffff</color>
+    <color name="li_row_selector_dark">#40000000</color>
+    <color name="text_primary">#ffffff</color>
+    <color name="text_light">#fefefe</color>
+    <color name="text_light_opaque">#90ffffff</color>
+    <color name="background_dark">#ff3c3c3c</color>
+    <color name="background_dark_dark">#ff222222</color>
+    <color name="overlay_dark">#90000000</color>
+    <color name="li_row_background_tint_light">#40111111</color>
+    <color name="li_row_selector_light">#40eeeeee</color>
+
 </resources>

@@ -311,4 +311,6 @@
     <string name="build_description">Build description</string>
     <string name="rename_folder">Rename Folder</string>
     <string name="rename_file">Rename File</string>
+    <string name="type_file_name">Type File Name</string>
+    <string name="new_folder">New Folder</string>
 </resources>

@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/outline_insert_drive_file_black_36"
-        android:contentDescription="@string/images" />
+        android:contentDescription="@string/image_description" />
 
     <TextView
         android:id="@+id/row_file_explorer_file_name"

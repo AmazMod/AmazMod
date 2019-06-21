@@ -13,10 +13,6 @@ android {
         versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    signingConfigs {
-        release {}
-        debug {}
-    }
     dataBinding {
         enabled = true
     }
@@ -27,7 +23,6 @@ android {
             minifyEnabled false
             debuggable debugFlag
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
         debug {
             manifestPlaceholders = [enableCrashReporting: "true"]
@@ -80,8 +75,7 @@ dependencies {
     implementation 'com.github.MFlisar:changelog:1.0.4'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.droidninja:filepicker:2.1.5'
-    implementation 'com.nononsenseapps:filepicker:4.2.1'
+    implementation 'com.github.hedzr:android-file-chooser:master-SNAPSHOT'
     implementation 'com.github.matecode:Snacky:1.1.4'
     implementation 'com.github.tingyik90:snackprogressbar:5.0'
     implementation 'com.karumi:dexter:5.0.0'
@@ -103,4 +97,6 @@ configurations.all {
             }
         }
     }
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
 }

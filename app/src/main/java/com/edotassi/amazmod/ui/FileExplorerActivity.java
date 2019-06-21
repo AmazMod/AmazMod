@@ -2,6 +2,7 @@ package com.edotassi.amazmod.ui;
 
 import android.animation.Animator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -17,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,7 @@ import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
+import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.util.WatchfaceUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.common.util.Strings;
@@ -45,8 +48,7 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.nononsenseapps.filepicker.FilePickerActivity;
-import com.nononsenseapps.filepicker.Utils;
+import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
@@ -109,7 +111,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private static final String PATH = "path";
     private static final String SOURCE = "source";
 
-    private String currentPath;
+    private String currentPath, lastPath;
     private long currentTime, lastUpdate;
     private boolean isFabOpen;
     private boolean transferring = false;
@@ -259,13 +261,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         switch (requestCode) {
             case FILE_UPLOAD_CODE:
                 if (resultCode == Activity.RESULT_OK && data != null) {
-                    List<Uri> files = Utils.getSelectedFilesFromResult(data);
-                    uploadFiles(files, currentPath);
+                    //List<Uri> files = Utils.getSelectedFilesFromResult(data);
+                    //uploadFiles(files, currentPath);
                 }
                 break;
             case 0:
             default:
-                Logger.error("requestCode = {}", requestCode);
+                Logger.error("requestCode: {}", requestCode);
         }
     }
 
@@ -279,18 +281,145 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         }
     }
 
+
+    @OnItemClick(R.id.activity_file_explorer_list)
+    public void onItemClick(int position) {
+        FileData fileData = fileExplorerAdapter.getItem(position);
+        if (fileData != null && fileData.isDirectory()) {
+            loadPath(fileData.getPath());
+        }
+    }
+
+    @OnClick(R.id.activity_file_explorer_fab_upload)
+    public void onUpload() {
+        CloseFabMenu();
+
+        /* Old filepicker
+        Intent i = new Intent(this, FilePickerActivity.class);
+
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, true);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
+        i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
+        i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
+
+        startActivityForResult(i, FILE_UPLOAD_CODE);
+        */
+
+        /* New filepicker */
+        if (lastPath == null || lastPath.isEmpty())
+            lastPath = Environment.getExternalStorageDirectory().getPath();
+
+        final ArrayList<File> files = new ArrayList<>();
+
+        ChooserDialog chooserDialog;
+        if (Screen.isDarkTheme()) {
+            chooserDialog = new ChooserDialog(this, R.style.FileChooserStyle_Dark);
+        } else {
+            chooserDialog = new ChooserDialog(this, R.style.FileChooserStyle_Light);
+        }
+
+        chooserDialog
+                //.withResources(R.string.title_choose_file,
+                //        R.string.title_choose, R.string.dialog_cancel)
+                //.disableTitle(true)
+                //.titleFollowsDir(true)
+                //.displayPath(true)
+                .enableOptions(true)
+                .withStartFile(lastPath)
+                .withFilter(false, false)
+                .enableMultiple(true)
+                .withOnDismissListener(dialog -> {
+                        if (files.isEmpty())
+                            return;
+
+                        ArrayList<String> paths = new ArrayList<>();
+                        for (File file : files) {
+                            paths.add(file.getAbsolutePath());
+                        }
+
+                        AlertDialog.Builder builder = Screen.isDarkTheme() ? new AlertDialog.Builder(this,
+                                R.style.FileChooserDialogStyle_Dark) : new AlertDialog.Builder(this, R.style.FileChooserDialogStyle);
+                        builder.setTitle(files.size() + " files selected:")
+                                .setAdapter(new ArrayAdapter<>(this,
+                                        android.R.layout.simple_expandable_list_item_1, paths), null)
+                                .create()
+                                .show();
+                    })
+                    .withOnBackPressedListener(dialog -> {
+                        files.clear();
+                        dialog.dismiss();
+                    })
+                    .withOnLastBackPressedListener(dialog -> {
+                        files.clear();
+                        dialog.dismiss();
+                    })
+                    .withNegativeButtonListener((dialog, which) -> {
+                        files.clear();
+                        dialog.dismiss();
+                    })
+                    .withChosenListener((dir, dirFile) -> {
+                        lastPath = dir;
+
+                        if (dirFile.isDirectory()) {
+                            chooserDialog.dismiss();
+                            return;
+                        }
+
+                        if (!files.remove(dirFile)) {
+                            files.add(dirFile);
+                        }
+                    });
+
+        chooserDialog.withOnBackPressedListener(dialog -> chooserDialog.goBack());
+        chooserDialog.build().show();
+
+    }
+
+    @OnClick(R.id.activity_file_explorer_fab_main)
+    public void fabMainClick() {
+        if (!isFabOpen)
+            ShowFabMenu();
+        else
+            CloseFabMenu();
+    }
+
+    @OnClick(R.id.activity_file_explorer_fab_bg)
+    public void fabMenuClick() {
+        CloseFabMenu();
+    }
+
+    @OnClick(R.id.activity_file_explorer_fab_newfolder)
+    public void fabNewFolderClick() {
+        CloseFabMenu();
+        new MaterialDialog.Builder(this)
+                .title(R.string.new_folder)
+                .content(R.string.type_folder_name)
+                .inputType(InputType.TYPE_CLASS_TEXT)
+                .negativeText(R.string.cancel)
+                .input("", "", new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                        // Do something
+                        String newDirPath = currentPath + "/" + input.toString();
+                        execCommandAndReload(ShellCommandHelper.getMakeDirCommand(newDirPath));
+                    }
+                }).show();
+    }
+
     /**
      * Receives a list of files and uploads them (in series)
      *
-     * @param files
-     * @param uploadPath
+     * @param files Array of files
+     * @param uploadPath files will be uploaded to this Path
      */
-    private void uploadFiles(final List<Uri> files, final String uploadPath) {
+    //private void uploadFiles(final List<Uri> files, final String uploadPath) {
+    private void uploadFiles(final ArrayList<File> files, final String uploadPath) {
         if (files.size() > 0) {
             transferring = true;
-            final File file = Utils.getFileForUri(files.get(0));
+            //final File file = Utils.getFileForUri(files.get(0));
+            final File file = files.get(0);
             files.remove(0);
-            final String path = file.getAbsolutePath();
+            //final String path = file.getAbsolutePath();
 
             if (!file.exists()) {
                 fileNotExists();
@@ -303,7 +432,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
             final String destPath = uploadPath + "/" + file.getName();
             final long size = file.length();
-            final long startedAt = System.currentTimeMillis();
+            //final long startedAt = System.currentTimeMillis();
 
             final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
@@ -497,15 +626,18 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private void renameFile(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
         CloseFabMenu();
-        String rename_string;
+        String title, content;
         if (fileData != null) {
-            if (fileData.isDirectory())
-                rename_string = getString(R.string.rename_folder);
-            else
-                rename_string = getString(R.string.rename_file);
+            if (fileData.isDirectory()) {
+                title = getString(R.string.rename_folder);
+                content = getString(R.string.type_folder_name);
+            } else {
+                title = getString(R.string.rename_file);
+                content = getString(R.string.type_file_name);
+            }
             new MaterialDialog.Builder(this)
-                    .title(rename_string)
-                    .content(R.string.type_folder_name)
+                    .title(title)
+                    .content(content)
                     .inputType(InputType.TYPE_CLASS_TEXT)
                     .negativeText(R.string.cancel)
                     .input("", fileData.getName(), new MaterialDialog.InputCallback() {
@@ -773,59 +905,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             return null;
                         }
                     });
-    }
-
-    @OnItemClick(R.id.activity_file_explorer_list)
-    public void onItemClick(int position) {
-        FileData fileData = fileExplorerAdapter.getItem(position);
-        if (fileData != null && fileData.isDirectory()) {
-            loadPath(fileData.getPath());
-        }
-    }
-
-    @OnClick(R.id.activity_file_explorer_fab_upload)
-    public void onUpload() {
-        CloseFabMenu();
-        Intent i = new Intent(this, FilePickerActivity.class);
-
-        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, true);
-        i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
-        i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
-        i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
-
-        startActivityForResult(i, FILE_UPLOAD_CODE);
-
-    }
-
-    @OnClick(R.id.activity_file_explorer_fab_main)
-    public void fabMainClick() {
-        if (!isFabOpen)
-            ShowFabMenu();
-        else
-            CloseFabMenu();
-    }
-
-    @OnClick(R.id.activity_file_explorer_fab_bg)
-    public void fabMenuClick() {
-        CloseFabMenu();
-    }
-
-    @OnClick(R.id.activity_file_explorer_fab_newfolder)
-    public void fabNewFolderClick() {
-        CloseFabMenu();
-        new MaterialDialog.Builder(this)
-                .title(R.string.nnf_new_folder)
-                .content(R.string.type_folder_name)
-                .inputType(InputType.TYPE_CLASS_TEXT)
-                .negativeText(R.string.cancel)
-                .input("", "", new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-                        // Do something
-                        String newDirPath = currentPath + "/" + input.toString();
-                        execCommandAndReload(ShellCommandHelper.getMakeDirCommand(newDirPath));
-                    }
-                }).show();
     }
 
     private void ShowFabMenu() {
@@ -1105,7 +1184,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     }
 
     private void stopNotification(String message, boolean mustClose) {
-
         if (mustClose)
             message = getString(R.string.cancel);
 

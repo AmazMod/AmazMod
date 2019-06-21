@@ -34,7 +34,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/outline_battery_std_18dp"
-                android:contentDescription="@string/images" />
+                android:contentDescription="@string/image_description" />
 
             <TextView
                 android:id="@+id/textView2"
