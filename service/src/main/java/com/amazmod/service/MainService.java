@@ -27,7 +27,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.service.notification.StatusBarNotification;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -67,6 +66,7 @@ import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
+import com.huami.watch.notification.data.NotificationKeyData;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
@@ -426,25 +426,40 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
-    public void string(DeleteNotificationEvent deleteNotificationEvent) {
+    public void deleteNotification(DeleteNotificationEvent deleteNotificationEvent) {
+
         StatusBarNotificationData statusBarNotificationData = deleteNotificationEvent.getDataBundle().getParcelable("data");
         String key = statusBarNotificationData.key;
         boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
-        Logger.warn("DeleteNotificationEvent enableCustomUI: {} \\ key: {}", enableCustomUI, key);
+        Logger.warn("deleteNotification enableCustomUI: {} \\ key: {}", enableCustomUI, key);
 
         if (enableCustomUI) {
 
             if (key != null) {
-                for (Map.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
-                    Logger.warn("DeleteNotificationEvent NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
+                if (NotificationStore.getCustomNotificationCount() > 0)
+                    for (Map.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
+                        Logger.warn("deleteNotification NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
 
-                    if (key.equals(pair.getValue())) {
-                        Logger.warn("DeleteNotificationEvent removing: {}", pair.getKey());
-                        NotificationStore.removeCustomNotification(pair.getKey());
+                        if (key.equals(pair.getValue())) {
+                            Logger.warn("deleteNotification removing: {}", pair.getKey());
+                            NotificationStore.removeCustomNotification(pair.getKey());
+                        }
                     }
-                }
+                else
+                    Logger.warn("deleteNotification empty NotificationStore");
             }
         }
+
+    }
+
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void requestDeleteNotification(NotificationKeyData notificationKeyData) {
+
+        Logger.warn("requestDeleteNotification key: {}", notificationKeyData.key);
+
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.putParcelable("notiKey", notificationKeyData);
+        sendHuami("del", dataBundle);
 
     }
 
@@ -1219,6 +1234,24 @@ public class MainService extends Service implements Transporter.DataListener {
                     Logger.debug("Send result: " + dataTransportResult.toString());
                 }
             });
+        }
+    }
+
+    private void sendHuami(String action, DataBundle dataBundle) {
+        if (!transporterHuami.isTransportServiceConnected()) {
+            Logger.debug("MainService TransporterHuami Not Connected, returning...");
+            return;
+        }
+
+        if (dataBundle != null) {
+            Logger.debug("MainService sendHuami: " + action);
+            transporterHuami.send(action, dataBundle, new Transporter.DataSendResultCallback() {
+                @Override
+                public void onResultBack(DataTransportResult dataTransportResult) {
+                    Logger.debug("SendHuami result: " + dataTransportResult.toString());
+                }
+            });
+
         }
     }
 

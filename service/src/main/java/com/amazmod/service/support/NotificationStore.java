@@ -4,7 +4,9 @@ import android.content.Context;
 import android.provider.Settings;
 
 import com.amazmod.service.Constants;
+import com.huami.watch.notification.data.NotificationKeyData;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tinylog.Logger;
@@ -25,7 +27,11 @@ public class NotificationStore {
     //}
 
     public static NotificationData getCustomNotification(String key) {
-        return customNotifications.get(key);
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
+            return null;
+        else
+            return notificationData;
     }
 
     public static int getCustomNotificationCount() {
@@ -38,48 +44,65 @@ public class NotificationStore {
     }
 
     public static void removeCustomNotification(String key) {
+        sendRequestDeleteNotification(key);
         customNotifications.remove(key);
         keyMap.remove((key));
     }
 
     public static String getKey(String key) {
-        if (customNotifications.get(key) == null)
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
             return null;
         else
-            return customNotifications.get(key).getKey();
+            return notificationData.getKey();
     }
 
     public static Boolean getHideReplies(String key) {
-        if (customNotifications.get(key) == null)
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
             return true;
         else
-            return customNotifications.get(key).getHideReplies();
+            return notificationData.getHideReplies();
     }
 
     public static Boolean getForceCustom(String key) {
-        if (customNotifications.get(key) == null)
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
             return true;
         else
-            return customNotifications.get(key).getForceCustom();
+            return notificationData.getForceCustom();
     }
 
     public static int getTimeoutRelock(String key) {
-        if (customNotifications.get(key) == null)
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
             return 0;
         else
-            return customNotifications.get(key).getTimeoutRelock();
+            return notificationData.getTimeoutRelock();
     }
 
     public static String getTitle(String key) {
-        return customNotifications.get(key).getTitle();
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
+            return null;
+        else
+            return notificationData.getTitle();
     }
 
     public static String getTime(String key) {
-        return customNotifications.get(key).getTime();
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
+            return null;
+        else
+            return notificationData.getTime();
     }
 
     public static int[] getIcon(String key) {
-        return customNotifications.get(key).getIcon();
+        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
+            return null;
+        else
+            return notificationData.getIcon();
     }
 
     public static Set<String> getKeySet() {
@@ -90,8 +113,12 @@ public class NotificationStore {
     }
 
     public static void clear() {
-        customNotifications.clear();
-        keyMap.clear();
+        if (!customNotifications.isEmpty()) {
+            for (String key : customNotifications.keySet())
+                sendRequestDeleteNotification(key);
+            customNotifications.clear();
+            keyMap.clear();
+        }
     }
 
     public static void setNotificationCount(Context context) {
@@ -117,6 +144,27 @@ public class NotificationStore {
             String notification_json = "{\"notifications\":\"" + count+"\"}";
             Logger.debug("NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
             Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, notification_json);
+        }
+    }
+
+    private static boolean isEmpty() {
+        return getCustomNotificationCount() == 0;
+    }
+
+    private static void sendRequestDeleteNotification(String key) {
+
+        Logger.debug("NotificationStore sendRequestDeleteNotification key: {} ", key);
+
+        NotificationData notificationData = customNotifications.get(key);
+
+        if (notificationData != null) {
+            String pkg = key.split("\\|")[1];
+            Logger.debug("NotificationStore sendRequestDeleteNotification pkg: {} ", pkg);
+
+            //NotificationKeyData from(String pkg, int id, String tag, String key, String targetPkg)
+            NotificationKeyData notificationKeyData = NotificationKeyData.from(pkg, notificationData.getId(),
+                    null, notificationData.getKey(), null);
+            EventBus.getDefault().post(notificationKeyData);
         }
     }
 

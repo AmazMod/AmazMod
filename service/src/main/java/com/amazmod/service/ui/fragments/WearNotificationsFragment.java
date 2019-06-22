@@ -195,12 +195,12 @@ public class WearNotificationsFragment extends Fragment {
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
             public List<NotificationInfo> call() throws Exception {
-                Logger.debug("WearAppsFragment loadNotifications call");
+                Logger.debug("WearNotificationsFragment loadNotifications call");
 
                 List<NotificationInfo> notificationInfoList = new ArrayList<>();
                 if (NotificationStore.getKeySet() != null) {
                     for (String key : NotificationStore.getKeySet()) {
-                        Logger.debug("WearAppsFragment loadNotifications adding key: " + key);
+                        Logger.debug("WearNotificationsFragment loadNotifications adding key: " + key);
                         notificationInfoList.add(new NotificationInfo(NotificationStore.getCustomNotification(key), key));
                     }
                 }
