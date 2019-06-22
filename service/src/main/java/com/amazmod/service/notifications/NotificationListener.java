@@ -1,4 +1,4 @@
-package com.amazmod.service;
+package com.amazmod.service.notifications;
 
 import android.app.Notification;
 import android.os.Bundle;
@@ -33,10 +33,10 @@ public class NotificationListener extends NotificationListenerService {
         Bundle bundle = notification.extras;
 
         Set<String> keys = bundle.keySet();
-        Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()) {
-            String nextKey = iterator.next();
-            Logger.debug("notification bundle -> " + nextKey + ": " + bundle.get(nextKey).toString());
+        for (String nextKey : keys) {
+            Object data = bundle.get(nextKey);
+            if (data != null)
+                Logger.debug("notification bundle -> " + nextKey + ": " + data.toString());
         }
     }
 
@@ -48,10 +48,10 @@ public class NotificationListener extends NotificationListenerService {
         Bundle bundle = notification.extras;
 
         Set<String> keys = bundle.keySet();
-        Iterator<String> iterator = keys.iterator();
-        while (iterator.hasNext()) {
-            String nextKey = iterator.next();
-            Logger.debug("notification bundle -> " + nextKey + ": " + bundle.get(nextKey).toString());
+        for (String nextKey : keys) {
+            Object data = bundle.get(nextKey);
+            if (data != null)
+                Logger.debug("notification bundle -> " + nextKey + ": " + data.toString());
         }
     }
 

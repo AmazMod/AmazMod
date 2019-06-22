@@ -1,4 +1,4 @@
-package com.amazmod.service;
+package com.amazmod.service.receiver;
 
 import android.app.admin.DeviceAdminReceiver;
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
+import com.amazmod.service.R;
 
 public class AdminReceiver extends DeviceAdminReceiver {
     public static final String ACTION_DISABLED = "device_admin_action_disabled";

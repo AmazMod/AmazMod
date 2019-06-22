@@ -18,7 +18,7 @@ import android.provider.Settings;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
-import com.amazmod.service.PackageReceiver;
+import com.amazmod.service.receiver.PackageReceiver;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
 import org.tinylog.Logger;

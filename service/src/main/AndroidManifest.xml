@@ -150,7 +150,7 @@
             android:label="AmazModBatteryJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <receiver android:name=".PackageReceiver"
+        <receiver android:name=".receiver.PackageReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
@@ -180,7 +180,7 @@
         </receiver>
 
         <receiver
-            android:name=".BootReceiver"
+            android:name=".receiver.BootReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -192,7 +192,7 @@
         </receiver>
 
         <receiver
-            android:name=".AdminReceiver"
+            android:name=".receiver.AdminReceiver"
             android:label="@string/device_admin"
             android:description="@string/device_admin_description"
             android:permission="android.permission.BIND_DEVICE_ADMIN">

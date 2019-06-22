@@ -1,4 +1,4 @@
-package com.amazmod.service;
+package com.amazmod.service.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.os.PowerManager;
 import android.os.Vibrator;
 
+import com.amazmod.service.Constants;
 import com.amazmod.service.ui.DummyActivity;
 
 import org.tinylog.Logger;
