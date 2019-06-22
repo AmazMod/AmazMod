@@ -266,7 +266,7 @@ public class NotificationData extends Transportable implements Parcelable {
         dataBundle.putInt(DATA_LARGE_ICON_WIDTH, largeIconWidth);
         dataBundle.putInt(DATA_LARGE_ICON_HEIGHT, largeIconHeight);
         dataBundle.putInt(DATA_PICTURE_WIDTH, pictureWidth);
-        dataBundle.putInt(DATA_LARGE_ICON_HEIGHT, pictureHeight);
+        dataBundle.putInt(DATA_PICTURE_HEIGHT, pictureHeight);
         dataBundle.putInt(DATA_VIBRATION, vibration);
         dataBundle.putBoolean(DATA_FORCE_CUSTOM, forceCustom);
         dataBundle.putBoolean(DATA_HIDE_REPLIES, hideReplies);
