@@ -38,6 +38,7 @@ import com.amazmod.service.adapters.LauncherAppAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.support.AppInfo;
+import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.BatteryGraphActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -237,13 +238,14 @@ public class AmazModLauncher extends AbstractPlugin {
             }
         });
 
-        /*messages.setOnLongClickListener(new View.OnLongClickListener() {
+        unreadMessages.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                NotificationStore.setNotificationCount(mContext, 0);
                 refreshMessages();
                 return true;
             }
-        });*/
+        });
 
         flashLight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -361,17 +363,28 @@ public class AmazModLauncher extends AbstractPlugin {
 
             //Set battery icon and text
             int battery = Math.round((level / (float) scale) * 100f);
+            String msg;
             if (battery != 0) {
-                String battlvl = Integer.toString(battery) + "%";
-                battValueTV.setText(battlvl);
+                String battlvl = battery + "%";
+                msg = battlvl;
                 widgetSettings.set(Constants.PREF_BATT_LEVEL, battlvl);
             } else {
-                battValueTV.setText("N/A%");
+                msg = "N/A%";
             }
 
             LevelListDrawable batteryLevel = (LevelListDrawable) mContext.getResources().getDrawable(batteryIconId);
             batteryLevel.setLevel(level);
-            battIconImg.setImageDrawable(batteryLevel);
+
+            getHost().runTaskOnUI(AmazModLauncher.this, new Runnable() {
+                @Override
+                public void run() {
+                    if (battValueTV != null)
+                        battValueTV.setText(msg);
+                    if (battIconImg != null)
+                        battIconImg.setImageDrawable(batteryLevel);
+                }
+            });
+
         } else
             Logger.error("AmazModLauncher updateCharge error: null batteryStatus!");
 
@@ -422,7 +435,14 @@ public class AmazModLauncher extends AbstractPlugin {
             Logger.error("AmazModLauncher refreshMessages JSONException: " + e.toString());
             notifications = 0;
         }
-        unreadMessages.setText(String.valueOf(notifications));
+
+        getHost().runTaskOnUI(AmazModLauncher.this, new Runnable() {
+            @Override
+            public void run() {
+                if (unreadMessages != null)
+                    unreadMessages.setText(String.valueOf(notifications));
+            }
+        });
     }
 
     private void checkApps() {

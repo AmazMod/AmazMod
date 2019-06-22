@@ -27,6 +27,7 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.service.notification.StatusBarNotification;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -38,6 +39,7 @@ import com.amazmod.service.events.NightscoutDataEvent;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.events.SilenceApplicationEvent;
 import com.amazmod.service.events.incoming.Brightness;
+import com.amazmod.service.events.incoming.DeleteNotificationEvent;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.IncomingNotificationEvent;
 import com.amazmod.service.events.incoming.RequestBatteryStatus;
@@ -65,6 +67,7 @@ import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
+import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
@@ -147,6 +150,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
         put(Transport.WATCHFACE_DATA, Watchface.class);
         put(Transport.REQUEST_WIDGETS, RequestWidgets.class);
+        put(Transport.DELETE_NOTIFICATION, DeleteNotificationEvent.class);
     }};
 
     private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
@@ -421,6 +425,29 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void string(DeleteNotificationEvent deleteNotificationEvent) {
+        StatusBarNotificationData statusBarNotificationData = deleteNotificationEvent.getDataBundle().getParcelable("data");
+        String key = statusBarNotificationData.key;
+        boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
+        Logger.warn("DeleteNotificationEvent enableCustomUI: {} \\ key: {}", enableCustomUI, key);
+
+        if (enableCustomUI) {
+
+            if (key != null) {
+                for (Map.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
+                    Logger.warn("DeleteNotificationEvent NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
+
+                    if (key.equals(pair.getValue())) {
+                        Logger.warn("DeleteNotificationEvent removing: {}", pair.getKey());
+                        NotificationStore.removeCustomNotification(pair.getKey());
+                    }
+                }
+            }
+        }
+
+    }
+
     // Watchface/Calendar data (phone battery/alarm)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void watchface(Watchface watchface) {
@@ -628,11 +655,6 @@ public class MainService extends Service implements Transporter.DataListener {
             registerSpringBoardMonitor(iPCA);
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void string(String event) {
-        Logger.warn("MainService string ***** event received *****");
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -1337,6 +1359,7 @@ public class MainService extends Service implements Transporter.DataListener {
             notifications = json_data.getInt("notifications");
         } catch (JSONException e) {
             //Nothing, notifications are never saved before
+            Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
         }
 
         // Update notifications (but always > -1)
@@ -1354,6 +1377,7 @@ public class MainService extends Service implements Transporter.DataListener {
         } catch (JSONException e) {
             //default
             Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
+            Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
         }
     }
 

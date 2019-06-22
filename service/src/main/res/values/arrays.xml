@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="spring_depend">
-        <!-- Old widget
-        <item>com.amazmod.service/com.amazmod.service.springboard.AmazModPage</item>
-        -->
         <item>com.amazmod.service/com.amazmod.service.springboard.AmazModLauncher</item>
     </string-array>
 </resources>

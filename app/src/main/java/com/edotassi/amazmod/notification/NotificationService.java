@@ -214,12 +214,15 @@ public class NotificationService extends NotificationListenerService {
                     // Get array
                     int[] grouped = grouped_notifications.get(statusBarNotification.getId());
                     // Define the new array
-                    int[] newArray = new int[grouped.length + 1];
-                    // Copy values into new array
-                    System.arraycopy(grouped, 0, newArray, 0, grouped.length);
-                    newArray[newArray.length - 1] = nextId;
-                    grouped_notifications.put(statusBarNotification.getId(), newArray);
-                    //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup03 id exists newArray: " + Arrays.toString(newArray));
+                    if (grouped != null) {
+                        int[] newArray = new int[grouped.length + 1];
+                        // Copy values into new array
+                        System.arraycopy(grouped, 0, newArray, 0, grouped.length);
+                        newArray[newArray.length - 1] = nextId;
+                        grouped_notifications.put(statusBarNotification.getId(), newArray);
+                        //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup03 id exists newArray: " + Arrays.toString(newArray));
+                    } else
+                        Logger.error("grouped: could not create array");
                 } else {
                     //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup04 new id: " + statusBarNotification.getId()
                     //        + " \\ nextId: " + nextId);
@@ -325,6 +328,7 @@ public class NotificationService extends NotificationListenerService {
                 //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup02 key: " + statusBarNotification.getKey()
                 //        + " \\ grouped: " + Arrays.toString(grouped));
                 // Loop each notification in group
+                assert grouped != null;
                 for (int groupedId : grouped) {
                     //int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
                     jobId = groupedId + newUID();

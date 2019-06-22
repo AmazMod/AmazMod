@@ -12,6 +12,7 @@ public class Transport {
     public static final String NAME_NOTIFICATION = "com.edotassi.amazmod.notification";
 
     public static final String INCOMING_NOTIFICATION = "incoming_notification";
+    public static final String DELETE_NOTIFICATION = "del";
     public static final String REQUEST_WATCHSTATUS = "request_watchstatus";
     public static final String REQUEST_BATTERYSTATUS = "request_batterystatus";
     public static final String REQUEST_DIRECTORY = "request_directory";

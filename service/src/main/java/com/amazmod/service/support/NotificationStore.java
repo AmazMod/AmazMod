@@ -3,9 +3,7 @@ package com.amazmod.service.support;
 import android.content.Context;
 import android.provider.Settings;
 
-import com.amazmod.service.AmazModService;
 import com.amazmod.service.Constants;
-import com.amazmod.service.MainService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +17,8 @@ import amazmod.com.transport.data.NotificationData;
 
 public class NotificationStore {
 
-    public static Map<String, NotificationData> customNotifications = new HashMap<>();
+    private static Map<String, NotificationData> customNotifications = new HashMap<>();
+    public static Map<String, String> keyMap = new HashMap<>();
 
     //public NotificationStore() {
         //customNotifications = new HashMap<>();
@@ -35,10 +34,12 @@ public class NotificationStore {
 
     public static void addCustomNotification(String key, NotificationData notificationData) {
         customNotifications.put(key, notificationData);
+        keyMap.put(key, notificationData.getKey());
     }
 
     public static void removeCustomNotification(String key) {
         customNotifications.remove(key);
+        keyMap.remove((key));
     }
 
     public static String getKey(String key) {
@@ -90,10 +91,11 @@ public class NotificationStore {
 
     public static void clear() {
         customNotifications.clear();
+        keyMap.clear();
     }
 
     public static void setNotificationCount(Context context) {
-        setNotificationCount(context,getCustomNotificationCount());
+        setNotificationCount(context, getCustomNotificationCount());
     }
 
     public static void setNotificationCount(Context context, int count) {
