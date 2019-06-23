@@ -35,7 +35,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.DeviceDefault"
+        android:theme="@style/Theme.Transparent"
         tools:ignore="GoogleAppIndexingWarning">
 
         <uses-library android:name="com.google.android.wearable" android:required="false" />
@@ -150,6 +150,10 @@
             android:label="AmazModBatteryJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
+        <service
+            android:name="com.amazmod.service.OverlayLauncher"
+            android:exported="false" />
+
         <receiver android:name=".receiver.PackageReceiver"
             android:enabled="true"
             android:exported="true">
@@ -171,18 +175,9 @@
         </receiver>
 
         <receiver
-            android:name=".notifications.NotificationsReceiver"
-            android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.amazmod.intent.notification.reply" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
             android:name=".receiver.BootReceiver"
             android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />

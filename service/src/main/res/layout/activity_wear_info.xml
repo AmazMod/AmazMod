@@ -6,20 +6,22 @@
     android:id="@+id/wear_info_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:paddingEnd="10dp"
-    android:paddingStart="10dp"
-    android:paddingTop="10dp">
+    android:background="@android:color/transparent">
 
     <android.support.wearable.view.WearableFrameLayout
         android:id="@+id/wear_info_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/transparent"
         app:layout_box="">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/background"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"

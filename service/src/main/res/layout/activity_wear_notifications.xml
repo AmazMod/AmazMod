@@ -6,10 +6,7 @@
     android:id="@+id/wear_notifications_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:paddingEnd="10dp"
-    android:paddingStart="10dp"
-    android:paddingTop="10dp">
+    android:background="@android:color/transparent">
 
     <ProgressBar
         android:id="@+id/wear_notifications_loading_spinner"
@@ -20,7 +17,11 @@
     <RelativeLayout
         android:id="@+id/wear_notifications_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/black"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="10dp">
 
         <android.support.wearable.view.WearableListView
             android:id="@+id/wear_notifications_list"

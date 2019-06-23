@@ -30,6 +30,7 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
@@ -54,7 +55,7 @@ import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.events.incoming.Watchface;
 import com.amazmod.service.music.MusicControlInputListener;
 import com.amazmod.service.notifications.NotificationService;
-import com.amazmod.service.notifications.NotificationsReceiver;
+import com.amazmod.service.receiver.NotificationReplyReceiver;
 import com.amazmod.service.receiver.AdminReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
@@ -67,6 +68,7 @@ import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
+
 import com.huami.watch.notification.data.NotificationKeyData;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
@@ -74,6 +76,7 @@ import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
+
 import com.ingenic.iwds.slpt.SlptClockClient;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -133,7 +136,7 @@ import static java.lang.System.currentTimeMillis;
 
 public class MainService extends Service implements Transporter.DataListener {
 
-    private NotificationsReceiver notificationsReceiver;
+    private NotificationReplyReceiver notificationReplyReceiver;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
@@ -195,14 +198,12 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData = new WatchStatusData();
         widgetsData = new WidgetsData();
 
-        // Initialize widgetSettings
-        settings = new WidgetSettings(Constants.TAG, context);
-        settings.reload();
-
         Logger.debug("MainService onCreate EventBus register");
         EventBus.getDefault().register(this);
 
-        batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        // Initialize widgetSettings
+        settings = new WidgetSettings(Constants.TAG, context);
+        settings.reload();
 
         // Check if is SuperUser
         File su = new File("/system/xbin/su");
@@ -225,6 +226,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         // Register power disconnect receiver
+        batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         final IntentFilter powerDisconnectedFilter = new IntentFilter(Intent.ACTION_POWER_DISCONNECTED);
         powerDisconnectedFilter.addAction(Intent.ACTION_POWER_DISCONNECTED);
         context.registerReceiver(new BroadcastReceiver() {
@@ -242,18 +244,23 @@ public class MainService extends Service implements Transporter.DataListener {
             }
         }, powerDisconnectedFilter);
 
-        // When starting Amazmod, defines notification counter as ZERO
-        NotificationStore.setNotificationCount(context, 0);
+        notificationReplyReceiver = new NotificationReplyReceiver();
+        IntentFilter notificationReplyFilter = new IntentFilter();
+        notificationReplyFilter.addAction(Constants.INTENT_ACTION_REPLY);
+        LocalBroadcastManager.getInstance(context).registerReceiver(notificationReplyReceiver, notificationReplyFilter);
+
+        // Start OverlayLauncher
+        Intent overlayButton = new Intent(this, OverlayLauncher.class);
+        startService(overlayButton);
 
         // Initialize battery alerts
         this.watchBatteryAlreadyAlerted = false;
         this.phoneBatteryAlreadyAlerted = false;
 
-        notificationsReceiver = new NotificationsReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(Constants.INTENT_ACTION_REPLY);
-        registerReceiver(notificationsReceiver, filter);
+        // When starting AmazMod, defines notification counter as ZERO
+        NotificationStore.setNotificationCount(context, 0);
 
+        //Check transporters
         transporterGeneral = TransporterClassic.get(this, Transport.NAME);
         transporterGeneral.addDataListener(this);
 
@@ -342,9 +349,9 @@ public class MainService extends Service implements Transporter.DataListener {
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
 
-        if (notificationsReceiver != null) {
-            unregisterReceiver(notificationsReceiver);
-            notificationsReceiver = null;
+        if (notificationReplyReceiver != null) {
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(notificationReplyReceiver);
+            notificationReplyReceiver = null;
         }
 
         // Unregister content observers
@@ -1470,6 +1477,5 @@ public class MainService extends Service implements Transporter.DataListener {
     public static void setWasSpringboardSaved(boolean b) {
         wasSpringboardSaved = b;
     }
-
 
 }

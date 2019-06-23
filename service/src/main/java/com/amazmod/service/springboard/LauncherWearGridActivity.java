@@ -48,6 +48,8 @@ public class LauncherWearGridActivity extends Activity {
     public static final char FILES = 'B';
     public static final char NULL = 'X';
 
+    private static char mode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,7 @@ public class LauncherWearGridActivity extends Activity {
         clearBackStack();
 
         final Intent intent = getIntent();
-        final char mode = intent.getCharExtra(MODE, 'S');
+        mode = intent.getCharExtra(MODE, 'S');
 
         Logger.debug("LauncherWearGridActivity mode: " + mode);
 
@@ -149,6 +151,8 @@ public class LauncherWearGridActivity extends Activity {
     @Override
     public void finish() {
         super.finish();
+        //if (mode == 'N')
+            overridePendingTransition(0, R.anim.fade_out);
         Logger.info("LauncherWearGridActivity finish");
     }
 

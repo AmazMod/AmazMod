@@ -330,7 +330,7 @@ public class NotificationService {
 
         NotificationData.ActionData[] actionDataList = statusBarNotificationData.notification.wearableExtras.actions;
 
-        Intent intent = new Intent(context, NotificationsReceiver.class);
+        Intent intent = new Intent(context, NotificationReplyReceiver.class);
         intent.setPackage(context.getPackageName());
         intent.setAction("com.amazmod.intent.notification.reply");
         intent.putExtra("reply", "hello world!");
