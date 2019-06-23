@@ -22,6 +22,7 @@ import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -118,7 +119,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                 // (optional) set the view which will animate with SnackProgressBar e.g. FAB when CoordinatorLayout is not used
                 //.setViewToMove(floatingActionButton)
                 // (optional) change progressBar color, default = R.color.colorAccent
-                .setProgressBarColor(R.color.colorAccent)
+                .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
                 // (optional) change background color, default = BACKGROUND_COLOR_DEFAULT (#FF323232)
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 // (optional) change text size, default = 14sp
@@ -128,12 +129,12 @@ public class StatsActivity extends BaseAppCompatActivity {
                 // (optional) register onDisplayListener
                 .setOnDisplayListener(new SnackProgressBarManager.OnDisplayListener() {
                     @Override
-                    public void onShown(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onShown(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
 
                     @Override
-                    public void onDismissed(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onDismissed(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
                 });

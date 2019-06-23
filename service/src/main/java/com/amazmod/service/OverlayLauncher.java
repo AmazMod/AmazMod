@@ -119,7 +119,7 @@ public class OverlayLauncher extends Service implements OnTouchListener, OnClick
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
                 if (vibe != null) {
-                    vibe.vibrate(10);
+                    vibe.vibrate(40);
                 }
             }
         }
