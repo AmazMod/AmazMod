@@ -120,6 +120,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                 //.setViewToMove(floatingActionButton)
                 // (optional) change progressBar color, default = R.color.colorAccent
                 .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
+                .setActionTextColor(ThemeHelper.getThemeColorAccentId(this))
                 // (optional) change background color, default = BACKGROUND_COLOR_DEFAULT (#FF323232)
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 // (optional) change text size, default = 14sp
