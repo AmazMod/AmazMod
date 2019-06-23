@@ -508,15 +508,12 @@ public class StatsActivity extends BaseAppCompatActivity {
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "amazmod.amazfit@gmail.com", "diotto@gmail.com" });
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "AmazMod Log Bundle");
-
         ArrayList<Uri> uris = new ArrayList<>();
         Uri contentUri = FileProvider.getUriForFile(context, "com.edotassi.amazmod.provider", file);
         uris.add(contentUri);
         shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
-
         // Grant temporary read permission to the content URI
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
         String msgStr = "Share...";
         startActivity(Intent.createChooser(shareIntent, msgStr));
 
