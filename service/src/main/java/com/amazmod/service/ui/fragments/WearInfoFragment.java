@@ -10,6 +10,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.wearable.view.BoxInsetLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ import static android.content.Context.WIFI_SERVICE;
 
 public class WearInfoFragment extends Fragment {
 
+    BoxInsetLayout mainLayout;
 	private Button buttonClose;
     private TextView build, timeSLCTV, upTime, sleepTime, memory, currentIP;
 
@@ -78,7 +80,6 @@ public class WearInfoFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
     }
 
 	@SuppressLint("ClickableViewAccessibility")
@@ -124,6 +125,9 @@ public class WearInfoFragment extends Fragment {
         memory = getActivity().findViewById(R.id.wear_info_textView04);
         currentIP = getActivity().findViewById(R.id.wear_info_textView05);
         buttonClose = getActivity().findViewById(R.id.wear_info_buttonClose);
+
+        mainLayout = getActivity().findViewById(R.id.wear_info_main_layout);
+        mainLayout.setBackgroundColor(getResources().getColor(android.R.color.black));
 
         showInfo();
 
@@ -198,7 +202,7 @@ public class WearInfoFragment extends Fragment {
      */
     private String getIP() {
         try {
-            WifiManager wifiManager = (WifiManager) getActivity().getSystemService(WIFI_SERVICE);
+            WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(WIFI_SERVICE);
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             int ipAddress = wifiInfo.getIpAddress();
             return String.format(Locale.getDefault(), "%d.%d.%d.%d",

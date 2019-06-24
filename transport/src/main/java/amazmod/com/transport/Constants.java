@@ -18,7 +18,7 @@ public class Constants {
     public static final String SHELL_COMMAND_INSTALL_APK = "install_apk %s";
     public static final String SHELL_COMMAND_REBOOT = "reboot";
     public static final String SHELL_COMMAND_FASTBOOT = "reboot bootloader";
-    public static final String SHELL_COMMAND_DPM = "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver";
+    public static final String SHELL_COMMAND_DPM = "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver";
     public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
     public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "touch /sdcard/launcher_config.ini";
     public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "rm /sdcard/launcher_config.ini";
@@ -173,6 +173,7 @@ public class Constants {
     public static final int SCREEN_BRIGHTNESS_VALUE_AUTO = -1;
 
     public static final String LOGFILE = "amazmod.log";
+    public static final String FILE_PROVIDER = "com.edotassi.amazmod.provider";
 
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 

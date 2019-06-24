@@ -110,7 +110,7 @@ public class WearActivity extends Activity implements WearableListView.ClickList
                                 "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity",
                                 "",
                                 "",
-                                "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver",
+                                "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver",
                                 "adb shell am force-stop com.huami.watch.launcher",
                                 "adb shell rm -rf /sdcard/.watchfacethumb/* && adb shell pm clear com.huami.watch.launcher",
                                 "reboot",

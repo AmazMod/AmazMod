@@ -11,7 +11,7 @@
         android:id="@+id/activity_launcher_wear_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
+        android:background="@color/transparent"
         tools:visibility="visible">
 
         <FrameLayout

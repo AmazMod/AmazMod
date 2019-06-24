@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_wear_root_layout"
+    android:id="@+id/activity_base_wear_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    tools:context=".ui.NotificationWearActivity">
+    tools:context=".ui.BaseWearGridActivity">
 
     <android.support.wearable.view.SwipeDismissFrameLayout
-        android:id="@+id/activity_wear_swipe_layout"
+        android:id="@+id/activity_base_wear_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent">
+        android:background="@color/transparent"
+        tools:visibility="visible">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <com.amazmod.service.support.HorizontalGridViewPager
-                android:id="@+id/pager"
+                android:id="@+id/activity_base_wear_grid_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
             <android.support.wearable.view.DotsPageIndicator
-                android:id="@+id/page_indicator"
+                android:id="@+id/activity_base_wear_grid_page_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|top"

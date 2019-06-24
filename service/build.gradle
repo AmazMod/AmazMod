@@ -8,9 +8,9 @@ android {
 
     defaultConfig {
         applicationId "com.amazmod.service"
-        minSdkVersion 21
+        minSdkVersion 22
         //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode buildVersion
         versionName "${buildVersion}"
     }

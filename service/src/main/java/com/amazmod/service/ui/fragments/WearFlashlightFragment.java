@@ -6,14 +6,14 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.wearable.view.BoxInsetLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ScrollView;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.springboard.LauncherWearGridActivity;
 
 import org.tinylog.Logger;
 
@@ -22,7 +22,8 @@ import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 
 public class WearFlashlightFragment extends Fragment {
 
-	View mainLayout, infoLayout;
+	BoxInsetLayout mainLayout;
+	ScrollView infoLayout;
 
     private Context mContext;
 
@@ -71,7 +72,7 @@ public class WearFlashlightFragment extends Fragment {
 	private void updateContent() {
 
         mainLayout = getActivity().findViewById(R.id.wear_info_main_layout);
-        infoLayout = getActivity().findViewById(R.id.wear_info_frame_layout);
+        infoLayout = getActivity().findViewById(R.id.wear_info_scroll_layout);
 
         infoLayout.setVisibility(View.GONE);
 

@@ -19,7 +19,8 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 import android.widget.Button;
 
-import com.amazmod.service.springboard.LauncherWearGridActivity;
+import com.amazmod.service.ui.BaseWearGridActivity;
+import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.SystemProperties;
 
@@ -85,16 +86,16 @@ public class OverlayLauncher extends Service implements OnTouchListener, OnClick
     public void onClick(View notification) {
 
         final boolean inWhatFace = SystemProperties.getBoolean("prop.launcher.at_watchface", false);
-        Logger.debug("OverlayLauncher onClick isWatchFace: {}", inWhatFace);
+        Logger.debug("OverlayLauncher onClick inWatchFace: {}", inWhatFace);
 
         if (inWhatFace) {
 
-            Intent intent = new Intent(this, LauncherWearGridActivity.class);
+            Intent intent = new Intent(this, BaseWearGridActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                     Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                     Intent.FLAG_ACTIVITY_CLEAR_TOP |
                     Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-            intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.NOTIFICATIONS);
+            intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.NOTIFICATIONS);
 
             try {
                 ActivityOptions activityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.slide_in_from_right, R.anim.fade_out);
@@ -112,7 +113,7 @@ public class OverlayLauncher extends Service implements OnTouchListener, OnClick
     public boolean onTouch(View v, MotionEvent event) {
 
         final boolean inWhatFace = SystemProperties.getBoolean("prop.launcher.at_watchface", false);
-        Logger.debug("OverlayLauncher onTouch isWatchFace: {}", inWhatFace);
+        Logger.debug("OverlayLauncher onTouch inWatchFace: {}", inWhatFace);
 
         //Vibrate when touched while watchface is shown
         if (inWhatFace) {

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.wearable.view.BoxInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/wear_notifications_main_layout"
@@ -8,40 +7,46 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
-    <ProgressBar
-        android:id="@+id/wear_notifications_loading_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center" />
-
-    <RelativeLayout
-        android:id="@+id/wear_notifications_frame_layout"
+    <android.support.wearable.view.WearableFrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black"
-        android:paddingEnd="10dp"
-        android:paddingStart="10dp"
-        android:paddingTop="10dp">
+        tools:visibility="visible">
 
-        <android.support.wearable.view.WearableListView
-            android:id="@+id/wear_notifications_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:dividerHeight="0dp"
-            android:scrollbars="none"
-            app:layout_box="left|bottom|right" />
-
-        <TextView
-            android:id="@+id/wear_notifications_header"
+        <ProgressBar
+            android:id="@+id/wear_notifications_loading_spinner"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:gravity="bottom"
-            android:textColor="@color/light_grey"
-            android:textSize="20sp"
-            tools:text="Notifications" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/wear_notifications_frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp">
+
+            <android.support.wearable.view.WearableListView
+                android:id="@+id/wear_notifications_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="0dp"
+                android:scrollbars="none"
+                app:layout_box="left|bottom|right" />
+
+            <TextView
+                android:id="@+id/wear_notifications_header"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:gravity="bottom"
+                android:textColor="@color/light_grey"
+                android:textSize="20sp"
+                tools:text="Notifications" />
+
+        </RelativeLayout>
+    </android.support.wearable.view.WearableFrameLayout>
 
 </android.support.wearable.view.BoxInsetLayout>

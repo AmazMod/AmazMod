@@ -143,7 +143,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "kill-all",
                                 "",
                                 "",
-                                "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit&",
+                                "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver;exit&",
                                 "adb shell am force-stop com.huami.watch.launcher;exit&",
                                 "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher;exit&",
                                 "reboot",

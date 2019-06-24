@@ -72,7 +72,7 @@ public class WearGridActivity extends Activity {
     private void clearBackStack() {
         FragmentManager manager = this.getFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
-            Logger.warn("WearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
+            Logger.warn("BaseWearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
             while (manager.getBackStackEntryCount() > 0){
                 manager.popBackStackImmediate();
             }
@@ -98,7 +98,7 @@ public class WearGridActivity extends Activity {
     public void finish() {
         super.finish();
 
-        Logger.info("WearGridActivity finish");
+        Logger.info("BaseWearGridActivity finish");
     }
 
 }

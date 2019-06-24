@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,7 @@ public class WearNotificationsFragment extends Fragment {
 
     static WearNotificationsFragment instance = null;
 
+    BoxInsetLayout rootLayout;
     private RelativeLayout wearNotificationsFrameLayout;
 	private WearableListView listView;
     private TextView mHeader;
@@ -123,10 +125,13 @@ public class WearNotificationsFragment extends Fragment {
     }
 
     private void init() {
+        rootLayout = getActivity().findViewById(R.id.wear_notifications_main_layout);
         wearNotificationsFrameLayout = getActivity().findViewById(R.id.wear_notifications_frame_layout);
         listView = getActivity().findViewById(R.id.wear_notifications_list);
         mHeader = getActivity().findViewById(R.id.wear_notifications_header);
         progressBar = getActivity().findViewById(R.id.wear_notifications_loading_spinner);
+
+        rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
         listView.setLongClickable(true);
         listView.setGreedyTouchMode(true);

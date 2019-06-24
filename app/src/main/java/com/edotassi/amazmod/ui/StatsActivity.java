@@ -508,7 +508,7 @@ public class StatsActivity extends BaseAppCompatActivity {
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "AmazMod Log Bundle");
 
         ArrayList<Uri> uris = new ArrayList<>();
-        Uri contentUri = FileProvider.getUriForFile(context, "com.edotassi.amazmod.provider", file);
+        Uri contentUri = FileProvider.getUriForFile(context, Constants.FILE_PROVIDER, file);
         uris.add(contentUri);
         shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
 

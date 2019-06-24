@@ -1,18 +1,19 @@
-package com.amazmod.service.springboard;
+package com.amazmod.service.ui;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.SwipeDismissFrameLayout;
+import android.view.WindowManager;
 
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.GridViewPagerAdapter;
 import com.amazmod.service.support.HorizontalGridViewPager;
+import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
 import com.amazmod.service.ui.fragments.WearFilesFragment;
 import com.amazmod.service.ui.fragments.WearFlashlightFragment;
@@ -27,16 +28,12 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class LauncherWearGridActivity extends Activity {
+public class BaseWearGridActivity extends Activity {
 
-    @BindView(R.id.activity_launcher_wear_swipe_layout)
+    @BindView(R.id.activity_base_wear_swipe_layout)
     SwipeDismissFrameLayout gridSwipeLayout;
-    @BindView(R.id.activity_launcher_wear_root_layout)
+    @BindView(R.id.activity_base_wear_root_layout)
     BoxInsetLayout rootLayout;
-
-    private Context mContext;
-    private HorizontalGridViewPager mGridViewPager;
-    private DotsPageIndicator mPageIndicator;
 
     public static final String MODE = "mode";
     public static final char APPS = 'A';
@@ -47,15 +44,11 @@ public class LauncherWearGridActivity extends Activity {
     public static final char FILES = 'B';
     public static final char NULL = 'X';
 
-    private static char mode;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.mContext = this;
-
-        setContentView(R.layout.activity_launcher_wear);
+        setContentView(R.layout.activity_base_wear);
 
         ButterKnife.bind(this);
 
@@ -64,19 +57,19 @@ public class LauncherWearGridActivity extends Activity {
                                    public void onDismissed(SwipeDismissFrameLayout layout) {
                                        finish();
                                    }
-                               }
-        );
+                               });
 
-        mGridViewPager = findViewById(R.id.activity_launcher_wear_grid_pager);
-        mPageIndicator = findViewById(R.id.activity_laucnher_wear_grid_page_indicator);
+        HorizontalGridViewPager mGridViewPager = findViewById(R.id.activity_base_wear_grid_pager);
+        DotsPageIndicator mPageIndicator = findViewById(R.id.activity_base_wear_grid_page_indicator);
         mPageIndicator.setPager(mGridViewPager);
 
         clearBackStack();
 
         final Intent intent = getIntent();
-        mode = intent.getCharExtra(MODE, 'S');
+        char mode = intent.getCharExtra(MODE, 'S');
 
-        Logger.debug("LauncherWearGridActivity mode: " + mode);
+        setWindowFlags(true);
+        Logger.debug("BaseWearGridActivity mode: " + mode);
 
         final ArrayList<Fragment> fragList = new ArrayList<>();
 
@@ -106,26 +99,26 @@ public class LauncherWearGridActivity extends Activity {
                 break;
 
             case NULL:
+                Logger.warn("BaseWearGridActivity NULL");
+                break;
 
             default:
-                Logger.warn("LauncherWearGridActivity no fragments selected!");
+                Logger.warn("BaseWearGridActivity no fragments selected!");
 
         }
 
-        //final Fragment[] items = new Fragment[fragList.size()];
-        //fragList.toArray(items);
-
-        GridViewPagerAdapter adapter;
-        adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), fragList);
-
-        mGridViewPager.setAdapter(adapter);
+        if (NULL != mode) {
+            GridViewPagerAdapter adapter;
+            adapter = new GridViewPagerAdapter(getBaseContext(), this.getFragmentManager(), fragList);
+            mGridViewPager.setAdapter(adapter);
+        }
 
     }
 
     private void clearBackStack() {
         FragmentManager manager = this.getFragmentManager();
         if (manager.getBackStackEntryCount() > 0) {
-            Logger.warn("LauncherWearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
+            Logger.warn("BaseWearGridActivity ***** clearBackStack getBackStackEntryCount: " + manager.getBackStackEntryCount());
             while (manager.getBackStackEntryCount() > 0){
                 manager.popBackStackImmediate();
             }
@@ -149,9 +142,29 @@ public class LauncherWearGridActivity extends Activity {
 
     @Override
     public void finish() {
+        setWindowFlags(false);
         super.finish();
         overridePendingTransition(0, R.anim.fade_out);
-        Logger.info("LauncherWearGridActivity finish");
+        Logger.info("BaseWearGridActivity finish");
+    }
+
+    private void setWindowFlags(boolean enable) {
+
+        final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
+                WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON |
+                WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON;
+
+        if (enable) {
+            getWindow().addFlags(flags);
+            WindowManager.LayoutParams params = getWindow().getAttributes();
+
+            params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
+            getWindow().setAttributes(params);
+
+        } else {
+            getWindow().clearFlags(flags);
+        }
     }
 
 }

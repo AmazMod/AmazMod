@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -564,7 +565,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                     final Intent intent = new Intent(Intent.ACTION_VIEW)//
                                                             .setDataAndType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
-                                                                            androidx.core.content.FileProvider.getUriForFile(mContext,getPackageName() + ".provider", screenshot)
+                                                                            FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER, screenshot)
                                                                             : Uri.fromFile(screenshot), "image/*").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                                                     startActivity(intent);

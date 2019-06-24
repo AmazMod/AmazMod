@@ -39,6 +39,7 @@ import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.support.NotificationStore;
+import com.amazmod.service.ui.BaseWearGridActivity;
 import com.amazmod.service.ui.BatteryGraphActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -192,7 +193,7 @@ public class AmazModLauncher extends AbstractPlugin {
         wifiToggle.setImageResource(items.get(0).state ? items.get(0).iconResOn : items.get(0).iconResOff);
         keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
 
-        intent = new Intent(mContext, LauncherWearGridActivity.class);
+        intent = new Intent(mContext, BaseWearGridActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
@@ -225,7 +226,7 @@ public class AmazModLauncher extends AbstractPlugin {
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.SETTINGS);
+                intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.SETTINGS);
                 mContext.startActivity(intent);
             }
         });
@@ -233,7 +234,7 @@ public class AmazModLauncher extends AbstractPlugin {
         messages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.NOTIFICATIONS);
+                intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.NOTIFICATIONS);
                 mContext.startActivity(intent);
             }
         });
@@ -250,7 +251,7 @@ public class AmazModLauncher extends AbstractPlugin {
         flashLight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.FLASHLIGHT);
+                intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.FLASHLIGHT);
                 mContext.startActivity(intent);
             }
         });
@@ -308,7 +309,7 @@ public class AmazModLauncher extends AbstractPlugin {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.INFO);
+                intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.INFO);
                 mContext.startActivity(intent);
             }
         });
@@ -625,12 +626,12 @@ public class AmazModLauncher extends AbstractPlugin {
 
         if (MANAGE_APPS.equals(name) && MENU_ENTRY.equals(version)) {
 
-            intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.APPS);
+            intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.APPS);
             mContext.startActivity(intent);
 
         } else if (MANAGE_FILES.equals(name) && MENU_ENTRY.equals(version)) {
 
-            intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.FILES);
+            intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.FILES);
             mContext.startActivity(intent);
 
         } else {

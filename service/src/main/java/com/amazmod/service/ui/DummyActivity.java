@@ -133,7 +133,7 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
                     //        + " // getActiveAdmins: " + mDPM.getActiveAdmins());
                     if (!(mDPM != null && mDPM.isAdminActive(new ComponentName(this, AdminReceiver.class)))) {
                         Logger.debug( "DummyActivity onActivityResult set-active-admin");
-                        Runtime.getRuntime().exec("adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit");
+                        Runtime.getRuntime().exec("adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver;exit");
                     }
                 }
 
