@@ -49,6 +49,8 @@ public class LauncherWearGridActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
+    private HorizontalGridViewPager mGridViewPager;
+
     @Override
     public void startActivity(Intent intent) {
         Logger.debug("LauncherWearGridActivity startActivity");
@@ -56,8 +58,23 @@ public class LauncherWearGridActivity extends Activity {
     }
 
     @Override
+    protected void onNewIntent(Intent newIntent) {
+        super.onNewIntent(newIntent);
+
+        final char newMode = newIntent.getCharExtra(MODE, 'S');
+        Logger.debug("LauncherWearGridActivity onNewIntent newMode: {}", newMode);
+
+        if (newMode != mode)
+            setGrid(newMode);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mode = getIntent().getCharExtra(MODE, 'S');
+
+        Logger.debug("LauncherWearGridActivity onCreate mode: " + mode);
 
         setContentView(R.layout.activity_launcher_wear);
 
@@ -70,16 +87,51 @@ public class LauncherWearGridActivity extends Activity {
             }
         });
 
-        HorizontalGridViewPager mGridViewPager = findViewById(R.id.activity_launcher_wear_grid_pager);
+        mGridViewPager = findViewById(R.id.activity_launcher_wear_grid_pager);
         DotsPageIndicator mPageIndicator = findViewById(R.id.activity_launcher_wear_grid_page_indicator);
         mPageIndicator.setPager(mGridViewPager);
 
+        setGrid(mode);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Logger.debug("LauncherWearGridActivity onResume");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Logger.debug("LauncherWearGridActivity onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Logger.debug("LauncherWearGridActivity onDestroy");
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+        Logger.debug("LauncherWearGridActivity finish");
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        Logger.debug("LauncherWearGridActivity dispatchTouchEvent");
+        findViewById(R.id.activity_launcher_wear_root_layout).dispatchTouchEvent(event);
+        if (NOTIFICATIONS_FROM_WATCHFACE == mode)
+            startTimerFinish();
+        return false;
+    }
+
+    private void setGrid(char mode){
+
         clearBackStack();
-
-        mode = getIntent().getCharExtra(MODE, 'S');
-
-        Logger.debug("LauncherWearGridActivity mode: " + mode);
-
         final ArrayList<Fragment> fragList = new ArrayList<>();
 
         switch (mode) {
@@ -126,46 +178,13 @@ public class LauncherWearGridActivity extends Activity {
             activityFinishRunnable = new ActivityFinishRunnable(this);
             startTimerFinish();
         }
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        Logger.debug("LauncherWearGridActivity finish");
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        Logger.debug("LauncherWearGridActivity dispatchTouchEvent");
-        findViewById(R.id.activity_launcher_wear_root_layout).dispatchTouchEvent(event);
-        if (NOTIFICATIONS_FROM_WATCHFACE == mode)
-            startTimerFinish();
-        return false;
     }
 
     public void startTimerFinish() {
         Logger.debug("LauncherWearGridActivity startTimerFinish");
         if (activityFinishRunnable != null)
             handler.removeCallbacks(activityFinishRunnable);
-        handler.postDelayed(activityFinishRunnable, 8000);
+        handler.postDelayed(activityFinishRunnable, 12000);
     }
 
     public void stopTimerFinish() {
