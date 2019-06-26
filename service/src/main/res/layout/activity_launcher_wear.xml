@@ -24,7 +24,7 @@
                 android:layout_height="match_parent" />
 
             <android.support.wearable.view.DotsPageIndicator
-                android:id="@+id/activity_laucnher_wear_grid_page_indicator"
+                android:id="@+id/activity_launcher_wear_grid_page_indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal|top"

@@ -59,8 +59,8 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.1.0'
     implementation 'org.apache.commons:commons-lang3:3.7'
     implementation 'com.github.tbouron.shakedetector:library:1.0.0@aar'
-    compileOnly 'com.google.android.wearable:wearable:2.3.0'
-    implementation 'com.google.android.support:wearable:2.3.0'
+    compileOnly 'com.google.android.wearable:wearable:2.4.0'
+    implementation 'com.google.android.support:wearable:2.4.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"

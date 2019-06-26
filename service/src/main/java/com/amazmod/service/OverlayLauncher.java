@@ -1,36 +1,38 @@
 package com.amazmod.service;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityOptions;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-
 import android.graphics.PixelFormat;
-
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.view.Gravity;
-
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
-import android.widget.Button;
 
-import com.amazmod.service.ui.BaseWearGridActivity;
-import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.springboard.LauncherWearGridActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.SystemProperties;
 
 import org.tinylog.Logger;
 
-public class OverlayLauncher extends Service implements OnTouchListener, OnClickListener {
+public class OverlayLauncher extends Service implements OnTouchListener {
 
-    private Button overlayedButton;
+    private View overlayLauncher;
     private WindowManager wm;
+    private WindowManager.LayoutParams params, paramsRight, paramsLeft;
     private Context context;
+
+    private static boolean isTouchEnabled;
+    private static char position;
+    private static int originX, originY, moveX, moveY;
+
+    private static final int SHORT_VIBRATION = 10;
+    private static final char POSITION_RIGHT = 'R';
+    private static final char POSITION_LEFT = 'L';
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,84 +49,128 @@ public class OverlayLauncher extends Service implements OnTouchListener, OnClick
         context = getApplicationContext();
         wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
-        overlayedButton = new Button(this);
-        overlayedButton.setText("                                            ");
-        overlayedButton.setBackgroundColor(0x00fe4444);
-        overlayedButton.setOnTouchListener(this);
-        overlayedButton.setOnClickListener(this);
+        overlayLauncher = new View(this);
+        overlayLauncher.setBackgroundColor(0x50fe4444);
+        overlayLauncher.setOnTouchListener(this);
 
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, PixelFormat.TRANSLUCENT);
+        params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_TOAST,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+
         params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
         if (DeviceUtil.isVerge()) {
-            params.height = 35;
-            params.width = 180;
-            params.x = 180;
+            params.height = 30;
+            params.width = 170;
+            params.x = 0;
         }
         else {
-            params.height = 20;
-            params.width = 160;
-            params.x = 160;
+            params.height = 15;
+            params.width = 150;
+            params.x = 0;
         }
         params.y = 0;
-        wm.addView(overlayedButton, params);
+
+        position = POSITION_RIGHT;
+        wm.addView(overlayLauncher, params);
 
     }
 
     @Override
     public void onDestroy() {
-        if (overlayedButton != null) {
-            wm.removeView(overlayedButton);
-            overlayedButton = null;
+        if (overlayLauncher != null) {
+            wm.removeView(overlayLauncher);
+            overlayLauncher = null;
         }
         Logger.debug("OverlayLauncher onDestroy");
         super.onDestroy();
-    }
-
-    @Override
-    public void onClick(View notification) {
-
-        final boolean inWhatFace = SystemProperties.getBoolean("prop.launcher.at_watchface", false);
-        Logger.debug("OverlayLauncher onClick inWatchFace: {}", inWhatFace);
-
-        if (inWhatFace) {
-
-            Intent intent = new Intent(this, BaseWearGridActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-            intent.putExtra(BaseWearGridActivity.MODE, BaseWearGridActivity.NOTIFICATIONS);
-
-            try {
-                ActivityOptions activityOptions = ActivityOptions.makeCustomAnimation(context, R.anim.slide_in_from_right, R.anim.fade_out);
-                this.startActivity(intent, activityOptions.toBundle());
-                Logger.info("OverlayLauncher onClick activity started with animation");
-            } catch (Exception ex){
-                this.startActivity(intent);
-                Logger.error(ex, "OverlayLauncher onClick - failed to get context!");
-            }
-        }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-        final boolean inWhatFace = SystemProperties.getBoolean("prop.launcher.at_watchface", false);
-        Logger.debug("OverlayLauncher onTouch inWatchFace: {}", inWhatFace);
+        Logger.debug("OverlayLauncher onTouch action: {}", event.getAction());
 
-        //Vibrate when touched while watchface is shown
-        if (inWhatFace) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-                if (vibe != null) {
-                    vibe.vibrate(40);
+        switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+                originX = (int) event.getX();
+                originY = (int) event.getY();
+                Logger.debug("OverlayLauncher onTouch ACTION_DOWN x: {} y: {}", originX, originY);
+                if (isWatchface())
+                    vibrate();
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                moveX = (int) event.getX();
+                moveY = (int) event.getY();
+                Logger.debug("OverlayLauncher onTouch ACTION_MOVE x: {} y: {}", moveX, moveY);
+                break;
+
+            case MotionEvent.ACTION_UP:
+                Logger.debug("OverlayLauncher onTouch ACTION_UP originX: {} moveX: {}", originX, moveX);
+
+                if (((originX - moveX) > 80) && position == POSITION_RIGHT) {
+                    setParamsLeft();
+                    wm.updateViewLayout(overlayLauncher, params);
+                } else if (((moveX - originX) > 80) && position == POSITION_LEFT) {
+                    setParamsRight();
+                    wm.updateViewLayout(overlayLauncher, params);
+                } else {
+                    if (isWatchface())
+                        startIntent();
                 }
-            }
+                originX = originY = moveX = moveY = 0;
+                break;
+
+            case MotionEvent.ACTION_OUTSIDE: //Touch outside the layer is detected but without coordinates
+                moveX = (int) event.getX();
+                moveY = (int) event.getY();
+                Logger.debug("OverlayLauncher onTouch ACTION_OUTSIDE x: {} y: {}", moveX, moveY);
+                originX = originY = moveX = moveY = 0;
+                break;
         }
 
         return false;
+
     }
+
+    private void setParamsRight() {
+        if (DeviceUtil.isVerge())
+            params.x = 0;
+        else
+            params.x = 0;
+        position = POSITION_RIGHT;
+    }
+    private void setParamsLeft() {
+        if (DeviceUtil.isVerge())
+            params.x = 190;
+        else
+            params.x = 170;
+        position = POSITION_LEFT;
+    }
+
+    public static boolean isWatchface() {
+        final boolean isWhatFace = SystemProperties.getBoolean("prop.launcher.at_watchface", false);
+        Logger.debug("OverlayLauncher isWatchFace: {}", isWhatFace);
+        return isWhatFace;
+    }
+
+    private void startIntent(){
+        Intent intent = new Intent(context, LauncherWearGridActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.NOTIFICATIONS_FROM_WATCHFACE);
+        startActivity(intent);
+    }
+
+    private void vibrate(){
+        Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibe != null) {
+            vibe.vibrate(SHORT_VIBRATION);
+        }
+    }
+
 }

@@ -70,12 +70,6 @@
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
-        <activity android:name=".ui.BaseWearGridActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:label=""
-            android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
         <activity android:name=".ui.ConfirmationWearActivity"
             android:allowEmbedded="true"
             android:exported="true"
@@ -89,12 +83,6 @@
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.NoSwipeToDismiss" />
-        <activity android:name=".springboard.WearGridActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:label=""
-            android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
         <activity android:name=".ui.InputMethodActivity"
             android:allowEmbedded="true"
             android:exported="true"
