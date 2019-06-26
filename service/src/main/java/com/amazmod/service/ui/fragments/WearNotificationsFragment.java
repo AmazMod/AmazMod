@@ -141,7 +141,7 @@ public class WearNotificationsFragment extends Fragment {
         mHeader = getActivity().findViewById(R.id.wear_notifications_header);
         progressBar = getActivity().findViewById(R.id.wear_notifications_loading_spinner);
 
-        rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
+        rootLayout.setBackgroundColor(mContext.getResources().getColor(R.color.black));
 
         listView.setLongClickable(true);
         listView.setGreedyTouchMode(true);
@@ -177,8 +177,8 @@ public class WearNotificationsFragment extends Fragment {
 
                 if (!notificationInfoList.isEmpty())
                     new AlertDialog.Builder(getActivity())
-                        .setTitle(getResources().getString(R.string.clear_notifications))
-                        .setMessage(getResources().getString(R.string.confirmation))
+                        .setTitle(mContext.getResources().getString(R.string.clear_notifications))
+                        .setMessage(mContext.getResources().getString(R.string.confirmation))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 NotificationStore.clear();
@@ -205,7 +205,7 @@ public class WearNotificationsFragment extends Fragment {
         listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
-        final Drawable drawable = getResources().getDrawable(R.drawable.outline_refresh_white_24);
+        final Drawable drawable = mContext.getResources().getDrawable(R.drawable.outline_refresh_white_24);
 
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
@@ -238,9 +238,9 @@ public class WearNotificationsFragment extends Fragment {
                                 Logger.debug("WearNotificationsFragment loadNotifications run");
                                 mAdapter = new NotificationListAdapter(mContext, notificationInfoList);
                                 if (notificationInfoList.isEmpty())
-                                    mHeader.setText(getResources().getString(R.string.empty));
+                                    mHeader.setText(mContext.getResources().getString(R.string.empty));
                                 else
-                                    mHeader.setText(getResources().getString(R.string.notifications));
+                                    mHeader.setText(mContext.getResources().getString(R.string.notifications));
                                 listView.setAdapter(mAdapter);
                                 listView.post(new Runnable() {
                                     public void run() {
@@ -278,8 +278,8 @@ public class WearNotificationsFragment extends Fragment {
         Logger.debug("WearNotificationsFragment deleteNotification key: " + key);
 
         new AlertDialog.Builder(getActivity())
-                .setTitle(getResources().getString(R.string.delete))
-                .setMessage(getResources().getString(R.string.confirmation))
+                .setTitle(mContext.getResources().getString(R.string.delete))
+                .setMessage(mContext.getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         NotificationStore.removeCustomNotification(key);

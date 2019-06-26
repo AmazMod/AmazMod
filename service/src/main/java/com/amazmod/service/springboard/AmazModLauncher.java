@@ -323,14 +323,14 @@ public class AmazModLauncher extends AbstractPlugin {
             }
         });
 
-        batteryLayout.setOnLongClickListener(new View.OnLongClickListener() {
+        batteryLayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onClick(View v) {
                 Intent batteryGrapshIntent = new Intent(mContext, BatteryGraphActivity.class);
                 batteryGrapshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 mContext.startActivity(batteryGrapshIntent);
-                return true;
             }
         });
 
@@ -501,7 +501,6 @@ public class AmazModLauncher extends AbstractPlugin {
                 appInfo = new AppInfo(MANAGE_APPS, "", MENU_ENTRY, "0", appsDrawable);
                 appInfoList.add(appInfo);
                 AmazModLauncher.this.appInfoList = appInfoList;
-                AmazModLauncher.this.appsList = appsList;
                 return appInfoList;
             }
         }).subscribeOn(Schedulers.computation())

@@ -26,11 +26,10 @@ public class OverlayLauncher extends Service implements OnTouchListener {
     private WindowManager.LayoutParams params, paramsRight, paramsLeft;
     private Context context;
 
-    private static boolean isTouchEnabled;
     private static char position;
     private static int originX, originY, moveX, moveY;
+    private static int vibration;
 
-    private static final int SHORT_VIBRATION = 10;
     private static final char POSITION_RIGHT = 'R';
     private static final char POSITION_LEFT = 'L';
 
@@ -50,7 +49,7 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
         overlayLauncher = new View(this);
-        overlayLauncher.setBackgroundColor(0x50fe4444);
+        overlayLauncher.setBackgroundColor(0x40fe4444);
         overlayLauncher.setOnTouchListener(this);
 
         params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
@@ -63,11 +62,13 @@ public class OverlayLauncher extends Service implements OnTouchListener {
             params.height = 30;
             params.width = 170;
             params.x = 0;
+            vibration = 30;
         }
         else {
             params.height = 15;
             params.width = 150;
             params.x = 0;
+            vibration = 10;
         }
         params.y = 0;
 
@@ -124,9 +125,9 @@ public class OverlayLauncher extends Service implements OnTouchListener {
                 originX = originY = moveX = moveY = 0;
                 break;
 
-            case MotionEvent.ACTION_OUTSIDE: //Touch outside the layer is detected but without coordinates
-                moveX = (int) event.getX();
-                moveY = (int) event.getY();
+            case MotionEvent.ACTION_OUTSIDE: //Touches outside the layer are detected
+                moveX = (int) event.getX();  // but without coordinates when there isn't any other
+                moveY = (int) event.getY();  // open activity from this app
                 Logger.debug("OverlayLauncher onTouch ACTION_OUTSIDE x: {} y: {}", moveX, moveY);
                 originX = originY = moveX = moveY = 0;
                 break;
@@ -169,7 +170,7 @@ public class OverlayLauncher extends Service implements OnTouchListener {
     private void vibrate(){
         Vibrator vibe = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if (vibe != null) {
-            vibe.vibrate(SHORT_VIBRATION);
+            vibe.vibrate(vibration);
         }
     }
 

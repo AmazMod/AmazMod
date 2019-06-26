@@ -4,7 +4,7 @@ apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 28
 
-    def buildVersion = 1897 //Manual version number
+    def buildVersion = 1898 //Manual version number
 
     defaultConfig {
         applicationId "com.amazmod.service"
