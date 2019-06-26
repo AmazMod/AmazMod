@@ -45,7 +45,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
     private String currentBatteryChartDays;
     private String currentLocaleLanguage;
     private String currentLogLevel;
-    private boolean currentLogTofile;
+    private boolean currentLogToFile;
     private boolean currentDarkTheme;
 
     @Override
@@ -78,7 +78,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
 
-        currentLogTofile = Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT);
+        currentLogToFile = Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT);
         currentLogLevel = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT);
         currentDarkTheme = Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
 
@@ -188,7 +188,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
      */
     private boolean restartNeeded() {
         return
-                currentLogTofile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT)
+                currentLogToFile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT)
                         || !currentLogLevel.equals(Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT))
                         || currentDarkTheme != Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
     }
@@ -232,6 +232,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY);
         final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
+        final boolean overlayLauncher = Prefs.getBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER,
+                Constants.PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER);
         final int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
                 Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
         final int phoneBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_PHONE_ALERT,
@@ -265,6 +267,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setDefaultLocale(Locale.getDefault().toString());
         settingsData.setDisableDelay(disableNotificationsDelay);
         settingsData.setAmazModFirstWidget(amazModFirstWidget);
+        settingsData.setOverlayLauncher(overlayLauncher);
         settingsData.setBatteryWatchAlert(watchBatteryAlert);
         settingsData.setBatteryPhoneAlert(phoneBatteryAlert);
 

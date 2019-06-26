@@ -55,8 +55,8 @@ import com.amazmod.service.events.incoming.SyncSettings;
 import com.amazmod.service.events.incoming.Watchface;
 import com.amazmod.service.music.MusicControlInputListener;
 import com.amazmod.service.notifications.NotificationService;
-import com.amazmod.service.receiver.NotificationReplyReceiver;
 import com.amazmod.service.receiver.AdminReceiver;
+import com.amazmod.service.receiver.NotificationReplyReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.support.BatteryJobService;
@@ -68,7 +68,6 @@ import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
-
 import com.huami.watch.notification.data.NotificationKeyData;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
@@ -76,7 +75,6 @@ import com.huami.watch.transport.DataTransportResult;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
-
 import com.ingenic.iwds.slpt.SlptClockClient;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -205,24 +203,17 @@ public class MainService extends Service implements Transporter.DataListener {
         settings = new WidgetSettings(Constants.TAG, context);
         settings.reload();
 
-        // Check if is SuperUser
-        File su = new File("/system/xbin/su");
-        Logger.debug("install is check if SuperUser");
-        if (su.exists()) {
-            // Is SuperUser
-            Logger.debug("Disabling APK_INSTALL WAKELOCK");
-            try {
-                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock");
-            } catch (IOException e) {
-                Logger.error(e, "onCreate: IOException while disabling APK_INSTALL WAKELOCK");
-            }
-        } else
-            // Is Stock user
-            Logger.debug("Restore APK_INSTALL screen timeout");
+        // Restore system settings after service update
         try {
-            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000");
+            if (new File("/system/xbin/su").exists()) { //Test for root
+                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock");
+                Logger.debug("Disabling APK_INSTALL WAKELOCK");
+            } else {
+                Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000");
+                Logger.debug("Restore APK_INSTALL screen timeout");
+            }
         } catch (IOException e) {
-            Logger.error(e, "onCreate: IOException while restoring APK_INSTALL screen timeout");
+            Logger.error(e, "onCreate: IOException while restoring wakelock/screen timeout");
         }
 
         // Register power disconnect receiver
@@ -250,8 +241,24 @@ public class MainService extends Service implements Transporter.DataListener {
         LocalBroadcastManager.getInstance(context).registerReceiver(notificationReplyReceiver, notificationReplyFilter);
 
         // Start OverlayLauncher
-        Intent overlayButton = new Intent(this, OverlayLauncher.class);
-        startService(overlayButton);
+        if (settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false)) {
+            final Intent overlayButton = new Intent(context, OverlayLauncher.class);
+            startService(overlayButton);
+            final IntentFilter screenOnFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+            screenOnFilter.addAction(Intent.ACTION_SCREEN_OFF);
+            screenOnFilter.addAction(Intent.ACTION_USER_PRESENT);
+            context.registerReceiver(new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String action = intent.getAction();
+                    Logger.debug("MainService onCreate screenOn receiver action: {}", action);
+                    if (Intent.ACTION_SCREEN_ON.equals(action))
+                        context.startService(overlayButton);
+                    else if (Intent.ACTION_SCREEN_OFF.equals(action))
+                        context.stopService(overlayButton);
+                }
+            }, screenOnFilter);
+        }
 
         // Initialize battery alerts
         this.watchBatteryAlreadyAlerted = false;
@@ -349,6 +356,7 @@ public class MainService extends Service implements Transporter.DataListener {
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
 
+        //Unregister receivers
         if (notificationReplyReceiver != null) {
             LocalBroadcastManager.getInstance(context).unregisterReceiver(notificationReplyReceiver);
             notificationReplyReceiver = null;
@@ -364,19 +372,18 @@ public class MainService extends Service implements Transporter.DataListener {
             transporterGeneral.disconnectTransportService();
             transporterGeneral = null;
         }
-
         if (transporterNotifications.isTransportServiceConnected()) {
             Logger.debug("MainService onDestroy transporterNotifications disconnecting...");
             transporterNotifications.disconnectTransportService();
             transporterNotifications = null;
         }
-
         if (transporterHuami.isTransportServiceConnected()) {
             Logger.debug("MainService onDestroy transporterHuami disconnecting...");
             transporterHuami.disconnectTransportService();
             transporterHuami = null;
         }
 
+        //Unbind spltClockClient
         if (slptClockClient != null)
             slptClockClient.unbindService(this);
 
@@ -660,7 +667,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void settingsSync(SyncSettings event) {
-        Logger.warn("MainService SyncSettings ***** event received *****");
+        Logger.info("MainService SyncSettings ***** event received *****");
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
         settingsManager.sync(settingsData);
 
@@ -670,12 +677,24 @@ public class MainService extends Service implements Transporter.DataListener {
         if (isPhoneConnectionAlertEnabled != iPCA)
             registerConnectionMonitor(iPCA);
 
-
+        //Toggle AmazMod as first widget setting
         iPCA = settingsData.isAmazModFirstWidget();
         settings.reload();
         settings.set(Constants.PREF_AMAZMOD_FIRST_WIDGET, iPCA);
         if (isSpringboardObserverEnabled != iPCA)
             registerSpringBoardMonitor(iPCA);
+
+        //Toggle OverlayLauncher service
+        iPCA = settingsData.isOverlayLauncher();
+        Logger.warn("MainService SyncSettings isOverlayLauncher: {}", iPCA);
+        if (iPCA != settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false)) {
+            final Intent intent = new Intent(context, OverlayLauncher.class);
+            if (iPCA)
+                context.startService(intent);
+            else
+                context.stopService(intent);
+            settings.set(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, iPCA);
+        }
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
     }

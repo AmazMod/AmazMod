@@ -8,6 +8,11 @@
             android:summary="@string/pref_amazmod_first_widget_summary"
             android:title="@string/pref_amazmod_first_widget" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.amazmod.overlay.launcher"
+            android:summary="@string/pref_amazmod_overlay_launcher_summary"
+            android:title="@string/pref_amazmod_overlay_launcher" />
 
     </PreferenceCategory>
 

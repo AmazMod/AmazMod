@@ -67,6 +67,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
     public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
+    public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "preference.amazmod.overlay.launcher";
     public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
     public static final String PREF_COMMAND_HISTORY = "preference.command.history";
 
@@ -110,6 +111,7 @@ public class Constants {
     //public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY = true;
     public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
+    public static final boolean PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER = false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 

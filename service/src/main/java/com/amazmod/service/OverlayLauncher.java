@@ -2,9 +2,11 @@ package com.amazmod.service;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Vibrator;
 import android.view.Gravity;
@@ -75,6 +77,11 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         position = POSITION_RIGHT;
         wm.addView(overlayLauncher, params);
 
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                overlayLauncher.setBackgroundColor(0x00fe4444);
+            }
+        }, 3000);
     }
 
     @Override
@@ -134,7 +141,6 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         }
 
         return false;
-
     }
 
     private void setParamsRight() {
