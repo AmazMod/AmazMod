@@ -38,6 +38,10 @@
     <style name="AppThemeDark.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
     <style name="AppThemeDark.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
 
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
     <!-- Dark theme for android-file-chooser -->
     <style name="FileChooserStyle_Dark" parent="FileChooserStyle">
         <item name="android:textColorHighlight">@color/text_light_opaque</item>
