@@ -2,11 +2,6 @@
 version: 2.1
 
 jobs:
-    build:
-      branches:
-        only:
-          - master
-          - dev
     #working_directory: ~/code
     docker:
       - image: circleci/android:api-27-alpha
@@ -35,3 +30,14 @@ jobs:
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
       # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
+                - dev
