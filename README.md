@@ -1,6 +1,6 @@
 [![AmazMod](https://img.shields.io/badge/AmazMod-your%20Amazfit-red.svg)](https://github.com/AmazMod/AmazMod) [![latest service](https://img.shields.io/github/release/AmazMod/AmazMod.svg?label=latest%20release&style=flat) ![Downloads](https://img.shields.io/github/downloads/AmazMod/AmazMod/total.svg?style=flat)](https://github.com/AmazMod/AmazMod/releases/latest) [![Build Status](https://travis-ci.org/edotassi/AmazMod.svg?branch=master)](https://travis-ci.org/edotassi/AmazMod) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod) [![Backers on Open Collective](https://opencollective.com/amazmod-33/amazmoder/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/amazmod-33/tiers/onging-amazmoder/badge.svg)](#sponsors) [![Telegram](https://img.shields.io/badge/Follow%20us%20on-Telegram-blue.svg)](https://t.me/amazmod) [![Twitter](https://img.shields.io/twitter/follow/Amazmod.svg?style=popout)](https://twitter.com/amazmod)
 
-AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace and Stratos watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
+AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace, Stratos and Verge watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
 
 ### Some features:  
 * Brand new notifications filter system, with the option to use customized ("canned") replies, show images and more;  
@@ -9,6 +9,7 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 * Option to not send notifications to watch when the phone screen is on;  
 * Receive messenger call notifications and maps navigation info on watch;
 * File transfer to and from the watch over the air;
+* Built-in File Explorer on the watch with image and text viewing abilities;
 * Shell execution optionality to the watch from the phone;
 * Improved Watch/Smartphone connection tunnel (lower battery usage);
 * Emoji display ability;
