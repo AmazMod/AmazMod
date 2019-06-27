@@ -65,7 +65,7 @@ public class WearInfoFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearInfoFragment onCreateView");
 
-        return inflater.inflate(R.layout.activity_wear_info, container, false);
+        return inflater.inflate(R.layout.fragment_wear_info, container, false);
     }
 
     @Override

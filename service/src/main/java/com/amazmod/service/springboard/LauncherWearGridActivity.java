@@ -203,5 +203,9 @@ public class LauncherWearGridActivity extends Activity {
         }
     }
 
+    public void setSwipeable(boolean status){
+        gridSwipeLayout.setSwipeable(status);
+    }
+
 }
 

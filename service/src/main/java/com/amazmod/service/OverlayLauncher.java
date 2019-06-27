@@ -81,7 +81,7 @@ public class OverlayLauncher extends Service implements OnTouchListener {
             public void run() {
                 overlayLauncher.setBackgroundColor(0x00fe4444);
             }
-        }, 3000);
+        }, 2000);
     }
 
     @Override

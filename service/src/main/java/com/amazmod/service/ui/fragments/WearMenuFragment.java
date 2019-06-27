@@ -44,8 +44,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -190,7 +188,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearMenuFragment onCreateView");
 
-        return inflater.inflate(R.layout.activity_wear_menu, container, false);
+        return inflater.inflate(R.layout.fragment_wear_menu, container, false);
     }
 
     @Override
@@ -509,6 +507,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         confirmView.clearAnimation();
         listView.requestFocus();
         listView.setClickable(true);
+        ((LauncherWearGridActivity) getActivity()).setSwipeable(true);
     }
 
     public void showConfirm() {
@@ -520,6 +519,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         listView.clearAnimation();
         confirmView.requestFocus();
         confirmView.setClickable(true);
+        ((LauncherWearGridActivity) getActivity()).setSwipeable(false);
     }
 
     private void checkConnection() {

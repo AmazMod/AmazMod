@@ -31,7 +31,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.AppInfoAdapter;
 import com.amazmod.service.support.AppInfo;
@@ -93,7 +92,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearAppsFragment onCreateView");
-        return inflater.inflate(R.layout.activity_wear_apps, container, false);
+        return inflater.inflate(R.layout.fragment_wear_apps, container, false);
     }
 
     @Override

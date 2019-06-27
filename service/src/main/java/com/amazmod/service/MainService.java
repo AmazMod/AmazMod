@@ -135,6 +135,7 @@ import static java.lang.System.currentTimeMillis;
 public class MainService extends Service implements Transporter.DataListener {
 
     private NotificationReplyReceiver notificationReplyReceiver;
+    private BroadcastReceiver screenOnReceiver;
 
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
@@ -242,22 +243,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Start OverlayLauncher
         if (settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false)) {
-            final Intent overlayButton = new Intent(context, OverlayLauncher.class);
-            startService(overlayButton);
-            final IntentFilter screenOnFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
-            screenOnFilter.addAction(Intent.ACTION_SCREEN_OFF);
-            screenOnFilter.addAction(Intent.ACTION_USER_PRESENT);
-            context.registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context, Intent intent) {
-                    String action = intent.getAction();
-                    Logger.debug("MainService onCreate screenOn receiver action: {}", action);
-                    if (Intent.ACTION_SCREEN_ON.equals(action))
-                        context.startService(overlayButton);
-                    else if (Intent.ACTION_SCREEN_OFF.equals(action))
-                        context.stopService(overlayButton);
-                }
-            }, screenOnFilter);
+            setOverlayLauncher(true);
         }
 
         // Initialize battery alerts
@@ -360,6 +346,10 @@ public class MainService extends Service implements Transporter.DataListener {
         if (notificationReplyReceiver != null) {
             LocalBroadcastManager.getInstance(context).unregisterReceiver(notificationReplyReceiver);
             notificationReplyReceiver = null;
+        }
+        if (screenOnReceiver != null) {
+            context.unregisterReceiver(screenOnReceiver);
+            screenOnReceiver = null;
         }
 
         // Unregister content observers
@@ -667,7 +657,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void settingsSync(SyncSettings event) {
-        Logger.info("MainService SyncSettings ***** event received *****");
+        Logger.debug("MainService SyncSettings event received");
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
         settingsManager.sync(settingsData);
 
@@ -686,15 +676,9 @@ public class MainService extends Service implements Transporter.DataListener {
 
         //Toggle OverlayLauncher service
         iPCA = settingsData.isOverlayLauncher();
-        Logger.warn("MainService SyncSettings isOverlayLauncher: {}", iPCA);
-        if (iPCA != settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false)) {
-            final Intent intent = new Intent(context, OverlayLauncher.class);
-            if (iPCA)
-                context.startService(intent);
-            else
-                context.stopService(intent);
-            settings.set(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, iPCA);
-        }
+        Logger.debug("MainService SyncSettings isOverlayLauncher: {}", iPCA);
+        if (iPCA != settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false))
+            setOverlayLauncher(iPCA);
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
     }
@@ -1487,6 +1471,37 @@ public class MainService extends Service implements Transporter.DataListener {
             springboardObserver = null;
         }
         isSpringboardObserverEnabled = status;
+    }
+
+    private void setOverlayLauncher(boolean status){
+        Logger.debug("MainService setOverlayLauncher status: {}", status);
+
+        final Intent overlayButton = new Intent(context, OverlayLauncher.class);
+        if (status) {
+            startService(overlayButton);
+            final IntentFilter screenOnFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
+            screenOnFilter.addAction(Intent.ACTION_SCREEN_OFF);
+            screenOnFilter.addAction(Intent.ACTION_USER_PRESENT);
+            screenOnReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    String action = intent.getAction();
+                    Logger.debug("MainService setOverlayLauncher receiver action: {}", action);
+                    if (Intent.ACTION_SCREEN_ON.equals(action))
+                        context.startService(overlayButton);
+                    else if (Intent.ACTION_SCREEN_OFF.equals(action))
+                        context.stopService(overlayButton);
+                }};
+            context.registerReceiver(screenOnReceiver, screenOnFilter);
+
+        } else {
+            if (screenOnReceiver != null) {
+                context.unregisterReceiver(screenOnReceiver);
+                screenOnReceiver = null;
+            }
+            context.stopService(overlayButton);
+        }
+        settings.set(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, status);
     }
 
     public static boolean getWasSpringboardSaved() {

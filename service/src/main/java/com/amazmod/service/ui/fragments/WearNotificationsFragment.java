@@ -11,8 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.wearable.view.BoxInsetLayout;
-import android.support.wearable.view.DelayedConfirmationView;
-import android.support.wearable.view.WearableFrameLayout;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +85,7 @@ public class WearNotificationsFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearNotificationsFragment onCreateView");
 
-        View view = inflater.inflate(R.layout.activity_wear_notifications, container, false);
+        View view = inflater.inflate(R.layout.fragment_wear_notifications, container, false);
 
         if (animate)
             view.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_from_right));
