@@ -1,5 +1,5 @@
 [![AmazMod](https://img.shields.io/badge/AmazMod-your%20Amazfit-red.svg)](https://github.com/AmazMod/AmazMod)
-[![latest service](https://img.shields.io/github/release/AmazMod/AmazMod.svg?label=latest%20release&style=flat)
+[![latest service](https://img.shields.io/github/release/AmazMod/AmazMod.svg?label=latest%20release&style=flat)](https://github.com/AmazMod/AmazMod/releases/latest)
 [![CircleCI](https://circleci.com/gh/AmazMod/AmazMod/tree/dev.svg?style=svg)](https://circleci.com/gh/AmazMod/AmazMod/tree/dev)
 [![Downloads](https://img.shields.io/github/downloads/AmazMod/AmazMod/total.svg?style=flat)](https://github.com/AmazMod/AmazMod/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod) [![Backers on Open Collective](https://opencollective.com/amazmod-33/amazmoder/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/amazmod-33/tiers/onging-amazmoder/badge.svg)](#sponsors) [![Telegram](https://img.shields.io/badge/Follow%20us%20on-Telegram-blue.svg)](https://t.me/amazmod) [![Twitter](https://img.shields.io/twitter/follow/Amazmod.svg?style=popout)](https://twitter.com/amazmod)
 
