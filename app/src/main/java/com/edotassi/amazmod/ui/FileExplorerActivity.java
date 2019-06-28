@@ -438,12 +438,12 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
             final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            String message = getString(R.string.sending) + " \"" + file.getName() + "\"";
+            String message = getString(R.string.sending) + " \"" + file.getName() + "\", " + getString(R.string.wait);
 
-            createNotification(getString(R.string.sending), message, R.drawable.outline_cloud_upload_24);
+            createNotification(getString(R.string.sending) + ", " + getString(R.string.wait), message, R.drawable.outline_cloud_upload_24);
 
             final SnackProgressBar progressBar = new SnackProgressBar(
-                    SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + file.getName() + "\"")
+                    SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + file.getName() + "\", " + getString(R.string.wait))
                     .setIsIndeterminate(false)
                     .setProgressMax(100)
                     .setAllowUserInput(true)
@@ -469,7 +469,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             DecimalFormat df = new DecimalFormat("#.00");
 
                             String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                            String smallMessage = getString(R.string.sending) + " \"" + file.getName() + "\"";
+                            String smallMessage = getString(R.string.sending) + " \"" + file.getName() + "\", " + getString(R.string.wait);
                             String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
                             //Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
@@ -749,14 +749,14 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
         String message = null;
         if (fileData != null) {
-            message = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
+            message = getString(R.string.downloading) + " \"" + fileData.getName() + "\", " + getString(R.string.wait);
         } else
             message = getString(R.string.error);
 
-        createNotification(getString(R.string.downloading), message, R.drawable.outline_cloud_download_24);
+        createNotification(getString(R.string.downloading) + ", " + getString(R.string.wait), message, R.drawable.outline_cloud_download_24);
 
         final SnackProgressBar progressBar = new SnackProgressBar(
-                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.downloading))
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.downloading)+ ", " + getString(R.string.wait))
                 .setIsIndeterminate(false)
                 .setProgressMax(100)
                 .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
@@ -786,7 +786,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                     DecimalFormat df = new DecimalFormat("#.00");
 
                                     String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                                    String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\"";
+                                    String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\", " + getString(R.string.wait);
                                     String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
 
                                     //Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
@@ -1174,10 +1174,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         //Show/Update notification with current progress
         mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
                 .bigText(message)
-                .setBigContentTitle(getString(R.string.downloading))
+                //.setBigContentTitle(getString(R.string.downloading))
                 .setSummaryText(smallMessage))
                 .setOnlyAlertOnce(true)
-                .setContentTitle(getString(R.string.downloading))
+                //.setContentTitle(getString(R.string.downloading))
                 .setContentText(smallMessage);
         mBuilder.setProgress(100, (int) progress, false);
         // notificationId is a unique int for each notification that you must define

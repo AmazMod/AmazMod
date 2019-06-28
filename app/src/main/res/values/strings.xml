@@ -35,6 +35,7 @@
     <string name="file_not_exists">File not exists</string>
     <string name="cant_uplaod_directory">Can\'t upload directory</string>
     <string name="sending">Sending</string>
+    <string name="wait">please wait</string>
     <string name="cant_upload_file">Can\'t upload file</string>
     <string name="cant_download_file">Can\'t download file</string>
     <string name="file_upload_canceled">File upload canceled</string>
