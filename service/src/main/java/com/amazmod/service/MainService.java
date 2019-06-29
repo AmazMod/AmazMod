@@ -65,6 +65,7 @@ import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.AlertsActivity;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
@@ -134,9 +135,6 @@ import static java.lang.System.currentTimeMillis;
 
 public class MainService extends Service implements Transporter.DataListener {
 
-    private NotificationReplyReceiver notificationReplyReceiver;
-    private BroadcastReceiver screenOnReceiver;
-
     private Map<String, Class> messages = new HashMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
         put(Transport.SYNC_SETTINGS, SyncSettings.class);
@@ -158,9 +156,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
 
-    private Context context;
-    private SettingsManager settingsManager;
-    private NotificationService notificationManager;
     private static IntentFilter batteryFilter;
     private static long dateLastCharge;
     private static int count = 0;
@@ -168,22 +163,28 @@ public class MainService extends Service implements Transporter.DataListener {
     private static boolean isStandardAlertEnabled;
     private static boolean isSpringboardObserverEnabled;
     private static boolean wasSpringboardSaved;
-    private boolean watchBatteryAlreadyAlerted;
-    private boolean phoneBatteryAlreadyAlerted;
-    private float batteryPct;
     private static WidgetSettings settings;
     private static JobScheduler jobScheduler;
+    private static char overlayLauncherPosition;
 
     private static final long BATTERY_SYNC_INTERVAL = 60*60*1000L; //One hour
     private static final int BATTERY_JOB_ID = 0;
 
+    private Context context;
+    private SettingsManager settingsManager;
+    private NotificationService notificationManager;
     private BatteryData batteryData;
     private WatchStatusData watchStatusData;
     private WidgetsData widgetsData;
-
+    private NotificationReplyReceiver notificationReplyReceiver;
+    private BroadcastReceiver screenOnReceiver;
     private SlptClockClient slptClockClient;
     private ContentObserver phoneConnectionObserver;
     private ContentObserver springboardObserver;
+
+    private boolean watchBatteryAlreadyAlerted;
+    private boolean phoneBatteryAlreadyAlerted;
+    private float batteryPct;
 
     @Override
     public void onCreate() {
@@ -207,15 +208,18 @@ public class MainService extends Service implements Transporter.DataListener {
         // Restore system settings after service update
         try {
             if (new File("/system/xbin/su").exists()) { //Test for root
-                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock");
+                //Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock;exit");
+                new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_unlock");
                 Logger.debug("Disabling APK_INSTALL WAKELOCK");
             } else {
-                Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000");
+                //Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000;exit");
+                new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
                 Logger.debug("Restore APK_INSTALL screen timeout");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             Logger.error(e, "onCreate: IOException while restoring wakelock/screen timeout");
         }
+        //new ExecCommand("adb shell \"adb kill-server\"", true);
 
         // Register power disconnect receiver
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -1050,7 +1054,6 @@ public class MainService extends Service implements Transporter.DataListener {
                             while ((line = bufferedReader.readLine()) != null) {
                                 outputLog.append(line).append("\n");
                             }
-
                             returnValue = process.waitFor();
                         }
 
@@ -1443,8 +1446,7 @@ public class MainService extends Service implements Transporter.DataListener {
             if (springboardObserver != null)
                 return;
             // if it's enabling observer, sync for a first time
-            if (status)
-                WidgetsUtil.syncWidgets(context);
+            WidgetsUtil.loadWidgetList(context);
             ContentResolver contentResolver = getContentResolver();
             Uri setting = Settings.System.getUriFor(Constants.WIDGET_ORDER_IN);
             springboardObserver = new ContentObserver(new Handler()) {
@@ -1510,6 +1512,14 @@ public class MainService extends Service implements Transporter.DataListener {
 
     public static void setWasSpringboardSaved(boolean b) {
         wasSpringboardSaved = b;
+    }
+
+    public static char getOverlayLauncherPosition() {
+        return overlayLauncherPosition;
+    }
+
+    public static void setOverlayLauncherPosition(char position) {
+        overlayLauncherPosition = position;
     }
 
 }

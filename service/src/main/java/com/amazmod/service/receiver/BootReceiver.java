@@ -17,7 +17,7 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Logger.debug("boot received");
+        Logger.debug("BootReceiver onReceive");
 
         final String action = intent.getAction();
         if (action != null && !action.isEmpty())
@@ -29,11 +29,11 @@ public class BootReceiver extends BroadcastReceiver {
                     Logger.debug("action: " + action);
                     break;
                 default:
-                    Logger.error("unknown action");
+                    Logger.error("BootReceiver onReceive unknown action!");
                     return;
             }
         else {
-            Logger.error("null action");
+            Logger.error("BootReceiver onReceive null action!");
             return;
         }
 

@@ -36,6 +36,7 @@ import com.amazmod.service.ui.ScreenSettingsActivity;
 import com.amazmod.service.springboard.WidgetsReorderActivity;
 import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 import com.huami.watch.transport.DataBundle;
 
 import org.tinylog.Logger;
@@ -135,15 +136,15 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "",
                                 "",
                                 "",
-                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity;exit&",
+                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity",
                                 "",
-                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity;exit&",
+                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity",
                                 "kill-all",
                                 "",
                                 "",
-                                "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver;exit&",
-                                "adb shell am force-stop com.huami.watch.launcher;exit&",
-                                "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher;exit&",
+                                "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver",
+                                "adb shell am force-stop com.huami.watch.launcher",
+                                "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher",
                                 "reboot",
                                 "reboot bootloader",
                                 "reboot recovery",
@@ -359,6 +360,15 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private void runCommand(String command) {
         Logger.debug("WearMenuFragment runCommand: " + command);
 	    if (!command.isEmpty()) {
+
+            new ExecCommand(ExecCommand.ADB, command);
+            if (command.contains("launcher")) {
+                Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);
+                }
+            }
+            /* Deprecated
             try {
                 Runtime.getRuntime().exec(command, null, Environment.getExternalStorageDirectory());
                 if (command.contains("launcher")) {
@@ -370,6 +380,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             } catch (Exception e) {
                 Logger.error("WearMenuFragment runCommand exception: " + e.toString());
             }
+            */
         }
     }
 

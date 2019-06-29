@@ -32,8 +32,8 @@ public class OverlayLauncher extends Service implements OnTouchListener {
     private static int originX, originY, moveX, moveY;
     private static int vibration;
 
-    private static final char POSITION_RIGHT = 'R';
-    private static final char POSITION_LEFT = 'L';
+    public static final char POSITION_RIGHT = 'R';
+    public static final char POSITION_LEFT = 'L';
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -54,32 +54,13 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         overlayLauncher.setBackgroundColor(0x40fe4444);
         overlayLauncher.setOnTouchListener(this);
 
-        params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_TOAST,
-                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
-                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-
-        params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-        if (DeviceUtil.isVerge()) {
-            params.height = 30;
-            params.width = 170;
-            params.x = 0;
-            vibration = 30;
-        }
-        else {
-            params.height = 15;
-            params.width = 150;
-            params.x = 0;
-            vibration = 10;
-        }
-        params.y = 0;
-
-        position = POSITION_RIGHT;
+        initParams();
         wm.addView(overlayLauncher, params);
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                overlayLauncher.setBackgroundColor(0x00fe4444);
+                if (overlayLauncher != null)
+                    overlayLauncher.setBackgroundColor(0x00fe4444);
             }
         }, 2000);
     }
@@ -143,12 +124,40 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         return false;
     }
 
+    private void initParams(){
+
+        params = new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.TYPE_SYSTEM_ALERT,
+                WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL | WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH |
+                        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
+
+        params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
+        params.x = 0;
+        params.y = 0;
+        if (DeviceUtil.isVerge()) {
+            params.height = 30;
+            params.width = 170;
+            vibration = 30;
+        }
+        else {
+            params.height = 15;
+            params.width = 150;
+            vibration = 10;
+        }
+
+        if (POSITION_LEFT == MainService.getOverlayLauncherPosition())
+            setParamsLeft();
+        else
+            position = POSITION_RIGHT;
+    }
+
     private void setParamsRight() {
         if (DeviceUtil.isVerge())
             params.x = 0;
         else
             params.x = 0;
         position = POSITION_RIGHT;
+        MainService.setOverlayLauncherPosition(position);
     }
     private void setParamsLeft() {
         if (DeviceUtil.isVerge())
@@ -156,6 +165,7 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         else
             params.x = 170;
         position = POSITION_LEFT;
+        MainService.setOverlayLauncherPosition(position);
     }
 
     public static boolean isWatchface() {

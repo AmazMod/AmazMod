@@ -33,6 +33,9 @@ public class AmazModApplication extends Application {
     public static int currentScreenBrightness;
     public static int currentScreenBrightnessMode;
 
+    public final boolean DEBUG = true;
+    public final String LEVEL = "trace";
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -80,6 +83,11 @@ public class AmazModApplication extends Application {
     private void setupLogs(){
         String logFile = this.getExternalFilesDir(null) + File.separator + Constants.LOGFILE;
         Configuration.set("writerLogcat", "logcat");
+        Configuration.set("writerLogcat.level", LEVEL);
+        Configuration.set("writerLogcat.tagname", "AmazMod");
+        Configuration.set("writerLogcat.format", "{class-name}.{method}(): {message}");
+        if (!DEBUG)
+            Configuration.set("writerLogcat.level", "error");
         if (Prefs.getBoolean(Constants.PREF_LOG_TO_FILE,Constants.PREF_LOG_TO_FILE_DEFAULT)) {
             String level = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL,Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT).toLowerCase();
             Configuration.set("writerFile", "file");
@@ -88,7 +96,7 @@ public class AmazModApplication extends Application {
             Configuration.set("writerFile.level", level);
             Logger.info("Logging to {} using the level {}", logFile, level);
         }else{
-            Logger.info("Logging to LOGCAT only");
+            Logger.info("Logging to LOGCAT only with level: {}", LEVEL.toUpperCase());
         }
     }
 

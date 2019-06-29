@@ -4,21 +4,31 @@ apply plugin: 'com.jakewharton.butterknife'
 android {
     compileSdkVersion 28
 
-    def buildVersion = 1898 //Manual version number
+    def versionPropsFile = file('version.properties')
 
-    defaultConfig {
-        applicationId "com.amazmod.service"
-        minSdkVersion 22
-        //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 23
-        versionCode buildVersion
-        versionName "${buildVersion}"
+    if (versionPropsFile.canRead()) {
+        Properties versionProps = new Properties()
+
+        versionProps.load(new FileInputStream(versionPropsFile))
+
+        def build = versionProps['VERSION_BUILD'].toInteger()
+
+        defaultConfig {
+            applicationId "com.amazmod.service"
+            minSdkVersion 22
+            //noinspection ExpiredTargetSdkVersion
+            targetSdkVersion 23
+            versionCode build
+            versionName "${build}"
+        }
+    }
+    else {
+        throw new GradleException("Could not read version.properties!")
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            debuggable debugFlag
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -66,8 +76,8 @@ dependencies {
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
     implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    implementation 'org.tinylog:tinylog-api:2.0.0-M4.2'
-    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.2'
+    implementation 'org.tinylog:tinylog-api:2.0.0-M4.3'
+    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
 }
 
 configurations.all {

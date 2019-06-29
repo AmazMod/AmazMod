@@ -15,7 +15,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.os.Build;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.PersistableBundle;
@@ -23,12 +22,13 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import androidx.core.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
@@ -76,7 +76,7 @@ public class NotificationService extends NotificationListenerService {
     private static final long VOICE_INTERVAL = 5000L; //Five seconds
 
     private static final long JOB_INTERVAL = 5 * 1000L; //Five seconds
-    private static final long JOB_MAX_INTERVAL = 60000L; //1 minute
+    private static final long JOB_MAX_INTERVAL = 60 * 1000L; //1 minute
     private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 5L; //5 minutes
     private static final long CUSTOMUI_LATENCY = 1L;
 
@@ -450,10 +450,11 @@ public class NotificationService extends NotificationListenerService {
 
         } else {
             if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
-                    && (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, true)))
-            builder.setMinimumLatency(CUSTOMUI_LATENCY);
-            else
+                    && (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, true))) {
+                builder.setMinimumLatency(CUSTOMUI_LATENCY);
+            } else {
                 builder.setMinimumLatency(1L);
+            }
 
             PersistableBundle bundle = new PersistableBundle();
             bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);

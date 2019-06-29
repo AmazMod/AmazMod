@@ -122,7 +122,7 @@ public class LauncherWearGridActivity extends Activity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        Logger.debug("LauncherWearGridActivity dispatchTouchEvent");
+        //Logger.debug("LauncherWearGridActivity dispatchTouchEvent");
         findViewById(R.id.activity_launcher_wear_root_layout).dispatchTouchEvent(event);
         if (NOTIFICATIONS_FROM_WATCHFACE == mode)
             startTimerFinish();

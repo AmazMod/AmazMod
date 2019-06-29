@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.amazmod.service.R;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -226,12 +227,17 @@ public class ScreenSettingsActivity extends Activity {
 
         Logger.debug("ScreenSettingsActivity runCommand: " + command);
         if (!command.isEmpty()) {
+
+            /* Deprecated, replaced with new ExecCommand class
             try {
                 Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
                         null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
-                Logger.error(e,"ScreenSettingsActivity runCommand exception: " + e.toString());
+                Logger.error("ConfirmationWearActivity runCommand exception: " + e.toString());
             }
+            */
+
+            new ExecCommand(ExecCommand.ADB, String.format("adb shell %s", command));
         }
     }
 

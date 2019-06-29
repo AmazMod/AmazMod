@@ -1,35 +1,40 @@
 package com.amazmod.service;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
-
-import android.app.Application;
-import android.content.Intent;
-
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.configuration.Configuration;
 
 public class AmazModService extends Application {
+
+    private static Application mApp;
+    public final boolean DEBUG = true;
+    public final String LEVEL = "trace";
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        Logger.debug("AmazModService init");
+        mApp = this;
+
+        setupLogger();
+
         //EventBus.getDefault().init(this);
+        Logger.info("Tinylog configured debug: {} level: {}", DEBUG?"TRUE":"FALSE", LEVEL.toUpperCase());
 
         FlowManager.init(this);
         cleanOldBatteryDb();
 
         startService(new Intent(this, MainService.class));
 
+        Logger.info("AmazModService onCreate");
     }
 
     private static void cleanOldBatteryDb() {
@@ -44,4 +49,21 @@ public class AmazModService extends Application {
                 .query();
     }
 
+    public static Application getApplication() {
+        return mApp;
+    }
+    public static Context getContext() {
+        return getApplication().getApplicationContext();
+    }
+
+    private void setupLogger() {
+
+        //System.out.println("D/AmazMod AmazModService Tinylog configured debug: " + DEBUG + " level: " + level);
+        Configuration.set("writerLogcat", "logcat");
+        Configuration.set("writerLogcat.level", LEVEL);
+        Configuration.set("writerLogcat.tagname", "AmazMod");
+        Configuration.set("writerLogcat.format", "{class-name}.{method}(): {message}");
+        if (!DEBUG)
+            Configuration.set("writerLogcat.level", "error");
+    }
 }
