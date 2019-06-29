@@ -5,7 +5,7 @@
     <string name="notifications">Notificări trimise</string>
     <string name="notifications_options">Opţiuni de notificări</string>
     <string name="battery">Baterie</string>
-    <string name="customui">Custom UI Notifications Options</string>
+    <string name="customui">Opțiuni Notificări Interfață Utilizator Personalizată</string>
     <string name="others">Altele</string>
     <string name="other">Alte</string>
     <string name="open">Deschide</string>
@@ -37,7 +37,7 @@
     <string name="file_not_exists">Fișierul nu există</string>
     <string name="cant_uplaod_directory">Nu se poate încărca directoratul</string>
     <string name="sending">Se trimite</string>
-    <string name="wait">please wait</string>
+    <string name="wait">așteptați</string>
     <string name="cant_upload_file">Nu se poate încărca fişierul</string>
     <string name="cant_download_file">Nu se poate descărca fişierul</string>
     <string name="file_upload_canceled">Fişierul de încărcare s-a anulat</string>
@@ -52,7 +52,7 @@
     <string name="battery_chart_title">Baterie diagramă</string>
     <string name="heartrate_chart_title">Diagrama despre bătăile inimi</string>
     <string name="watch_info">Informațiile ceasului</string>
-    <string name="last_charge">Since full charge</string>
+    <string name="last_charge">Durată de la ultima încărcare</string>
     <string name="last_charge_no_info">Aşteptare pentru încărcare completă</string>
     <string name="notification_block">Blochează</string>
     <string name="notification_continue">Continuare</string>
@@ -71,14 +71,14 @@
     <string name="telegram_channel">Canal de Telegramă</string>
     <string name="support_email">Email de suport</string>
     <string name="project_github">Proiect pe Github</string>
-    <string name="activity_about_project_maintainer">Project Maintainer</string>
-    <string name="activity_about_devs">Developers</string>
+    <string name="activity_about_project_maintainer">Manager de proiect</string>
+    <string name="activity_about_devs">Dezvoltatori</string>
     <string name="activity_about_testers">Laboranți</string>
     <string name="translators">Traducători</string>
     <string name="activity_watchface_need_greatfit">Trebuie să aveţi watchface GreatFit sau widget-uri Calendar/Cronologie instalate pe ceas pentru aceste opţiuni să fie utilizate</string>
     <string name="activity_watchface_send_data">Trimite datele telefonului la ceas (baterie, alarmă, calendar)</string>
     <string name="activity_watchface_send_data_interval_prompt">Selectaţi intervalul de timp</string>
-    <string name="activity_watchface_send_data_interval_summary">Send data frequency</string>
+    <string name="activity_watchface_send_data_interval_summary">Frecvență de transmitere a datelor</string>
     <string name="activity_watchface_send_data_calendar_events_days_summary">Trimite evenimente în calendar pentru următoarele zile:</string>
     <string name="activity_watchface_send_on_battery_change">Trimite date de fiecare dată când bateria se schimbă</string>
     <string name="activity_watchface_send_on_alarm_change">Trimite date de fiecare dată când alarma se schimbă</string>
@@ -88,8 +88,8 @@
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">În ultima oră</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">În ultimele 24 de ore</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications.</string>
-    <string name="pref_enable_notifications">Push notifications</string>
+    <string name="pref_enable_notifications_summary">Permiteți AmazMod să configureze toate notificările.</string>
+    <string name="pref_enable_notifications">Afișează notificări</string>
     <string name="pref_filter_notifications_by_packages">Aplicații selectate</string>
     <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
     <string name="pref_disable_battery_chart">Dezactivaţi diagrama bateriei</string>
