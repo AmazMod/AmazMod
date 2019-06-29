@@ -5,7 +5,7 @@
     <string name="notifications">Notifiche inviate</string>
     <string name="notifications_options">Opzioni notifiche</string>
     <string name="battery">Batteria</string>
-    <string name="customui">Opzioni per notifiche personalizzate</string>
+    <string name="customui">Opzioni per notifiche Custom UI</string>
     <string name="others">Altre</string>
     <string name="other">Altro</string>
     <string name="open">Apri</string>
@@ -47,7 +47,7 @@
     <string name="notification_access_not_enabled">Accesso alle notifiche non abilitato</string>
     <string name="notification_access_enable">Abilita</string>
     <string name="activity_about_notifications_test">Test delle notifiche</string>
-    <string name="customui_test">UI personalizzata</string>
+    <string name="customui_test">Custom UI</string>
     <string name="standard_test">UI standard</string>
     <string name="battery_chart_title">Grafico batteria</string>
     <string name="heartrate_chart_title">Grafico battiti</string>
@@ -108,7 +108,7 @@
     <string name="pref_private_notifications">Contenuto notifica privato</string>
     <string name="pref_enable_notifications_when_screen_on_summary">Ricevi notifiche, anche con schermo è acceso.</string>
     <string name="pref_enable_notifications_when_screen_on">Ricevi con schermo acceso</string>
-    <string name="pref_notifications_enable_custom_ui">Notifiche personalizzate</string>
+    <string name="pref_notifications_enable_custom_ui">Notifiche Custom UI</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifiche con la possibilità di rispondere.</string>
     <string name="pref_run_wizard">Schermata di benvenuto</string>
     <string name="pref_run_wizard_summary">Mostra nuovamente la schermata di benvenuto.</string>
@@ -153,7 +153,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="pref_notifications_inverted_theme">Tema chiaro</string>
     <string name="pref_notifications_inverted_theme_summary">Abilita sfondo chiaro con tema testo scuro.</string>
     <string name="pref_font_size">Dimensione testo</string>
-    <string name="pref_font_size_summary">Seleziona la dimensione del testo utilizzato nelle notifiche CustomUI.</string>
+    <string name="pref_font_size_summary">Seleziona la dimensione del testo utilizzato nelle notifiche Custom UI.</string>
     <string name="notifications_font_size">Dimensione testo</string>
     <string name="device_not_connected">Nessun dispositivo connesso</string>
     <string name="device_connected">connesso</string>
