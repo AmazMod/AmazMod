@@ -347,9 +347,9 @@
     <string name="product_name">Product name</string>
     <string name="serial_number">Nº de serie</string>
     <string name="build_id">Id de pantalla del compilado</string>
-    <string name="build_model">Build Huami model</string>
-    <string name="build_description">Build description</string>
-    <string name="rename_folder">Rename Folder</string>
+    <string name="build_model">Modelo del compilado de Huami</string>
+    <string name="build_description">Descripción del compilado</string>
+    <string name="rename_folder">Renombra la carpeta</string>
     <string name="rename_file">Rename File</string>
     <string name="type_file_name">Type File Name</string>
     <string name="new_folder">Nueva capreta</string>
