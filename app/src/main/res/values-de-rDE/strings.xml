@@ -37,7 +37,7 @@
     <string name="file_not_exists">Datei existiert nicht</string>
     <string name="cant_uplaod_directory">Verzeichnis kann nicht hochgeladen werden</string>
     <string name="sending">Sende</string>
-    <string name="wait">please wait</string>
+    <string name="wait">Bitte warten</string>
     <string name="cant_upload_file">Datei kann nicht hochgeladen werden</string>
     <string name="cant_download_file">Die Datei kann nicht heruntergeladen werden</string>
     <string name="file_upload_canceled">Datei-Upload abgebrochen</string>
@@ -88,10 +88,10 @@
     <string name="activity_stats_notifications_total">Gesamt</string>
     <string name="activity_stats_notifications_in_the_last_hour">In der letzten Stunde</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">In den letzten 24 Stunden</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications.</string>
+    <string name="pref_enable_notifications_summary">Zulassen, dass AmazMod alle Benachrichtigungen verwaltet.</string>
     <string name="pref_enable_notifications">Push Benachrichtigungen</string>
     <string name="pref_filter_notifications_by_packages">Ausgewählte Apps</string>
-    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
+    <string name="pref_filter_notifications_by_packages_summary">Nur Benachrichtigungen von diesen Apps werden zur Uhr gesendet.</string>
     <string name="pref_disable_battery_chart">Akku Diagram deaktivieren</string>
     <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences.</string>
     <string name="pref_battery_background_sync_interval">Hintergrund Aktuallisierungsintervall</string>
