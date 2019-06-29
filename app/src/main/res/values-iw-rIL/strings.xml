@@ -37,7 +37,7 @@
     <string name="file_not_exists">הקובץ אינו קיים</string>
     <string name="cant_uplaod_directory">לא ניתן לעלות תיקיה</string>
     <string name="sending">שולח</string>
-    <string name="wait">please wait</string>
+    <string name="wait">אנא המתן</string>
     <string name="cant_upload_file">אין באפשרותך להעלות קבצים</string>
     <string name="cant_download_file">לא ניתן להוריד את הקובץ</string>
     <string name="file_upload_canceled">העלאת קובץ בוטלה</string>
@@ -88,10 +88,10 @@
     <string name="activity_stats_notifications_total">סה/\"כ</string>
     <string name="activity_stats_notifications_in_the_last_hour">בשעה האחרונה</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">ב-24 השעות האחרונות</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications.</string>
+    <string name="pref_enable_notifications_summary">אפשרו לAmazMod לטפל בכל ההתראות.</string>
     <string name="pref_enable_notifications">התראות דחיפה</string>
     <string name="pref_filter_notifications_by_packages">ישומים נבחרים</string>
-    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
+    <string name="pref_filter_notifications_by_packages_summary">רק התראות מיישומים אלו יישלחו לשעון.</string>
     <string name="pref_disable_battery_chart">השבת תרשים סוללה</string>
     <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences.</string>
     <string name="pref_battery_background_sync_interval">מרווח סינכרון ברקע</string>
