@@ -351,10 +351,10 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="build_id">Numero build</string>
     <string name="build_model">Numero modello Huami</string>
     <string name="build_description">Descrizione versione</string>
-    <string name="rename_folder">Rinomina cartella</string>
+    <string name="rename_folder">Rinomina Cartella</string>
     <string name="rename_file">Rinomina File</string>
-    <string name="type_file_name">Type File Name</string>
-    <string name="new_folder">New Folder</string>
-    <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
-    <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
+    <string name="type_file_name">Digita il nome del File</string>
+    <string name="new_folder">Nuova Cartella</string>
+    <string name="pref_amazmod_overlay_launcher">Pulsante notifiche in primo piano</string>
+    <string name="pref_amazmod_overlay_launcher_summary">Apri l\'elenco notifiche Custom UI usando un pulsante sempre in primo piano (la sua posizione verrà mostrata brevemente quando attivi lo schermo e può essere spostata a sinistra o destra con uno swipe).</string>
 </resources>
