@@ -91,11 +91,11 @@
     <string name="pref_enable_notifications_summary">Permiteți AmazMod să configureze toate notificările.</string>
     <string name="pref_enable_notifications">Afișează notificări</string>
     <string name="pref_filter_notifications_by_packages">Aplicații selectate</string>
-    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
+    <string name="pref_filter_notifications_by_packages_summary">Doar notificările acestor aplicații vor fi transmise către ceas.</string>
     <string name="pref_disable_battery_chart">Dezactivaţi diagrama bateriei</string>
-    <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences.</string>
+    <string name="pref_disable_battery_chart_summary">Dezactivează graficul bateriei din ecranul principal, aplicația va fi actualizată la închiderea Preferințelor.</string>
     <string name="pref_battery_background_sync_interval">Interval de sincronizare pe fundal</string>
-    <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
+    <string name="pref_battery_background_sync_interval_summary">Setează intervalul de sincronizare al bateriei.</string>
     <string name="pref_battery_chart_time_interval">Chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Watch battery alert</string>
