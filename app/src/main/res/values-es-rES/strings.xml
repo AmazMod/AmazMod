@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware para control de música</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de musica mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
     <string name="pref_phone_connect_disconnect_alert">Alerta de Des/Conexión del teléfono</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">El reloj vibrará y mostrará el estado de conexión del teléfono cuando se conecte/desconecte.</string>
     <string name="intro_title_1">¡Bienvenido a AmazMod!</string>
     <string name="intro_description_1">Por favor sigue esta presentación para aprender a instalar la app de servicio en el reloj y conceder a la app del teléfono acceso a las notificaciones.</string>
     <string name="intro_title_permissions">Acceso a las notificaciones</string>
