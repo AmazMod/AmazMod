@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">Удалить привязку владельца к часам</string>
     <string name="alerts">Предупреждения</string>
     <string name="pref_phone_connect_alert_standard_notification">Стандартные уведомления</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Использовать стандартные уведомления вместо пользовательских полноэкранных.</string>
     <string name="enable_low_power">Включить режим энергосбережения</string>
     <string name="failed_to_send_command">Ошибка отправки команды</string>
     <string name="command_sent">Команда отправлена успешно</string>
