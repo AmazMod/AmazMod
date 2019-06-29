@@ -125,7 +125,7 @@
     <string name="pref_enable_local_only">Notificações Locais</string>
     <string name="pref_enable_local_only_summary">Notificações sem ações de usuário serão enviadas para o relógio (por exemplo, relatórios do Google Weather). Pode precisar da opção de desagrupar estar ligada.</string>
     <string name="pref_enable_notifications_when_locked">Habilitar notificações quando a tela estiver bloqueada</string>
-    <string name="pref_enable_notifications_when_locked_summary">Send notifications to watch if screen is on but phone is locked.</string>
+    <string name="pref_enable_notifications_when_locked_summary">Envia notificações se a tela do celular está ligada mas ele está bloqueado.</string>
     <string name="pref_notifications_enable_ungroup">Desagrupar Notificações</string>
     <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them tho).</string>
     <string name="pref_filters">Filtro de notificações</string>
