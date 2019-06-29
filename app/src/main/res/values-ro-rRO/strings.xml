@@ -120,9 +120,9 @@
     <string name="pref_disable_notifications_when_dnd_summary">Notificările nu vor fi transmise către ceas când este detectat modul \'Nu deranjați\'.</string>
     <string name="pref_disable_remove_notifications">Păstrează notificările</string>
     <string name="pref_disable_remove_notifications_summary">Nu șterge notificările de pe ceas când acestea au fost șterse de pe telefon.</string>
-    <string name="pref_enable_voice_apps">Voice call notifications</string>
-    <string name="pref_enable_voice_apps_summary">Messenger voice calls will send notifications to watch.</string>
-    <string name="pref_enable_local_only">Local notifications</string>
+    <string name="pref_enable_voice_apps">Activează notificările pentru apeluri</string>
+    <string name="pref_enable_voice_apps_summary">Apelurile vocale din Messenger vor trimite notificări către ceas.</string>
+    <string name="pref_enable_local_only">Notificări locale</string>
     <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
     <string name="pref_enable_notifications_when_locked">Enable when phone is locked</string>
     <string name="pref_enable_notifications_when_locked_summary">Send notifications to watch if screen is on but phone is locked.</string>
