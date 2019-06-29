@@ -18,7 +18,7 @@ import android.provider.Settings;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
-import com.amazmod.service.PackageReceiver;
+import com.amazmod.service.receiver.PackageReceiver;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
 import org.tinylog.Logger;
@@ -104,7 +104,7 @@ public class DeviceUtil {
 
     public static void installPackage(Context context, String packageName, String filePath) {
 
-        Logger.debug("DeviceUtil installPackage packageName: " + packageName);
+        Logger.debug("installPackage packageName: " + packageName);
         PackageInstaller packageInstaller = context.getPackageManager().getPackageInstaller();
 
         PackageInstaller.SessionParams params = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
@@ -113,21 +113,28 @@ public class DeviceUtil {
 
         File su = new File("/system/xbin/su");
         Logger.debug("install is check if SuperUser");
-        if(su.exists()){
+        if (su.exists()) {
             // Is SuperUser
             Logger.debug("Enabling APK_INSTALL WAKELOCK");
-            try{
-                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock");
+            new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
+            /* Deprecated
+            try {
+                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock;exit");
             } catch (IOException e) {
-                Logger.error(e,"onCreate: IOException while enabling APK_INSTALL WAKELOCK");
-            }}
-        else
+                Logger.error(e, "onCreate: IOException while enabling APK_INSTALL WAKELOCK");
+            }
+            */
+        } else {
             // Is Stock user
             Logger.debug("Set screen timeout to 3 min to install update");
-        try {
-            Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000");
-        } catch (IOException e) {
-            Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
+            new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
+            /* Deprecated
+            try {
+                Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000;exit");
+            } catch (IOException e) {
+                Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
+            }
+            */
         }
 
         int sessionId = 0;
@@ -182,7 +189,7 @@ public class DeviceUtil {
             session.fsync(out);
             in.close();
             out.close();
-            Logger.debug("DeviceUtil installPackage sizeBytes: " + sizeBytes + " // total: " + total);
+            Logger.debug("installPackage sizeBytes: " + sizeBytes + " // total: " + total);
 
             Intent intent = new Intent(context, ConfirmationWearActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -195,7 +202,7 @@ public class DeviceUtil {
             IntentSender mIntentSender = pendingIntent.getIntentSender();
 
             for (String s : session.getNames()) {
-                Logger.info("DeviceUtil installPackage session.getNames: " + s);
+                Logger.info("installPackage session.getNames: " + s);
             }
             session.commit(mIntentSender);
 
@@ -204,19 +211,19 @@ public class DeviceUtil {
             //        intent, PendingIntent.FLAG_UPDATE_CURRENT).getIntentSender());
 
         } catch (Exception e) {
-            Logger.error("DeviceUtil installPackage exception: " + e.toString());
+            Logger.error("installPackage exception: " + e.toString());
         } finally {
             if (session != null) {
-                Logger.info("DeviceUtil installPackage session.close session: " + sessionId);
+                Logger.info("installPackage session.close session: " + sessionId);
                 session.close();
-                Logger.info("DeviceUtil installPackage finished");
+                Logger.info("installPackage finished");
             }
         }
     }
 
     public static void installApk(Context context, String apkPath, String mode) {
 
-        Logger.debug("DeviceUtil installApk apkPath: " + apkPath + " | mode: " + mode);
+        Logger.debug("installApk apkPath: " + apkPath + " | mode: " + mode);
 
         Intent intent = new Intent(context, ConfirmationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -240,55 +247,66 @@ public class DeviceUtil {
         final String busyboxPath = installBusybox(context);
         String installCommand;
         String apkFile = apk.getAbsolutePath();
-        //Logger.debug("DeviceUtil installApkAdb installScript: " + installScript);
-        //Logger.debug("DeviceUtil installApkAdb apkFile: " + apkFile);
+        //Logger.debug("installApkAdb installScript: " + installScript);
+        //Logger.debug("installApkAdb apkFile: " + apkFile);
         if (apkFile.contains("service-")) {
             File su = new File("/system/xbin/su");
             Logger.debug("install is check if SuperUser");
-            if(su.exists()){
+            if (su.exists()) {
                 // Is SuperUser
                 Logger.debug("Enabling APK_INSTALL WAKELOCK");
-                try{
-                    Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock");
+                new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
+                /* Deprecated
+                try {
+                    Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock;exit");
                 } catch (IOException e) {
-                    Logger.error(e,"onCreate: IOException while enabling APK_INSTALL WAKELOCK");
-                }}
-                else
+                    Logger.error(e, "onCreate: IOException while enabling APK_INSTALL WAKELOCK");
+                }
+                */
+            } else {
                 // Is Stock user
                 Logger.debug("Set screen timeout to 3 min to install update");
+                new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
+                /* Deprecated
                 try {
-                    Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000");
+                    Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000;exit");
                 } catch (IOException e) {
                     Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
+                }
+                */
             }
-        }
-        else
-            //Partial wakelock for a fast installation
-            Logger.debug("Installing normal APK, wakelock enabled...");
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            try {
-            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+        } else
+            Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
+
+        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+        PowerManager.WakeLock wakeLock = null;
+        if (pm != null) {
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
                     | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                    | PowerManager.ON_AFTER_RELEASE, "install normal apk wakelock disabled:");
-            wakeLock.acquire(60000);
-            } catch (NullPointerException e) {
-            Logger.error("Could not install normal apk wakelock: " + e);
-        }
+                    | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
+            wakeLock.acquire(10 * 60 * 1000L /* 10min */);
+        } else
+            Logger.error("installApkAdb null PowerManager!");
+
         //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
         if (isReboot)
-            installCommand = String.format("log -pw -tAmazMod $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
+            installCommand = String.format("log -pw -t'AmazMod DeviceUtil' $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
         else
-            installCommand = String.format("log -pw -tAmazMod $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
+            installCommand = String.format("log -pw -t'AmazMod DeviceUtil' $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
 
-        Logger.debug("DeviceUtil installApkAdb installCommand: " + installCommand);
+        Logger.debug("installApkAdb installCommand: " + installCommand);
 
         try {
             Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
                     null, Environment.getExternalStorageDirectory());
         } catch (IOException e) {
-            Logger.error("DeviceUtil installApkAdb IOException" + e.getMessage(), e);
+            Logger.error(e, "installApkAdb IOException: " + e.getMessage());
         }
 
+        if (wakeLock != null && wakeLock.isHeld())
+            wakeLock.release();
+
+        Logger.debug("installApkAdb finished");
     }
 
     public static File copyScriptFile(Context context, String fileName) {
@@ -300,7 +318,7 @@ public class DeviceUtil {
         try {
 
             if (file.exists() && file.isFile() && (file.length() == inFile.available())) {
-                Logger.debug("DeviceUtil copyScriptFile file already exists, size: " + inFile.available());
+                Logger.debug("copyScriptFile file already exists, size: " + inFile.available());
                 return file;
             }
 
@@ -314,7 +332,7 @@ public class DeviceUtil {
             output.close();
             inFile.close();
         } catch (Exception e) {
-            Logger.error("DeviceUtil copyScriptFile exception: " + e.toString());
+            Logger.error("copyScriptFile exception: " + e.toString());
         }
         return file;
     }
@@ -335,7 +353,7 @@ public class DeviceUtil {
                         .getIdentifier(fileName, "raw", context.getPackageName()));
 
                 if (file.exists() && file.isFile() && (file.length() == inFile.available())) {
-                    Logger.debug("DeviceUtil installBusybox file already exists, size: " + inFile.available());
+                    Logger.debug("installBusybox file already exists, size: " + inFile.available());
                     return utilFolderPath;
                 }
 
@@ -355,19 +373,19 @@ public class DeviceUtil {
                 final String installCommand = "chmod 755 " + busybox
                         + " && " + busybox + " --install -s " + utilFolderPath;
 
-                Logger.debug("DeviceUtil installBusybox installCommand: " + installCommand);
+                Logger.debug("installBusybox installCommand: " + installCommand);
 
                 Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand}, null, utilFolder);
 
                 int code = process.waitFor();
                 if (code != 0)
-                    Logger.error("DeviceUtil installBusybox error! " + code);
+                    Logger.error("installBusybox error! " + code);
 
             } catch (InterruptedException e) {
-                Logger.error("DeviceUtil installBusybox InterruptedException: " + e.toString());
+                Logger.error("installBusybox InterruptedException: " + e.toString());
                 utilFolderPath = null;
             } catch (IOException e) {
-                Logger.error("DeviceUtil installBusybox IOException: " + e.toString());
+                Logger.error("installBusybox IOException: " + e.toString());
                 utilFolderPath = null;
             }
 
@@ -379,7 +397,7 @@ public class DeviceUtil {
 
     public static void killBackgroundTasks(Context context, Boolean suicide) {
 
-        Logger.debug("DeviceUtil killBackgroundTasks");
+        Logger.debug("killBackgroundTasks");
 
         ActivityManager.RunningAppProcessInfo myProcess = null;
 
@@ -395,9 +413,9 @@ public class DeviceUtil {
                 if (!((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1)) {
                     if (packageInfo.packageName.contains("amazmod") && !suicide)
                         //Do not suicide;
-                        Logger.debug("DeviceUtil killBackgroundTasks skipping " + packageInfo.processName);
+                        Logger.debug("killBackgroundTasks skipping " + packageInfo.processName);
                     else {
-                        Logger.debug("DeviceUtil killBackgroundTasks killing package: " + packageInfo.packageName);
+                        Logger.debug("killBackgroundTasks killing package: " + packageInfo.packageName);
                         am.killBackgroundProcesses(packageInfo.packageName);
                     }
                 }
@@ -409,10 +427,10 @@ public class DeviceUtil {
                     myProcess = info;
                 } else if (info.processName.contains("watch.launcher") && !suicide) {
                     //Do not kill launcher;
-                    Logger.debug("DeviceUtil killBackgroundTasks skipping " + info.processName);
+                    Logger.debug("killBackgroundTasks skipping " + info.processName);
                 } else {
 
-                    Logger.debug("DeviceUtil killBackgroundTasks killing process: " + info.processName);
+                    Logger.debug("killBackgroundTasks killing process: " + info.processName);
 
                     android.os.Process.killProcess(info.pid);
                     android.os.Process.sendSignal(info.pid, android.os.Process.SIGNAL_KILL);
@@ -424,13 +442,13 @@ public class DeviceUtil {
             }
 
             if ((myProcess != null) && suicide) {
-                Logger.debug("DeviceUtil killBackgroundTasks myProcess: " + myProcess.processName);
+                Logger.debug("killBackgroundTasks myProcess: " + myProcess.processName);
                 am.killBackgroundProcesses(myProcess.processName);
                 android.os.Process.sendSignal(myProcess.pid, android.os.Process.SIGNAL_KILL);
             }
 
         } else {
-            Logger.error("DeviceUtil killBackgroundTasks failed - null ActivityManager!");
+            Logger.error("killBackgroundTasks failed - null ActivityManager!");
         }
     }
 
@@ -444,13 +462,13 @@ public class DeviceUtil {
 
             float batteryPct = level / (float) scale;
 
-            Logger.debug("DeviceUtil saveBatteryData batteryPct: " + batteryPct);
+            Logger.debug("saveBatteryData batteryPct: " + batteryPct);
 
             return MainService.saveBatteryDb(batteryPct, updateSettings);
 
         } else {
 
-            Logger.error("DeviceUtil saveBatteryData register receiver error!");
+            Logger.error("saveBatteryData register receiver error!");
             return false;
         }
 
@@ -459,7 +477,7 @@ public class DeviceUtil {
     public static boolean isVerge(){
         String model = SystemProperties.getSystemProperty("ro.build.huami.model");
         boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
-        Logger.debug("DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
+        Logger.debug("isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
         return isVerge;
     }
 

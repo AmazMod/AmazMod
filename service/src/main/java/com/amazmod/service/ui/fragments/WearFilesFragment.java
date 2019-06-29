@@ -23,7 +23,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.AppInfoAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
@@ -86,7 +85,7 @@ public class WearFilesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearFilesFragment onCreateView");
-        return inflater.inflate(R.layout.activity_wear_files, container, false);
+        return inflater.inflate(R.layout.fragment_wear_files, container, false);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.notification;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -21,12 +22,13 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
@@ -74,9 +76,9 @@ public class NotificationService extends NotificationListenerService {
     private static final long VOICE_INTERVAL = 5000L; //Five seconds
 
     private static final long JOB_INTERVAL = 5 * 1000L; //Five seconds
-    private static final long JOB_MAX_INTERVAL = 60000 * 1L; //1 minute
+    private static final long JOB_MAX_INTERVAL = 60 * 1000L; //1 minute
     private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 5L; //5 minutes
-    private static final long CUSTOMUI_LATENCY = 1350L;
+    private static final long CUSTOMUI_LATENCY = 1L;
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
             "com.contapps.android",
@@ -128,7 +130,6 @@ public class NotificationService extends NotificationListenerService {
         //Cancel all pending jobs to keep service running, then schedule a new one
         cancelPendingJobs(0);
         scheduleJob(0, 0, null);
-
 
     }
 
@@ -213,12 +214,15 @@ public class NotificationService extends NotificationListenerService {
                     // Get array
                     int[] grouped = grouped_notifications.get(statusBarNotification.getId());
                     // Define the new array
-                    int[] newArray = new int[grouped.length + 1];
-                    // Copy values into new array
-                    System.arraycopy(grouped, 0, newArray, 0, grouped.length);
-                    newArray[newArray.length - 1] = nextId;
-                    grouped_notifications.put(statusBarNotification.getId(), newArray);
-                    //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup03 id exists newArray: " + Arrays.toString(newArray));
+                    if (grouped != null) {
+                        int[] newArray = new int[grouped.length + 1];
+                        // Copy values into new array
+                        System.arraycopy(grouped, 0, newArray, 0, grouped.length);
+                        newArray[newArray.length - 1] = nextId;
+                        grouped_notifications.put(statusBarNotification.getId(), newArray);
+                        //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup03 id exists newArray: " + Arrays.toString(newArray));
+                    } else
+                        Logger.error("grouped: could not create array");
                 } else {
                     //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup04 new id: " + statusBarNotification.getId()
                     //        + " \\ nextId: " + nextId);
@@ -271,7 +275,7 @@ public class NotificationService extends NotificationListenerService {
 
         String key = statusBarNotification.getKey();
 
-        Logger.debug("onNotificationRemoved notificationRemoved: %s", key);
+        Logger.debug("onNotificationRemoved notificationRemoved: {}", key);
         //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup00 key: " + key);
 
         if (!Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS, Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS)
@@ -324,6 +328,7 @@ public class NotificationService extends NotificationListenerService {
                 //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup02 key: " + statusBarNotification.getKey()
                 //        + " \\ grouped: " + Arrays.toString(grouped));
                 // Loop each notification in group
+                assert grouped != null;
                 for (int groupedId : grouped) {
                     //int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
                     jobId = groupedId + newUID();
@@ -431,6 +436,7 @@ public class NotificationService extends NotificationListenerService {
             });
             //Disconnect transporter to avoid leaking
             notificationTransporter.disconnectTransportService();
+            notificationTransporter = null;
             Logger.info("sendNotificationWithStandardUI: " + dataBundle.toString());
         }
     }
@@ -443,11 +449,12 @@ public class NotificationService extends NotificationListenerService {
             builder.setPeriodic(KEEP_SERVICE_RUNNING_INTERVAL);
 
         } else {
-            //if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
-            //        && (!Prefs.getBoolean(Constants.PREF_DISABLE_STANDARD_NOTIFICATIONS, false)))
-            builder.setMinimumLatency(CUSTOMUI_LATENCY);
-            //else
-            //    builder.setMinimumLatency(0);
+            if (id == NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI
+                    && (!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, true))) {
+                builder.setMinimumLatency(CUSTOMUI_LATENCY);
+            } else {
+                builder.setMinimumLatency(1L);
+            }
 
             PersistableBundle bundle = new PersistableBundle();
             bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
@@ -455,6 +462,7 @@ public class NotificationService extends NotificationListenerService {
 
             builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
             builder.setOverrideDeadline(JOB_MAX_INTERVAL);
+            builder.setOverrideDeadline(1L);
             builder.setExtras(bundle);
         }
 
@@ -485,7 +493,7 @@ public class NotificationService extends NotificationListenerService {
         try {
             return ((AudioManager) getSystemService(Context.AUDIO_SERVICE)).getMode();
         } catch (NullPointerException e) {
-            Logger.error(e, "isRinging Exception: %s", e.toString());
+            Logger.error(e, "isRinging Exception: {}", e.getMessage());
             return AudioManager.MODE_INVALID;
         }
     }
@@ -551,7 +559,7 @@ public class NotificationService extends NotificationListenerService {
                 try {
                     ai = pm.getApplicationInfo(notificationPackage, 0);
                 } catch (final PackageManager.NameNotFoundException e) {
-                    Logger.error(e, "handleCall getApplicationInfo Exception: %s", e.toString());
+                    Logger.error(e, "handleCall getApplicationInfo Exception: {}", e.getMessage());
                     ai = null;
                 }
                 final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
@@ -805,15 +813,15 @@ public class NotificationService extends NotificationListenerService {
 
             String[] filters = app.getFilter().split("\\r?\\n");
             for (String filter : filters) {
-                Logger.debug("isPackageFiltered: Checking if '%s' contains '%s'", notificationText, filter);
+                Logger.debug("isPackageFiltered: Checking if '{}' contains '{}'", notificationText, filter);
                 if (!filter.isEmpty()) {
                     filter = filter.toLowerCase();
                     if (notificationTitle.toLowerCase().contains(filter)) {
-                        Logger.debug("isPackageFiltered: Package '%s' filterered because TITLE ('%s') contains '%s'", packageName, notificationTitle, filter);
+                        Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE ('{}') contains '{}'", packageName, notificationTitle, filter);
                         return true;
                     }
                     if (notificationText.toLowerCase().contains(filter)) {
-                        Logger.debug("isPackageFiltered: Package '%s' filterered because CONTENTS ('%s') contains '%s'", packageName, notificationText, filter);
+                        Logger.debug("isPackageFiltered: Package '{}' filterered because CONTENTS ('{}') contains '{}'", packageName, notificationText, filter);
                         return true;
                     }
                 }
@@ -870,7 +878,7 @@ public class NotificationService extends NotificationListenerService {
             */
 
         } else {
-            Logger.warn("replyToNotificationLocal Notification %s not found to reply", notificationId);
+            Logger.warn("replyToNotificationLocal Notification {} not found to reply", notificationId);
         }
     }
 
@@ -880,11 +888,14 @@ public class NotificationService extends NotificationListenerService {
 
         Logger.debug("mapNotification maps: " + notificationPackage);
 
-        RemoteViews rmv = statusBarNotification.getNotification().contentView;
+        RemoteViews rmv = getContentView(getApplicationContext(), statusBarNotification.getNotification());
 
-        NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+        if (rmv == null)
+            rmv = getBigContentView(getApplicationContext(), statusBarNotification.getNotification());
 
         if (rmv != null) {
+
+            NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
 
             //Get text from RemoteView using reflection
             List<String> txt = extractText(rmv);
@@ -917,9 +928,9 @@ public class NotificationService extends NotificationListenerService {
                     notificationData.setIcon(intArray);
                     notificationData.setIconWidth(width);
                     notificationData.setIconHeight(height);
-                } catch (NullPointerException e) {
+                } catch (Exception e) {
                     notificationData.setIcon(new int[]{});
-                    Logger.error(e, "mapNotification failed to get bitmap %s", e.toString());
+                    Logger.error(e, "mapNotification failed to get bitmap with exception: {}", e.getMessage());
                 }
 
                 notificationData.setTitle(txt.get(0));
@@ -937,7 +948,7 @@ public class NotificationService extends NotificationListenerService {
                 lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();
                 storeForStats(notificationPackage, Constants.FILTER_MAPS);
-                Logger.debug("mapNotification maps lastTxt:  " + lastTxt);
+                Logger.debug("mapNotification maps lastTxt: " + lastTxt);
             }
 
         } else {
@@ -992,9 +1003,29 @@ public class NotificationService extends NotificationListenerService {
         }
         // It's not usually good style to do this, but then again, neither is the use of reflection...
         catch (Exception e) {
-            Logger.error(e, "extractText: %s", e.toString());
+            Logger.error(e, "extractText exception: {}", e.getMessage());
+            text.add("ERROR");
         }
         return text;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    public static RemoteViews getBigContentView(Context context, Notification notification) {
+        if(notification.bigContentView != null)
+            return notification.bigContentView;
+        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            return Notification.Builder.recoverBuilder(context, notification).createBigContentView();
+        else
+            return null;
+    }
+
+    public static RemoteViews getContentView(Context context, Notification notification) {
+        if(notification.contentView != null)
+            return notification.contentView;
+        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            return Notification.Builder.recoverBuilder(context, notification).createContentView();
+        else
+            return null;
     }
 
     private void startPersistentNotification() {

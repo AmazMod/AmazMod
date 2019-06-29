@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,14 +33,14 @@
         android:id="@+id/send_watchface_data_interval_summary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/activity_watchface_send_data_interval_summary"
+        android:textColor="?android:attr/colorForeground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="#000000"
-        android:text="@string/activity_watchface_send_data_interval_summary"
-        app:layout_constraintTop_toBottomOf="@+id/send_data_switch"  />
+        app:layout_constraintTop_toBottomOf="@+id/send_data_switch" />
 
     <Spinner
         android:id="@+id/send_watchface_data_interval"
@@ -59,14 +59,14 @@
         android:id="@+id/send_watchface_data_calendar_events_summary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="@string/activity_watchface_send_data_calendar_events_days_summary"
+        android:textColor="?android:attr/colorForeground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="#000000"
-        android:text="@string/activity_watchface_send_data_calendar_events_days_summary"
-        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval"  />
+        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval" />
 
     <Spinner
         android:id="@+id/send_watchface_data_calendar_events_days"
@@ -119,11 +119,11 @@
         android:id="@+id/watchface_calendar_source"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:textColor="#000000"
+        android:layout_marginEnd="8dp"
         android:text="@string/watchface_calendar_source"
+        android:textColor="?android:attr/colorForeground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/watchface_divider" />
@@ -171,7 +171,7 @@
                 android:text="@string/enabled"
                 android:textAlignment="center"
                 android:textAllCaps="true"
-                android:textColor="#000000" />
+                android:textColor="?android:attr/colorForeground" />
 
         </LinearLayout>
 
@@ -221,7 +221,7 @@
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="#000000"
+        android:textColor="?android:attr/colorForeground"
         android:text="@string/activity_watchface_last_time_sent"
         app:layout_constraintTop_toBottomOf="@+id/watchface_calendar_radio_group"  />
 
@@ -238,4 +238,4 @@
         app:layout_constraintTop_toBottomOf="@+id/watchface_last_sync" />
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

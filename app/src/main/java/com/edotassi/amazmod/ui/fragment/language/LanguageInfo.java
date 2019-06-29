@@ -1,6 +1,6 @@
 package com.edotassi.amazmod.ui.fragment.language;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public class LanguageInfo {
 

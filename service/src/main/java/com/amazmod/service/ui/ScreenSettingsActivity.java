@@ -9,7 +9,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +19,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
+import androidx.annotation.NonNull;
+
 import com.amazmod.service.R;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
-import static android.view.View.inflate;
 
 public class ScreenSettingsActivity extends Activity {
 
@@ -227,12 +227,17 @@ public class ScreenSettingsActivity extends Activity {
 
         Logger.debug("ScreenSettingsActivity runCommand: " + command);
         if (!command.isEmpty()) {
+
+            /* Deprecated, replaced with new ExecCommand class
             try {
                 Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
                         null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
-                Logger.error(e,"ScreenSettingsActivity runCommand exception: " + e.toString());
+                Logger.error("ConfirmationWearActivity runCommand exception: " + e.toString());
             }
+            */
+
+            new ExecCommand(ExecCommand.ADB, String.format("adb shell %s", command));
         }
     }
 

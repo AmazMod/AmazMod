@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
@@ -53,12 +54,16 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_replies);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(R.string.replies);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.replies);
+        } catch (NullPointerException exception) {
+            Logger.error("AboutActivity onCreate exception: " + exception.getMessage());
+        }
 
         ButterKnife.bind(this);
 
-        repliesAdapter = new RepliesDragAdapter(this, R.layout.row_replies, new ArrayList<Reply>());
+        repliesAdapter = new RepliesDragAdapter(this, R.layout.row_drag_replies, new ArrayList<Reply>());
         listView.setAdapter(repliesAdapter);
 
         loadReplies();

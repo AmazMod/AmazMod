@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -94,8 +95,7 @@ public class InputMethodActivity extends Activity {
                         if (btn.getId() == checkedId) {
                             selectedIME = inputMethodInfos.get(x).getId();
                             Logger.info("InputMethodActivity selected RadioButton: " + btn.getText().toString() + " x: " + x);
-                            runCommand("adb shell ime enable " + selectedIME + ";ime set " + selectedIME + ";exit");
-
+                            new ExecCommand(ExecCommand.ADB, "adb shell ime enable " + selectedIME + ";ime set " + selectedIME);
                         }
                     }
                 }
@@ -107,19 +107,6 @@ public class InputMethodActivity extends Activity {
                     finish();
                 }
             });
-
-        }
-
-    }
-
-    private void runCommand(String command) {
-        Logger.debug( "InputMethodActivity runCommand: " + command);
-        if (!command.isEmpty()) {
-            try {
-                Runtime.getRuntime().exec(command);
-            } catch (Exception e) {
-                Logger.error("InputMethodActivity runCommand exception: " + e.toString());
-            }
         }
     }
 

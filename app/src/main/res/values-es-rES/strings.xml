@@ -336,4 +336,19 @@
     <string name="no_storage_permission">AmazMod no tiene permiso de almacenamiento, concédeselo, por favor.</string>
     <string name="generate_bundle">Generar paquete de Log</string>
     <string name="set_watchface">Establecer Watchface</string>
+    <string name="button_description">Button</string>
+    <string name="image_description">Image</string>
+    <string name="amazmod_service">AmazMod Service</string>
+    <string name="product_model">Product model</string>
+    <string name="product_name">Product name</string>
+    <string name="serial_number">Serial No</string>
+    <string name="build_id">Build display id</string>
+    <string name="build_model">Build Huami model</string>
+    <string name="build_description">Build description</string>
+    <string name="rename_folder">Rename Folder</string>
+    <string name="rename_file">Rename File</string>
+    <string name="type_file_name">Type File Name</string>
+    <string name="new_folder">New Folder</string>
+    <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
+    <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI notifications log using an overlay button on watch (its location is briefly show every time screen goes on and you can swipe it to left or right)</string>
 </resources>

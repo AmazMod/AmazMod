@@ -9,8 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.format.Formatter;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -21,25 +19,26 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.db.model.CommandHistoryEntity;
-import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
 import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.util.FilesUtil;
+import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
@@ -99,6 +98,11 @@ public class TweakingActivity extends BaseAppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Screen.isDarkTheme()) {
+            setTheme(R.style.AppThemeDark);
+        }
+
         mContext = this;
         setContentView(R.layout.activity_tweaking);
 
@@ -561,7 +565,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                     final Intent intent = new Intent(Intent.ACTION_VIEW)//
                                                             .setDataAndType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
-                                                                            android.support.v4.content.FileProvider.getUriForFile(mContext,getPackageName() + ".provider", screenshot)
+                                                                            FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER, screenshot)
                                                                             : Uri.fromFile(screenshot), "image/*").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                                                     startActivity(intent);

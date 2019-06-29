@@ -4,7 +4,6 @@ import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.Context;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.util.DeviceUtil;
 
 import org.tinylog.Logger;

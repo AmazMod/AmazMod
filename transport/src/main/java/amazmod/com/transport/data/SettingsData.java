@@ -28,6 +28,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DEFAULT_LOCALE = "default_locale";
     public static final String DISABLE_DELAY = "disable_reply_delay";
     public static final String AMAZMOD_FIRST_WIDGET = "amazmod_first_widget";
+    public static final String AMAZMOD_OVERLAY_LAUNCHER = "amazmod_overlay_launcher";
     public static final String BATTERY_WATCH_ALERT = "battery_watch_alert";
     public static final String BATTERY_PHONE_ALERT = "battery_phone_alert";
 
@@ -49,6 +50,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private String defaultLocale;
     private boolean disableDelay;
     private boolean amazModFirstWidget;
+    private boolean overlayLauncher;
     private int batteryWatchAlert;
     private int batteryPhoneAlert;
 
@@ -73,6 +75,7 @@ public class SettingsData extends Transportable implements Parcelable {
         defaultLocale = in.readString();
         disableDelay = in.readByte() != 0;
         amazModFirstWidget = in.readByte() != 0;
+        overlayLauncher = in.readByte() != 0;
         batteryWatchAlert = in.readInt();
         batteryPhoneAlert = in.readInt();
     }
@@ -108,6 +111,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
         dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
+        dataBundle.putBoolean(AMAZMOD_OVERLAY_LAUNCHER, overlayLauncher);
         dataBundle.putInt(BATTERY_WATCH_ALERT,batteryWatchAlert);
         dataBundle.putInt(BATTERY_PHONE_ALERT,batteryPhoneAlert);
 
@@ -134,6 +138,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
         settingsData.setAmazModFirstWidget(dataBundle.getBoolean(AMAZMOD_FIRST_WIDGET));
+        settingsData.setOverlayLauncher(dataBundle.getBoolean(AMAZMOD_OVERLAY_LAUNCHER));
         settingsData.setBatteryWatchAlert(dataBundle.getInt(BATTERY_WATCH_ALERT));
         settingsData.setBatteryPhoneAlert(dataBundle.getInt(BATTERY_PHONE_ALERT));
 
@@ -239,8 +244,16 @@ public class SettingsData extends Transportable implements Parcelable {
         return amazModFirstWidget;
     }
 
+    public boolean isOverlayLauncher() {
+        return overlayLauncher;
+    }
+
     public void setAmazModFirstWidget(boolean amazModFirstWidget) {
         this.amazModFirstWidget = amazModFirstWidget;
+    }
+
+    public void setOverlayLauncher(boolean overlayLauncher) {
+        this.overlayLauncher = overlayLauncher;
     }
 
     public int getBatteryWatchAlert() {

@@ -3,11 +3,12 @@ package com.amazmod.service.util;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.text.emoji.widget.EmojiButton;
 import android.util.TypedValue;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.emoji.widget.EmojiButton;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;

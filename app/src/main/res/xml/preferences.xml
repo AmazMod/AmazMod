@@ -8,6 +8,12 @@
             android:summary="@string/pref_amazmod_first_widget_summary"
             android:title="@string/pref_amazmod_first_widget" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.amazmod.overlay.launcher"
+            android:summary="@string/pref_amazmod_overlay_launcher_summary"
+            android:title="@string/pref_amazmod_overlay_launcher" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/notifications_options">
@@ -19,9 +25,9 @@
             android:title="@string/pref_enable_notifications" />
 
         <SwitchPreference
-            android:key="preference.notifications.enable.custom.ui"
             android:defaultValue="true"
             android:dependency="preference.enable.notifications"
+            android:key="preference.notifications.enable.custom.ui"
             android:summary="@string/pref_notifications_enable_custom_ui_summary"
             android:title="@string/pref_notifications_enable_custom_ui" />
 
@@ -37,8 +43,8 @@
         </Preference>
 
         <SwitchPreference
-            android:key="preference.notification.scheduler"
             android:dependency="preference.enable.notifications"
+            android:key="preference.notification.scheduler"
             android:summary="@string/pref_use_notification_scheduler_summary"
             android:title="@string/pref_use_notification_scheduler" />
     </PreferenceCategory>
@@ -246,9 +252,9 @@
 
     <PreferenceCategory android:title="@string/logs">
         <SwitchPreference
-            android:key="preference.logs.logtofile"
             android:defaultValue="true"
             android:disableDependentsState="false"
+            android:key="preference.logs.logtofile"
             android:summary="@string/pref_log_to_file_summary"
             android:title="@string/pref_log_to_file" />
 
@@ -271,6 +277,11 @@
             android:title="@string/pref_enable_music_control_with_hardware_button"
             android:summary="@string/pref_enable_music_control_with_hardware_button_summary" />
         -->
+        <SwitchPreference
+            android:key="preference.amazmod.dark_theme"
+            android:summary="@string/pref_amazmod_darktheme_summary"
+            android:title="@string/pref_amazmod_dark_theme" />
+
         <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.persistent.notification"

@@ -42,6 +42,7 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
     public static final String PREF_DISABLE_DELAY = "pref_notification_delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "pref_amazmod_first_widget";
+    public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "pref_amazmod_overlay_launcher";
     public static final String PREF_BATTERY_WATCH_ALERT = "pref_battery_watch_alert";
     public static final String PREF_BATTERY_PHONE_ALERT = "pref_battery_phone_alert";
     public static final String PREF_SPRINGBOARD_ORDER = "pref_springboard_order";

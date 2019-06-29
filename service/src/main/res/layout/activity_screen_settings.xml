@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.wearable.view.BoxInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.wearable.view.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_screen_settings_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    android:paddingStart="10dp"
-    android:paddingTop="10dp"
-    android:paddingEnd="10dp"
+    android:background="@android:color/transparent"
     tools:ignore="SpUsage, RtlHardcoded, ContentDescription">
 
     <android.support.wearable.view.WearableFrameLayout
         android:id="@+id/activity_screen_settings_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingStart="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:background="@drawable/background">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -211,6 +211,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="16dp"
                     android:background="@drawable/reply_grey"
                     android:gravity="center"
                     android:includeFontPadding="false"
@@ -220,7 +221,6 @@
                     android:paddingTop="6dp"
                     android:paddingEnd="0dp"
                     android:paddingBottom="6dp"
-                    android:layout_marginBottom="16dp"
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/black"

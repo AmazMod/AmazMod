@@ -9,17 +9,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.util.LocaleUtils;
+import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -42,7 +45,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
     private String currentBatteryChartDays;
     private String currentLocaleLanguage;
     private String currentLogLevel;
-    private boolean currentLogTofile;
+    private boolean currentLogToFile;
+    private boolean currentDarkTheme;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -54,12 +58,16 @@ public class SettingsActivity extends BaseAppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (Screen.isDarkTheme()) {
+            setTheme(R.style.AppThemeDark);
+        }
+
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.settings);
         } catch (NullPointerException exception) {
             //TODO log to crashlitics
-            Logger.error("SettingsActivity onCreate NullPointerException: " + exception.toString());
+            Logger.error("SettingsActivity onCreate NullPointerException: " + exception.getMessage());
         }
 
         currentBatteryChart = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
@@ -70,8 +78,9 @@ public class SettingsActivity extends BaseAppCompatActivity {
         enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
 
-        currentLogTofile = Prefs.getBoolean(Constants.PREF_LOG_TO_FILE,Constants.PREF_LOG_TO_FILE_DEFAULT);
-        currentLogLevel = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL,Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT);
+        currentLogToFile = Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT);
+        currentLogLevel = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT);
+        currentDarkTheme = Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
 
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MyPreferenceFragment())
@@ -116,16 +125,16 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
     @Override
     public void onDestroy() {
-       if (restartNeeded()) {
-           restartApplication(getApplicationContext());
-       }else if (reloadNeeded()){
-           reloadMainActivity();
+        if (restartNeeded()) {
+            restartApplication(getApplicationContext());
+        } else if (reloadNeeded()) {
+            reloadMainActivity();
         }
         sync(false);
         super.onDestroy();
     }
 
-    private void reloadMainActivity(){
+    private void reloadMainActivity() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("REFRESH", true);
@@ -174,23 +183,28 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
     /**
      * Checks if important Preferences were changed and return true if a restart of FULL APP is necessary
+     *
      * @return boolean
      */
-    private boolean restartNeeded(){
+    private boolean restartNeeded() {
         return
-               currentLogTofile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE,Constants.PREF_LOG_TO_FILE_DEFAULT)
-            || !currentLogLevel.equals(Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL,Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT));
+                currentLogToFile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT)
+                        || !currentLogLevel.equals(Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT))
+                        || currentDarkTheme != Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
     }
 
     /**
      * Checks if important Preferences were changed and return true if a restart of MainActivity is necessary
+     *
      * @return boolean
      */
-    private boolean reloadNeeded(){
+    private boolean reloadNeeded() {
         return
-               currentBatteryChart != Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT)
-            || !currentBatteryChartDays.equals(Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
+                currentBatteryChart != Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT)
+                        || !currentBatteryChartDays.equals(Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
+
     }
+
     private void sync(final boolean sync) {
         final String replies = Prefs.getString(Constants.PREF_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_REPLIES);
@@ -218,6 +232,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY);
         final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
+        final boolean overlayLauncher = Prefs.getBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER,
+                Constants.PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER);
         final int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
                 Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
         final int phoneBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_PHONE_ALERT,
@@ -251,6 +267,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setDefaultLocale(Locale.getDefault().toString());
         settingsData.setDisableDelay(disableNotificationsDelay);
         settingsData.setAmazModFirstWidget(amazModFirstWidget);
+        settingsData.setOverlayLauncher(overlayLauncher);
         settingsData.setBatteryWatchAlert(watchBatteryAlert);
         settingsData.setBatteryPhoneAlert(phoneBatteryAlert);
 
@@ -304,15 +321,18 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 intent.putExtra(Settings.EXTRA_APP_PACKAGE, getActivity().getPackageName());
                 intent.putExtra(Settings.EXTRA_CHANNEL_ID, Constants.PERSISTENT_NOTIFICATION_CHANNEL);
                 persistentNotificationDeviceSettingsPreference.setIntent(intent);
-            }else{
+            } else {
                 // Remove link to notification channel system settings
                 getPreferenceScreen().removePreference(persistentNotificationDeviceSettingsPreference);
             }
 
             // Disable phone battery alert option, if watchface battery data are off
-            if(!Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA)){
+            if (!Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA)) {
                 getPreferenceScreen().findPreference("preference.battery.phone.alert").setEnabled(false);
             }
+
+            Preference darkThemeDefault = getPreferenceScreen().findPreference(Constants.PREF_AMAZMOD_DARK_THEME);
+            darkThemeDefault.setDefaultValue(Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
         }
     }
 

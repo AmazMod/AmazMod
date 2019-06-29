@@ -36,6 +36,7 @@ import com.amazmod.service.ui.ScreenSettingsActivity;
 import com.amazmod.service.springboard.WidgetsReorderActivity;
 import com.amazmod.service.ui.InputMethodActivity;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 import com.huami.watch.transport.DataBundle;
 
 import org.tinylog.Logger;
@@ -43,7 +44,7 @@ import org.tinylog.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import xiaofei.library.hermeseventbus.HermesEventBus;
+import org.greenrobot.eventbus.EventBus;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -135,15 +136,15 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "",
                                 "",
                                 "",
-                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity;exit&",
+                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity",
                                 "",
-                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity;exit&",
+                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity",
                                 "kill-all",
                                 "",
                                 "",
-                                "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit&",
-                                "adb shell am force-stop com.huami.watch.launcher;exit&",
-                                "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher;exit&",
+                                "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver",
+                                "adb shell am force-stop com.huami.watch.launcher",
+                                "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher",
                                 "reboot",
                                 "reboot bootloader",
                                 "reboot recovery",
@@ -188,7 +189,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearMenuFragment onCreateView");
 
-        return inflater.inflate(R.layout.activity_wear_menu, container, false);
+        return inflater.inflate(R.layout.fragment_wear_menu, container, false);
     }
 
     @Override
@@ -359,6 +360,15 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private void runCommand(String command) {
         Logger.debug("WearMenuFragment runCommand: " + command);
 	    if (!command.isEmpty()) {
+
+            new ExecCommand(ExecCommand.ADB, command);
+            if (command.contains("launcher")) {
+                Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);
+                }
+            }
+            /* Deprecated
             try {
                 Runtime.getRuntime().exec(command, null, Environment.getExternalStorageDirectory());
                 if (command.contains("launcher")) {
@@ -370,6 +380,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             } catch (Exception e) {
                 Logger.error("WearMenuFragment runCommand exception: " + e.toString());
             }
+            */
         }
     }
 
@@ -460,11 +471,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START + 1:
-                HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
                 break;
 
             case MENU_START + 2:
-                HermesEventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
+                EventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
                 break;
 
             case MENU_START + 3:
@@ -507,6 +518,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         confirmView.clearAnimation();
         listView.requestFocus();
         listView.setClickable(true);
+        ((LauncherWearGridActivity) getActivity()).setSwipeable(true);
     }
 
     public void showConfirm() {
@@ -518,6 +530,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         listView.clearAnimation();
         confirmView.requestFocus();
         confirmView.setClickable(true);
+        ((LauncherWearGridActivity) getActivity()).setSwipeable(false);
     }
 
     private void checkConnection() {

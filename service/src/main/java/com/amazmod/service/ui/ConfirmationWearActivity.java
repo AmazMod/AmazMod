@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -186,12 +187,17 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
 
         Logger.debug("ConfirmationWearActivity runCommand: " + command);
         if (!command.isEmpty()) {
+
+            /* Deprecated, replaced with new ExecCommand class
             try {
                 Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
                         null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
                 Logger.error("ConfirmationWearActivity runCommand exception: " + e.toString());
             }
+            */
+
+            new ExecCommand(ExecCommand.ADB, String.format("adb shell %s", command));
         }
     }
 

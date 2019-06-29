@@ -1,9 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.jakewharton.butterknife'
 
-
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
 
     def versionPropsFile = file('version.properties')
 
@@ -12,16 +11,13 @@ android {
 
         versionProps.load(new FileInputStream(versionPropsFile))
 
-        def build = versionProps['VERSION_BUILD'].toInteger() + 1
-
-        versionProps['VERSION_BUILD']=build.toString()
-        versionProps.store(versionPropsFile.newWriter(), null)
+        def build = versionProps['VERSION_BUILD'].toInteger()
 
         defaultConfig {
             applicationId "com.amazmod.service"
-            minSdkVersion 21
+            minSdkVersion 22
             //noinspection ExpiredTargetSdkVersion
-            targetSdkVersion 21
+            targetSdkVersion 23
             versionCode build
             versionName "${build}"
         }
@@ -54,33 +50,34 @@ android {
 dependencies {
     implementation project(':transport')
     implementation project(':models')
-    implementation "com.android.support:design:$supportLibVersion"
-    implementation "com.android.support:appcompat-v7:$supportLibVersion"
-    implementation 'com.mikepenz:iconics-core:3.0.3@aar'
-    implementation 'com.mikepenz:iconics-views:3.0.3@aar'
-    implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-    implementation 'xiaofei.library:hermes-eventbus:0.3.0'
-    implementation 'com.github.marlonlom:timeago:3.0.2'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0'
-    implementation 'com.jakewharton:butterknife:9.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation 'org.apache.commons:commons-lang3:3.6'
-    implementation 'com.github.tbouron.shakedetector:library:1.0.0@aar'
     implementation files('../libs/SpringboardPluginLib.jar')
     implementation files('../libs/huami_libs.jar')
     implementation files('../libs/WearServices_libs.jar')
-    compileOnly 'com.google.android.wearable:wearable:2.3.0'
-    implementation 'com.google.android.support:wearable:2.3.0'
-    implementation "com.android.support:support-emoji:$supportLibVersion"
-    implementation "com.android.support:support-emoji-appcompat:$supportLibVersion"
-    implementation "com.android.support:support-emoji-bundled:$supportLibVersion"
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.14'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.emoji:emoji:1.0.0'
+    implementation 'androidx.emoji:emoji-appcompat:1.0.0'
+    implementation 'androidx.emoji:emoji-bundled:1.0.0'
+    implementation 'com.mikepenz:iconics-core:3.0.4@aar'
+    implementation 'com.mikepenz:iconics-views:3.0.4@aar'
+    implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.github.marlonlom:timeago:3.0.2'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'com.github.tbouron.shakedetector:library:1.0.0@aar'
+    compileOnly 'com.google.android.wearable:wearable:2.4.0'
+    implementation 'com.google.android.support:wearable:2.4.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:4.2.4"
     implementation "com.github.Raizlabs.DBFlow:dbflow:4.2.4"
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-    implementation 'org.tinylog:tinylog-api:2.0.0-M4.2'
-    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.2'
+    implementation 'org.tinylog:tinylog-api:2.0.0-M4.3'
+    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
 }
 
 configurations.all {
@@ -88,7 +85,7 @@ configurations.all {
         def requested = details.requested
         if (requested.group == 'com.android.support') {
             if (!requested.name.startsWith("multidex")) {
-                details.useVersion '27.1.1'
+                details.useVersion '$supportLibVersion'
             }
         }
     }

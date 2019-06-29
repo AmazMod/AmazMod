@@ -1,15 +1,15 @@
 package com.edotassi.amazmod.ui;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +18,9 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -191,6 +194,16 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         super.finish();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("FileOpenerActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("FileOpenerActivity ORIENTATION LANDSCAPE");
+        }
+    }
+
     private boolean createWorkDir() {
         workDir = this.getCacheDir().getAbsolutePath() + File.separator + WORK_DIR;
         File file = new File(workDir);
@@ -213,11 +226,12 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             return false;
     }
 
+    @SuppressLint("StringFormatInvalid")
     private void promptInstall(final String path, final String name, final String type) {
 
         Logger.debug("FileOpenerActivity promptInstall type: " + type);
 
-        String title = String.format(getString(R.string.file_uploader_title), type);
+        @SuppressLint("StringFormatMatches") String title = String.format(getString(R.string.file_uploader_title), type);
 
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .canceledOnTouchOutside(false)
@@ -246,14 +260,22 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
         if (UPLOAD_APK.equals(type)) {
             Bundle bundle = FilesUtil.getApkInfo(this, path);
-            Bitmap bitmap = bundle.getParcelable(FilesUtil.APP_ICON);
-            String label = bundle.getString(FilesUtil.APP_LABEL);
-            String pkg = bundle.getString(FilesUtil.APP_PKG);
+            Bitmap bitmap = null;
+            String label, pkg;
             LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(
-                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-            imageViewParams.gravity = Gravity.TOP;
-            imageViewParams.gravity = Gravity.CENTER_HORIZONTAL;
+                        ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                        ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+
+            if (bundle != null) {
+                bitmap = bundle.getParcelable(FilesUtil.APP_ICON);
+                label = bundle.getString(FilesUtil.APP_LABEL);
+                pkg = bundle.getString(FilesUtil.APP_PKG);
+                imageViewParams.gravity = Gravity.TOP;
+                imageViewParams.gravity = Gravity.CENTER_HORIZONTAL;
+            } else {
+                label = getString(R.string.error);
+                pkg = getString(R.string.error);
+            }
             imageView.setLayoutParams(imageViewParams);
             if (bitmap != null)
                 imageView.setImageBitmap(bitmap);
@@ -345,9 +367,6 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                     })
                     .show();
         }
-
-
-
 
     }
 

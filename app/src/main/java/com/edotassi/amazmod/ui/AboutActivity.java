@@ -9,14 +9,15 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.service.notification.StatusBarNotification;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.LayoutInflaterCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.view.LayoutInflaterCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
@@ -67,11 +68,10 @@ public class AboutActivity extends BaseAppCompatActivity {
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.about);
         } catch (NullPointerException exception) {
-            Logger.error("AboutActivity onCreate exception: " + exception.toString());
-            //TODO log to crashlitics
+            Logger.error("AboutActivity onCreate exception: " + exception.getMessage());
         }
-        getSupportActionBar().setTitle(R.string.about);
 
         ButterKnife.bind(this);
 
@@ -305,6 +305,7 @@ public class AboutActivity extends BaseAppCompatActivity {
 
         //Disconnect transporter to avoid leaking
         notificationTransporter.disconnectTransportService();
+        notificationTransporter = null;
 
     }
 

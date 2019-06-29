@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.v4.os.ConfigurationCompat;
-import android.util.Log;
+import androidx.core.os.ConfigurationCompat;
+
+import androidx.annotation.NonNull;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -28,8 +28,7 @@ public class LocaleUtils {
 
     public static Locale getLocale() {
         String currentLanguage = getPersistedData(Locale.getDefault().getLanguage());
-        //TODO: commented line below because it was making TinyLog config not to work (is any log is done before configuration, nothing works)
-        //Logger.debug("LocaleUtils getLocale currentLanguage: " + currentLanguage);
+        System.out.println("D/AmazMod LocaleUtils getLocale currentLanguage: " + currentLanguage);
         if (currentLanguage.equals(Constants.PREF_LANGUAGE_AUTO)){
             //currentLanguage = Locale.getDefault().getLanguage(); // Didn't work on some phones while the whole app needed to be killed on others
             currentLanguage = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
@@ -62,7 +61,8 @@ public class LocaleUtils {
 
     // Change language
     private static Context setLocale(Context context, String language) {
-        Log.d("Amazmod","Change language - System: "+Locale.getDefault().getLanguage()+", To: "+language+", Device: "+ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage());
+        System.out.println("D/AmazMod LocaleUtils Change language - System: "+Locale.getDefault().getLanguage()+", " +
+                "To: "+language+", Device: "+ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage());
 
         // If AUTO get the system Locale
         if (language.equals(Constants.PREF_LANGUAGE_AUTO)) {

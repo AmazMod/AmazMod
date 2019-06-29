@@ -2,8 +2,6 @@ package com.amazmod.service.springboard.settings;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,9 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.amazmod.service.helper.ItemTouchHelperAdapter;
 import com.amazmod.service.helper.ItemTouchHelperViewHolder;
@@ -21,6 +22,7 @@ import org.tinylog.Logger;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWidgetAdapter.ViewHolder> implements ItemTouchHelperAdapter {
@@ -62,7 +64,7 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
         } else
             Logger.error("SpringboardWidgetAdapter onCreateViewHolder: null layoutInflater!");
 
-        return new ViewHolder(null);
+        return new ViewHolder(Objects.requireNonNull(layoutInflater).inflate(R.layout.springboard_item_preference_text, parent, false));
     }
 
     @Override
@@ -179,6 +181,7 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setSaveEnabled(false);
             //Set views
             title = itemView.findViewById(R.id.title);
             subtitle = itemView.findViewById(R.id.subtitle);

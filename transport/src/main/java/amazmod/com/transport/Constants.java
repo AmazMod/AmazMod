@@ -18,7 +18,7 @@ public class Constants {
     public static final String SHELL_COMMAND_INSTALL_APK = "install_apk %s";
     public static final String SHELL_COMMAND_REBOOT = "reboot";
     public static final String SHELL_COMMAND_FASTBOOT = "reboot bootloader";
-    public static final String SHELL_COMMAND_DPM = "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver";
+    public static final String SHELL_COMMAND_DPM = "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver";
     public static final String SHELL_COMMAND_FORCE_STOP_HUAMI_LAUNCHER = "adb shell am force-stop com.huami.watch.launcher";
     public static final String SHELL_COMMAND_ENABLE_APPS_LIST = "touch /sdcard/launcher_config.ini";
     public static final String SHELL_COMMAND_DISABLE_APPS_LIST = "rm /sdcard/launcher_config.ini";
@@ -28,10 +28,10 @@ public class Constants {
     public static final String SHELL_COMMAND_EXTRACT = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
     public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
-    public static final String SHELL_COMMAND_LOG_BUNDLE = "adb logcat -d | gzip > /sdcard/log_bundle.log.gz";
 
 
-
+    public static final String FILE_LOG_BUNDLE = "/sdcard/log_bundle.log.gz";
+    public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d | gzip > " + FILE_LOG_BUNDLE;
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
@@ -67,6 +67,8 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_DISABlE_DELAY = "preference.amazmodservice.disable.delay";
     public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
+    public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "preference.amazmod.overlay.launcher";
+    public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
     public static final String PREF_COMMAND_HISTORY = "preference.command.history";
 
     public static final String PREF_NOTIFICATIONS_LARGE_ICON = "preference.notification.largeicon";
@@ -77,10 +79,8 @@ public class Constants {
     public static final String PREF_LOG_TO_FILE = "preference.logs.logtofile";
     public static final boolean PREF_LOG_TO_FILE_DEFAULT = true;
 
-
     public static final String PREF_LOG_TO_FILE_LEVEL = "preference.logs.logtofile.level";
     public static final String PREF_LOG_TO_FILE_LEVEL_DEFAULT = "ERROR";
-
 
     //public static final String PREF_NOTIFICATION_DELETE_BUTTON = "preference.amazmodservice.notification.enable.deletebutton";
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
@@ -111,6 +111,7 @@ public class Constants {
     //public static final boolean PREF_DEFAULT_NOTIFICATIONS_DISABLE_DELAY = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY = true;
     public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
+    public static final boolean PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER = false;
 
     public static final int REQUEST_CODE_INTRO = 1;
 
@@ -173,9 +174,15 @@ public class Constants {
     public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
     public static final int SCREEN_BRIGHTNESS_VALUE_AUTO = -1;
 
-    public static final String LOGFILE = "/data/user/0/com.edotassi.amazmod/files/amazmod.log";
+    public static final String LOGFILE = "amazmod.log";
+    public static final String FILE_PROVIDER = "com.edotassi.amazmod.provider";
 
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 
     public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
+    public static final boolean PREF_AMAZMOD_DARK_THEME_DEFAULT = false;
+
+    public static final int SNACKBAR_LONG10 = 10000;
+
+
 }

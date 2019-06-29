@@ -31,10 +31,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.AppInfoAdapter;
 import com.amazmod.service.support.AppInfo;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -93,7 +93,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearAppsFragment onCreateView");
-        return inflater.inflate(R.layout.activity_wear_apps, container, false);
+        return inflater.inflate(R.layout.fragment_wear_apps, container, false);
     }
 
     @Override
@@ -425,17 +425,16 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     public void clearPackage(Context context, String packageName) {
         Logger.info("WearAppsFragment clearPackage packageName: " + packageName);
 
-        final String command = String.format("pm force-stop %s;pm clear %s;exit", packageName, packageName);
+        final String command = String.format("adb shell am force-stop %s;pm clear %s", packageName, packageName);
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.clear_app_data))
                 .setMessage(getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        runCommand(command);
+                        new ExecCommand(ExecCommand.ADB, command);
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
-
     }
 
     private void setButtonTheme(Button button, String string) {
@@ -446,19 +445,6 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         button.setAllCaps(true);
         button.setTextColor(Color.parseColor("#000000"));
         button.setBackground(mContext.getDrawable(R.drawable.reply_grey));
-    }
-
-    private void runCommand(String command) {
-        Logger.debug("WearAppsFragment runCommand: " + command);
-
-        if (!command.isEmpty()) {
-            try {
-                Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
-                        null, Environment.getExternalStorageDirectory());
-            } catch (Exception e) {
-                Logger.error("WearAppsFragment runCommand exception: " + e.toString());
-            }
-        }
     }
 
     public static WearAppsFragment newInstance() {

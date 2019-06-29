@@ -11,8 +11,8 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.event.BatteryStatus;
@@ -94,7 +94,6 @@ public class TransportService extends Service implements Transporter.DataListene
 
         Logger.debug("TransportService onCreate");
 
-
         //Make sure services are running and persistent
         startPersistentNotification();
         tryReconnectNotificationService();
@@ -158,7 +157,7 @@ public class TransportService extends Service implements Transporter.DataListene
             }
         } else {
             //TODO handle null action
-            Log.e(Constants.TAG, "TransportService onDataReceived null action!");
+            Logger.error("TransportService onDataReceived null action!");
         }
     }
 
@@ -323,20 +322,20 @@ public class TransportService extends Service implements Transporter.DataListene
 
     public void tryReconnectNotificationService() {
 
-        Log.d(Constants.TAG, "TransportService tryReconnectNotificationService");
+        Logger.debug("TransportService tryReconnectNotificationService");
 
         toggleNotificationService();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             ComponentName componentName = new ComponentName(getApplicationContext(), NotificationService.class);
             requestRebind(componentName);
-            Log.d(Constants.TAG, "TransportService tryReconnectNotificationService requestRebind");
+            Logger.debug("TransportService tryReconnectNotificationService requestRebind");
         }
     }
 
     private void toggleNotificationService() {
 
-        Log.i(Constants.TAG, "TransportService toggleNotificationService");
+        Logger.info("TransportService toggleNotificationService");
 
         ComponentName component = new ComponentName(this, NotificationService.class);
         PackageManager pm = getPackageManager();

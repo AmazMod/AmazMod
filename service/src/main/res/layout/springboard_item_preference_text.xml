@@ -11,13 +11,13 @@
     android:paddingLeft="@dimen/padding_round"
     android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
-            android:gravity="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            tools:text="Content" />
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@android:color/white"
+        tools:text="Content" />
 
 </LinearLayout>

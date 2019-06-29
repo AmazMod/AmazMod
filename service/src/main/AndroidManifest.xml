@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
@@ -36,7 +35,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.DeviceDefault"
+        android:theme="@style/Theme.Transparent"
         tools:ignore="GoogleAppIndexingWarning">
 
         <uses-library android:name="com.google.android.wearable" android:required="false" />
@@ -45,22 +44,8 @@
             android:name="com.huami.watch.launcher.springboard.PASSAGER_TARGET"
             android:resource="@array/spring_depend" />
 
-        <activity android:name="android.support.v7.app.ActionBarActivity" />
-        <activity
-            android:name=".ui.NotificationActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:label="@string/title_activity_notification"
-            android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
         <activity
             android:name=".ui.AlertsActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:label=""
-            android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
-        <activity android:name=".springboard.WearActivity"
             android:allowEmbedded="true"
             android:exported="true"
             android:label=""
@@ -85,12 +70,6 @@
             android:label=""
             android:taskAffinity=""
             android:theme="@style/Theme.NoSwipeToDismiss" />
-        <activity android:name=".springboard.WearGridActivity"
-            android:allowEmbedded="true"
-            android:exported="true"
-            android:label=""
-            android:taskAffinity=""
-            android:theme="@style/Theme.Transparent" />
         <activity android:name=".ui.InputMethodActivity"
             android:allowEmbedded="true"
             android:exported="true"
@@ -98,7 +77,6 @@
             android:taskAffinity=""
             android:theme="@style/Theme.Transparent" />
         <activity android:name=".springboard.LauncherWearGridActivity"
-            android:icon="@drawable/amazmod"
             android:allowEmbedded="true"
             android:exported="true"
             android:label="AmazMod"
@@ -135,7 +113,9 @@
             android:theme="@style/Theme.Transparent" />
         <activity android:name="android.support.wearable.activity.ConfirmationActivity" />
 
-        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" />
+        <!-- Deprecated: Hermes Event Bus -->
+        <!--        <activity android:name="android.support.v7.app.ActionBarActivity" /> -->
+        <!--        <service android:name="xiaofei.library.hermes.HermesService$HermesService0" /> -->
 
         <service android:name=".MainService"
             android:exported="true"
@@ -151,7 +131,11 @@
             android:label="AmazModBatteryJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <receiver android:name=".PackageReceiver"
+        <service
+            android:name="com.amazmod.service.OverlayLauncher"
+            android:exported="false" />
+
+        <receiver android:name=".receiver.PackageReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
@@ -172,30 +156,19 @@
         </receiver>
 
         <receiver
-            android:name=".notifications.NotificationsReceiver"
+            android:name=".receiver.BootReceiver"
             android:enabled="true"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.amazmod.intent.notification.reply" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".BootReceiver"
-            android:enabled="true"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
-                <action android:name="android.intent.action.REBOOT" />
-                <action android:name="android.intent.action.USER_PRESENT" />
 
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
 
         <receiver
-            android:name=".AdminReceiver"
+            android:name=".receiver.AdminReceiver"
             android:label="@string/device_admin"
             android:description="@string/device_admin_description"
             android:permission="android.permission.BIND_DEVICE_ADMIN">

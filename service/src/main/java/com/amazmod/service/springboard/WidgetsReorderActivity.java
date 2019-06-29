@@ -1,10 +1,11 @@
 package com.amazmod.service.springboard;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.amazmod.service.R;
 import com.amazmod.service.helper.SimpleItemTouchHelperCallback;
@@ -16,12 +17,14 @@ public class WidgetsReorderActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.onStateNotSaved();
 
         WidgetsUtil.loadWidgetList(this);
         SpringboardWidgetAdapter adapter = WidgetsUtil.getAdapter(this);
 
         //Create recyclerview as layout
         RecyclerView recyclerView = new RecyclerView(this);
+        recyclerView.setSaveEnabled(false);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         //Setup drag to move using the helper

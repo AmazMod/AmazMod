@@ -8,13 +8,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.text.emoji.EmojiCompat;
-import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -182,7 +183,8 @@ public class NotificationWearActivity extends Activity {
     public void startTimerFinish() {
         if (!mode.equals(MODE_VIEW)) {
             Logger.debug("NotificationWearActivity startTimerFinish");
-            handler.removeCallbacks(activityFinishRunnable);
+            if (activityFinishRunnable != null)
+                handler.removeCallbacks(activityFinishRunnable);
             int timeOutRelock = NotificationStore.getTimeoutRelock(key);
             if (timeOutRelock == 0)
                 timeOutRelock = settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT);
@@ -192,7 +194,8 @@ public class NotificationWearActivity extends Activity {
 
     public void stopTimerFinish() {
         Logger.debug("NotificationWearActivity stopTimerFinish");
-        handler.removeCallbacks(activityFinishRunnable);
+        if (activityFinishRunnable != null)
+            handler.removeCallbacks(activityFinishRunnable);
     }
 
     public void setKeyboardVisible(boolean visible){
@@ -201,7 +204,8 @@ public class NotificationWearActivity extends Activity {
 
     @Override
     public void finish() {
-        handler.removeCallbacks(activityFinishRunnable);
+        if (activityFinishRunnable != null)
+            handler.removeCallbacks(activityFinishRunnable);
         setWindowFlags(false);
         super.finish();
 

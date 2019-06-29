@@ -2,6 +2,7 @@
 
 AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace, Stratos and Verge watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
 
+
 ### Some features:  
 * Brand new notifications filter system, with the option to use customized ("canned") replies, show images and more;  
 * Battery/Heart-rate log and other info that can be viewed on the app as a graph;  
@@ -35,7 +36,7 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 5. Check if you see AmazMod widget on watch, if you don't then something went wrong, check Troubleshooting below;
 6. Open AmazMod app on phone and configure it to your needs.
 7. For better power managment, in the tweaking section on the phone client with the latest version - run:
-   `adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver`
+   `adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver`
 
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;
