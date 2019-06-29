@@ -102,7 +102,7 @@
     <string name="pref_battery_watch_alert_summary">Установить уровень заряда батареи часов, после которого вы получите уведомление о разряде.</string>
     <string name="pref_battery_phone_alert">Низкий заряд батареи телефона</string>
     <string name="pref_battery_phone_alert_summary">Установите уровень заряда батареи телефона, после которого вы получите уведомление о разряде. Для включения необходимо включить параметр GreatFit/Calendar \"Отправлять данные телефона\".</string>
-    <string name="pref_notifications_replies_summary">Enter your custom replies.</string>
+    <string name="pref_notifications_replies_summary">Введите пользовательские ответы.</string>
     <string name="pref_notifications_replies">Ответы на уведомления</string>
     <string name="pref_private_notifications_summary">Содержимое уведомлений будет скрыто (и панель ответов тоже).</string>
     <string name="pref_private_notifications">Не показывать уведомления полностью</string>
@@ -111,9 +111,9 @@
     <string name="pref_notifications_enable_custom_ui">Пользовательские ответы</string>
     <string name="pref_notifications_enable_custom_ui_summary">Уведомления с возможностью ответить.</string>
     <string name="pref_run_wizard">Запустить \"Приветствие\"</string>
-    <string name="pref_run_wizard_summary">Run the welcome presentation again.</string>
+    <string name="pref_run_wizard_summary">Запустить \"Приветствие\" повторно.</string>
     <string name="pref_vibration_duration">Продолжительность вибрации</string>
-    <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled).</string>
+    <string name="pref_vibration_duration_summary">Установить продолжительность вибрации для экрана ответов на часах (используется если стандартные уведомления выключены).</string>
     <string name="pref_screen_timeout">Время активности экрана</string>
     <string name="pref_screen_timeout_summary">Set duration of custom replies screen.</string>
     <string name="pref_disable_notifications_when_dnd">Режим \"Не беспокоить\"</string>
