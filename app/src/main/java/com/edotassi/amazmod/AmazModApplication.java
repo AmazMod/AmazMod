@@ -39,18 +39,18 @@ public class AmazModApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        setupLogs();
+        Logger.info("AmazModApplication onCreate");
 
         FlowManager.init(this);
 
         Watch.init(getApplicationContext());
 
-
         setWatchConnected(true);
+
         setupLocale();
 
         Setup.run(getApplicationContext());
+
     }
 
     @Override
@@ -61,6 +61,8 @@ public class AmazModApplication extends Application {
                 .setUseDefaultSharedPreference(true)
                 .build();
         super.attachBaseContext(LocaleUtils.onAttach(base));
+        setupLogs();
+        Logger.debug("AmazModApplication attachBaseContext");
 
     }
 
