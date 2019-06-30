@@ -139,9 +139,9 @@
     <string name="intro_description_permissions">AmazMod are nevoie de acces la notificări pentru a le putea trimite către ceas, vă rog să apăsați butonul de mai jos pentru a permite accesul la notificări, după care vă puteți întoarce la prezentare.</string>
     <string name="intro_label_grant_permissions">Vă rog să permiteți acces la notificări înainte de a continua.</string>
     <string name="intro_title_2">Instalează Serviciul Aplicației pe Ceas</string>
-    <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
+    <string name="intro_description_2">Vă rog să descărcați amazmod_service APK de pe site-ul AmazMod și să o instalați pe ceasul dumneavoastră. Pentru instalare puteți utiliza adb (toate sistemele de operare), APKInstaller sau Amazfit Tool în caz că pe calculatorul dumneavoastră rulează Windows.</string>
     <string name="intro_title_3">Reporniţi Dispozitivele</string>
-    <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
+    <string name="intro_description_3">Apoi va rog să reporniți atât ceasul, cât și telefonul. Veți ști că a funcționat dacă sunt afișate date în căsuța Informații a ceasului.</string>
     <string name="intro_title_4">Totul este gata!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
     <string name="watch_is_connected">Conectat(ă)</string>
