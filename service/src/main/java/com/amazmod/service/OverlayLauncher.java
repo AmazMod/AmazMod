@@ -31,9 +31,17 @@ public class OverlayLauncher extends Service implements OnTouchListener {
     private static char position;
     private static int originX, originY, moveX, moveY;
     private static int vibration;
+    private static int overlayColor;
 
     public static final char POSITION_RIGHT = 'R';
     public static final char POSITION_LEFT = 'L';
+
+
+    private static int OVERLAY_COLOR_AMOLED = 0x40fe4444;
+    private static int OVERLAY_COLOR_TRANSFLECTIVE = 0x80fe4444;
+    private static int OVERLAY_COLOR_TRANSPARENT = 0x00fe4444;
+
+    private static long OVERLAY_DELAY = 2000;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,22 +55,32 @@ public class OverlayLauncher extends Service implements OnTouchListener {
 
         Logger.debug("OverlayLauncher onCreate");
 
+        boolean atWatchface = isWatchface();
+
         context = getApplicationContext();
         wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
 
+        initParams();
+
         overlayLauncher = new View(this);
-        overlayLauncher.setBackgroundColor(0x40fe4444);
+        if (atWatchface) {
+            overlayLauncher.setBackgroundColor(overlayColor);
+        }else{
+            overlayLauncher.setBackgroundColor(OVERLAY_COLOR_TRANSPARENT);
+        }
         overlayLauncher.setOnTouchListener(this);
 
-        initParams();
+
         wm.addView(overlayLauncher, params);
 
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                if (overlayLauncher != null)
-                    overlayLauncher.setBackgroundColor(0x00fe4444);
-            }
-        }, 2000);
+        if (atWatchface) {
+            new Handler().postDelayed(new Runnable() {
+                public void run() {
+                    if (overlayLauncher != null)
+                        overlayLauncher.setBackgroundColor(OVERLAY_COLOR_TRANSPARENT);
+                }
+            }, OVERLAY_DELAY);
+        }
     }
 
     @Override
@@ -138,11 +156,13 @@ public class OverlayLauncher extends Service implements OnTouchListener {
             params.height = 30;
             params.width = 170;
             vibration = 30;
+            overlayColor = OVERLAY_COLOR_AMOLED;
         }
         else {
             params.height = 15;
             params.width = 150;
             vibration = 10;
+            overlayColor = OVERLAY_COLOR_TRANSFLECTIVE;
         }
 
         if (POSITION_LEFT == MainService.getOverlayLauncherPosition())
