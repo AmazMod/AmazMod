@@ -37,7 +37,7 @@
     <string name="file_not_exists">Plik nie istnieje</string>
     <string name="cant_uplaod_directory">Tutaj nie można wrzucić</string>
     <string name="sending">Wyślij</string>
-    <string name="wait">please wait</string>
+    <string name="wait">proszę czekać</string>
     <string name="cant_upload_file">Nie wysłano pliku</string>
     <string name="cant_download_file">Nie można pobrać</string>
     <string name="file_upload_canceled">Wgrywanie nieudane</string>
@@ -88,14 +88,14 @@
     <string name="activity_stats_notifications_total">Łącznie</string>
     <string name="activity_stats_notifications_in_the_last_hour">W ciągu ostatniej godziny</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">W ostatnich 24 godzinach</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications.</string>
+    <string name="pref_enable_notifications_summary">Pozwól, aby AmazMod obsługiwał wszystkie powiadomienia.</string>
     <string name="pref_enable_notifications">Wyskakujące powiadomienia</string>
     <string name="pref_filter_notifications_by_packages">Wybrane aplikacje</string>
-    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
+    <string name="pref_filter_notifications_by_packages_summary">Powiadomienia z tych aplikacji będą wysyłane na zegarek.</string>
     <string name="pref_disable_battery_chart">Wyłącz wykres baterii</string>
-    <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences.</string>
+    <string name="pref_disable_battery_chart_summary">Wyłącz wykres baterii na ekranie głównym, aplikacja odświeży się podczas zamykania Preferencji.</string>
     <string name="pref_battery_background_sync_interval">Częstotliwość synchronizacji</string>
-    <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
+    <string name="pref_battery_background_sync_interval_summary">Ustaw interwał synchronizacji baterii w tle.</string>
     <string name="pref_battery_chart_time_interval">Wykres zakresu czasowego</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Ostrzeżenie o stanie baterii w zegarku</string>
