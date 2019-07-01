@@ -58,7 +58,7 @@ jobs:
           paths:
             - apks
   
-  publish-github-release:
+  github-release:
     docker:
       - image: cibuilds/github:0.12.1
     steps:
@@ -84,7 +84,11 @@ workflows:
   version: 2
   main:
     jobs:
-      - build
-      - publish-github-release:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - dev
+      - github-release:
           requires:
             - build
