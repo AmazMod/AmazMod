@@ -353,6 +353,6 @@
     <string name="rename_file">Переименовать файл</string>
     <string name="type_file_name">Введите имя файла</string>
     <string name="new_folder">Новая папка</string>
-    <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
-    <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
+    <string name="pref_amazmod_overlay_launcher">Оболочка для всплывающих уведомлений</string>
+    <string name="pref_amazmod_overlay_launcher_summary">Откройте пользовательский список уведомлений пользовательского интерфейса, используя всплывающую кнопку в часах (ее местоположение кратко отображается при включении экрана и вы можете свайпнуть ее влево или вправо).</string>
 </resources>
