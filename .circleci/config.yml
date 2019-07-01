@@ -3,10 +3,6 @@
 version: 2
 jobs:
   build:
-    branches:
-      only:
-        - master
-        - dev
     docker:
       - image: circleci/android:api-28-alpha
     environment:
@@ -67,7 +63,11 @@ workflows:
   version: 2
   main:
     jobs:
-      - build
+      - build:
+        branches:
+          only:
+            - master
+            - dev
       - publish-github-release:
           requires:
             - build
