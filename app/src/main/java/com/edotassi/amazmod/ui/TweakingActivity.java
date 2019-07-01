@@ -2,6 +2,7 @@ package com.edotassi.amazmod.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -159,6 +160,22 @@ public class TweakingActivity extends BaseAppCompatActivity {
         EventBus.getDefault().register(this);
     }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("D/AmazMod TweakingActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("D/AmazMod TweakingActivity ORIENTATION LANDSCAPE");
+        }
+    }
+
     @OnClick(R.id.activity_tweaking_switcht_auto_brightness)
     public void changeAutoBrightness() {
         boolean autoBrightness = autoBrightnessSwitch.isChecked();
@@ -193,8 +210,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                     .show();
         }
     }
-
-
 
     @OnClick(R.id.activity_tweaking_reboot)
     public void reboot() {
@@ -376,7 +391,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
         execCommandInternally(command,true);
     }
 
-
     private void execCommandInternally(String command, boolean wait) {
         final SnackProgressBar progressBar = new SnackProgressBar(
                 SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending))
@@ -460,12 +474,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 return null;
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -607,7 +615,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                         return null;
                     }
                 });
-
     }
 
 }

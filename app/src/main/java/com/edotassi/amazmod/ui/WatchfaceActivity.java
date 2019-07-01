@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -294,6 +295,16 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         }
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("D/AmazMod WatchfaceActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("D/AmazMod WatchfaceActivity ORIENTATION LANDSCAPE");
+        }
     }
 
     private String lastTimeRead() {
