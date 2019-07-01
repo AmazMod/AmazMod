@@ -60,12 +60,19 @@ import static android.service.notification.NotificationListenerService.requestRe
 
 public class TransportService extends Service implements Transporter.DataListener {
 
-    private Transporter transporter;
-    private PersistentNotification persistentNotification;
-    public static String model;
+    private static Transporter transporterAmazMod, transporterNotifications, transporterHuami;
 
+    private PersistentNotification persistentNotification;
     private LocalBinder localBinder = new LocalBinder();
     private TransportListener transportListener;
+
+    private static DataTransportResult result;
+
+    private static final char TRANSPORT_AMAZMOD = 'A';
+    private static final char TRANSPORT_NOTIFICATIONS = 'N';
+    private static final char TRANSPORT_HUAMI = 'H';
+
+    public static String model;
 
     int numCores = Runtime.getRuntime().availableProcessors();
     ThreadPoolExecutor executor = new ThreadPoolExecutor(numCores * 2, numCores * 2,
@@ -101,16 +108,9 @@ public class TransportService extends Service implements Transporter.DataListene
         transportListener = new TransportListener(this);
         EventBus.getDefault().register(transportListener);
 
-        transporter = TransporterClassic.get(this, Transport.NAME);
-        transporter.addDataListener(this);
-
-        if (transporter.isTransportServiceConnected()) {
-            Logger.info("TransportService onCreate already connected");
-        } else {
-            Logger.warn("TransportService onCreate not connected, connecting...");
-            transporter.connectTransportService();
-            AmazModApplication.setWatchConnected(false);
-        }
+        getTransporters();
+        connectTransporters();
+        transporterAmazMod.addDataListener(this);
 
     }
 
@@ -128,8 +128,8 @@ public class TransportService extends Service implements Transporter.DataListene
     public void onDestroy() {
         stopForeground(true);
         EventBus.getDefault().unregister(transportListener);
-        transporter.removeDataListener(this);
-        transporter.disconnectTransportService();
+        transporterAmazMod.removeDataListener(this);
+        disconnectTransports();
         Logger.debug("TransportService onDestroy");
         super.onDestroy();
     }
@@ -159,6 +159,93 @@ public class TransportService extends Service implements Transporter.DataListene
             //TODO handle null action
             Logger.error("TransportService onDataReceived null action!");
         }
+    }
+
+    private void getTransporters(){
+        Logger.trace("TransportService getTransporters");
+        transporterAmazMod = TransporterClassic.get(this, Transport.NAME);
+        transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
+        transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
+    }
+
+    private void connectTransporters(){
+        Logger.trace("TransportService connectTransporters");
+        connectTransporterAmazMod();
+        connectTransporterNotifications();
+        connectTransporterHuami();
+    }
+
+    private void disconnectTransports() {
+        Logger.trace("TransportService disconnectTransporters");
+        if (transporterAmazMod.isTransportServiceConnected()) {
+            Logger.info("disconnectTransports disconnecting transporter…");
+            transporterAmazMod.disconnectTransportService();
+            transporterAmazMod = null;
+        }
+
+        if (transporterNotifications.isTransportServiceConnected()) {
+            Logger.info("disconnectTransports disconnecting transporterNotifications…");
+            transporterNotifications.disconnectTransportService();
+            transporterNotifications = null;
+        }
+
+        if (transporterHuami.isTransportServiceConnected()) {
+            Logger.info("disconnectTransports disconnecting transporterHuami…");
+            transporterHuami.disconnectTransportService();
+            transporterHuami = null;
+        }
+    }
+
+    public static void connectTransporterAmazMod(){
+        if (transporterAmazMod.isTransportServiceConnected()) {
+            Logger.info("TransportService onCreate already connected");
+        } else {
+            Logger.warn("TransportService onCreate not connected, connecting...");
+            transporterAmazMod.connectTransportService();
+            AmazModApplication.setWatchConnected(false);
+        }
+    }
+
+    public static void connectTransporterNotifications(){
+        if (!transporterNotifications.isTransportServiceConnected()) {
+            Logger.warn("TransportService transporterNotifications not connected, connecting...");
+            transporterNotifications.connectTransportService();
+        } else {
+            Logger.info("TransportService transporterNotifications already connected");
+        }
+    }
+
+    public static void connectTransporterHuami() {
+        if (!transporterHuami.isTransportServiceConnected()) {
+            Logger.warn("onStartJob transporterHuami not connected, connecting...");
+            transporterHuami.connectTransportService();
+        } else {
+            Logger.info("TransportService transportedHuami already connected");
+        }
+    }
+
+    public static boolean isTransporterAmazModAvailable(){
+        return transporterAmazMod.isAvailable();
+    }
+
+    public static boolean isTransporterNotificationsAvailable(){
+        return transporterNotifications.isAvailable();
+    }
+
+    public static boolean isTransporterHuamiAvailable(){
+        return transporterHuami.isAvailable();
+    }
+
+    public static boolean isTransporterAmazModConnected(){
+        return transporterAmazMod.isTransportServiceConnected();
+    }
+
+    public static boolean isTransporterNotificationsConnected(){
+        return transporterNotifications.isTransportServiceConnected();
+    }
+
+    public static boolean isTransporterHuamiConnected(){
+        return transporterHuami.isTransportServiceConnected();
     }
 
     private void startPersistentNotification() {
@@ -225,7 +312,7 @@ public class TransportService extends Service implements Transporter.DataListene
     }
 
     public void send(final String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
-        boolean isTransportConnected = transporter.isTransportServiceConnected();
+        boolean isTransportConnected = isTransporterAmazModConnected();
         if (!isTransportConnected) {
             if (AmazModApplication.isWatchConnected() != isTransportConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
                 AmazModApplication.setWatchConnected(isTransportConnected);
@@ -242,45 +329,86 @@ public class TransportService extends Service implements Transporter.DataListene
             transportable.toDataBundle(dataBundle);
         }
 
-        Logger.debug("TransportService send1: " + action);
-        transporter.send(action, dataBundle, new Transporter.DataSendResultCallback() {
-            @Override
-            public void onResultBack(DataTransportResult dataTransportResult) {
-                Logger.info("Send result: " + dataTransportResult.toString());
-
-                switch (dataTransportResult.getResultCode()) {
-                    case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
-                    case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
-                    case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
-                    case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
-                        TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
-                        if (taskCompletionSourcePendingResult != null) {
-                            taskCompletionSourcePendingResult.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
-                            pendingResults.remove(action);
-                        }
-
-                        if (waiter != null) {
-                            waiter.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
-                        }
-                        break;
+        DataTransportResult dataTransportResult = sendWithTransporterAmazMod(action, dataBundle);
+        if (dataTransportResult != null) {
+            switch (dataTransportResult.getResultCode()) {
+                case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
+                case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
+                case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
+                case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
+                    TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
+                    if (taskCompletionSourcePendingResult != null) {
+                        taskCompletionSourcePendingResult.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
+                        pendingResults.remove(action);
                     }
-                    case (DataTransportResult.RESULT_OK): {
-                        if (waiter != null) {
-                            waiter.setResult(null);
-                        }
 
-                        if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null) {
-                            AmazModApplication.setWatchConnected(true);
-                            EventBus.getDefault().removeAllStickyEvents();
-                            EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
-                            persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
-                            Logger.debug("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected());
-                        }
-                        break;
+                    if (waiter != null) {
+                        waiter.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
                     }
+                    break;
+                }
+                case (DataTransportResult.RESULT_OK): {
+                    if (waiter != null) {
+                        waiter.setResult(null);
+                    }
+
+                    if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null) {
+                        AmazModApplication.setWatchConnected(true);
+                        EventBus.getDefault().removeAllStickyEvents();
+                        EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
+                        persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
+                        Logger.debug("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected());
+                    }
+                    break;
                 }
             }
-        });
+        }
+    }
+
+    public static DataTransportResult sendWithTransporterAmazMod(String action, DataBundle dataBundle){
+        return getDataTransportResult(TRANSPORT_AMAZMOD, action, dataBundle);
+    }
+
+    public static DataTransportResult sendWithTransporterNotifications(String action, DataBundle dataBundle){
+        return getDataTransportResult(TRANSPORT_NOTIFICATIONS, action, dataBundle);
+    }
+
+    public static DataTransportResult sendWithTransporterHuami(String action, DataBundle dataBundle){
+        return getDataTransportResult(TRANSPORT_HUAMI, action, dataBundle);
+    }
+
+    public static DataTransportResult getDataTransportResult(char mode, String action, DataBundle dataBundle) {
+        Transporter t = null;
+        switch (mode) {
+            case TRANSPORT_AMAZMOD:
+                Logger.debug("TransportService sendUsingTransporter action: {}", action);
+                t = transporterAmazMod;
+                break;
+            case TRANSPORT_NOTIFICATIONS:
+                Logger.debug("TransportService sendUsingTransporterNotifications action: {}", action);
+                t = transporterNotifications;
+                break;
+            case TRANSPORT_HUAMI:
+                Logger.debug("TransportService sendUsingTransporterHuami action: {}", action);
+                t = transporterHuami;
+                break;
+            default:
+                Logger.error("mode not found or null, returning...");
+                return null;
+
+        }
+        if (t != null) {
+            t.send(action, dataBundle, new Transporter.DataSendResultCallback() {
+                @Override
+                public void onResultBack(DataTransportResult dataTransportResult) {
+                    Logger.debug("getDataTransportResult result: " + dataTransportResult.toString());
+                    result = dataTransportResult;
+
+                }
+            });
+            return result;
+        } else
+            return null;
     }
 
     private Object dataToClass(TransportDataItem transportDataItem) {

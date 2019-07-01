@@ -15,13 +15,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.view.LayoutInflaterCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.view.LayoutInflaterCompat;
 
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -30,8 +31,6 @@ import com.google.gson.reflect.TypeToken;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.DataTransportResult;
-import com.huami.watch.transport.Transporter;
-import com.huami.watch.transport.TransporterClassic;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -255,68 +254,36 @@ public class AboutActivity extends BaseAppCompatActivity {
 
         builder.extend(wearableExtender);
         Notification notification = builder.build();
-/*
-        notification.extras.getBundle("android.wearable.EXTENSIONS");
-
-        if (notification.extras == null) {
-            Bundle bundle = new Bundle();
-            notification.extras.putBundle("android.car.EXTENSIONS", bundle);
-        }
-*/
         StatusBarNotification sbn = new StatusBarNotification("com.edotassi.amazmod", "",
                 nextId + 1, "tag", 0, 0, 0,
                 notification, android.os.Process.myUserHandle(),
                 System.currentTimeMillis());
 
         StatusBarNotificationData sbnd = StatusBarNotificationData.from(this, sbn, false);
-
         dataBundle.putParcelable("data", sbnd);
-/*
-        StatusBarNotificationData sbnd2 = dataBundle.getParcelable("notification");
-        System.out.println("AmazMod AboutActivity StandardUI sbnd: " + sbnd);
+        DataTransportResult dataTransportResult = TransportService.sendWithTransporterHuami("add", dataBundle);
 
-        //NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        //notificationManagerCompat.notify(123456, sbnd2.notification.originalNotification);
-
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("notification", sbn);
-*/
-
-        //Connect transporter
-        Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
-        notificationTransporter.connectTransportService();
-
-        notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
-            @Override
-            public void onResultBack(DataTransportResult dataTransportResult) {
-                Logger.debug("AboutActivity dataTransportResult: " + dataTransportResult.toString());
-                switch (dataTransportResult.getResultCode()) {
-                    case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
-                    case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
-                    case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
-                    case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
-                        Snacky.builder()
-                                .setActivity(AboutActivity.this)
-                                .setText(R.string.failed_to_send_test_notification)
-                                .setDuration(Snacky.LENGTH_SHORT)
-                                .build().show();
-                        break;
-                    }
-                    case (DataTransportResult.RESULT_OK): {
-                        Snacky.builder()
-                                .setActivity(AboutActivity.this)
-                                .setText(R.string.test_notification_sent)
-                                .setDuration(Snacky.LENGTH_SHORT)
-                                .build().show();
-                    }
-                    break;
-                }
+        switch (dataTransportResult.getResultCode()) {
+            case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
+            case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
+            case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
+            case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
+                Snacky.builder()
+                        .setActivity(AboutActivity.this)
+                        .setText(R.string.failed_to_send_test_notification)
+                        .setDuration(Snacky.LENGTH_SHORT)
+                        .build().show();
+                break;
             }
-        });
-
-        //Disconnect transporter to avoid leaking
-        notificationTransporter.disconnectTransportService();
-        notificationTransporter = null;
+            case (DataTransportResult.RESULT_OK): {
+                Snacky.builder()
+                        .setActivity(AboutActivity.this)
+                        .setText(R.string.test_notification_sent)
+                        .setDuration(Snacky.LENGTH_SHORT)
+                        .build().show();
+            }
+            break;
+        }
 
     }
 

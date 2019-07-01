@@ -37,14 +37,12 @@ import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
 import com.edotassi.amazmod.notification.factory.NotificationFactory;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
+import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.util.NotificationUtils;
 import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
-import com.huami.watch.transport.DataTransportResult;
-import com.huami.watch.transport.Transporter;
-import com.huami.watch.transport.TransporterClassic;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -424,19 +422,8 @@ public class NotificationService extends NotificationListenerService {
             scheduleJob(id, jobId, key);
             Logger.info("sendNotificationWithStandardUI jobScheduled: " + jobId + " \\ key: " + key);
         } else {
-            //Connect transporter
-            Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
-            notificationTransporter.connectTransportService();
 
-            notificationTransporter.send("add", dataBundle, new Transporter.DataSendResultCallback() {
-                @Override
-                public void onResultBack(DataTransportResult dataTransportResult) {
-                    Logger.debug(dataTransportResult.toString());
-                }
-            });
-            //Disconnect transporter to avoid leaking
-            notificationTransporter.disconnectTransportService();
-            notificationTransporter = null;
+            TransportService.sendWithTransporterHuami("add", dataBundle);
             Logger.info("sendNotificationWithStandardUI: " + dataBundle.toString());
         }
     }
