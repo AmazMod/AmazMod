@@ -34,7 +34,10 @@ jobs:
           command: ./gradlew lint test
       - run:
           name: Build debug APK
-          command: ./gradlew :app:assembleDebug          
+          command: ./gradlew :app:assembleDebug
+      - store_artifacts:
+          path: app/build/outputs/apk
+          destination: apk
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports
