@@ -64,7 +64,7 @@ public class NotificationService {
 
     public void post(final NotificationData notificationSpec) {
 
-        if (!DeviceUtil.isDNDActive(context, context.getContentResolver())) {
+        if (!DeviceUtil.isDNDActive(context)) {
 
             boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                     Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);

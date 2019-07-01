@@ -41,6 +41,7 @@ import butterknife.OnClick;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.tinylog.Logger;
 
 public class AlertsActivity extends Activity {
 
@@ -51,7 +52,6 @@ public class AlertsActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    Vibrator vibrator;
     int vibrate;
 
     @Override
@@ -64,7 +64,6 @@ public class AlertsActivity extends Activity {
 
         SettingsManager settingsManager = new SettingsManager(this);
 
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrate = Constants.VIBRATION_SHORT;
 
         // Get passed parameters
@@ -104,13 +103,7 @@ public class AlertsActivity extends Activity {
         final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
-                try {
-                    if (vibrator != null) {
-                        vibrator.vibrate(vibrate);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                makeVibration(vibrate);
             }
         }, 1500);
     }
@@ -133,14 +126,10 @@ public class AlertsActivity extends Activity {
     private void startTimerFinish() {
 
         // Vibrate
-        try {
-            vibrator.vibrate(Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        makeVibration(Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION);
 
         handler.removeCallbacks(activityFinishRunnable);
-        handler.postDelayed(activityFinishRunnable, 3*1000);
+        handler.postDelayed(activityFinishRunnable, 3 * 1000L /* 3s */);
 
     }
 
@@ -149,6 +138,20 @@ public class AlertsActivity extends Activity {
         handler.removeCallbacks(activityFinishRunnable);
         setWindowFlags(false);
         super.finish();
+    }
+
+    private void makeVibration(int duration) {
+        //Do not vibrate if DND is active
+        if (DeviceUtil.isDNDActive(this))
+            return;
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        try {
+            if (vibrator != null)
+                vibrator.vibrate(duration);
+        } catch (Exception ex) {
+            Logger.error(ex, "AlertsActivity makeVibration excepition: ", ex.getMessage());
+        }
     }
 
     private void setWindowFlags(boolean enable) {

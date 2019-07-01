@@ -1024,7 +1024,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                                 // Check is screen is locked
                                 if (DeviceUtil.isDeviceLocked(context)) {
-                                    Logger.debug("Screenshot: trying to wake screen...");
+                                    Logger.debug("Screenshot: trying to wake up screen...");
                                     PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 
                                     wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
@@ -1375,18 +1375,22 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         notificationManager.post(notificationData);
-        final Handler mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
-            public void run() {
-                try {
-                    if (vibrator != null) {
-                        vibrator.vibrate(vibrate);
+
+        //Do not vibrate if DND is active
+        if (!DeviceUtil.isDNDActive(context)) {
+            final Handler mHandler = new Handler();
+            mHandler.postDelayed(new Runnable() {
+                public void run() {
+                    try {
+                        if (vibrator != null) {
+                            vibrator.vibrate(vibrate);
+                        }
+                    } catch (Exception e) {
+                        Logger.error(e, "vibrator exception: " + e.getMessage());
                     }
-                } catch (Exception e) {
-                    Logger.error(e, "vibrator exception: " + e.getMessage());
                 }
-            }
-        }, 1000);
+            }, 1000 /* 1s */);
+        }
     }
 
     // Count notifications
