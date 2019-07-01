@@ -115,7 +115,7 @@
     <string name="pref_vibration_duration">Продолжительность вибрации</string>
     <string name="pref_vibration_duration_summary">Установить продолжительность вибрации для экрана ответов на часах (используется если стандартные уведомления выключены).</string>
     <string name="pref_screen_timeout">Время активности экрана</string>
-    <string name="pref_screen_timeout_summary">Set duration of custom replies screen.</string>
+    <string name="pref_screen_timeout_summary">Установить продолжительность отображения вариантов ответа на экране.</string>
     <string name="pref_disable_notifications_when_dnd">Режим \"Не беспокоить\"</string>
     <string name="pref_disable_notifications_when_dnd_summary">Уведомления не будут приходить на часы, когда включён режим «Не беспокоить».</string>
     <string name="pref_disable_remove_notifications">Задержка уведомлений</string>
@@ -127,12 +127,12 @@
     <string name="pref_enable_notifications_when_locked">Заблокированный телефон</string>
     <string name="pref_enable_notifications_when_locked_summary">Отображать уведомления на часах, если экран включен, но телефон заблокирован.</string>
     <string name="pref_notifications_enable_ungroup">Разгрупировка уведомлений</string>
-    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them tho).</string>
+    <string name="pref_notifications_enable_ungroup_summary">Уведомления от одного отправителя будут разделены (и вы не сможете их синхронизировать).</string>
     <string name="pref_filters">Фильтры уведомлений</string>
     <string name="pref_enable_music_control_with_hardware_button">Включить аппаратное управление музыкой</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(ЭКСПЕРИМАТЕЛЬНАЯ ФУНКЦИЯ!) Включить управление музыкой с помощью физических кнопок. Нажмите нижнюю кнопку для проигрывания или остановки музыки. Долгое нажатие служит для переходу к следующей композиции.</string>
     <string name="pref_phone_connect_disconnect_alert">Уведомление о подключении/отключении телефона</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Часы будут вибрировать и показывать статус подключения к телефону.</string>
     <string name="intro_title_1">Добро пожаловать в AmazMod!</string>
     <string name="intro_description_1">Следуйте этой презентации, чтобы узнать, как установить службы приложений на часах и предоставить приложению доступ к Уведомлениям на телефоне.</string>
     <string name="intro_title_permissions">Доступ к уведомлениям</string>
