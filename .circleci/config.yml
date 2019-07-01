@@ -39,6 +39,12 @@ jobs:
       - store_artifacts:
           path: service/build/outputs/apk
           destination: apk
+      - run
+          name: Move APKs to temp folder
+          command: |
+            mkdir -p persist/apks
+            cp app/build/outputs/apk/app-debug.apk persist/apks/
+            cp service/build/outputs/apk/service-debug.apk persist/apks/
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports
@@ -48,22 +54,22 @@ jobs:
       - persist_to_workspace:
           # Must be an absolute path, or relative path from working_directory. This is a directory on the container which is 
           # taken to be the root directory of the workspace.
-          root: apk
+          root: persist
           # Must be relative path from root
           paths:
-            - debug
+            - apks
   
   publish-github-release:
     docker:
       - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
-          at: ./apk
+          at: ./apks
       - run:
           name: "Publish Release on GitHub"
           command: |
             VERSION="edgy"
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./apk/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./apks/
             
             
 workflows:
