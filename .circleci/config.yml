@@ -63,11 +63,7 @@ workflows:
   version: 2
   main:
     jobs:
-      - build:
-        branches:
-          only:
-            - master
-            - dev
+      - build
       - publish-github-release:
           requires:
             - build
