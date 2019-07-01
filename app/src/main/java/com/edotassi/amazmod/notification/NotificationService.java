@@ -401,7 +401,7 @@ public class NotificationService extends NotificationListenerService {
             scheduleJob(id, jobId, key);
             Logger.info("sendNotificationWithCustomUI jobScheduled: " + jobId + " \\ key: " + key);
         } else {
-            NotificationJobService.extractImagesFromNotification(statusBarNotification.getNotification().extras, notificationData);
+            NotificationFactory.extractImagesFromNotification(statusBarNotification.getNotification().extras, statusBarNotification, notificationData);
             Watch.get().postNotification(notificationData);
             Logger.info("sendNotificationWithCustomUI sent without schedule: " + key);
         }

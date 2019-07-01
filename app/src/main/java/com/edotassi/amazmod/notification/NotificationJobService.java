@@ -1,5 +1,6 @@
 package com.edotassi.amazmod.notification;
 
+import android.app.Notification;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.ComponentName;
@@ -279,14 +280,6 @@ public class NotificationJobService extends JobService {
 
         NotificationData notificationData = NotificationStore.getCustomNotification(key);
 
-        if (mode == NOTIFICATION_POSTED_CUSTOM_UI) {
-            Bundle bundle = NotificationStore.getNotificationBundle(key);
-            if (bundle != null)
-                NotificationJobService.extractImagesFromNotification(bundle, notificationData);
-        }
-
-        //final Transporter transporter2 = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
-
         if (TransportService.isTransporterNotificationsConnected()) {
             Logger.info("processCustomNotificationPosted isTransportServiceConnected: true");
         } else {
@@ -392,71 +385,10 @@ public class NotificationJobService extends JobService {
         */
     }
 
-    public static void extractImagesFromNotification(Bundle bundle, NotificationData notificationData) {
-
-        if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_LARGE_ICON, Constants.PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT)) {
-            extractLargeIcon(bundle, notificationData);
-        }
-
-        if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_IMAGES, Constants.PREF_NOTIFICATIONS_IMAGES_DEFAULT)) {
-            extractPicture(bundle, notificationData);
-        }
-    }
-
-    private static void extractLargeIcon(Bundle bundle, NotificationData notificationData) {
-        try {
-            Bitmap largeIcon = (Bitmap) bundle.get("android.largeIcon");
-            if (largeIcon != null) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                largeIcon.compress(Bitmap.CompressFormat.PNG, 80, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                notificationData.setLargeIcon(byteArray);
-                notificationData.setLargeIconWidth(largeIcon.getWidth());
-                notificationData.setLargeIconHeight(largeIcon.getHeight());
-            }
-        } catch (Exception exception) {
-            Logger.error(exception,exception.getMessage());
-        }
-    }
-
-    private static void extractPicture(Bundle bundle, NotificationData notificationData) {
-        try {
-            Bitmap originalBitmap = (Bitmap) bundle.get("android.picture");
-            if (originalBitmap != null) {
-                Bitmap scaledBitmap = scaleBitmap(originalBitmap);
-
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                scaledBitmap.compress(Bitmap.CompressFormat.PNG, 80, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                notificationData.setPicture(byteArray);
-                notificationData.setPictureWidth(scaledBitmap.getWidth());
-                notificationData.setPictureHeight(scaledBitmap.getHeight());
-            }
-        } catch (Exception exception) {
-            Logger.error(exception,exception.getMessage());
-        }
-    }
-
-    private static Bitmap scaleBitmap(Bitmap bitmap) {
-        if (bitmap.getWidth() <= 320) {
-            return bitmap;
-        }
-
-        float horizontalScaleFactor = bitmap.getWidth() / 320f;
-        float destHeight = bitmap.getHeight() / horizontalScaleFactor;
-
-        return Bitmap.createScaledBitmap(bitmap, 320, (int) destHeight, false);
-    }
-
-
     //Send CustomUI without scheduling
     public static void sendCustomNotification(final Context context, final NotificationData notificationData) {
 
         Logger.debug("sendCustomNotification key: " + notificationData.getKey());
-
-        //final Transporter transporter2 = TransporterClassic.get(context, Transport.NAME_NOTIFICATION);
 
         if (TransportService.isTransporterNotificationsConnected()) {
             Logger.info("sendCustomNotification isTransportServiceConnected: true");

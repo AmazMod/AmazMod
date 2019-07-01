@@ -362,7 +362,8 @@ public class TransportService extends Service implements Transporter.DataListene
                     break;
                 }
             }
-        }
+        } else
+            Logger.error("TransportService send dataTrasportResult = null!");
     }
 
     public static DataTransportResult sendWithTransporterAmazMod(String action, DataBundle dataBundle){
