@@ -438,7 +438,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
             final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-            String message = getString(R.string.sending) + " \"" + file.getName() + "\", " + getString(R.string.wait);
+            String message = "\"" + file.getName() + "\"";
 
             createNotification(getString(R.string.sending) + ", " + getString(R.string.wait), message, R.drawable.outline_cloud_upload_24);
 
@@ -514,8 +514,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                         });
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             }
-
-                            stopNotification(getString(R.string.file_upload_finished), false);
+                            createNotification(getString(R.string.file_upload_finished), message, R.drawable.outline_cloud_upload_24);
+                            stopNotification(message, false);
                             transferring = false;
 
                         } else {
@@ -749,7 +749,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
         String message = null;
         if (fileData != null) {
-            message = getString(R.string.downloading) + " \"" + fileData.getName() + "\", " + getString(R.string.wait);
+            message = "\"" + fileData.getName() + "\"";
         } else
             message = getString(R.string.error);
 
@@ -773,6 +773,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
             final long size = fileData.getSize();
             transferring = true;
 
+            String finalMessage = message;
             Watch.get().downloadFile(this, fileData.getPath(), fileData.getName(), size, Constants.MODE_DOWNLOAD,
                     new Watch.OperationProgress() {
                         @Override
@@ -827,8 +828,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
                                 transferring = false;
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
-                                stopNotification(getString(R.string.file_downloaded), false);
-
+                                createNotification(getString(R.string.file_downloaded), finalMessage, R.drawable.outline_cloud_download_24);
+                                stopNotification(finalMessage, false);
                             } else {
                                 if (task.getException() instanceof CancellationException) {
                                     SnackProgressBar snackbar = new SnackProgressBar(
