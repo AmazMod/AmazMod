@@ -71,9 +71,15 @@ jobs:
           name: "Publish Release on GitHub"
           command: |
             VERSION="edgy"
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete -prerelease ${VERSION} ./apks/apks/
-            
-            
+            ghr -t ${GITHUB_TOKEN} \
+              -u ${CIRCLE_PROJECT_USERNAME} \
+              -r ${CIRCLE_PROJECT_REPONAME} \
+              -c ${CIRCLE_SHA1} \
+              -n "Bleeding Edge(dev) build" \
+              -b "This is built everytime a commit is done in dev branch. Use with EXTREME caution. We offer NO SUPPORT for it" \
+              -delete \
+              -prerelease \
+              ${VERSION} ./apks/apks/
 workflows:
   version: 2
   main:
