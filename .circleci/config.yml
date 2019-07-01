@@ -39,7 +39,7 @@ jobs:
       - store_artifacts:
           path: service/build/outputs/apk
           destination: apk
-      - run
+      - run:
           name: Move APKs to temp folder
           command: |
             mkdir -p persist/apks
