@@ -156,13 +156,13 @@
     <string name="device_not_connected">Нет подключенных устройств</string>
     <string name="device_connected">подключено</string>
     <string name="pref_enable_persistent_notification">Постоянное уведомление</string>
-    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if AmazMod is constantly been killed.</string>
+    <string name="pref_enable_persistent_notification_summary">Включает режим постоянных уведомлений для предотвращения остановки AmazMod при работе в фоновом режиме. Включите, если AmazMod постоянно отключается.</string>
     <string name="pref_enable_persistent_notification_device_settings">Настройки постоянных уведомлений</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings.</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Нажмите, чтобы перейти к настройкам устройства.</string>
     <string name="pref_notifications_disable_screenon">Не выключать экран</string>
-    <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch.</string>
+    <string name="pref_notifications_disable_screenon_summary">Не включать и не разблокировать экран при доставке уведомления на часы.</string>
     <string name="pref_check_permissions">Проверить разрешения приложения</string>
-    <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed.</string>
+    <string name="pref_check_permissions_summary">Проверьте, есть ли у AmazMod необходимые разрешения.</string>
     <string name="activity_permissions">Разрешения</string>
     <string name="activity_permissions_write">Запись на внешний накопитель</string>
     <string name="activity_permissions_calendar">Доступ к календарю</string>
@@ -193,7 +193,7 @@
     <string name="activity_files_restore_failed">Ошибка восстановления!</string>
     <string name="activity_files_backup_not_found">Файл резервного копирования не найден!</string>
     <string name="pref_disable_standard_notifications">Отключить стандартные уведомления</string>
-    <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch.</string>
+    <string name="pref_disable_standard_notifications_summary">Стандартные (стоковые) уведомления не будут отправляться на часы.</string>
     <string name="activity_tweaking_brightness">Обратите внимание, автояркость в часах должна быть отключена, чтобы данная функция работала</string>
     <string name="failed_load_watch_status">Ошибка загрузки статуса часов</string>
     <string name="settings_applied">Настройки сохранены</string>
@@ -233,7 +233,7 @@
     <string name="enable_lpm_content">Функция ещё является экспериментальной, для её отключения необходимо перезагрузить часы</string>
     <string name="continue_label">Продолжить</string>
     <string name="pref_file_extras">Настройки резервного копирования и восстановления</string>
-    <string name="pref_file_extras_summary">Backup and restore AmazMod settings.</string>
+    <string name="pref_file_extras_summary">Резервное копирование и восстановление настроек AmazMod.</string>
     <string name="reboot_bootloader">войти в fastboot</string>
     <string name="set_admin">Назначить администратора</string>
     <string name="shell_command_failed">Команда не выполнена.</string>
@@ -261,7 +261,7 @@
     <string name="view_files">Показать</string>
     <string name="delete_all">Удалить всё</string>
     <string name="pref_enable_update_notification">Уведомление об обновлении</string>
-    <string name="pref_enable_update_notification_summary">Get a notification when there is a new version of Amazmod\'s service for the watch.</string>
+    <string name="pref_enable_update_notification_summary">Получить уведомление о новой версии сервиса Amazmod для часов.</string>
     <string name="extract">Извлечь</string>
     <string name="compress">Архивировать</string>
     <string name="delete_folder_and_contents">папка %1$s и все содержимое будет удалено</string>
@@ -315,7 +315,7 @@
     <string name="pref_notifications_show_large_icon">Показывать большие иконки</string>
     <string name="pref_notifications_show_large_icon_summary">Показывать большие иконки (обычно иконка контакта) в уведомлениях.</string>
     <string name="pref_notifications_enable_images">Показать изображения</string>
-    <string name="pref_notifications_enable_images_summary">Show Notification Images.</string>
+    <string name="pref_notifications_enable_images_summary">Показать изображения в уведомлениях.</string>
     <string name="pref_battery_chart">Данные батареи</string>
     <string name="pref_battery_chart_summary">Показывать график заряда батареи на главном экране AmazMod.</string>
     <string name="logs">Логи</string>
@@ -330,7 +330,7 @@
     <string name="statsandlogs">Статистика / Логи</string>
     <string name="clear_log">Очистить логи</string>
     <string name="send_log">Отправить логи</string>
-    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recommend removing it from there so no notifications are lost.</string>
+    <string name="battery_optimization_warning">AmazMod находится в процессе оптимизации батареи. Мы рекомендуем удалить его, уведомления не будут потеряны.</string>
     <string name="remove">УДАЛИТЬ</string>
     <string name="grant">РАЗРЕШИТЬ</string>
     <string name="no_storage_permission">AmazMod не имеет разрешения на доступ к файлам, пожалуйста, предоставьте его.</string>
@@ -338,8 +338,8 @@
     <string name="set_watchface">Установить циферблат</string>
     <string name="pref_amazmod_darktheme_summary">Приложение перезапустится для использования тёмной темы (пробная версия).</string>
     <string name="pref_amazmod_dark_theme">Тёмная тема</string>
-    <string name="share">Share</string>
-    <string name="collecting_watch_logs">Collecting Watch Logs</string>
+    <string name="share">Поделиться</string>
+    <string name="collecting_watch_logs">Сбор журналов часов</string>
     <string name="button_description">Кнопка</string>
     <string name="image_description">Изображение</string>
     <string name="amazmod_service">Сервис AmazMod</string>
@@ -347,7 +347,7 @@
     <string name="product_name">Название продукта</string>
     <string name="serial_number">Серийный номер</string>
     <string name="build_id">Номер сборки</string>
-    <string name="build_model">Build Huami model</string>
+    <string name="build_model">Модель устройства Huami</string>
     <string name="build_description">Описание сборки</string>
     <string name="rename_folder">Переименовать папку</string>
     <string name="rename_file">Переименовать файл</string>
