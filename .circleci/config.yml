@@ -71,7 +71,7 @@ jobs:
           name: "Publish Release on GitHub"
           command: |
             VERSION="edgy"
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./apks/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete -prerelease ${VERSION} ./apks/apks/
             
             
 workflows:
