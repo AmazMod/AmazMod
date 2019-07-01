@@ -33,7 +33,10 @@
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.AboutActivity" />
+        <activity android:name=".ui.AboutActivity"
+            android:launchMode="singleTask"
+            android:parentActivityName=".ui.MainActivity"
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".ui.TweakingActivity"
             android:launchMode="singleTask"

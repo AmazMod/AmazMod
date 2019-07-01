@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -70,7 +71,7 @@ public class AboutActivity extends BaseAppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle(R.string.about);
         } catch (NullPointerException exception) {
-            Logger.error("AboutActivity onCreate exception: " + exception.getMessage());
+            Logger.error(exception, "AboutActivity onCreate exception: {}", exception.getMessage());
         }
 
         ButterKnife.bind(this);
@@ -109,6 +110,16 @@ public class AboutActivity extends BaseAppCompatActivity {
         }
 
         return true;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("D/AmazMod AboutActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("D/AmazMod AboutActivity ORIENTATION LANDSCAPE");
+        }
     }
 
     private void sendTestMessage(char type) {
