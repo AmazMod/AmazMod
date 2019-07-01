@@ -60,7 +60,7 @@ jobs:
   
   publish-github-release:
     docker:
-      - image: cibuilds/github:0.10
+      - image: cibuilds/github:0.12.1
     steps:
       - attach_workspace:
           at: ./apks
