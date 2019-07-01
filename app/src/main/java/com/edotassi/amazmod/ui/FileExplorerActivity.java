@@ -1024,6 +1024,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                     fileExplorerAdapter.clear();
                                     fileExplorerAdapter.addAll(filesData);
                                     fileExplorerAdapter.notifyDataSetChanged();
+                                    fabMain.show();
 
                                     taskCompletionSource.setResult(null);
 
