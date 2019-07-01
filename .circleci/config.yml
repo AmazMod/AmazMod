@@ -75,8 +75,8 @@ jobs:
               -u ${CIRCLE_PROJECT_USERNAME} \
               -r ${CIRCLE_PROJECT_REPONAME} \
               -c ${CIRCLE_SHA1} \
-              -n "Bleeding Edge(dev) build" \
-              -b "This is built everytime a commit is done in dev branch. Use with EXTREME caution. We offer NO SUPPORT for it" \
+              -n "bleeding edge build" \
+              -b "WARNING: This is built everytime a commit is done in dev branch. Use with EXTREME caution, or better, don't USE! This is only for the brave ones which want to live on the edge, or be the edge themselves. NO SUPPORT is offered for it, things can (and probably will) be broken." \
               -delete \
               -prerelease \
               ${VERSION} ./apks/apks/
