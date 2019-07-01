@@ -1,5 +1,4 @@
 # Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
-
 version: 2
 jobs:
   build:
@@ -65,6 +64,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ./apks
+      - run:
+          name: Listing content
+          command: ls -lR .
       - run:
           name: "Publish Release on GitHub"
           command: |
