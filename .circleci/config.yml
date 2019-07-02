@@ -66,7 +66,7 @@ jobs:
               -r ${CIRCLE_PROJECT_REPONAME} \
               -c ${CIRCLE_SHA1} \
               -n "bleeding edge build" \
-              -b "*** DISCLAIMER ***\n\nSo you're here, brave human!\nThis is the land of the unicorns, bigfoots, lasersharks and bionicly enchanced goats.\nHere, nothing is known, nothing is stable, nothing is ... nothing.\nRaw commits, untested, unfiltered, might work, might not, you'll tell us.\nNo support will be provided for these builds, you will be working with bleeding edge stuff, everything will be probably broken, and if not broken, it will get there.\nUse with extreme precaution, no changelog provided, treat these as a pinata, unknown, unpredictibale and full of sparkling glitter and goo.\n\nEnjoy!\nAmazMod team" \
+              -b "**DISCLAIMER:** So you're here, brave human! This is the land of the unicorns, bigfoots, lasersharks and bionicly enchanced goats. Here, nothing is known, nothing is stable, nothing is ... nothing. Raw commits, untested, unfiltered, might work, might not, you'll tell us. **No support will be provided for these builds**, you will be working with bleeding edge stuff, everything will be probably broken, and if not broken, it will get there. Use with extreme precaution, no changelog provided, treat these as a pinata, unknown, unpredictibale and full of sparkling glitter and goo. **Enjoy!** *AmazMod team*" \
               -delete \
               -prerelease \
               ${VERSION} ./apks/apks/
