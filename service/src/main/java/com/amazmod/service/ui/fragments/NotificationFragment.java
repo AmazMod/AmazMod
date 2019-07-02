@@ -11,11 +11,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
-import androidx.emoji.widget.EmojiTextView;
-
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
@@ -31,7 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.tinylog.Logger;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.emoji.widget.EmojiTextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -43,14 +40,14 @@ import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FragmentUtil;
 
+import org.greenrobot.eventbus.EventBus;
+import org.tinylog.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -159,65 +156,15 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
         delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
 
-        //Delete related stuff
-
-        deleteButton = getActivity().findViewById(R.id.fragment_delete_button);{
-
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Logger.debug("NotificationFragment updateContent: deleteButton clicked!");
-                    muteListView.setVisibility(View.GONE);
-                    repliesListView.setVisibility(View.GONE);
-                    sendDeleteCommand(v);
-                }
-            });
-        }
-
-
-        //Replies related stuff
-        repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
-        repliesEditTextContainer = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_container);
-        replyEditText = getActivity().findViewById(R.id.fragment_notifications_replies_edittext);
-        replyEditClose = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_close);
-        replyEditSend = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_reply);
+        //Buttons
+        deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
         replyButton = getActivity().findViewById(R.id.fragment_notification_reply_button);
-        replyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.debug("NotificationFragment updateContent: replyButton clicked!");
-                if (repliesListView.getVisibility() == View.VISIBLE) {
-                    repliesListView.setVisibility(View.GONE);
-                    focusOnViewBottom(scrollView, replyButton);
-                } else {
-                    // Prepare the View for the animation
-                    repliesListView.setVisibility(View.VISIBLE);
-                    muteListView.setVisibility(View.GONE);
-                    focusOnView(scrollView, replyButton);
-                }
-            }
-        });
-
-        //Mute related stuff
-        muteListView = getActivity().findViewById(R.id.fragment_mute_list);
         muteButton = getActivity().findViewById(R.id.fragment_notification_mute_button);
-        muteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.debug("NotificationFragment updateContent: muteButton clicked!");
-                if (muteListView.getVisibility() == View.VISIBLE) {
-                    muteListView.setVisibility(View.GONE);
-                } else {
-                    //Prepare the View for the animation
-                    muteListView.setVisibility(View.VISIBLE);
-                    repliesListView.setVisibility(View.GONE);
-                    focusOnView(scrollView, muteButton);
-                }
-            }
-        });
 
         //Load preferences
         boolean disableNotificationText = util.getDisableNotificationText();
+        final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
+        final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
         enableInvertedTheme = util.getInvertedTheme();
 
         //Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
@@ -225,10 +172,6 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
             replies_layout.setMinimumHeight(px);
         }
-
-        //Load Replies and Mute Options
-        loadReplies();
-        loadMuteOptions();
 
         // Set theme and font size
         //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
@@ -242,6 +185,67 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             delayedConfirmationViewBottom.setTextColor(getResources().getColor(R.color.black));
         } else
             rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
+
+        if (notificationHasForceCustom && notificationHasHideReplies) {
+            replyButton.setVisibility(View.GONE);
+            muteButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+
+        } else {
+            //Delete related stuff
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.debug("NotificationFragment updateContent: deleteButton clicked!");
+                    muteListView.setVisibility(View.GONE);
+                    repliesListView.setVisibility(View.GONE);
+                    sendDeleteCommand(v);
+                }
+            });
+
+            //Replies related stuff
+            repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
+            repliesEditTextContainer = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_container);
+            replyEditText = getActivity().findViewById(R.id.fragment_notifications_replies_edittext);
+            replyEditClose = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_close);
+            replyEditSend = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_reply);
+            replyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.debug("NotificationFragment updateContent: replyButton clicked!");
+                    if (repliesListView.getVisibility() == View.VISIBLE) {
+                        repliesListView.setVisibility(View.GONE);
+                        focusOnViewBottom(scrollView, replyButton);
+                    } else {
+                        // Prepare the View for the animation
+                        repliesListView.setVisibility(View.VISIBLE);
+                        muteListView.setVisibility(View.GONE);
+                        focusOnView(scrollView, replyButton);
+                    }
+                }
+            });
+
+            //Mute related stuff
+            muteListView = getActivity().findViewById(R.id.fragment_mute_list);
+            muteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.debug("NotificationFragment updateContent: muteButton clicked!");
+                    if (muteListView.getVisibility() == View.VISIBLE) {
+                        muteListView.setVisibility(View.GONE);
+                    } else {
+                        //Prepare the View for the animation
+                        muteListView.setVisibility(View.VISIBLE);
+                        repliesListView.setVisibility(View.GONE);
+                        focusOnView(scrollView, muteButton);
+                    }
+                }
+            });
+
+            //Load Replies and Mute Options
+            loadReplies();
+            loadMuteOptions();
+        }
 
         time.setTextSize(util.getFontSizeSP());
         title.setTextSize(util.getFontSizeSP());

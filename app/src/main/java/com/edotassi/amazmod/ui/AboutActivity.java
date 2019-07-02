@@ -152,7 +152,7 @@ public class AboutActivity extends BaseAppCompatActivity {
         notificationData.setTitle("AmazMod");
         notificationData.setTime("00:00");
         notificationData.setVibration(Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION)));
-        notificationData.setHideReplies(Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES, Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES));
+        notificationData.setHideReplies(true);
         notificationData.setHideButtons(false);
 
         try {

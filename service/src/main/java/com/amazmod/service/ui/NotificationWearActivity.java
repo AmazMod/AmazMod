@@ -45,7 +45,7 @@ public class NotificationWearActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private static boolean screenToggle = false, mustLockDevice = false, wasScreenLocked = false;
+    private static boolean screenToggle = false, mustLockDevice = false, wasScreenLocked = false, specialNotification = false;
     private boolean keyboardVisible = false;
 
     private static int screenMode;
@@ -113,6 +113,11 @@ public class NotificationWearActivity extends Activity {
 
         final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
         final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
+
+        if (notificationHasForceCustom && notificationHasHideReplies)
+            specialNotification = true;
+
+        Logger.debug("NotificationWearActivity specialNotification: {}", specialNotification);
 
         //Do not activate screen if it is disabled in settings and screen was off or it was disabled previously
         if (disableNotificationsScreenOn && (wasScreenLocked || screenToggle)) {
@@ -218,7 +223,6 @@ public class NotificationWearActivity extends Activity {
             setScreenOn();
         }
 
-
         if (mustLockDevice) {
             mustLockDevice = false;
             screenToggle = false;
@@ -233,6 +237,12 @@ public class NotificationWearActivity extends Activity {
                 lock();
         } else if (wasScreenLocked)
             mustLockDevice = true;
+
+        if (specialNotification) {
+            NotificationStore.removeCustomNotification(key);
+            NotificationStore.setNotificationCount(mContext);
+            specialNotification = false;
+        }
     }
 
     private void lock() {

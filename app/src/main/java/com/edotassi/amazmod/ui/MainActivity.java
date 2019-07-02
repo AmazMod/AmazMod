@@ -148,15 +148,27 @@ public class MainActivity extends BaseAppCompatActivity
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
                 Snackbar snackbar = Snackbar
                         .make(drawer, R.string.battery_optimization_warning,
-                                Constants.SNACKBAR_LONG10)
-                        .setAction(R.string.remove, new View.OnClickListener() {
+                                Constants.SNACKBAR_LONG10);
+
+                String message;
+                if ("samsung".equals(Build.MANUFACTURER.toLowerCase()) && Build.VERSION.SDK_INT == Build.VERSION_CODES.M)
+                    message = getString(R.string.ok).toUpperCase();
+                else
+                    message = getString(R.string.remove).toUpperCase();
+                snackbar.setAction(message, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                                intent.setData(Uri.parse("package:" + packageName));
-                                startActivity(intent);
+                                try {
+                                /* intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS); *** This will cause ban from PlayStore! ***
+                                intent.setData(Uri.parse("package:" + packageName));                       *** and it doesn't work with some Samsung phones ***/
+                                    intent.setAction(android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                                    startActivity(intent);
+                                } catch (Exception ex) {
+                                    Logger.error(ex, "MainActivity ignore battery optimization manufacturer: {} exception: {}", Build.MANUFACTURER, ex.getMessage());
+                                }
                             }
                         });
+
                 View snackbarView = snackbar.getView();
                 TextView tv= (TextView) snackbarView.findViewById(R.id.snackbar_text);
                 tv.setMaxLines(5);

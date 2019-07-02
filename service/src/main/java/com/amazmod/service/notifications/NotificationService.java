@@ -102,8 +102,7 @@ public class NotificationService {
             } else {
                 Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
-                    if (!forceCustom)
-                        NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
+                    NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
                     postWithCustomUI(notificationStoreKey);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);

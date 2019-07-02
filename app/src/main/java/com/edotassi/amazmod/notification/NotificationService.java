@@ -11,8 +11,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.media.AudioManager;
 import android.os.Build;
 import android.os.Parcel;
@@ -23,14 +21,10 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 
-import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
@@ -401,7 +395,6 @@ public class NotificationService extends NotificationListenerService {
             scheduleJob(id, jobId, key);
             Logger.info("sendNotificationWithCustomUI jobScheduled: " + jobId + " \\ key: " + key);
         } else {
-            NotificationFactory.extractImagesFromNotification(statusBarNotification.getNotification().extras, statusBarNotification, notificationData);
             Watch.get().postNotification(notificationData);
             Logger.info("sendNotificationWithCustomUI sent without schedule: " + key);
         }
@@ -422,7 +415,6 @@ public class NotificationService extends NotificationListenerService {
             scheduleJob(id, jobId, key);
             Logger.info("sendNotificationWithStandardUI jobScheduled: " + jobId + " \\ key: " + key);
         } else {
-
             TransportService.sendWithTransporterHuami("add", dataBundle);
             Logger.info("sendNotificationWithStandardUI: " + dataBundle.toString());
         }
@@ -873,146 +865,31 @@ public class NotificationService extends NotificationListenerService {
 
         final String notificationPackage = statusBarNotification.getPackageName();
 
-        Logger.debug("mapNotification maps: " + notificationPackage);
+        Logger.debug("mapNotification package: {} key: {}", notificationPackage, statusBarNotification.getKey());
 
-        RemoteViews rmv = getContentView(getApplicationContext(), statusBarNotification.getNotification());
+        NotificationData notificationData = NotificationFactory.getMapNotification(this, statusBarNotification);
 
-        if (rmv == null)
-            rmv = getBigContentView(getApplicationContext(), statusBarNotification.getNotification());
+        if (notificationData != null) {
 
-        if (rmv != null) {
+            final String txt = notificationData.getText();
 
-            NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+            if ( !txt.equals(lastTxt) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL)) {
 
-            //Get text from RemoteView using reflection
-            List<String> txt = extractText(rmv);
-            if ((txt.size() > 0) && ((!(txt.get(0).isEmpty()) && !(txt.get(0).equals(lastTxt)))
-                    || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL))) {
-
-                //Get navigation icon from a child View drawn on Canvas
-                try {
-                    LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                    View layout = inflater.inflate(R.layout.nav_layout, null);
-                    ViewGroup frame = layout.findViewById(R.id.layout_navi);
-                    frame.removeAllViews();
-                    View newView = rmv.apply(getApplicationContext(), frame);
-                    frame.addView(newView);
-                    View viewImage = ((ViewGroup) newView).getChildAt(0);
-                    //View outerLayout = ((ViewGroup) newView).getChildAt(1);
-                    viewImage.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-                    Bitmap bitmap = Bitmap.createBitmap(viewImage.getMeasuredWidth(), viewImage.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                    Canvas canvas = new Canvas(bitmap);
-                    viewImage.layout(0, 0, viewImage.getMeasuredWidth(), viewImage.getMeasuredHeight());
-                    viewImage.draw(canvas);
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
-
-                    int width = bitmap.getWidth();
-                    int height = bitmap.getHeight();
-                    int[] intArray = new int[width * height];
-                    bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
-                    Logger.info("mapNotification bitmap dimensions: " + width + " x " + height);
-
-                    notificationData.setIcon(intArray);
-                    notificationData.setIconWidth(width);
-                    notificationData.setIconHeight(height);
-                } catch (Exception e) {
-                    notificationData.setIcon(new int[]{});
-                    Logger.error(e, "mapNotification failed to get bitmap with exception: {}", e.getMessage());
-                }
-
-                notificationData.setTitle(txt.get(0));
-                if (txt.size() > 1)
-                    notificationData.setText(txt.get(1));
-                else
-                    notificationData.setText("");
                 notificationData.setVibration(getDefaultVibration());
-                notificationData.setHideReplies(true);
-                notificationData.setHideButtons(false);
-                notificationData.setForceCustom(true);
+                lastTxt = txt;
 
                 Watch.get().postNotification(notificationData);
 
-                lastTxt = txt.get(0);
                 lastTimeNotificationSent = System.currentTimeMillis();
                 storeForStats(notificationPackage, Constants.FILTER_MAPS);
                 Logger.debug("mapNotification maps lastTxt: " + lastTxt);
-            }
 
-        } else {
-            Logger.warn("mapNotification maps null remoteView");
-        }
-    }
+            } else
+                Logger.warn("same text or too soon");
 
-    public static List<String> extractText(RemoteViews views) {
-        // Use reflection to examine the m_actions member of the given RemoteViews object.
-        List<String> text = new ArrayList<>();
-        try {
-            Field field = views.getClass().getDeclaredField("mActions");
-            field.setAccessible(true);
-            //int counter = 0;
+        } else
+            Logger.error("null notificationData");
 
-            @SuppressWarnings("unchecked")
-            ArrayList<Parcelable> actions = (ArrayList<Parcelable>) field.get(views);
-
-            // Find the setText() reflection actions
-            for (Parcelable p : actions) {
-                Parcel parcel = Parcel.obtain();
-                p.writeToParcel(parcel, 0);
-                parcel.setDataPosition(0);
-
-                // The tag tells which type of action it is (2 is ReflectionAction, from the source)
-                int tag = parcel.readInt();
-                if (tag != 2) continue;
-
-                // View ID
-                parcel.readInt();
-
-                String methodName = parcel.readString();
-                if (methodName == null)
-                    continue;
-                    // Save strings
-                else {
-
-                    if (methodName.equals("setText")) {
-                        // Parameter type (10 = Character Sequence)
-                        parcel.readInt();
-
-                        // Store the actual string
-                        String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
-                        text.add(t);
-                        //Log.d(Constants.TAG, "NotificationService extractText " + counter + " t: " + t);
-                        //counter++;
-                    }
-                }
-                parcel.recycle();
-
-            }
-        }
-        // It's not usually good style to do this, but then again, neither is the use of reflection...
-        catch (Exception e) {
-            Logger.error(e, "extractText exception: {}", e.getMessage());
-            text.add("ERROR");
-        }
-        return text;
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    public static RemoteViews getBigContentView(Context context, Notification notification) {
-        if(notification.bigContentView != null)
-            return notification.bigContentView;
-        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            return Notification.Builder.recoverBuilder(context, notification).createBigContentView();
-        else
-            return null;
-    }
-
-    public static RemoteViews getContentView(Context context, Notification notification) {
-        if(notification.contentView != null)
-            return notification.contentView;
-        else if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            return Notification.Builder.recoverBuilder(context, notification).createContentView();
-        else
-            return null;
     }
 
     private void startPersistentNotification() {
