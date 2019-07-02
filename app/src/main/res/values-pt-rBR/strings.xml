@@ -355,4 +355,5 @@
     <string name="new_folder">Nova pasta</string>
     <string name="pref_amazmod_overlay_launcher">Atalho flutuante para lista de notificações</string>
     <string name="pref_amazmod_overlay_launcher_summary">Abrir a lista de notificações personalizadas usando um botão flutuante transparente no relógio (sua localização é mostrada brevemente quando a tela é ativada e você pode deslizá-lo para a esquerda ou direita).</string>
+    <string name="file_not_found">File not found!</string>
 </resources>
