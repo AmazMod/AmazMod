@@ -355,4 +355,5 @@
     <string name="new_folder">Новая папка</string>
     <string name="pref_amazmod_overlay_launcher">Оболочка для всплывающих уведомлений</string>
     <string name="pref_amazmod_overlay_launcher_summary">Откройте пользовательский список уведомлений пользовательского интерфейса, используя всплывающую кнопку в часах (ее местоположение кратко отображается при включении экрана и вы можете свайпнуть ее влево или вправо).</string>
+    <string name="file_not_found">File not found!</string>
 </resources>
