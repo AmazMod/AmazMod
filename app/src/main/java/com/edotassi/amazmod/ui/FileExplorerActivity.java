@@ -299,10 +299,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
         i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
 
-        startActivityForResult(i, FILE_UPLOAD_CODE);
-        */
+        startActivityForResult(i, FILE_UPLOAD_CODE); */
 
-        /* New filepicker */
+        // New filepicker
         if (lastPath == null || lastPath.isEmpty())
             lastPath = Environment.getExternalStorageDirectory().getPath();
 
@@ -321,7 +320,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 //.disableTitle(true)
                 //.titleFollowsDir(true)
                 //.displayPath(true)
-                .enableOptions(true)
+                .enableOptions(false)
                 .withStartFile(lastPath)
                 .withFilter(false, false)
                 .enableMultiple(true)
