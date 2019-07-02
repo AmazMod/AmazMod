@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -104,6 +106,7 @@ public class StatsActivity extends BaseAppCompatActivity {
         setContentView(R.layout.activity_stats);
 
         logFile = this.getExternalFilesDir(null) + File.separator + Constants.LOGFILE;
+        Logger.debug("logFile: {}", logFile);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -174,17 +177,30 @@ public class StatsActivity extends BaseAppCompatActivity {
 
     @OnClick(R.id.activity_stats_send_logs)
     public void sendLogs(){
-        /*
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        Uri uri = Uri.fromFile(new File(logFile));
-        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        startActivity(Intent.createChooser(shareIntent, "Share Log"));*/
+        final String logContent = logsContentEditText.getText().toString();
+        Logger.trace("logTextView: {} logFile: {}", logContent.substring(0, Math.min(logContent.length(), 48)), logFile);
+
+        /* Send only the content of logsContentEditText
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
         sharingIntent.putExtra(Intent.EXTRA_SUBJECT, "AmazMod Phone Logs");
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, logsContentEditText.getText());
-        startActivity(Intent.createChooser(sharingIntent, getString(R.string.send_log)));
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, logContent);
+        startActivity(Intent.createChooser(sharingIntent, getString(R.string.send_log))); */
+
+        File file = new File(logFile); //Send log file using any app
+        if (file.exists()) {
+            Uri path = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
+                    FileProvider.getUriForFile(this, Constants.FILE_PROVIDER, file)
+                    : Uri.fromFile(file);
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,"AmazMod Phone Logs");
+            sendIntent.putExtra(Intent.EXTRA_STREAM, path);
+            sendIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            sendIntent.setType("plain/*");
+            startActivity(Intent.createChooser(sendIntent, getString(R.string.send_log)));
+        } else
+            Toast.makeText(this, getString(R.string.file_not_found), Toast.LENGTH_LONG).show();
+
     }
 
     private void loadLogs(){
@@ -207,7 +223,6 @@ public class StatsActivity extends BaseAppCompatActivity {
         } catch (IOException e){
             Logger.error(e, "loadLogs: Cant read file " + logFile);
         }
-
     }
 
     @SuppressLint("CheckResult")
@@ -463,8 +478,8 @@ public class StatsActivity extends BaseAppCompatActivity {
                                         @Override
                                         public void onActionClick() {
                                             snackProgressBarManager.dismissAll();
-                                            File file = new File(DownloadHelper.getDownloadDir(Constants.MODE_DOWNLOAD) + "/" + fileData.getName());
-                                            shareFile(StatsActivity.this,file);
+                                            File file = new File(DownloadHelper.getDownloadDir(Constants.MODE_DOWNLOAD) + File.separator + fileData.getName());
+                                            shareFile(file);
                                         }
                                     });
                             snackProgressBarManager.show(snackbar, Constants.SNACKBAR_LONG10);
@@ -496,27 +511,34 @@ public class StatsActivity extends BaseAppCompatActivity {
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);
                             }
                         }
-
                         return null;
                     }
                 });
-        ;
     }
 
-    private void shareFile(Context context, File file) {
+    private void shareFile(File file) {
+        Logger.trace("file: {}", file.toString());
+
         Intent shareIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "amazmod.amazfit@gmail.com", "diotto@gmail.com" });
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "AmazMod Log Bundle");
+
         ArrayList<Uri> uris = new ArrayList<>();
-        Uri contentUri = FileProvider.getUriForFile(context, Constants.FILE_PROVIDER, file);
+        Uri contentUri = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?               //Watch log file
+                FileProvider.getUriForFile(this, Constants.FILE_PROVIDER, file)
+                : Uri.fromFile(file);
+        uris.add(contentUri);
+        File log = new File(logFile);
+        contentUri = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?                   //Phone log file
+                FileProvider.getUriForFile(this, Constants.FILE_PROVIDER, log)
+                : Uri.fromFile(log);
         uris.add(contentUri);
         shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+
         // Grant temporary read permission to the content URI
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        String msgStr = "Share...";
-        startActivity(Intent.createChooser(shareIntent, msgStr));
-
+        startActivity(Intent.createChooser(shareIntent, getString(R.string.share) + "…"));
     }
 
 }

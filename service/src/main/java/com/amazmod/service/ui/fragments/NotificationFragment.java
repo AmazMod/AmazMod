@@ -186,23 +186,10 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         } else
             rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
-        if (notificationHasForceCustom && notificationHasHideReplies) {
+        if (notificationHasHideReplies) {
             replyButton.setVisibility(View.GONE);
-            muteButton.setVisibility(View.GONE);
-            deleteButton.setVisibility(View.GONE);
 
         } else {
-            //Delete related stuff
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Logger.debug("NotificationFragment updateContent: deleteButton clicked!");
-                    muteListView.setVisibility(View.GONE);
-                    repliesListView.setVisibility(View.GONE);
-                    sendDeleteCommand(v);
-                }
-            });
-
             //Replies related stuff
             repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
             repliesEditTextContainer = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_container);
@@ -224,6 +211,25 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                     }
                 }
             });
+            loadReplies();
+        }
+
+
+        if (notificationHasForceCustom && notificationHasHideReplies) {
+            muteButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+
+        } else {
+            //Delete related stuff
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.debug("NotificationFragment updateContent: deleteButton clicked!");
+                    muteListView.setVisibility(View.GONE);
+                    repliesListView.setVisibility(View.GONE);
+                    sendDeleteCommand(v);
+                }
+            });
 
             //Mute related stuff
             muteListView = getActivity().findViewById(R.id.fragment_mute_list);
@@ -241,9 +247,6 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                     }
                 }
             });
-
-            //Load Replies and Mute Options
-            loadReplies();
             loadMuteOptions();
         }
 

@@ -667,7 +667,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private void setWatchface(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
         if (fileData != null) {
-            WatchfaceUtil.setWfzWatchFace(this,fileData.getName());
+            WatchfaceUtil.setWfzWatchFace(fileData.getName());
         }
     }
 

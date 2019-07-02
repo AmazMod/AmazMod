@@ -60,7 +60,7 @@ import static android.service.notification.NotificationListenerService.requestRe
 
 public class TransportService extends Service implements Transporter.DataListener {
 
-    private static Transporter transporterAmazMod, transporterNotifications, transporterHuami;
+    private static Transporter transporterAmazMod, transporterNotifications, transporterHuami, transporterCompanion;
 
     private PersistentNotification persistentNotification;
     private LocalBinder localBinder = new LocalBinder();
@@ -71,6 +71,7 @@ public class TransportService extends Service implements Transporter.DataListene
     private static final char TRANSPORT_AMAZMOD = 'A';
     private static final char TRANSPORT_NOTIFICATIONS = 'N';
     private static final char TRANSPORT_HUAMI = 'H';
+    private static final char TRANSPORT_COMPANION = 'C';
 
     public static String model;
 
@@ -166,6 +167,7 @@ public class TransportService extends Service implements Transporter.DataListene
         transporterAmazMod = TransporterClassic.get(this, Transport.NAME);
         transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
         transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
+        transporterCompanion = TransporterClassic.get(this, "com.huami.watch.companion");
     }
 
     private void connectTransporters(){
@@ -173,12 +175,13 @@ public class TransportService extends Service implements Transporter.DataListene
         connectTransporterAmazMod();
         connectTransporterNotifications();
         connectTransporterHuami();
+        connectTransporterCompanion();
     }
 
     private void disconnectTransports() {
         Logger.trace("TransportService disconnectTransporters");
         if (transporterAmazMod.isTransportServiceConnected()) {
-            Logger.info("disconnectTransports disconnecting transporter…");
+            Logger.info("disconnectTransports disconnecting transporterAmazMod…");
             transporterAmazMod.disconnectTransportService();
             transporterAmazMod = null;
         }
@@ -194,13 +197,18 @@ public class TransportService extends Service implements Transporter.DataListene
             transporterHuami.disconnectTransportService();
             transporterHuami = null;
         }
+        if (transporterCompanion.isTransportServiceConnected()) {
+            Logger.info("disconnectTransports disconnecting transporterCompanion…");
+            transporterCompanion.disconnectTransportService();
+            transporterCompanion = null;
+        }
     }
 
     public static void connectTransporterAmazMod(){
         if (transporterAmazMod.isTransportServiceConnected()) {
-            Logger.info("TransportService onCreate already connected");
+            Logger.info("TransportService onCreate transporterAmazMod already connected");
         } else {
-            Logger.warn("TransportService onCreate not connected, connecting...");
+            Logger.warn("TransportService onCreate transporterAmazMod not connected, connecting...");
             transporterAmazMod.connectTransportService();
             AmazModApplication.setWatchConnected(false);
         }
@@ -220,7 +228,16 @@ public class TransportService extends Service implements Transporter.DataListene
             Logger.warn("onStartJob transporterHuami not connected, connecting...");
             transporterHuami.connectTransportService();
         } else {
-            Logger.info("TransportService transportedHuami already connected");
+            Logger.info("TransportService transporterHuami already connected");
+        }
+    }
+
+    public static void connectTransporterCompanion() {
+        if (!transporterCompanion.isTransportServiceConnected()) {
+            Logger.warn("onStartJob transporterCompanion not connected, connecting...");
+            transporterCompanion.connectTransportService();
+        } else {
+            Logger.info("TransportService transporterCompanion already connected");
         }
     }
 
@@ -236,6 +253,10 @@ public class TransportService extends Service implements Transporter.DataListene
         return transporterHuami.isAvailable();
     }
 
+    public static boolean isTransporterHuamiCompanion(){
+        return transporterCompanion.isAvailable();
+    }
+
     public static boolean isTransporterAmazModConnected(){
         return transporterAmazMod.isTransportServiceConnected();
     }
@@ -246,6 +267,10 @@ public class TransportService extends Service implements Transporter.DataListene
 
     public static boolean isTransporterHuamiConnected(){
         return transporterHuami.isTransportServiceConnected();
+    }
+
+    public static boolean isTransporterCompanionConnected(){
+        return transporterCompanion.isTransportServiceConnected();
     }
 
     private void startPersistentNotification() {
@@ -378,6 +403,10 @@ public class TransportService extends Service implements Transporter.DataListene
         return getDataTransportResult(TRANSPORT_HUAMI, action, dataBundle);
     }
 
+    public static DataTransportResult sendWithTransporterCompanion(String action, DataBundle dataBundle){
+        return getDataTransportResult(TRANSPORT_COMPANION, action, dataBundle);
+    }
+
     public static DataTransportResult getDataTransportResult(char mode, String action, DataBundle dataBundle) {
         Transporter t = null;
         switch (mode) {
@@ -392,6 +421,10 @@ public class TransportService extends Service implements Transporter.DataListene
             case TRANSPORT_HUAMI:
                 Logger.debug("TransportService sendUsingTransporterHuami action: {}", action);
                 t = transporterHuami;
+                break;
+            case TRANSPORT_COMPANION:
+                Logger.debug("TransportService sendUsingTransporterCompanion action: {}", action);
+                t = transporterCompanion;
                 break;
             default:
                 Logger.error("mode not found or null, returning...");

@@ -574,7 +574,8 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                                     final Intent intent = new Intent(Intent.ACTION_VIEW)//
                                                             .setDataAndType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
                                                                             FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER, screenshot)
-                                                                            : Uri.fromFile(screenshot), "image/*").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                                            : Uri.fromFile(screenshot), "image/*")
+                                                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                                                     startActivity(intent);
                                                 }

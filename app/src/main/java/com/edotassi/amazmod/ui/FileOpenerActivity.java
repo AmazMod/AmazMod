@@ -338,7 +338,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            WatchfaceUtil.setWfzWatchFace(FileOpenerActivity.this,inputFileName);
+                            WatchfaceUtil.setWfzWatchFace(inputFileName);
                             finish();
                         }
                     })

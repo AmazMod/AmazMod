@@ -233,7 +233,7 @@ public class NotificationFactory {
 
         NotificationData notificationData = null;
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
              notificationData = fromStatusBarNotification(context, statusBarNotification);
 
             RemoteViews rmv = getContentView(context, statusBarNotification.getNotification());
