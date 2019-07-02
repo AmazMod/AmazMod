@@ -355,4 +355,5 @@
     <string name="new_folder">Nowy folder</string>
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
+    <string name="file_not_found">File not found!</string>
 </resources>

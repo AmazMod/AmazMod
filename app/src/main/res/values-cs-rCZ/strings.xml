@@ -357,4 +357,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="new_folder">Nová složka</string>
     <string name="pref_amazmod_overlay_launcher">Oznámení Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Otevřete seznam Vlastní oznámení (Custom UI) pomocí přepínacího tlačítka na hodinkách (jeho poloha se krátce zobrazí, když se obrazovka rozsvítí a můžete jej posouvat doleva nebo doprava).</string>
+    <string name="file_not_found">File not found!</string>
 </resources>

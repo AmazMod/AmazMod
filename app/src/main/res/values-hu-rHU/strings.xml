@@ -357,4 +357,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="new_folder">Új mappa</string>
     <string name="pref_amazmod_overlay_launcher">Értesítések az Indító felett</string>
     <string name="pref_amazmod_overlay_launcher_summary">Az Egyéni UI értesítések lista megnyitásához használd a gombot (a helye rövid időre megjelenik a képernyőn és balra/jobbra húzható).</string>
+    <string name="file_not_found">File not found!</string>
 </resources>
