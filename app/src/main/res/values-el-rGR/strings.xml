@@ -313,7 +313,7 @@
     <string name="pref_choose_language_summary">Μπορείτε να αλλάξετε τη γλώσσα της εφαρμογής.</string>
     <string name="languages_automatic">Αυτόματος εντοπισμός γλώσσας</string>
     <string name="pref_notifications_show_large_icon">Εμφάνιση μεγάλων εικονιδίων</string>
-    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
+    <string name="pref_notifications_show_large_icon_summary">Εμφάνιση μεγάλων εικονιδίων (συνήθως εικόνα επαφής) στις ειδοποιήσεις.</string>
     <string name="pref_notifications_enable_images">Εμφάνιση εικόνων</string>
     <string name="pref_notifications_enable_images_summary">Εμφάνιση Εικόνων Ειδοποιήσεων.</string>
     <string name="pref_battery_chart">Διάγραμμα Μπαταρίας</string>
@@ -331,8 +331,8 @@
     <string name="clear_log">Εκκαθάριση καταγραφών</string>
     <string name="send_log">Αποστολή καταγραφών</string>
     <string name="battery_optimization_warning">AmazMod is under battery optimization. We recommend removing it from there so no notifications are lost.</string>
-    <string name="remove">REMOVE</string>
-    <string name="grant">GRANT</string>
+    <string name="remove">ΑΦΑΙΡΕΣΗ</string>
+    <string name="grant">ΧΟΡΗΓΗΣΗ</string>
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
     <string name="generate_bundle">Generate Log Bundle</string>
     <string name="set_watchface">Ορισμός εμφάνισης ρολογιού</string>
