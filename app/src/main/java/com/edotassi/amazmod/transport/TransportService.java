@@ -337,7 +337,7 @@ public class TransportService extends Service implements Transporter.DataListene
     }
 
     public void send(final String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
-        boolean isTransportConnected = isTransporterAmazModConnected();
+        boolean isTransportConnected = transporterAmazMod.isTransportServiceConnected();
         if (!isTransportConnected) {
             if (AmazModApplication.isWatchConnected() != isTransportConnected || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
                 AmazModApplication.setWatchConnected(isTransportConnected);
@@ -345,7 +345,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
                 persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
             }
-            Logger.warn("TransportService send Transport Service Not Connected");
+            Logger.warn("transpoterAmazMod not connected");
             return;
         }
 
@@ -354,41 +354,47 @@ public class TransportService extends Service implements Transporter.DataListene
             transportable.toDataBundle(dataBundle);
         }
 
-        DataTransportResult dataTransportResult = sendWithTransporterAmazMod(action, dataBundle);
-        if (dataTransportResult != null) {
-            switch (dataTransportResult.getResultCode()) {
-                case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
-                case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
-                case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
-                case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
-                    TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
-                    if (taskCompletionSourcePendingResult != null) {
-                        taskCompletionSourcePendingResult.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
-                        pendingResults.remove(action);
-                    }
+        Logger.debug("action: {}", action);
+        transporterAmazMod.send(action, dataBundle, new Transporter.DataSendResultCallback() {
+            @Override
+            public void onResultBack(DataTransportResult dataTransportResult) {
+                Logger.info("dataTransportResult: {}" + dataTransportResult.toString());
 
-                    if (waiter != null) {
-                        waiter.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
-                    }
-                    break;
-                }
-                case (DataTransportResult.RESULT_OK): {
-                    if (waiter != null) {
-                        waiter.setResult(null);
-                    }
+                switch (dataTransportResult.getResultCode()) {
+                    case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
+                    case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
+                    case (DataTransportResult.RESULT_FAILED_IWDS_CRASH):
+                    case (DataTransportResult.RESULT_FAILED_LINK_DISCONNECTED): {
+                        TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
+                        if (taskCompletionSourcePendingResult != null) {
+                            taskCompletionSourcePendingResult.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
+                            pendingResults.remove(action);
+                        }
 
-                    if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null) {
-                        AmazModApplication.setWatchConnected(true);
-                        EventBus.getDefault().removeAllStickyEvents();
-                        EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
-                        persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
-                        Logger.debug("TransportService send1 isConnected: " + AmazModApplication.isWatchConnected());
+                        if (waiter != null) {
+                            waiter.setException(new RuntimeException("TransporterError: " + dataTransportResult.toString()));
+                        }
+                        break;
                     }
-                    break;
+                    case (DataTransportResult.RESULT_OK): {
+                        if (waiter != null) {
+                            waiter.setResult(null);
+                        }
+
+                        if (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null) {
+                            AmazModApplication.setWatchConnected(true);
+                            EventBus.getDefault().removeAllStickyEvents();
+                            EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
+                            persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
+                            Logger.debug("isConnected: " + AmazModApplication.isWatchConnected());
+                        }
+                        break;
+                    }
+                    default:
+                        Logger.warn("unknown getResultCode: {}", dataTransportResult.getResultCode());
                 }
             }
-        } else
-            Logger.error("TransportService send dataTrasportResult = null!");
+        });
     }
 
     public static DataTransportResult sendWithTransporterAmazMod(String action, DataBundle dataBundle){
