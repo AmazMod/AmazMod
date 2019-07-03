@@ -357,5 +357,5 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="new_folder">Nuova Cartella</string>
     <string name="pref_amazmod_overlay_launcher">Pulsante notifiche in primo piano</string>
     <string name="pref_amazmod_overlay_launcher_summary">Apri l\'elenco notifiche Custom UI usando un pulsante sempre in primo piano (la sua posizione verrà mostrata brevemente quando attivi lo schermo e può essere spostata a sinistra o destra con uno swipe).</string>
-    <string name="file_not_found">File not found!</string>
+    <string name="file_not_found">File non trovato!</string>
 </resources>
