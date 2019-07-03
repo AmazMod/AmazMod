@@ -4,6 +4,7 @@ SYSTYPE=$(getprop | grep display.id)
 BUSYBOX="$3/busybox"
 BUSYBOXOK="FALSE"
 LOG="log -pd -t$TAG"
+sleep 3
 if [ "$4" == "" ]; then
     OLDPATH=$PATH
     $LOG "#### AmazMod install_apk Date: $(date)"
@@ -54,6 +55,7 @@ fi
 if [ "$2" == "DEL" ]; then
    $LOG "deleting file: $1 $(rm $1)"
 fi
+sleep 3
 $LOG "restore screen timeout $(adb shell settings put system screen_off_timeout 14000)"
 $LOG "killing background processes"
 $LOG "killing adb $(adb kill-server)"
