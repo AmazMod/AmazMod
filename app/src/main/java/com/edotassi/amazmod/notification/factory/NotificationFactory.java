@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
-import androidx.core.app.NotificationCompat;
-
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -159,6 +157,7 @@ public class NotificationFactory {
                 notificationData.setLargeIcon(byteArray);
                 notificationData.setLargeIconWidth(largeIcon.getWidth());
                 notificationData.setLargeIconHeight(largeIcon.getHeight());
+                Logger.trace("largeIcon found key: {}", statusBarNotification.getKey());
             } else
                 Logger.warn("notification key: {} null largeIcon!", statusBarNotification.getKey());
         } catch (Exception exception) {
@@ -171,11 +170,17 @@ public class NotificationFactory {
         try {
             Bundle bundle = statusBarNotification.getNotification().extras;
             Bitmap originalBitmap = (Bitmap) bundle.get(Notification.EXTRA_PICTURE);
-            //Bitmap largeIconBig = (Bitmap) bundle.get(Notification.EXTRA_LARGE_ICON_BIG);
-            //Logger.info("image_uri: {}", bundle.get(NotificationCompat.EXTRA_BACKGROUND_IMAGE_URI));
+            Bitmap largeIconBig = (Bitmap) bundle.get(Notification.EXTRA_LARGE_ICON_BIG);
+            Logger.info("image_uri: {}", bundle.get(Notification.EXTRA_BACKGROUND_IMAGE_URI));
 
             if (originalBitmap != null) {
+                Logger.trace("picture found key: {}", statusBarNotification.getKey());
                 addBitmap(originalBitmap, notificationData);
+
+            } else if (largeIconBig != null){
+                Logger.trace("large_icon_big found key: {}", statusBarNotification.getKey());
+                addBitmap(largeIconBig, notificationData);
+
             } else
                 Logger.warn("notification key: {} null picture!", statusBarNotification.getKey());
 

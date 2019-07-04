@@ -15,17 +15,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.view.LayoutInflaterCompat;
 
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.transport.TransportService;
-import com.edotassi.amazmod.watch.Watch;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huami.watch.notification.data.StatusBarNotificationData;
@@ -42,13 +39,14 @@ import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.Constants;
+import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 
-public class AboutActivity extends BaseAppCompatActivity {
+public class AboutActivity extends BaseAppCompatActivity implements TransportService.DataTransportResultCallback {
 
     @BindView(R.id.activity_about_version)
     TextView version;
@@ -123,8 +121,13 @@ public class AboutActivity extends BaseAppCompatActivity {
 
     private void sendTestMessage(char type) {
         NotificationData notificationData = new NotificationData();
-        final String snackTextOK, snackTextFailure;
         notificationData.setText("Test Notification");
+
+        Snacky.builder()
+                .setActivity(AboutActivity.this)
+                .setText(R.string.sending)
+                .setDuration(Snacky.LENGTH_INDEFINITE)
+                .build().show();
 
         switch (type) {
             case ('C'): {
@@ -143,9 +146,6 @@ public class AboutActivity extends BaseAppCompatActivity {
             default:
                 Logger.error("AboutActivity sendTestMessage: something went wrong...");
         }
-
-        snackTextOK = getResources().getString(R.string.test_notification_sent);
-        snackTextFailure = getResources().getString(R.string.failed_to_send_test_notification);
 
         notificationData.setId(999);
         notificationData.setKey("amazmod|test|999");
@@ -175,25 +175,8 @@ public class AboutActivity extends BaseAppCompatActivity {
             Logger.error("AboutActivity notificationData Failed to get bitmap " + e.toString());
         }
 
-        Watch.get().postNotification(notificationData).continueWith(new Continuation<Void, Object>() {
-            @Override
-            public Object then(@NonNull Task<Void> task) throws Exception {
-                if (task.isSuccessful()) {
-                    Snacky.builder()
-                            .setActivity(AboutActivity.this)
-                            .setText(snackTextOK)
-                            .setDuration(Snacky.LENGTH_SHORT)
-                            .build().show();
-                } else {
-                    Snacky.builder()
-                            .setActivity(AboutActivity.this)
-                            .setText(snackTextFailure)
-                            .setDuration(Snacky.LENGTH_SHORT)
-                            .build().show();
-                }
-                return null;
-            }
-        });
+        TransportService.sendWithTransporterNotifications(Transport.INCOMING_NOTIFICATION, null, notificationData.toDataBundle(), this);
+
     }
 
     private void sendNotificationWithStandardUI(NotificationData nd) {
@@ -240,6 +223,7 @@ public class AboutActivity extends BaseAppCompatActivity {
                 .setContentIntentAvailableOffline(true)
                 .addAction(action2)
                 .setBackground(pic);
+
         for (Reply reply : repliesList) {
             intent.setPackage("com.amazmod.service");
             intent.setAction(INTENT_ACTION_REPLY);
@@ -261,8 +245,41 @@ public class AboutActivity extends BaseAppCompatActivity {
 
         StatusBarNotificationData sbnd = StatusBarNotificationData.from(this, sbn, false);
         dataBundle.putParcelable("data", sbnd);
-        DataTransportResult dataTransportResult = TransportService.sendWithTransporterHuami("add", dataBundle);
+        TransportService.sendWithTransporterHuami("add", null, dataBundle, this);
 
+    }
+
+    private List<Reply> loadReplies() {
+        final String replies = Prefs.getString(Constants.PREF_NOTIFICATIONS_REPLIES, "[]");
+
+        try {
+            Type listType = new TypeToken<List<Reply>>() {
+            }.getType();
+            return new Gson().fromJson(replies, listType);
+        } catch (Exception ex) {
+            return new ArrayList<>();
+        }
+    }
+
+    @OnLongClick(R.id.amazmod_logo)
+    public boolean onAmazmodLogoLongClick() {
+        /* Deprecated
+        boolean enabled = !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
+        Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
+        Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
+        version.setText(BuildConfig.VERSION_NAME);
+        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
+            version.append(" - dev");
+        } */
+        NotificationService.cancelPendingJobs();
+        Toast.makeText(this, "All pending jobs cancelled!", Toast.LENGTH_SHORT).show();
+        return true;
+
+    }
+
+    @Override
+    public void onSuccess(DataTransportResult dataTransportResult, String key) {
         switch (dataTransportResult.getResultCode()) {
             case (DataTransportResult.RESULT_FAILED_TRANSPORT_SERVICE_UNCONNECTED):
             case (DataTransportResult.RESULT_FAILED_CHANNEL_UNAVAILABLE):
@@ -284,32 +301,15 @@ public class AboutActivity extends BaseAppCompatActivity {
             }
             break;
         }
-
     }
 
-    private List<Reply> loadReplies() {
-        final String replies = Prefs.getString(Constants.PREF_NOTIFICATIONS_REPLIES, "[]");
-
-        try {
-            Type listType = new TypeToken<List<Reply>>() {
-            }.getType();
-            return new Gson().fromJson(replies, listType);
-        } catch (Exception ex) {
-            return new ArrayList<>();
-        }
+    @Override
+    public void onFailure(String error, String key) {
+        Snacky.builder()
+                .setActivity(AboutActivity.this)
+                .setText(error.toUpperCase())
+                .setDuration(Snacky.LENGTH_SHORT)
+                .build().show();
+        Logger.error(error);
     }
-
-    @OnLongClick(R.id.amazmod_logo)
-    public boolean onAmazmodLogoLongClick() {
-        boolean enabled = !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
-        Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
-        Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
-        version.setText(BuildConfig.VERSION_NAME);
-        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
-        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
-            version.append(" - dev");
-        }
-        return true;
-    }
-
 }

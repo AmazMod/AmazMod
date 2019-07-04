@@ -166,6 +166,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private static WidgetSettings settings;
     private static JobScheduler jobScheduler;
     private static char overlayLauncherPosition;
+    private static boolean notificationArrived;
 
     private static final long BATTERY_SYNC_INTERVAL = 60*60*1000L; //One hour
     private static final int BATTERY_JOB_ID = 0;
@@ -405,7 +406,11 @@ public class MainService extends Service implements Transporter.DataListener {
             acquireWakelock();
         }
 
-        Logger.debug("MainService action: " + action);
+        Logger.debug("MainService action: {}", action);
+
+        //Flag used by OverlayLauncher
+        if (Transport.INCOMING_NOTIFICATION.equals(action) || "add".equals(action))
+            notificationArrived = true;
 
         Class messageClass = messages.get(action);
 
@@ -1526,4 +1531,11 @@ public class MainService extends Service implements Transporter.DataListener {
         overlayLauncherPosition = position;
     }
 
+    public static boolean isNotification() {
+        return notificationArrived;
+    }
+
+    public static void setIsNotification(boolean bol) {
+        notificationArrived = bol;
+    }
 }

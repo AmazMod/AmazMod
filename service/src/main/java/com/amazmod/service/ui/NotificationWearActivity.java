@@ -45,8 +45,8 @@ public class NotificationWearActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    private static boolean screenToggle = false, mustLockDevice = false, wasScreenLocked = false, specialNotification = false;
-    private boolean keyboardVisible = false;
+    private static boolean screenToggle = false, mustLockDevice = false, wasScreenLocked = false;
+    private boolean keyboardVisible = false, specialNotification = false;
 
     private static int screenMode;
     private static int screenBrightness = 999989;
@@ -241,7 +241,6 @@ public class NotificationWearActivity extends Activity {
         if (specialNotification) {
             NotificationStore.removeCustomNotification(key);
             NotificationStore.setNotificationCount(mContext);
-            specialNotification = false;
         }
     }
 

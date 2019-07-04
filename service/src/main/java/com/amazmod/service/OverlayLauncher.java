@@ -63,8 +63,9 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         initParams();
 
         overlayLauncher = new View(this);
-        if (atWatchface) {
+        if (atWatchface && (!MainService.isNotification())) {
             overlayLauncher.setBackgroundColor(overlayColor);
+            MainService.setIsNotification(false);
         }else{
             overlayLauncher.setBackgroundColor(OVERLAY_COLOR_TRANSPARENT);
         }

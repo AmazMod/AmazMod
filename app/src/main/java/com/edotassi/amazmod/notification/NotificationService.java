@@ -1,6 +1,5 @@
 package com.edotassi.amazmod.notification;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,15 +12,11 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.text.TextUtils;
-import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 
@@ -46,8 +41,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.tinylog.Logger;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -55,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import amazmod.com.transport.Constants;
+import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.NotificationReplyData;
 
@@ -69,7 +63,7 @@ public class NotificationService extends NotificationListenerService {
 
     private static final long JOB_INTERVAL = 5 * 1000L; //Five seconds
     private static final long JOB_MAX_INTERVAL = 60 * 1000L; //1 minute
-    private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 5L; //5 minutes
+    private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 15L; //15 minutes
     private static final long CUSTOMUI_LATENCY = 1L;
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
@@ -291,14 +285,14 @@ public class NotificationService extends NotificationListenerService {
             DataBundle dataBundle = new DataBundle();
             dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
-            key = newKey(key);
-            NotificationStore.addRemovedNotification(key, dataBundle);
+            String uuid = newKey(key);
+            NotificationStore.addRemovedNotification(uuid, dataBundle);
             int id = NotificationJobService.NOTIFICATION_REMOVED;
             int jobId = statusBarNotification.getId() + newUID();
 
-            scheduleJob(id, jobId, key);
+            scheduleJob(id, jobId, uuid);
 
-            Logger.info("onNotificationRemoved jobScheduled: " + jobId + " \\ key: " + key);
+            Logger.info("onNotificationRemoved jobScheduled: " + jobId + " \\ uuid: " + uuid);
 
             /*
             * Disabled while testing JobScheduler
@@ -333,12 +327,12 @@ public class NotificationService extends NotificationListenerService {
                             statusBarNotification.getPostTime());
                     dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
 
-                    key = newKey(statusBarNotification.getKey());
-                    NotificationStore.addRemovedNotification(key, dataBundle);
+                    uuid = newKey(statusBarNotification.getKey());
+                    NotificationStore.addRemovedNotification(uuid, dataBundle);
 
-                    scheduleJob(id, jobId, key);
+                    scheduleJob(id, jobId, uuid);
 
-                    Logger.info("onNotificationRemoved ungroup jobScheduled: " + jobId + " \\ key: " + key);
+                    Logger.info("onNotificationRemoved ungroup jobScheduled: " + jobId + " \\ uuid: " + uuid);
 
                     /*
                     * Disabled while testing JobScheduler
@@ -370,11 +364,11 @@ public class NotificationService extends NotificationListenerService {
             }
         } else
             Logger.debug("onNotificationRemoved ignored: P || G || O");
-
     }
 
     private void sendNotificationWithCustomUI(byte filterResult, StatusBarNotification statusBarNotification) {
-        final String key = newKey(statusBarNotification.getKey());
+        final String uuid = newKey(statusBarNotification.getKey());
+        Logger.debug("sendNotificationWithCustomdUI uuid: " + uuid + " \\ filterResult: " + filterResult);
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
@@ -388,40 +382,40 @@ public class NotificationService extends NotificationListenerService {
             notificationData.setHideReplies(false);
 
         if (isJobSchedulerEnabled()) {
-            NotificationStore.addCustomNotification(key, notificationData);
-            NotificationStore.addNotificationBundle(key, statusBarNotification.getNotification().extras);
+            NotificationStore.addCustomNotification(uuid, notificationData);
             int id = NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI;
             int jobId = statusBarNotification.getId() + newUID();
-            scheduleJob(id, jobId, key);
-            Logger.info("sendNotificationWithCustomUI jobScheduled: " + jobId + " \\ key: " + key);
+            scheduleJob(id, jobId, uuid);
+            Logger.info("sendNotificationWithCustomUI jobScheduled: " + jobId + " \\ uuid: " + uuid);
         } else {
             Watch.get().postNotification(notificationData);
-            Logger.info("sendNotificationWithCustomUI sent without schedule: " + key);
+            Logger.info("sendNotificationWithCustomUI sent without schedule: " + statusBarNotification.getKey());
         }
     }
 
     private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
 
-        String key = newKey(statusBarNotification.getKey());
+        String uuid = newKey(statusBarNotification.getKey());
         int notificationId = statusBarNotification.getId();
-        Logger.debug("sendNotificationWithStandardUI key: " + key + " \\ filterResult: " + filterResult);
+        Logger.debug("sendNotificationWithStandardUI uuid: " + uuid + " \\ filterResult: " + filterResult);
         DataBundle dataBundle = new DataBundle();
         int id = NotificationJobService.NOTIFICATION_POSTED_STANDARD_UI;
-        int jobId = statusBarNotification.getId() + newUID();
+        int jobId = notificationId + newUID();
         dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
         if (isJobSchedulerEnabled()) {
-            NotificationStore.addStandardNotification(key, dataBundle);
-            scheduleJob(id, jobId, key);
-            Logger.info("sendNotificationWithStandardUI jobScheduled: " + jobId + " \\ key: " + key);
+            NotificationStore.addStandardNotification(uuid, dataBundle);
+            scheduleJob(id, jobId, uuid);
+            Logger.info("sendNotificationWithStandardUI jobScheduled: " + jobId + " \\ uuid: " + uuid);
         } else {
             TransportService.sendWithTransporterHuami("add", dataBundle);
             Logger.info("sendNotificationWithStandardUI: " + dataBundle.toString());
         }
     }
 
-    private void scheduleJob(int id, int jobId, String key) {
+    private void scheduleJob(int id, int jobId, String uuid) {
 
+        Logger.debug("id: {} jobId: {} uuid: {}", id, jobId, uuid);
         JobInfo.Builder builder = new JobInfo.Builder(jobId, serviceComponent);
 
         if (jobId == 0) {
@@ -437,14 +431,13 @@ public class NotificationService extends NotificationListenerService {
 
             PersistableBundle bundle = new PersistableBundle();
             bundle.putInt(NotificationJobService.NOTIFICATION_MODE, id);
-            bundle.putString(NotificationJobService.NOTIFICATION_KEY, key);
+            bundle.putString(NotificationJobService.NOTIFICATION_UUID, uuid);
 
             builder.setBackoffCriteria(JOB_INTERVAL, JobInfo.BACKOFF_POLICY_LINEAR);
             builder.setOverrideDeadline(JOB_MAX_INTERVAL);
             builder.setOverrideDeadline(1L);
             builder.setExtras(bundle);
         }
-
         jobScheduler.schedule(builder.build());
     }
 
@@ -465,6 +458,17 @@ public class NotificationService extends NotificationListenerService {
                 Logger.debug("cancelPendingJobs jobInfo: " + jobInfo.toString());
                 if (jobInfo.getId() == id)
                     jobScheduler.cancel(id);
+            }
+    }
+
+    public static void cancelPendingJobs() {
+        List<JobInfo> jobInfoList = jobScheduler.getAllPendingJobs();
+        final int pendingJobs = jobInfoList.size();
+        Logger.debug("cancelPendingJobs pendingJobs: " + pendingJobs);
+        if (pendingJobs > 0)
+            for (JobInfo jobInfo : jobInfoList) {
+                Logger.debug("cancelPendingJobs jobInfo: " + jobInfo.toString());
+                jobScheduler.cancel(jobInfo.getId());
             }
     }
 
@@ -503,80 +507,6 @@ public class NotificationService extends NotificationListenerService {
         }
 
         return mode;
-    }
-
-    private void handleCall(StatusBarNotification statusBarNotification, String notificationPackage) {
-        Logger.debug("handleCall VoiceCall: " + notificationPackage);
-        int mode = 0;
-        if (notificationPackage.equals("org.thunderdog.challegram"))
-            mode = 1;
-        else if (notificationPackage.equals("org.telegram.messenger"))
-            mode = 2;
-        else if (notificationPackage.contains("skype"))
-            mode = 3;
-        int counter = 0;
-
-        while (((isRinging() == AudioManager.MODE_RINGTONE) && (mode == 0))
-                || ((mode == 1) && (counter < 3))
-                || ((mode == 2) && ((counter < 3) && isRinging() != AudioManager.MODE_IN_COMMUNICATION))
-                || ((mode == 3) && (counter < 3))) {
-            long timeSinceLastNotification = (System.currentTimeMillis() - lastTimeNotificationSent);
-            //Log.d(Constants.TAG, "NotificationService handleCall timeSinceLastNotification: " + timeSinceLastNotification);
-            if (timeSinceLastNotification > VOICE_INTERVAL) {
-
-                counter++;
-
-                NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
-
-                final String key = statusBarNotification.getKey();
-
-                final PackageManager pm = getApplicationContext().getPackageManager();
-
-                //Log.d(Constants.TAG, "NotificationService handleCall notificationPackage: " + notificationPackage);
-
-                ApplicationInfo ai;
-                try {
-                    ai = pm.getApplicationInfo(notificationPackage, 0);
-                } catch (final PackageManager.NameNotFoundException e) {
-                    Logger.error(e, "handleCall getApplicationInfo Exception: {}", e.getMessage());
-                    ai = null;
-                }
-                final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
-
-                //Log.d(Constants.TAG, "NotificationService handleCall applicationName: " + applicationName);
-
-                notificationData.setText(notificationData.getText() + "\n" + applicationName);
-                notificationData.setVibration(getDefaultVibration());
-                notificationData.setHideReplies(true);
-                notificationData.setHideButtons(false);
-                notificationData.setForceCustom(true);
-
-                //NotificationJobService.sendCustomNotification(this, notificationData);
-
-                /*
-                NotificationStore.addCustomNotification(key, notificationData);
-                int id = NotificationJobService.NOTIFICATION_POSTED_VOICE;
-                int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
-
-                scheduleJob(id, jobId, key);
-                 */
-
-                Watch.get().postNotification(notificationData);
-
-                lastTimeNotificationSent = System.currentTimeMillis();
-
-                Logger.debug("handleCall notificationData.getText: " + notificationData.getText());
-
-                final int audioMode = getAudioManagerMode();
-
-                Logger.debug("handleCall audioMode: " + audioMode + " \\ counter: " + counter);
-
-                if (((AudioManager.MODE_RINGTONE != audioMode) && mode == 0) || ((counter == 2) && (mode == 1 || mode == 2 || mode == 3))) {
-                    storeForStats(notificationPackage, Constants.FILTER_VOICE);
-                }
-            } else
-                SystemClock.sleep(300);
-        }
     }
 
     private byte filter(StatusBarNotification statusBarNotification) {
@@ -756,7 +686,6 @@ public class NotificationService extends NotificationListenerService {
         return app != null && app.getSilenceUntil() > SilenceApplicationHelper.getCurrentTimeSeconds();
     }
 
-
     private boolean isPackageFiltered(StatusBarNotification statusBarNotification) {
         String packageName = statusBarNotification.getPackageName();
         NotificationPreferencesEntity app = SQLite
@@ -878,7 +807,7 @@ public class NotificationService extends NotificationListenerService {
                 notificationData.setVibration(getDefaultVibration());
                 lastTxt = txt;
 
-                Watch.get().postNotification(notificationData);
+                TransportService.sendWithTransporterNotifications(Transport.INCOMING_NOTIFICATION, notificationData.toDataBundle(new DataBundle()));
 
                 lastTimeNotificationSent = System.currentTimeMillis();
                 storeForStats(notificationPackage, Constants.FILTER_MAPS);
@@ -892,6 +821,79 @@ public class NotificationService extends NotificationListenerService {
 
     }
 
+
+    private void handleCall(StatusBarNotification statusBarNotification, String notificationPackage) {
+        Logger.debug("handleCall VoiceCall: " + notificationPackage);
+        int mode = 0;
+        if (notificationPackage.equals("org.thunderdog.challegram"))
+            mode = 1;
+        else if (notificationPackage.equals("org.telegram.messenger"))
+            mode = 2;
+        else if (notificationPackage.contains("skype"))
+            mode = 3;
+        int counter = 0;
+
+        while (    ((mode == 0) && (isRinging() == AudioManager.MODE_RINGTONE))
+                || ((mode == 1) && (counter < 3))
+                || ((mode == 2) && ((counter < 3) && isRinging() != AudioManager.MODE_IN_COMMUNICATION))
+                || ((mode == 3) && (counter < 3))) {
+            long timeSinceLastNotification = (System.currentTimeMillis() - lastTimeNotificationSent);
+            //Log.d(Constants.TAG, "NotificationService handleCall timeSinceLastNotification: " + timeSinceLastNotification);
+
+            if (timeSinceLastNotification > VOICE_INTERVAL) {
+
+                counter++;
+                NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
+                final String key = statusBarNotification.getKey();
+                final PackageManager pm = getApplicationContext().getPackageManager();
+
+                //Log.d(Constants.TAG, "NotificationService handleCall notificationPackage: " + notificationPackage);
+
+                ApplicationInfo ai;
+                try {
+                    ai = pm.getApplicationInfo(notificationPackage, 0);
+                } catch (final PackageManager.NameNotFoundException e) {
+                    Logger.error(e, "handleCall getApplicationInfo Exception: {}", e.getMessage());
+                    ai = null;
+                }
+                final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
+
+                //Log.d(Constants.TAG, "NotificationService handleCall applicationName: " + applicationName);
+
+                notificationData.setText(notificationData.getText() + "\n" + applicationName);
+                notificationData.setVibration(getDefaultVibration());
+                notificationData.setHideReplies(true);
+                notificationData.setHideButtons(false);
+                notificationData.setForceCustom(true);
+
+                //NotificationJobService.sendCustomNotification(this, notificationData);
+
+                /*
+                NotificationStore.addCustomNotification(key, notificationData);
+                int id = NotificationJobService.NOTIFICATION_POSTED_VOICE;
+                int jobId = id + abs((int) (long) (statusBarNotification.getId() % 10000L));
+
+                scheduleJob(id, jobId, key);
+                 */
+
+                TransportService.sendWithTransporterNotifications(Transport.INCOMING_NOTIFICATION, notificationData.toDataBundle(new DataBundle()));
+
+                lastTimeNotificationSent = System.currentTimeMillis();
+
+                Logger.debug("handleCall notificationData.getText: " + notificationData.getText());
+
+                final int audioMode = getAudioManagerMode();
+
+                Logger.debug("handleCall audioMode: " + audioMode + " \\ counter: " + counter);
+
+                if (((AudioManager.MODE_RINGTONE != audioMode) && mode == 0) || ((counter == 2) && (mode == 1 || mode == 2 || mode == 3))) {
+                    storeForStats(notificationPackage, Constants.FILTER_VOICE);
+                }
+            } else
+                SystemClock.sleep(300);
+        }
+    }
+
     private void startPersistentNotification() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -902,14 +904,11 @@ public class NotificationService extends NotificationListenerService {
             PersistentNotification persistentNotification = new PersistentNotification(this, model);
             Notification notification = persistentNotification.createPersistentNotification();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                if (mNotificationManager != null) {
-                    mNotificationManager.notify(persistentNotification.getNotificationId(), notification);
-                }
-                startForeground(persistentNotification.getNotificationId(), notification);
-            }
+            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (mNotificationManager != null)
+                mNotificationManager.notify(persistentNotification.getNotificationId(), notification);
 
+            startForeground(persistentNotification.getNotificationId(), notification);
         }
     }
 
