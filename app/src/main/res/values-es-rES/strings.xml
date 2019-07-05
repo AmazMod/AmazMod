@@ -356,5 +356,5 @@
     <string name="new_folder">Nueva capreta</string>
     <string name="pref_amazmod_overlay_launcher">Launcher de superposición de notificaciones</string>
     <string name="pref_amazmod_overlay_launcher_summary">Abre la lista de notificaciones del UI personalizado mediante un botón (se mostrará brevemente al encenderse la pantalla y podrás deslizarlo tanto a derechas como izquierdas).</string>
-    <string name="file_not_found">File not found!</string>
+    <string name="file_not_found">¡No se encontró el archivo!</string>
 </resources>
