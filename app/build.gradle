@@ -17,11 +17,12 @@ android {
         enabled = true
     }
     buildTypes {
-        release {
-            manifestPlaceholders = [enableCrashReporting: "false"]
-
+        all {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            manifestPlaceholders = [enableCrashReporting: "false"]
         }
         debug {
             manifestPlaceholders = [enableCrashReporting: "true"]
