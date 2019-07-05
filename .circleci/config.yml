@@ -36,8 +36,8 @@ jobs:
           name: Move APKs to temp folder
           command: |
             mkdir -p persist/apks
-            mv app/build/outputs/apk/debug/app-debug.apk persist/apks/
-            mv service/build/outputs/apk/debug/service-debug.apk persist/apks/
+            mv app/build/outputs/apk/debug/*.apk persist/apks/
+            mv service/build/outputs/apk/debug/*.apk persist/apks/
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports
