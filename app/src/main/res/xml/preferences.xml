@@ -269,7 +269,8 @@
             android:title="@string/pref_log_to_file_level" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/others">
+    <PreferenceCategory android:title="@string/others"
+        android:key="preference.others">
         <!-- Disabled
         <SwitchPreference
             android:defaultValue="false"

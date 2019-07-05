@@ -324,6 +324,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
             } else {
                 // Remove link to notification channel system settings
                 getPreferenceScreen().removePreference(persistentNotificationDeviceSettingsPreference);
+                persistentNotificationDeviceSettingsPreference.setEnabled(false);
+                persistentNotificationDeviceSettingsPreference.setShouldDisableView(true);
             }
 
             // Disable phone battery alert option, if watchface battery data are off
