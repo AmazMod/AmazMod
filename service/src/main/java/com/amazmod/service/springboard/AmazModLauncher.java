@@ -166,7 +166,7 @@ public class AmazModLauncher extends AbstractPlugin {
         //home = view.findViewById(R.id.launcher_home);
         appmenu = view.findViewById(R.id.launcher_appmenu);
 
-        version.setText(BuildConfig.VERSION_NAME);
+        version.setText(String.valueOf(BuildConfig.VERSION_CODE));
         mHeader.setText("Apps");
         flashLight.setImageResource(R.drawable.baseline_highlight_white_24);
         settings.setImageResource(R.drawable.outline_settings_white_24);
