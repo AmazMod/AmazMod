@@ -1,5 +1,7 @@
 package com.edotassi.amazmod.support;
 
+import android.util.ArrayMap;
+
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -9,9 +11,7 @@ import org.tinylog.Logger;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import amazmod.com.transport.Constants;
 
@@ -96,12 +96,12 @@ public class SilenceApplicationHelper {
         }
     }
 
-    public static Map<String, NotificationPreferencesEntity> listApps() {
+    public static ArrayMap<String, NotificationPreferencesEntity> listApps() {
         List<NotificationPreferencesEntity> apps = SQLite
                 .select()
                 .from(NotificationPreferencesEntity.class)
                 .queryList();
-        Map<String, NotificationPreferencesEntity> map = new HashMap<>();
+        ArrayMap<String, NotificationPreferencesEntity> map = new ArrayMap<>();
         for (NotificationPreferencesEntity i : apps) map.put(i.getPackageName(), i);
         return map;
     }

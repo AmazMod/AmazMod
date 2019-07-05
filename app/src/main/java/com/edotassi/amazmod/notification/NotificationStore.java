@@ -1,25 +1,24 @@
 package com.edotassi.amazmod.notification;
 
+import androidx.collection.ArrayMap;
+
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import amazmod.com.transport.data.NotificationData;
 
 public class NotificationStore {
 
-    public static Map<String, DataBundle> standardNotifications;
-    public static Map<String, DataBundle> removedNotifications;
-    public static Map<String, NotificationData> customNotifications;
-    public static Map<String, String> UUIDmap;
+    public static ArrayMap<String, DataBundle> standardNotifications;
+    public static ArrayMap<String, DataBundle> removedNotifications;
+    public static ArrayMap<String, NotificationData> customNotifications;
+    public static ArrayMap<String, String> UUIDmap;
 
     NotificationStore() {
-        standardNotifications = new HashMap<>();
-        removedNotifications = new HashMap<>();
-        customNotifications = new HashMap<>();
-        UUIDmap = new HashMap<>();
+        standardNotifications = new ArrayMap<>();
+        removedNotifications = new ArrayMap<>();
+        customNotifications = new ArrayMap<>();
+        UUIDmap = new ArrayMap<>();
     }
 
     public static DataBundle getStandardNotification(String uuid) {

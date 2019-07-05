@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationEntity;
@@ -19,7 +20,6 @@ import com.edotassi.amazmod.db.model.NotificationEntity;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +40,8 @@ public class NotificationLogAdapter extends ArrayAdapter<NotificationEntity> {
 
         this.context = context;
 
-        causesTranslationsMap = new HashMap<>();
-        appsIconsMap = new HashMap<>();
+        causesTranslationsMap = new ArrayMap<>();
+        appsIconsMap = new ArrayMap<>();
 
         ArrayList<Integer> causes = new ArrayList<Integer>() {{
             add(R.string.notification_block);

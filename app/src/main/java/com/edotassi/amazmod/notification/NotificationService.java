@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import androidx.collection.ArrayMap;
 import androidx.core.app.NotificationCompat;
 
 import com.edotassi.amazmod.db.model.NotificationEntity;
@@ -42,10 +43,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
@@ -79,8 +78,8 @@ public class NotificationService extends NotificationListenerService {
             "org.thunderdog.challegram"
     };
 
-    private Map<String, String> notificationTimeGone;
-    private Map<String, StatusBarNotification> notificationsAvailableToReply;
+    private ArrayMap<String, String> notificationTimeGone;
+    private ArrayMap<String, StatusBarNotification> notificationsAvailableToReply;
     Hashtable<Integer, int[]> grouped_notifications = new Hashtable<>();
 
     private static long lastTimeNotificationArrived = 0;
@@ -96,7 +95,7 @@ public class NotificationService extends NotificationListenerService {
 
         EventBus.getDefault().register(this);
 
-        notificationsAvailableToReply = new HashMap<>();
+        notificationsAvailableToReply = new ArrayMap<>();
 
         NotificationStore notificationStore = new NotificationStore();
 
@@ -511,7 +510,7 @@ public class NotificationService extends NotificationListenerService {
 
     private byte filter(StatusBarNotification statusBarNotification) {
         if (notificationTimeGone == null) {
-            notificationTimeGone = new HashMap<>();
+            notificationTimeGone = new ArrayMap<>();
         }
         String notificationPackage = statusBarNotification.getPackageName();
         String notificationId = statusBarNotification.getKey();

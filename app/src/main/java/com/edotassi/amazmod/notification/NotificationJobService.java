@@ -7,7 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.ArrayMap;
+
+import androidx.collection.ArrayMap;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
@@ -17,9 +18,6 @@ import com.huami.watch.transport.DataTransportResult;
 
 import org.greenrobot.eventbus.EventBus;
 import org.tinylog.Logger;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
@@ -37,7 +35,7 @@ public class NotificationJobService extends JobService implements TransportServi
     public static final int NOTIFICATION_REMOVED = 3000;
 
     private static int retries = 0;
-    private static Map<String, JobParameters> pendingJobs = new HashMap<>();
+    private static ArrayMap<String, JobParameters> pendingJobs = new ArrayMap<>();
     private static ArrayMap<String, JobParameters> jobParams = new ArrayMap<>();
 
     @Override
@@ -209,7 +207,7 @@ public class NotificationJobService extends JobService implements TransportServi
 
             //Check for pending Standard notifications and remove them
             if (NotificationStore.getStandardNotificationCount() > 0)
-                for (Map.Entry<String, String> pair : NotificationStore.UUIDmap.entrySet()) {
+                for (ArrayMap.Entry<String, String> pair : NotificationStore.UUIDmap.entrySet()) {
                     Logger.debug("NS.uuid: {} \\ NS.key: {}", pair.getKey(), pair.getValue());
 
                     if (key.equals(pair.getValue())) {
@@ -229,7 +227,7 @@ public class NotificationJobService extends JobService implements TransportServi
 
             //Check for pensing CustomUI notifications and remove them
             if (NotificationStore.getCustomNotificationCount() > 0)
-                for (Map.Entry<String, String> pair : NotificationStore.UUIDmap.entrySet()) {
+                for (ArrayMap.Entry<String, String> pair : NotificationStore.UUIDmap.entrySet()) {
                     Logger.debug("NS.uuid: {} \\ NS.key: {}", pair.getKey(), pair.getValue());
 
                     if (key.equals(pair.getValue())) {

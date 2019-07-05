@@ -12,8 +12,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
 import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
+import androidx.core.app.ActivityCompat;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
@@ -41,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -442,22 +442,26 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
         String filtersJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, "[]");
         Logger.debug("FilesExtrasActivity loadAppsPrefsFromJSON filters: " + filtersJson);
-        if (!filtersJson.equals("[]")) {
-            Map<String, String> packagesfilters = new Gson().fromJson(filtersJson, Map.class);
+        try {
+            if (!filtersJson.equals("[]")) {
+                Map<String, String> packagesfilters = new Gson().fromJson(filtersJson, Map.class);
 
-            for (Map.Entry<String, String> pair : packagesfilters.entrySet()) {
-                NotificationPreferencesEntity app =
-                        SQLite
-                                .select()
-                                .from(NotificationPreferencesEntity.class)
-                                .where(NotificationPreferencesEntity_Table.packageName.eq(pair.getKey()))
-                                .querySingle();
-                app.setFilter(pair.getValue());
-                app.setWhitelist(false);
-                FlowManager
-                        .getModelAdapter(NotificationPreferencesEntity.class)
-                        .update(app);
+                for (Map.Entry<String, String> pair : packagesfilters.entrySet()) {
+                    NotificationPreferencesEntity app =
+                            SQLite
+                                    .select()
+                                    .from(NotificationPreferencesEntity.class)
+                                    .where(NotificationPreferencesEntity_Table.packageName.eq(pair.getKey()))
+                                    .querySingle();
+                    app.setFilter(pair.getValue());
+                    app.setWhitelist(false);
+                    FlowManager
+                            .getModelAdapter(NotificationPreferencesEntity.class)
+                            .update(app);
+                }
             }
+        } catch (Exception ex) {
+            Logger.error(ex, ex.getMessage());
         }
     }
 
@@ -490,7 +494,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         if (apps.size() > 0) {
 
             List<String> dummy = new ArrayList<>();
-            Map<String, String> filters = new HashMap<String, String>();
+            ArrayMap<String, String> filters = new ArrayMap<>();
 
             for (NotificationPreferencesEntity p : apps) {
                 dummy.add(p.getPackageName());

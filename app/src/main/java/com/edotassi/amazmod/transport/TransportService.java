@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.event.BatteryStatus;
@@ -44,8 +45,6 @@ import org.tinylog.Logger;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -77,7 +76,7 @@ public class TransportService extends Service implements Transporter.DataListene
     ThreadPoolExecutor executor = new ThreadPoolExecutor(numCores * 2, numCores * 2,
             60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
-    private Map<String, Class> messages = new HashMap<String, Class>() {{
+    private ArrayMap<String, Class> messages = new ArrayMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
         put(Transport.BATTERY_STATUS, BatteryStatus.class);
         put(Transport.REPLY, NotificationReply.class);
@@ -92,7 +91,7 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.WIDGETS_DATA, ResultWidgets.class);
     }};
 
-    private Map<String, Object> pendingResults = new HashMap<>();
+    private ArrayMap<String, Object> pendingResults = new ArrayMap<>();
 
 
     public interface DataTransportResultCallback {
