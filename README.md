@@ -40,8 +40,9 @@ https://github.com/edotassi/AmazMod/tree/master/service-releases
 4. Disable "Push Notifications" in Amazfit Settings to prevent double notifications;
 5. Check if you see AmazMod widget on watch, if you don't then something went wrong, check Troubleshooting below;
 6. Open AmazMod app on phone and configure it to your needs.
-7. For better power managment, in the tweaking section on the phone client with the latest version - run:
-   `adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver`
+7. For better power managment, enable Device Admin in the widget menu or in the tweaking section on the phone app, or still use adb and run:
+   `adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver`
+   PS: On Verge, you must open AmazMod from the apps list the first time you install it to start the service, then go to the phone App to check connection (make sure you have set AmazMod as first widget in settings to make it permanent). You may need to restart launcher or watch to see the widget properly.
 
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;
