@@ -204,10 +204,11 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             loadMuteOptions();
         }
 
+        populateNotificationIcon(icon, iconBadge, notificationData);
+
         if (hasPicture(notificationData)) {
-            Logger.trace("hasPicture = true");
-            populateNotificationIcon(icon, iconBadge, notificationData);
             populateNotificationPicture(picture, notificationData);
+            Logger.trace("hasPicture = true");
             title.setText(String.format("%s - %s", notificationData.getTitle(), notificationData.getTime()));
             time.setVisibility(View.GONE);
             text.setVisibility(View.GONE);
@@ -323,6 +324,11 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         });
     }
 
+    private boolean hasPicture(NotificationData notificationData) {
+        byte[] pictureData = notificationData.getPicture();
+        return (pictureData != null) && (pictureData.length > 0);
+    }
+
     private void populateNotificationIcon(ImageView iconView, ImageView iconAppView, NotificationData notificationData) {
         Logger.trace("hasPicture: {}", hasPicture(notificationData));
         try {
@@ -367,11 +373,6 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             bitmap.setPixels(iconData, 0, iconWidth, 0, 0, iconWidth, iconHeight);
 
         iconView.setImageBitmap(bitmap);
-    }
-
-    private boolean hasPicture(NotificationData notificationData) {
-        byte[] pictureData = notificationData.getPicture();
-        return (pictureData != null) && (pictureData.length > 0);
     }
 
     private void populateNotificationPicture(ImageView pictureView, NotificationData notificationData) {
