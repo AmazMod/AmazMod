@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogStyleLight</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
 
@@ -27,6 +28,7 @@
         <item name="android:textColorHighlight">@color/text_light_opaque</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="android:windowBackground">@color/background</item>
+        <item name="android:alertDialogTheme">@style/AlertDialogStyleDark</item>
         <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
     </style>
 
@@ -40,6 +42,18 @@
 
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/background_splash</item>
+    </style>
+
+    <style name="AlertDialogStyleLight" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:buttonBarButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+    </style>
+
+    <style name="AlertDialogStyleDark" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:buttonBarButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="android:textColorHighlight">@color/text_light_opaque</item>
+        <item name="android:colorBackground">@color/background</item>
+        <item name="android:windowBackground">@color/background</item>
     </style>
 
     <!-- Dark theme for android-file-chooser -->
