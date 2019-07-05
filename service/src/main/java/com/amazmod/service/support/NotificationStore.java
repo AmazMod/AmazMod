@@ -3,6 +3,8 @@ package com.amazmod.service.support;
 import android.content.Context;
 import android.provider.Settings;
 
+import androidx.collection.ArrayMap;
+
 import com.amazmod.service.Constants;
 import com.huami.watch.notification.data.NotificationKeyData;
 
@@ -11,20 +13,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.tinylog.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 import amazmod.com.transport.data.NotificationData;
 
 public class NotificationStore {
 
-    private static Map<String, NotificationData> customNotifications = new HashMap<>();
-    public static Map<String, String> keyMap = new HashMap<>();
+    private static ArrayMap<String, NotificationData> customNotifications = new ArrayMap<>();
+    public static ArrayMap<String, String> keyMap = new ArrayMap<>();
 
     public NotificationStore() {
-        customNotifications = new HashMap<>();
-        keyMap = new HashMap<>();
+        customNotifications = new ArrayMap<>();
+        keyMap = new ArrayMap<>();
     }
 
     public static NotificationData getCustomNotification(String key) {

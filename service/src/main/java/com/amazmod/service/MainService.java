@@ -30,6 +30,7 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.amazmod.service.db.model.BatteryDbEntity;
@@ -101,10 +102,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BatteryData;
@@ -135,7 +134,7 @@ import static java.lang.System.currentTimeMillis;
 
 public class MainService extends Service implements Transporter.DataListener {
 
-    private Map<String, Class> messages = new HashMap<String, Class>() {{
+    private ArrayMap<String, Class> messages = new ArrayMap<String, Class>() {{
         put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
         put(Transport.SYNC_SETTINGS, SyncSettings.class);
         put(Transport.INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
@@ -451,7 +450,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
             if (key != null) {
                 if (NotificationStore.getCustomNotificationCount() > 0)
-                    for (Map.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
+                    for (ArrayMap.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
                         Logger.warn("deleteNotification NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
 
                         if (key.equals(pair.getValue())) {
