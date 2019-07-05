@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -323,9 +324,10 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 persistentNotificationDeviceSettingsPreference.setIntent(intent);
             } else {
                 // Remove link to notification channel system settings
-                getPreferenceScreen().removePreference(persistentNotificationDeviceSettingsPreference);
                 persistentNotificationDeviceSettingsPreference.setEnabled(false);
                 persistentNotificationDeviceSettingsPreference.setShouldDisableView(true);
+                PreferenceCategory categoryOthers = (PreferenceCategory) findPreference("preference.others");
+                categoryOthers.removePreference(persistentNotificationDeviceSettingsPreference);
             }
 
             // Disable phone battery alert option, if watchface battery data are off
