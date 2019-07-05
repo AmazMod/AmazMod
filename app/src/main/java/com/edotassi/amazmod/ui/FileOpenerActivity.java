@@ -27,7 +27,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.WatchfaceUtil;
@@ -35,7 +34,6 @@ import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
@@ -498,12 +496,6 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                 snackProgressBarManager.dismissAll();
 
                 if (task.isSuccessful()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("size", size);
-                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                    FirebaseAnalytics
-                            .getInstance(FileOpenerActivity.this)
-                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
                     if (uploadType.equals(UPLOAD_APK))
                         installUpload(destPath);
                     else
@@ -551,11 +543,6 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                             if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
                                 result = INSTALL_OK;
 
-                                Bundle bundle = new Bundle();
-                                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "APK");
-                                FirebaseAnalytics
-                                        .getInstance(FileOpenerActivity.this)
-                                        .logEvent(FirebaseEvents.APK_INSTALL, bundle);
                             } else {
                                 SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);

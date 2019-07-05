@@ -31,7 +31,6 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.Screen;
@@ -39,7 +38,6 @@ import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
@@ -215,49 +213,41 @@ public class TweakingActivity extends BaseAppCompatActivity {
     public void reboot() {
         execCommandInternally(ShellCommandHelper.getReboot(),false);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT, null);
     }
 
     @OnClick(R.id.activity_tweaking_restart_launcher)
     public void restartLauncher() {
         execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher(),false);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_RESTART_LAUNCHER, null);
     }
 
     @OnClick(R.id.activity_tweaking_enable_apps_list)
     public void enableAppsList() {
         execCommandInternally(ShellCommandHelper.getEnableAppsList());
-
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_ENABLE_APPS_LIST, null);
     }
 
     @OnClick(R.id.activity_tweaking_disable_apps_list)
     public void disableAppList() {
         execCommandInternally(ShellCommandHelper.getDisableAppsList());
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_DISABLE_APPS_LIST, null);
     }
 
     @OnClick(R.id.activity_tweaking_reboot_bootloader)
     public void rebootBootloader() {
         execCommandInternally(ShellCommandHelper.getRebootBootloader(),false);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT_BOOTLOADER, null);
     }
 
     @OnClick(R.id.activity_tweaking_set_admin)
     public void setAdmin() {
         execCommandInternally(ShellCommandHelper.getDPM());
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_ENABLE_ADMIN, null);
     }
 
     @OnClick(R.id.activity_tweaking_screenshot)
     public void screenshot() {
         execCommandInternally(ShellCommandHelper.getScreenshot());
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SCREENSHOT, null);
     }
 
     @OnClick(R.id.activity_tweaking_enable_lpm)
@@ -292,9 +282,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                         if (task.isSuccessful()) {
                                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
 
-                                            FirebaseAnalytics
-                                                    .getInstance(TweakingActivity.this)
-                                                    .logEvent(FirebaseEvents.TWEAKING_ENABLE_LPM, null);
                                         } else {
                                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.cant_send_shell_command));
                                         }
@@ -336,9 +323,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                         if (task.isSuccessful()) {
                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
 
-                            FirebaseAnalytics
-                                    .getInstance(TweakingActivity.this)
-                                    .logEvent(FirebaseEvents.TWEAKING_DISABLE_ADMIN, null);
                         } else {
                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.cant_send_shell_command));
                         }
@@ -365,7 +349,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
         execCommandInternally(command);
         FilesExtrasActivity.saveCommandToHistory(command);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_EXECUTED, null);
     }
 
     public final static int REQ_CODE_COMMAND_HISTORY = 100;
@@ -459,11 +442,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                             .setDuration(Snacky.LENGTH_SHORT)
                             .build().show();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("value", value);
-                    FirebaseAnalytics
-                            .getInstance(TweakingActivity.this)
-                            .logEvent(FirebaseEvents.TWEAKING_BRIGHTENESS_CHANGE, bundle);
                 } else {
                     Snacky.builder()
                             .setActivity(TweakingActivity.this)
@@ -584,12 +562,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                 }
                             }
 
-                            Bundle bundle = new Bundle();
-                            bundle.putLong("size", size);
-                            bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                            FirebaseAnalytics
-                                    .getInstance(TweakingActivity.this)
-                                    .logEvent(FirebaseEvents.DOWNLOAD_FILE, bundle);
                         } else {
                             if (task.getException() instanceof CancellationException) {
                                 SnackProgressBar snackbar = new SnackProgressBar(

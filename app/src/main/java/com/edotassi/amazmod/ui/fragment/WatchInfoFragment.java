@@ -25,7 +25,6 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.transport.TransportService;
@@ -37,7 +36,6 @@ import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
@@ -304,8 +302,6 @@ public class WatchInfoFragment extends Card implements Updater {
                                             return;
                                         }
 
-                                        FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
-
                                         setWindowFlags(true);
                                         final UpdateDownloader updateDownloader = new UpdateDownloader();
                                         if (serviceVersion < 1697) {
@@ -443,14 +439,6 @@ public class WatchInfoFragment extends Card implements Updater {
                 snackProgressBarManager.dismissAll();
 
                 if (task.isSuccessful()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("size", size);
-                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                    if (WatchInfoFragment.this.getContext() != null) {
-                        FirebaseAnalytics
-                                .getInstance(WatchInfoFragment.this.getContext())
-                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
-                    }
                     if (destPath.contains("AmazMod-service")) {
                         installUpdate(destPath);
                     }

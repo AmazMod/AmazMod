@@ -24,10 +24,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.receiver.WatchfaceReceiver;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.Permissions;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -195,11 +193,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, isChecked);
 
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("value", isChecked);
-                FirebaseAnalytics
-                        .getInstance(WatchfaceActivity.this)
-                        .logEvent(FirebaseEvents.GREATFIT_BATTERY, bundle);
             }
         });
         send_on_battery_change_switch.setEnabled(send_data);
@@ -210,11 +203,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, isChecked);
 
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("value", isChecked);
-                FirebaseAnalytics
-                        .getInstance(WatchfaceActivity.this)
-                        .logEvent(FirebaseEvents.GREATFIT_ALARM_TOGGLE, bundle);
             }
         });
         send_on_alarm_change_switch.setEnabled(send_data);
@@ -241,9 +229,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
 
                 watchface_last_sync.setText(lastTimeRead());
 
-                FirebaseAnalytics
-                        .getInstance(WatchfaceActivity.this)
-                        .logEvent(FirebaseEvents.GREATFIT_SYNC_NOW, null);
             }
         });
         watchface_sync_now_button.setEnabled(send_data);
