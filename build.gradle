@@ -1,5 +1,6 @@
 ext {
     supportLibVersion = '28.0.0'
+    branch = getWorkingBranch()
 }
 
 buildscript {
@@ -41,4 +42,19 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+/**
+ * Get the name of the working branch of the project
+ *
+ * @return Name of the working branch
+ */
+def getWorkingBranch() {
+    def branch = ""
+    def proc = "git rev-parse --abbrev-ref HEAD".execute()
+    proc.in.eachLine { line -> branch = line }
+    proc.err.eachLine { line -> println line }
+    proc.waitFor()
+    println "Working branch: " + branch
+    return branch
 }

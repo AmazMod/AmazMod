@@ -20,6 +20,13 @@ android {
             targetSdkVersion 23
             versionCode build
             versionName "${build}"
+
+            if (branch == "dev") {
+                versionNameSuffix "-" + branch
+                setProperty("archivesBaseName", "AmazMod-$project.name")
+            } else {
+                setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
+            }
         }
     }
     else {
@@ -33,6 +40,31 @@ android {
         }
     }
 
+    productFlavors {
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+
+            def newApkName = ""
+            def baseName = archivesBaseName
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def date = new Date();
+            def formattedDate = date.format('YYYYMMddHHmm')
+
+            if (branch == "master") {
+                if (buildType == "release") {
+                    newApkName = "$baseName" + ".apk"
+                } else if (buildType == "debug") {
+                    newApkName = "$baseName-$buildType" + ".apk"
+                }
+            } else {
+                newApkName =  "$baseName-$buildType-$branch-$versionCode-$formattedDate" + ".apk"
+            }
+
+            outputFileName = new File(newApkName)
+        }
+    }
     lintOptions {
         checkReleaseBuilds false
         // Or, if you prefer, you can continue to check for errors in release builds,

@@ -12,6 +12,13 @@ android {
         versionCode 214
         versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        if (branch == "dev") {
+            versionNameSuffix "-" + branch
+            setProperty("archivesBaseName", "AmazMod-$project.name")
+        } else {
+            setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
+        }
     }
     dataBinding {
         enabled = true
@@ -22,13 +29,35 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
-            manifestPlaceholders = [enableCrashReporting: "false"]
+            manifestPlaceholders = [enableCrashReporting: "true"]
         }
         debug {
-            manifestPlaceholders = [enableCrashReporting: "true"]
+            manifestPlaceholders = [enableCrashReporting: "false"]
         }
     }
     productFlavors {
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+
+            def newApkName = ""
+            def baseName = archivesBaseName
+            def buildType = variant.variantData.variantConfiguration.buildType.name
+            def date = new Date();
+            def formattedDate = date.format('YYYYMMddHHmm')
+
+            if (branch == "master") {
+                if (buildType == "release") {
+                    newApkName = "$baseName" + ".apk"
+                } else if (buildType == "debug") {
+                    newApkName = "$baseName-$buildType" + ".apk"
+                }
+            } else {
+                newApkName =  "$baseName-$buildType-$branch-$versionCode-$formattedDate" + ".apk"
+            }
+
+            outputFileName = new File(newApkName)
+        }
     }
 
     lintOptions {
