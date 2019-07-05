@@ -22,9 +22,10 @@ public class NotificationStore {
     private static Map<String, NotificationData> customNotifications = new HashMap<>();
     public static Map<String, String> keyMap = new HashMap<>();
 
-    //public NotificationStore() {
-        //customNotifications = new HashMap<>();
-    //}
+    public NotificationStore() {
+        customNotifications = new HashMap<>();
+        keyMap = new HashMap<>();
+    }
 
     public static NotificationData getCustomNotification(String key) {
         NotificationData notificationData = customNotifications.get(key);
