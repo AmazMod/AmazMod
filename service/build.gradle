@@ -21,11 +21,11 @@ android {
             versionCode build
             versionName "${build}"
 
-            if (branch == "dev") {
+            if (branch == "master") {
+                setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
+            } else {
                 versionNameSuffix "-" + branch
                 setProperty("archivesBaseName", "AmazMod-$project.name")
-            } else {
-                setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
             }
         }
     }
