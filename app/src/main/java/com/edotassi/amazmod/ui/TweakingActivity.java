@@ -32,6 +32,7 @@ import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
@@ -116,7 +117,8 @@ public class TweakingActivity extends BaseAppCompatActivity {
         ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
-                .setProgressBarColor(R.color.colorAccent)
+                .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
+                .setActionTextColor(ThemeHelper.getThemeColorAccentId(this))
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 .setTextSize(14)
                 .setMessageMaxLines(2)

@@ -123,7 +123,8 @@ public class WatchInfoFragment extends Card implements Updater {
 
         if (getActivity() != null) {
             snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
-                    .setProgressBarColor(R.color.colorAccent)
+                    .setProgressBarColor(ThemeHelper.getThemeColorAccentId(getActivity()))
+                    .setActionTextColor(ThemeHelper.getThemeColorAccentId(getActivity()))
                     .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                     .setTextSize(14)
                     .setMessageMaxLines(2);

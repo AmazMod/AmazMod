@@ -956,10 +956,11 @@ public class MainService extends Service implements Transporter.DataListener {
                 try {
                     RequestShellCommandData requestShellCommandData = RequestShellCommandData.fromDataBundle(requestShellCommand.getDataBundle());
                     String command = requestShellCommandData.getCommand();
+                    boolean isAdb = command.contains("adb ");
 
                     if (!requestShellCommandData.isWaitOutput()) {
 
-                        Logger.debug("MainService executeShellCommand command: " + command);
+                        Logger.debug("MainService executeShellCommand !isWaitOutput command: {}", command);
                         int code = 0;
                         String errorMsg = "";
 
@@ -996,7 +997,7 @@ public class MainService extends Service implements Transporter.DataListener {
                                 Process process = Runtime.getRuntime().exec("nohup sh /sdcard/amazmod-command.sh &");
 
                                 code = process.waitFor();
-                                Logger.debug("MainService shell process returned " + code);
+                                Logger.debug("MainService shell process returned code: {}", code);
 
                             } else {
                                 if (command.contains("AmazMod-service-") && command.contains("adb install -r")) {
@@ -1013,10 +1014,13 @@ public class MainService extends Service implements Transporter.DataListener {
                         send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());
 
                     } else {
+
                         String filename = null;
                         PowerManager.WakeLock wakeLock = null;
+
                         if (command.contains("screencap")) {
-                            Logger.debug("Screenshot: creating file");
+                            Logger.debug("Screenshot: creating dirs");
+
                             File file = new File("/sdcard/Pictures/Screenshots");
                             boolean saveDirExists;
                             saveDirExists = file.exists() || file.mkdirs();
@@ -1041,29 +1045,40 @@ public class MainService extends Service implements Transporter.DataListener {
                             }
                         }
 
-                        Logger.debug("MainService executeShellCommand process: " + command);
+                        Logger.debug("MainService executeShellCommand isWaitOutput command: {}", command);
                         long startedAt = System.currentTimeMillis();
-
-                        String[] args = CommandLine.translateCommandline(command);
-                        ProcessBuilder processBuilder = new ProcessBuilder(args);
-                        processBuilder.redirectErrorStream(true);
-
-                        Process process = processBuilder.start();
-
-                        StringBuilder outputLog = new StringBuilder();
+                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
                         int returnValue;
 
-                        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                            String line;
-                            while ((line = bufferedReader.readLine()) != null) {
-                                outputLog.append(line).append("\n");
+                        if (isAdb) {
+
+                            ExecCommand execCommand = new ExecCommand(command);
+                            Thread.sleep(1000);
+                            resultShellCommand.setResult(0);
+                            resultShellCommand.setOutputLog(execCommand.getOutput());
+                            resultShellCommand.setErrorLog(execCommand.getError());
+
+                        } else {
+
+                            String[] args = CommandLine.translateCommandline(command);
+                            ProcessBuilder processBuilder = new ProcessBuilder(args);
+                            processBuilder.redirectErrorStream(true);
+
+                            Process process = processBuilder.start();
+                            StringBuilder outputLog = new StringBuilder();
+
+                            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+                                String line;
+                                while ((line = bufferedReader.readLine()) != null) {
+                                    outputLog.append(line).append("\n");
+                                }
+                                returnValue = process.waitFor();
                             }
-                            returnValue = process.waitFor();
+
+                            resultShellCommand.setResult(returnValue);
+                            resultShellCommand.setOutputLog(outputLog.toString());
                         }
 
-                        ResultShellCommandData resultShellCommand = new ResultShellCommandData();
-                        resultShellCommand.setResult(returnValue);
-                        resultShellCommand.setOutputLog(outputLog.toString());
                         resultShellCommand.setDuration(System.currentTimeMillis() - startedAt);
                         resultShellCommand.setCommand(command);
 
@@ -1073,7 +1088,7 @@ public class MainService extends Service implements Transporter.DataListener {
                             if (filename != null) {
                                 File file = new File(filename);
                                 if (file.exists()) {
-                                    Logger.debug("MainService executeShellCommand file.exists: " + file.exists() + " " + file.getName());
+                                    Logger.debug("MainService executeShellCommand file: {} exists: {}", file.getName(), file.exists());
                                     FileUploadData fileUploadData = new FileUploadData(file.getAbsolutePath(), file.getName(), file.length());
                                     send(Transport.FILE_UPLOAD, fileUploadData.toDataBundle());
                                 }
@@ -1084,10 +1099,11 @@ public class MainService extends Service implements Transporter.DataListener {
                             wakeLock.release();
                     }
                 } catch (Exception ex) {
-                    Logger.error(ex.getMessage(), ex);
+                    Logger.error(ex, ex.getMessage());
 
                     ResultShellCommandData resultShellCommand = new ResultShellCommandData();
                     resultShellCommand.setResult(-1);
+                    resultShellCommand.setOutputLog("");
                     resultShellCommand.setErrorLog(ex.getMessage());
 
                     send(Transport.RESULT_SHELL_COMMAND, resultShellCommand.toDataBundle());

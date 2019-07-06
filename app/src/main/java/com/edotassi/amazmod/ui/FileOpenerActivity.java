@@ -28,6 +28,7 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.WatchfaceUtil;
 import com.edotassi.amazmod.watch.Watch;
@@ -104,7 +105,8 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(this.findViewById(android.R.id.content))
-                .setProgressBarColor(R.color.colorAccent)
+                .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
+                .setActionTextColor(ThemeHelper.getThemeColorAccentId(this))
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 .setTextSize(14)
                 .setMessageMaxLines(2);
