@@ -91,7 +91,6 @@ import org.tinylog.Logger;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
@@ -126,7 +125,6 @@ import amazmod.com.transport.data.WatchfaceData;
 import amazmod.com.transport.data.WidgetsData;
 
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
-import static java.lang.System.currentTimeMillis;
 
 /**
  * Created by edoardotassinari on 04/04/18.
@@ -233,7 +231,7 @@ public class MainService extends Service implements Transporter.DataListener {
                     getBatteryPct(batteryStatus);
                 //Update date of last charge if power was disconnected and battery is full
                 if (batteryPct > 0.98) {
-                    dateLastCharge = currentTimeMillis();
+                    dateLastCharge = System.currentTimeMillis();
                     settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
                     Logger.debug("MainService onCreate dateLastCharge saved: " + dateLastCharge);
                 }
@@ -1051,7 +1049,7 @@ public class MainService extends Service implements Transporter.DataListener {
                         int returnValue;
 
                         if (isAdb) {
-
+                            //adb hangs if waitFor is used
                             ExecCommand execCommand = new ExecCommand(command);
                             Thread.sleep(1000);
                             resultShellCommand.setResult(0);

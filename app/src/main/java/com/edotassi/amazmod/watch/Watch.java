@@ -59,7 +59,8 @@ public class Watch {
     private ThreadPoolExecutor threadPoolExecutor;
 
     private Watch() {
-        threadPoolExecutor = new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+        threadPoolExecutor = new ThreadPoolExecutor(1, 2,
+                30L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
     }
 
     public static void init(Context context) {
@@ -214,7 +215,7 @@ public class Watch {
             public Object call() throws Exception {
                 TransportService transportService = Tasks.await(getServiceInstance());
                 long size = file.length();
-                long lastChunnkSize = size % Constants.CHUNK_SIZE;
+                long lastChunkSize = size % Constants.CHUNK_SIZE;
                 long totalChunks = size / Constants.CHUNK_SIZE;
                 long startedAt = System.currentTimeMillis();
 
@@ -241,8 +242,8 @@ public class Watch {
                     operationProgress.update(duration, byteSent, remainTime, progress);
                 }
 
-                if (lastChunnkSize > 0) {
-                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, Constants.CHUNK_SIZE, totalChunks, (int) lastChunnkSize);
+                if (lastChunkSize > 0) {
+                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, Constants.CHUNK_SIZE, totalChunks, (int) lastChunkSize);
                     Tasks.await(transportService.sendAndWait(Transport.REQUEST_UPLOAD_FILE_CHUNK, requestUploadFileChunkData));
                 }
 
