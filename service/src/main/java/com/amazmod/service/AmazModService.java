@@ -15,8 +15,7 @@ import org.tinylog.configuration.Configuration;
 public class AmazModService extends Application {
 
     private static Application mApp;
-    public final boolean DEBUG = true;
-    public final String LEVEL = "trace";
+    private static String level;
 
     @Override
     public void onCreate() {
@@ -27,7 +26,7 @@ public class AmazModService extends Application {
         setupLogger();
 
         //EventBus.getDefault().init(this);
-        Logger.info("Tinylog configured debug: {} level: {}", DEBUG?"TRUE":"FALSE", LEVEL.toUpperCase());
+        Logger.info("Tinylog configured debug: {} level: {}", Constants.DEBUG?"TRUE":"FALSE", level.toUpperCase());
 
         FlowManager.init(this);
         cleanOldBatteryDb();
@@ -57,13 +56,13 @@ public class AmazModService extends Application {
     }
 
     private void setupLogger() {
-
+        level = "error";
+        if (Constants.DEBUG)
+            level = Constants.DEBUG_LEVEL;
         //System.out.println("D/AmazMod AmazModService Tinylog configured debug: " + DEBUG + " level: " + level);
         Configuration.set("writerLogcat", "logcat");
-        Configuration.set("writerLogcat.level", LEVEL);
+        Configuration.set("writerLogcat.level", level);
         Configuration.set("writerLogcat.tagname", "AmazMod");
         Configuration.set("writerLogcat.format", "{class-name}.{method}(): {message}");
-        if (!DEBUG)
-            Configuration.set("writerLogcat.level", "error");
     }
 }

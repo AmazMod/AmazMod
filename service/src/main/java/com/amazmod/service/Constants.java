@@ -7,7 +7,8 @@ package com.amazmod.service;
 public class Constants {
 
     public static final String TAG = "AmazMod";
-    public static final String TAG_NIGHTSCOUT_PAGE = "Amazmod:Nighscout";
+    public static final boolean DEBUG = true;
+    public static final String DEBUG_LEVEL = "trace";
 
     public static final String PACKAGE_NAME = "com.edotassi.amazmod";
     public static final String SERVICE_NAME = "com.amazmod.service";

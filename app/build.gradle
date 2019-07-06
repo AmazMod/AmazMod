@@ -44,7 +44,7 @@ android {
             def baseName = archivesBaseName
             def buildType = variant.variantData.variantConfiguration.buildType.name
             def date = new Date();
-            def formattedDate = date.format('YYYYMMddHHmm')
+            def formattedDate = date.format('YYYYMMddHHmm', TimeZone.getTimeZone('UTC'))
 
             if (branch == "master") {
                 if (buildType == "release") {

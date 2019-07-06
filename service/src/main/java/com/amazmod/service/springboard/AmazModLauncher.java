@@ -23,6 +23,7 @@ import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.wearable.view.CircledImageView;
 import android.support.wearable.view.WearableListView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazmod.service.AmazModService;
 import com.amazmod.service.BuildConfig;
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
@@ -46,7 +48,6 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tinylog.Logger;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -118,27 +119,28 @@ public class AmazModLauncher extends AbstractPlugin {
 
         this.mContext = paramContext;
         mContext.startService(new Intent(paramContext, MainService.class));
-        Logger.debug("AmazModLauncher getView mContext.getPackageName: " + mContext.getPackageName());
+
+        Log.d(Constants.TAG, "AmazModLauncher getView: " + mContext.getPackageName());
 
         this.view = LayoutInflater.from(mContext).inflate(R.layout.amazmod_launcher, null);
 
         //Initialize settings
         widgetSettings = new WidgetSettings(Constants.TAG, mContext);
 
-        Logger.debug("AmazModLauncher getView getting SystemServices");
+        Log.d(Constants.TAG, "AmazModLauncher getView getting SystemServices");
         wfmgr = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
         vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
         PowerManager powerManager = (PowerManager) mContext.getSystemService(POWER_SERVICE);
         if (powerManager != null) {
-            wakeLockDim = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AmazeLauncher::KeepAwakeDim");
-            wakeLockScreenOn = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "AmazeLauncher::KeepAwakeScreenOn");
+            wakeLockDim = powerManager.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "AmazeLauncher:KeepAwakeDim");
+            wakeLockScreenOn = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "AmazeLauncher:KeepAwakeScreenOn");
         }
 
         init();
         checkConnection();
         loadApps(false);
 
-        Logger.debug("AmazModLauncher getView packagename: " + mContext.getPackageName()
+        Log.d(Constants.TAG, "AmazModLauncher getView packagename: " + mContext.getPackageName()
                 + " filesDir: " + mContext.getFilesDir() + " cacheDir: " + mContext.getCacheDir());
 
         return this.view;
@@ -146,7 +148,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
     private void init() {
 
-        Logger.debug("AmazModLauncher init");
+        Log.v(Constants.TAG, "AmazModLauncher init");
 
         TextView version = view.findViewById(R.id.launcher_version);
         ImageView imageView = view.findViewById(R.id.launcher_logo);
@@ -183,9 +185,9 @@ public class AmazModLauncher extends AbstractPlugin {
                     state = isWakeLockEnabled;
             } catch (NullPointerException e) {
                 state = false;
-                Logger.error("AmazModLauncher getView exception: " + e.toString());
+                Log.e(Constants.TAG, "AmazModLauncher getView exception: " + e.getMessage());
             }
-            Logger.debug("AmazModLauncher getView addItem: " + mItems[i]);
+            Log.d(Constants.TAG, "AmazModLauncher getView addItem: " + mItems[i]);
             items.add(new MenuItems(mImagesOn[i], mImagesOff[i], mItems[i], state));
         }
 
@@ -337,13 +339,13 @@ public class AmazModLauncher extends AbstractPlugin {
         listView.addOnItemTouchListener(new RecyclerTouchListener(mContext, listView, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Logger.debug("AmazModLauncher init addOnItemTouchListener onClick");
+                Log.d(Constants.TAG, "AmazModLauncher init addOnItemTouchListener onClick");
                 onItemClick(position);
             }
 
             @Override
             public void onLongClick(View view, int position) {
-                Logger.debug("AmazModLauncher init addOnItemTouchListener onLongClick");
+                Log.d(Constants.TAG, "AmazModLauncher init addOnItemTouchListener onLongClick");
                 onItemLongClick(position);
             }
         }));
@@ -386,12 +388,12 @@ public class AmazModLauncher extends AbstractPlugin {
             });
 
         } else
-            Logger.error("AmazModLauncher updateCharge error: null batteryStatus!");
+            Log.e(Constants.TAG, "AmazModLauncher updateCharge error: null batteryStatus!");
 
     }
 
     private void refreshView() {
-        Logger.debug("AmazModLauncher refreshView");
+        Log.v(Constants.TAG, "AmazModLauncher refreshView");
 
         updateCharge();
         checkApps();
@@ -411,10 +413,10 @@ public class AmazModLauncher extends AbstractPlugin {
                 }
             } catch (NullPointerException e) {
                 state = false;
-                Logger.error("AmazModLauncher refreshView exception: " + e.toString());
+                Log.d(Constants.TAG, "AmazModLauncher refreshView exception: " + e.getMessage());
             }
             items.get(i).state = state;
-            Logger.debug("AmazModLauncher refreshView item:" + items.get(i).title + " state: " + items.get(i).state);
+            Log.d(Constants.TAG, "AmazModLauncher refreshView item:" + items.get(i).title + " state: " + items.get(i).state);
         }
 
         wifiToggle.setImageResource(items.get(0).state ? items.get(0).iconResOn : items.get(0).iconResOff);
@@ -432,7 +434,7 @@ public class AmazModLauncher extends AbstractPlugin {
             JSONObject json_data = new JSONObject(data);
             notifications = json_data.getInt("notifications");
         } catch (JSONException e) {
-            Logger.error("AmazModLauncher refreshMessages JSONException: " + e.toString());
+            Log.e(Constants.TAG, "AmazModLauncher refreshMessages JSONException: " + e.getMessage());
             notifications = 0;
         }
 
@@ -446,7 +448,7 @@ public class AmazModLauncher extends AbstractPlugin {
     }
 
     private void checkApps() {
-        Logger.debug("AmazModLauncher checkApps");
+        Log.v(Constants.TAG, "AmazModLauncher checkApps");
         if (widgetSettings.reload()) {
             if (widgetSettings.hasKey(Constants.DELETED_APP) || widgetSettings.hasKey(Constants.ADDED_APP)) {
                 Iterator<String> iterator = widgetSettings.getData().keys();
@@ -456,7 +458,7 @@ public class AmazModLauncher extends AbstractPlugin {
                     String key = iterator.next();
                     Object value = widgetSettings.get(key);
                     if (Constants.DELETED_APP.equals(key) || Constants.ADDED_APP.equals(key)) {
-                        Logger.debug("AmazModLauncher checkApps key: " + key + " value: " + value);
+                        Log.d(Constants.TAG, "AmazModLauncher checkApps key: " + key + " value: " + value);
                         if (Constants.DELETED_APP.equals(key))
                             updateHiddenApps = true;
                         forceLoadApps = true;
@@ -472,7 +474,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
     @SuppressLint("CheckResult")
     private void loadApps(boolean updateHiddenApps) {
-        Logger.info("AmazModLauncher loadApps");
+        Log.v(Constants.TAG, "AmazModLauncher loadApps");
 
         loadHiddenApps(updateHiddenApps);
         final Drawable appsDrawable = mContext.getResources().getDrawable(R.drawable.ic_action_select_all);
@@ -481,7 +483,7 @@ public class AmazModLauncher extends AbstractPlugin {
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
             public List<AppInfo> call() throws Exception {
-                Logger.info("AmazModLauncher loadApps call");
+                Log.i(Constants.TAG, "AmazModLauncher loadApps call");
                 List<PackageInfo> packageInfoList = mContext.getPackageManager().getInstalledPackages(0);
 
                 List<AppInfo> appInfoList = new ArrayList<>();
@@ -511,7 +513,7 @@ public class AmazModLauncher extends AbstractPlugin {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
-                                Logger.info("AmazModLauncher loadApps run");
+                                Log.i(Constants.TAG, "AmazModLauncher loadApps run");
                                 mAdapter = new LauncherAppAdapter(mContext, appInfoList);
                                 listView.setAdapter(mAdapter);
                             }
@@ -534,7 +536,7 @@ public class AmazModLauncher extends AbstractPlugin {
                 result = true;
         }
 
-        Logger.info("AmazModLauncher isHiddenApp packageName: " + packageName + " \\ result: " + result);
+        Log.i(Constants.TAG, "AmazModLauncher isHiddenApp packageName: " + packageName + " \\ result: " + result);
         return result;
     }
 
@@ -550,7 +552,7 @@ public class AmazModLauncher extends AbstractPlugin {
     private AppInfo createAppInfo(PackageInfo packageInfo) {
 
         final AppInfo appInfo = new AppInfo();
-        Logger.info("AmazModLauncher createAppInfo packageName: " + packageInfo.packageName);
+        Log.i(Constants.TAG, "AmazModLauncher createAppInfo packageName: " + packageInfo.packageName);
         appInfo.setPackageName(packageInfo.packageName);
         appInfo.setAppName(packageInfo.applicationInfo.loadLabel(mContext.getPackageManager()).toString());
         appInfo.setVersionName(packageInfo.versionName);
@@ -565,10 +567,10 @@ public class AmazModLauncher extends AbstractPlugin {
             @Override
             public void onReceive(Context context, Intent intent) {
                 WifiInfo wifiInfo = wfmgr.getConnectionInfo();
-                Logger.debug("AmazModLauncher checkConnection wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
-                Logger.debug("AmazModLauncher checkConnection wifiInfo.SSID: " + wifiInfo.getSSID());
-                Logger.debug("AmazModLauncher checkConnection action: " + intent.getAction());
-                Logger.debug("AmazModLauncher checkConnection connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+                Log.d(Constants.TAG, "AmazModLauncher checkConnection wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Log.d(Constants.TAG, "AmazModLauncher checkConnection wifiInfo.SSID: " + wifiInfo.getSSID());
+                Log.d(Constants.TAG, "AmazModLauncher checkConnection action: " + intent.getAction());
+                Log.d(Constants.TAG, "AmazModLauncher checkConnection connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
                 if (intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false)) {
                     if (wifiInfo.getSupplicantState().toString().equals("COMPLETED"))
                         if (receiverSSID == null)
@@ -593,10 +595,10 @@ public class AmazModLauncher extends AbstractPlugin {
             @Override
             public void onReceive(Context context, Intent intent) {
                 WifiInfo wifiInfo = wfmgr.getConnectionInfo();
-                Logger.debug("AmazModLauncher getSSID wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
-                Logger.debug("AmazModLauncher getSSID wifiInfo.SSID: " + wifiInfo.getSSID());
-                Logger.debug("AmazModLauncher getSSID action: " + intent.getAction());
-                Logger.debug("AmazModLauncher getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
+                Log.d(Constants.TAG, "AmazModLauncher getSSID wifiInfo.getSupplicantState: " + wifiInfo.getSupplicantState());
+                Log.d(Constants.TAG, "AmazModLauncher getSSID wifiInfo.SSID: " + wifiInfo.getSSID());
+                Log.d(Constants.TAG, "AmazModLauncher getSSID action: " + intent.getAction());
+                Log.d(Constants.TAG, "AmazModLauncher getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
 
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.ASSOCIATED))
                     flag = true;
@@ -618,7 +620,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
         final String name = appInfoList.get(itemChosen).getAppName();
         final String version = appInfoList.get(itemChosen).getVersionName();
-        //Logger.debug("AmazModLauncher onClick itemChosen: " + itemChosen);
+        //Log.d(Constants.TAG, "AmazModLauncher onClick itemChosen: " + itemChosen);
 
         Toast.makeText(mContext, "Opening: " + appInfoList.get(itemChosen).getAppName(), Toast.LENGTH_SHORT).show();
 
@@ -644,7 +646,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
     private void onItemLongClick(final int itemChosen) {
 
-        Logger.debug("AmazModLauncher onItemLongClick itemChosen: " + itemChosen);
+        Log.d(Constants.TAG, "AmazModLauncher onItemLongClick itemChosen: " + itemChosen);
 
         String packageName = appInfoList.get(itemChosen).getPackageName();
         String name = appInfoList.get(itemChosen).getAppName();
@@ -678,7 +680,7 @@ public class AmazModLauncher extends AbstractPlugin {
                     for (Object value : hiddenAppsList) {
                         final int del = appInfoList.indexOf(value);
                         if (del < 0) {
-                            Logger.debug("AmazModLauncher loadHiddenApps remove: " + value);
+                            Log.d(Constants.TAG, "AmazModLauncher loadHiddenApps remove: " + value);
                             hiddenAppsList.remove(value);
                             save = true;
                         }
@@ -690,7 +692,7 @@ public class AmazModLauncher extends AbstractPlugin {
                     }
                 }
             } catch (Exception ex) {
-                Logger.error("AmazModLauncher loadHiddenApps exception: " + ex.toString(), ex);
+                Log.e(Constants.TAG, "AmazModLauncher loadHiddenApps exception: " + ex.getMessage());
             }
         }
     }
@@ -723,6 +725,10 @@ public class AmazModLauncher extends AbstractPlugin {
                     // Placeholder
                 }
             };
+
+    /*
+     * Below there are standard widget methods
+     */
 
     private void onShow() {
         // If view loaded (and was inactive)
