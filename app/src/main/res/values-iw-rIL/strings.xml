@@ -356,6 +356,6 @@
     <string name="pref_amazmod_overlay_launcher">לחצן פתיחת התראות מתצוגת השעון</string>
     <string name="pref_amazmod_overlay_launcher_summary">פתיחת התראות AmazMod על ידי כפתור חבוי על תצוגת השעון (מיקומו מוצג קלות בכיבוי המסך, ניתן להחליק עליו שמאלה או ימינה).</string>
     <string name="file_not_found">קובץ לא נמצא</string>
-    <string name="pref_battery_full_alert">Full watch battery alert</string>
-    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
+    <string name="pref_battery_full_alert">התראת סוללה מלאה בשעון</string>
+    <string name="pref_battery_full_alert_summary">קבלת התראה כשסוללת השעון טעונה במלואה.</string>
 </resources>
