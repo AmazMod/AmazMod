@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">טווח זמן הסוללה</string>
     <string name="pref_battery_chart_time_interval_summary">הגדרת טווח תצוגת הזמן של נתוני הסוללה.</string>
     <string name="pref_battery_watch_alert">התראת סוללה</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">קביעת רף תחתון לעוצמת סוללת השעון לקבלת התראה.</string>
     <string name="pref_battery_phone_alert">התראת סוללה של הסלולרי</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">קביעת רף תחתון לעוצמת סוללת הסלולרי לקבלת התראה על השעון. אפשרות \"שליחת מידע מהסלולרי\" בתת תפריט של GreatFit/Calendar צריכה להיות מאופשרת.</string>
     <string name="pref_notifications_replies_summary">הגדרת תגובות קבועות מראש.</string>
     <string name="pref_notifications_replies">הגדרת מענה להתראות</string>
     <string name="pref_private_notifications_summary">תוכן ההתראה יוסתר (יחד עם האפשרות לענות).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">הפעל שליטה במוסיקה</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(ניסיוני!) הפעל בקרת מוסיקה באמצעות לחצני חומרה. לחץ על הלחצן התחתון כדי להפעיל/להשהות מוסיקה. לחץ לחיצה ארוכה כדי לדלג לשיר הבא.</string>
     <string name="pref_phone_connect_disconnect_alert">התראות חיבור/ניתוק של הסלולרי</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">השעון ירטוט ויציג מצב חיבור של הטלפון בעת חיבור/ניתוק.</string>
     <string name="intro_title_1">ברוכים הבאים ל-AmazMod!</string>
     <string name="intro_description_1">עקוב אחר מצגת זו כדי ללמוד כיצד להתקין את יישום השירות בשעון והענקת גישה להתראות בטלפון.</string>
     <string name="intro_title_permissions">גישה להתראות</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">שלילת בעלות התקן על השעון</string>
     <string name="alerts">התרעות</string>
     <string name="pref_phone_connect_alert_standard_notification">השתמש בהתראות מערכת</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">שימוש בממשק מובנה להתראות במקום שימוש ב-UI של AmazMod.</string>
     <string name="enable_low_power">אפשר מצב צריכת חשמל נמוכה</string>
     <string name="failed_to_send_command">שליחת פקודה לשעון נכשלה</string>
     <string name="command_sent">שליחת פקודה לשעון הצליחה</string>
