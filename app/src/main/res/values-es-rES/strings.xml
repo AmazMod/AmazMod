@@ -357,6 +357,6 @@
     <string name="pref_amazmod_overlay_launcher">Launcher de superposición de notificaciones</string>
     <string name="pref_amazmod_overlay_launcher_summary">Abre la lista de notificaciones del UI personalizado mediante un botón (se mostrará brevemente al encenderse la pantalla y podrás deslizarlo tanto a derechas como izquierdas).</string>
     <string name="file_not_found">¡No se encontró el archivo!</string>
-    <string name="pref_battery_full_alert">Full watch battery alert</string>
-    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
+    <string name="pref_battery_full_alert">Aviso de batería del reloj cargada</string>
+    <string name="pref_battery_full_alert_summary">Recibir una notificación cuando el reloj está completamente cargado.</string>
 </resources>
