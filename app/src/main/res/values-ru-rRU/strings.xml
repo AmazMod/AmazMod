@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Диапазон времени диаграммы</string>
     <string name="pref_battery_chart_time_interval_summary">Установить диапазон времени для отображения графика заряда батареи.</string>
     <string name="pref_battery_watch_alert">Низкий заряд батареи часов</string>
-    <string name="pref_battery_watch_alert_summary">Установить уровень заряда батареи часов, после которого вы получите уведомление о разряде.</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">Низкий заряд батареи телефона</string>
-    <string name="pref_battery_phone_alert_summary">Установите уровень заряда батареи телефона, после которого вы получите уведомление о разряде. Для включения необходимо включить параметр GreatFit/Calendar \"Отправлять данные телефона\".</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Введите пользовательские ответы.</string>
     <string name="pref_notifications_replies">Ответы на уведомления</string>
     <string name="pref_private_notifications_summary">Содержимое уведомлений будет скрыто (и панель ответов тоже).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Включить аппаратное управление музыкой</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(ЭКСПЕРИМАТЕЛЬНАЯ ФУНКЦИЯ!) Включить управление музыкой с помощью физических кнопок. Нажмите нижнюю кнопку для проигрывания или остановки музыки. Долгое нажатие служит для переходу к следующей композиции.</string>
     <string name="pref_phone_connect_disconnect_alert">Уведомление о подключении/отключении телефона</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Часы будут вибрировать и показывать статус подключения к телефону.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">Добро пожаловать в AmazMod!</string>
     <string name="intro_description_1">Следуйте этой презентации, чтобы узнать, как установить службы приложений на часах и предоставить приложению доступ к Уведомлениям на телефоне.</string>
     <string name="intro_title_permissions">Доступ к уведомлениям</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">Удалить привязку владельца к часам</string>
     <string name="alerts">Предупреждения</string>
     <string name="pref_phone_connect_alert_standard_notification">Стандартные уведомления</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Использовать стандартные уведомления вместо пользовательских полноэкранных.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Включить режим энергосбережения</string>
     <string name="failed_to_send_command">Ошибка отправки команды</string>
     <string name="command_sent">Команда отправлена успешно</string>
@@ -356,4 +356,6 @@
     <string name="pref_amazmod_overlay_launcher">Оболочка для всплывающих уведомлений</string>
     <string name="pref_amazmod_overlay_launcher_summary">Откройте пользовательский список уведомлений пользовательского интерфейса, используя всплывающую кнопку в часах (ее местоположение кратко отображается при включении экрана и вы можете свайпнуть ее влево или вправо).</string>
     <string name="file_not_found">Файл не найден!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
 </resources>
