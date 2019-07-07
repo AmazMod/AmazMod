@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Diagram időtartománya</string>
     <string name="pref_battery_chart_time_interval_summary">Akkudiagram időtartományának beállítása.</string>
     <string name="pref_battery_watch_alert">Óra akkumulátor figyelmeztetés</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Állítsd be azt a töltöttségi szintet, amelyről értesítést kívánsz kapni.</string>
     <string name="pref_battery_phone_alert">Telefon akkumulátor figyelmeztetés</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Állítsd be a telefon töltöttségi szintjét, amelyről értesítést kívánsz kapni. A GreatFit/Naptár \"Telefon adatainak küldése\" lehetőséget be kell kapcsolni hozzá.</string>
     <string name="pref_notifications_replies_summary">Írd be az előre megadott válaszaid.</string>
     <string name="pref_notifications_replies">Értesítési válaszok</string>
     <string name="pref_private_notifications_summary">Az értesítés tartalma rejtett lesz (a válasz panel szintén).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Hardveres zene vezérlés</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(KÍSÉRLETI!) Engedélyezi a zene vezérlést a fizikai gombbal. Az alsó gomb nyomására lejátszás/szünet. Hosszan nyomva következő dal.</string>
     <string name="pref_phone_connect_disconnect_alert">Telefon csatlakozva/leválasztva figyelmeztetés</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Az óra rezeg és mutatja a telefon kapcsolat állapotát mikor csatlakozik/leválik.</string>
     <string name="intro_title_1">Köszönt az AmazMod!</string>
     <string name="intro_description_1">Kérjük kövesd ezt a bemutatót. Megtudhatod miként telepítsd a szolgáltatási alkalmazást az órára és engedélyezheted a hozzáférést a telefonon lévő értesítésekhez.</string>
     <string name="intro_title_permissions">Hozzáférés az Értesítésekhez</string>
@@ -210,7 +210,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="revoke_device_owner">Tulajd. érvénytelenítése az órán</string>
     <string name="alerts">Riasztások</string>
     <string name="pref_phone_connect_alert_standard_notification">Normál értesítések sználata</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Normál értesítések a figyelmeztetésekhez a teljes képernyős értesítések helyett.</string>
     <string name="enable_low_power">Energiatak. üzemmód eng. az órán</string>
     <string name="failed_to_send_command">Sikertelen parancs küldés az órára</string>
     <string name="command_sent">Az utasítás sikeresen elküldve az órára</string>
@@ -358,6 +358,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_amazmod_overlay_launcher">Értesítések az Indító felett</string>
     <string name="pref_amazmod_overlay_launcher_summary">Az Egyéni UI értesítések lista megnyitásához használd a gombot (a helye rövid időre megjelenik a képernyőn és balra/jobbra húzható).</string>
     <string name="file_not_found">A fájl nem található!</string>
-    <string name="pref_battery_full_alert">Full watch battery alert</string>
-    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
+    <string name="pref_battery_full_alert">Akku töltve figyelmeztetés</string>
+    <string name="pref_battery_full_alert_summary">Értesítés megjelenítése, ha az akkumulátor teljesen fel van töltve.</string>
 </resources>
