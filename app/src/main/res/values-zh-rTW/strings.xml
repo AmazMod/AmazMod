@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">圖表時間範圍</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">手錶低電量警示</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">手機低電量警示</string>
-    <string name="pref_battery_phone_alert_summary">設置手錶當低於此數值時發送提示．GreatFir/Calendar 需要啟用 \"發送手機資料\" 選項。</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies.</string>
     <string name="pref_notifications_replies">通知答覆</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">啟用物理按鍵控制音樂</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(實驗性) 啟用物理按鍵的音樂控制。按下最下方按鈕播放/暫停音樂。長按切換下一首歌。</string>
     <string name="pref_phone_connect_disconnect_alert">手機連接/斷開連接提醒</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">歡迎使用 AmazMod!</string>
     <string name="intro_description_1">請按照此使用教程瞭解如何在手錶端安裝服務程式並在手機端授予程式通知訪問權限。</string>
     <string name="intro_title_permissions">存取通知</string>
@@ -209,7 +209,7 @@
     <string name="revoke_device_owner">撤銷手錶端設備管理器權限</string>
     <string name="alerts">提醒</string>
     <string name="pref_phone_connect_alert_standard_notification">使用標準通知</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">啟用手錶端低功耗模式</string>
     <string name="failed_to_send_command">發送命令到手錶失敗</string>
     <string name="command_sent">發送命令到手錶成功</string>
@@ -357,4 +357,6 @@
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">File not found!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
 </resources>
