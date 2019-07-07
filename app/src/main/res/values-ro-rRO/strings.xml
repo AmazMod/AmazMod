@@ -101,7 +101,7 @@
     <string name="pref_battery_watch_alert">Alertă baterie ceas</string>
     <string name="pref_battery_watch_alert_summary">Setați nivelul minim al bateriei pentru care doriți să primiți notificări.</string>
     <string name="pref_battery_phone_alert">Alertă baterie telefon</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Setați nivelul minim al bateriei telefonului pentru care vor fi transmise notificări către ceas. Opțiunea \"Transmite datele telefonului\" din GreatFit/Calendar trebuie să fie activată.</string>
     <string name="pref_notifications_replies_summary">Introdu răspunsurile personalizate.</string>
     <string name="pref_notifications_replies">Răspunsuri notificări</string>
     <string name="pref_private_notifications_summary">Conținutul notificării va rămâne ascuns (la fel și panoul cu răspunsuri).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Activează controlul dispozitivelor muzicale</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Permite controlul muzică cu cheia hardware. Apăsaţi butonul de jos pentru a redare/pauza muzica. Țineți apăsat pentru a trece la melodia următoare.</string>
     <string name="pref_phone_connect_disconnect_alert">Alertă conectare/deconectare telefon</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Ceasul va vibra și va arăta starea conexiunii la telefon la conectare/deconectare.</string>
     <string name="intro_title_1">Bun venit la AmazMod!</string>
     <string name="intro_description_1">Te rog sa vizionezi această prezentare pentru învăța cum să instalezi aplicații pentru service pe ceas și cum să furnizezi acces aplicațiilor către notificările de pe telefon.</string>
     <string name="intro_title_permissions">Accesează Notificările</string>
@@ -148,8 +148,8 @@
     <string name="watch_disconnected">Deconectat</string>
     <string name="watch_connecting">Se conectează…</string>
     <string name="notifications_screen_timeout">Pauză ecran</string>
-    <string name="pref_notifications_inverted_theme">Light theme</string>
-    <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme.</string>
+    <string name="pref_notifications_inverted_theme">Tema luminoasă</string>
+    <string name="pref_notifications_inverted_theme_summary">Activează tema cu fundal luminos și text de nuanță închisă.</string>
     <string name="pref_font_size">Mărimea fontului</string>
     <string name="pref_font_size_summary">Select font size used in CustomUI notifications.</string>
     <string name="notifications_font_size">Dimensiunea fontului</string>
