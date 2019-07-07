@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Pref_baterie_grafic_interval_temporal</string>
     <string name="pref_battery_chart_time_interval_summary">Pref_baterie_grafic_rezumat_interval_temporal.</string>
     <string name="pref_battery_watch_alert">Alertă baterie ceas</string>
-    <string name="pref_battery_watch_alert_summary">Setează nivelul bateriei pentru care dorești să primești notificare.</string>
+    <string name="pref_battery_watch_alert_summary">Setați nivelul minim al bateriei pentru care doriți să primiți notificări.</string>
     <string name="pref_battery_phone_alert">Alertă baterie telefon</string>
-    <string name="pref_battery_phone_alert_summary">Setează nivelul bateriei telefonului pentru care dorești să primești notificare. Opțiunea \"Trimite date de la telefon\" din GreatFit/Calendar trebuie să fie activată.</string>
+    <string name="pref_battery_phone_alert_summary">Setați nivelul minim al bateriei telefonului pentru care vor fi transmise notificări către ceas. Opțiunea \"Transmite datele telefonului\" din GreatFit/Calendar trebuie să fie activată.</string>
     <string name="pref_notifications_replies_summary">Introdu răspunsurile personalizate.</string>
     <string name="pref_notifications_replies">Răspunsuri notificări</string>
     <string name="pref_private_notifications_summary">Conținutul notificării va rămâne ascuns (la fel și panoul cu răspunsuri).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Activează controlul dispozitivelor muzicale</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Permite controlul muzică cu cheia hardware. Apăsaţi butonul de jos pentru a redare/pauza muzica. Țineți apăsat pentru a trece la melodia următoare.</string>
     <string name="pref_phone_connect_disconnect_alert">Alertă conectare/deconectare telefon</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Ceasul va vibra și va afișa starea conexiunii la telefon în momentul conectării/deconectării.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Ceasul va vibra și va arăta starea conexiunii la telefon la conectare/deconectare.</string>
     <string name="intro_title_1">Bun venit la AmazMod!</string>
     <string name="intro_description_1">Te rog sa vizionezi această prezentare pentru învăța cum să instalezi aplicații pentru service pe ceas și cum să furnizezi acces aplicațiilor către notificările de pe telefon.</string>
     <string name="intro_title_permissions">Accesează Notificările</string>
@@ -148,21 +148,21 @@
     <string name="watch_disconnected">Deconectat</string>
     <string name="watch_connecting">Se conectează…</string>
     <string name="notifications_screen_timeout">Pauză ecran</string>
-    <string name="pref_notifications_inverted_theme">Light theme</string>
-    <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme.</string>
+    <string name="pref_notifications_inverted_theme">Tema luminoasă</string>
+    <string name="pref_notifications_inverted_theme_summary">Activează tema cu fundal luminos și text de nuanță închisă.</string>
     <string name="pref_font_size">Mărimea fontului</string>
-    <string name="pref_font_size_summary">Select font size used in CustomUI notifications.</string>
+    <string name="pref_font_size_summary">Selectați dimensiunea textului utilizat în notificările CustomUI.</string>
     <string name="notifications_font_size">Dimensiunea fontului</string>
     <string name="device_not_connected">Niciun dispozitiv conectat</string>
     <string name="device_connected">a fost conectat</string>
-    <string name="pref_enable_persistent_notification">Persistent notification</string>
-    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if AmazMod is constantly been killed.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
-    <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings.</string>
-    <string name="pref_notifications_disable_screenon">Keep screen off</string>
-    <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch.</string>
+    <string name="pref_enable_persistent_notification">Notificare persistentă</string>
+    <string name="pref_enable_persistent_notification_summary">Activează notificare persistentă pentru a preveni închiderea automată a AmazMod când rulează în fundal. Activează această opțiune dacă AmazMod este închis în mod constant.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Setări notificare persistentă</string>
+    <string name="pref_enable_persistent_notification_device_settings_summary">Apasă aici pentru a fi redirecționat către setările dispozitivului tău.</string>
+    <string name="pref_notifications_disable_screenon">Păstrează ecranul închis</string>
+    <string name="pref_notifications_disable_screenon_summary">Nu activa și debloca ecranul telefonului la primirea unei notificări pe ceas.</string>
     <string name="pref_check_permissions">Verificați permisiunile aplicației</string>
-    <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed.</string>
+    <string name="pref_check_permissions_summary">Verifică dacă AmazMod are activate toate permisiunile necesare.</string>
     <string name="activity_permissions">Permisiuni</string>
     <string name="activity_permissions_write">Scrie stocare externă</string>
     <string name="activity_permissions_calendar">Acces la calendarul</string>
@@ -173,7 +173,7 @@
     <string name="activity_files_extras">Setări de rezervă</string>
     <string name="activity_files_backup_title">Copie de Rezervă și Restaurare</string>
     <string name="activity_files_permission">Permisiunea de a scrie</string>
-    <string name="activity_files_date_last_backup">Date of last backup</string>
+    <string name="activity_files_date_last_backup">Data ultimului backup</string>
     <string name="activity_files_backup">Salvare</string>
     <string name="activity_files_restore">restaurare</string>
     <string name="never">Niciodată</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">Revocă proprietarul dispozitivul pe ceas</string>
     <string name="alerts">Alerts</string>
     <string name="pref_phone_connect_alert_standard_notification">Utilizarea notificări standard</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Activează modul de consum redus pe ceas</string>
     <string name="failed_to_send_command">Sending command to watch failed</string>
     <string name="command_sent">Sending command to watch was successful</string>
@@ -356,4 +356,6 @@
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">File not found!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
 </resources>

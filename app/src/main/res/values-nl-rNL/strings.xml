@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Grafiek tijdsbereik</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Horlogebatterij alarm</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">Horlogebatterij alarm</string>
-    <string name="pref_battery_phone_alert_summary">Stel het batterijniveau in waarna u een batterij melding krijgt. GreatFit/Kalender optie \"Verzend de gegevens van de telefoon\" moet worden ingeschakeld.</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies.</string>
     <string name="pref_notifications_replies">Kennisgeving antwoorden</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Muziekcontrole inschakelen</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTEEL!) Muziek besturingselement inschakelen met knop. Druk op de onderste knop voor afspelen/pauzeren muziek. Lang indrukken om het volgende lied te gaan.</string>
     <string name="pref_phone_connect_disconnect_alert">Telefoon verbinding/loskoppeling alarm</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">Welkom bij AmazMod!</string>
     <string name="intro_description_1">Volg deze presentatie om te leren hoe je de service app moet installeren op je horloge en de app toegang verlenen aan meldingen op telefoon.</string>
     <string name="intro_title_permissions">Toegang tot meldingen</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">Intrekken van admin rechten op horloge</string>
     <string name="alerts">Meldingen</string>
     <string name="pref_phone_connect_alert_standard_notification">Gebruik standaard meldingen</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Schakel spaarstand in op je horloge</string>
     <string name="failed_to_send_command">Verzenden opdracht naar horloge is mislukt</string>
     <string name="command_sent">Verzenden opdracht naar horloge was succesvol</string>
@@ -356,4 +356,6 @@
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">File not found!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
 </resources>

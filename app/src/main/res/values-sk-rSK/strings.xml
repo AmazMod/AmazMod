@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Nastaviť časový rozsah</string>
     <string name="pref_battery_chart_time_interval_summary">Nastaviť časový rozsah grafu batérie.</string>
     <string name="pref_battery_watch_alert">Upozornenie na stav batérie v hodinkách</string>
-    <string name="pref_battery_watch_alert_summary">Nastavte úroveň nabitia batérie hodinek, po ktorej obdržíte oznámenie o vybití baterie.</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">Upozornenie na stav batérie v telefóne</string>
-    <string name="pref_battery_phone_alert_summary">Nastavte úroveň nabitia batérie telefónu, po ktorom obdržíte oznámenie o vybití batérie. Musí byť povolená možnosť GreatFit/Calendar \"Odosielanie dát telefonu\".</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Zadajte svoje vlastné odpovede.</string>
     <string name="pref_notifications_replies">Odpovede na oznámenie</string>
     <string name="pref_private_notifications_summary">Obsah textu notifikácie bude skrytý (aj panel odpovedí).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Povoliť hardvérové ovládanie hudby</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTÁLNE!) Zapnúť ovládanie hudby pomocou hardvérových tlačidiel. Stlačte spodné tlačidlo prehrávanie/pozastavenie hudby. Dlhým stlačením prejdete na nasledujúcu skladbu.</string>
     <string name="pref_phone_connect_disconnect_alert">Upozornenie na pripojenie/odpojenie telefónu</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Hodinky vibrujú a Zobrazia stav pripojenia telefónu pripájanie a odpájanie.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">Vitajte v AmazMod!</string>
     <string name="intro_description_1">Prosím sledujtě túto prezentáciu a naučte sa nainštalovať servisnú aplikáciu do hodiniek a ako udeliť prístup app k oznámeniam na telefóne.</string>
     <string name="intro_title_permissions">Pristup k oznámeniam</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">Zrušiť majiteľa zariadenia v hodinkách</string>
     <string name="alerts">Upozornenia</string>
     <string name="pref_phone_connect_alert_standard_notification">Použiť štandardné oznámenia</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Použiť štandardné oznámenia pre upozornenia namiesto vlastné full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Povolenie režimu nízkej spotreby hodiniek</string>
     <string name="failed_to_send_command">Odoslanie príkazu do hodiniek zlyhalo</string>
     <string name="command_sent">Odosielanie príkazu do hodiniek bolo úspešné</string>
@@ -357,4 +357,6 @@ Urobte príkaz shell \"</string>
     <string name="pref_amazmod_overlay_launcher">Upozornenia ponad Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Otvorte zoznam Custom UI Notifications pomocou tlačidla prekrytia na hodinkách (jeho poloha sa krátko zobrazí, keď sa obrazovka rozsvieti a môžete ju posúvať doľava alebo doprava).</string>
     <string name="file_not_found">Súbor nenájdený!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
 </resources>

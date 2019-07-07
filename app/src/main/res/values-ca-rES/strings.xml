@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Interval de temps de la gràfica de bateria</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Alerta de bateria del rellotge</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">Alerta de bateria del telèfon</string>
-    <string name="pref_battery_phone_alert_summary">Establir el nivell de la bateria del telèfon després que vostè rebrà una notificació de bateria. Opció GreatFit/calendari \"dades del telèfon enviar\" cal estar activades.</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies.</string>
     <string name="pref_notifications_replies">Notificació Respostes</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Activar el maquinari de control de música</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL)! Activar control de música amb botons de maquinari. Premeu el botó inferior per a iniciar/pausar la música. Premuda llarga per saltar a la cançó següent.</string>
     <string name="pref_phone_connect_disconnect_alert">Alerta de connexió/desconnexió del telèfon</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">Benvinguts a AmazMod!</string>
     <string name="intro_description_1">Si us plau seguiu aquesta presentació per aprendre a instal·lar l\'app de servei en el rellotge i concedir-li accés a les notificacions del telèfon.</string>
     <string name="intro_title_permissions">Accés a les notificacions</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">Rebutjar el propietari del dispositiu al rellotge</string>
     <string name="alerts">Alertes</string>
     <string name="pref_phone_connect_alert_standard_notification">Usa les notificacions estàndard</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Activar el mode d\'estalvi d\'energia al rellotge</string>
     <string name="failed_to_send_command">L\'enviament del comandament al rellotge ha fallat</string>
     <string name="command_sent">L\'enviament del comandament al rellotge ha sigut un èxit</string>
@@ -356,4 +356,6 @@
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">File not found!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
 </resources>
