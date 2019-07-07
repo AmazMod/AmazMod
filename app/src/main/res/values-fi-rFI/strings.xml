@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Kaavion aika-alue</string>
     <string name="pref_battery_chart_time_interval_summary">Määritä akkukaavion aikaväli.</string>
     <string name="pref_battery_watch_alert">Kellon akun hälytys</string>
-    <string name="pref_battery_watch_alert_summary">Aseta akun varaustaso, josta saat varaustason ilmoituksen.</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">Puhelimen akun hälytys</string>
-    <string name="pref_battery_phone_alert_summary">Määritä puhelimen akun varaustaso, jonka jälkeen saat akun varaustason ilmoituksen. GreatFit/kalenteri asetus ”Lähetä puhelimen data” on otettava käyttöön.</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Määritä mukautetut vastaukset.</string>
     <string name="pref_notifications_replies">Ilmoitus vastaukset</string>
     <string name="pref_private_notifications_summary">Ilmoituksen sisältö piilotetaan (ja vastauspaneeli myös).</string>
@@ -132,7 +132,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Muusikin ohjaus napeilla päälle</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(KOKEELLINEN!) Mahdollistaa musiikin hallinnan painikkeilla. Ala-painikkeella musiikin toisto/tauko. Pitkä painallus siirtyy seuraavaan kappaleeseen.</string>
     <string name="pref_phone_connect_disconnect_alert">Puhelimen yhteys/katkos hälytys</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Kello värisee ja näyttää puhelimen yhteystilan, kun yhdistää ja katkaisee yhteyden.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">Tervetuloa AmazModiin!</string>
     <string name="intro_description_1">Seuraamalla esittelyä opit asentamaan service-appin kelloon ja antamaan appille käyttöoikeudet puhelimen ilmoituksiin.</string>
     <string name="intro_title_permissions">Pääsy ilmoituksiin</string>
@@ -208,7 +208,7 @@
     <string name="revoke_device_owner">Peruuta laitteen omistaja kellossa</string>
     <string name="alerts">Hälytykset</string>
     <string name="pref_phone_connect_alert_standard_notification">Käytä vakio ilmoituksia</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Kellon virransäästötila käytössä</string>
     <string name="failed_to_send_command">Komennon lähettäminen kelloon epäonnistui</string>
     <string name="command_sent">Kun lähettäminen kelloon onnistui</string>
@@ -356,4 +356,6 @@
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">File not found!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
 </resources>
