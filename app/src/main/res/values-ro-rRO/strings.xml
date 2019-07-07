@@ -162,7 +162,7 @@
     <string name="pref_notifications_disable_screenon">Păstrează ecranul închis</string>
     <string name="pref_notifications_disable_screenon_summary">Nu activa și debloca ecranul telefonului la primirea unei notificări pe ceas.</string>
     <string name="pref_check_permissions">Verificați permisiunile aplicației</string>
-    <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed.</string>
+    <string name="pref_check_permissions_summary">Verifică dacă AmazMod are activate toate permisiunile necesare.</string>
     <string name="activity_permissions">Permisiuni</string>
     <string name="activity_permissions_write">Scrie stocare externă</string>
     <string name="activity_permissions_calendar">Acces la calendarul</string>
@@ -173,7 +173,7 @@
     <string name="activity_files_extras">Setări de rezervă</string>
     <string name="activity_files_backup_title">Copie de Rezervă și Restaurare</string>
     <string name="activity_files_permission">Permisiunea de a scrie</string>
-    <string name="activity_files_date_last_backup">Date of last backup</string>
+    <string name="activity_files_date_last_backup">Data ultimului backup</string>
     <string name="activity_files_backup">Salvare</string>
     <string name="activity_files_restore">restaurare</string>
     <string name="never">Niciodată</string>
