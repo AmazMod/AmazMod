@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Nastaviť časový rozsah</string>
     <string name="pref_battery_chart_time_interval_summary">Nastaviť časový rozsah grafu batérie.</string>
     <string name="pref_battery_watch_alert">Upozornenie na stav batérie v hodinkách</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Nastavte úroveň nabitia batérie hodinek, po ktorej obdržíte oznámenie o vybití baterie.</string>
     <string name="pref_battery_phone_alert">Upozornenie na stav batérie v telefóne</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Nastavte najnižšiu úroveň nabitia batérie telefónu, po ktorom na hodinky dostanete oznámenie o vybitie batérie telefónu. Musí byť povolená možnosť GreatFit / Calendar \'Odosielanie dát telefónu\'.</string>
     <string name="pref_notifications_replies_summary">Zadajte svoje vlastné odpovede.</string>
     <string name="pref_notifications_replies">Odpovede na oznámenie</string>
     <string name="pref_private_notifications_summary">Obsah textu notifikácie bude skrytý (aj panel odpovedí).</string>
