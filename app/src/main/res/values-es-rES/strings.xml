@@ -99,9 +99,9 @@
     <string name="pref_battery_chart_time_interval">Rango de tiempo de gráfico</string>
     <string name="pref_battery_chart_time_interval_summary">Establecer rango de tiempo de gráfico de batería a mostrar.</string>
     <string name="pref_battery_watch_alert">Alerta de batería del reloj</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Establece el nivel de batería del reloj en el cual quieres recibir una alerta.</string>
     <string name="pref_battery_phone_alert">Alerta de batería del teléfono</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Establece el nivel de batería del teléfono en el cual quieres recibir una alerta. Deberás activar la opción \"Enviar datos del teléfono\" en GreatFit/Calendario.</string>
     <string name="pref_notifications_replies_summary">Añade respuestas personalizadas.</string>
     <string name="pref_notifications_replies">Notificación para respuesta</string>
     <string name="pref_private_notifications_summary">El contenido de la notificación se ocultará (y también el panel de respuestas).</string>
@@ -133,7 +133,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware para control de música</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de musica mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
     <string name="pref_phone_connect_disconnect_alert">Alerta de Des/Conexión del teléfono</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">El reloj vibrará y mostrará el estado de conexión del teléfono cuando se conecte/desconecte.</string>
     <string name="intro_title_1">¡Bienvenido a AmazMod!</string>
     <string name="intro_description_1">Por favor sigue esta presentación para aprender a instalar la app de servicio en el reloj y conceder a la app del teléfono acceso a las notificaciones.</string>
     <string name="intro_title_permissions">Acceso a las notificaciones</string>
@@ -209,7 +209,7 @@
     <string name="revoke_device_owner">Revocar permisos de Administrador de dispositivo en el reloj</string>
     <string name="alerts">Alertas</string>
     <string name="pref_phone_connect_alert_standard_notification">Usar notificaciones estándar</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Usar notificaciones estándar para las notificaciones del reloj en vez de la UI personalizada a pantalla completa.</string>
     <string name="enable_low_power">Habilitar el modo poco consumo</string>
     <string name="failed_to_send_command">Fallo al enviar el comando al reloj</string>
     <string name="command_sent">Comando correctamente enviado al reloj</string>
