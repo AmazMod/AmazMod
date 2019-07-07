@@ -99,7 +99,7 @@
     <string name="pref_battery_chart_time_interval">Pref_baterie_grafic_interval_temporal</string>
     <string name="pref_battery_chart_time_interval_summary">Pref_baterie_grafic_rezumat_interval_temporal.</string>
     <string name="pref_battery_watch_alert">Alertă baterie ceas</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Setați nivelul minim al bateriei pentru care doriți să primiți notificări.</string>
     <string name="pref_battery_phone_alert">Alertă baterie telefon</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Introdu răspunsurile personalizate.</string>
