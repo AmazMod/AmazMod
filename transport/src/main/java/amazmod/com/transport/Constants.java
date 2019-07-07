@@ -50,6 +50,7 @@ public class Constants {
     public static final String PREF_BATTERY_BACKGROUND_SYNC_INTERVAL = "preference.battery.background.sync.interval";
     public static final String PREF_BATTERY_CHART_TIME_INTERVAL = "preference.battery.chart.range";
     public static final String PREF_BATTERY_WATCH_ALERT = "preference.battery.watch.alert";
+    public static final String PREF_BATTERY_FULL_ALERT = "preference.battery.full.alert";
     public static final String PREF_BATTERY_WATCH_ALREADY_ALERTED = "preference.battery.watch.already.alerted";
     public static final String PREF_BATTERY_WATCH_CHARGED = "preference.battery.watch.charged";
     public static final String PREF_BATTERY_PHONE_ALERT = "preference.battery.phone.alert";

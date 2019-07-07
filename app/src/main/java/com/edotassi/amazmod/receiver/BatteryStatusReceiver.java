@@ -16,6 +16,7 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
+import com.edotassi.amazmod.ui.MainActivity;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -30,20 +31,30 @@ import amazmod.com.transport.data.BatteryData;
 
 public class BatteryStatusReceiver extends BroadcastReceiver {
 
+    private static final char ALERT_LOW = 'L';
+    private static final char ALERT_FULL = 'F';
+
     @Override
     public void onReceive(final Context context, Intent intent) {
+        Logger.trace("BatteryStatusReceiver onReceive");
+
         if (intent.getAction() == null) {
             if (!Watch.isInitialized()) {
                 Watch.init(context);
             }
+
+            Logger.trace("BatteryStatusReceiver onReceive action: {}", intent.getAction());
 
             Watch.get().getBatteryStatus().continueWith(new Continuation<BatteryStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<BatteryStatus> task) throws Exception {
                     if (task.isSuccessful()) {
                         BatteryStatus batteryStatus = task.getResult();
-                        updateBattery(batteryStatus);
-                        batteryAlert(batteryStatus, context);
+                        if (batteryStatus != null) {
+                            updateBattery(batteryStatus);
+                            batteryAlert(batteryStatus, context);
+                        } else
+                            Logger.error("null batteryStatus!");
                     } else {
                         Logger.error(task.getException(), "failed reading battery status");
                     }
@@ -54,10 +65,10 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             startBatteryReceiver(context);
         }
 
-        Logger.debug("BatteryStatusReceiver onReceive");
     }
 
     public static void startBatteryReceiver(Context context) {
+        Logger.trace("BatteryStatusReceiver startBatteryReceiver");
         int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         AmazModApplication.timeLastSync = Prefs.getLong(Constants.PREF_TIME_LAST_SYNC, 0L);
 
@@ -81,12 +92,11 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
     }
 
     private void updateBattery(BatteryStatus batteryStatus) {
+        Logger.trace("BatteryStatusReceiver updateBattery");
+
         BatteryData batteryData = batteryStatus.getBatteryData();
-        Logger.debug("batteryStatus: " + batteryData.getLevel());
-        Logger.debug("charging: " + batteryData.isCharging());
-        Logger.debug("usb: " + batteryData.isUsbCharge());
-        Logger.debug("ac: " + batteryData.isAcCharge());
-        Logger.debug("dateLastCharge: " + batteryData.getDateLastCharge());
+        Logger.debug("level: {} | charging: {} | usb: {} | ac: {} | dataLastCharge: {}",
+                batteryData.getLevel(), batteryData.isCharging(), batteryData.isUsbCharge(), batteryData.isAcCharge(), batteryData.getDateLastCharge());
 
         long date = System.currentTimeMillis();
 
@@ -111,16 +121,18 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             }
         } catch (Exception ex) {
             //TODO add crashlitics
-            Logger.error(ex, "TransportService batteryStatus exception: " + ex.toString());
+            Logger.error(ex, "TransportService batteryStatus exception: {}", ex.getMessage());
         }
         // Save time of last sync
         Prefs.putLong(Constants.PREF_TIME_LAST_SYNC, SystemClock.elapsedRealtime());
     }
 
     private void batteryAlert(BatteryStatus batteryStatus, Context context) {
+        Logger.trace("BatteryStatusReceiver batteryAlert");
         // User options/data
         int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
                 Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
+        boolean batteryFullAlert = Prefs.getBoolean(Constants.PREF_BATTERY_FULL_ALERT, true);
         boolean alreadyBatteryNotified = Prefs.getBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED,
                 false);
         boolean alreadyChargingNotified = Prefs.getBoolean(Constants.PREF_BATTERY_WATCH_CHARGED,
@@ -130,39 +142,59 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         int battery = Math.round(batteryData.getLevel()*100);
         boolean charging = batteryData.isCharging();
 
-        Logger.debug("Battery check - watch "+battery+"%, charging:"+charging+", limit:"+watchBatteryAlert+"%");
+        Logger.debug("Battery check watch - level: {}% | charging: {} | limit: {}%", battery, charging, watchBatteryAlert);
 
         // Check if low battery
-        if( watchBatteryAlert > 0 && watchBatteryAlert > battery && !charging && !alreadyBatteryNotified) {
+        if (watchBatteryAlert > 0 && watchBatteryAlert > battery && !charging && !alreadyBatteryNotified) {
             Logger.debug("low watch battery...");
             // Send notification
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
-                    .setSmallIcon(R.drawable.ic_battery_alert_red_24dp)
-                    .setContentTitle(context.getString(R.string.notification_low_battery))
-                    .setContentText(context.getString(R.string.notification_low_battery_description,watchBatteryAlert + "%"))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-            notificationManager.notify(0, builder.build());
+            sendNotification(context, ALERT_LOW, watchBatteryAlert);
             Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, true);
-        }else{
-            // Re-set notification
-            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, false);
         }
+        // Re-set notification
+        if (watchBatteryAlert > 0 && watchBatteryAlert < battery && alreadyBatteryNotified)
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, false);
 
-        if( battery>99 && charging && !alreadyChargingNotified){
+        if (batteryFullAlert && battery > 99 && charging && !alreadyChargingNotified) {
             Logger.debug("watch fully charged...");
             // Fully charged notification
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
-                    .setSmallIcon(R.drawable.ic_battery_charging_full_green_24dp)
-                    .setContentTitle(context.getString(R.string.notification_watch_charged))
-                    .setContentText(context.getString(R.string.notification_watch_charged_description))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-            notificationManager.notify(0, builder.build());
+            sendNotification(context, ALERT_FULL, 100);
             Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, true);
-        }else{
-            // Re-set notification
-            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, false);
         }
+        // Re-set notification
+        if (battery < 99 && alreadyChargingNotified)
+            Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, false);
+    }
+
+    private void sendNotification(Context context, char alertTye, int level) {
+        Logger.trace("BatteryStatusReceiver sendNotification type: {}", alertTye);
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("source", "notification");
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, (int)System.currentTimeMillis(),
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, Constants.TAG)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        switch (alertTye) {
+            case ALERT_LOW:
+                builder.setSmallIcon(R.drawable.ic_battery_alert_red_24dp)
+                    .setContentTitle(context.getString(R.string.notification_low_battery))
+                    .setContentText(context.getString(R.string.notification_low_battery_description,level + "%"));
+                break;
+            case ALERT_FULL:
+                builder.setSmallIcon(R.drawable.ic_battery_charging_full_green_24dp)
+                    .setContentTitle(context.getString(R.string.notification_watch_charged))
+                    .setContentText(context.getString(R.string.notification_watch_charged_description));
+                break;
+            default:
+                Logger.error("BatteryStatusReceiver sendNotification unknown alertType!");
+        }
+        notificationManager.notify(0, builder.build());
     }
 }

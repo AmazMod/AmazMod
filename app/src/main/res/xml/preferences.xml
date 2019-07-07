@@ -235,6 +235,11 @@
             android:key="preference.battery.watch.alert"
             android:summary="@string/pref_battery_watch_alert_summary"
             android:title="@string/pref_battery_watch_alert" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="preference.battery.full.alert"
+            android:summary="@string/pref_battery_full_alert_summary"
+            android:title="@string/pref_battery_full_alert" />
         <ListPreference
             android:defaultValue="0"
             android:dialogTitle="@string/pref_battery_phone_alert"
