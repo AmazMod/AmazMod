@@ -95,11 +95,11 @@
     <string name="pref_disable_battery_chart">Akku Diagram deaktivieren</string>
     <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences.</string>
     <string name="pref_battery_background_sync_interval">Hintergrund Aktuallisierungsintervall</string>
-    <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
+    <string name="pref_battery_background_sync_interval_summary">Intervall für Batterie-Synchronisation im Hintergrund festlegen</string>
     <string name="pref_battery_chart_time_interval">Diagramm Zeitbereich</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
+    <string name="pref_battery_chart_time_interval_summary">Zeitbereich für Akkudiagramm festlegen.</string>
     <string name="pref_battery_watch_alert">Uhr-Akku Alarm</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Ladezustand des Uhr-Akku für Benachrichtigung festlegen.</string>
     <string name="pref_battery_phone_alert">Telefon-Akku Alarm</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Geben Sie Ihre benutzerdefinierte Antworten ein.</string>
