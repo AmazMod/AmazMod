@@ -177,14 +177,14 @@
     <string name="activity_files_backup">Salvare</string>
     <string name="activity_files_restore">restaurare</string>
     <string name="never">Niciodată</string>
-    <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
+    <string name="activity_files_backup_obs">IMPORTANT: Fișierul de backup va fi salvat în memoria internă și va fi șters dacă aplicația este dezinstalată:</string>
     <string name="activity_files_file">Fișierul de Rezervă a fost găsit</string>
     <string name="none">Nimic</string>
     <string name="data">Date</string>
     <string name="downloads">Descărcări</string>
     <string name="downloading">Descărcare în curs</string>
     <string name="activity_files_backup_error">AmazMod nu poate scrie fișiere, vă rugăm sa ne dați permisiune.</string>
-    <string name="activity_files_backup_downloads">Backup file is saved in Downloads folder:</string>
+    <string name="activity_files_backup_downloads">Fișierul de backup este salvat în dosarul Descărcări:</string>
     <string name="activity_files_file_error">Eroare fișier!</string>
     <string name="activity_files_backup_ok">Copie de Rezervă a fost Efectuată</string>
     <string name="activity_files_backup_failed">Fișierul de Rezervă a Eșuat!</string>
@@ -193,8 +193,8 @@
     <string name="activity_files_restore_failed">Restaurare Eșuată!</string>
     <string name="activity_files_backup_not_found">Fișierul de Rezerva Nu a Fost Găsit!</string>
     <string name="pref_disable_standard_notifications">Dezactivare notificări standard</string>
-    <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch.</string>
-    <string name="activity_tweaking_brightness">Please note that Auto-brightness in watch must be disabled for this to work</string>
+    <string name="pref_disable_standard_notifications_summary">Notificările standard (stock) nu vor fi transmise către ceas.</string>
+    <string name="activity_tweaking_brightness">Pentru ca această funcție să poată fi utilizată vă rugăm să dezactivați opțiunea de ”Luminozitate-automată” a ceasului</string>
     <string name="failed_load_watch_status">Încărcarea la starea de încărcare a ceasului a eşuat</string>
     <string name="settings_applied">Setări aplicate</string>
     <string name="settings_cant_be_applied">Imposibil de aplicat setările</string>
