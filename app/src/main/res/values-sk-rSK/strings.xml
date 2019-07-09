@@ -4,7 +4,7 @@
     <string name="settings">Nastavení</string>
     <string name="notifications">Odoslaných oznámeni</string>
     <string name="notifications_options">Možnosti oznámenia</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Grafy</string>
     <string name="customui">Možnosti vlastného upozornenia UI</string>
     <string name="others">Ostatné</string>
     <string name="other">Iné</string>
@@ -92,9 +92,9 @@
     <string name="pref_enable_notifications">Push notifikácie</string>
     <string name="pref_filter_notifications_by_packages">Vybrané aplikácie</string>
     <string name="pref_filter_notifications_by_packages_summary">Iba upozornenia z týchto aplikácií sa odošlú do hodiniek.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Interval synchronizácie batérie na pozadí</string>
     <string name="pref_battery_background_sync_interval_summary">Nastavte interval synchronizácie batérie na pozadí.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
+    <string name="pref_battery_chart_time_interval">Časový rozsah grafu batérie</string>
     <string name="pref_battery_chart_time_interval_summary">Nastaviť časový rozsah grafu batérie.</string>
     <string name="pref_battery_watch_alert">Upozornenie na stav batérie v hodinkách</string>
     <string name="pref_battery_watch_alert_summary">Nastavte úroveň nabitia batérie hodinek, po ktorej obdržíte oznámenie o vybití baterie.</string>
@@ -315,8 +315,8 @@ Urobte príkaz shell \"</string>
     <string name="pref_notifications_show_large_icon_summary">Zobraziť veľké ikony (zvyčajne obrázok kontaktu) v oznámení.</string>
     <string name="pref_notifications_enable_images">Zobraziť obrázky</string>
     <string name="pref_notifications_enable_images_summary">Zobraziť obrázky upozornenia.</string>
-    <string name="pref_battery_chart">Battery chart</string>
-    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
+    <string name="pref_battery_chart">Graf batérie</string>
+    <string name="pref_battery_chart_summary">Zobrazenie grafu batérie v hlavnej obrazovke AmazMod (vypnutie bude mať následok vypnutie sledovania zberu údajov o batérii, ale bude stále zaznamenané v hodinkách).</string>
     <string name="logs">Logy</string>
     <string name="pref_log_to_file">Zaznamenať do súboru</string>
     <string name="pref_log_to_file_summary">Uložiť AmazMod log do amazmod.log</string>
@@ -357,6 +357,6 @@ Urobte príkaz shell \"</string>
     <string name="file_not_found">Súbor nenájdený!</string>
     <string name="pref_battery_full_alert">Upozornenie na plne nabitú batériu v hodinkách</string>
     <string name="pref_battery_full_alert_summary">Zobraziť upozornenie, keď je batéria plne nabitá.</string>
-    <string name="pref_heartrate_chart">Heart rate chart</string>
-    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
+    <string name="pref_heartrate_chart">Graf tepu</string>
+    <string name="pref_heartrate_chart_summary">Zobraziť graf tepu v AmazMod hlavnej obrazovke.</string>
 </resources>
