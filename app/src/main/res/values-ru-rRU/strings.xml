@@ -4,7 +4,7 @@
     <string name="settings">Настройки</string>
     <string name="notifications">Уведомление отправлено</string>
     <string name="notifications_options">Настройки уведомлений</string>
-    <string name="battery">Батарея</string>
+    <string name="charts">Charts</string>
     <string name="customui">Параметры пользовательского интерфейса уведомлений</string>
     <string name="others">Другое</string>
     <string name="other">Другое</string>
@@ -92,11 +92,9 @@
     <string name="pref_enable_notifications">Push-уведомления</string>
     <string name="pref_filter_notifications_by_packages">Выбранные приложения</string>
     <string name="pref_filter_notifications_by_packages_summary">Уведомления только от этих приложений будут отображаться на часах.</string>
-    <string name="pref_disable_battery_chart">Отключить график батареи</string>
-    <string name="pref_disable_battery_chart_summary">Отключить график батареи на главном экране, приложение будет обновлено при закрытии настроек.</string>
-    <string name="pref_battery_background_sync_interval">Интервал синхронизации</string>
+    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
     <string name="pref_battery_background_sync_interval_summary">Установить интервал фоновой синхронизации батареи.</string>
-    <string name="pref_battery_chart_time_interval">Диапазон времени диаграммы</string>
+    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Установить диапазон времени для отображения графика заряда батареи.</string>
     <string name="pref_battery_watch_alert">Низкий заряд батареи часов</string>
     <string name="pref_battery_watch_alert_summary">Установить уровень заряда батареи часов, при достижении которого вы получите уведомление о разряде.</string>
@@ -316,8 +314,8 @@
     <string name="pref_notifications_show_large_icon_summary">Показывать большие иконки (обычно иконка контакта) в уведомлениях.</string>
     <string name="pref_notifications_enable_images">Показать изображения</string>
     <string name="pref_notifications_enable_images_summary">Показать изображения в уведомлениях.</string>
-    <string name="pref_battery_chart">Данные батареи</string>
-    <string name="pref_battery_chart_summary">Показывать график заряда батареи на главном экране AmazMod.</string>
+    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">Логи</string>
     <string name="pref_log_to_file">Запись лога в файл</string>
     <string name="pref_log_to_file_summary">Сохранить логи AmazMod в amazmod.log</string>
@@ -358,4 +356,6 @@
     <string name="file_not_found">Файл не найден!</string>
     <string name="pref_battery_full_alert">Оповещение о завершении зарядки батареи</string>
     <string name="pref_battery_full_alert_summary">Включить уведомление о полной зарядке батареи часов.</string>
+    <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
 </resources>

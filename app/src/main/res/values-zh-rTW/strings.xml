@@ -4,7 +4,7 @@
     <string name="settings">設定</string>
     <string name="notifications">已發送通知</string>
     <string name="notifications_options">通知選項</string>
-    <string name="battery">電池</string>
+    <string name="charts">Charts</string>
     <string name="customui">自訂 UI 通知選項</string>
     <string name="others">其他</string>
     <string name="other">其它</string>
@@ -92,11 +92,9 @@
     <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">已選擇程式</string>
     <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
-    <string name="pref_disable_battery_chart">禁用電池圖表</string>
-    <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences.</string>
-    <string name="pref_battery_background_sync_interval">後臺同步間隔</string>
+    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
     <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
-    <string name="pref_battery_chart_time_interval">圖表時間範圍</string>
+    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">手錶低電量警示</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
@@ -317,8 +315,8 @@
     <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
     <string name="pref_notifications_enable_images">顯示圖片</string>
     <string name="pref_notifications_enable_images_summary">Show Notification Images.</string>
-    <string name="pref_battery_chart">電量圖</string>
-    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen.</string>
+    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">日誌</string>
     <string name="pref_log_to_file">紀錄到檔案中</string>
     <string name="pref_log_to_file_summary">將 AmazMod 日誌保存到 amazmod. log</string>
@@ -359,4 +357,6 @@
     <string name="file_not_found">File not found!</string>
     <string name="pref_battery_full_alert">Full watch battery alert</string>
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
+    <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
 </resources>
