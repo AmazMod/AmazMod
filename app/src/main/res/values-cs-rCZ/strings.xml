@@ -317,7 +317,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_notifications_enable_images">Zobrazovat obrázky</string>
     <string name="pref_notifications_enable_images_summary">Zobrazovat obrázky v oznámení.</string>
     <string name="pref_battery_chart">Graf baterie</string>
-    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
+    <string name="pref_battery_chart_summary">Zobrazit graf baterie v hlavní obrazovce AmazModu (vypnutí také vypne získávání dat baterie z hodinek, ale bude stále zaznamenávané v hodinkách).</string>
     <string name="logs">Logy</string>
     <string name="pref_log_to_file">Log protokol do souboru</string>
     <string name="pref_log_to_file_summary">Uložit logy AmazModu do amazmod.log</string>
@@ -358,6 +358,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="file_not_found">Soubor nenalezen!</string>
     <string name="pref_battery_full_alert">Upozornění na plně nabitou baterii v hodinkách</string>
     <string name="pref_battery_full_alert_summary">Dostat oznámení, když budou hodinky plně nabity.</string>
-    <string name="pref_heartrate_chart">Heart rate chart</string>
-    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
+    <string name="pref_heartrate_chart">Graf tepové frekvence</string>
+    <string name="pref_heartrate_chart_summary">Zobrazit graf tepové frekvence na hlavní obrazovce AmazModu.</string>
 </resources>
