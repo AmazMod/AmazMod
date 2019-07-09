@@ -4,7 +4,7 @@
     <string name="settings">Nastavení</string>
     <string name="notifications">Odeslaných oznámení</string>
     <string name="notifications_options">Nastavení notifikací</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Grafy</string>
     <string name="customui">Přizpůsobit nastavení vlastních UI oznámení</string>
     <string name="others">Jiné</string>
     <string name="other">Jiný</string>
@@ -92,9 +92,9 @@
     <string name="pref_enable_notifications">Push notifikace</string>
     <string name="pref_filter_notifications_by_packages">Vybrané aplikace</string>
     <string name="pref_filter_notifications_by_packages_summary">Pouze oznámení z těchto aplikací bude odesláno do hodinek.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Interval synchronizace baterie na pozadí</string>
     <string name="pref_battery_background_sync_interval_summary">Nastavit interval synchronizace baterie na pozadí.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
+    <string name="pref_battery_chart_time_interval">Časový rozsah grafu baterie</string>
     <string name="pref_battery_chart_time_interval_summary">Nastavit rozsah času grafu baterie pro zobrazení.</string>
     <string name="pref_battery_watch_alert">Upozornění na stav baterie v hodinkách</string>
     <string name="pref_battery_watch_alert_summary">Nastavte nejnižší úroveň nabití baterie hodinek, po které obdržíte oznámení o vybití baterie.</string>
@@ -316,7 +316,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_notifications_show_large_icon_summary">Zobrazovat velké ikony (obvykle obrázek kontaktu) v oznámení.</string>
     <string name="pref_notifications_enable_images">Zobrazovat obrázky</string>
     <string name="pref_notifications_enable_images_summary">Zobrazovat obrázky v oznámení.</string>
-    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart">Graf baterie</string>
     <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">Logy</string>
     <string name="pref_log_to_file">Log protokol do souboru</string>
