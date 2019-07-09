@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -178,21 +176,23 @@ public class MainActivity extends BaseAppCompatActivity
     }
 
     private void setupCards() {
-        if (getSupportFragmentManager().getFragments() != null) {
-            for (Fragment f : getSupportFragmentManager().getFragments()) {
+        if (getSupportFragmentManager().getFragments() != null)
+            for (Fragment f : getSupportFragmentManager().getFragments())
                 getSupportFragmentManager().beginTransaction().remove(f).commitNow();
-            }
-        }
 
         boolean showBatteryChart = PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
+                .getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_DEFAULT_BATTERY_CHART);
+        boolean showHeartRateChart = PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_HEARTRATE_CHART, Constants.PREF_DEFAULT_HEARTRATE_CHART);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         for (Card card : cards) {
-            if (showBatteryChart || !(card instanceof BatteryChartFragment)) {
-                fragmentTransaction.add(R.id.main_activity_cards, card, card.getName());
+            if ((card instanceof BatteryChartFragment && !showBatteryChart) ||
+                    (card instanceof HeartRateChartFragment && !showHeartRateChart)) {
+                continue;
             }
+            fragmentTransaction.add(R.id.main_activity_cards, card, card.getName());
         }
         fragmentTransaction.commit();
     }
@@ -339,13 +339,14 @@ public class MainActivity extends BaseAppCompatActivity
     }
 
     private void showChangelog(boolean managedShowOnStart) {
+        final boolean isDarkTheme = Screen.isDarkTheme();
         new ChangelogBuilder()
                 .withUseBulletList(true) // true if you want to show bullets before each changelog row, false otherwise
                 .withMinVersionToShow(1)     // provide a number and the log will only show changelog rows for versions equal or higher than this number
                 //.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
                 .withManagedShowOnStart(managedShowOnStart)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
                 .withRateButton(true)
-                .buildAndShowDialog(this, false);
+                .buildAndShowDialog(this, isDarkTheme);
     }
 
 }

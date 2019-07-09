@@ -210,7 +210,7 @@
         <receiver
             android:name=".receiver.BatteryStatusReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.edotassi.amazmod.USER_ACTION" />
             </intent-filter>

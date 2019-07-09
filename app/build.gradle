@@ -9,7 +9,7 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 214
+        versionCode 215
         versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -101,7 +101,7 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
     implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
-    implementation 'com.github.MFlisar:changelog:1.0.4'
+    implementation 'com.github.MFlisar:changelog:1.1.5'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.hedzr:android-file-chooser:master-SNAPSHOT'

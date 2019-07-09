@@ -20,14 +20,14 @@ public class DownloadHelper {
     }
 
     public static File getDownloadedFile(String name, byte mode) {
-        return new File(getDownloadDir(mode) + "/" + name);
+        return new File(getDownloadDir(mode) + File.separator + name);
     }
 
     public static String getDownloadDir(byte mode) {
         if (mode == Constants.MODE_DOWNLOAD)
-            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Constants.DOWNLOAD_DIRECTORY;
+            return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.DOWNLOAD_DIRECTORY;
         else if (mode == Constants.MODE_SCREENSHOT)
-            return Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + Constants.SCREENSHOT_DIRECTORY;
+            return Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + Constants.SCREENSHOT_DIRECTORY;
         else return null;
     }
 }

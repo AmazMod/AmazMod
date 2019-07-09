@@ -3,8 +3,11 @@ package com.edotassi.amazmod.ui;
 import android.animation.Animator;
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.InputType;
@@ -14,6 +17,7 @@ import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -22,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.FileProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -31,6 +36,7 @@ import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultShellCommand;
+import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.util.Screen;
@@ -780,14 +786,14 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             FileExplorerActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    String remaingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
+                                    String remainingSize = Formatter.formatShortFileSize(FileExplorerActivity.this, size - byteSent);
                                     double kbSent = byteSent / 1024d;
                                     double speed = kbSent / (duration / 1000.0);
                                     DecimalFormat df = new DecimalFormat("#.00");
 
                                     String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
                                     String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\", " + getString(R.string.wait);
-                                    String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                                    String message = smallMessage + "\n" + duration + " - " + remainingSize + " - " + df.format(speed) + " kb/s";
 
                                     //Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
                                     currentTime = System.currentTimeMillis();
@@ -818,9 +824,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             if (task.isSuccessful()) {
                                 SnackProgressBar snackbar = new SnackProgressBar(
                                         SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.file_downloaded))
-                                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                                        .setAction(getString(R.string.open), new SnackProgressBar.OnActionClickListener() {
                                             @Override
                                             public void onActionClick() {
+                                                openFile(fileData);
                                                 snackProgressBarManager.dismissAll();
                                             }
                                         });
@@ -1181,7 +1188,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 //.setContentTitle(getString(R.string.downloading))
                 .setContentText(smallMessage);
         mBuilder.setProgress(100, (int) progress, false);
-        // notificationId is a unique int for each notification that you must define
         notificationManager.notify(NOTIF_ID, mBuilder.build());
 
     }
@@ -1193,14 +1199,39 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         //Remove progressBar from notification and allow removal of it
         mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
                 .bigText(message))
+                .setAutoCancel(true)
                 .setOngoing(false);
         mBuilder.setProgress(0, 0, false);
-        // notificationId is a unique int for each notification that you must define
         notificationManager.notify(NOTIF_ID, mBuilder.build());
 
         if (mustClose)
             notificationManager.cancel(NOTIF_ID);
     }
 
+    private void openFile(FileData fileData) {
+        Logger.trace("name: {} path: {} extension: {}", fileData.getName(), fileData.getPath(), fileData.getExtention());
+        if (fileData.isDirectory())
+            return;
+
+        File file = DownloadHelper.getDownloadedFile(fileData.getName(), Constants.MODE_DOWNLOAD);
+        Logger.trace("file: {}", file.getAbsolutePath());
+
+        Intent newIntent = new Intent(Intent.ACTION_VIEW);
+        Uri path = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
+                FileProvider.getUriForFile(this, Constants.FILE_PROVIDER, file)
+                : Uri.fromFile(file);
+        String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileData.getExtention());
+        Logger.trace("extension: {} mime: {}", fileData.getExtention(), mimeType);
+
+        newIntent.setDataAndType(path, mimeType);
+        newIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        try {
+            startActivity(newIntent);
+            //startActivity(Intent.createChooser(newIntent, getString(R.string.open)));
+        } catch (ActivityNotFoundException e) {
+            SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
+            snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_SHORT);
+        }
+    }
 
 }

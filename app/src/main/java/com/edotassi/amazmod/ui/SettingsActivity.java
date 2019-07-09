@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +41,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
     private static final String STATE_CURRENT_LOCALE_LANGUAGE = "STATE_CURRENT_LOCALE_LANGUAGE";
 
     private boolean currentBatteryChart;
+    private boolean currentHeartRateChart;
     private boolean enablePersistentNotificationOnCreate;
     private String currentBatteryChartDays;
     private String currentLocaleLanguage;
@@ -71,7 +71,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
             Logger.error("SettingsActivity onCreate NullPointerException: " + exception.getMessage());
         }
 
-        currentBatteryChart = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT);
+        currentBatteryChart = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_DEFAULT_BATTERY_CHART);
+        currentHeartRateChart = Prefs.getBoolean(Constants.PREF_HEARTRATE_CHART, Constants.PREF_DEFAULT_HEARTRATE_CHART);
 
         currentBatteryChartDays = Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL,
                 Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL);
@@ -188,10 +189,9 @@ public class SettingsActivity extends BaseAppCompatActivity {
      * @return boolean
      */
     private boolean restartNeeded() {
-        return
-                currentLogToFile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT)
-                        || !currentLogLevel.equals(Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT))
-                        || currentDarkTheme != Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
+        return currentLogToFile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT)
+                || !currentLogLevel.equals(Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT))
+                || currentDarkTheme != Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
     }
 
     /**
@@ -200,9 +200,9 @@ public class SettingsActivity extends BaseAppCompatActivity {
      * @return boolean
      */
     private boolean reloadNeeded() {
-        return
-                currentBatteryChart != Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_BATTERY_CHART_DEFAULT)
-                        || !currentBatteryChartDays.equals(Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
+        return currentBatteryChart != Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_DEFAULT_BATTERY_CHART)
+                || !currentBatteryChartDays.equals(Prefs.getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL))
+                || currentHeartRateChart != Prefs.getBoolean(Constants.PREF_HEARTRATE_CHART, Constants.PREF_DEFAULT_HEARTRATE_CHART);
 
     }
 
@@ -235,6 +235,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
         final boolean overlayLauncher = Prefs.getBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER,
                 Constants.PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER);
+        final boolean heartrateData = Prefs.getBoolean(Constants.PREF_HEARTRATE_CHART,
+                Constants.PREF_DEFAULT_HEARTRATE_CHART);
         final int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
                 Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
         final int phoneBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_PHONE_ALERT,
@@ -269,6 +271,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setDisableDelay(disableNotificationsDelay);
         settingsData.setAmazModFirstWidget(amazModFirstWidget);
         settingsData.setOverlayLauncher(overlayLauncher);
+        settingsData.setHeartrateData(heartrateData);
         settingsData.setBatteryWatchAlert(watchBatteryAlert);
         settingsData.setBatteryPhoneAlert(phoneBatteryAlert);
 

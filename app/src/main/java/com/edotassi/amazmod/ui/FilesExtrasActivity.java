@@ -96,6 +96,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_files_extras);
+        Logger.trace("FilesExtrasActivity onCreate");
 
         try {
             if (getSupportActionBar() != null)
@@ -162,6 +163,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
     @SuppressLint("CheckResult")
     private void updateData() {
+        Logger.trace("FilesExtrasActivity updateData");
 
         String obsText = "";
 
@@ -215,6 +217,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private void save() {
+        Logger.trace("FilesExtrasActivity save");
 
         Date lastDate = new Date();
         String time = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
@@ -263,6 +266,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private void load() {
+        Logger.trace("FilesExtrasActivity load");
 
         final String packageName = this.getPackageName();
 
@@ -315,6 +319,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private boolean checkWriteDirectory() {
+        Logger.trace("FilesExtrasActivity checkWriteDirectory");
+
         this.useDownloads = false;
         this.useFiles = false;
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + testDirectory);
@@ -342,6 +348,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private boolean checkBackupFile() {
+        Logger.trace("FilesExtrasActivity checkBackupFile");
+
         this.useDownloads = false;
         this.useFiles = false;
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + bkpDirectory, fileName);
@@ -359,8 +367,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     public static void checkApps(Context context) {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity checkApps");
+        Logger.trace("FilesExtrasActivity checkApps");
 
         Gson gson = new Gson();
         List<String> packagesList = new ArrayList<>(Arrays.asList(gson
@@ -380,8 +387,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     public static void checkAppsJson(Context context, List<String> packagesList) {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity checkAppsJson packagesList: " + packagesList.toString());
+        Logger.trace("FilesExtrasActivity checkAppsJson");
 
         List<String> installedApps = getInstalledPackagesNames(context);
 
@@ -404,8 +410,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private static void checkAppsSql(Context context, List<NotificationPreferencesEntity> apps) {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity checkAppsSql");
+        Logger.trace("FilesExtrasActivity checkAppsSql");
 
         List<String> installedApps = getInstalledPackagesNames(context);
 
@@ -425,7 +430,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     public static void loadAppsPrefsFromJSON() {
-        //Log.d(Constants.TAG,"FilesExtrasActivity loadAppsPrefsFromJSON");
+        Logger.trace("FilesExtrasActivity loadAppsPrefsFromJSON");
+
         String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
 
         if (!packagesJson.equals("[]")) {
@@ -484,7 +490,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
     public static void saveAppsDbToPrefs() {
 
-        Logger.debug("FilesExtrasActivity saveAppsDbToPrefs");
+        Logger.trace("FilesExtrasActivity saveAppsDbToPrefs");
 
         List<NotificationPreferencesEntity> apps = SQLite
                 .select()
@@ -514,7 +520,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
 
     public static void saveCommandHistoryToPrefs() {
-        Logger.debug("FilesExtrasActivity saveAppsDbToPrefs");
+        Logger.trace("FilesExtrasActivity saveCommandHistoryToPrefs");
 
         List<CommandHistoryEntity> commandHistoryValues = SQLite
                 .select()
@@ -538,6 +544,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     public static void loadCommandHistoryFromPrefs() {
+        Logger.trace("FilesExtrasActivity loadCommandHistoryFromPrefs");
 
         String commandsJSON = Prefs.getString(Constants.PREF_COMMAND_HISTORY, "[]");
 
@@ -553,6 +560,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     public static void saveCommandToHistory(String command) {
+        Logger.trace("FilesExtrasActivity saveCommandToHistory");
+
         CommandHistoryEntity previousSameCommand = SQLite
                 .select()
                 .from(CommandHistoryEntity.class)

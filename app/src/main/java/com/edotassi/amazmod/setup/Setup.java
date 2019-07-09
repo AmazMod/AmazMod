@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import com.edotassi.amazmod.BuildConfig;
 import com.edotassi.amazmod.db.model.NotficationSentEntity;
 import com.edotassi.amazmod.db.model.NotficationSentEntity_Table;
@@ -37,13 +39,15 @@ public class Setup {
             context.startService(new Intent(context, TransportService.class));
         }
 
+        //Start receivers
         BatteryStatusReceiver.startBatteryReceiver(context);
         WatchfaceReceiver.startWatchfaceReceiver(context);
 
-        checkIfAppUninstalledThenRemove(context);
-
+        //Check for uninstalled apps and command history
+        FilesExtrasActivity.checkApps(context);
         FilesExtrasActivity.loadCommandHistoryFromPrefs();
 
+        //Remove old entries from NotificationSent DB
         cleanOldNotificationsSentDb();
     }
 
@@ -59,13 +63,13 @@ public class Setup {
         client.newCall(request)
                 .enqueue(new Callback() {
                     @Override
-                    public void onFailure(Call call, IOException e) {
+                    public void onFailure(@NonNull Call call, @NonNull IOException e) {
                         Logger.debug("checkServiceUpdate: failed to check for updates");
                         updater.updateCheckFailed();
                     }
 
                     @Override
-                    public void onResponse(Call call, Response response) throws IOException {
+                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                         try {
                             String json = response.body().string();
                             Properties data = new Gson().fromJson(json, Properties.class);
@@ -92,11 +96,6 @@ public class Setup {
                         }
                     }
                 });
-    }
-
-
-    private static void checkIfAppUninstalledThenRemove(Context context) {
-        FilesExtrasActivity.checkApps(context);
     }
 
     private static void cleanOldNotificationsSentDb() {

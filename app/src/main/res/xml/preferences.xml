@@ -192,7 +192,7 @@
             android:title="@string/pref_notifications_enable_ungroup" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/battery">
+    <PreferenceCategory android:title="@string/charts">
         <SwitchPreference
             android:defaultValue="true"
             android:disableDependentsState="false"
@@ -217,6 +217,12 @@
             android:key="preference.battery.chart.range"
             android:summary="@string/pref_battery_chart_time_interval_summary"
             android:title="@string/pref_battery_chart_time_interval" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:disableDependentsState="false"
+            android:key="preference.heartrate.chart"
+            android:summary="@string/pref_heartrate_chart_summary"
+            android:title="@string/pref_heartrate_chart" />
     </PreferenceCategory>
 
 

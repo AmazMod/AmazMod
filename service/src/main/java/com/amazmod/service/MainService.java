@@ -765,25 +765,28 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData.setScreenBrightnessMode(bm);
 
         // Get last heart rates
-        Cursor cur = null;
-        String heartrates = "";
-        try {
-            cur = getContentResolver().query(Uri.parse("content://com.huami.watch.health.heartdata"), null, null, null, "utc_time ASC");
-            // Use the cursor to step through the returned records
-            while (cur.moveToNext()) {
-                // Get the field values
-                // example: utc_time=1528485660, time_zone=0, heart_rate=96
-                long utc_time = cur.getLong(0);
-                //int time_zone = cur.getInt(1);
-                int heart_rate = cur.getInt(2);
+        final boolean isHeartrateData = settingsManager.getBoolean(Constants.PREF_HEARTRATE_DATA, true);
+        if (isHeartrateData) {
+            Cursor cur = null;
+            String heartrates = "";
+            try {
+                cur = getContentResolver().query(Uri.parse("content://com.huami.watch.health.heartdata"), null, null, null, "utc_time ASC");
+                // Use the cursor to step through the returned records
+                while (cur.moveToNext()) {
+                    // Get the field values
+                    // example: utc_time=1528485660, time_zone=0, heart_rate=96
+                    long utc_time = cur.getLong(0);
+                    //int time_zone = cur.getInt(1);
+                    int heart_rate = cur.getInt(2);
 
-                heartrates += utc_time+","+heart_rate+",";
+                    heartrates += utc_time + "," + heart_rate + ",";
+                }
+                cur.close();
+            } catch (SecurityException e) {
+                //Getting data error
             }
-            cur.close();
-        } catch (SecurityException e) {
-            //Getting data error
+            watchStatusData.setLastHeartRates(heartrates);
         }
-        watchStatusData.setLastHeartRates(heartrates);
 
         // Send the transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
@@ -1329,10 +1332,11 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private void sendStandardAlert(String alert_type) {
 
-        NotificationData notificationData = new NotificationData();
         final int vibrate;
-
         final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
+        final String connectionStatus = android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
+
+        NotificationData notificationData = new NotificationData();
 
         notificationData.setId(9979);
         notificationData.setKey("amazmod|test|9979");
@@ -1346,29 +1350,30 @@ public class MainService extends Service implements Transporter.DataListener {
 
         final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
-        switch(alert_type) {
+        switch (alert_type) {
             case "phone_battery":
                 notificationData.setTitle(getString(R.string.phone_battery_alert));
                 drawable = getDrawable(R.drawable.ic_battery_alert_black_24dp);
-                notificationData.setText(getString(R.string.phone_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
+                notificationData.setText(getString(R.string.phone_battery, settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0) + "%"));
                 vibrate = Constants.VIBRATION_SHORT;
                 break;
             case "watch_battery":
                 notificationData.setTitle(getString(R.string.watch_battery_alert));
                 drawable = getDrawable(R.drawable.ic_battery_alert_black_24dp);
-                notificationData.setText(getString(R.string.watch_battery,settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0)+"%"));
+                notificationData.setText(getString(R.string.watch_battery, settingsManager.getInt(Constants.PREF_BATTERY_PHONE_ALERT, 0) + "%"));
                 vibrate = Constants.VIBRATION_SHORT;
                 break;
             case "phone_connection":
             default:
                 // type= phone_connection
                 notificationData.setTitle(getString(R.string.phone_connection_alert));
-                if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+                if (connectionStatus.equals("0")) {
                     // Phone disconnected
+                    saveDisconnectionLog();
                     drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
                     notificationData.setText(getString(R.string.phone_disconnected));
                     vibrate = Constants.VIBRATION_LONG;
-                }else{
+                } else {
                     // Phone connected
                     drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
                     notificationData.setText(getString(R.string.phone_connected));
@@ -1526,6 +1531,16 @@ public class MainService extends Service implements Transporter.DataListener {
             context.stopService(overlayButton);
         }
         settings.set(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, status);
+    }
+
+    private void saveDisconnectionLog() {
+        if (BuildConfig.VERSION_NAME.contains("dev")) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+            String dateStamp = sdf.format(new Date());
+            String filename = "/sdcard/disconnection_log_" + dateStamp + ".txt";
+            Logger.error("**** Phone disconnected, saving log... *****");
+            new ExecCommand("adb shell logcat -d -t 256 -v long -f " + filename + ";adb kill-server;exit");
+        }
     }
 
     public static boolean getWasSpringboardSaved() {

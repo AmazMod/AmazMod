@@ -38,6 +38,7 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_DISABLE_DELAY, settingsData.isDisableDelay());
         editor.putBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, settingsData.isAmazModFirstWidget());
         editor.putBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, settingsData.isOverlayLauncher());
+        editor.putBoolean(Constants.PREF_HEARTRATE_DATA, settingsData.isHeartrateData());
         editor.putInt(Constants.PREF_BATTERY_WATCH_ALERT, settingsData.getBatteryWatchAlert());
         editor.putInt(Constants.PREF_BATTERY_PHONE_ALERT, settingsData.getBatteryPhoneAlert());
 

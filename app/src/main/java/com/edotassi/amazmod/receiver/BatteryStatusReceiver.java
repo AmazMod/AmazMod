@@ -36,18 +36,20 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, Intent intent) {
-        Logger.trace("BatteryStatusReceiver onReceive");
 
-        if (intent.getAction() == null) {
+        final String action = intent.getAction();
+        Logger.trace("BatteryStatusReceiver onReceive action: {}", action);
+
+        if (action == null) {
+
             if (!Watch.isInitialized()) {
                 Watch.init(context);
             }
 
-            Logger.trace("BatteryStatusReceiver onReceive action: {}", intent.getAction());
-
             Watch.get().getBatteryStatus().continueWith(new Continuation<BatteryStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<BatteryStatus> task) throws Exception {
+                    Logger.trace("BatteryStatusReceiver onReceive getBatteryStatus");
                     if (task.isSuccessful()) {
                         BatteryStatus batteryStatus = task.getResult();
                         if (batteryStatus != null) {
@@ -61,33 +63,46 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
                     return null;
                 }
             });
+
         } else {
             startBatteryReceiver(context);
         }
-
     }
 
     public static void startBatteryReceiver(Context context) {
-        Logger.trace("BatteryStatusReceiver startBatteryReceiver");
-        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
-        AmazModApplication.timeLastSync = Prefs.getLong(Constants.PREF_TIME_LAST_SYNC, 0L);
 
-        long delay = ((long) syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
+        final boolean isEnabled = Prefs.getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_DEFAULT_BATTERY_CHART);
 
-        Logger.info("BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
-
-        if (delay < 0) delay = 0;
+        Logger.trace("BatteryStatusReceiver startBatteryReceiver isEnabled: {}", isEnabled);
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent alarmBatteryIntent = new Intent(context, BatteryStatusReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmBatteryIntent, 0);
 
-        try {
+        if (isEnabled) {
+            Logger.trace("BatteryStatusReceiver enabling receiver");
+
+            int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
+            AmazModApplication.timeLastSync = Prefs.getLong(Constants.PREF_TIME_LAST_SYNC, 0L);
+
+            long delay = ((long) syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
+
+            Logger.info("BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
+
+            if (delay < 0) delay = 0;
+
+            try {
+                if (alarmManager != null)
+                    alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
+                            (long) syncInterval * 60000L, pendingIntent);
+            } catch (NullPointerException e) {
+                Logger.error(e, "BatteryStatusReceiver setRepeating exception: " + e.toString());
+            }
+
+        } else {
+            Logger.trace("BatteryStatusReceiver disabling receiver");
             if (alarmManager != null)
-                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
-                    (long) syncInterval * 60000L, pendingIntent);
-        } catch (NullPointerException e) {
-            Logger.error(e, "BatteryStatusReceiver setRepeating exception: " + e.toString());
+                alarmManager.cancel(pendingIntent);
         }
     }
 
