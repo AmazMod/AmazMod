@@ -4,7 +4,7 @@
     <string name="settings">Configurări</string>
     <string name="notifications">Notificări trimise</string>
     <string name="notifications_options">Opţiuni de notificări</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Grafice</string>
     <string name="customui">Opțiuni Notificări Interfață Utilizator Personalizată</string>
     <string name="others">Altele</string>
     <string name="other">Alte</string>
@@ -92,7 +92,7 @@
     <string name="pref_enable_notifications">Afișează notificări</string>
     <string name="pref_filter_notifications_by_packages">Aplicații selectate</string>
     <string name="pref_filter_notifications_by_packages_summary">Doar notificările acestor aplicații vor fi transmise către ceas.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Durata de sincronizare a bateriei</string>
     <string name="pref_battery_background_sync_interval_summary">Setează intervalul de sincronizare al bateriei.</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Pref_baterie_grafic_rezumat_interval_temporal.</string>
