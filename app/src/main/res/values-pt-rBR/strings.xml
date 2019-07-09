@@ -4,7 +4,7 @@
     <string name="settings">Configurações</string>
     <string name="notifications">Notificações enviadas</string>
     <string name="notifications_options">Opções de notificações</string>
-    <string name="battery">Bateria</string>
+    <string name="charts">Charts</string>
     <string name="customui">Opções de Notificações de UI Personalizadas</string>
     <string name="others">Outros</string>
     <string name="other">Outro</string>
@@ -92,11 +92,9 @@
     <string name="pref_enable_notifications">Notificações por push</string>
     <string name="pref_filter_notifications_by_packages">Filtrar por apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Apenas notificações destes apps serão enviadas para o relógio.</string>
-    <string name="pref_disable_battery_chart">Desabilitar gráfico de bateria</string>
-    <string name="pref_disable_battery_chart_summary">Desativar o gráfico de bateria na tela principal, o aplicativo será reiniciado ao fechar preferências.</string>
-    <string name="pref_battery_background_sync_interval">Intervalo de sincronização em segundo plano</string>
+    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
     <string name="pref_battery_background_sync_interval_summary">Definir intervalo de sincronização de bateria em segundo plano.</string>
-    <string name="pref_battery_chart_time_interval">Gráfico de tempo de bateria</string>
+    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Defina o intervalo do gráfico de bateria.</string>
     <string name="pref_battery_watch_alert">Alerta de bateria do relógio</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
@@ -316,8 +314,8 @@
     <string name="pref_notifications_show_large_icon_summary">Mostrar Ícones Grandes (normalmente a Foto do Contato) nas notificações.</string>
     <string name="pref_notifications_enable_images">Imagens</string>
     <string name="pref_notifications_enable_images_summary">Mostrar Imagens das Notificações.</string>
-    <string name="pref_battery_chart">Gráfico de bateria</string>
-    <string name="pref_battery_chart_summary">Mostrar gráfico de bateria na tela principal do AmazMod.</string>
+    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">Registros</string>
     <string name="pref_log_to_file">Registrar em Arquivo</string>
     <string name="pref_log_to_file_summary">Salvar registros do AmazMod em amazmod.log</string>
@@ -358,4 +356,6 @@
     <string name="file_not_found">File not found!</string>
     <string name="pref_battery_full_alert">Full watch battery alert</string>
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
+    <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
 </resources>
