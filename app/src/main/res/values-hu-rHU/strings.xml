@@ -317,7 +317,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_notifications_enable_images">Képek megjelenítése</string>
     <string name="pref_notifications_enable_images_summary">Értesítési képek megjelenítése.</string>
     <string name="pref_battery_chart">Akku diagram</string>
-    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
+    <string name="pref_battery_chart_summary">Az akku diagram megjelenítése az AmazMod főképernyőjén (a letiltás az akku adatainak gyűjtését is letiltja, de az az órán továbbra is rögzítésre kerül).</string>
     <string name="logs">Naplók</string>
     <string name="pref_log_to_file">Napló készítése fájlba</string>
     <string name="pref_log_to_file_summary">AmazMod naplók mentése az amazmod.log fájlba</string>
@@ -359,5 +359,5 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_battery_full_alert">Akku töltve figyelmeztetés</string>
     <string name="pref_battery_full_alert_summary">Értesítés megjelenítése, ha az akkumulátor teljesen fel van töltve.</string>
     <string name="pref_heartrate_chart">Pulzusszám diagram</string>
-    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
+    <string name="pref_heartrate_chart_summary">A pulzusszám diagram megjelenítése az AmazMod főképernyőjén.</string>
 </resources>
