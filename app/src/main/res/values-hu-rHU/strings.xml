@@ -4,7 +4,7 @@
     <string name="settings">Beállítások</string>
     <string name="notifications">Elküldött értesítések</string>
     <string name="notifications_options">Értesítések beállításai</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Diagramok</string>
     <string name="customui">Egyéni értesítési beállítások</string>
     <string name="others">Egyebek</string>
     <string name="other">Egyéb</string>
@@ -92,9 +92,9 @@
     <string name="pref_enable_notifications">Push értesítések</string>
     <string name="pref_filter_notifications_by_packages">Kiválasztott appok</string>
     <string name="pref_filter_notifications_by_packages_summary">Csak ezen appoktól származó értesítések fognak megjelenni az órán.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Akku háttér szinkronizálási időköz</string>
     <string name="pref_battery_background_sync_interval_summary">A háttér szinkron gyakoriság beállítása.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
+    <string name="pref_battery_chart_time_interval">Akku diagram időintervallum</string>
     <string name="pref_battery_chart_time_interval_summary">Akkudiagram időtartományának beállítása.</string>
     <string name="pref_battery_watch_alert">Óra akkumulátor figyelmeztetés</string>
     <string name="pref_battery_watch_alert_summary">Állítsd be azt a töltöttségi szintet, amelyről értesítést kívánsz kapni.</string>
@@ -316,7 +316,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_notifications_show_large_icon_summary">Értesítésekben nagy ikonokat mutasson (általában névjegykép)</string>
     <string name="pref_notifications_enable_images">Képek megjelenítése</string>
     <string name="pref_notifications_enable_images_summary">Értesítési képek megjelenítése.</string>
-    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart">Akku diagram</string>
     <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">Naplók</string>
     <string name="pref_log_to_file">Napló készítése fájlba</string>
@@ -358,6 +358,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="file_not_found">A fájl nem található!</string>
     <string name="pref_battery_full_alert">Akku töltve figyelmeztetés</string>
     <string name="pref_battery_full_alert_summary">Értesítés megjelenítése, ha az akkumulátor teljesen fel van töltve.</string>
-    <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_chart">Pulzusszám diagram</string>
     <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
 </resources>
