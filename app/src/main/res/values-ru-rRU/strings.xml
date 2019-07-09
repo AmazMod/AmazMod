@@ -92,9 +92,9 @@
     <string name="pref_enable_notifications">Push-уведомления</string>
     <string name="pref_filter_notifications_by_packages">Выбранные приложения</string>
     <string name="pref_filter_notifications_by_packages_summary">Уведомления только от этих приложений будут отображаться на часах.</string>
-    <string name="pref_battery_background_sync_interval">Интервал синхронизации состояния батареи</string>
+    <string name="pref_battery_background_sync_interval">Интервал фоновой синхронизации состояния батареи</string>
     <string name="pref_battery_background_sync_interval_summary">Установить интервал фоновой синхронизации батареи.</string>
-    <string name="pref_battery_chart_time_interval">Диапазон графика заряда батареи</string>
+    <string name="pref_battery_chart_time_interval">Диапазон графика батареи</string>
     <string name="pref_battery_chart_time_interval_summary">Установить диапазон времени для отображения графика заряда батареи.</string>
     <string name="pref_battery_watch_alert">Низкий заряд батареи часов</string>
     <string name="pref_battery_watch_alert_summary">Установить уровень заряда батареи часов, при достижении которого вы получите уведомление о разряде.</string>
@@ -315,7 +315,7 @@
     <string name="pref_notifications_enable_images">Показать изображения</string>
     <string name="pref_notifications_enable_images_summary">Показать изображения в уведомлениях.</string>
     <string name="pref_battery_chart">График батареи</string>
-    <string name="pref_battery_chart_summary">Показывать график заряда батареи на главном экране AmazMod (отключение также отключит получение данных о батарее, но в часах данные будут фиксироваться).</string>
+    <string name="pref_battery_chart_summary">Показывать график батареи на главном экране AmazMod (при отключении данные о батареи не будут получаться, но в часах данные будут фиксироваться).</string>
     <string name="logs">Логи</string>
     <string name="pref_log_to_file">Запись лога в файл</string>
     <string name="pref_log_to_file_summary">Сохранить логи AmazMod в amazmod.log</string>
