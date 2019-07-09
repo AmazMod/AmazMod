@@ -4,7 +4,7 @@
     <string name="settings">הגדרות</string>
     <string name="notifications">התראות שנשלחו</string>
     <string name="notifications_options">אפשרויות התראה</string>
-    <string name="battery">סוללה</string>
+    <string name="charts">Charts</string>
     <string name="customui">התראות מתקדמות</string>
     <string name="others">אחרים</string>
     <string name="other">אחר</string>
@@ -92,11 +92,9 @@
     <string name="pref_enable_notifications">התראות דחיפה</string>
     <string name="pref_filter_notifications_by_packages">ישומים נבחרים</string>
     <string name="pref_filter_notifications_by_packages_summary">רק התראות מיישומים אלו יישלחו לשעון.</string>
-    <string name="pref_disable_battery_chart">השבת תרשים סוללה</string>
-    <string name="pref_disable_battery_chart_summary">השבתת נתוני סוללה במסך הראשי, היישום יבצע רענון בעת סגירת העדפות.</string>
-    <string name="pref_battery_background_sync_interval">מרווח סינכרון ברקע</string>
+    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
     <string name="pref_battery_background_sync_interval_summary">הגדרת תזמוני סינכרון של הסוללה ברקע.</string>
-    <string name="pref_battery_chart_time_interval">טווח זמן הסוללה</string>
+    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">הגדרת טווח תצוגת הזמן של נתוני הסוללה.</string>
     <string name="pref_battery_watch_alert">התראת סוללה</string>
     <string name="pref_battery_watch_alert_summary">קביעת רף תחתון לעוצמת סוללת השעון לקבלת התראה.</string>
@@ -316,8 +314,8 @@
     <string name="pref_notifications_show_large_icon_summary">הצגת סמלים גדולים (תמונות אנשי קשר) בהתראות.</string>
     <string name="pref_notifications_enable_images">הצג תמונות</string>
     <string name="pref_notifications_enable_images_summary">הצג תמונות בהתראות.</string>
-    <string name="pref_battery_chart">תרשים סוללה</string>
-    <string name="pref_battery_chart_summary">הצגת נתוני סוללה במסך הראשי.</string>
+    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">לוגים</string>
     <string name="pref_log_to_file">שמירת לוג לקובץ</string>
     <string name="pref_log_to_file_summary">שמירת לוגים של AmazMod לתוך קובץ לוגים</string>
@@ -358,4 +356,6 @@
     <string name="file_not_found">קובץ לא נמצא</string>
     <string name="pref_battery_full_alert">התראת סוללה מלאה בשעון</string>
     <string name="pref_battery_full_alert_summary">קבלת התראה כשסוללת השעון טעונה במלואה.</string>
+    <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
 </resources>
