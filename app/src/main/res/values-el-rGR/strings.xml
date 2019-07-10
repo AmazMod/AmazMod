@@ -4,7 +4,7 @@
     <string name="settings">Ρυθμίσεις</string>
     <string name="notifications">Οι ειδοποιήσεις στάλθηκαν</string>
     <string name="notifications_options">Ρυθμίσεις ειδοποιήσεων</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Διαγράμματα</string>
     <string name="customui">Επιλογές Ειδοποιήσεων Προσαρμοσμένου UI</string>
     <string name="others">Άλλα</string>
     <string name="other">Άλλο</string>
@@ -92,7 +92,7 @@
     <string name="pref_enable_notifications">Προώθηση ειδοποιήσεων</string>
     <string name="pref_filter_notifications_by_packages">Επιλεγμένες εφαρμογές</string>
     <string name="pref_filter_notifications_by_packages_summary">Μόνο ειδοποιήσεις από αυτές τις εφαρμογές θα προωθούνται στο ρολόι.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Συχνότητα συγχρονισμού δεδομένων μπαταρίας</string>
     <string name="pref_battery_background_sync_interval_summary">Ορισμός συχνότητας συγχρονισμού μετρήσεων μπαταρίας.</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Ορισμός του χρονικού εύρους που απεικονίζει το γράφημα τις μπαταρίας.</string>
@@ -354,9 +354,9 @@
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">Το αρχείο δεν βρέθηκε!</string>
-    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert">Ειδοποίηση πλήρης φόρτισης ρολογιού</string>
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
-    <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_chart">Διάγραμμα καρδιακού ρυθμού</string>
     <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
     <string name="pref_log_lines_shown">Log lines shown</string>
     <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
