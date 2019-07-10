@@ -108,11 +108,11 @@ public class TweakingActivity extends BaseAppCompatActivity {
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException exception) {
-            Logger.error("TweakingActivity onCreate exception: " + exception.toString());
+            getSupportActionBar().setTitle(R.string.tweaking);
+        } catch (NullPointerException ex) {
+            Logger.error(ex, "TweakingActivity onCreate exception: {}", ex.getMessage());
             //TODO log to crashlitics
         }
-        getSupportActionBar().setTitle(R.string.tweaking);
 
         ButterKnife.bind(this);
 
@@ -124,12 +124,12 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 .setMessageMaxLines(2)
                 .setOnDisplayListener(new SnackProgressBarManager.OnDisplayListener() {
                     @Override
-                    public void onShown(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onShown(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
 
                     @Override
-                    public void onDismissed(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onDismissed(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
                 });
@@ -191,7 +191,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
     public void updateBrightness() {
         try {
             String textValue = brightnessEditText.getText().toString();
-            Integer value = Integer.valueOf(textValue);
+            int value = Integer.valueOf(textValue);
 
             if ((value < 1) || (value > 255)) {
                 Snacky.builder()

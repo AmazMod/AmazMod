@@ -56,13 +56,14 @@ import static java.lang.Math.abs;
 public class NotificationService extends NotificationListenerService {
 
     public static final int FLAG_WEARABLE_REPLY = 0x00000001;
-    private static final long BLOCK_INTERVAL = 60000 * 60L; //One hour
+    private static final long BLOCK_INTERVAL = 60000 * 30L; //Thirty minutes
+    private static final long REPEATING_BLOCK_INTERVAL = 60000 * 5L; //Five minutes
     private static final long MAPS_INTERVAL = 60000 * 3L; //Three minutes
-    private static final long VOICE_INTERVAL = 5000L; //Five seconds
+    private static final long VOICE_INTERVAL = 1000 * 5L; //Five seconds
 
-    private static final long JOB_INTERVAL = 5 * 1000L; //Five seconds
-    private static final long JOB_MAX_INTERVAL = 60 * 1000L; //1 minute
-    private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 15L; //15 minutes
+    private static final long JOB_INTERVAL = 1000 * 5L; //Five seconds
+    private static final long JOB_MAX_INTERVAL = 1000 * 60L; //One minute
+    private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 15L; //Fifteen minutes
     private static final long CUSTOMUI_LATENCY = 1L;
 
     private static final String[] APP_WHITELIST = { //apps that do not fit some filter
@@ -83,8 +84,11 @@ public class NotificationService extends NotificationListenerService {
     Hashtable<Integer, int[]> grouped_notifications = new Hashtable<>();
 
     private static long lastTimeNotificationArrived = 0;
+    private static long lastTimeRepeatingArrived = 0;
     private static long lastTimeNotificationSent = 0;
     private static String lastTxt = "";
+    private static String lastNotificationTxt = "";
+    private static byte lastFilter;
 
     private static ComponentName serviceComponent;
     private static JobScheduler jobScheduler;
@@ -137,45 +141,51 @@ public class NotificationService extends NotificationListenerService {
 
         String notificationPackage = statusBarNotification.getPackageName();
 
+        String notificationTxt = "";
+        CharSequence charSequence = statusBarNotification.getNotification().extras.getCharSequence(Notification.EXTRA_TEXT);
+        if (charSequence != null) {
+            notificationTxt = charSequence.toString();
+        }
+
         if (!isPackageAllowed(notificationPackage)) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_PACKAGE));
-            storeForStats(notificationPackage, Constants.FILTER_PACKAGE);
+            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_PACKAGE));
+            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_PACKAGE);
             return;
         }
 
         if (isPackageSilenced(notificationPackage)) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_SILENCE));
-            storeForStats(notificationPackage, Constants.FILTER_SILENCE);
+            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SILENCE));
+            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_SILENCE);
             return;
         }
 
         if (isPackageFiltered(statusBarNotification)) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_TEXT));
-            storeForStats(notificationPackage, Constants.FILTER_TEXT);
+            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_TEXT));
+            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_TEXT);
             return;
         }
 
         if (isNotificationsDisabled()) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_NOTIFICATIONS_DISABLED));
-            storeForStats(notificationPackage, Constants.FILTER_NOTIFICATIONS_DISABLED);
+            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_NOTIFICATIONS_DISABLED));
+            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_NOTIFICATIONS_DISABLED);
             return;
         }
 
         if (isNotificationsDisabledWhenScreenOn()) {
             if (!Screen.isDeviceLocked(this)) {
-                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_SCREENON));
-                storeForStats(notificationPackage, Constants.FILTER_SCREENON);
+                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SCREENON));
+                checkFilter(notificationPackage, notificationTxt, Constants.FILTER_SCREENON);
                 return;
             } else if (!isNotificationsEnabledWhenScreenLocked()) {
-                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + Character.toString((char) (byte) Constants.FILTER_SCREENLOCKED));
-                storeForStats(notificationPackage, Constants.FILTER_SCREENLOCKED);
+                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SCREENLOCKED));
+                checkFilter(notificationPackage, notificationTxt, Constants.FILTER_SCREENLOCKED);
                 return;
             }
         }
 
         byte filterResult = filter(statusBarNotification);
 
-        Logger.debug("onNotificationPosted notificationPackage: " + notificationPackage + " / filterResult: " + Character.toString((char) (byte) filterResult));
+        Logger.debug("onNotificationPosted notificationPackage: " + notificationPackage + " / filterResult: " + ((char) (byte) filterResult));
 
         //Log.d(Constants.TAG, "Filters: U=" + (filterResult == Constants.FILTER_UNGROUP) +" C="+ (filterResult == Constants.FILTER_CONTINUE) +" K="+ (filterResult == Constants.FILTER_LOCALOK) );
         if (filterResult == Constants.FILTER_CONTINUE ||
@@ -226,27 +236,23 @@ public class NotificationService extends NotificationListenerService {
                 sendNotificationWithStandardUI(filterResult, sbn);
             }
 
-            Logger.debug("onNotificationPosted sent: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
+            Logger.debug("onNotificationPosted sent: " + notificationPackage + " / " + ((char) (byte) filterResult));
             storeForStats(notificationPackage, filterResult);
 
         } else {
-            Logger.debug("onNotificationPosted: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
+            Logger.debug("onNotificationPosted: " + notificationPackage + " / " + ((char) (byte) filterResult));
 
-            //Messenger voice call notifications
-            if (isRingingNotification(filterResult, notificationPackage)) {
-                Logger.debug("onNotificationPosted isRingingNotification: " + Character.toString((char) (byte) filterResult));
+            if (isRingingNotification(filterResult, notificationPackage)) { //Messenger voice call notifications
+                Logger.debug("onNotificationPosted isRingingNotification: " + ((char) (byte) filterResult));
                 handleCall(statusBarNotification, notificationPackage);
 
-                //Maps notification
-            } else if (isMapsNotification(filterResult, notificationPackage)) {
-                Logger.debug("onNotificationPosted isMapsNotification: " + Character.toString((char) (byte) filterResult));
+            } else if (isMapsNotification(filterResult, notificationPackage)) { //Maps notification
+                Logger.debug("onNotificationPosted isMapsNotification: " + ((char) (byte) filterResult));
                 mapNotification(statusBarNotification);
-                //storeForStats(statusBarNotification, Constants.FILTER_MAPS); <- It is handled in the method
 
-                //Blocked
-            } else {
-                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + Character.toString((char) (byte) filterResult));
-                storeForStats(notificationPackage, filterResult);
+            } else { //Blocked
+                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) filterResult));
+                checkFilter(notificationPackage, notificationTxt, filterResult);
             }
         }
     }
@@ -736,6 +742,18 @@ public class NotificationService extends NotificationListenerService {
             return false;
         } else {
             return false;
+        }
+    }
+
+    //Avoid flooding of Notifications log by repeating/ongoing blocked notifications
+    private void checkFilter(String notificationPackage, String notificationTxt, byte filter) {
+        Logger.trace("package: {} filter: {}", notificationPackage, Character.toString((char) (byte) filter));
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastTimeRepeatingArrived > REPEATING_BLOCK_INTERVAL || (!notificationTxt.equals(lastNotificationTxt)) || filter != lastFilter) {
+            lastTimeRepeatingArrived = currentTime;
+            lastNotificationTxt = notificationTxt;
+            lastFilter = filter;
+            storeForStats(notificationPackage, filter);
         }
     }
 
