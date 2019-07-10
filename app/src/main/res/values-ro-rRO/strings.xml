@@ -358,4 +358,6 @@
     <string name="pref_battery_full_alert_summary">Primește notificare atunci când bateria este complet încărcată.</string>
     <string name="pref_heartrate_chart">Grafic puls</string>
     <string name="pref_heartrate_chart_summary">Afișează graficul pulsului în ecranul principal al AmazMod.</string>
+    <string name="pref_log_lines_shown">Log lines shown</string>
+    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
 </resources>
