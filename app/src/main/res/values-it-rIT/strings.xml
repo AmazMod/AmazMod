@@ -360,4 +360,6 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="pref_battery_full_alert_summary">Visualizza una notifica quando la batteria è completamente carica.</string>
     <string name="pref_heartrate_chart">Grafico battiti</string>
     <string name="pref_heartrate_chart_summary">Mostra il grafico battiti nella schermata principale di AmazMod.</string>
+    <string name="pref_log_lines_shown">Log lines shown</string>
+    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
 </resources>
