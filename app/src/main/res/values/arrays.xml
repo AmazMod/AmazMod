@@ -268,4 +268,11 @@
         <item>DEBUG</item>
         <item>TRACE</item>
     </string-array>
+    <string-array name="pref_log_lines_entries" translatable="false">
+        <item>64</item>
+        <item>128</item>
+        <item>256</item>
+        <item>512</item>
+        <item>1024</item>
+    </string-array>
 </resources>

@@ -525,7 +525,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                 if (drawable != null) {
 
                                     // Rotate and re-save image on Verge
-                                    if(FilesUtil.isVerge()){
+                                    if(Screen.isVerge()){
                                         // Rotate
                                         drawable = FilesUtil.getRotateDrawable(drawable,180f);
                                         // Re-Save (reopen because drawable is bad quality)

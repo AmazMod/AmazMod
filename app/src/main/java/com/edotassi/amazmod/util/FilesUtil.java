@@ -11,8 +11,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
+import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.tinylog.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,22 +19,23 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
+import java.nio.charset.Charset;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import amazmod.com.transport.Constants;
 
 public class FilesUtil {
 
@@ -241,10 +241,111 @@ public class FilesUtil {
         }
         return false;
     }
-    public static boolean isVerge(){
-        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
-        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
-        Logger.debug("DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
-        return isVerge;
+
+    public static String loadTextFile(String file){
+        Logger.trace("file: {}", file);
+
+        try {
+            // How to read file into String before Java 7
+            InputStream is = new FileInputStream(file);
+            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+            String line = buf.readLine();
+            StringBuilder sb = new StringBuilder();
+
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = buf.readLine();
+            }
+
+            return sb.toString();
+
+        } catch (IOException e){
+            Logger.error(e, "loadLogs: Cant read file: {}", file);
+            return null;
+        }
     }
+
+    public static String tail(File file, int lines) {
+        Logger.trace("file: {} lines: {}", file.toString(), lines);
+
+        java.io.RandomAccessFile fileHandler = null;
+        try {
+            fileHandler = new java.io.RandomAccessFile(file, "r");
+            long fileLength = fileHandler.length() - 1;
+            StringBuilder sb = new StringBuilder();
+            int line = 0;
+
+            for (long filePointer = fileLength; filePointer != -1; filePointer--) {
+                fileHandler.seek(filePointer);
+                int readByte = fileHandler.readByte();
+
+                if (readByte == 0xA) {
+                    if (filePointer < fileLength) {
+                        line++;
+                    }
+                } else if (readByte == 0xD) {
+                    if (filePointer < fileLength - 1) {
+                        line++;
+                    }
+                }
+                if (line >= lines) {
+                    break;
+                }
+                sb.append((char) readByte);
+            }
+
+            return sb.reverse().toString();
+
+        } catch (FileNotFoundException e) {
+            Logger.error(e, e.getMessage());
+            return null;
+
+        } catch (IOException e) {
+            Logger.error(e, e.getMessage());
+            return null;
+
+        } finally {
+            if (fileHandler != null)
+                try {
+                    fileHandler.close();
+                } catch (IOException e) {
+                    Logger.error(e, e.getMessage());
+                }
+        }
+    }
+
+    public static String reverseLines(File file, int lines){
+        Logger.trace("file: {} lines: {}", file.toString(), lines);
+
+        ReversedLinesFileReader fr = null;
+        try {
+            fr = new ReversedLinesFileReader(file, Charset.defaultCharset());
+            StringBuilder sb = new StringBuilder();
+            int line = 0;
+            String string = fr.readLine();
+
+            while(string != null) {
+                string = fr.readLine();
+                sb.append(string);
+                line++;
+                if (line >= lines)
+                    break;
+            }
+
+            return sb.toString();
+
+        } catch (IOException e) {
+            Logger.error(e, e.getMessage());
+            return null;
+
+        }finally{
+            try {
+                Objects.requireNonNull(fr).close();
+            } catch (IOException e) {
+                Logger.error(e, e.getMessage());
+            }
+        }
+    }
+
 }

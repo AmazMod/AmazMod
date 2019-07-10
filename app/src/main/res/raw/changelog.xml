@@ -6,8 +6,8 @@
         <new>Option to hide heart rate chart</new>
         <new>Option to hide watch battery full alert</new>
         <new>Open files downloaded from watch directly in File Explorer</new>
+        <new>New overlay button on watch to launch notifications log</new>
         <bugfix>Download/Upload/Screenshot should be more stable</bugfix>
-        <bugfix>Widgets reorder fixes</bugfix>
         <bugfix>Small bug fixes/tweaks</bugfix>
         <info>Disabling battery chart now stops battery data requests</info>
         <info>Updated internal libs</info>
@@ -20,7 +20,6 @@
         <new>Migration to SDK28 (AndroidX libs)</new>
         <new>New dark theme (beta)</new>
         <new>New file picker (tap and hold to select multiple files)</new>
-        <new>New overlay button on watch to launch notifications log</new>
         <bugfix>Widgets reorder fixes</bugfix>
         <bugfix>Maps and messenger calls notifications work again</bugfix>
         <bugfix>Do not vibrate watch for alerts if Silence is enabled</bugfix>

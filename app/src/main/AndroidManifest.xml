@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
 
     <application
         android:name=".AmazModApplication"
@@ -33,22 +33,26 @@
             android:name=".ui.MainActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.AboutActivity"
+        <activity
+            android:name=".ui.AboutActivity"
+            android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:parentActivityName=".ui.MainActivity"
-            android:configChanges="orientation|screenSize" />
+            android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.TweakingActivity"
-            android:launchMode="singleTask"
-            android:parentActivityName=".ui.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.WatchfaceActivity"
             android:launchMode="singleTask"
             android:parentActivityName=".ui.MainActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.WatchfaceActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
+            android:parentActivityName=".ui.MainActivity" />
         <activity android:name=".ui.WidgetsActivity" />
-        <activity android:name=".ui.StatsActivity" />
+        <activity
+            android:name=".ui.StatsActivity"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".ui.SettingsActivity" />
         <activity android:name=".ui.NotificationPackagesSelectorActivity">
             <meta-data
@@ -63,10 +67,11 @@
             android:theme="@style/Theme.Intro" />
         <activity android:name=".ui.CheckPermissionsActivity" />
         <activity android:name=".ui.FilesExtrasActivity" />
-        <activity android:name=".ui.FileExplorerActivity"
+        <activity
+            android:name=".ui.FileExplorerActivity"
+            android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:parentActivityName=".ui.MainActivity"
-            android:configChanges="orientation|screenSize"/>
+            android:parentActivityName=".ui.MainActivity" />
         <activity android:name=".ui.NotificationRepliesDragActivity" />
         <activity
             android:name=".ui.CommandHistoryActivity"
@@ -75,9 +80,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.edotassi.amazmod.ui.TweakingActivity" />
         </activity>
-        <activity android:name=".ui.FileOpenerActivity"
-            android:launchMode="singleTask"
-            android:configChanges="orientation|screenSize">
+        <activity
+            android:name=".ui.FileOpenerActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask">
 
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
@@ -227,6 +233,7 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"

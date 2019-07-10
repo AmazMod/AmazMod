@@ -26,7 +26,8 @@ public class AmazModService extends Application {
         setupLogger();
 
         //EventBus.getDefault().init(this);
-        Logger.info("Tinylog configured debug: {} level: {}", Constants.DEBUG?"TRUE":"FALSE", level.toUpperCase());
+        Logger.info("Tinylog configured debug: {} level: {}",
+                (BuildConfig.VERSION_NAME.toLowerCase().contains("dev"))?"TRUE":"FALSE", level.toUpperCase());
 
         FlowManager.init(this);
         cleanOldBatteryDb();
@@ -57,8 +58,8 @@ public class AmazModService extends Application {
 
     private void setupLogger() {
         level = "error";
-        if (Constants.DEBUG)
-            level = Constants.DEBUG_LEVEL;
+        if (BuildConfig.VERSION_NAME.toLowerCase().contains("dev"))
+            level = "trace";
         //System.out.println("D/AmazMod AmazModService Tinylog configured debug: " + DEBUG + " level: " + level);
         Configuration.set("writerLogcat", "logcat");
         Configuration.set("writerLogcat.level", level);

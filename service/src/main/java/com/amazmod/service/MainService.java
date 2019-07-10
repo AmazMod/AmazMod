@@ -1535,11 +1535,12 @@ public class MainService extends Service implements Transporter.DataListener {
 
     private void saveDisconnectionLog() {
         if (BuildConfig.VERSION_NAME.contains("dev")) {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+            final int lines = settingsManager.getInt(Constants.PREF_LOG_LINES, Constants.PREF_DEFAULT_LOG_LINES);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
             String dateStamp = sdf.format(new Date());
             String filename = "/sdcard/disconnection_log_" + dateStamp + ".txt";
             Logger.error("**** Phone disconnected, saving log... *****");
-            new ExecCommand("adb shell logcat -d -t 256 -v long -f " + filename + ";adb kill-server;exit");
+            new ExecCommand("adb shell logcat -d -t " + String.valueOf(lines) + " -v long -f " + filename + ";adb kill-server;exit");
         }
     }
 

@@ -241,6 +241,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
         final int phoneBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_PHONE_ALERT,
                 Constants.PREF_DEFAULT_BATTERY_PHONE_ALERT));
+        final int logLines = Integer.parseInt(Prefs.getString(Constants.PREF_LOG_LINES_SHOWN,
+                Constants.PREF_LOG_LINES_SHOWN_DEFAULT));
 
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
@@ -274,6 +276,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setHeartrateData(heartrateData);
         settingsData.setBatteryWatchAlert(watchBatteryAlert);
         settingsData.setBatteryPhoneAlert(phoneBatteryAlert);
+        settingsData.setLogLines(logLines);
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override

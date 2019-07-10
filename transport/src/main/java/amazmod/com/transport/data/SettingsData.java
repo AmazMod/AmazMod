@@ -32,6 +32,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String AMAZMOD_HEARTRATE_DATA = "amazmod_heartrate_data";
     public static final String BATTERY_WATCH_ALERT = "battery_watch_alert";
     public static final String BATTERY_PHONE_ALERT = "battery_phone_alert";
+    public static final String LOG_LINES = "log_lines";
 
 
     private String replies;
@@ -55,6 +56,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean heartrateData;
     private int batteryWatchAlert;
     private int batteryPhoneAlert;
+    private int logLines;
 
     public SettingsData() {
     }
@@ -81,6 +83,7 @@ public class SettingsData extends Transportable implements Parcelable {
         overlayLauncher = in.readByte() != 0;
         batteryWatchAlert = in.readInt();
         batteryPhoneAlert = in.readInt();
+        logLines = in.readInt();
     }
 
     public static final Creator<SettingsData> CREATOR = new Creator<SettingsData>() {
@@ -116,8 +119,9 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
         dataBundle.putBoolean(AMAZMOD_OVERLAY_LAUNCHER, overlayLauncher);
         dataBundle.putBoolean(AMAZMOD_HEARTRATE_DATA, heartrateData);
-        dataBundle.putInt(BATTERY_WATCH_ALERT,batteryWatchAlert);
-        dataBundle.putInt(BATTERY_PHONE_ALERT,batteryPhoneAlert);
+        dataBundle.putInt(BATTERY_WATCH_ALERT, batteryWatchAlert);
+        dataBundle.putInt(BATTERY_PHONE_ALERT, batteryPhoneAlert);
+        dataBundle.putInt(LOG_LINES, logLines);
 
         return dataBundle;
     }
@@ -146,6 +150,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setHeartrateData(dataBundle.getBoolean(AMAZMOD_HEARTRATE_DATA));
         settingsData.setBatteryWatchAlert(dataBundle.getInt(BATTERY_WATCH_ALERT));
         settingsData.setBatteryPhoneAlert(dataBundle.getInt(BATTERY_PHONE_ALERT));
+        settingsData.setLogLines(dataBundle.getInt(LOG_LINES));
 
         return settingsData;
     }
@@ -285,6 +290,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.batteryPhoneAlert = batteryPhoneAlert;
     }
 
+    public int getLogLines() {
+        return logLines;
+    }
+
+    public void setLogLines(int logLines) {
+        this.logLines = logLines;
+    }
+
     public int getShakeToDismissGravity() {
         return shakeToDismissGravity;
     }
@@ -353,5 +366,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (heartrateData ? 1 : 0));
         dest.writeInt(batteryWatchAlert);
         dest.writeInt(batteryWatchAlert);
+        dest.writeInt(logLines);
     }
 }

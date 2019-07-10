@@ -2,10 +2,10 @@ package amazmod.com.transport;
 
 public class Constants {
 
+    public static final String TAG = "AmazMod";
     public static final String SERVICE_UPDATE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/version.json";
     public static final String SERVICE_UPDATE_FILE_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/master/service-releases/AmazMod-service-%d.apk";
     public static final String SERVICE_UPDATE_SCRIPT_URL = "https://raw.githubusercontent.com/edotassi/AmazMod/dev/app/update_service_apk.sh";
-    public static final String TAG = "AmazMod";
     public static final int CHUNK_SIZE = 4096 + 2048 + 2048;
     public static final String INITIAL_PATH = "/sdcard";
     public static final String DOWNLOAD_DIRECTORY = "AmazMod";
@@ -76,6 +76,8 @@ public class Constants {
     public static final boolean PREF_LOG_TO_FILE_DEFAULT = true;
     public static final String PREF_LOG_TO_FILE_LEVEL = "preference.logs.logtofile.level";
     public static final String PREF_LOG_TO_FILE_LEVEL_DEFAULT = "ERROR";
+    public static final String PREF_LOG_LINES_SHOWN = "preference.logs.lines.shown";
+    public static final String PREF_LOG_LINES_SHOWN_DEFAULT = "256";
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
     public static final Boolean PREF_NOTIFICATION_SCHEDULER_DEFAULT = false;
 

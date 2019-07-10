@@ -41,6 +41,7 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_HEARTRATE_DATA, settingsData.isHeartrateData());
         editor.putInt(Constants.PREF_BATTERY_WATCH_ALERT, settingsData.getBatteryWatchAlert());
         editor.putInt(Constants.PREF_BATTERY_PHONE_ALERT, settingsData.getBatteryPhoneAlert());
+        editor.putInt(Constants.PREF_LOG_LINES, settingsData.getLogLines());
 
         editor.apply();
     }

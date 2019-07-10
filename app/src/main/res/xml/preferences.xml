@@ -268,7 +268,6 @@
             android:key="preference.logs.logtofile"
             android:summary="@string/pref_log_to_file_summary"
             android:title="@string/pref_log_to_file" />
-
         <ListPreference
             android:defaultValue="ERROR"
             android:dependency="preference.logs.logtofile"
@@ -278,10 +277,20 @@
             android:key="preference.logs.logtofile.level"
             android:summary="@string/pref_log_to_file_level_summary"
             android:title="@string/pref_log_to_file_level" />
+        <ListPreference
+            android:defaultValue="256"
+            android:dependency="preference.logs.logtofile"
+            android:dialogTitle="@string/pref_log_lines_shown"
+            android:entries="@array/pref_log_lines_entries"
+            android:entryValues="@array/pref_log_lines_entries"
+            android:key="preference.logs.lines.shown"
+            android:summary="@string/pref_log_lines_shown_summary"
+            android:title="@string/pref_log_lines_shown" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/others"
-        android:key="preference.others">
+    <PreferenceCategory
+        android:key="preference.others"
+        android:title="@string/others">
         <!-- Disabled
         <SwitchPreference
             android:defaultValue="false"

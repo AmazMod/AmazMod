@@ -1,15 +1,17 @@
 package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Formatter;
 import android.text.method.ScrollingMovementMethod;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
+import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -32,6 +35,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
@@ -42,6 +46,7 @@ import org.tinylog.Logger;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -71,6 +76,8 @@ public class StatsActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_stats_main_container)
     View statsMainContainer;
+    @BindView(R.id.activity_stats_root_layout)
+    ScrollView rootLayout;
     @BindView(R.id.activity_stats_progress)
     MaterialProgressBar materialProgressBar;
     @BindView(R.id.activity_stats_notifications_last_hour)
@@ -100,6 +107,7 @@ public class StatsActivity extends BaseAppCompatActivity {
         return true;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,6 +150,25 @@ public class StatsActivity extends BaseAppCompatActivity {
                         // do something
                     }
                 });
+
+        //Make text scrollable inside ScrollView if needed
+        logsContentEditText.setMovementMethod(new ScrollingMovementMethod());
+        rootLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                logsContentEditText.getParent().requestDisallowInterceptTouchEvent(false);
+                return false;
+            }
+        });
+
+        logsContentEditText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                logsContentEditText.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
     }
 
     @Override
@@ -170,7 +197,7 @@ public class StatsActivity extends BaseAppCompatActivity {
             logsContentEditText.setText("");
             FileWriter fw = new FileWriter(logFile,false);
         }catch (IOException e){
-            Logger.error(e,"clearLogs: can't empty file " + logFile);
+            Logger.error(e,"clearLogs: can't empty file: {}", logFile);
         }
 
     }
@@ -203,26 +230,31 @@ public class StatsActivity extends BaseAppCompatActivity {
 
     }
 
-    private void loadLogs(){
-        try {
-            // How to read file into String before Java 7
-            InputStream is = new FileInputStream(logFile);
-            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-
-            String line = buf.readLine();
-            StringBuilder sb = new StringBuilder();
-
-            while (line != null) {
-                sb.append(line).append("\n");
-                line = buf.readLine();
-            }
-
-            String fileAsString = sb.toString();
-            logsContentEditText.setText(fileAsString);
-            logsContentEditText.setMovementMethod(new ScrollingMovementMethod());
-        } catch (IOException e){
-            Logger.error(e, "loadLogs: Cant read file " + logFile);
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            rootLayout.setEnabled(false);
+            logsContentEditText.setLines(16);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            rootLayout.setEnabled(true);
+            logsContentEditText.setLines(12);
         }
+    }
+
+    private void loadLogs(){
+
+        final int lines = Integer.parseInt(Prefs.getString(Constants.PREF_LOG_LINES_SHOWN,
+                Constants.PREF_LOG_LINES_SHOWN_DEFAULT));
+        Logger.trace("lines: {}", lines);
+
+        final String log = FilesUtil.reverseLines(new File(logFile), lines);
+        if (log != null) {
+            logsContentEditText.setText(log);
+            logsContentEditText.setMovementMethod(new ScrollingMovementMethod());
+        } else
+            Logger.error("error reading log file");
+
     }
 
     @SuppressLint("CheckResult")
