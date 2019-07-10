@@ -360,6 +360,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_battery_full_alert_summary">Értesítés megjelenítése, ha az akkumulátor teljesen fel van töltve.</string>
     <string name="pref_heartrate_chart">Pulzusszám diagram</string>
     <string name="pref_heartrate_chart_summary">A pulzusszám diagram megjelenítése az AmazMod főképernyőjén.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
+    <string name="pref_log_lines_shown">Megjelenítendő napló sorok</string>
+    <string name="pref_log_lines_shown_summary">A Naplók nézetben megjelenő szövegsorok száma.</string>
 </resources>

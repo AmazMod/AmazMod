@@ -358,6 +358,6 @@
     <string name="pref_battery_full_alert_summary">קבלת התראה כשסוללת השעון טעונה במלואה.</string>
     <string name="pref_heartrate_chart">גרף דופק</string>
     <string name="pref_heartrate_chart_summary">הצגת גרף דופק במסך הראשי של AmazMod.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
+    <string name="pref_log_lines_shown">כמות שורות מוצגות</string>
+    <string name="pref_log_lines_shown_summary">כמות שורות מוצגות בתצוגת הלוגים.</string>
 </resources>

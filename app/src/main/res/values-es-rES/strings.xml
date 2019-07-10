@@ -359,6 +359,6 @@
     <string name="pref_battery_full_alert_summary">Recibir una notificación cuando el reloj está completamente cargado.</string>
     <string name="pref_heartrate_chart">Gráfica de ritmo cardíaco</string>
     <string name="pref_heartrate_chart_summary">Mostrar la gráfica del ritmo cardíaco en la pantalla principal de AmazMod.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
+    <string name="pref_log_lines_shown">Líneas de registro mostradas</string>
+    <string name="pref_log_lines_shown_summary">Número de líneas de texto mostradas en la vista de Registros.</string>
 </resources>
