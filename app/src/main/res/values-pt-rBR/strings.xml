@@ -4,7 +4,7 @@
     <string name="settings">Configurações</string>
     <string name="notifications">Notificações enviadas</string>
     <string name="notifications_options">Opções de notificações</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Gráficos</string>
     <string name="customui">Opções de Notificações de UI Personalizadas</string>
     <string name="others">Outros</string>
     <string name="other">Outro</string>
@@ -92,7 +92,7 @@
     <string name="pref_enable_notifications">Notificações por push</string>
     <string name="pref_filter_notifications_by_packages">Filtrar por apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Apenas notificações destes apps serão enviadas para o relógio.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Intervalo de sincronização em segundo plano da bateria</string>
     <string name="pref_battery_background_sync_interval_summary">Definir intervalo de sincronização de bateria em segundo plano.</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Defina o intervalo do gráfico de bateria.</string>
