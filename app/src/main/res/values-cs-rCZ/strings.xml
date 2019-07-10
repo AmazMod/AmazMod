@@ -360,4 +360,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_battery_full_alert_summary">Dostat oznámení, když budou hodinky plně nabity.</string>
     <string name="pref_heartrate_chart">Graf tepové frekvence</string>
     <string name="pref_heartrate_chart_summary">Zobrazit graf tepové frekvence na hlavní obrazovce AmazModu.</string>
+    <string name="pref_log_lines_shown">Log lines shown</string>
+    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
 </resources>
