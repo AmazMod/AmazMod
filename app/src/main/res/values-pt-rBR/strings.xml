@@ -358,4 +358,6 @@
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
     <string name="pref_heartrate_chart">Heart rate chart</string>
     <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
+    <string name="pref_log_lines_shown">Log lines shown</string>
+    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
 </resources>
