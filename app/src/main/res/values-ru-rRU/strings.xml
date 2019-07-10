@@ -358,6 +358,6 @@
     <string name="pref_battery_full_alert_summary">Включить уведомление о полной зарядке батареи часов.</string>
     <string name="pref_heartrate_chart">График пульса</string>
     <string name="pref_heartrate_chart_summary">Показывать график пульса на главном экране AmazMod.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
+    <string name="pref_log_lines_shown">Показаны строки журнала</string>
+    <string name="pref_log_lines_shown_summary">Количество строк текста, отображаемых в окне журналов.</string>
 </resources>
