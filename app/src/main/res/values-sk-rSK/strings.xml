@@ -359,6 +359,6 @@ Urobte príkaz shell \"</string>
     <string name="pref_battery_full_alert_summary">Zobraziť upozornenie, keď je batéria plne nabitá.</string>
     <string name="pref_heartrate_chart">Graf tepu</string>
     <string name="pref_heartrate_chart_summary">Zobraziť graf tepu v AmazMod hlavnej obrazovke.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
+    <string name="pref_log_lines_shown">Zobrazené riadky logu</string>
+    <string name="pref_log_lines_shown_summary">Počet riadkov textu zobrazených v zobrazení Logu.</string>
 </resources>
