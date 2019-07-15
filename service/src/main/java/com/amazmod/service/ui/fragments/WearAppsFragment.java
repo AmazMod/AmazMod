@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.RemoteException;
 import android.support.wearable.view.WearableListView;
 import android.text.format.Formatter;
@@ -33,12 +32,9 @@ import android.widget.Toast;
 
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.AppInfoAdapter;
-import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.util.ExecCommand;
-import com.huami.watch.transport.DataBundle;
 
-import org.greenrobot.eventbus.EventBus;
 import org.tinylog.Logger;
 
 import java.lang.reflect.Method;
@@ -67,14 +63,14 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     private TextView mHeader, appName, appPackage, appVersion, appSize;
     private ImageView appIcon;
     private ProgressBar progressBar;
-    private boolean isAmazModUninstall = false;
 
     private Context mContext;
 
     private List<AppInfo> appInfoList;
     private AppInfoAdapter mAdapter;
 
-    private static int appChosen = 0;
+    private int appChosen = 0;
+    private boolean isAmazModUninstall;
 
     private final int UNINSTALL_REQUEST_CODE = 1;
     private static final String REFRESH = "Refresh";
@@ -360,8 +356,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                     });
         } catch (Exception ex) {
             appInfo.setSize("Unknown Size");
-            Logger.error("WearAppsFragment createAppInfo NoSuchMethodException");
-            ex.printStackTrace();
+            Logger.error(ex,"WearAppsFragment createAppInfo exception: {}", ex.getMessage());
         }
 
         return appInfo;
@@ -392,13 +387,11 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         }
         System.err.println("old sdk");
         return false; */
-        //Check if was AmazMod and revoke Device Admin (now is set to show a toast to remember to do manually)
-        isAmazModUninstall = false;
-        if (packageName.contains ("com.amazmod.service")) {
-            //EventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
-            Toast.makeText(mContext, "Remember to revoke \"Device Admin\" before uninstall AmazMod",Toast.LENGTH_LONG).show();
+
+        //Check if was package is AmazMod service
+        if (packageName.equals("com.amazmod.service"))
             isAmazModUninstall = true;
-        }
+
         Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
         intent.setData(Uri.parse("package:" + packageName));
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
@@ -407,14 +400,15 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Logger.trace("appChosen: {}, resultCode: {}", appChosen, resultCode);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Logger.debug("WearAppsFragment onActivityResult RESULT_OK appChosen: " + appChosen);
+                Logger.trace("WearAppsFragment onActivityResult RESULT_OK");
                 Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + "uninstalled successfully!", Toast.LENGTH_SHORT).show();
                 scrollView.post(new Runnable() {
                     public void run() {
-                        Logger.debug("WearAppsFragment onActivityResult scrollToTop");
+                        Logger.trace("WearAppsFragment onActivityResult scrollToTop");
                         //scrollView.fullScroll(scrollView.FOCUS_UP);
                         scrollView.scrollTo(0, scrollView.getTop());
                     }
@@ -424,15 +418,16 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 mAdapter.notifyDataSetChanged();
                 hideAppInfo();
                 appChosen = 0;
+
             } else if (resultCode == RESULT_CANCELED) {
-                /* Enable again Admin Right if you cancel AmazMod uninstall
-                if (isAmazModUninstall = true) {
-                    new ExecCommand(ExecCommand.ADB, "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver");
-                    isAmazModUninstall = false;
-                }*/
-                Logger.debug("WearAppsFragment onActivityResult RESULT_CANCELED");
+                Logger.trace("WearAppsFragment onActivityResult RESULT_CANCELED");
+
             } else if (resultCode == RESULT_FIRST_USER) {
-                Logger.debug("WearAppsFragment onActivityResult RESULT_FIRST_USER");
+                Logger.trace("WearAppsFragment onActivityResult RESULT_FIRST_USER");
+                if (isAmazModUninstall) {
+                    Toast.makeText(mContext, "Please first revoke \"Device Admin\" before uninstalling AmazMod", Toast.LENGTH_LONG).show();
+                    isAmazModUninstall = false;
+                }
             }
         }
     }

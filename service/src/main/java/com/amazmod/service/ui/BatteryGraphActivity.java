@@ -40,7 +40,10 @@ import org.tinylog.Logger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class BatteryGraphActivity extends ListActivity {
 
@@ -97,8 +100,14 @@ public class BatteryGraphActivity extends ListActivity {
                         }
                     }, 1000);
                 }
+                return true;
+            }
+        });
 
-                return false;
+        batteryValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimeSinceLastCharge();
             }
         });
 
@@ -426,7 +435,7 @@ public class BatteryGraphActivity extends ListActivity {
 
         @Override
         protected void drawLabel(Canvas c, String formattedLabel, float x, float y, MPPointF anchor, float angleDegrees) {
-            String line[] = formattedLabel.split("\n");
+            String[] line = formattedLabel.split("\n");
             if (line.length > 0) {
                 Utils.drawXAxisValue(c, line[0], x, y, mAxisLabelPaint, anchor, angleDegrees);
 
@@ -435,6 +444,37 @@ public class BatteryGraphActivity extends ListActivity {
                 }
             }
         }
+    }
+
+    private void showTimeSinceLastCharge() {
+        widgetSettings.reload();
+        //Get date of last full charge
+        long lastChargeDate = widgetSettings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+
+        StringBuilder dateDiff = new StringBuilder("");
+        if (lastChargeDate != 0L) {
+            long diffInMillies = System.currentTimeMillis() - lastChargeDate;
+            List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+            Collections.reverse(units);
+            long millisRest = diffInMillies;
+            for (TimeUnit unit : units) {
+                long diff = unit.convert(millisRest, TimeUnit.MILLISECONDS);
+                long diffInMilliesForUnit = unit.toMillis(diff);
+                millisRest = millisRest - diffInMilliesForUnit;
+                if (unit.equals(TimeUnit.DAYS)) {
+                    dateDiff.append(diff).append("d : ");
+                } else if (unit.equals(TimeUnit.HOURS)) {
+                    dateDiff.append(diff).append("h : ");
+                } else if (unit.equals(TimeUnit.MINUTES)) {
+                    dateDiff.append(diff).append("min");
+                    break;
+                }
+            }
+            dateDiff.append("\n").append(mContext.getResources().getText(R.string.last_charge));
+        } else dateDiff.append(mContext.getResources().getText(R.string.last_charge_no_info));
+
+        final String timeSLC = dateDiff.toString();
+        Toast.makeText(mContext, timeSLC, Toast.LENGTH_LONG).show();
     }
 
 }
