@@ -1534,8 +1534,8 @@ public class MainService extends Service implements Transporter.DataListener {
     }
 
     private void saveDisconnectionLog() {
-        if (BuildConfig.VERSION_NAME.contains("dev")) {
-            final int lines = settingsManager.getInt(Constants.PREF_LOG_LINES, Constants.PREF_DEFAULT_LOG_LINES);
+        final int lines = settingsManager.getInt(Constants.PREF_LOG_LINES, Constants.PREF_DEFAULT_LOG_LINES);
+        if (BuildConfig.VERSION_NAME.contains("dev") && lines > 128) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
             String dateStamp = sdf.format(new Date());
             String filename = "/sdcard/disconnection_log_" + dateStamp + ".txt";

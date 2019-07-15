@@ -31,7 +31,7 @@ public class Constants {
 
 
     public static final String FILE_LOG_BUNDLE = "/sdcard/log_bundle.log.gz";
-    public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d | gzip > " + FILE_LOG_BUNDLE;
+    public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d -v long | gzip > " + FILE_LOG_BUNDLE;
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
