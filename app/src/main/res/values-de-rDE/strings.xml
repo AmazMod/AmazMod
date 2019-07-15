@@ -4,7 +4,7 @@
     <string name="settings">Einstellungen</string>
     <string name="notifications">Benachrichtigungen versendet</string>
     <string name="notifications_options">Benachrichtigungsoptionen</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Diagramme</string>
     <string name="customui">Benutzerdefinierte Benachrichtigungsoptionen</string>
     <string name="others">Sonstiges</string>
     <string name="other">Sonstiges</string>
@@ -92,14 +92,14 @@
     <string name="pref_enable_notifications">Push Benachrichtigungen</string>
     <string name="pref_filter_notifications_by_packages">Ausgewählte Apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Nur Benachrichtigungen von diesen Apps werden zur Uhr gesendet.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Zeitspanne für Akku-Synchronisation im Hintergrund</string>
     <string name="pref_battery_background_sync_interval_summary">Intervall für Batterie-Synchronisation im Hintergrund festlegen</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Zeitbereich für Akkudiagramm festlegen.</string>
     <string name="pref_battery_watch_alert">Uhr-Akku Alarm</string>
     <string name="pref_battery_watch_alert_summary">Ladezustand des Uhr-Akku für Benachrichtigung festlegen.</string>
     <string name="pref_battery_phone_alert">Telefon-Akku Alarm</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Akku-Ladestand des Telefons einstellen, um Benachrichtigungen an der Uhr zu erhalten. GreatFit/Kalendar Option \"Sende Telefondaten\" muss aktiviert sein.</string>
     <string name="pref_notifications_replies_summary">Geben Sie Ihre benutzerdefinierte Antworten ein.</string>
     <string name="pref_notifications_replies">Nachrichten beantworten</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well).</string>

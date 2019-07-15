@@ -2,9 +2,11 @@ package com.amazmod.service.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.SupplicantState;
@@ -314,7 +316,6 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START:
-            case MENU_START + 1:
             case MENU_START + 2:
             case MENU_START + 3:
             case MENU_START + 4:
@@ -323,6 +324,16 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             case MENU_START + 7:
             case MENU_START + 8:
                 beginCountdown();
+                break;
+            case MENU_START + 1:
+                new AlertDialog.Builder(getActivity())
+                        .setMessage("Are you sure? This is the low power mode enabled automatically at 5% of battery. If you enable manually, remember you need to reboot watch to disable it using long press of power button")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null).show();
                 break;
 
             case MENU_START + 9:
@@ -470,10 +481,17 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 }, 1000);
                 break;
 
-            case MENU_START + 1:
-                EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+/*            case MENU_START + 1:
+                new AlertDialog.Builder(getActivity())
+                    .setMessage("Are you sure? This is the low power mode enabled automatically at 5% of battery. If you enable manually, remember you need to reboot watch to disable it using long press of power button")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                     public void onClick(DialogInterface dialog, int whichButton) {
+                        EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                        }
+                    })
+                .setNegativeButton(android.R.string.no, null).show();
                 break;
-
+*/
             case MENU_START + 2:
                 EventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
                 break;
