@@ -345,8 +345,8 @@
     <string name="product_name">Nazwa produktu</string>
     <string name="serial_number">Nr seryjny</string>
     <string name="build_id">Build display id</string>
-    <string name="build_model">Build Huami model</string>
-    <string name="build_description">Build description</string>
+    <string name="build_model">Build model Huami</string>
+    <string name="build_description">Opis kompilacji</string>
     <string name="rename_folder">Rename Folder</string>
     <string name="rename_file">Rename File</string>
     <string name="type_file_name">Type File Name</string>
