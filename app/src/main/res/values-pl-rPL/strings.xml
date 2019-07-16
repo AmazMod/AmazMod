@@ -4,7 +4,7 @@
     <string name="settings">Ustawienia</string>
     <string name="notifications">Wyślij powiadomienia</string>
     <string name="notifications_options">Ustawienia powiadomień</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Wykresy</string>
     <string name="customui">Niestandardowy interfejs opcje powiadomień</string>
     <string name="others">Inne</string>
     <string name="other">Inne</string>
@@ -92,9 +92,9 @@
     <string name="pref_enable_notifications">Wyskakujące powiadomienia</string>
     <string name="pref_filter_notifications_by_packages">Wybrane aplikacje</string>
     <string name="pref_filter_notifications_by_packages_summary">Powiadomienia z tych aplikacji będą wysyłane na zegarek.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Odstęp synchronizacji baterii w tle</string>
     <string name="pref_battery_background_sync_interval_summary">Ustaw interwał synchronizacji baterii w tle.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
+    <string name="pref_battery_chart_time_interval">Zakres czasowy wykresu baterii</string>
     <string name="pref_battery_chart_time_interval_summary">Ustawienia wyświetlania zakresu czasu baterii.</string>
     <string name="pref_battery_watch_alert">Ostrzeżenie o stanie baterii w zegarku</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
@@ -314,7 +314,7 @@
     <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
     <string name="pref_notifications_enable_images">Pokaż Zdjęcia</string>
     <string name="pref_notifications_enable_images_summary">Show Notification Images.</string>
-    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart">Wykres baterii</string>
     <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">Dzienniki</string>
     <string name="pref_log_to_file">Dziennik do pliku</string>
@@ -347,9 +347,9 @@
     <string name="build_id">Build display id</string>
     <string name="build_model">Build model Huami</string>
     <string name="build_description">Opis kompilacji</string>
-    <string name="rename_folder">Rename Folder</string>
-    <string name="rename_file">Rename File</string>
-    <string name="type_file_name">Type File Name</string>
+    <string name="rename_folder">Zmień nazwę Folderu</string>
+    <string name="rename_file">Zmień Nazwę</string>
+    <string name="type_file_name">Wpisz Nazwę Pliku</string>
     <string name="new_folder">Nowy folder</string>
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
