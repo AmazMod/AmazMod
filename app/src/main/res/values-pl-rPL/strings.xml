@@ -97,7 +97,7 @@
     <string name="pref_battery_chart_time_interval">Zakres czasowy wykresu baterii</string>
     <string name="pref_battery_chart_time_interval_summary">Ustawienia wyświetlania zakresu czasu baterii.</string>
     <string name="pref_battery_watch_alert">Ostrzeżenie o stanie baterii w zegarku</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Ustaw poziom naładowania baterii zegarka, poniżej którego otrzymasz powiadomienie.</string>
     <string name="pref_battery_phone_alert">Ostrzeżenie o stanie baterii w telefonie</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Wprowadź swoje odpowiedzi.</string>
