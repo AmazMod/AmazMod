@@ -119,24 +119,11 @@ public class DeviceUtil {
             // Is SuperUser
             Logger.debug("Enabling APK_INSTALL WAKELOCK");
             new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
-            /* Deprecated
-            try {
-                Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock;exit");
-            } catch (IOException e) {
-                Logger.error(e, "onCreate: IOException while enabling APK_INSTALL WAKELOCK");
-            }
-            */
+
         } else {
             // Is Stock user
             Logger.debug("Set screen timeout to 3 min to install update");
             new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
-            /* Deprecated
-            try {
-                Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000;exit");
-            } catch (IOException e) {
-                Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
-            }
-            */
         }
 
         int sessionId = 0;
@@ -258,24 +245,11 @@ public class DeviceUtil {
                 // Is SuperUser
                 Logger.debug("Enabling APK_INSTALL WAKELOCK");
                 new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
-                /* Deprecated
-                try {
-                    Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_lock;exit");
-                } catch (IOException e) {
-                    Logger.error(e, "onCreate: IOException while enabling APK_INSTALL WAKELOCK");
-                }
-                */
+
             } else {
                 // Is Stock user
                 Logger.debug("Set screen timeout to 3 min to install update");
                 new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
-                /* Deprecated
-                try {
-                    Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 200000;exit");
-                } catch (IOException e) {
-                    Logger.error(e, "onCreate: IOException while set screen timeout to 3 min");
-                }
-                */
             }
         } else
             Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
@@ -286,7 +260,7 @@ public class DeviceUtil {
             wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
                     | PowerManager.ACQUIRE_CAUSES_WAKEUP
                     | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
-            wakeLock.acquire(10 * 60 * 1000L /* 10min */);
+            wakeLock.acquire(6 * 60 * 1000L /* 6min */);
         } else
             Logger.error("installApkAdb null PowerManager!");
 
@@ -304,10 +278,6 @@ public class DeviceUtil {
         } catch (IOException e) {
             Logger.error(e, "installApkAdb IOException: " + e.getMessage());
         }
-
-        if (wakeLock != null && wakeLock.isHeld())
-            wakeLock.release();
-
         Logger.debug("installApkAdb finished");
     }
 
