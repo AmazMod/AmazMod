@@ -4,7 +4,7 @@
     <string name="settings">設定</string>
     <string name="notifications">已發送通知</string>
     <string name="notifications_options">通知選項</string>
-    <string name="charts">Charts</string>
+    <string name="charts">圖表</string>
     <string name="customui">自訂 UI 通知選項</string>
     <string name="others">其他</string>
     <string name="other">其它</string>
@@ -37,7 +37,7 @@
     <string name="file_not_exists">檔案不存在</string>
     <string name="cant_uplaod_directory">無法上傳目錄</string>
     <string name="sending">傳送中</string>
-    <string name="wait">please wait</string>
+    <string name="wait">請稍候</string>
     <string name="cant_upload_file">檔案無法上傳</string>
     <string name="cant_download_file">檔案無法下載</string>
     <string name="file_upload_canceled">檔案上傳已取消</string>
@@ -71,8 +71,8 @@
     <string name="telegram_channel">Telegram 頻道</string>
     <string name="support_email">支援電子郵件</string>
     <string name="project_github">在 GitHub 上的專案</string>
-    <string name="activity_about_project_maintainer">Project Maintainer</string>
-    <string name="activity_about_devs">Developers</string>
+    <string name="activity_about_project_maintainer">專案維護人員</string>
+    <string name="activity_about_devs">開發人員</string>
     <string name="activity_about_testers">測試人員</string>
     <string name="translators">翻譯人員</string>
     <string name="activity_watchface_need_greatfit">為了使這些選項生效，您需要在手錶端安裝 \"GreatFit\" 錶盤</string>
@@ -314,7 +314,7 @@
     <string name="pref_notifications_show_large_icon">顯示大圖示</string>
     <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
     <string name="pref_notifications_enable_images">顯示圖片</string>
-    <string name="pref_notifications_enable_images_summary">Show Notification Images.</string>
+    <string name="pref_notifications_enable_images_summary">顯示通知圖示.</string>
     <string name="pref_battery_chart">Battery chart</string>
     <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">日誌</string>
@@ -328,7 +328,7 @@
     <string name="notification_watch_charged_description">手錶充滿電了! 現在您可以將其從充電底座上拔下。</string>
     <string name="statsandlogs">Stats / Logs</string>
     <string name="clear_log">Clear Log</string>
-    <string name="send_log">Send Log</string>
+    <string name="send_log">傳送日誌</string>
     <string name="battery_optimization_warning">AmazMod is under battery optimization. We recommend removing it from there so no notifications are lost.</string>
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
