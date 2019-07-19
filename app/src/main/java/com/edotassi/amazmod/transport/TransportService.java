@@ -40,11 +40,20 @@ import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
 
+import org.apache.commons.io.IOUtils;
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tinylog.Logger;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -152,16 +161,26 @@ public class TransportService extends Service implements Transporter.DataListene
         Object event = dataToClass(transportDataItem);
 
         if (action != null) {
-            TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
-            if (taskCompletionSourcePendingResult != null) {
-                Logger.trace("taskCompletionSourcePendingResult not null");
-                pendingResults.remove(action);
-                taskCompletionSourcePendingResult.setResult(event);
-                Logger.trace("taskCompletionSourcePendingResult removed");
+
+            if (action.equals(Transport.HTTP_REQUEST)) {
+                //Never try if it's a watch (someone made an error)
+                if (!Build.BRAND.equals("Huami"))
+                    processHTTPRequest(transportDataItem);
+
             } else {
-                Logger.trace("sending EventBus event");
-                EventBus.getDefault().post(event);
+
+                TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
+                if (taskCompletionSourcePendingResult != null) {
+                    Logger.trace("taskCompletionSourcePendingResult not null");
+                    pendingResults.remove(action);
+                    taskCompletionSourcePendingResult.setResult(event);
+                    Logger.trace("taskCompletionSourcePendingResult removed");
+                } else {
+                    Logger.trace("sending EventBus event");
+                    EventBus.getDefault().post(event);
+                }
             }
+
         } else {
             //TODO handle null action
             Logger.error("TransportService onDataReceived null action!");
@@ -592,5 +611,68 @@ public class TransportService extends Service implements Transporter.DataListene
         public TransportService getService() {
             return TransportService.this;
         }
+    }
+
+    private void processHTTPRequest(TransportDataItem item) {
+        //Send pingback immediately to let the app know it's being handled
+        sendWithTransporterAmazMod(Transport.HTTP_PINGBACK, item.getData());
+        //Get data
+        DataBundle dataBundle = item.getData();
+        try {
+            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(dataBundle.getString("url")).openConnection();
+            httpURLConnection.setInstanceFollowRedirects(dataBundle.getBoolean("followRedirects"));
+            httpURLConnection.setRequestMethod(dataBundle.getString("requestMethod"));
+            httpURLConnection.setUseCaches(dataBundle.getBoolean("useCaches"));
+            httpURLConnection.setDoInput(dataBundle.getBoolean("doInput"));
+            httpURLConnection.setDoOutput(dataBundle.getBoolean("doOutput"));
+            try {
+                JSONArray headers = new JSONArray(dataBundle.getString("requestHeaders"));
+                for (int x = 0; x < headers.length(); x++) {
+                    JSONObject header = headers.getJSONObject(x);
+                    httpURLConnection.setRequestProperty(header.getString("key"), header.getString("value"));
+                }
+            } catch (JSONException e) {
+                Logger.error(e, "exception: {}", e.getMessage());
+            }
+            httpURLConnection.connect();
+            if (httpURLConnection.getInputStream() != null) {
+                byte[] inputStream = IOUtils.toByteArray(httpURLConnection.getInputStream());
+                if (inputStream != null)
+                    dataBundle.putByteArray("inputStream", inputStream);
+            }
+            if (httpURLConnection.getErrorStream() != null) {
+                byte[] errorStream = IOUtils.toByteArray(httpURLConnection.getErrorStream());
+                if (errorStream != null)
+                    dataBundle.putByteArray("errorStream", errorStream);
+            }
+            dataBundle.putString("responseMessage", httpURLConnection.getResponseMessage());
+            dataBundle.putInt("responseCode", httpURLConnection.getResponseCode());
+            dataBundle.putString("responseHeaders", mapToJSON(httpURLConnection.getHeaderFields()).toString());
+            //Return the data
+            sendWithTransporterAmazMod(Transport.HTTP_RESULT, dataBundle);
+            httpURLConnection.disconnect();
+        } catch (IOException e) {
+            Logger.error(e, "exception: {}", e.getMessage());
+        }
+    }
+
+    private JSONArray mapToJSON(Map<String, List<String>> input) {
+        JSONArray headers = new JSONArray();
+        for (String key : input.keySet()) {
+            JSONObject item = new JSONObject();
+            try {
+                item.put("key", key);
+                List<String> items = input.get(key);
+                JSONArray itemsArray = new JSONArray();
+                for (String itemValue : items) {
+                    itemsArray.put(itemValue);
+                }
+                item.put("value", itemsArray);
+            } catch (Exception e) {
+                Logger.error(e, "exception: {}", e.getMessage());
+            }
+            headers.put(item);
+        }
+        return headers;
     }
 }
