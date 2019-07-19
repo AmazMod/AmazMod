@@ -8,6 +8,7 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 
 import com.amazmod.service.Constants;
+import com.amazmod.service.MainService;
 import com.amazmod.service.ui.DummyActivity;
 
 import org.tinylog.Logger;
@@ -95,6 +96,8 @@ public class PackageReceiver extends BroadcastReceiver {
 
         if (wakeLock != null && wakeLock.isHeld())
             wakeLock.release();
+
+        MainService.apkInstallFinish();
 
         Logger.debug("PackageReceiver showInstallConfirmation app_tag: " + app_tag);
     }

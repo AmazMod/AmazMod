@@ -225,10 +225,10 @@ public class DeviceUtil {
 
     }
 
-    public static void installApkAdb(Context context, File apk, boolean isReboot) {
+    public static PowerManager.WakeLock installApkAdb(Context context, File apk, boolean isReboot) {
         if(!apk.exists()){
             Logger.error("File not found");
-            return;
+            return null;
         }
 
         PackageReceiver.setIsAmazmodInstall(true);
@@ -260,7 +260,7 @@ public class DeviceUtil {
             wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
                     | PowerManager.ACQUIRE_CAUSES_WAKEUP
                     | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
-            wakeLock.acquire(6 * 60 * 1000L /* 6min */);
+            wakeLock.acquire(10 * 60 * 1000L /* 10min */);
         } else
             Logger.error("installApkAdb null PowerManager!");
 
@@ -278,7 +278,9 @@ public class DeviceUtil {
         } catch (IOException e) {
             Logger.error(e, "installApkAdb IOException: " + e.getMessage());
         }
+
         Logger.debug("installApkAdb finished");
+        return wakeLock;
     }
 
     public static File copyScriptFile(Context context, String fileName) {

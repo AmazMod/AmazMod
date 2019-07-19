@@ -183,6 +183,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private boolean watchBatteryAlreadyAlerted;
     private boolean phoneBatteryAlreadyAlerted;
     private float batteryPct;
+    private static PowerManager.WakeLock myWakeLock;
 
     @Override
     public void onCreate() {
@@ -976,7 +977,7 @@ public class MainService extends Service implements Transporter.DataListener {
                                 }
                                 else
                                 showConfirmationWearActivity("Installing APK", "0");
-                                DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
+                                myWakeLock = DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
 
                             } else {
                                 code = -1;
@@ -1566,5 +1567,10 @@ public class MainService extends Service implements Transporter.DataListener {
 
     public static void setIsNotification(boolean bol) {
         notificationArrived = bol;
+    }
+
+    public static void apkInstallFinish() {
+        if (myWakeLock != null && myWakeLock.isHeld())
+            myWakeLock.release();
     }
 }
