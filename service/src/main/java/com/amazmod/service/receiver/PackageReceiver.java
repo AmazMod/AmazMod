@@ -17,14 +17,14 @@ import java.io.File;
 
 public class PackageReceiver extends BroadcastReceiver {
     
-    private static boolean isAmazmodInstall = false;
+    private static boolean isAmazModInstall = false;
 
-    public static boolean isAmazmodInstall() {
-        return isAmazmodInstall;
+    public static boolean isAmazModInstall() {
+        return isAmazModInstall;
     }
 
-    public static void setIsAmazmodInstall(boolean flag) {
-        PackageReceiver.isAmazmodInstall = flag;
+    public static void setIsAmazModInstall(boolean flag) {
+        PackageReceiver.isAmazModInstall = flag;
     }
 
     @Override
@@ -57,9 +57,9 @@ public class PackageReceiver extends BroadcastReceiver {
             //Restart launcher if another APK is installed using AmazMod
             if (action.contains("PACKAGE_REPLACED") || action.contains("PACKAGE_ADDED")) {
                 if (intent.getDataString() != null) {
-                    if (isAmazmodInstall()) {
+                    if (isAmazModInstall()) {
                         showInstallConfirmation(mContext, Constants.OTHER_APP);
-                        setIsAmazmodInstall(false);
+                        setIsAmazModInstall(false);
                     }
                 }
             }
@@ -76,7 +76,7 @@ public class PackageReceiver extends BroadcastReceiver {
         if (pm != null) {
             wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
                     | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                    | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
+                    | PowerManager.ON_AFTER_RELEASE, "AmazMod:PackageReceiver");
             if (!wakeLock.isHeld())
                 wakeLock.acquire(5 * 1000L /* 5 seconds */);
         } else

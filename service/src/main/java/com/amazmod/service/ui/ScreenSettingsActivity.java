@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
@@ -34,7 +33,6 @@ public class ScreenSettingsActivity extends Activity {
     Spinner densitySpinner, fontSpinner, invertedSpinner;
 
     private Context mContext;
-    private Handler mHandler;
     private Vibrator mVibrator;
 
     private int densityChosen, fontSizeChosen, invertedChoosen;
@@ -48,12 +46,12 @@ public class ScreenSettingsActivity extends Activity {
                                 "(0.90f)", "(1.00f)", "(1.18f)", "(1.30f)",
                                 "(Off)", "(On)"};
 
-    private static final String[] DENSITY_COMMANDS = {  "wm density reset; wm size reset;exit",
-                                                        "wm density 258;exit",
-                                                        "wm density 148;exit"};
+    private static final String[] DENSITY_COMMANDS = {  "wm density reset; wm size reset",
+                                                        "wm density 258",
+                                                        "wm density 148"};
 
-    private static final String KILL_LAUNCHER = "am force-stop com.huami.watch.launcher;exit";
-    private static final String SET_INVERTED = "settings put secure accessibility_display_inversion_enabled %s;exit";
+    private static final String KILL_LAUNCHER = "am force-stop com.huami.watch.launcher";
+    private static final String SET_INVERTED = "settings put secure accessibility_display_inversion_enabled %s";
     private static final String SYSTEM_HIGH_CONTRAST = "high_contrast";
 
     @Override
@@ -220,23 +218,11 @@ public class ScreenSettingsActivity extends Activity {
             }
         });
 
-
     }
 
     private void runCommand(String command) {
-
         Logger.debug("ScreenSettingsActivity runCommand: " + command);
         if (!command.isEmpty()) {
-
-            /* Deprecated, replaced with new ExecCommand class
-            try {
-                Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
-                        null, Environment.getExternalStorageDirectory());
-            } catch (Exception e) {
-                Logger.error("ConfirmationWearActivity runCommand exception: " + e.toString());
-            }
-            */
-
             new ExecCommand(ExecCommand.ADB, String.format("adb shell %s", command));
         }
     }
@@ -249,7 +235,7 @@ public class ScreenSettingsActivity extends Activity {
             accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(),
                     android.provider.Settings.Secure.ACCESSIBILITY_DISPLAY_INVERSION_ENABLED, 0);
         } catch (Exception e) {
-            Logger.error("ScreenSettingsActivity isInversionModeEnabled SettingNotFoundException: " + e.getMessage());
+            Logger.error("ScreenSettingsActivity isInversionModeEnabled SettingNotFoundException: {}", e.getMessage());
             accessibilityEnabled = Settings.System.getInt(getContentResolver(), SYSTEM_HIGH_CONTRAST, 0);
         }
 
@@ -325,14 +311,9 @@ public class ScreenSettingsActivity extends Activity {
         //getResources().getConfiguration().setTo(config);
         Toast.makeText(mContext, "Watch will restart\nto apply changes ;)", Toast.LENGTH_LONG).show();
 
-        mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             public void run() {
-                try {
-                    Runtime.getRuntime().exec("reboot");
-                } catch (Exception e) {
-                    Logger.error("ScreenSettingsActivity saveFontScale exception: " + e.toString());
-                }
+                new ExecCommand("reboot");
             }
         }, 3000);
 
@@ -340,45 +321,17 @@ public class ScreenSettingsActivity extends Activity {
 
     private void getCurrentDensity() {
 
-        //StringBuilder outputLog = new StringBuilder();
-        String outputLog = null;
-        int returnValue = 0;
+        final ExecCommand execCommand = new ExecCommand("wm density");
+        final String result = execCommand.getOutput();
 
-        /* Disabled because it sometimes hangs (why?)
-        *
-        final String[] args = new String[]{"adb", "shell", "wm density"};
-        ProcessBuilder processBuilder = new ProcessBuilder(args);
-        try {
-
-            Process process = processBuilder.start();
-            String line;
-
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                while ((line = bufferedReader.readLine()) != null) {
-                    //outputLog.append(line).append("\n");
-                    outputLog = line;
-                    Log.d(Constants.TAG, "ScreenSettingsActivity getCurrentDensity line: " + outputLog);
-                }
-                returnValue = process.waitFor();
-            }
-
-        } catch (Exception ex) {
-            Log.e(Constants.TAG, ex.getMessage(), ex);
-        }
-        *
-        */
-
-        //final String result = outputLog.toString();
-        final String result = outputLog;
-
-        Logger.debug("ScreenSettingsActivity getCurrentDensity returnValue: " + returnValue + " | result: " + result);
+        Logger.debug("ScreenSettingsActivity getCurrentDensity result: {} | error: {}", result, execCommand.getError());
 
         if (result != null) {
-            if (result.contains("238"))
+            if (result.contains("238") && !result.toLowerCase().contains("override"))
                 initialDensity = 0;
-            else if (result.contains("258"))
+            else if (result.contains("258") && result.toLowerCase().contains("override"))
                 initialDensity = 1;
-            else if (result.contains("148"))
+            else if (result.contains("148") && result.toLowerCase().contains("override"))
                 initialDensity = 2;
             else
                 initialDensity = 3;
@@ -392,8 +345,7 @@ public class ScreenSettingsActivity extends Activity {
 
     private void saveDensity() {
 
-        runCommand(KILL_LAUNCHER);
-        runCommand(DENSITY_COMMANDS[densityChosen]);
+        runCommand(KILL_LAUNCHER + ";" + DENSITY_COMMANDS[densityChosen]);
         SystemClock.sleep(1000);
 
         Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");

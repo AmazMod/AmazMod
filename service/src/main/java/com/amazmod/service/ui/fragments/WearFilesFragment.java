@@ -12,6 +12,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.os.StatFs;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
@@ -506,8 +508,14 @@ public class WearFilesFragment extends Fragment {
                 .setMessage(getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        DeviceUtil.installApkAdb(mContext, file, false);
+                        final PowerManager.WakeLock myWakeLock = DeviceUtil.installApkAdb(mContext, file, false);
                         showToast("Please wait until installation finishes…");
+                        new Handler().postDelayed(new Runnable() { //Release wakelock after 10s when installing from File Manager
+                            public void run() {
+                                if (myWakeLock != null && myWakeLock.isHeld())
+                                    myWakeLock.release();
+                            }
+                        }, 10000 /* 10s */);
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();

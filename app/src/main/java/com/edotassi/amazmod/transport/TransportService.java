@@ -68,7 +68,11 @@ import static android.service.notification.NotificationListenerService.requestRe
 
 public class TransportService extends Service implements Transporter.DataListener {
 
-    private static Transporter transporterAmazMod, transporterNotifications, transporterHuami, transporterCompanion;
+    private static Transporter  transporterAmazMod,         //Used with generic data (in/out)
+                                transporterNotifications,   //Used to send CustomUI notifications to watch (out)
+                                transporterHuami,           //Used with StandardUI notifications (out)
+                                transporterCompanion,       //Used with watch/companion data (out)
+                                transporter;                //Used with AmazfitInternetCompanion (in/out)
 
     private PersistentNotification persistentNotification;
     private LocalBinder localBinder = new LocalBinder();
@@ -81,9 +85,11 @@ public class TransportService extends Service implements Transporter.DataListene
 
     public static String model;
 
+    private static Transporter.DataListener internetListener;
+
     int numCores = Runtime.getRuntime().availableProcessors();
     ThreadPoolExecutor executor = new ThreadPoolExecutor(1, numCores * 1,
-            30L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+            60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
     private ArrayMap<String, Class> messages = new ArrayMap<String, Class>() {{
         put(Transport.WATCH_STATUS, WatchStatus.class);
@@ -124,6 +130,10 @@ public class TransportService extends Service implements Transporter.DataListene
         connectTransporters();
         transporterAmazMod.addDataListener(this);
 
+        if (PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_ENABLE_INTERNET_COMPANION, false))
+            startInternetCompanion(getApplicationContext());
+
     }
 
     @Override
@@ -138,10 +148,10 @@ public class TransportService extends Service implements Transporter.DataListene
 
     @Override
     public void onDestroy() {
-        stopForeground(true);
         EventBus.getDefault().unregister(transportListener);
         transporterAmazMod.removeDataListener(this);
         disconnectTransports();
+        stopForeground(true);
         Logger.debug("TransportService onDestroy");
         super.onDestroy();
     }
@@ -162,23 +172,15 @@ public class TransportService extends Service implements Transporter.DataListene
 
         if (action != null) {
 
-            if (action.equals(Transport.HTTP_REQUEST)) {
-                //Never try if it's a watch (someone made an error)
-                if (!Build.BRAND.equals("Huami"))
-                    processHTTPRequest(transportDataItem);
-
+            TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
+            if (taskCompletionSourcePendingResult != null) {
+                Logger.trace("taskCompletionSourcePendingResult not null");
+                pendingResults.remove(action);
+                taskCompletionSourcePendingResult.setResult(event);
+                Logger.trace("taskCompletionSourcePendingResult removed");
             } else {
-
-                TaskCompletionSource<Object> taskCompletionSourcePendingResult = (TaskCompletionSource<Object>) pendingResults.get(action);
-                if (taskCompletionSourcePendingResult != null) {
-                    Logger.trace("taskCompletionSourcePendingResult not null");
-                    pendingResults.remove(action);
-                    taskCompletionSourcePendingResult.setResult(event);
-                    Logger.trace("taskCompletionSourcePendingResult removed");
-                } else {
-                    Logger.trace("sending EventBus event");
-                    EventBus.getDefault().post(event);
-                }
+                Logger.trace("sending EventBus event");
+                EventBus.getDefault().post(event);
             }
 
         } else {
@@ -341,7 +343,7 @@ public class TransportService extends Service implements Transporter.DataListene
 
                 try {
                     Logger.trace("sendWithResult waiting...");
-                    Tasks.await(taskCompletionSource.getTask(), 15000, TimeUnit.MILLISECONDS);
+                    Tasks.await(taskCompletionSource.getTask(), 30000, TimeUnit.MILLISECONDS);
                 } catch (TimeoutException timeoutException) {
                     taskCompletionSource.setException(timeoutException);
                     Logger.error(timeoutException, timeoutException.getMessage());
@@ -613,50 +615,77 @@ public class TransportService extends Service implements Transporter.DataListene
         }
     }
 
-    private void processHTTPRequest(TransportDataItem item) {
-        //Send pingback immediately to let the app know it's being handled
-        sendWithTransporterAmazMod(Transport.HTTP_PINGBACK, item.getData());
-        //Get data
-        DataBundle dataBundle = item.getData();
-        try {
-            HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(dataBundle.getString("url")).openConnection();
-            httpURLConnection.setInstanceFollowRedirects(dataBundle.getBoolean("followRedirects"));
-            httpURLConnection.setRequestMethod(dataBundle.getString("requestMethod"));
-            httpURLConnection.setUseCaches(dataBundle.getBoolean("useCaches"));
-            httpURLConnection.setDoInput(dataBundle.getBoolean("doInput"));
-            httpURLConnection.setDoOutput(dataBundle.getBoolean("doOutput"));
-            try {
-                JSONArray headers = new JSONArray(dataBundle.getString("requestHeaders"));
-                for (int x = 0; x < headers.length(); x++) {
-                    JSONObject header = headers.getJSONObject(x);
-                    httpURLConnection.setRequestProperty(header.getString("key"), header.getString("value"));
+    //From: https://github.com/KieronQuinn/AmazfitInternetCompanion
+    public static void startInternetCompanion(Context context) {
+        Logger.trace("start");
+        transporter = Transporter.get(context, Transport.NAME_INTERNET);
+        internetListener = new Transporter.DataListener() {
+            @Override
+            public void onDataReceived(TransportDataItem item) {
+                Logger.debug("AmazfitInternetCompanion onDataReceived");
+                if (Transport.HTTP_REQUEST.equals(item.getAction())) {
+                    //Never try if it's a watch (someone made an error)
+                    if ("Huami".equals(Build.BRAND)) return;
+                    //Send pingback immediately to let the app know it's being handled
+                    transporter.send(Transport.HTTP_PINGBACK, item.getData());
+                    //Get data
+                    DataBundle dataBundle = item.getData();
+                    try {
+                        HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(dataBundle.getString("url")).openConnection();
+                        httpURLConnection.setInstanceFollowRedirects(dataBundle.getBoolean("followRedirects"));
+                        httpURLConnection.setRequestMethod(dataBundle.getString("requestMethod"));
+                        httpURLConnection.setUseCaches(dataBundle.getBoolean("useCaches"));
+                        httpURLConnection.setDoInput(dataBundle.getBoolean("doInput"));
+                        httpURLConnection.setDoOutput(dataBundle.getBoolean("doOutput"));
+                        try {
+                            JSONArray headers = new JSONArray(dataBundle.getString("requestHeaders"));
+                            for (int x = 0; x < headers.length(); x++) {
+                                JSONObject header = headers.getJSONObject(x);
+                                httpURLConnection.setRequestProperty(header.getString("key"), header.getString("value"));
+                            }
+                        } catch (JSONException e) {
+                            Logger.error(e, "exception: {}", e.getMessage());
+                        }
+                        httpURLConnection.connect();
+                        if (httpURLConnection.getInputStream() != null) {
+                            byte[] inputStream = IOUtils.toByteArray(httpURLConnection.getInputStream());
+                            if (inputStream != null)
+                                dataBundle.putByteArray("inputStream", inputStream);
+                        }
+                        if (httpURLConnection.getErrorStream() != null) {
+                            byte[] errorStream = IOUtils.toByteArray(httpURLConnection.getErrorStream());
+                            if (errorStream != null)
+                                dataBundle.putByteArray("errorStream", errorStream);
+                        }
+                        dataBundle.putString("responseMessage", httpURLConnection.getResponseMessage());
+                        dataBundle.putInt("responseCode", httpURLConnection.getResponseCode());
+                        dataBundle.putString("responseHeaders", mapToJSON(httpURLConnection.getHeaderFields()).toString());
+                        //Return the data
+                        transporter.send(Transport.HTTP_RESULT, dataBundle);
+                        httpURLConnection.disconnect();
+                    } catch (IOException e) {
+                        Logger.error(e, "exception: {}", e.getMessage());
+                    }
                 }
-            } catch (JSONException e) {
-                Logger.error(e, "exception: {}", e.getMessage());
             }
-            httpURLConnection.connect();
-            if (httpURLConnection.getInputStream() != null) {
-                byte[] inputStream = IOUtils.toByteArray(httpURLConnection.getInputStream());
-                if (inputStream != null)
-                    dataBundle.putByteArray("inputStream", inputStream);
-            }
-            if (httpURLConnection.getErrorStream() != null) {
-                byte[] errorStream = IOUtils.toByteArray(httpURLConnection.getErrorStream());
-                if (errorStream != null)
-                    dataBundle.putByteArray("errorStream", errorStream);
-            }
-            dataBundle.putString("responseMessage", httpURLConnection.getResponseMessage());
-            dataBundle.putInt("responseCode", httpURLConnection.getResponseCode());
-            dataBundle.putString("responseHeaders", mapToJSON(httpURLConnection.getHeaderFields()).toString());
-            //Return the data
-            sendWithTransporterAmazMod(Transport.HTTP_RESULT, dataBundle);
-            httpURLConnection.disconnect();
-        } catch (IOException e) {
-            Logger.error(e, "exception: {}", e.getMessage());
-        }
+        };
+        transporter.addDataListener(internetListener);
+        transporter.connectTransportService();
     }
 
-    private JSONArray mapToJSON(Map<String, List<String>> input) {
+    public static void stopInternetCompanion() {
+        Logger.trace("stop");
+        if (internetListener != null)
+            transporter.removeDataListener(internetListener);
+        if (transporter != null)
+            if (transporter.isTransportServiceConnected()) {
+                Logger.info("disconnecting transporterInternet…");
+                transporter.disconnectTransportService();
+                transporter = null;
+            }
+    }
+
+    private static JSONArray mapToJSON(Map<String, List<String>> input) {
         JSONArray headers = new JSONArray();
         for (String key : input.keySet()) {
             JSONObject item = new JSONObject();

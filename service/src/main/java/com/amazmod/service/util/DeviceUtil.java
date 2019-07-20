@@ -12,7 +12,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInstaller;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.Settings;
 
@@ -97,7 +96,7 @@ public class DeviceUtil {
                     dndEnabled = false;
             }
         } catch (Settings.SettingNotFoundException e) {
-            Logger.error(e, "DnD lowSDK exception: {}",  e.getMessage());
+            Logger.error("DnD lowSDK exception: {}",  e.getMessage());
             dndEnabled = false;
         }
 
@@ -226,60 +225,51 @@ public class DeviceUtil {
     }
 
     public static PowerManager.WakeLock installApkAdb(Context context, File apk, boolean isReboot) {
-        if(!apk.exists()){
-            Logger.error("File not found");
-            return null;
-        }
-
-        PackageReceiver.setIsAmazmodInstall(true);
-        final String installScript = copyScriptFile(context, "install_apk.sh").getAbsolutePath();
-        final String busyboxPath = installBusybox(context);
-        String installCommand;
-        String apkFile = apk.getAbsolutePath();
-        //Logger.debug("installApkAdb installScript: " + installScript);
-        //Logger.debug("installApkAdb apkFile: " + apkFile);
-        if (apkFile.contains("service-")) {
-            File su = new File("/system/xbin/su");
-            Logger.debug("install is check if SuperUser");
-            if (su.exists()) {
-                // Is SuperUser
-                Logger.debug("Enabling APK_INSTALL WAKELOCK");
-                new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
-
-            } else {
-                // Is Stock user
-                Logger.debug("Set screen timeout to 3 min to install update");
-                new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
-            }
-        } else
-            Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
-
-        PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         PowerManager.WakeLock wakeLock = null;
-        if (pm != null) {
-            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
-                    | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                    | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
-            wakeLock.acquire(10 * 60 * 1000L /* 10min */);
-        } else
-            Logger.error("installApkAdb null PowerManager!");
+        if(!apk.exists()){
+            Logger.error("File not found!");
+        } else {
 
-        //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
-        if (isReboot)
-            installCommand = String.format("log -pw -t'AmazMod DeviceUtil' $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
-        else
-            installCommand = String.format("log -pw -t'AmazMod DeviceUtil' $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
+            PackageReceiver.setIsAmazModInstall(true);
+            final String installScript = copyScriptFile(context, "install_apk.sh").getAbsolutePath();
+            final String busyboxPath = installBusybox(context);
+            String installCommand;
+            String apkFile = apk.getAbsolutePath();
+            //Logger.debug("installApkAdb installScript: " + installScript);
+            //Logger.debug("installApkAdb apkFile: " + apkFile);
+            if (apkFile.contains("service-")) {
+                File su = new File("/system/xbin/su");
+                Logger.debug("install is check if SuperUser");
+                if (su.exists()) {
+                    // Is SuperUser
+                    Logger.debug("Enabling APK_INSTALL WAKELOCK");
+                    new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
 
-        Logger.debug("installApkAdb installCommand: " + installCommand);
+                } else {
+                    // Is Stock user
+                    Logger.debug("Set screen timeout to 3 min to install update");
+                    new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
+                }
+            } else
+                Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
 
-        try {
-            Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
-                    null, Environment.getExternalStorageDirectory());
-        } catch (IOException e) {
-            Logger.error(e, "installApkAdb IOException: " + e.getMessage());
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if (pm != null) {
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+                        | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                        | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
+                wakeLock.acquire(10 * 60 * 1000L /* 10min */);
+            } else
+                Logger.error("installApkAdb null PowerManager!");
+
+            //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
+            installCommand = String.format("log -pw -t'AmazMod DeviceUtil' $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, isReboot?"DEL":"OK", busyboxPath);
+
+            Logger.debug("installApkAdb installCommand: {}", installCommand);
+
+            new ExecCommand(new String[]{"sh", "-c", installCommand});
+            Logger.debug("installApkAdb finished");
         }
-
-        Logger.debug("installApkAdb finished");
         return wakeLock;
     }
 
@@ -349,15 +339,14 @@ public class DeviceUtil {
 
                 Logger.debug("installBusybox installCommand: " + installCommand);
 
-                Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand}, null, utilFolder);
+                ExecCommand execCommand = new ExecCommand(new String[]{"sh", "-c", installCommand}, null, utilFolder);
 
-                int code = process.waitFor();
-                if (code != 0)
-                    Logger.error("installBusybox error! " + code);
+                int code = execCommand.getResult();
+                if (code != 0) {
+                    Logger.error("installBusybox error code: {} \\ output: {} \\ error: {}", code, execCommand.getOutput(), execCommand.getError());
+                    utilFolderPath = null;
+                }
 
-            } catch (InterruptedException e) {
-                Logger.error("installBusybox InterruptedException: " + e.toString());
-                utilFolderPath = null;
             } catch (IOException e) {
                 Logger.error("installBusybox IOException: " + e.toString());
                 utilFolderPath = null;

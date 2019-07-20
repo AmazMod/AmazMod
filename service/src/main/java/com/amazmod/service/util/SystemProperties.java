@@ -19,8 +19,7 @@ package com.amazmod.service.util;
 import android.content.Context;
 import android.os.PowerManager;
 import android.os.SystemClock;
-
-import com.amazmod.service.Constants;
+import android.provider.Settings;
 
 import org.tinylog.Logger;
 
@@ -132,6 +131,17 @@ public class SystemProperties {
     }
 
     public static String getSystemProperty(String name) {
+
+        ExecCommand execCommand = new ExecCommand(new String[]{"/system/bin/getprop", name});
+
+        if (execCommand.getResult() == -1) {
+            Logger.error("error: {}", execCommand.getError());
+            return null;
+        } else {
+            return execCommand.getOutput();
+        }
+
+        /* Disabled to test new ExecCommand class
         InputStreamReader in = null;
         BufferedReader reader = null;
         try {
@@ -140,14 +150,22 @@ public class SystemProperties {
             reader = new BufferedReader(in);
             return reader.readLine();
         } catch (IOException e) {
+            Logger.error("SystemProperties getSystemProperty exception: {}", e.getMessage());
             return null;
         } finally {
             closeQuietly(in);
             closeQuietly(reader);
         }
+        */
     }
 
-    public static String setSystemProperty(String name, String param) {
+    public static int setSystemProperty(String name, String param) {
+
+        ExecCommand execCommand = new ExecCommand(new String[]{"/system/bin/setprop", name, param});
+
+        return execCommand.getResult();
+
+        /* Disabled to test new ExecCommand class
         InputStreamReader in = null;
         BufferedReader reader = null;
         try {
@@ -156,12 +174,14 @@ public class SystemProperties {
             reader = new BufferedReader(in);
             return reader.readLine();
         } catch (IOException e) {
-            Logger.error("SystemProperties setSystemProperty exception: " + e.toString());
+            Logger.error("SystemProperties setSystemProperty exception: {}", e.getMessage());
             return null;
         } finally {
             closeQuietly(in);
             closeQuietly(reader);
         }
+        */
+
     }
 
     private static void closeQuietly(Closeable closeable) {
@@ -208,6 +228,19 @@ public class SystemProperties {
         } catch (Exception e){
             Logger.error("SystemProperties switchPowerMode exception: " + e.toString());
         }
+    }
+
+    /**
+     * Gets the state of Airplane Mode.
+     *
+     * @param context
+     * @return true if enabled.
+     */
+    public static boolean isAirplaneModeOn(Context context) {
+
+        return Settings.System.getInt(context.getContentResolver(),
+                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+
     }
 
 }

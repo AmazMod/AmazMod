@@ -29,7 +29,6 @@ public class Constants {
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
     public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
 
-
     public static final String FILE_LOG_BUNDLE = "/sdcard/log_bundle.log.gz";
     public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d -v long | gzip > " + FILE_LOG_BUNDLE;
 
@@ -80,7 +79,7 @@ public class Constants {
     public static final String PREF_LOG_LINES_SHOWN_DEFAULT = "256";
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
     public static final Boolean PREF_NOTIFICATION_SCHEDULER_DEFAULT = false;
-
+    public static final boolean PREF_AMAZMOD_DARK_THEME_DEFAULT = false;
 
     public static final Boolean PREF_DEFAULT_BATTERY_CHART = true;
     public static final Boolean PREF_DEFAULT_HEARTRATE_CHART = true;
@@ -117,6 +116,7 @@ public class Constants {
     public static final String PREF_HUAMI_MODEL = "preference.watch.huami";
     public static final String PREF_ENABLE_PERSISTENT_NOTIFICATION = "preference.enable.persistent.notification";
     public static final String PREF_TIME_LAST_SAVE = "preference.time.last.save";
+    public static final String PREF_ENABLE_INTERNET_COMPANION = "preference.enable.internet.companion";
 
     public static final byte FILTER_CONTINUE = 'C';
     public static final byte FILTER_UNGROUP = 'U';
@@ -174,7 +174,6 @@ public class Constants {
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 
     public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
-    public static final boolean PREF_AMAZMOD_DARK_THEME_DEFAULT = false;
 
     public static final int SNACKBAR_LONG10 = 10000;
 

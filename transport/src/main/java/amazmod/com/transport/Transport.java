@@ -10,6 +10,7 @@ public class Transport {
     public static final String NAME = "com.edotassi.amazmod";
     public static final String NAME_BATTERY = "com.edotassi.amazmod.battery";
     public static final String NAME_NOTIFICATION = "com.edotassi.amazmod.notification";
+    public static final String NAME_INTERNET = "com.kieronquinn.app.amazfitinternetcompanion";
 
     public static final String INCOMING_NOTIFICATION = "incoming_notification";
     public static final String DELETE_NOTIFICATION = "del";

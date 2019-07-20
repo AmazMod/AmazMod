@@ -43,6 +43,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
     private boolean currentBatteryChart;
     private boolean currentHeartRateChart;
     private boolean enablePersistentNotificationOnCreate;
+    private boolean enableInternetCompaionOnCreate;
     private String currentBatteryChartDays;
     private String currentLocaleLanguage;
     private String currentLogLevel;
@@ -79,6 +80,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
         enablePersistentNotificationOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
+
+        enableInternetCompaionOnCreate = Prefs.getBoolean(Constants.PREF_ENABLE_INTERNET_COMPANION, false);
 
         currentLogToFile = Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT);
         currentLogLevel = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT);
@@ -247,6 +250,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
         final boolean enablePersistentNotificationOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
                 Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION);
 
+        final boolean enableInternetCompanionOnDestroy = Prefs.getBoolean(Constants.PREF_ENABLE_INTERNET_COMPANION, false);
+
         // Update persistent notification due to changes in Settings
         if (!enablePersistentNotificationOnDestroy && this.enablePersistentNotificationOnCreate) {
             PersistentNotification.cancelPersistentNotification(this);
@@ -255,6 +260,15 @@ public class SettingsActivity extends BaseAppCompatActivity {
             final PersistentNotification persistentNotification = new PersistentNotification(this, TransportService.model);
             persistentNotification.createPersistentNotification();
             this.enablePersistentNotificationOnCreate = true;
+        }
+
+        // Update Internet Companion due to changes in Settings
+        if (!enableInternetCompanionOnDestroy && this.enableInternetCompaionOnCreate) {
+            TransportService.stopInternetCompanion();
+            this.enableInternetCompaionOnCreate = false;
+        } else if (enableInternetCompanionOnDestroy && !this.enableInternetCompaionOnCreate) {
+            TransportService.startInternetCompanion(getApplicationContext());
+            this.enableInternetCompaionOnCreate = true;
         }
 
         SettingsData settingsData = new SettingsData();
