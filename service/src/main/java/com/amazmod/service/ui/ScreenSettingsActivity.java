@@ -21,10 +21,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.amazmod.service.R;
+import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
-
 
 public class ScreenSettingsActivity extends Activity {
 
@@ -54,6 +54,8 @@ public class ScreenSettingsActivity extends Activity {
     private static final String SET_INVERTED = "settings put secure accessibility_display_inversion_enabled %s";
     private static final String SYSTEM_HIGH_CONTRAST = "high_contrast";
 
+    private static String defaultDensity;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +77,12 @@ public class ScreenSettingsActivity extends Activity {
         invertedSpinner = findViewById(R.id.activity_screen_settings_spinner_inversion);
 
         setLabels();
+
+        if (DeviceUtil.isVerge()) {
+            defaultDensity = "240";
+            labels[0] = "(240)";
+        } else
+            defaultDensity = "238";
 
         setAdapter(densitySpinner, densities, 0);
         setAdapter(fontSpinner, fontSizes, 1);
@@ -327,7 +335,7 @@ public class ScreenSettingsActivity extends Activity {
         Logger.debug("ScreenSettingsActivity getCurrentDensity result: {} | error: {}", result, execCommand.getError());
 
         if (result != null) {
-            if (result.contains("238") && !result.toLowerCase().contains("override"))
+            if (result.contains(defaultDensity) && !result.toLowerCase().contains("override"))
                 initialDensity = 0;
             else if (result.contains("258") && result.toLowerCase().contains("override"))
                 initialDensity = 1;
