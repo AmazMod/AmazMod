@@ -242,7 +242,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 Logger.debug("Restore APK_INSTALL screen timeout");
             }
         } catch (Exception e) {
-            Logger.error(e, "onCreate: IOException while restoring wakelock/screen timeout");
+            Logger.error(e, "onCreate: exception while restoring wakelock/screen timeout: {}", e.getMessage());
         }
         //new ExecCommand("adb shell \"adb kill-server\"", true);
 
@@ -997,12 +997,12 @@ public class MainService extends Service implements Transporter.DataListener {
                             final File apk = new File(apkFile);
 
                             if (apk.exists()) {
-                                if (apkFile.contains ("service-")) {
-                                    showConfirmationWearActivity("Service update", "0");
+                                if (apkFile.contains("service-")) {
+                                    showConfirmationWearActivity("Requires OTA", "0");
+                                } else {
+                                    showConfirmationWearActivity("Installing APK", "0");
+                                    myWakeLock = DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
                                 }
-                                else
-                                showConfirmationWearActivity("Installing APK", "0");
-                                myWakeLock = DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
 
                             } else {
                                 code = -1;

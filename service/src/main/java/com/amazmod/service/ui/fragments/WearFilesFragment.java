@@ -503,22 +503,31 @@ public class WearFilesFragment extends Fragment {
     private void openApk(final File file) {
         Logger.debug( "WearFilesFragment openApk file: " + file.toString());
 
-        new AlertDialog.Builder(getActivity())
-                .setTitle(getResources().getString(R.string.install_app))
-                .setMessage(getResources().getString(R.string.confirmation))
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        final PowerManager.WakeLock myWakeLock = DeviceUtil.installApkAdb(mContext, file, false);
-                        showToast("Please wait until installation finishes…");
-                        new Handler().postDelayed(new Runnable() { //Release wakelock after 10s when installing from File Manager
-                            public void run() {
-                                if (myWakeLock != null && myWakeLock.isHeld())
-                                    myWakeLock.release();
-                            }
-                        }, 10000 /* 10s */);
-                    }
-                })
-                .setNegativeButton(android.R.string.no, null).show();
+        if (file.toString().contains("service-")) {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Error")
+                    .setMessage("Service update requires OTA")
+                    .setPositiveButton(android.R.string.yes, null)
+                    .setNegativeButton(android.R.string.no, null).show();
+        } else {
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getResources().getString(R.string.install_app))
+                    .setMessage(getResources().getString(R.string.confirmation))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            final PowerManager.WakeLock myWakeLock = DeviceUtil.installApkAdb(mContext, file, false);
+                            showToast("Please wait until installation finishes…");
+                            new Handler().postDelayed(new Runnable() { //Release wakelock after 10s when installing from File Manager
+                                public void run() {
+                                    if (myWakeLock != null && myWakeLock.isHeld())
+                                        myWakeLock.release();
+                                }
+                            }, 10000 /* 10s */);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+        }
 
     }
 
