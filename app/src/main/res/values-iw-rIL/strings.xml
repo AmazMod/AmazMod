@@ -360,4 +360,6 @@
     <string name="pref_heartrate_chart_summary">הצגת גרף דופק במסך הראשי של AmazMod.</string>
     <string name="pref_log_lines_shown">כמות שורות מוצגות</string>
     <string name="pref_log_lines_shown_summary">כמות שורות מוצגות בתצוגת הלוגים.</string>
+    <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
+    <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
 </resources>
