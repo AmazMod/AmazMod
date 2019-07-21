@@ -4,7 +4,7 @@
     <string name="settings">Pengaturan</string>
     <string name="notifications">Pemberitahuan terkirim</string>
     <string name="notifications_options">Opsi notifikasi</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Grafik</string>
     <string name="customui">Custom UI Notifications Options</string>
     <string name="others">Lainnya</string>
     <string name="other">Lainnya</string>
@@ -37,7 +37,7 @@
     <string name="file_not_exists">Berkas Tidak Ada</string>
     <string name="cant_uplaod_directory">Tak dapat mengunggah direktori</string>
     <string name="sending">Mengirim</string>
-    <string name="wait">please wait</string>
+    <string name="wait">Mohon tunggu</string>
     <string name="cant_upload_file">Tak dapat mengunggah berkas</string>
     <string name="cant_download_file">Tak dapat mengunduh berkas</string>
     <string name="file_upload_canceled">Unggah berkas dibatalkan</string>
