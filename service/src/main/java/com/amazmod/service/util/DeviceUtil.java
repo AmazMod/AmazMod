@@ -14,6 +14,7 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
@@ -28,7 +29,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -122,7 +122,7 @@ public class DeviceUtil {
         } else {
             // Is Stock user
             Logger.debug("Set screen timeout to 3 min to install update");
-            new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
+            DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
         }
 
         int sessionId = 0;
@@ -248,7 +248,7 @@ public class DeviceUtil {
                 } else {
                     // Is Stock user
                     Logger.debug("Set screen timeout to 3 min to install update");
-                    new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
+                    DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
                 }
             } else
                 Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
@@ -437,11 +437,64 @@ public class DeviceUtil {
 
     }
 
-    public static boolean isVerge(){
-        String model = SystemProperties.getSystemProperty("ro.build.huami.model");
-        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
-        Logger.debug("isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
-        return isVerge;
+    private static void showToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void systemPutAdb(Context context, String name, String value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        new ExecCommand(ExecCommand.ADB, String.format("adb shell settings put system %s %s", name, value));
+    }
+
+    public static void systemPutString(Context context, String name, String value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        Settings.System.putString(context.getContentResolver(), name, value);
+    }
+
+    public static String systemGetString(Context context, String name) {
+        return Settings.System.getString(context.getContentResolver(), name);
+    }
+
+    public static void systemPutInt(Context context, String name, int value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        Settings.System.putInt(context.getContentResolver(), name, value);
+    }
+
+    public static int systemGetInt(Context context, String name) throws Settings.SettingNotFoundException {
+        return Settings.System.getInt(context.getContentResolver(), name);
+    }
+
+    public static int systemGetInt(Context context, String name, int def) {
+        return Settings.System.getInt(context.getContentResolver(), name, def);
+    }
+
+    public static void systemPutFloat(Context context, String name, float value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        Settings.System.putFloat(context.getContentResolver(), name, value);
+    }
+
+    public static float systemGetFloat(Context context, String name, float def) {
+        return Settings.System.getFloat(context.getContentResolver(), name, def);
     }
 
 }

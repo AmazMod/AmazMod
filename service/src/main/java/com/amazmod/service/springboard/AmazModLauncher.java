@@ -42,6 +42,7 @@ import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.BatteryGraphActivity;
+import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -424,9 +425,9 @@ public class AmazModLauncher extends AbstractPlugin {
     }
 
     private void refreshMessages() {
-        String data = Settings.System.getString(mContext.getContentResolver(), "CustomWatchfaceData");
+        String data = DeviceUtil.systemGetString(mContext, "CustomWatchfaceData");
         if (data == null || data.equals("")) {
-            Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", "{}");
+            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", "{}");
             notifications = 0;
         }
 

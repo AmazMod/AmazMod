@@ -26,6 +26,7 @@ import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.support.NotificationInfo;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.util.DeviceUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -327,14 +328,14 @@ public class WearNotificationsFragment extends Fragment {
     }
 
     private void resetNotificationsCounter() {
-        String data = Settings.System.getString(mContext.getContentResolver(), "CustomWatchfaceData");
+        String data = DeviceUtil.systemGetString(mContext, "CustomWatchfaceData");
         if (data == null || data.equals(""))
-            Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", "{}");
+            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", "{}");
 
         try {
             JSONObject json_data = new JSONObject(data);
             json_data.put("notifications", 0);
-            Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", json_data.toString());
+            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", json_data.toString());
         } catch (JSONException e) {
             Logger.error("AmazModLauncher refreshMessages JSONException: " + e.toString());
         }

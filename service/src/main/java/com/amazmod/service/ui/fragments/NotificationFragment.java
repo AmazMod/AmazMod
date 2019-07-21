@@ -39,6 +39,7 @@ import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FragmentUtil;
+import com.amazmod.service.util.SystemProperties;
 
 import org.greenrobot.eventbus.EventBus;
 import org.tinylog.Logger;
@@ -264,7 +265,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     private void setTheme() {
         //Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
-        if (DeviceUtil.isVerge()){
+        if (SystemProperties.isVerge()){
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
             replies_layout.setMinimumHeight(px);
         }

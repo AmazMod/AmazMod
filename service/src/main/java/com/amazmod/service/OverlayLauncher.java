@@ -153,7 +153,7 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         params.gravity = Gravity.RIGHT | Gravity.BOTTOM;
         params.x = 0;
         params.y = 0;
-        if (DeviceUtil.isVerge()) {
+        if (SystemProperties.isVerge()) {
             params.height = 30;
             params.width = 170;
             vibration = 30;
@@ -173,7 +173,7 @@ public class OverlayLauncher extends Service implements OnTouchListener {
     }
 
     private void setParamsRight() {
-        if (DeviceUtil.isVerge())
+        if (SystemProperties.isVerge())
             params.x = 0;
         else
             params.x = 0;
@@ -181,7 +181,7 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         MainService.setOverlayLauncherPosition(position);
     }
     private void setParamsLeft() {
-        if (DeviceUtil.isVerge())
+        if (SystemProperties.isVerge())
             params.x = 190;
         else
             params.x = 170;

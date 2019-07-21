@@ -23,6 +23,7 @@ import androidx.annotation.NonNull;
 import com.amazmod.service.R;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.ExecCommand;
+import com.amazmod.service.util.SystemProperties;
 
 import org.tinylog.Logger;
 
@@ -78,7 +79,7 @@ public class ScreenSettingsActivity extends Activity {
 
         setLabels();
 
-        if (DeviceUtil.isVerge()) {
+        if (SystemProperties.isVerge()) {
             defaultDensity = "240";
             labels[0] = "(240)";
         } else
@@ -244,7 +245,7 @@ public class ScreenSettingsActivity extends Activity {
                     android.provider.Settings.Secure.ACCESSIBILITY_DISPLAY_INVERSION_ENABLED, 0);
         } catch (Exception e) {
             Logger.error("ScreenSettingsActivity isInversionModeEnabled SettingNotFoundException: {}", e.getMessage());
-            accessibilityEnabled = Settings.System.getInt(getContentResolver(), SYSTEM_HIGH_CONTRAST, 0);
+            accessibilityEnabled = DeviceUtil.systemGetInt(mContext, SYSTEM_HIGH_CONTRAST, 0);
         }
 
         if (accessibilityEnabled == 1) {
@@ -259,8 +260,7 @@ public class ScreenSettingsActivity extends Activity {
 
     private void getCurrentFontScale() {
 
-        final float fontScale = Settings.System.getFloat(getBaseContext().getContentResolver(),
-                Settings.System.FONT_SCALE, 1.0f);
+        final float fontScale = DeviceUtil.systemGetFloat(getBaseContext(), Settings.System.FONT_SCALE, 1.0f);
 
         Logger.debug("ScreenSettingsActivity getCurrentFontScale: " + String.valueOf(fontScale));
 
@@ -288,25 +288,25 @@ public class ScreenSettingsActivity extends Activity {
 
             case 0:
                 //config.fontScale = 0.9f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,0.9f);
                 break;
 
             case 1:
                 //config.fontScale = 1.0f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,1.0f);
                 break;
 
             case 2:
                 //config.fontScale = 1.18f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,1.18f);
                 break;
 
             case 3:
                 //config.fontScale = 1.30f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,1.30f);
                 break;
 
