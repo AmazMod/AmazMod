@@ -262,7 +262,7 @@ public class SystemProperties {
      */
     public static boolean isAirplaneModeOn(Context context) {
 
-        return DeviceUtil.systemGetInt(context, Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
 
     }
 
