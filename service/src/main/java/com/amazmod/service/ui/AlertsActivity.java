@@ -3,44 +3,22 @@ package com.amazmod.service.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.os.Vibrator;
-import android.provider.Settings;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.util.DeviceUtil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-import amazmod.com.models.Reply;
-import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+
 import org.tinylog.Logger;
 
 public class AlertsActivity extends Activity {
@@ -53,6 +31,7 @@ public class AlertsActivity extends Activity {
     private ActivityFinishRunnable activityFinishRunnable;
 
     int vibrate;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +40,8 @@ public class AlertsActivity extends Activity {
         setContentView(R.layout.icon_overlay);
         ButterKnife.bind(this);
         setWindowFlags(true);
+
+        context = this;
 
         SettingsManager settingsManager = new SettingsManager(this);
 
@@ -84,7 +65,7 @@ public class AlertsActivity extends Activity {
             case "phone_connection":
             default:
                 // type= phone_connection
-                if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+                if(DeviceUtil.systemGetString(context, "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
                     // Phone disconnected
                     icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_erase));
                     text.setText(getString(R.string.phone_disconnected));

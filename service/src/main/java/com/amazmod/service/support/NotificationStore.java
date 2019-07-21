@@ -6,6 +6,7 @@ import android.provider.Settings;
 import androidx.collection.ArrayMap;
 
 import com.amazmod.service.Constants;
+import com.amazmod.service.util.DeviceUtil;
 import com.huami.watch.notification.data.NotificationKeyData;
 
 import org.greenrobot.eventbus.EventBus;
@@ -128,11 +129,11 @@ public class NotificationStore {
 
     public static void setNotificationCount(Context context, int count) {
         // Stores notificationCount in JSON Object
-        String data = Settings.System.getString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA);
+        String data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
 
         // Default value
         if (data == null) {
-            Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, "{\"notifications\":\"" + count+"\"}");
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, "{\"notifications\":\"" + count+"\"}");
             return;
         }
 
@@ -140,11 +141,11 @@ public class NotificationStore {
         try {
             JSONObject json_data = new JSONObject(data);
             json_data.put("notifications", count);
-            Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, json_data.toString());
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, json_data.toString());
         } catch (JSONException e) {
             String notification_json = "{\"notifications\":\"" + count+"\"}";
             Logger.debug("NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
-            Settings.System.putString(context.getContentResolver(), Constants.CUSTOM_WATCHFACE_DATA, notification_json);
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, notification_json);
         }
     }
 

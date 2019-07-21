@@ -51,16 +51,18 @@ public class WidgetsUtil {
         String last_widget_order_in = settingsManager.getString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, "");
 
         boolean isAmazmodWidgetMissing = true;
-        int amazmodPosition = DeviceUtil.isVerge()?0:1;
+        int amazmodPosition = SystemProperties.isVerge()?0:1;
+        if (SystemProperties.isStratos())
+            amazmodPosition = 2;
 
         final SpringboardItem amazmodWidget = new SpringboardItem(Constants.SERVICE_NAME, Constants.LAUNCHER_CLASSNAME, true);
 
         //Get in and out settings.
         // In is the main setting, which defines the order and state of a page, but does not always contain them all.
-        String widget_order_in = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_IN);
+        String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
 
         //Out contains them all, but no ordering.
-        String widget_order_out = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_OUT);
+        String widget_order_out = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_OUT);
 
         Logger.debug("WidgetsUtil loadSettings widget_order_in  : " + widget_order_in.substring(0, Math.min(widget_order_in.length(), 352)));
         Logger.debug("WidgetsUtil loadSettings widget_order_out : " + widget_order_out.substring(0, Math.min(widget_order_out.length(), 352)));
@@ -326,7 +328,7 @@ public class WidgetsUtil {
             settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, root.toString());
             Logger.debug("WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString().substring(0, Math.min(root.toString().length(), 352)));
         } else {
-            Settings.System.putString(context.getContentResolver(), Constants.WIDGET_ORDER_IN, root.toString());
+            DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, root.toString());
             Logger.debug("WidgetsUtil save widget_order_in: " + root.toString().substring(0, Math.min(root.toString().length(), 352)));
         }
         //Notify user

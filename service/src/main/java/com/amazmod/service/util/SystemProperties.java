@@ -21,6 +21,8 @@ import android.os.PowerManager;
 import android.os.SystemClock;
 import android.provider.Settings;
 
+import com.amazmod.service.Constants;
+
 import org.tinylog.Logger;
 
 import java.io.BufferedReader;
@@ -29,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Gives access to the system properties store. The system properties store contains a list of
@@ -230,6 +233,27 @@ public class SystemProperties {
         }
     }
 
+    public static boolean isPace(){
+        String model = getSystemProperty("ro.build.huami.model");
+        boolean isPace = Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model);
+        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isPace);
+        return isPace;
+    }
+
+    public static boolean isStratos(){
+        String model = getSystemProperty("ro.build.huami.model");
+        boolean isStratos = Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model);
+        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isStratos);
+        return isStratos;
+    }
+
+    public static boolean isVerge(){
+        String model = getSystemProperty("ro.build.huami.model");
+        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
+        Logger.debug("isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
+        return isVerge;
+    }
+
     /**
      * Gets the state of Airplane Mode.
      *
@@ -238,8 +262,7 @@ public class SystemProperties {
      */
     public static boolean isAirplaneModeOn(Context context) {
 
-        return Settings.System.getInt(context.getContentResolver(),
-                Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+        return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
 
     }
 

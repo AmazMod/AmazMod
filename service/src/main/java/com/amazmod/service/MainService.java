@@ -253,7 +253,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 Logger.debug("Disabling APK_INSTALL WAKELOCK");
             } else {
                 //Runtime.getRuntime().exec("adb shell settings put system screen_off_timeout 14000;exit");
-                new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
+                DeviceUtil.systemPutAdb(context,"screen_off_timeout", "14000");
                 Logger.debug("Restore APK_INSTALL screen timeout");
             }
         } catch (Exception e) {
@@ -535,9 +535,9 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Watchface data
         // Get already saved data
-        String data = Settings.System.getString(context.getContentResolver(), "CustomWatchfaceData");
+        String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
         if (data == null || data.equals("")) {
-            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{}");//default
+            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
         }
         // Update the data
         try {
@@ -547,10 +547,10 @@ public class MainService extends Service implements Transporter.DataListener {
             json_data.put("phoneAlarm", phoneAlarm);
             json_data.put("updateTime", updateTime);
 
-            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", json_data.toString());
+            DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
         } catch (JSONException e) {
             //default
-            Settings.System.putString(context.getContentResolver(), "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\",\"updateTime\":"+updateTime+"}");
+            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\",\"updateTime\":"+updateTime+"}");
         }
 
         // Calendar data
@@ -560,10 +560,10 @@ public class MainService extends Service implements Transporter.DataListener {
                 JSONObject json_data = new JSONObject(calendarEvents);
                 json_data.put("updateTime", updateTime);
                 // Update data
-                Settings.System.putString(context.getContentResolver(), "CustomCalendarData", json_data.toString());
+                DeviceUtil.systemPutString(context, "CustomCalendarData", json_data.toString());
             } catch (JSONException e) {
                 //default
-                Settings.System.putString(context.getContentResolver(), "CustomCalendarData", "{}");
+                DeviceUtil.systemPutString(context, "CustomCalendarData", "{}");
             }
         }
 
@@ -799,11 +799,11 @@ public class MainService extends Service implements Transporter.DataListener {
         int b = 0;
         int bm = Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
         try {
-            b = android.provider.Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS);
-            bm = Settings.System.getInt(getContentResolver(), Constants.SCREEN_BRIGHTNESS_MODE);
+            b = DeviceUtil.systemGetInt(context, Constants.SCREEN_BRIGHTNESS);
+            bm = DeviceUtil.systemGetInt(context, Constants.SCREEN_BRIGHTNESS_MODE);
 
         } catch (Settings.SettingNotFoundException e) {
-            Logger.error("MainService requestWatchStatus SettingsNotFoundExeception: " + e.toString());
+            Logger.error("MainService requestWatchStatus SettingsNotFoundException: {}" + e.getMessage());
         }
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
@@ -888,10 +888,10 @@ public class MainService extends Service implements Transporter.DataListener {
         Logger.debug("MainService setting brightness to " + brightnessLevel);
 
         if (brightnessLevel == -1)
-            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
+            DeviceUtil.systemPutInt(context, Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
         else {
-            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, 0);
-            Settings.System.putInt(context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, brightnessLevel);
+            DeviceUtil.systemPutInt(context, Settings.System.SCREEN_BRIGHTNESS_MODE, 0);
+            DeviceUtil.systemPutInt(context, Settings.System.SCREEN_BRIGHTNESS, brightnessLevel);
         }
     }
 
@@ -1017,7 +1017,7 @@ public class MainService extends Service implements Transporter.DataListener {
                             if (apk.exists()) {
                                 if (apkFile.contains("service-")) {
                                     showConfirmationWearActivity("Service Update", "0");
-                                    new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                                    DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
                                     Thread.sleep(1000);
                                     new ExecCommand("adb install -r " + apkFile);
 
@@ -1362,7 +1362,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
 
-                    final String connectionStatus = android.provider.Settings.System.getString(getContentResolver(),
+                    final String connectionStatus = DeviceUtil.systemGetString(context,
                             "com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
 
                     Logger.warn("MainService registerConnectionMonitor onChange status: {}", connectionStatus);
@@ -1416,7 +1416,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private void sendStandardAlert(String alert_type) {
 
         final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
-        final String connectionStatus = android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
+        final String connectionStatus = DeviceUtil.systemGetString(context, "com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
 
         notificationData = new NotificationData();
 
@@ -1478,9 +1478,6 @@ public class MainService extends Service implements Transporter.DataListener {
                     Logger.trace("MainService sendStandardAlert send connected alert");
                 }
         }
-
-
-
     }
 
     private void setNotificationIcon(Drawable drawable) {
@@ -1505,9 +1502,9 @@ public class MainService extends Service implements Transporter.DataListener {
         int notifications = 0;
 
         // Get already saved data
-        String data = Settings.System.getString(getContentResolver(), "CustomWatchfaceData");
+        String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
         if (data == null || data.equals("")) {
-            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{}");//default
+            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
         }
 
         // Get data
@@ -1531,10 +1528,10 @@ public class MainService extends Service implements Transporter.DataListener {
             JSONObject json_data = new JSONObject(data);
             json_data.put("notifications", notifications);
 
-            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", json_data.toString());
+            DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
         } catch (JSONException e) {
             //default
-            Settings.System.putString(getContentResolver(), "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
+            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
             Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
         }
     }

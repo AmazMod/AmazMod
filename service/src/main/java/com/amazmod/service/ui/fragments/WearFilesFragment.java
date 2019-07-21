@@ -511,7 +511,7 @@ public class WearFilesFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         showToast("Please wait until installation finishes…");
                         if (file.toString().contains("service-")) {
-                            new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                            DeviceUtil.systemPutAdb(mContext,"screen_off_timeout", "200000");
                             sleep(1000);
                             new ExecCommand("adb install -r " + file.getAbsolutePath());
                         } else {

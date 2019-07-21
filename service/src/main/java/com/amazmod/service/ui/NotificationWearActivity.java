@@ -286,8 +286,8 @@ public class NotificationWearActivity extends Activity {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
             Logger.info("NotificationWearActivity setScreenModeOff true");
-            screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
-            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            screenMode = DeviceUtil.systemGetInt(mContext, SCREEN_BRIGHTNESS_MODE, 0);
+            screenBrightness = DeviceUtil.systemGetInt(mContext, Settings.System.SCREEN_BRIGHTNESS, 0);
             //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
             //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;
