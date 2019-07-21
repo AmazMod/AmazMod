@@ -61,7 +61,6 @@ import com.amazmod.service.receiver.NotificationReplyReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.support.BatteryJobService;
-import com.amazmod.service.support.CommandLine;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.AlertsActivity;
 import com.amazmod.service.ui.ConfirmationWearActivity;
@@ -88,10 +87,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.tinylog.Logger;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.RandomAccessFile;
 import java.lang.reflect.Constructor;
@@ -184,30 +181,48 @@ public class MainService extends Service implements Transporter.DataListener {
     private boolean phoneBatteryAlreadyAlerted;
     private float batteryPct;
     private int vibrate;
+    private NotificationData notificationData;
 
     private static PowerManager.WakeLock myWakeLock;
     private static boolean isRunning = false;
 
-    private static final Handler mHandler = new Handler();
+    private static final Handler stdHandler = new Handler();
+    private static final Handler cstHandler = new Handler();
 
-    private final Runnable sendConnectionNotification = new Runnable() {
+    private final Runnable sendStandardNotification = new Runnable() {
         public void run() {
-            isRunning = false;
 
-            if (isStandardAlertEnabled) {
-                Logger.debug("MainService sendConnectionNotification standardAlert");
-                sendStandardAlert("phone_connection");
-            } else {
-                Logger.debug("MainService sendConnectionNotification customAlert");
-                Intent intent = new Intent(context, AlertsActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                intent.putExtra("type","phone_connection");
-                context.startActivity(intent);
+            notificationManager.post(notificationData);
+            //Do not vibrate if DND is active
+            if (!DeviceUtil.isDNDActive(context)) {
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        try {
+                            if (vibrator != null) {
+                                vibrator.vibrate(vibrate);
+                            }
+                        } catch (Exception e) {
+                            Logger.error("vibrator exception: {}", e.getMessage());
+                        }
+                    }
+                }, 1000 /* 1s */);
+
             }
+            isRunning = false;
+        }
+    };
 
+    private final Runnable sendAlertNotification = new Runnable() {
+        public void run() {
+            Intent intent = new Intent(context, AlertsActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                    Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+            intent.putExtra("type","phone_connection");
+            context.startActivity(intent);
+            isRunning = false;
         }
     };
 
@@ -405,6 +420,9 @@ public class MainService extends Service implements Transporter.DataListener {
         //Unbind spltClockClient
         if (slptClockClient != null)
             slptClockClient.unbindService(this);
+
+        stdHandler.removeCallbacks(sendStandardNotification);
+        cstHandler.removeCallbacks(sendAlertNotification);
 
         super.onDestroy();
     }
@@ -998,7 +1016,11 @@ public class MainService extends Service implements Transporter.DataListener {
 
                             if (apk.exists()) {
                                 if (apkFile.contains("service-")) {
-                                    showConfirmationWearActivity("Requires OTA", "0");
+                                    showConfirmationWearActivity("Service Update", "0");
+                                    new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                                    Thread.sleep(1000);
+                                    new ExecCommand("adb install -r " + apkFile);
+
                                 } else {
                                     showConfirmationWearActivity("Installing APK", "0");
                                     myWakeLock = DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
@@ -1342,12 +1364,36 @@ public class MainService extends Service implements Transporter.DataListener {
 
                     final String connectionStatus = android.provider.Settings.System.getString(getContentResolver(),
                             "com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
+
                     Logger.warn("MainService registerConnectionMonitor onChange status: {}", connectionStatus);
-                    if ("0".equals(connectionStatus))
+
+                    if ("0".equals(connectionStatus) && !SystemProperties.isAirplaneModeOn(getApplicationContext()))
                         saveDisconnectionLog();
 
-                    mHandler.postDelayed(sendConnectionNotification, 1500);
-                    isRunning = true;
+                    if (isStandardAlertEnabled) {
+
+                        Logger.trace("MainService registerConnectionMonitor send standardAlert");
+                        sendStandardAlert("phone_connection");
+
+                    } else {
+
+                        if ("1".equals(connectionStatus) && isRunning) {
+                            isRunning = false;
+                            cstHandler.removeCallbacks(sendAlertNotification);
+                            Logger.trace("MainService registerConnectionMonitor canceling customAlert");
+
+                        } else if ("1".equals(connectionStatus)) {
+                            Logger.trace("MainService registerConnectionMonitor sending connected customAlert");
+                            cstHandler.postDelayed(sendAlertNotification, 100);
+                            isRunning = true;
+
+                        } else if ("0".equals(connectionStatus)) {
+                            Logger.trace("MainService registerConnectionMonitor queueing disconnected customAlert");
+                            cstHandler.postDelayed(sendAlertNotification, 1800);
+                            isRunning = true;
+                        }
+
+                    }
                 }
 
                 @Override
@@ -1372,7 +1418,7 @@ public class MainService extends Service implements Transporter.DataListener {
         final String notificationTime = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime());
         final String connectionStatus = android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS");
 
-        NotificationData notificationData = new NotificationData();
+        notificationData = new NotificationData();
 
         notificationData.setId(9979);
         notificationData.setKey("amazmod|test|9979");
@@ -1401,26 +1447,43 @@ public class MainService extends Service implements Transporter.DataListener {
             default:
                 // type= phone_connection
                 notificationData.setTitle(getString(R.string.phone_connection_alert));
-                if (connectionStatus.equals("0")) {     // Phone disconnected
+                if (connectionStatus.equals("0")) {             // Phone disconnected
                     //Return if Airplane mode is enabled
-                    if (SystemProperties.isAirplaneModeOn(getApplicationContext()))
-                        return;
-                    drawable = getDrawable(R.drawable.ic_outline_phonelink_erase);
-                    notificationData.setText(getString(R.string.phone_disconnected));
-                    vibrate = Constants.VIBRATION_LONG;
-                } else {                                // Phone connected
-                    //Don't send notification if it was disconnected less than 1,5s ago
-                    if (isRunning) {
-                        isRunning = false;
-                        mHandler.removeCallbacks(sendConnectionNotification);
+                    if (SystemProperties.isAirplaneModeOn(getApplicationContext())) {
+                        Logger.trace("MainService sendStandardAlert Airplane mode is on, returning…");
                         return;
                     }
-                    drawable = getDrawable(R.drawable.ic_outline_phonelink_ring);
+                    setNotificationIcon(getDrawable(R.drawable.ic_outline_phonelink_erase));
+                    notificationData.setText(getString(R.string.phone_disconnected));
+                    vibrate = Constants.VIBRATION_LONG;
+
+                    stdHandler.postDelayed(sendStandardNotification, 1800);
+                    isRunning = true;
+                    Logger.trace("MainService sendStandardAlert send disconnected alert");
+
+                } else {                                        // Phone connected
+                    //Don't send notification if it was disconnected less than 1,5s ago
+                    if (isRunning) {
+                        stdHandler.removeCallbacks(sendStandardNotification);
+                        isRunning = false;
+                        Logger.trace("MainService sendStandardAlert cancel alerts");
+                        return;
+                    }
+                    setNotificationIcon(getDrawable(R.drawable.ic_outline_phonelink_ring));
                     notificationData.setText(getString(R.string.phone_connected));
                     vibrate = Constants.VIBRATION_SHORT;
+
+                    stdHandler.postDelayed(sendStandardNotification, 100);
+                    isRunning = true;
+                    Logger.trace("MainService sendStandardAlert send connected alert");
                 }
         }
 
+
+
+    }
+
+    private void setNotificationIcon(Drawable drawable) {
         try {
             Bitmap bitmap = drawableToBitmap(drawable);
             int width = bitmap.getWidth();
@@ -1434,24 +1497,6 @@ public class MainService extends Service implements Transporter.DataListener {
         } catch (Exception e) {
             notificationData.setIcon(new int[]{});
             Logger.error("MainService sendStandardAlert exception: " + e.toString());
-        }
-
-        notificationManager.post(notificationData);
-
-        //Do not vibrate if DND is active
-        if (!DeviceUtil.isDNDActive(context)) {
-            new Handler().postDelayed(new Runnable() {
-                public void run() {
-                    final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                    try {
-                        if (vibrator != null) {
-                            vibrator.vibrate(vibrate);
-                        }
-                    } catch (Exception e) {
-                        Logger.error("vibrator exception: {}", e.getMessage());
-                    }
-                }
-            }, 1000 /* 1s */);
         }
     }
 
@@ -1578,8 +1623,8 @@ public class MainService extends Service implements Transporter.DataListener {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
             String dateStamp = sdf.format(new Date());
             String filename = "/sdcard/disconnection_log_" + dateStamp + ".txt";
-            Logger.error("**** Phone disconnected, saving log... *****");
-            new ExecCommand("adb shell logcat -d -t " + String.valueOf(lines) + " -v long -f " + filename + ";adb kill-server;exit");
+            new ExecCommand(ExecCommand.ADB, "adb shell logcat -d -t " + String.valueOf(lines) + " -v long -f " + filename);
+            Logger.error("**** Disconnected log saved ****");
         }
     }
 

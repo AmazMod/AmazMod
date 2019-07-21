@@ -31,6 +31,7 @@ import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.FileViewerWebViewActivity;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -501,23 +502,20 @@ public class WearFilesFragment extends Fragment {
     }
 
     private void openApk(final File file) {
-        Logger.debug( "WearFilesFragment openApk file: " + file.toString());
+        Logger.debug("WearFilesFragment openApk file: " + file.toString());
 
-        if (file.toString().contains("service-")) {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("Error")
-                    .setMessage("Service update requires OTA")
-                    .setPositiveButton(android.R.string.yes, null)
-                    .setNegativeButton(android.R.string.no, null).show();
-        } else {
-
-            new AlertDialog.Builder(getActivity())
-                    .setTitle(getResources().getString(R.string.install_app))
-                    .setMessage(getResources().getString(R.string.confirmation))
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getResources().getString(R.string.install_app))
+                .setMessage(getResources().getString(R.string.confirmation))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        showToast("Please wait until installation finishes…");
+                        if (file.toString().contains("service-")) {
+                            new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                            sleep(1000);
+                            new ExecCommand("adb install -r " + file.getAbsolutePath());
+                        } else {
                             final PowerManager.WakeLock myWakeLock = DeviceUtil.installApkAdb(mContext, file, false);
-                            showToast("Please wait until installation finishes…");
                             new Handler().postDelayed(new Runnable() { //Release wakelock after 10s when installing from File Manager
                                 public void run() {
                                     if (myWakeLock != null && myWakeLock.isHeld())
@@ -525,9 +523,9 @@ public class WearFilesFragment extends Fragment {
                                 }
                             }, 10000 /* 10s */);
                         }
-                    })
-                    .setNegativeButton(android.R.string.no, null).show();
-        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
 
     }
 
@@ -594,6 +592,13 @@ public class WearFilesFragment extends Fragment {
         }
     }
 
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Logger.error(e.getMessage());
+        }
+    }
 
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
