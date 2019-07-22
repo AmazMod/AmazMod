@@ -4,7 +4,7 @@
     <string name="settings">Paramètres</string>
     <string name="notifications">Notifications envoyées</string>
     <string name="notifications_options">Options des notifications</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Graphiques</string>
     <string name="customui">Personnaliser les contrôles des notifications</string>
     <string name="others">Autres</string>
     <string name="other">Autre</string>
@@ -92,14 +92,14 @@
     <string name="pref_enable_notifications">Notifications Push</string>
     <string name="pref_filter_notifications_by_packages">Applis. sélectionnées</string>
     <string name="pref_filter_notifications_by_packages_summary">Seules les notifications des applis sélectionnées seront envoyées.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Intervalle de synchro de la batterie en arrière plan</string>
     <string name="pref_battery_background_sync_interval_summary">Définir l\'intervalle de synchronisation de la batterie en arrière-plan.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
+    <string name="pref_battery_chart_time_interval">Plage de temps du graphique de la batterie</string>
     <string name="pref_battery_chart_time_interval_summary">Définir la plage de temps de la carte de batterie à afficher.</string>
     <string name="pref_battery_watch_alert">Alerte de batterie faible de la montre</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Définir le niveau de batterie de la montre en dessous duquel vous obtiendrez une notification de batterie faible.</string>
     <string name="pref_battery_phone_alert">Alerte de batterie faible du téléphone</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Définir le niveau de batterie du téléphone sous lequel vous obtiendrez une notification de batterie faible sur la montre. L\'option de GreatFit/Calendar \"Envoyer les données du téléphone\" doit être activée.</string>
     <string name="pref_notifications_replies_summary">Saisissez vos réponses personnalisées.</string>
     <string name="pref_notifications_replies">Réponse aux notifications</string>
     <string name="pref_private_notifications_summary">Le contenu des notifications sera caché (et le panneau de réponse aussi).</string>
@@ -130,7 +130,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Activer le controle de la musique par les boutons</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Active le contrôle de la musique par les boutons de la montre. Appuyez sur bas pour lire/pauser la musique. Appui long pour passer a la chansons suivante.</string>
     <string name="pref_phone_connect_disconnect_alert">Alerte de connexion/déconnexion du téléphone</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">La montre vibrera et affichera l’état de connexion avec le téléphone quand elle se connecte/déconnecte.</string>
     <string name="intro_title_1">Bienvenue dans AmazMod!</string>
     <string name="intro_description_1">Veuillez suivre cette présentation pour apprendre comment installer l\'App. de Service sur la montre et donner accès aux notifications a l\'application.</string>
     <string name="intro_title_permissions">Accès aux Notifications</string>
@@ -206,7 +206,7 @@
     <string name="revoke_device_owner">Retirer le propriétaire de l’appareil</string>
     <string name="alerts">Alertes</string>
     <string name="pref_phone_connect_alert_standard_notification">Utiliser les notifications standards</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Utiliser les notifications standard pour les alertes au lieu d\'une interface utilisateur personnalisée en plein écran.</string>
     <string name="enable_low_power">Activer le mode de faible consommation de la montre</string>
     <string name="failed_to_send_command">L\'envoi de la commande à la montre a échoué</string>
     <string name="command_sent">L\'envoi de la commande à la montre a réussi</string>
@@ -314,8 +314,8 @@
     <string name="pref_notifications_show_large_icon_summary">Afficher de grands icônes (habituellement l\'image des contacts) dans les notifications.</string>
     <string name="pref_notifications_enable_images">Afficher les Images</string>
     <string name="pref_notifications_enable_images_summary">Afficher l\'image de notification.</string>
-    <string name="pref_battery_chart">Battery chart</string>
-    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
+    <string name="pref_battery_chart">Graphique de batterie</string>
+    <string name="pref_battery_chart_summary">Afficher le graphique de la batterie dans l\'écran principal d\'AmazMod (le désactiver, désactivera aussi l\'acquisition des données de batterie de la montre, mais elles seront toujours enregistrées sur la montre).</string>
     <string name="logs">Journal</string>
     <string name="pref_log_to_file">Enregistrer le journal dans un fichier</string>
     <string name="pref_log_to_file_summary">Enregistrer les logs AmazMod vers amazmod.log</string>
@@ -354,12 +354,12 @@
     <string name="pref_amazmod_overlay_launcher">Lanceur de superposition de notifications</string>
     <string name="pref_amazmod_overlay_launcher_summary">Ouvrir la liste des notifications personnalisées en utilisant un bouton superposé sur la montre (son emplacement est affiché brièvement lorsque l\'écran est allumé et vous pouvez le glisser à gauche ou à droite).</string>
     <string name="file_not_found">Fichier non trouvé!</string>
-    <string name="pref_battery_full_alert">Full watch battery alert</string>
-    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
-    <string name="pref_heartrate_chart">Heart rate chart</string>
-    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
-    <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
-    <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
+    <string name="pref_battery_full_alert">Alerte de batterie pleine de la montre</string>
+    <string name="pref_battery_full_alert_summary">Afficher une notification lorsque la batterie est complètement chargée.</string>
+    <string name="pref_heartrate_chart">Tableau de fréquence cardiaque</string>
+    <string name="pref_heartrate_chart_summary">Afficher le graphique du rythme cardiaque dans l\'écran principal d\'AmazMod.</string>
+    <string name="pref_log_lines_shown">Lignes de log affichées</string>
+    <string name="pref_log_lines_shown_summary">Nombre de lignes de texte affichées dans la vue Logs.</string>
+    <string name="pref_enable_internet_companion">Activer le Compagnon Internet Amazfit</string>
+    <string name="pref_enable_internet_companion_summary">Active le transporteur AmazfitInternetCompanion (il n\'est utile que si vous avez une application sur la montre qui l\'utilise).</string>
 </resources>
