@@ -353,13 +353,13 @@
     <string name="new_folder">Nova pasta</string>
     <string name="pref_amazmod_overlay_launcher">Atalho flutuante para lista de notificações</string>
     <string name="pref_amazmod_overlay_launcher_summary">Abrir a lista de notificações personalizadas usando um botão flutuante transparente no relógio (sua localização é mostrada brevemente quando a tela é ativada e você pode deslizá-lo para a esquerda ou direita).</string>
-    <string name="file_not_found">File not found!</string>
-    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="file_not_found">Arquivo não encontrado!</string>
+    <string name="pref_battery_full_alert">Alerta de bateria carregada do relógio</string>
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
     <string name="pref_heartrate_chart">Heart rate chart</string>
     <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
     <string name="pref_log_lines_shown">Log lines shown</string>
     <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
-    <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
+    <string name="pref_enable_internet_companion">Ativar o Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
 </resources>
