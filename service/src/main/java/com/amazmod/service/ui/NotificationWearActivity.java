@@ -260,6 +260,9 @@ public class NotificationWearActivity extends Activity {
 
     private void setWindowFlags(boolean enable) {
 
+        if (MODE_VIEW.equals(mode))
+            return;
+
         final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
                 WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON |

@@ -105,7 +105,8 @@ public class DeviceUtil {
 
     public static void installPackage(Context context, String packageName, String filePath) {
 
-        Logger.debug("installPackage packageName: " + packageName);
+        Logger.debug("installPackage packageName: {}", packageName);
+        enableApkInstall();
         PackageInstaller packageInstaller = context.getPackageManager().getPackageInstaller();
 
         PackageInstaller.SessionParams params = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
@@ -212,6 +213,7 @@ public class DeviceUtil {
     public static void installApk(Context context, String apkPath, String mode) {
 
         Logger.debug("installApk apkPath: " + apkPath + " | mode: " + mode);
+        enableApkInstall();
 
         Intent intent = new Intent(context, ConfirmationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -435,6 +437,10 @@ public class DeviceUtil {
             return false;
         }
 
+    }
+
+    private static void enableApkInstall() {
+        new ExecCommand(ExecCommand.ADB, "adb shell settings put secure install_non_market_apps 1");
     }
 
     private static void showToast(Context context, String message) {
