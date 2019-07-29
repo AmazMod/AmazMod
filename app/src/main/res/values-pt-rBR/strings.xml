@@ -94,12 +94,12 @@
     <string name="pref_filter_notifications_by_packages_summary">Apenas notificações destes apps serão enviadas para o relógio.</string>
     <string name="pref_battery_background_sync_interval">Intervalo de sincronização em segundo plano da bateria</string>
     <string name="pref_battery_background_sync_interval_summary">Definir intervalo de sincronização de bateria em segundo plano.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
+    <string name="pref_battery_chart_time_interval">Intervalo de tempo do gráfico de bateria</string>
     <string name="pref_battery_chart_time_interval_summary">Defina o intervalo do gráfico de bateria.</string>
     <string name="pref_battery_watch_alert">Alerta de bateria do relógio</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Defina o nível mínimo de bateria ao qual você deseja ser notificado.</string>
     <string name="pref_battery_phone_alert">Alerta de bateria do telefone</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Defina o nível de bateria do telefone após o qual você receberá uma notificação de bateria. A opção GreatFit/Calendar \"Enviar dados do telefone\" precisa ser ativada.</string>
     <string name="pref_notifications_replies_summary">Insira suas respostas personalizadas.</string>
     <string name="pref_notifications_replies">Respostas para notificações</string>
     <string name="pref_private_notifications_summary">O conteúdo da notificação será ocultado (e o painel de respostas também).</string>
@@ -130,7 +130,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Habilitar controle de música por hardware</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Habilitar controle de música por botão físico. Aperte o botão inferior para tocar/pausar a música. Segure para pular para a próxima música.</string>
     <string name="pref_phone_connect_disconnect_alert">Alerta de ligar/desligar telefone</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">O relógio irá vibrar e mostrar o estado da conexão quando (des) conectar-se.</string>
     <string name="intro_title_1">Bem-Vindo ao AmazMod!</string>
     <string name="intro_description_1">Siga esta apresentação para aprender como instalar o app de serviço no relógio e conceder acesso às Notificações no celular.</string>
     <string name="intro_title_permissions">Accesso à Notificações</string>
@@ -206,7 +206,7 @@
     <string name="revoke_device_owner">Revogar proprietário no relógio</string>
     <string name="alerts">Alertas</string>
     <string name="pref_phone_connect_alert_standard_notification">Usar notificação padrão</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Usar notificações padrão para alertas em vez de uma notificação personalizada.</string>
     <string name="enable_low_power">Habilitar modo de baixo consumo no relógio</string>
     <string name="failed_to_send_command">Erro ao enviar comando para o relógio</string>
     <string name="command_sent">Comando enviado para o relógio com sucesso</string>
@@ -314,8 +314,8 @@
     <string name="pref_notifications_show_large_icon_summary">Mostrar Ícones Grandes (normalmente a Foto do Contato) nas notificações.</string>
     <string name="pref_notifications_enable_images">Imagens</string>
     <string name="pref_notifications_enable_images_summary">Mostrar Imagens das Notificações.</string>
-    <string name="pref_battery_chart">Battery chart</string>
-    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
+    <string name="pref_battery_chart">Gráfico da Bateria</string>
+    <string name="pref_battery_chart_summary">Mostra o gráfico de bateria na tela principal do AmazMod (desabilitar também desabilitará a aquisição de dados da bateria do relógio, mas ela ainda será gravada no relógio).</string>
     <string name="logs">Registros</string>
     <string name="pref_log_to_file">Registrar em Arquivo</string>
     <string name="pref_log_to_file_summary">Salvar registros do AmazMod em amazmod.log</string>
@@ -355,11 +355,11 @@
     <string name="pref_amazmod_overlay_launcher_summary">Abrir a lista de notificações personalizadas usando um botão flutuante transparente no relógio (sua localização é mostrada brevemente quando a tela é ativada e você pode deslizá-lo para a esquerda ou direita).</string>
     <string name="file_not_found">Arquivo não encontrado!</string>
     <string name="pref_battery_full_alert">Alerta de bateria carregada do relógio</string>
-    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
-    <string name="pref_heartrate_chart">Heart rate chart</string>
-    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
+    <string name="pref_battery_full_alert_summary">Mostrar uma notificação quando a bateria estiver totalmente carregada</string>
+    <string name="pref_heartrate_chart">Gráfico frequência cardíaca</string>
+    <string name="pref_heartrate_chart_summary">Mostrar gráfico de bateria na tela principal do AmazMod.</string>
+    <string name="pref_log_lines_shown">Mostrar log</string>
+    <string name="pref_log_lines_shown_summary">Número de linhas de texto mostradas na visualização de Logs.</string>
     <string name="pref_enable_internet_companion">Ativar o Amazfit Internet Companion</string>
-    <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
+    <string name="pref_enable_internet_companion_summary">Permite o transporte AmazfitInternetCompanion (só é útil se você tiver um aplicativo no relógio que usa isso).</string>
 </resources>
