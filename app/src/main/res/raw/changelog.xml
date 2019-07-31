@@ -7,10 +7,9 @@
         <new>Internet access from the watch support with Amazfit Internet Companion service</new>
         <new>Overlay button notifications access - Notification access directly from the watchface</new>
         <new>Improved Emoji support</new>
-        <new>Dark theme</new>
+        <new>Dark theme (beta)</new>
         <new>Option to activate WFZ watchface directly when pushing it to watch</new>
         <new>Ability to generate App/Service logs directly from AmazMod</new>
-        <new>re-worked notifications handling mechanism (maps and messenger calls notifications working)</new>
         <new>Command History is now saved/restored in backup</new>
         <new>New file picker (tap and hold to select multiple files)</new>
         <new>Option to hide heart rate chart, which stops battery data requests</new>
@@ -20,10 +19,10 @@
         <bugfix>Maps and messenger calls notifications working</bugfix>
         <bugfix>Do not vibrate watch for alerts if Silence is enabled</bugfix>
         <bugfix>Fixed Sporadic "Welcome to Amazmod" notification on watch</bugfix>
+        <bugfix>Lots of Small Bug fixes and Optimizations</bugfix>
         <info>UI/UX updates and optimizations</info>
         <info>Updated Internal libs</info>
-        <bugfix>Lots of Small Bug fixes and Optimizations</bugfix>
-        <info>Updated translations</info>
+        <info>Updated Translations</info>
     </release>
     <release
         date="2019-04-23"
