@@ -1,6 +1,6 @@
 <changelog>
     <release
-        date="Unreleased"
+        date="2019-07-31"
         versionCode="215"
         versionName="v1.1.8 (215)">
         <new>Option to hide heart rate chart</new>
@@ -10,28 +10,15 @@
         <bugfix>Download/Upload/Screenshot should be more stable</bugfix>
         <bugfix>Small bug fixes/tweaks</bugfix>
         <info>Disabling battery chart now stops battery data requests</info>
-        <info>Updated internal libs</info>
-        <info>Updated translations</info>
-    </release>
-    <release
-        date="Unreleased"
-        versionCode="214"
-        versionName="v1.1.8 (214)">
         <new>Migration to SDK28 (AndroidX libs)</new>
-        <new>New dark theme (beta)</new>
+        <new>New dark theme</new>
         <new>New file picker (tap and hold to select multiple files)</new>
         <bugfix>Widgets reorder fixes</bugfix>
         <bugfix>Maps and messenger calls notifications work again</bugfix>
         <bugfix>Do not vibrate watch for alerts if Silence is enabled</bugfix>
-        <bugfix>Small bug fixes</bugfix>
-        <info>Updated translations</info>
-    </release>
-    <release
-        date="Unreleased"
-        versionCode="213"
-        versionName="v1.1.7 (213)">
         <new>Command History is now saved/restored in backup</new>
         <bugfix>Fixed the Sporadic "Welcome to Amazmod" notification on watch</bugfix>
+        <info>Updated internal libs</info>
         <bugfix>Small bug fixes</bugfix>
         <info>Updated translations</info>
     </release>
