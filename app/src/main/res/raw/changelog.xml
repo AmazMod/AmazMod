@@ -3,23 +3,26 @@
         date="2019-07-31"
         versionCode="215"
         versionName="v1.1.8 (215)">
-        <new>Option to hide heart rate chart</new>
-        <new>Option to hide watch battery full alert</new>
-        <new>Open files downloaded from watch directly in File Explorer</new>
-        <new>New overlay button on watch to launch notifications log</new>
-        <bugfix>Download/Upload/Screenshot should be more stable</bugfix>
-        <bugfix>Small bug fixes/tweaks</bugfix>
-        <info>Disabling battery chart now stops battery data requests</info>
-        <new>Migration to SDK28 (AndroidX libs)</new>
-        <new>New dark theme</new>
-        <new>New file picker (tap and hold to select multiple files)</new>
-        <bugfix>Widgets reorder fixes</bugfix>
-        <bugfix>Maps and messenger calls notifications work again</bugfix>
-        <bugfix>Do not vibrate watch for alerts if Silence is enabled</bugfix>
+        <new>Phone app updated to with new libs (AndroidX)</new>
+        <new>Internet access from the watch support with Amazfit Internet Companion service</new>
+        <new>Overlay button notifications access - Notification access directly from the watchface</new>
+        <new>Improved Emoji support</new>
+        <new>Dark theme</new>
+        <new>Option to activate WFZ watchface directly when pushing it to watch</new>
+        <new>Ability to generate App/Service logs directly from AmazMod</new>
+        <new>re-worked notifications handling mechanism (maps and messenger calls notifications working)</new>
         <new>Command History is now saved/restored in backup</new>
-        <bugfix>Fixed the Sporadic "Welcome to Amazmod" notification on watch</bugfix>
-        <info>Updated internal libs</info>
-        <bugfix>Small bug fixes</bugfix>
+        <new>New file picker (tap and hold to select multiple files)</new>
+        <new>Option to hide heart rate chart, which stops battery data requests</new>
+        <new>Files Downloaded from watch now opens directly in File Explorer</new>
+        <bugfix>re-worked Download/Upload/Screenshot (should be more stable)</bugfix>
+        <bugfix>Widgets reorder fixes</bugfix>
+        <bugfix>Maps and messenger calls notifications working</bugfix>
+        <bugfix>Do not vibrate watch for alerts if Silence is enabled</bugfix>
+        <bugfix>Fixed Sporadic "Welcome to Amazmod" notification on watch</bugfix>
+        <info>UI/UX updates and optimizations</info>
+        <info>Updated Internal libs</info>
+        <bugfix>Lots of Small Bug fixes and Optimizations</bugfix>
         <info>Updated translations</info>
     </release>
     <release
