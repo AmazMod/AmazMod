@@ -187,7 +187,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 // (optional) change text size, default = 14sp
                 .setTextSize(14)
                 // (optional) set max lines, default = 2
-                .setMessageMaxLines(2)
+                .setMessageMaxLines(4)
                 // (optional) register onDisplayListener
                 .setOnDisplayListener(new SnackProgressBarManager.OnDisplayListener() {
                     @Override
