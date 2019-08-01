@@ -474,8 +474,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             DecimalFormat df = new DecimalFormat("#.00");
 
                             String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                            String smallMessage = getString(R.string.sending) + " \"" + file.getName() + "\", " + getString(R.string.wait);
-                            String message = smallMessage + "\n" + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                            String message = getString(R.string.sending) + " \"" + file.getName() + "\", " + getString(R.string.wait) + " - " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                            String messageNotification = "\"" + file.getName() + "\", " + duration + " - " + remaingSize + " - " + df.format(speed) + " kb/s";
+                            String smallMessage = getString(R.string.sending);
 
                             //Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
                             currentTime = System.currentTimeMillis();
@@ -483,7 +484,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                 if (continueNotification) {
 
                                     lastUpdate = currentTime;
-                                    updateNotification(message, smallMessage, (int) progress);
+                                    updateNotification(messageNotification, smallMessage, (int) progress);
 
                                 } else {
 
@@ -792,8 +793,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                     DecimalFormat df = new DecimalFormat("#.00");
 
                                     String duration = DurationFormatUtils.formatDuration(remainingTime, "mm:ss", true);
-                                    String smallMessage = getString(R.string.downloading) + " \"" + fileData.getName() + "\", " + getString(R.string.wait);
-                                    String message = smallMessage + "\n" + duration + " - " + remainingSize + " - " + df.format(speed) + " kb/s";
+                                    String message = getString(R.string.downloading) + " \"" + fileData.getName() + "\", " + getString(R.string.wait) + " - " + duration + " - " + remainingSize + " - " + df.format(speed) + " kb/s";
+                                    String messageNotification = "\"" + fileData.getName() + "\", " + duration + " - " + remainingSize + " - " + df.format(speed) + " kb/s";
+                                    String smallMessage = getString(R.string.downloading);
 
                                     //Logger.debug("continueNotification: {} \\ lastUpdate: {}", continueNotification, lastUpdate);
                                     currentTime = System.currentTimeMillis();
@@ -801,7 +803,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                         if (continueNotification) {
 
                                             lastUpdate = currentTime;
-                                            updateNotification(message, smallMessage, (int) progress);
+                                            updateNotification(messageNotification, smallMessage, (int) progress);
 
                                         } else {
 
