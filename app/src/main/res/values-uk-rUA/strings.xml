@@ -301,8 +301,8 @@
     <string name="error">Помилка</string>
     <string name="invalid_url">Невірна адреса iCal!</string>
     <string name="file_or_connection_error">Помилка файла або з\'єднання. Файл не може бути відкритий!</string>
-    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
-    <string name="search_title">Search</string>
+    <string name="update_process_warning">УВАГА: процес оновлення потребує тримати екран увімкненим і триватиме близько 3 хвилин, під час яких годинник перезавантажиться один або декілька раз. Не користуйтеся годинником під час оновлення, інакше він може вийти з ладу. Починайте оновлення тільки, якщо ви можете дочекатися його завершення.</string>
+    <string name="search_title">Пошук</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored.</string>
     <string name="language">Мова</string>
