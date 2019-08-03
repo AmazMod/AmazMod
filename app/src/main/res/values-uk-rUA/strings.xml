@@ -4,7 +4,7 @@
     <string name="settings">Налаштування</string>
     <string name="notifications">Повідомлення</string>
     <string name="notifications_options">Notifications options</string>
-    <string name="battery">Батарея</string>
+    <string name="charts">Charts</string>
     <string name="customui">Custom UI Notifications Options</string>
     <string name="others">Інше</string>
     <string name="other">Інше</string>
@@ -92,16 +92,14 @@
     <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Selected apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
-    <string name="pref_disable_battery_chart">Disable battery chart</string>
-    <string name="pref_disable_battery_chart_summary">Disable battery chart on main screen, app will be refreshed when closing Preferences.</string>
-    <string name="pref_battery_background_sync_interval">Background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
     <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
-    <string name="pref_battery_chart_time_interval">Chart time range</string>
+    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Watch battery alert</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level after which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">Phone battery alert</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level after which you will get a battery notification. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
     <string name="pref_notifications_replies_summary">Enter your custom replies.</string>
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well).</string>
@@ -132,7 +130,7 @@
     <string name="pref_enable_music_control_with_hardware_button">Enable hardware music control</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Enable music control with hardware key. Press bottom button to play/pause music. Long press to skip next song.</string>
     <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">Welcome to AmazMod!</string>
     <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
     <string name="intro_title_permissions">Access to Notifications</string>
@@ -208,7 +206,7 @@
     <string name="revoke_device_owner">Revoke device owner on watch</string>
     <string name="alerts">Alerts</string>
     <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
-    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts instead of a custom full screen UI.</string>
+    <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Enable low power mode on watch</string>
     <string name="failed_to_send_command">Sending command to watch failed</string>
     <string name="command_sent">Sending command to watch was successful</string>
@@ -316,8 +314,8 @@
     <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
     <string name="pref_notifications_enable_images">Show Images</string>
     <string name="pref_notifications_enable_images_summary">Show Notification Images.</string>
-    <string name="pref_battery_chart">Battery Chart</string>
-    <string name="pref_battery_chart_summary">Show Battery Chart in AmazMod main screen.</string>
+    <string name="pref_battery_chart">Battery chart</string>
+    <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
     <string name="logs">Logs</string>
     <string name="pref_log_to_file">Log to File</string>
     <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
@@ -355,4 +353,13 @@
     <string name="new_folder">New Folder</string>
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
+    <string name="file_not_found">File not found!</string>
+    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
+    <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
+    <string name="pref_log_lines_shown">Log lines shown</string>
+    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
+    <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
+    <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
 </resources>
