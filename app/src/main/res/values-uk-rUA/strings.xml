@@ -300,7 +300,7 @@
     <string name="success">Вдало</string>
     <string name="error">Помилка</string>
     <string name="invalid_url">Невірна адреса iCal!</string>
-    <string name="file_or_connection_error">File or connection error, file could not be opened!</string>
+    <string name="file_or_connection_error">Помилка файла або з\'єднання. Файл не може бути відкритий!</string>
     <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
