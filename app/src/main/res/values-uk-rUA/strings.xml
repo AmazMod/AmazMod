@@ -216,10 +216,10 @@
     <string name="cant_send_shell_command">Неможливо надіслати команду</string>
     <string name="install">Встановити</string>
     <string name="apk_install_started_title">Встановити APK</string>
-    <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
-    <string name="cant_start_apk_install">Can\'t start apk install</string>
-    <string name="reboot">Reboot</string>
-    <string name="restart_launcher">Restart launcher</string>
+    <string name="apk_install_started">Встановлення виконується у фоновому режимі. Після завершення інтерфейс годинника перезавантажиться.</string>
+    <string name="cant_start_apk_install">Неможливо почати встановлення apk</string>
+    <string name="reboot">Перезавантажити</string>
+    <string name="restart_launcher">Перезавантажити інтерфейс</string>
     <string name="enable_apps_list">Enable apps list</string>
     <string name="disable_apps_list">Disable apps list</string>
     <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
