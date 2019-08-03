@@ -305,13 +305,13 @@
     <string name="search_title">Search</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored.</string>
-    <string name="language">Language</string>
-    <string name="select">Select</string>
-    <string name="pref_choose_language">Choose language</string>
-    <string name="pref_choose_language_summary">You can change language of the app.</string>
-    <string name="languages_automatic">Autodetect Language</string>
-    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
-    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
+    <string name="language">Мова</string>
+    <string name="select">Обрати</string>
+    <string name="pref_choose_language">Оберіть мову</string>
+    <string name="pref_choose_language_summary">Ви можете обрати мову додатку.</string>
+    <string name="languages_automatic">Автовизначення мови</string>
+    <string name="pref_notifications_show_large_icon">Відображати великі іконки</string>
+    <string name="pref_notifications_show_large_icon_summary">Відображати великі іконки (зазвичай зображення контакту) в сповіщеннях.</string>
     <string name="pref_notifications_enable_images">Show Images</string>
     <string name="pref_notifications_enable_images_summary">Show Notification Images.</string>
     <string name="pref_battery_chart">Battery chart</string>
@@ -361,5 +361,5 @@
     <string name="pref_log_lines_shown">Кількість рядків журналу</string>
     <string name="pref_log_lines_shown_summary">Кількість текстових рядків, що будуть показані в журналі.</string>
     <string name="pref_enable_internet_companion">Увімкнути Amazfit Internet Companion</string>
-    <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
+    <string name="pref_enable_internet_companion_summary">Вмикає підтримку Amazfit Internet Companion (опція потрібна тільки у випадку використання вказаного додатку).</string>
 </resources>
