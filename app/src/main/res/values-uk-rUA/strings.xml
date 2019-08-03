@@ -104,8 +104,8 @@
     <string name="pref_notifications_replies">Відповіді на сповіщення</string>
     <string name="pref_private_notifications_summary">Зміст сповіщень буде приховано (як і панель відповідей).</string>
     <string name="pref_private_notifications">Не показувати сповіщення повністю</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON.</string>
-    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Показувати сповіщення на годиннику, коли екран телефону УВІМКНЕНО.</string>
+    <string name="pref_enable_notifications_when_screen_on">Надсилати, коли екран УВІМКНЕНО</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply.</string>
     <string name="pref_run_wizard">Welcome Presentation</string>
