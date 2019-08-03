@@ -317,10 +317,10 @@
     <string name="pref_battery_chart">Графік роботи батареї</string>
     <string name="pref_battery_chart_summary">Показувати графік роботи батареї на головному екрані AmazMod (якщо вимкнено - дані заряду батареї не синхронізуватимуться, але будуть фіксуватися в годиннику).</string>
     <string name="logs">Журнал</string>
-    <string name="pref_log_to_file">Log to File</string>
-    <string name="pref_log_to_file_summary">Save AmazMod logs to amazmod.log</string>
-    <string name="pref_log_to_file_level">Log Level</string>
-    <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file.</string>
+    <string name="pref_log_to_file">Записувати лог у файл</string>
+    <string name="pref_log_to_file_summary">Зберегти журнали AmazMod до amazmod.log</string>
+    <string name="pref_log_to_file_level">Рівень журналювання</string>
+    <string name="pref_log_to_file_level_summary">Оберіть рівень детальності для записів в журнал.</string>
     <string name="notification_low_battery">Amazfit low battery</string>
     <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
     <string name="notification_watch_charged">Amazfit is fully charged</string>
