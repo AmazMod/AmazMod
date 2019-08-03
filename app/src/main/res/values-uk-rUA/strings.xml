@@ -303,8 +303,8 @@
     <string name="file_or_connection_error">Помилка файла або з\'єднання. Файл не може бути відкритий!</string>
     <string name="update_process_warning">УВАГА: процес оновлення потребує тримати екран увімкненим і триватиме близько 3 хвилин, під час яких годинник перезавантажиться один або декілька раз. Не користуйтеся годинником під час оновлення, інакше він може вийти з ладу. Починайте оновлення тільки, якщо ви можете дочекатися його завершення.</string>
     <string name="search_title">Пошук</string>
-    <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored.</string>
+    <string name="pref_use_notification_scheduler">Зберігати сповіщення, коли від\'єднано</string>
+    <string name="pref_use_notification_scheduler_summary">Зберігати сповіщення, отримані, коли годинник і телефон роз\'єднані, і надсилати їх, коли з\'єднання відновлено.</string>
     <string name="language">Мова</string>
     <string name="select">Обрати</string>
     <string name="pref_choose_language">Оберіть мову</string>
