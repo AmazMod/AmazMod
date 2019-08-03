@@ -3,8 +3,8 @@
 <resources>
     <string name="settings">Налаштування</string>
     <string name="notifications">Повідомлення</string>
-    <string name="notifications_options">Notifications options</string>
-    <string name="charts">Charts</string>
+    <string name="notifications_options">Параметри сповіщень</string>
+    <string name="charts">Графіки</string>
     <string name="customui">Custom UI Notifications Options</string>
     <string name="others">Інше</string>
     <string name="other">Інше</string>
