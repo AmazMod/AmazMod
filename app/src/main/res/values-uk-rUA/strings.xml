@@ -5,13 +5,13 @@
     <string name="notifications">Повідомлення</string>
     <string name="notifications_options">Параметри сповіщень</string>
     <string name="charts">Графіки</string>
-    <string name="customui">Custom UI Notifications Options</string>
+    <string name="customui">Параметри сповіщень користувача</string>
     <string name="others">Інше</string>
     <string name="other">Інше</string>
     <string name="open">Відкрити</string>
     <string name="close">Закрити</string>
-    <string name="about">About</string>
-    <string name="sync_settings">Syncing settings&#8230;</string>
+    <string name="about">Про нас</string>
+    <string name="sync_settings">Налаштування синхронізації</string>
     <string name="brightness">Яскравість</string>
     <string name="tweaking">Tweaking</string>
     <string name="watchface">GreatFit / календар</string>
