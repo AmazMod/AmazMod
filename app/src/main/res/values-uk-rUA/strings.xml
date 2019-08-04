@@ -132,10 +132,10 @@
     <string name="pref_phone_connect_disconnect_alert">Сповіщення про підключення/відключення телефону</string>
     <string name="pref_phone_connect_disconnect_alert_summary">Годинник вібруватиме і буде показувати статус підключення до телефону при підключенні/відключенні.</string>
     <string name="intro_title_1">Вітаємо в AmazMod!</string>
-    <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
-    <string name="intro_title_permissions">Access to Notifications</string>
-    <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
-    <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
+    <string name="intro_description_1">Будь ласка, перегляньте цю презентацію, щоб дізнатися, як встановити сервісний додаток на годинник, а також надати додатку права доступу до Сповіщень на телефоні.</string>
+    <string name="intro_title_permissions">Доступ до Сповіщень</string>
+    <string name="intro_description_permissions">AmazMod потребує доступу до сповіщень задля їх передачі на годинник. Будь ласка, натисніть кнопку нижче, щоб надати доступ до сповіщень, а потім поверніться до презентації.</string>
+    <string name="intro_label_grant_permissions">Перед продовженням, будь ласка, надайте доступ до сповіщень.</string>
     <string name="intro_title_2">Install Service App on Watch</string>
     <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
     <string name="intro_title_3">Restart Devices</string>
