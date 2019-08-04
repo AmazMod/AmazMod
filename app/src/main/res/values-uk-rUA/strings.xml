@@ -190,8 +190,8 @@
     <string name="activity_files_restore_ok">Відновлення завершено. Вихід…</string>
     <string name="activity_files_restore_failed">Помилка відновлення!</string>
     <string name="activity_files_backup_not_found">Файл резервної копії знайдено!</string>
-    <string name="pref_disable_standard_notifications">Disable standard notifications</string>
-    <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch.</string>
+    <string name="pref_disable_standard_notifications">Вимкнути стандартні сповіщення</string>
+    <string name="pref_disable_standard_notifications_summary">Стандартні (стокові) сповіщення не будуть надсилатися на годинник.</string>
     <string name="activity_tweaking_brightness">Please note that Auto-brightness in watch must be disabled for this to work</string>
     <string name="failed_load_watch_status">Load of watch status failed</string>
     <string name="settings_applied">Settings applied</string>
