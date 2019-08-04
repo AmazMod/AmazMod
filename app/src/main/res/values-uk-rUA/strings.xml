@@ -203,8 +203,8 @@
     <string name="file_explorer">Файловий провідник</string>
     <string name="reading_files_failed">Помилка читання файлів</string>
     <string name="activity_about_extras">Додатково</string>
-    <string name="revoke_device_owner">Revoke device owner on watch</string>
-    <string name="alerts">Alerts</string>
+    <string name="revoke_device_owner">Скасувати зв\'язок власника з годинником</string>
+    <string name="alerts">Попередження</string>
     <string name="pref_phone_connect_alert_standard_notification">Використовувати стандартні сповіщення</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Використовувати стандартні сповіщення замість повноекранного інтерфейсу.</string>
     <string name="enable_low_power">Увімкнути режим збереження заряду годинника</string>
@@ -220,8 +220,8 @@
     <string name="cant_start_apk_install">Неможливо почати встановлення apk</string>
     <string name="reboot">Перезавантажити</string>
     <string name="restart_launcher">Перезавантажити інтерфейс</string>
-    <string name="enable_apps_list">Enable apps list</string>
-    <string name="disable_apps_list">Disable apps list</string>
+    <string name="enable_apps_list">Увімкнути список додатків</string>
+    <string name="disable_apps_list">Вимкнути список додатків</string>
     <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
     <string name="no_service_info_2">1) Download the latest release here:</string>
     <string name="no_service_info_3">2) Then install the service apk file on the watch</string>
