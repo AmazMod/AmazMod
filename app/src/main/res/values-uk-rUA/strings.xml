@@ -250,11 +250,11 @@
     <string name="download_completed">Завантаження завершено</string>
     <string name="rename">Перейменувати</string>
     <string name="type_folder_name">Введіть назву теки</string>
-    <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
-    <string name="command_history">Command History</string>
-    <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
-    <string name="automatic_brightness">Automatic Brightness</string>
-    <string name="set_brightness">Set</string>
+    <string name="brightness_bad_value_entered">Введено недопустиме значення. Допустима кількість від 1 до 255</string>
+    <string name="command_history">Журнал команд</string>
+    <string name="update_started_watch_reboot_when_update_finish">Оновлення почалося! Прогрес буде відображений на годиннику, а по завершенні він буде перезавантажений.</string>
+    <string name="automatic_brightness">Автоматична яскравість</string>
+    <string name="set_brightness">Встановити</string>
     <string name="file_upload_finished">Завантаження завершено успішно</string>
     <string name="view_files">Вид</string>
     <string name="delete_all">Видалити все</string>
