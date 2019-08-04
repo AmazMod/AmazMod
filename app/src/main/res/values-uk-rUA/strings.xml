@@ -136,11 +136,11 @@
     <string name="intro_title_permissions">Доступ до Сповіщень</string>
     <string name="intro_description_permissions">AmazMod потребує доступу до сповіщень задля їх передачі на годинник. Будь ласка, натисніть кнопку нижче, щоб надати доступ до сповіщень, а потім поверніться до презентації.</string>
     <string name="intro_label_grant_permissions">Перед продовженням, будь ласка, надайте доступ до сповіщень.</string>
-    <string name="intro_title_2">Install Service App on Watch</string>
-    <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
-    <string name="intro_title_3">Restart Devices</string>
-    <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
-    <string name="intro_title_4">All Done!</string>
+    <string name="intro_title_2">Встановіть сервісний додаток на годинник</string>
+    <string name="intro_description_2">Будь ласка, завантажте amazmod_service APK з веб-сайту AmazMod та встановіть його на свій годинник. Для встановлення скористайтеся adb (всі платформи), APKInstaller або Amazfit Tool, якщо ви користуєтеся Windows.</string>
+    <string name="intro_title_3">Перезавантажте пристрої</string>
+    <string name="intro_description_3">Потім перезавантажте годинник і телефон. Ви зрозумієте, що все працює, коли побачите дані годинника в полі Інфо годинника.</string>
+    <string name="intro_title_4">Все!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
     <string name="watch_is_connected">Connected</string>
     <string name="watch_disconnected">Disconnected</string>
