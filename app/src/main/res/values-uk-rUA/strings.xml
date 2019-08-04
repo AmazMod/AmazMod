@@ -129,7 +129,7 @@
     <string name="pref_filters">Фільтри сповіщень</string>
     <string name="pref_enable_music_control_with_hardware_button">Увімкнути керування музикою кнопками</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(ЕКСПЕРИМЕНТАЛЬНО!) Можливість керувати музикою кнопками годинника. Натисніть нижню кнопку для відтворення/зупинки музики. Довге натискання для переходу до наступного треку.</string>
-    <string name="pref_phone_connect_disconnect_alert">Phone connect/disconnect alert</string>
+    <string name="pref_phone_connect_disconnect_alert">Сповіщення про підключення/відключення телефону</string>
     <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
     <string name="intro_title_1">Welcome to AmazMod!</string>
     <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
