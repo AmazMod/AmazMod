@@ -228,10 +228,10 @@
     <string name="no_service_info_4">3) На сам кінець, перезавантажте годинник і телефон</string>
     <string name="enable_lpm_title">Увімкнути LPM</string>
     <string name="revoke_admin">Відкликати адміністратора</string>
-    <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
-    <string name="continue_label">Continue</string>
-    <string name="pref_file_extras">Backup and restore settings</string>
-    <string name="pref_file_extras_summary">Backup and restore AmazMod settings.</string>
+    <string name="enable_lpm_content">Ця функція є експериментальною. Для вимкнення - перезавантажте годинник</string>
+    <string name="continue_label">Продовжити</string>
+    <string name="pref_file_extras">Налаштування резервування та відновлення</string>
+    <string name="pref_file_extras_summary">Налаштування резервування та відновлення AmazMod.</string>
     <string name="reboot_bootloader">Enter fastboot</string>
     <string name="set_admin">Set admin</string>
     <string name="shell_command_failed">Command failed</string>
