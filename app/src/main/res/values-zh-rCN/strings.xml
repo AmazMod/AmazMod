@@ -99,10 +99,10 @@
     <string name="pref_battery_watch_alert">手表端电量警报</string>
     <string name="pref_battery_watch_alert_summary">设置手表的电池电量少于多少你将会收到低电量通知.</string>
     <string name="pref_battery_phone_alert">手机电量警报</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
-    <string name="pref_notifications_replies_summary">Enter your custom replies.</string>
+    <string name="pref_battery_phone_alert_summary">设置手机的电池电量少于多少你将会在手表收到通知。需要到 GreatFit/Calendar 设置启用 \"发送手机数据\" 选项。</string>
+    <string name="pref_notifications_replies_summary">输入您的自定义答复.</string>
     <string name="pref_notifications_replies">通知回复</string>
-    <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well).</string>
+    <string name="pref_private_notifications_summary">通知内容将被隐藏 (包括回复面板).</string>
     <string name="pref_private_notifications">隐藏通知内容</string>
     <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON.</string>
     <string name="pref_enable_notifications_when_screen_on">屏幕打开时发送</string>
