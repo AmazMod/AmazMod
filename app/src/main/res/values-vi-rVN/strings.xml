@@ -166,8 +166,8 @@
     <string name="activity_permissions_calendar">truy cập lịch của bạn</string>
     <string name="activity_permissions_notifications">Truy cập thông báo</string>
     <string name="activity_permissions_open_settings">Open App Settings</string>
-    <string name="enabled">§7[§c§lThông Báo§7] Bật</string>
-    <string name="disabled">Khuyết tật</string>
+    <string name="enabled">Kích hoạt</string>
+    <string name="disabled">Đã tắt</string>
     <string name="activity_files_extras">Cài đặt sao lưu</string>
     <string name="activity_files_backup_title">Sao lưu và khôi phục</string>
     <string name="activity_files_permission">Ai có thể đăng bài?</string>
@@ -230,8 +230,8 @@
     <string name="revoke_admin">Revoke admin</string>
     <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
     <string name="continue_label">Tiếp tục</string>
-    <string name="pref_file_extras">- Sao lưu và khôi phục lại cài đặt tiện ích</string>
-    <string name="pref_file_extras_summary">- Sao lưu và khôi phục lại cài đặt tiện ích</string>
+    <string name="pref_file_extras">Sao lưu và khôi phục lại cài đặt tiện ích</string>
+    <string name="pref_file_extras_summary">Sao lưu và khôi phục lại cài đặt tiện ích.</string>
     <string name="reboot_bootloader">Enter fastboot</string>
     <string name="set_admin">Set admin</string>
     <string name="shell_command_failed">Ra lệnh không thành công.</string>
@@ -254,7 +254,7 @@
     <string name="command_history">Command History</string>
     <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Độ sáng tự động</string>
-    <string name="set_brightness">Đặt</string>
+    <string name="set_brightness">Thiết lập</string>
     <string name="file_upload_finished">thu thập thành công</string>
     <string name="view_files">Hiển thị</string>
     <string name="delete_all">Xóa tất cả</string>
@@ -269,9 +269,9 @@
     <string name="file_uploader">Tải Lên Tập Tin</string>
     <string name="file_uploader_title">Install %s ?</string>
     <string name="file_uploader_name">Title: %s</string>
-    <string name="file_uploader_author">Tác giả: %s</string>
+    <string name="file_uploader_author">Tác giả:</string>
     <string name="file_uploader_label">Label: %s</string>
-    <string name="file_uploader_package">Gói:%s</string>
+    <string name="file_uploader_package">Gói:</string>
     <string name="pref_notifications_disable_large_icon">Don\'t send users avatar</string>
     <string name="pref_notifications_disable_large_icon_summary">User avatars will not be shown in the notification. This will save the battery a bit.</string>
     <string name="pref_notifications_disable_picture">Don\'t send notification pictures</string>
@@ -279,7 +279,7 @@
     <string name="notification_silenced">SILENCED</string>
     <string name="notification_text_filter">Bộ lọc</string>
     <string name="muted_apps">Muted Applications</string>
-    <string name="ok">OK</string>
+    <string name="ok">Đồng ý</string>
     <string name="are_you_sure">Bạn có chắc không?</string>
     <string name="cannot_be_undone">Điều này không thể hoàn tác.</string>
     <string name="show_only_selected">Show only allowed apps</string>
@@ -289,7 +289,7 @@
     <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
     <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
     <string name="activity_packageoptions_unmute">Bỏ chặn</string>
-    <string name="activity_packageoptions_muted_until">Tắt tiếng cho đến %s</string>
+    <string name="activity_packageoptions_muted_until">Tắt tiếng cho đến</string>
     <string name="main_options">Tải Lên Tập Tin</string>
     <string name="watchface_calendar_source">Nguồn dữ liệu lịch</string>
     <string name="test">Kiểm tra</string>
@@ -312,7 +312,7 @@
     <string name="languages_automatic">Autodetect Language</string>
     <string name="pref_notifications_show_large_icon">Show Large Icons</string>
     <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
-    <string name="pref_notifications_enable_images">Hiện Hình ảnh</string>
+    <string name="pref_notifications_enable_images">Hiển thị hình ảnh</string>
     <string name="pref_notifications_enable_images_summary">Hiển thị thông báo</string>
     <string name="pref_battery_chart">Battery chart</string>
     <string name="pref_battery_chart_summary">Show battery chart in AmazMod main screen (disabling it will also disable watch battery data acquisition, but it will still be recorded on watch).</string>
@@ -338,7 +338,7 @@
     <string name="pref_amazmod_dark_theme">Chủ đề tối</string>
     <string name="share">Chia sẻ</string>
     <string name="collecting_watch_logs">Collecting Watch Logs</string>
-    <string name="button_description">Nút</string>
+    <string name="button_description">Nút bấm</string>
     <string name="image_description">Hình ảnh</string>
     <string name="amazmod_service">AmazMod Service</string>
     <string name="product_model">Product model</string>
@@ -348,9 +348,9 @@
     <string name="build_model">Build Huami model</string>
     <string name="build_description">Mô tả dự án</string>
     <string name="rename_folder">Đổi tên thư mục</string>
-    <string name="rename_file">Đổi Tên Tập Tin</string>
+    <string name="rename_file">Đổi tên tập tin</string>
     <string name="type_file_name">Type File Name</string>
-    <string name="new_folder">New folder</string>
+    <string name="new_folder">Thư mục mới</string>
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">Không tìm thấy tệp</string>
