@@ -40,7 +40,7 @@
     <string name="wait">Vui lòng chờ</string>
     <string name="cant_upload_file">Không thể xoá tập tin.</string>
     <string name="cant_download_file">Không thể xoá tập tin.</string>
-    <string name="file_upload_canceled">File upload canceled</string>
+    <string name="file_upload_canceled">Tải xuống bị hủy bỏ</string>
     <string name="file_download_canceled">Tải xuống bị hủy bỏ</string>
     <string name="file_downloaded">Đã tải tập tin</string>
     <string name="notification_access">Truy cập thông báo</string>
