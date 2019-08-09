@@ -4,7 +4,7 @@
     <string name="settings">Подешавања</string>
     <string name="notifications">Обавештења</string>
     <string name="notifications_options">Опције обавештења</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Графикони</string>
     <string name="customui">Prilagođene opcije korisničkog interfejsa</string>
     <string name="others">Остало</string>
     <string name="other">Друго</string>
@@ -32,7 +32,7 @@
     <string name="download">Преузми</string>
     <string name="deleting">Brišem</string>
     <string name="cant_delete_file">Не могу да обришем датотеку</string>
-    <string name="add_new_reply">Add new reply</string>
+    <string name="add_new_reply">Додај нови одговор</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
     <string name="file_not_exists">File not exists</string>
     <string name="cant_uplaod_directory">Can\'t upload directory</string>
