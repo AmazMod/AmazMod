@@ -352,7 +352,7 @@
     <string name="type_file_name">Εισαγωγή Ονόματος Αρχείου</string>
     <string name="new_folder">Νέος φάκελος</string>
     <string name="pref_amazmod_overlay_launcher">Επικάλυμμα Εκκίνησης Ειδοποιήσεων</string>
-    <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
+    <string name="pref_amazmod_overlay_launcher_summary">Άνοιγμα της λίστα Ειδοποιήσεων Προσαρμοσμένου UI μέσω ενός διάφανου κουμπιού στο ρολόι (η τοποθεσία του φαίνεται αμυδρά κατά την ενεργοποίηση και απενεργοποίηση της οθόνης και μπορεί να συρθεί δεξιά ή αριστερά).</string>
     <string name="file_not_found">Το αρχείο δεν βρέθηκε!</string>
     <string name="pref_battery_full_alert">Ειδοποίηση πλήρης φόρτισης ρολογιού</string>
     <string name="pref_battery_full_alert_summary">Εμφάνιση ειδοποίησης όταν το ρολόι είναι πλήρως φορτισμένο.</string>
