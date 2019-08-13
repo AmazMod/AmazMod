@@ -359,7 +359,7 @@
     <string name="pref_heartrate_chart">C.báo NT Aerobic</string>
     <string name="pref_heartrate_chart_summary">Hiển thị biểu đồ nhịp tim trong màn hình chính AmazMod.</string>
     <string name="pref_log_lines_shown">Nhật ký dòng hiển thị</string>
-    <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
-    <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
-    <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
+    <string name="pref_log_lines_shown_summary">Số dòng văn bản hiển thị trong chế độ xem nhật ký.</string>
+    <string name="pref_enable_internet_companion">Kích hoạt tính năng đồng hành Internet Amazfit</string>
+    <string name="pref_enable_internet_companion_summary">Cho phép trình vận chuyển Amazfit Internet Companion (nó chỉ hữu ích nếu bạn có một ứng dụng trên đồng hồ sử dụng cái này).</string>
 </resources>
