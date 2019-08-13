@@ -16,7 +16,7 @@ public class DownloadHelper {
     public static boolean checkDownloadDirExist(byte mode) {
         String downloadDirPath = getDownloadDir(mode);
         File downloadDir = new File(downloadDirPath);
-        return downloadDir.exists() || downloadDir.mkdir();
+        return downloadDir.exists() || downloadDir.mkdirs();
     }
 
     public static File getDownloadedFile(String name, byte mode) {
