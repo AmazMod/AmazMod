@@ -7,20 +7,18 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.Permissions;
 
 import org.tinylog.Logger;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,7 +40,7 @@ public class CheckPermissionsActivity extends BaseAppCompatActivity {
     @BindView(R.id.activity_permissions_open_permissions)
     Button openSettingsButton;
 
-    private final Map<String, String > REQUIRED_PERMISSIONS = new HashMap<String, String>(){{
+    private final ArrayMap<String, String > REQUIRED_PERMISSIONS = new ArrayMap<String, String>(){{
             put(Manifest.permission.READ_CALENDAR, "activity_permissions_calendar");
             put(Manifest.permission.WRITE_EXTERNAL_STORAGE, "activity_permissions_write");
     }};
@@ -104,7 +102,7 @@ public class CheckPermissionsActivity extends BaseAppCompatActivity {
         materialProgressBar.setVisibility(View.VISIBLE);
         permissionsMainContainer.setVisibility(View.GONE);
 
-        for (Map.Entry<String, String> entry : REQUIRED_PERMISSIONS.entrySet()) {
+        for (ArrayMap.Entry<String, String> entry : REQUIRED_PERMISSIONS.entrySet()) {
 
             Logger.debug("CheckPermissionsActivity permission: " + entry.getKey() + " / " + entry.getValue());
 

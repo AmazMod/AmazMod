@@ -3,42 +3,23 @@ package com.amazmod.service.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.os.Vibrator;
-import android.provider.Settings;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.util.DeviceUtil;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-
-import amazmod.com.models.Reply;
-import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import xiaofei.library.hermeseventbus.HermesEventBus;
+
+import org.tinylog.Logger;
 
 public class AlertsActivity extends Activity {
 
@@ -49,8 +30,8 @@ public class AlertsActivity extends Activity {
     private Handler handler;
     private ActivityFinishRunnable activityFinishRunnable;
 
-    Vibrator vibrator;
     int vibrate;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +41,10 @@ public class AlertsActivity extends Activity {
         ButterKnife.bind(this);
         setWindowFlags(true);
 
+        context = this;
+
         SettingsManager settingsManager = new SettingsManager(this);
 
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         vibrate = Constants.VIBRATION_SHORT;
 
         // Get passed parameters
@@ -83,7 +65,7 @@ public class AlertsActivity extends Activity {
             case "phone_connection":
             default:
                 // type= phone_connection
-                if(android.provider.Settings.System.getString(getContentResolver(), "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
+                if(DeviceUtil.systemGetString(context, "com.huami.watch.extra.DEVICE_CONNECTION_STATUS").equals("0")){
                     // Phone disconnected
                     icon.setImageDrawable(getDrawable(R.drawable.ic_outline_phonelink_erase));
                     text.setText(getString(R.string.phone_disconnected));
@@ -102,13 +84,7 @@ public class AlertsActivity extends Activity {
         final Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
-                try {
-                    if (vibrator != null) {
-                        vibrator.vibrate(vibrate);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                makeVibration(vibrate);
             }
         }, 1500);
     }
@@ -131,14 +107,10 @@ public class AlertsActivity extends Activity {
     private void startTimerFinish() {
 
         // Vibrate
-        try {
-            vibrator.vibrate(Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        makeVibration(Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION);
 
         handler.removeCallbacks(activityFinishRunnable);
-        handler.postDelayed(activityFinishRunnable, 3*1000);
+        handler.postDelayed(activityFinishRunnable, 3 * 1000L /* 3s */);
 
     }
 
@@ -147,6 +119,20 @@ public class AlertsActivity extends Activity {
         handler.removeCallbacks(activityFinishRunnable);
         setWindowFlags(false);
         super.finish();
+    }
+
+    private void makeVibration(int duration) {
+        //Do not vibrate if DND is active
+        if (DeviceUtil.isDNDActive(this))
+            return;
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        try {
+            if (vibrator != null)
+                vibrator.vibrate(duration);
+        } catch (Exception ex) {
+            Logger.error(ex, "AlertsActivity makeVibration excepition: ", ex.getMessage());
+        }
     }
 
     private void setWindowFlags(boolean enable) {

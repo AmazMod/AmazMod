@@ -6,7 +6,7 @@
         android:title="@string/search_title"
         android:icon="@drawable/ic_search"
         app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="android.support.v7.widget.SearchView"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 
     <item
         android:id="@+id/action_activity_notification_packges_selector_toggle_all"

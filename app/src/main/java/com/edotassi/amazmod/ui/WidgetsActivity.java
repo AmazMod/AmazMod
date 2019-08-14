@@ -1,53 +1,22 @@
 package com.edotassi.amazmod.ui;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.edotassi.amazmod.AmazModApplication;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultWidgets;
-import com.edotassi.amazmod.receiver.WatchfaceReceiver;
-import com.edotassi.amazmod.support.FirebaseEvents;
-import com.edotassi.amazmod.util.FilesUtil;
-import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.pixplicity.easyprefs.library.Prefs;
-
-import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.data.ParserException;
-import net.fortuna.ical4j.util.MapTimeZoneCache;
 
 import org.tinylog.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.ExecutionException;
-
-import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.WidgetsData;
 import butterknife.BindView;
 import butterknife.ButterKnife;

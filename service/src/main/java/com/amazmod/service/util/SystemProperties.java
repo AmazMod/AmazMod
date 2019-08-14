@@ -19,6 +19,7 @@ package com.amazmod.service.util;
 import android.content.Context;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.provider.Settings;
 
 import com.amazmod.service.Constants;
 
@@ -30,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 /**
  * Gives access to the system properties store. The system properties store contains a list of
@@ -132,6 +134,17 @@ public class SystemProperties {
     }
 
     public static String getSystemProperty(String name) {
+
+        ExecCommand execCommand = new ExecCommand(new String[]{"/system/bin/getprop", name});
+
+        if (execCommand.getResult() == -1) {
+            Logger.error("error: {}", execCommand.getError());
+            return null;
+        } else {
+            return execCommand.getOutput();
+        }
+
+        /* Disabled to test new ExecCommand class
         InputStreamReader in = null;
         BufferedReader reader = null;
         try {
@@ -140,14 +153,22 @@ public class SystemProperties {
             reader = new BufferedReader(in);
             return reader.readLine();
         } catch (IOException e) {
+            Logger.error("SystemProperties getSystemProperty exception: {}", e.getMessage());
             return null;
         } finally {
             closeQuietly(in);
             closeQuietly(reader);
         }
+        */
     }
 
-    public static String setSystemProperty(String name, String param) {
+    public static int setSystemProperty(String name, String param) {
+
+        ExecCommand execCommand = new ExecCommand(new String[]{"/system/bin/setprop", name, param});
+
+        return execCommand.getResult();
+
+        /* Disabled to test new ExecCommand class
         InputStreamReader in = null;
         BufferedReader reader = null;
         try {
@@ -156,12 +177,14 @@ public class SystemProperties {
             reader = new BufferedReader(in);
             return reader.readLine();
         } catch (IOException e) {
-            Logger.error("SystemProperties setSystemProperty exception: " + e.toString());
+            Logger.error("SystemProperties setSystemProperty exception: {}", e.getMessage());
             return null;
         } finally {
             closeQuietly(in);
             closeQuietly(reader);
         }
+        */
+
     }
 
     private static void closeQuietly(Closeable closeable) {
@@ -208,6 +231,39 @@ public class SystemProperties {
         } catch (Exception e){
             Logger.error("SystemProperties switchPowerMode exception: " + e.toString());
         }
+    }
+
+    public static boolean isPace(){
+        String model = getSystemProperty("ro.build.huami.model");
+        boolean isPace = Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model);
+        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isPace);
+        return isPace;
+    }
+
+    public static boolean isStratos(){
+        String model = getSystemProperty("ro.build.huami.model");
+        boolean isStratos = Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model);
+        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isStratos);
+        return isStratos;
+    }
+
+    public static boolean isVerge(){
+        String model = getSystemProperty("ro.build.huami.model");
+        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
+        Logger.debug("isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
+        return isVerge;
+    }
+
+    /**
+     * Gets the state of Airplane Mode.
+     *
+     * @param context
+     * @return true if enabled.
+     */
+    public static boolean isAirplaneModeOn(Context context) {
+
+        return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
+
     }
 
 }

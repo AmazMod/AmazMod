@@ -1,9 +1,34 @@
 <changelog>
     <release
+        date="2019-07-31"
+        versionCode="215"
+        versionName="v1.1.8 (215)">
+        <new>Phone app updated to with new libs (AndroidX)</new>
+        <new>Internet access from the watch support with Amazfit Internet Companion service</new>
+        <new>Overlay button notifications access - Notification access directly from the watchface</new>
+        <new>Improved Emoji support</new>
+        <new>Dark theme (beta)</new>
+        <new>Option to activate WFZ watchface directly when pushing it to watch</new>
+        <new>Ability to generate App/Service logs directly from AmazMod</new>
+        <new>Command History is now saved/restored in backup</new>
+        <new>New file picker (tap and hold to select multiple files)</new>
+        <new>Option to hide heart rate chart, which stops battery data requests</new>
+        <new>Files Downloaded from watch now opens directly in File Explorer</new>
+        <bugfix>re-worked Download/Upload/Screenshot (should be more stable)</bugfix>
+        <bugfix>Widgets reorder fixes</bugfix>
+        <bugfix>Maps and messenger calls notifications working</bugfix>
+        <bugfix>Do not vibrate watch for alerts if Silence is enabled</bugfix>
+        <bugfix>Fixed Sporadic "Welcome to Amazmod" notification on watch</bugfix>
+        <bugfix>Lots of Small Bug fixes and Optimizations</bugfix>
+        <info>UI/UX updates and optimizations</info>
+        <info>Updated Internal libs</info>
+        <info>Updated Translations</info>
+    </release>
+    <release
         date="2019-04-23"
         versionCode="212"
-        versionName="v1.1.6">
-        <new>Faster app installation keeping watch active (for now only ROOTED watch)</new>
+        versionName="v1.1.6 (212)">
+        <new>Faster app installation now is work for NON root user too! (PS amazmod update will be fast from the next update too)</new>
         <new>Heart-rate graph added (phone app)</new>
         <new>Screenshots are auto rotated for Verge</new>
         <new>Watch's screen is unlocked before a screenshot</new>
@@ -21,13 +46,14 @@
         <bugfix>Notifications system app filter fix</bugfix>
         <bugfix>Settings titles/descriptions where simplified</bugfix>
         <bugfix>Installing apks with spaces/dots in their name fix</bugfix>
+        <bugfix>Opening apk/wfz from Opera fix (maybe for other apps too)</bugfix>
         <bugfix>Small bug fixes</bugfix>
         <info>Updated translations</info>
     </release>
     <release
         date="2019-04-01"
         versionCode="210"
-        versionName="v1.1.5">
+        versionName="v1.1.5 (210)">
         <new>Notifications control adjustments:
             1. Store and deploy on watch re-connection
             2. Dismiss if watch not connected</new>
@@ -42,7 +68,7 @@
     <release
         date="2019-02-08"
         versionCode="201"
-        versionName="v1.1.3">
+        versionName="v1.1.3 (201)">
         <new>Calendar Sync (native and iCal) - need a third party app to view calendar events: https://goo.gl/oc97Qv</new>
         <new>Improved Launcher (now it fixes in first position)</new>
         <new>Built-in file explorer on your watch! (Install apk, manage files and view Text and Images directly from watch)</new>
@@ -55,7 +81,7 @@
     <release
         date="2019-01-31"
         versionCode="200"
-        versionName="v1.1.0">
+        versionName="v1.1.0 (200)">
         <new>Added users avatar icons</new>
         <new>Added notifications pictures</new>
         <new>New watch widget (now it's a launcher)</new>

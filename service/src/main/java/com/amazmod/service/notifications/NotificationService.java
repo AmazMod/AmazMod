@@ -7,11 +7,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -66,13 +64,12 @@ public class NotificationService {
 
     public void post(final NotificationData notificationSpec) {
 
-        if (!DeviceUtil.isDNDActive(context, context.getContentResolver())) {
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (!DeviceUtil.isDNDActive(context)) {
 
-            boolean enableCustomUI = sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
+            boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                     Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
 
-            boolean disableNotificationReplies = sharedPreferences.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+            boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                     Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
             boolean forceCustom = notificationSpec.getForceCustom();
@@ -105,8 +102,7 @@ public class NotificationService {
             } else {
                 Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
-                    if (!forceCustom)
-                        NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
+                    NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
                     postWithCustomUI(notificationStoreKey);
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
@@ -333,7 +329,7 @@ public class NotificationService {
 
         NotificationData.ActionData[] actionDataList = statusBarNotificationData.notification.wearableExtras.actions;
 
-        Intent intent = new Intent(context, NotificationsReceiver.class);
+        Intent intent = new Intent(context, NotificationReplyReceiver.class);
         intent.setPackage(context.getPackageName());
         intent.setAction("com.amazmod.intent.notification.reply");
         intent.putExtra("reply", "hello world!");

@@ -11,15 +11,11 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
-import android.support.text.emoji.widget.EmojiTextView;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DelayedConfirmationView;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +26,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import org.tinylog.Logger;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
+import androidx.emoji.widget.EmojiTextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -41,13 +39,16 @@ import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FragmentUtil;
+import com.amazmod.service.util.SystemProperties;
+
+import org.greenrobot.eventbus.EventBus;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import amazmod.com.models.Reply;
 import amazmod.com.transport.data.NotificationData;
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -69,16 +70,13 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     private TextView delayedConfirmationViewTitle, delayedConfirmationViewBottom;
     private DelayedConfirmationView delayedConfirmationView;
-
     private LinearLayout repliesListView, repliesEditTextContainer, muteListView;
-
 
     private String key, mode, notificationKey, selectedReply, selectedSilenceTime;
     private boolean enableInvertedTheme, disableDelay;
-    ;
+
     private Context mContext;
     private FragmentUtil util;
-    private SettingsManager settingsManager;
 
     private String action;
     private static final String ACTION_REPLY = "reply";
@@ -99,15 +97,15 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         key = getArguments().getString(NotificationWearActivity.KEY);
         mode = getArguments().getString(NotificationWearActivity.MODE);
 
-        Logger.info("NotificationFragment onCreate: key " + key + " | mode: " + mode);
-        // todo getCustomNotification(key).getKey() returns Null if you answer a messenger/watchapp call, is this correct?
-        try {
-            notificationKey = NotificationStore.getCustomNotification(key).getKey();
-        }catch(NullPointerException e){
-            notificationKey = "null";
-            Logger.error(e, e.getLocalizedMessage());
+        notificationData = NotificationStore.getCustomNotification(key);
+        if (notificationData != null) {
+            notificationKey = NotificationStore.getKey(key);
+        } else {
+            Logger.error("null notificationData, finishing…");
+            getActivity().finish();
         }
-        settingsManager = new SettingsManager(this.mContext);
+
+        Logger.debug("key: {} mode: {} notificationKey: {}", key, mode, notificationKey);
     }
 
     @Override
@@ -133,33 +131,52 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     private void updateContent() {
 
-        final String key = getArguments().getString(NotificationWearActivity.KEY);
-        final String mode = getArguments().getString(NotificationWearActivity.MODE);
-        notificationData = NotificationStore.getCustomNotification(key);
-
-        Logger.info("NotificationFragment updateContent context: " + mContext + " | key: " + key);
-
         util = new FragmentUtil(mContext);
         disableDelay = util.getDisableDelay();
 
-        replies_layout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
-        title = getActivity().findViewById(R.id.fragment_custom_notification_title);
-        time = getActivity().findViewById(R.id.fragment_custom_notification_time);
-        text = getActivity().findViewById(R.id.fragment_custom_notification_text);
-        icon = getActivity().findViewById(R.id.fragment_custom_notification_icon);
-        iconBadge = getActivity().findViewById(R.id.fragment_custom_notification_icon_badge);
-        picture = getActivity().findViewById(R.id.fragment_custom_notification_picture);
-        rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
-        scrollView = getActivity().findViewById(R.id.fragment_custom_scrollview);
-        image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
-        delayedConfirmationViewTitle = getActivity().findViewById(R.id.fragment_notification_delayedview_title);
-        delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
-        delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
+        //Load preferences
+        boolean disableNotificationText = util.getDisableNotificationText();
+        final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
+        final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
+        enableInvertedTheme = util.getInvertedTheme();
 
-        //Delete related stuff
+        Logger.info("NotificationFragment updateContent key: {} dt: {} hr: {} fc: {}",
+                key, disableNotificationText, notificationHasHideReplies, notificationHasForceCustom);
 
-        deleteButton = getActivity().findViewById(R.id.fragment_delete_button);{
+        initView();
+        setTheme();
 
+        if (notificationHasHideReplies) {
+
+            replyButton.setVisibility(View.GONE);
+
+        } else {
+            //Replies related stuff
+            replyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.debug("NotificationFragment updateContent: replyButton clicked!");
+                    if (repliesListView.getVisibility() == View.VISIBLE) {
+                        repliesListView.setVisibility(View.GONE);
+                        focusOnViewBottom(scrollView, replyButton);
+                    } else {
+                        // Prepare the View for the animation
+                        repliesListView.setVisibility(View.VISIBLE);
+                        muteListView.setVisibility(View.GONE);
+                        focusOnView(scrollView, replyButton);
+                    }
+                }
+            });
+            loadReplies();
+        }
+
+        if (notificationHasForceCustom && notificationHasHideReplies) {
+
+            muteButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
+
+        } else {
+            //Delete related stuff
             deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -169,63 +186,89 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                     sendDeleteCommand(v);
                 }
             });
+
+            //Mute related stuff
+            muteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.debug("NotificationFragment updateContent: muteButton clicked!");
+                    if (muteListView.getVisibility() == View.VISIBLE) {
+                        muteListView.setVisibility(View.GONE);
+                    } else {
+                        //Prepare the View for the animation
+                        muteListView.setVisibility(View.VISIBLE);
+                        repliesListView.setVisibility(View.GONE);
+                        focusOnView(scrollView, muteButton);
+                    }
+                }
+            });
+            loadMuteOptions();
         }
 
+        populateNotificationIcon(icon, iconBadge, notificationData);
 
-        //Replies related stuff
+        if (hasPicture(notificationData)) {
+            populateNotificationPicture(picture, notificationData);
+            Logger.trace("hasPicture = true");
+            title.setText(String.format("%s - %s", notificationData.getTitle(), notificationData.getTime()));
+            time.setVisibility(View.GONE);
+            text.setVisibility(View.GONE);
+
+        } else {
+            Logger.trace("hasPicture = false");
+            title.setText(notificationData.getTitle());
+            time.setText(notificationData.getTime());
+            text.setText(notificationData.getText());
+
+        }
+
+        if (disableNotificationText)
+            hideContent();
+
+        doVibration(notificationData.getVibration());
+
+    }
+
+    private void initView() {
+        rootLayout = getActivity().findViewById(R.id.fragment_custom_root_layout);
+        scrollView = getActivity().findViewById(R.id.fragment_custom_scrollview);
+
+        title = getActivity().findViewById(R.id.fragment_custom_notification_title);
+        time = getActivity().findViewById(R.id.fragment_custom_notification_time);
+        text = getActivity().findViewById(R.id.fragment_custom_notification_text);
+        icon = getActivity().findViewById(R.id.fragment_custom_notification_icon);
+        iconBadge = getActivity().findViewById(R.id.fragment_custom_notification_icon_badge);
+        picture = getActivity().findViewById(R.id.fragment_custom_notification_picture);
+        image = getActivity().findViewById(R.id.fragment_custom_notification_replies_image);
+
+        delayedConfirmationViewTitle = getActivity().findViewById(R.id.fragment_notification_delayedview_title);
+        delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
+        delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
+
+        //Buttons
+        deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
+        replyButton = getActivity().findViewById(R.id.fragment_notification_reply_button);
+        muteButton = getActivity().findViewById(R.id.fragment_notification_mute_button);
+
+        //Replies view
+        replies_layout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
         repliesEditTextContainer = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_container);
         replyEditText = getActivity().findViewById(R.id.fragment_notifications_replies_edittext);
         replyEditClose = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_close);
         replyEditSend = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_reply);
-        replyButton = getActivity().findViewById(R.id.fragment_notification_reply_button);
-        replyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.debug("NotificationFragment updateContent: replyButton clicked!");
-                if (repliesListView.getVisibility() == View.VISIBLE) {
-                    repliesListView.setVisibility(View.GONE);
-                    focusOnViewBottom(scrollView, replyButton);
-                } else {
-                    // Prepare the View for the animation
-                    repliesListView.setVisibility(View.VISIBLE);
-                    muteListView.setVisibility(View.GONE);
-                    focusOnView(scrollView, replyButton);
-                }
-            }
-        });
 
-        //Mute related stuff
+        //Mute view
         muteListView = getActivity().findViewById(R.id.fragment_mute_list);
-        muteButton = getActivity().findViewById(R.id.fragment_notification_mute_button);
-        muteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.debug("NotificationFragment updateContent: muteButton clicked!");
-                if (muteListView.getVisibility() == View.VISIBLE) {
-                    muteListView.setVisibility(View.GONE);
-                } else {
-                    //Prepare the View for the animation
-                    muteListView.setVisibility(View.VISIBLE);
-                    repliesListView.setVisibility(View.GONE);
-                    focusOnView(scrollView, muteButton);
-                }
-            }
-        });
 
-        //Load preferences
-        boolean disableNotificationText = util.getDisableNotificationText();
-        enableInvertedTheme = util.getInvertedTheme();
+    }
 
+    private void setTheme() {
         //Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
-        if (DeviceUtil.isVerge()){
+        if (SystemProperties.isVerge()){
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
             replies_layout.setMinimumHeight(px);
         }
-
-        //Load Replies and Mute Options
-        loadReplies();
-        loadMuteOptions();
 
         // Set theme and font size
         //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
@@ -237,64 +280,26 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             iconBadge.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.white)));
             delayedConfirmationViewTitle.setTextColor(getResources().getColor(R.color.black));
             delayedConfirmationViewBottom.setTextColor(getResources().getColor(R.color.black));
-        }
+        } else
+            rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
         time.setTextSize(util.getFontSizeSP());
         title.setTextSize(util.getFontSizeSP());
         text.setTextSize(util.getFontSizeSP());
 
-        try {
-            Logger.info("NotificationFragment updateContent try");
-
-            //hideReplies = notificationData.getHideReplies();
-
-            populateNotificationIcon(icon, iconBadge, notificationData);
-            populateNotificationPicture(picture, notificationData);
-
-            if (!hasPicture(notificationData)) {
-                title.setText(notificationData.getTitle());
-                time.setText(notificationData.getTime());
-
-                util.setFontLocale(text, util.getDefaultLocale());
-                text.setText(notificationData.getText());
-            } else {
-                title.setText(notificationData.getTitle() + " - " + notificationData.getTime());
-                time.setVisibility(View.GONE);
-                text.setVisibility(View.GONE);
-            }
-
-            if (notificationData.getVibration() > 0 && NotificationWearActivity.MODE_ADD.equals(mode)) {
-                Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
-                try {
-                    if (vibrator != null) {
-                        vibrator.vibrate(notificationData.getVibration());
-                    }
-                } catch (RuntimeException ex) {
-                    Logger.error("NotificationFragment updateContent - Exception: " + ex.toString()
-                            + " notificationData: " + notificationData);
-                }
-            }
-        } catch (NullPointerException ex) {
-            Logger.error("NotificationFragment updateContent - Exception: " + ex.toString()
-                    + " notificationData: " + notificationData);
-            title.setText("AmazMod");
-            text.setText("Welcome to AmazMod");
-            time.setText("00:00");
-            icon.setImageBitmap(BitmapFactory.decodeResource(this.getResources(), R.drawable.amazmod));
-            //hideReplies = true;
-        }
-
-        if (disableNotificationText) {
-            text.setVisibility(View.GONE);
-            picture.setVisibility(View.GONE);
-            image.setVisibility(View.VISIBLE);
-            if (enableInvertedTheme)
-                image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_black_48));
-            else
-                image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_white_48));
-        }
+        util.setFontLocale(title, util.getDefaultLocale());
+        util.setFontLocale(text, util.getDefaultLocale());
     }
 
+    private void hideContent() {
+        text.setVisibility(View.GONE);
+        picture.setVisibility(View.GONE);
+        image.setVisibility(View.VISIBLE);
+        if (enableInvertedTheme)
+            image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_black_48));
+        else
+            image.setImageDrawable(getResources().getDrawable(R.drawable.outline_screen_lock_portrait_white_48));
+    }
 
     private final void focusOnView(final ScrollView scroll, final View view) {
         new Handler().post(new Runnable() {
@@ -305,7 +310,6 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             }
         });
     }
-
 
     private final void focusOnViewBottom(final ScrollView scroll, final View view) {
         new Handler().post(new Runnable() {
@@ -321,19 +325,13 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         });
     }
 
-    public static NotificationFragment newInstance(String key, String mode) {
-
-        Logger.info("NotificationFragment newInstance key: " + key);
-        NotificationFragment myFragment = new NotificationFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(NotificationWearActivity.KEY, key);
-        bundle.putString(NotificationWearActivity.MODE, mode);
-        myFragment.setArguments(bundle);
-
-        return myFragment;
+    private boolean hasPicture(NotificationData notificationData) {
+        byte[] pictureData = notificationData.getPicture();
+        return (pictureData != null) && (pictureData.length > 0);
     }
 
     private void populateNotificationIcon(ImageView iconView, ImageView iconAppView, NotificationData notificationData) {
+        Logger.trace("hasPicture: {}", hasPicture(notificationData));
         try {
             byte[] largeIconData = notificationData.getLargeIcon();
             if ((largeIconData != null) && (largeIconData.length > 0)) {
@@ -351,7 +349,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 iconAppView.setVisibility(View.GONE);
             }
         } catch (Exception exception) {
-            Logger.debug(exception.getMessage(), exception);
+            Logger.debug(exception, exception.getMessage());
         }
     }
 
@@ -378,12 +376,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         iconView.setImageBitmap(bitmap);
     }
 
-    private boolean hasPicture(NotificationData notificationData) {
-        byte[] pictureData = notificationData.getPicture();
-        return (pictureData != null) && (pictureData.length > 0);
-    }
-
     private void populateNotificationPicture(ImageView pictureView, NotificationData notificationData) {
+        Logger.trace("hasPicture: {}", hasPicture(notificationData));
         try {
             if (hasPicture(notificationData)) {
                 byte[] pictureData = notificationData.getPicture();
@@ -392,10 +386,9 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 pictureView.setVisibility(View.VISIBLE);
             }
         } catch (Exception exception) {
-            Logger.debug(exception.getMessage(), exception);
+            Logger.debug(exception, exception.getMessage());
         }
     }
-
 
     @SuppressLint("CheckResult")
     public void loadReplies() {
@@ -462,7 +455,6 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         repliesListView.addView(row);
     }
 
-
     private void loadMuteOptions() {
 
         List<Integer> silenceList = new ArrayList<>();
@@ -477,7 +469,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         for (final Integer silence : silenceList) {
             final View row = inflater.inflate(R.layout.row_mute, muteListView, false);
             EmojiTextView muteView = row.findViewById(R.id.row_mute_value);
-            muteView.setText(silence.toString() + " minutes");
+            muteView.setText(String.format("%s minutes", silence.toString()));
             if (enableInvertedTheme) {
                 muteView.setTextColor(getResources().getColor(R.color.black));
             }
@@ -645,13 +637,44 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             case ACTION_DELETE:
                 break;
             case ACTION_MUTE:
-                HermesEventBus.getDefault().post(new SilenceApplicationEvent(notificationKey, selectedSilenceTime));
+                if (notificationKey != null)
+                    EventBus.getDefault().post(new SilenceApplicationEvent(notificationKey, selectedSilenceTime));
+                else
+                    Logger.error("cannot silence null key");
                 break;
             case ACTION_REPLY:
-                HermesEventBus.getDefault().post(new ReplyNotificationEvent(notificationKey, selectedReply));
+                if (notificationKey != null)
+                    EventBus.getDefault().post(new ReplyNotificationEvent(notificationKey, selectedReply));
+                else
+                    Logger.error("cannot reply null key");
                 break;
         }
         getActivity().finish();
+    }
+
+    private void doVibration(int duration) {
+        if (duration > 0 && NotificationWearActivity.MODE_ADD.equals(mode)) {
+            Vibrator vibrator = (Vibrator) mContext.getSystemService(VIBRATOR_SERVICE);
+            try {
+                if (vibrator != null) {
+                    vibrator.vibrate(duration);
+                }
+            } catch (RuntimeException ex) {
+                Logger.error(ex, ex.getMessage());
+            }
+        }
+    }
+
+    public static NotificationFragment newInstance(String key, String mode) {
+
+        Logger.info("NotificationFragment newInstance key: " + key);
+        NotificationFragment myFragment = new NotificationFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(NotificationWearActivity.KEY, key);
+        bundle.putString(NotificationWearActivity.MODE, mode);
+        myFragment.setArguments(bundle);
+
+        return myFragment;
     }
 
 }

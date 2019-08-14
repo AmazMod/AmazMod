@@ -7,8 +7,6 @@ package com.amazmod.service;
 public class Constants {
 
     public static final String TAG = "AmazMod";
-    public static final String TAG_NIGHTSCOUT_PAGE = "Amazmod:Nighscout";
-
     public static final String PACKAGE_NAME = "com.edotassi.amazmod";
     public static final String SERVICE_NAME = "com.amazmod.service";
     public static final String LAUNCHER_CLASSNAME = "com.amazmod.service.springboard.AmazModLauncher";
@@ -16,7 +14,6 @@ public class Constants {
     public static final String ACTION_NIGHTSCOUT_SYNC = "nightscout_sync";
 
     public static final String INTENT_ACTION_REPLY = "com.amazmod.action.reply";
-
     public static final String EXTRA_REPLY = "extra.reply";
     public static final String EXTRA_NOTIFICATION_KEY = "extra.notification.key";
     public static final String EXTRA_NOTIFICATION_ID = "extra.notification.id";
@@ -42,15 +39,18 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
     public static final String PREF_DISABLE_DELAY = "pref_notification_delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "pref_amazmod_first_widget";
+    public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "pref_amazmod_overlay_launcher";
+    public static final String PREF_HEARTRATE_DATA = "pref_amazmod_heartrate_data";
     public static final String PREF_BATTERY_WATCH_ALERT = "pref_battery_watch_alert";
     public static final String PREF_BATTERY_PHONE_ALERT = "pref_battery_phone_alert";
+    public static final String PREF_LOG_LINES = "pref_log_lines";
     public static final String PREF_SPRINGBOARD_ORDER = "pref_springboard_order";
     public static final String PREF_HIDDEN_APPS = "pref_hidden_apps";
     public static final String PREF_BATTERY_GRAPH_DAYS = "pref_battery_graph_days";
     public static final String PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER = "pref_amazmod_official_widgets_order";
+    public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
 
     public static final String CUSTOM_WATCHFACE_DATA = "CustomWatchfaceData";
-
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
@@ -60,7 +60,7 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_DELAY = false;
-    public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
+    public static final int PREF_DEFAULT_LOG_LINES = 256;
 
 
     public static final String SCREEN_BRIGHTNESS_MODE = "screen_brightness_mode";
@@ -91,7 +91,9 @@ public class Constants {
     public static final int VIBRATION_SHORT = 100;
     public static final int VIBRATION_LONG = 700;
 
-    public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
+    public static final String[] BUILD_PACE_MODELS = {"A1602", "A1612"};
+    public static final String[] BUILD_STRATOS_MODELS = {"A1609", "A1619"};
+    public static final String[] BUILD_VERGE_MODELS = {"A1801", "A1811"};
 
     public static final String WIDGET_ORDER_IN = "springboard_widget_order_in";
     public static final String WIDGET_ORDER_OUT = "springboard_widget_order_out";

@@ -8,13 +8,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
-import android.support.text.emoji.EmojiCompat;
-import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.view.MotionEvent;
 import android.view.WindowManager;
+
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
@@ -45,7 +46,7 @@ public class NotificationWearActivity extends Activity {
     private ActivityFinishRunnable activityFinishRunnable;
 
     private static boolean screenToggle = false, mustLockDevice = false, wasScreenLocked = false;
-    private boolean keyboardVisible = false;
+    private boolean keyboardVisible = false, specialNotification = false;
 
     private static int screenMode;
     private static int screenBrightness = 999989;
@@ -67,6 +68,12 @@ public class NotificationWearActivity extends Activity {
 
         key = getIntent().getStringExtra(KEY);
         mode = getIntent().getStringExtra(MODE);
+
+        if (NotificationStore.getCustomNotification(key) == null){
+            Logger.error("onCreate: invalid key '" + key + "' - notification will not be shown");
+            finish();
+            return;
+        }
 
         EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
         config.setReplaceAll(true);
@@ -106,6 +113,11 @@ public class NotificationWearActivity extends Activity {
 
         final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
         final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
+
+        if (notificationHasForceCustom && notificationHasHideReplies)
+            specialNotification = true;
+
+        Logger.debug("NotificationWearActivity specialNotification: {}", specialNotification);
 
         //Do not activate screen if it is disabled in settings and screen was off or it was disabled previously
         if (disableNotificationsScreenOn && (wasScreenLocked || screenToggle)) {
@@ -176,7 +188,8 @@ public class NotificationWearActivity extends Activity {
     public void startTimerFinish() {
         if (!mode.equals(MODE_VIEW)) {
             Logger.debug("NotificationWearActivity startTimerFinish");
-            handler.removeCallbacks(activityFinishRunnable);
+            if (activityFinishRunnable != null)
+                handler.removeCallbacks(activityFinishRunnable);
             int timeOutRelock = NotificationStore.getTimeoutRelock(key);
             if (timeOutRelock == 0)
                 timeOutRelock = settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT);
@@ -186,7 +199,8 @@ public class NotificationWearActivity extends Activity {
 
     public void stopTimerFinish() {
         Logger.debug("NotificationWearActivity stopTimerFinish");
-        handler.removeCallbacks(activityFinishRunnable);
+        if (activityFinishRunnable != null)
+            handler.removeCallbacks(activityFinishRunnable);
     }
 
     public void setKeyboardVisible(boolean visible){
@@ -195,7 +209,8 @@ public class NotificationWearActivity extends Activity {
 
     @Override
     public void finish() {
-        handler.removeCallbacks(activityFinishRunnable);
+        if (activityFinishRunnable != null)
+            handler.removeCallbacks(activityFinishRunnable);
         setWindowFlags(false);
         super.finish();
 
@@ -207,7 +222,6 @@ public class NotificationWearActivity extends Activity {
             flag = false;
             setScreenOn();
         }
-
 
         if (mustLockDevice) {
             mustLockDevice = false;
@@ -223,6 +237,11 @@ public class NotificationWearActivity extends Activity {
                 lock();
         } else if (wasScreenLocked)
             mustLockDevice = true;
+
+        if (specialNotification) {
+            NotificationStore.removeCustomNotification(key);
+            NotificationStore.setNotificationCount(mContext);
+        }
     }
 
     private void lock() {
@@ -240,6 +259,9 @@ public class NotificationWearActivity extends Activity {
     }
 
     private void setWindowFlags(boolean enable) {
+
+        if (MODE_VIEW.equals(mode))
+            return;
 
         final int flags = WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD |
@@ -267,8 +289,8 @@ public class NotificationWearActivity extends Activity {
         WindowManager.LayoutParams params = getWindow().getAttributes();
         if (mode) {
             Logger.info("NotificationWearActivity setScreenModeOff true");
-            screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
-            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
+            screenMode = DeviceUtil.systemGetInt(mContext, SCREEN_BRIGHTNESS_MODE, 0);
+            screenBrightness = DeviceUtil.systemGetInt(mContext, Settings.System.SCREEN_BRIGHTNESS, 0);
             //Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
             //Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
             params.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_OFF;

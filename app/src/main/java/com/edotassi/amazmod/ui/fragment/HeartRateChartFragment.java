@@ -3,15 +3,17 @@ package com.edotassi.amazmod.ui.fragment;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.ui.card.Card;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -26,8 +28,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -102,12 +104,16 @@ public class HeartRateChartFragment extends Card {
         Description description = new Description();
         description.setText("");
         heartrateChart.setDescription(description);
+        final int themeForegroundColor = ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext()));
 
         heartrateChart.getXAxis().setDrawLabels(false);
+        heartrateChart.getXAxis().setTextColor(themeForegroundColor);
+        heartrateChart.getAxisLeft().setTextColor(themeForegroundColor);
         heartrateChart.getAxisRight().setDrawLabels(false);
 
         BarData data = new BarData(set);
         data.setBarWidth(0.9f); // set custom bar width
+        data.setValueTextColor(themeForegroundColor);
         heartrateChart.setData(data);
         heartrateChart.setFitBars(true); // make the x-axis fit exactly all bars
         heartrateChart.getLegend().setEnabled(false); // hide legend

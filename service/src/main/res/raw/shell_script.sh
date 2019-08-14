@@ -1,4 +1,4 @@
-#/system/bin/sh
+#!/system/bin/sh
 tag="AmazMod $0"
 SYSTYPE=$(getprop | grep display.id)
 {

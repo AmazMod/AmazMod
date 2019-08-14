@@ -1,6 +1,6 @@
 package com.edotassi.amazmod.ui.card;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 public abstract class Card extends Fragment {
 

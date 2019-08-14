@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/card_watch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" >
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:minHeight="160dp">
@@ -34,7 +34,8 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/outline_watch_black_18" />
+                app:srcCompat="@drawable/watch_black_full_18dp"
+                android:contentDescription="@string/image_description" />
 
             <TextView
                 android:id="@+id/isConnectedTV"
@@ -91,14 +92,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="AmazMod Service" />
+                            android:text="@string/amazmod_service" />
 
                         <TextView
                             android:id="@+id/card_amazmodservice"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="-"
+                            tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
 
@@ -111,14 +112,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Product model" />
+                            android:text="@string/product_model" />
 
                         <TextView
                             android:id="@+id/card_product_model"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="-"
+                            tools:text="-"
                             android:textStyle="bold" />
 
                     </TableRow>
@@ -132,14 +133,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Product name" />
+                            android:text="@string/product_name" />
 
                         <TextView
                             android:id="@+id/card_product_name"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="-"
+                            tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
 
@@ -152,14 +153,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Serial No" />
+                            android:text="@string/serial_number" />
 
                         <TextView
                             android:id="@+id/card_serialno"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="-"
+                            tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
 
@@ -172,14 +173,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Build display id" />
+                            android:text="@string/build_id" />
 
                         <TextView
                             android:id="@+id/card_display_id"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="-"
+                            tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
 
@@ -192,14 +193,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Build Huami model" />
+                            android:text="@string/build_model" />
 
                         <TextView
                             android:id="@+id/card_huami_model"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="-"
+                            tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
 
@@ -212,14 +213,14 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Build description" />
+                            android:text="@string/build_description" />
 
                         <TextView
                             android:id="@+id/card_build_description"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="-"
+                            tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
                 </TableLayout>
@@ -231,14 +232,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Product device" />
+                    tools:text="Product device" />
 
                 <TextView
                     android:id="@+id/card_product_device"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="-"
+                    tools:text="-"
                     android:textStyle="bold" />
 
                 <TextView
@@ -246,14 +247,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Product manufacturer" />
+                    tools:text="Product manufacturer" />
 
                 <TextView
                     android:id="@+id/card_product_manufacter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="-"
+                    tools:text="-"
                     android:textStyle="bold" />
 
                 <TextView
@@ -261,14 +262,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Revision" />
+                    tools:text="Revision" />
 
                 <TextView
                     android:id="@+id/card_revision"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="-"
+                    tools:text="-"
                     android:textStyle="bold" />
 
                 <TextView
@@ -276,14 +277,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Build date" />
+                    tools:text="Build date" />
 
                 <TextView
                     android:id="@+id/card_build_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="-"
+                    tools:text="-"
                     android:textStyle="bold" />
                  -->
 
@@ -294,14 +295,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Build Huami number" />
+                    tools:text="Build Huami number" />
 
                 <TextView
                     android:id="@+id/card_huami_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="-"
+                    tools:text="-"
                     android:textStyle="bold" />
 
                 <TextView
@@ -309,14 +310,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Build fingerprint" />
+                    tools:text="Build fingerprint" />
 
                 <TextView
                     android:id="@+id/card_build_fingerprint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="-"
+                    tools:text="-"
                     android:textStyle="bold" />
                  -->
             </LinearLayout>
@@ -331,7 +332,7 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <android.support.constraint.ConstraintLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/card_watch_no_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -352,7 +353,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/art_canteen_intro1" />
+                    app:srcCompat="@drawable/art_canteen_intro1"
+                    android:contentDescription="@string/image_description" />
 
                 <TextView
                     android:id="@+id/textView32"
@@ -374,7 +376,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="@string/no_service_info_2"
+                    tools:text="@string/no_service_info_2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView32" />
@@ -398,7 +400,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
-                    android:text="-"
+                    tools:text="-"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView36" />
 
@@ -408,7 +410,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
-                    android:text="-"
+                    tools:text="-"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView38" />
 
@@ -449,9 +451,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView41" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.constraint.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

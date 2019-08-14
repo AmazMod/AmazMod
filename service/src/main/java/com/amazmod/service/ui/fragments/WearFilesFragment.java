@@ -12,6 +12,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.PowerManager;
 import android.os.StatFs;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
@@ -23,13 +25,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.AppInfoAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.FileViewerWebViewActivity;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -86,7 +88,7 @@ public class WearFilesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearFilesFragment onCreateView");
-        return inflater.inflate(R.layout.activity_wear_files, container, false);
+        return inflater.inflate(R.layout.fragment_wear_files, container, false);
     }
 
     @Override
@@ -500,15 +502,27 @@ public class WearFilesFragment extends Fragment {
     }
 
     private void openApk(final File file) {
-        Logger.debug( "WearFilesFragment openApk file: " + file.toString());
+        Logger.debug("WearFilesFragment openApk file: " + file.toString());
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.install_app))
                 .setMessage(getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        DeviceUtil.installApkAdb(mContext, file, false);
                         showToast("Please wait until installation finishes…");
+                        if (file.toString().contains("service-")) {
+                            DeviceUtil.systemPutAdb(mContext,"screen_off_timeout", "200000");
+                            sleep(1000);
+                            new ExecCommand("adb install -r " + file.getAbsolutePath());
+                        } else {
+                            final PowerManager.WakeLock myWakeLock = DeviceUtil.installApkAdb(mContext, file, false);
+                            new Handler().postDelayed(new Runnable() { //Release wakelock after 10s when installing from File Manager
+                                public void run() {
+                                    if (myWakeLock != null && myWakeLock.isHeld())
+                                        myWakeLock.release();
+                                }
+                            }, 10000 /* 10s */);
+                        }
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();
@@ -578,6 +592,13 @@ public class WearFilesFragment extends Fragment {
         }
     }
 
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Logger.error(e.getMessage());
+        }
+    }
 
     private void showToast(String message) {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();

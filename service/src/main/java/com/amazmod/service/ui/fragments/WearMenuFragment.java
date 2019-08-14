@@ -2,16 +2,17 @@ package com.amazmod.service.ui.fragments;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.SupplicantState;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Vibrator;
 import android.provider.Settings;
@@ -31,19 +32,19 @@ import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.springboard.LauncherWearGridActivity;
 import com.amazmod.service.springboard.WidgetSettings;
-import com.amazmod.service.ui.BatteryGraphActivity;
-import com.amazmod.service.ui.ScreenSettingsActivity;
 import com.amazmod.service.springboard.WidgetsReorderActivity;
+import com.amazmod.service.ui.BatteryGraphActivity;
 import com.amazmod.service.ui.InputMethodActivity;
+import com.amazmod.service.ui.ScreenSettingsActivity;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 import com.huami.watch.transport.DataBundle;
 
+import org.greenrobot.eventbus.EventBus;
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import xiaofei.library.hermeseventbus.HermesEventBus;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -59,6 +60,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "Files Manager",
                                 "Reorder Widgets",
                                 "Screen Settings",
+                                "Battery Graph",
                                 "Wi-Fi Toggle",
                                 "Wi-Fi Panel",
                                 "Flashlight",
@@ -77,13 +79,13 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "Away Alert (iOS)",
                                 "Notifications ScreenOn",
                                 "Change Input Method",
-                                "Device Info",
-                                "Battery Graph"};
+                                "Device Info"};
 
     private int[] mImagesOn = { R.drawable.ic_action_select_all,
                                 R.drawable.outline_folder_white_24,
                                 R.drawable.outline_widgets_white_24,
                                 R.drawable.outline_fullscreen_white_24,
+                                R.drawable.battery_unknown_white_24dp,
                                 R.drawable.baseline_wifi_white_24,
                                 R.drawable.baseline_perm_scan_wifi_white_24,
                                 R.drawable.baseline_highlight_white_24,
@@ -102,13 +104,13 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 R.drawable.ic_alarm_light_white_24dp,
                                 R.drawable.outline_flash_on_white_24,
                                 R.drawable.outline_keyboard_white_24,
-                                R.drawable.baseline_info_white_24,
-                                R.drawable.battery_unknown_white_24dp};
+                                R.drawable.baseline_info_white_24};
 
     private int[] mImagesOff = {    R.drawable.ic_action_select_all,
                                     R.drawable.outline_folder_white_24,
                                     R.drawable.outline_widgets_white_24,
                                     R.drawable.outline_fullscreen_white_24,
+                                    R.drawable.battery_unknown_white_24dp,
                                     R.drawable.baseline_wifi_white_24,
                                     R.drawable.baseline_perm_scan_wifi_white_24,
                                     R.drawable.baseline_highlight_white_24,
@@ -127,30 +129,29 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.ic_alarm_light_off_white_24dp,
                                     R.drawable.outline_flash_off_white_24,
                                     R.drawable.outline_keyboard_white_24,
-                                    R.drawable.baseline_info_white_24,
-                                    R.drawable.battery_unknown_white_24dp};
+                                    R.drawable.baseline_info_white_24};
 
     private String[] toggle = { "",
                                 "",
                                 "",
                                 "",
                                 "",
-                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity;exit&",
                                 "",
-                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity;exit&",
+                                "adb shell am start -n com.huami.watch.otawatch/.wifi.WifiListActivity",
+                                "",
+                                "adb shell am start -n com.huami.watch.setupwizard/.InitPairQRActivity",
                                 "kill-all",
                                 "",
                                 "",
-                                "adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit&",
-                                "adb shell am force-stop com.huami.watch.launcher;exit&",
-                                "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher;exit&",
+                                "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver",
+                                "adb shell am force-stop com.huami.watch.launcher",
+                                "adb shell rm -rf /sdcard/.watchfacethumb/*;pm clear com.huami.watch.launcher;am force-stop com.huami.watch.launcher",
                                 "reboot",
                                 "reboot bootloader",
                                 "reboot recovery",
                                 "measurement",
                                 "huami.watch.localonly.ble_lost_anti_lost",
                                 "huami.watch.localonly.ble_lost_far_away",
-                                "",
                                 "",
                                 "",
                                 ""};
@@ -165,7 +166,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private Vibrator vibrator;
     private WidgetSettings widgetSettings;
 
-    private static final int MENU_START = 8;
+    private static final int MENU_START = 9;
 
     @Override
     public void onAttach(Activity activity) {
@@ -188,7 +189,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearMenuFragment onCreateView");
 
-        return inflater.inflate(R.layout.activity_wear_menu, container, false);
+        return inflater.inflate(R.layout.fragment_wear_menu, container, false);
     }
 
     @Override
@@ -290,6 +291,14 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case 4:
+                // Battery graph
+                Intent batteryGrapshIntent = new Intent(mContext, BatteryGraphActivity.class);
+                batteryGrapshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(batteryGrapshIntent);
+                break;
+
+            case 5:
                 if (wfmgr.isWifiEnabled()) {
                     items.get(0).state = false;
                     wfmgr.setWifiEnabled(false);
@@ -300,15 +309,15 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 mAdapter.notifyDataSetChanged();
                 break;
 
-            case 5:
+            case 6:
                 runCommand(toggle[itemChosen]);
                 break;
 
-            case 6:
+            case 7:
                 startWearGridActivity(LauncherWearGridActivity.FLASHLIGHT);
                 break;
 
-            case 7:
+            case 8:
                 runCommand(toggle[itemChosen]);
                 break;
 
@@ -342,14 +351,6 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 startWearGridActivity(LauncherWearGridActivity.INFO);
                 break;
 
-            case MENU_START + 15:
-                // Battery graph
-                Intent batteryGrapshIntent = new Intent(mContext, BatteryGraphActivity.class);
-                batteryGrapshIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                        Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mContext.startActivity(batteryGrapshIntent);
-                break;
-
             default:
                 Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
                 break;
@@ -359,16 +360,13 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private void runCommand(String command) {
         Logger.debug("WearMenuFragment runCommand: " + command);
 	    if (!command.isEmpty()) {
-            try {
-                Runtime.getRuntime().exec(command, null, Environment.getExternalStorageDirectory());
-                if (command.contains("launcher")) {
-                    Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
-                    if (launchIntent != null) {
-                        startActivity(launchIntent);
-                    }
+
+            new ExecCommand(ExecCommand.ADB, command);
+            if (command.contains("launcher")) {
+                Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
+                if (launchIntent != null) {
+                    startActivity(launchIntent);
                 }
-            } catch (Exception e) {
-                Logger.error("WearMenuFragment runCommand exception: " + e.toString());
             }
         }
     }
@@ -419,6 +417,17 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
      * Starts the DelayedConfirmationView when user presses "Start Timer" button.
      */
     public void beginCountdown() {
+        if (itemChosen == MENU_START +1) {
+            new AlertDialog.Builder(getActivity())
+                    .setMessage("Are you sure? Low Power Mode (LPM) disables Bluetooth and touchscreen until the watch is restarted (press and hold power button) or battery goes below 5% and watch is charged again.")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null).show();
+            return;
+        }
         showConfirm();
         delayedConfirmationView.setPressed(false);
         delayedConfirmationView.start();
@@ -460,11 +469,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START + 1:
-                HermesEventBus.getDefault().post(new EnableLowPower(new DataBundle()));
+                EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
                 break;
 
             case MENU_START + 2:
-                HermesEventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
+                EventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
                 break;
 
             case MENU_START + 3:
@@ -507,6 +516,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         confirmView.clearAnimation();
         listView.requestFocus();
         listView.setClickable(true);
+        ((LauncherWearGridActivity) getActivity()).setSwipeable(true);
     }
 
     public void showConfirm() {
@@ -518,6 +528,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         listView.clearAnimation();
         confirmView.requestFocus();
         confirmView.setClickable(true);
+        ((LauncherWearGridActivity) getActivity()).setSwipeable(false);
     }
 
     private void checkConnection() {

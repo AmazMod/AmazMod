@@ -1,13 +1,7 @@
 # Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
-
 version: 2
 jobs:
   build:
-    branches:
-      only:
-        - master
-        - dev
-    #working_directory: ~/code
     docker:
       - image: circleci/android:api-28-alpha
     environment:
@@ -30,11 +24,61 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Run Tests
+          name: Run Tests and Lints
           command: ./gradlew lint test
+      - run:
+          name: Build debug APK for Phone App
+          command: ./gradlew :app:assembleDebug
+      - run:
+          name: Build debug APK for Watch Service
+          command: ./gradlew :service:assembleDebug
+      - run:
+          name: Move APKs to temp folder
+          command: |
+            mkdir -p persist/apks
+            mv app/build/outputs/apk/debug/*.apk persist/apks/
+            mv service/build/outputs/apk/debug/*.apk persist/apks/
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports
       - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
           path: app/build/test-results
-      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
+      - persist_to_workspace:
+          root: persist
+          paths:
+            - apks
+  
+  github-release:
+    docker:
+      - image: cibuilds/github:0.12.1
+    steps:
+      - attach_workspace:
+          at: ./apks
+      - run:
+          name: Listing content
+          command: ls -lR .
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            VERSION="edgy"
+            ghr -t ${GITHUB_TOKEN} \
+              -u ${CIRCLE_PROJECT_USERNAME} \
+              -r ${CIRCLE_PROJECT_REPONAME} \
+              -c ${CIRCLE_SHA1} \
+              -n "bleeding edge build" \
+              -b "**DISCLAIMER:** So you're here, brave human! This is the land of the unicorns, bigfoots, lasersharks and bionicly enchanced goats. Here, nothing is known, nothing is stable, nothing is ... nothing. Raw commits, untested, unfiltered, might work, might not, you'll tell us. **No support will be provided for these builds**, you will be working with bleeding edge stuff, everything will be probably broken, and if not broken, it will get there. Use with extreme precaution, no changelog provided, treat these as a pinata, unknown, unpredictibale and full of sparkling glitter and goo. **Enjoy!** *AmazMod team*" \
+              -delete \
+              -prerelease \
+              ${VERSION} ./apks/apks/
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - dev
+      - github-release:
+          requires:
+            - build

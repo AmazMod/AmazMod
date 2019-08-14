@@ -3,10 +3,10 @@ package com.edotassi.amazmod.ui;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -18,14 +18,14 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.receiver.WatchfaceReceiver;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.Permissions;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import net.fortuna.ical4j.data.CalendarBuilder;
@@ -193,11 +193,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, isChecked);
 
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("value", isChecked);
-                FirebaseAnalytics
-                        .getInstance(WatchfaceActivity.this)
-                        .logEvent(FirebaseEvents.GREATFIT_BATTERY, bundle);
             }
         });
         send_on_battery_change_switch.setEnabled(send_data);
@@ -208,11 +203,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, isChecked);
 
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("value", isChecked);
-                FirebaseAnalytics
-                        .getInstance(WatchfaceActivity.this)
-                        .logEvent(FirebaseEvents.GREATFIT_ALARM_TOGGLE, bundle);
             }
         });
         send_on_alarm_change_switch.setEnabled(send_data);
@@ -239,9 +229,6 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
 
                 watchface_last_sync.setText(lastTimeRead());
 
-                FirebaseAnalytics
-                        .getInstance(WatchfaceActivity.this)
-                        .logEvent(FirebaseEvents.GREATFIT_SYNC_NOW, null);
             }
         });
         watchface_sync_now_button.setEnabled(send_data);
@@ -293,6 +280,16 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         }
 
         super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("D/AmazMod WatchfaceActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("D/AmazMod WatchfaceActivity ORIENTATION LANDSCAPE");
+        }
     }
 
     private String lastTimeRead() {

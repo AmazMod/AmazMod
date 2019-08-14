@@ -6,14 +6,15 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.wearable.view.BoxInsetLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ScrollView;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.springboard.LauncherWearGridActivity;
+import com.amazmod.service.util.DeviceUtil;
 
 import org.tinylog.Logger;
 
@@ -22,7 +23,8 @@ import static android.provider.Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL;
 
 public class WearFlashlightFragment extends Fragment {
 
-	View mainLayout, infoLayout;
+	BoxInsetLayout mainLayout;
+	ScrollView infoLayout;
 
     private Context mContext;
 
@@ -49,7 +51,7 @@ public class WearFlashlightFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.debug("WearFlashlightFragment onCreateView");
 
-        return inflater.inflate(R.layout.activity_wear_info, container, false);
+        return inflater.inflate(R.layout.fragment_wear_info, container, false);
     }
 
     @Override
@@ -71,7 +73,7 @@ public class WearFlashlightFragment extends Fragment {
 	private void updateContent() {
 
         mainLayout = getActivity().findViewById(R.id.wear_info_main_layout);
-        infoLayout = getActivity().findViewById(R.id.wear_info_frame_layout);
+        infoLayout = getActivity().findViewById(R.id.wear_info_scroll_layout);
 
         infoLayout.setVisibility(View.GONE);
 
@@ -100,15 +102,15 @@ public class WearFlashlightFragment extends Fragment {
 
         if (mode) {
             Logger.debug("WearFlashlightFragment setScreenModeOff mode true");
-            screenMode = Settings.System.getInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, 0);
-            screenBrightness = Settings.System.getInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 0);
-            Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
-            Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, 255);
+            screenMode = DeviceUtil.systemGetInt(mContext, SCREEN_BRIGHTNESS_MODE, 0);
+            screenBrightness = DeviceUtil.systemGetInt(mContext, Settings.System.SCREEN_BRIGHTNESS, 0);
+            DeviceUtil.systemPutInt(mContext, SCREEN_BRIGHTNESS_MODE, SCREEN_BRIGHTNESS_MODE_MANUAL);
+            DeviceUtil.systemPutInt(mContext, Settings.System.SCREEN_BRIGHTNESS, 255);
         } else {
             if (screenBrightness != 999989) {
                 Logger.debug("WearFlashlightFragment setScreenModeOff mode false \\ screenMode: " + screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), SCREEN_BRIGHTNESS_MODE, screenMode);
-                Settings.System.putInt(mContext.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
+                DeviceUtil.systemPutInt(mContext, SCREEN_BRIGHTNESS_MODE, screenMode);
+                DeviceUtil.systemPutInt(mContext, Settings.System.SCREEN_BRIGHTNESS, screenBrightness);
             }
         }
         screenToggle = mode;

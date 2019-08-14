@@ -10,8 +10,10 @@ public class Transport {
     public static final String NAME = "com.edotassi.amazmod";
     public static final String NAME_BATTERY = "com.edotassi.amazmod.battery";
     public static final String NAME_NOTIFICATION = "com.edotassi.amazmod.notification";
+    public static final String NAME_INTERNET = "com.kieronquinn.app.amazfitinternetcompanion";
 
     public static final String INCOMING_NOTIFICATION = "incoming_notification";
+    public static final String DELETE_NOTIFICATION = "del";
     public static final String REQUEST_WATCHSTATUS = "request_watchstatus";
     public static final String REQUEST_BATTERYSTATUS = "request_batterystatus";
     public static final String REQUEST_DIRECTORY = "request_directory";
@@ -38,4 +40,8 @@ public class Transport {
     public static final String RESULT_SHELL_COMMAND = "result_shell_command";
     public static final String FILE_UPLOAD = "file_upload";
     public static final String SILENCE = "silence";
+
+    public static final String HTTP_REQUEST = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_REQUEST";
+    public static final String HTTP_PINGBACK = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_PINGBACK";
+    public static final String HTTP_RESULT = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_RESULT";
 }

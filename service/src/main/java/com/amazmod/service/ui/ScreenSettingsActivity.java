@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +18,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
+import androidx.annotation.NonNull;
+
 import com.amazmod.service.R;
+import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
+import com.amazmod.service.util.SystemProperties;
 
 import org.tinylog.Logger;
-
-import static android.view.View.inflate;
 
 public class ScreenSettingsActivity extends Activity {
 
@@ -34,7 +34,6 @@ public class ScreenSettingsActivity extends Activity {
     Spinner densitySpinner, fontSpinner, invertedSpinner;
 
     private Context mContext;
-    private Handler mHandler;
     private Vibrator mVibrator;
 
     private int densityChosen, fontSizeChosen, invertedChoosen;
@@ -48,13 +47,15 @@ public class ScreenSettingsActivity extends Activity {
                                 "(0.90f)", "(1.00f)", "(1.18f)", "(1.30f)",
                                 "(Off)", "(On)"};
 
-    private static final String[] DENSITY_COMMANDS = {  "wm density reset; wm size reset;exit",
-                                                        "wm density 258;exit",
-                                                        "wm density 148;exit"};
+    private static final String[] DENSITY_COMMANDS = {  "wm density reset; wm size reset",
+                                                        "wm density 258",
+                                                        "wm density 148"};
 
-    private static final String KILL_LAUNCHER = "am force-stop com.huami.watch.launcher;exit";
-    private static final String SET_INVERTED = "settings put secure accessibility_display_inversion_enabled %s;exit";
+    private static final String KILL_LAUNCHER = "am force-stop com.huami.watch.launcher";
+    private static final String SET_INVERTED = "settings put secure accessibility_display_inversion_enabled %s";
     private static final String SYSTEM_HIGH_CONTRAST = "high_contrast";
+
+    private static String defaultDensity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,6 +78,12 @@ public class ScreenSettingsActivity extends Activity {
         invertedSpinner = findViewById(R.id.activity_screen_settings_spinner_inversion);
 
         setLabels();
+
+        if (SystemProperties.isVerge()) {
+            defaultDensity = "240";
+            labels[0] = "(240)";
+        } else
+            defaultDensity = "238";
 
         setAdapter(densitySpinner, densities, 0);
         setAdapter(fontSpinner, fontSizes, 1);
@@ -220,19 +227,12 @@ public class ScreenSettingsActivity extends Activity {
             }
         });
 
-
     }
 
     private void runCommand(String command) {
-
         Logger.debug("ScreenSettingsActivity runCommand: " + command);
         if (!command.isEmpty()) {
-            try {
-                Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
-                        null, Environment.getExternalStorageDirectory());
-            } catch (Exception e) {
-                Logger.error(e,"ScreenSettingsActivity runCommand exception: " + e.toString());
-            }
+            new ExecCommand(ExecCommand.ADB, String.format("adb shell %s", command));
         }
     }
 
@@ -244,8 +244,8 @@ public class ScreenSettingsActivity extends Activity {
             accessibilityEnabled = Settings.Secure.getInt(this.getContentResolver(),
                     android.provider.Settings.Secure.ACCESSIBILITY_DISPLAY_INVERSION_ENABLED, 0);
         } catch (Exception e) {
-            Logger.error("ScreenSettingsActivity isInversionModeEnabled SettingNotFoundException: " + e.getMessage());
-            accessibilityEnabled = Settings.System.getInt(getContentResolver(), SYSTEM_HIGH_CONTRAST, 0);
+            Logger.error("ScreenSettingsActivity isInversionModeEnabled SettingNotFoundException: {}", e.getMessage());
+            accessibilityEnabled = DeviceUtil.systemGetInt(mContext, SYSTEM_HIGH_CONTRAST, 0);
         }
 
         if (accessibilityEnabled == 1) {
@@ -260,8 +260,7 @@ public class ScreenSettingsActivity extends Activity {
 
     private void getCurrentFontScale() {
 
-        final float fontScale = Settings.System.getFloat(getBaseContext().getContentResolver(),
-                Settings.System.FONT_SCALE, 1.0f);
+        final float fontScale = DeviceUtil.systemGetFloat(getBaseContext(), Settings.System.FONT_SCALE, 1.0f);
 
         Logger.debug("ScreenSettingsActivity getCurrentFontScale: " + String.valueOf(fontScale));
 
@@ -289,25 +288,25 @@ public class ScreenSettingsActivity extends Activity {
 
             case 0:
                 //config.fontScale = 0.9f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,0.9f);
                 break;
 
             case 1:
                 //config.fontScale = 1.0f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,1.0f);
                 break;
 
             case 2:
                 //config.fontScale = 1.18f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,1.18f);
                 break;
 
             case 3:
                 //config.fontScale = 1.30f;
-                Settings.System.putFloat(getBaseContext().getContentResolver(),
+                DeviceUtil.systemPutFloat(getBaseContext(),
                         Settings.System.FONT_SCALE,1.30f);
                 break;
 
@@ -320,14 +319,9 @@ public class ScreenSettingsActivity extends Activity {
         //getResources().getConfiguration().setTo(config);
         Toast.makeText(mContext, "Watch will restart\nto apply changes ;)", Toast.LENGTH_LONG).show();
 
-        mHandler = new Handler();
-        mHandler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             public void run() {
-                try {
-                    Runtime.getRuntime().exec("reboot");
-                } catch (Exception e) {
-                    Logger.error("ScreenSettingsActivity saveFontScale exception: " + e.toString());
-                }
+                new ExecCommand("reboot");
             }
         }, 3000);
 
@@ -335,45 +329,17 @@ public class ScreenSettingsActivity extends Activity {
 
     private void getCurrentDensity() {
 
-        //StringBuilder outputLog = new StringBuilder();
-        String outputLog = null;
-        int returnValue = 0;
+        final ExecCommand execCommand = new ExecCommand("wm density");
+        final String result = execCommand.getOutput();
 
-        /* Disabled because it sometimes hangs (why?)
-        *
-        final String[] args = new String[]{"adb", "shell", "wm density"};
-        ProcessBuilder processBuilder = new ProcessBuilder(args);
-        try {
-
-            Process process = processBuilder.start();
-            String line;
-
-            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
-                while ((line = bufferedReader.readLine()) != null) {
-                    //outputLog.append(line).append("\n");
-                    outputLog = line;
-                    Log.d(Constants.TAG, "ScreenSettingsActivity getCurrentDensity line: " + outputLog);
-                }
-                returnValue = process.waitFor();
-            }
-
-        } catch (Exception ex) {
-            Log.e(Constants.TAG, ex.getMessage(), ex);
-        }
-        *
-        */
-
-        //final String result = outputLog.toString();
-        final String result = outputLog;
-
-        Logger.debug("ScreenSettingsActivity getCurrentDensity returnValue: " + returnValue + " | result: " + result);
+        Logger.debug("ScreenSettingsActivity getCurrentDensity result: {} | error: {}", result, execCommand.getError());
 
         if (result != null) {
-            if (result.contains("238"))
+            if (result.contains(defaultDensity) && !result.toLowerCase().contains("override"))
                 initialDensity = 0;
-            else if (result.contains("258"))
+            else if (result.contains("258") && result.toLowerCase().contains("override"))
                 initialDensity = 1;
-            else if (result.contains("148"))
+            else if (result.contains("148") && result.toLowerCase().contains("override"))
                 initialDensity = 2;
             else
                 initialDensity = 3;
@@ -387,8 +353,7 @@ public class ScreenSettingsActivity extends Activity {
 
     private void saveDensity() {
 
-        runCommand(KILL_LAUNCHER);
-        runCommand(DENSITY_COMMANDS[densityChosen]);
+        runCommand(KILL_LAUNCHER + ";" + DENSITY_COMMANDS[densityChosen]);
         SystemClock.sleep(1000);
 
         Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");

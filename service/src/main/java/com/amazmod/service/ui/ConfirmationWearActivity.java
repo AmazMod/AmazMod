@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
-import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -45,7 +45,6 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
 
     private static final String DENSITY_HIGH = "wm density 148;exit";
     private static final String DENSITY_RESET = "wm density reset;exit";
-    private static final String INSTALL_NON_MARKET_APPS = "settings put secure install_non_market_apps 1;exit";
     private static final String KILL_LAUNCHER = "am force-stop com.huami.watch.launcher;exit";
     private static final int INSTALL_REQUEST_CODE = 1;
 
@@ -152,7 +151,6 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
             restartText.setText("Please wait…");
             hideConfirm();
 
-            runCommand(INSTALL_NON_MARKET_APPS);
             //DeviceUtil.killBackgroundTasks(this, false);
             runCommand(KILL_LAUNCHER);
 
@@ -186,12 +184,17 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
 
         Logger.debug("ConfirmationWearActivity runCommand: " + command);
         if (!command.isEmpty()) {
+
+            /* Deprecated, replaced with new ExecCommand class
             try {
                 Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
                         null, Environment.getExternalStorageDirectory());
             } catch (Exception e) {
                 Logger.error("ConfirmationWearActivity runCommand exception: " + e.toString());
             }
+            */
+
+            new ExecCommand(ExecCommand.ADB, String.format("adb shell %s", command));
         }
     }
 

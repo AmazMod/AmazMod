@@ -6,15 +6,23 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Build;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import org.tinylog.Logger;
+
+import java.util.Arrays;
+import java.util.prefs.Preferences;
+
+import amazmod.com.transport.Constants;
 
 import static android.content.Context.POWER_SERVICE;
 
 public class Screen {
 
-    private static final String TAG_LOCAL = " Screen ";
+    private static final String TAG_LOCAL = "Screen ";
 
     public static boolean isInteractive(Context context) {
         PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
@@ -31,6 +39,9 @@ public class Screen {
         return isScreenOn;
     }
 
+    public static boolean isDarkTheme() {
+        return Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
+    }
 
     public static boolean isDeviceLocked(Context context) {
 
@@ -133,5 +144,13 @@ public class Screen {
         }
         return dndEnabled;
     }
+
+    public static boolean isVerge(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
+        Logger.debug("DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
+        return isVerge;
+    }
+
 
 }

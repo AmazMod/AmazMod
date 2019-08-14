@@ -15,10 +15,12 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.amazmod.service.AdminReceiver;
+import com.amazmod.service.receiver.AdminReceiver;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.ExecCommand;
+import com.amazmod.service.util.WidgetsUtil;
 
 import org.tinylog.Logger;
 
@@ -119,8 +121,9 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
         startActivity(intent);
         try {
             if (appTag.equals(Constants.MY_APP) || appTag.equals(Constants.OTHER_APP)) {
-                Logger.debug( "DummyActivity onActivityResult restart launcher");
-                Runtime.getRuntime().exec("adb shell am force-stop com.huami.watch.launcher;exit");
+                Logger.debug( "DummyActivity onTimerFinished restart launcher");
+                //Runtime.getRuntime().exec("adb shell am force-stop com.huami.watch.launcher;exit");
+                new ExecCommand(ExecCommand.ADB, "adb shell am force-stop com.huami.watch.launcher");
                 Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
                 if (launchIntent != null) {
                     startActivity(launchIntent);
@@ -131,15 +134,20 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
                     //Logger.info( "PackageReceiver onReceive isDeviceOwnerApp: " + mDPM.isDeviceOwnerApp(context.getPackageName())
                     //        + " // getActiveAdmins: " + mDPM.getActiveAdmins());
                     if (!(mDPM != null && mDPM.isAdminActive(new ComponentName(this, AdminReceiver.class)))) {
-                        Logger.debug( "DummyActivity onActivityResult set-active-admin");
-                        Runtime.getRuntime().exec("adb shell dpm set-active-admin com.amazmod.service/.AdminReceiver;exit");
+                        Logger.debug( "DummyActivity onTimerFinished set-active-admin");
+                        //Runtime.getRuntime().exec("adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver;exit");
+                        new ExecCommand(ExecCommand.ADB, "adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver");
                     }
                 }
+
+                // Force widget resorting
+                WidgetsUtil.loadWidgetList(this);
+
             } else if (appTag.contains(".apk")) {
                 DeviceUtil.installPackage(this, getPackageName(), appTag);
             }
-        } catch (IOException e) {
-            Logger.error("DummyActivity onActivityResult IOException: " + e.toString());
+        } catch (Exception e) {
+            Logger.error(e, "DummyActivity onTimerFinished exception: {}", e.getMessage());
         }
 
         finish();

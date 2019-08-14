@@ -12,13 +12,13 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInstaller;
 import android.os.BatteryManager;
 import android.os.Build;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
-import com.amazmod.service.PackageReceiver;
+import com.amazmod.service.receiver.PackageReceiver;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
 import org.tinylog.Logger;
@@ -29,7 +29,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.List;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -59,14 +58,16 @@ public class DeviceUtil {
                 }
             }
         } catch (NullPointerException e) {
-            Logger.error("iDeviceLocked exception: " + e.toString());
+            Logger.error(e, "iDeviceLocked exception: {}",  e.getMessage());
             isLocked = false;
         }
 
         return isLocked;
     }
 
-    public static boolean isDNDActive(Context context, ContentResolver cr) {
+    public static boolean isDNDActive(Context context) {
+
+        ContentResolver cr = context.getContentResolver();
 
         boolean dndEnabled;
         try {
@@ -95,7 +96,7 @@ public class DeviceUtil {
                     dndEnabled = false;
             }
         } catch (Settings.SettingNotFoundException e) {
-            Logger.error("DnD lowSDK exception: " + e.toString());
+            Logger.error("DnD lowSDK exception: {}",  e.getMessage());
             dndEnabled = false;
         }
 
@@ -104,12 +105,26 @@ public class DeviceUtil {
 
     public static void installPackage(Context context, String packageName, String filePath) {
 
-        Logger.debug("DeviceUtil installPackage packageName: " + packageName);
+        Logger.debug("installPackage packageName: {}", packageName);
+        enableApkInstall();
         PackageInstaller packageInstaller = context.getPackageManager().getPackageInstaller();
 
         PackageInstaller.SessionParams params = new PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL);
         params.setAppPackageName(packageName);
         PackageInstaller.Session session = null;
+
+        File su = new File("/system/xbin/su");
+        Logger.debug("install is check if SuperUser");
+        if (su.exists()) {
+            // Is SuperUser
+            Logger.debug("Enabling APK_INSTALL WAKELOCK");
+            new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
+
+        } else {
+            // Is Stock user
+            Logger.debug("Set screen timeout to 3 min to install update");
+            DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
+        }
 
         int sessionId = 0;
         try {
@@ -163,7 +178,7 @@ public class DeviceUtil {
             session.fsync(out);
             in.close();
             out.close();
-            Logger.debug("DeviceUtil installPackage sizeBytes: " + sizeBytes + " // total: " + total);
+            Logger.debug("installPackage sizeBytes: " + sizeBytes + " // total: " + total);
 
             Intent intent = new Intent(context, ConfirmationWearActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -176,7 +191,7 @@ public class DeviceUtil {
             IntentSender mIntentSender = pendingIntent.getIntentSender();
 
             for (String s : session.getNames()) {
-                Logger.info("DeviceUtil installPackage session.getNames: " + s);
+                Logger.info("installPackage session.getNames: " + s);
             }
             session.commit(mIntentSender);
 
@@ -185,19 +200,20 @@ public class DeviceUtil {
             //        intent, PendingIntent.FLAG_UPDATE_CURRENT).getIntentSender());
 
         } catch (Exception e) {
-            Logger.error("DeviceUtil installPackage exception: " + e.toString());
+            Logger.error("installPackage exception: " + e.toString());
         } finally {
             if (session != null) {
-                Logger.info("DeviceUtil installPackage session.close session: " + sessionId);
+                Logger.info("installPackage session.close session: " + sessionId);
                 session.close();
-                Logger.info("DeviceUtil installPackage finished");
+                Logger.info("installPackage finished");
             }
         }
     }
 
     public static void installApk(Context context, String apkPath, String mode) {
 
-        Logger.debug("DeviceUtil installApk apkPath: " + apkPath + " | mode: " + mode);
+        Logger.debug("installApk apkPath: " + apkPath + " | mode: " + mode);
+        enableApkInstall();
 
         Intent intent = new Intent(context, ConfirmationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -210,35 +226,53 @@ public class DeviceUtil {
 
     }
 
-    public static void installApkAdb(Context context, File apk, boolean isReboot) {
+    public static PowerManager.WakeLock installApkAdb(Context context, File apk, boolean isReboot) {
+        PowerManager.WakeLock wakeLock = null;
         if(!apk.exists()){
-            Logger.error("File not found");
-            return;
+            Logger.error("File not found!");
+        } else {
+
+            PackageReceiver.setIsAmazModInstall(true);
+            final String installScript = copyScriptFile(context, "install_apk.sh").getAbsolutePath();
+            final String busyboxPath = installBusybox(context);
+            String installCommand;
+            String apkFile = apk.getAbsolutePath();
+            //Logger.debug("installApkAdb installScript: " + installScript);
+            //Logger.debug("installApkAdb apkFile: " + apkFile);
+            if (apkFile.contains("service-")) {
+                File su = new File("/system/xbin/su");
+                Logger.debug("install is check if SuperUser");
+                if (su.exists()) {
+                    // Is SuperUser
+                    Logger.debug("Enabling APK_INSTALL WAKELOCK");
+                    new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_lock");
+
+                } else {
+                    // Is Stock user
+                    Logger.debug("Set screen timeout to 3 min to install update");
+                    DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
+                }
+            } else
+                Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
+
+            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            if (pm != null) {
+                wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK
+                        | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                        | PowerManager.ON_AFTER_RELEASE, "AmazMod:InstallAPK");
+                wakeLock.acquire(10 * 60 * 1000L /* 10min */);
+            } else
+                Logger.error("installApkAdb null PowerManager!");
+
+            //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
+            installCommand = String.format("log -pw -t'AmazMod DeviceUtil' $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, isReboot?"DEL":"OK", busyboxPath);
+
+            Logger.debug("installApkAdb installCommand: {}", installCommand);
+
+            new ExecCommand(new String[]{"sh", "-c", installCommand});
+            Logger.debug("installApkAdb finished");
         }
-
-        PackageReceiver.setIsAmazmodInstall(true);
-        final String installScript = copyScriptFile(context, "install_apk.sh").getAbsolutePath();
-        final String busyboxPath = installBusybox(context);
-        String installCommand;
-        String apkFile = apk.getAbsolutePath();
-        //Logger.debug("DeviceUtil installApkAdb installScript: " + installScript);
-        //Logger.debug("DeviceUtil installApkAdb apkFile: " + apkFile);
-
-        //Delete APK after installation if the "reboot" toggle is enabled (workaround to avoid adding a new field to bundle)
-        if (isReboot)
-            installCommand = String.format("log -pw -tAmazMod $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "DEL", busyboxPath);
-        else
-            installCommand = String.format("log -pw -tAmazMod $(sh %s '%s' %s %s 2>&1)", installScript, apkFile, "OK", busyboxPath);
-
-        Logger.debug("DeviceUtil installApkAdb installCommand: " + installCommand);
-
-        try {
-            Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand},
-                    null, Environment.getExternalStorageDirectory());
-        } catch (IOException e) {
-            Logger.error("DeviceUtil installApkAdb IOException" + e.getMessage(), e);
-        }
-
+        return wakeLock;
     }
 
     public static File copyScriptFile(Context context, String fileName) {
@@ -250,7 +284,7 @@ public class DeviceUtil {
         try {
 
             if (file.exists() && file.isFile() && (file.length() == inFile.available())) {
-                Logger.debug("DeviceUtil copyScriptFile file already exists, size: " + inFile.available());
+                Logger.debug("copyScriptFile file already exists, size: " + inFile.available());
                 return file;
             }
 
@@ -264,7 +298,7 @@ public class DeviceUtil {
             output.close();
             inFile.close();
         } catch (Exception e) {
-            Logger.error("DeviceUtil copyScriptFile exception: " + e.toString());
+            Logger.error("copyScriptFile exception: " + e.toString());
         }
         return file;
     }
@@ -285,7 +319,7 @@ public class DeviceUtil {
                         .getIdentifier(fileName, "raw", context.getPackageName()));
 
                 if (file.exists() && file.isFile() && (file.length() == inFile.available())) {
-                    Logger.debug("DeviceUtil installBusybox file already exists, size: " + inFile.available());
+                    Logger.debug("installBusybox file already exists, size: " + inFile.available());
                     return utilFolderPath;
                 }
 
@@ -305,19 +339,18 @@ public class DeviceUtil {
                 final String installCommand = "chmod 755 " + busybox
                         + " && " + busybox + " --install -s " + utilFolderPath;
 
-                Logger.debug("DeviceUtil installBusybox installCommand: " + installCommand);
+                Logger.debug("installBusybox installCommand: " + installCommand);
 
-                Process process = Runtime.getRuntime().exec(new String[]{"sh", "-c", installCommand}, null, utilFolder);
+                ExecCommand execCommand = new ExecCommand(new String[]{"sh", "-c", installCommand}, null, utilFolder);
 
-                int code = process.waitFor();
-                if (code != 0)
-                    Logger.error("DeviceUtil installBusybox error! " + code);
+                int code = execCommand.getResult();
+                if (code != 0) {
+                    Logger.error("installBusybox error code: {} \\ output: {} \\ error: {}", code, execCommand.getOutput(), execCommand.getError());
+                    utilFolderPath = null;
+                }
 
-            } catch (InterruptedException e) {
-                Logger.error("DeviceUtil installBusybox InterruptedException: " + e.toString());
-                utilFolderPath = null;
             } catch (IOException e) {
-                Logger.error("DeviceUtil installBusybox IOException: " + e.toString());
+                Logger.error("installBusybox IOException: " + e.toString());
                 utilFolderPath = null;
             }
 
@@ -329,7 +362,7 @@ public class DeviceUtil {
 
     public static void killBackgroundTasks(Context context, Boolean suicide) {
 
-        Logger.debug("DeviceUtil killBackgroundTasks");
+        Logger.debug("killBackgroundTasks");
 
         ActivityManager.RunningAppProcessInfo myProcess = null;
 
@@ -345,9 +378,9 @@ public class DeviceUtil {
                 if (!((packageInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1)) {
                     if (packageInfo.packageName.contains("amazmod") && !suicide)
                         //Do not suicide;
-                        Logger.debug("DeviceUtil killBackgroundTasks skipping " + packageInfo.processName);
+                        Logger.debug("killBackgroundTasks skipping " + packageInfo.processName);
                     else {
-                        Logger.debug("DeviceUtil killBackgroundTasks killing package: " + packageInfo.packageName);
+                        Logger.debug("killBackgroundTasks killing package: " + packageInfo.packageName);
                         am.killBackgroundProcesses(packageInfo.packageName);
                     }
                 }
@@ -359,10 +392,10 @@ public class DeviceUtil {
                     myProcess = info;
                 } else if (info.processName.contains("watch.launcher") && !suicide) {
                     //Do not kill launcher;
-                    Logger.debug("DeviceUtil killBackgroundTasks skipping " + info.processName);
+                    Logger.debug("killBackgroundTasks skipping " + info.processName);
                 } else {
 
-                    Logger.debug("DeviceUtil killBackgroundTasks killing process: " + info.processName);
+                    Logger.debug("killBackgroundTasks killing process: " + info.processName);
 
                     android.os.Process.killProcess(info.pid);
                     android.os.Process.sendSignal(info.pid, android.os.Process.SIGNAL_KILL);
@@ -374,13 +407,13 @@ public class DeviceUtil {
             }
 
             if ((myProcess != null) && suicide) {
-                Logger.debug("DeviceUtil killBackgroundTasks myProcess: " + myProcess.processName);
+                Logger.debug("killBackgroundTasks myProcess: " + myProcess.processName);
                 am.killBackgroundProcesses(myProcess.processName);
                 android.os.Process.sendSignal(myProcess.pid, android.os.Process.SIGNAL_KILL);
             }
 
         } else {
-            Logger.error("DeviceUtil killBackgroundTasks failed - null ActivityManager!");
+            Logger.error("killBackgroundTasks failed - null ActivityManager!");
         }
     }
 
@@ -394,23 +427,80 @@ public class DeviceUtil {
 
             float batteryPct = level / (float) scale;
 
-            Logger.debug("DeviceUtil saveBatteryData batteryPct: " + batteryPct);
+            Logger.debug("saveBatteryData batteryPct: " + batteryPct);
 
             return MainService.saveBatteryDb(batteryPct, updateSettings);
 
         } else {
 
-            Logger.error("DeviceUtil saveBatteryData register receiver error!");
+            Logger.error("saveBatteryData register receiver error!");
             return false;
         }
 
     }
 
-    public static boolean isVerge(){
-        String model = SystemProperties.getSystemProperty("ro.build.huami.model");
-        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
-        Logger.debug("DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
-        return isVerge;
+    private static void enableApkInstall() {
+        new ExecCommand(ExecCommand.ADB, "adb shell settings put secure install_non_market_apps 1");
+    }
+
+    private static void showToast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void systemPutAdb(Context context, String name, String value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        new ExecCommand(ExecCommand.ADB, String.format("adb shell settings put system %s %s", name, value));
+    }
+
+    public static void systemPutString(Context context, String name, String value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        Settings.System.putString(context.getContentResolver(), name, value);
+    }
+
+    public static String systemGetString(Context context, String name) {
+        return Settings.System.getString(context.getContentResolver(), name);
+    }
+
+    public static void systemPutInt(Context context, String name, int value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        Settings.System.putInt(context.getContentResolver(), name, value);
+    }
+
+    public static int systemGetInt(Context context, String name) throws Settings.SettingNotFoundException {
+        return Settings.System.getInt(context.getContentResolver(), name);
+    }
+
+    public static int systemGetInt(Context context, String name, int def) {
+        return Settings.System.getInt(context.getContentResolver(), name, def);
+    }
+
+    public static void systemPutFloat(Context context, String name, float value) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!Settings.System.canWrite(context)) {
+                showToast(context, "Write Settings Permission Required!");
+                return;
+            }
+        }
+        Settings.System.putFloat(context.getContentResolver(), name, value);
+    }
+
+    public static float systemGetFloat(Context context, String name, float def) {
+        return Settings.System.getFloat(context.getContentResolver(), name, def);
     }
 
 }

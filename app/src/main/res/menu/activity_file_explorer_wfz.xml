@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_activity_file_explorer_set_watchface"
+        android:title="@string/set_watchface" />
+</menu>

@@ -6,9 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 
-import amazmod.com.transport.Constants;
+import androidx.annotation.NonNull;
 
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
@@ -36,6 +35,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
@@ -59,7 +59,8 @@ public class Watch {
     private ThreadPoolExecutor threadPoolExecutor;
 
     private Watch() {
-        threadPoolExecutor = new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+        threadPoolExecutor = new ThreadPoolExecutor(1, 2,
+                30L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
     }
 
     public static void init(Context context) {
@@ -214,7 +215,7 @@ public class Watch {
             public Object call() throws Exception {
                 TransportService transportService = Tasks.await(getServiceInstance());
                 long size = file.length();
-                long lastChunnkSize = size % Constants.CHUNK_SIZE;
+                long lastChunkSize = size % Constants.CHUNK_SIZE;
                 long totalChunks = size / Constants.CHUNK_SIZE;
                 long startedAt = System.currentTimeMillis();
 
@@ -241,8 +242,8 @@ public class Watch {
                     operationProgress.update(duration, byteSent, remainTime, progress);
                 }
 
-                if (lastChunnkSize > 0) {
-                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, Constants.CHUNK_SIZE, totalChunks, (int) lastChunnkSize);
+                if (lastChunkSize > 0) {
+                    RequestUploadFileChunkData requestUploadFileChunkData = RequestUploadFileChunkData.fromFile(file, destPath, Constants.CHUNK_SIZE, totalChunks, (int) lastChunkSize);
                     Tasks.await(transportService.sendAndWait(Transport.REQUEST_UPLOAD_FILE_CHUNK, requestUploadFileChunkData));
                 }
 

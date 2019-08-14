@@ -5,9 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,18 +14,19 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
-
-import amazmod.com.transport.Constants;
-
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
@@ -38,7 +36,6 @@ import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
@@ -51,8 +48,10 @@ import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.Objects;
 import java.util.concurrent.CancellationException;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
@@ -124,7 +123,8 @@ public class WatchInfoFragment extends Card implements Updater {
 
         if (getActivity() != null) {
             snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
-                    .setProgressBarColor(R.color.colorAccent)
+                    .setProgressBarColor(ThemeHelper.getThemeColorAccentId(getActivity()))
+                    .setActionTextColor(ThemeHelper.getThemeColorAccentId(getActivity()))
                     .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                     .setTextSize(14)
                     .setMessageMaxLines(2);
@@ -259,7 +259,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void connecting() {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light));
+        isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
@@ -302,8 +302,6 @@ public class WatchInfoFragment extends Card implements Updater {
                                         if (!Permissions.checkWriteExternalStoragePermission(getContext(), getActivity())) {
                                             return;
                                         }
-
-                                        FirebaseAnalytics.getInstance(WatchInfoFragment.this.getContext()).logEvent(FirebaseEvents.INSTALL_SERVICE_UPDATE, null);
 
                                         setWindowFlags(true);
                                         final UpdateDownloader updateDownloader = new UpdateDownloader();
@@ -442,14 +440,6 @@ public class WatchInfoFragment extends Card implements Updater {
                 snackProgressBarManager.dismissAll();
 
                 if (task.isSuccessful()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("size", size);
-                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                    if (WatchInfoFragment.this.getContext() != null) {
-                        FirebaseAnalytics
-                                .getInstance(WatchInfoFragment.this.getContext())
-                                .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
-                    }
                     if (destPath.contains("AmazMod-service")) {
                         installUpdate(destPath);
                     }

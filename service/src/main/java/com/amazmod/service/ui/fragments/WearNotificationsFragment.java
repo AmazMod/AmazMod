@@ -10,21 +10,23 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.NotificationListAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.support.NotificationInfo;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.util.DeviceUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +46,7 @@ public class WearNotificationsFragment extends Fragment {
 
     static WearNotificationsFragment instance = null;
 
+    private BoxInsetLayout rootLayout;
     private RelativeLayout wearNotificationsFrameLayout;
 	private WearableListView listView;
     private TextView mHeader;
@@ -54,7 +57,11 @@ public class WearNotificationsFragment extends Fragment {
     private List<NotificationInfo> notificationInfoList;
     private NotificationListAdapter mAdapter;
 
+    private static boolean animate = false;
+
     private static final String REFRESH = "Refresh";
+    public static final String ANIMATE = "animate";
+
 
     @Override
     public void onAttach(Activity activity) {
@@ -66,8 +73,10 @@ public class WearNotificationsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Logger.info("WearNotificationsFragment onCreate");
 
+        animate = getArguments().getBoolean(ANIMATE);
+
+        Logger.info("WearNotificationsFragment onCreate animate: {}", animate);
         instance = this;
 
     }
@@ -76,16 +85,20 @@ public class WearNotificationsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearNotificationsFragment onCreateView");
-        return inflater.inflate(R.layout.activity_wear_notifications, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_wear_notifications, container, false);
+
+        if (animate)
+            view.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.slide_in_from_right));
+
+        return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Logger.info("WearNotificationsFragment onViewCreated");
-
         init();
-
     }
 
     @Override
@@ -110,7 +123,6 @@ public class WearNotificationsFragment extends Fragment {
 
         } else
             showNotification(position);
-
     }
 
     public void onItemLongClick(int position) {
@@ -119,14 +131,16 @@ public class WearNotificationsFragment extends Fragment {
 
         if (!REFRESH.equals(notificationInfoList.get(position).getNotificationTitle()))
             deleteNotification(position);
-
     }
 
     private void init() {
+        rootLayout = getActivity().findViewById(R.id.wear_notifications_main_layout);
         wearNotificationsFrameLayout = getActivity().findViewById(R.id.wear_notifications_frame_layout);
         listView = getActivity().findViewById(R.id.wear_notifications_list);
         mHeader = getActivity().findViewById(R.id.wear_notifications_header);
         progressBar = getActivity().findViewById(R.id.wear_notifications_loading_spinner);
+
+        rootLayout.setBackgroundColor(mContext.getResources().getColor(R.color.black));
 
         listView.setLongClickable(true);
         listView.setGreedyTouchMode(true);
@@ -162,8 +176,8 @@ public class WearNotificationsFragment extends Fragment {
 
                 if (!notificationInfoList.isEmpty())
                     new AlertDialog.Builder(getActivity())
-                        .setTitle(getResources().getString(R.string.clear_notifications))
-                        .setMessage(getResources().getString(R.string.confirmation))
+                        .setTitle(mContext.getResources().getString(R.string.clear_notifications))
+                        .setMessage(mContext.getResources().getString(R.string.confirmation))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 NotificationStore.clear();
@@ -190,17 +204,17 @@ public class WearNotificationsFragment extends Fragment {
         listView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
 
-        final Drawable drawable = getResources().getDrawable(R.drawable.outline_refresh_white_24);
+        final Drawable drawable = mContext.getResources().getDrawable(R.drawable.outline_refresh_white_24);
 
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
             public List<NotificationInfo> call() throws Exception {
-                Logger.debug("WearAppsFragment loadNotifications call");
+                Logger.debug("WearNotificationsFragment loadNotifications call");
 
                 List<NotificationInfo> notificationInfoList = new ArrayList<>();
                 if (NotificationStore.getKeySet() != null) {
                     for (String key : NotificationStore.getKeySet()) {
-                        Logger.debug("WearAppsFragment loadNotifications adding key: " + key);
+                        Logger.debug("WearNotificationsFragment loadNotifications adding key: " + key);
                         notificationInfoList.add(new NotificationInfo(NotificationStore.getCustomNotification(key), key));
                     }
                 }
@@ -223,9 +237,9 @@ public class WearNotificationsFragment extends Fragment {
                                 Logger.debug("WearNotificationsFragment loadNotifications run");
                                 mAdapter = new NotificationListAdapter(mContext, notificationInfoList);
                                 if (notificationInfoList.isEmpty())
-                                    mHeader.setText(getResources().getString(R.string.empty));
+                                    mHeader.setText(mContext.getResources().getString(R.string.empty));
                                 else
-                                    mHeader.setText(getResources().getString(R.string.notifications));
+                                    mHeader.setText(mContext.getResources().getString(R.string.notifications));
                                 listView.setAdapter(mAdapter);
                                 listView.post(new Runnable() {
                                     public void run() {
@@ -239,7 +253,6 @@ public class WearNotificationsFragment extends Fragment {
                         });
                     }
                 });
-
     }
 
     private void showNotification(final int itemChosen) {
@@ -250,25 +263,22 @@ public class WearNotificationsFragment extends Fragment {
 
         Intent intent = new Intent(mContext, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra(NotificationWearActivity.KEY, key);
         intent.putExtra(NotificationWearActivity.MODE, NotificationWearActivity.MODE_VIEW);
 
         mContext.startActivity(intent);
-
     }
 
     private void deleteNotification(final int itemChosen) {
 
         final String key = notificationInfoList.get(itemChosen).getKey();
-
         Logger.debug("WearNotificationsFragment deleteNotification key: " + key);
 
         new AlertDialog.Builder(getActivity())
-                .setTitle(getResources().getString(R.string.delete))
-                .setMessage(getResources().getString(R.string.confirmation))
+                .setTitle(mContext.getResources().getString(R.string.delete))
+                .setMessage(mContext.getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         NotificationStore.removeCustomNotification(key);
@@ -277,9 +287,7 @@ public class WearNotificationsFragment extends Fragment {
                     }
                 })
                 .setNegativeButton(android.R.string.no, null).show();
-
     }
-
 
     // The following code ensures that the title scrolls as the user scrolls up
     // or down the list
@@ -320,22 +328,28 @@ public class WearNotificationsFragment extends Fragment {
     }
 
     private void resetNotificationsCounter() {
-        String data = Settings.System.getString(mContext.getContentResolver(), "CustomWatchfaceData");
+        String data = DeviceUtil.systemGetString(mContext, "CustomWatchfaceData");
         if (data == null || data.equals(""))
-            Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", "{}");
+            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", "{}");
 
         try {
             JSONObject json_data = new JSONObject(data);
             json_data.put("notifications", 0);
-            Settings.System.putString(mContext.getContentResolver(), "CustomWatchfaceData", json_data.toString());
+            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", json_data.toString());
         } catch (JSONException e) {
             Logger.error("AmazModLauncher refreshMessages JSONException: " + e.toString());
         }
     }
 
-    public static WearNotificationsFragment newInstance() {
-        Logger.info("WearNotificationsFragment newInstance");
-        return new WearNotificationsFragment();
+    public static WearNotificationsFragment newInstance(boolean animate) {
+        Logger.info("WearNotificationsFragment newInstance animate: {}", animate);
+
+        WearNotificationsFragment myFragment = new WearNotificationsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(ANIMATE, animate);
+        myFragment.setArguments(bundle);
+
+        return myFragment;
     }
 
     public static WearNotificationsFragment getInstance() {

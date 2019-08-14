@@ -7,19 +7,24 @@ import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.collection.ArrayMap;
+import androidx.core.app.ActivityCompat;
+
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.db.model.CommandHistoryEntity;
+import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.util.Permissions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
@@ -37,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,6 +96,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_files_extras);
+        Logger.trace("FilesExtrasActivity onCreate");
 
         try {
             if (getSupportActionBar() != null)
@@ -114,7 +119,17 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         this.fileName = Constants.TAG + "_prefs.bkp";
         testDirectory = File.separator + "test" + System.currentTimeMillis();
 
-
+        if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            Snackbar
+                    .make(filesMainContainer, R.string.no_storage_permission, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.grant, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openPermissions();
+                        }
+                    })
+                    .show();
+        }
     }
 
     @Override
@@ -143,10 +158,12 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         if (!Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
+        updateData();
     }
 
     @SuppressLint("CheckResult")
     private void updateData() {
+        Logger.trace("FilesExtrasActivity updateData");
 
         String obsText = "";
 
@@ -200,6 +217,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private void save() {
+        Logger.trace("FilesExtrasActivity save");
 
         Date lastDate = new Date();
         String time = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
@@ -218,6 +236,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
                 }
                 if (success) {
                     saveAppsDbToPrefs(); //Restore selected apps to Prefs
+                    saveCommandHistoryToPrefs();
                     File data = Environment.getDataDirectory();
                     String currentDBPath = "/data/" + packageName + "/shared_prefs/" + packageName + "_preferences.xml";
                     File currentDB = new File(data, currentDBPath);
@@ -247,6 +266,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private void load() {
+        Logger.trace("FilesExtrasActivity load");
 
         final String packageName = this.getPackageName();
 
@@ -299,6 +319,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private boolean checkWriteDirectory() {
+        Logger.trace("FilesExtrasActivity checkWriteDirectory");
+
         this.useDownloads = false;
         this.useFiles = false;
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + testDirectory);
@@ -326,6 +348,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private boolean checkBackupFile() {
+        Logger.trace("FilesExtrasActivity checkBackupFile");
+
         this.useDownloads = false;
         this.useFiles = false;
         File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + bkpDirectory, fileName);
@@ -343,16 +367,14 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     public static void checkApps(Context context) {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity checkApps");
+        Logger.trace("FilesExtrasActivity checkApps");
 
         Gson gson = new Gson();
         List<String> packagesList = new ArrayList<>(Arrays.asList(gson
                 .fromJson(Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]"), String[].class)));
 
         if (packagesList.size() > 0)
-            migrateNotificationPrefsFromJSON();
-        //checkAppsJson(context, packagesList);
+            loadAppsPrefsFromJSON();
 
         List<NotificationPreferencesEntity> apps = SQLite
                 .select()
@@ -365,8 +387,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     public static void checkAppsJson(Context context, List<String> packagesList) {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity checkAppsJson packagesList: " + packagesList.toString());
+        Logger.trace("FilesExtrasActivity checkAppsJson");
 
         List<String> installedApps = getInstalledPackagesNames(context);
 
@@ -389,8 +410,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
     }
 
     private static void checkAppsSql(Context context, List<NotificationPreferencesEntity> apps) {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity checkAppsSql");
+        Logger.trace("FilesExtrasActivity checkAppsSql");
 
         List<String> installedApps = getInstalledPackagesNames(context);
 
@@ -409,11 +429,8 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
     }
 
-    // TODO: 06/12/2018 remove this in the future
-    //Temporary Migration function (old users will have its selected apps migrated from JSON to SQLITE)
-    public static void migrateNotificationPrefsFromJSON() {
-
-        //Log.d(Constants.TAG,"FilesExtrasActivity migrateNotificationPrefsFromJSON");
+    public static void loadAppsPrefsFromJSON() {
+        Logger.trace("FilesExtrasActivity loadAppsPrefsFromJSON");
 
         String packagesJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
 
@@ -426,27 +443,31 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
             }
 
             Prefs.putString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES, "[]");
-            Logger.info("FilesExtrasActivity migrateNotificationPrefsFromJSON finished");
+            Logger.info("FilesExtrasActivity loadAppsPrefsFromJSON finished");
         }
 
         String filtersJson = Prefs.getString(Constants.PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS, "[]");
-        Logger.debug("FilesExtrasActivity migrateNotificationPrefsFromJSON filters: " + filtersJson);
-        if (!filtersJson.equals("[]")) {
-            Map<String, String> packagesfilters = new Gson().fromJson(filtersJson, Map.class);
+        Logger.debug("FilesExtrasActivity loadAppsPrefsFromJSON filters: " + filtersJson);
+        try {
+            if (!filtersJson.equals("[]")) {
+                Map<String, String> packagesfilters = new Gson().fromJson(filtersJson, Map.class);
 
-            for (Map.Entry<String, String> pair : packagesfilters.entrySet()) {
-                NotificationPreferencesEntity app =
-                        SQLite
-                                .select()
-                                .from(NotificationPreferencesEntity.class)
-                                .where(NotificationPreferencesEntity_Table.packageName.eq(pair.getKey()))
-                                .querySingle();
-                app.setFilter(pair.getValue());
-                app.setWhitelist(false);
-                FlowManager
-                        .getModelAdapter(NotificationPreferencesEntity.class)
-                        .update(app);
+                for (Map.Entry<String, String> pair : packagesfilters.entrySet()) {
+                    NotificationPreferencesEntity app =
+                            SQLite
+                                    .select()
+                                    .from(NotificationPreferencesEntity.class)
+                                    .where(NotificationPreferencesEntity_Table.packageName.eq(pair.getKey()))
+                                    .querySingle();
+                    app.setFilter(pair.getValue());
+                    app.setWhitelist(false);
+                    FlowManager
+                            .getModelAdapter(NotificationPreferencesEntity.class)
+                            .update(app);
+                }
             }
+        } catch (Exception ex) {
+            Logger.error(ex, ex.getMessage());
         }
     }
 
@@ -469,7 +490,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
     public static void saveAppsDbToPrefs() {
 
-        Logger.debug("FilesExtrasActivity saveAppsDbToPrefs");
+        Logger.trace("FilesExtrasActivity saveAppsDbToPrefs");
 
         List<NotificationPreferencesEntity> apps = SQLite
                 .select()
@@ -479,7 +500,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         if (apps.size() > 0) {
 
             List<String> dummy = new ArrayList<>();
-            Map<String, String> filters = new HashMap<String, String>();
+            ArrayMap<String, String> filters = new ArrayMap<>();
 
             for (NotificationPreferencesEntity p : apps) {
                 dummy.add(p.getPackageName());
@@ -497,6 +518,72 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         }
     }
 
+
+    public static void saveCommandHistoryToPrefs() {
+        Logger.trace("FilesExtrasActivity saveCommandHistoryToPrefs");
+
+        List<CommandHistoryEntity> commandHistoryValues = SQLite
+                .select()
+                .from(CommandHistoryEntity.class)
+                .orderBy(CommandHistoryEntity_Table.date.asc())
+                .queryList();
+
+        if (commandHistoryValues.size() > 0) {
+            List<String> commands = new ArrayList<>();
+
+            for (CommandHistoryEntity p : commandHistoryValues) {
+                commands.add(p.getCommand());
+            }
+
+            if (commands.size() > 0) {
+                String pref = new Gson().toJson(commands);
+                Prefs.putString(Constants.PREF_COMMAND_HISTORY, pref);
+                Prefs.edit().commit();
+            }
+        }
+    }
+
+    public static void loadCommandHistoryFromPrefs() {
+        Logger.trace("FilesExtrasActivity loadCommandHistoryFromPrefs");
+
+        String commandsJSON = Prefs.getString(Constants.PREF_COMMAND_HISTORY, "[]");
+
+        if (!commandsJSON.equals("[]")) {
+            String[] commands = new Gson().fromJson(commandsJSON, String[].class);
+            for (String p : commands) {
+                saveCommandToHistory(p);
+            }
+
+            Prefs.putString(Constants.PREF_COMMAND_HISTORY, "[]");
+            Logger.info("FilesExtrasActivity loadCommandHistoryFromPrefs finished");
+        }
+    }
+
+    public static void saveCommandToHistory(String command) {
+        Logger.trace("FilesExtrasActivity saveCommandToHistory");
+
+        CommandHistoryEntity previousSameCommand = SQLite
+                .select()
+                .from(CommandHistoryEntity.class)
+                .where(CommandHistoryEntity_Table.command.eq(command))
+                .querySingle();
+
+        if (previousSameCommand != null) {
+            previousSameCommand.setDate(System.currentTimeMillis());
+            FlowManager
+                    .getModelAdapter(CommandHistoryEntity.class)
+                    .update(previousSameCommand);
+        } else {
+            CommandHistoryEntity commandHistoryEntity = new CommandHistoryEntity();
+            commandHistoryEntity.setCommand(command);
+            commandHistoryEntity.setDate(System.currentTimeMillis());
+
+            FlowManager
+                    .getModelAdapter(CommandHistoryEntity.class)
+                    .insert(commandHistoryEntity);
+        }
+    }
+
     public static void eraseAppsPrefs() {
         Logger.debug("FilesExtrasActivity eraseAppsPrefs");
 
@@ -505,5 +592,4 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         Prefs.edit().commit();
 
     }
-
 }

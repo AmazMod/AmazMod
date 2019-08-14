@@ -5,12 +5,11 @@ import android.content.pm.PackageInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
-import amazmod.com.transport.Constants;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.Permissions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.heinrichreimersoftware.materialintro.app.IntroActivity;
@@ -27,6 +26,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import amazmod.com.models.Reply;
+import amazmod.com.transport.Constants;
 
 public class MainIntroActivity extends IntroActivity {
 

@@ -11,8 +11,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
-import com.pixplicity.easyprefs.library.Prefs;
-
+import org.apache.commons.io.input.ReversedLinesFileReader;
 import org.tinylog.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -20,22 +19,23 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
+import java.nio.charset.Charset;
+import java.util.Objects;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import amazmod.com.transport.Constants;
 
 public class FilesUtil {
 
@@ -44,7 +44,7 @@ public class FilesUtil {
     public final static String APP_PKG = "app_pkg";
 
     public static boolean inputStreamToFile(InputStream in, String saveDir, String file) {
-        Logger.debug(Constants.TAG, "FilesUtil inputStreamToFile saveDir: " + saveDir + " file: " + file);
+        Logger.debug("FilesUtil inputStreamToFile saveDir: " + saveDir + " file: " + file);
 
         long length = 0;
         try {
@@ -58,10 +58,10 @@ public class FilesUtil {
             in.close();
             out.close();
         } catch (Exception e) {
-            Logger.error(Constants.TAG, "FilesUtil inputStreamToFile exception: " + e.toString());
+            Logger.error("FilesUtil inputStreamToFile exception: " + e.toString());
             return false;
         } finally {
-            Logger.debug(Constants.TAG, "FilesUtil inputStreamToFile length: " + length);
+            Logger.debug("FilesUtil inputStreamToFile length: " + length);
         }
         return true;
 
@@ -74,7 +74,7 @@ public class FilesUtil {
             String url = strings[0];
             String saveDir = strings[1];
             String file = strings[2];
-            Logger.debug(Constants.TAG, "FilesUtil urlToFile url: " + url + " saveDir: " + saveDir + " file: " + file);
+            Logger.debug("FilesUtil urlToFile url: " + url + " saveDir: " + saveDir + " file: " + file);
 
             BufferedInputStream in = null;
             long length = 0;
@@ -90,10 +90,10 @@ public class FilesUtil {
                 out.close();
                 in.close();
             } catch (Exception e) {
-                Logger.error(Constants.TAG, "FilesUtil urlToFile exception: " + e.toString());
+                Logger.error("FilesUtil urlToFile exception: " + e.toString());
                 return false;
             } finally {
-                Logger.debug(Constants.TAG, "FilesUtil urlToFile length: " + length);
+                Logger.debug("FilesUtil urlToFile length: " + length);
             }
             return true;
         }
@@ -101,7 +101,7 @@ public class FilesUtil {
 
     public static void unzip(String zipFile, String targetDirectory) throws IOException {
 
-        Logger.debug(Constants.TAG, "FilesUtil unzip file: " + zipFile + " targetDir: " + targetDirectory);
+        Logger.debug("FilesUtil unzip file: " + zipFile + " targetDir: " + targetDirectory);
 
         try (ZipInputStream zis = new ZipInputStream(
                 new BufferedInputStream(new FileInputStream(new File(zipFile))))) {
@@ -126,18 +126,23 @@ public class FilesUtil {
 
     public static Bundle getApkInfo(Context context, String file) {
         PackageManager pm = context.getPackageManager();
-        PackageInfo pi = pm.getPackageArchiveInfo(file, 0);
-
-        pi.applicationInfo.sourceDir = file;
-        pi.applicationInfo.publicSourceDir = file;
-
-
         Bundle bundle = new Bundle();
 
-        Bitmap icon = drawableToBitmap(pi.applicationInfo.loadIcon(pm));
-        bundle.putParcelable(APP_ICON, icon);
-        bundle.putString(APP_LABEL, pi.applicationInfo.loadLabel(pm).toString());
-        bundle.putString(APP_PKG, pi.applicationInfo.packageName);
+        try {
+            PackageInfo pi = pm.getPackageArchiveInfo(file, 0);
+
+            pi.applicationInfo.sourceDir = file;
+            pi.applicationInfo.publicSourceDir = file;
+
+
+            Bitmap icon = drawableToBitmap(pi.applicationInfo.loadIcon(pm));
+            bundle.putParcelable(APP_ICON, icon);
+            bundle.putString(APP_LABEL, pi.applicationInfo.loadLabel(pm).toString());
+            bundle.putString(APP_PKG, pi.applicationInfo.packageName);
+        } catch (NullPointerException ex) {
+            Logger.error("FilesUtil getApkInfo NullPointerException: ", ex.getMessage());
+            bundle = null;
+        }
 
         return bundle;
     }
@@ -166,7 +171,7 @@ public class FilesUtil {
 
     public static String getTagValueFromXML(String tagName, File file) {
 
-        Logger.debug(Constants.TAG, "FilesUtil getTagValueFromXML file: " + file + " tagName: " + tagName);
+        Logger.debug("FilesUtil getTagValueFromXML file: " + file + " tagName: " + tagName);
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
@@ -184,13 +189,13 @@ public class FilesUtil {
                 }
             }
         } catch (ParserConfigurationException e) {
-            Logger.error(Constants.TAG, "FilesUtil getTagValueFromXML ParserConfigurationException: " + e.toString());
+            Logger.error("FilesUtil getTagValueFromXML ParserConfigurationException: " + e.getMessage());
             return null;
         } catch (SAXException e) {
-            Logger.error(Constants.TAG, "FilesUtil getTagValueFromXML SAXException: " + e.toString());
+            Logger.error("FilesUtil getTagValueFromXML SAXException: " + e.getMessage());
             return null;
         } catch (IOException e) {
-            Logger.error(Constants.TAG, "FilesUtil getTagValueFromXML IOException: " + e.toString());
+            Logger.error("FilesUtil getTagValueFromXML IOException: " + e.getMessage());
             return null;
         }
 
@@ -236,10 +241,111 @@ public class FilesUtil {
         }
         return false;
     }
-    public static boolean isVerge(){
-        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
-        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
-        Logger.debug("DeviceUtil isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
-        return isVerge;
+
+    public static String loadTextFile(String file){
+        Logger.trace("file: {}", file);
+
+        try {
+            // How to read file into String before Java 7
+            InputStream is = new FileInputStream(file);
+            BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+
+            String line = buf.readLine();
+            StringBuilder sb = new StringBuilder();
+
+            while (line != null) {
+                sb.append(line).append("\n");
+                line = buf.readLine();
+            }
+
+            return sb.toString();
+
+        } catch (IOException e){
+            Logger.error(e, "loadLogs: Cant read file: {}", file);
+            return null;
+        }
     }
+
+    public static String tail(File file, int lines) {
+        Logger.trace("file: {} lines: {}", file.toString(), lines);
+
+        java.io.RandomAccessFile fileHandler = null;
+        try {
+            fileHandler = new java.io.RandomAccessFile(file, "r");
+            long fileLength = fileHandler.length() - 1;
+            StringBuilder sb = new StringBuilder();
+            int line = 0;
+
+            for (long filePointer = fileLength; filePointer != -1; filePointer--) {
+                fileHandler.seek(filePointer);
+                int readByte = fileHandler.readByte();
+
+                if (readByte == 0xA) {
+                    if (filePointer < fileLength) {
+                        line++;
+                    }
+                } else if (readByte == 0xD) {
+                    if (filePointer < fileLength - 1) {
+                        line++;
+                    }
+                }
+                if (line >= lines) {
+                    break;
+                }
+                sb.append((char) readByte);
+            }
+
+            return sb.reverse().toString();
+
+        } catch (FileNotFoundException e) {
+            Logger.error(e, e.getMessage());
+            return null;
+
+        } catch (IOException e) {
+            Logger.error(e, e.getMessage());
+            return null;
+
+        } finally {
+            if (fileHandler != null)
+                try {
+                    fileHandler.close();
+                } catch (IOException e) {
+                    Logger.error(e, e.getMessage());
+                }
+        }
+    }
+
+    public static String reverseLines(File file, int lines){
+        Logger.trace("file: {} lines: {}", file.toString(), lines);
+
+        ReversedLinesFileReader fr = null;
+        try {
+            fr = new ReversedLinesFileReader(file, Charset.defaultCharset());
+            StringBuilder sb = new StringBuilder();
+            int line = 0;
+            String string = fr.readLine();
+
+            while(string != null) {
+                string = fr.readLine();
+                sb.append(string);
+                line++;
+                if (line >= lines)
+                    break;
+            }
+
+            return sb.toString();
+
+        } catch (IOException e) {
+            Logger.error(e, e.getMessage());
+            return null;
+
+        }finally{
+            try {
+                Objects.requireNonNull(fr).close();
+            } catch (IOException e) {
+                Logger.error(e, e.getMessage());
+            }
+        }
+    }
+
 }

@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.RemoteException;
 import android.support.wearable.view.WearableListView;
 import android.text.format.Formatter;
@@ -31,10 +30,10 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.AppInfoAdapter;
 import com.amazmod.service.support.AppInfo;
+import com.amazmod.service.util.ExecCommand;
 
 import org.tinylog.Logger;
 
@@ -70,7 +69,8 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     private List<AppInfo> appInfoList;
     private AppInfoAdapter mAdapter;
 
-    private static int appChosen = 0;
+    private int appChosen = 0;
+    private boolean isAmazModUninstall;
 
     private final int UNINSTALL_REQUEST_CODE = 1;
     private static final String REFRESH = "Refresh";
@@ -93,7 +93,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         Logger.info("WearAppsFragment onCreateView");
-        return inflater.inflate(R.layout.activity_wear_apps, container, false);
+        return inflater.inflate(R.layout.fragment_wear_apps, container, false);
     }
 
     @Override
@@ -356,8 +356,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                     });
         } catch (Exception ex) {
             appInfo.setSize("Unknown Size");
-            Logger.error("WearAppsFragment createAppInfo NoSuchMethodException");
-            ex.printStackTrace();
+            Logger.error(ex,"WearAppsFragment createAppInfo exception: {}", ex.getMessage());
         }
 
         return appInfo;
@@ -389,6 +388,10 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         System.err.println("old sdk");
         return false; */
 
+        //Check if was package is AmazMod service
+        if (packageName.equals("com.amazmod.service"))
+            isAmazModUninstall = true;
+
         Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE);
         intent.setData(Uri.parse("package:" + packageName));
         intent.putExtra(Intent.EXTRA_RETURN_RESULT, true);
@@ -397,14 +400,15 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Logger.trace("appChosen: {}, resultCode: {}", appChosen, resultCode);
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Logger.debug("WearAppsFragment onActivityResult RESULT_OK appChosen: " + appChosen);
+                Logger.trace("WearAppsFragment onActivityResult RESULT_OK");
                 Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + "uninstalled successfully!", Toast.LENGTH_SHORT).show();
                 scrollView.post(new Runnable() {
                     public void run() {
-                        Logger.debug("WearAppsFragment onActivityResult scrollToTop");
+                        Logger.trace("WearAppsFragment onActivityResult scrollToTop");
                         //scrollView.fullScroll(scrollView.FOCUS_UP);
                         scrollView.scrollTo(0, scrollView.getTop());
                     }
@@ -414,10 +418,16 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 mAdapter.notifyDataSetChanged();
                 hideAppInfo();
                 appChosen = 0;
+
             } else if (resultCode == RESULT_CANCELED) {
-                Logger.debug("WearAppsFragment onActivityResult RESULT_CANCELED");
+                Logger.trace("WearAppsFragment onActivityResult RESULT_CANCELED");
+
             } else if (resultCode == RESULT_FIRST_USER) {
-                Logger.debug("WearAppsFragment onActivityResult RESULT_FIRST_USER");
+                Logger.trace("WearAppsFragment onActivityResult RESULT_FIRST_USER");
+                if (isAmazModUninstall) {
+                    Toast.makeText(mContext, "Please first revoke \"Device Admin\" before uninstalling AmazMod", Toast.LENGTH_LONG).show();
+                    isAmazModUninstall = false;
+                }
             }
         }
     }
@@ -425,17 +435,16 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     public void clearPackage(Context context, String packageName) {
         Logger.info("WearAppsFragment clearPackage packageName: " + packageName);
 
-        final String command = String.format("pm force-stop %s;pm clear %s;exit", packageName, packageName);
+        final String command = String.format("adb shell am force-stop %s;pm clear %s", packageName, packageName);
 
         new AlertDialog.Builder(getActivity())
                 .setTitle(getResources().getString(R.string.clear_app_data))
                 .setMessage(getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        runCommand(command);
+                        new ExecCommand(ExecCommand.ADB, command);
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
-
     }
 
     private void setButtonTheme(Button button, String string) {
@@ -446,19 +455,6 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         button.setAllCaps(true);
         button.setTextColor(Color.parseColor("#000000"));
         button.setBackground(mContext.getDrawable(R.drawable.reply_grey));
-    }
-
-    private void runCommand(String command) {
-        Logger.debug("WearAppsFragment runCommand: " + command);
-
-        if (!command.isEmpty()) {
-            try {
-                Runtime.getRuntime().exec(new String[]{"adb", "shell", command},
-                        null, Environment.getExternalStorageDirectory());
-            } catch (Exception e) {
-                Logger.error("WearAppsFragment runCommand exception: " + e.toString());
-            }
-        }
     }
 
     public static WearAppsFragment newInstance() {

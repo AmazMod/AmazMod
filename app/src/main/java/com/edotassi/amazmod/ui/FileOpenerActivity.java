@@ -1,16 +1,15 @@
 package com.edotassi.amazmod.ui;
 
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.View;
@@ -20,19 +19,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.util.FilesUtil;
+import com.edotassi.amazmod.util.WatchfaceUtil;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
@@ -45,8 +47,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.concurrent.CancellationException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
@@ -102,7 +105,8 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(this.findViewById(android.R.id.content))
-                .setProgressBarColor(R.color.colorAccent)
+                .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
+                .setActionTextColor(ThemeHelper.getThemeColorAccentId(this))
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 .setTextSize(14)
                 .setMessageMaxLines(2);
@@ -125,17 +129,31 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         Logger.debug("FileOpenerActivity onCreate action: " + action + " scheme: " + scheme + " uri: " + uri);
 
         if (action != null && scheme != null && uri != null) {
+            // Logs for future improvements
+            //Logger.debug("FileOpenerActivity onCreate action: " + action.compareTo(Intent.ACTION_VIEW));
+            //Logger.debug("FileOpenerActivity onCreate content: " + scheme.compareTo(ContentResolver.SCHEME_CONTENT));
+            //Logger.debug("FileOpenerActivity onCreate file: " + scheme.compareTo(ContentResolver.SCHEME_FILE));
+            //Logger.debug("FileOpenerActivity onCreate file-name: " + getContentName(resolver, uri) +", "+uri.getLastPathSegment() +", "+uri.getPath()+", "+uri.getQueryParameter("o"));
 
             if (action.compareTo(Intent.ACTION_VIEW) == 0) {
 
-                if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0)
+                if (scheme.compareTo(ContentResolver.SCHEME_CONTENT) == 0) {
                     inputFileName = getContentName(resolver, uri);
 
-                else if (scheme.compareTo(ContentResolver.SCHEME_FILE) == 0)
+                    // Opera URI
+                    if(inputFileName==null && uri.getQueryParameter("o")!=null) {
+                        Pattern filenamePattern = Pattern.compile("([^/]+)\\.(apk|wfz)");
+                        Matcher matched = filenamePattern.matcher(uri.getQueryParameter("o"));
+                        if(matched.find())
+                            inputFileName = matched.group();
+                    }
+                }else if (scheme.compareTo(ContentResolver.SCHEME_FILE) == 0)
                     inputFileName = uri.getLastPathSegment();
 
                 if (inputFileName != null) {
                     fileName = inputFileName.toLowerCase();
+
+                    //Logger.debug("FileOpenerActivity onCreate filename: " + fileName);
 
                     if (fileName.endsWith(".wfz"))
                         uploadType = UPLOAD_WFZ;
@@ -176,6 +194,16 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
         super.finish();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("FileOpenerActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("FileOpenerActivity ORIENTATION LANDSCAPE");
+        }
+    }
+
     private boolean createWorkDir() {
         workDir = this.getCacheDir().getAbsolutePath() + File.separator + WORK_DIR;
         File file = new File(workDir);
@@ -198,11 +226,12 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             return false;
     }
 
+    @SuppressLint("StringFormatInvalid")
     private void promptInstall(final String path, final String name, final String type) {
 
         Logger.debug("FileOpenerActivity promptInstall type: " + type);
 
-        String title = String.format(getString(R.string.file_uploader_title), type);
+        @SuppressLint("StringFormatMatches") String title = String.format(getString(R.string.file_uploader_title), type);
 
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .canceledOnTouchOutside(false)
@@ -231,14 +260,22 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
         if (UPLOAD_APK.equals(type)) {
             Bundle bundle = FilesUtil.getApkInfo(this, path);
-            Bitmap bitmap = bundle.getParcelable(FilesUtil.APP_ICON);
-            String label = bundle.getString(FilesUtil.APP_LABEL);
-            String pkg = bundle.getString(FilesUtil.APP_PKG);
+            Bitmap bitmap = null;
+            String label, pkg;
             LinearLayout.LayoutParams imageViewParams = new LinearLayout.LayoutParams(
-                    ViewGroup.MarginLayoutParams.WRAP_CONTENT,
-                    ViewGroup.MarginLayoutParams.WRAP_CONTENT);
-            imageViewParams.gravity = Gravity.TOP;
-            imageViewParams.gravity = Gravity.CENTER_HORIZONTAL;
+                        ViewGroup.MarginLayoutParams.WRAP_CONTENT,
+                        ViewGroup.MarginLayoutParams.WRAP_CONTENT);
+
+            if (bundle != null) {
+                bitmap = bundle.getParcelable(FilesUtil.APP_ICON);
+                label = bundle.getString(FilesUtil.APP_LABEL);
+                pkg = bundle.getString(FilesUtil.APP_PKG);
+                imageViewParams.gravity = Gravity.TOP;
+                imageViewParams.gravity = Gravity.CENTER_HORIZONTAL;
+            } else {
+                label = getString(R.string.error);
+                pkg = getString(R.string.error);
+            }
             imageView.setLayoutParams(imageViewParams);
             if (bitmap != null)
                 imageView.setImageBitmap(bitmap);
@@ -291,21 +328,46 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
         msg = msg = "File: " + inputFileName + "\nResult: " + result;
 
-        if (INSTALL_OK.equals(result))
-            msg += "\n\n" + getString(R.string.apk_install_started);
+        if (result.equals(WRITE_OK)){
+            msg += "\n\nWould you like to set it as active watchface?";
+            new MaterialDialog.Builder(this)
+                    .canceledOnTouchOutside(false)
+                    .title(title)
+                    .content(msg)
+                    .positiveText("YES")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            WatchfaceUtil.setWfzWatchFace(inputFileName);
+                            finish();
+                        }
+                    })
+                    .negativeText("NO")
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }else{
+            if (INSTALL_OK.equals(result)){
+                msg += "\n\n" + getString(R.string.apk_install_started);
+            }
+            new MaterialDialog.Builder(this)
+                    .canceledOnTouchOutside(false)
+                    .title(title)
+                    .content(msg)
+                    .positiveText("OK")
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            finish();
+                        }
+                    })
+                    .show();
+        }
 
-        new MaterialDialog.Builder(this)
-                .canceledOnTouchOutside(false)
-                .title(title)
-                .content(msg)
-                .positiveText("OK")
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        finish();
-                    }
-                })
-                .show();
     }
 
     private boolean copyToCache(ContentResolver resolver, Uri uri, String fileName) {
@@ -436,12 +498,6 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                 snackProgressBarManager.dismissAll();
 
                 if (task.isSuccessful()) {
-                    Bundle bundle = new Bundle();
-                    bundle.putLong("size", size);
-                    bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                    FirebaseAnalytics
-                            .getInstance(FileOpenerActivity.this)
-                            .logEvent(FirebaseEvents.UPLOAD_FILE, bundle);
                     if (uploadType.equals(UPLOAD_APK))
                         installUpload(destPath);
                     else
@@ -489,11 +545,6 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                             if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
                                 result = INSTALL_OK;
 
-                                Bundle bundle = new Bundle();
-                                bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "APK");
-                                FirebaseAnalytics
-                                        .getInstance(FileOpenerActivity.this)
-                                        .logEvent(FirebaseEvents.APK_INSTALL, bundle);
                             } else {
                                 SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.cant_start_apk_install));
                                 snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_LONG);

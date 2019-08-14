@@ -1,4 +1,7 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext {
+    supportLibVersion = '28.0.0'
+    branch = getWorkingBranch()
+}
 
 buildscript {
 
@@ -7,7 +10,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven {
-            name 'Sonatype SNAPSHOTs';
+            name 'Sonatype SNAPSHOTs'
             url 'https://oss.sonatype.org/content/repositories/snapshots/'
         }
         maven {
@@ -15,10 +18,10 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.0'
-        classpath "com.jakewharton:butterknife-gradle-plugin:9.0.0-SNAPSHOT"
-        classpath 'com.google.gms:google-services:4.0.0'
-        classpath 'io.fabric.tools:gradle:1.25.4'
+        classpath 'com.android.tools.build:gradle:3.4.2'
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.1.0'
+        classpath 'com.google.gms:google-services:4.3.0'
+        classpath 'io.fabric.tools:gradle:1.29.0'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -28,7 +31,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url 'https://jitpack.io' }
+        maven {
+            url 'https://jitpack.io'
+        }
         maven {
             url 'https://maven.google.com/'
         }
@@ -37,4 +42,19 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+/**
+ * Get the name of the working branch of the project
+ *
+ * @return Name of the working branch
+ */
+def getWorkingBranch() {
+    def branch = ""
+    def proc = "git rev-parse --abbrev-ref HEAD".execute()
+    proc.in.eachLine { line -> branch = line }
+    proc.err.eachLine { line -> println line }
+    proc.waitFor()
+    println "Working branch: " + branch
+    return branch
 }

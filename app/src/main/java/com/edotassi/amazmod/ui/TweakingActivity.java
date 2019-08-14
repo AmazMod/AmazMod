@@ -2,6 +2,7 @@ package com.edotassi.amazmod.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -9,8 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.format.Formatter;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -21,26 +20,25 @@ import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
+
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.db.model.CommandHistoryEntity;
-import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
 import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
-import com.edotassi.amazmod.support.FirebaseEvents;
 import com.edotassi.amazmod.support.ShellCommandHelper;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.util.FilesUtil;
+import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
-import com.pixplicity.easyprefs.library.Prefs;
-import com.raizlabs.android.dbflow.config.FlowManager;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
@@ -100,32 +98,38 @@ public class TweakingActivity extends BaseAppCompatActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Screen.isDarkTheme()) {
+            setTheme(R.style.AppThemeDark);
+        }
+
         mContext = this;
         setContentView(R.layout.activity_tweaking);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        } catch (NullPointerException exception) {
-            Logger.error("TweakingActivity onCreate exception: " + exception.toString());
+            getSupportActionBar().setTitle(R.string.tweaking);
+        } catch (NullPointerException ex) {
+            Logger.error(ex, "TweakingActivity onCreate exception: {}", ex.getMessage());
             //TODO log to crashlitics
         }
-        getSupportActionBar().setTitle(R.string.tweaking);
 
         ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
-                .setProgressBarColor(R.color.colorAccent)
+                .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
+                .setActionTextColor(ThemeHelper.getThemeColorAccentId(this))
                 .setBackgroundColor(SnackProgressBarManager.BACKGROUND_COLOR_DEFAULT)
                 .setTextSize(14)
                 .setMessageMaxLines(2)
                 .setOnDisplayListener(new SnackProgressBarManager.OnDisplayListener() {
                     @Override
-                    public void onShown(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onShown(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
 
                     @Override
-                    public void onDismissed(SnackProgressBar snackProgressBar, int onDisplayId) {
+                    public void onDismissed(@NonNull SnackProgressBar snackProgressBar, int onDisplayId) {
                         // do something
                     }
                 });
@@ -156,6 +160,22 @@ public class TweakingActivity extends BaseAppCompatActivity {
         EventBus.getDefault().register(this);
     }
 
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            System.out.println("D/AmazMod TweakingActivity ORIENTATION PORTRAIT");
+        } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            System.out.println("D/AmazMod TweakingActivity ORIENTATION LANDSCAPE");
+        }
+    }
+
     @OnClick(R.id.activity_tweaking_switcht_auto_brightness)
     public void changeAutoBrightness() {
         boolean autoBrightness = autoBrightnessSwitch.isChecked();
@@ -171,7 +191,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
     public void updateBrightness() {
         try {
             String textValue = brightnessEditText.getText().toString();
-            Integer value = Integer.valueOf(textValue);
+            int value = Integer.valueOf(textValue);
 
             if ((value < 1) || (value > 255)) {
                 Snacky.builder()
@@ -191,55 +211,45 @@ public class TweakingActivity extends BaseAppCompatActivity {
         }
     }
 
-
-
     @OnClick(R.id.activity_tweaking_reboot)
     public void reboot() {
         execCommandInternally(ShellCommandHelper.getReboot(),false);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT, null);
     }
 
     @OnClick(R.id.activity_tweaking_restart_launcher)
     public void restartLauncher() {
         execCommandInternally(ShellCommandHelper.getForceStopHuamiLauncher(),false);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_RESTART_LAUNCHER, null);
     }
 
     @OnClick(R.id.activity_tweaking_enable_apps_list)
     public void enableAppsList() {
         execCommandInternally(ShellCommandHelper.getEnableAppsList());
-
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_ENABLE_APPS_LIST, null);
     }
 
     @OnClick(R.id.activity_tweaking_disable_apps_list)
     public void disableAppList() {
         execCommandInternally(ShellCommandHelper.getDisableAppsList());
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_DISABLE_APPS_LIST, null);
     }
 
     @OnClick(R.id.activity_tweaking_reboot_bootloader)
     public void rebootBootloader() {
         execCommandInternally(ShellCommandHelper.getRebootBootloader(),false);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_REBOOT_BOOTLOADER, null);
     }
 
     @OnClick(R.id.activity_tweaking_set_admin)
     public void setAdmin() {
         execCommandInternally(ShellCommandHelper.getDPM());
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_ENABLE_ADMIN, null);
     }
 
     @OnClick(R.id.activity_tweaking_screenshot)
     public void screenshot() {
         execCommandInternally(ShellCommandHelper.getScreenshot());
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SCREENSHOT, null);
     }
 
     @OnClick(R.id.activity_tweaking_enable_lpm)
@@ -274,9 +284,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                         if (task.isSuccessful()) {
                                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
 
-                                            FirebaseAnalytics
-                                                    .getInstance(TweakingActivity.this)
-                                                    .logEvent(FirebaseEvents.TWEAKING_ENABLE_LPM, null);
                                         } else {
                                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.cant_send_shell_command));
                                         }
@@ -318,9 +325,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                         if (task.isSuccessful()) {
                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent));
 
-                            FirebaseAnalytics
-                                    .getInstance(TweakingActivity.this)
-                                    .logEvent(FirebaseEvents.TWEAKING_DISABLE_ADMIN, null);
                         } else {
                             snackbar = new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.cant_send_shell_command));
                         }
@@ -345,9 +349,8 @@ public class TweakingActivity extends BaseAppCompatActivity {
 
         String command = commandEditText.getText().toString();
         execCommandInternally(command);
-        saveCommandToHistory(command);
+        FilesExtrasActivity.saveCommandToHistory(command);
 
-        FirebaseAnalytics.getInstance(this).logEvent(FirebaseEvents.SHELL_COMMAND_EXECUTED, null);
     }
 
     public final static int REQ_CODE_COMMAND_HISTORY = 100;
@@ -369,33 +372,9 @@ public class TweakingActivity extends BaseAppCompatActivity {
         }
     }
 
-    private void saveCommandToHistory(String command) {
-        CommandHistoryEntity previousSameCommand = SQLite
-                .select()
-                .from(CommandHistoryEntity.class)
-                .where(CommandHistoryEntity_Table.command.eq(command))
-                .querySingle();
-
-        if (previousSameCommand != null) {
-            previousSameCommand.setDate(System.currentTimeMillis());
-            FlowManager
-                    .getModelAdapter(CommandHistoryEntity.class)
-                    .update(previousSameCommand);
-        } else {
-            CommandHistoryEntity commandHistoryEntity = new CommandHistoryEntity();
-            commandHistoryEntity.setCommand(command);
-            commandHistoryEntity.setDate(System.currentTimeMillis());
-
-            FlowManager
-                    .getModelAdapter(CommandHistoryEntity.class)
-                    .insert(commandHistoryEntity);
-        }
-    }
-
     private void execCommandInternally(String command) {
         execCommandInternally(command,true);
     }
-
 
     private void execCommandInternally(String command, boolean wait) {
         final SnackProgressBar progressBar = new SnackProgressBar(
@@ -465,11 +444,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                             .setDuration(Snacky.LENGTH_SHORT)
                             .build().show();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("value", value);
-                    FirebaseAnalytics
-                            .getInstance(TweakingActivity.this)
-                            .logEvent(FirebaseEvents.TWEAKING_BRIGHTENESS_CHANGE, bundle);
                 } else {
                     Snacky.builder()
                             .setActivity(TweakingActivity.this)
@@ -480,12 +454,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 return null;
             }
         });
-    }
-
-    @Override
-    public void onDestroy() {
-        EventBus.getDefault().unregister(this);
-        super.onDestroy();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -557,7 +525,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                 if (drawable != null) {
 
                                     // Rotate and re-save image on Verge
-                                    if(FilesUtil.isVerge()){
+                                    if(Screen.isVerge()){
                                         // Rotate
                                         drawable = FilesUtil.getRotateDrawable(drawable,180f);
                                         // Re-Save (reopen because drawable is bad quality)
@@ -585,8 +553,9 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                     final Intent intent = new Intent(Intent.ACTION_VIEW)//
                                                             .setDataAndType(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
-                                                                            android.support.v4.content.FileProvider.getUriForFile(mContext,getPackageName() + ".provider", screenshot)
-                                                                            : Uri.fromFile(screenshot), "image/*").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                                                            FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER, screenshot)
+                                                                            : Uri.fromFile(screenshot), "image/*")
+                                                            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                                                     startActivity(intent);
                                                 }
@@ -595,12 +564,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                                 }
                             }
 
-                            Bundle bundle = new Bundle();
-                            bundle.putLong("size", size);
-                            bundle.putLong("duration", System.currentTimeMillis() - startedAt);
-                            FirebaseAnalytics
-                                    .getInstance(TweakingActivity.this)
-                                    .logEvent(FirebaseEvents.DOWNLOAD_FILE, bundle);
                         } else {
                             if (task.getException() instanceof CancellationException) {
                                 SnackProgressBar snackbar = new SnackProgressBar(
@@ -627,7 +590,6 @@ public class TweakingActivity extends BaseAppCompatActivity {
                         return null;
                     }
                 });
-
     }
 
 }

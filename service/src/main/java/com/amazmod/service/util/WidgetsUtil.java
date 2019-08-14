@@ -1,6 +1,8 @@
 package com.amazmod.service.util;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.CountDownTimer;
 import android.provider.Settings;
@@ -30,7 +32,7 @@ import java.util.List;
 public class WidgetsUtil {
 
     private static ArrayList<BaseSetting> settingList;
-    //Countdown timer_black to prevent saving too often
+    //Countdown timer to prevent saving too often
     private static CountDownTimer countDownTimer;
 
     public static void syncWidgets(final Context context){
@@ -41,32 +43,36 @@ public class WidgetsUtil {
         loadSettings(context,false);
     }
 
-    private static void loadSettings(final Context context,boolean saveOriginalList) {
+    private static void loadSettings(final Context context, boolean saveOriginalList) {
 
         SettingsManager settingsManager = new SettingsManager(context);
         boolean amazModFirstWidget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
         String savedOrder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, "");
         String last_widget_order_in = settingsManager.getString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, "");
-        String widget_order_in, widget_order_out;
-        int amazmodPosition = DeviceUtil.isVerge()?0:1;
+
+        boolean isAmazmodWidgetMissing = true;
+        int amazmodPosition = SystemProperties.isVerge()?0:1;
+        if (SystemProperties.isStratos())
+            amazmodPosition = 2;
 
         final SpringboardItem amazmodWidget = new SpringboardItem(Constants.SERVICE_NAME, Constants.LAUNCHER_CLASSNAME, true);
-        boolean isAmazmodWidgetMissing = true;
-
 
         //Get in and out settings.
         // In is the main setting, which defines the order and state of a page, but does not always contain them all.
-        widget_order_in = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_IN);
+        String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
+
+        //Out contains them all, but no ordering.
+        String widget_order_out = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_OUT);
+
+        Logger.debug("WidgetsUtil loadSettings widget_order_in  : " + widget_order_in.substring(0, Math.min(widget_order_in.length(), 352)));
+        Logger.debug("WidgetsUtil loadSettings widget_order_out : " + widget_order_out.substring(0, Math.min(widget_order_out.length(), 352)));
+        Logger.debug("WidgetsUtil loadSettings savedOrder : " + savedOrder.substring(0, Math.min(savedOrder.length(), 352)));
+        Logger.debug("WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in.substring(0, Math.min(last_widget_order_in.length(), 352)));
+
         if (saveOriginalList)
             saveOfficialAppOrder(context, widget_order_in);
 
-        //Out contains them all, but no ordering.
-        widget_order_out = Settings.System.getString(context.getContentResolver(), Constants.WIDGET_ORDER_OUT);
-
-        Logger.debug("WidgetsUtil loadSettings widget_order_in  : " + widget_order_in);
-        Logger.debug("WidgetsUtil loadSettings widget_order_out : " + widget_order_out);
-        Logger.debug("WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in);
-
+        /* Disabled for testing purposes
         //if last order_in is equal to current one no change was done via Amazfit Watch official App, so reapply saved order
         if (widget_order_in.equals(last_widget_order_in)){
             Logger.debug("WidgetsUtil loadSettings : current order is equal to last one");
@@ -75,6 +81,10 @@ public class WidgetsUtil {
                 widget_order_in = savedOrder;
             }
         }
+         */
+
+        if (!savedOrder.isEmpty() && amazModFirstWidget)
+            widget_order_in = savedOrder;
 
         //Create empty list
         settingList = new ArrayList<>();
@@ -185,9 +195,27 @@ public class WidgetsUtil {
             }
         }));
 
+            //Add option to clear saved sorted order
+            settingList.add(new TextSetting("Clear Saved Order", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Logger.debug("WidgetsUtil clearSettings.onClick");
+                new AlertDialog.Builder(context)
+                        .setTitle("Clear Saved Order")
+                        .setMessage(context.getResources().getString(R.string.confirmation))
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                MainService.setWasSpringboardSaved(false);
+                                settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, "");
+                                Toast.makeText(context, "List Cleared", Toast.LENGTH_SHORT).show();
+                            }})
+                        .setNegativeButton(android.R.string.no, null).show();
+            }
+        }));
+
         MainService.setWasSpringboardSaved(true);
         //Save initial config (to keep amazmod in first position)
-        save(context, false, false);
+        save(context,false, false);
     }
 
     private static SpringboardSetting addSpringboardSetting(final Context context, final SpringboardItem springboardItem) {
@@ -237,7 +265,7 @@ public class WidgetsUtil {
 
         Logger.debug("WidgetsUtil checkSave");
 
-        //Create timer_black if not already, for 2 seconds. Call save after completion
+        //Create timer if not already, for 2 seconds. Call save after completion
         if (countDownTimer == null) countDownTimer = new CountDownTimer(2000, 2000) {
             @Override
             public void onTick(long l) {
@@ -248,7 +276,7 @@ public class WidgetsUtil {
                 save(context);
             }
         };
-        //Cancel and start timer_black. This means that this method must be called ONCE in 2 seconds before save will be called, it prevents save from being called more than once every 2 seconds (buffers moving)
+        //Cancel and start timer. This means that this method must be called ONCE in 2 seconds before save will be called, it prevents save from being called more than once every 2 seconds (buffers moving)
         countDownTimer.cancel();
         countDownTimer.start();
     }
@@ -295,14 +323,14 @@ public class WidgetsUtil {
         }
 
         //Save setting
-        //if (saveLocal) {
+        if (saveLocal) {
             SettingsManager settingsManager = new SettingsManager(context);
             settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, root.toString());
-            Logger.debug("WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString());
-        //} else {
-            Settings.System.putString(context.getContentResolver(), Constants.WIDGET_ORDER_IN, root.toString());
-            Logger.debug("WidgetsUtil save widget_order_in: " + root.toString());
-        //}
+            Logger.debug("WidgetsUtil save PREF_SPRINGBOARD_ORDER: " + root.toString().substring(0, Math.min(root.toString().length(), 352)));
+        } else {
+            DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, root.toString());
+            Logger.debug("WidgetsUtil save widget_order_in: " + root.toString().substring(0, Math.min(root.toString().length(), 352)));
+        }
         //Notify user
         if (showToast) {
             if (saveLocal)
@@ -313,7 +341,7 @@ public class WidgetsUtil {
     }
 
     private static void saveOfficialAppOrder(Context context, String order_in){
-        Logger.debug("WidgetsUtil saveOfficialAppOrder: " + order_in);
+        Logger.debug("WidgetsUtil saveOfficialAppOrder: " + order_in.substring(0, Math.min(order_in.length(), 352)));
         SettingsManager settingsManager = new SettingsManager(context);
         settingsManager.putString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, order_in);
     }

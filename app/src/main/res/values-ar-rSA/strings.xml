@@ -87,8 +87,8 @@
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">In the last hour</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">In the last 24 hours</string>
-    <string name="pref_disable_notifications_summary">Disable all notifications in AmazMod</string>
-    <string name="pref_disable_notifications">Disable notifications</string>
+    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications</string>
+    <string name="pref_enable_notifications">Push notifications</string>
     <string name="pref_filter_notifications_by_packages">Selected apps</string>
     <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch</string>
     <string name="pref_disable_battery_chart">Disable battery chart</string>
@@ -105,8 +105,8 @@
     <string name="pref_notifications_replies">Notification replies</string>
     <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well)</string>
     <string name="pref_private_notifications">Private notification content</string>
-    <string name="pref_disable_notifications_when_screen_on_summary">Disable notifications when screen is ON</string>
-    <string name="pref_disable_notifications_when_screen_on">Disable when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON</string>
+    <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply</string>
     <string name="pref_run_wizard">Welcome Presentation</string>
@@ -265,8 +265,8 @@
     <string name="compress">Compress</string>
     <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
     <string name="screenshot">Screenshot</string>
-    <string name="pref_notifications_disable_delay">Disable delay</string>
-    <string name="pref_notifications_disable_delay_summary">Disable countdown when sending replies</string>
+    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply</string>
     <string name="file_uploader">File Uploader</string>
     <string name="file_uploader_title">Install %s ?</string>
     <string name="file_uploader_name">Title: %s</string>
@@ -326,4 +326,22 @@
     <string name="notification_low_battery_description">Watch\'s battery dropped below %s</string>
     <string name="notification_watch_charged">Amazfit is fully charged</string>
     <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
+    <string name="statsandlogs">Stats / Logs</string>
+    <string name="clear_log">Clear Log</string>
+    <string name="send_log">Send Log</string>
+    <string name="button_description">Button</string>
+    <string name="image_description">Image</string>
+    <string name="amazmod_service">AmazMod Service</string>
+    <string name="product_model">Product model</string>
+    <string name="product_name">Product name</string>
+    <string name="serial_number">Serial No</string>
+    <string name="build_id">Build display id</string>
+    <string name="build_model">Build Huami model</string>
+    <string name="build_description">Build description</string>
+    <string name="rename_folder">Rename Folder</string>
+    <string name="rename_file">Rename File</string>
+    <string name="type_file_name">Type File Name</string>
+    <string name="new_folder">New Folder</string>
+    <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
+    <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI notifications log using an overlay button on watch (its location is briefly show every time screen goes on and you can swipe it to left or right)</string>
 </resources>
