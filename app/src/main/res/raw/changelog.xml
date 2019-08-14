@@ -1,8 +1,8 @@
 <changelog>
     <release
-        date="2019-07-31"
-        versionCode="215"
-        versionName="v1.1.8 (215)">
+        date="2019-08-14"
+        versionCode="216"
+        versionName="v1.1.8 (216)">
         <new>Phone app updated to with new libs (AndroidX)</new>
         <new>Internet access from the watch support with Amazfit Internet Companion service</new>
         <new>Overlay button notifications access - Notification access directly from the watchface</new>
