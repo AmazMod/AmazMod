@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -141,6 +142,8 @@ public class NotificationWearActivity extends Activity {
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
+        MediaPlayer mPlayer = MediaPlayer.create( this, R.raw.alerts_notification);
+        mPlayer.start();
 
         Logger.info("NotificationWearActivity onCreate key: " + key + " | mode: "+ mode
                 + " | wasLckd: "+ wasScreenLocked + " | mustLck: " + mustLockDevice
