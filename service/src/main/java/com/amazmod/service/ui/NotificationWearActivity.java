@@ -27,6 +27,7 @@ import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.util.DeviceUtil;
+import com.amazmod.service.util.SystemProperties;
 
 import org.tinylog.Logger;
 
@@ -142,8 +143,11 @@ public class NotificationWearActivity extends Activity {
         handler = new Handler();
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
-        MediaPlayer mPlayer = MediaPlayer.create( this, R.raw.alerts_notification);
-        mPlayer.start();
+
+        if (SystemProperties.isVerge()) {
+            MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.alerts_notification);
+            mPlayer.start();
+        }
 
         Logger.info("NotificationWearActivity onCreate key: " + key + " | mode: "+ mode
                 + " | wasLckd: "+ wasScreenLocked + " | mustLck: " + mustLockDevice
