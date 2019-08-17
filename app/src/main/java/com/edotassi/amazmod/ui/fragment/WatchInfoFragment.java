@@ -150,12 +150,13 @@ public class WatchInfoFragment extends Card implements Updater {
                         refresh(watchStatus);
                         String serviceVersionString = watchStatus.getWatchStatusData().getAmazModServiceVersion();
                         Logger.debug("WatchInfoFragment serviceVersionString: " + serviceVersionString);
-                        if (serviceVersionString.contains("_("))
-                            serviceVersionString = "1588";
-                        serviceVersion = Integer.valueOf(serviceVersionString);
+                        serviceVersion = Integer.valueOf(serviceVersionString.split("-")[0]);
                         Logger.debug("WatchInfoFragment serviceVersion: " + serviceVersion);
                         if (Prefs.getBoolean(Constants.PREF_ENABLE_UPDATE_NOTIFICATION, Constants.PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION)) {
-                            Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersionString);
+                            Logger.debug("Checking for OTA updates");
+                            Setup.checkServiceUpdate(WatchInfoFragment.this, serviceVersion);
+                        }else{
+                            Logger.debug("OTA update check disabled");
                         }
                     } else {
                         Logger.debug("WatchInfoFragment isWatchConnected = false");

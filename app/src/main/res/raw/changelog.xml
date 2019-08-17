@@ -1,5 +1,11 @@
 <changelog>
     <release
+        date="2019-08-17"
+        versionCode="217"
+        versionName="v1.1.8 (217)">
+        <bugfix>OTA service update fix</bugfix>
+    </release>
+    <release
         date="2019-08-14"
         versionCode="216"
         versionName="v1.1.8 (216)">

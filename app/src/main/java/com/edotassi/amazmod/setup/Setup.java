@@ -51,7 +51,7 @@ public class Setup {
         cleanOldNotificationsSentDb();
     }
 
-    public static void checkServiceUpdate(final Updater updater, final String currentVersion) {
+    public static void checkServiceUpdate(final Updater updater, final int currentVersion) {
         String updateUrl = Constants.SERVICE_UPDATE_URL;
 
         Request request = new Request.Builder()
@@ -82,9 +82,8 @@ public class Setup {
                             }else{
                                 Logger.info("checkServiceUpdate: will use RELEASE service available " +  latestVersionValue);
                             }
-                            int currentVersionValue = Integer.valueOf(currentVersion);
-                            Logger.info("checkServiceUpdate: current service = " + currentVersionValue + " // available service = " + latestVersionValue);
-                            if (!(currentVersionValue >= latestVersionValue)) {
+                            Logger.info("checkServiceUpdate: current service = " + currentVersion + " // available service = " + latestVersionValue);
+                            if (!(currentVersion >= latestVersionValue)) {
                                 Logger.info("checkServiceUpdate: showing warning that new version is available  ( ͡° ͜ʖ ͡°)");
                                 updater.updateAvailable(latestVersionValue);
                             }else{
