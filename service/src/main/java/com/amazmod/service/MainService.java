@@ -1036,7 +1036,7 @@ public class MainService extends Service implements Transporter.DataListener {
                                 if (apkFile.contains("service-")) {
                                     showConfirmationWearActivity("Service Update", "0");
                                     //DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
-                                    new ExecCommand("adb shell settings put system screen_off_timeout 20000");
+                                    new ExecCommand("adb shell settings put system screen_off_timeout 200000");
                                     Thread.sleep(1000);
                                     new ExecCommand("adb install -r " + apkFile);
 
