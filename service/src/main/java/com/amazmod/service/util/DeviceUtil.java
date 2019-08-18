@@ -113,6 +113,9 @@ public class DeviceUtil {
         params.setAppPackageName(packageName);
         PackageInstaller.Session session = null;
 
+        new ExecCommand("adb shell settings put system screen_off_timeout 20000");
+        Logger.debug("Set screen timeout to 3 min to install update");
+        /*
         File su = new File("/system/xbin/su");
         Logger.debug("install is check if SuperUser");
         if (su.exists()) {
@@ -125,7 +128,7 @@ public class DeviceUtil {
             Logger.debug("Set screen timeout to 3 min to install update");
             DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
         }
-
+        */
         int sessionId = 0;
         try {
             sessionId = packageInstaller.createSession(params);
@@ -237,8 +240,10 @@ public class DeviceUtil {
             final String busyboxPath = installBusybox(context);
             String installCommand;
             String apkFile = apk.getAbsolutePath();
+            Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
             //Logger.debug("installApkAdb installScript: " + installScript);
             //Logger.debug("installApkAdb apkFile: " + apkFile);
+            /*
             if (apkFile.contains("service-")) {
                 File su = new File("/system/xbin/su");
                 Logger.debug("install is check if SuperUser");
@@ -252,9 +257,10 @@ public class DeviceUtil {
                     Logger.debug("Set screen timeout to 3 min to install update");
                     DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
                 }
+
             } else
                 Logger.debug("Installing normal APK, wakelock enabled..."); //Partial wakelock for a fast installation
-
+            */
             PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             if (pm != null) {
                 wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK

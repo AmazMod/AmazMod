@@ -1,5 +1,7 @@
 package com.amazmod.service;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.app.admin.DevicePolicyManager;
 import android.app.job.JobInfo;
@@ -18,6 +20,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
@@ -246,6 +249,9 @@ public class MainService extends Service implements Transporter.DataListener {
         settings.reload();
 
         // Restore system settings after service update
+        new ExecCommand("adb shell settings put system screen_off_timeout 14000");
+        Logger.debug("Restore APK_INSTALL screen timeout");
+        /*
         try {
             if (new File("/system/xbin/su").exists()) { //Test for root
                 //Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock;exit");
@@ -260,6 +266,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Logger.error(e, "onCreate: exception while restoring wakelock/screen timeout: {}", e.getMessage());
         }
         //new ExecCommand("adb shell \"adb kill-server\"", true);
+        */
 
         // Register power disconnect receiver
         batteryFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -379,7 +386,18 @@ public class MainService extends Service implements Transporter.DataListener {
             } else
                 Logger.error("MainService error staring BatteryJobService: null jobScheduler!");
         }
-
+/*
+        //Hourly Chime TEST
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        PendingIntent pi = PendingIntent.getService(context, 0, new Intent(context, AlarmManager.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, pi);
+        MediaPlayer.create(this, R.raw.hourly_chime).start();
+        Logger.debug((Object) "Hourly Chime TEST");
+*/
     }
 
     @Override
@@ -1017,7 +1035,8 @@ public class MainService extends Service implements Transporter.DataListener {
                             if (apk.exists()) {
                                 if (apkFile.contains("service-")) {
                                     showConfirmationWearActivity("Service Update", "0");
-                                    DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
+                                    //DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
+                                    new ExecCommand("adb shell settings put system screen_off_timeout 20000");
                                     Thread.sleep(1000);
                                     new ExecCommand("adb install -r " + apkFile);
 
