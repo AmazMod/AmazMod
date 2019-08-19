@@ -9,6 +9,7 @@ public class Constants {
     public static final String TAG = "AmazMod";
     public static final String PACKAGE_NAME = "com.edotassi.amazmod";
     public static final String SERVICE_NAME = "com.amazmod.service";
+    public static final String RES_PREFIX = "android.resource://com.amazmod.service/";
     public static final String LAUNCHER_CLASSNAME = "com.amazmod.service.springboard.AmazModLauncher";
 
     public static final String ACTION_NIGHTSCOUT_SYNC = "nightscout_sync";
