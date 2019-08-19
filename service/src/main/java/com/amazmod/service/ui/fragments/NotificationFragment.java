@@ -326,6 +326,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     }
 
     private boolean hasPicture(NotificationData notificationData) {
+        if (notificationData == null)
+            return false;
         byte[] pictureData = notificationData.getPicture();
         return (pictureData != null) && (pictureData.length > 0);
     }

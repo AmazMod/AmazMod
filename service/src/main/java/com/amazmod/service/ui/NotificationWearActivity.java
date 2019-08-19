@@ -144,7 +144,7 @@ public class NotificationWearActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
-        if (SystemProperties.isVerge()) {
+        if (SystemProperties.isVerge() && MODE_ADD.equals(mode)) {
             MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.alerts_notification);
             mPlayer.start();
         }
