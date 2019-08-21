@@ -130,7 +130,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     }
 
     private void updateContent() {
-
+        try {
         util = new FragmentUtil(mContext);
         disableDelay = util.getDisableDelay();
 
@@ -207,26 +207,28 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
         populateNotificationIcon(icon, iconBadge, notificationData);
 
-        if (hasPicture(notificationData)) {
-            populateNotificationPicture(picture, notificationData);
-            Logger.trace("hasPicture = true");
-            title.setText(String.format("%s - %s", notificationData.getTitle(), notificationData.getTime()));
-            time.setVisibility(View.GONE);
-            text.setVisibility(View.GONE);
+            if (hasPicture(notificationData)) {
+                populateNotificationPicture(picture, notificationData);
+                Logger.trace("hasPicture = true");
+                title.setText(String.format("%s - %s", notificationData.getTitle(), notificationData.getTime()));
+                time.setVisibility(View.GONE);
+                text.setVisibility(View.GONE);
 
-        } else {
-            Logger.trace("hasPicture = false");
-            title.setText(notificationData.getTitle());
-            time.setText(notificationData.getTime());
-            text.setText(notificationData.getText());
-
-        }
+            } else {
+                Logger.trace("hasPicture = false");
+                title.setText(notificationData.getTitle());
+                time.setText(notificationData.getTime());
+                text.setText(notificationData.getText());
+            }
 
         if (disableNotificationText)
             hideContent();
 
         doVibration(notificationData.getVibration());
 
+        } catch (NullPointerException exception) {
+            Logger.error(exception, exception.getMessage());
+        }
     }
 
     private void initView() {
