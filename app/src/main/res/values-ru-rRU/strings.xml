@@ -362,4 +362,6 @@
     <string name="pref_log_lines_shown_summary">Количество строк текста, отображаемых в окне журналов.</string>
     <string name="pref_enable_internet_companion">Включить Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Включает транспортер AmazfitInternetCompanion (нужно только в случае если у вас есть приложения на часах, которые используют его).</string>
+    <string name="ota_test_title">Тестировщик OTA-обновлений</string>
+    <string name="type_service_number">Номер сервиса</string>
 </resources>

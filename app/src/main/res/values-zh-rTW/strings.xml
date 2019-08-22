@@ -363,4 +363,6 @@
     <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
     <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
+    <string name="ota_test_title">OTA Tester</string>
+    <string name="type_service_number">Service Number</string>
 </resources>

@@ -364,4 +364,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_log_lines_shown_summary">Počet řádků textu zobrazených v náhledu protokolu.</string>
     <string name="pref_enable_internet_companion">Povolit Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Povolí transportér AmazfitInternetCompanion (je to užitečné jen tehdy, pokud máte aplikaci v hodinkách, která tuto funkci používá).</string>
+    <string name="ota_test_title">OTA Tester</string>
+    <string name="type_service_number">Servisní číslo</string>
 </resources>
