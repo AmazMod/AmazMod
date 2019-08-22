@@ -42,7 +42,7 @@
     <string name="cant_download_file">Can\'t download file</string>
     <string name="file_upload_canceled">File upload canceled</string>
     <string name="file_download_canceled">File download canceled</string>
-    <string name="file_downloaded">File downloaded</string>
+    <string name="file_downloaded">Файловете са свалени</string>
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
     <string name="notification_access_enable">Разреши</string>
@@ -168,7 +168,7 @@
     <string name="activity_permissions_open_settings">Open app settings</string>
     <string name="enabled">активирано</string>
     <string name="disabled">изключено</string>
-    <string name="activity_files_extras">Backup settings</string>
+    <string name="activity_files_extras">Настройки на резервно копие</string>
     <string name="activity_files_backup_title">Backup and Restore</string>
     <string name="activity_files_permission">Permission to write</string>
     <string name="activity_files_date_last_backup">Date of last backup</string>
@@ -234,24 +234,24 @@
     <string name="pref_file_extras_summary">Backup and restore AmazMod settings.</string>
     <string name="reboot_bootloader">Влизане в fastboot</string>
     <string name="set_admin">Set admin</string>
-    <string name="shell_command_failed">Command failed</string>
+    <string name="shell_command_failed">Неизпълнена команда</string>
     <string name="result_code">Result code:</string>
     <string name="battery_chart_updated">Battery chart updated with new data</string>
     <string name="battery_chart_request">Requesting new battery data…</string>
     <string name="battery_chart_waiting">Waiting for new battery data…</string>
     <string name="edit_reply">Edit reply</string>
-    <string name="privacy_policy">Privacy policy</string>
+    <string name="privacy_policy">Политика за защита на личните данни</string>
     <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
     <string name="new_update_available">New update available!</string>
     <string name="new_service_update_available">Version %s of AmazMod service is available</string>
     <string name="update">Обновяване</string>
     <string name="download_in_progress">Download in progress</string>
-    <string name="download_failed">Download failed</string>
+    <string name="download_failed">Неуспешно изтегляне</string>
     <string name="download_completed">Download completed</string>
     <string name="rename">Преименувай</string>
     <string name="type_folder_name">Type Folder Name</string>
     <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
-    <string name="command_history">Command History</string>
+    <string name="command_history">Дневник на командите</string>
     <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
     <string name="automatic_brightness">Automatic Brightness</string>
     <string name="set_brightness">Задай</string>
@@ -363,5 +363,5 @@
     <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
     <string name="ota_test_title">OTA Tester</string>
-    <string name="type_service_number">Service Number</string>
+    <string name="type_service_number">Номер на услугата</string>
 </resources>
