@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.support.ThemeHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -266,7 +267,7 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
             viewHolder.value.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    lItem.setBackgroundColor(Color.parseColor("#99FF4081"));
+                    lItem.setBackgroundColor(ThemeHelper.getThemeColorAccent(getContext()));
                     String string = reply.getValue();
                     Logger.debug("NotificationRepliesDragActivity onLongClick string: " + string);
                     edit(reply, lItem);
@@ -275,7 +276,7 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
             });
 
             if (mDragReply != null && mDragReply == reply) {
-                listItem.setBackgroundColor(Color.parseColor("#99303F9F"));
+                listItem.setBackgroundColor(ThemeHelper.getThemeColorAccent(getContext()));
             } else {
                 listItem.setBackgroundColor(Color.TRANSPARENT);
             }

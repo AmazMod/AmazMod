@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentDark">#3F66B5</color>
     <color name="colorCharging">#00E676</color>
     <color name="colorPrediction">#e6000f</color>
 
