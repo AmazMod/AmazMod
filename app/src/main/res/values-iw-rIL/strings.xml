@@ -362,6 +362,6 @@
     <string name="pref_log_lines_shown_summary">כמות שורות מוצגות בתצוגת הלוגים.</string>
     <string name="pref_enable_internet_companion">תמיכה בחיבור ישיר לאינטרנט</string>
     <string name="pref_enable_internet_companion_summary">אופציה זו מאפשרת חיבור ישיר לאינטרנט באמצעות AmazfitInternetCompanion - שמיש ויעיל אך ורק במידה ויש על השעון אפליקציה שתומכת בזה.</string>
-    <string name="ota_test_title">OTA Tester</string>
-    <string name="type_service_number">Service Number</string>
+    <string name="ota_test_title">בודק OTA</string>
+    <string name="type_service_number">גרסת הservice</string>
 </resources>
