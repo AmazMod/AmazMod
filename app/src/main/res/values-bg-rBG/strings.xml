@@ -34,10 +34,10 @@
     <string name="cant_delete_file">Файлът не може да бъде изтрит</string>
     <string name="add_new_reply">Добави нов отговор</string>
     <string name="enter_the_text_you_want_as_an_answer">Enter the text you want as an answer</string>
-    <string name="file_not_exists">File not exists</string>
+    <string name="file_not_exists">Файлът не съществува</string>
     <string name="cant_uplaod_directory">Can\'t upload directory</string>
-    <string name="sending">Sending</string>
-    <string name="wait">please wait</string>
+    <string name="sending">Изпращане</string>
+    <string name="wait">моля, изчакайте</string>
     <string name="cant_upload_file">Can\'t upload file</string>
     <string name="cant_download_file">Can\'t download file</string>
     <string name="file_upload_canceled">File upload canceled</string>
@@ -45,10 +45,10 @@
     <string name="file_downloaded">File downloaded</string>
     <string name="notification_access">Notifications access</string>
     <string name="notification_access_not_enabled">Notification access not enabled</string>
-    <string name="notification_access_enable">Enable</string>
+    <string name="notification_access_enable">Разреши</string>
     <string name="activity_about_notifications_test">Notifications test</string>
-    <string name="customui_test">Custom UI</string>
-    <string name="standard_test">Standard UI</string>
+    <string name="customui_test">Потребителски интерфейс</string>
+    <string name="standard_test">Стандартен интерфейс</string>
     <string name="battery_chart_title">Battery chart</string>
     <string name="heartrate_chart_title">Heart-rate chart</string>
     <string name="watch_info">Watch\'s information</string>
