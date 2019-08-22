@@ -134,10 +134,10 @@
     <string name="intro_title_1">Добре дошли в AmazMod!</string>
     <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
     <string name="intro_title_permissions">Access to Notifications</string>
-    <string name="intro_description_permissions">AmazMod needs access to notifications so they can be sent to your watch, please tap the button below to grant access to notifications, then come back to the presentation.</string>
+    <string name="intro_description_permissions">AmazMod се нуждае от достъп до известия, за да могат да бъдат изпратени до часовника ви, моля, докоснете бутона по-долу, за да предоставите достъп до известията, след което се върнете към презентацията.</string>
     <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
     <string name="intro_title_2">Install Service App on Watch</string>
-    <string name="intro_description_2">Please download amazmod_service APK from AmazMod website and install it to your watch. To install, you can use adb (all platforms), APKInstaller or Amazfit Tool if your computer runs Windows.</string>
+    <string name="intro_description_2">Моля, изтеглете amazmod_service APK от уебсайта на AmazMod и го инсталирайте на часовника си. За да го инсталирате, можете да използвате adb (всички платформи), APKInstaller или Amazfit Tool, ако компютърът ви работи с Windows.</string>
     <string name="intro_title_3">Restart Devices</string>
     <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
     <string name="intro_title_4">Всичко е готово!</string>
@@ -301,7 +301,7 @@
     <string name="error">Грешка</string>
     <string name="invalid_url">Invalid iCal URL!</string>
     <string name="file_or_connection_error">File or connection error, file could not be opened!</string>
-    <string name="update_process_warning">WARNING: the update process need to keep the screen on to make installation take only about 3 minutes and watch interface will be restarted one or more times. Don\'t use the watch during the process or things can be broken. Start update only if you can wait for it to finish.</string>
+    <string name="update_process_warning">ВНИМАНИЕ: Процесът на актуализиране е необходимо да поддържа екрана включен, за да накара инсталацията да отнеме само около 3 минути, а часовника ще бъде рестартиран един или повече пъти. Не използвайте часовника по време на процеса за правилна инсталация. Започнете актуализацията само ако можете да изчакате да приключи.</string>
     <string name="search_title">Търсене</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
     <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored.</string>
