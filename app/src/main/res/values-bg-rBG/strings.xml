@@ -242,7 +242,7 @@
     <string name="edit_reply">Edit reply</string>
     <string name="privacy_policy">Политика за защита на личните данни</string>
     <string name="cant_check_service_updates">Can\'t check for service.apk updates</string>
-    <string name="new_update_available">New update available!</string>
+    <string name="new_update_available">Има нова актуализация!</string>
     <string name="new_service_update_available">Version %s of AmazMod service is available</string>
     <string name="update">Обновяване</string>
     <string name="download_in_progress">Download in progress</string>
@@ -253,7 +253,7 @@
     <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
     <string name="command_history">Дневник на командите</string>
     <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
-    <string name="automatic_brightness">Automatic Brightness</string>
+    <string name="automatic_brightness">Автоматична Яркост</string>
     <string name="set_brightness">Задай</string>
     <string name="file_upload_finished">Upload Finished Successfully</string>
     <string name="view_files">Преглед</string>
@@ -281,7 +281,7 @@
     <string name="muted_apps">Muted Applications</string>
     <string name="ok">ОК</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="cannot_be_undone">This cannot be undone.</string>
+    <string name="cannot_be_undone">Това действие е необратимо.</string>
     <string name="show_only_selected">Show only allowed apps</string>
     <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
     <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
