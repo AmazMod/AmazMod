@@ -115,7 +115,7 @@ public class WearNotificationsFragment extends Fragment {
 
         Logger.info("WearNotificationsFragment onClick position: " + position);
 
-        if (notificationInfoList.get(position).getNotificationTitle().equals(REFRESH)) {
+        if (REFRESH.equals(notificationInfoList.get(position).getNotificationTitle())) {
 
             notificationInfoList.clear();
             mAdapter.clear();

@@ -72,7 +72,7 @@ jobs:
               ${VERSION} ./apks/apks/
 workflows:
   version: 2
-  main:
+  dev:
     jobs:
       - build:
           filters:  # using regex filters requires the entire branch to match
@@ -82,3 +82,10 @@ workflows:
       - github-release:
           requires:
             - build
+  master:
+    jobs:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - master

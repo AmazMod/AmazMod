@@ -5,7 +5,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.Context;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
@@ -31,6 +33,8 @@ import com.amazmod.service.util.SystemProperties;
 
 import org.tinylog.Logger;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,9 +148,30 @@ public class NotificationWearActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
-        if (SystemProperties.isVerge()) {
-            MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.alerts_notification);
-            mPlayer.start();
+        if (SystemProperties.isVerge() && MODE_ADD.equals(mode)) {
+            MediaPlayer mp = new MediaPlayer();
+            mp.setAudioAttributes(new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION).build());
+            Logger.debug("Set to use notification channel");
+
+
+            File file = new File(Constants.CUSTOM_NOTIFICATION_SOUND);
+            Uri sound;
+            if (!file.exists()) {
+                Logger.debug("File " + Constants.CUSTOM_NOTIFICATION_SOUND + " does not exist, using default notification sound");
+                sound = Uri.parse(Constants.RES_PREFIX + R.raw.alerts_notification);
+            }else{
+                Logger.debug("File " + Constants.CUSTOM_NOTIFICATION_SOUND + " detected, will use it as notification sound");
+                sound = Uri.fromFile(file);
+            }
+                try {
+                    mp.setDataSource(getApplicationContext(), sound);
+                    mp.prepare();
+                    Logger.debug("Play notification sound");
+                } catch (IOException e) {
+                    Logger.error("Can't play notification sound");
+                }
+            mp.start();
         }
 
         Logger.info("NotificationWearActivity onCreate key: " + key + " | mode: "+ mode

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +57,7 @@ import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.WatchStatusData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
@@ -241,6 +243,23 @@ public class WatchInfoFragment extends Card implements Updater {
             // HeartRate fragment card not found!
             e.printStackTrace();
         }
+    }
+
+    @OnLongClick(R.id.watchIconView)
+    public boolean onWatchIconLongClick() {
+        new MaterialDialog.Builder(getContext())
+                .title(R.string.ota_test_title)
+                .content(R.string.type_service_number)
+                .inputType(InputType.TYPE_CLASS_NUMBER)
+                .negativeText(R.string.cancel)
+                .input("", "", new MaterialDialog.InputCallback() {
+                    @Override
+                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
+                        // Do something
+                        updateAvailable(Integer.parseInt(input.toString()));
+                    }
+                }).show();
+        return true;
     }
 
     private void isConnected() {
