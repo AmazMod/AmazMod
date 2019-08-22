@@ -162,9 +162,9 @@
     <string name="pref_check_permissions">Check app permissions</string>
     <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed.</string>
     <string name="activity_permissions">Permissions</string>
-    <string name="activity_permissions_write">Write to external storage</string>
+    <string name="activity_permissions_write">Запиши на външната памет</string>
     <string name="activity_permissions_calendar">Достъп до календар</string>
-    <string name="activity_permissions_notifications">Access to notifications</string>
+    <string name="activity_permissions_notifications">Достъп до уведомленията</string>
     <string name="activity_permissions_open_settings">Отваряне на настройките на приложението</string>
     <string name="enabled">активирано</string>
     <string name="disabled">изключено</string>
@@ -210,7 +210,7 @@
     <string name="enable_low_power">Enable low power mode on watch</string>
     <string name="failed_to_send_command">Sending command to watch failed</string>
     <string name="command_sent">Sending command to watch was successful</string>
-    <string name="execute_shell_command">Execute a shell command</string>
+    <string name="execute_shell_command">Да се изпълни команда в конзолата</string>
     <string name="run">Старт</string>
     <string name="shell_command_sent">Command sent</string>
     <string name="cant_send_shell_command">Can\'t send command</string>
@@ -230,7 +230,7 @@
     <string name="revoke_admin">Revoke admin</string>
     <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
     <string name="continue_label">Продължи</string>
-    <string name="pref_file_extras">Backup and restore settings</string>
+    <string name="pref_file_extras">Архивиране и възстановяване на настройките</string>
     <string name="pref_file_extras_summary">Backup and restore AmazMod settings.</string>
     <string name="reboot_bootloader">Влизане в fastboot</string>
     <string name="set_admin">Set admin</string>
