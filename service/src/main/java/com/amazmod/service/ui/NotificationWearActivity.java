@@ -154,14 +154,14 @@ public class NotificationWearActivity extends Activity {
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION).build());
             Logger.debug("Set to use notification channel");
 
-            String notificationPath = "/sdcard/Notifications/amazmod_notification.mp3";
-            File file = new File(notificationPath);
+
+            File file = new File(Constants.CUSTOM_NOTIFICATION_SOUND);
             Uri sound;
             if (!file.exists()) {
-                Logger.debug("File " + notificationPath + " does not exist, using default notification sound");
+                Logger.debug("File " + Constants.CUSTOM_NOTIFICATION_SOUND + " does not exist, using default notification sound");
                 sound = Uri.parse(Constants.RES_PREFIX + R.raw.alerts_notification);
             }else{
-                Logger.debug("File " + notificationPath + " detected, will use it as notification sound");
+                Logger.debug("File " + Constants.CUSTOM_NOTIFICATION_SOUND + " detected, will use it as notification sound");
                 sound = Uri.fromFile(file);
             }
                 try {
