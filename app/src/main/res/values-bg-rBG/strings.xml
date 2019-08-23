@@ -106,11 +106,11 @@
     <string name="pref_private_notifications">Private notification content</string>
     <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON.</string>
     <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
-    <string name="pref_notifications_enable_custom_ui">Custom UI Notifications</string>
+    <string name="pref_notifications_enable_custom_ui">Потребителски UI Уведомления</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply.</string>
     <string name="pref_run_wizard">Welcome Presentation</string>
     <string name="pref_run_wizard_summary">Run the welcome presentation again.</string>
-    <string name="pref_vibration_duration">Vibration duration</string>
+    <string name="pref_vibration_duration">Продължителност на вибриране</string>
     <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled).</string>
     <string name="pref_screen_timeout">Време на изчакване на екрана</string>
     <string name="pref_screen_timeout_summary">Set duration of custom replies screen.</string>
@@ -196,7 +196,7 @@
     <string name="failed_load_watch_status">Load of watch status failed</string>
     <string name="settings_applied">Настройките са приложени</string>
     <string name="settings_cant_be_applied">The settings can\'t be applied</string>
-    <string name="brightness_applied">Brightness applied</string>
+    <string name="brightness_applied">Яркостта е приложена</string>
     <string name="failed_to_set_brightness">Brightness can\'t be applied</string>
     <string name="test_notification_sent">Test notification sent</string>
     <string name="failed_to_send_test_notification">Failed to send test notification</string>
@@ -213,7 +213,7 @@
     <string name="execute_shell_command">Да се изпълни команда в конзолата</string>
     <string name="run">Старт</string>
     <string name="shell_command_sent">Командата е изпратена</string>
-    <string name="cant_send_shell_command">Can\'t send command</string>
+    <string name="cant_send_shell_command">Командата не е изпратена</string>
     <string name="install">Инсталирай</string>
     <string name="apk_install_started_title">APK install</string>
     <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
@@ -278,7 +278,7 @@
     <string name="pref_notifications_disable_picture_summary">Pictures will not be shown in the notification. This will save the battery.</string>
     <string name="notification_silenced">ЗАГЛУШЕНО</string>
     <string name="notification_text_filter">Филтър</string>
-    <string name="muted_apps">Muted Applications</string>
+    <string name="muted_apps">Заглушени Приложения</string>
     <string name="ok">ОК</string>
     <string name="are_you_sure">Сигурни ли сте?</string>
     <string name="cannot_be_undone">Това действие е необратимо.</string>
@@ -294,12 +294,12 @@
     <string name="watchface_calendar_source">Източник на Календара</string>
     <string name="test">Тест</string>
     <string name="watchface_remote_ics_file">Отдалечен ICS файл</string>
-    <string name="watchface_built_in_calendar">Built-in Calendar</string>
+    <string name="watchface_built_in_calendar">Стоков Календар</string>
     <string name="watchface_events_found">%s намерени събития</string>
     <string name="permission">Права</string>
     <string name="success">Успешно</string>
     <string name="error">Грешка</string>
-    <string name="invalid_url">Invalid iCal URL!</string>
+    <string name="invalid_url">Невалиден iCal URL!</string>
     <string name="file_or_connection_error">File or connection error, file could not be opened!</string>
     <string name="update_process_warning">ВНИМАНИЕ: Процесът на актуализиране е необходимо да поддържа екрана включен, за да накара инсталацията да отнеме само около 3 минути, а часовника ще бъде рестартиран един или повече пъти. Не използвайте часовника по време на процеса за правилна инсталация. Започнете актуализацията само ако можете да изчакате да приключи.</string>
     <string name="search_title">Търсене</string>
@@ -345,8 +345,8 @@
     <string name="product_name">Име на продукта</string>
     <string name="serial_number">Сериен номер</string>
     <string name="build_id">Id номер на дисплей</string>
-    <string name="build_model">Build Huami model</string>
-    <string name="build_description">Build description</string>
+    <string name="build_model">Модел на устройство на Huami</string>
+    <string name="build_description">Описание на изграждането</string>
     <string name="rename_folder">Преименувай Папка</string>
     <string name="rename_file">Преименуване на файл</string>
     <string name="type_file_name">Въведи име на файл</string>
