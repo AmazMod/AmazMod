@@ -364,4 +364,8 @@
     <string name="pref_enable_internet_companion_summary">Cho phép trình vận chuyển Amazfit Internet Companion (nó chỉ hữu ích nếu bạn có một ứng dụng trên đồng hồ sử dụng cái này).</string>
     <string name="ota_test_title">OTA Tester</string>
     <string name="type_service_number">Service Number</string>
+    <string name="activity_batter_no_data">No battery data</string>
+    <string name="export_battery">Export</string>
+    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
+    <string name="battery_fragment_select_option">Select an option</string>
 </resources>
