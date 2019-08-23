@@ -362,4 +362,8 @@
     <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
     <string name="ota_test_title">OTA Tester</string>
     <string name="type_service_number">Service Number</string>
+    <string name="activity_batter_no_data">No battery data</string>
+    <string name="export_battery">Export</string>
+    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
+    <string name="battery_fragment_select_option">Select an option</string>
 </resources>
