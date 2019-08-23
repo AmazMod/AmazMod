@@ -304,7 +304,7 @@
     <string name="update_process_warning">ВНИМАНИЕ: Процесът на актуализиране е необходимо да поддържа екрана включен, за да накара инсталацията да отнеме само около 3 минути, а часовника ще бъде рестартиран един или повече пъти. Не използвайте часовника по време на процеса за правилна инсталация. Започнете актуализацията само ако можете да изчакате да приключи.</string>
     <string name="search_title">Търсене</string>
     <string name="pref_use_notification_scheduler">Store notifications while disconnected</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored.</string>
+    <string name="pref_use_notification_scheduler_summary">Съхраняване на получените известия, ако часовникът и телефонът не са свързани и изпращане при възстановена връзка.</string>
     <string name="language">Език</string>
     <string name="select">Избор</string>
     <string name="pref_choose_language">Изберете език</string>
