@@ -370,4 +370,6 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="activity_batter_no_data">Nessun dato da esportare</string>
     <string name="battery_export_success">Dati esporatti correttamente nella cartella AmazMod con il nome %s</string>
     <string name="battery_fragment_select_option">Seleziona una opzione</string>
+    <string name="batter_error_export">Impossibile esportare i dati</string>
+    <string name="battery_error_open_csv">Impossibile aprire il file csv %s</string>
 </resources>
