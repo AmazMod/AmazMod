@@ -368,4 +368,6 @@
     <string name="export_battery">ייצוא</string>
     <string name="battery_export_success">מידע על צריכת סוללה נשמר תחת תיקיית AmazMod בשם %s</string>
     <string name="battery_fragment_select_option">בחירת אפשרות</string>
+    <string name="battery_error_open_csv">Unable to open csv file %s</string>
+    <string name="batter_error_export">Unable to export data</string>
 </resources>
