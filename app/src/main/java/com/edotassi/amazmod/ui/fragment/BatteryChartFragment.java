@@ -3,18 +3,21 @@ package com.edotassi.amazmod.ui.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
@@ -52,6 +56,8 @@ import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.tingyik90.snackprogressbar.SnackProgressBar;
+import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.tinylog.Logger;
 
@@ -182,7 +188,6 @@ public class BatteryChartFragment extends Card {
                     fOut.delete();
                 }
 
-
                 // https://stackoverflow.com/questions/15402976/how-to-create-a-csv-file-in-android
                 new Thread() {
                     public void run() {
@@ -196,21 +201,29 @@ public class BatteryChartFragment extends Card {
                             }
                             fw.close();
 
-//                            // open the file
-//                            Uri uri = Uri.fromFile(fOut);
-//                            Intent intent = new Intent(Intent.ACTION_VIEW);
-//                            intent.addCategory(Intent.CATEGORY_OPENABLE);
-//                            intent.setDataAndType(uri, "text/csv");
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                            mContext.startActivity(intent);
+                            Intent newIntent = new Intent(Intent.ACTION_VIEW);
+                            Uri path = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ?
+                                    FileProvider.getUriForFile(mContext, Constants.FILE_PROVIDER, fOut)
+                                    : Uri.fromFile(fOut);
+                            String mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension("csv");
 
-                            //https://stackoverflow.com/questions/3134683/android-toast-in-a-thread
-                            assert activity != null;
-                            activity.runOnUiThread(() -> Toast.makeText(activity,
-                                    String.format(getString(R.string.battery_export_success), fName),
-                                    Toast.LENGTH_SHORT).show());
+                            newIntent.setDataAndType(path, mimeType);
+                            newIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            try {
+                                startActivity(newIntent);
+                            } catch (ActivityNotFoundException e) {
+                                Logger.error(e, "Error opening file");
+                                Toast.makeText(mContext, String.format(getString(R.string.battery_error_open_csv), fName), Toast.LENGTH_LONG).show();
+                            }
+
+//                            //https://stackoverflow.com/questions/3134683/android-toast-in-a-thread
+//                            assert activity != null;
+//                            activity.runOnUiThread(() -> Toast.makeText(activity,
+//                                    String.format(getString(R.string.battery_export_success), fName),
+//                                    Toast.LENGTH_SHORT).show());
                         } catch (Exception e) {
                             Logger.error(e, "Fail thread export data");
+                            Toast.makeText(mContext, getString(R.string.batter_error_export), Toast.LENGTH_LONG).show();
                         }
                     }
                 }.start();
