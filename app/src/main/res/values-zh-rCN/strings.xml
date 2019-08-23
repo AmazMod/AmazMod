@@ -369,4 +369,6 @@
     <string name="export_battery">Export</string>
     <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
     <string name="battery_fragment_select_option">Select an option</string>
+    <string name="battery_error_open_csv">Unable to open csv file %s</string>
+    <string name="batter_error_export">Unable to export data</string>
 </resources>
