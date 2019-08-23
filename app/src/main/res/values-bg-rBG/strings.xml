@@ -38,7 +38,7 @@
     <string name="cant_uplaod_directory">Can\'t upload directory</string>
     <string name="sending">Изпращане</string>
     <string name="wait">моля, изчакайте</string>
-    <string name="cant_upload_file">Can\'t upload file</string>
+    <string name="cant_upload_file">Файлът не може да се качи</string>
     <string name="cant_download_file">Can\'t download file</string>
     <string name="file_upload_canceled">File upload canceled</string>
     <string name="file_download_canceled">File download canceled</string>
@@ -50,9 +50,9 @@
     <string name="customui_test">Потребителски интерфейс</string>
     <string name="standard_test">Стандартен интерфейс</string>
     <string name="battery_chart_title">Графика на батерия</string>
-    <string name="heartrate_chart_title">Heart-rate chart</string>
+    <string name="heartrate_chart_title">Пулс диаграма</string>
     <string name="watch_info">Watch\'s information</string>
-    <string name="last_charge">Since full charge</string>
+    <string name="last_charge">От пълното зареждане</string>
     <string name="last_charge_no_info">Waiting for full charge</string>
     <string name="notification_block">Блокирай</string>
     <string name="notification_continue">Продължи</string>
@@ -114,7 +114,7 @@
     <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled).</string>
     <string name="pref_screen_timeout">Време на изчакване на екрана</string>
     <string name="pref_screen_timeout_summary">Set duration of custom replies screen.</string>
-    <string name="pref_disable_notifications_when_dnd">Respect DND mode</string>
+    <string name="pref_disable_notifications_when_dnd">Режим DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturb is detected.</string>
     <string name="pref_disable_remove_notifications">Keep notifications</string>
     <string name="pref_disable_remove_notifications_summary">Do not remove notification from watch when it is removed from phone.</string>
@@ -138,7 +138,7 @@
     <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
     <string name="intro_title_2">Install Service App on Watch</string>
     <string name="intro_description_2">Моля, изтеглете amazmod_service APK от уебсайта на AmazMod и го инсталирайте на часовника си. За да го инсталирате, можете да използвате adb (всички платформи), APKInstaller или Amazfit Tool, ако компютърът ви работи с Windows.</string>
-    <string name="intro_title_3">Restart Devices</string>
+    <string name="intro_title_3">Рестартиране на устройства</string>
     <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
     <string name="intro_title_4">Всичко е готово!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
@@ -176,7 +176,7 @@
     <string name="activity_files_restore">възстанови</string>
     <string name="never">Никога</string>
     <string name="activity_files_backup_obs">IMPORTANT: Backup file is saved in internal storage and will be deleted if app is uninstalled:</string>
-    <string name="activity_files_file">Backup file found</string>
+    <string name="activity_files_file">Намерен е бекъп</string>
     <string name="none">Няма</string>
     <string name="data">Данни</string>
     <string name="downloads">Сваляния</string>
@@ -188,7 +188,7 @@
     <string name="activity_files_backup_failed">Неуспешно резервно копие!</string>
     <string name="activity_files_no_write_permission">Error: No Write Permission!</string>
     <string name="activity_files_restore_ok">Restore Done, Quitting…</string>
-    <string name="activity_files_restore_failed">Restore Failed!</string>
+    <string name="activity_files_restore_failed">Неуспешно възстановяване!</string>
     <string name="activity_files_backup_not_found">Backup File Not Found!</string>
     <string name="pref_disable_standard_notifications">Disable standard notifications</string>
     <string name="pref_disable_standard_notifications_summary">Standard (stock) notifications will not be sent to watch.</string>
@@ -220,8 +220,8 @@
     <string name="cant_start_apk_install">Can\'t start apk install</string>
     <string name="reboot">Рестарт</string>
     <string name="restart_launcher">Рестартиране на стартовия панел</string>
-    <string name="enable_apps_list">Enable apps list</string>
-    <string name="disable_apps_list">Disable apps list</string>
+    <string name="enable_apps_list">Активиран списък с приложения</string>
+    <string name="disable_apps_list">Неактивен списък с приложения</string>
     <string name="no_service_info_1">It was not possible to connect to the AmazMod Service on the watch. If you haven\'t installed the service yet, follow the instructions below:</string>
     <string name="no_service_info_2">1) Download the latest release here:</string>
     <string name="no_service_info_3">2) Then install the service apk file on the watch</string>
@@ -249,7 +249,7 @@
     <string name="download_failed">Неуспешно изтегляне</string>
     <string name="download_completed">Изтеглянето приключи</string>
     <string name="rename">Преименувай</string>
-    <string name="type_folder_name">Type Folder Name</string>
+    <string name="type_folder_name">Въведи име на Папка</string>
     <string name="brightness_bad_value_entered">Bad value entered, the accepted values are from 1 to 255</string>
     <string name="command_history">Дневник на командите</string>
     <string name="update_started_watch_reboot_when_update_finish">Update started! Watch will show the progress and its launcher will restart at the end.</string>
@@ -291,11 +291,11 @@
     <string name="activity_packageoptions_unmute">Включи звука</string>
     <string name="activity_packageoptions_muted_until">Muted Until:</string>
     <string name="main_options">Main options</string>
-    <string name="watchface_calendar_source">Calendar Source</string>
+    <string name="watchface_calendar_source">Източник на Календара</string>
     <string name="test">Тест</string>
-    <string name="watchface_remote_ics_file">Remote ICS file</string>
+    <string name="watchface_remote_ics_file">Отдалечен ICS файл</string>
     <string name="watchface_built_in_calendar">Built-in Calendar</string>
-    <string name="watchface_events_found">%s events found</string>
+    <string name="watchface_events_found">%s намерени събития</string>
     <string name="permission">Права</string>
     <string name="success">Успешно</string>
     <string name="error">Грешка</string>
@@ -310,7 +310,7 @@
     <string name="pref_choose_language">Изберете език</string>
     <string name="pref_choose_language_summary">Може да сменяте езика на приложението.</string>
     <string name="languages_automatic">Autodetect Language</string>
-    <string name="pref_notifications_show_large_icon">Show Large Icons</string>
+    <string name="pref_notifications_show_large_icon">Покажи Големи Икони</string>
     <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
     <string name="pref_notifications_enable_images">Показване на изображения</string>
     <string name="pref_notifications_enable_images_summary">Show Notification Images.</string>
@@ -344,12 +344,12 @@
     <string name="product_model">Модел на продукта</string>
     <string name="product_name">Име на продукта</string>
     <string name="serial_number">Сериен номер</string>
-    <string name="build_id">Build display id</string>
+    <string name="build_id">Id номер на дисплей</string>
     <string name="build_model">Build Huami model</string>
     <string name="build_description">Build description</string>
     <string name="rename_folder">Преименувай Папка</string>
     <string name="rename_file">Преименуване на файл</string>
-    <string name="type_file_name">Type File Name</string>
+    <string name="type_file_name">Въведи име на файл</string>
     <string name="new_folder">Нова папка</string>
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
