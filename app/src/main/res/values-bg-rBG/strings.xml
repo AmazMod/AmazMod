@@ -139,7 +139,7 @@
     <string name="intro_title_2">Install Service App on Watch</string>
     <string name="intro_description_2">Моля, изтеглете amazmod_service APK от уебсайта на AmazMod и го инсталирайте на часовника си. За да го инсталирате, можете да използвате adb (всички платформи), APKInstaller или Amazfit Tool, ако компютърът ви работи с Windows.</string>
     <string name="intro_title_3">Рестартиране на устройства</string>
-    <string name="intro_description_3">Then please restart both watch and phone. You will know it worked when you see data in Watch\'s Informations box.</string>
+    <string name="intro_description_3">Моля, след това да рестартирайте часовника, и телефона. Ще разберете, че работи, когато видите данни в полето за информация на Часовника.</string>
     <string name="intro_title_4">Всичко е готово!</string>
     <string name="intro_description_4">Now you can go to AmazMod settings and choose the apps you want to get notifications from and add your customized replies.\n\nEnjoy using AmazMod! \u2661</string>
     <string name="watch_is_connected">Свързан</string>
