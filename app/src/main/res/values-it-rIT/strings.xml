@@ -366,10 +366,10 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="pref_enable_internet_companion_summary">Attiva il trasportatore AmazfitInternetCompanion (è utile solo se hai un\'app sull\'orologio che lo utilizza).</string>
     <string name="ota_test_title">Test OTA</string>
     <string name="type_service_number">Numero Service</string>
+    <string name="activity_batter_no_data">Nessun dato batteria</string>
     <string name="export_battery">Esporta</string>
-    <string name="activity_batter_no_data">Nessun dato da esportare</string>
-    <string name="battery_export_success">Dati esportati correttamente nella cartella AmazMod con il nome %s</string>
-    <string name="battery_fragment_select_option">Seleziona una opzione</string>
-    <string name="batter_error_export">Impossibile esportare i dati</string>
-    <string name="battery_error_open_csv">Impossibile aprire il file csv %s</string>
+    <string name="battery_export_success">Dati batteria esportati nella cartella AmazMod con nome %s</string>
+    <string name="battery_fragment_select_option">Seleziona un\'opzione</string>
+    <string name="battery_error_open_csv">Impossibile aprire file csv %s</string>
+    <string name="batter_error_export">Unable to export data</string>
 </resources>
