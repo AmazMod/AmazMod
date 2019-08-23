@@ -366,8 +366,10 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_enable_internet_companion_summary">Povolí transportér AmazfitInternetCompanion (je to užitečné jen tehdy, pokud máte aplikaci v hodinkách, která tuto funkci používá).</string>
     <string name="ota_test_title">OTA Tester</string>
     <string name="type_service_number">Servisní číslo</string>
-    <string name="activity_batter_no_data">No battery data</string>
-    <string name="export_battery">Export</string>
-    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
-    <string name="battery_fragment_select_option">Select an option</string>
+    <string name="activity_batter_no_data">Žádná data o baterii</string>
+    <string name="export_battery">Exportovat</string>
+    <string name="battery_export_success">Data o baterii byla exportována do AmazMod složky s názvem %s</string>
+    <string name="battery_fragment_select_option">Vyberte možnost</string>
+    <string name="battery_error_open_csv">Nebylo možné otevřít soubor csv %s</string>
+    <string name="batter_error_export">Data nelze exportovat</string>
 </resources>
