@@ -366,6 +366,6 @@
     <string name="type_service_number">גרסת הservice</string>
     <string name="activity_batter_no_data">מידע לא זמין</string>
     <string name="export_battery">ייצוא</string>
-    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
+    <string name="battery_export_success">מידע על צריכת סוללה נשמר תחת תיקיית AmazMod בשם %s</string>
     <string name="battery_fragment_select_option">בחירת אפשרות</string>
 </resources>
