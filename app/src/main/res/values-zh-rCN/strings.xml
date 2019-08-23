@@ -365,4 +365,8 @@
     <string name="pref_enable_internet_companion_summary">启用华米互联网连接传输器(仅当有手表应使用此功能时，该操作才有用)。</string>
     <string name="ota_test_title">OTA测试工具</string>
     <string name="type_service_number">服务号码</string>
+    <string name="activity_batter_no_data">No battery data</string>
+    <string name="export_battery">Export</string>
+    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
+    <string name="battery_fragment_select_option">Select an option</string>
 </resources>
