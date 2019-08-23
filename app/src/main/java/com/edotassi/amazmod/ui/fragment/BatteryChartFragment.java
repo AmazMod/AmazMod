@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -25,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
@@ -118,21 +120,25 @@ public class BatteryChartFragment extends Card {
             @Override
             public boolean onLongClick(View v) {
                 updateChart();
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(activity.getString(R.string.battery_fragment_select_option))
-                        .setItems(new String[]{
+                new MaterialDialog.Builder(activity)
+
+                        .title(activity.getString(R.string.battery_fragment_select_option))
+                        .items(new String[]{
                                 "Request new battery data",
-                                "Export battery data"}, (dialog, which) -> {
-                                    switch (which) {
-                                        case 0:
-                                            SendNewRequest();
-                                            break;
-                                        case 1:
-                                            ExportBatteryStats(activity);
-                                            break;
-                                    }
-                                })
-                        .create().show();
+                                "Export battery data"})
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                                switch (position) {
+                                    case 0:
+                                        SendNewRequest();
+                                        break;
+                                    case 1:
+                                        ExportBatteryStats(activity);
+                                        break;
+                                }
+                            }
+                        }).show();
                 return true;
             }
         });
@@ -190,6 +196,14 @@ public class BatteryChartFragment extends Card {
                                 BatteryStatusItemToCsv(fw, item);
                             }
                             fw.close();
+
+//                            // open the file
+//                            Uri uri = Uri.fromFile(fOut);
+//                            Intent intent = new Intent(Intent.ACTION_VIEW);
+//                            intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                            intent.setDataAndType(uri, "text/csv");
+//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            mContext.startActivity(intent);
 
                             //https://stackoverflow.com/questions/3134683/android-toast-in-a-thread
                             assert activity != null;
