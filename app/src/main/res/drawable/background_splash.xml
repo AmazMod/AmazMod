@@ -2,10 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:drawable="@drawable/ic_launcher_background"/>
+        android:drawable="@drawable/portrait_background"/>
 
     <item
         android:drawable="@drawable/ic_launcher_foreground"
-            android:gravity="center" />
+        android:gravity="center"
+        android:height="@dimen/splash_screen"
+        android:width="@dimen/splash_screen"
+        />
 
 </layer-list>
