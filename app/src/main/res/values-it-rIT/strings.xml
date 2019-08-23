@@ -132,7 +132,7 @@
     <string name="pref_phone_connect_disconnect_alert">Notifica connessione/disconnessione</string>
     <string name="pref_phone_connect_disconnect_alert_summary">L\'orologio vibrerà e visualizzerà lo stato di connessione con il telefono quando esso si connette/disconnette.</string>
     <string name="intro_title_1">Benvenuto in AmazMod!</string>
-    <string name="intro_description_1">Segui questa presentazione per sapere come installare l\'app di servizio sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono</string>
+    <string name="intro_description_1">Segui questa presentazione per sapere come installare il service sull\'orologio e concedere l\'accesso da parte dell\'app alle notifiche sul telefono.</string>
     <string name="intro_title_permissions">Accesso alle notifiche</string>
     <string name="intro_description_permissions">AmazMod richiede l\'accesso alle notifiche in modo da poterle inviare all\'orologio, clicca sul bottone in basso e abilita i permessi alle notifiche, poi torna indietro alla presentazione</string>
     <string name="intro_label_grant_permissions">Dai il permesso per l\'accesso alle notifiche prima di procedere</string>
@@ -224,9 +224,9 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="restart_launcher">Riavvia launcher</string>
     <string name="enable_apps_list">Attiva applist</string>
     <string name="disable_apps_list">Disattiva applist</string>
-    <string name="no_service_info_1">Non è stato possibile connettersi al servizio AmazMod sull\'orologio. Se non hai ancora installato il servizio, segui le istruzioni riportate di seguito:</string>
+    <string name="no_service_info_1">Non è stato possibile connettersi al service di AmazMod sull\'orologio. Se non hai ancora installato il service, segui le istruzioni riportate di seguito:</string>
     <string name="no_service_info_2">1) Scarica l\'ultima release da uno dei seguenti link:</string>
-    <string name="no_service_info_3">2) Installa il file apk del servizio sull\'orologio</string>
+    <string name="no_service_info_3">2) Installa il service apk sull\'orologio</string>
     <string name="no_service_info_4">3) Infine riavvia sia l\'orologio che il telefono</string>
     <string name="enable_lpm_title">Attiva LPM</string>
     <string name="revoke_admin">Revoca admin</string>
@@ -245,7 +245,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="privacy_policy">Informativa sulla privacy</string>
     <string name="cant_check_service_updates">Impossibile controllare gli aggiornamenti del service.apk</string>
     <string name="new_update_available">Nuovo aggiornamento disponibile!</string>
-    <string name="new_service_update_available">Versione %s del servizio AmazMod disponibile</string>
+    <string name="new_service_update_available">Versione %s del service di AmazMod disponibile</string>
     <string name="update">Aggiorna</string>
     <string name="download_in_progress">Download in corso</string>
     <string name="download_failed">Download non riuscito</string>
