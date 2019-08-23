@@ -1,7 +1,10 @@
 package com.edotassi.amazmod.ui.fragment;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +33,7 @@ import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.ui.card.Card;
+import com.edotassi.amazmod.util.Permissions;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
@@ -78,9 +83,6 @@ public class BatteryChartFragment extends Card {
     @BindView(R.id.card_battery)
     CardView cardView;
 
-    @BindView(R.id.export_battery)
-    Button exportButton;
-
     @BindView(R.id.battery_chart)
     LineChart chart;
 
@@ -112,95 +114,25 @@ public class BatteryChartFragment extends Card {
 
         Activity activity = getActivity();
 
-
-        exportButton.setOnClickListener(v -> {
-            final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getContext())
-                    .getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
-
-            Calendar calendar = Calendar.getInstance();
-            calendar.add(Calendar.DATE, -1 * days);
-            long lowX = calendar.getTimeInMillis();
-
-            List<BatteryStatusEntity> batteryReadList = SQLite
-                    .select()
-                    .from(BatteryStatusEntity.class)
-                    .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
-                    .queryList();
-
-            if (batteryReadList.size() <= 0) {
-                // no data
-                Toast.makeText(mContext, getResources().getString(R.string.activity_batter_no_data), Toast.LENGTH_SHORT).show();
-            } else {
-                try {
-                    String downloadDir = DownloadHelper.getDownloadDir(Constants.MODE_DOWNLOAD);
-                    String pattern = "yyyy-MM-dd";
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
-                    String fName = simpleDateFormat.format(new Date()) + ".csv";
-                    String file_csv = downloadDir + File.pathSeparator + fName;
-
-
-                    File fOut = new File(file_csv);
-
-                    if (fOut.exists()) {
-                        fOut.delete();
-                    }
-
-
-                    // https://stackoverflow.com/questions/15402976/how-to-create-a-csv-file-in-android
-                    new Thread() {
-                        public void run() {
-                            try {
-
-                                FileWriter fw = new FileWriter(fOut);
-                                BatteryStatusItemToCsv(fw, null);
-                                for (int i = 0; i < batteryReadList.size(); i++) {
-                                    BatteryStatusEntity item = batteryReadList.get(i);
-
-                                    BatteryStatusItemToCsv(fw, item);
-                                }
-                            } catch (Exception e) {
-                                Logger.error(e, "Fail thread export data");
-                            }
-                            //https://stackoverflow.com/questions/3134683/android-toast-in-a-thread
-                            assert activity != null;
-                            activity.runOnUiThread(() -> Toast.makeText(activity,
-                                    String.format("Battery data exported to download folder with name %s", fName),
-                                    Toast.LENGTH_SHORT).show());
-                        }
-
-                    }.start();
-
-
-                } catch (Exception e) {
-                    Logger.error(e, "BatteryChartFragment onClick export");
-                }
-            }
-        });
-
         cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 updateChart();
-                Logger.debug("BatteryChartFragment onLongCLick sendNewRequest: " + sendNewRequest);
-                if (sendNewRequest) {
-                    if (!requestSent) {
-                        requestSent = true;
-                        Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_request), Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent("com.edotassi.amazmod.USER_ACTION");
-                        mContext.getApplicationContext().sendBroadcast(i);
-                        Handler mHandler = new Handler();
-                        mHandler.postDelayed(new Runnable() {
-                            public void run() {
-                                updateChart();
-                            }
-                        }, 5000);
-                    } else {
-                        Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_waiting), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_updated), Toast.LENGTH_SHORT).show();
-                    requestSent = false;
-                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(activity.getString(R.string.battery_fragment_select_option))
+                        .setItems(new String[]{
+                                "Request new battery data",
+                                "Export battery data"}, (dialog, which) -> {
+                                    switch (which) {
+                                        case 0:
+                                            SendNewRequest();
+                                            break;
+                                        case 1:
+                                            ExportBatteryStats(activity);
+                                            break;
+                                    }
+                                })
+                        .create().show();
                 return true;
             }
         });
@@ -208,19 +140,118 @@ public class BatteryChartFragment extends Card {
         updateChart();
     }
 
+    private void ExportBatteryStats(Activity activity) {
+        final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getContext())
+                .getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
+
+
+        if (!Permissions.hasPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1 * days);
+        long lowX = calendar.getTimeInMillis();
+
+        List<BatteryStatusEntity> batteryReadList = SQLite
+                .select()
+                .from(BatteryStatusEntity.class)
+                .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
+                .queryList();
+
+        if (batteryReadList.size() <= 0) {
+            // no data
+            Toast.makeText(mContext, getResources().getString(R.string.activity_batter_no_data), Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                String downloadDir = DownloadHelper.getDownloadDir(Constants.MODE_DOWNLOAD);
+                String pattern = "yyyy-MM-dd HH:mm:ss";
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
+                String fName = "battery_data_" + simpleDateFormat.format(new Date()) + ".csv";
+                String file_csv = downloadDir + File.separator + fName;
+
+
+                File fOut = new File(file_csv);
+
+                if (fOut.exists()) {
+                    fOut.delete();
+                }
+
+
+                // https://stackoverflow.com/questions/15402976/how-to-create-a-csv-file-in-android
+                new Thread() {
+                    public void run() {
+                        try {
+
+                            FileWriter fw = new FileWriter(fOut);
+                            BatteryStatusItemToCsv(fw, null);
+                            for (int i = 0; i < batteryReadList.size(); i++) {
+                                BatteryStatusEntity item = batteryReadList.get(i);
+                                BatteryStatusItemToCsv(fw, item);
+                            }
+                            fw.close();
+
+                            //https://stackoverflow.com/questions/3134683/android-toast-in-a-thread
+                            assert activity != null;
+                            activity.runOnUiThread(() -> Toast.makeText(activity,
+                                    String.format(getString(R.string.battery_export_success), fName),
+                                    Toast.LENGTH_SHORT).show());
+                        } catch (Exception e) {
+                            Logger.error(e, "Fail thread export data");
+                        }
+                    }
+                }.start();
+            } catch (Exception e) {
+                Logger.error(e, "BatteryChartFragment onClick export");
+            }
+        }
+    }
+
+    private void SendNewRequest() {
+        updateChart();
+        Logger.debug("BatteryChartFragment onLongCLick sendNewRequest: " + sendNewRequest);
+        if (sendNewRequest) {
+            if (!requestSent) {
+                requestSent = true;
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_request), Toast.LENGTH_SHORT).show();
+                Intent i = new Intent("com.edotassi.amazmod.USER_ACTION");
+                mContext.getApplicationContext().sendBroadcast(i);
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    public void run() {
+                        updateChart();
+                    }
+                }, 5000);
+            } else {
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_waiting), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(mContext, mContext.getResources().getString(R.string.battery_chart_updated), Toast.LENGTH_SHORT).show();
+            requestSent = false;
+        }
+    }
+
+    /**
+     * Dump entity to stream
+     *
+     * @param fw   stream where write data
+     * @param item to serialize
+     * @throws IOException
+     */
     private void BatteryStatusItemToCsv(FileWriter fw, BatteryStatusEntity item)
             throws IOException {
         String pattern = "yyyy-MM-dd";
-        String separator = ";";
+        String separator = ",";
         SimpleDateFormat dateFormatter = new SimpleDateFormat(pattern, Locale.US);
         if (item == null) {
-            fw.append(String.format("Date%1Level%1Charging%1Usb%1Ac%1LastCharge%1", separator));
+            fw.append(String.format("Date%1$sLevel%1$sCharging%1$sUsb%1$sAc%1$sLastCharge%1$s\n", separator));
+            return;
         }
 
         fw.append(dateFormatter.format(item.getDate()));
         fw.append(separator);
 
-        fw.append(String.format(Locale.US, "%f", item.getLevel()));
+        fw.append(String.format(Locale.US, "%.2f", item.getLevel() * 100));
         fw.append(separator);
 
         fw.append(String.format(Locale.US, "%b", item.isUsbCharge()));
@@ -232,6 +263,7 @@ public class BatteryChartFragment extends Card {
         fw.append(dateFormatter.format(item.getDateLastCharge()));
         fw.append(separator);
 
+        fw.append("\n");
     }
 
     @Override
@@ -269,10 +301,7 @@ public class BatteryChartFragment extends Card {
                 .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
                 .queryList();
 
-        exportButton.setEnabled(false);
-
         if (batteryReadList.size() > 0) {
-            exportButton.setEnabled(true);
             BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
             Date lastDate = new Date(lastEntity.getDate());
             if (lastDateChart != lastEntity.getDate() || lastDateChart == 0) {
