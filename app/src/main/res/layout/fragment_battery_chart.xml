@@ -69,6 +69,15 @@
                 android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <Button
+                    android:id="@+id/export_battery"
+                    android:layout_width="205dp"
+                    android:layout_height="42dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/export_battery"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

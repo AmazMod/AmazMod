@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
+import com.edotassi.amazmod.event.BatteryStatus;
+import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.ui.card.Card;
 import com.github.mikephil.charting.charts.LineChart;
@@ -45,6 +48,9 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,6 +59,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -70,6 +77,9 @@ public class BatteryChartFragment extends Card {
     ImageView imageView;
     @BindView(R.id.card_battery)
     CardView cardView;
+
+    @BindView(R.id.export_battery)
+    Button exportButton;
 
     @BindView(R.id.battery_chart)
     LineChart chart;
@@ -100,6 +110,73 @@ public class BatteryChartFragment extends Card {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        Activity activity = getActivity();
+
+
+        exportButton.setOnClickListener(v -> {
+            final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getContext())
+                    .getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, -1 * days);
+            long lowX = calendar.getTimeInMillis();
+
+            List<BatteryStatusEntity> batteryReadList = SQLite
+                    .select()
+                    .from(BatteryStatusEntity.class)
+                    .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
+                    .queryList();
+
+            if (batteryReadList.size() <= 0) {
+                // no data
+                Toast.makeText(mContext, getResources().getString(R.string.activity_batter_no_data), Toast.LENGTH_SHORT).show();
+            } else {
+                try {
+                    String downloadDir = DownloadHelper.getDownloadDir(Constants.MODE_DOWNLOAD);
+                    String pattern = "yyyy-MM-dd";
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
+                    String fName = simpleDateFormat.format(new Date()) + ".csv";
+                    String file_csv = downloadDir + File.pathSeparator + fName;
+
+
+                    File fOut = new File(file_csv);
+
+                    if (fOut.exists()) {
+                        fOut.delete();
+                    }
+
+
+                    // https://stackoverflow.com/questions/15402976/how-to-create-a-csv-file-in-android
+                    new Thread() {
+                        public void run() {
+                            try {
+
+                                FileWriter fw = new FileWriter(fOut);
+                                BatteryStatusItemToCsv(fw, null);
+                                for (int i = 0; i < batteryReadList.size(); i++) {
+                                    BatteryStatusEntity item = batteryReadList.get(i);
+
+                                    BatteryStatusItemToCsv(fw, item);
+                                }
+                            } catch (Exception e) {
+                                Logger.error(e, "Fail thread export data");
+                            }
+                            //https://stackoverflow.com/questions/3134683/android-toast-in-a-thread
+                            assert activity != null;
+                            activity.runOnUiThread(() -> Toast.makeText(activity,
+                                    String.format("Battery data exported to download folder with name %s", fName),
+                                    Toast.LENGTH_SHORT).show());
+                        }
+
+                    }.start();
+
+
+                } catch (Exception e) {
+                    Logger.error(e, "BatteryChartFragment onClick export");
+                }
+            }
+        });
+
         cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -129,6 +206,32 @@ public class BatteryChartFragment extends Card {
         });
 
         updateChart();
+    }
+
+    private void BatteryStatusItemToCsv(FileWriter fw, BatteryStatusEntity item)
+            throws IOException {
+        String pattern = "yyyy-MM-dd";
+        String separator = ";";
+        SimpleDateFormat dateFormatter = new SimpleDateFormat(pattern, Locale.US);
+        if (item == null) {
+            fw.append(String.format("Date%1Level%1Charging%1Usb%1Ac%1LastCharge%1", separator));
+        }
+
+        fw.append(dateFormatter.format(item.getDate()));
+        fw.append(separator);
+
+        fw.append(String.format(Locale.US, "%f", item.getLevel()));
+        fw.append(separator);
+
+        fw.append(String.format(Locale.US, "%b", item.isUsbCharge()));
+        fw.append(separator);
+
+        fw.append(String.format(Locale.US, "%b", item.isAcCharge()));
+        fw.append(separator);
+
+        fw.append(dateFormatter.format(item.getDateLastCharge()));
+        fw.append(separator);
+
     }
 
     @Override
@@ -166,7 +269,10 @@ public class BatteryChartFragment extends Card {
                 .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
                 .queryList();
 
+        exportButton.setEnabled(false);
+
         if (batteryReadList.size() > 0) {
+            exportButton.setEnabled(true);
             BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
             Date lastDate = new Date(lastEntity.getDate());
             if (lastDateChart != lastEntity.getDate() || lastDateChart == 0) {
@@ -250,19 +356,19 @@ public class BatteryChartFragment extends Card {
         // PREDICT BATTERY, calculate values
         // Get last charging point
         int value = 0; // use first data for calculation if never charged
-        for (int i=colors.size()-1; i>=0; i--){
-            if(colors.get(i)==chargingColor){
+        for (int i = colors.size() - 1; i >= 0; i--) {
+            if (colors.get(i) == chargingColor) {
                 value = i;
                 break;
             }
         }
         boolean charging = false;
         // Still charging?
-        if(yValues.size() > 1 && value==colors.size()-1){
+        if (yValues.size() > 1 && value == colors.size() - 1) {
             charging = true;
             value = 0; // use first data for calculation if never charged
-            for (int i=colors.size()-1; i>=0; i--){
-                if(colors.get(i)==primaryColor){
+            for (int i = colors.size() - 1; i >= 0; i--) {
+                if (colors.get(i) == primaryColor) {
                     value = i;
                     break;
                 }
@@ -274,34 +380,34 @@ public class BatteryChartFragment extends Card {
 
         // At least 2 data points are needed for the calculation
         // Calculate future 0 or 100% Battery point
-        if(yValues.size() > 1) {
+        if (yValues.size() > 1) {
             // Charging point
             float x1 = yValues.get(value).getX();
             float y1 = yValues.get(value).getY();
             // Last measure point
-            float x2 = yValues.get(yValues.size()-1).getX();
-            float y2 = yValues.get(yValues.size()-1).getY();
+            float x2 = yValues.get(yValues.size() - 1).getX();
+            float y2 = yValues.get(yValues.size() - 1).getY();
 
             float target_time;
             float remaininf_now_diff;
             String textDate;
-            if(charging) {
+            if (charging) {
                 // Future time that battery will be 100%
-                target_time = x2 + (x2 - x1) / (y2 - y1) * (100-y2);
+                target_time = x2 + (x2 - x1) / (y2 - y1) * (100 - y2);
 
-                textDate = lastRead.getText()+", "+getResources().getText(R.string.full_battery_in) + ": ";
-                remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60);
-                textDate += ((int) remaininf_now_diff / 60) +" hours and "+((int) remaininf_now_diff % 60)+" minutes";
-            }else{
+                textDate = lastRead.getText() + ", " + getResources().getText(R.string.full_battery_in) + ": ";
+                remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
+                textDate += ((int) remaininf_now_diff / 60) + " hours and " + ((int) remaininf_now_diff % 60) + " minutes";
+            } else {
                 // Future time that battery will be 0%
                 target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
-                textDate = lastRead.getText()+", "+getResources().getText(R.string.remaining_battery) + ": ";
-                remaininf_now_diff =  (target_time-System.currentTimeMillis()) / (1000*60*60);
-                textDate += ((int) remaininf_now_diff / 24) +" days and "+((int) remaininf_now_diff % 24)+" hours";
+                textDate = lastRead.getText() + ", " + getResources().getText(R.string.remaining_battery) + ": ";
+                remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
+                textDate += ((int) remaininf_now_diff / 24) + " days and " + ((int) remaininf_now_diff % 24) + " hours";
             }
 
-            if(remaininf_now_diff>0) {
+            if (remaininf_now_diff > 0) {
                 yPredictValues.add(new Entry(target_time, (charging) ? 100 : 0));
 
                 // Expand graph's range
@@ -339,12 +445,12 @@ public class BatteryChartFragment extends Card {
         linePredictionDataSet.setDrawCircles(false);
         linePredictionDataSet.setDrawValues(false);
 
-        Drawable drawablePrediction = ContextCompat.getDrawable(mContext, (charging)?R.drawable.fade_green_battery:R.drawable.fade_red_battery);
+        Drawable drawablePrediction = ContextCompat.getDrawable(mContext, (charging) ? R.drawable.fade_green_battery : R.drawable.fade_red_battery);
         linePredictionDataSet.setDrawFilled(true);
         linePredictionDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
         linePredictionDataSet.setFillDrawable(drawablePrediction);
         linePredictionDataSet.enableDashedLine(5, 10, 0);
-        linePredictionDataSet.setColors( (charging)?chargingColor:predictionColor);
+        linePredictionDataSet.setColors((charging) ? chargingColor : predictionColor);
         linePredictionDataSet.setMode(LineDataSet.Mode.LINEAR);
         linePredictionDataSet.setCubicIntensity(0.05f);
         // End of prediction line
