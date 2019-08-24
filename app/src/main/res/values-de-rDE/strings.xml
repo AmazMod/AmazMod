@@ -311,7 +311,7 @@
     <string name="pref_choose_language_summary">Sie können die Sprache der App ändern.</string>
     <string name="languages_automatic">Automatische Sprachwahl</string>
     <string name="pref_notifications_show_large_icon">Zeige grosse Icons</string>
-    <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
+    <string name="pref_notifications_show_large_icon_summary">Zeige grosse Icons (normale Kontakt Bilder) in den Benachrichtigungen.</string>
     <string name="pref_notifications_enable_images">Zeige Bilder</string>
     <string name="pref_notifications_enable_images_summary">Bilder in Benachrichtigungen anzeigen.</string>
     <string name="pref_battery_chart">Battery chart</string>
