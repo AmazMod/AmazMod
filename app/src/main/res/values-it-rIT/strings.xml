@@ -375,6 +375,6 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="batter_data_request">Richiedi nuovi dati batteria</string>
     <string name="batter_data_export">Esporta dati batteria</string>
     <string name="app_options">Opzioni App</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="notification_options">Opzioni di notifica</string>
+    <string name="notification_options_description">Non mostrare notifiche che contengono i seguenti testi (uno per riga):</string>
 </resources>

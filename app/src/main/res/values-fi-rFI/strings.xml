@@ -4,7 +4,7 @@
     <string name="settings">Asetukset</string>
     <string name="notifications">Ilmoitukset</string>
     <string name="notifications_options">Ilmoitusasetukset</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Kaaviot</string>
     <string name="customui">Mukautetun käyttöliittymän ilmoitus asetukset</string>
     <string name="others">Muut</string>
     <string name="other">Muu</string>
@@ -92,7 +92,7 @@
     <string name="pref_enable_notifications">Push-ilmoitukset</string>
     <string name="pref_filter_notifications_by_packages">Valitut sovellukset</string>
     <string name="pref_filter_notifications_by_packages_summary">Vain näiden sovellusten ilmoitukset lähetetään kelloon.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
+    <string name="pref_battery_background_sync_interval">Akun taustatarkistuksen aikaväli</string>
     <string name="pref_battery_background_sync_interval_summary">Aseta akun taustasynkronointivälin.</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Määritä akkukaavion aikaväli.</string>
