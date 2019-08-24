@@ -370,4 +370,9 @@
     <string name="battery_fragment_select_option">Оберіть опцію</string>
     <string name="battery_error_open_csv">Не вдалося відкрити csv файл %s</string>
     <string name="batter_error_export">Неможливо експортувати дані</string>
+    <string name="batter_data_request">Request new battery data</string>
+    <string name="batter_data_export">Export battery data</string>
+    <string name="app_options">App Options</string>
+    <string name="notification_options">Notification Options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
 </resources>
