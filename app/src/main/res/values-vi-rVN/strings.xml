@@ -369,5 +369,5 @@
     <string name="battery_export_success">Dữ liệu pin được xuất sang thư mục AmazMod với tên %s</string>
     <string name="battery_fragment_select_option">Chọn một tùy chọn</string>
     <string name="battery_error_open_csv">Không thể mở tệp csv</string>
-    <string name="batter_error_export">Unable to export data</string>
+    <string name="batter_error_export">Không thể xuất dữ liệu</string>
 </resources>
