@@ -370,9 +370,9 @@
     <string name="battery_fragment_select_option">Выберите вариант</string>
     <string name="battery_error_open_csv">Не удается открыть csv файл %s</string>
     <string name="batter_error_export">Ошибка экспорта данных</string>
-    <string name="batter_data_request">Request new battery data</string>
-    <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
+    <string name="batter_data_request">Запросить новые данные батареи</string>
+    <string name="batter_data_export">Экспорт данных батареи</string>
+    <string name="app_options">Параметры приложения</string>
+    <string name="notification_options">Параметры уведомлений</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
 </resources>
