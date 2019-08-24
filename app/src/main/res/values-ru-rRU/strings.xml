@@ -374,5 +374,5 @@
     <string name="batter_data_export">Экспорт данных батареи</string>
     <string name="app_options">Параметры приложения</string>
     <string name="notification_options">Параметры уведомлений</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="notification_options_description">Не показывать уведомления, содержащие следующие строки (по одной в строке):</string>
 </resources>
