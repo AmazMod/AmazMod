@@ -130,8 +130,9 @@ public class BatteryChartFragment extends Card {
 
                         .title(activity.getString(R.string.battery_fragment_select_option))
                         .items(new String[]{
-                                "Request new battery data",
-                                "Export battery data"})
+                                getResources().getString(R.string.batter_data_request),
+                                getResources().getString(R.string.batter_data_export)
+                        })
                         .itemsCallback(new MaterialDialog.ListCallback() {
                             @Override
                             public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {

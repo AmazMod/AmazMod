@@ -70,7 +70,7 @@
         android:layout_height="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Notification Options"
+        android:text="@string/notification_options"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appinfo_version" />
 
@@ -81,7 +81,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:text="Do not show notifications containing the following texts (one per line):"
+        android:text="@string/notification_options_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />

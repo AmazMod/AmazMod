@@ -72,7 +72,7 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
             try {
                 packageInfo = getPackageManager().getPackageInfo(packageName, 0);
                 appname_edittext.setText(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
-                getSupportActionBar().setTitle("App Options");
+                getSupportActionBar().setTitle(getResources().getString(R.string.app_options));
                 appinfoPackageNameEditText.setText(packageInfo.packageName);
                 appVersion.setText(packageInfo.versionName);
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
