@@ -364,8 +364,10 @@
     <string name="pref_enable_internet_companion_summary">Вмикає підтримку Amazfit Internet Companion (опція потрібна тільки у випадку використання вказаного додатку).</string>
     <string name="ota_test_title">ОТА Тестер</string>
     <string name="type_service_number">Номер сервісу</string>
-    <string name="activity_batter_no_data">No battery data</string>
-    <string name="export_battery">Export</string>
-    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
-    <string name="battery_fragment_select_option">Select an option</string>
+    <string name="activity_batter_no_data">Дані про використання батареї відсутні</string>
+    <string name="export_battery">Експорт</string>
+    <string name="battery_export_success">Дані про батарею експортовано до теки %s</string>
+    <string name="battery_fragment_select_option">Оберіть опцію</string>
+    <string name="battery_error_open_csv">Не вдалося відкрити csv файл %s</string>
+    <string name="batter_error_export">Неможливо експортувати дані</string>
 </resources>
