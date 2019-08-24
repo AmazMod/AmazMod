@@ -372,4 +372,9 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="battery_fragment_select_option">Seleziona un\'opzione</string>
     <string name="battery_error_open_csv">Impossibile aprire file csv %s</string>
     <string name="batter_error_export">Impossibile esportare i dati</string>
+    <string name="batter_data_request">Richiedi nuovi dati batteria</string>
+    <string name="batter_data_export">Esporta dati batteria</string>
+    <string name="app_options">Opzioni App</string>
+    <string name="notification_options">Notification Options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
 </resources>
