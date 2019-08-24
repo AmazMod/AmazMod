@@ -273,9 +273,9 @@
     <string name="file_uploader_label">Label: %s</string>
     <string name="file_uploader_package">Packet: %s</string>
     <string name="pref_notifications_disable_large_icon">Benutzer Avatar nicht senden</string>
-    <string name="pref_notifications_disable_large_icon_summary">User avatars will not be shown in the notification. This will save the battery a bit.</string>
+    <string name="pref_notifications_disable_large_icon_summary">Um Batterie zu sparen wird das Benutzerbild nicht in der Benachrichtigung angezeigt.</string>
     <string name="pref_notifications_disable_picture">Sende keine Mitteilungsbilder</string>
-    <string name="pref_notifications_disable_picture_summary">Pictures will not be shown in the notification. This will save the battery.</string>
+    <string name="pref_notifications_disable_picture_summary">Um Batterie zu sparen werden keine Bilder in den Benachrichtigungen angezeigt.</string>
     <string name="notification_silenced">Stumm</string>
     <string name="notification_text_filter">Filter</string>
     <string name="muted_apps">Anwendungen stumm geschalten</string>
@@ -283,8 +283,8 @@
     <string name="are_you_sure">Sind Sie sicher?</string>
     <string name="cannot_be_undone">Dies kann nicht rückgängig gemacht werden.</string>
     <string name="show_only_selected">Zeige nur berechtigte Apps</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_first_widget">Amazmod Widget steht an 1. Stelle auf der Uhr</string>
+    <string name="pref_amazmod_first_widget_summary">Amazmod Widget bleibt auf der Uhr an 1. Stelle.</string>
     <string name="pref_enable_delete_button">Taste zum Löschen von Mitteilungen</string>
     <string name="pref_enable_delete_button_on">Taste zum Löschen von Mitteilungen steht direkt unterhalb Mitteilungstext</string>
     <string name="pref_enable_delete_button_off">Löschtaste befindet sich im 4. Bildschirm wenn Sie in den Mitteilungen nach links wischen</string>
@@ -304,7 +304,7 @@
     <string name="update_process_warning">WARNUNG: Der Aktualisierungsprozess kann bis zu 3 Minuten dauern und die Uhr wird ein oder mehrere Male neu gestartet. Benutzen Sie die Uhr nicht während des Prozesses oder es kann zu Beschädigungen kommen. Starten Sie das Update nur, wenn Sie darauf warten können bis es beendet wird.</string>
     <string name="search_title">Suche</string>
     <string name="pref_use_notification_scheduler">Benachrichtigungen speichern während die Verbindung getrennt ist</string>
-    <string name="pref_use_notification_scheduler_summary">Store the notifications received while watch and phone are disconnected and send them when connection is restored.</string>
+    <string name="pref_use_notification_scheduler_summary">Speichern Sie die erhaltenen Benachrichtigungen während die Uhr und das Telefon getrennt sind und senden Sie diese, sobald die Verbindung wiederhergestellt wird.</string>
     <string name="language">Sprache</string>
     <string name="select">Auswählen</string>
     <string name="pref_choose_language">Sprache wählen</string>
