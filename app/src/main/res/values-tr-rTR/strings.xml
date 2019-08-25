@@ -37,7 +37,7 @@
     <string name="file_not_exists">Dosya mevcut değil</string>
     <string name="cant_uplaod_directory">Klasöre yüklenemedi</string>
     <string name="sending">Gönderiliyor</string>
-    <string name="wait">please wait</string>
+    <string name="wait">lütfen bekleyin</string>
     <string name="cant_upload_file">Dosyayı karşıya yükleyemiyor</string>
     <string name="cant_download_file">İndirilemiyor</string>
     <string name="file_upload_canceled">Dosya yükleme iptal edildi</string>
@@ -71,8 +71,8 @@
     <string name="telegram_channel">Telegram Kanalı</string>
     <string name="support_email">Destek E-posta</string>
     <string name="project_github">Projeyi GitHub üzerinde Gör</string>
-    <string name="activity_about_project_maintainer">Project Maintainer</string>
-    <string name="activity_about_devs">Developers</string>
+    <string name="activity_about_project_maintainer">Proje Yöneticisi</string>
+    <string name="activity_about_devs">Geliştiriciler</string>
     <string name="activity_about_testers">Test edenler</string>
     <string name="translators">Çevirmenler</string>
     <string name="activity_watchface_need_greatfit">Kullanmak için saatinizde GreatFit saat arayüzü veya Takvim/Timeline araçlarından en az birinin kurulu olması gerekiyor</string>
@@ -100,9 +100,9 @@
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
     <string name="pref_battery_phone_alert">Telefon Pil Uyarısı</string>
     <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
-    <string name="pref_notifications_replies_summary">Enter your custom replies.</string>
+    <string name="pref_notifications_replies_summary">Özel yanıtlarını girin.</string>
     <string name="pref_notifications_replies">Bildirim Yanıtları</string>
-    <string name="pref_private_notifications_summary">Notification content will be hidden (and replies panel as well).</string>
+    <string name="pref_private_notifications_summary">Bildirim içeriği gizlenecek (yanıtla paneli dahil).</string>
     <string name="pref_private_notifications">Bildirim içeriğini gizle</string>
     <string name="pref_enable_notifications_when_screen_on_summary">Forward notifications to watch, when screen is ON.</string>
     <string name="pref_enable_notifications_when_screen_on">Ekran açık olduğunda gönder</string>
@@ -120,7 +120,7 @@
     <string name="pref_disable_remove_notifications_summary">Do not remove notification from watch when it is removed from phone.</string>
     <string name="pref_enable_voice_apps">Sesli arama bildirimleri</string>
     <string name="pref_enable_voice_apps_summary">Messenger voice calls will send notifications to watch.</string>
-    <string name="pref_enable_local_only">Local notifications</string>
+    <string name="pref_enable_local_only">Yerel bildirimler</string>
     <string name="pref_enable_local_only_summary">Notifications without user actions will be sent to watch (eg. Google Weather reports). May also need ungroup ON.</string>
     <string name="pref_enable_notifications_when_locked">Bildirimleri telefon ekran kilitliyken göster</string>
     <string name="pref_enable_notifications_when_locked_summary">Send notifications to watch if screen is on but phone is locked.</string>
@@ -157,7 +157,7 @@
     <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if AmazMod is constantly been killed.</string>
     <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
     <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings.</string>
-    <string name="pref_notifications_disable_screenon">Keep screen off</string>
+    <string name="pref_notifications_disable_screenon">Ekranı kapalı tut</string>
     <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch.</string>
     <string name="pref_check_permissions">Uygulama izinlerini denetle</string>
     <string name="pref_check_permissions_summary">Check if AmazMod has all permissions needed.</string>
@@ -200,12 +200,12 @@
     <string name="failed_to_set_brightness">Parlaklık ayarlama başarısız</string>
     <string name="test_notification_sent">Test bildirimi gönderildi</string>
     <string name="failed_to_send_test_notification">Test bildirimi gönderme başarısız</string>
-    <string name="file_explorer">File explorer</string>
-    <string name="reading_files_failed">Reading files failed</string>
-    <string name="activity_about_extras">Extras</string>
+    <string name="file_explorer">Dosya gezgini</string>
+    <string name="reading_files_failed">Dosyaları okuma başarısız oldu</string>
+    <string name="activity_about_extras">Extralar</string>
     <string name="revoke_device_owner">Revoke device owner on watch</string>
-    <string name="alerts">Alerts</string>
-    <string name="pref_phone_connect_alert_standard_notification">Use standard notification</string>
+    <string name="alerts">Uyarılar</string>
+    <string name="pref_phone_connect_alert_standard_notification">Standart bildirimi kullan</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Use standard notifications for alerts on watch instead of a custom full screen UI.</string>
     <string name="enable_low_power">Enable low power mode on watch</string>
     <string name="failed_to_send_command">Sending command to watch failed</string>

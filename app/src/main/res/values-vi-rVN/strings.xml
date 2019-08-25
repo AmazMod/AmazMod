@@ -370,9 +370,9 @@
     <string name="battery_fragment_select_option">Chọn một tùy chọn</string>
     <string name="battery_error_open_csv">Không thể mở tệp csv</string>
     <string name="batter_error_export">Không thể xuất dữ liệu</string>
-    <string name="batter_data_request">Request new battery data</string>
-    <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="batter_data_request">Yêu cầu dữ liệu pin mới</string>
+    <string name="batter_data_export">Xuất dữ liệu pin</string>
+    <string name="app_options">Tùy chọn ứng dụng</string>
+    <string name="notification_options">Tùy chọn thông báo</string>
+    <string name="notification_options_description">Không hiển thị thông báo có chứa các văn bản sau(một dòng trên mỗi dòng):</string>
 </resources>
