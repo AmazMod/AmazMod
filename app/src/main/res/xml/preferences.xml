@@ -97,7 +97,7 @@
         <ListPreference
             android:defaultValue="300"
             android:dependency="preference.notifications.enable.custom.ui"
-            android:dialogTitle="Vibration"
+            android:dialogTitle="@string/pref_vibration_duration"
             android:entries="@array/pref_amazmodservice_vibration_entries"
             android:entryValues="@array/pref_amazmodservice_vibration_values"
             android:key="preference.amazmodservice.vibration"

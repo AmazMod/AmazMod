@@ -346,6 +346,7 @@ public class MainActivity extends BaseAppCompatActivity
                 //.withFilter(new ChangelogFilter(ChangelogFilter.Mode.Exact, "somefilterstring", true)) // this will filter out all tags, that do not have the provided filter attribute
                 .withManagedShowOnStart(managedShowOnStart)  // library will take care to show activity/dialog only if the changelog has new infos and will only show this new infos
                 .withRateButton(true)
+                .withRateButtonLabel(getString(R.string.rate_app))
                 .buildAndShowDialog(this, isDarkTheme);
     }
 

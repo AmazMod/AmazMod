@@ -326,6 +326,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 //.disableTitle(true)
                 //.titleFollowsDir(true)
                 //.displayPath(true)
+                .withResources(R.string.file_choose_title, R.string.select, R.string.cancel)
                 .enableOptions(false)
                 .withStartFile(lastPath)
                 .withFilter(false, false)
