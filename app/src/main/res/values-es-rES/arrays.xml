@@ -43,17 +43,17 @@
         <item>30 días</item>
         <item>60 días</item>
         <item>90 días</item>
-        <item>180 days</item>
-        <item>365 days</item>
+        <item>180 días</item>
+        <item>365 días</item>
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
-        <item>Large</item>
-        <item>Huge</item>
+        <item>Grande</item>
+        <item>Enorme</item>
     </string-array>
     <string-array name="default_notification_replies">
-        <item>Yes</item>
+        <item>Sí</item>
         <item>No</item>
-        <item>Thank you</item>
+        <item>Gracias</item>
     </string-array>
 </resources>
