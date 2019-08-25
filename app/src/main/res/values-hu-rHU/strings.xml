@@ -375,6 +375,6 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="batter_data_request">Új akku adatok lekérése</string>
     <string name="batter_data_export">Akku adat export</string>
     <string name="app_options">App lehetőségek</string>
-    <string name="notification_options">Értesítési beállítások</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="notification_options">Értesítési lehetőségek</string>
+    <string name="notification_options_description">Ne jelenítse meg a következő szövegeket tartalmazó értesítéseket (soronként egy):</string>
 </resources>
