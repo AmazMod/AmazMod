@@ -17,7 +17,7 @@
     <string name="watchface">GreatFit/Lịch</string>
     <string name="stats">Số liệu thống kê</string>
     <string name="changelog">Thay đổi</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Bình chọn</string>
     <string name="enable">Kích hoạt</string>
     <string name="cancel">Huỷ</string>
     <string name="select_unselect_all">Chọn/Bỏ chon</string>
@@ -39,7 +39,7 @@
     <string name="cant_uplaod_directory">Không thể tải lên thư mục</string>
     <string name="sending">Đang gửi</string>
     <string name="wait">Vui lòng chờ</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Chọn một hoặc nhiều tệp</string>
     <string name="cant_upload_file">Không thể xoá tập tin.</string>
     <string name="cant_download_file">Không thể xoá tập tin.</string>
     <string name="file_upload_canceled">Tải xuống bị hủy bỏ</string>
@@ -377,14 +377,14 @@
     <string name="app_options">Tùy chọn ứng dụng</string>
     <string name="notification_options">Tùy chọn thông báo</string>
     <string name="notification_options_description">Không hiển thị thông báo có chứa các văn bản sau(một dòng trên mỗi dòng):</string>
-    <string name="and">and</string>
+    <string name="and">và</string>
     <plurals name="day">
-        <item quantity="other">days</item>
+        <item quantity="other">ngày</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="other">hours</item>
+        <item quantity="other">giờ</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="other">minutes</item>
+        <item quantity="other">phút</item>
     </plurals>
 </resources>
