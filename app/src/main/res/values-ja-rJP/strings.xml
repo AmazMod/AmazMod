@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit/カレンダー</string>
     <string name="stats">Stats</string>
     <string name="changelog">変更履歴</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">Enable</string>
     <string name="cancel">キャンセル</string>
     <string name="select_unselect_all">Select/Unselect all</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">Can\'t upload directory</string>
     <string name="sending">送信中</string>
     <string name="wait">please wait</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">Can\'t upload file</string>
     <string name="cant_download_file">Can\'t download file</string>
     <string name="file_upload_canceled">File upload canceled</string>
@@ -375,4 +377,14 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>
