@@ -17,6 +17,7 @@
     <string name="watchface">Ciferník</string>
     <string name="stats">Statistika</string>
     <string name="changelog">Přehled změn</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">Povolit</string>
     <string name="cancel">Zrušit</string>
     <string name="select_unselect_all">Označit/Odznačit vše</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">Nelze nahrát adresář</string>
     <string name="sending">Odesílání</string>
     <string name="wait">počkejte prosím</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">Nelze nahrát soubor</string>
     <string name="cant_download_file">Soubor nelze stáhnout</string>
     <string name="file_upload_canceled">Nahrávání souboru zrušeno</string>
@@ -377,4 +379,23 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="app_options">Možnosti aplikace</string>
     <string name="notification_options">Nastavení oznámení</string>
     <string name="notification_options_description">Nezobrazovat oznámení obsahující následující texty (jeden na řádek):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="one">day</item>
+        <item quantity="few">days</item>
+        <item quantity="many">days</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="few">hours</item>
+        <item quantity="many">hours</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minute</item>
+        <item quantity="few">minutes</item>
+        <item quantity="many">minutes</item>
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>
