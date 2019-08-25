@@ -17,7 +17,7 @@
     <string name="watchface">WatchFace</string>
     <string name="stats">Statistiques</string>
     <string name="changelog">Changelog</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Évaluer l\'application</string>
     <string name="enable">Activer</string>
     <string name="cancel">Annuler</string>
     <string name="select_unselect_all">Sélectionner tous/aucun</string>
@@ -39,7 +39,7 @@
     <string name="cant_uplaod_directory">Impossible d\'envoyer un dossier</string>
     <string name="sending">Envoi</string>
     <string name="wait">veuillez patienter</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Choisissez un ou plusieurs fichiers</string>
     <string name="cant_upload_file">Impossible d\'envoyer le fichier</string>
     <string name="cant_download_file">Impossible de télécharger le fichier</string>
     <string name="file_upload_canceled">Transfert annulé</string>
@@ -372,22 +372,22 @@
     <string name="battery_fragment_select_option">Selectionnez une proposition</string>
     <string name="battery_error_open_csv">Impossible d\'ouvrir le fichier csv :%s</string>
     <string name="batter_error_export">Impossible d\'exporter les données</string>
-    <string name="batter_data_request">Request new battery data</string>
-    <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="and">and</string>
+    <string name="batter_data_request">Demander de nouvelles données batterie</string>
+    <string name="batter_data_export">Exporter les données batterie</string>
+    <string name="app_options">Options de l\'App</string>
+    <string name="notification_options">Options des notifications</string>
+    <string name="notification_options_description">Ne pas afficher les notifications contenant les textes suivants (un par ligne) :</string>
+    <string name="and">et</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">jour</item>
+        <item quantity="other">jours</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">heure</item>
+        <item quantity="other">heures</item>
     </plurals>
     <plurals name="minute">
         <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="other"> minutes</item>
     </plurals>
 </resources>
