@@ -28,7 +28,7 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 ### Installation
 
 ###### Download links:
-* Latest AmazMod (for phone) from PlayStore: https://play.google.com/apps/testing/com.edotassi.amazmod
+* Latest AmazMod (for phone) from PlayStore: https://play.google.com/store/apps/details?id=com.edotassi.amazmod
 * Latest service-release.apk (for watch), with optional installer for Windows: https://github.com/edotassi/AmazMod/releases/latest
 or
 https://github.com/edotassi/AmazMod/tree/master/service-releases
