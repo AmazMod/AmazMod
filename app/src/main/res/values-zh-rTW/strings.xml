@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / 行事曆</string>
     <string name="stats">狀態</string>
     <string name="changelog">更新記錄</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">啟用</string>
     <string name="cancel">取消</string>
     <string name="select_unselect_all">全選/全不選</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">無法上傳目錄</string>
     <string name="sending">傳送中</string>
     <string name="wait">請稍候</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">檔案無法上傳</string>
     <string name="cant_download_file">檔案無法下載</string>
     <string name="file_upload_canceled">檔案上傳已取消</string>
@@ -376,4 +378,14 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>
