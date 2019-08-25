@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / kalendár</string>
     <string name="stats">Štatistiky</string>
     <string name="changelog">Zoznam zmien</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">Povoliť</string>
     <string name="cancel">Zrušiť</string>
     <string name="select_unselect_all">Označiť/Odznačiť všetko</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">Nie je možné nahrať adresár</string>
     <string name="sending">Posielanie</string>
     <string name="wait">čakajte, prosím</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">Nemožno nahrať súbor</string>
     <string name="cant_download_file">Nemôžete stiahnuť súbor</string>
     <string name="file_upload_canceled">Nahranie súboru zrušené</string>
@@ -376,4 +378,23 @@ Urobte príkaz shell \"</string>
     <string name="app_options">Možnosti aplikácie</string>
     <string name="notification_options">Možnosti upozornení</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="one">day</item>
+        <item quantity="few">days</item>
+        <item quantity="many">days</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="few">hours</item>
+        <item quantity="many">hours</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minute</item>
+        <item quantity="few">minutes</item>
+        <item quantity="many">minutes</item>
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>
