@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / Calendari</string>
     <string name="stats">Estadístiques</string>
     <string name="changelog">Registre de canvis</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">Habilita</string>
     <string name="cancel">Cancel·la</string>
     <string name="select_unselect_all">Selecciona-ho tot / No seleccionis res</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">No es pot carregar el directori</string>
     <string name="sending">Enviant</string>
     <string name="wait">please wait</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">No es pot carregar el fitxer</string>
     <string name="cant_download_file">No pot descarregar el fitxer</string>
     <string name="file_upload_canceled">Càrrega de fitxers cancel·lada</string>
@@ -375,4 +377,17 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>

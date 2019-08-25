@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / Calendario</string>
     <string name="stats">Statistiche</string>
     <string name="changelog">Changelog</string>
+    <string name="rate_app">Vota App</string>
     <string name="enable">Attiva</string>
     <string name="cancel">Annulla</string>
     <string name="select_unselect_all">Seleziona/Deseleziona tutto</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">Impossibile effettuare l\'upload della directory</string>
     <string name="sending">Invio in corso</string>
     <string name="wait">attendere prego</string>
+    <string name="file_choose_title">Scegli uno o più file</string>
     <string name="cant_upload_file">Impossibile effettuare l\'upload del file</string>
     <string name="cant_download_file">Impossibile effettuare il download del file</string>
     <string name="file_upload_canceled">Upload del file annullato</string>
@@ -377,4 +379,17 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="app_options">Opzioni App</string>
     <string name="notification_options">Opzioni di notifica</string>
     <string name="notification_options_description">Non mostrare notifiche che contengono i seguenti testi (uno per riga):</string>
+    <string name="and">e</string>
+    <plurals name="day">
+        <item quantity="one">giorno</item>
+        <item quantity="other">giorni</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">ora</item>
+        <item quantity="other">ore</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minuto</item>
+        <item quantity="other">minuti</item>
+    </plurals>
 </resources>

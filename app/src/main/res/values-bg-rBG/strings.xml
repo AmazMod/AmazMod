@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / Календар</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Списък на промените</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">Активирай</string>
     <string name="cancel">Отказ</string>
     <string name="select_unselect_all">Избери/Откажи всички</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">Can\'t upload directory</string>
     <string name="sending">Изпращане</string>
     <string name="wait">моля, изчакайте</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">Файлът не може да се качи</string>
     <string name="cant_download_file">Can\'t download file</string>
     <string name="file_upload_canceled">File upload canceled</string>
@@ -375,4 +377,17 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minute</item>
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>

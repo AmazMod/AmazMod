@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / календар</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Список змін</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">Вкл</string>
     <string name="cancel">Скасувати</string>
     <string name="select_unselect_all">Вибрати/відмінити все</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">Неможливо завантажити теку</string>
     <string name="sending">Надсилання</string>
     <string name="wait">Будь ласка, зачекайте</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">Неможливо завантажити файл</string>
     <string name="cant_download_file">Неможливо завантажити файл</string>
     <string name="file_upload_canceled">Завантаження файлу скасовано</string>
@@ -375,4 +377,23 @@
     <string name="app_options">Опції додатку</string>
     <string name="notification_options">Опції сповіщень</string>
     <string name="notification_options_description">Не показувати сповіщення, що містять наступний текст (один на рядок):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="one">day</item>
+        <item quantity="few">days</item>
+        <item quantity="many">days</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="few">hours</item>
+        <item quantity="many">hours</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minute</item>
+        <item quantity="few">minutes</item>
+        <item quantity="many">minutes</item>
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>
