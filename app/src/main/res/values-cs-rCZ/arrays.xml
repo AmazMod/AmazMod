@@ -54,6 +54,6 @@
     <string-array name="default_notification_replies">
         <item>Ano</item>
         <item>Ne</item>
-        <item>Thank you</item>
+        <item>Děkujeme</item>
     </string-array>
 </resources>
