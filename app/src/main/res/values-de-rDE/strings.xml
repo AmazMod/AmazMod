@@ -356,10 +356,10 @@
     <string name="pref_amazmod_overlay_launcher">Notifications Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">Datei nicht gefunden!</string>
-    <string name="pref_battery_full_alert">Full watch battery alert</string>
+    <string name="pref_battery_full_alert">Voller Akku Alarm</string>
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
     <string name="pref_heartrate_chart">Heart rate chart</string>
-    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
+    <string name="pref_heartrate_chart_summary">Zeigt Herzfrequenz-Diagramm auf dem Amazmod Hauptbildschirm.</string>
     <string name="pref_log_lines_shown">Log lines shown</string>
     <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
     <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
