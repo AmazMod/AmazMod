@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / לוח שנה</string>
     <string name="stats">סטטיסטיקה</string>
     <string name="changelog">יומן שינויים</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">אפשר</string>
     <string name="cancel">בטל</string>
     <string name="select_unselect_all">סמן/מחק הכל</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">לא ניתן לעלות תיקיה</string>
     <string name="sending">שולח</string>
     <string name="wait">נא להמתין</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">אין באפשרותך להעלות קבצים</string>
     <string name="cant_download_file">לא ניתן להוריד את הקובץ</string>
     <string name="file_upload_canceled">העלאת קובץ בוטלה</string>
@@ -375,4 +377,23 @@
     <string name="app_options">אפשרויות</string>
     <string name="notification_options">הגדרת התראות</string>
     <string name="notification_options_description">אין להציג התראות אשר מכילות את המילים הבאות (מילה אחת בשורה):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="one">day</item>
+        <item quantity="two">days</item>
+        <item quantity="many">days</item>
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="one">hour</item>
+        <item quantity="two">hours</item>
+        <item quantity="many">hours</item>
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="one">minute</item>
+        <item quantity="two">minutes</item>
+        <item quantity="many">minutes</item>
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>
