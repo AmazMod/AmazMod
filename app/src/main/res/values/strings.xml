@@ -373,5 +373,9 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="days">days</string>
+    <string name="hours">hours</string>
+    <string name="minutes">minutes</string>
+    <string name="and">and</string>
 
 </resources>

@@ -453,14 +453,14 @@ public class BatteryChartFragment extends Card {
 
                 textDate = lastRead.getText() + ", " + getResources().getText(R.string.full_battery_in) + ": ";
                 remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
-                textDate += ((int) remaininf_now_diff / 60) + " hours and " + ((int) remaininf_now_diff % 60) + " minutes";
+                textDate += ((int) remaininf_now_diff / 60) + " " + getResources().getText(R.string.hours) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 60) + " " + getResources().getText(R.string.minutes);
             } else {
                 // Future time that battery will be 0%
                 target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
                 textDate = lastRead.getText() + ", " + getResources().getText(R.string.remaining_battery) + ": ";
                 remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
-                textDate += ((int) remaininf_now_diff / 24) + " days and " + ((int) remaininf_now_diff % 24) + " hours";
+                textDate += ((int) remaininf_now_diff / 24) + " " + getResources().getText(R.string.days) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 24) + " " + getResources().getText(R.string.hours);
             }
 
             if (remaininf_now_diff > 0) {
