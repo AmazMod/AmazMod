@@ -17,6 +17,7 @@
     <string name="watchface">GreatFit / Kalender</string>
     <string name="stats">Statistik</string>
     <string name="changelog">Log Perubahan</string>
+    <string name="rate_app">Rate App</string>
     <string name="enable">Aktifkan</string>
     <string name="cancel">Batal</string>
     <string name="select_unselect_all">Pilih / Batalkan Pilihan</string>
@@ -38,6 +39,7 @@
     <string name="cant_uplaod_directory">Tak dapat mengunggah direktori</string>
     <string name="sending">Mengirim</string>
     <string name="wait">Mohon tunggu</string>
+    <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">Tak dapat mengunggah berkas</string>
     <string name="cant_download_file">Tak dapat mengunduh berkas</string>
     <string name="file_upload_canceled">Unggah berkas dibatalkan</string>
@@ -375,4 +377,14 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
+    <string name="and">and</string>
+    <plurals name="day">
+        <item quantity="other">days</item>
+    </plurals>
+    <plurals name="hour">
+        <item quantity="other">hours</item>
+    </plurals>
+    <plurals name="minute">
+        <item quantity="other">minutes</item>
+    </plurals>
 </resources>
