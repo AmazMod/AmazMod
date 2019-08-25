@@ -388,12 +388,12 @@
         <item quantity="one">hour</item>
         <item quantity="few">hours</item>
         <item quantity="many">hours</item>
-        <item quantity="other">годин</item>
+        <item quantity="other">години</item>
     </plurals>
     <plurals name="minute">
         <item quantity="one">minute</item>
         <item quantity="few">minutes</item>
         <item quantity="many">minutes</item>
-        <item quantity="other">хвилин</item>
+        <item quantity="other">хвилини</item>
     </plurals>
 </resources>
