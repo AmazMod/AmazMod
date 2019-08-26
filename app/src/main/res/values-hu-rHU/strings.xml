@@ -14,10 +14,11 @@
     <string name="sync_settings">Szinkronizálási beállítások…</string>
     <string name="brightness">Fényerő</string>
     <string name="tweaking">Trükkök</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">GreatFit / Naptár</string>
     <string name="stats">Statisztikák</string>
     <string name="changelog">Változások</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Alkalmazás értékelése</string>
     <string name="enable">Bekapcsol</string>
     <string name="cancel">Mégse</string>
     <string name="select_unselect_all">Össz. kijelölt/jelöletlen</string>
@@ -39,7 +40,7 @@
     <string name="cant_uplaod_directory">A könyvtár nem tölthető fel</string>
     <string name="sending">Küldés</string>
     <string name="wait">kis türelmet</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Válassz egy vagy több fájlt</string>
     <string name="cant_upload_file">Nem lehet feltölteni</string>
     <string name="cant_download_file">Nem lehet letölteni</string>
     <string name="file_upload_canceled">A feltöltés törölve</string>
@@ -361,6 +362,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_battery_full_alert">Akku töltve figyelmeztetés</string>
     <string name="pref_battery_full_alert_summary">Értesítés megjelenítése, ha az akkumulátor teljesen fel van töltve.</string>
     <string name="pref_heartrate_chart">Pulzusszám diagram</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">A pulzusszám diagram megjelenítése az AmazMod főképernyőjén.</string>
     <string name="pref_log_lines_shown">Megjelenítendő napló sorok</string>
     <string name="pref_log_lines_shown_summary">A Naplók nézetben megjelenő szövegsorok száma.</string>
@@ -379,17 +381,17 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="app_options">App lehetőségek</string>
     <string name="notification_options">Értesítési lehetőségek</string>
     <string name="notification_options_description">Ne jelenítse meg a következő szövegeket tartalmazó értesítéseket (soronként egy):</string>
-    <string name="and">and</string>
+    <string name="and">és</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">nap</item>
+        <item quantity="other">nap</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">óra</item>
+        <item quantity="other">óra</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">perc</item>
+        <item quantity="other">perc</item>
     </plurals>
 </resources>

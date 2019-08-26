@@ -14,6 +14,7 @@
     <string name="sync_settings">Sincronizzazione impostazioni…</string>
     <string name="brightness">Luminosità</string>
     <string name="tweaking">Tweaking</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">GreatFit / Calendario</string>
     <string name="stats">Statistiche</string>
     <string name="changelog">Changelog</string>
@@ -361,6 +362,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="pref_battery_full_alert">Avviso batteria orologio completamente carica</string>
     <string name="pref_battery_full_alert_summary">Visualizza una notifica quando la batteria è completamente carica.</string>
     <string name="pref_heartrate_chart">Grafico battiti</string>
+    <string name="pref_heartrate_nodata">Dati del grafico non disponibili.</string>
     <string name="pref_heartrate_chart_summary">Mostra il grafico battiti nella schermata principale di AmazMod.</string>
     <string name="pref_log_lines_shown">Linee di log da mostrare</string>
     <string name="pref_log_lines_shown_summary">Numero di linee di testo mostrate nella vista Logs.</string>

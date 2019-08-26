@@ -14,10 +14,11 @@
     <string name="sync_settings">Синхронизация параметров</string>
     <string name="brightness">Яркость</string>
     <string name="tweaking">Тонкая настройка</string>
+    <string name="widgets">Виджеты</string>
     <string name="watchface">GreatFit / календарь</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Список изменений</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Оценить приложение</string>
     <string name="enable">Включить</string>
     <string name="cancel">Отменить</string>
     <string name="select_unselect_all">Выбрать/Убрать все</string>
@@ -39,7 +40,7 @@
     <string name="cant_uplaod_directory">Не удается загрузить папку</string>
     <string name="sending">Отправка..</string>
     <string name="wait">пожалуйста подождите</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Выберите один или несколько файлов</string>
     <string name="cant_upload_file">Не удалось загрузить файл</string>
     <string name="cant_download_file">Ошибка загрузки файла</string>
     <string name="file_upload_canceled">Загрузка файла отменена</string>
@@ -359,6 +360,7 @@
     <string name="pref_battery_full_alert">Оповещение о завершении зарядки батареи</string>
     <string name="pref_battery_full_alert_summary">Включить уведомление о полной зарядке батареи часов.</string>
     <string name="pref_heartrate_chart">График пульса</string>
+    <string name="pref_heartrate_nodata">Нет данных для диаграммы.</string>
     <string name="pref_heartrate_chart_summary">Показывать график пульса на главном экране AmazMod.</string>
     <string name="pref_log_lines_shown">Показаны строки журнала</string>
     <string name="pref_log_lines_shown_summary">Количество строк текста, отображаемых в окне журналов.</string>
@@ -377,23 +379,23 @@
     <string name="app_options">Параметры приложения</string>
     <string name="notification_options">Параметры уведомлений</string>
     <string name="notification_options_description">Не показывать уведомления, содержащие следующие строки (по одной в строке):</string>
-    <string name="and">and</string>
+    <string name="and">и</string>
     <plurals name="day">
-        <item quantity="one">day</item>
+        <item quantity="one">день</item>
         <item quantity="few">days</item>
         <item quantity="many">days</item>
-        <item quantity="other">days</item>
+        <item quantity="other">дней</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
+        <item quantity="one">час</item>
         <item quantity="few">hours</item>
         <item quantity="many">hours</item>
-        <item quantity="other">hours</item>
+        <item quantity="other">часов</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="few">minutes</item>
-        <item quantity="many">minutes</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">минута</item>
+        <item quantity="few">минут</item>
+        <item quantity="many">минут</item>
+        <item quantity="other">минут</item>
     </plurals>
 </resources>

@@ -14,6 +14,7 @@
     <string name="sync_settings">Synchronizace nastavení &#8230;</string>
     <string name="brightness">Jas</string>
     <string name="tweaking">Vylepšení</string>
+    <string name="widgets">Widgety</string>
     <string name="watchface">Ciferník</string>
     <string name="stats">Statistika</string>
     <string name="changelog">Přehled změn</string>
@@ -361,6 +362,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_battery_full_alert">Upozornění na plně nabitou baterii v hodinkách</string>
     <string name="pref_battery_full_alert_summary">Dostat oznámení, když budou hodinky plně nabity.</string>
     <string name="pref_heartrate_chart">Graf tepové frekvence</string>
+    <string name="pref_heartrate_nodata">Nejsou dostupná žádná data pro tento graf.</string>
     <string name="pref_heartrate_chart_summary">Zobrazit graf tepové frekvence na hlavní obrazovce AmazModu.</string>
     <string name="pref_log_lines_shown">Zobrazené řádky protokolu</string>
     <string name="pref_log_lines_shown_summary">Počet řádků textu zobrazených v náhledu protokolu.</string>

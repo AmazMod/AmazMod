@@ -14,6 +14,7 @@
     <string name="sync_settings">Ρυθμίσεις συγχρονισμού&#8230;</string>
     <string name="brightness">Φωτεινότητα</string>
     <string name="tweaking">Μικροαλλαγές</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">Εμφάνιση καντράν</string>
     <string name="stats">Στατιστικά</string>
     <string name="changelog">Λίστα αλλαγών</string>
@@ -359,6 +360,7 @@
     <string name="pref_battery_full_alert">Ειδοποίηση πλήρης φόρτισης ρολογιού</string>
     <string name="pref_battery_full_alert_summary">Εμφάνιση ειδοποίησης όταν το ρολόι είναι πλήρως φορτισμένο.</string>
     <string name="pref_heartrate_chart">Διάγραμμα καρδιακού ρυθμού</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">Εμφάνιση γραφήματος καρδιακού παλμού στην κεντρική οθόνη του AmazMod.</string>
     <string name="pref_log_lines_shown">Γραμμές καταγραφών που προβάλλονται</string>
     <string name="pref_log_lines_shown_summary">Αριθμός γραμμών κειμένου που προβάλλονται στην Εμφάνιση καταγραφών.</string>

@@ -14,6 +14,7 @@
     <string name="sync_settings">Synchronizácia nastavení&#8230;</string>
     <string name="brightness">Jas</string>
     <string name="tweaking">Ladenie</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">GreatFit / kalendár</string>
     <string name="stats">Štatistiky</string>
     <string name="changelog">Zoznam zmien</string>
@@ -360,6 +361,7 @@ Urobte príkaz shell \"</string>
     <string name="pref_battery_full_alert">Upozornenie na plne nabitú batériu v hodinkách</string>
     <string name="pref_battery_full_alert_summary">Zobraziť upozornenie, keď je batéria plne nabitá.</string>
     <string name="pref_heartrate_chart">Graf tepu</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">Zobraziť graf tepu v AmazMod hlavnej obrazovke.</string>
     <string name="pref_log_lines_shown">Zobrazené riadky logu</string>
     <string name="pref_log_lines_shown_summary">Počet riadkov textu zobrazených v zobrazení Logu.</string>

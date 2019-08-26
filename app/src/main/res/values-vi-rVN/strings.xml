@@ -14,6 +14,7 @@
     <string name="sync_settings">Đồng bộ hóa cài đặt</string>
     <string name="brightness">Độ sáng</string>
     <string name="tweaking">Tùy chỉnh</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">GreatFit/Lịch</string>
     <string name="stats">Số liệu thống kê</string>
     <string name="changelog">Thay đổi</string>
@@ -359,6 +360,7 @@
     <string name="pref_battery_full_alert">Cảnh báo pin yếu</string>
     <string name="pref_battery_full_alert_summary">Hiện thông báo khi pin đã sạc đầy</string>
     <string name="pref_heartrate_chart">C.báo NT Aerobic</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">Hiển thị biểu đồ nhịp tim trong màn hình chính AmazMod.</string>
     <string name="pref_log_lines_shown">Nhật ký dòng hiển thị</string>
     <string name="pref_log_lines_shown_summary">Số dòng văn bản hiển thị trong chế độ xem nhật ký.</string>
