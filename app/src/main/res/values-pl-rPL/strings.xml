@@ -14,6 +14,7 @@
     <string name="sync_settings">Synchro ustawień&#8230;</string>
     <string name="brightness">Jasność</string>
     <string name="tweaking">Poprawki</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">GreatFit / Kalendarz</string>
     <string name="stats">Stat.</string>
     <string name="changelog">Zmiany</string>
@@ -359,6 +360,7 @@
     <string name="pref_battery_full_alert">Bateria w zegarku naładowana</string>
     <string name="pref_battery_full_alert_summary">Pokaż powiadomienie, kiedy bateria jest całkowicie naładowana</string>
     <string name="pref_heartrate_chart">Wykres tętna</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">Pokaż wykres tętna na głównym ekranie AmazMod.</string>
     <string name="pref_log_lines_shown">Zapisane linie rejestracji</string>
     <string name="pref_log_lines_shown_summary">Liczba wierszy wyświetlanych w widoku Dziennika.</string>
