@@ -14,7 +14,7 @@
     <string name="sync_settings">Налаштування синхронізації</string>
     <string name="brightness">Яскравість</string>
     <string name="tweaking">Інші налаштування</string>
-    <string name="widgets">Widgets</string>
+    <string name="widgets">Віджети</string>
     <string name="watchface">GreatFit / календар</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Список змін</string>
@@ -360,7 +360,7 @@
     <string name="pref_battery_full_alert">Сповіщення про повний заряд батареї</string>
     <string name="pref_battery_full_alert_summary">Показувати сповіщення, коли годинник повністю заряджено.</string>
     <string name="pref_heartrate_chart">Графік частоти пульсу</string>
-    <string name="pref_heartrate_nodata">No chart data available.</string>
+    <string name="pref_heartrate_nodata">Немає даних для відображення.</string>
     <string name="pref_heartrate_chart_summary">Показувати графік частоти пульсу на головному екрані.</string>
     <string name="pref_log_lines_shown">Кількість рядків журналу</string>
     <string name="pref_log_lines_shown_summary">Кількість текстових рядків, що будуть показані в журналі.</string>
