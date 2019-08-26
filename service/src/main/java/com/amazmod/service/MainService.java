@@ -386,18 +386,6 @@ public class MainService extends Service implements Transporter.DataListener {
             } else
                 Logger.error("MainService error staring BatteryJobService: null jobScheduler!");
         }
-/*
-        //Hourly Chime TEST
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getService(context, 0, new Intent(context, AlarmManager.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, pi);
-        MediaPlayer.create(this, R.raw.hourly_chime).start();
-        Logger.debug((Object) "Hourly Chime TEST");
-*/
     }
 
     @Override
