@@ -14,6 +14,7 @@
     <string name="sync_settings">Synchronisationseinstellungen&#8230;</string>
     <string name="brightness">Helligkeit</string>
     <string name="tweaking">Feinabstimmung</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">GreatFit / Kalender</string>
     <string name="stats">Statistiken</string>
     <string name="changelog">Changelog</string>
@@ -359,6 +360,7 @@
     <string name="pref_battery_full_alert">Voller Akku Alarm</string>
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
     <string name="pref_heartrate_chart">Heart rate chart</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">Zeigt Herzfrequenz-Diagramm auf dem Amazmod Hauptbildschirm.</string>
     <string name="pref_log_lines_shown">Log lines shown</string>
     <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
