@@ -17,7 +17,7 @@
     <string name="watchface">表盘</string>
     <string name="stats">统计</string>
     <string name="changelog">更新日志</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">为我们的软件评分</string>
     <string name="enable">启用</string>
     <string name="cancel">取消</string>
     <string name="select_unselect_all">全选/全不选</string>
@@ -39,7 +39,7 @@
     <string name="cant_uplaod_directory">无法上传目录</string>
     <string name="sending">正在发送</string>
     <string name="wait">请稍等</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">选择一个或多个文件</string>
     <string name="cant_upload_file">无法将上传文件</string>
     <string name="cant_download_file">无法下载文件</string>
     <string name="file_upload_canceled">已取消文件上传</string>
@@ -367,25 +367,25 @@
     <string name="pref_enable_internet_companion_summary">启用华米互联网连接传输器(仅当有手表应使用此功能时，该操作才有用)。</string>
     <string name="ota_test_title">OTA测试工具</string>
     <string name="type_service_number">服务号码</string>
-    <string name="activity_batter_no_data">No battery data</string>
-    <string name="export_battery">Export</string>
-    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
-    <string name="battery_fragment_select_option">Select an option</string>
-    <string name="battery_error_open_csv">Unable to open csv file %s</string>
-    <string name="batter_error_export">Unable to export data</string>
-    <string name="batter_data_request">Request new battery data</string>
-    <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="and">and</string>
+    <string name="activity_batter_no_data">没有电池数据</string>
+    <string name="export_battery">导出</string>
+    <string name="battery_export_success">电池数据导出到亚AmazMod文件夹中，名称为 %s</string>
+    <string name="battery_fragment_select_option">请选择一个选项</string>
+    <string name="battery_error_open_csv">无法打开csv文件%s</string>
+    <string name="batter_error_export">无法导出数据</string>
+    <string name="batter_data_request">请求新的电池数据</string>
+    <string name="batter_data_export">导出电池数据</string>
+    <string name="app_options">应用选项</string>
+    <string name="notification_options">通知选项</string>
+    <string name="notification_options_description">不显示包含下列文本的通知(每行一个关键词):</string>
+    <string name="and">和</string>
     <plurals name="day">
-        <item quantity="other">days</item>
+        <item quantity="other">天</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="other">hours</item>
+        <item quantity="other">小时</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="other">minutes</item>
+        <item quantity="other">分钟</item>
     </plurals>
 </resources>
