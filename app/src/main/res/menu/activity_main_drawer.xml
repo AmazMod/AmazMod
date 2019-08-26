@@ -22,8 +22,8 @@
 
         <item
             android:id="@+id/nav_widgets"
-            android:icon="@drawable/outline_watch_black_36"
-            android:title="Widgets" />
+            android:icon="@drawable/outline_widget_black_36"
+            android:title="@string/widgets" />
 
         <item
             android:id="@+id/nav_watchface"
