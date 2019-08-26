@@ -86,6 +86,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tinylog.Logger;
@@ -609,14 +610,42 @@ public class MainService extends Service implements Transporter.DataListener {
         // Get the list of installed apps.
         List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
 
-        // Found widgets
-        String widgets = "";
+        // Saved widgets
+        String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
 
+        //Create empty list
+        ArrayList<String> in_widgets = new ArrayList<String>();
+        ArrayList<Integer> in_widgets_pos = new ArrayList<Integer>();
+        ArrayList<Boolean> in_widgets_enabled = new ArrayList<Boolean>();
+        try {
+            //Parse JSON
+            JSONObject root = new JSONObject(widget_order_in);
+            JSONArray data = root.getJSONArray("data");
+
+            //Data array contains all the elements
+            for (int x = 0; x < data.length(); x++) {
+                //Get item
+                JSONObject item = data.getJSONObject(x);
+
+                //String pkg = item.getString("pkg");
+                int position = Integer.parseInt(item.getString("srl"));
+                boolean enable = item.getInt("enable") == 1;
+
+                in_widgets.add(item.getString("pkg"));
+                in_widgets_pos.add(position);
+                in_widgets_enabled.add(enable);
+            }
+        } catch (JSONException e) {
+            //e.printStackTrace();
+        }
+
+        // Find widgets
+        String widgets = "";
+        int count = 0 ;
         for (ApplicationInfo packageInfo : packages) {
             //Log.d(TAG, "Installed package :" + packageInfo.packageName);
             //Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
             //Log.d(TAG, "Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
-
             Bundle bundle = packageInfo.metaData;
             if (bundle == null) continue;
             try {
@@ -631,8 +660,16 @@ public class MainService extends Service implements Transporter.DataListener {
                     Resources resources = getApplicationContext().getPackageManager().getResourcesForApplication(packageInfo.packageName);
                     String[] inArray = resources.getStringArray(id);
 
+                    int position = 99;
+                    boolean enabled = false;
+                    if(in_widgets.contains(packageInfo.packageName)) {
+                        position = in_widgets_pos.get(in_widgets.indexOf(packageInfo.packageName));
+                        enabled = in_widgets_enabled.get(in_widgets.indexOf(packageInfo.packageName));
+                    }
+
                     // Add in widgets
-                    widgets += packageInfo.packageName+"|"+inArray[0]+"|"+name+",";
+                    widgets += (count>0?",":"") + "{\"pkg\":\""+packageInfo.packageName+"\",\"activity\":\""+inArray[0]+"\",\"name\":\""+name+"\",\"position\":"+position+",\"enabled\":"+enabled+"}";
+                    count++;
                     //inArray[0].split("/")[1]
 
                     // Log
@@ -645,7 +682,7 @@ public class MainService extends Service implements Transporter.DataListener {
             }
         }
 
-        this.widgetsData.setPackages(widgets);
+        this.widgetsData.setPackages("{\"widgets\":["+widgets+"]}");
         // Send the transmit
         Logger.debug("MainService requestWidgets widgetsData: " + widgetsData.getPackages());
         send(Transport.WIDGETS_DATA, widgetsData.toDataBundle());

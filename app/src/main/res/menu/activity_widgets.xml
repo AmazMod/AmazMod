@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_activity_widgets_save"
+        android:icon="@drawable/outline_cloud_download_24"
+        android:orderInCategory="300"
+        android:title="Save"
+        app:showAsAction="ifRoom" />
+</menu>
