@@ -14,6 +14,7 @@
     <string name="sync_settings">Synchronisation des paramètres&#8230;</string>
     <string name="brightness">Luminosité</string>
     <string name="tweaking">Peaufiner</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">WatchFace</string>
     <string name="stats">Statistiques</string>
     <string name="changelog">Changelog</string>
@@ -359,6 +360,7 @@
     <string name="pref_battery_full_alert">Alerte de batterie pleine de la montre</string>
     <string name="pref_battery_full_alert_summary">Afficher une notification lorsque la batterie est complètement chargée.</string>
     <string name="pref_heartrate_chart">Tableau de fréquence cardiaque</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">Afficher le graphique du rythme cardiaque dans l\'écran principal d\'AmazMod.</string>
     <string name="pref_log_lines_shown">Lignes de log affichées</string>
     <string name="pref_log_lines_shown_summary">Nombre de lignes de texte affichées dans la vue Logs.</string>
