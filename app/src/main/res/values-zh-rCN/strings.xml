@@ -14,6 +14,7 @@
     <string name="sync_settings">同步设置&#8230;</string>
     <string name="brightness">亮度</string>
     <string name="tweaking">调整</string>
+    <string name="widgets">Widgets</string>
     <string name="watchface">表盘</string>
     <string name="stats">统计</string>
     <string name="changelog">更新日志</string>
@@ -360,6 +361,7 @@
     <string name="pref_battery_full_alert">手表充电完成提示</string>
     <string name="pref_battery_full_alert_summary">当手表充电完成时显示通知。</string>
     <string name="pref_heartrate_chart">心率图表</string>
+    <string name="pref_heartrate_nodata">No chart data available.</string>
     <string name="pref_heartrate_chart_summary">在 AmazMod 主屏幕中显示心率图表。</string>
     <string name="pref_log_lines_shown">显示日志行</string>
     <string name="pref_log_lines_shown_summary">设置在日志列表中显示的文字行数。</string>
