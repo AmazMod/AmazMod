@@ -18,7 +18,7 @@
     <string name="watchface">GreatFit / Kalender</string>
     <string name="stats">Statistiken</string>
     <string name="changelog">Changelog</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Bewerte die Applikation</string>
     <string name="enable">Aktivieren</string>
     <string name="cancel">Abbrechen</string>
     <string name="select_unselect_all">Alle (de-) selektieren</string>
@@ -40,7 +40,7 @@
     <string name="cant_uplaod_directory">Verzeichnis kann nicht hochgeladen werden</string>
     <string name="sending">Sende</string>
     <string name="wait">Bitte warten</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Wählen Sie eine oder mehrere Datei</string>
     <string name="cant_upload_file">Datei kann nicht hochgeladen werden</string>
     <string name="cant_download_file">Die Datei kann nicht heruntergeladen werden</string>
     <string name="file_upload_canceled">Datei-Upload abgebrochen</string>
@@ -358,9 +358,9 @@
     <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
     <string name="file_not_found">Datei nicht gefunden!</string>
     <string name="pref_battery_full_alert">Voller Akku Alarm</string>
-    <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
-    <string name="pref_heartrate_chart">Heart rate chart</string>
-    <string name="pref_heartrate_nodata">No chart data available.</string>
+    <string name="pref_battery_full_alert_summary">Zeigt eine Benachrichtigung, wenn die Batterie vollständig geladen ist.</string>
+    <string name="pref_heartrate_chart">Herzfrequenz Diagramm</string>
+    <string name="pref_heartrate_nodata">Keine Daten vorhanden.</string>
     <string name="pref_heartrate_chart_summary">Zeigt Herzfrequenz-Diagramm auf dem Amazmod Hauptbildschirm.</string>
     <string name="pref_log_lines_shown">Log lines shown</string>
     <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
@@ -372,11 +372,11 @@
     <string name="export_battery">Export</string>
     <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
     <string name="battery_fragment_select_option">Select an option</string>
-    <string name="battery_error_open_csv">Unable to open csv file %s</string>
+    <string name="battery_error_open_csv">Die Datei %s kann nicht geöffnet werden</string>
     <string name="batter_error_export">Unable to export data</string>
     <string name="batter_data_request">Request new battery data</string>
     <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
+    <string name="app_options">App-Optionen</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
     <string name="and">and</string>
