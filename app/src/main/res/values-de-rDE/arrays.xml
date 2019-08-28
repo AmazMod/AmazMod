@@ -11,7 +11,7 @@
         <item>15 days</item>
     </string-array>
     <string-array name="pref_watch_battery_alert">
-        <item>Disabled</item>
+        <item>Deaktiviert</item>
         <item>15%</item>
         <item>20%</item>
         <item>25%</item>
