@@ -393,9 +393,9 @@
         <item quantity="other">години</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="few">minutes</item>
-        <item quantity="many">minutes</item>
+        <item quantity="one">хвилина</item>
+        <item quantity="few">хвилин</item>
+        <item quantity="many">хвилин</item>
         <item quantity="other">хвилини</item>
     </plurals>
 </resources>
