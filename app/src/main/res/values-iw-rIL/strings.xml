@@ -14,11 +14,11 @@
     <string name="sync_settings">מסנכרן הגדרות&#8230;</string>
     <string name="brightness">בהירות</string>
     <string name="tweaking">הגדרות מיוחדות</string>
-    <string name="widgets">Widgets</string>
+    <string name="widgets">ווידג\'טים</string>
     <string name="watchface">GreatFit / לוח שנה</string>
     <string name="stats">סטטיסטיקה</string>
     <string name="changelog">יומן שינויים</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">דרגו את האפליקציה</string>
     <string name="enable">אפשר</string>
     <string name="cancel">בטל</string>
     <string name="select_unselect_all">סמן/מחק הכל</string>
@@ -40,7 +40,7 @@
     <string name="cant_uplaod_directory">לא ניתן לעלות תיקיה</string>
     <string name="sending">שולח</string>
     <string name="wait">נא להמתין</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">בחירת קובץ או קבצים מרובים</string>
     <string name="cant_upload_file">אין באפשרותך להעלות קבצים</string>
     <string name="cant_download_file">לא ניתן להוריד את הקובץ</string>
     <string name="file_upload_canceled">העלאת קובץ בוטלה</string>
@@ -360,7 +360,7 @@
     <string name="pref_battery_full_alert">התראת סוללה מלאה בשעון</string>
     <string name="pref_battery_full_alert_summary">קבלת התראה כשסוללת השעון טעונה במלואה.</string>
     <string name="pref_heartrate_chart">גרף דופק</string>
-    <string name="pref_heartrate_nodata">No chart data available.</string>
+    <string name="pref_heartrate_nodata">אין מידע זמין.</string>
     <string name="pref_heartrate_chart_summary">הצגת גרף דופק במסך הראשי של AmazMod.</string>
     <string name="pref_log_lines_shown">כמות שורות מוצגות</string>
     <string name="pref_log_lines_shown_summary">כמות שורות מוצגות בתצוגת הלוגים.</string>
@@ -379,23 +379,23 @@
     <string name="app_options">אפשרויות</string>
     <string name="notification_options">הגדרת התראות</string>
     <string name="notification_options_description">אין להציג התראות אשר מכילות את המילים הבאות (מילה אחת בשורה):</string>
-    <string name="and">and</string>
+    <string name="and">ו</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="two">days</item>
-        <item quantity="many">days</item>
-        <item quantity="other">days</item>
+        <item quantity="one">יום</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="many">ימים</item>
+        <item quantity="other">ימים</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="two">hours</item>
-        <item quantity="many">hours</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">שעה</item>
+        <item quantity="two">שעתיים</item>
+        <item quantity="many">שעות</item>
+        <item quantity="other">שעות</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="two">minutes</item>
-        <item quantity="many">minutes</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">דקה</item>
+        <item quantity="two">דקות</item>
+        <item quantity="many">דקות</item>
+        <item quantity="other">דקות</item>
     </plurals>
 </resources>
