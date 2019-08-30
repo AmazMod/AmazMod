@@ -1026,7 +1026,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                                 return 0;
                                             }
 
-                                            return left.getName().compareTo(right.getName());
+                                            return left.getName().compareToIgnoreCase(right.getName());
                                         }
                                     });
 
