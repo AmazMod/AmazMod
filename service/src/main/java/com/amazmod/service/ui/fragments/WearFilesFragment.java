@@ -30,6 +30,7 @@ import com.amazmod.service.adapters.AppInfoAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.ui.FileViewerWebViewActivity;
+import com.amazmod.service.util.CaseInsensitiveFileComparator;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.ExecCommand;
 
@@ -39,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.Callable;
@@ -429,9 +431,9 @@ public class WearFilesFragment extends Fragment {
         }
 
         if (!dirs.isEmpty())
-            Collections.sort(dirs);
+            Collections.sort(dirs, new CaseInsensitiveFileComparator());
         if (!files.isEmpty()) {
-            Collections.sort(files);
+            Collections.sort(files, new CaseInsensitiveFileComparator());
             dirs.addAll(files);
         }
 

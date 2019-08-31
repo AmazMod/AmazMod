@@ -1015,19 +1015,15 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                                         filesData.add(0, parentDirectory);
                                     }
 
-                                    Collections.sort(filesData, new Comparator<FileData>() {
-                                        @Override
-                                        public int compare(FileData left, FileData right) {
-                                            if (left.isDirectory() && !right.isDirectory()) {
-                                                return -1;
-                                            }
-
-                                            if (right.isDirectory() && !left.isDirectory()) {
-                                                return 0;
-                                            }
-
-                                            return left.getName().compareToIgnoreCase(right.getName());
+                                    Collections.sort(filesData, (left, right) -> {
+                                        if (left.isDirectory() && !right.isDirectory()) {
+                                            return -1;
                                         }
+
+                                        if (right.isDirectory() && !left.isDirectory()) {
+                                            return 0;
+                                        }
+                                        return left.getName().compareToIgnoreCase(right.getName());
                                     });
 
                                     fileExplorerAdapter.clear();
