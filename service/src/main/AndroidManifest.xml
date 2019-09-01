@@ -154,7 +154,7 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
             </intent-filter>
         </receiver>
-
+        <receiver android:name=".receiver.AlarmReceiver"/>
         <receiver
             android:name=".receiver.BootReceiver"
             android:enabled="true"
