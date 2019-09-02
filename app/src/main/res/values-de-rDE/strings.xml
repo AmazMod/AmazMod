@@ -355,7 +355,7 @@
     <string name="type_file_name">Dateiname eingeben</string>
     <string name="new_folder">Ordner erstellen</string>
     <string name="pref_amazmod_overlay_launcher">Overlay Launcher für Benachrichtigungen</string>
-    <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
+    <string name="pref_amazmod_overlay_launcher_summary">Öffnen der benutzerdefinierten Systembenachrichtigungen mit einem Overlay-Botton (dessen Position wird kurz angezeigt wenn der Bildschirm an geht. Man kann ihn mit links- oder rechts wischen beenden).</string>
     <string name="file_not_found">Datei nicht gefunden!</string>
     <string name="pref_battery_full_alert">Voller Akku Alarm</string>
     <string name="pref_battery_full_alert_summary">Zeigt eine Benachrichtigung, wenn die Batterie vollständig geladen ist.</string>
