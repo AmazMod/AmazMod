@@ -4,7 +4,7 @@
     <string name="settings">Definições</string>
     <string name="notifications">Notificações enviadas</string>
     <string name="notifications_options">Opções de notificações</string>
-    <string name="charts">Charts</string>
+    <string name="charts">Gráficos</string>
     <string name="customui">Opções de Notificações de UI Personalizadas</string>
     <string name="others">Outros</string>
     <string name="other">Outro</string>
@@ -18,7 +18,7 @@
     <string name="watchface">GreatFit / Calendário</string>
     <string name="stats">Estatísticas</string>
     <string name="changelog">Registo de alterações</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Avalie a aplicação</string>
     <string name="enable">Ativar</string>
     <string name="cancel">Cancelar</string>
     <string name="select_unselect_all">Selecionar / Deselecionar Todos</string>
@@ -39,8 +39,8 @@
     <string name="file_not_exists">O ficheiro não existe</string>
     <string name="cant_uplaod_directory">Não possível fazer o envio do diretório</string>
     <string name="sending">A enviar</string>
-    <string name="wait">please wait</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="wait">Por favor aguarde</string>
+    <string name="file_choose_title">Escolha um ou mais arquivos</string>
     <string name="cant_upload_file">Não é possível enviar o ficheiro</string>
     <string name="cant_download_file">Não é possível transferir o ficheiro</string>
     <string name="file_upload_canceled">Envio de ficheiro cancelado</string>
@@ -74,7 +74,7 @@
     <string name="telegram_channel">Canal do Telegram</string>
     <string name="support_email">Suporta email</string>
     <string name="project_github">Projeto no GitHub</string>
-    <string name="activity_about_project_maintainer">Project Maintainer</string>
+    <string name="activity_about_project_maintainer">Mantedor do projeto</string>
     <string name="activity_about_devs">Programador</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Tradutores</string>
@@ -91,10 +91,10 @@
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Na última hora</string>
     <string name="activity_stats_notifications_in_the_last_24_horus">Das últimas 24 horas</string>
-    <string name="pref_enable_notifications_summary">Let AmazMod handle all the notifications.</string>
+    <string name="pref_enable_notifications_summary">Permitir que AmazMod controle todas as notificações.</string>
     <string name="pref_enable_notifications">Notificações personalizadas</string>
     <string name="pref_filter_notifications_by_packages">Aplicações seleccionadas</string>
-    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
+    <string name="pref_filter_notifications_by_packages_summary">Apenas estas notificações serão enviadas para o relógio.</string>
     <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
     <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>

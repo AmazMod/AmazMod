@@ -14,7 +14,7 @@
     <string name="sync_settings">Syncing settings&#8230;</string>
     <string name="brightness">Яркост</string>
     <string name="tweaking">Фина настройка</string>
-    <string name="widgets">Widgets</string>
+    <string name="widgets">Джаджи</string>
     <string name="watchface">GreatFit / Календар</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Списък на промените</string>
@@ -379,17 +379,17 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="and">and</string>
+    <string name="and">и</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">ден</item>
+        <item quantity="other">дни</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">час</item>
+        <item quantity="other">часове</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">минута</item>
+        <item quantity="other">минути</item>
     </plurals>
 </resources>
