@@ -13,8 +13,8 @@
     <string name="about">Teave</string>
     <string name="sync_settings">Sünkroonin seadeid&#8230;</string>
     <string name="brightness">Heledus</string>
-    <string name="tweaking">Tweaking</string>
-    <string name="widgets">Widgets</string>
+    <string name="tweaking">Parendamine</string>
+    <string name="widgets">Vidinad</string>
     <string name="watchface">GreatFit / Calendar</string>
     <string name="stats">Stats</string>
     <string name="changelog">Changelog</string>
