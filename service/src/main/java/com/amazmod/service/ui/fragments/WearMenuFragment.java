@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.MenuListAdapter;
+import com.amazmod.service.events.HourlyChime;
 import com.amazmod.service.events.incoming.EnableLowPower;
 import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
@@ -79,7 +80,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "Away Alert (iOS)",
                                 "Notifications ScreenOn",
                                 "Change Input Method",
-                                "Device Info"};
+                                "Device Info",
+                                "Hourly Chime"};
 
     private int[] mImagesOn = { R.drawable.ic_action_select_all,
                                 R.drawable.outline_folder_white_24,
@@ -104,7 +106,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 R.drawable.ic_alarm_light_white_24dp,
                                 R.drawable.outline_flash_on_white_24,
                                 R.drawable.outline_keyboard_white_24,
-                                R.drawable.baseline_info_white_24};
+                                R.drawable.baseline_info_white_24,
+                                R.drawable.hourly_chime_on};
 
     private int[] mImagesOff = {    R.drawable.ic_action_select_all,
                                     R.drawable.outline_folder_white_24,
@@ -129,7 +132,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                     R.drawable.ic_alarm_light_off_white_24dp,
                                     R.drawable.outline_flash_off_white_24,
                                     R.drawable.outline_keyboard_white_24,
-                                    R.drawable.baseline_info_white_24};
+                                    R.drawable.baseline_info_white_24,
+                                    R.drawable.hourly_chime_off};
 
     private String[] toggle = { "",
                                 "",
@@ -152,6 +156,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "measurement",
                                 "huami.watch.localonly.ble_lost_anti_lost",
                                 "huami.watch.localonly.ble_lost_far_away",
+                                "",
                                 "",
                                 "",
                                 ""};
@@ -349,6 +354,10 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 
             case MENU_START + 14:
                 startWearGridActivity(LauncherWearGridActivity.INFO);
+                break;
+
+            case MENU_START + 15:
+                HourlyChime.setHourlyChime(mContext,true);
                 break;
 
             default:

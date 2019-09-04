@@ -9,7 +9,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.Vibrator;
 
-import com.amazmod.service.MainService;
+import com.amazmod.service.events.HourlyChime;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.SystemProperties;
 
@@ -52,7 +52,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             } else {
                 Logger.error("AlarmReceiver null vibrator!");
             }
-            MainService.setHourlyChime(context, true);
+            HourlyChime.setHourlyChime(context, true);
         }
     }
 }
