@@ -16,6 +16,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.SpringboardItem;
 import com.amazmod.service.springboard.settings.BaseSetting;
+import com.amazmod.service.springboard.settings.ButtonSetting;
 import com.amazmod.service.springboard.settings.HeaderSetting;
 import com.amazmod.service.springboard.settings.SpringboardSetting;
 import com.amazmod.service.springboard.settings.SpringboardWidgetAdapter;
@@ -183,20 +184,30 @@ public class WidgetsUtil {
         if (settingList.size() == 0) {
             //Add error message
             settingList.add(new TextSetting(context.getString(R.string.error_loading), null));
-        } else
+        } else {
             //Add main header to top (pos 0)
             settingList.add(0, new HeaderSetting("Widgets", new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Logger.debug("WidgetsUtil loadSettings.onLongClick");
-                MainService.setWasSpringboardSaved(true);
-                save(context, true, true);
-                return true;
-            }
-        }));
+                @Override
+                public boolean onLongClick(View v) {
+                    Logger.debug("WidgetsUtil loadSettings.onLongClick");
+                    MainService.setWasSpringboardSaved(true);
+                    save(context, true, true);
+                    return true;
+                }
+            }));
 
+            //Add save button
+            settingList.add(new ButtonSetting("Save order", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.debug("WidgetsUtil SaveSettings.onClick");
+                    MainService.setWasSpringboardSaved(true);
+                    save(context, true, true);
+                }
+            }));
+        }
             //Add option to clear saved sorted order
-            settingList.add(new TextSetting("Clear Saved Order", new View.OnClickListener() {
+            settingList.add(new ButtonSetting("Clear Saved", new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Logger.debug("WidgetsUtil clearSettings.onClick");
