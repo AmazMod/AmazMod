@@ -362,9 +362,10 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START + 15:
-                HourlyChime.setHourlyChime(mContext);
-                // Get state
-                boolean status = HourlyChime.checkIfSet();
+                // Get current state and change it to opposite
+                boolean status = !HourlyChime.checkIfSet();
+                // Change state
+                HourlyChime.setHourlyChime(mContext, status);
                 centered_toast(mContext, "Hourly chime was "+ ( (status)?"enabled":"disabled" ));
                 // Change menu icon state
                 items.get(MENU_START + 15).state = status;
