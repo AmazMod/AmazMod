@@ -14,6 +14,8 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.view.Gravity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazmod.service.Constants;
@@ -507,6 +509,14 @@ public class DeviceUtil {
 
     public static float systemGetFloat(Context context, String name, float def) {
         return Settings.System.getFloat(context.getContentResolver(), name, def);
+    }
+
+    public static void centered_toast (Context context, String message) {
+        Toast toast;
+        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        TextView v = toast.getView().findViewById(android.R.id.message);
+        if( v != null) v.setGravity(Gravity.CENTER);
+        toast.show();
     }
 
 }
