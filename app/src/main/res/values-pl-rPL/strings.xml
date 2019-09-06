@@ -381,21 +381,21 @@
     <string name="notification_options_description">Nie wyświetlaj powiadomień zawierających tekst (jeden w linii):</string>
     <string name="and">oraz</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="few">days</item>
-        <item quantity="many">days</item>
+        <item quantity="one">dzień</item>
+        <item quantity="few">dni</item>
+        <item quantity="many">dni</item>
         <item quantity="other">dni</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="few">hours</item>
-        <item quantity="many">hours</item>
+        <item quantity="one">godzina</item>
+        <item quantity="few">godzin</item>
+        <item quantity="many">godzin</item>
         <item quantity="other">godzin</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="few">minutes</item>
-        <item quantity="many">minutes</item>
+        <item quantity="one">minuta</item>
+        <item quantity="few">minut</item>
+        <item quantity="many">minut</item>
         <item quantity="other">minut</item>
     </plurals>
 </resources>
