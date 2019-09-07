@@ -244,6 +244,8 @@ public class NotificationWearActivity extends Activity {
         if (activityFinishRunnable != null)
             handler.removeCallbacks(activityFinishRunnable);
         setWindowFlags(false);
+        NotificationFragment.keyboardIsEnable = false;
+        Logger.debug("keyboard NOT visible");
         super.finish();
 
         boolean flag = true;

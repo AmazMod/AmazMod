@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Vibrator;
+
 import androidx.core.app.NotificationCompat;
 
 import com.amazmod.service.Constants;
@@ -16,6 +18,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -103,7 +106,16 @@ public class NotificationService {
                 Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
                 if (enableCustomUI || forceCustom) {
                     NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
-                    postWithCustomUI(notificationStoreKey);
+                    if (NotificationFragment.keyboardIsEnable) {
+                        final Vibrator mVibrator = (Vibrator) context.getSystemService("vibrator");
+                        if (mVibrator != null) {
+                            mVibrator.vibrate(400);
+                            Logger.debug("keyboard IS visible, vibrate only");
+                        }
+                    } else {
+                        Logger.debug("keyboard NOT visible, show full notification");
+                        postWithCustomUI(notificationStoreKey);
+                    }
                 } else {
                     postWithStandardUI(notificationSpec, disableNotificationReplies);
                 }
