@@ -58,7 +58,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 	private WearableListView listView;
     private DelayedConfirmationView delayedConfirmationView;
     private TextView mHeader, textView1, textView2;
-    private boolean chimeEnabled;
+    public static boolean chimeEnabled;
 
     private String[] mItems = { "Apps Manager",
                                 "Files Manager",
@@ -360,13 +360,6 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START + 15:
-                /*
-                HourlyChime.setHourlyChime(mContext, chimeEnabled);
-                chimeEnabled = !chimeEnabled;
-                items.get(MENU_START + 15).state = !chimeEnabled;
-                mAdapter.notifyDataSetChanged();
-                break;
-                */
                 if (!chimeEnabled){
                     HourlyChime.setHourlyChime(mContext, true);
                     chimeEnabled = true;
