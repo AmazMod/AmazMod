@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -23,7 +24,9 @@ import androidx.annotation.Nullable;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.adapters.CheckableAdapter;
 import com.edotassi.amazmod.receiver.WatchfaceReceiver;
+import com.edotassi.amazmod.receiver.WatchfaceReceiver.CalendarInfo;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.Permissions;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -38,8 +41,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import amazmod.com.transport.Constants;
@@ -76,6 +84,8 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     Button watchface_test_ics_button;
     @BindView(R.id.watchface_ics_url_edittext)
     EditText watchface_ics_url_edittext;
+    @BindView(R.id.watchface_source_local_choose_button)
+    Button calendar_choose_button;
 
 
     boolean send_data;
@@ -259,6 +269,12 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             }
         });
 
+        calendar_choose_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseCalendars();
+            }
+        });
     }
 
     @Override
@@ -315,6 +331,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         if (Permissions.hasPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)){
             watchface_permission_status.setText(getResources().getString(R.string.enabled).toUpperCase());
             watchface_permission_status.setTextColor(getResources().getColor(R.color.colorCharging));
+            calendar_choose_button.setEnabled(watchface_source_local_radiobutton.isEnabled());
         } else {
             watchface_permission_status.setText(getResources().getString(R.string.disabled).toUpperCase());
             watchface_permission_status.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -327,6 +344,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                     startActivity(intent);
                 }
             });
+            calendar_choose_button.setEnabled(false);
         }
     }
 
@@ -349,6 +367,8 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     private void changeWidgetsStatus(boolean state){
         watchface_test_ics_button.setEnabled(state);
         watchface_ics_url_edittext.setEnabled(state);
+        calendar_choose_button.setEnabled(!state && Permissions.hasPermission(
+                getApplicationContext(), Manifest.permission.READ_CALENDAR));
     }
 
     private void checkICSFile() {
@@ -417,6 +437,55 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                     .content(R.string.invalid_url)
                     .show();
         }
+    }
+
+    private void chooseCalendars() {
+        Map<String, List<CalendarInfo>> calendarsInfo =
+                WatchfaceReceiver.getCalendarsInfo(this);
+
+        List<CheckableAdapter.Item> items = new ArrayList<>();
+        final Set<String> selectedCalendarIds = Prefs.getStringSet(
+                Constants.PREF_WATCHFACE_CALENDARS_IDS, new HashSet<>());
+
+        // If there was no settings stored yet, select all calendars.
+        boolean selectAll = selectedCalendarIds.isEmpty();
+
+        // Transform calendar infos to item list for list adapter and initialize listeners.
+        for (Map.Entry<String, List<CalendarInfo>> entry : calendarsInfo.entrySet()) {
+            items.add(new CheckableAdapter.Item(entry.getKey(),
+                    getResources().getColor(R.color.calendar_chooser_account)));
+            for (final CalendarInfo info : entry.getValue()) {
+                if (selectAll) {
+                    selectedCalendarIds.add(info.id());
+                }
+
+                items.add(new CheckableAdapter.CheckableItem(info.name(), info.color()) {
+
+                    @Override
+                    public void setChecked(boolean checked) {
+                        if (checked) {
+                            selectedCalendarIds.add(info.id());
+                        } else {
+                            selectedCalendarIds.remove(info.id());
+                        }
+                    }
+
+                    @Override
+                    public boolean isChecked() {
+                        return selectedCalendarIds.contains(info.id());
+                    }
+                });
+            }
+        }
+
+
+        new AlertDialog.Builder(this)
+                .setAdapter(new CheckableAdapter(items), null)
+                .setOnDismissListener(dialog -> {
+                        Prefs.putStringSet(Constants.PREF_WATCHFACE_CALENDARS_IDS,
+                                selectedCalendarIds);
+                        showFoundBuildInCalendarEvents();})
+                .create().show();
     }
 
 }
