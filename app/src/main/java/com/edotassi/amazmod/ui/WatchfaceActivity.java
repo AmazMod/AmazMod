@@ -450,7 +450,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         // If there was no settings stored yet, select all calendars.
         boolean selectAll = selectedCalendarIds.isEmpty();
 
-        // Transform calendar infos to item list for list adapter and initialize listeners.
+        // Transform calendar info to item list for list adapter and initialize listeners.
         for (Map.Entry<String, List<CalendarInfo>> entry : calendarsInfo.entrySet()) {
             items.add(new CheckableAdapter.Item(entry.getKey(),
                     getResources().getColor(R.color.calendar_chooser_account)));

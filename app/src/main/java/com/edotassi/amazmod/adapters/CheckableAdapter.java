@@ -81,10 +81,6 @@ public class CheckableAdapter extends BaseAdapter {
                     android.R.layout.simple_list_item_1;
             convertView = LayoutInflater.from(context).inflate(id, parent, false);
             itemView = convertView.findViewById(android.R.id.text1);
-
-            if (!checkable) {
-                ((TextView) itemView).setGravity(Gravity.END);
-            }
         }
 
         if (checkable) {
@@ -97,6 +93,7 @@ public class CheckableAdapter extends BaseAdapter {
 
             ((Checkable) itemView).setChecked(((Checkable) item).isChecked());
         } else {
+            ((TextView) itemView).setGravity(Gravity.CENTER|Gravity.BOTTOM);
             itemView.setOnClickListener(null);
         }
 
