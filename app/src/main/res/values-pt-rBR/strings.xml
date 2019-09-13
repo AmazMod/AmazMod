@@ -360,7 +360,7 @@
     <string name="pref_battery_full_alert">Alerta de bateria carregada do relógio</string>
     <string name="pref_battery_full_alert_summary">Mostrar uma notificação quando a bateria estiver totalmente carregada</string>
     <string name="pref_heartrate_chart">Gráfico frequência cardíaca</string>
-    <string name="pref_heartrate_nodata">No chart data available.</string>
+    <string name="pref_heartrate_nodata">Dados de gráfico não disponíveis.</string>
     <string name="pref_heartrate_chart_summary">Mostrar gráfico de bateria na tela principal do AmazMod.</string>
     <string name="pref_log_lines_shown">Mostrar log</string>
     <string name="pref_log_lines_shown_summary">Número de linhas de texto mostradas na visualização de Logs.</string>
@@ -368,28 +368,28 @@
     <string name="pref_enable_internet_companion_summary">Permite o transporte AmazfitInternetCompanion (só é útil se você tiver um aplicativo no relógio que usa isso).</string>
     <string name="ota_test_title">Testador OTA</string>
     <string name="type_service_number">Número de Serviço</string>
-    <string name="activity_batter_no_data">No battery data</string>
-    <string name="export_battery">Export</string>
-    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
-    <string name="battery_fragment_select_option">Select an option</string>
+    <string name="activity_batter_no_data">Sem dados de bateria</string>
+    <string name="export_battery">Exportar</string>
+    <string name="battery_export_success">Dados da bateria exportados para a pasta AmazMod com nome %s</string>
+    <string name="battery_fragment_select_option">Selecione uma opção</string>
     <string name="battery_error_open_csv">Unable to open csv file %s</string>
     <string name="batter_error_export">Unable to export data</string>
-    <string name="batter_data_request">Request new battery data</string>
-    <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="and">and</string>
+    <string name="batter_data_request">Requisitar dados da bateria</string>
+    <string name="batter_data_export">Exportar dados da bateria</string>
+    <string name="app_options">Opções do App</string>
+    <string name="notification_options">Opções de Notificação</string>
+    <string name="notification_options_description">Não mostrar notificações contendo os seguintes textos (um por linha):</string>
+    <string name="and">e</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">dia</item>
+        <item quantity="other">dias</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">hora</item>
+        <item quantity="other">horas</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">minuto</item>
+        <item quantity="other">minutos</item>
     </plurals>
 </resources>
