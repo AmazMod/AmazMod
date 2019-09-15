@@ -472,19 +472,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         // Use the cursor to step through the returned records
         while (cur.moveToNext()) {
             // Get the field values
-            //String title = cur.getString(0).replace("\"", "\\\"");
-            //String description = cur.getString(1).replace("\"", "\\\"");
             String title = cur.getString(0);
+            if (title != null)
+                title = title.replaceAll("\"", "\\\\\"");
             String description = cur.getString(1);
-            if (title != null) {
-               title =  title.replace("\"", "\\\"");
-            }
-            if (description != null) {
-                description  = description.replace("\"", "\\\"");
-            }
+            if (description != null)
+                description = description.replaceAll("\"", "\\\\\"");
             long start = cur.getLong(2);
             long end = cur.getLong(3);
             String location = cur.getString(4);
+            if (location != null)
+                location = location.replaceAll("\"", "\\\\\"");
             String account = cur.getString(5);
             String all_day = cur.getString(6);
             String tz = cur.getString(7);
