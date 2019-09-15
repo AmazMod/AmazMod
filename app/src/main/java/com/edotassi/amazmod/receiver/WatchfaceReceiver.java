@@ -477,10 +477,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             String title = cur.getString(0);
             String description = cur.getString(1);
             if (title != null) {
-                title.replace("\"", "\\\"");
+               title =  title.replace("\"", "\\\"");
             }
             if (description != null) {
-                description.replace("\"", "\\\"");
+                description  = description.replace("\"", "\\\"");
             }
             long start = cur.getLong(2);
             long end = cur.getLong(3);
