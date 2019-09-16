@@ -67,23 +67,23 @@ import amazmod.com.transport.data.WatchfaceData;
 import static java.lang.System.currentTimeMillis;
 
 public class WatchfaceReceiver extends BroadcastReceiver {
-    public final static int CALENDAR_DATA_INDEX_TITLE = 0;
-    public final static int CALENDAR_DATA_INDEX_DESCRIPTION = 1;
-    public final static int CALENDAR_DATA_INDEX_START = 2;
-    public final static int CALENDAR_DATA_INDEX_END = 3;
-    public final static int CALENDAR_DATA_INDEX_LOCATION = 4;
-    public final static int CALENDAR_DATA_INDEX_ACCOUNT = 5;
-    public final static int CALENDAR_EXTENDED_DATA_INDEX = 6;
+    private final static int CALENDAR_DATA_INDEX_TITLE = 0;
+    private final static int CALENDAR_DATA_INDEX_DESCRIPTION = 1;
+    private final static int CALENDAR_DATA_INDEX_START = 2;
+    private final static int CALENDAR_DATA_INDEX_END = 3;
+    private final static int CALENDAR_DATA_INDEX_LOCATION = 4;
+    private final static int CALENDAR_DATA_INDEX_ACCOUNT = 5;
+    private final static int CALENDAR_EXTENDED_DATA_INDEX = 6;
 
-    public final static String CALENDAR_DATA_PARAM_EXTENDED_DATA_ALL_DAY = "all_day";
+    private final static String CALENDAR_DATA_PARAM_EXTENDED_DATA_ALL_DAY = "all_day";
 
     private static String default_calendar_days;
     private static boolean refresh;
 
-    static AlarmManager alarmManager;
-    static Intent alarmWatchfaceIntent;
-    static PendingIntent pendingIntent;
-    static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
+    private static AlarmManager alarmManager;
+    private static Intent alarmWatchfaceIntent;
+    private static PendingIntent pendingIntent;
+    private static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
 
     /**
      * Info for single calendar entry in system. This entry can belong to any account - this
