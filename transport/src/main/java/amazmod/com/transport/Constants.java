@@ -138,6 +138,7 @@ public class Constants {
 
     public static final String PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL = "preference.watchface.background.sync.interval";
     public static final String PREF_WATCHFACE_CALENDAR_EVENTS_DAYS = "preference.watchface.calendar.events.days";
+    public static final String PREF_WATCHFACE_CALENDARS_IDS = "preference.watchface.calendars.ids";
     public static final String PREF_WATCHFACE_LAST_CALENDAR_EVENTS = "preference.watchface.last.calendar.events.days";
     public static final String PREF_WATCHFACE_LAST_BATTERY = "preference.watchface.last.battery";
     public static final String PREF_WATCHFACE_LAST_ALARM = "preference.watchface.last.alarm";

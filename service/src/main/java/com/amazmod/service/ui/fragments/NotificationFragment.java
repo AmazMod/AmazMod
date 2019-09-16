@@ -74,6 +74,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     private String key, mode, notificationKey, selectedReply, selectedSilenceTime;
     private boolean enableInvertedTheme, disableDelay;
+    public static boolean keyboardIsEnable = false;
 
     private Context mContext;
     private FragmentUtil util;
@@ -434,6 +435,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 repliesEditTextContainer.setVisibility(View.VISIBLE);
                 ((NotificationWearActivity) getActivity()).stopTimerFinish();
                 ((NotificationWearActivity) getActivity()).setKeyboardVisible(true);
+                keyboardIsEnable = true;
+                Logger.debug("keyboard IS visible");
 
                 replyEditSend.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -450,6 +453,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                         scrollView.setVisibility(View.VISIBLE);
                         repliesEditTextContainer.setVisibility(View.GONE);
                         ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
+                        keyboardIsEnable = false;
+                        Logger.debug("keyboard NOT visible");
                         ((NotificationWearActivity) getActivity()).startTimerFinish();
                     }
                 });
@@ -533,6 +538,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     private void sendReply(View v) {
         ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
+        keyboardIsEnable = false;
+        Logger.debug("keyboard NOT visible");
         sendCommand(ACTION_REPLY, v);
     }
 

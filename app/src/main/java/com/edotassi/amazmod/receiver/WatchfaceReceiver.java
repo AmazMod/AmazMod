@@ -17,7 +17,10 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.provider.CalendarContract;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.text.format.Time;
+
+import androidx.annotation.NonNull;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
@@ -43,10 +46,15 @@ import org.tinylog.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.ExecutionException;
 
@@ -65,6 +73,33 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     static PendingIntent pendingIntent;
     static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
 
+    /**
+     * Info for single calendar entry in system. This entry can belong to any account - this
+     * information is not stored here.
+     */
+    public static class CalendarInfo {
+        public String name() {
+            return mName;
+        }
+
+        public String id() {
+            return mId;
+        }
+
+        public int color() {
+            return mColor;
+        }
+
+        final String mName;
+        final String mId;
+        final int mColor;
+
+        CalendarInfo(String mName, String mId, int mColor) {
+            this.mName = mName;
+            this.mId = mId;
+            this.mColor = mColor;
+        }
+    }
 
     @Override
     public void onReceive(final Context context, Intent intent) {
@@ -310,7 +345,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
 
     // CALENDAR Instances
-    public static final String[] EVENT_PROJECTION = new String[]{
+    private static final String[] EVENT_PROJECTION = new String[]{
             CalendarContract.Instances.TITLE,
             CalendarContract.Instances.DESCRIPTION,
             CalendarContract.Instances.BEGIN,
@@ -323,53 +358,28 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
     };
 
-    private String getCalendarEvents(Context context) {
-        // Check if calendar read permission is granted
-        if (Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-            //Permissions error
-            Logger.debug("WatchfaceDataReceiver calendar events: permissions error");
-            return null;
-        }
+    private static final String[] CALENDAR_PROJECTION = new String[] {
+            CalendarContract.Calendars.ACCOUNT_NAME,
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+            CalendarContract.Calendars.CALENDAR_COLOR,
+            CalendarContract.Calendars._ID};
 
+    private static Cursor getCalendarEventsCursor(Context context) {
         // Get days to look for events
         int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, context.getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX]));
         if (calendar_events_days == 0) {
-            // Disabled
-            Logger.debug("WatchfaceDataReceiver calendar events: disabled");
-            Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
-            return "{\"events\":[]}";
-        }
-
-        // Run query
-        Cursor cur = null;
-        ContentResolver cr = context.getContentResolver();
-
-        /* Events table does not show all events
-        Uri uri = CalendarContract.Events.CONTENT_URI;
-
-        // Date range to pick events
-        // Pick timestamp from this day's start (so data are not different each time they are pulled because of expired events)
-        Calendar c_start= Calendar.getInstance();
-        int year = c_start.get(Calendar.YEAR);
-        int month = c_start.get(Calendar.MONTH);
-        int day = c_start.get(Calendar.DATE);
-        c_start.set(year, month, day, 0, 0, 0);
-
-        Calendar c_end= Calendar.getInstance(); // no it's not redundant
-        c_end.set(year, month, day, 0, 0, 0);
-        c_end.add(Calendar.DATE, (calendar_events_days+1));
-
-        String selection = "(( " + CalendarContract.Events.DTSTART + " >= " + c_start.getTimeInMillis() + " ) AND ( " + CalendarContract.Events.DTSTART + " <= " + c_end.getTimeInMillis() + " ))";
-
-        // Submit the query and get a Cursor object back.
-        try {
-            cur = cr.query(uri, EVENT_PROJECTION, selection, null, CalendarContract.Events.DTSTART+" ASC");
-        } catch (SecurityException e) {
-            //Getting data error
-            Log.d(Constants.TAG, "WatchfaceDataReceiver calendar events: get data error");
             return null;
         }
-        */
+
+        Set<String> calendars_ids_settings = Prefs.getStringSet(
+                Constants.PREF_WATCHFACE_CALENDARS_IDS, null);
+
+        String calendars_ids = calendars_ids_settings != null ?
+                TextUtils.join(",", calendars_ids_settings) : null;
+
+        // Run query
+        Cursor cur;
+        ContentResolver cr = context.getContentResolver();
 
         Calendar c_start = Calendar.getInstance();
         int year = c_start.get(Calendar.YEAR);
@@ -385,13 +395,75 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         ContentUris.appendId(eventsUriBuilder, c_start.getTimeInMillis());
         ContentUris.appendId(eventsUriBuilder, c_end.getTimeInMillis());
         Uri eventsUri = eventsUriBuilder.build();
+        final String selection = TextUtils.isEmpty(calendars_ids) ? null :
+                "(" + CalendarContract.ExtendedProperties.CALENDAR_ID + " IN (" + calendars_ids + "))";
 
         try {
-            cur = cr.query(eventsUri, EVENT_PROJECTION, null, null, CalendarContract.Instances.BEGIN + " ASC");
+            cur = cr.query(eventsUri, EVENT_PROJECTION, selection, null, CalendarContract.Instances.BEGIN + " ASC");
         } catch (SecurityException e) {
             //Getting data error
             Logger.debug("WatchfaceDataReceiver calendar events: get data error");
             return null;
+        }
+        return cur;
+    }
+
+    /**
+     * Retrieves information about all calendars from all accounts, that exist on device.
+     * @param context of process.
+     * @return map of infos: key is the name of account and value is list of associated to this
+     *                       accounts calendars.
+     */
+    @NonNull
+    public static Map<String, List<CalendarInfo>> getCalendarsInfo(@NonNull final Context context) {
+        Map<String, List<CalendarInfo>> info = new HashMap<>();
+
+        if (Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(
+                Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            //Permissions error
+            Logger.debug("WatchfaceDataReceiver calendar info: permissions error");
+            return info;
+        }
+
+        final Cursor calendarCursor = context.getContentResolver().query(
+                CalendarContract.Calendars.CONTENT_URI, CALENDAR_PROJECTION, null, null, null);
+        if (calendarCursor == null) {
+            return info;
+        }
+
+        while (calendarCursor.moveToNext()) {
+            final String accountName = calendarCursor.getString(0);
+            final String calendarName = calendarCursor.getString(1);
+            final int calendarColor = Integer.decode(calendarCursor.getString(2));
+            final String calendarId = calendarCursor.getString(3);
+
+            List<CalendarInfo> calendars = info.get(accountName);
+
+            if (calendars == null) {
+                calendars = new ArrayList<>();
+                info.put(accountName, calendars);
+            }
+            calendars.add(new CalendarInfo(calendarName, calendarId, calendarColor));
+        }
+        calendarCursor.close();
+        return info;
+    }
+
+    private String getCalendarEvents(Context context) {
+        // Check if calendar read permission is granted
+        if (Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            //Permissions error
+            Logger.debug("WatchfaceDataReceiver calendar events: permissions error");
+            return null;
+        }
+
+        Cursor cur = getCalendarEventsCursor(context);
+
+        if (cur == null) {
+            // Disabled
+            Logger.debug("WatchfaceDataReceiver calendar events: disabled");
+            Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
+            return "{\"events\":[]}";
         }
 
         // Start formulating JSON
@@ -401,10 +473,16 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         while (cur.moveToNext()) {
             // Get the field values
             String title = cur.getString(0);
+            if (title != null)
+                title = title.replaceAll("\"", "\\\\\"");
             String description = cur.getString(1);
+            if (description != null)
+                description = description.replaceAll("\"", "\\\\\"");
             long start = cur.getLong(2);
             long end = cur.getLong(3);
             String location = cur.getString(4);
+            if (location != null)
+                location = location.replaceAll("\"", "\\\\\"");
             String account = cur.getString(5);
             String all_day = cur.getString(6);
             String tz = cur.getString(7);
@@ -466,36 +544,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             return 0;
         }
 
-        // Get days to look for events
-        int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, context.getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX]));
-        if (calendar_events_days == 0) {
-            return 0;
-        }
-
         // Run query
-        Cursor cur = null;
-        ContentResolver cr = context.getContentResolver();
+        Cursor cur = getCalendarEventsCursor(context);
 
-        // Start date
-        Calendar c_start = Calendar.getInstance();
-        int year = c_start.get(Calendar.YEAR);
-        int month = c_start.get(Calendar.MONTH);
-        int day = c_start.get(Calendar.DATE);
-        c_start.set(year, month, day, 0, 0, 0);
-
-        // End date
-        Calendar c_end = Calendar.getInstance(); // no it's not redundant
-        c_end.set(year, month, day, 0, 0, 0);
-        c_end.add(Calendar.DATE, (calendar_events_days + 1));
-
-        Uri.Builder eventsUriBuilder = CalendarContract.Instances.CONTENT_URI.buildUpon();
-        ContentUris.appendId(eventsUriBuilder, c_start.getTimeInMillis());
-        ContentUris.appendId(eventsUriBuilder, c_end.getTimeInMillis());
-        Uri eventsUri = eventsUriBuilder.build();
-
-        try {
-            cur = cr.query(eventsUri, EVENT_PROJECTION, null, null, CalendarContract.Instances.BEGIN + " ASC");
-        } catch (SecurityException e) {
+        if (cur == null) {
             return 0;
         }
 

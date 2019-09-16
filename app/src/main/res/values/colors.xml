@@ -23,4 +23,6 @@
     <color name="li_row_background_tint_light">#40111111</color>
     <color name="li_row_selector_light">#40eeeeee</color>
 
+    <color name="calendar_chooser_account">#ff7f7f7f</color>
+
 </resources>

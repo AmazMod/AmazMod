@@ -157,7 +157,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_weight="1"
                 android:text="@string/permission"
                 android:textAlignment="textStart"
                 android:textColor="#333333" />
@@ -167,11 +166,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:gravity="end"
+                android:gravity="start"
                 android:text="@string/enabled"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textAllCaps="true"
                 android:textColor="?android:attr/colorForeground" />
+
+            <Button
+                android:id="@+id/watchface_source_local_choose_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:enabled="false"
+                android:text="..."  />
 
         </LinearLayout>
 
@@ -205,7 +213,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_weight="1"
                 android:enabled="false"
                 android:text="@string/test" />
         </LinearLayout>

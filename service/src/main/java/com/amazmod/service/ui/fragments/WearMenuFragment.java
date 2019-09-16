@@ -50,7 +50,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.Context.VIBRATOR_SERVICE;
-import static com.amazmod.service.util.DeviceUtil.centered_toast;
 
 public class WearMenuFragment extends Fragment implements WearableListView.ClickListener,
         DelayedConfirmationView.DelayedConfirmationListener {
@@ -59,8 +58,9 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 	private WearableListView listView;
     private DelayedConfirmationView delayedConfirmationView;
     private TextView mHeader, textView1, textView2;
+    public static boolean chimeEnabled;
 
-	private String[] mItems = { "Apps Manager",
+    private String[] mItems = { "Apps Manager",
                                 "Files Manager",
                                 "Reorder Widgets",
                                 "Screen Settings",
@@ -186,10 +186,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         //notificationData = NotificationData.fromBundle(getArguments());
         Logger.info("WearMenuFragment onCreate");
-
     }
 
     @Override
@@ -249,7 +247,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 else if (i == (MENU_START + 12))
                     state = widgetSettings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) != 0;
                 else if (i == (MENU_START + 15))
-                    state = HourlyChime.checkIfSet();
+                    state = chimeEnabled;
                 else
                     state = i < (MENU_START + 9) || i > (MENU_START + 11) || Settings.Secure.getInt(mContext.getContentResolver(), toggle[i], 0) != 0;
             } catch (NullPointerException e) {
@@ -362,13 +360,15 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START + 15:
-                // Get current state and change it to opposite
-                boolean status = !HourlyChime.checkIfSet();
-                // Change state
-                HourlyChime.setHourlyChime(mContext, status);
-                centered_toast(mContext, "Hourly chime was "+ ( (status)?"enabled":"disabled" ));
-                // Change menu icon state
-                items.get(MENU_START + 15).state = status;
+                if (!chimeEnabled){
+                    HourlyChime.setHourlyChime(mContext, true);
+                    chimeEnabled = true;
+                    items.get(MENU_START + 15).state = true;
+                } else {
+                    HourlyChime.setHourlyChime(mContext, false);
+                    chimeEnabled = false;
+                    items.get(MENU_START + 15).state = false;
+                }
                 mAdapter.notifyDataSetChanged();
                 break;
 
