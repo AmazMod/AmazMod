@@ -41,6 +41,9 @@ import net.fortuna.ical4j.model.PeriodList;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.util.MapTimeZoneCache;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -64,14 +67,23 @@ import amazmod.com.transport.data.WatchfaceData;
 import static java.lang.System.currentTimeMillis;
 
 public class WatchfaceReceiver extends BroadcastReceiver {
+    private final static int CALENDAR_DATA_INDEX_TITLE = 0;
+    private final static int CALENDAR_DATA_INDEX_DESCRIPTION = 1;
+    private final static int CALENDAR_DATA_INDEX_START = 2;
+    private final static int CALENDAR_DATA_INDEX_END = 3;
+    private final static int CALENDAR_DATA_INDEX_LOCATION = 4;
+    private final static int CALENDAR_DATA_INDEX_ACCOUNT = 5;
+    private final static int CALENDAR_EXTENDED_DATA_INDEX = 6;
+
+    private final static String CALENDAR_DATA_PARAM_EXTENDED_DATA_ALL_DAY = "all_day";
 
     private static String default_calendar_days;
     private static boolean refresh;
 
-    static AlarmManager alarmManager;
-    static Intent alarmWatchfaceIntent;
-    static PendingIntent pendingIntent;
-    static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
+    private static AlarmManager alarmManager;
+    private static Intent alarmWatchfaceIntent;
+    private static PendingIntent pendingIntent;
+    private static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
 
     /**
      * Info for single calendar entry in system. This entry can belong to any account - this
@@ -352,10 +364,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             CalendarContract.Instances.END,
             CalendarContract.Instances.EVENT_LOCATION,
             CalendarContract.Events.ACCOUNT_NAME,
-            CalendarContract.Instances.ALL_DAY,
-            CalendarContract.Instances.EVENT_TIMEZONE,
-            CalendarContract.Instances.CALENDAR_TIME_ZONE
-
+            CalendarContract.Instances.ALL_DAY
     };
 
     private static final String[] CALENDAR_PROJECTION = new String[] {
@@ -467,57 +476,45 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // Start formulating JSON
-        String jsonEvents = "{\"events\":[";
+        String jsonEvents;
+        try {
+            JSONObject root = new JSONObject();
+            JSONArray events = new JSONArray();
+            root.put("events", events);
 
-        // Use the cursor to step through the returned records
-        while (cur.moveToNext()) {
-            // Get the field values
-            String title = cur.getString(0);
-            if (title != null)
-                title = title.replaceAll("\"", "\\\\\"");
-            String description = cur.getString(1);
-            if (description != null)
-                description = description.replaceAll("\"", "\\\\\"");
-            long start = cur.getLong(2);
-            long end = cur.getLong(3);
-            String location = cur.getString(4);
-            if (location != null)
-                location = location.replaceAll("\"", "\\\\\"");
-            String account = cur.getString(5);
-            String all_day = cur.getString(6);
-            String tz = cur.getString(7);
-            String cal_tz = cur.getString(8);
+            // Use the cursor to step through the returned records
+            while (cur.moveToNext()) {
+                JSONArray event = new JSONArray();
 
-            String event = "[ \"" + title + "\", \"" + description + "\", \"" + start + "\", \"" + end + "\", \"" + location + "\", \"" + account + "\", \"" + all_day + "\", \"" + tz + "\"] " + cal_tz;
-            Logger.debug("WatchfaceDataReceiver getCalendarEvents jsonEvents: " + event);
+                // Get the field values
+                String title = cur.getString(0);
+                String description = cur.getString(1);
+                long start = cur.getLong(2);
+                long end = cur.getLong(3);
+                String location = cur.getString(4);
+                String account = cur.getString(5);
+                String all_day = cur.getString(6);
 
-            boolean hasOffset;
-            try {
-                hasOffset = all_day.equals("1") && !cal_tz.equals(tz);
-            } catch (NullPointerException ex) {
-                hasOffset = false;
+                event.put(CALENDAR_DATA_INDEX_TITLE, title);
+                event.put(CALENDAR_DATA_INDEX_DESCRIPTION, description);
+                event.put(CALENDAR_DATA_INDEX_START, start);
+                event.put(CALENDAR_DATA_INDEX_END, end);
+                event.put(CALENDAR_DATA_INDEX_LOCATION, location);
+                event.put(CALENDAR_DATA_INDEX_ACCOUNT, account);
+
+                JSONObject ext_data = new JSONObject();
+                ext_data.put(CALENDAR_DATA_PARAM_EXTENDED_DATA_ALL_DAY, all_day);
+                event.put(CALENDAR_EXTENDED_DATA_INDEX, ext_data);
+
+                Logger.debug("WatchfaceDataReceiver getCalendarEvents jsonEvents: " + event);
+
+                events.put(event);
             }
-
-            if (hasOffset) {
-                Time timeFormat = new Time();
-                long offset = TimeZone.getDefault().getOffset(start);
-                if (offset < 0)
-                    timeFormat.set(start - offset);
-                else
-                    timeFormat.set(start + offset);
-                start = timeFormat.toMillis(true);
-                Logger.debug("WatchfaceDataReceiver getCalendarEvents new start: " + start + " \\ offset: " + offset);
-                jsonEvents += "[ \"" + title + "\", \"" + description + "\", \"" + start + "\", \"" + null + "\", \"" + location + "\", \"" + account + "\"],";
-
-            } else
-                jsonEvents += "[ \"" + title + "\", \"" + description + "\", \"" + start + "\", \"" + end + "\", \"" + location + "\", \"" + account + "\"],";
+            jsonEvents = root.toString();
+        } catch (JSONException e) {
+            Logger.debug("WatchfaceDataReceiver calendar events: failed to make JSON", e);
+            return null;
         }
-
-        // Remove last "," from JSON
-        if (jsonEvents.substring(jsonEvents.length() - 1).equals(",")) {
-            jsonEvents = jsonEvents.substring(0, jsonEvents.length() - 1);
-        }
-        jsonEvents += "]}";
 
         // Check if there are new data
         if (Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "").equals(jsonEvents)) {
