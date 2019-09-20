@@ -71,6 +71,13 @@
         </Preference>
 
         <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.notification.enable.sound"
+            android:summary="@string/pref_notification_enable_sound_summary"
+            android:title="@string/pref_notification_enable_sound" />
+
+        <SwitchPreference
             android:defaultValue="true"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.notification.largeicon"

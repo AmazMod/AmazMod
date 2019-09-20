@@ -54,6 +54,7 @@ public class Constants {
     public static final String PREF_BATTERY_PHONE_ALERT = "preference.battery.phone.alert";
     public static final String PREF_ENABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.enable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
+    public static final String PREF_NOTIFICATION_ENABLE_SOUND = "preference.notification.enable.sound";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
     public static final String PREF_LANGUAGE = "preference.language";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
@@ -90,6 +91,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_ENABLE_NOTIFICATIONS = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATION_SOUND = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = false;
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";

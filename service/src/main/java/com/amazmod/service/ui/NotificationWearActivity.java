@@ -116,6 +116,8 @@ public class NotificationWearActivity extends Activity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON);
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+        boolean enableSoundCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATION_ENABLE_SOUND,
+                Constants.PREF_DEFAULT_NOTIFICATION_ENABLE_SOUND);
 
         final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
         final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
@@ -148,12 +150,11 @@ public class NotificationWearActivity extends Activity {
         activityFinishRunnable = new ActivityFinishRunnable(this);
         startTimerFinish();
 
-        if (SystemProperties.isVerge() && MODE_ADD.equals(mode)) {
+        if (SystemProperties.isVerge() && MODE_ADD.equals(mode) && enableSoundCustomUI) {
             MediaPlayer mp = new MediaPlayer();
             mp.setAudioAttributes(new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_NOTIFICATION).build());
             Logger.debug("Set to use notification channel");
-
 
             File file = new File(Constants.CUSTOM_NOTIFICATION_SOUND);
             Uri sound;

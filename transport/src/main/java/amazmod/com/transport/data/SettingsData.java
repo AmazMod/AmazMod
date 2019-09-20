@@ -15,6 +15,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String VIBRATION = "vibration";
     public static final String SCREEN_TIMEOUT = "screen_timeout";
     public static final String NOTIFICATIONS_CUSTOM_UI = "notifications_custom_ui";
+    public static final String NOTIFICATION_SOUND = "notification_sound";
     public static final String DISABLE_NOTIFICATIONS = "disable_notifications";
     public static final String DISABLE_NOTIFICATION_REPLIES = "disable_notification_replies";
     public static final String ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "enable_hardware_keys_music_control";
@@ -39,6 +40,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private int vibration;
     private int screenTimeout;
     private boolean notificationsCustomUi;
+    private boolean notificationSound;
     private boolean disableNotifications;
     private boolean disableNotificationsReplies;
     private boolean enableHardwareKeysMusicControl;
@@ -66,6 +68,7 @@ public class SettingsData extends Transportable implements Parcelable {
         vibration = in.readInt();
         screenTimeout = in.readInt();
         notificationsCustomUi = in.readByte() != 0;
+        notificationSound = in.readByte() != 0;
         disableNotifications = in.readByte() != 0;
         disableNotificationsReplies = in.readByte() != 0;
         enableHardwareKeysMusicControl = in.readByte() != 0;
@@ -104,6 +107,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putInt(VIBRATION, vibration);
         dataBundle.putInt(SCREEN_TIMEOUT, screenTimeout);
         dataBundle.putBoolean(NOTIFICATIONS_CUSTOM_UI, notificationsCustomUi);
+        dataBundle.putBoolean(NOTIFICATION_SOUND, notificationSound);
         dataBundle.putBoolean(DISABLE_NOTIFICATIONS, disableNotifications);
         dataBundle.putBoolean(DISABLE_NOTIFICATION_REPLIES, disableNotificationsReplies);
         dataBundle.putBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, enableHardwareKeysMusicControl);
@@ -133,6 +137,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setScreenTimeout(dataBundle.getInt(SCREEN_TIMEOUT));
         settingsData.setVibration(dataBundle.getInt(VIBRATION));
         settingsData.setNotificationsCustomUi(dataBundle.getBoolean(NOTIFICATIONS_CUSTOM_UI));
+        settingsData.setNotificationSound(dataBundle.getBoolean(NOTIFICATION_SOUND));
         settingsData.setDisableNotifications(dataBundle.getBoolean(DISABLE_NOTIFICATIONS));
         settingsData.setDisableNotificationReplies(dataBundle.getBoolean(DISABLE_NOTIFICATION_REPLIES));
         settingsData.setEnableHardwareKeysMusicControl(dataBundle.getBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL));
@@ -192,6 +197,14 @@ public class SettingsData extends Transportable implements Parcelable {
 
     public void setNotificationsCustomUi(boolean notificationsCustomUi) {
         this.notificationsCustomUi = notificationsCustomUi;
+    }
+
+    public boolean isNotificationSound() {
+        return notificationSound;
+    }
+
+    public void setNotificationSound(boolean notificationSound) {
+        this.notificationSound = notificationSound;
     }
 
     public boolean isDisableNotifications() {
@@ -349,6 +362,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeInt(vibration);
         dest.writeInt(screenTimeout);
         dest.writeByte((byte) (notificationsCustomUi ? 1 : 0));
+        dest.writeByte((byte) (notificationSound ? 1 : 0));
         dest.writeByte((byte) (disableNotifications ? 1 : 0));
         dest.writeByte((byte) (disableNotificationsReplies ? 1 : 0));
         dest.writeByte((byte) (enableHardwareKeysMusicControl ? 1 : 0));

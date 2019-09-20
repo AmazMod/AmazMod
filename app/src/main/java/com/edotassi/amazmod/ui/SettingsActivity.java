@@ -218,6 +218,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT));
         final boolean enableCustomUi = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI);
+        final boolean enableSoundCustomUI = Prefs.getBoolean(Constants.PREF_NOTIFICATION_ENABLE_SOUND,
+                Constants.PREF_DEFAULT_NOTIFICATION_SOUND);
         final boolean disableNotifications = !Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS,
                 Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS);
         final boolean disableNotificationReplies = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
@@ -276,6 +278,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setVibration(vibration);
         settingsData.setScreenTimeout(screeTimeout);
         settingsData.setNotificationsCustomUi(enableCustomUi);
+        settingsData.setNotificationSound(enableSoundCustomUI);
         settingsData.setDisableNotifications(disableNotifications);
         settingsData.setDisableNotificationReplies(disableNotificationReplies);
         settingsData.setInvertedTheme(enableInvertedTheme);
