@@ -1,5 +1,20 @@
 <changelog>
     <release
+        date="Unreleased"
+        versionCode="218"
+        versionName="v1.1.8 (218)">
+        <new>Now you can choice witch account use to send calendar data and other calendar data fix</new>
+        <new>(Service)Now notification vibrate only if you have a keyboard opened to avoid to loose the typing text</new>
+        <new>(Service)Improved widget-reorder UI with save button</new>
+        <new>Add all missing translation. Now is fully translatable</new>
+        <new>Expert battery graph history</new>
+        <new>(Service)Hourly chime (enable it from service menu)</new>
+        <bugfix>Is not a real "bug" but now filemanager use case insensitive sort order</bugfix>
+        <bugfix>Add a switch to enable\disable notification sound on Verge</bugfix>
+        <bugfix>Small fix on Dark theme difficult to read text and other graphics thighs</bugfix>
+        <info>Add all missing translation. Now is fully translatable</info>
+    </release>
+    <release
         date="2019-08-17"
         versionCode="217"
         versionName="v1.1.8 (217)">
