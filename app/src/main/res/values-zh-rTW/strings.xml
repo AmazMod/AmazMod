@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Send when screen is ON</string>
     <string name="pref_notifications_enable_custom_ui">自訂通知</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications with the ability to reply.</string>
+    <string name="pref_notification_enable_sound">Notifications sound</string>
+    <string name="pref_notification_enable_sound_summary">\"Verge Only\" Enable a notification sound. (for custom sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\")</string>
     <string name="pref_run_wizard">首次使用介紹</string>
     <string name="pref_run_wizard_summary">Run the welcome presentation again.</string>
     <string name="pref_vibration_duration">振動持續時間</string>

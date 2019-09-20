@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Gửi khi màn hình bật</string>
     <string name="pref_notifications_enable_custom_ui">Thông báo khách hàng</string>
     <string name="pref_notifications_enable_custom_ui_summary">Thông báo với khả năng trả lời.</string>
+    <string name="pref_notification_enable_sound">Notifications sound</string>
+    <string name="pref_notification_enable_sound_summary">\"Verge Only\" Enable a notification sound. (for custom sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\")</string>
     <string name="pref_run_wizard">Chào mừng</string>
     <string name="pref_run_wizard_summary">Chạy bài thuyết trình một lần nữa.</string>
     <string name="pref_vibration_duration">Thời gian rung</string>
