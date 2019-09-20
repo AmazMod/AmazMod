@@ -112,7 +112,7 @@
     <string name="pref_notifications_enable_custom_ui">Niestandardowe powiadomienia UI</string>
     <string name="pref_notifications_enable_custom_ui_summary">Powiadomienia z możliwością odpowiedzi.</string>
     <string name="pref_notification_enable_sound">Notifications sound</string>
-    <string name="pref_notification_enable_sound_summary">\"Verge Only\" Enable a notification sound. (for custom sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\")</string>
+    <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Prezentacja powitalna</string>
     <string name="pref_run_wizard_summary">Uruchom Ekran Powitalny ponownie.</string>
     <string name="pref_vibration_duration">Czas trwania wibracji</string>
