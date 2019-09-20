@@ -49,7 +49,9 @@
             android:title="@string/pref_use_notification_scheduler" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/customui">
+    <PreferenceCategory
+        android:key="preference.customUI"
+        android:title="@string/customui">
 
         <SwitchPreference
             android:defaultValue="false"

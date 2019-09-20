@@ -330,6 +330,20 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
             addPreferencesFromResource(R.xml.preferences);
 
+            // Enable Notification Sound if Verge Only
+            Preference vergeNotificationSoundSetting = getPreferenceScreen().findPreference("preference.notification.enable.sound");
+            if (Screen.isVerge()) {
+                Prefs.putBoolean(Constants.PREF_NOTIFICATION_ENABLE_SOUND, false);
+                Preference vergeNotificationSound = getPreferenceScreen().findPreference(Constants.PREF_NOTIFICATION_ENABLE_SOUND);
+                vergeNotificationSound.setDefaultValue(false);
+                vergeNotificationSound.setEnabled(true);
+            } else {
+                vergeNotificationSoundSetting.setEnabled(false);
+                vergeNotificationSoundSetting.setShouldDisableView(true);
+                PreferenceCategory customUI = (PreferenceCategory) findPreference( "preference.customUI");
+                customUI.removePreference(vergeNotificationSoundSetting);
+            }
+
             // Persistent Notification Settings
             Preference persistentNotificationDeviceSettingsPreference = getPreferenceScreen().findPreference("preference.persistent.notification.device.settings");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
