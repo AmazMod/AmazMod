@@ -193,9 +193,9 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
             } else if (!o1.isEnabled() && o2.isEnabled()) {
                 return 1;
             } else if ((!o1.isEnabled() && !o2.isEnabled()) || (o1.isEnabled() && o2.isEnabled())) {
-                return o1.getAppName().compareTo(o2.getAppName());
+                return o1.getAppName().compareToIgnoreCase(o2.getAppName());
             }
-            return o1.getAppName().compareTo(o2.getAppName());
+            return o1.getAppName().compareToIgnoreCase(o2.getAppName());
         });
     }
 

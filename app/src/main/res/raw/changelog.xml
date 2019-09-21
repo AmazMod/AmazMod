@@ -9,7 +9,7 @@
         <new>Add all missing translation. Now is fully translatable</new>
         <new>Export battery graph history</new>
         <new>(Service)Hourly chime (enable it from service menu)</new>
-        <bugfix>Is not a real "bug" but now filemanager use case insensitive sort order</bugfix>
+        <bugfix>Is not a real "bug" but now filemanager and App list use case insensitive sort order</bugfix>
         <bugfix>Add a switch to enable\disable notification sound on Verge</bugfix>
         <bugfix>Small fix on Dark theme difficult to read text and other graphics thighs</bugfix>
     </release>

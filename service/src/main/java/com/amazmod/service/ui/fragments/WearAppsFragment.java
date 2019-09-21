@@ -325,7 +325,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         Collections.sort(appInfoList, new Comparator<AppInfo>() {
             @Override
             public int compare(AppInfo o1, AppInfo o2) {
-                return o1.getAppName().compareTo(o2.getAppName());
+                return o1.getAppName().compareToIgnoreCase(o2.getAppName());
             }
         });
     }
