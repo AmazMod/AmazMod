@@ -159,8 +159,8 @@
     <string name="device_not_connected">Ingen enhed tilkoblet</string>
     <string name="device_connected">blev tilkoblet</string>
     <string name="pref_enable_persistent_notification">Vedvarende notifikation</string>
-    <string name="pref_enable_persistent_notification_summary">Enables a persistent notification to prevent AmazMod to be killed while it runs in the background. Enable this if AmazMod is constantly been killed.</string>
-    <string name="pref_enable_persistent_notification_device_settings">Persistent notification settings</string>
+    <string name="pref_enable_persistent_notification_summary">Aktiverer en vedvarende notifikation for at forhindre, at AmazMod afsluttes, mens den kører i baggrunden. Aktivér dette, hvis AmazMod konstant bliver afsluttes.</string>
+    <string name="pref_enable_persistent_notification_device_settings">Indstillinger for vedvarende notifikation</string>
     <string name="pref_enable_persistent_notification_device_settings_summary">Click here to be redirected to your device settings.</string>
     <string name="pref_notifications_disable_screenon">Keep screen off</string>
     <string name="pref_notifications_disable_screenon_summary">Do not turn on and unlock screen when a notification arrives on watch.</string>
