@@ -367,31 +367,31 @@
     <string name="pref_log_lines_shown">Viste loglinjer</string>
     <string name="pref_log_lines_shown_summary">Antal tekstlinjer vist i Logvisning.</string>
     <string name="pref_enable_internet_companion">Aktivér Amazfit Internet Companion</string>
-    <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
-    <string name="ota_test_title">OTA Tester</string>
-    <string name="type_service_number">Service Number</string>
-    <string name="activity_batter_no_data">No battery data</string>
-    <string name="export_battery">Export</string>
-    <string name="battery_export_success">Battery data exported to AmazMod folder with name %s</string>
-    <string name="battery_fragment_select_option">Select an option</string>
-    <string name="battery_error_open_csv">Unable to open csv file %s</string>
-    <string name="batter_error_export">Unable to export data</string>
-    <string name="batter_data_request">Request new battery data</string>
-    <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="and">and</string>
+    <string name="pref_enable_internet_companion_summary">Aktiverer AmazfitInternetCompanion-transporter (den er kun nyttigt, hvis du har en ur-app, der benytter denne).</string>
+    <string name="ota_test_title">OTA-tester</string>
+    <string name="type_service_number">Tjenestenummer</string>
+    <string name="activity_batter_no_data">Ingen batteridata</string>
+    <string name="export_battery">Eksportér</string>
+    <string name="battery_export_success">Batteridata eksporteret til AmazMod-mappen %s</string>
+    <string name="battery_fragment_select_option">Vælg en mulighed</string>
+    <string name="battery_error_open_csv">Kan ikke åbne CSV-filen %s</string>
+    <string name="batter_error_export">Kan ikke eksportere data</string>
+    <string name="batter_data_request">Anmodning om nye batteridata</string>
+    <string name="batter_data_export">Batteridataeksport</string>
+    <string name="app_options">App-indstilllinger</string>
+    <string name="notification_options">Notifikationsindstillinger</string>
+    <string name="notification_options_description">Vis ikke notifikationer indeholdende flg. tekster (én pr. linje):</string>
+    <string name="and">og</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">dag</item>
+        <item quantity="other">dage</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">time</item>
+        <item quantity="other">timer</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">minut</item>
+        <item quantity="other">minutter</item>
     </plurals>
 </resources>
