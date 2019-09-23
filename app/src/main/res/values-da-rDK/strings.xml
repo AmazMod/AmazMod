@@ -328,11 +328,11 @@
     <string name="pref_log_to_file_level_summary">Vælg det detaljeringsniveau, der skal gemmes i logfilen.</string>
     <string name="notification_low_battery">Amazfit lavt batteriniveau</string>
     <string name="notification_low_battery_description">Urbatteriniveau faldet til under %s</string>
-    <string name="notification_watch_charged">Amazfit is fully charged</string>
-    <string name="notification_watch_charged_description">Watch is fully charged! You can now unplug it from the charging dock.</string>
-    <string name="statsandlogs">Stats / Logs</string>
-    <string name="clear_log">Clear Log</string>
-    <string name="send_log">Send Log</string>
+    <string name="notification_watch_charged">Amazfit er fuldt opladet</string>
+    <string name="notification_watch_charged_description">Ur er fuldt opladet! Du kan nu frakoble det fra opladningsdokken.</string>
+    <string name="statsandlogs">Statistikker/Logger</string>
+    <string name="clear_log">Ryd log</string>
+    <string name="send_log">Send log</string>
     <string name="battery_optimization_warning">AmazMod is under battery optimization. We recommend removing it from there so no notifications are lost.</string>
     <string name="remove">REMOVE</string>
     <string name="grant">GRANT</string>
