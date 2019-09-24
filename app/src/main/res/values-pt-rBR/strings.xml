@@ -18,7 +18,7 @@
     <string name="watchface">GreatFit / Agenda</string>
     <string name="stats">Estatísticas</string>
     <string name="changelog">Changelog</string>
-    <string name="rate_app">Avaliar App</string>
+    <string name="rate_app">Avaliar o aplicativo</string>
     <string name="enable">Habilitar</string>
     <string name="cancel">Cancelar</string>
     <string name="select_unselect_all">(Des)Selecionar tudo</string>
@@ -112,7 +112,7 @@
     <string name="pref_notifications_enable_custom_ui">Notificações de UI personalizada</string>
     <string name="pref_notifications_enable_custom_ui_summary">Possibilidade de responder notificações.</string>
     <string name="pref_notification_enable_sound">Notifications sound</string>
-    <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
+    <string name="pref_notification_enable_sound_summary">Ativar som para notificação de usuário personalizado. Para personalizar o som, o seu mp3 foi renomeado como \"amazmod_notification.mp3\" nesta pasta em verge \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Tela de Boas Vindas</string>
     <string name="pref_run_wizard_summary">Executar a apresentação inicial novamente.</string>
     <string name="pref_vibration_duration">Duração da vibração</string>
@@ -374,8 +374,8 @@
     <string name="export_battery">Exportar</string>
     <string name="battery_export_success">Dados da bateria exportados para a pasta AmazMod com nome %s</string>
     <string name="battery_fragment_select_option">Selecione uma opção</string>
-    <string name="battery_error_open_csv">Unable to open csv file %s</string>
-    <string name="batter_error_export">Unable to export data</string>
+    <string name="battery_error_open_csv">Não foi possível abrir o arquivo csv %s</string>
+    <string name="batter_error_export">Não é possível importar dados</string>
     <string name="batter_data_request">Requisitar dados da bateria</string>
     <string name="batter_data_export">Exportar dados da bateria</string>
     <string name="app_options">Opções do App</string>

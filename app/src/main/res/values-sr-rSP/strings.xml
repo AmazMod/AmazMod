@@ -62,11 +62,11 @@
     <string name="notification_group">Група</string>
     <string name="notification_local">Локално</string>
     <string name="notification_ongoing">Текуће</string>
-    <string name="notification_return">Return</string>
-    <string name="notification_package">Package</string>
-    <string name="notification_voice">Voice</string>
-    <string name="notification_maps">Maps</string>
-    <string name="notification_ungroup">Ungroup</string>
+    <string name="notification_return">Назад</string>
+    <string name="notification_package">Пакет</string>
+    <string name="notification_voice">Глас</string>
+    <string name="notification_maps">Мапе</string>
+    <string name="notification_ungroup">Разгрупиши</string>
     <string name="notification_localok">LOCALOK</string>
     <string name="notification_disabled">notific_off</string>
     <string name="notification_screenon">screenon</string>
