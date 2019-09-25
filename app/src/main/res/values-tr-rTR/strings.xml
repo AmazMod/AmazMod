@@ -14,11 +14,11 @@
     <string name="sync_settings">Ayarlar senkronize ediliyor&#8230;</string>
     <string name="brightness">Parlaklık</string>
     <string name="tweaking">Tweaking</string>
-    <string name="widgets">Widgets</string>
+    <string name="widgets">Widgetler</string>
     <string name="watchface">GreatFit / Takvim</string>
     <string name="stats">İstatistikler</string>
     <string name="changelog">Sürüm Notları</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Uygulamayı oyla</string>
     <string name="enable">Etkinleştir</string>
     <string name="cancel">Vazgeç</string>
     <string name="select_unselect_all">Tümünü Seç / Seçme</string>
@@ -40,7 +40,7 @@
     <string name="cant_uplaod_directory">Klasöre yüklenemedi</string>
     <string name="sending">Gönderiliyor</string>
     <string name="wait">lütfen bekleyin</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Eklemek için bir veya daha fazla dosya seçin</string>
     <string name="cant_upload_file">Dosyayı karşıya yükleyemiyor</string>
     <string name="cant_download_file">İndirilemiyor</string>
     <string name="file_upload_canceled">Dosya yükleme iptal edildi</string>
