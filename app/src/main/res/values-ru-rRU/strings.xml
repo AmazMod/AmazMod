@@ -384,14 +384,14 @@
     <string name="and">и</string>
     <plurals name="day">
         <item quantity="one">день</item>
-        <item quantity="few">days</item>
-        <item quantity="many">days</item>
+        <item quantity="few">дня</item>
+        <item quantity="many">дней</item>
         <item quantity="other">дней</item>
     </plurals>
     <plurals name="hour">
         <item quantity="one">час</item>
-        <item quantity="few">hours</item>
-        <item quantity="many">hours</item>
+        <item quantity="few">часов</item>
+        <item quantity="many">часов</item>
         <item quantity="other">часов</item>
     </plurals>
     <plurals name="minute">
