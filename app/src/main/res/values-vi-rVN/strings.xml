@@ -358,6 +358,8 @@
     <string name="new_folder">Thư mục mới</string>
     <string name="pref_amazmod_overlay_launcher">Thông báo trình khởi chạy lớp phủ</string>
     <string name="pref_amazmod_overlay_launcher_summary">Mở danh sách thông báo giao diện người dùng tùy chỉnh bằng nút lớp phủ trên đồng hồ (vị trí của nó được hiển thị ngắn gọn khi màn hình bật và bạn có thể vuốt nó sang trái hoặc phải).</string>
+    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
+    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
     <string name="file_not_found">Không tìm thấy tệp</string>
     <string name="pref_battery_full_alert">Cảnh báo pin yếu</string>
     <string name="pref_battery_full_alert_summary">Hiện thông báo khi pin đã sạc đầy</string>

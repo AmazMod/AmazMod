@@ -358,6 +358,8 @@
     <string name="new_folder">Новая папка</string>
     <string name="pref_amazmod_overlay_launcher">Оболочка для всплывающих уведомлений</string>
     <string name="pref_amazmod_overlay_launcher_summary">Откройте пользовательский список уведомлений пользовательского интерфейса, используя всплывающую кнопку в часах (ее местоположение кратко отображается при включении экрана и вы можете свайпнуть ее влево или вправо).</string>
+    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
+    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
     <string name="file_not_found">Файл не найден!</string>
     <string name="pref_battery_full_alert">Оповещение о завершении зарядки батареи</string>
     <string name="pref_battery_full_alert_summary">Включить уведомление о полной зарядке батареи часов.</string>
@@ -384,14 +386,14 @@
     <string name="and">и</string>
     <plurals name="day">
         <item quantity="one">день</item>
-        <item quantity="few">days</item>
-        <item quantity="many">days</item>
+        <item quantity="few">дня</item>
+        <item quantity="many">дней</item>
         <item quantity="other">дней</item>
     </plurals>
     <plurals name="hour">
         <item quantity="one">час</item>
-        <item quantity="few">hours</item>
-        <item quantity="many">hours</item>
+        <item quantity="few">часов</item>
+        <item quantity="many">часов</item>
         <item quantity="other">часов</item>
     </plurals>
     <plurals name="minute">
