@@ -358,6 +358,8 @@
     <string name="new_folder">Nouveau dossier</string>
     <string name="pref_amazmod_overlay_launcher">Lanceur de superposition de notifications</string>
     <string name="pref_amazmod_overlay_launcher_summary">Ouvrir la liste des notifications personnalisées en utilisant un bouton superposé sur la montre (son emplacement est affiché brièvement lorsque l\'écran est allumé et vous pouvez le glisser à gauche ou à droite).</string>
+    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
+    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
     <string name="file_not_found">Fichier non trouvé!</string>
     <string name="pref_battery_full_alert">Alerte de batterie pleine de la montre</string>
     <string name="pref_battery_full_alert_summary">Afficher une notification lorsque la batterie est complètement chargée.</string>
