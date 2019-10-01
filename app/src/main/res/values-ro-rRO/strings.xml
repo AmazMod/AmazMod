@@ -358,6 +358,8 @@
     <string name="new_folder">Dosar Nou</string>
     <string name="pref_amazmod_overlay_launcher">Notificări suprapuse peste Laucher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Deschideți lista cu notificări personalizate prin utilizarea unui buton al ceasului (localizarea este indicată succint la pornirea ecranului și poate fi ”swiped” către stânga sau dreapta).</string>
+    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
+    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
     <string name="file_not_found">Fișierul nu a fost găsit!</string>
     <string name="pref_battery_full_alert">Atenționare baterie complet încărcată</string>
     <string name="pref_battery_full_alert_summary">Primește notificare atunci când bateria este complet încărcată.</string>
