@@ -358,6 +358,8 @@
     <string name="new_folder">Nowy folder</string>
     <string name="pref_amazmod_overlay_launcher">Program uruchamiający nakładki powiadomień</string>
     <string name="pref_amazmod_overlay_launcher_summary">Otwórz listę powiadomień niestandardowego interfejsu użytkownika za pomocą przycisku nakładki na zegarku (jego położenie jest na krótko wyświetlane, gdy ekran się włącza i możesz przesunąć go w lewo lub w prawo).</string>
+    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
+    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
     <string name="file_not_found">Nie znaleziono pliku!</string>
     <string name="pref_battery_full_alert">Bateria w zegarku naładowana</string>
     <string name="pref_battery_full_alert_summary">Pokaż powiadomienie, kiedy bateria jest całkowicie naładowana</string>
