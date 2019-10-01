@@ -360,15 +360,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 break;
 
             case MENU_START + 15:
-                if (!chimeEnabled){
-                    HourlyChime.setHourlyChime(mContext, true);
-                    chimeEnabled = true;
-                    items.get(MENU_START + 15).state = true;
-                } else {
-                    HourlyChime.setHourlyChime(mContext, false);
-                    chimeEnabled = false;
-                    items.get(MENU_START + 15).state = false;
-                }
+                chimeEnabled = !chimeEnabled;
+                HourlyChime.setHourlyChime(mContext, chimeEnabled);
+                items.get(MENU_START + 15).state = chimeEnabled;
+                widgetSettings.set(Constants.PREF_AMAZMOD_HOURLY_CHIME, chimeEnabled);
+                Logger.debug( "Hourly Chime status is: {}", chimeEnabled);
                 mAdapter.notifyDataSetChanged();
                 break;
 

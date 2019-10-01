@@ -76,6 +76,7 @@ public class LauncherWearGridActivity extends Activity {
         if (WearMenuFragment.chimeEnabled){
             HourlyChime.setHourlyChime(this, true);
             WearMenuFragment.chimeEnabled = true;
+            Logger.debug( "Hourly Chime is already active");
         }
 
         mode = getIntent().getCharExtra(MODE, 'S');

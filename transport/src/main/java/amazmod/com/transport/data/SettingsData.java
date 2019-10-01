@@ -30,6 +30,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DISABLE_DELAY = "disable_reply_delay";
     public static final String AMAZMOD_FIRST_WIDGET = "amazmod_first_widget";
     public static final String AMAZMOD_OVERLAY_LAUNCHER = "amazmod_overlay_launcher";
+    public static final String AMAZMOD_HOURLY_CHIME = "amazmod_hourly_chime";
     public static final String AMAZMOD_HEARTRATE_DATA = "amazmod_heartrate_data";
     public static final String BATTERY_WATCH_ALERT = "battery_watch_alert";
     public static final String BATTERY_PHONE_ALERT = "battery_phone_alert";
@@ -55,6 +56,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean disableDelay;
     private boolean amazModFirstWidget;
     private boolean overlayLauncher;
+    private boolean hourlyChime;
     private boolean heartrateData;
     private int batteryWatchAlert;
     private int batteryPhoneAlert;
@@ -84,6 +86,7 @@ public class SettingsData extends Transportable implements Parcelable {
         amazModFirstWidget = in.readByte() != 0;
         heartrateData = in.readByte() != 0;
         overlayLauncher = in.readByte() != 0;
+        hourlyChime = in.readByte() != 0;
         batteryWatchAlert = in.readInt();
         batteryPhoneAlert = in.readInt();
         logLines = in.readInt();
@@ -122,6 +125,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
         dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
         dataBundle.putBoolean(AMAZMOD_OVERLAY_LAUNCHER, overlayLauncher);
+        dataBundle.putBoolean(AMAZMOD_HOURLY_CHIME, hourlyChime);
         dataBundle.putBoolean(AMAZMOD_HEARTRATE_DATA, heartrateData);
         dataBundle.putInt(BATTERY_WATCH_ALERT, batteryWatchAlert);
         dataBundle.putInt(BATTERY_PHONE_ALERT, batteryPhoneAlert);
@@ -152,6 +156,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
         settingsData.setAmazModFirstWidget(dataBundle.getBoolean(AMAZMOD_FIRST_WIDGET));
         settingsData.setOverlayLauncher(dataBundle.getBoolean(AMAZMOD_OVERLAY_LAUNCHER));
+        settingsData.setHourlyChime(dataBundle.getBoolean(AMAZMOD_HOURLY_CHIME));
         settingsData.setHeartrateData(dataBundle.getBoolean(AMAZMOD_HEARTRATE_DATA));
         settingsData.setBatteryWatchAlert(dataBundle.getInt(BATTERY_WATCH_ALERT));
         settingsData.setBatteryPhoneAlert(dataBundle.getInt(BATTERY_PHONE_ALERT));
@@ -271,6 +276,10 @@ public class SettingsData extends Transportable implements Parcelable {
         return overlayLauncher;
     }
 
+    public boolean isHourlyChime() {
+        return hourlyChime;
+    }
+
     public boolean isHeartrateData() {
         return heartrateData;
     }
@@ -281,6 +290,10 @@ public class SettingsData extends Transportable implements Parcelable {
 
     public void setOverlayLauncher(boolean overlayLauncher) {
         this.overlayLauncher = overlayLauncher;
+    }
+
+    public void setHourlyChime(boolean hourlyChime) {
+        this.hourlyChime = hourlyChime;
     }
 
     public void setHeartrateData(boolean heartrateData) {

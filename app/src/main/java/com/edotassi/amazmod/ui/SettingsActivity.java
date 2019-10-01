@@ -47,8 +47,10 @@ public class SettingsActivity extends BaseAppCompatActivity {
     private String currentBatteryChartDays;
     private String currentLocaleLanguage;
     private String currentLogLevel;
+    private static String getHourlyChime;
     private boolean currentLogToFile;
     private boolean currentDarkTheme;
+    private static boolean hourlyChimeStatus;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -240,6 +242,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
         final boolean overlayLauncher = Prefs.getBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER,
                 Constants.PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER);
+        final boolean hourlyChime = Prefs.getBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME,
+                Constants.PREF_DEFAULT_AMAZMOD_HOURLY_CHIME);
         final boolean heartrateData = Prefs.getBoolean(Constants.PREF_HEARTRATE_CHART,
                 Constants.PREF_DEFAULT_HEARTRATE_CHART);
         final int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
@@ -290,6 +294,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setDisableDelay(disableNotificationsDelay);
         settingsData.setAmazModFirstWidget(amazModFirstWidget);
         settingsData.setOverlayLauncher(overlayLauncher);
+        settingsData.setHourlyChime(hourlyChime);
         settingsData.setHeartrateData(heartrateData);
         settingsData.setBatteryWatchAlert(watchBatteryAlert);
         settingsData.setBatteryPhoneAlert(phoneBatteryAlert);
@@ -329,6 +334,14 @@ public class SettingsActivity extends BaseAppCompatActivity {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.preferences);
+
+            // NEED A WAY TO CHECK INITIAL VALUE
+            // Load Hourly Chime Setting From Watch
+            hourlyChimeStatus = Prefs.getBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, false);
+            Prefs.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, hourlyChimeStatus);
+            Preference syncHourlyChime = getPreferenceScreen().findPreference("preference.amazmod.hourly.chime");
+            syncHourlyChime.setDefaultValue(hourlyChimeStatus);
+            Logger.debug("Hourly Chime status: {}", hourlyChimeStatus);
 
             // Enable Notification Sound if Verge Only
             Preference vergeNotificationSoundSetting = getPreferenceScreen().findPreference("preference.notification.enable.sound");
@@ -384,5 +397,4 @@ public class SettingsActivity extends BaseAppCompatActivity {
         }
         reloadMainActivity();
     }
-
 }

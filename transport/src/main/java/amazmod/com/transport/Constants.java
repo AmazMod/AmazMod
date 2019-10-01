@@ -65,6 +65,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
     public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
     public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "preference.amazmod.overlay.launcher";
+    public static final String PREF_AMAZMOD_HOURLY_CHIME = "preference.amazmod.hourly.chime";
     public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
     public static final String PREF_COMMAND_HISTORY = "preference.command.history";
 
@@ -106,6 +107,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY = true;
     public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
     public static final boolean PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER = false;
+    public static final boolean PREF_DEFAULT_AMAZMOD_HOURLY_CHIME = false;
 
     public static final String PREF_DISABLE_NOTIFICATIONS_WHEN_DND = "preference.disable.notifications.when.dnd";
     public static final String PREF_DISABLE_REMOVE_NOTIFICATIONS = "preference.disable.remove.notifications";

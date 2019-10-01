@@ -313,6 +313,12 @@
             android:title="@string/pref_amazmod_dark_theme" />
 
         <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.amazmod.hourly.chime"
+            android:summary="@string/pref_amazmod_hourly_chime_summary"
+            android:title="@string/pref_amazmod_hourly_chime" />
+
+        <SwitchPreference
             android:defaultValue="true"
             android:key="preference.enable.persistent.notification"
             android:summary="@string/pref_enable_persistent_notification_summary"

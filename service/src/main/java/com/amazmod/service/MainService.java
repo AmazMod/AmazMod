@@ -69,6 +69,7 @@ import com.amazmod.service.support.BatteryJobService;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.AlertsActivity;
 import com.amazmod.service.ui.ConfirmationWearActivity;
+import com.amazmod.service.ui.fragments.WearMenuFragment;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.ExecCommand;
 import com.amazmod.service.util.FileDataFactory;
@@ -300,7 +301,12 @@ public class MainService extends Service implements Transporter.DataListener {
             setOverlayLauncher(true);
         }
 
-        // Initialize battery alerts
+        //Check if hourly chime is enable
+        if (settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false)) {
+            setHourlyChime(true);
+            Logger.debug("Chime was enabled");
+        }
+       // Initialize battery alerts
         this.watchBatteryAlreadyAlerted = false;
         this.phoneBatteryAlreadyAlerted = false;
 
@@ -774,6 +780,12 @@ public class MainService extends Service implements Transporter.DataListener {
         Logger.debug("MainService SyncSettings isOverlayLauncher: {}", iPCA);
         if (iPCA != settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false))
             setOverlayLauncher(iPCA);
+
+        //Toggle Hourly Chime
+        iPCA = settingsData.isHourlyChime();
+        Logger.debug("SyncSettings isHourlyChime: {}", iPCA);
+        if (iPCA != settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false))
+            setHourlyChime(iPCA);
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
     }
@@ -1658,6 +1670,18 @@ public class MainService extends Service implements Transporter.DataListener {
             context.stopService(overlayButton);
         }
         settings.set(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, status);
+    }
+
+    public void setHourlyChime(boolean status){
+        Logger.debug("setHourlyChime status: {}", status);
+        if (status) {
+            HourlyChime.setHourlyChime(context,true);
+            WearMenuFragment.chimeEnabled = true;
+        } else {
+            HourlyChime.setHourlyChime(context,false);
+            WearMenuFragment.chimeEnabled = false;
+        }
+        settings.set(Constants.PREF_AMAZMOD_HOURLY_CHIME, status);
     }
 
     private void saveDisconnectionLog() {
