@@ -359,6 +359,8 @@
     <string name="new_folder">新建文件夹</string>
     <string name="pref_amazmod_overlay_launcher">通知叠加启动器</string>
     <string name="pref_amazmod_overlay_launcher_summary">使用手表上的覆盖按钮打开自定义界面通知列表(当屏幕亮起时，它的位置会短暂显示，您可以向左或向右滑动它)。</string>
+    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
+    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
     <string name="file_not_found">文件未找到</string>
     <string name="pref_battery_full_alert">手表充电完成提示</string>
     <string name="pref_battery_full_alert_summary">当手表充电完成时显示通知。</string>
