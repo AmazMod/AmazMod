@@ -337,7 +337,7 @@
     <string name="remove">VERWIJDER</string>
     <string name="grant">STA TOE</string>
     <string name="no_storage_permission">AmazMod heeft geen toegang tot opslagruimtes; sta dit toe.</string>
-    <string name="generate_bundle">Generate Log Bundle</string>
+    <string name="generate_bundle">Genereer logbundel</string>
     <string name="set_watchface">Stel watchface in</string>
     <string name="pref_amazmod_darktheme_summary">App zal opnieuw opstarten om een donker thema (bèta) te gebruiken.</string>
     <string name="pref_amazmod_dark_theme">Donker thema</string>
