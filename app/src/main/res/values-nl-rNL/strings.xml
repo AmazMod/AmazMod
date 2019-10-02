@@ -375,25 +375,25 @@
     <string name="activity_batter_no_data">Geen batterijgegevens</string>
     <string name="export_battery">Exporteer</string>
     <string name="battery_export_success">Batterijgegevens geëxporteerd naar AmazMod map met de naam %s</string>
-    <string name="battery_fragment_select_option">Select an option</string>
-    <string name="battery_error_open_csv">Unable to open csv file %s</string>
-    <string name="batter_error_export">Unable to export data</string>
-    <string name="batter_data_request">Request new battery data</string>
-    <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="and">and</string>
+    <string name="battery_fragment_select_option">Kies een optie</string>
+    <string name="battery_error_open_csv">Kan csv bestand %s niet openen</string>
+    <string name="batter_error_export">Kan gegevens niet exporteren</string>
+    <string name="batter_data_request">Vraag nieuwe batterijgegevens op</string>
+    <string name="batter_data_export">Exporteer batterijgegevens</string>
+    <string name="app_options">App opties</string>
+    <string name="notification_options">Meldingsopties</string>
+    <string name="notification_options_description">Meldingen met de volgende teksten niet weergeven (één per regel):</string>
+    <string name="and">en</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">dag</item>
+        <item quantity="other">dagen</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">uur</item>
+        <item quantity="other">uur</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">minuut</item>
+        <item quantity="other">minuut</item>
     </plurals>
 </resources>
