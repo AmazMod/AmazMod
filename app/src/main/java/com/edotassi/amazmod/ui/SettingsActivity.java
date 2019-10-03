@@ -33,6 +33,7 @@ import org.tinylog.Logger;
 import java.util.Locale;
 
 import amazmod.com.transport.Constants;
+import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.SettingsData;
 import de.mateware.snacky.Snacky;
 
@@ -47,10 +48,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
     private String currentBatteryChartDays;
     private String currentLocaleLanguage;
     private String currentLogLevel;
-    private static String getHourlyChime;
     private boolean currentLogToFile;
     private boolean currentDarkTheme;
-    private static boolean hourlyChimeStatus;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -335,13 +334,12 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
             addPreferencesFromResource(R.xml.preferences);
 
-            // NEED A WAY TO CHECK INITIAL VALUE
             // Load Hourly Chime Setting From Watch
-            hourlyChimeStatus = Prefs.getBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, false);
-            Prefs.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, hourlyChimeStatus);
+            String hourlyChimeSync = Transport.HOURLY_CHIME_SYNC;
+            final boolean chimeStatus = Boolean.parseBoolean(hourlyChimeSync);
             Preference syncHourlyChime = getPreferenceScreen().findPreference("preference.amazmod.hourly.chime");
-            syncHourlyChime.setDefaultValue(hourlyChimeStatus);
-            Logger.debug("Hourly Chime status: {}", hourlyChimeStatus);
+            syncHourlyChime.setDefaultValue(chimeStatus);
+            Logger.debug("Hourly Chime status from watch is: {}", chimeStatus);
 
             // Enable Notification Sound if Verge Only
             Preference vergeNotificationSoundSetting = getPreferenceScreen().findPreference("preference.notification.enable.sound");

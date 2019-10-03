@@ -302,7 +302,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         //Check if hourly chime is enable
-        if (settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false)) {
+        if ((settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false) || (WearMenuFragment.chimeEnabled))) {
             setHourlyChime(true);
             Logger.debug("Chime was enabled");
         }
@@ -784,7 +784,7 @@ public class MainService extends Service implements Transporter.DataListener {
         //Toggle Hourly Chime
         iPCA = settingsData.isHourlyChime();
         Logger.debug("SyncSettings isHourlyChime: {}", iPCA);
-        if (iPCA != settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false))
+        if (iPCA != ((settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false)) || (WearMenuFragment.chimeEnabled)))
             setHourlyChime(iPCA);
 
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
@@ -892,6 +892,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Send the transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
+
     }
 
     // Battery request
@@ -1682,6 +1683,7 @@ public class MainService extends Service implements Transporter.DataListener {
             WearMenuFragment.chimeEnabled = false;
         }
         settings.set(Constants.PREF_AMAZMOD_HOURLY_CHIME, status);
+        send(Transport.HOURLY_CHIME_SYNC, watchStatusData.toDataBundle());
     }
 
     private void saveDisconnectionLog() {

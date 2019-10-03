@@ -73,12 +73,6 @@ public class LauncherWearGridActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (WearMenuFragment.chimeEnabled){
-            HourlyChime.setHourlyChime(this, true);
-            WearMenuFragment.chimeEnabled = true;
-            Logger.debug( "Hourly Chime is already active");
-        }
-
         mode = getIntent().getCharExtra(MODE, 'S');
 
         Logger.debug("LauncherWearGridActivity onCreate mode: " + mode);
