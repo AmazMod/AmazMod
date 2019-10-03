@@ -892,6 +892,8 @@ public class MainService extends Service implements Transporter.DataListener {
         // Send the transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
+        send(Transport.HOURLY_CHIME_SYNC, watchStatusData.toDataBundle());
+        Logger.debug("Sync hourly chime to tranport : " + watchStatusData.toString());
 
     }
 
@@ -1683,7 +1685,6 @@ public class MainService extends Service implements Transporter.DataListener {
             WearMenuFragment.chimeEnabled = false;
         }
         settings.set(Constants.PREF_AMAZMOD_HOURLY_CHIME, status);
-        send(Transport.HOURLY_CHIME_SYNC, watchStatusData.toDataBundle());
     }
 
     private void saveDisconnectionLog() {
