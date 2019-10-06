@@ -361,7 +361,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_amazmod_overlay_launcher">Oznámení Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Otevřete seznam Vlastní oznámení (Custom UI) pomocí přepínacího tlačítka na hodinkách (jeho poloha se krátce zobrazí, když se obrazovka rozsvítí a můžete jej posouvat doleva nebo doprava).</string>
     <string name="pref_amazmod_hourly_chime">Zvonkohra</string>
-    <string name="pref_amazmod_hourly_chime_summary">Povolte krátké vibrace se zvukem Casio na hodinkách Verge každou hodinu. Respektuje režim nerušit.</string>
+    <string name="pref_amazmod_hourly_chime_summary">Povoľte krátke vibrácie so zvukom Casio na hodinkách Verge každú hodinu. Rešpektuje režim nerušiť.</string>
     <string name="file_not_found">Soubor nenalezen!</string>
     <string name="pref_battery_full_alert">Upozornění na plně nabitou baterii v hodinkách</string>
     <string name="pref_battery_full_alert_summary">Dostat oznámení, když budou hodinky plně nabity.</string>
