@@ -358,8 +358,8 @@
     <string name="new_folder">Ny mappe</string>
     <string name="pref_amazmod_overlay_launcher">Notifikationer overlejrer launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Åbn Tilpasset-UI Notifikationsliste vha. en overlejringsknap på uret (dens placering vises kort, når skærmen tændes, og du kan skubbe den til venstre eller højre).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">Timeslag</string>
+    <string name="pref_amazmod_hourly_chime_summary">Aktivér en kort timeslagsvibration med Casio-lyd på Verge. DND-urtilstand respekteres.</string>
     <string name="file_not_found">Fil ikke fundet!</string>
     <string name="pref_battery_full_alert">Alarm for fuldt urbatteri</string>
     <string name="pref_battery_full_alert_summary">Få en notifikation, når uret er fuúldt opladet.</string>

@@ -112,7 +112,7 @@
     <string name="pref_notifications_enable_custom_ui">Vlastné UI upozornenia</string>
     <string name="pref_notifications_enable_custom_ui_summary">Oznámenia s možnosťou odpovedať.</string>
     <string name="pref_notification_enable_sound">Zvuk upozornenia</string>
-    <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
+    <string name="pref_notification_enable_sound_summary">Povoliť zvuk pre oznámenia s vlastným UI. Pre prispôsobenie zvuku vložte MP3 súbor pomenovaný ako \'amazmod_notification.mp3\' do tejto zložky na vašom Verge \'/sdcard /Notifications/\'</string>
     <string name="pref_run_wizard">Úvodná prezentácia</string>
     <string name="pref_run_wizard_summary">Znovu spustiť úvodnú prezentáciu.</string>
     <string name="pref_vibration_duration">Trvanie vibrácie</string>
@@ -359,8 +359,8 @@ Urobte príkaz shell \"</string>
     <string name="new_folder">Nový priečinok</string>
     <string name="pref_amazmod_overlay_launcher">Upozornenia ponad Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Otvorte zoznam Custom UI Notifications pomocou tlačidla prekrytia na hodinkách (jeho poloha sa krátko zobrazí, keď sa obrazovka rozsvieti a môžete ju posúvať doľava alebo doprava).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">Zvonkohra</string>
+    <string name="pref_amazmod_hourly_chime_summary">Povoľte krátke vibrácie so zvukom Casio na hodinkách Verge každú hodinu. Rešpektuje režim nerušiť.</string>
     <string name="file_not_found">Súbor nenájdený!</string>
     <string name="pref_battery_full_alert">Upozornenie na plne nabitú batériu v hodinkách</string>
     <string name="pref_battery_full_alert_summary">Zobraziť upozornenie, keď je batéria plne nabitá.</string>

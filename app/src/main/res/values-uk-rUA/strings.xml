@@ -358,8 +358,8 @@
     <string name="new_folder">Нова тека</string>
     <string name="pref_amazmod_overlay_launcher">Перехід до сповіщень</string>
     <string name="pref_amazmod_overlay_launcher_summary">Відкривайте список сповіщень, використовуючи спливаючу кнопку на головному екрані годинника (її місце буде показано на короткий час після розблокування, ви також можете перемістити її вліво або вправо).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">Щогодинний сигнал</string>
+    <string name="pref_amazmod_hourly_chime_summary">Вмикає коротку вібрацію зі звуком Casio щогодини. Враховується режим \"Не турбувати\".</string>
     <string name="file_not_found">Файл не знайдено!</string>
     <string name="pref_battery_full_alert">Сповіщення про повний заряд батареї</string>
     <string name="pref_battery_full_alert_summary">Показувати сповіщення, коли годинник повністю заряджено.</string>
