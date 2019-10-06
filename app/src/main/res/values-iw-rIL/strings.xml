@@ -358,8 +358,8 @@
     <string name="new_folder">תיקיה חדשה</string>
     <string name="pref_amazmod_overlay_launcher">לחצן פתיחת התראות מתצוגת השעון</string>
     <string name="pref_amazmod_overlay_launcher_summary">פתיחת התראות AmazMod על ידי כפתור חבוי על תצוגת השעון (מיקומו מוצג קלות בכיבוי המסך, ניתן להחליק עליו שמאלה או ימינה).</string>
-    <string name="pref_amazmod_hourly_chime">צלצול שעתי</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">התראת שעה עגולה</string>
+    <string name="pref_amazmod_hourly_chime_summary">רטט או צלצול שעתי (עם צפצוף של שעון קסיו על שעון Verge) בכל שעה עגולה. הגדרה זו מכבדת מצב DND.</string>
     <string name="file_not_found">קובץ לא נמצא</string>
     <string name="pref_battery_full_alert">התראת סוללה מלאה בשעון</string>
     <string name="pref_battery_full_alert_summary">קבלת התראה כשסוללת השעון טעונה במלואה.</string>
