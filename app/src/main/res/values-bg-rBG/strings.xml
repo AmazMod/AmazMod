@@ -232,7 +232,7 @@
     <string name="no_service_info_3">2) Then install the service apk file on the watch</string>
     <string name="no_service_info_4">3) Finally, restart both the watch and the phone</string>
     <string name="enable_lpm_title">Активирай LPM</string>
-    <string name="revoke_admin">Revoke admin</string>
+    <string name="revoke_admin">Отмени администратор</string>
     <string name="enable_lpm_content">This function is still experimental, once enabled to disable it you have to restart the watch</string>
     <string name="continue_label">Продължи</string>
     <string name="pref_file_extras">Архивиране и възстановяване на настройките</string>
@@ -240,7 +240,7 @@
     <string name="reboot_bootloader">Влизане в fastboot</string>
     <string name="set_admin">Задай администратор</string>
     <string name="shell_command_failed">Неизпълнена команда</string>
-    <string name="result_code">Result code:</string>
+    <string name="result_code">Код на резултат:</string>
     <string name="battery_chart_updated">Battery chart updated with new data</string>
     <string name="battery_chart_request">Requesting new battery data…</string>
     <string name="battery_chart_waiting">Waiting for new battery data…</string>
@@ -269,7 +269,7 @@
     <string name="compress">Компресирай</string>
     <string name="delete_folder_and_contents">\"%1$s\" is a folder. Remove it and all of it\'s contents recursively?</string>
     <string name="screenshot">Скрийншот</string>
-    <string name="pref_notifications_enable_delay">Reply delay</string>
+    <string name="pref_notifications_enable_delay">Забавяне на отговора</string>
     <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply.</string>
     <string name="file_uploader">Качване на файлове</string>
     <string name="file_uploader_title">Install %s ?</string>
@@ -380,7 +380,7 @@
     <string name="batter_error_export">Unable to export data</string>
     <string name="batter_data_request">Request new battery data</string>
     <string name="batter_data_export">Export battery data</string>
-    <string name="app_options">App Options</string>
+    <string name="app_options">Опции за приложения</string>
     <string name="notification_options">Notification Options</string>
     <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
     <string name="and">и</string>
