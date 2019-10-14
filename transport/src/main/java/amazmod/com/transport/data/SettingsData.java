@@ -389,7 +389,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeString(defaultLocale);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
         dest.writeByte((byte) (amazModFirstWidget ? 1 : 0));
-        dest.writeByte((byte) (0)); // TODO - Replace this old option with a new one (compatibility)
+        dest.writeByte((byte) (hourlyChime ? 1 : 0));
         dest.writeByte((byte) (heartrateData ? 1 : 0));
         dest.writeInt(batteryWatchAlert);
         dest.writeInt(batteryWatchAlert);

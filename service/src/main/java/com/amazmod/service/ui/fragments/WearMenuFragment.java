@@ -49,7 +49,6 @@ import org.tinylog.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-import amazmod.com.transport.Transport;
 
 import static android.content.Context.VIBRATOR_SERVICE;
 
@@ -364,10 +363,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
             case MENU_START + 15:
                 chimeEnabled = !chimeEnabled;
                 HourlyChime.setHourlyChime(mContext, chimeEnabled);
-                Transport.HOURLY_CHIME_SYNC = Boolean.toString(chimeEnabled);
+                widgetSettings.set(Constants.PREF_AMAZMOD_HOURLY_CHIME, chimeEnabled);
                 items.get(MENU_START + 15).state = chimeEnabled;
                 Logger.debug( "Hourly Chime status is: {}", chimeEnabled);
                 mAdapter.notifyDataSetChanged();
+                Toast.makeText(mContext, "Hourly Chime "+(chimeEnabled?"enabled":"disabled"), Toast.LENGTH_SHORT).show();
                 break;
 
             default:

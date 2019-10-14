@@ -889,11 +889,14 @@ public class MainService extends Service implements Transporter.DataListener {
             watchStatusData.setLastHeartRates(heartrates);
         }
 
+        // Get hourly chime status
+        boolean isHourlyChime = settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false);
+        Logger.debug("Sync hourly chime to tranport : " + isHourlyChime);
+        watchStatusData.setHourlyChime(isHourlyChime?1:0); // 1 = on, 0 = off
+
         // Send the transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
-        send(Transport.HOURLY_CHIME_SYNC, watchStatusData.toDataBundle());
-        Logger.debug("Sync hourly chime to tranport : " + watchStatusData.toString());
 
     }
 
@@ -1677,13 +1680,10 @@ public class MainService extends Service implements Transporter.DataListener {
 
     public void setHourlyChime(boolean status){
         Logger.debug("setHourlyChime status: {}", status);
-        if (status) {
-            HourlyChime.setHourlyChime(context,true);
-            WearMenuFragment.chimeEnabled = true;
-        } else {
-            HourlyChime.setHourlyChime(context,false);
-            WearMenuFragment.chimeEnabled = false;
-        }
+
+        HourlyChime.setHourlyChime(context,status);
+        WearMenuFragment.chimeEnabled = status;
+
         settings.set(Constants.PREF_AMAZMOD_HOURLY_CHIME, status);
     }
 

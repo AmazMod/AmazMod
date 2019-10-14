@@ -243,6 +243,11 @@ public class WatchInfoFragment extends Card implements Updater {
             // HeartRate fragment card not found!
             e.printStackTrace();
         }
+
+        // Hourly Chime
+        boolean hourlychime = (watchStatusData.getHourlyChime()>0); // 0 = off, 1 = on
+        Prefs.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, hourlychime);
+        Logger.debug("WatchInfoFragment WatchData HOURLY_CHIME: " + hourlychime);
     }
 
     @OnLongClick(R.id.watchIconView)

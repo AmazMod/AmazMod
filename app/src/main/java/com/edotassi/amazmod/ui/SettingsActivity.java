@@ -334,13 +334,6 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
             addPreferencesFromResource(R.xml.preferences);
 
-            // Load Hourly Chime Setting From Watch
-            String hourlyChimeSync = Transport.HOURLY_CHIME_SYNC;
-            final boolean chimeStatus = Boolean.parseBoolean(hourlyChimeSync);
-            Preference syncHourlyChime = getPreferenceScreen().findPreference("preference.amazmod.hourly.chime");
-            syncHourlyChime.setDefaultValue(chimeStatus);
-            Logger.debug("Hourly Chime status from watch is: {}", chimeStatus);
-
             // Enable Notification Sound if Verge Only
             Preference vergeNotificationSoundSetting = getPreferenceScreen().findPreference("preference.notification.enable.sound");
             if (Screen.isVerge()) {
