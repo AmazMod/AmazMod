@@ -268,6 +268,11 @@
             android:key="preference.phone.connection.alert.standard.notification"
             android:summary="@string/pref_phone_connect_alert_standard_notification_summary"
             android:title="@string/pref_phone_connect_alert_standard_notification" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="preference.amazmod.hourly.chime"
+            android:summary="@string/pref_amazmod_hourly_chime_summary"
+            android:title="@string/pref_amazmod_hourly_chime" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/logs">
@@ -311,12 +316,6 @@
             android:key="preference.amazmod.dark_theme"
             android:summary="@string/pref_amazmod_darktheme_summary"
             android:title="@string/pref_amazmod_dark_theme" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="preference.amazmod.hourly.chime"
-            android:summary="@string/pref_amazmod_hourly_chime_summary"
-            android:title="@string/pref_amazmod_hourly_chime" />
 
         <SwitchPreference
             android:defaultValue="true"
