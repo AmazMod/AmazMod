@@ -250,7 +250,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Initialize widgetSettings
         settings = new WidgetSettings(Constants.TAG, context);
-        settings.reload();
+        // settings.reload(); // load runs on "new" creation
 
         // Restore system settings after service update
         new ExecCommand("adb shell settings put system screen_off_timeout 14000");
@@ -890,6 +890,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         // Get hourly chime status
+        settings.reload();
         boolean isHourlyChime = settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false);
         Logger.debug("Sync hourly chime to tranport : " + isHourlyChime);
         watchStatusData.setHourlyChime(isHourlyChime?1:0); // 1 = on, 0 = off
@@ -897,7 +898,6 @@ public class MainService extends Service implements Transporter.DataListener {
         // Send the transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
-
     }
 
     // Battery request
