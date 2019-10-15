@@ -358,8 +358,8 @@
     <string name="new_folder">Ordner erstellen</string>
     <string name="pref_amazmod_overlay_launcher">Overlay Launcher für Benachrichtigungen</string>
     <string name="pref_amazmod_overlay_launcher_summary">Öffnen der benutzerdefinierten Systembenachrichtigungen mit einem Overlay-Botton (dessen Position wird kurz angezeigt wenn der Bildschirm an geht. Man kann ihn mit links- oder rechts wischen beenden).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">Stündliche Erinnerungen</string>
+    <string name="pref_amazmod_hourly_chime_summary">Aktiviert jede Stunde eine kurze Vibration mit Casio Sound für Verge. DND Modus wir respektiert.</string>
     <string name="file_not_found">Datei nicht gefunden!</string>
     <string name="pref_battery_full_alert">Voller Akku Alarm</string>
     <string name="pref_battery_full_alert_summary">Zeigt eine Benachrichtigung, wenn die Batterie vollständig geladen ist.</string>
