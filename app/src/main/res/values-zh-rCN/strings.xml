@@ -360,12 +360,12 @@
     <string name="pref_amazmod_overlay_launcher">通知叠加启动器</string>
     <string name="pref_amazmod_overlay_launcher_summary">使用手表上的覆盖按钮打开自定义界面通知列表(当屏幕亮起时，它的位置会短暂显示，您可以向左或向右滑动它)。</string>
     <string name="pref_amazmod_hourly_chime">整点报时</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime_summary">每小时整点短暂震动，并播放Casio铃声。受手表勿扰模式限制。</string>
     <string name="file_not_found">文件未找到</string>
     <string name="pref_battery_full_alert">手表充电完成提示</string>
     <string name="pref_battery_full_alert_summary">当手表充电完成时显示通知。</string>
     <string name="pref_heartrate_chart">心率图表</string>
-    <string name="pref_heartrate_nodata">No chart data available.</string>
+    <string name="pref_heartrate_nodata">无可用的图表数据。</string>
     <string name="pref_heartrate_chart_summary">在 AmazMod 主屏幕中显示心率图表。</string>
     <string name="pref_log_lines_shown">显示日志行</string>
     <string name="pref_log_lines_shown_summary">设置在日志列表中显示的文字行数。</string>
