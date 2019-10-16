@@ -7,7 +7,7 @@ public class AppInfo {
     private String appName;
     private String packageName;
     private String versionName;
-    private String acivity;
+    private String activity;
     private Drawable icon;
     private boolean enabled;
     private int position;
@@ -59,11 +59,11 @@ public class AppInfo {
     public void setPosition(int position) {
         this.position = position;
     }
-    public void setAcivity(String versionName) {
-        this.acivity = acivity;
+    public void setActivity(String activity) {
+        this.activity = activity;
     }
-    public String getAcivity() {
-        return acivity;
+    public String getActivity() {
+        return this.activity;
     }
 
 }

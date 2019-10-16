@@ -128,6 +128,8 @@ import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
 import amazmod.com.transport.data.WidgetsData;
 
+import static amazmod.com.transport.Constants.WIDGETS_LIST_EMPTY_CODE;
+import static amazmod.com.transport.Constants.WIDGETS_LIST_SAVED_CODE;
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
 
 /**
@@ -611,88 +613,117 @@ public class MainService extends Service implements Transporter.DataListener {
     // Request installed widgets
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWidgets(RequestWidgets requestWidgets) {
-        final PackageManager pm = getPackageManager();
+        // Returned data
+        WidgetsData widgetsData = WidgetsData.fromDataBundle(requestWidgets.getDataBundle());
+        String savedOrder = widgetsData.getPackages();
+        Logger.debug("MainService requestWidgets widgetsData (got): " + savedOrder);
 
-        //WidgetsData widgetsData = WidgetsData.fromDataBundle(requestWidgets.getDataBundle());
-
-        // Get the list of installed apps.
-        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-
-        // Saved widgets
-        String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
-
-        //Create empty list
-        ArrayList<String> in_widgets = new ArrayList<String>();
-        ArrayList<Integer> in_widgets_pos = new ArrayList<Integer>();
-        ArrayList<Boolean> in_widgets_enabled = new ArrayList<Boolean>();
-        try {
-            //Parse JSON
-            JSONObject root = new JSONObject(widget_order_in);
-            JSONArray data = root.getJSONArray("data");
-
-            //Data array contains all the elements
-            for (int x = 0; x < data.length(); x++) {
-                //Get item
-                JSONObject item = data.getJSONObject(x);
-
-                //String pkg = item.getString("pkg");
-                int position = Integer.parseInt(item.getString("srl"));
-                boolean enable = item.getInt("enable") == 1;
-
-                in_widgets.add(item.getString("pkg"));
-                in_widgets_pos.add(position);
-                in_widgets_enabled.add(enable);
+        if (!savedOrder.isEmpty()){
+            // Check is EMPTY code
+            if(savedOrder.equals(WIDGETS_LIST_EMPTY_CODE)){
+                // All widgets are off
+                settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, "");
+                DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, "");
+                Logger.debug("WidgetsRequest remove PREF_SPRINGBOARD_ORDER & widget_order_in!");
+            }else{
+                // Save the list here
+                settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, savedOrder);
+                DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, savedOrder);
+                Logger.debug("WidgetsRequest save PREF_SPRINGBOARD_ORDER & widget_order_in: " + savedOrder);
             }
-        } catch (JSONException e) {
-            //e.printStackTrace();
-        }
 
-        // Find widgets
-        String widgets = "";
-        int count = 0 ;
-        for (ApplicationInfo packageInfo : packages) {
-            //Log.d(TAG, "Installed package :" + packageInfo.packageName);
-            //Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
-            //Log.d(TAG, "Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
-            Bundle bundle = packageInfo.metaData;
-            if (bundle == null) continue;
+            // Send confirmation that data are saved
+            widgetsData.setPackages(WIDGETS_LIST_SAVED_CODE);
+        }else {
+            // OLD CODE
+            /*
+            // Get the list of installed apps.
+            final PackageManager pm = getPackageManager();
+            List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+
+            // Saved widgets
+            String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
+
+            //Create empty list
+            ArrayList<String> in_widgets = new ArrayList<String>();
+            ArrayList<Integer> in_widgets_pos = new ArrayList<Integer>();
+            ArrayList<Boolean> in_widgets_enabled = new ArrayList<Boolean>();
             try {
-                boolean metaData = bundle.containsKey("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
-                if(metaData) {
-                    // Get info
-                    int id = bundle.getInt("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
-                    String name = packageInfo.loadLabel(pm).toString();
+                //Parse JSON
+                JSONObject root = new JSONObject(widget_order_in);
+                JSONArray data = root.getJSONArray("data");
 
-                    //String[] inArray = getResources().getStringArray(id);
+                //Data array contains all the elements
+                for (int x = 0; x < data.length(); x++) {
+                    //Get item
+                    JSONObject item = data.getJSONObject(x);
 
-                    Resources resources = getApplicationContext().getPackageManager().getResourcesForApplication(packageInfo.packageName);
-                    String[] inArray = resources.getStringArray(id);
+                    //String pkg = item.getString("pkg");
+                    int position = Integer.parseInt(item.getString("srl"));
+                    boolean enable = item.getInt("enable") == 1;
 
-                    int position = 99;
-                    boolean enabled = false;
-                    if(in_widgets.contains(packageInfo.packageName)) {
-                        position = in_widgets_pos.get(in_widgets.indexOf(packageInfo.packageName));
-                        enabled = in_widgets_enabled.get(in_widgets.indexOf(packageInfo.packageName));
-                    }
-
-                    // Add in widgets
-                    widgets += (count>0?",":"") + "{\"pkg\":\""+packageInfo.packageName+"\",\"activity\":\""+inArray[0]+"\",\"name\":\""+name+"\",\"position\":"+position+",\"enabled\":"+enabled+"}";
-                    count++;
-                    //inArray[0].split("/")[1]
-
-                    // Log
-                    Logger.debug("Widget found: " + packageInfo.packageName + " - " + inArray[0] +" - "+name );
-                }else
-                    Logger.debug("App: "+packageInfo.packageName+" is not a widget");
-
-            } catch (Exception e) {
-                Logger.error("App: "+packageInfo.packageName+" is not a widget");
+                    in_widgets.add(item.getString("pkg"));
+                    in_widgets_pos.add(position);
+                    in_widgets_enabled.add(enable);
+                }
+            } catch (JSONException e) {
+                //e.printStackTrace();
             }
+
+            // Find widgets
+            String widgets = "";
+            int count = 0 ;
+            for (ApplicationInfo packageInfo : packages) {
+                //Log.d(TAG, "Installed package :" + packageInfo.packageName);
+                //Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
+                //Log.d(TAG, "Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+                Bundle bundle = packageInfo.metaData;
+                if (bundle == null) continue;
+                try {
+                    boolean metaData = bundle.containsKey("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
+                    if(metaData) {
+                        // Get info
+                        int id = bundle.getInt("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
+                        String name = packageInfo.loadLabel(pm).toString();
+
+                        //String[] inArray = getResources().getStringArray(id);
+
+                        Resources resources = getApplicationContext().getPackageManager().getResourcesForApplication(packageInfo.packageName);
+                        String[] inArray = resources.getStringArray(id);
+
+                        int position = 99;
+                        boolean enabled = false;
+                        if(in_widgets.contains(packageInfo.packageName)) {
+                            position = in_widgets_pos.get(in_widgets.indexOf(packageInfo.packageName));
+                            enabled = in_widgets_enabled.get(in_widgets.indexOf(packageInfo.packageName));
+                        }
+
+                        // Add in widgets
+                        widgets += (count>0?",":"") + "{\"pkg\":\""+packageInfo.packageName+"\",\"activity\":\""+inArray[0]+"\",\"name\":\""+name+"\",\"position\":"+position+",\"enabled\":"+enabled+"}";
+                        count++;
+                        //inArray[0].split("/")[1]
+
+                        // Log
+                        Logger.debug("Widget found: " + packageInfo.packageName + " - " + inArray[0] +" - "+name );
+                    }else
+                        Logger.debug("App: "+packageInfo.packageName+" is not a widget");
+
+                } catch (Exception e) {
+                    Logger.error("App: "+packageInfo.packageName+" is not a widget");
+                }
+            }
+
+            this.widgetsData.setPackages("{\"widgets\":["+widgets+"]}");
+             */
+
+            // Get widgets list
+            JSONArray widgetsList = WidgetsUtil.getWidgetsLists(getApplicationContext(), true);
+            // Set up data
+            widgetsData.setPackages(widgetsList.toString());
         }
 
-        this.widgetsData.setPackages("{\"widgets\":["+widgets+"]}");
         // Send the transmit
-        Logger.debug("MainService requestWidgets widgetsData: " + widgetsData.getPackages());
+        Logger.debug("MainService requestWidgets widgetsData (send): " + widgetsData.getPackages());
         send(Transport.WIDGETS_DATA, widgetsData.toDataBundle());
     }
 

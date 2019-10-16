@@ -34,6 +34,9 @@ public class Constants {
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
 
+    public static final String WIDGETS_LIST_SAVED_CODE = "widgets_saved";
+    public static final String WIDGETS_LIST_EMPTY_CODE = "I_want_no_widgets";
+
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages.filters";
     public static final String PREF_ENABLE_NOTIFICATIONS = "preference.enable.notifications";
