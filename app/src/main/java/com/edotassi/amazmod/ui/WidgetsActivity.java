@@ -182,9 +182,8 @@ public class WidgetsActivity extends BaseAppCompatActivity
         // List enabled widgets
         if(sent_data){
             JSONArray widget_list_array = new JSONArray();
+            int position = 0;
             for (AppInfo widget : widgetsList) {
-                if (!widget.isEnabled())
-                    continue;
                 try {
                     JSONObject item = new JSONObject();
 
@@ -194,7 +193,7 @@ public class WidgetsActivity extends BaseAppCompatActivity
                     // Class
                     item.put("cls", widget.getActivity());
                     // Position, stored as a string for some reason (we are assigning a position now)
-                    item.put("srl", String.valueOf(widget.getPosition()));
+                    item.put("srl", String.valueOf(position++));
                     // Since it is not in the in/out lists, it is disabled = 0, need as string because this is how it is set in the service
                     item.put("enable", widget.isEnabled() ? "1" : "0");
                     // Name (proper app name)
