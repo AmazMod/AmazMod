@@ -3,15 +3,18 @@
         date="Unreleased"
         versionCode="218"
         versionName="v1.1.8 (218)">
-        <new>Now you can choice witch account use to send calendar data and other calendar data fix</new>
-        <new>(Service)Now watch vibrate only on new notification if you have a keyboard opened to avoid to loose the typing text</new>
-        <new>(Service)Improved widget-reorder UI with save button</new>
-        <new>Add all missing translation. Now is fully translatable</new>
-        <new>Export battery graph history</new>
-        <new>(Service)Hourly chime (enable it from service menu)</new>
-        <bugfix>Is not a real "bug" but now filemanager and App list use case insensitive sort order</bugfix>
-        <bugfix>Add a switch to enable\disable notification sound on Verge</bugfix>
-        <bugfix>Small fix on Dark theme difficult to read text and other graphics thighs</bugfix>
+        <new>Watch widgets can now be reordered directly from the phone</new>
+        <new>Ability to select the calendar accounts from which data are extracted</new>
+        <new>(Service) Incoming notifications will only vibrate while you type (to avoid losing your message)</new>
+        <new>(Service) Improved widget-reorder UI with a save button</new>
+        <new>Ability to export battery graph history (long press the graph)</new>
+        <new>Added Hourly chime feature (a vibration every hour)</new>
+        <new>New option to enable/disable notification sound on Verge</new>
+        <new>Translation additions. App is almost fully translatable.</new>
+        <bugfix>Now Filemanager and App list use case insensitive sort order</bugfix>
+        <bugfix>Calendar data fixes</bugfix>
+        <bugfix>Small fix on Dark theme text visibilities and other graphical adjustments</bugfix>
+        <bugfix>Widgets list will show all installed widgets</bugfix>
     </release>
     <release
         date="2019-08-17"

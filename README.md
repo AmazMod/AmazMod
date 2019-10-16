@@ -19,10 +19,11 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 * Emoji display ability;
 * Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot, Clean Memory);
 * Battery notifications on watch/phone for watch/phone (low battery, fully charged);
-* Re-order watch widgets;
-* Take watch screenshot;
+* Re-order watch's widgets from watch or directly from phone without limitation in numbers;
+* Capture a watch screenshot;
 * Push battery and calendar event data for Watchfaces/Widgets to use them;
 * Uninstall applications from watch;
+* Hourly chime (vibration every hour);
 * More to come.
 
 ### Installation
