@@ -100,12 +100,14 @@ public class MainActivity extends BaseAppCompatActivity
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Hide if not a developer
+        // Hide if not a developer (old developer mode)
+        /*
         if (!Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             Menu menuNav = navigationView.getMenu();
             MenuItem widgets = menuNav.findItem(R.id.nav_widgets);
             widgets.setVisible(false);
         }
+         */
 
 
         EventBus.getDefault().register(this);

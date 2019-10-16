@@ -189,26 +189,34 @@ public class WidgetsActivity extends BaseAppCompatActivity
                     JSONObject item = new JSONObject();
 
                     // - Widget data -
-                    // Since it is not in the in/out lists, it is disabled = 0
-                    item.put("enable", widget.isEnabled()?1:0);
-                    // Position, stored as a string for some reason (we are assigning a position now)
-                    item.put("srl", widget.getPosition() + "");
                     // Package name
                     item.put("pkg", widget.getPackageName());
-                    // Name (proper app name)
-                    //item.put("name", widget.getAppName());
                     // Class
                     item.put("cls", widget.getActivity());
+                    // Position, stored as a string for some reason (we are assigning a position now)
+                    item.put("srl", String.valueOf(widget.getPosition()));
+                    // Since it is not in the in/out lists, it is disabled = 0, need as string because this is how it is set in the service
+                    item.put("enable", widget.isEnabled() ? "1" : "0");
+                    // Name (proper app name)
+                    item.put("title", widget.getAppName());
 
                     // Save widget in the list
-                    widget_list_array.put(widget_list_array.length(), item);
+                    widget_list_array.put(item);
                 } catch (Exception e) {
                     Logger.error("Widget " + widget.getPackageName() + " error: "+e);
                 }
             }
-            if(widget_list_array.length()>0)
-                widget_list = "{\"data\":"+widget_list_array.toString()+"}";
-            else
+
+            if(widget_list_array.length()>0) {
+                // Add to root object
+                JSONObject root = new JSONObject();
+                try {
+                    root.put("data", widget_list_array);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                widget_list = root.toString();
+            }else
                 widget_list = WIDGETS_LIST_EMPTY_CODE;
             Logger.debug("Widgets to send: "+widget_list);
         }
@@ -256,7 +264,7 @@ public class WidgetsActivity extends BaseAppCompatActivity
         widgetsList = new ArrayList<>();
 
         // Extract data from JSON
-        //JSONObject widgets;
+        boolean error = false;
         try {
             /*
             widgets = new JSONObject(widgetsJSON);
@@ -305,35 +313,45 @@ public class WidgetsActivity extends BaseAppCompatActivity
 
             JSONArray data = new JSONArray(widgetsJSON);
             for (int x = 0; x < data.length(); x++) {
-                // Get item
-                JSONObject item = data.getJSONObject(x);
+                // "Try" again to contain the crash in each widget item
+                try {
+                    // Get item
+                    JSONObject item = data.getJSONObject(x);
 
-                String pkg = null, name = null, activity = null;
-                int position = 99;
-                boolean enabled = false;
+                    String pkg = null, name = null, activity = null;
+                    int position = 99;
+                    boolean enabled = false;
 
-                if (item.has("pkg"))
-                    pkg = item.getString("pkg");
-                if (item.has("srl"))
-                    position = Integer.parseInt(item.getString("srl"));
-                if (item.has("enable"))
-                    enabled = item.getInt("enable") == 1;
-                if (item.has("cls"))
-                    activity = item.getString("cls");
-                if (item.has("name"))
-                    name = item.getString("name");
-                else
-                    name = pkg;
-
-                if(pkg!=null && name!=null && activity!=null) {
-                    // Change names that confuse users
-                    if(name.equals("天气")){
-                        name = "Weather widget";
+                    if (item.has("pkg"))
+                        pkg = item.getString("pkg");
+                    if (item.has("srl"))
+                        position = item.getInt("srl");
+                    if (item.has("enable"))
+                        enabled = item.getInt("enable") == 1;
+                    if (item.has("cls"))
+                        activity = item.getString("cls");
+                    if (item.has("title"))
+                        name = item.getString("title");
+                    else {
+                        if (activity != null && !activity.isEmpty()) {
+                            String[] activity_components = activity.split("\\.");
+                            name = activity_components[activity_components.length - 1];
+                        } else {
+                            name = pkg;
+                        }
                     }
-                    widgetsList.add(createAppInfo(pkg, name, position, enabled, activity));
+
+                    if (pkg != null && name != null && activity != null) {
+                        // Change names that confuse users
+                        if (name.equals("天气")) {
+                            name = "Weather";
+                        }
+                        widgetsList.add(createAppInfo(pkg, name, position, enabled, activity));
+                    }
+                } catch (Exception e) {
+                    Logger.debug("Widget No"+x+" error: "+e);
                 }
             }
-
         } catch (JSONException e) {
             Logger.error("Widgets JSON error");
             Snacky.builder()
@@ -341,12 +359,21 @@ public class WidgetsActivity extends BaseAppCompatActivity
                     .setText("Error loading widgets") // TODO translate
                     .setDuration(Snacky.LENGTH_LONG)
                     .build().show();
+            error = true;
         }
 
         // Fill List with widgetsList
-        widgetsAdapter.clear();
-        widgetsAdapter.addAll(widgetsList);
-        widgetsAdapter.notifyDataSetChanged();
+        if(!widgetsList.isEmpty()) {
+            widgetsAdapter.clear();
+            widgetsAdapter.addAll(widgetsList);
+            widgetsAdapter.notifyDataSetChanged();
+        }else if(!error){
+            Snacky.builder()
+                    .setActivity(WidgetsActivity.this)
+                    .setText("No widgets found") // TODO translate
+                    .setDuration(Snacky.LENGTH_LONG)
+                    .build().show();
+        }
 
         materialProgressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);

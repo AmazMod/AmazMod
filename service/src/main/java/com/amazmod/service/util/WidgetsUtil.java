@@ -264,26 +264,27 @@ public class WidgetsUtil {
                 JSONObject item = data.getJSONObject(x);
 
                 // - Widget data -
-                // srl is the position, stored as a string for some reason
-                int srl = Integer.parseInt(item.getString("srl"));
-                // State is stored as an integer when it would be better as a boolean so convert it
+                // Position ("srl" stored as a string for some reason, we fix it)
+                int position = Integer.parseInt(item.getString("srl"));
+                item.put("srl", position);
+                // Enabled/Disabled, stored as an integer 1/0
                 //boolean enable = item.getInt("enable") == 1;
-                // package name
-                //String str = item.getString("pkg");
-                // class name
-                //String componentName = item.getString("cls");
+                // Package name
+                //String pkg = item.getString("pkg");
+                // Class name
+                String componentName = item.getString("cls");
 
                 // fix the int-to-string conversion problem
                 item.put("enable", item.getInt("enable"));
 
                 //Store component name for later
-                foundComponents.add(item.getString("cls"));
+                foundComponents.add(componentName);
 
                 // Save widget in the list
-                widgets_list.put(widgets_list.length(), item);
+                widgets_list.put(item);
                 // Set max position
-                if (srl>max_position)
-                    max_position = srl;
+                if (position>max_position)
+                    max_position = position;
 
                 Logger.debug("In widget found: " + item.toString());
             }
@@ -292,6 +293,7 @@ public class WidgetsUtil {
             //Parse JSON
             JSONObject rootOut = new JSONObject(widget_order_out);
             JSONArray dataOut = rootOut.getJSONArray("data");
+            max_position++;
             // Loop through dataOut array
             for (int x = 0; x < dataOut.length(); x++) {
                 // Get item
@@ -300,25 +302,30 @@ public class WidgetsUtil {
                 String componentName = item.getString("cls");
                 if (!foundComponents.contains(componentName)) {
                     // - Widget data -
-                    // Get if item is enabled, this time stored as a string (why?)
+                    // Enabled/Disabled, this time stored as a string (why?)
                     //boolean enable = item.getString("enable").equals("true");
-                    // srl is the position, stored as a string for some reason
-                    int srl = Integer.parseInt(item.getString("srl"));
-                    // package name
-                    //String str = item.getString("pkg");
+                    // Position ("srl" stored as int in this case)
+                    //int position = Integer.parseInt(item.getString("srl"));
+                    // Package name
+                    //String pkg = item.getString("pkg");
 
-                    // fix the int-to-string conversion problem
-                    item.put("enable", item.getString("enable").equals("true")?1:0);
+                    // force item to disabled since it was not found in widget_order_in
+                    item.put("enable", 0);
+                    // Real value: fix the int-to-string conversion problem
+                    //item.put("enable", item.getString("enable").equals("true")?1:0);
+
+                    // Force increment the position
+                    item.put("srl", max_position++);
 
                     //Store component name for later
                     foundComponents.add(componentName);
 
                     // Save widget in the list
-                    widgets_list.put(widgets_list.length(), item);
-                    // Set max position
-                    if (srl>max_position)
-                        max_position = srl;
+                    widgets_list.put(item);
 
+                    // Set max position
+                    //if (position>max_position)
+                    //    max_position = position;
 
                     Logger.debug("Out widget found: " + item.toString());
                 }
@@ -344,36 +351,45 @@ public class WidgetsUtil {
                 try {
                     // boolean metaData = bundle.containsKey("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
                     if ( bundle.containsKey("com.huami.watch.launcher.springboard.PASSAGER_TARGET") ) {
-                        // Get component name to check list
+                        // Handle available data
                         int id = bundle.getInt("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
                         Resources resources = context.getPackageManager().getResourcesForApplication(packageInfo.packageName);
                         String[] inArray = resources.getStringArray(id);
                         String[] strarray = inArray[0].split("/");
+                        // Class name
                         String componentName = strarray[strarray.length-1];
 
                         if (!foundComponents.contains(componentName)) {
+                            // New widget found
                             JSONObject item = new JSONObject();
 
                             // - Widget data -
-                            // Since it is not in the in/out lists, it is disabled = 0
-                            item.put("enable", 0);
-                            // Position, stored as a string for some reason (we are assigning a position now)
-                            max_position++;
-                            item.put("srl", max_position+"");
                             // Package name
                             item.put("pkg", packageInfo.packageName);
-                            // Name (proper app name)
-                            item.put("name", packageInfo.loadLabel(pm).toString());
-                            // Class
+                            // Class name
                             item.put("cls", componentName);
+                            // Position
+                            item.put("srl", max_position++);
+                            // Enabled/Disabled, since it is not in the widgets_order_in/out lists, force disable
+                            item.put("enable", 0);
+                            // Name (proper app name)
+                            item.put("title", packageInfo.loadLabel(pm).toString());
 
                             // Save widget in the list
-                            widgets_list.put(widgets_list.length(), item);
+                            widgets_list.put(item);
 
                             //Store component name for later
                             //foundComponents.add(componentName); // no need
 
                             Logger.debug("New widget found: " + item.toString());
+                        }else{
+                            // Widget exists, update the name/title
+                            // Find location
+                            int x = foundComponents.indexOf(componentName);
+
+                            // Update name/title if missing
+                            if(!widgets_list.getJSONObject(x).has("title"))
+                                widgets_list.getJSONObject(x).put("title", packageInfo.loadLabel(pm).toString());
                         }
                     } else
                         Logger.debug("App: " + packageInfo.packageName + " is not a widget");

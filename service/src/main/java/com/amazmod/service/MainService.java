@@ -623,8 +623,8 @@ public class MainService extends Service implements Transporter.DataListener {
             if(savedOrder.equals(WIDGETS_LIST_EMPTY_CODE)){
                 // All widgets are off
                 settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, "");
-                DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, "");
-                Logger.debug("WidgetsRequest remove PREF_SPRINGBOARD_ORDER & widget_order_in!");
+                //DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, "");
+                Logger.debug("WidgetsRequest remove PREF_SPRINGBOARD_ORDER");
             }else{
                 // Save the list here
                 settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, savedOrder);
