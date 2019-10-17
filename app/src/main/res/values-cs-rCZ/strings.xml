@@ -404,4 +404,8 @@ Vychutnejte si používání AmazModu! ♡\"</string>
         <item quantity="many">minut</item>
         <item quantity="other">minut</item>
     </plurals>
+    <string name="widgets_changed">Widgety byly změněny</string>
+    <string name="problem_sending_data">Problém s odesláním dat</string>
+    <string name="error_loading_widgets">Chyba při načítání widgetů</string>
+    <string name="no_widgets_found">Nebyly nalezeny žádné widgety</string>
 </resources>

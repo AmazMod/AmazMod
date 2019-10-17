@@ -402,4 +402,8 @@
         <item quantity="many">минут</item>
         <item quantity="other">минут</item>
     </plurals>
+    <string name="widgets_changed">Виджеты изменены</string>
+    <string name="problem_sending_data">Ошибка при отправке данных</string>
+    <string name="error_loading_widgets">Ошибка загрузки виджетов</string>
+    <string name="no_widgets_found">Виджеты не найдены</string>
 </resources>

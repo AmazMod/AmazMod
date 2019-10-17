@@ -112,7 +112,7 @@
     <string name="pref_notifications_enable_custom_ui">Ειδοποιήσεις Προσαρμοσμένου UI</string>
     <string name="pref_notifications_enable_custom_ui_summary">Ειδοποιήσεις με δυνατότητα να απαντήσετε.</string>
     <string name="pref_notification_enable_sound">Ήχος ειδοποίησης</string>
-    <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
+    <string name="pref_notification_enable_sound_summary">Ενεργοποίηση του ήχου για τις προσαρμοσμένες ειδοποιήσεις. Για να αλλάξετε τον ήχο τοποθετήστε το αρχείο mp3 με όνομα \"amazmod_notification.mp3\" στον φάκελο \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Παρουσίαση Καλωσορίσματος</string>
     <string name="pref_run_wizard_summary">Επανεκτέλεση της παρουσίασης καλωσορίσματος.</string>
     <string name="pref_vibration_duration">Διάρκεια δόνησης</string>
@@ -358,8 +358,8 @@
     <string name="new_folder">Νέος φάκελος</string>
     <string name="pref_amazmod_overlay_launcher">Επικάλυμμα Εκκίνησης Ειδοποιήσεων</string>
     <string name="pref_amazmod_overlay_launcher_summary">Άνοιγμα της λίστα Ειδοποιήσεων Προσαρμοσμένου UI μέσω ενός διάφανου κουμπιού στο ρολόι (η τοποθεσία του φαίνεται αμυδρά κατά την ενεργοποίηση και απενεργοποίηση της οθόνης και μπορεί να συρθεί δεξιά ή αριστερά).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">Ωριαία δόνηση</string>
+    <string name="pref_amazmod_hourly_chime_summary">Ενεργοποίηση μια σύντομης δόνησης, με ήχο Casio στο Verge, κάθε ώρα. Δεν λειτουργεί κατά τη λειτουργία DND.</string>
     <string name="file_not_found">Το αρχείο δεν βρέθηκε!</string>
     <string name="pref_battery_full_alert">Ειδοποίηση πλήρης φόρτισης ρολογιού</string>
     <string name="pref_battery_full_alert_summary">Εμφάνιση ειδοποίησης όταν το ρολόι είναι πλήρως φορτισμένο.</string>
@@ -396,4 +396,8 @@
         <item quantity="one">λεπτό</item>
         <item quantity="other">λεπτά</item>
     </plurals>
+    <string name="widgets_changed">Widgets changed</string>
+    <string name="problem_sending_data">Problem sending data</string>
+    <string name="error_loading_widgets">Error loading widgets</string>
+    <string name="no_widgets_found">No widgets found</string>
 </resources>

@@ -396,4 +396,8 @@
         <item quantity="one">minuto</item>
         <item quantity="other">minutos</item>
     </plurals>
+    <string name="widgets_changed">Widgets changed</string>
+    <string name="problem_sending_data">Problem sending data</string>
+    <string name="error_loading_widgets">Error loading widgets</string>
+    <string name="no_widgets_found">No widgets found</string>
 </resources>
