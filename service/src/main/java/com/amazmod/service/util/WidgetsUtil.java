@@ -93,6 +93,81 @@ public class WidgetsUtil {
         }
         */
 
+        // Get widgets list
+        JSONArray data = WidgetsUtil.getWidgetsLists(context, true);
+
+        // Extract data from JSON
+        settingList = new ArrayList<>(); // Create empty list
+        for (int x = 0; x < data.length(); x++) {
+            // "Try" again to contain the crash in each widget item
+            try {
+                // Get item
+                JSONObject item = data.getJSONObject(x);
+
+                String pkg = null, name = null, activity = null;
+                int position = 99;
+                boolean enabled = false;
+
+                if (item.has("pkg"))
+                    pkg = item.getString("pkg");
+                if (item.has("srl"))
+                    position = item.getInt("srl");
+                if (item.has("enable"))
+                    enabled = item.getInt("enable") == 1;
+                if (item.has("cls"))
+                    activity = item.getString("cls");
+
+                /* // Not used
+                if (item.has("title"))
+                    name = item.getString("title");
+                else {
+                    if (activity != null && !activity.isEmpty()) {
+                        String[] activity_components = activity.split("\\.");
+                        name = activity_components[activity_components.length - 1];
+                    } else {
+                        name = pkg;
+                    }
+                }
+                 */
+
+                if (pkg != null && activity != null) { //&& name != null
+                    // Change names that confuse users
+                    //if (name.equals("天气")) {
+                    //    name = "Weather";
+                    //}
+
+                    //Create springboard item with the package name, class name and state
+                    final SpringboardItem springboardItem = new SpringboardItem(pkg, activity, enabled);
+                    //Create a setting (extending switch) with the relevant data and a callback
+                    SpringboardSetting springboardSetting = new SpringboardSetting(null, getTitle(springboardItem.getPackageName(), context),
+                            formatComponentName(springboardItem.getClassName()), new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                            Logger.debug("WidgetsUtil loadSettings.onCheckedChanged b: " + b);
+                            //Ignore on create to reduce load
+                            if (!compoundButton.isPressed()) return;
+                            //Update state
+                            springboardItem.setEnabled(b);
+                            //Save
+                            save(context);
+                        }
+                    }, springboardItem.isEnable(), springboardItem);
+
+                    try {
+                        //Attempt to add at position, may cause exception
+                        settingList.add(position, springboardSetting);
+                    } catch (IndexOutOfBoundsException e) {
+                        //Add at top as position won't work
+                        settingList.add(springboardSetting);
+                    }
+
+                }
+            } catch (Exception e) {
+                Logger.debug("Widget No"+x+" error: "+e);
+            }
+        }
+
+        /* OLD CODE
         // Find and populate the widgets list
         settingList = new ArrayList<>(); // Create empty list
         try {
@@ -189,6 +264,7 @@ public class WidgetsUtil {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+         */
 
         // Empty settings list can be confusing to the user, and is quite common, so we'll add the FAQ to save them having to read the OP (oh the horror)
         if (settingList.size() == 0) {
