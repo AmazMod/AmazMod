@@ -12,9 +12,7 @@ public class AppInfo {
     private boolean enabled;
     private int position;
 
-    public String getAppName() {
-        return appName;
-    }
+    public String getAppName() { return appName; }
 
     public void setAppName(String appName) {
         this.appName = appName;

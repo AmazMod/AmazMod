@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.adapters.WidgetsAdapter;
 import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.support.AppInfo;
 import com.edotassi.amazmod.support.ThemeHelper;
@@ -47,8 +45,7 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import static amazmod.com.transport.Constants.WIDGETS_LIST_EMPTY_CODE;
 import static amazmod.com.transport.Constants.WIDGETS_LIST_SAVED_CODE;
 
-public class WidgetsActivity extends BaseAppCompatActivity
-        implements WidgetsAdapter.Bridge{
+public class WidgetsActivity extends BaseAppCompatActivity{
 
     @BindView(R.id.activity_widgets_selector_list)
     ListView listView;
@@ -73,7 +70,7 @@ public class WidgetsActivity extends BaseAppCompatActivity
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Widgets"); // TODO translate
+            getSupportActionBar().setTitle(getResources().getString(R.string.widgets));
         }
 
         ButterKnife.bind(this);
@@ -104,8 +101,7 @@ public class WidgetsActivity extends BaseAppCompatActivity
                             break;
                         }
                         if (position != mPosition) {
-                            Logger.debug("WidgetsActivity move mPosition: " + mPosition +
-                                    " \\ position: " + position);
+                            Logger.debug("WidgetsActivity move mPosition: " + mPosition +" \\ position: " + position);
                             if (mPosition != -1) {
                                 if (position > mPosition) {
                                     if (position - mPosition == 1)
@@ -122,8 +118,8 @@ public class WidgetsActivity extends BaseAppCompatActivity
                                         Collections.swap(widgetsList, position, (position+1));
                                     }
                                 }
-                            }// else if (initalPosition != position)
-                            //   Collections.swap(repliesValues, initalPosition, position);
+                            }
+
                             mPosition = position;
                             widgetsAdapter.remove(mDragWidget);
                             widgetsAdapter.insert(mDragWidget, mPosition);
@@ -235,7 +231,7 @@ public class WidgetsActivity extends BaseAppCompatActivity
                         Logger.debug(task.getException(), "Widgets saved");
                         Snacky.builder()
                                 .setActivity(WidgetsActivity.this)
-                                .setText("Widgets saved") // TODO translate
+                                .setText(getResources().getString(R.string.widgets_changed))
                                 .setDuration(Snacky.LENGTH_LONG)
                                 .build().show();
                     }else{
@@ -246,14 +242,13 @@ public class WidgetsActivity extends BaseAppCompatActivity
                     Logger.error(task.getException(), "failed reading widgets");
                     Snacky.builder()
                             .setActivity(WidgetsActivity.this)
-                            .setText("Problem sending data") // TODO translate
+                            .setText(getResources().getString(R.string.problem_sending_data))
                             .setDuration(Snacky.LENGTH_LONG)
                             .build().show();
                 }
                 return null;
             }
         });
-
     }
 
     private void loadApps(String widgetsJSON) {
@@ -265,51 +260,6 @@ public class WidgetsActivity extends BaseAppCompatActivity
         // Extract data from JSON
         boolean error = false;
         try {
-            /*
-            widgets = new JSONObject(widgetsJSON);
-            Logger.debug("JSON widgets breakdown: #"+widgetsJSON+"#");
-            if (widgets.has("widgets")){
-                //Logger.debug("JSON widgets found");
-                JSONArray jsonArray = (JSONArray) widgets.get("widgets");
-                for (int i = 0; i <jsonArray.length(); i++) {
-                    JSONObject obj = (JSONObject) jsonArray.get(i);
-
-                    String pkg=null, name = null, activity=null;
-                    int position = 99;
-                    boolean enabled = false;
-
-                    if (obj.has("pkg"))
-                        pkg = obj.getString("pkg");
-                    if (obj.has("name"))
-                        name = obj.getString("name");
-                    if (obj.has("position"))
-                        position = obj.getInt("position");
-                    if (obj.has("enabled"))
-                        enabled = obj.getBoolean("enabled");
-                    if (obj.has("activity"))
-                        activity = obj.getString("activity");
-
-                    if(pkg!=null && name!=null && activity!=null) {
-                        // Change names that confuse users
-                        if(name.equals("天气")){
-                            name = "Weather widget";
-                        }
-                        widgetsList.add(createAppInfo(pkg, name, position, enabled, activity));
-                    }
-                }
-
-                sortWidgets(widgetsList);
-                WidgetsActivity.this.widgetsList = widgetsList;
-            }else{
-                Logger.error("No widgets to extract form JSON");
-                Snacky.builder()
-                        .setActivity(WidgetsActivity.this)
-                        .setText("Error loading widgets") // TODO translate
-                        .setDuration(Snacky.LENGTH_LONG)
-                        .build().show();
-            }
-             */
-
             JSONArray data = new JSONArray(widgetsJSON);
             for (int x = 0; x < data.length(); x++) {
                 // "Try" again to contain the crash in each widget item
@@ -355,7 +305,7 @@ public class WidgetsActivity extends BaseAppCompatActivity
             Logger.error("Widgets JSON error");
             Snacky.builder()
                     .setActivity(WidgetsActivity.this)
-                    .setText("Error loading widgets") // TODO translate
+                    .setText(getResources().getString(R.string.error_loading_widgets))
                     .setDuration(Snacky.LENGTH_LONG)
                     .build().show();
             error = true;
@@ -369,26 +319,13 @@ public class WidgetsActivity extends BaseAppCompatActivity
         }else if(!error){
             Snacky.builder()
                     .setActivity(WidgetsActivity.this)
-                    .setText("No widgets found") // TODO translate
+                    .setText(getResources().getString(R.string.no_widgets_found))
                     .setDuration(Snacky.LENGTH_LONG)
                     .build().show();
         }
 
         materialProgressBar.setVisibility(View.GONE);
         listView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
-    public void onAppInfoStatusChange() {
-        sortWidgets(widgetsList);
-        widgetsAdapter.clear();
-        widgetsAdapter.addAll(widgetsList);
-        widgetsAdapter.notifyDataSetChanged();
     }
 
     private AppInfo createAppInfo(String pkg, String name, int position, boolean enabled, String activity) {
@@ -408,21 +345,6 @@ public class WidgetsActivity extends BaseAppCompatActivity
         widgetsAdapter.clear();
         widgetsAdapter.addAll(widgetsList);
         widgetsAdapter.notifyDataSetChanged();
-    }
-
-    private void sortWidgets(List<AppInfo> appInfoList) {
-        Collections.sort(appInfoList, (o1, o2) -> {
-            if (o1.isEnabled() && !o2.isEnabled()) {
-                return -1;
-            } else if (!o1.isEnabled() && o2.isEnabled()) {
-                return 1;
-            } else if ((!o1.isEnabled() && !o2.isEnabled()) || (o1.isEnabled() && o2.isEnabled())) {
-                //return o1.getAppName().compareTo(o2.getAppName());
-                return (o1.getPosition()<o2.getPosition())?-1:1;
-            }
-            //return o1.getAppName().compareTo(o2.getAppName());
-            return (o1.getPosition()<o2.getPosition())?-1:1;
-        });
     }
     
     @Override
@@ -458,7 +380,6 @@ public class WidgetsActivity extends BaseAppCompatActivity
 
         public WidgetsAdapter(Context context, int resource, @NonNull List<AppInfo> objects) {
             super(context, resource, objects);
-
         }
 
         @SuppressLint("ClickableViewAccessibility")
@@ -466,9 +387,8 @@ public class WidgetsActivity extends BaseAppCompatActivity
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             View listItem = convertView;
-            if (listItem == null) {
+            if (listItem == null)
                 listItem = LayoutInflater.from(getContext()).inflate(R.layout.row_drag_widgets, parent, false);
-            }
 
             final AppInfo appInfo = getItem(position);
 
@@ -483,30 +403,10 @@ public class WidgetsActivity extends BaseAppCompatActivity
                 @Override
                 public boolean onLongClick(View view) {
                     initalPosition = listView.pointToPosition((int) view.getX(), (int) view.getY());
-                    //initalPosition = listView.pointToPosition((int) event.getRawX(), (int) event.getRawY());
-                    //initalPosition = listView.pointToPosition((int) event.getX(), (int) event.getY());
-                    //initalPosition = itemNum - listView.getFirstVisiblePosition();
-                    //if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     startDrag(appInfo);
                     return true;
-                    //}
-                    //return false;
                 }
             });
-
-            /*
-            final View lItem = listItem;
-            viewHolder.value.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    lItem.setBackgroundColor(ThemeHelper.getThemeColorAccent(getContext()));
-                    String string = appInfo.getValue();
-                    Logger.debug("NotificationRepliesDragActivity onLongClick string: " + string);
-                    edit(appInfo, lItem);
-                    return false;
-                }
-            });
-            */
 
             if (mDragWidget != null && mDragWidget == appInfo) {
                 listItem.setBackgroundColor(ThemeHelper.getThemeColorAccent(getContext()));
@@ -537,7 +437,6 @@ public class WidgetsActivity extends BaseAppCompatActivity
             @OnClick(R.id.row_widget_switch)
             public void onEnableClick() { onEnableWidget(appInfo); }
         }
-
     }
 
 }

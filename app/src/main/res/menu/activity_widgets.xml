@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_activity_widgets_save"
-        android:icon="@drawable/outline_cloud_download_24"
+        android:icon="@drawable/outline_sync_white_36"
         android:orderInCategory="300"
-        android:title="Save"
+        android:title="@string/sync_settings"
         app:showAsAction="ifRoom" />
 </menu>
