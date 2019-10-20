@@ -51,16 +51,7 @@ public class WidgetsUtil {
     private static void loadSettings(final Context context, boolean saveOriginalList) {
 
         SettingsManager settingsManager = new SettingsManager(context);
-        boolean amazModFirstWidget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
-        String savedOrder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, "");
         String last_widget_order_in = settingsManager.getString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, "");
-
-        boolean isAmazmodWidgetMissing = true;
-        int amazmodPosition = SystemProperties.isVerge()?0:1;
-        if (SystemProperties.isStratos())
-            amazmodPosition = 2;
-
-        final SpringboardItem amazmodWidget = new SpringboardItem(Constants.SERVICE_NAME, Constants.LAUNCHER_CLASSNAME, true);
 
         // Get in and out settings.
         // In is the main setting, which defines the order and state of a page, but does not always contain them all.
@@ -71,16 +62,12 @@ public class WidgetsUtil {
 
         Logger.debug("WidgetsUtil loadSettings widget_order_in  : " + widget_order_in.substring(0, Math.min(widget_order_in.length(), 352)));
         Logger.debug("WidgetsUtil loadSettings widget_order_out : " + widget_order_out.substring(0, Math.min(widget_order_out.length(), 352)));
-        Logger.debug("WidgetsUtil loadSettings savedOrder : " + savedOrder.substring(0, Math.min(savedOrder.length(), 352)));
         Logger.debug("WidgetsUtil loadSettings widget_order_last : " + last_widget_order_in.substring(0, Math.min(last_widget_order_in.length(), 352)));
 
         // Backup the original list to a variable
         if (saveOriginalList)
             saveOfficialAppOrder(context, widget_order_in);
 
-        // Apply user saved list
-        if (!savedOrder.isEmpty() && amazModFirstWidget)
-            widget_order_in = savedOrder;
         // Old save code
         /* Disabled for testing purposes
         // if last order_in is equal to current one no change was done via Amazfit Watch official App, so reapply saved order
@@ -317,11 +304,27 @@ public class WidgetsUtil {
     }
 
     public static JSONArray getWidgetsLists(Context context, boolean searchForCustomWidgets){
+
+        SettingsManager settingsManager = new SettingsManager(context);
+        boolean amazModFirstWidget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
+        String savedOrder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, "");
+        boolean isAmazmodWidgetMissing = true;
+        int amazmodPosition = SystemProperties.isVerge()?0:1;
+        if (SystemProperties.isStratos())
+            amazmodPosition = 2;
+
+        final SpringboardItem amazmodWidget = new SpringboardItem(Constants.SERVICE_NAME, Constants.LAUNCHER_CLASSNAME, true);
+
         // Get in and out settings.
         // In is the main setting, which defines the order and state of a page, but does not always contain them all.
         String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
         // Out contains them all, but no ordering.
         String widget_order_out = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_OUT);
+        Logger.debug("WidgetsUtil loadSettings savedOrder : " + savedOrder.substring(0, Math.min(savedOrder.length(), 352)));
+
+        // Apply user saved list
+        if (!savedOrder.isEmpty() && amazModFirstWidget)
+            widget_order_in = savedOrder;
 
         // The returned value
         JSONArray widgets_list = new JSONArray();
@@ -402,7 +405,28 @@ public class WidgetsUtil {
                     // Set max position
                     //if (position>max_position)
                     //    max_position = position;
+                    boolean enable = item.getString("enable").equals("true");
+                    SpringboardItem springboardItem = new SpringboardItem(item.getString("pkg"), item.getString("cls"), enable);
 
+                    //Always show amazmod as first when swiping left (index 2, second item) if its defined in preferences
+                    if (item.getString("pkg").equals(Constants.SERVICE_NAME) && amazModFirstWidget) {
+                        //Make sure it is enabled
+                        springboardItem.setEnabled(true);
+                        //Create setting with all the relevant data
+                        SpringboardSetting springboardSetting = addSpringboardSetting(context, springboardItem);
+                        //Add amazmod as first one
+                        settingList.add(amazmodPosition, springboardSetting);
+                        isAmazmodWidgetMissing = false;
+                    } else {
+                        //Create setting with all the relevant data
+                        SpringboardSetting springboardSetting = addSpringboardSetting(context, springboardItem);
+                        //Add setting to main list
+                        settingList.add(springboardSetting);
+                    }
+                    if (isAmazmodWidgetMissing && amazModFirstWidget) {
+                        SpringboardSetting amazmodSetting = addSpringboardSetting(context, amazmodWidget);
+                        settingList.add((settingList.size()>=amazmodPosition)?amazmodPosition:settingList.size(), amazmodSetting);
+                    }
                     Logger.debug("Out widget found: " + item.toString());
                 }
             }
