@@ -399,12 +399,12 @@ Urobte príkaz shell \"</string>
     </plurals>
     <plurals name="minute">
         <item quantity="one">minúta</item>
-        <item quantity="few">minút</item>
-        <item quantity="many">minutes</item>
+        <item quantity="few">minúty</item>
+        <item quantity="many">minút</item>
         <item quantity="other">minúty</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">Widgety boli zmenené</string>
+    <string name="problem_sending_data">Problém s odoslaním dát</string>
+    <string name="error_loading_widgets">Chyba pri načítaní widgetov</string>
+    <string name="no_widgets_found">Nenašli sme žiadne widgety</string>
 </resources>
