@@ -402,8 +402,8 @@
         <item quantity="many">хвилин</item>
         <item quantity="other">хвилини</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">Віджети змінено</string>
+    <string name="problem_sending_data">Помилка надсилання даних</string>
+    <string name="error_loading_widgets">Помилка завантаження віджету</string>
+    <string name="no_widgets_found">Віджетів не знайдено</string>
 </resources>

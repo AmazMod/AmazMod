@@ -396,8 +396,8 @@
         <item quantity="one">minut</item>
         <item quantity="other">minutter</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">Widgets ændret</string>
+    <string name="problem_sending_data">Problem med dataafsendelse</string>
+    <string name="error_loading_widgets">Widget-indlæsningsfejl</string>
+    <string name="no_widgets_found">Ingen widget\'er fundet</string>
 </resources>

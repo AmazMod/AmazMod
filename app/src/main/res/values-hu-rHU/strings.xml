@@ -398,8 +398,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
         <item quantity="one">perc</item>
         <item quantity="other">perc</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">A widget módosult</string>
+    <string name="problem_sending_data">Adat küldési probléma</string>
+    <string name="error_loading_widgets">Widget betöltési hiba</string>
+    <string name="no_widgets_found">Nem található widget</string>
 </resources>
