@@ -82,7 +82,6 @@ public class WidgetsUtil {
 
         // Get widgets list
         JSONArray data = WidgetsUtil.getWidgetsLists(context, true);
-
         // Extract data from JSON
         settingList = new ArrayList<>(); // Create empty list
         for (int x = 0; x < data.length(); x++) {
@@ -321,6 +320,10 @@ public class WidgetsUtil {
         // Out contains them all, but no ordering.
         String widget_order_out = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_OUT);
         Logger.debug("WidgetsUtil loadSettings savedOrder : " + savedOrder.substring(0, Math.min(savedOrder.length(), 352)));
+
+        // Backup the original list to a variable
+        if (searchForCustomWidgets)
+            saveOfficialAppOrder(context, widget_order_in);
 
         // Apply user saved list
         if (!savedOrder.isEmpty() && amazModFirstWidget)
