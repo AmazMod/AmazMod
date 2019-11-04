@@ -335,6 +335,12 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 });
     }
 
+    @OnClick(R.id.activity_tweaking_clean_memory)
+    public void cleanMemory() {
+        execCommandInternally(ShellCommandHelper.getCleanMemory());
+
+    }
+
     @OnClick(R.id.activity_tweaking_exec_command_run)
     public void execCommand() {
         try {

@@ -28,6 +28,7 @@ public class Constants {
     public static final String SHELL_COMMAND_EXTRACT = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
     public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
+    public static final String SHELL_COMMAND_CLEAN_MEMORY = "adb shell am kill-all";
 
     public static final String FILE_LOG_BUNDLE = "/sdcard/log_bundle.log.gz";
     public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d -v long | gzip > " + FILE_LOG_BUNDLE;

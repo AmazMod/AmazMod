@@ -60,4 +60,8 @@ public class ShellCommandHelper {
     public static String getScreenshot() {
         return Constants.SHELL_COMMAND_SCREENSHOT;
     }
+
+    public static String getCleanMemory() {
+        return Constants.SHELL_COMMAND_CLEAN_MEMORY;
+    }
 }
