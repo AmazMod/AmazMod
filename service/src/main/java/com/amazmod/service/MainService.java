@@ -255,7 +255,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // settings.reload(); // load runs on "new" creation
 
         // Restore system settings after service update
-        new ExecCommand("adb shell settings put system screen_off_timeout 14000");
+        new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
         Logger.debug("Restore APK_INSTALL screen timeout");
         /*
         try {
