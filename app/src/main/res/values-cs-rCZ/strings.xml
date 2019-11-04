@@ -271,6 +271,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="compress">Komprimovat</string>
     <string name="delete_folder_and_contents">\"%1$s\" je složka. Odstranit ji a celý její obsah?</string>
     <string name="screenshot">Snímek obrazovky</string>
+    <string name="clean_memory">Clean memory</string>
     <string name="pref_notifications_enable_delay">Prodleva odeslání</string>
     <string name="pref_notifications_enable_delay_summary">Časová prodleva před odesláním odpovědi.</string>
     <string name="file_uploader">Uploader souborů</string>
