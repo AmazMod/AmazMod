@@ -269,6 +269,7 @@
     <string name="compress">Συμπίεση</string>
     <string name="delete_folder_and_contents">Το «%1$s» είναι φάκελος. Αφαίρεση του μαζί με όλα τα περιεχόμενα του;</string>
     <string name="screenshot">Στιγμιότυπο οθόνης</string>
+    <string name="clean_memory">Clean memory</string>
     <string name="pref_notifications_enable_delay">Καθυστέρηση απαντήσεων</string>
     <string name="pref_notifications_enable_delay_summary">Καθυστέρηση αντίστροφης μέτρησης πριν από την αποστολή απαντήσεων.</string>
     <string name="file_uploader">Ανέβασμα αρχείων</string>
