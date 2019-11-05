@@ -18,7 +18,7 @@
     <string name="watchface">GreatFit / Calendar</string>
     <string name="stats">Statistika</string>
     <string name="changelog">Sprememba</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Oceni aplikacijo</string>
     <string name="enable">Omogoči</string>
     <string name="cancel">Prekliči</string>
     <string name="select_unselect_all">Izberite / Odznači vse</string>
@@ -39,7 +39,7 @@
     <string name="file_not_exists">Datoteka ne obstaja</string>
     <string name="cant_uplaod_directory">Prenos imenika ni mogoč</string>
     <string name="sending">Pošiljanje</string>
-    <string name="wait">please wait</string>
+    <string name="wait">Prosim, počakajte</string>
     <string name="file_choose_title">Choose one or more file</string>
     <string name="cant_upload_file">Datoteke ni mogoče naložiti</string>
     <string name="cant_download_file">Datoteke ni mogoče prenesti</string>
@@ -57,11 +57,11 @@
     <string name="watch_info">Informacije o uri</string>
     <string name="last_charge">Od popolnega polnjenja</string>
     <string name="last_charge_no_info">Waiting for full charge</string>
-    <string name="notification_block">Block</string>
-    <string name="notification_continue">Continue</string>
-    <string name="notification_group">Group</string>
-    <string name="notification_local">Local</string>
-    <string name="notification_ongoing">Ongoing</string>
+    <string name="notification_block">Blokiraj</string>
+    <string name="notification_continue">Nadaljuj</string>
+    <string name="notification_group">Skupina</string>
+    <string name="notification_local">Lokalni</string>
+    <string name="notification_ongoing">Poteka</string>
     <string name="notification_return">Return</string>
     <string name="notification_package">Package</string>
     <string name="notification_voice">Voice</string>
