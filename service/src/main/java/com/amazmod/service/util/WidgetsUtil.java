@@ -41,11 +41,11 @@ public class WidgetsUtil {
     private static CountDownTimer countDownTimer;
 
     public static void syncWidgets(final Context context){
-        loadSettings(context,true);
+        loadSettings(context,true); // Saves the original list first
     }
 
     public static void loadWidgetList(final Context context){
-        loadSettings(context,false);
+        loadSettings(context,false); // Doesn't save to the original list
     }
 
     private static void loadSettings(final Context context, boolean saveOriginalList) {

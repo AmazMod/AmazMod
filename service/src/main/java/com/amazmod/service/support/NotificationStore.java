@@ -132,21 +132,21 @@ public class NotificationStore {
         String data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
 
         // Default value
-        if (data == null) {
-            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, "{\"notifications\":\"" + count+"\"}");
-            return;
+        String notification_json = "{\"notifications\":\"" + count+"\"}";
+
+        // Edit data
+        if (data != null) {
+            try {
+                JSONObject json_data = new JSONObject(data);
+                json_data.put("notifications", count);
+                notification_json = json_data.toString();
+            } catch (JSONException e) {
+                Logger.debug("NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
+            }
         }
 
-        // Populate
-        try {
-            JSONObject json_data = new JSONObject(data);
-            json_data.put("notifications", count);
-            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, json_data.toString());
-        } catch (JSONException e) {
-            String notification_json = "{\"notifications\":\"" + count+"\"}";
-            Logger.debug("NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
-            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, notification_json);
-        }
+        // Update data
+        DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, notification_json);
     }
 
     private static boolean isEmpty() {
