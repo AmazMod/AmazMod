@@ -289,8 +289,8 @@
     <string name="are_you_sure">Είστε σίγουρος;</string>
     <string name="cannot_be_undone">Αυτό δεν μπορεί να αναιρεθεί.</string>
     <string name="show_only_selected">Εμφάνιση μόνο των επιτρεπόμενων εφαρμογών</string>
-    <string name="pref_amazmod_first_widget">Το AmazMod ως Πρώτο Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Το AmazMod θα παραμένει ως πρώτο widget.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Κουμπί Διαγραφής Ειδοποιήσεων</string>
     <string name="pref_enable_delete_button_on">Το κουμπί διαγραφής θα εμφανίζεται κάτω από το περιεχόμενο της ειδοποίησης</string>
     <string name="pref_enable_delete_button_off">Το κουμπί διαγραφής θα είναι στην 4η οθόνη, σύρετε προς τα αριστερά καθώς βρίσκεστε στην ειδοποίηση</string>
