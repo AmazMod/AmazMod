@@ -269,7 +269,7 @@
     <string name="compress">דחוס</string>
     <string name="delete_folder_and_contents">\"%1$s\" היא תיקיה. למחוק אותה ואת כל התוכן בתוכה?</string>
     <string name="screenshot">צילום מסך</string>
-    <string name="clean_memory">ניקוי זיכרון</string>
+    <string name="clean_adb">Clean ADB</string>
     <string name="pref_notifications_enable_delay">עיכוב תגובה</string>
     <string name="pref_notifications_enable_delay_summary">ספירה לאחור לפני שליחת מענה להתראה.</string>
     <string name="file_uploader">העלאת קבצים</string>
