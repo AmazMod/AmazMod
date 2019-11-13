@@ -289,8 +289,8 @@
     <string name="are_you_sure">Bạn có chắc không?</string>
     <string name="cannot_be_undone">Điều này không thể hoàn tác.</string>
     <string name="show_only_selected">Chỉ hiển thị các ứng dụng được phép</string>
-    <string name="pref_amazmod_first_widget">AmazMod là tiện ích xem đầu tiên</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod sẽ ở lại như tiện ích đồng hồ đầu tiên.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Nút xóa thông báo</string>
     <string name="pref_enable_delete_button_on">Nút xóa sẽ được hiển thị bên dưới nội dung thông báo</string>
     <string name="pref_enable_delete_button_off">Nút xóa sẽ ở màn hình thứ 4 khi vuốt trái trên thông báo</string>
