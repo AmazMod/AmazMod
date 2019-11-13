@@ -269,7 +269,7 @@
     <string name="compress">Архівувати</string>
     <string name="delete_folder_and_contents">\"%1$s\" є текою. Бажаєте видалити її разом з її вмістом?</string>
     <string name="screenshot">Знімок екрану</string>
-    <string name="clean_memory">Очистити пам\'ять</string>
+    <string name="clean_adb">Clean ADB</string>
     <string name="pref_notifications_enable_delay">Затримка для відповіді</string>
     <string name="pref_notifications_enable_delay_summary">Зворотній відлік перед надсиланням відповіді.</string>
     <string name="file_uploader">Завантажувач файлів</string>
