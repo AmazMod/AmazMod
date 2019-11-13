@@ -289,8 +289,8 @@
     <string name="are_you_sure">Sind Sie sicher?</string>
     <string name="cannot_be_undone">Dies kann nicht rückgängig gemacht werden.</string>
     <string name="show_only_selected">Zeige nur berechtigte Apps</string>
-    <string name="pref_amazmod_first_widget">Amazmod Widget steht an 1. Stelle auf der Uhr</string>
-    <string name="pref_amazmod_first_widget_summary">Amazmod Widget bleibt auf der Uhr an 1. Stelle.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Taste zum Löschen von Mitteilungen</string>
     <string name="pref_enable_delete_button_on">Taste zum Löschen von Mitteilungen steht direkt unterhalb Mitteilungstext</string>
     <string name="pref_enable_delete_button_off">Löschtaste befindet sich im 4. Bildschirm wenn Sie in den Mitteilungen nach links wischen</string>
