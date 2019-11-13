@@ -270,7 +270,7 @@
     <string name="compress">Comprimir</string>
     <string name="delete_folder_and_contents">\"%1$s\" es una carpeta. ¿Quieres borrarla así como todo su contenido de forma recursiva?</string>
     <string name="screenshot">Captura de pantalla</string>
-    <string name="clean_memory">Clean memory</string>
+    <string name="clean_memory">Borrar memoria</string>
     <string name="pref_notifications_enable_delay">Retardo de respuesta</string>
     <string name="pref_notifications_enable_delay_summary">Retraso de la cuenta antes de enviar una respuesta.</string>
     <string name="file_uploader">Cargador de archivos</string>
@@ -290,8 +290,8 @@
     <string name="are_you_sure">¿Estás seguro?</string>
     <string name="cannot_be_undone">Esto no se puede deshacer.</string>
     <string name="show_only_selected">Mostrar sólo aplicaciones permitidas</string>
-    <string name="pref_amazmod_first_widget">Monitor widgets</string>
-    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_first_widget">Monitorizar widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Fuerza el orden seleccionado de los widgets guardados</string>
     <string name="pref_enable_delete_button">Botón para Eliminar notificación</string>
     <string name="pref_enable_delete_button_on">Se mostrará el botón Eliminar al final del contenido de la notificación</string>
     <string name="pref_enable_delete_button_off">El botón Eliminar aparecerá en la 4ª pantalla al deslizar la notificación hacia la izquierda</string>
