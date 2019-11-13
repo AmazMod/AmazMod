@@ -289,8 +289,8 @@
     <string name="are_you_sure">Tem a certeza?</string>
     <string name="cannot_be_undone">Isto não pode ser desfeito.</string>
     <string name="show_only_selected">Mostrar apenas apps autorizadas</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Botão de apagar notificação</string>
     <string name="pref_enable_delete_button_on">Botão de eliminar aparece abaixo da notificação conteúdo</string>
     <string name="pref_enable_delete_button_off">Botão de eliminar será na tela 4 quando fizer swipe para a esquerda na notificação</string>
