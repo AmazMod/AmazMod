@@ -218,6 +218,7 @@
     <string name="execute_shell_command">הרצת פקודת מעטפת</string>
     <string name="run">הפעלה</string>
     <string name="shell_command_sent">הפקודה נשלחה</string>
+    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
     <string name="cant_send_shell_command">לא ניתן לשלוח פקודה</string>
     <string name="install">התקנה</string>
     <string name="apk_install_started_title">התקנת APK</string>
@@ -269,7 +270,7 @@
     <string name="compress">דחוס</string>
     <string name="delete_folder_and_contents">\"%1$s\" היא תיקיה. למחוק אותה ואת כל התוכן בתוכה?</string>
     <string name="screenshot">צילום מסך</string>
-    <string name="clean_adb">Clean ADB</string>
+    <string name="clear_adb">Clear ADB</string>
     <string name="pref_notifications_enable_delay">עיכוב תגובה</string>
     <string name="pref_notifications_enable_delay_summary">ספירה לאחור לפני שליחת מענה להתראה.</string>
     <string name="file_uploader">העלאת קבצים</string>
@@ -289,8 +290,8 @@
     <string name="are_you_sure">את/ה בטוח/ה?</string>
     <string name="cannot_be_undone">פעולה זו אינה ניתנת לביטול.</string>
     <string name="show_only_selected">הצג רק יישומים מאושרים</string>
-    <string name="pref_amazmod_first_widget">סידור וויג\'טים</string>
-    <string name="pref_amazmod_first_widget_summary">כפיית סידור הוויג\'טים לפי הסדר השמור שלכם.</string>
+    <string name="pref_amazmod_keep_widget">Keep widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">לחצן מחיקת התראה</string>
     <string name="pref_enable_delete_button_on">לחצן מחיקה יוצג בתחתית התוכן בהתראה</string>
     <string name="pref_enable_delete_button_off">הלחצן \'מחק\' יופיע במסך הרביעי כאשר תבצע החלקה שמאלה על ההתראה</string>
