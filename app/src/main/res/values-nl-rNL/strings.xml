@@ -269,7 +269,7 @@
     <string name="compress">Comprimeren</string>
     <string name="delete_folder_and_contents">\"%1$s\" is een map. Verwijder het en al haar inhoud recursief verwijderen?</string>
     <string name="screenshot">Screenshot</string>
-    <string name="clean_adb">Clean ADB</string>
+    <string name="clean_adb">ADB opschonen</string>
     <string name="pref_notifications_enable_delay">Antwoordvertraging</string>
     <string name="pref_notifications_enable_delay_summary">Vertraging aftellen voordat u een antwoord stuurt.</string>
     <string name="file_uploader">Bestand Uploader</string>
@@ -289,8 +289,8 @@
     <string name="are_you_sure">Weet je het zeker?</string>
     <string name="cannot_be_undone">Dit kan niet ongedaan gemaakt worden.</string>
     <string name="show_only_selected">Toon alleen toegestane apps</string>
-    <string name="pref_amazmod_first_widget">Monitor widgets</string>
-    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_first_widget">Widgets monitoren</string>
+    <string name="pref_amazmod_first_widget_summary">Forceer toepassing van uw bewaarde widgets arrangement.</string>
     <string name="pref_enable_delete_button">Notificatie verwijder knop</string>
     <string name="pref_enable_delete_button_on">Verwijder knop zal onder de notificatie getoond worden</string>
     <string name="pref_enable_delete_button_off">Swipe links naar het vierde scherm voor de verwijder knop bij een notificatie</string>
