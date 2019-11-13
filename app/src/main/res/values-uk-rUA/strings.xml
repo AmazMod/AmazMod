@@ -289,8 +289,8 @@
     <string name="are_you_sure">Ви впевнені?</string>
     <string name="cannot_be_undone">Ця дія є незворотня.</string>
     <string name="show_only_selected">Показати тільки дозволені додатки</string>
-    <string name="pref_amazmod_first_widget">AmazMod, як перший віджет годинника</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod буде встановлено першим віджетом годинника.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Кнопка видалення сповіщень</string>
     <string name="pref_enable_delete_button_on">Кнопка видалення буде показана під змістом сповіщення</string>
     <string name="pref_enable_delete_button_off">Кнопка видалення буде на четвертому екрані, коли проводите вліво від сповіщення</string>
