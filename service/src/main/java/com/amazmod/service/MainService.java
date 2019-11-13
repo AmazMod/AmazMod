@@ -361,7 +361,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Register springboard observer
         isSpringboardObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
-        wasSpringboardSaved = false;
         if (isSpringboardObserverEnabled)
             registerSpringBoardMonitor(true);
         Logger.debug("MainService isSpringboardObserverEnabled: "+isSpringboardObserverEnabled);
@@ -852,7 +851,6 @@ public class MainService extends Service implements Transporter.DataListener {
             boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
 
             getBatteryPct(batteryStatus);
-
 
             //Get data of last full charge from settings
             //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
@@ -1519,16 +1517,21 @@ public class MainService extends Service implements Transporter.DataListener {
             if (springboardObserver != null)
                 return;
 
-            // Sync for a first time
-            WidgetsUtil.loadWidgetList(context);
+            // Save default order
+            String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
+            WidgetsUtil.saveOfficialAppOrder(context, widget_order_in);
+
+            // Boolean to avoid self-caused re-run loop
+            wasSpringboardSaved = false;
+
             springboardObserver = new ContentObserver(new Handler()) {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
                     Logger.debug("MainService registerSpringBoardMonitor onChange");
 
-                    // Update widgets list
                     if (!wasSpringboardSaved)
+                        // Update widgets list
                         WidgetsUtil.syncWidgets(context);
                     else
                         wasSpringboardSaved = false;

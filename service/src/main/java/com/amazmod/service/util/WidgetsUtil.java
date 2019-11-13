@@ -40,8 +40,20 @@ public class WidgetsUtil {
     //Countdown timer to prevent saving too often
     private static CountDownTimer countDownTimer;
 
+    // Re-apply the saved widgets list
     public static void syncWidgets(final Context context){
-        loadSettings(context,true); // Saves the original list first
+        SettingsManager settingsManager = new SettingsManager(context);
+        String savedOrder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, null);
+        if(savedOrder!=null && !savedOrder.isEmpty()) {
+            String currentOrder = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
+            if(!savedOrder.equals(currentOrder)) {
+                MainService.setWasSpringboardSaved(true);// make the observer not to re-save
+                DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, savedOrder);
+                Logger.debug("Widgets list force applied: " + savedOrder);
+            }else{
+                Logger.debug("Widgets list is already applied or correct.");
+            }
+        }
     }
 
     public static void loadWidgetList(final Context context){
@@ -629,7 +641,7 @@ public class WidgetsUtil {
         }
     }
 
-    private static void saveOfficialAppOrder(Context context, String order_in){
+    public static void saveOfficialAppOrder(Context context, String order_in){
         Logger.debug("WidgetsUtil saveOfficialAppOrder: " + order_in.substring(0, Math.min(order_in.length(), 352)));
         SettingsManager settingsManager = new SettingsManager(context);
         settingsManager.putString(Constants.PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER, order_in);
