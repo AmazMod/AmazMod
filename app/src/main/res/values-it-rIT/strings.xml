@@ -220,7 +220,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="execute_shell_command">Esegui un comando shell</string>
     <string name="run">Esegui</string>
     <string name="shell_command_sent">Comando inviato</string>
-    <string name="adb_clear_command_sent">Pulizia di tutti i processi ADB in esecuzione</string>
+    <string name="adb_clear_command_sent">Pulizia di tutti i processi ADB in corso</string>
     <string name="cant_send_shell_command">Impossibile inviare il comando</string>
     <string name="install">Installa</string>
     <string name="apk_install_started_title">Installa apk</string>
