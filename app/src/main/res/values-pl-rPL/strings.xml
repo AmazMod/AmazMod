@@ -269,7 +269,7 @@
     <string name="compress">Kompresuj</string>
     <string name="delete_folder_and_contents">\"%1$s\" jest folderem. Usunąć folder wraz z jego zawartością?</string>
     <string name="screenshot">Zrzut ekranu</string>
-    <string name="clean_memory">Czyszczenie pamięci</string>
+    <string name="clean_adb">Clean ADB</string>
     <string name="pref_notifications_enable_delay">Opóźnienie odpowiedzi</string>
     <string name="pref_notifications_enable_delay_summary">Odliczanie opóźnienia przed wysłaniem odpowiedzi.</string>
     <string name="file_uploader">Przesyłanie plików</string>
