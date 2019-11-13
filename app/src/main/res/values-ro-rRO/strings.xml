@@ -289,8 +289,8 @@
     <string name="are_you_sure">Sunteți sigur?</string>
     <string name="cannot_be_undone">Operațiunea nu poate fi anulată.</string>
     <string name="show_only_selected">Arată numai aplicațiile permise</string>
-    <string name="pref_amazmod_first_widget">Amazmod ca Primul Widget al Ceasului</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod va fi primul widget al ceasului.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Butonul de ştergere a Notificarilor</string>
     <string name="pref_enable_delete_button_on">Butonul de ștergere va fi arătat mai jos în contextul notificărilor</string>
     <string name="pref_enable_delete_button_off">Butonul de ștergere va fi în al 4-lea ecran când glisați în stânga pe notificare</string>
