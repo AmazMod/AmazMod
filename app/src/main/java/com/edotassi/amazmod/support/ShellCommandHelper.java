@@ -61,7 +61,7 @@ public class ShellCommandHelper {
         return Constants.SHELL_COMMAND_SCREENSHOT;
     }
 
-    public static String getCleanMemory() {
-        return Constants.SHELL_COMMAND_CLEAN_MEMORY;
+    public static String getCleanAdb() {
+        return Constants.SHELL_COMMAND_CLEAN_ADB;
     }
 }

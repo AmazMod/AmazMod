@@ -335,10 +335,10 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 });
     }
 
-    @OnClick(R.id.activity_tweaking_clean_memory)
-    public void cleanMemory() {
-        execCommandInternally(ShellCommandHelper.getCleanMemory());
-
+    @OnClick(R.id.activity_tweaking_clean_adb)
+    public void cleanAdb() {
+        execCommandInternally(ShellCommandHelper.getCleanAdb());
+        snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.shell_command_sent)), SnackProgressBarManager.LENGTH_LONG);
     }
 
     @OnClick(R.id.activity_tweaking_exec_command_run)
