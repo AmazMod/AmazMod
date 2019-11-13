@@ -236,7 +236,7 @@ public class WidgetsUtil {
                         addedComponents.add(springboardItem.getClassName());
 
                         //Always show amazmod as first when swiping left (index 2, second item) if its defined in preferences
-                        if (item.getString("pkg").equals(Constants.SERVICE_NAME) && amazModFirstWidget) {
+                        if (item.getString("pkg").equals(Constants.SERVICE_NAME) && amazModKeepWidget) {
                             //Make sure it is enabled
                             springboardItem.setEnabled(true);
                             //Create setting with all the relevant data
@@ -254,7 +254,7 @@ public class WidgetsUtil {
                 }
             }
 
-            if (isAmazmodWidgetMissing && amazModFirstWidget) {
+            if (isAmazmodWidgetMissing && amazModKeepWidget) {
                 SpringboardSetting amazmodSetting = addSpringboardSetting(context, amazmodWidget);
                 settingList.add((settingList.size()>=amazmodPosition)?amazmodPosition:settingList.size(), amazmodSetting);
             }
@@ -317,7 +317,7 @@ public class WidgetsUtil {
     public static JSONArray getWidgetsLists(Context context, boolean searchForCustomWidgets){
 
         SettingsManager settingsManager = new SettingsManager(context);
-        boolean amazModFirstWidget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
+        boolean amazModKeepWidget = settingsManager.getBoolean(Constants.PREF_AMAZMOD_KEEP_WIDGET, true);
         String savedOrder = settingsManager.getString(Constants.PREF_SPRINGBOARD_ORDER, "");
         boolean isAmazmodWidgetMissing = true;
         int amazmodPosition = SystemProperties.isVerge()?0:1;
@@ -338,7 +338,7 @@ public class WidgetsUtil {
             saveOfficialAppOrder(context, widget_order_in);
 
         // Apply user saved list
-        if (!savedOrder.isEmpty() && amazModFirstWidget)
+        if (!savedOrder.isEmpty() && amazModKeepWidget)
             widget_order_in = savedOrder;
 
         // The returned value
@@ -424,7 +424,7 @@ public class WidgetsUtil {
                     SpringboardItem springboardItem = new SpringboardItem(item.getString("pkg"), item.getString("cls"), enable);
 
                     //Always show amazmod as first when swiping left (index 2, second item) if its defined in preferences
-                    if (item.getString("pkg").equals(Constants.SERVICE_NAME) && amazModFirstWidget) {
+                    if (item.getString("pkg").equals(Constants.SERVICE_NAME) && amazModKeepWidget) {
                         //Make sure it is enabled
                         springboardItem.setEnabled(true);
                         //Create setting with all the relevant data
@@ -438,7 +438,7 @@ public class WidgetsUtil {
                         //Add setting to main list
                         settingList.add(springboardSetting);
                     }
-                    if (isAmazmodWidgetMissing && amazModFirstWidget) {
+                    if (isAmazmodWidgetMissing && amazModKeepWidget) {
                         SpringboardSetting amazmodSetting = addSpringboardSetting(context, amazmodWidget);
                         settingList.add((settingList.size()>=amazmodPosition)?amazmodPosition:settingList.size(), amazmodSetting);
                     }

@@ -237,8 +237,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION);
         final boolean disableNotificationsDelay = !Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_DELAY,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY);
-        final boolean amazModFirstWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET,
-                Constants.PREF_DEFAULT_AMAZMOD_FIRST_WIDGET);
+        final boolean amazModKeepWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_KEEP_WIDGET,
+                Constants.PREF_DEFAULT_AMAZMOD_KEEP_WIDGET);
         final boolean overlayLauncher = Prefs.getBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER,
                 Constants.PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER);
         final boolean hourlyChime = Prefs.getBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME,
@@ -291,7 +291,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
         settingsData.setDefaultLocale(Locale.getDefault().toString());
         settingsData.setDisableDelay(disableNotificationsDelay);
-        settingsData.setAmazModFirstWidget(amazModFirstWidget);
+        settingsData.setAmazModKeepWidget(amazModKeepWidget);
         settingsData.setOverlayLauncher(overlayLauncher);
         settingsData.setHourlyChime(hourlyChime);
         settingsData.setHeartrateData(heartrateData);

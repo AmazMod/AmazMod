@@ -4,6 +4,7 @@
         versionCode="218"
         versionName="v1.1.8 (218)">
         <new>Watch widgets can now be reordered directly from the phone</new>
+        <new>Add "Clear ADB" button on tweaking menu to avoid to much adb processes keep running</new>
         <new>Monitor widgets option on to force apply the selected order while Amazfit app tries to revert it</new>
         <new>Ability to select the calendar accounts from which data are extracted</new>
         <new>(Service) Incoming notifications will only vibrate while you type (to avoid losing your message)</new>

@@ -360,7 +360,7 @@ public class MainService extends Service implements Transporter.DataListener {
             registerConnectionMonitor(true);
 
         // Register springboard observer
-        isSpringboardObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
+        isSpringboardObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_KEEP_WIDGET, true);
         if (isSpringboardObserverEnabled)
             registerSpringBoardMonitor(true);
         Logger.debug("MainService isSpringboardObserverEnabled: "+isSpringboardObserverEnabled);
@@ -700,10 +700,10 @@ public class MainService extends Service implements Transporter.DataListener {
         if (isPhoneConnectionAlertEnabled != iPCA)
             registerConnectionMonitor(iPCA);
 
-        //Toggle AmazMod as first widget setting
-        iPCA = settingsData.isAmazModFirstWidget();
+        //Toggle AmazMod keep widget setting
+        iPCA = settingsData.isAmazModKeepWidget();
         settings.reload();
-        settings.set(Constants.PREF_AMAZMOD_FIRST_WIDGET, iPCA);
+        settings.set(Constants.PREF_AMAZMOD_KEEP_WIDGET, iPCA);
         if (isSpringboardObserverEnabled != iPCA)
             registerSpringBoardMonitor(iPCA);
 

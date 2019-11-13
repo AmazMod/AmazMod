@@ -28,7 +28,7 @@ public class Constants {
     public static final String SHELL_COMMAND_EXTRACT = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
     public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
-    public static final String SHELL_COMMAND_CLEAN_ADB = "adb kill-server";
+    public static final String SHELL_COMMAND_CLEAR_ADB = "adb kill-server";
 
     public static final String FILE_LOG_BUNDLE = "/sdcard/log_bundle.log.gz";
     public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d -v long | gzip > " + FILE_LOG_BUNDLE;
@@ -67,7 +67,7 @@ public class Constants {
     public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
     public static final String PREF_ENABLE_DEVELOPER_MODE = "preference.enable.developer.mode";
     public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
-    public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
+    public static final String PREF_AMAZMOD_KEEP_WIDGET = "preference.amazmod.keep.widget";
     public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "preference.amazmod.overlay.launcher";
     public static final String PREF_AMAZMOD_HOURLY_CHIME = "preference.amazmod.hourly.chime";
     public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
@@ -109,7 +109,7 @@ public class Constants {
     public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
     public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY = true;
-    public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
+    public static final boolean PREF_DEFAULT_AMAZMOD_KEEP_WIDGET = true;
     public static final boolean PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER = false;
     public static final boolean PREF_DEFAULT_AMAZMOD_HOURLY_CHIME = false;
 

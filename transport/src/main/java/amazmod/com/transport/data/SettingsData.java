@@ -28,7 +28,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "phone_connection_alert_standard_notification";
     public static final String DEFAULT_LOCALE = "default_locale";
     public static final String DISABLE_DELAY = "disable_reply_delay";
-    public static final String AMAZMOD_FIRST_WIDGET = "amazmod_first_widget";
+    public static final String AMAZMOD_KEEP_WIDGET = "amazmod_keep_widget";
     public static final String AMAZMOD_OVERLAY_LAUNCHER = "amazmod_overlay_launcher";
     public static final String AMAZMOD_HOURLY_CHIME = "amazmod_hourly_chime";
     public static final String AMAZMOD_HEARTRATE_DATA = "amazmod_heartrate_data";
@@ -54,7 +54,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean phoneConnectionAlertStandardNotification;
     private String defaultLocale;
     private boolean disableDelay;
-    private boolean amazModFirstWidget;
+    private boolean amazModKeepWidget;
     private boolean overlayLauncher;
     private boolean hourlyChime;
     private boolean heartrateData;
@@ -83,7 +83,7 @@ public class SettingsData extends Transportable implements Parcelable {
         phoneConnectionAlertStandardNotification = in.readByte() != 0;
         defaultLocale = in.readString();
         disableDelay = in.readByte() != 0;
-        amazModFirstWidget = in.readByte() != 0;
+        amazModKeepWidget = in.readByte() != 0;
         heartrateData = in.readByte() != 0;
         overlayLauncher = in.readByte() != 0;
         hourlyChime = in.readByte() != 0;
@@ -123,7 +123,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, phoneConnectionAlertStandardNotification);
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
-        dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
+        dataBundle.putBoolean(AMAZMOD_KEEP_WIDGET, amazModKeepWidget);
         dataBundle.putBoolean(AMAZMOD_OVERLAY_LAUNCHER, overlayLauncher);
         dataBundle.putBoolean(AMAZMOD_HOURLY_CHIME, hourlyChime);
         dataBundle.putBoolean(AMAZMOD_HEARTRATE_DATA, heartrateData);
@@ -154,7 +154,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setPhoneConnectionAlertStandardNotification(dataBundle.getBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION));
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
-        settingsData.setAmazModFirstWidget(dataBundle.getBoolean(AMAZMOD_FIRST_WIDGET));
+        settingsData.setAmazModKeepWidget(dataBundle.getBoolean(AMAZMOD_KEEP_WIDGET));
         settingsData.setOverlayLauncher(dataBundle.getBoolean(AMAZMOD_OVERLAY_LAUNCHER));
         settingsData.setHourlyChime(dataBundle.getBoolean(AMAZMOD_HOURLY_CHIME));
         settingsData.setHeartrateData(dataBundle.getBoolean(AMAZMOD_HEARTRATE_DATA));
@@ -268,8 +268,8 @@ public class SettingsData extends Transportable implements Parcelable {
         this.disableDelay = disableDelay;
     }
 
-    public boolean isAmazModFirstWidget() {
-        return amazModFirstWidget;
+    public boolean isAmazModKeepWidget() {
+        return amazModKeepWidget;
     }
 
     public boolean isOverlayLauncher() {
@@ -284,8 +284,8 @@ public class SettingsData extends Transportable implements Parcelable {
         return heartrateData;
     }
 
-    public void setAmazModFirstWidget(boolean amazModFirstWidget) {
-        this.amazModFirstWidget = amazModFirstWidget;
+    public void setAmazModKeepWidget(boolean amazModKeepWidget) {
+        this.amazModKeepWidget = amazModKeepWidget;
     }
 
     public void setOverlayLauncher(boolean overlayLauncher) {
@@ -388,7 +388,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (phoneConnectionAlertStandardNotification ? 1 : 0));
         dest.writeString(defaultLocale);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
-        dest.writeByte((byte) (amazModFirstWidget ? 1 : 0));
+        dest.writeByte((byte) (amazModKeepWidget ? 1 : 0));
         dest.writeByte((byte) (hourlyChime ? 1 : 0));
         dest.writeByte((byte) (heartrateData ? 1 : 0));
         dest.writeInt(batteryWatchAlert);

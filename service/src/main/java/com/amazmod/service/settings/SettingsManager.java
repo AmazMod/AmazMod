@@ -37,7 +37,7 @@ public class SettingsManager {
         editor.putBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, settingsData.isPhoneConnectionAlertStandardNotification());
         editor.putString(Constants.PREF_DEFAULT_LOCALE, settingsData.getDefaultLocale());
         editor.putBoolean(Constants.PREF_DISABLE_DELAY, settingsData.isDisableDelay());
-        editor.putBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, settingsData.isAmazModFirstWidget());
+        editor.putBoolean(Constants.PREF_AMAZMOD_KEEP_WIDGET, settingsData.isAmazModKeepWidget());
         editor.putBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, settingsData.isOverlayLauncher());
         editor.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, settingsData.isHourlyChime());
         editor.putBoolean(Constants.PREF_HEARTRATE_DATA, settingsData.isHeartrateData());

@@ -4,9 +4,9 @@
     <PreferenceCategory android:title="@string/main_options">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="preference.amazmod.first.widget"
-            android:summary="@string/pref_amazmod_first_widget_summary"
-            android:title="@string/pref_amazmod_first_widget" />
+            android:key="preference.amazmod.keep.widget"
+            android:summary="@string/pref_amazmod_keep_widget_summary"
+            android:title="@string/pref_amazmod_keep_widget" />
 
         <SwitchPreference
             android:defaultValue="false"

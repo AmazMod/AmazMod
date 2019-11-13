@@ -213,7 +213,7 @@ public class AmazModLauncher extends AbstractPlugin {
         appmenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (widgetSettings.get(Constants.PREF_AMAZMOD_FIRST_WIDGET, true)) {
+                if (widgetSettings.get(Constants.PREF_AMAZMOD_KEEP_WIDGET, true)) {
                     Intent appList = new Intent("com.huami.watch.launcher.EXTERNAL_COMMAND.TO_APPLIST");
                     mContext.sendBroadcast(appList);
                 } else {
