@@ -270,7 +270,7 @@
     <string name="compress">壓縮</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一個文件夾，此操作將刪除該文件夾下的全部內容?</string>
     <string name="screenshot">螢幕擷圖</string>
-    <string name="clean_memory">Clean memory</string>
+    <string name="clean_adb">Clean ADB</string>
     <string name="pref_notifications_enable_delay">Reply delay</string>
     <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply.</string>
     <string name="file_uploader">文件上傳器</string>
