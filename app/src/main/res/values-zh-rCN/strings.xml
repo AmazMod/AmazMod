@@ -219,6 +219,7 @@
     <string name="execute_shell_command">执行 shell 命令</string>
     <string name="run">执行</string>
     <string name="shell_command_sent">命令已发送</string>
+    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
     <string name="cant_send_shell_command">无法发送命令</string>
     <string name="install">安装</string>
     <string name="apk_install_started_title">APK 安装</string>
@@ -270,7 +271,7 @@
     <string name="compress">压缩</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
     <string name="screenshot">截屏</string>
-    <string name="clean_adb">Clean ADB</string>
+    <string name="clear_adb">Clear ADB</string>
     <string name="pref_notifications_enable_delay">回复延迟</string>
     <string name="pref_notifications_enable_delay_summary">发送回复前倒计时延迟.</string>
     <string name="file_uploader">文件上传器</string>
@@ -290,8 +291,8 @@
     <string name="are_you_sure">是否确定？</string>
     <string name="cannot_be_undone">此操作不可撤销。</string>
     <string name="show_only_selected">仅显示允许的应用</string>
-    <string name="pref_amazmod_first_widget">Monitor widgets</string>
-    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_keep_widget">Keep widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">通知删除按钮</string>
     <string name="pref_enable_delete_button_on">\"删除\" 按钮将显示在通知内容下方</string>
     <string name="pref_enable_delete_button_off">当在通知上向左滑动时, \"删除\" 按钮将位于第4屏中</string>
