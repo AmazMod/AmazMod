@@ -271,7 +271,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="compress">Comprimi</string>
     <string name="delete_folder_and_contents">\"%1$s\" è una cartella. Vuoi davvero rimuoverla, compresa di tutti i suoi contenuti in modo ricorsivo?</string>
     <string name="screenshot">Cattura schermata</string>
-    <string name="clean_memory">Pulisci memoria</string>
+    <string name="clean_adb">Clean ADB</string>
     <string name="pref_notifications_enable_delay">Ritarda invio risposta</string>
     <string name="pref_notifications_enable_delay_summary">Mostra un conto alla rovescia prima di inviare una risposta.</string>
     <string name="file_uploader">File Uploader</string>
