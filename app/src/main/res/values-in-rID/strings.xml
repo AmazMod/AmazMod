@@ -289,8 +289,8 @@
     <string name="are_you_sure">Anda yakin?</string>
     <string name="cannot_be_undone">Ini tidak dapat dibatalkan.</string>
     <string name="show_only_selected">Tampilkan hanya aplikasi yang diperbolehkan</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Tombol Hapus pemberitahuan</string>
     <string name="pref_enable_delete_button_on">Tombol Hapus akan ditampilkan di bawah konten pemberitahuan</string>
     <string name="pref_enable_delete_button_off">Tombol hapus akan ada dilayar ke 4 ketika menggesekkan pemberitahuan kekiri</string>
