@@ -289,8 +289,8 @@
     <string name="are_you_sure">Êtes-vous sûr?</string>
     <string name="cannot_be_undone">Cela ne peut pas être annulé.</string>
     <string name="show_only_selected">Afficher uniquement les applications autorisées</string>
-    <string name="pref_amazmod_first_widget">Mettre Amazmod comme premier Widget sur la montre</string>
-    <string name="pref_amazmod_first_widget_summary">Amazmod va rester le premier widget sur la montre.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Bouton supprimer dans les notifications</string>
     <string name="pref_enable_delete_button_on">Le bouton supprimer sera affiché sous le contenu des notifications</string>
     <string name="pref_enable_delete_button_off">Le bouton Supprimer sera dans le 4ème écran en faisant glisser vers la gauche sur la notification</string>
