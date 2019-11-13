@@ -289,8 +289,8 @@
     <string name="are_you_sure">확실합니까?</string>
     <string name="cannot_be_undone">이 작업은 되돌릴 수 없습니다.</string>
     <string name="show_only_selected">선택된 앱만 보이기</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">알림 삭제 버튼</string>
     <string name="pref_enable_delete_button_on">삭제 버튼이 알림 내용 아래에 표시됩니다.</string>
     <string name="pref_enable_delete_button_off">삭제 버튼이 알림을 왼쪽으로 스와이프 했을 때 네 번째 화면에 표시됩니다.</string>
