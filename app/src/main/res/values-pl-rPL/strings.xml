@@ -289,8 +289,8 @@
     <string name="are_you_sure">Na pewno?</string>
     <string name="cannot_be_undone">Tego nie można cofnąć.</string>
     <string name="show_only_selected">Pokaż atywne aplikacje</string>
-    <string name="pref_amazmod_first_widget">Amazmod jako pierwszy widzet na zegarku</string>
-    <string name="pref_amazmod_first_widget_summary">Ustaw Amazmod jako pierwszy widget zegarka.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Przycisk wył. powiadomienia</string>
     <string name="pref_enable_delete_button_on">Przycisk skasuj wyświetli się poniżej powiadomień</string>
     <string name="pref_enable_delete_button_off">Przycisk skasuj jest na 4 ekranie kiedy przesuwasz powiadomienia</string>
