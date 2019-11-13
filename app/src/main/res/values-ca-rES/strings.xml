@@ -289,8 +289,8 @@
     <string name="are_you_sure">Esteu segurs?</string>
     <string name="cannot_be_undone">Aquesta acció no es pot desfer.</string>
     <string name="show_only_selected">Mostra només les aplicacions permeses</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Botó Borrar Notificació</string>
     <string name="pref_enable_delete_button_on">El botó Esborrar es mostrarà sota el contingut de la notificació</string>
     <string name="pref_enable_delete_button_off">El botó Esborra es trobarà a la quarta pantalla lliscant a l\'esquerra a la notificació</string>
