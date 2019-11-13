@@ -269,7 +269,7 @@
     <string name="compress">Komprimieren</string>
     <string name="delete_folder_and_contents">\"%1$s\" ist ein Ordner. Entfernen Sie ihn und alle seine Inhalte automatisch?</string>
     <string name="screenshot">Bildschirmaufnahme</string>
-    <string name="clean_memory">Clean memory</string>
+    <string name="clean_memory">Speicher leeren</string>
     <string name="pref_notifications_enable_delay">Antwortverzögerung</string>
     <string name="pref_notifications_enable_delay_summary">Countdown Verzögerung vor dem Senden einer Antwort.</string>
     <string name="file_uploader">Daten hochladen</string>
@@ -289,8 +289,8 @@
     <string name="are_you_sure">Sind Sie sicher?</string>
     <string name="cannot_be_undone">Dies kann nicht rückgängig gemacht werden.</string>
     <string name="show_only_selected">Zeige nur berechtigte Apps</string>
-    <string name="pref_amazmod_first_widget">Monitor widgets</string>
-    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_first_widget">Überwachen Sie Widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Erzwinge das Anwenden deiner gespeicherten Widgets.</string>
     <string name="pref_enable_delete_button">Taste zum Löschen von Mitteilungen</string>
     <string name="pref_enable_delete_button_on">Taste zum Löschen von Mitteilungen steht direkt unterhalb Mitteilungstext</string>
     <string name="pref_enable_delete_button_off">Löschtaste befindet sich im 4. Bildschirm wenn Sie in den Mitteilungen nach links wischen</string>
@@ -397,8 +397,8 @@
         <item quantity="one">Minuten</item>
         <item quantity="other">Minuten </item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">Widgets geändert</string>
+    <string name="problem_sending_data">Problem beim Senden von Daten</string>
+    <string name="error_loading_widgets">Fehler beim Laden der Widgets</string>
+    <string name="no_widgets_found">Keine Widgets gefunden</string>
 </resources>
