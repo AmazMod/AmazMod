@@ -219,6 +219,7 @@
     <string name="execute_shell_command">執行 shell 指令</string>
     <string name="run">執行</string>
     <string name="shell_command_sent">指令已送出！</string>
+    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
     <string name="cant_send_shell_command">無法發送指令</string>
     <string name="install">安裝</string>
     <string name="apk_install_started_title">Apk 安裝</string>
@@ -270,7 +271,7 @@
     <string name="compress">壓縮</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一個文件夾，此操作將刪除該文件夾下的全部內容?</string>
     <string name="screenshot">螢幕擷圖</string>
-    <string name="clean_memory">Clean memory</string>
+    <string name="clear_adb">Clear ADB</string>
     <string name="pref_notifications_enable_delay">Reply delay</string>
     <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply.</string>
     <string name="file_uploader">文件上傳器</string>
@@ -290,8 +291,8 @@
     <string name="are_you_sure">您確定嗎？</string>
     <string name="cannot_be_undone">此操作將不能被復原。</string>
     <string name="show_only_selected">僅顯示允許的應用</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_keep_widget">Keep widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">通知刪除按鈕</string>
     <string name="pref_enable_delete_button_on">\"刪除\" 按鈕將顯示在通知內容下方</string>
     <string name="pref_enable_delete_button_off">當在通知上向左滑動時, \"刪除\" 按鈕將位於第4個畫面中</string>

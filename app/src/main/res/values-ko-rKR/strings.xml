@@ -218,6 +218,7 @@
     <string name="execute_shell_command">셸 명령어 실행</string>
     <string name="run">실행</string>
     <string name="shell_command_sent">명령이 전송되었습니다</string>
+    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
     <string name="cant_send_shell_command">명령을 보낼 수 없습니다.</string>
     <string name="install">설치</string>
     <string name="apk_install_started_title">APK 설치</string>
@@ -269,7 +270,7 @@
     <string name="compress">압축</string>
     <string name="delete_folder_and_contents">%1$s는 폴더입니다. 해당 폴더와 내용물을 전부 삭제하시겠습니까?</string>
     <string name="screenshot">스크린샷</string>
-    <string name="clean_memory">Clean memory</string>
+    <string name="clear_adb">Clear ADB</string>
     <string name="pref_notifications_enable_delay">답장 지연(딜레이)</string>
     <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply.</string>
     <string name="file_uploader">파일 업로더</string>
@@ -289,8 +290,8 @@
     <string name="are_you_sure">확실합니까?</string>
     <string name="cannot_be_undone">이 작업은 되돌릴 수 없습니다.</string>
     <string name="show_only_selected">선택된 앱만 보이기</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_keep_widget">Keep widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">알림 삭제 버튼</string>
     <string name="pref_enable_delete_button_on">삭제 버튼이 알림 내용 아래에 표시됩니다.</string>
     <string name="pref_enable_delete_button_off">삭제 버튼이 알림을 왼쪽으로 스와이프 했을 때 네 번째 화면에 표시됩니다.</string>

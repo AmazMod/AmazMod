@@ -218,6 +218,7 @@
     <string name="execute_shell_command">Jalankan perintah shell</string>
     <string name="run">Menjalankan</string>
     <string name="shell_command_sent">Perintah terkirim</string>
+    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
     <string name="cant_send_shell_command">Tidak dapat mengirim perintah</string>
     <string name="install">Pasang</string>
     <string name="apk_install_started_title">Memasang APK</string>
@@ -269,7 +270,7 @@
     <string name="compress">Kompres</string>
     <string name="delete_folder_and_contents">\"%1$s\" adalah folder. Menghapus semua isi secara rekursif?</string>
     <string name="screenshot">Tangkapan layar</string>
-    <string name="clean_memory">Clean memory</string>
+    <string name="clear_adb">Clear ADB</string>
     <string name="pref_notifications_enable_delay">Reply delay</string>
     <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply.</string>
     <string name="file_uploader">Unggah berkas</string>
@@ -289,8 +290,8 @@
     <string name="are_you_sure">Anda yakin?</string>
     <string name="cannot_be_undone">Ini tidak dapat dibatalkan.</string>
     <string name="show_only_selected">Tampilkan hanya aplikasi yang diperbolehkan</string>
-    <string name="pref_amazmod_first_widget">AmazMod as First Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod will stay as first watch widget.</string>
+    <string name="pref_amazmod_keep_widget">Keep widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Tombol Hapus pemberitahuan</string>
     <string name="pref_enable_delete_button_on">Tombol Hapus akan ditampilkan di bawah konten pemberitahuan</string>
     <string name="pref_enable_delete_button_off">Tombol hapus akan ada dilayar ke 4 ketika menggesekkan pemberitahuan kekiri</string>

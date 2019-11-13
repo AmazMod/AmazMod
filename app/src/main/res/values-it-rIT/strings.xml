@@ -220,6 +220,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="execute_shell_command">Esegui un comando shell</string>
     <string name="run">Esegui</string>
     <string name="shell_command_sent">Comando inviato</string>
+    <string name="adb_clear_command_sent">Pulizia di tutti i processi ADB in esecuzione</string>
     <string name="cant_send_shell_command">Impossibile inviare il comando</string>
     <string name="install">Installa</string>
     <string name="apk_install_started_title">Installa apk</string>
@@ -271,7 +272,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="compress">Comprimi</string>
     <string name="delete_folder_and_contents">\"%1$s\" è una cartella. Vuoi davvero rimuoverla, compresa di tutti i suoi contenuti in modo ricorsivo?</string>
     <string name="screenshot">Cattura schermata</string>
-    <string name="clean_memory">Pulisci memoria</string>
+    <string name="clear_adb">Pulisci ADB</string>
     <string name="pref_notifications_enable_delay">Ritarda invio risposta</string>
     <string name="pref_notifications_enable_delay_summary">Mostra un conto alla rovescia prima di inviare una risposta.</string>
     <string name="file_uploader">File Uploader</string>
@@ -291,8 +292,8 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="are_you_sure">Sei sicuro?</string>
     <string name="cannot_be_undone">Questa azione non può essere annullata.</string>
     <string name="show_only_selected">Mostra solo le app consentite</string>
-    <string name="pref_amazmod_first_widget">Imposta Amazmod come primo widget</string>
-    <string name="pref_amazmod_first_widget_summary">Amazmod starà sempre in prima posizione.</string>
+    <string name="pref_amazmod_keep_widget">Mantieni widget</string>
+    <string name="pref_amazmod_keep_widget_summary">Forza l\'uso della tua lista widget salvata.</string>
     <string name="pref_enable_delete_button">Tasto per eliminare notifica</string>
     <string name="pref_enable_delete_button_on">Il tasto per eliminare la notifica sarà mostrato sotto il suo contenuto</string>
     <string name="pref_enable_delete_button_off">Il tasto per eliminare la notifica sarà nella quarta schermata facendo swipe a sinistra sulla notifica</string>

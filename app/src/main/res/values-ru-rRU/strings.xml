@@ -218,6 +218,7 @@
     <string name="execute_shell_command">Выполнение команды терминала</string>
     <string name="run">Запуск</string>
     <string name="shell_command_sent">Отправка команды</string>
+    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
     <string name="cant_send_shell_command">Невозможно отправить команду</string>
     <string name="install">Установка</string>
     <string name="apk_install_started_title">Установщик APK</string>
@@ -269,7 +270,7 @@
     <string name="compress">Архивировать</string>
     <string name="delete_folder_and_contents">папка %1$s и все содержимое будет удалено</string>
     <string name="screenshot">Снимок экрана</string>
-    <string name="clean_memory">Очистить память</string>
+    <string name="clear_adb">Clear ADB</string>
     <string name="pref_notifications_enable_delay">Задержка для ответа</string>
     <string name="pref_notifications_enable_delay_summary">Задержка с обратным отсчетом перед отправкой ответа.</string>
     <string name="file_uploader">Загрузчик файлов</string>
@@ -289,8 +290,8 @@
     <string name="are_you_sure">Вы уверены?</string>
     <string name="cannot_be_undone">Изменение нельзя отменить</string>
     <string name="show_only_selected">Показать только разрешенные приложения </string>
-    <string name="pref_amazmod_first_widget">AmazMod как первый виджет часов</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod будет оставаться первым виджетом часов.</string>
+    <string name="pref_amazmod_keep_widget">Keep widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Кнопка удаления нуведомлений</string>
     <string name="pref_enable_delete_button_on">Кнопка «Удалить» будет отображаться под содержанием уведомления</string>
     <string name="pref_enable_delete_button_off">Кнопка удаления будет на 4-м экране, когда проведите пальцем влево на уведомлении</string>
