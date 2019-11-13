@@ -290,8 +290,8 @@
     <string name="are_you_sure">是否确定？</string>
     <string name="cannot_be_undone">此操作不可撤销。</string>
     <string name="show_only_selected">仅显示允许的应用</string>
-    <string name="pref_amazmod_first_widget">使用Amazmod作为手表第一个小部件</string>
-    <string name="pref_amazmod_first_widget_summary">Amazmod将作为手表的第一个小部件.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">通知删除按钮</string>
     <string name="pref_enable_delete_button_on">\"删除\" 按钮将显示在通知内容下方</string>
     <string name="pref_enable_delete_button_off">当在通知上向左滑动时, \"删除\" 按钮将位于第4屏中</string>
