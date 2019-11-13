@@ -291,7 +291,7 @@ Urobte príkaz shell \"</string>
     <string name="cannot_be_undone">Táto akcia sa nedá vrátiť.</string>
     <string name="show_only_selected">Zobraziť iba povolené aplikácie</string>
     <string name="pref_amazmod_first_widget">Monitor widgets</string>
-    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_first_widget_summary">Vynútiť použitie uložených usporiadaní miniaplikácií.</string>
     <string name="pref_enable_delete_button">Tlačidlo Odstrániť oznámenia</string>
     <string name="pref_enable_delete_button_on">Tlačidlo Odstrániť bude pod obsahom oznámenia</string>
     <string name="pref_enable_delete_button_off">Tlačidlo Odstrániť bude na 4 obrazovke keď v oznámení potiahnete prstom doľava</string>
