@@ -292,7 +292,7 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="cannot_be_undone">Questa azione non può essere annullata.</string>
     <string name="show_only_selected">Mostra solo le app consentite</string>
     <string name="pref_amazmod_first_widget">Monitora widget</string>
-    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_first_widget_summary">Forza l\'applicazione della tua lista widget.</string>
     <string name="pref_enable_delete_button">Tasto per eliminare notifica</string>
     <string name="pref_enable_delete_button_on">Il tasto per eliminare la notifica sarà mostrato sotto il suo contenuto</string>
     <string name="pref_enable_delete_button_off">Il tasto per eliminare la notifica sarà nella quarta schermata facendo swipe a sinistra sulla notifica</string>
