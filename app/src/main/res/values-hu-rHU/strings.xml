@@ -291,8 +291,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="are_you_sure">Biztos vagy benne?</string>
     <string name="cannot_be_undone">Ez nem visszafordítható.</string>
     <string name="show_only_selected">Csak eng. alk.-ok megjelenítése</string>
-    <string name="pref_amazmod_first_widget">Amazmod mint Első Óra Widget</string>
-    <string name="pref_amazmod_first_widget_summary">Az Amazmod az első óra widget marad.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Értesítés törlése gomb</string>
     <string name="pref_enable_delete_button_on">A Töröl gomb megjelenik az értesítés tartalma alatt</string>
     <string name="pref_enable_delete_button_off">A Töröl gomb a 4. képernyőn lesz, amikor elhúzod az értesítést balra</string>
