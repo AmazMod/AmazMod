@@ -289,8 +289,8 @@
     <string name="are_you_sure">Weet je het zeker?</string>
     <string name="cannot_be_undone">Dit kan niet ongedaan gemaakt worden.</string>
     <string name="show_only_selected">Toon alleen toegestane apps</string>
-    <string name="pref_amazmod_first_widget">AmazMod als eerste Watch Widget</string>
-    <string name="pref_amazmod_first_widget_summary">AmazMod blijft als eerste horloge widget.</string>
+    <string name="pref_amazmod_first_widget">Monitor widgets</string>
+    <string name="pref_amazmod_first_widget_summary">Force apply your saved widgets arrangement.</string>
     <string name="pref_enable_delete_button">Notificatie verwijder knop</string>
     <string name="pref_enable_delete_button_on">Verwijder knop zal onder de notificatie getoond worden</string>
     <string name="pref_enable_delete_button_off">Swipe links naar het vierde scherm voor de verwijder knop bij een notificatie</string>
