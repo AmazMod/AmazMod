@@ -218,7 +218,7 @@
     <string name="execute_shell_command">Executar um comando shell</string>
     <string name="run">Executar</string>
     <string name="shell_command_sent">Comando enviado</string>
-    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
+    <string name="adb_clear_command_sent">Limpar todos os processos em execução do ADB</string>
     <string name="cant_send_shell_command">Impossível enviar comando</string>
     <string name="install">Instalar</string>
     <string name="apk_install_started_title">Instalador APK</string>
@@ -290,8 +290,8 @@
     <string name="are_you_sure">Você tem certeza?</string>
     <string name="cannot_be_undone">Isto não pode ser desfeito.</string>
     <string name="show_only_selected">Mostrar apenas aplicativos permitidos</string>
-    <string name="pref_amazmod_keep_widget">Keep widgets</string>
-    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_keep_widget">Manter os widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Forçar a aplicar o layout dos seus widgets salvos.</string>
     <string name="pref_enable_delete_button">Botão de apagar de notificação</string>
     <string name="pref_enable_delete_button_on">Botão excluir aparece abaixo da notificação conteúdo</string>
     <string name="pref_enable_delete_button_off">Botão deletar será na quarta tela quando fizer deslizar para a esquerda na notificação</string>
