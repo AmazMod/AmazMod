@@ -58,7 +58,7 @@ public class MainActivity extends BaseAppCompatActivity
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
     private HeartRateChartFragment heartRateChartFragment = new HeartRateChartFragment();
     private SilencedApplicationsFragment silencedApplicationsFragment = new SilencedApplicationsFragment();
-
+    public static boolean systemThemeIsDark = false;
 
     private List<Card> cards = new ArrayList<Card>() {{
         add(batteryChartFragment);
@@ -73,8 +73,9 @@ public class MainActivity extends BaseAppCompatActivity
         LayoutInflaterCompat.setFactory2(getLayoutInflater(), new IconicsLayoutInflater2(getDelegate()));
 
         super.onCreate(savedInstanceState);
+        isSystemThemeDark();
 
-        if (Screen.isDarkTheme()) {
+        if (Screen.isDarkTheme() || systemThemeIsDark) {
             setTheme(R.style.AppThemeDark_NoActionBar);
             setContentView(R.layout.activity_main_dark);
         } else
@@ -222,6 +223,7 @@ public class MainActivity extends BaseAppCompatActivity
     public void onResume() {
         super.onResume();
         Logger.debug("MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
+        isSystemThemeDark();
     }
 
     @Override
@@ -350,6 +352,19 @@ public class MainActivity extends BaseAppCompatActivity
                 .withRateButton(true)
                 .withRateButtonLabel(getString(R.string.rate_app))
                 .buildAndShowDialog(this, isDarkTheme);
+    }
+
+    private void isSystemThemeDark () {
+        switch (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) {
+            case android.content.res.Configuration.UI_MODE_NIGHT_YES:
+                systemThemeIsDark = true;
+                Logger.debug("System night mode is enabled");
+                break;
+            case android.content.res.Configuration.UI_MODE_NIGHT_NO:
+                systemThemeIsDark = false;
+                Logger.debug("System night mode is disabled");
+                break;
+        }
     }
 
 }

@@ -314,7 +314,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         final ArrayList<File> files = new ArrayList<>();
 
         ChooserDialog chooserDialog;
-        if (Screen.isDarkTheme()) {
+        if (Screen.isDarkTheme() || MainActivity.systemThemeIsDark) {
             chooserDialog = new ChooserDialog(this, R.style.FileChooserStyle_Dark);
         } else {
             chooserDialog = new ChooserDialog(this, R.style.FileChooserStyle_Light);
