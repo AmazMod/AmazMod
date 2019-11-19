@@ -342,8 +342,9 @@
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
     <string name="generate_bundle">產生日誌檔</string>
     <string name="set_watchface">Set Watchface</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to use a dark theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">深色主題</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">分享</string>
     <string name="collecting_watch_logs">收集手錶日誌</string>
     <string name="button_description">按鈕</string>
