@@ -341,8 +341,9 @@
     <string name="no_storage_permission">AmazMod nie ma dostępu do pamięci, proszę go przyznać.</string>
     <string name="generate_bundle">Generuj pakiet dziennika</string>
     <string name="set_watchface">Ustaw Tarczę</string>
-    <string name="pref_amazmod_darktheme_summary">Aplikacja zostanie ponownie uruchomiona, aby użyć ciemnego motywu (beta).</string>
-    <string name="pref_amazmod_dark_theme">Ciemny motyw</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Udostępnij</string>
     <string name="collecting_watch_logs">Zbieranie dzienników</string>
     <string name="button_description">Przycisk</string>
