@@ -341,8 +341,9 @@
     <string name="no_storage_permission">אין הרשאות כתיבה לAmazMod, אנא אפשרו גישה זו.</string>
     <string name="generate_bundle">יצירת קובץ לוגים</string>
     <string name="set_watchface">קביעת תצוגת השעון</string>
-    <string name="pref_amazmod_darktheme_summary">האפליקציה תופעל מחדש כדי להחיל ערכת צבעים כהה (נסיוני).</string>
-    <string name="pref_amazmod_dark_theme">ערכה כהה</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">שיתוף</string>
     <string name="collecting_watch_logs">איסוף לוגים מהשעון</string>
     <string name="button_description">לחצן</string>
