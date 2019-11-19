@@ -341,9 +341,9 @@
     <string name="no_storage_permission">AmazMod har ingen lagringstilladelse. Tildel denne tilladelse.</string>
     <string name="generate_bundle">Generér logbundt</string>
     <string name="set_watchface">Indstil Urskive</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">Appen genstarter for manuelt at anvende mørkt tema i
+stedet for følge systemtemaet (beta).</string>
+    <string name="pref_amazmod_dark_theme">Gennemtving mørkt tema</string>
     <string name="share">Del</string>
     <string name="collecting_watch_logs">Indsamler urlogfiler</string>
     <string name="button_description">Knap</string>
