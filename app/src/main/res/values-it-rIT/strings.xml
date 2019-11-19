@@ -343,8 +343,9 @@ Goditi l\'uso di AmazMod!\"</string>
     <string name="no_storage_permission">AmazMod non ha il permesso di archiviazione, si prega di darglielo.</string>
     <string name="generate_bundle">Genera pacchetto di log</string>
     <string name="set_watchface">Imposta Watchface</string>
-    <string name="pref_amazmod_darktheme_summary">L\'app si riavvierà per utilizzare un tema scuro (beta).</string>
-    <string name="pref_amazmod_dark_theme">Tema scuro</string>
+    <string name="pref_amazmod_darktheme_summary">L\'app si riavvierà per utilizzare manualmente il tema scuro invece di
+seguire il tema di sistema (beta).</string>
+    <string name="pref_amazmod_dark_theme">Forza tema scuro</string>
     <string name="share">Condividi</string>
     <string name="collecting_watch_logs">Salvataggio log orologio</string>
     <string name="button_description">Pulsante</string>

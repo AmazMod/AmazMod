@@ -341,8 +341,9 @@
     <string name="no_storage_permission">AmazMod hat keine Zugriffsberechtigung für den Speicher, bitte erteilen Sie sie.</string>
     <string name="generate_bundle">Log-Bundle generieren</string>
     <string name="set_watchface">Watchface festlegen</string>
-    <string name="pref_amazmod_darktheme_summary">App wird neu gestartet, um ein dunkles Design zu verwenden (Beta).</string>
-    <string name="pref_amazmod_dark_theme">Dunkles Design</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Teilen</string>
     <string name="collecting_watch_logs">Sammle BeobachtungLogs</string>
     <string name="button_description">Schaltfläche</string>

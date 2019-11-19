@@ -341,8 +341,9 @@
     <string name="no_storage_permission">AmazMod не має дозволу на роботу з файлами. Будь ласка, надайте дозвіл.</string>
     <string name="generate_bundle">Створити журнал</string>
     <string name="set_watchface">Встановити циферблат</string>
-    <string name="pref_amazmod_darktheme_summary">Додаток перезавантажиться для використання Темної теми (beta).</string>
-    <string name="pref_amazmod_dark_theme">Темна тема додатку</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Поділитися</string>
     <string name="collecting_watch_logs">Збір журналів годинника</string>
     <string name="button_description">Кнопка</string>

@@ -218,7 +218,7 @@
     <string name="execute_shell_command">Thực hiện lệnh trình bao</string>
     <string name="run">Chạy</string>
     <string name="shell_command_sent">Lệnh gửi</string>
-    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
+    <string name="adb_clear_command_sent">Xóa tất cả các quy trình ADB đang chạy</string>
     <string name="cant_send_shell_command">Không thể gửi lệnh</string>
     <string name="install">Cài đặt</string>
     <string name="apk_install_started_title">Cài đặt APK</string>
@@ -270,7 +270,7 @@
     <string name="compress">Nén</string>
     <string name="delete_folder_and_contents">Là một thư mục. Xóa nó và tất cả nội dung của nó có đệ quy không?</string>
     <string name="screenshot">Ảnh chụp màn hình</string>
-    <string name="clear_adb">Clear ADB</string>
+    <string name="clear_adb">Xóa ADB</string>
     <string name="pref_notifications_enable_delay">Trả lời chậm trễ</string>
     <string name="pref_notifications_enable_delay_summary">Đếm ngược thời gian trước khi trả lời.</string>
     <string name="file_uploader">Tải Lên Tập Tin</string>
@@ -290,8 +290,8 @@
     <string name="are_you_sure">Bạn có chắc không?</string>
     <string name="cannot_be_undone">Điều này không thể hoàn tác.</string>
     <string name="show_only_selected">Chỉ hiển thị các ứng dụng được phép</string>
-    <string name="pref_amazmod_keep_widget">Keep widgets</string>
-    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_keep_widget">Giữ tiện ích</string>
+    <string name="pref_amazmod_keep_widget_summary">Buộc áp dụng sắp xếp các tiện ích đã lưu của bạn.</string>
     <string name="pref_enable_delete_button">Nút xóa thông báo</string>
     <string name="pref_enable_delete_button_on">Nút xóa sẽ được hiển thị bên dưới nội dung thông báo</string>
     <string name="pref_enable_delete_button_off">Nút xóa sẽ ở màn hình thứ 4 khi vuốt trái trên thông báo</string>
@@ -341,8 +341,9 @@
     <string name="no_storage_permission">AmazMod không có quyền lưu trữ, vui lòng cấp nó.</string>
     <string name="generate_bundle">Tạo tập tin nhật ký</string>
     <string name="set_watchface">Đặt mặt đồng hồ</string>
-    <string name="pref_amazmod_darktheme_summary">Ứng dụng sẽ khởi động lại để sử dụng chủ đề tối (thử nghiệm).</string>
-    <string name="pref_amazmod_dark_theme">Chủ đề tối</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Chia sẻ</string>
     <string name="collecting_watch_logs">Thu thập nhật ký đồng hồ</string>
     <string name="button_description">Nút bấm</string>

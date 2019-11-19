@@ -342,8 +342,9 @@
     <string name="no_storage_permission">AmazMod no tiene permiso de almacenamiento, concédeselo, por favor.</string>
     <string name="generate_bundle">Generar paquete de Log</string>
     <string name="set_watchface">Establecer Watchface</string>
-    <string name="pref_amazmod_darktheme_summary">La aplicación reiniciará para usar un tema oscuro (beta).</string>
-    <string name="pref_amazmod_dark_theme">Tema oscuro</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Comparte</string>
     <string name="collecting_watch_logs">Recopilando registros del reloj</string>
     <string name="button_description">Botón</string>
