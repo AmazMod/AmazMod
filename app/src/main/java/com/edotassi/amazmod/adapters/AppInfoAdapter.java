@@ -55,8 +55,9 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         viewHolder.appInfoVersionName.setText(currentAppInfo.getVersionName());
         viewHolder.appInfoPackageName.setText(currentAppInfo.getPackageName());
         viewHolder.appInfoSwitch.setChecked(currentAppInfo.isEnabled());
+        viewHolder.appInfoButton.setEnabled(currentAppInfo.isEnabled());
 
-        viewHolder.appInfoHandler.setOnClickListener(view -> {
+        viewHolder.appInfoButton.setOnClickListener(view -> {
             if (currentAppInfo.isEnabled()) {
                 Intent intent = new Intent(context, NotificationPackageOptionsActivity.class);
                 intent.putExtra("app", currentAppInfo.getPackageName());
@@ -70,6 +71,8 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
         @BindView(R.id.row_appinfo_handler)
         TextView appInfoHandler;
+        @BindView(R.id.row_appinfo_button)
+        TextView appInfoButton;
         @BindView(R.id.row_appinfo_icon)
         ImageView appInfoIcon;
         @BindView(R.id.row_app_info_appname)
@@ -96,6 +99,7 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
                 SilenceApplicationHelper.setPackageEnabled(appInfo.getPackageName(), checked);
                 appInfo.setEnabled(checked);
                 appInfoBridge.onAppInfoStatusChange();
+                appInfoButton.setEnabled(checked);
             }
         }
     }
