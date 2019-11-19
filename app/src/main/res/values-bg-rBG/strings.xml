@@ -341,8 +341,9 @@
     <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
     <string name="generate_bundle">Generate Log Bundle</string>
     <string name="set_watchface">Задай Циферблат</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to use a dark theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Тъмна тема</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Сподели</string>
     <string name="collecting_watch_logs">Collecting Watch Logs</string>
     <string name="button_description">Бутон</string>
