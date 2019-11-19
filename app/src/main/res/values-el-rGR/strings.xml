@@ -341,8 +341,9 @@
     <string name="no_storage_permission">Το AmazMod δεν έχει Άδεια Αποθήκευσης, παρακαλώ παραχωρήστε τη.</string>
     <string name="generate_bundle">Δημιουργία Πακέτου Καταγραφών</string>
     <string name="set_watchface">Ορισμός εμφάνισης ρολογιού</string>
-    <string name="pref_amazmod_darktheme_summary">Η εφαρμογή θα επανεκκινήσει με τη σκοτεινή εμφάνιση (δοκιμαστικό).</string>
-    <string name="pref_amazmod_dark_theme">Σκοτεινό θέμα</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Κοινοποίηση</string>
     <string name="collecting_watch_logs">Συλλογή Αρχείου Παρακολούθησης Ρολογιού</string>
     <string name="button_description">Κουμπί</string>
