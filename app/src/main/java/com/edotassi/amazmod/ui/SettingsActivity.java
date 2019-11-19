@@ -63,6 +63,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
         if (Screen.isDarkTheme() || MainActivity.systemThemeIsDark) {
             setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
         }
 
         try {

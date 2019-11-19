@@ -78,8 +78,10 @@ public class MainActivity extends BaseAppCompatActivity
         if (Screen.isDarkTheme() || systemThemeIsDark) {
             setTheme(R.style.AppThemeDark_NoActionBar);
             setContentView(R.layout.activity_main_dark);
-        } else
+        } else {
+            setTheme(R.style.AppTheme_NoActionBar);
             setContentView(R.layout.activity_main);
+        }
 
         ButterKnife.bind(this);
 
@@ -223,7 +225,6 @@ public class MainActivity extends BaseAppCompatActivity
     public void onResume() {
         super.onResume();
         Logger.debug("MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
-        isSystemThemeDark();
     }
 
     @Override
