@@ -343,8 +343,9 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="no_storage_permission">Az AmazModnak nincs tárhely engedélye, add ezt meg.</string>
     <string name="generate_bundle">Naplócsomag létrehozása</string>
     <string name="set_watchface">Számlap beállítása</string>
-    <string name="pref_amazmod_darktheme_summary">App újraindítása a sötét témához (béta).</string>
-    <string name="pref_amazmod_dark_theme">Sötét téma</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Megosztás</string>
     <string name="collecting_watch_logs">Óra naplók gyűjtése</string>
     <string name="button_description">Gomb</string>
