@@ -343,8 +343,9 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="no_storage_permission">AmazMod nemá oprávnění k přístupu k úložišti, prosím udělte aplikaci toto oprávnění.</string>
     <string name="generate_bundle">Vygenerovat balík protokolů</string>
     <string name="set_watchface">Nastavit ciferník</string>
-    <string name="pref_amazmod_darktheme_summary">Aplikace se restartuje a použije tmavé téma (beta).</string>
-    <string name="pref_amazmod_dark_theme">Tmavé téma</string>
+    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
+follow the system theme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Force dark theme</string>
     <string name="share">Sdílet</string>
     <string name="collecting_watch_logs">Sbírat záznamy hodinek</string>
     <string name="button_description">Tlačítko</string>
