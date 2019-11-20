@@ -344,7 +344,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="generate_bundle">Naplócsomag létrehozása</string>
     <string name="set_watchface">Számlap beállítása</string>
     <string name="pref_amazmod_darktheme_summary">Az app újraindul a sötét téma használatához,
-a rendszer téma követése helyett (beta).</string>
+a rendszertéma követése helyett (beta).</string>
     <string name="pref_amazmod_dark_theme">Kénysz. sötét téma</string>
     <string name="share">Megosztás</string>
     <string name="collecting_watch_logs">Óra naplók gyűjtése</string>
