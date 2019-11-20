@@ -157,7 +157,7 @@ public class MainService extends Service implements Transporter.DataListener {
         put(Transport.DELETE_NOTIFICATION, DeleteNotificationEvent.class);
     }};
 
-    private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
+    private static Transporter transporterGeneral, transporterNotifications, transporterHuami, transporterXdrip;
 
     private static IntentFilter batteryFilter;
     private static long dateLastCharge;
@@ -324,21 +324,28 @@ public class MainService extends Service implements Transporter.DataListener {
         // Amazmod's
         transporterGeneral = TransporterClassic.get(this, Transport.NAME);
         transporterGeneral.addDataListener(this);
-        Logger.debug("MainService onCreate transportedHuami "+ (!transporterGeneral.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        Logger.debug("MainService onCreate transporterAmazmod "+ (!transporterGeneral.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
         if (!transporterGeneral.isTransportServiceConnected())
             transporterGeneral.connectTransportService();
         // Amazmod's Notifications
         transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
         transporterNotifications.addDataListener(this);
-        Logger.debug("MainService onCreate transportedHuami "+ (!transporterNotifications.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        Logger.debug("MainService onCreate transporterAmazmodNotification "+ (!transporterNotifications.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
         if (!transporterNotifications.isTransportServiceConnected())
             transporterNotifications.connectTransportService();
         // Huami's notifications
         transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
         transporterHuami.addDataListener(this);
-        Logger.debug("MainService onCreate transportedHuami "+ (!transporterHuami.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        Logger.debug("MainService onCreate transporterHuamiNotification "+ (!transporterHuami.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
         if (!transporterHuami.isTransportServiceConnected())
             transporterHuami.connectTransportService();
+        // XDrip data
+        transporterXdrip = TransporterClassic.get(this, "com.eveningoutpost.dexdrip.wearintegration");
+        transporterXdrip.addDataListener(this);
+        Logger.debug("MainService onCreate transporterXdrip "+ (!transporterXdrip.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        if (!transporterXdrip.isTransportServiceConnected())
+            transporterXdrip.connectTransportService();
+
 
         // Any idea what this is????? TODO
         slptClockClient = new SlptClockClient();
@@ -418,6 +425,11 @@ public class MainService extends Service implements Transporter.DataListener {
             transporterHuami.disconnectTransportService();
             transporterHuami = null;
         }
+        if (transporterXdrip.isTransportServiceConnected()) {
+            Logger.debug("MainService onDestroy transporterXdrip disconnecting...");
+            transporterXdrip.disconnectTransportService();
+            transporterXdrip = null;
+        }
 
         // Unbind spltClockClient
         if (slptClockClient != null)
@@ -438,6 +450,7 @@ public class MainService extends Service implements Transporter.DataListener {
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
+        DataBundle db = transportDataItem.getData();
 
         // A notification is removed/added
         if (action.equals("del") || action.equals("add")) {
@@ -448,6 +461,11 @@ public class MainService extends Service implements Transporter.DataListener {
         // Activate screen if the option is enabled in widget menus
         if (action.equals("add") && (settings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) == 1)) {
             acquireWakelock();
+        }
+
+        // Xdrip data
+        if (action.equals("xDrip_synced_SGV_data")) {
+            xdrip( db.getString("Data") );
         }
 
         Logger.debug("MainService action: {}", action);
@@ -464,7 +482,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
             try {
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
-                Object event = eventContructor.newInstance(transportDataItem.getData());
+                Object event = eventContructor.newInstance(db);
 
                 Logger.debug("MainService onDataReceived: " + event.toString());
                 EventBus.getDefault().post(event);
@@ -589,6 +607,78 @@ public class MainService extends Service implements Transporter.DataListener {
                 // When battery is above the alert level
                 phoneBatteryAlreadyAlerted = false;
             }
+        }
+    }
+
+    // XDrip data
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void xdrip(String xdrip_data) {
+        if(xdrip_data==null || !xdrip_data.equals(""))
+            return;
+
+        // Try to decode JSON
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(xdrip_data);
+
+            // Update system data
+            DeviceUtil.systemPutString(context, "Xdrip", xdrip_data);
+
+            // If data analysis is needed:
+            /*
+            // Default values
+            String strike = "";
+            String color = "WHITE";
+            String sgv = "--";
+            String delta = "--";
+            String timeago = "--";
+            String phonebattery = "--";
+            String sgv_graph = "false";
+            Long timestamp = Long.valueOf(1);
+            Boolean badvalue = false;
+            Boolean ishigh = false;
+            Boolean islow = false;
+            Boolean isstale = false;
+            Boolean firstdata = false;
+
+            if (json_data.has("sgv"))
+                sgv = json_data.getString("sgv");
+
+            if (json_data.has("delta"))
+                delta = json_data.getString("delta");
+
+            if (json_data.has("date")) {
+                timestamp = Long.valueOf(json_data.getString("date"));
+                //timeago = TimeAgo.using(Long.valueOf(json_data.getString("date")));
+            }
+
+            if (json_data.has("WFGraph"))
+                sgv_graph = json_data.getString("WFGraph");
+
+            if (json_data.has("phone_battery"))
+                phonebattery = json_data.getString("phone_battery");
+
+            if (json_data.has("ishigh"))
+                ishigh = Boolean.valueOf(json_data.getString("ishigh"));
+
+            if (json_data.has("islow"))
+                islow = Boolean.valueOf(json_data.getString("islow"));
+
+            if (json_data.has("isstale"))
+                isstale = Boolean.valueOf(json_data.getString("isstale"));
+
+            if (!isstale && !islow && !ishigh)
+                color="BLACK";
+            else
+                color="WHITE";
+
+            if( System.currentTimeMillis() > timestamp+10*60*1000 )
+                strike = new String(new char[sgv.length()]).replace("\0", "─");
+            else
+                strike = "";
+             */
+        }catch (Exception e) {
+            // Nothing
         }
     }
 
