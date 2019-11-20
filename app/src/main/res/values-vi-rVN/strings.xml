@@ -341,9 +341,8 @@
     <string name="no_storage_permission">AmazMod không có quyền lưu trữ, vui lòng cấp nó.</string>
     <string name="generate_bundle">Tạo tập tin nhật ký</string>
     <string name="set_watchface">Đặt mặt đồng hồ</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">Ứng dụng sẽ khởi động lại để sử dụng thủ công chủ đề tối thay vì theo chủ đề hệ thống (beta).</string>
+    <string name="pref_amazmod_dark_theme">Buộc sử dụng chủ đề tối</string>
     <string name="share">Chia sẻ</string>
     <string name="collecting_watch_logs">Thu thập nhật ký đồng hồ</string>
     <string name="button_description">Nút bấm</string>
