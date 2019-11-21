@@ -73,6 +73,8 @@ public class Constants {
     public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
     public static final String PREF_COMMAND_HISTORY = "preference.command.history";
 
+    public static final String PREF_ENABLE_MAPS_NOTIFICATION = "preference.enable.maps.notification";
+    public static final boolean PREF_ENABLE_MAPS_NOTIFICATION_DEFAULT = false;
     public static final String PREF_NOTIFICATIONS_LARGE_ICON = "preference.notification.largeicon";
     public static final boolean PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT = true;
     public static final String PREF_NOTIFICATIONS_IMAGES = "preference.notification.images";

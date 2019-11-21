@@ -20,6 +20,7 @@ import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
+import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.util.LocaleUtils;
 import com.edotassi.amazmod.util.Screen;
@@ -278,6 +279,16 @@ public class SettingsActivity extends BaseAppCompatActivity {
             this.enableInternetCompaionOnCreate = true;
         }
 
+        // Maps Notification
+        String packageName = "com.google.android.apps.maps";
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_MAPS_NOTIFICATION, Constants.PREF_ENABLE_MAPS_NOTIFICATION_DEFAULT)) {
+            SilenceApplicationHelper.enablePackage(packageName);
+            Logger.debug("Enable Maps notification");
+        } else {
+            SilenceApplicationHelper.disablePackage(packageName);
+            Logger.debug("Disable Maps notification");
+        }
+
         SettingsData settingsData = new SettingsData();
         settingsData.setReplies(replies);
         settingsData.setVibration(vibration);
@@ -335,6 +346,19 @@ public class SettingsActivity extends BaseAppCompatActivity {
             super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.preferences);
+
+            // Check if Maps is installed
+           Package maps = Package.getPackage("com.google.android.apps.maps");
+           Preference mapsSetting = getPreferenceScreen().findPreference("preference.enable.maps.notification");
+            if(null != maps){
+                mapsSetting.setEnabled(true);
+                Logger.debug("Google Maps is installed");
+            } else {
+                mapsSetting.setEnabled(false);
+                Prefs.putBoolean(Constants.PREF_ENABLE_MAPS_NOTIFICATION, false);
+                mapsSetting.setDefaultValue(true);
+                Logger.debug("Google Maps isn't installed");
+            }
 
             // Enable Notification Sound if Verge Only
             Preference vergeNotificationSoundSetting = getPreferenceScreen().findPreference("preference.notification.enable.sound");
