@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Wysyłaj gdy ekran jest włączony</string>
     <string name="pref_notifications_enable_custom_ui">Niestandardowe powiadomienia UI</string>
     <string name="pref_notifications_enable_custom_ui_summary">Powiadomienia z możliwością odpowiedzi.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Dźwięk powiadomień</string>
     <string name="pref_notification_enable_sound_summary">Włącz dźwięk powiadomień za pomocą niestandardowego interfejsu. Aby dostosować dźwięk, wgraj plik MP3 o nazwie „amazmod_notification.mp3” do folderu na swoim Verge ”/sdcard/Notifications /”</string>
     <string name="pref_run_wizard">Prezentacja powitalna</string>
