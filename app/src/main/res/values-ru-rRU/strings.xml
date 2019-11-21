@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Отправлять при включённом экране</string>
     <string name="pref_notifications_enable_custom_ui">Пользовательские ответы</string>
     <string name="pref_notifications_enable_custom_ui_summary">Уведомления с возможностью ответить.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Звук уведомлений</string>
     <string name="pref_notification_enable_sound_summary">Включить звук для пользовательских уведомлений. Разместите ваш mp3-файл со звуком, переименованный в \"amazmod_notification.mp3\", в папке\"/sdcard/Notifications/\" на часах</string>
     <string name="pref_run_wizard">Запустить \"Приветствие\"</string>
