@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Poslať, keď je obrazovka zapnutá</string>
     <string name="pref_notifications_enable_custom_ui">Vlastné UI upozornenia</string>
     <string name="pref_notifications_enable_custom_ui_summary">Oznámenia s možnosťou odpovedať.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Zvuk upozornenia</string>
     <string name="pref_notification_enable_sound_summary">Povoliť zvuk pre oznámenia s vlastným UI. Pre prispôsobenie zvuku vložte MP3 súbor pomenovaný ako \'amazmod_notification.mp3\' do tejto zložky na vašom Verge \'/sdcard /Notifications/\'</string>
     <string name="pref_run_wizard">Úvodná prezentácia</string>
@@ -342,9 +344,8 @@ Urobte príkaz shell \"</string>
     <string name="no_storage_permission">AmazMod nemá žiadne povolenie na ukladanie dát, udelte ho.</string>
     <string name="generate_bundle">Generovanie protokolového balíka</string>
     <string name="set_watchface">Použi ciferník</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">Aplikácia sa reštartuje a použije tmavú tému namiesto témy použitej v systéme (beta).</string>
+    <string name="pref_amazmod_dark_theme">Vynútiť tmavú tému</string>
     <string name="share">Zdieľať</string>
     <string name="collecting_watch_logs">Zbierať záznamy hodiniek</string>
     <string name="button_description">Tlačidlo</string>

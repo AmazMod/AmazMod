@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Enviar quando o ecrã está ON</string>
     <string name="pref_notifications_enable_custom_ui">Notificações personalizadas</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notificações com a capacidade de responder.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Som de notificação</string>
     <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Apresentação de boas-vindas</string>

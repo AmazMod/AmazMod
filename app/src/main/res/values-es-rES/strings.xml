@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Enviar cuando la pantalla está activada</string>
     <string name="pref_notifications_enable_custom_ui">Notificaciones de UI Personalizadas</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notificaciones con la capacidad de responder.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Sonido de notificaciones</string>
     <string name="pref_notification_enable_sound_summary">Habilita sonido de notificaciones para las notificaciones con UI personalizada. Para usar un sonido personalizado, copia tu mp3 con el nombre \"amazmod_notification.mp3\" en la carpeta \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Presentación de Bienvenida</string>
@@ -342,9 +344,9 @@
     <string name="no_storage_permission">AmazMod no tiene permiso de almacenamiento, concédeselo, por favor.</string>
     <string name="generate_bundle">Generar paquete de Log</string>
     <string name="set_watchface">Establecer Watchface</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">La app se reiniciará para usar el tema oscuro en lugar de
+seguir el tema de sistema (beta).</string>
+    <string name="pref_amazmod_dark_theme">Forzar tema oscuro</string>
     <string name="share">Comparte</string>
     <string name="collecting_watch_logs">Recopilando registros del reloj</string>
     <string name="button_description">Botón</string>

@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Ricevi con schermo acceso</string>
     <string name="pref_notifications_enable_custom_ui">Notifiche Custom UI</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifiche con la possibilità di rispondere.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Suono notifiche</string>
     <string name="pref_notification_enable_sound_summary">Attiva suono per notifiche Custom UI. Per personalizzare il suono metti un mp3 rinominato \"amazmod_notification.mp3\" in questa cartella sul Verge \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Schermata di benvenuto</string>

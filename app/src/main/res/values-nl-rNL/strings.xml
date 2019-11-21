@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Verzend wanneer scherm aan is</string>
     <string name="pref_notifications_enable_custom_ui">Aangepaste notificaties</string>
     <string name="pref_notifications_enable_custom_ui_summary">Meldingen met de mogelijkheid om te antwoorden.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Meldingsgeluid</string>
     <string name="pref_notification_enable_sound_summary">Geluid voor aangepaste UI-melding inschakelen. Om het geluid aan te passen, zet u mp3 hernoemd als \"amazmod_notification.mp3\" in de map \"/sdcard/Notificaties/\"</string>
     <string name="pref_run_wizard">Welkom presentatie</string>
@@ -341,9 +343,9 @@
     <string name="no_storage_permission">AmazMod heeft geen toegang tot opslagruimtes; sta dit toe.</string>
     <string name="generate_bundle">Genereer logbundel</string>
     <string name="set_watchface">Stel watchface in</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">App zal herstarten in donker thema in plaats van
+het systeemthema (beta).</string>
+    <string name="pref_amazmod_dark_theme">Donker thema forceren</string>
     <string name="share">Delen</string>
     <string name="collecting_watch_logs">Horloge-logs verzamelen</string>
     <string name="button_description">Knop</string>

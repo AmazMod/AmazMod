@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Küldés, ha a képernyő BE</string>
     <string name="pref_notifications_enable_custom_ui">Egyéni értesítések</string>
     <string name="pref_notifications_enable_custom_ui_summary">Megválaszolható értesítések.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Értesítési hang</string>
     <string name="pref_notification_enable_sound_summary">Hang engedélyezése egyéni UI értesítéshez. Egyéni hanghoz helyezd át a Verge \"/sdcard/Notifications/\" mappájába az mp3 fájlt és nevezd át: \"amazmod_notification.mp3\"</string>
     <string name="pref_run_wizard">Bemutató</string>
@@ -343,9 +345,9 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="no_storage_permission">Az AmazModnak nincs tárhely engedélye, add ezt meg.</string>
     <string name="generate_bundle">Naplócsomag létrehozása</string>
     <string name="set_watchface">Számlap beállítása</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">Az app újraindul a sötét téma használatához,
+a rendszertéma követése helyett (beta).</string>
+    <string name="pref_amazmod_dark_theme">Kénysz. sötét téma</string>
     <string name="share">Megosztás</string>
     <string name="collecting_watch_logs">Óra naplók gyűjtése</string>
     <string name="button_description">Gomb</string>
