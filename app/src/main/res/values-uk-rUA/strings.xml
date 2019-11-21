@@ -112,7 +112,7 @@
     <string name="pref_notifications_enable_custom_ui">Інтерфейс користувача для сповіщень</string>
     <string name="pref_notifications_enable_custom_ui_summary">Сповіщення з можливістю відповіді.</string>
     <string name="pref_enable_maps_notification">Сповіщення карт</string>
-    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
+    <string name="pref_enable_maps_notification_summary">Увімкнути сповіщення Google Maps.</string>
     <string name="pref_notification_enable_sound">Звук сповіщення</string>
     <string name="pref_notification_enable_sound_summary">Зміна звуку для сповіщень. Для зміни звуку, помістіть файл mp3 з ім\'ям \"amazmod_notification.mp3\" до теки \"/sdcard/Notifications/\" вашого годинника</string>
     <string name="pref_run_wizard">\"Перший запуск\"</string>
@@ -343,9 +343,8 @@
     <string name="no_storage_permission">AmazMod не має дозволу на роботу з файлами. Будь ласка, надайте дозвіл.</string>
     <string name="generate_bundle">Створити журнал</string>
     <string name="set_watchface">Встановити циферблат</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">Додаток буде перезавантажено, щоб використовувати темну тему, замість системної (бета).</string>
+    <string name="pref_amazmod_dark_theme">Використовувати темну тему</string>
     <string name="share">Поділитися</string>
     <string name="collecting_watch_logs">Збір журналів годинника</string>
     <string name="button_description">Кнопка</string>
