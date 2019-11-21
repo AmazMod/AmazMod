@@ -111,6 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Verzend wanneer scherm aan is</string>
     <string name="pref_notifications_enable_custom_ui">Aangepaste notificaties</string>
     <string name="pref_notifications_enable_custom_ui_summary">Meldingen met de mogelijkheid om te antwoorden.</string>
+    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
     <string name="pref_notification_enable_sound">Meldingsgeluid</string>
     <string name="pref_notification_enable_sound_summary">Geluid voor aangepaste UI-melding inschakelen. Om het geluid aan te passen, zet u mp3 hernoemd als \"amazmod_notification.mp3\" in de map \"/sdcard/Notificaties/\"</string>
     <string name="pref_run_wizard">Welkom presentatie</string>
