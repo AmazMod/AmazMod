@@ -111,8 +111,8 @@
     <string name="pref_enable_notifications_when_screen_on">Poslat, když je obrazovka zapnutá</string>
     <string name="pref_notifications_enable_custom_ui">Vlastní UI oznámení</string>
     <string name="pref_notifications_enable_custom_ui_summary">Oznámení s možností odpovědět.</string>
-    <string name="pref_enable_maps_notification">Maps notifications</string>
-    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
+    <string name="pref_enable_maps_notification">Oznámení map</string>
+    <string name="pref_enable_maps_notification_summary">Povolit oznámení z Google Map.</string>
     <string name="pref_notification_enable_sound">Zvuk oznámení</string>
     <string name="pref_notification_enable_sound_summary">Povolit zvuk pro oznámení s vlastním UI. Pro přizpůsobení zvuku vložte MP3 soubor pojmenován jako “amazmod_notification.mp3” do této složky na vašem Verge “/sdcard/Notifications/“</string>
     <string name="pref_run_wizard">Úvodní prezentace</string>
@@ -345,9 +345,8 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="no_storage_permission">AmazMod nemá oprávnění k přístupu k úložišti, prosím udělte aplikaci toto oprávnění.</string>
     <string name="generate_bundle">Vygenerovat balík protokolů</string>
     <string name="set_watchface">Nastavit ciferník</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">Aplikace se restartuje aby se manuálně použil tmavý režim místo toho aby se aplikace řídila podle systémového tématu (beta).</string>
+    <string name="pref_amazmod_dark_theme">Vynutit tmavý režim</string>
     <string name="share">Sdílet</string>
     <string name="collecting_watch_logs">Sbírat záznamy hodinek</string>
     <string name="button_description">Tlačítko</string>
