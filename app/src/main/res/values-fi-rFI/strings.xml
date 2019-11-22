@@ -75,6 +75,7 @@
     <string name="support_email">Tuki sähköpostilla</string>
     <string name="project_github">Projekti GitHubissa</string>
     <string name="activity_about_project_maintainer">Projektin ylläpitäjä</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Kehittäjät</string>
     <string name="activity_about_testers">Testaajat</string>
     <string name="translators">Kääntäjät</string>
