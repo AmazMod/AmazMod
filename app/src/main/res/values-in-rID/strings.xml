@@ -75,6 +75,7 @@
     <string name="support_email">Dukungan Email</string>
     <string name="project_github">Proyek Github</string>
     <string name="activity_about_project_maintainer">Project Maintainer</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Developers</string>
     <string name="activity_about_testers">Penguji</string>
     <string name="translators">Penerjemah</string>
