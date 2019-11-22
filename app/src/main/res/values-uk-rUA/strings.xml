@@ -75,6 +75,7 @@
     <string name="support_email">Пошта підтримки</string>
     <string name="project_github">Проект на Github</string>
     <string name="activity_about_project_maintainer">Підтримка проекту</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Розробники</string>
     <string name="activity_about_testers">Тестувальники</string>
     <string name="translators">Переклади</string>
