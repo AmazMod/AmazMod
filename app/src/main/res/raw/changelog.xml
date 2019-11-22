@@ -14,6 +14,7 @@
         <new>Added Hourly chime feature (a vibration every hour)</new>
         <new>New option to enable/disable notification sound on Verge</new>
         <new>Translation additions. App is almost fully translatable.</new>
+        <bugfix>Fix missing Google Assistant notification</bugfix>
         <bugfix>Now Filemanager and App list use case insensitive sort order</bugfix>
         <bugfix>Calendar data fixes</bugfix>
         <bugfix>Small fix on Dark theme text visibilities and other graphical adjustments</bugfix>

@@ -3,7 +3,6 @@
     <string name="app_name" translatable="false">AmazMod</string>
     <string name="file_opener_name" translatable="false">AmazMod - Send to Watch</string>
     <string name="notifications_service_name" translatable="false">AmazModNotificationsService</string>
-    <string name="activity_about_text" translatable="false">Coded with love {gmd-favorite}</string>
     <string name="activity_about_project_maintainer_value" translatable="false">\@edotassi</string>
     <string name="activity_about_devs_value" translatable="false">\@lfomartins, \@GreatApo, \@diotto, \@fcaronte</string>
     <string name="activity_about_recruiters_value" translatable="false">\@pavelzeldin</string>

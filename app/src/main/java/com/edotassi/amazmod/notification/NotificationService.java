@@ -66,8 +66,9 @@ public class NotificationService extends NotificationListenerService {
     private static final long KEEP_SERVICE_RUNNING_INTERVAL = 60000L * 15L; //Fifteen minutes
     private static final long CUSTOMUI_LATENCY = 1L;
 
-    private static final String[] APP_WHITELIST = { //apps that do not fit some filter
+    private static final String[] APP_WHITELIST = { //apps that do not fit some filter (need to be list as sorted)
             "com.contapps.android",
+            "com.google.android.googlequicksearchbox",
             "com.microsoft.office.outlook",
             "com.skype.raider"
     };
