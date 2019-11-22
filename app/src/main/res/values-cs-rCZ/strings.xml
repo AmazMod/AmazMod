@@ -118,9 +118,9 @@
     <string name="pref_run_wizard">Úvodní prezentace</string>
     <string name="pref_run_wizard_summary">Znovu spustí úvodní prezentaci.</string>
     <string name="pref_vibration_duration">Doba vibrací</string>
-    <string name="pref_vibration_duration_summary">Nastavte trvání vibrací pro obrazovku s odpovědmi (použito pouze když jsou Standardní notifikace zakázány).</string>
+    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
     <string name="pref_screen_timeout">Časový limit obrazovky</string>
-    <string name="pref_screen_timeout_summary">Nastavte dobu trvání obrazovky vlastních odpovědí.</string>
+    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
     <string name="pref_disable_notifications_when_dnd">Dodržovat DND režim</string>
     <string name="pref_disable_notifications_when_dnd_summary">Oznámení nebudou posílána, pokud je zjištěna možnost \"Nerušit\".</string>
     <string name="pref_disable_remove_notifications">Zachovat oznámení</string>
