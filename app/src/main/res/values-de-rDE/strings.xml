@@ -64,7 +64,7 @@
     <string name="notification_ongoing">Laufend</string>
     <string name="notification_return">Zurück</string>
     <string name="notification_package">Paket</string>
-    <string name="notification_voice">Audio</string>
+    <string name="notification_voice">Stimme</string>
     <string name="notification_maps">Maps</string>
     <string name="notification_ungroup">Gruppierung aufheben</string>
     <string name="notification_localok">LOCALOK</string>
@@ -75,6 +75,7 @@
     <string name="support_email">Support E-Mail</string>
     <string name="project_github">Projektseite auf GitHub</string>
     <string name="activity_about_project_maintainer">Projektbetreiber</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Entwickler</string>
     <string name="activity_about_testers">Tester</string>
     <string name="translators">Übersetzer</string>

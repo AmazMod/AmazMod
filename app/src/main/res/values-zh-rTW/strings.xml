@@ -75,6 +75,7 @@
     <string name="support_email">支援電子郵件</string>
     <string name="project_github">在 GitHub 上的專案</string>
     <string name="activity_about_project_maintainer">專案維護人員</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">開發人員</string>
     <string name="activity_about_testers">測試人員</string>
     <string name="translators">翻譯人員</string>

@@ -75,6 +75,7 @@
     <string name="support_email">Ondersteuning E-mail</string>
     <string name="project_github">Project pagina op GitHub</string>
     <string name="activity_about_project_maintainer">Projectonderhouder</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Ontwikkelaars</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Vertalers</string>

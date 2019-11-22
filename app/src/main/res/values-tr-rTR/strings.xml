@@ -75,6 +75,7 @@
     <string name="support_email">Destek E-posta</string>
     <string name="project_github">Projeyi GitHub üzerinde Gör</string>
     <string name="activity_about_project_maintainer">Proje Yöneticisi</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Geliştiriciler</string>
     <string name="activity_about_testers">Test edenler</string>
     <string name="translators">Çevirmenler</string>
