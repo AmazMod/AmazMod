@@ -111,16 +111,16 @@
     <string name="pref_enable_notifications_when_screen_on">Envoyer quand l\'écran est activé</string>
     <string name="pref_notifications_enable_custom_ui">Activer les réponses personnalisées</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notifications avec la possibilité de répondre.</string>
-    <string name="pref_enable_maps_notification">Maps notifications</string>
-    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
+    <string name="pref_enable_maps_notification">Notifications de Maps</string>
+    <string name="pref_enable_maps_notification_summary">Activer les notifications de Google Maps.</string>
     <string name="pref_notification_enable_sound">Son de notifications</string>
     <string name="pref_notification_enable_sound_summary">Activer le son pour la notification de l\'interface personnalisée . Pour personnaliser le son, mettez votre mp3 renommé comme \"amazmod_notification.mp3\" dans le dossier \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Présentation d\'Accueil</string>
     <string name="pref_run_wizard_summary">Relancer la Présentation d\'Accueil.</string>
     <string name="pref_vibration_duration">Durée de vibration</string>
-    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
+    <string name="pref_vibration_duration_summary">Définir la durée de vibration de l\'écran de notification.</string>
     <string name="pref_screen_timeout">Temps de réponse</string>
-    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
+    <string name="pref_screen_timeout_summary">Définir la durée de l\'écran de notification.</string>
     <string name="pref_disable_notifications_when_dnd">Respecter le mode DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Les notifications ne seront pas envoyées à la montre si Ne Pas Déranger est détecté.</string>
     <string name="pref_disable_remove_notifications">Garder les notifications</string>
@@ -220,7 +220,7 @@
     <string name="execute_shell_command">Exécuter une commande shell</string>
     <string name="run">Exécuter</string>
     <string name="shell_command_sent">Commande envoyée</string>
-    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
+    <string name="adb_clear_command_sent">Effacer tous les processus ADB en cours</string>
     <string name="cant_send_shell_command">Impossible d’envoyer la commande</string>
     <string name="install">Installer</string>
     <string name="apk_install_started_title">Installation de l’APK</string>
@@ -272,7 +272,7 @@
     <string name="compress">Compresser</string>
     <string name="delete_folder_and_contents">«%1$s» est un dossier. Le Supprimer avec tout son contenu récursivement ?</string>
     <string name="screenshot">Captures d\'écran</string>
-    <string name="clear_adb">Clear ADB</string>
+    <string name="clear_adb">Effacer ADB</string>
     <string name="pref_notifications_enable_delay">Délai de réponse</string>
     <string name="pref_notifications_enable_delay_summary">Compte à rebours avant d\'envoyer une réponse.</string>
     <string name="file_uploader">Chargeur de fichier</string>
@@ -292,8 +292,8 @@
     <string name="are_you_sure">Êtes-vous sûr?</string>
     <string name="cannot_be_undone">Cela ne peut pas être annulé.</string>
     <string name="show_only_selected">Afficher uniquement les applications autorisées</string>
-    <string name="pref_amazmod_keep_widget">Keep widgets</string>
-    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_keep_widget">Garder les widgets</string>
+    <string name="pref_amazmod_keep_widget_summary">Forcer l\'application de votre disposition de widgets enregistrés.</string>
     <string name="pref_enable_delete_button">Bouton supprimer dans les notifications</string>
     <string name="pref_enable_delete_button_on">Le bouton supprimer sera affiché sous le contenu des notifications</string>
     <string name="pref_enable_delete_button_off">Le bouton Supprimer sera dans le 4ème écran en faisant glisser vers la gauche sur la notification</string>
@@ -343,9 +343,9 @@
     <string name="no_storage_permission">AmazMod n\'a pas de permission de stockage, veuillez l\'accorder.</string>
     <string name="generate_bundle">Générer le fichier de logs</string>
     <string name="set_watchface">Définir Watchface</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">L\'application va redémarrer pour utiliser manuellement le thème sombre au lieu de
+suivre le thème système (bêta).</string>
+    <string name="pref_amazmod_dark_theme">Forcer le thème sombre</string>
     <string name="share">Partager</string>
     <string name="collecting_watch_logs">Collecter les journaux de la montre</string>
     <string name="button_description">Touches</string>
@@ -363,8 +363,8 @@ follow the system theme (beta).</string>
     <string name="new_folder">Nouveau dossier</string>
     <string name="pref_amazmod_overlay_launcher">Lanceur de superposition de notifications</string>
     <string name="pref_amazmod_overlay_launcher_summary">Ouvrir la liste des notifications personnalisées en utilisant un bouton superposé sur la montre (son emplacement est affiché brièvement lorsque l\'écran est allumé et vous pouvez le glisser à gauche ou à droite).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">Sonnerie chaque heure</string>
+    <string name="pref_amazmod_hourly_chime_summary">Activer, sur la Verge, une courte vibration toutes les heures avec un son Casio. Cela respecte le mode de veille DND.</string>
     <string name="file_not_found">Fichier non trouvé!</string>
     <string name="pref_battery_full_alert">Alerte de batterie pleine de la montre</string>
     <string name="pref_battery_full_alert_summary">Afficher une notification lorsque la batterie est complètement chargée.</string>
@@ -401,8 +401,8 @@ follow the system theme (beta).</string>
         <item quantity="one">minute</item>
         <item quantity="other"> minutes</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">Widgets modifiés</string>
+    <string name="problem_sending_data">Problème lors de l\'envoi des données</string>
+    <string name="error_loading_widgets">Erreur de chargement des widgets</string>
+    <string name="no_widgets_found">Aucun widget trouvé</string>
 </resources>
