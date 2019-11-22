@@ -111,16 +111,16 @@
     <string name="pref_enable_notifications_when_screen_on">Senden wenn Display eingeschaltet ist</string>
     <string name="pref_notifications_enable_custom_ui">Benutzerdefinierte Benachrichtigung</string>
     <string name="pref_notifications_enable_custom_ui_summary">Benachrichtigungen mit der Fähigkeit zum antworten.</string>
-    <string name="pref_enable_maps_notification">Maps notifications</string>
-    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
+    <string name="pref_enable_maps_notification">Karten Benachrichtigungen</string>
+    <string name="pref_enable_maps_notification_summary">Google Maps Benachrichtigungen aktivieren.</string>
     <string name="pref_notification_enable_sound">Benachrichtigungston</string>
     <string name="pref_notification_enable_sound_summary">Aktiviere Ton für benutzerdefinierte Systembenachrichtigungen. Um den Ton anzupassen, speichere eine mp3 mit dem Namen \"amazmod_notification.mp3\" in den \"/sdcard/Notifications/\" - Ordner auf der Verge</string>
     <string name="pref_run_wizard">Willkommenspräsentation</string>
     <string name="pref_run_wizard_summary">Willkommenspräsentation nochmals abspielen.</string>
     <string name="pref_vibration_duration">Vibrationsdauer</string>
-    <string name="pref_vibration_duration_summary">Anpassen der Vibrationsdauer für das Antwortdisplay auf der Uhr (nur wenn Standardbenachrichtigungen ausgeschaltet sind).</string>
+    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
     <string name="pref_screen_timeout">Bildschirm-Timeout</string>
-    <string name="pref_screen_timeout_summary">Dauer des benutzerdefinierten Antwort-Bildschirms festlegen.</string>
+    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
     <string name="pref_disable_notifications_when_dnd">Bitte-Nicht-Stören-Modus beachten</string>
     <string name="pref_disable_notifications_when_dnd_summary">Benachrichtigungen werden nicht gesendet, wenn Bitte nicht stören erkannt wird.</string>
     <string name="pref_disable_remove_notifications">Behalte Benachrichtigungen</string>
@@ -343,9 +343,9 @@
     <string name="no_storage_permission">AmazMod hat keine Zugriffsberechtigung für den Speicher, bitte erteilen Sie sie.</string>
     <string name="generate_bundle">Log-Bundle generieren</string>
     <string name="set_watchface">Watchface festlegen</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">App wird neu gestartet um dunkles Theme zu verwenden statt
+dem System-Theme (Beta) zu folgen.</string>
+    <string name="pref_amazmod_dark_theme">Dunkles Design erzwingen</string>
     <string name="share">Teilen</string>
     <string name="collecting_watch_logs">Sammle BeobachtungLogs</string>
     <string name="button_description">Schaltfläche</string>

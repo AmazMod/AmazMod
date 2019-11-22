@@ -118,9 +118,9 @@
     <string name="pref_run_wizard">Presentació de benvinguda</string>
     <string name="pref_run_wizard_summary">Run the welcome presentation again.</string>
     <string name="pref_vibration_duration">Durada de la vibració</string>
-    <string name="pref_vibration_duration_summary">Set the vibration duration for the replies screen on watch (only used if Standard notifications are disabled).</string>
+    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
     <string name="pref_screen_timeout">Temps d\'espera de la pantalla</string>
-    <string name="pref_screen_timeout_summary">Set duration of custom replies screen.</string>
+    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
     <string name="pref_disable_notifications_when_dnd">Respecta el mode No Molestar</string>
     <string name="pref_disable_notifications_when_dnd_summary">Notifications will not be sent to watch when Do Not Disturb is detected.</string>
     <string name="pref_disable_remove_notifications">Mantenir les notificacions</string>

@@ -118,9 +118,9 @@
     <string name="pref_run_wizard">Schermata di benvenuto</string>
     <string name="pref_run_wizard_summary">Mostra nuovamente la schermata di benvenuto.</string>
     <string name="pref_vibration_duration">Durata vibrazione</string>
-    <string name="pref_vibration_duration_summary">Imposta la durata della vibrazione per la schermata delle risposte sull\'orologio (utilizzata solo se le notifiche standard sono disabilitate).</string>
+    <string name="pref_vibration_duration_summary">Imposta la durata della vibrazione della schermata di notifica.</string>
     <string name="pref_screen_timeout">Autospegnimento dello schermo</string>
-    <string name="pref_screen_timeout_summary">Imposta la durata di visualizzazione della schermata delle risposte personalizzate.</string>
+    <string name="pref_screen_timeout_summary">Imposta la durata della schermata di notifica.</string>
     <string name="pref_disable_notifications_when_dnd">Rispetta modalità DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Le notifiche non verranno inviate quando il \"non disturbare\" è attivo.</string>
     <string name="pref_disable_remove_notifications">Mantieni notifiche</string>
