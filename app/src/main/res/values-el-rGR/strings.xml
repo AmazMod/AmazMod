@@ -75,6 +75,7 @@
     <string name="support_email">Ηλεκτρονικό ταχυδρομείο υποστήριξης</string>
     <string name="project_github">Project στο Github</string>
     <string name="activity_about_project_maintainer">Υπεύθυνος Συντήρησης</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Προγραμματιστές</string>
     <string name="activity_about_testers">Δοκιμαστές</string>
     <string name="translators">Μεταφραστές</string>
