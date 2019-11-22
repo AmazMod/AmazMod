@@ -119,7 +119,7 @@
     <string name="pref_run_wizard_summary">Mostra nuovamente la schermata di benvenuto.</string>
     <string name="pref_vibration_duration">Durata vibrazione</string>
     <string name="pref_vibration_duration_summary">Imposta la durata della vibrazione della schermata di notifica.</string>
-    <string name="pref_screen_timeout">Autospegnimento dello schermo</string>
+    <string name="pref_screen_timeout">Timeout schermo</string>
     <string name="pref_screen_timeout_summary">Imposta la durata della schermata di notifica.</string>
     <string name="pref_disable_notifications_when_dnd">Rispetta modalità DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Le notifiche non verranno inviate quando il \"non disturbare\" è attivo.</string>
@@ -148,9 +148,7 @@
     <string name="intro_title_3">Riavvia i dispositivi</string>
     <string name="intro_description_3">Riavvia sia il telefono che l\'orologio. Se visualizzi i dati dell\'orologio nella sezione apposita dell\'app, tutto è configurato correttamente</string>
     <string name="intro_title_4">Hai finito!</string>
-    <string name="intro_description_4">\"Ora puoi andare nelle impostazioni di AmazMod, scegliere per quali applicazioni ricevere le notifiche e aggiungere delle risposte personalizzate.
-
-Goditi l\'uso di AmazMod!\"</string>
+    <string name="intro_description_4">Ora puoi andare nelle impostazioni di AmazMod, scegliere per quali applicazioni ricevere le notifiche e aggiungere delle risposte personalizzate.\n\nGoditi l\'uso di AmazMod! \u2661</string>
     <string name="watch_is_connected">Connesso</string>
     <string name="watch_disconnected">Disconnesso</string>
     <string name="watch_connecting">Connessione…</string>
