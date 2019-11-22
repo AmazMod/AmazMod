@@ -118,9 +118,9 @@
     <string name="pref_run_wizard">Prezentacja powitalna</string>
     <string name="pref_run_wizard_summary">Uruchom Ekran Powitalny ponownie.</string>
     <string name="pref_vibration_duration">Czas trwania wibracji</string>
-    <string name="pref_vibration_duration_summary">Ustaw czas wibracji na zegarku (używane wtedy, gdy wyłączone są standardowe powiadomienia).</string>
+    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
     <string name="pref_screen_timeout">Wygaszenie ekranu</string>
-    <string name="pref_screen_timeout_summary">Ustaw czas trwania ekranu niestandardowych odpowiedzi.</string>
+    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
     <string name="pref_disable_notifications_when_dnd">Ważny tryb DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Powiadomienia nie będą wysyłane do zegarka kiedy tryb Nie Przeszkadzać zostanie wykryty.</string>
     <string name="pref_disable_remove_notifications">Zachowaj powiadomienia</string>
