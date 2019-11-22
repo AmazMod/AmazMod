@@ -75,6 +75,7 @@
     <string name="support_email">Email de suport</string>
     <string name="project_github">Proiect pe Github</string>
     <string name="activity_about_project_maintainer">Manager de proiect</string>
+    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
     <string name="activity_about_devs">Dezvoltatori</string>
     <string name="activity_about_testers">Laboranți</string>
     <string name="translators">Traducători</string>
