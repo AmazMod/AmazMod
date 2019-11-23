@@ -75,7 +75,7 @@
     <string name="support_email">Email support</string>
     <string name="project_github">Projet sur Github</string>
     <string name="activity_about_project_maintainer">Mainteneur de projet</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Codé avec amour {gmd-favorite}</string>
     <string name="activity_about_devs">Développeurs</string>
     <string name="activity_about_testers">Testeurs</string>
     <string name="translators">Traducteurs</string>
