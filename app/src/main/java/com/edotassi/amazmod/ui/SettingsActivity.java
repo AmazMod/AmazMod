@@ -151,7 +151,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         finish();
     }
 
-    private static void restartApplication(Context c) {
+    public static void restartApplication(Context c) {
         try {
             //check if the context is given
             if (c != null) {

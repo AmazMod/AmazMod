@@ -29,6 +29,7 @@ import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.ui.SettingsActivity;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
@@ -289,8 +290,14 @@ public class WatchInfoFragment extends Card implements Updater {
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
         noService.setVisibility(View.GONE);
+        isConnectedTV.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                SettingsActivity.restartApplication(getContext());
+                return true;
+            }
+        });
     }
-
     @Override
     public void updateCheckFailed() {
         if (getActivity() != null && getContext() != null) {
