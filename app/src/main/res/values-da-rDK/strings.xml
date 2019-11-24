@@ -75,7 +75,7 @@
     <string name="support_email">Support e-mail</string>
     <string name="project_github">Projekt på GitHub</string>
     <string name="activity_about_project_maintainer">Projektvedligeholder</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Kodet med kærlighed {gmd-favorite}</string>
     <string name="activity_about_devs">Udviklere</string>
     <string name="activity_about_testers">Testere</string>
     <string name="translators">Oversættere</string>

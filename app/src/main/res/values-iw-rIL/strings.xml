@@ -75,7 +75,7 @@
     <string name="support_email">דוא\"ל תמיכה</string>
     <string name="project_github">פרויקט ב-Github</string>
     <string name="activity_about_project_maintainer">מתחזק הפרויקט</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">נכתב באהבה {gmd-favorite}</string>
     <string name="activity_about_devs">מפתחים</string>
     <string name="activity_about_testers">בודקים</string>
     <string name="translators">מתרגמים</string>

@@ -75,7 +75,7 @@
     <string name="support_email">E-mail podpory</string>
     <string name="project_github">Projekte na Github</string>
     <string name="activity_about_project_maintainer">Spracovávateľ projekta</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Kódované s láskou {gmd-favorite}</string>
     <string name="activity_about_devs">Vývojári</string>
     <string name="activity_about_testers">Testery</string>
     <string name="translators">Prekladatelia</string>
