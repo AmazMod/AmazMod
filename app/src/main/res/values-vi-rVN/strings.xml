@@ -75,7 +75,7 @@
     <string name="support_email">Hỗ trợ Email</string>
     <string name="project_github">Dự án Github</string>
     <string name="activity_about_project_maintainer">Bảo trì dự án</string>
-    <string name="activity_about_text">Được mã hóa bằng tình yêu {gmd-yêu thích}</string>
+    <string name="activity_about_text">Được mã hóa bằng tình yêu {gmd-favorite}</string>
     <string name="activity_about_devs">Nhà phát triển</string>
     <string name="activity_about_testers">Người kiểm tra</string>
     <string name="translators">Phiên dịch viên</string>
