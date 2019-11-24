@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.MainActivity;
 
@@ -45,10 +46,10 @@ public class PersistentNotification {
                 (int) (long) (System.currentTimeMillis() % 10000L),notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         if (model != null) {
-            if (model.isEmpty()) {
+            if (AmazModApplication.isWatchConnected()) {
                 msg = context.getResources().getString(R.string.device_not_connected);
             } else
-                msg = model + " " + context.getResources().getString(R.string.device_connected);
+                msg = context.getResources().getString(R.string.device_not_connected);
         } else msg = context.getResources().getString(R.string.device_not_connected);
 
         Notification notification = new NotificationCompat.Builder(context, Constants.PERSISTENT_NOTIFICATION_CHANNEL)
