@@ -112,16 +112,16 @@
     <string name="pref_enable_notifications_when_screen_on">屏幕打开时发送</string>
     <string name="pref_notifications_enable_custom_ui">自定义界面通知</string>
     <string name="pref_notifications_enable_custom_ui_summary">可回复的通知.</string>
-    <string name="pref_enable_maps_notification">Maps notifications</string>
-    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
+    <string name="pref_enable_maps_notification">地图通知</string>
+    <string name="pref_enable_maps_notification_summary">启用地图通知。</string>
     <string name="pref_notification_enable_sound">通知铃声</string>
     <string name="pref_notification_enable_sound_summary">启用自定义界面通知的声音。为了自定义声音，将您的mp3文件重命名为“amazmod_retion.mp3”，放入“/sdcard/Notification/”文件夹中。</string>
     <string name="pref_run_wizard">欢迎介绍</string>
     <string name="pref_run_wizard_summary">再次运行欢迎的演示。</string>
     <string name="pref_vibration_duration">振动持续时间</string>
-    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
+    <string name="pref_vibration_duration_summary">设置通知屏幕振动持续时间。</string>
     <string name="pref_screen_timeout">屏幕超时时间</string>
-    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
+    <string name="pref_screen_timeout_summary">设置通知屏幕持续时间。</string>
     <string name="pref_disable_notifications_when_dnd">遵循免打扰模式</string>
     <string name="pref_disable_notifications_when_dnd_summary">勿扰模式下通知将不会发送到手表端.</string>
     <string name="pref_disable_remove_notifications">保留通知</string>
@@ -222,7 +222,7 @@
     <string name="execute_shell_command">执行 shell 命令</string>
     <string name="run">执行</string>
     <string name="shell_command_sent">命令已发送</string>
-    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
+    <string name="adb_clear_command_sent">清除所有正在运行的 ADB 进程</string>
     <string name="cant_send_shell_command">无法发送命令</string>
     <string name="install">安装</string>
     <string name="apk_install_started_title">APK 安装</string>
@@ -274,7 +274,7 @@
     <string name="compress">压缩</string>
     <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
     <string name="screenshot">截屏</string>
-    <string name="clear_adb">Clear ADB</string>
+    <string name="clear_adb">清除 ADB</string>
     <string name="pref_notifications_enable_delay">回复延迟</string>
     <string name="pref_notifications_enable_delay_summary">发送回复前倒计时延迟.</string>
     <string name="file_uploader">文件上传器</string>
@@ -294,8 +294,8 @@
     <string name="are_you_sure">是否确定？</string>
     <string name="cannot_be_undone">此操作不可撤销。</string>
     <string name="show_only_selected">仅显示允许的应用</string>
-    <string name="pref_amazmod_keep_widget">Keep widgets</string>
-    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_keep_widget">保留小部件</string>
+    <string name="pref_amazmod_keep_widget_summary">强制应用您保存的小部件安排。</string>
     <string name="pref_enable_delete_button">通知删除按钮</string>
     <string name="pref_enable_delete_button_on">\"删除\" 按钮将显示在通知内容下方</string>
     <string name="pref_enable_delete_button_off">当在通知上向左滑动时, \"删除\" 按钮将位于第4屏中</string>
@@ -345,9 +345,8 @@
     <string name="no_storage_permission">AmazMod没有存储权限，请授权。</string>
     <string name="generate_bundle">生成日志包</string>
     <string name="set_watchface">设置表盘</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">应用程序将重启以手动启用暗色主题代替系统主题 (测试版)。</string>
+    <string name="pref_amazmod_dark_theme">强制使用暗色主题</string>
     <string name="share">分享</string>
     <string name="collecting_watch_logs">收集手表日志</string>
     <string name="button_description">按钮</string>
@@ -400,8 +399,8 @@ follow the system theme (beta).</string>
     <plurals name="minute">
         <item quantity="other">分钟</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">部件已更改</string>
+    <string name="problem_sending_data">发送数据时出现问题</string>
+    <string name="error_loading_widgets">加载小部件时出现错误</string>
+    <string name="no_widgets_found">找不到部件</string>
 </resources>
