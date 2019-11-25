@@ -75,7 +75,7 @@
     <string name="support_email">支持邮件</string>
     <string name="project_github">在 Github 上的项目</string>
     <string name="activity_about_project_maintainer">项目维护者</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">用爱编码{gmd-favorite}</string>
     <string name="activity_about_devs">开发者</string>
     <string name="activity_about_testers">测试人员</string>
     <string name="translators">翻译人员</string>
