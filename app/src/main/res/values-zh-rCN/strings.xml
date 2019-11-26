@@ -321,6 +321,8 @@
     <string name="pref_choose_language">选择语言</string>
     <string name="pref_choose_language_summary">你可以修改此应用的语言。</string>
     <string name="languages_automatic">自动检测语言</string>
+    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
+    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
     <string name="pref_notifications_show_large_icon">使用大图标</string>
     <string name="pref_notifications_show_large_icon_summary">在通知中显示大图标(通常是联系人图片)。</string>
     <string name="pref_notifications_enable_images">显示图片</string>
