@@ -75,7 +75,7 @@
     <string name="support_email">Support E-Mail</string>
     <string name="project_github">Projektseite auf GitHub</string>
     <string name="activity_about_project_maintainer">Projektbetreiber</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Programmiert mit Liebe {gmd-favorite}</string>
     <string name="activity_about_devs">Entwickler</string>
     <string name="activity_about_testers">Tester</string>
     <string name="translators">Übersetzer</string>
@@ -119,9 +119,9 @@
     <string name="pref_run_wizard">Willkommenspräsentation</string>
     <string name="pref_run_wizard_summary">Willkommenspräsentation nochmals abspielen.</string>
     <string name="pref_vibration_duration">Vibrationsdauer</string>
-    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
+    <string name="pref_vibration_duration_summary">Vibrationsdauer des Benachrichtigungsbildschirms festlegen.</string>
     <string name="pref_screen_timeout">Bildschirm-Timeout</string>
-    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
+    <string name="pref_screen_timeout_summary">Dauer des Benachrichtigungsbildschirms einstellen.</string>
     <string name="pref_disable_notifications_when_dnd">Bitte-Nicht-Stören-Modus beachten</string>
     <string name="pref_disable_notifications_when_dnd_summary">Benachrichtigungen werden nicht gesendet, wenn Bitte nicht stören erkannt wird.</string>
     <string name="pref_disable_remove_notifications">Behalte Benachrichtigungen</string>
@@ -320,8 +320,8 @@
     <string name="pref_choose_language">Sprache wählen</string>
     <string name="pref_choose_language_summary">Sie können die Sprache der App ändern.</string>
     <string name="languages_automatic">Automatische Sprachwahl</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Farbige Icons aktivieren</string>
+    <string name="pref_notifications_colored_icon_summary">Farbige App-Symbole für Benachrichtigungen verwenden.</string>
     <string name="pref_notifications_show_large_icon">Zeige grosse Icons</string>
     <string name="pref_notifications_show_large_icon_summary">Zeige grosse Icons (normale Kontakt Bilder) in den Benachrichtigungen.</string>
     <string name="pref_notifications_enable_images">Zeige Bilder</string>
