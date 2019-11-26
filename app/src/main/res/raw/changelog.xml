@@ -3,6 +3,7 @@
         date="Unreleased"
         versionCode="218"
         versionName="v1.1.8 (218)">
+        <new>Add setting to use colored icon for custom UI notification</new>
         <new>Now dark theme will follow system theme setting (beta)</new>
         <new>Watch widgets can now be reordered directly from the phone</new>
         <new>Add "Clear ADB" button on tweaking menu to avoid to much adb processes keep running</new>
