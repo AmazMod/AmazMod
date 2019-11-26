@@ -320,6 +320,8 @@
     <string name="pref_choose_language">언어 선택하기</string>
     <string name="pref_choose_language_summary">You can change language of the app.</string>
     <string name="languages_automatic">언어 자동 선택</string>
+    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
+    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
     <string name="pref_notifications_show_large_icon">큰 아이콘 표시</string>
     <string name="pref_notifications_show_large_icon_summary">Show Large Icons (usually Contact Picture) in Notifications.</string>
     <string name="pref_notifications_enable_images">이미지 표시</string>
