@@ -93,8 +93,15 @@ public class NotificationFactory {
                 int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
                 PackageManager manager = context.getPackageManager();
                 Resources resources = manager.getResourcesForApplication(notificationPackage);
-
-                Drawable drawable = resources.getDrawable(notification.icon);
+                Drawable icon;
+                if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_COLORED_ICON, Constants.PREF_NOTIFICATIONS_COLORED_ICON_DEFAULT)) {
+                    Logger.debug("Use colored icon");
+                    icon = manager.getApplicationIcon(notificationPackage);
+                } else {
+                    Logger.debug("Use statusbar icon");
+                    icon = resources.getDrawable(notification.icon);
+                }
+                Drawable drawable = icon;
                 Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                 Canvas canvas = new Canvas(bitmap);
                 drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());

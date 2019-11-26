@@ -89,6 +89,13 @@
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="preference.notifications.enable.custom.ui"
+            android:key="preference.notification.colored.icon"
+            android:summary="@string/pref_notifications_colored_icon_summary"
+            android:title="@string/pref_notifications_colored_icon" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.notification.largeicon"
             android:summary="@string/pref_notifications_show_large_icon_summary"
             android:title="@string/pref_notifications_show_large_icon" />
