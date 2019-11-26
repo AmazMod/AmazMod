@@ -320,6 +320,8 @@
     <string name="pref_choose_language">Επιλογή γλώσσας</string>
     <string name="pref_choose_language_summary">Μπορείτε να αλλάξετε τη γλώσσα της εφαρμογής.</string>
     <string name="languages_automatic">Αυτόματος εντοπισμός γλώσσας</string>
+    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
+    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
     <string name="pref_notifications_show_large_icon">Εμφάνιση μεγάλων εικονιδίων</string>
     <string name="pref_notifications_show_large_icon_summary">Εμφάνιση μεγάλων εικονιδίων (συνήθως εικόνα επαφής) στις ειδοποιήσεις.</string>
     <string name="pref_notifications_enable_images">Εμφάνιση εικόνων</string>

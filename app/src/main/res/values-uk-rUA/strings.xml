@@ -75,7 +75,7 @@
     <string name="support_email">Пошта підтримки</string>
     <string name="project_github">Проект на Github</string>
     <string name="activity_about_project_maintainer">Підтримка проекту</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Створено з любов\'ю {gmd-favorite}</string>
     <string name="activity_about_devs">Розробники</string>
     <string name="activity_about_testers">Тестувальники</string>
     <string name="translators">Переклади</string>
@@ -119,9 +119,9 @@
     <string name="pref_run_wizard">\"Перший запуск\"</string>
     <string name="pref_run_wizard_summary">Показати сторінку \"Першого запуску\".</string>
     <string name="pref_vibration_duration">Тривалість вібрації</string>
-    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
+    <string name="pref_vibration_duration_summary">Встановити тривалість вібрації екрану сповіщень.</string>
     <string name="pref_screen_timeout">Тайм-аут екрану відповідей</string>
-    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
+    <string name="pref_screen_timeout_summary">Встановити тривалість для екрану сповіщень.</string>
     <string name="pref_disable_notifications_when_dnd">Режим \"Не турбувати\"</string>
     <string name="pref_disable_notifications_when_dnd_summary">Сповіщення не надсилатимуться на годинник, коли на телефоні увімкнено \"Не турбувати\".</string>
     <string name="pref_disable_remove_notifications">Залишати сповіщення</string>
@@ -320,6 +320,8 @@
     <string name="pref_choose_language">Оберіть мову</string>
     <string name="pref_choose_language_summary">Ви можете обрати мову додатку.</string>
     <string name="languages_automatic">Автовизначення мови</string>
+    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
+    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
     <string name="pref_notifications_show_large_icon">Показувати великі іконки</string>
     <string name="pref_notifications_show_large_icon_summary">Показувати великі іконки (зазвичай зображення контакту) в сповіщеннях.</string>
     <string name="pref_notifications_enable_images">Показувати зображення</string>
