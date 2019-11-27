@@ -322,8 +322,8 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_choose_language">Změna jazyka aplikace</string>
     <string name="pref_choose_language_summary">Zde můžete změnit jazyk aplikace.</string>
     <string name="languages_automatic">Automatické rozpoznání jazyka</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Povolit barevné ikony</string>
+    <string name="pref_notifications_colored_icon_summary">Pro oznámení použít barevnou ikonu aplikace.</string>
     <string name="pref_notifications_show_large_icon">Zobrazovat velké ikony</string>
     <string name="pref_notifications_show_large_icon_summary">Zobrazovat velké ikony (obvykle obrázek kontaktu) v oznámení.</string>
     <string name="pref_notifications_enable_images">Zobrazovat obrázky</string>
