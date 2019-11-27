@@ -320,8 +320,8 @@
     <string name="pref_choose_language">Choisissez la langue</string>
     <string name="pref_choose_language_summary">Vous pouvez changer la langue de l\'application.</string>
     <string name="languages_automatic">Détection automatique de la Langue</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Activer les icônes colorées</string>
+    <string name="pref_notifications_colored_icon_summary">Utiliser l\'icône colorée de l\'application pour la notification.</string>
     <string name="pref_notifications_show_large_icon">Afficher les grandes icônes</string>
     <string name="pref_notifications_show_large_icon_summary">Afficher de grands icônes (habituellement l\'image des contacts) dans les notifications.</string>
     <string name="pref_notifications_enable_images">Afficher les Images</string>
