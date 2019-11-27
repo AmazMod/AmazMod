@@ -320,8 +320,8 @@
     <string name="pref_choose_language">בחירת שפה</string>
     <string name="pref_choose_language_summary">ניתן לשנות את שפת האפליקציה בסלולרי</string>
     <string name="languages_automatic">זיהוי שפה אוטומטי</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">הפעלת אייקונים צבעוניים</string>
+    <string name="pref_notifications_colored_icon_summary">שימוש באייקונים צבעוניים עבור התראות.</string>
     <string name="pref_notifications_show_large_icon">הצג סמלים גדולים</string>
     <string name="pref_notifications_show_large_icon_summary">הצגת סמלים גדולים (תמונות אנשי קשר) בהתראות.</string>
     <string name="pref_notifications_enable_images">הצג תמונות</string>
