@@ -113,13 +113,13 @@
     <string name="pref_notifications_enable_custom_ui">Notificações personalizadas</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notificações com a capacidade de responder.</string>
     <string name="pref_enable_maps_notification">Maps notifications</string>
-    <string name="pref_enable_maps_notification_summary">Enable Google Maps notifications.</string>
+    <string name="pref_enable_maps_notification_summary">Habilitar notificações do Google Maps.</string>
     <string name="pref_notification_enable_sound">Som de notificação</string>
     <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Apresentação de boas-vindas</string>
     <string name="pref_run_wizard_summary">Executar a apresentação de boas-vindas novamente.</string>
     <string name="pref_vibration_duration">Duração da vibração</string>
-    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
+    <string name="pref_vibration_duration_summary">Definir duração da vibração do ecrã de notificação.</string>
     <string name="pref_screen_timeout">Tempo limite do ecrã</string>
     <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
     <string name="pref_disable_notifications_when_dnd">Respeitar modo DND</string>
