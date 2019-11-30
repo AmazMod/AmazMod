@@ -75,7 +75,7 @@
     <string name="support_email">Suporta email</string>
     <string name="project_github">Projeto no GitHub</string>
     <string name="activity_about_project_maintainer">Mantedor do projeto</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Programado com amor {gmd-favorite}</string>
     <string name="activity_about_devs">Programador</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Tradutores</string>
@@ -97,13 +97,13 @@
     <string name="pref_filter_notifications_by_packages">Aplicações seleccionadas</string>
     <string name="pref_filter_notifications_by_packages_summary">Apenas estas notificações serão enviadas para o relógio.</string>
     <string name="pref_battery_background_sync_interval">Intervalo de sincronização de segundo plano</string>
-    <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
-    <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
+    <string name="pref_battery_background_sync_interval_summary">Definir intervalo de sincronização da bateria.</string>
+    <string name="pref_battery_chart_time_interval">Intervalo de tempo do gráfico da bateria</string>
+    <string name="pref_battery_chart_time_interval_summary">Definir intervalo de tempo do gráfico da bateria a exibir.</string>
     <string name="pref_battery_watch_alert">Alerta da bateria do relógio</string>
-    <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
+    <string name="pref_battery_watch_alert_summary">Definir o nível da bateria do relógio, abaixo do qual irá receber uma notificação de bateria.</string>
     <string name="pref_battery_phone_alert">Alerta da bateria do relógio</string>
-    <string name="pref_battery_phone_alert_summary">Set phone\'s battery level bellow which you will get a notification on watch. GreatFit/Calendar option \"Send phone\'s data\" needs to be enabled.</string>
+    <string name="pref_battery_phone_alert_summary">Definir o nível da bateria do telefone, abaixo do qual irá receber uma notificação no relógio. A opção \"Enviar dados do telefone\" deve estar ativada.</string>
     <string name="pref_notifications_replies_summary">Digite suas respostas personalizadas.</string>
     <string name="pref_notifications_replies">Notificações enviadas</string>
     <string name="pref_private_notifications_summary">Conteúdo de texto de notificação será escondido (e respostas do painel também).</string>
@@ -112,7 +112,7 @@
     <string name="pref_enable_notifications_when_screen_on">Enviar quando o ecrã está ON</string>
     <string name="pref_notifications_enable_custom_ui">Notificações personalizadas</string>
     <string name="pref_notifications_enable_custom_ui_summary">Notificações com a capacidade de responder.</string>
-    <string name="pref_enable_maps_notification">Maps notifications</string>
+    <string name="pref_enable_maps_notification">Notificações de mapas</string>
     <string name="pref_enable_maps_notification_summary">Habilitar notificações do Google Maps.</string>
     <string name="pref_notification_enable_sound">Som de notificação</string>
     <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
