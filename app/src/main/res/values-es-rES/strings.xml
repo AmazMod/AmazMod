@@ -75,7 +75,7 @@
     <string name="support_email">Correo de ayuda</string>
     <string name="project_github">Proyecto en Github</string>
     <string name="activity_about_project_maintainer">Mantenedor del proyecto</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Codificado con amor {gmd-favorite}</string>
     <string name="activity_about_devs">Desarrolladores</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Traductores</string>
@@ -321,8 +321,8 @@
     <string name="pref_choose_language">Elegir idioma</string>
     <string name="pref_choose_language_summary">Puedes cambiar el idioma de la aplicación.</string>
     <string name="languages_automatic">Autodetectar idioma</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Habilitar iconos con color</string>
+    <string name="pref_notifications_colored_icon_summary">Usar iconos de app en color para las notificaciones</string>
     <string name="pref_notifications_show_large_icon">Mostrar iconos grandes</string>
     <string name="pref_notifications_show_large_icon_summary">Mostrar iconos grandes (generalmente la imagen de contacto) en las notificaciones.</string>
     <string name="pref_notifications_enable_images">Mostrar imágenes</string>

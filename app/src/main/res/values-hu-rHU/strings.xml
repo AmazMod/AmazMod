@@ -322,8 +322,8 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_choose_language">Válassz nyelvet</string>
     <string name="pref_choose_language_summary">Itt tudod módosítani az app nyelvét.</string>
     <string name="languages_automatic">Nyelv automatikus felismerése</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Színes ikonok engedélyezése</string>
+    <string name="pref_notifications_colored_icon_summary">Színes alkalmazásikonok használata az értesítésekhez.</string>
     <string name="pref_notifications_show_large_icon">Nagy ikonok megjelenítése</string>
     <string name="pref_notifications_show_large_icon_summary">Értesítésekben nagy ikonokat mutasson (általában névjegykép)</string>
     <string name="pref_notifications_enable_images">Képek megjelenítése</string>

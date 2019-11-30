@@ -320,8 +320,8 @@
     <string name="pref_choose_language">Оберіть мову</string>
     <string name="pref_choose_language_summary">Ви можете обрати мову додатку.</string>
     <string name="languages_automatic">Автовизначення мови</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Увімкнути кольорові іконки</string>
+    <string name="pref_notifications_colored_icon_summary">Використовувати кольорові іконки додатків для сповіщень.</string>
     <string name="pref_notifications_show_large_icon">Показувати великі іконки</string>
     <string name="pref_notifications_show_large_icon_summary">Показувати великі іконки (зазвичай зображення контакту) в сповіщеннях.</string>
     <string name="pref_notifications_enable_images">Показувати зображення</string>

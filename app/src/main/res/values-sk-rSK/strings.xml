@@ -321,8 +321,8 @@ Urobte príkaz shell \"</string>
     <string name="pref_choose_language">Vybrať jazyk</string>
     <string name="pref_choose_language_summary">Zvoľte jazyk aplikácie.</string>
     <string name="languages_automatic">Automatické zistenie jazyka</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Povoliť farebné ikony</string>
+    <string name="pref_notifications_colored_icon_summary">Na upozornenie použite farebnú ikonu aplikácie.</string>
     <string name="pref_notifications_show_large_icon">Zobraziť veľké ikony</string>
     <string name="pref_notifications_show_large_icon_summary">Zobraziť veľké ikony (zvyčajne obrázok kontaktu) v oznámení.</string>
     <string name="pref_notifications_enable_images">Zobraziť obrázky</string>

@@ -320,8 +320,8 @@
     <string name="pref_choose_language">Kies taal</string>
     <string name="pref_choose_language_summary">U kunt de taal van de app wijzigen.</string>
     <string name="languages_automatic">Bepaal automatisch de taal</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Gekleurde iconen</string>
+    <string name="pref_notifications_colored_icon_summary">Gekleurde app icoon voor melding.</string>
     <string name="pref_notifications_show_large_icon">Toon grote iconen</string>
     <string name="pref_notifications_show_large_icon_summary">Toon grote pictogrammen (meestal Contact Afbeelding) in meldingen.</string>
     <string name="pref_notifications_enable_images">Toon afbeeldingen</string>
