@@ -72,11 +72,11 @@
     <string name="notification_screenon">screenon</string>
     <string name="notification_screenlocked">ecrã bloqueado</string>
     <string name="telegram_channel">Canal do Telegram</string>
-    <string name="support_email">Suporta email</string>
+    <string name="support_email">Email de suporte</string>
     <string name="project_github">Projeto no GitHub</string>
     <string name="activity_about_project_maintainer">Mantedor do projeto</string>
     <string name="activity_about_text">Programado com amor {gmd-favorite}</string>
-    <string name="activity_about_devs">Programador</string>
+    <string name="activity_about_devs">Programadores</string>
     <string name="activity_about_testers">Testers</string>
     <string name="translators">Tradutores</string>
     <string name="activity_watchface_need_greatfit">Você precisa ter a watchface \"GreatFit\" ou os widgets Calendar/Timeline instalados no seu relógio para estas opções funcionarem</string>
@@ -115,7 +115,7 @@
     <string name="pref_enable_maps_notification">Notificações de mapas</string>
     <string name="pref_enable_maps_notification_summary">Habilitar notificações do Google Maps.</string>
     <string name="pref_notification_enable_sound">Som de notificação</string>
-    <string name="pref_notification_enable_sound_summary">Ativar som para notificação personalizada da UI. Para personalizar o som, colocar mp3 com o nome \"amazmod_notification.mp3\" na pasta \"/sdcard/Notifications/\", para o verge</string>
+    <string name="pref_notification_enable_sound_summary">Activar som para notificação personalizada da UI. Para personalizar o som, colocar mp3 com o nome \"amazmod_notification.mp3\" na pasta \"/sdcard/Notifications/\", para o verge</string>
     <string name="pref_run_wizard">Apresentação de boas-vindas</string>
     <string name="pref_run_wizard_summary">Executar a apresentação de boas-vindas novamente.</string>
     <string name="pref_vibration_duration">Duração da vibração</string>
@@ -329,7 +329,7 @@
     <string name="pref_battery_chart">Gráfico da bateria</string>
     <string name="pref_battery_chart_summary">Mostrar o gráfico da bateria no ecrã principal do AmazMod (desactivá-lo também irá desactivar a aquisição de dados da bateria, mas será gravado no relógio).</string>
     <string name="logs">Logs</string>
-    <string name="pref_log_to_file">Arquivo de Log</string>
+    <string name="pref_log_to_file">Ficheiro de Log</string>
     <string name="pref_log_to_file_summary">Guardar logs do AmazMod em amazmod.log</string>
     <string name="pref_log_to_file_level">Nível do Log</string>
     <string name="pref_log_to_file_level_summary">Seleccionar o nível de detalhe a ser guardado no ficheiro de log.</string>
