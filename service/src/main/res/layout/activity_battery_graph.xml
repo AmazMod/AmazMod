@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/red"
+            android:textColor="@color/red_a200"
             android:alpha="0.60"
             android:textSize="48dp"
             android:rotation="0"

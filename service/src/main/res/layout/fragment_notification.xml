@@ -28,7 +28,7 @@
         android:visibility="gone"
         app:circle_border_color="@color/green"
         app:circle_border_width="16dp"
-        app:circle_color="@color/red"
+        app:circle_color="@color/red_a200"
         app:circle_padding="16dp"
         app:circle_radius="60dp"
         app:update_interval="150"

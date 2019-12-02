@@ -519,7 +519,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         if (enableInvertedTheme)
             muteView.setTextColor(getResources().getColor(R.color.dark_red));
         else
-            muteView.setTextColor(getResources().getColor(R.color.red));
+            muteView.setTextColor(getResources().getColor(R.color.red_a200));
         muteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

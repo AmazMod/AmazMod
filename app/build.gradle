@@ -4,11 +4,11 @@ apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.butterknife'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 218
         versionName "1.1.8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -77,7 +77,7 @@ dependencies {
     implementation project(':models')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.heinrichreimersoftware:material-intro:1.5.8'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
@@ -96,7 +96,7 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
     implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.2.4'
     implementation 'com.github.Raizlabs.DBFlow:dbflow:4.2.4'
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
