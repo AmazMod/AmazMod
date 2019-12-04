@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
@@ -27,6 +29,11 @@ public class PersistentNotification {
     private final static int NOTIFICATION_ID = 999989;
 
     public PersistentNotification(Context context, String model) {
+        Resources res = context.getResources();
+        Configuration conf = res.getConfiguration();
+        conf.locale = AmazModApplication.defaultLocale;
+        res.updateConfiguration(conf, context.getResources().getDisplayMetrics());
+
         this.context = context;
         this.model = model;
         this.notificationManager = NotificationManagerCompat.from(context);

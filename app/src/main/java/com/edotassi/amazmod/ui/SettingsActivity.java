@@ -1,6 +1,8 @@
 package com.edotassi.amazmod.ui;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -198,7 +200,9 @@ public class SettingsActivity extends BaseAppCompatActivity {
     private boolean restartNeeded() {
         return currentLogToFile != Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT)
                 || !currentLogLevel.equals(Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT))
-                || currentDarkTheme != Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
+                || currentDarkTheme != Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT)
+                || (!currentLocaleLanguage.equals(LocaleUtils.getLanguage()) && Prefs.getBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION,
+                Constants.PREF_DEFAULT_ENABLE_PERSISTENT_NOTIFICATION) && (!isChannelBlocked()));
     }
 
     /**
@@ -348,9 +352,9 @@ public class SettingsActivity extends BaseAppCompatActivity {
             addPreferencesFromResource(R.xml.preferences);
 
             // Check if Maps is installed
-           Package maps = Package.getPackage("com.google.android.apps.maps");
-           Preference mapsSetting = getPreferenceScreen().findPreference("preference.enable.maps.notification");
-            if(null != maps){
+            Package maps = Package.getPackage("com.google.android.apps.maps");
+            Preference mapsSetting = getPreferenceScreen().findPreference("preference.enable.maps.notification");
+            if (null != maps) {
                 mapsSetting.setEnabled(true);
                 Logger.debug("Google Maps is installed");
             } else {
@@ -370,7 +374,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
             } else {
                 vergeNotificationSoundSetting.setEnabled(false);
                 vergeNotificationSoundSetting.setShouldDisableView(true);
-                PreferenceCategory customUI = (PreferenceCategory) findPreference( "preference.customUI");
+                PreferenceCategory customUI = (PreferenceCategory) findPreference("preference.customUI");
                 customUI.removePreference(vergeNotificationSoundSetting);
             }
 
@@ -413,5 +417,17 @@ public class SettingsActivity extends BaseAppCompatActivity {
             return;
         }
         reloadMainActivity();
+    }
+
+    private boolean isChannelBlocked() {
+        Logger.debug("Check if persistent notification is hidden");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            NotificationChannel channel = manager.getNotificationChannel(Constants.PERSISTENT_NOTIFICATION_CHANNEL);
+
+            return channel != null &&
+                    channel.getImportance() == NotificationManager.IMPORTANCE_NONE;
+        }
+        return false;
     }
 }
