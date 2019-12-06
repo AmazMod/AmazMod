@@ -236,7 +236,7 @@ public class WearNotificationsFragment extends Fragment {
                     notificationInfoList.add(new NotificationInfo(REFRESH, "Reload items","", drawable, null, "", "0"));
 
                 if (!notificationInfoList.isEmpty())
-                    notificationInfoList.add(new NotificationInfo(CLEAR, "Clear all items","", clear, null, "-1", "-1"));
+                    notificationInfoList.add(new NotificationInfo(CLEAR, "Clear all items","", clear, null, "", "0"));
 
                 sortNotifications(notificationInfoList);
                 WearNotificationsFragment.this.notificationInfoList = notificationInfoList;
