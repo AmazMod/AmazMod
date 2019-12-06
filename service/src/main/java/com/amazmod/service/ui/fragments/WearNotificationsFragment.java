@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
@@ -60,6 +59,7 @@ public class WearNotificationsFragment extends Fragment {
     private static boolean animate = false;
 
     private static final String REFRESH = "Refresh";
+    private static final String CLEAR = "Clear";
     public static final String ANIMATE = "animate";
 
 
@@ -121,6 +121,18 @@ public class WearNotificationsFragment extends Fragment {
             mAdapter.clear();
             loadNotifications();
 
+        } else if (CLEAR.equals(notificationInfoList.get(position).getNotificationTitle())) {
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(mContext.getResources().getString(R.string.clear_notifications))
+                    .setMessage(mContext.getResources().getString(R.string.confirmation))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            NotificationStore.clear();
+                            resetNotificationsCounter();
+                            getActivity().finish();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
         } else
             showNotification(position);
     }
@@ -205,6 +217,7 @@ public class WearNotificationsFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
 
         final Drawable drawable = mContext.getResources().getDrawable(R.drawable.outline_refresh_white_24);
+        final Drawable clear = mContext.getResources().getDrawable(R.drawable.outline_clear_all_white_24);
 
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
@@ -221,6 +234,9 @@ public class WearNotificationsFragment extends Fragment {
 
                 if (!notificationInfoList.isEmpty())
                     notificationInfoList.add(new NotificationInfo(REFRESH, "Reload items","", drawable, null, "", "0"));
+
+                if (!notificationInfoList.isEmpty())
+                    notificationInfoList.add(new NotificationInfo(CLEAR, "Clear all items","", clear, null, "-1", "-1"));
 
                 sortNotifications(notificationInfoList);
                 WearNotificationsFragment.this.notificationInfoList = notificationInfoList;
