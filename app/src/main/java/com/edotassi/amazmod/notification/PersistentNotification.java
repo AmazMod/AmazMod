@@ -65,6 +65,7 @@ public class PersistentNotification {
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
+                .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_MIN)
                 .build();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -128,6 +129,7 @@ public class PersistentNotification {
                 .setContentText(msg)
                 .setContentIntent(contentIntent)
                 .setOngoing(true)
+                .setOnlyAlertOnce(true)
                 .setPriority(NotificationCompat.PRIORITY_MIN);
         notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
