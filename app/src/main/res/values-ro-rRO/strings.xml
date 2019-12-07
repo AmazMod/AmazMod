@@ -86,6 +86,9 @@
     <string name="activity_watchface_send_data_calendar_events_days_summary">Trimite evenimente în calendar pentru următoarele zile:</string>
     <string name="activity_watchface_send_on_battery_change">Trimite date de fiecare dată când bateria se schimbă</string>
     <string name="activity_watchface_send_on_alarm_change">Trimite date de fiecare dată când alarma se schimbă</string>
+    <string name="activity_watchface_send_weather_data">Send weather data</string>
+    <string name="activity_watchface_weather_options">Weather options</string>
+    <string name="activity_watchface_send_weather_units">Weather units</string>
     <string name="activity_watchface_last_time_sent">Ultima trimitere</string>
     <string name="activity_watchface_data_send">Datele au fost trimite</string>
     <string name="activity_watchface_send_data_now">Trimite data acum</string>
