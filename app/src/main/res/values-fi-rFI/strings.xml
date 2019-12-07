@@ -247,7 +247,7 @@
     <string name="reboot_bootloader">Siirry fastboot tilaan</string>
     <string name="set_admin">Aseta admin</string>
     <string name="shell_command_failed">Komento epäonnistui</string>
-    <string name="result_code">Result code:</string>
+    <string name="result_code">Tuloskoodi:</string>
     <string name="battery_chart_updated">Akku kaavio päivitetty uusilla tiedoilla</string>
     <string name="battery_chart_request">Päivitä akun tiedot…</string>
     <string name="battery_chart_waiting">Odottaa akun uusia tietoja…</string>
@@ -296,7 +296,7 @@
     <string name="are_you_sure">Oletko varma?</string>
     <string name="cannot_be_undone">Tätä ei voi perua.</string>
     <string name="show_only_selected">Näytä vain sallitut appit</string>
-    <string name="pref_amazmod_keep_widget">Keep widgets</string>
+    <string name="pref_amazmod_keep_widget">Pidä widgetit</string>
     <string name="pref_amazmod_keep_widget_summary">Pakota tallennettu widget järjestys.</string>
     <string name="pref_enable_delete_button">Ilmoitus Poistettu painike</string>
     <string name="pref_enable_delete_button_on">Poista-painike näkyy ilmoituksen alapuolella</string>
