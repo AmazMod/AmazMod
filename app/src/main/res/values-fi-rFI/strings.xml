@@ -118,7 +118,7 @@
     <string name="pref_enable_maps_notification">Kartta ilmoitukset</string>
     <string name="pref_enable_maps_notification_summary">Google Maps ilmoitukset käytössä.</string>
     <string name="pref_notification_enable_sound">Ilmoitusäänet</string>
-    <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
+    <string name="pref_notification_enable_sound_summary">Custom UI ilmoitusten äänet käyttöön. Äänen mukauttamiseksi laita mp3, joka on nimetty uudelleen \"amazmod_notification.mp3\" kansioon \"\" / sdcard / Notifications / \"</string>
     <string name="pref_run_wizard">Tervetuloesittely</string>
     <string name="pref_run_wizard_summary">Tervetuloesitys uudelleen.</string>
     <string name="pref_vibration_duration">Värinän kesto</string>
@@ -409,5 +409,5 @@
     <string name="widgets_changed">Widgets changed</string>
     <string name="problem_sending_data">Datan lähetys ongelma</string>
     <string name="error_loading_widgets">Virhe ladatessa widgettejä</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="no_widgets_found">Widgettejä ei löydy</string>
 </resources>
