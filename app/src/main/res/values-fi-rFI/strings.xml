@@ -14,11 +14,11 @@
     <string name="sync_settings">Synkronointi asetukset&#8230;</string>
     <string name="brightness">Kirkkaus</string>
     <string name="tweaking">Säädöt</string>
-    <string name="widgets">Widgets</string>
+    <string name="widgets">Widgetit</string>
     <string name="watchface">GreatFit-kalenteri</string>
     <string name="stats">Tilastot</string>
     <string name="changelog">Päivityshistoria</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">Arvostele sovellus</string>
     <string name="enable">Ota käyttöön</string>
     <string name="cancel">Peruuta</string>
     <string name="select_unselect_all">Valitse/Poista Kaikki</string>
@@ -40,7 +40,7 @@
     <string name="cant_uplaod_directory">Hakemistoa ei voi lähettää</string>
     <string name="sending">Lähettää</string>
     <string name="wait">ole hyvä ja odota</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Valitse tiedostot</string>
     <string name="cant_upload_file">Tiedostoa ei voi lähettää</string>
     <string name="cant_download_file">Tiedostoa ei voi ladata</string>
     <string name="file_upload_canceled">Tiedoston lähetys peruutettu</string>
@@ -71,11 +71,11 @@
     <string name="notification_disabled">Ilmot_pois</string>
     <string name="notification_screenon">näyttö päällä</string>
     <string name="notification_screenlocked">näyttö lukittu</string>
-    <string name="telegram_channel">Telegram channel</string>
+    <string name="telegram_channel">Telegram kanava</string>
     <string name="support_email">Tuki sähköpostilla</string>
     <string name="project_github">Projekti GitHubissa</string>
     <string name="activity_about_project_maintainer">Projektin ylläpitäjä</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Koodattu rakkaudella {gmd-favorite}</string>
     <string name="activity_about_devs">Kehittäjät</string>
     <string name="activity_about_testers">Testaajat</string>
     <string name="translators">Kääntäjät</string>
@@ -86,7 +86,7 @@
     <string name="activity_watchface_send_data_calendar_events_days_summary">Lähetä seuraavien päivien kalenteritapahtumat:</string>
     <string name="activity_watchface_send_on_battery_change">Lähetä tiedot aina akun muuttuessa</string>
     <string name="activity_watchface_send_on_alarm_change">Lähetä tiedot aina hälytys muuttuu</string>
-    <string name="activity_watchface_send_weather_data">Send weather data</string>
+    <string name="activity_watchface_send_weather_data">Lähetä säätietoja</string>
     <string name="activity_watchface_weather_options">Weather options</string>
     <string name="activity_watchface_send_weather_units">Weather units</string>
     <string name="activity_watchface_last_time_sent">Edellinen Lähetysaika</string>
