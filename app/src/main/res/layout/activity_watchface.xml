@@ -1,248 +1,336 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/activity_watchface_need_greatfit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Switch
-        android:id="@+id/send_data_switch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/activity_watchface_send_data"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/send_watchface_data_interval_summary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/activity_watchface_send_data_interval_summary"
-        android:textColor="?android:attr/colorForeground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/send_data_switch" />
-
-    <Spinner
-        android:id="@+id/send_watchface_data_interval"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:entries="@array/pref_watchface_background_sync_interval_entries"
-        android:prompt="@string/activity_watchface_send_data_interval_prompt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval_summary" />
-
-    <TextView
-        android:id="@+id/send_watchface_data_calendar_events_summary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/activity_watchface_send_data_calendar_events_days_summary"
-        android:textColor="?android:attr/colorForeground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval" />
-
-    <Spinner
-        android:id="@+id/send_watchface_data_calendar_events_days"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:entries="@array/pref_watchface_calendar_events_days"
-        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_calendar_events_summary" />
-    <Switch
-        android:id="@+id/send_on_battery_change_switch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/activity_watchface_send_on_battery_change"
-        app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_calendar_events_days" />
-
-    <Switch
-        android:id="@+id/send_on_alarm_change_switch"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/activity_watchface_send_on_alarm_change"
-        app:layout_constraintTop_toBottomOf="@+id/send_on_battery_change_switch" />
-
-    <View
-        android:id="@+id/watchface_divider"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="0dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        android:background="?android:attr/listDivider"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/send_on_alarm_change_switch" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/watchface_calendar_source"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="@string/watchface_calendar_source"
-        android:textColor="?android:attr/colorForeground"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/watchface_divider" />
-
-    <RadioGroup
-        android:id="@+id/watchface_calendar_radio_group"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/watchface_calendar_source">
-
-        <RadioButton
-            android:id="@+id/watchface_source_local_radiobutton"
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/watchface_built_in_calendar" />
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/activity_watchface_need_greatfit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_marginStart="20dp">
-
-            <TextView
-                android:id="@+id/watchface_calendar_permission"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="@string/permission"
-                android:textAlignment="textStart"
-                android:textColor="#333333" />
-
-            <TextView
-                android:id="@+id/watchface_permission_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:text="@string/enabled"
-                android:textAlignment="textStart"
-                android:textAllCaps="true"
-                android:textColor="?android:attr/colorForeground" />
-
-            <Button
-                android:id="@+id/watchface_source_local_choose_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:enabled="false"
-                android:text="..."  />
-
-        </LinearLayout>
-
-        <RadioButton
-            android:id="@+id/watchface_ics_calendar_radiobutton"
-            android:layout_width="wrap_content"
+        <Switch
+            android:id="@+id/send_data_switch"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/watchface_remote_ics_file" />
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/activity_watchface_send_data"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/send_watchface_data_interval_summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/activity_watchface_send_data_interval_summary"
+            android:textColor="?android:attr/colorForeground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/send_data_switch" />
+
+        <Spinner
+            android:id="@+id/send_watchface_data_interval"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:entries="@array/pref_watchface_background_sync_interval_entries"
+            android:prompt="@string/activity_watchface_send_data_interval_prompt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval_summary" />
+
+        <TextView
+            android:id="@+id/send_watchface_data_calendar_events_summary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/activity_watchface_send_data_calendar_events_days_summary"
+            android:textColor="?android:attr/colorForeground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_interval" />
+
+        <Spinner
+            android:id="@+id/send_watchface_data_calendar_events_days"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:entries="@array/pref_watchface_calendar_events_days"
+            app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_calendar_events_summary" />
+        <Switch
+            android:id="@+id/send_on_battery_change_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/activity_watchface_send_on_battery_change"
+            app:layout_constraintTop_toBottomOf="@+id/send_watchface_data_calendar_events_days" />
+
+        <Switch
+            android:id="@+id/send_on_alarm_change_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/activity_watchface_send_on_alarm_change"
+            app:layout_constraintTop_toBottomOf="@+id/send_on_battery_change_switch" />
+
+        <Switch
+            android:id="@+id/send_weather_data_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/activity_watchface_send_weather_data"
+            app:layout_constraintTop_toBottomOf="@+id/send_on_alarm_change_switch" />
+
+        <View
+            android:id="@+id/watchface_divider"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="20dp"
-            android:orientation="horizontal">
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/send_weather_data_switch" />
 
-            <EditText
-                android:id="@+id/watchface_ics_url_edittext"
+        <TextView
+            android:id="@+id/watchface_calendar_source"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/watchface_calendar_source"
+            android:textColor="?android:attr/colorForeground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_divider" />
+
+        <RadioGroup
+            android:id="@+id/watchface_calendar_radio_group"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_calendar_source">
+
+            <RadioButton
+                android:id="@+id/watchface_source_local_radiobutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:enabled="false"
-                android:inputType="textUri"
-                tools:ignore="Autofill" />
+                android:text="@string/watchface_built_in_calendar" />
 
-            <Button
-                android:id="@+id/watchface_test_ics_button"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/watchface_calendar_permission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/permission"
+                    android:textAlignment="textStart"
+                    android:textColor="#333333" />
+
+                <TextView
+                    android:id="@+id/watchface_permission_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@string/enabled"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="true"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <Button
+                    android:id="@+id/watchface_source_local_choose_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:enabled="false"
+                    android:text="..."  />
+
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/watchface_ics_calendar_radiobutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:enabled="false"
-                android:text="@string/test" />
-        </LinearLayout>
+                android:text="@string/watchface_remote_ics_file" />
 
-    </RadioGroup>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="20dp"
+                android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/watchface_last_sync"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:textColor="?android:attr/colorForeground"
-        android:text="@string/activity_watchface_last_time_sent"
-        app:layout_constraintTop_toBottomOf="@+id/watchface_calendar_radio_group"  />
+                <EditText
+                    android:id="@+id/watchface_ics_url_edittext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:inputType="textUri"
+                    tools:ignore="Autofill" />
 
-    <Button
-        android:id="@+id/watchface_sync_now_button"
-        android:text="@string/activity_watchface_send_data_now"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/watchface_last_sync" />
+                <Button
+                    android:id="@+id/watchface_test_ics_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:enabled="false"
+                    android:text="@string/test" />
+            </LinearLayout>
+
+        </RadioGroup>
+
+        <View
+            android:id="@+id/watchface_divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginStart="12dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_calendar_radio_group" />
+
+        <TextView
+            android:id="@+id/watchface_weather_settings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/activity_watchface_weather_options"
+            android:textColor="?android:attr/colorForeground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_divider_2" />
+
+        <EditText
+            android:id="@+id/watchface_weather_api_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:enabled="true"
+            android:inputType="textUri"
+            tools:ignore="Autofill"
+            android:hint="API key (openweathermap)"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_settings" />
+
+        <EditText
+            android:id="@+id/watchface_weather_city_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:enabled="true"
+            android:inputType="textUri"
+            tools:ignore="Autofill"
+            android:hint="City name, country code"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_api_input" />
+
+        <Spinner
+            android:id="@+id/watchface_weather_units"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:entries="@array/pref_watchface_weather_units_entries"
+            android:prompt="@string/activity_watchface_send_weather_units"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_city_input" />
+
+        <TextView
+            android:id="@+id/watchface_last_sync"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="?android:attr/colorForeground"
+            android:text="@string/activity_watchface_last_time_sent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_units"  />
+
+        <Button
+            android:id="@+id/watchface_sync_now_button"
+            android:text="@string/activity_watchface_send_data_now"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_last_sync" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

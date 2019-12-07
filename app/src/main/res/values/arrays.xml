@@ -181,6 +181,19 @@
         <item>90</item>
         <item>120</item>
     </string-array>
+
+
+    <string-array name="pref_watchface_weather_units_entries" translatable="false">
+        <item>Metric (Kelvin)</item>
+        <item>Celsius (Metric)</item>
+        <item>Imperial (Fahrenheit)</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="pref_watchface_calendar_events_days">
         <item>Disable</item>
         <item>1 day</item>

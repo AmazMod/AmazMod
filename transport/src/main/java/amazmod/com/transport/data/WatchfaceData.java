@@ -14,11 +14,13 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public static final String BATTERY = "battery";
     public static final String ALARM = "alarm";
     public static final String CALENDAR_EVENTS = "calendar_events";
+    public static final String WEATHER_DATA = "weather_data";
 
 
     private int battery;
     private String alarm;
     private String calendar_events;
+    private String weather_data;
 
     public WatchfaceData() {
     }
@@ -27,6 +29,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
         battery = in.readInt();
         alarm = in.readString();
         calendar_events = in.readString();
+        weather_data = in.readString();
     }
 
     public static final Creator<WatchfaceData> CREATOR = new Creator<WatchfaceData>() {
@@ -47,6 +50,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
         dataBundle.putInt(BATTERY, battery);
         dataBundle.putString(ALARM, alarm);
         dataBundle.putString(CALENDAR_EVENTS, calendar_events);
+        dataBundle.putString(WEATHER_DATA, weather_data);
 
         return dataBundle;
     }
@@ -57,6 +61,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
         settingsData.setBattery(dataBundle.getInt(BATTERY));
         settingsData.setAlarm(dataBundle.getString(ALARM));
         settingsData.setCalendarEvents(dataBundle.getString(CALENDAR_EVENTS));
+        settingsData.setCalendarEvents(dataBundle.getString(WEATHER_DATA));
 
         return settingsData;
     }
@@ -89,6 +94,13 @@ public class WatchfaceData extends Transportable implements Parcelable {
         this.calendar_events = data;
     }
 
+    public String getWeatherData() {
+        return weather_data;
+    }
+    public void setWeatherData(String data) {
+        this.weather_data = data;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -99,5 +111,6 @@ public class WatchfaceData extends Transportable implements Parcelable {
         dest.writeInt(battery);
         dest.writeString(alarm);
         dest.writeString(calendar_events);
+        dest.writeString(weather_data);
     }
 }

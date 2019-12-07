@@ -84,6 +84,9 @@
     <string name="activity_watchface_send_data_calendar_events_days_summary">Send calendar events for the following days:</string>
     <string name="activity_watchface_send_on_battery_change">Send data every time battery changes</string>
     <string name="activity_watchface_send_on_alarm_change">Send data every time alarm changes</string>
+    <string name="activity_watchface_send_weather_data">Send weather data</string>
+    <string name="activity_watchface_weather_options">Weather options</string>
+    <string name="activity_watchface_send_weather_units">Weather units</string>
     <string name="activity_watchface_last_time_sent">Last time sent</string>
     <string name="activity_watchface_data_send">Data were send</string>
     <string name="activity_watchface_send_data_now">Send data now</string>

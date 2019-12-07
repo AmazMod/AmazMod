@@ -22,6 +22,12 @@ import android.text.format.Time;
 
 import androidx.annotation.NonNull;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.FilesUtil;
@@ -85,6 +91,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     private static PendingIntent pendingIntent;
     private static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
 
+    // data parameters
+    int battery;
+    String alarm, calendar_events, weather_data;
+
     /**
      * Info for single calendar entry in system. This entry can belong to any account - this
      * information is not stored here.
@@ -129,18 +139,15 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             }
 
             // Get data
-            int battery = getPhoneBattery(context);
-            String alarm = getPhoneAlarm(context);
-            String calendar_events = null;
+            this.battery = getPhoneBattery(context);
+            this.alarm = getPhoneAlarm(context);
+            this.calendar_events = null;
+            this.weather_data = null;
 
             // Get calendar source data from preferences then the events
             default_calendar_days = context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX];
             String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
-            if (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source)) {
-                calendar_events = getCalendarEvents(context);
-            } else {
-                calendar_events = getICSCalendarEvents(context);
-            }
+            calendar_events = (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source))? getCalendarEvents(context) : getICSCalendarEvents(context);
 
             // Check if new data
             if (Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0)!=battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm) || calendar_events!=null) {
@@ -150,27 +157,14 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 Prefs.putInt(Constants.PREF_WATCHFACE_LAST_BATTERY, battery);
                 Prefs.putString(Constants.PREF_WATCHFACE_LAST_ALARM, alarm);
 
-                // Put data to bundle
-                WatchfaceData watchfaceData = new WatchfaceData();
-                watchfaceData.setBattery(battery);
-                watchfaceData.setAlarm(alarm);
-                watchfaceData.setCalendarEvents(calendar_events);
-
-                Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
-                    @Override
-                    public Object then(@NonNull Task<Watchface> task) throws Exception {
-                        if (task.isSuccessful()) {
-                            // Returned data
-                            Log.d(Constants.TAG, "WatchfaceDataReceiver data were sent to phone");//Never returns :P
-                        } else {
-                            WatchfaceReceiver.this.log.e(task.getException(), "failed sending watchface data");
-                        }
-                        return null;
-                    }
-                });*/
+                if (Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA))
+                    getWeatherData(context);
+                else
+                    sendnewdata();
             }else{
                 Logger.debug("WatchfaceDataReceiver sending data to phone (no new data)");
             }
+
             //Save update time in milliseconds
             Date date = new Date();
             Long milliseconds = date.getTime();
@@ -182,8 +176,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             if( (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED) && Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE))
                     || (intent.getAction().equals(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED) && Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE) )){
                 // Get data
-                int battery = getPhoneBattery(context);
-                String alarm = getPhoneAlarm(context);
+                this.battery = getPhoneBattery(context);
+                this.alarm = getPhoneAlarm(context);
 
                 if (Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0)!=battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm)) {
                     // New data = update
@@ -198,6 +192,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     watchfaceData.setBattery(battery);
                     watchfaceData.setAlarm(alarm);
                     watchfaceData.setCalendarEvents(null);
+                    watchfaceData.setWeatherData(null);
 
                     Watch.get().sendWatchfaceData(watchfaceData);
                 }
@@ -206,6 +201,28 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         //Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive");
+    }
+
+    public void sendnewdata() {
+        // Put data to bundle
+        WatchfaceData watchfaceData = new WatchfaceData();
+        watchfaceData.setBattery(battery);
+        watchfaceData.setAlarm(alarm);
+        watchfaceData.setCalendarEvents(calendar_events);
+        watchfaceData.setWeatherData(weather_data);
+
+        Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
+            @Override
+            public Object then(@NonNull Task<Watchface> task) throws Exception {
+                if (task.isSuccessful()) {
+                    // Returned data
+                    Log.d(Constants.TAG, "WatchfaceDataReceiver data were sent to phone");//Never returns :P
+                } else {
+                    WatchfaceReceiver.this.log.e(task.getException(), "failed sending watchface data");
+                }
+                return null;
+            }
+        });*/
     }
 
     public static void startWatchfaceReceiver(Context context) {
@@ -355,6 +372,120 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         return nextAlarm;
     }
 
+    public void getWeatherData(Context context) {
+        Integer units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
+        String language = "en";
+        // 5d-3h data: https://api.openweathermap.org/data/2.5/forecast?lat=...
+
+        // Search by location
+        double latitude = 51.4655561;
+        double longitude = -0.1726452;
+        //String url ="https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
+
+        // Search by city-country
+        String appid = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, "-");
+        String city_country = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, "-");
+        String url ="https://api.openweathermap.org/data/2.5/weather?q="+city_country+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
+
+        Logger.debug("WatchfaceDataReceiver get weather data url: "+ url);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(context);
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+                        //textView.setText("Response is: "+ response.substring(0,500));
+                        Logger.debug("WatchfaceDataReceiver weather data: " + response);
+
+                        // Extract data
+                        try {
+                            // {"coord":{"lon":-0.17,"lat":51.47},
+                            // "weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}],
+                            // "base":"stations",
+                            // "main":{"temp":7.89,"pressure":1009,"humidity":87,"temp_min":6.67,"temp_max":9},
+                            // "visibility":10000,
+                            // "wind":{"speed":5.1,"deg":250},
+                            // "clouds":{"all":9},
+                            // "dt":1575674895,
+                            // "sys":{"type":1,"id":1502,"country":"GB","sunrise":1575618606,"sunset":1575647601},
+                            // "timezone":0,"id":6690602,"name":"Battersea","cod":200}
+
+                            // Extract data from JSON
+                            JSONObject weather_data = new JSONObject(response);
+
+                            // TODO send data directly
+                            WatchfaceReceiver.this.weather_data = weather_data.toString();
+                            sendnewdata();
+
+                            // TODO or break them and send it to standard format (like WeatherInfo), this way we can also change provider
+                            /*
+                            String temp = "-", tempUnit = "-", pressure = "-", humidity = "-", temp_min = "-", temp_max = "-", visibility = "-", speed = "-", city = "-", deg = "-", clouds = "-";
+                            Integer sunrise = 0, sunset = 0;
+
+                            if (weather_data.has("main")) {
+                                JSONObject main = weather_data.getJSONObject("main");
+                                tempUnit = (units==0?"K":(units==1?"C":"F"));
+                                temp = main.getString("temp")+"º"+tempUnit;
+                                pressure = main.getInt("pressure")+"hPa";
+                                humidity = main.getString("humidity")+"%";
+                                temp_min = main.getString("temp_min");
+                                temp_max = main.getString("temp_max");
+                            }
+
+                            if (weather_data.has("visibility"))
+                                visibility = weather_data.getString("visibility");
+
+                            if (weather_data.has("wind")) {
+                                JSONObject wind = weather_data.getJSONObject("wind");
+                                speed = wind.getString("speed")+(units==2?"m/h":"m/s");
+                                deg = wind.getInt("deg")+"º";
+                            }
+
+                            if (weather_data.has("clouds")) {
+                                JSONObject cloudsObj = weather_data.getJSONObject("clouds");
+                                clouds = cloudsObj.getInt("all")+"%";
+                            }
+
+                            if (weather_data.has("sys")) {
+                                JSONObject sys = weather_data.getJSONObject("sys");
+                                sunrise = sys.getInt("sunrise");
+                                sunset = sys.getInt("sunset");
+                            }
+
+                            if (weather_data.has("name"))
+                                city = weather_data.getString("name");
+
+                            Logger.debug("WatchfaceDataReceiver JSON weather data found: "+ temp +","+tempUnit+","+pressure+","+humidity+","+temp_min+","+temp_max+","+visibility+","+speed+","+city+","+deg+","+clouds+","+sunrise+","+sunset);
+                             */
+                        }
+                        catch (Exception e) {
+                            Logger.debug("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
+                        }
+
+                        // WeatherInfo
+                        // {"isAlert":true, "isNotification":true, "tempFormatted":"28ºC",
+                        // "tempUnit":"C", "v":1, "weatherCode":0, "aqi":-1, "aqiLevel":0, "city":"Somewhere",
+                        // "forecasts":[{"tempFormatted":"31ºC/21ºC","tempMax":31,"tempMin":21,"weatherCodeFrom":0,"weatherCodeTo":0,"day":1,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"33ºC/23ºC","tempMax":33,"tempMin":23,"weatherCodeFrom":0,"weatherCodeTo":0,"day":2,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"34ºC/24ºC","tempMax":34,"tempMin":24,"weatherCodeFrom":0,"weatherCodeTo":0,"day":3,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"34ºC/23ºC","tempMax":34,"tempMin":23,"weatherCodeFrom":0,"weatherCodeTo":0,"day":4,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"32ºC/22ºC","tempMax":32,"tempMin":22,"weatherCodeFrom":0,"weatherCodeTo":0,"day":5,"weatherFrom":0,"weatherTo":0}],
+                        // "pm25":-1, "sd":"50%", //(Humidity)
+                        // "temp":28, "time":1531292274457, "uv":"Strong",
+                        // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
+                        // WeatherCheckedSummary
+                        // {"tempUnit":"1","temp":"31\/21","weatherCodeFrom":0}
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Logger.debug("WatchfaceDataReceiver get weather data failed: "+ error.toString());
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
 
     // CALENDAR Instances
     private static final String[] EVENT_PROJECTION = new String[]{

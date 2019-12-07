@@ -63,6 +63,8 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     Switch send_on_battery_change_switch;
     @BindView(R.id.send_on_alarm_change_switch)
     Switch send_on_alarm_change_switch;
+    @BindView(R.id.send_weather_data_switch)
+    Switch send_weather_data_switch;
     @BindView(R.id.send_watchface_data_interval)
     Spinner send_watchface_data_interval;
     @BindView(R.id.send_watchface_data_calendar_events_days)
@@ -87,13 +89,23 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     @BindView(R.id.watchface_source_local_choose_button)
     Button calendar_choose_button;
 
+    @BindView(R.id.watchface_weather_api_input)
+    EditText watchface_weather_api_input;
+    @BindView(R.id.watchface_weather_city_input)
+    EditText watchface_weather_city_input;
+    @BindView(R.id.watchface_weather_units)
+    Spinner watchface_weather_units;
+
 
     boolean send_data;
     int send_data_interval_index;
     int send_data_calendar_events_days_index;
     int send_data_interval;
+    int watchface_weather_units_index;
+
     boolean send_on_battery_change;
     boolean send_on_alarm_change;
+    boolean send_weather_data;
 
     private Context mContext;
     private int initialInterval;
@@ -124,6 +136,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         send_on_battery_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE);
         send_on_alarm_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE);
         send_data_calendar_events_days_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX);
+        send_weather_data = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA);
 
         //Restore calendar source data from preferences
         String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
@@ -149,6 +162,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                 WatchfaceActivity.this.send_watchface_data_calendar_events_days.setEnabled(isChecked);
                 WatchfaceActivity.this.send_on_battery_change_switch.setEnabled(isChecked);
                 WatchfaceActivity.this.send_on_alarm_change_switch.setEnabled(isChecked);
+                WatchfaceActivity.this.send_weather_data_switch.setEnabled(isChecked);
                 WatchfaceActivity.this.watchface_sync_now_button.setEnabled(isChecked);
             }
         });
@@ -216,6 +230,50 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             }
         });
         send_on_alarm_change_switch.setEnabled(send_data);
+
+        // weather data
+        send_weather_data_switch.setChecked(send_weather_data);
+        send_weather_data_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, isChecked);
+            }
+        });
+        send_weather_data_switch.setEnabled(send_data);
+        // weather API
+        watchface_weather_api_input.setText(Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, ""));
+        watchface_weather_api_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, watchface_weather_api_input.getText().toString());
+                }
+            }
+        });
+        // city,country
+        watchface_weather_city_input.setText(Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, ""));
+        watchface_weather_city_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, watchface_weather_city_input.getText().toString());
+                }
+            }
+        });
+        watchface_weather_units_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX);
+        watchface_weather_units.setSelection(watchface_weather_units_index);
+        watchface_weather_units.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Prefs.putInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, pos);
+
+                // Show found local events
+                showFoundBuildInCalendarEvents();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // Auto-generated method stub
+            }
+        });
 
         // Last time read
         watchface_last_sync.setText(lastTimeRead());
