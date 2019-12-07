@@ -86,6 +86,9 @@
     <string name="activity_watchface_send_data_calendar_events_days_summary">Enviar esdeveniments de calendari dels dies següents:</string>
     <string name="activity_watchface_send_on_battery_change">Enviar dades a cada canvi de la batería</string>
     <string name="activity_watchface_send_on_alarm_change">Enviar dades cada vegada que canvia d\'alarma</string>
+    <string name="activity_watchface_send_weather_data">Send weather data</string>
+    <string name="activity_watchface_weather_options">Weather options</string>
+    <string name="activity_watchface_send_weather_units">Weather units</string>
     <string name="activity_watchface_last_time_sent">Última vegada enviat</string>
     <string name="activity_watchface_data_send">Les dades es van enviar</string>
     <string name="activity_watchface_send_data_now">Enviar dades ara</string>
