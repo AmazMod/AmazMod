@@ -87,7 +87,7 @@
     <string name="activity_watchface_send_on_battery_change">Wyslij dane jak stan baterii się zmieni</string>
     <string name="activity_watchface_send_on_alarm_change">Wysylaj każde zmiany stanu baterii</string>
     <string name="activity_watchface_send_weather_data">Brak danych o pogodzie</string>
-    <string name="activity_watchface_weather_options">Weather options</string>
+    <string name="activity_watchface_weather_options">Pokaż opcje pogody</string>
     <string name="activity_watchface_send_weather_units">Weather units</string>
     <string name="activity_watchface_last_time_sent">Ostatnio wysłane</string>
     <string name="activity_watchface_data_send">Dane wysłano</string>
