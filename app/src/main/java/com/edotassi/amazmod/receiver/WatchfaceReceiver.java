@@ -92,7 +92,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     private static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
 
     // data parameters
-    int battery;
+    int battery, expire;
     String alarm, calendar_events, weather_data;
 
     /**
@@ -132,6 +132,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             Logger.debug("WatchfaceDataReceiver send data is off");
             return;
         }
+
+        // Set data expiration
+        this.expire = (int) (new Date()).getTime() + 2*Integer.parseInt(context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX)])*60*1000;
 
         if (intent.getAction() == null) {
             if (!Watch.isInitialized()) {
@@ -208,6 +211,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         WatchfaceData watchfaceData = new WatchfaceData();
         watchfaceData.setBattery(battery);
         watchfaceData.setAlarm(alarm);
+        watchfaceData.setExpire(expire);
         watchfaceData.setCalendarEvents(calendar_events);
         watchfaceData.setWeatherData(weather_data);
 
@@ -374,12 +378,12 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
     public void getWeatherData(Context context) {
         Integer units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
-        String language = "en";
+        String language = "en"; // TODO add the selected language code here
         // 5d-3h data: https://api.openweathermap.org/data/2.5/forecast?lat=...
 
         // Search by location
-        double latitude = 51.4655561;
-        double longitude = -0.1726452;
+        //double latitude = 51.4655561;
+        //double longitude = -0.1726452;
         //String url ="https://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
 
         // Search by city-country
@@ -403,6 +407,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
                         // Extract data
                         try {
+                            // Extract data from JSON
+                            JSONObject weather_data = new JSONObject(response);
+                            // Example:
                             // {"coord":{"lon":-0.17,"lat":51.47},
                             // "weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}],
                             // "base":"stations",
@@ -414,67 +421,121 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // "sys":{"type":1,"id":1502,"country":"GB","sunrise":1575618606,"sunset":1575647601},
                             // "timezone":0,"id":6690602,"name":"Battersea","cod":200}
 
-                            // Extract data from JSON
-                            JSONObject weather_data = new JSONObject(response);
-
-                            // TODO send data directly
-                            WatchfaceReceiver.this.weather_data = weather_data.toString();
-                            sendnewdata();
+                            // Data to sent
+                            JSONObject new_weather_info = new JSONObject();
+                            // Example:
+                            // WeatherInfo
+                            // {"isAlert":true, "isNotification":true, "tempFormatted":"28ºC",
+                            // "tempUnit":"C", "v":1, "weatherCode":0, "aqi":-1, "aqiLevel":0, "city":"Somewhere",
+                            // "forecasts":[{"tempFormatted":"31ºC/21ºC","tempMax":31,"tempMin":21,"weatherCodeFrom":0,"weatherCodeTo":0,"day":1,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"33ºC/23ºC","tempMax":33,"tempMin":23,"weatherCodeFrom":0,"weatherCodeTo":0,"day":2,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"34ºC/24ºC","tempMax":34,"tempMin":24,"weatherCodeFrom":0,"weatherCodeTo":0,"day":3,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"34ºC/23ºC","tempMax":34,"tempMin":23,"weatherCodeFrom":0,"weatherCodeTo":0,"day":4,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"32ºC/22ºC","tempMax":32,"tempMin":22,"weatherCodeFrom":0,"weatherCodeTo":0,"day":5,"weatherFrom":0,"weatherTo":0}],
+                            // "pm25":-1, "sd":"50%", //(Humidity)
+                            // "temp":28, "time":1531292274457, "uv":"Strong",
+                            // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
 
                             // TODO or break them and send it to standard format (like WeatherInfo), this way we can also change provider
-                            /*
-                            String temp = "-", tempUnit = "-", pressure = "-", humidity = "-", temp_min = "-", temp_max = "-", visibility = "-", speed = "-", city = "-", deg = "-", clouds = "-";
-                            Integer sunrise = 0, sunset = 0;
+                            String temp , tempUnit, pressure, humidity, temp_min, temp_max, speed, city, clouds;
+                            Integer weather_id, visibility, sunrise, sunset, deg;
+                            Long time;
+
+                            tempUnit = (units==0?"K":(units==1?"C":"F"));
+                            new_weather_info.put("tempUnitNo",units);
+                            new_weather_info.put("tempUnit",tempUnit);
+
+                            if (weather_data.has("weather")) {
+                                // pull
+                                JSONArray weather = weather_data.getJSONArray("weather");
+                                JSONObject weather1 = weather.getJSONObject(0);
+                                weather_id = weather1.getInt("id");
+
+                                // relate weather id to huami's weather code
+                                // TODO relate weather provider's weather ID to huami's weather code
+
+                                // save
+                                //new_weather_info.put("weatherCode",weather_id);
+                            }
 
                             if (weather_data.has("main")) {
+                                // pull
                                 JSONObject main = weather_data.getJSONObject("main");
-                                tempUnit = (units==0?"K":(units==1?"C":"F"));
-                                temp = main.getString("temp")+"º"+tempUnit;
+                                temp = main.getString("temp");
                                 pressure = main.getInt("pressure")+"hPa";
                                 humidity = main.getString("humidity")+"%";
                                 temp_min = main.getString("temp_min");
                                 temp_max = main.getString("temp_max");
+                                // save
+                                new_weather_info.put("tempFormatted",temp+"º"+tempUnit);
+                                new_weather_info.put("temp",Double.parseDouble(temp));
+                                new_weather_info.put("tempMin",Double.parseDouble(temp_min));
+                                new_weather_info.put("tempMax",Double.parseDouble(temp_max));
+                                new_weather_info.put("pressure",pressure);
+                                new_weather_info.put("sd",humidity);
                             }
 
-                            if (weather_data.has("visibility"))
-                                visibility = weather_data.getString("visibility");
+                            if (weather_data.has("visibility")){
+                                // pull
+                                visibility = weather_data.getInt("visibility");
+                                // save
+                                new_weather_info.put("visibility",visibility);
+                            }
 
                             if (weather_data.has("wind")) {
+                                // pull
                                 JSONObject wind = weather_data.getJSONObject("wind");
-                                speed = wind.getString("speed")+(units==2?"m/h":"m/s");
-                                deg = wind.getInt("deg")+"º";
+                                speed = wind.getString("speed");
+                                deg = wind.getInt("deg");
+                                // save
+                                String[] directions = {"N","NE", "E", "SE", "S", "SW", "W", "NW","N/A"};
+                                Integer direction_index = (deg + 45/2) / 45;
+                                new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
+                                new_weather_info.put("windDirectionUnit","º");
+                                new_weather_info.put("windDirectionValue",deg+"");
+                                new_weather_info.put("windSpeedUnit", (units==2?"m/h":"m/s") );
+                                new_weather_info.put("windSpeedValue",speed);
+                                new_weather_info.put("windStrength",speed+(units==2?"m/h":"m/s"));
                             }
 
                             if (weather_data.has("clouds")) {
+                                // pull
                                 JSONObject cloudsObj = weather_data.getJSONObject("clouds");
                                 clouds = cloudsObj.getInt("all")+"%";
+                                // save
+                                new_weather_info.put("clouds",clouds);
                             }
 
                             if (weather_data.has("sys")) {
+                                // pull
                                 JSONObject sys = weather_data.getJSONObject("sys");
                                 sunrise = sys.getInt("sunrise");
                                 sunset = sys.getInt("sunset");
+                                // save
+                                new_weather_info.put("sunrise",sunrise);
+                                new_weather_info.put("sunset",sunset);
                             }
 
-                            if (weather_data.has("name"))
+                            if (weather_data.has("name")){
+                                // pull
                                 city = weather_data.getString("name");
+                                // save
+                                new_weather_info.put("city",city);
+                            }
 
-                            Logger.debug("WatchfaceDataReceiver JSON weather data found: "+ temp +","+tempUnit+","+pressure+","+humidity+","+temp_min+","+temp_max+","+visibility+","+speed+","+city+","+deg+","+clouds+","+sunrise+","+sunset);
-                             */
+                            if (weather_data.has("dt")){
+                                // pull
+                                time = weather_data.getLong("dt");
+                                // save
+                                new_weather_info.put("dt",time*1000);
+                            }
+
+                            // save data to send
+                            WatchfaceReceiver.this.weather_data = new_weather_info.toString();
+                            Logger.debug("WatchfaceDataReceiver JSON weather data found: "+ WatchfaceReceiver.this.weather_data);
                         }
                         catch (Exception e) {
                             Logger.debug("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
                         }
 
-                        // WeatherInfo
-                        // {"isAlert":true, "isNotification":true, "tempFormatted":"28ºC",
-                        // "tempUnit":"C", "v":1, "weatherCode":0, "aqi":-1, "aqiLevel":0, "city":"Somewhere",
-                        // "forecasts":[{"tempFormatted":"31ºC/21ºC","tempMax":31,"tempMin":21,"weatherCodeFrom":0,"weatherCodeTo":0,"day":1,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"33ºC/23ºC","tempMax":33,"tempMin":23,"weatherCodeFrom":0,"weatherCodeTo":0,"day":2,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"34ºC/24ºC","tempMax":34,"tempMin":24,"weatherCodeFrom":0,"weatherCodeTo":0,"day":3,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"34ºC/23ºC","tempMax":34,"tempMin":23,"weatherCodeFrom":0,"weatherCodeTo":0,"day":4,"weatherFrom":0,"weatherTo":0},{"tempFormatted":"32ºC/22ºC","tempMax":32,"tempMin":22,"weatherCodeFrom":0,"weatherCodeTo":0,"day":5,"weatherFrom":0,"weatherTo":0}],
-                        // "pm25":-1, "sd":"50%", //(Humidity)
-                        // "temp":28, "time":1531292274457, "uv":"Strong",
-                        // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
-                        // WeatherCheckedSummary
-                        // {"tempUnit":"1","temp":"31\/21","weatherCodeFrom":0}
+                        // send data
+                        sendnewdata();
                     }
                 }, new Response.ErrorListener() {
             @Override
