@@ -86,6 +86,9 @@
     <string name="activity_watchface_send_data_calendar_events_days_summary">Odeslání události kalendáře pro následující dny:</string>
     <string name="activity_watchface_send_on_battery_change">Odeslat data vždy, když se změní baterie</string>
     <string name="activity_watchface_send_on_alarm_change">Odeslat data vždy, když se změní budík</string>
+    <string name="activity_watchface_send_weather_data">Odeslat údaje o počasí</string>
+    <string name="activity_watchface_weather_options">Možnosti počasí</string>
+    <string name="activity_watchface_send_weather_units">Jednotky počasí</string>
     <string name="activity_watchface_last_time_sent">Poslední odeslání</string>
     <string name="activity_watchface_data_send">Data byla odeslána</string>
     <string name="activity_watchface_send_data_now">Odeslat data</string>
