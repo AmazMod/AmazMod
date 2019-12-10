@@ -3,14 +3,15 @@
 [![CircleCI](https://circleci.com/gh/AmazMod/AmazMod/tree/dev.svg?style=svg)](https://circleci.com/gh/AmazMod/AmazMod/tree/dev)
 [![Downloads](https://img.shields.io/github/downloads/AmazMod/AmazMod/total.svg?style=flat)](https://github.com/AmazMod/AmazMod/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod) [![Backers on Open Collective](https://opencollective.com/amazmod-33/amazmoder/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/amazmod-33/tiers/onging-amazmoder/badge.svg)](#sponsors) [![Telegram](https://img.shields.io/badge/Follow%20us%20on-Telegram-blue.svg)](https://t.me/amazmod) [![Twitter](https://img.shields.io/twitter/follow/Amazmod.svg?style=popout)](https://twitter.com/amazmod)
 
-AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace, Stratos and Verge watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
+AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace, Stratos, Stratos 3 and Verge watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
 
 
 ### Some features:  
 * Brand new notifications filter system, with the option to use customized ("canned") replies, show images and more;  
 * Battery/Heart-rate log and other info that can be viewed on the app as a graph;  
 * Control watch's screen brightness ("Auto brightness" on watch must be *off* for this to work);  
-* Option to not send notifications to watch when the phone screen is on;  
+* Option to not send notifications to watch when the phone screen is on;
+* An overlay button for a direct custom notification drawer;
 * Receive messenger call notifications and maps navigation info on watch;
 * File transfer to and from the watch over the air;
 * Built-in File Explorer on the watch with image and text viewing abilities;
@@ -65,6 +66,8 @@ If you want to help by translating the app in your language, take a look at our 
 * How do I install the app on watch?  
 
 You can use adb (all platforms), APKInstaller, Amazfit Tool or the provided installer if you are on Windows. To use adb, you need the binaries on your computer (download them from [Android SDK Platform tools page](https://developer.android.com/studio/releases/platform-tools), you may have them already if your computer runs Linux), then open Terminal/Command Prompt, change to the same folder as service-release.apk and run: `adb install -r service-release.apk`.
+
+Alternatively, you can use the EXE installers provided with each release, that will allow you to use a wizzard for a more convenient installation.
 
 * I do not get notifications  
 
