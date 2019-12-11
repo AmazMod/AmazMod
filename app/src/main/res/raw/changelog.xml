@@ -2,7 +2,7 @@
     <release
         date="Unreleased"
         versionCode="218"
-        versionName="v1.1.8 (218)">
+        versionName="v1.1.9 (218)">
         <new>Add setting to use colored icon for custom UI notification</new>
         <new>Now dark theme will follow system theme setting (beta)</new>
         <new>Watch widgets can now be reordered directly from the phone</new>
@@ -14,13 +14,15 @@
         <new>Ability to export battery graph history (long press the graph)</new>
         <new>Added Hourly chime feature (a vibration every hour)</new>
         <new>New option to enable/disable notification sound on Verge</new>
+        <new>(Service) Ability to collect and save XDrip+ transmitted data</new>
+        <new>Ability to override system's current weather forecast (OpenWeatherMap)</new>
         <new>Translation additions. App is almost fully translatable.</new>
         <bugfix>Fix missing Google Assistant notification</bugfix>
-        <bugfix>Now Filemanager and App list use case insensitive sort order</bugfix>
+        <bugfix>Filemanager and App list now use case insensitive sort order</bugfix>
         <bugfix>Calendar data fixes</bugfix>
         <bugfix>Small fix on Dark theme text visibilities and other graphical adjustments</bugfix>
         <bugfix>Widgets list will show all installed widgets</bugfix>
-        <bugfix>Service code cleanup</bugfix>
+        <bugfix>(Service) Code cleanup</bugfix>
     </release>
     <release
         date="2019-08-17"
