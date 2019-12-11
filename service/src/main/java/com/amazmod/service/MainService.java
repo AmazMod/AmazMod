@@ -452,6 +452,11 @@ public class MainService extends Service implements Transporter.DataListener {
         String action = transportDataItem.getAction();
         DataBundle db = transportDataItem.getData();
 
+        Logger.debug("MainService action: {}", action);
+
+        if (action == null)
+            return;
+
         // A notification is removed/added
         if (action.equals("del") || action.equals("add")) {
             notificationCounter(action.equals("del") ? -1 : 1);
@@ -467,8 +472,6 @@ public class MainService extends Service implements Transporter.DataListener {
         if (action.equals("xDrip_synced_SGV_data")) {
             xdrip( db.getString("Data") );
         }
-
-        Logger.debug("MainService action: {}", action);
 
         //Flag used by OverlayLauncher
         if (Transport.INCOMING_NOTIFICATION.equals(action) || "add".equals(action))
