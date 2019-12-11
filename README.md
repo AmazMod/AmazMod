@@ -8,23 +8,23 @@ AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace
 
 ### Some features:  
 * Brand new notifications filter system, with the option to use customized ("canned") replies, show images and more;  
-* Battery/Heart-rate log and other info that can be viewed on the app as a graph;  
-* Control watch's screen brightness ("Auto brightness" on watch must be *off* for this to work);  
-* Option to not send notifications to watch when the phone screen is on;
+* Battery/Heart-rate log and other info that can be viewed on phone app as a graph;  
+* Control watch's screen brightness from phone ("Auto brightness" on watch must be *off* for this to work);  
+* Option not to send notifications to watch when the smartphone's screen is on;
 * An overlay button for a direct custom notification drawer;
 * Receive messenger call notifications and maps navigation info on watch;
-* File transfer to and from the watch over the air;
+* File transfer to and from the watch over the air directly from smartphone;
 * Built-in File Explorer on the watch with image and text viewing abilities;
-* Shell execution optionality to the watch from the phone;
-* Improved Watch/Smartphone connection tunnel (lower battery usage);
-* Emoji display ability;
+* Shell execution optionality to the watch directly from the phone;
+* Improved watch-smartphone connection tunnel (lower battery usage);
+* Ability to display Emoji in messages;
 * Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot, Clean Memory);
 * Battery notifications on watch/phone for watch/phone (low battery, fully charged);
-* Re-order watch's widgets from watch or directly from phone without limitation in numbers;
+* Re-order watch's widgets directly from phone/watch without limitation in enabled widgets number;
 * Capture a watch screenshot;
-* Push battery and calendar event data for Watchfaces/Widgets to use them;
+* Push phone's battery, alarms and calendar events data available to Watchfaces/Widgets to use them (eg. [GreatFit](https://github.com/GreatApo/GreatFit), [Calendar Widget](https://github.com/GreatApo/AmazfitPaceCalendarWidget) & [Timeline Widget](https://github.com/GreatApo/Amazfit-Timeline-Widget));
 * Uninstall applications from watch;
-* Hourly chime (vibration every hour);
+* Hourly chime feature (vibration every hour);
 * More to come.
 
 ### Installation
