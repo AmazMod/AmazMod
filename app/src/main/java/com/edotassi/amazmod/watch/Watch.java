@@ -363,13 +363,17 @@ public class Watch {
         return taskCompletionSource.getTask();
     }
 
-    public Task<Watchface> sendWatchfaceData(final WatchfaceData watchfaceData) {
-        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<Watchface>>() {
+    public Task<Void> sendWatchfaceData(final WatchfaceData watchfaceData) {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+        getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
-            public Task<Watchface> then(@NonNull Task<TransportService> task) throws Exception {
-                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA, watchfaceData);
+            public Object then(@NonNull Task<TransportService> task) throws Exception {
+                if (task.getResult() != null)
+                    task.getResult().send(Transport.WATCHFACE_DATA, watchfaceData, taskCompletionSource);
+                return null;
             }
         });
+        return taskCompletionSource.getTask();
     }
 
     public Task<ResultWidgets> sendWidgetsData(final WidgetsData widgetsData) {
