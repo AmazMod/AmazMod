@@ -3,8 +3,8 @@
 <resources>
     <string name="settings">அமைப்புகள்</string>
     <string name="notifications">அறிவிப்புகள் அனுப்பப்பட்டன</string>
-    <string name="notifications_options">Notifications options</string>
-    <string name="charts">Charts</string>
+    <string name="notifications_options">அறிவிப்பு விருப்பத்தேர்வு</string>
+    <string name="charts">விளக்கப்படங்கள்</string>
     <string name="customui">Custom UI Notifications Options</string>
     <string name="others">Others</string>
     <string name="other">Other</string>
