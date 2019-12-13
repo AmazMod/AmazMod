@@ -75,7 +75,7 @@
     <string name="support_email">Email para Suporte</string>
     <string name="project_github">Projeto no Github</string>
     <string name="activity_about_project_maintainer">Mantenedor do Projeto</string>
-    <string name="activity_about_text">Coded with love {gmd-favorite}</string>
+    <string name="activity_about_text">Programado com amor {gmd-favorite}</string>
     <string name="activity_about_devs">Desenvolvedores</string>
     <string name="activity_about_testers">Testadores</string>
     <string name="translators">Tradutores</string>
@@ -86,9 +86,9 @@
     <string name="activity_watchface_send_data_calendar_events_days_summary">Enviar eventos de agenda dos próximos dias:</string>
     <string name="activity_watchface_send_on_battery_change">Enviar dados sempre que a bateria for alterada</string>
     <string name="activity_watchface_send_on_alarm_change">Enviar dados sempre que o alarme for alterado</string>
-    <string name="activity_watchface_send_weather_data">Send weather data</string>
-    <string name="activity_watchface_weather_options">Weather options</string>
-    <string name="activity_watchface_send_weather_units">Weather units</string>
+    <string name="activity_watchface_send_weather_data">Enviar dados meteorológicos</string>
+    <string name="activity_watchface_weather_options">Opções de Meteorologia</string>
+    <string name="activity_watchface_send_weather_units">Unidades meteorológicas</string>
     <string name="activity_watchface_last_time_sent">Enviado pela última vez</string>
     <string name="activity_watchface_data_send">Dados enviados</string>
     <string name="activity_watchface_send_data_now">Enviar dados agora</string>
@@ -323,8 +323,8 @@
     <string name="pref_choose_language">Escolher Idioma</string>
     <string name="pref_choose_language_summary">Você pode alterar o Idioma do aplicativo.</string>
     <string name="languages_automatic">Autodetectar idioma</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Habilitar ícones coloridos</string>
+    <string name="pref_notifications_colored_icon_summary">Utilizar ícone colorido da aplicação para notificação.</string>
     <string name="pref_notifications_show_large_icon">Ícones Grandes</string>
     <string name="pref_notifications_show_large_icon_summary">Mostrar Ícones Grandes (normalmente a Foto do Contato) nas notificações.</string>
     <string name="pref_notifications_enable_images">Imagens</string>
