@@ -97,10 +97,10 @@
     <string name="activity_stats_notifications_in_the_last_24_horus">கடைசி 24மணி நேரத்தில்</string>
     <string name="pref_enable_notifications_summary">AmazMod அனைத்து அறிவிப்புகளையும் கையாளட்டும்.</string>
     <string name="pref_enable_notifications">தள் அறிவிப்புகள்</string>
-    <string name="pref_filter_notifications_by_packages">Selected apps</string>
-    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
-    <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
+    <string name="pref_filter_notifications_by_packages">தேர்ந்தெடுத்த செயலிகள்</string>
+    <string name="pref_filter_notifications_by_packages_summary">இந்த செயலிகளின் அறிவிப்புகள் மட்டுமே பார்க்க அனுப்பப்படும்.</string>
+    <string name="pref_battery_background_sync_interval">பேட்டரி பின்னணி ஒத்திசைவு இடைவெளி</string>
+    <string name="pref_battery_background_sync_interval_summary">பின்னணி பேட்டரி ஒத்திசைவு இடைவெளியை அமைக்கவும்.</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Watch battery alert</string>
