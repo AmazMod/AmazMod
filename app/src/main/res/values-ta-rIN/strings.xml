@@ -19,8 +19,8 @@
     <string name="stats">புள்ளிவிவரங்கள்</string>
     <string name="changelog">மாற்றப்பதிவேடு</string>
     <string name="rate_app">Rate App</string>
-    <string name="enable">Enable</string>
-    <string name="cancel">Cancel</string>
+    <string name="enable">இயக்கு</string>
+    <string name="cancel">ரத்து செய்</string>
     <string name="select_unselect_all">Select/Unselect all</string>
     <string name="show_system_apps">Show system apps</string>
     <string name="replies">Replies</string>
