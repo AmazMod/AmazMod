@@ -156,19 +156,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             if (Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0)!=battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm) || calendar_events!=null) {
                 Logger.debug("WatchfaceDataReceiver sending data to phone");
 
-                // Save last send values
-                Prefs.putInt(Constants.PREF_WATCHFACE_LAST_BATTERY, battery);
-                Prefs.putString(Constants.PREF_WATCHFACE_LAST_ALARM, alarm);
-
+                // If weather data are enabled, run the weather code
                 if (Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA))
                     getWeatherData(context);
+                // Else, send the data directly
                 else
                     sendnewdata();
             }else{
                 Logger.debug("WatchfaceDataReceiver sending data to phone (no new data)");
             }
 
-            //Save update time in milliseconds
+            // Save update time in milliseconds
             Date date = new Date();
             Long milliseconds = date.getTime();
             Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
@@ -186,47 +184,38 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     // New data = update
                     Logger.debug("WatchfaceDataReceiver sending data to phone (battery/alarm onchange)");
 
-                    // Save last send values
-                    Prefs.putInt(Constants.PREF_WATCHFACE_LAST_BATTERY, battery);
-                    Prefs.putString(Constants.PREF_WATCHFACE_LAST_ALARM, alarm);
-
-                    // Put data to bundle
-                    WatchfaceData watchfaceData = new WatchfaceData();
-                    watchfaceData.setBattery(battery);
-                    watchfaceData.setAlarm(alarm);
-                    watchfaceData.setCalendarEvents(null);
-                    watchfaceData.setWeatherData(null);
-
-                    Watch.get().sendWatchfaceData(watchfaceData);
+                    // Send data
+                    sendnewdata(false);
                 }
-                //startWatchfaceReceiver(context);
             }
         }
 
         //Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive");
     }
-
     public void sendnewdata() {
+        sendnewdata(true);
+    }
+
+    public void sendnewdata(boolean send_calendar_or_weather) {
+        // Save last send values
+        Prefs.putInt(Constants.PREF_WATCHFACE_LAST_BATTERY, battery);
+        Prefs.putString(Constants.PREF_WATCHFACE_LAST_ALARM, alarm);
+
         // Put data to bundle
         WatchfaceData watchfaceData = new WatchfaceData();
         watchfaceData.setBattery(battery);
         watchfaceData.setAlarm(alarm);
         watchfaceData.setExpire(expire);
-        watchfaceData.setCalendarEvents(calendar_events);
-        watchfaceData.setWeatherData(weather_data);
 
-        Watch.get().sendWatchfaceData(watchfaceData);/*.continueWith(new Continuation<Watchface, Object>() {
-            @Override
-            public Object then(@NonNull Task<Watchface> task) throws Exception {
-                if (task.isSuccessful()) {
-                    // Returned data
-                    Log.d(Constants.TAG, "WatchfaceDataReceiver data were sent to phone");//Never returns :P
-                } else {
-                    WatchfaceReceiver.this.log.e(task.getException(), "failed sending watchface data");
-                }
-                return null;
-            }
-        });*/
+        if (send_calendar_or_weather) {
+            watchfaceData.setCalendarEvents(calendar_events);
+            watchfaceData.setWeatherData(weather_data);
+        }else{
+            watchfaceData.setCalendarEvents(null);
+            watchfaceData.setWeatherData(null);
+        }
+
+        Watch.get().sendWatchfaceData(watchfaceData);
     }
 
     public static void startWatchfaceReceiver(Context context) {
@@ -241,46 +230,32 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // update as interval
-        //if (send_data) {
-            int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
+        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
 
-            AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
+        AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
 
-            long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
-            if (delay < 0) delay = 0;
+        long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
+        if (delay < 0) delay = 0;
 
-            //Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
+        //Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
 
-            // Cancel any other intent
-            if (alarmManager != null && pendingIntent != null) {
-                alarmManager.cancel(pendingIntent);
-            }else {
-                alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                alarmWatchfaceIntent = new Intent(context, WatchfaceReceiver.class);
-                pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
-            }
+        // Cancel any other intent
+        if (alarmManager != null && pendingIntent != null) {
+            alarmManager.cancel(pendingIntent);
+        }else {
+            alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarmWatchfaceIntent = new Intent(context, WatchfaceReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
+        }
 
-            try {
-                if (alarmManager != null)
-                    alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
-                            (long) syncInterval * 60000L, pendingIntent);
-            } catch (NullPointerException e) {
-                Logger.error("WatchfaceDataReceiver setRepeating exception: " + e.toString());
-            }
-
-        /*
-        } else {
-            try {
-                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                Intent alarmWatchfaceIntent = new Intent(context, WatchfaceReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmWatchfaceIntent, 0);
-                if (alarmManager != null)
-                    alarmManager.cancel(pendingIntent);
-            } catch (NoSuchMethodError e) {
-                e.printStackTrace();
-            }
-        }*/
-
+        // Set new intent
+        try {
+            if (alarmManager != null)
+                alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
+                        (long) syncInterval * 60000L, pendingIntent);
+        } catch (NullPointerException e) {
+            Logger.error("WatchfaceDataReceiver setRepeating exception: " + e.toString());
+        }
 
         // Unregister if any receiver
         try {
@@ -289,13 +264,13 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             //e.printStackTrace();
         }
 
-        // on battery change
+        // On battery change
         if (send_on_battery_change) {
             IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             context.registerReceiver(WatchfaceReceiver.mReceiver, ifilter);
         }
 
-        // on alarm change
+        // On alarm change
         if (send_on_alarm_change) {
             IntentFilter ifilter = new IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED);
             context.registerReceiver(WatchfaceReceiver.mReceiver, ifilter);
@@ -379,6 +354,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     public void getWeatherData(Context context) {
         Integer units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
         String language = "en"; // TODO add the selected language code here
+
         // 5d-3h data: https://api.openweathermap.org/data/2.5/forecast?lat=...
 
         // Search by location
@@ -409,7 +385,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                         try {
                             // Extract data from JSON
                             JSONObject weather_data = new JSONObject(response);
-                            // Example:
+
+                            // Example of weather URL (current)
                             // {"coord":{"lon":-0.17,"lat":51.47},
                             // "weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}],
                             // "base":"stations",
@@ -420,6 +397,31 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // "dt":1575674895,
                             // "sys":{"type":1,"id":1502,"country":"GB","sunrise":1575618606,"sunset":1575647601},
                             // "timezone":0,"id":6690602,"name":"Battersea","cod":200}
+
+                            // Example of forecast URL
+                            // {"cod":"200","message":0,"cnt":40,
+                            // "list":[
+                            //      {
+                            //      "dt":1576357200,
+                            //      "main":{"temp":2.34,"feels_like":-2.63,"temp_min":0.6,"temp_max":2.34,"pressure":980,"sea_level":980,"grnd_level":969,"humidity":81,"temp_kf":1.74},
+                            //      "weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03n"}],
+                            //      "clouds":{"all":39},
+                            //      "wind":{"speed":4.15,"deg":223},
+                            //      "sys":{"pod":"n"},
+                            //      "dt_txt":"2019-12-14 21:00:00"
+                            //      },
+                            //      ...
+                            // ],
+                            // "city":{
+                            //      "id":2646670,
+                            //      "name":"Holywood",
+                            //      "coord":{"lat":54.6386,"lon":-5.8248},
+                            //      "country":"GB",
+                            //      "population":13109,
+                            //      "timezone":0,
+                            //      "sunrise":1576312722,
+                            //      "sunset":1576339022
+                            //  }}
 
                             // Data to sent
                             JSONObject new_weather_info = new JSONObject();
