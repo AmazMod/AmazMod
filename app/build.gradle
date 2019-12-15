@@ -27,6 +27,7 @@ android {
         all {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['release']
         }
         release {
             manifestPlaceholders = [enableCrashReporting: "true"]
@@ -116,6 +117,8 @@ dependencies {
     implementation 'org.slf4j:slf4j-simple:1.7.25'
     implementation 'org.tinylog:tinylog-api:2.0.0-M4.3'
     implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
+    implementation project(path: ':lib-host')
+    implementation project(path: ':lib-common')
 }
 
 configurations.all {

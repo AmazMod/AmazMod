@@ -37,6 +37,7 @@ android {
         all {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            matchingFallbacks = ['release']
         }
     }
 
@@ -110,6 +111,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     implementation 'org.tinylog:tinylog-api:2.0.0-M4.3'
     implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
+    implementation project(path: ':lib-watch')
 }
 
 configurations.all {

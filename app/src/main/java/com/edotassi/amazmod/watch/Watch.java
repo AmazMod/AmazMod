@@ -5,7 +5,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 
@@ -20,6 +22,7 @@ import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.PermissionsHelper;
 import com.edotassi.amazmod.transport.TransportService;
+import com.formalizationunit.amaz.informatory.common.util.PeriodicProcessor;
 import com.google.android.gms.tasks.CancellationToken;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -61,6 +64,11 @@ public class Watch {
     private Watch() {
         threadPoolExecutor = new ThreadPoolExecutor(1, 2,
                 30L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
+
+        // TODO(rain-bipper): start only in enabled in preferences.
+        // Periodically call sendWeather method.
+        final int PERIOD_MS = 15 * 60 * 1000;  // 15 minutes.
+        new PeriodicProcessor(new Handler()::post, this::sendWeather, PERIOD_MS);
     }
 
     public static void init(Context context) {
@@ -291,6 +299,16 @@ public class Watch {
                     task.getResult().send(Transport.BRIGHTNESS, brightnessData, taskCompletionSource);
                 return null;
             }
+        });
+        return taskCompletionSource.getTask();
+    }
+
+    public Task<Void> sendWeather() {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+        getServiceInstance().continueWith(task -> {
+            if (task.getResult() != null)
+                task.getResult().sendWithWeather();
+            return null;
         });
         return taskCompletionSource.getTask();
     }

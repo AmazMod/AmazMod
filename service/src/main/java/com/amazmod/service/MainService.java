@@ -72,6 +72,11 @@ import com.amazmod.service.util.ExecCommand;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
+import com.formalizationunit.amaz.informatory.common.communicators.RemoteCommunicatorClient;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorActionHandler;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorClient;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorHost;
+import com.formalizationunit.amaz.informatory.watch.communicators.interprocess.CommunicatorServiceSide;
 import com.huami.watch.notification.data.NotificationKeyData;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
@@ -152,6 +157,16 @@ public class MainService extends Service implements Transporter.DataListener {
     }};
 
     private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
+
+    /**
+     * Communicator to send/receive message to/from phone. It is client to phone.
+     */
+    private CommunicatorClient communicatorClient;
+
+    /**
+     * Communicator to send/receive messages to/from weather widget. It is host for widget.
+     */
+    private CommunicatorHost communicatorHost;
 
     private static IntentFilter batteryFilter;
     private static long dateLastCharge;
@@ -398,6 +413,13 @@ public class MainService extends Service implements Transporter.DataListener {
         MediaPlayer.create(this, R.raw.hourly_chime).start();
         Logger.debug((Object) "Hourly Chime TEST");
 */
+        // Setup to receive message from phone and forward them to widget and vice versa.
+        communicatorHost = new CommunicatorServiceSide(this);
+        communicatorClient = new RemoteCommunicatorClient(this);
+        communicatorClient.registerSentWeatherHandler(
+                data -> communicatorHost.sendWeather(data, () -> {}));
+        communicatorHost.registerRequestedWeatherHandler(
+                data -> communicatorClient.requestWeather(() -> {}));
     }
 
     @Override
@@ -441,6 +463,9 @@ public class MainService extends Service implements Transporter.DataListener {
 
         stdHandler.removeCallbacks(sendStandardNotification);
         cstHandler.removeCallbacks(sendAlertNotification);
+
+        communicatorHost.destroy();
+        communicatorClient.destroy();
 
         super.onDestroy();
     }

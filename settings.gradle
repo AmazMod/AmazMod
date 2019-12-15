@@ -1,1 +1,6 @@
-include ':app', ':service', ':transport', ':models'
+include ':app', ':service', ':transport', ':models', ':lib-transport', ':lib-common', ':lib-host', ':huami_libs', ':lib-watch'
+project(':lib-transport').projectDir = new File('AmazInformatory/lib-transport')
+project(':lib-common').projectDir = new File('AmazInformatory/lib-common')
+project(':lib-host').projectDir = new File('AmazInformatory/lib-host')
+project(':huami_libs').projectDir = new File('AmazInformatory/huami_libs')
+project(':lib-watch').projectDir = new File('AmazInformatory/lib-watch')

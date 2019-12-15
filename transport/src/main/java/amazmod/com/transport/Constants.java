@@ -117,6 +117,9 @@ public class Constants {
     public static final String PREF_ENABLE_PERSISTENT_NOTIFICATION = "preference.enable.persistent.notification";
     public static final String PREF_TIME_LAST_SAVE = "preference.time.last.save";
     public static final String PREF_ENABLE_INTERNET_COMPANION = "preference.enable.internet.companion";
+    public static final String PREF_WEATHER_PROVIDER_ENABLED = "preference.weather.provider.enabled";
+    public static final String PREF_WEATHER_PROVIDER_APIKEY = "preference.weather.provider.darksky.apikey";
+    public static final String PREF_WEATHER_GEOCODER_APIKEY = "preference.weather.geocoder.yandex.apikey";
 
     public static final byte FILTER_CONTINUE = 'C';
     public static final byte FILTER_UNGROUP = 'U';

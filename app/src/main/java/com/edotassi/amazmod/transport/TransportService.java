@@ -31,6 +31,10 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.notification.PersistentNotification;
+import com.formalizationunit.amaz.informatory.common.communicators.RemoteCommunicatorHost;
+import com.formalizationunit.amaz.informatory.common.models.CommunicatorHost;
+import com.formalizationunit.amaz.informatory.host.weather.ApiKeyProvider;
+import com.formalizationunit.amaz.informatory.host.weather.WeatherController;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -83,6 +87,9 @@ public class TransportService extends Service implements Transporter.DataListene
     private static final char TRANSPORT_HUAMI = 'H';
     private static final char TRANSPORT_COMPANION = 'C';
 
+    private CommunicatorHost weatherCommunicator;
+    private WeatherController weather;
+
     public static String model;
 
     private static Transporter.DataListener internetListener;
@@ -134,6 +141,25 @@ public class TransportService extends Service implements Transporter.DataListene
                 .getBoolean(Constants.PREF_ENABLE_INTERNET_COMPANION, false))
             startInternetCompanion(getApplicationContext());
 
+        weatherCommunicator = new RemoteCommunicatorHost(this);
+        weatherCommunicator.registerRequestedWeatherHandler(data -> sendWithWeather());
+
+        // TODO(rain-bipper): implement setting Constants.PREF_WEATHER_PROVIDER_APIKEY and
+        // Constants.PREF_WEATHER_GEOCODER_APIKEY in preferences.
+        weather = new WeatherController(this, weatherCommunicator, new ApiKeyProvider() {
+            @Override
+            public String weatherApiKey() {
+                return PreferenceManager.getDefaultSharedPreferences(TransportService.this)
+                        .getString(Constants.PREF_WEATHER_PROVIDER_APIKEY, "");
+            }
+
+            @Override
+            public String geocoderApiKey() {
+                return PreferenceManager.getDefaultSharedPreferences(TransportService.this)
+                        .getString(Constants.PREF_WEATHER_GEOCODER_APIKEY, "");
+            }
+        });
+
     }
 
     @Override
@@ -150,6 +176,8 @@ public class TransportService extends Service implements Transporter.DataListene
     public void onDestroy() {
         EventBus.getDefault().unregister(transportListener);
         transporterAmazMod.removeDataListener(this);
+        weather.destroy();
+        weatherCommunicator.destroy();
         disconnectTransports();
         stopForeground(true);
         Logger.debug("TransportService onDestroy");
@@ -386,6 +414,27 @@ public class TransportService extends Service implements Transporter.DataListene
 
     public void sendWithCompanion(final String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
         send(TRANSPORT_COMPANION, action, transportable, waiter);
+    }
+
+    public void sendWithWeather() {
+        // TODO(rain-bipper): implement setting Constants.PREF_WEATHER_PROVIDER_ENABLED in
+        // preferences.
+        if (PreferenceManager.getDefaultSharedPreferences(TransportService.this)
+                .getBoolean(Constants.PREF_WEATHER_PROVIDER_ENABLED, false)) {
+            return;
+        }
+
+        weather.run(new WeatherController.Callback() {
+            @Override
+            public void onDone() {
+
+            }
+
+            @Override
+            public void onError(String reason) {
+
+            }
+        });
     }
 
     public void send(char mode, final String action, Transportable transportable, final TaskCompletionSource<Void> waiter) {
