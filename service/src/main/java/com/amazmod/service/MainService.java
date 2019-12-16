@@ -621,9 +621,13 @@ public class MainService extends Service implements Transporter.DataListener {
                 if (json_data.has("tempFormatted"))
                     system_json_data.put("tempFormatted", json_data.getString("tempFormatted"));
                 if (json_data.has("temp")) {
-                    system_json_data.put("temp", Double.parseDouble(json_data.getString("temp")));
+                    system_json_data.put("temp", json_data.getString("temp"));
                     system_json_data_short.put("temp", json_data.getString("temp"));
                 }
+                if (json_data.has("weatherCode"))
+                    system_json_data_short.put("weatherCode", json_data.getInt("weatherCode"));
+                if (json_data.has("forecasts"))
+                    system_json_data.put("forecasts", json_data.getJSONArray("forecasts"));
                 if (json_data.has("sd"))
                     system_json_data.put("sd", json_data.getString("sd"));
                 if (json_data.has("windDirection"))
@@ -647,10 +651,6 @@ public class MainService extends Service implements Transporter.DataListener {
                 //"weatherCode":3", (in both system variables)
                 // aqi":-1,
                 // "aqiLevel":0,
-                // "forecasts":[
-                //      {"tempFormatted":"6ºC/4ºC","tempMax":6,"tempMin":4,"weatherCodeFrom":5,"weatherCodeTo":5,"day":1,"weatherFrom":0,"weatherTo":0},
-                //      ...
-                //      {"tempFormatted":"5ºC/1ºC","tempMax":5,"tempMin":1,"weatherCodeFrom":0,"weatherCodeTo":5,"day":7,"weatherFrom":0,"weatherTo":0}],
                 // "pm25":-1,
                 // "uv":"Weakest",
                 // "uvIndex"
