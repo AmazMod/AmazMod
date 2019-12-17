@@ -179,10 +179,13 @@ public class TransportService extends Service implements Transporter.DataListene
                 taskCompletionSourcePendingResult.setResult(event);
                 Logger.trace("taskCompletionSourcePendingResult removed");
             } else {
-                Logger.trace("sending EventBus event");
-                EventBus.getDefault().post(event);
+                if( event != null ) {
+                    Logger.trace("sending EventBus event: "+event);
+                    EventBus.getDefault().post(event);
+                }else{
+                    Logger.trace("EventBus event is null");
+                }
             }
-
         } else {
             //TODO handle null action
             Logger.error("TransportService onDataReceived null action!");
