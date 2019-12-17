@@ -442,9 +442,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
 
                             // TODO or break them and send it to standard format (like WeatherInfo), this way we can also change provider
-                            Double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max;
+                            Double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max, speed;
                             Integer weather_id_from, weather_id_to;
-                            String pressure, humidity, tempUnit, speed, city, clouds;
+                            String pressure, humidity, tempUnit, city, clouds;
                             int weather_id, visibility, sunrise, sunset, deg;
 
                             tempUnit = (units==0?"K":(units==1?"C":"F"));
@@ -652,7 +652,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                     if (item.has("wind") && i == 0 ) {
                                         // pull
                                         JSONObject wind = item.getJSONObject("wind");
-                                        speed = wind.getString("speed");
+                                        speed = Double.parseDouble(wind.getString("speed"))*(units==2?1:3.6); // convert m/s to km/h (x3.6)
                                         deg = wind.getInt("deg");
                                         // save
                                         String[] directions = {"N","NE", "E", "SE", "S", "SW", "W", "NW","N/A"};
@@ -660,9 +660,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
                                         new_weather_info.put("windDirectionUnit","º");
                                         new_weather_info.put("windDirectionValue",deg+"");
-                                        new_weather_info.put("windSpeedUnit", (units==2?"m/h":"m/s") );
-                                        new_weather_info.put("windSpeedValue",speed);
-                                        new_weather_info.put("windStrength",speed+(units==2?"m/h":"m/s"));
+                                        new_weather_info.put("windSpeedUnit", (units==2?"m/h":"km/h") );
+                                        new_weather_info.put("windSpeedValue",Math.round(speed));
+                                        new_weather_info.put("windStrength",Math.round(speed)+(units==2?"m/h":"km/h"));
                                     }
 
                                     // Still the same day

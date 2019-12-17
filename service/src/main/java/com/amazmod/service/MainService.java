@@ -610,6 +610,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 //      {"tempFormatted":"5ºC/1ºC","tempMax":5,"tempMin":1,"weatherCodeFrom":0,"weatherCodeTo":5,"day":7,"weatherFrom":0,"weatherTo":0}],
                 // "pm25":-1,"sd":"87%","temp":6,"time":1575843188054,"uv":"Weakest","uvIndex":"1","weather":5,
                 // "windDirection":"SW","windDirectionUnit":"┬░","windDirectionValue":"225","windSpeedUnit":"km/h","windSpeedValue":"32","windStrength":"32km/h"}
+
                 JSONObject system_json_data_short = new JSONObject(DeviceUtil.systemGetString(context, "WeatherCheckedSummary"));
                 // Example: {"tempUnit":"1","temp":"6","weatherCodeFrom":3}
 
@@ -672,8 +673,8 @@ public class MainService extends Service implements Transporter.DataListener {
                     system_json_data.put("sunset", json_data.getInt("sunset"));
 
                 // Update data
-                DeviceUtil.systemPutString(context, "WeatherInfo", system_json_data.toString());
-                Logger.debug("Updating phone's data, weather info saved: " + system_json_data.toString());
+                DeviceUtil.systemPutString(context, "WeatherInfo", system_json_data.toString().replaceAll("\\\\/","/"));
+                Logger.debug("Updating phone's data, weather info saved: " + system_json_data.toString().replaceAll("\\\\/","/"));
                 DeviceUtil.systemPutString(context, "WeatherCheckedSummary", system_json_data_short.toString());
                 Logger.debug("Updating phone's data, weather summary saved: " + system_json_data_short.toString());
             } catch (JSONException e) {
