@@ -286,7 +286,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:enabled="true"
-            android:inputType="textUri"
+            android:inputType="textAutoCorrect"
             tools:ignore="Autofill"
             android:hint="City name, country code"
             app:layout_constraintEnd_toEndOf="parent"
