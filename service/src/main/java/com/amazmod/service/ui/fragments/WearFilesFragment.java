@@ -208,7 +208,7 @@ public class WearFilesFragment extends Fragment {
         mHeader.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showToast("Free space: " + formatBytes(getFreeSpace(mCurrentDir.getPath())));
+                showToast(getString(R.string.free_space)+": " + formatBytes(getFreeSpace(mCurrentDir.getPath())));
                 return true;
             }
         });
@@ -307,7 +307,7 @@ public class WearFilesFragment extends Fragment {
                 i.setDataAndType(fileUri, mimeType);
                 getActivity().startActivity(i);
             } catch (ActivityNotFoundException e) {
-                showToast(String.format("No app found to handle %s!", mimeType));
+                showToast(String.format(getString(R.string.no_app_found)+" %s!", mimeType));
             }
         } else {
             showToast("Unknown file type!");
@@ -511,7 +511,7 @@ public class WearFilesFragment extends Fragment {
                 .setMessage(getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        showToast("Please wait until installation finishes…");
+                        showToast(getString(R.string.please_wait_installation));
                         if (file.toString().contains("service-")) {
                             //DeviceUtil.systemPutAdb(mContext,"screen_off_timeout", "200000");
                             new ExecCommand("adb shell settings put system screen_off_timeout 200000");
@@ -568,12 +568,12 @@ public class WearFilesFragment extends Fragment {
                                 if (!(fileInfoList == null))
                                     fileInfoList.clear();
                                 loadFiles(mCurrentDir);
-                                showToast("Deleted!");
+                                showToast(getString(R.string.deleted)+"!");
                             } else
-                                showToast("Error deleting!");
+                                showToast(getString(R.string.error_deleting)+"!");
                         } catch (Exception ex) {
                             Logger.error(ex,"WearFilesFragment deleteFile Exception" + ex.getMessage());
-                            showToast("Error deleting!");
+                            showToast(getString(R.string.error_deleting)+"!");
                         }
                     }
                 })

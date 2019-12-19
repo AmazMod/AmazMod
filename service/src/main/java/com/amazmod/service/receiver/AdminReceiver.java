@@ -23,14 +23,14 @@ public class AdminReceiver extends DeviceAdminReceiver {
         super.onDisabled(context, intent);
         LocalBroadcastManager.getInstance(context).sendBroadcast(
                 new Intent(ACTION_DISABLED));
-        showToast(context, context.getString(R.string.admin_receiver_status_disabled));
+        showToast(context, context.getString(R.string.disabled));
     }
     @Override
     public void onEnabled(Context context, Intent intent) {
         super.onEnabled(context, intent);
         LocalBroadcastManager.getInstance(context).sendBroadcast(
                 new Intent(ACTION_ENABLED));
-        showToast(context, context.getString(R.string.admin_receiver_status_enabled));
+        showToast(context, context.getString(R.string.enabled));
     }
 
     @Override

@@ -478,7 +478,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         for (final Integer silence : silenceList) {
             final View row = inflater.inflate(R.layout.row_mute, muteListView, false);
             EmojiTextView muteView = row.findViewById(R.id.row_mute_value);
-            muteView.setText(String.format("%s minutes", silence.toString()));
+            muteView.setText(String.format("%s " + getString(R.string.minutes), silence.toString()));
             if (enableInvertedTheme) {
                 muteView.setTextColor(getResources().getColor(R.color.black));
             }
@@ -497,7 +497,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         //Create a Item for Muting App for One Day
         final View row_day = inflater.inflate(R.layout.row_mute, muteListView, false);
         EmojiTextView muteView = row_day.findViewById(R.id.row_mute_value);
-        muteView.setText("One Day");
+        muteView.setText(getString(R.string.one_day));
         if (enableInvertedTheme) {
             muteView.setTextColor(getResources().getColor(R.color.black));
         }
@@ -515,7 +515,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         //Create a Item for BLOCKING APP (Removes it From List of Apps)
         final View row_block = inflater.inflate(R.layout.row_mute, muteListView, false);
         muteView = row_block.findViewById(R.id.row_mute_value);
-        muteView.setText("BLOCK APP");
+        muteView.setText(R.string.block_app);
         if (enableInvertedTheme)
             muteView.setTextColor(getResources().getColor(R.color.dark_red));
         else
@@ -553,15 +553,15 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         switch (action) {
             case ACTION_DELETE:
                 delayedConfirmationView.setTotalTimeMs(1500);
-                confirmationMessage = "REMOVING";
+                confirmationMessage = getString(R.string.removing);
                 break;
             case ACTION_MUTE:
                 delayedConfirmationView.setTotalTimeMs(3000);
-                confirmationMessage = "MUTING";
+                confirmationMessage = getString(R.string.muting);
                 break;
             case ACTION_REPLY:
                 delayedConfirmationView.setTotalTimeMs(3000);
-                confirmationMessage = "SENDING REPLY";
+                confirmationMessage = getString(R.string.sending_reply);
                 break;
             default:
                 return;
@@ -621,13 +621,13 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
         switch (action) {
             case ACTION_DELETE:
-                confirmationMessage = "Deleted!";
+                confirmationMessage = getString(R.string.deleted)+"!";
                 break;
             case ACTION_MUTE:
-                confirmationMessage = "Muted!";
+                confirmationMessage = getString(R.string.muted)+"!";
                 break;
             case ACTION_REPLY:
-                confirmationMessage = "Reply Sent!";
+                confirmationMessage = getString(R.string.reply_sent)+"!";
                 break;
             default:
                 return;

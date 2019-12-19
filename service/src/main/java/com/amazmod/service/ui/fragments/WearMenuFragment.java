@@ -262,8 +262,8 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         loadAdapter("AmazMod");
 
         delayedConfirmationView.setTotalTimeMs(3000);
-        textView1.setText("Proceeding in 3s…");
-        textView2.setText("Tap to cancel");
+        textView1.setText(getString(R.string.proceeding_in_3s));
+        textView2.setText(getString(R.string.tap_to_cancel));
 
 	}
 
@@ -367,11 +367,11 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 items.get(MENU_START + 15).state = chimeEnabled;
                 Logger.debug( "Hourly Chime status is: {}", chimeEnabled);
                 mAdapter.notifyDataSetChanged();
-                Toast.makeText(mContext, "Hourly Chime "+(chimeEnabled?"enabled":"disabled"), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.hourly_chime)+" "+(chimeEnabled?getString(R.string.enabled):getString(R.string.disabled)), Toast.LENGTH_SHORT).show();
                 break;
 
             default:
-                Toast.makeText(mContext, "Something went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -438,7 +438,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     public void beginCountdown() {
         if (itemChosen == MENU_START +1) {
             new AlertDialog.Builder(getActivity())
-                    .setMessage("Are you sure? Low Power Mode (LPM) disables Bluetooth and touchscreen until the watch is restarted (press and hold power button) or battery goes below 5% and watch is charged again.")
+                    .setMessage(R.string.low_power_mode_warning)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             EventBus.getDefault().post(new EnableLowPower(new DataBundle()));
@@ -479,7 +479,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         switch (itemChosen) {
 
             case MENU_START:
-                Toast.makeText(mContext, "Killing background processes…", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getString(R.string.killing_background_process), Toast.LENGTH_SHORT).show();
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
                     DeviceUtil.killBackgroundTasks(mContext, true);
@@ -567,7 +567,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                             getSSID();
                 } else {
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, "Wi-Fi Disconnected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getString(R.string.wifi_disconnected), Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -596,7 +596,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.COMPLETED) && flag) {
                     flag = false;
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, "Wi-Fi Connected to:\n" + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getString(R.string.wifi_connected_to) + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
                 }
             }
         };

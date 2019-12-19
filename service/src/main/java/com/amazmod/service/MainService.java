@@ -823,7 +823,7 @@ public class MainService extends Service implements Transporter.DataListener {
         count++;
         Logger.debug("MainService lowPower count: " + count);
         if (count < 2) {
-            Toast.makeText(context, "lowPower: true", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.low_power) +": "+ getString(R.string.true_), Toast.LENGTH_SHORT).show();
             BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
             Logger.info("MainService lowPower disable BT");
             btmgr.disable();
@@ -852,7 +852,7 @@ public class MainService extends Service implements Transporter.DataListener {
             }
 
         } else if (count >= 3) {
-            Toast.makeText(context, "lowPower: false", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.low_power) +": "+ getString(R.string.false_), Toast.LENGTH_SHORT).show();
             //btmgr.enable();
             //slptClockClient.disableSlpt();
             slptClockClient.disableLowBattery();

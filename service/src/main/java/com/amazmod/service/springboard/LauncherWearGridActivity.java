@@ -136,6 +136,7 @@ public class LauncherWearGridActivity extends Activity {
         final ArrayList<Fragment> fragList = new ArrayList<>();
 
         switch (mode) {
+
             case APPS:
                 fragList.add(WearAppsFragment.newInstance());
                 break;

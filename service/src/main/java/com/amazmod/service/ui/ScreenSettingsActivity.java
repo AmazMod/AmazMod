@@ -39,9 +39,9 @@ public class ScreenSettingsActivity extends Activity {
     private int densityChosen, fontSizeChosen, invertedChoosen;
     private int initialFontSize = 99, initialDensity = 99;
 
-    private String[] densities = {"Normal", "Low", "High", "Unknown"};
-    private String[] fontSizes = {"Small", "Normal", "Big", "Huge"};
-    private String[] inverted = {"No", "Yes"};
+    private String[] densities = {getString(R.string.normal), getString(R.string.low), getString(R.string.high), getString(R.string.unknow)};
+    private String[] fontSizes = {getString(R.string.small), getString(R.string.normal), getString(R.string.big), getString(R.string.huge)};
+    private String[] inverted = {getString(R.string.no), getString(R.string.yes)};
 
     private String[] labels = { "(238)", "(248)", "(148)", "",
                                 "(0.90f)", "(1.00f)", "(1.18f)", "(1.30f)",
@@ -107,12 +107,12 @@ public class ScreenSettingsActivity extends Activity {
 
     private void setLabels() {
 
-        header.setText("Screen Settings");
-        message.setText("Changing Font Size will restart watch");
-        densityLabel.setText("Density:");
-        fontSizeLabel.setText("Font:");
-        invertedLabel.setText("Inverted:");
-        save.setText("Save");
+        header.setText(getString(R.string.screen_settings));
+        message.setText(getString(R.string.screen_setting_summary));
+        densityLabel.setText(getString(R.string.density));
+        fontSizeLabel.setText(getString(R.string.font));
+        invertedLabel.setText(getString(R.string.inverted));
+        save.setText(getString(R.string.save));
 
         header.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f);
         message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14.0f);
@@ -317,7 +317,7 @@ public class ScreenSettingsActivity extends Activity {
 
         mVibrator.vibrate(50);
         //getResources().getConfiguration().setTo(config);
-        Toast.makeText(mContext, "Watch will restart\nto apply changes ;)", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, getString(R.string.restart_needed), Toast.LENGTH_LONG).show();
 
         new Handler().postDelayed(new Runnable() {
             public void run() {

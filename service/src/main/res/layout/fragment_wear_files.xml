@@ -47,7 +47,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:scrollHorizontally="true"
-            tools:text="User Files" />
+            tools:text="@string/user_files" />
 
     </RelativeLayout>
 

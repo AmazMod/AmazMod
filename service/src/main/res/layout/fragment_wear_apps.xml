@@ -155,7 +155,7 @@
             android:gravity="bottom"
             android:textColor="@color/light_grey"
             android:textSize="20sp"
-            tools:text="User Apps" />
+            tools:text="@string/user_apps" />
 
     </RelativeLayout>
 

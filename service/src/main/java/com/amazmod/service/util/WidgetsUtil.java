@@ -270,7 +270,7 @@ public class WidgetsUtil {
             settingList.add(new TextSetting(context.getString(R.string.error_loading), null));
         } else {
             //Add main header to top (pos 0)
-            settingList.add(0, new HeaderSetting("Widgets", new View.OnLongClickListener() {
+            settingList.add(0, new HeaderSetting(context.getString(R.string.widgets), new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Logger.debug("WidgetsUtil loadSettings.onLongClick");
@@ -281,7 +281,7 @@ public class WidgetsUtil {
             }));
 
             // Add save button
-            settingList.add(new ButtonSetting("Save order", new View.OnClickListener() {
+            settingList.add(new ButtonSetting(context.getString(R.string.save_order), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Logger.debug("WidgetsUtil SaveSettings.onClick");
@@ -297,13 +297,13 @@ public class WidgetsUtil {
             public void onClick(View v) {
                 Logger.debug("WidgetsUtil clearSettings.onClick");
                 new AlertDialog.Builder(context)
-                        .setTitle("Clear Saved Order")
+                        .setTitle(R.string.clear_saved_order)
                         .setMessage(context.getResources().getString(R.string.confirmation))
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 MainService.setWasSpringboardSaved(false);
                                 settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, "");
-                                Toast.makeText(context, "List Cleared", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getString(R.string.list_cleared), Toast.LENGTH_SHORT).show();
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
             }
@@ -635,7 +635,7 @@ public class WidgetsUtil {
         //Notify user
         if (showToast) {
             if (saveLocal)
-                Toast.makeText(context, "List Saved", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getString(R.string.list_saved), Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(context, context.getString(R.string.saved), Toast.LENGTH_SHORT).show();
         }

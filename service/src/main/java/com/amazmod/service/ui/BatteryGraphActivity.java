@@ -92,7 +92,7 @@ public class BatteryGraphActivity extends ListActivity {
             @Override
             public boolean onLongClick(View v) {
                 if (DeviceUtil.saveBatteryData(mContext, true)) {
-                    Toast.makeText(mContext, "Updated", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getString(R.string.updated), Toast.LENGTH_SHORT).show();
                     final Handler mHandler = new Handler();
                     mHandler.postDelayed(new Runnable() {
                         public void run() {
@@ -181,7 +181,7 @@ public class BatteryGraphActivity extends ListActivity {
                 .queryList();
 
         List<String> list = new ArrayList<>();
-        list.add(String.format("Last 20 Values [%sd]", String.valueOf(days)));
+        list.add(getString(R.string.last_20_values, String.valueOf(days)));
         for (BatteryDbEntity read : batteryReadList) {
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM HH:mm");
             Calendar calendar = Calendar.getInstance();
@@ -190,7 +190,7 @@ public class BatteryGraphActivity extends ListActivity {
             //Logger.debug("BatteryGraphActivity showListView level: " + level);
             list.add(String.format("%s - %s", simpleDateFormat.format(calendar.getTime()), String.valueOf(level)));
         }
-        list.add("[Close List]");
+        list.add(getString(R.string.close_list));
 
         setListAdapter(new ArrayAdapter(this, android.R.layout.simple_list_item_1, list));
     }
@@ -273,7 +273,7 @@ public class BatteryGraphActivity extends ListActivity {
 
         size = yValues.size();
 
-        LineDataSet lineDataSet = new LineDataSet(yValues, "Battery");
+        LineDataSet lineDataSet = new LineDataSet(yValues, getString(R.string.battery));
 
         lineDataSet.setLineWidth(1.5f);
         lineDataSet.setDrawCircleHole(false);
@@ -289,7 +289,7 @@ public class BatteryGraphActivity extends ListActivity {
         lineDataSet.setMode(LineDataSet.Mode.LINEAR);
         lineDataSet.setCubicIntensity(0.05f);
 
-        chart.setNoDataText("No Battery data yet…");
+        chart.setNoDataText(getString(R.string.no_battery_data));
         chart.setNoDataTextColor(white);
 
         graphRange.setText(String.format("[x] = %sd", String.valueOf(days)));
@@ -303,7 +303,7 @@ public class BatteryGraphActivity extends ListActivity {
 
         if (size < 2) {
 
-            textDate = "Waiting for battery data…";
+            textDate = getString(R.string.waiting_battery_data);
 
         } else {
 
@@ -314,7 +314,7 @@ public class BatteryGraphActivity extends ListActivity {
 
             if (colors.get(colorsSize -1) == fullyChargedColor) {
 
-                textDate = "Fully Charged";
+                textDate = getString(R.string.fully_charged);
 
             } else {
 
@@ -356,7 +356,7 @@ public class BatteryGraphActivity extends ListActivity {
                     // Future time that battery will be 100%
                     target_time = x2 + (x2 - x1) / (y2 - y1) * (100 - y2);
 
-                    textDate = "Charged in: ";
+                    textDate = getString(R.string.charged_in)+": ";
                     remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
                     textDate += ((int) remaininf_now_diff / 60) + "h:" + ((int) remaininf_now_diff % 60) + "m";
 
@@ -364,7 +364,7 @@ public class BatteryGraphActivity extends ListActivity {
                     // Future time that battery will be 0%
                     target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
-                    textDate = "Remaining: ";
+                    textDate = getString(R.string.remaining)+": ";
                     remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
                     textDate += ((int) remaininf_now_diff / 24) + "d:" + ((int) remaininf_now_diff % 24) + "h";
 
