@@ -139,4 +139,8 @@
     <string name="reload_apps">Reload apps</string>
     <string name="reload_files">Reload files</string>
     <string name="clear_saved">Clear Saved</string>
+    <string name="service_update">Service Update</string>
+    <string name="file_manager">File Manager</string>
+    <string name="app_manager">App Manager</string>
+    <string name="not_found">not found!</string>
 </resources>

@@ -41,6 +41,7 @@
 
     <string-array name="fontSizes">
         <item name="small">Small</item>
+        <item name="normal">Normal</item>
         <item name="big">Big</item>
         <item name="huge">Huge</item>
     </string-array>

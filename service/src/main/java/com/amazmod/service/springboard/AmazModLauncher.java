@@ -619,18 +619,23 @@ public class AmazModLauncher extends AbstractPlugin {
 
     private void onItemClick(final int itemChosen) {
 
-        final String name = appInfoList.get(itemChosen).getAppName();
+        String name = appInfoList.get(itemChosen).getAppName();
         final String version = appInfoList.get(itemChosen).getVersionName();
         //Log.d(Constants.TAG, "AmazModLauncher onClick itemChosen: " + itemChosen);
+        if (name.equals("File Manager")){
+            name = mContext.getString(R.string.file_manager);
+        }
+        if (name.equals("App Manager")){
+            name = mContext.getString(R.string.app_manager);
+        }
+        Toast.makeText(mContext, mContext.getString(R.string.opening)+" "+ name, Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(mContext, mContext.getString(R.string.opening)+" "+ appInfoList.get(itemChosen).getAppName(), Toast.LENGTH_SHORT).show();
-
-        if (MANAGE_APPS.equals(name) && MENU_ENTRY.equals(version)) {
+        if (MANAGE_APPS.equals(appInfoList.get(itemChosen).getAppName()) && MENU_ENTRY.equals(version)) {
 
             intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.APPS);
             mContext.startActivity(intent);
 
-        } else if (MANAGE_FILES.equals(name) && MENU_ENTRY.equals(version)) {
+        } else if (MANAGE_FILES.equals(appInfoList.get(itemChosen).getAppName()) && MENU_ENTRY.equals(version)) {
 
             intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.FILES);
             mContext.startActivity(intent);
