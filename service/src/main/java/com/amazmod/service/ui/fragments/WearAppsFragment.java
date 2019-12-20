@@ -73,7 +73,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     private boolean isAmazModUninstall;
 
     private final int UNINSTALL_REQUEST_CODE = 1;
-    private static final String REFRESH = "Refresh";
+    //private static final String REFRESH = "Refresh";
 
     @Override
     public void onAttach(Activity activity) {
@@ -125,7 +125,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
         final int itemChosen = viewHolder.getPosition();
         Logger.info("WearAppsFragment onClick itemChosen: " + itemChosen);
-        if (appInfoList.get(itemChosen).getAppName().equals(REFRESH)) {
+        if (appInfoList.get(itemChosen).getAppName().equals(getResources().getString(R.string.refresh))) {
 
             appInfoList.clear();
             mAdapter.clear();
@@ -194,7 +194,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 }
 
                 sortAppInfo(appInfoList);
-                AppInfo close = new AppInfo(REFRESH, "Reload apps", "", "0", drawable);
+                AppInfo close = new AppInfo(getResources().getString(R.string.refresh), getString(R.string.reload_apps), "", "0", drawable);
                 appInfoList.add(close);
                 WearAppsFragment.this.appInfoList = appInfoList;
                 return appInfoList;

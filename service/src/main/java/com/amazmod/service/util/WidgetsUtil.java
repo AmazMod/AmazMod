@@ -292,7 +292,7 @@ public class WidgetsUtil {
         }
 
         // Add option to clear saved sorted order
-        settingList.add(new ButtonSetting("Clear Saved", new View.OnClickListener() {
+        settingList.add(new ButtonSetting(context.getString(R.string.clear_saved), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Logger.debug("WidgetsUtil clearSettings.onClick");

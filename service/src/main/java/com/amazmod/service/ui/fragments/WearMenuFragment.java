@@ -61,6 +61,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
     private TextView mHeader, textView1, textView2;
     public static boolean chimeEnabled;
 
+    /* Now use string from array.xml
     private String[] mItems = { "Apps Manager",
                                 "Files Manager",
                                 "Reorder Widgets",
@@ -86,7 +87,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                                 "Change Input Method",
                                 "Device Info",
                                 "Hourly Chime"};
-
+    */
     private int[] mImagesOn = { R.drawable.ic_action_select_all,
                                 R.drawable.outline_folder_white_24,
                                 R.drawable.outline_widgets_white_24,
@@ -241,7 +242,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
 
         items = new ArrayList<>();
         boolean state;
-        for (int i=0; i<mItems.length; i++){
+        for (int i=0; i<getResources().getStringArray(R.array.mItems).length; i++){
             try {
                 if (i == 0)
                     state = wfmgr.isWifiEnabled();
@@ -255,7 +256,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 state = true;
                 Logger.error("WearMenuFragment onCreate exception: " + e.toString());
             }
-            items.add(new MenuItems(mImagesOn[i], mImagesOff[i], mItems[i], state));
+            items.add(new MenuItems(mImagesOn[i], mImagesOff[i], getResources().getStringArray(R.array.mItems)[i], state));
         }
 
         checkConnection();

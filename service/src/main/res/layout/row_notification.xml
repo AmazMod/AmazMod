@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/row_notification_icon"
         app:layout_constraintTop_toBottomOf="@+id/row_notification_contents_preview"
-        tools:text="@string/notification_time" />
+        tools:text="Notification Time" />
 
     <androidx.emoji.widget.EmojiTextView
         android:id="@+id/row_notification_contents_preview"

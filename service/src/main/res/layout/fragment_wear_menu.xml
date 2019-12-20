@@ -29,7 +29,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/light_grey"
-            tools:text="@string/continuing_in_3sec" />
+            tools:text="Continuing in 3s…" />
 
         <android.support.wearable.view.DelayedConfirmationView
             android:id="@+id/wear_menu_delayedView"
@@ -54,7 +54,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/light_grey"
-            tools:text="@string/tap_button_to_cancel" />
+            tools:text="Tap button to cancel" />
 
     </LinearLayout>
 
@@ -82,7 +82,7 @@
             android:paddingBottom="8dp"
             android:textColor="@color/light_grey"
             android:textSize="20sp"
-            tools:text="@string/list_items" />
+            tools:text="List Items" />
 
     </RelativeLayout>
 

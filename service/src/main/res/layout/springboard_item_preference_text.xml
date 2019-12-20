@@ -18,6 +18,6 @@
         android:gravity="center"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textColor="@android:color/white"
-        tools:text="@string/content" />
+        tools:text="Content" />
 
 </LinearLayout>

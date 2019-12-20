@@ -170,7 +170,7 @@ public class AmazModLauncher extends AbstractPlugin {
         appmenu = view.findViewById(R.id.launcher_appmenu);
 
         version.setText(String.valueOf(BuildConfig.VERSION_CODE));
-        mHeader.setText("Apps");
+        mHeader.setText(mContext.getResources().getString(R.string.apps));
         flashLight.setImageResource(R.drawable.baseline_highlight_white_24);
         settings.setImageResource(R.drawable.outline_settings_white_24);
         messages.setImageResource(R.drawable.notify_icon_24);

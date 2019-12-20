@@ -57,7 +57,7 @@
         android:scrollHorizontally="true"
         android:lineSpacingExtra="-4sp"
         android:textColor="#FFFFFFFF"
-        tools:text="@string/package_name"
+        tools:text="Package Name"
         android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/row_appinfo_appname"
         app:layout_constraintStart_toEndOf="@+id/row_appinfo_icon" />

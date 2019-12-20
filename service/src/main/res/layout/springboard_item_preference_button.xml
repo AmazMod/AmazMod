@@ -26,7 +26,7 @@
             android:background="@drawable/blue_button"
             android:gravity="center"
             android:orientation="vertical"
-            android:text="@string/title"
+            android:text="Title"
             android:textColor="#fff"
             android:textSize="18sp"/>
 

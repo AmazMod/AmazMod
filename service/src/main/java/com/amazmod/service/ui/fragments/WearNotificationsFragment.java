@@ -58,8 +58,8 @@ public class WearNotificationsFragment extends Fragment {
 
     private static boolean animate = false;
 
-    private static final String REFRESH = "Refresh";
-    private static final String CLEAR = "Clear";
+    //private static final String REFRESH = "Refresh";
+    //private static final String CLEAR = "Clear";
     public static final String ANIMATE = "animate";
 
 
@@ -115,13 +115,13 @@ public class WearNotificationsFragment extends Fragment {
 
         Logger.info("WearNotificationsFragment onClick position: " + position);
 
-        if (REFRESH.equals(notificationInfoList.get(position).getNotificationTitle())) {
+        if (getResources().getString(R.string.refresh).equals(notificationInfoList.get(position).getNotificationTitle())) {
 
             notificationInfoList.clear();
             mAdapter.clear();
             loadNotifications();
 
-        } else if (CLEAR.equals(notificationInfoList.get(position).getNotificationTitle())) {
+        } else if (getResources().getString(R.string.clear).equals(notificationInfoList.get(position).getNotificationTitle())) {
 
             new AlertDialog.Builder(getActivity())
                     .setTitle(mContext.getResources().getString(R.string.clear_notifications))
@@ -141,7 +141,7 @@ public class WearNotificationsFragment extends Fragment {
 
         Logger.info("WearNotificationsFragment onLongClick position: " + position);
 
-        if (!REFRESH.equals(notificationInfoList.get(position).getNotificationTitle()))
+        if (!getResources().getString(R.string.refresh).equals(notificationInfoList.get(position).getNotificationTitle()))
             deleteNotification(position);
     }
 
@@ -233,10 +233,10 @@ public class WearNotificationsFragment extends Fragment {
                 }
 
                 if (!notificationInfoList.isEmpty())
-                    notificationInfoList.add(new NotificationInfo(REFRESH, getString(R.string.reload_items),"", drawable, null, "", "0"));
+                    notificationInfoList.add(new NotificationInfo(getResources().getString(R.string.refresh), getString(R.string.reload_items),"", drawable, null, "", "0"));
 
                 if (!notificationInfoList.isEmpty())
-                    notificationInfoList.add(new NotificationInfo(CLEAR, getString(R.string.clear_all_items),"", clear, null, "", "0"));
+                    notificationInfoList.add(new NotificationInfo(getResources().getString(R.string.clear), getString(R.string.clear_all_items),"", clear, null, "", "0"));
 
                 sortNotifications(notificationInfoList);
                 WearNotificationsFragment.this.notificationInfoList = notificationInfoList;
