@@ -411,4 +411,6 @@ follow the system theme (beta).</string>
     <string name="problem_sending_data">Πρόβλημα κατά την αποστολή των δεδομένων</string>
     <string name="error_loading_widgets">Σφάλμα κατά την φόρτωση των widget</string>
     <string name="no_widgets_found">Δεν βρέθηκαν widgets</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>
