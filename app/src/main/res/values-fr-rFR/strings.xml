@@ -411,4 +411,6 @@ suivre le thème système (bêta).</string>
     <string name="problem_sending_data">Problème lors de l\'envoi des données</string>
     <string name="error_loading_widgets">Erreur de chargement des widgets</string>
     <string name="no_widgets_found">Aucun widget trouvé</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>

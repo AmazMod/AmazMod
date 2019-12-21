@@ -418,4 +418,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="problem_sending_data">Problém s odesláním dat</string>
     <string name="error_loading_widgets">Chyba při načítání widgetů</string>
     <string name="no_widgets_found">Nebyly nalezeny žádné widgety</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>
