@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">AmazModService</string>
-    <string name="launcher_name">AmazModLauncher</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_notification">NotificationActivity</string>
+    <string name="app_name" translatable="false">AmazModService</string>
+    <string name="launcher_name" translatable="false">AmazModLauncher</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
+    <string name="title_activity_notification" translatable="false">NotificationActivity</string>
     <string name="last_charge">Since full charge</string>
     <string name="last_charge_no_info">Waiting for full charge</string>
     <string name="close">Close</string>
@@ -51,7 +51,7 @@
     <string name="tap_to_cancel">TAP TO CANCEL</string>
     <string name="watch_battery">Watch\'s battery is under %s</string>
     <string name="phone_battery">Phones\'s battery is under %s</string>
-    <string name="wifi_connected_to">Wi-Fi Connected to: </string>
+    <string name="wifi_connected_to">Wi-Fi Connected to:</string>
     <string name="wifi_connected">Wi-Fi connected</string>
     <string name="wifi_disconnected">Wi-Fi disconnected</string>
     <string name="true_">true</string>
@@ -69,7 +69,7 @@
     <string name="keep_awake_screen_on_enabled">KeepAwake (ScreenOn): Enabled</string>
     <string name="reloading_apps">Reloading Apps…</string>
     <string name="list_saved">List Saved</string>
-    <string name="opening">Opening: </string>
+    <string name="opening">Opening:</string>
     <string name="hidden">hidden!</string>
     <string name="screen_settings">Screen Settings</string>
     <string name="screen_setting_summary">Changing Font Size will restart watch</string>

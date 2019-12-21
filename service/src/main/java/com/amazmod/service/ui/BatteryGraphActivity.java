@@ -181,7 +181,7 @@ public class BatteryGraphActivity extends ListActivity {
                 .queryList();
 
         List<String> list = new ArrayList<>();
-        list.add(getString(R.string.last_20_values, String.valueOf(days)));
+        list.add("  " + getString(R.string.last_20_values, String.valueOf(days)));
         for (BatteryDbEntity read : batteryReadList) {
             @SuppressLint("SimpleDateFormat") final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM HH:mm");
             Calendar calendar = Calendar.getInstance();

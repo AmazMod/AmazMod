@@ -154,9 +154,9 @@ public class WearInfoFragment extends Fragment {
                 long sleepRealtime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
                 String ip = getIP();
 
-                upTime.setText(getString(R.string.up_time) + formatInterval(elapsedRealtime, false));
-                sleepTime.setText(getString(R.string.sleep_time) + formatInterval(sleepRealtime, false));
-                memory.setText(getString(R.string.free_ram) + freeRAM + "MB");
+                upTime.setText(getString(R.string.up_time) +" "+ formatInterval(elapsedRealtime, false));
+                sleepTime.setText(getString(R.string.sleep_time) +" "+ formatInterval(sleepRealtime, false));
+                memory.setText(getString(R.string.free_ram)+" "+ freeRAM + "MB");
                 if ((ip != null) && (!ip.equals("0.0.0.0")))
                     currentIP.setText("IP: " + ip);
                 else

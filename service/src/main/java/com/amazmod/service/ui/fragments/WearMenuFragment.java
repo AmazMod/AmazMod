@@ -597,7 +597,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.COMPLETED) && flag) {
                     flag = false;
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, mContext.getString(R.string.wifi_connected_to) + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getString(R.string.wifi_connected_to) + " " + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
                 }
             }
         };
