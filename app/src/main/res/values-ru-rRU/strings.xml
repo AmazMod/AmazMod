@@ -416,4 +416,6 @@
     <string name="problem_sending_data">Ошибка при отправке данных</string>
     <string name="error_loading_widgets">Ошибка загрузки виджетов</string>
     <string name="no_widgets_found">Виджеты не найдены</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>

@@ -416,4 +416,6 @@
     <string name="problem_sending_data">Помилка надсилання даних</string>
     <string name="error_loading_widgets">Помилка завантаження віджету</string>
     <string name="no_widgets_found">Віджетів не знайдено</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>

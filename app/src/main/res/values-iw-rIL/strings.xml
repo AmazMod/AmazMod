@@ -416,4 +416,6 @@
     <string name="problem_sending_data">שגיאה בשליחת נתונים</string>
     <string name="error_loading_widgets">שגיאה בטעינת וויג\'טים</string>
     <string name="no_widgets_found">לא נמצאו וויג\'טים</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>

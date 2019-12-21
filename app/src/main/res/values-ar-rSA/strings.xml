@@ -423,4 +423,6 @@ follow the system theme (beta).</string>
     <string name="problem_sending_data">Problem sending data</string>
     <string name="error_loading_widgets">Error loading widgets</string>
     <string name="no_widgets_found">No widgets found</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>

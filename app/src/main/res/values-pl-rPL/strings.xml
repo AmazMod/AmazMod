@@ -416,4 +416,6 @@
     <string name="problem_sending_data">Problem z wysłaniem danych</string>
     <string name="error_loading_widgets">Błąd ładowania widżetów</string>
     <string name="no_widgets_found">Nie znaleziono widżetów</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>
