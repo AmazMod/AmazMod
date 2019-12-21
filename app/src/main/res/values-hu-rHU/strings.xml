@@ -413,4 +413,6 @@ a rendszertéma követése helyett (beta).</string>
     <string name="problem_sending_data">Adat küldési probléma</string>
     <string name="error_loading_widgets">Widget betöltési hiba</string>
     <string name="no_widgets_found">Nem található widget</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>
