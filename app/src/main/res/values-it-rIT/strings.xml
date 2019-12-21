@@ -411,6 +411,6 @@ seguire il tema di sistema (beta).</string>
     <string name="problem_sending_data">Problema nell\'invio dei dati</string>
     <string name="error_loading_widgets">Errore caricamento widget</string>
     <string name="no_widgets_found">Nessun widget trovato</string>
-    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_grant_access">Concedi accesso</string>
     <string name="intro_description_get_started">Iniziamo</string>
 </resources>
