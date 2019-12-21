@@ -65,6 +65,7 @@ public class MainIntroActivity extends IntroActivity {
         setButtonBackVisible(showBack);
         setButtonNextVisible(showNext);
         setButtonCtaVisible(getStartedEnabled);
+        setButtonCtaLabel(R.string.intro_description_get_started);
         setButtonCtaTintMode(BUTTON_CTA_TINT_MODE_TEXT);
 
         // Slides
@@ -103,7 +104,7 @@ public class MainIntroActivity extends IntroActivity {
                     .background(R.color.background_1)
                     .backgroundDark(R.color.background_dark_1)
                     .scrollable(scrollable)
-                    .buttonCtaLabel("Grant Access")
+                    .buttonCtaLabel(R.string.intro_description_grant_access)
                     .buttonCtaClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
