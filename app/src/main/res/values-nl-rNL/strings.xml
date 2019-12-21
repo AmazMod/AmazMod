@@ -411,4 +411,6 @@ het systeemthema (beta).</string>
     <string name="problem_sending_data">Probleem met verzenden van gegevens</string>
     <string name="error_loading_widgets">Fout met laden widgets</string>
     <string name="no_widgets_found">Geen widgets gevonden</string>
+    <string name="intro_description_grant_access">Grant Access</string>
+    <string name="intro_description_get_started">Get Started</string>
 </resources>
