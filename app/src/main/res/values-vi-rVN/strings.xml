@@ -407,6 +407,6 @@
     <string name="problem_sending_data">Sự cố gửi dữ liệu</string>
     <string name="error_loading_widgets">Lỗi khi tải tiện ích</string>
     <string name="no_widgets_found">Không tìm thấy các tiện ích</string>
-    <string name="intro_description_grant_access">Grant Access</string>
-    <string name="intro_description_get_started">Get Started</string>
+    <string name="intro_description_grant_access">Cấp phép truy cập</string>
+    <string name="intro_description_get_started">Bắt đầu</string>
 </resources>
