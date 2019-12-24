@@ -87,8 +87,8 @@
     <string name="activity_watchface_send_on_battery_change">Envoyer des données chaque fois que la batterie change</string>
     <string name="activity_watchface_send_on_alarm_change">Envoyer les données chaque fois que le réveil change</string>
     <string name="activity_watchface_send_weather_data">Envoie de données météo</string>
-    <string name="activity_watchface_weather_options">Weather options</string>
-    <string name="activity_watchface_send_weather_units">Weather units</string>
+    <string name="activity_watchface_weather_options">Options météo</string>
+    <string name="activity_watchface_send_weather_units">Unités pour la météo</string>
     <string name="activity_watchface_last_time_sent">Dernier envoi</string>
     <string name="activity_watchface_data_send">Données envoyées</string>
     <string name="activity_watchface_send_data_now">Envoyez données maintenant</string>
@@ -411,6 +411,6 @@ suivre le thème système (bêta).</string>
     <string name="problem_sending_data">Problème lors de l\'envoi des données</string>
     <string name="error_loading_widgets">Erreur de chargement des widgets</string>
     <string name="no_widgets_found">Aucun widget trouvé</string>
-    <string name="intro_description_grant_access">Grant Access</string>
-    <string name="intro_description_get_started">Get Started</string>
+    <string name="intro_description_grant_access">Accorder l\'accès</string>
+    <string name="intro_description_get_started">Pour commencer</string>
 </resources>
