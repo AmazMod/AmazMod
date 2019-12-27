@@ -87,8 +87,8 @@
     <string name="activity_watchface_send_on_battery_change">Sende Daten jedes mal wenn der Akku sich ändert</string>
     <string name="activity_watchface_send_on_alarm_change">Sende Daten jedes mal wenn der Alarm sich ändert</string>
     <string name="activity_watchface_send_weather_data">Wetterdaten senden</string>
-    <string name="activity_watchface_weather_options">Weather options</string>
-    <string name="activity_watchface_send_weather_units">Weather units</string>
+    <string name="activity_watchface_weather_options">Wetter-Optionen</string>
+    <string name="activity_watchface_send_weather_units">Wettereinheiten</string>
     <string name="activity_watchface_last_time_sent">Zuletzt gesendet</string>
     <string name="activity_watchface_data_send">Bewegungsdaten senden</string>
     <string name="activity_watchface_send_data_now">Daten jetzt senden</string>
@@ -411,6 +411,6 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="problem_sending_data">Problem beim Senden von Daten</string>
     <string name="error_loading_widgets">Fehler beim Laden der Widgets</string>
     <string name="no_widgets_found">Keine Widgets gefunden</string>
-    <string name="intro_description_grant_access">Grant Access</string>
-    <string name="intro_description_get_started">Get Started</string>
+    <string name="intro_description_grant_access">Zugriff gewähren</string>
+    <string name="intro_description_get_started">Erste Schritte</string>
 </resources>
