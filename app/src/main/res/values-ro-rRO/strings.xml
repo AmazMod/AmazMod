@@ -118,7 +118,7 @@
     <string name="pref_enable_maps_notification">Notificării despre hartă</string>
     <string name="pref_enable_maps_notification_summary">Activează notificațiile Google Maps.</string>
     <string name="pref_notification_enable_sound">Sunet notificării</string>
-    <string name="pref_notification_enable_sound_summary">Activează sunet pentru notificare UI personalizată. Pentru personalizarea sunetului puneți mp3 renumit ca \"amazmod_notification.mp3\'\' in folder in pragul \"/sdcard/Notificării/\"</string>
+    <string name="pref_notification_enable_sound_summary">Activează sunet pentru notificare UI personalizată. Pentru personalizarea sunetului puneți mp3 renumit ca \"amazmod_notification.mp3\'\' in folder pe verge \"/sdcard/Notificării/\"</string>
     <string name="pref_run_wizard">Prezentare introductivă</string>
     <string name="pref_run_wizard_summary">Afișează din nou prezentarea introductivă.</string>
     <string name="pref_vibration_duration">Durata de vibraţii</string>
@@ -368,8 +368,8 @@
     <string name="new_folder">Dosar Nou</string>
     <string name="pref_amazmod_overlay_launcher">Notificări suprapuse peste Laucher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Deschideți lista cu notificări personalizate prin utilizarea unui buton al ceasului (localizarea este indicată succint la pornirea ecranului și poate fi ”swiped” către stânga sau dreapta).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_hourly_chime">Clopot</string>
+    <string name="pref_amazmod_hourly_chime_summary">Aplică o vibrație scurtă, cu sunet Casio pe Verge, în fiecare oră. Respectă modul Nu Deranja.</string>
     <string name="file_not_found">Fișierul nu a fost găsit!</string>
     <string name="pref_battery_full_alert">Atenționare baterie complet încărcată</string>
     <string name="pref_battery_full_alert_summary">Primește notificare atunci când bateria este complet încărcată.</string>
@@ -392,26 +392,26 @@
     <string name="batter_data_export">Exportă date baterie</string>
     <string name="app_options">Opțiuni aplicație</string>
     <string name="notification_options">Opțiuni Notificări</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="and">and</string>
+    <string name="notification_options_description">Nu arăta notificări care conțin următoarele texte (unul pe linie):</string>
+    <string name="and">și</string>
     <plurals name="day">
-        <item quantity="one">day</item>
-        <item quantity="few">days</item>
-        <item quantity="other">days</item>
+        <item quantity="one">zi</item>
+        <item quantity="few">zile</item>
+        <item quantity="other">zile</item>
     </plurals>
     <plurals name="hour">
-        <item quantity="one">hour</item>
-        <item quantity="few">hours</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">oră</item>
+        <item quantity="few">ore</item>
+        <item quantity="other">ore</item>
     </plurals>
     <plurals name="minute">
-        <item quantity="one">minute</item>
-        <item quantity="few">minutes</item>
-        <item quantity="other">minutes</item>
+        <item quantity="one">minut</item>
+        <item quantity="few">minute</item>
+        <item quantity="other">minute</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
+    <string name="widgets_changed">Widget-uri schimbate</string>
+    <string name="problem_sending_data">Problemă cu a trimite data</string>
+    <string name="error_loading_widgets">Eroare la încărcarea widget-urilor</string>
     <string name="no_widgets_found">Nici un widget găsit</string>
     <string name="intro_description_grant_access">Acordează acces</string>
     <string name="intro_description_get_started">Începe</string>
