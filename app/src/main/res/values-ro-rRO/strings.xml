@@ -118,13 +118,13 @@
     <string name="pref_enable_maps_notification">Notificării despre hartă</string>
     <string name="pref_enable_maps_notification_summary">Activează notificațiile Google Maps.</string>
     <string name="pref_notification_enable_sound">Sunet notificării</string>
-    <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
+    <string name="pref_notification_enable_sound_summary">Activează sunet pentru notificare UI personalizată. Pentru personalizarea sunetului puneți mp3 renumit ca \"amazmod_notification.mp3\'\' in folder in pragul \"/sdcard/Notificării/\"</string>
     <string name="pref_run_wizard">Prezentare introductivă</string>
     <string name="pref_run_wizard_summary">Afișează din nou prezentarea introductivă.</string>
     <string name="pref_vibration_duration">Durata de vibraţii</string>
-    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
+    <string name="pref_vibration_duration_summary">Setează durația vibrației pentru notificare ecran.</string>
     <string name="pref_screen_timeout">Pauză ecran</string>
-    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
+    <string name="pref_screen_timeout_summary">Setează durația pentru notificare ecran.</string>
     <string name="pref_disable_notifications_when_dnd">Respectă modul \'Nu deranjați\' (DND) </string>
     <string name="pref_disable_notifications_when_dnd_summary">Notificările nu vor fi transmise către ceas când este detectat modul \'Nu deranjați\'.</string>
     <string name="pref_disable_remove_notifications">Păstrează notificările</string>
@@ -224,7 +224,7 @@
     <string name="execute_shell_command">Execută o comandă din terminal</string>
     <string name="run">Execută</string>
     <string name="shell_command_sent">Comandă trimisă</string>
-    <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
+    <string name="adb_clear_command_sent">Curăță toate procesoarele ADB</string>
     <string name="cant_send_shell_command">Nu pot trimite comanda</string>
     <string name="install">Instalează</string>
     <string name="apk_install_started_title">Instalare APK</string>
@@ -276,7 +276,7 @@
     <string name="compress">Comprimă</string>
     <string name="delete_folder_and_contents">\"%1$s\" este un folder. Eliminați şi tot conţinutul recursiv?</string>
     <string name="screenshot">Captură ecran</string>
-    <string name="clear_adb">Clear ADB</string>
+    <string name="clear_adb">Curăța ADB</string>
     <string name="pref_notifications_enable_delay">Întârziere răspuns</string>
     <string name="pref_notifications_enable_delay_summary">Cronometru întârziere până la trimiterea unui răspuns.</string>
     <string name="file_uploader">File Uploader</string>
@@ -296,8 +296,8 @@
     <string name="are_you_sure">Sunteți sigur?</string>
     <string name="cannot_be_undone">Operațiunea nu poate fi anulată.</string>
     <string name="show_only_selected">Arată numai aplicațiile permise</string>
-    <string name="pref_amazmod_keep_widget">Keep widgets</string>
-    <string name="pref_amazmod_keep_widget_summary">Force apply your saved widgets arrangement.</string>
+    <string name="pref_amazmod_keep_widget">Ține widget-urile</string>
+    <string name="pref_amazmod_keep_widget_summary">Aplică forțat toate aranjamentele widget-urilor salvate.</string>
     <string name="pref_enable_delete_button">Butonul de ştergere a Notificarilor</string>
     <string name="pref_enable_delete_button_on">Butonul de ștergere va fi arătat mai jos în contextul notificărilor</string>
     <string name="pref_enable_delete_button_off">Butonul de ștergere va fi în al 4-lea ecran când glisați în stânga pe notificare</string>
@@ -323,8 +323,8 @@
     <string name="pref_choose_language">Alegeți limba</string>
     <string name="pref_choose_language_summary">Poți schimba limba afișată în aplicație.</string>
     <string name="languages_automatic">Autodetectează limba</string>
-    <string name="pref_notifications_colored_icon">Enable Colored Icons</string>
-    <string name="pref_notifications_colored_icon_summary">Use colored app icon for notification.</string>
+    <string name="pref_notifications_colored_icon">Activează Colored Icons</string>
+    <string name="pref_notifications_colored_icon_summary">Folosește aplicația icoane colorate pentru notificare.</string>
     <string name="pref_notifications_show_large_icon">Afișează pictograme mari</string>
     <string name="pref_notifications_show_large_icon_summary">Afișează pictograme mari (de obicei poza de profil) în Notificări.</string>
     <string name="pref_notifications_enable_images">Afișează imaginile</string>
@@ -349,9 +349,8 @@
     <string name="no_storage_permission">AmazMod nu are permisiunea de stocare, vă rog să oferiți accesul.</string>
     <string name="generate_bundle">Generează istoric complet</string>
     <string name="set_watchface">Setați fața ceasului</string>
-    <string name="pref_amazmod_darktheme_summary">App will restart to manually use dark theme instead of
-follow the system theme (beta).</string>
-    <string name="pref_amazmod_dark_theme">Force dark theme</string>
+    <string name="pref_amazmod_darktheme_summary">Aplicația va reporni pentru a utiliza manual modul întunecat pentru a urmării tema sistemului (beta).</string>
+    <string name="pref_amazmod_dark_theme">Forțează tema întunecată</string>
     <string name="share">Partajează</string>
     <string name="collecting_watch_logs">Colectează Istoric Ceas</string>
     <string name="button_description">Buton</string>
@@ -413,7 +412,7 @@ follow the system theme (beta).</string>
     <string name="widgets_changed">Widgets changed</string>
     <string name="problem_sending_data">Problem sending data</string>
     <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
-    <string name="intro_description_grant_access">Grant Access</string>
-    <string name="intro_description_get_started">Get Started</string>
+    <string name="no_widgets_found">Nici un widget găsit</string>
+    <string name="intro_description_grant_access">Acordează acces</string>
+    <string name="intro_description_get_started">Începe</string>
 </resources>
