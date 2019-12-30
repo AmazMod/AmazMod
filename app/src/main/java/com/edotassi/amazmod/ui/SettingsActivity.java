@@ -307,6 +307,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setPhoneConnectionAlert(phoneConnection);
         settingsData.setPhoneConnectionAlertStandardNotification(phoneConnectionStandardNotification);
         settingsData.setDefaultLocale(Locale.getDefault().toString());
+        settingsData.setUsedLanguage(LocaleUtils.getLocale().getDisplayLanguage());
         settingsData.setDisableDelay(disableNotificationsDelay);
         settingsData.setAmazModKeepWidget(amazModKeepWidget);
         settingsData.setOverlayLauncher(overlayLauncher);

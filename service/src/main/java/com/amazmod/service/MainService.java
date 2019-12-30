@@ -883,6 +883,10 @@ public class MainService extends Service implements Transporter.DataListener {
         SettingsData settingsData = SettingsData.fromDataBundle(event.getDataBundle());
         settingsManager.sync(settingsData);
 
+        //Get phone used language
+        String usedLanguage = settingsData.getUsedLanguage();
+        Logger.debug("Phone used language is:" + usedLanguage);
+
         //Toggle phone connect/disconnect monitor if settings changed
         boolean iPCA = settingsData.isPhoneConnectionAlert();
         isStandardAlertEnabled = settingsData.isPhoneConnectionAlertStandardNotification();
