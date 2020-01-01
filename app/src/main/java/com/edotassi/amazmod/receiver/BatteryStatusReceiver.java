@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
@@ -183,6 +185,11 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
     private void sendNotification(Context context, char alertTye, int level) {
         Logger.trace("BatteryStatusReceiver sendNotification type: {}", alertTye);
+
+        Resources res = context.getResources();
+        Configuration conf = res.getConfiguration();
+        conf.locale = AmazModApplication.defaultLocale;
+        res.updateConfiguration(conf, context.getResources().getDisplayMetrics());
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
