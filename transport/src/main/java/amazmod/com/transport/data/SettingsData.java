@@ -27,7 +27,6 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String PHONE_CONNECTION_ALERT = "phone_connection_alert";
     public static final String PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "phone_connection_alert_standard_notification";
     public static final String DEFAULT_LOCALE = "default_locale";
-    public static final String USED_LANGUAGE = "used_language";
     public static final String DISABLE_DELAY = "disable_reply_delay";
     public static final String AMAZMOD_KEEP_WIDGET = "amazmod_keep_widget";
     public static final String AMAZMOD_OVERLAY_LAUNCHER = "amazmod_overlay_launcher";
@@ -54,7 +53,6 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean phoneConnectionAlert;
     private boolean phoneConnectionAlertStandardNotification;
     private String defaultLocale;
-    private String usedLanguage;
     private boolean disableDelay;
     private boolean amazModKeepWidget;
     private boolean overlayLauncher;
@@ -84,7 +82,6 @@ public class SettingsData extends Transportable implements Parcelable {
         phoneConnectionAlert = in.readByte() != 0;
         phoneConnectionAlertStandardNotification = in.readByte() != 0;
         defaultLocale = in.readString();
-        usedLanguage = in.readString();
         disableDelay = in.readByte() != 0;
         amazModKeepWidget = in.readByte() != 0;
         heartrateData = in.readByte() != 0;
@@ -125,7 +122,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT, phoneConnectionAlert);
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, phoneConnectionAlertStandardNotification);
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
-        dataBundle.putString(USED_LANGUAGE, usedLanguage);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
         dataBundle.putBoolean(AMAZMOD_KEEP_WIDGET, amazModKeepWidget);
         dataBundle.putBoolean(AMAZMOD_OVERLAY_LAUNCHER, overlayLauncher);
@@ -157,7 +153,6 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setPhoneConnectionAlert(dataBundle.getBoolean(PHONE_CONNECTION_ALERT));
         settingsData.setPhoneConnectionAlertStandardNotification(dataBundle.getBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION));
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
-        settingsData.setUsedLanguage(dataBundle.getString(USED_LANGUAGE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
         settingsData.setAmazModKeepWidget(dataBundle.getBoolean(AMAZMOD_KEEP_WIDGET));
         settingsData.setOverlayLauncher(dataBundle.getBoolean(AMAZMOD_OVERLAY_LAUNCHER));
@@ -369,14 +364,6 @@ public class SettingsData extends Transportable implements Parcelable {
         this.defaultLocale = defaultLocale;
     }
 
-    public String getUsedLanguage() {
-
-        return usedLanguage;
-    }
-    public void setUsedLanguage(String data) {
-
-        this.usedLanguage = data;
-    }
     @Override
     public int describeContents() {
         return 0;
@@ -400,7 +387,6 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (phoneConnectionAlert ? 1 : 0));
         dest.writeByte((byte) (phoneConnectionAlertStandardNotification ? 1 : 0));
         dest.writeString(defaultLocale);
-        dest.writeString(usedLanguage);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
         dest.writeByte((byte) (amazModKeepWidget ? 1 : 0));
         dest.writeByte((byte) (hourlyChime ? 1 : 0));
