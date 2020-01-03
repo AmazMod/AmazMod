@@ -15,10 +15,10 @@
     <string name="brightness">பிரகாசம்</string>
     <string name="tweaking">சீரமைக்கிறது</string>
     <string name="widgets">சாளரம்</string>
-    <string name="watchface">GreatFit / Calendar</string>
+    <string name="watchface">சிறந்த பொருத்தம்/நாட்காட்டி</string>
     <string name="stats">புள்ளிவிவரங்கள்</string>
     <string name="changelog">மாற்றப்பதிவேடு</string>
-    <string name="rate_app">Rate App</string>
+    <string name="rate_app">செயலி மதிப்பீடு</string>
     <string name="enable">இயக்கு</string>
     <string name="cancel">ரத்து செய்</string>
     <string name="select_unselect_all">Select/Unselect all</string>
