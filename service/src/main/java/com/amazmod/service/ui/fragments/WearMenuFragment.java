@@ -480,7 +480,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         switch (itemChosen) {
 
             case MENU_START:
-                Toast.makeText(mContext, mContext.getString(R.string.killing_background_process), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.killing_background_process), Toast.LENGTH_SHORT).show();
                 mHandler.postDelayed(new Runnable() {
                     public void run() {
                     DeviceUtil.killBackgroundTasks(mContext, true);
@@ -568,7 +568,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                             getSSID();
                 } else {
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, mContext.getString(R.string.wifi_disconnected), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.wifi_disconnected), Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -597,7 +597,7 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.COMPLETED) && flag) {
                     flag = false;
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, mContext.getString(R.string.wifi_connected_to) + " " + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.wifi_connected_to) + " " + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
                 }
             }
         };

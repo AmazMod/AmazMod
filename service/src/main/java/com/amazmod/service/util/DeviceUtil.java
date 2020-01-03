@@ -459,7 +459,7 @@ public class DeviceUtil {
     public static void systemPutAdb(Context context, String name, String value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, context.getString(R.string.write_settings_permission_required));
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -469,7 +469,7 @@ public class DeviceUtil {
     public static void systemPutString(Context context, String name, String value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, context.getString(R.string.write_settings_permission_required));
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -483,7 +483,7 @@ public class DeviceUtil {
     public static void systemPutInt(Context context, String name, int value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, context.getString(R.string.write_settings_permission_required));
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -501,7 +501,7 @@ public class DeviceUtil {
     public static void systemPutFloat(Context context, String name, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, context.getString(R.string.write_settings_permission_required));
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }

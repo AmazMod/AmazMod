@@ -267,10 +267,10 @@ public class WidgetsUtil {
         // Empty settings list can be confusing to the user, and is quite common, so we'll add the FAQ to save them having to read the OP (oh the horror)
         if (settingList.size() == 0) {
             //Add error message
-            settingList.add(new TextSetting(context.getString(R.string.error_loading), null));
+            settingList.add(new TextSetting(context.getResources().getString(R.string.error_loading), null));
         } else {
             //Add main header to top (pos 0)
-            settingList.add(0, new HeaderSetting(context.getString(R.string.widgets), new View.OnLongClickListener() {
+            settingList.add(0, new HeaderSetting(context.getResources().getString(R.string.widgets), new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     Logger.debug("WidgetsUtil loadSettings.onLongClick");
@@ -281,7 +281,7 @@ public class WidgetsUtil {
             }));
 
             // Add save button
-            settingList.add(new ButtonSetting(context.getString(R.string.save_order), new View.OnClickListener() {
+            settingList.add(new ButtonSetting(context.getResources().getString(R.string.save_order), new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Logger.debug("WidgetsUtil SaveSettings.onClick");
@@ -292,7 +292,7 @@ public class WidgetsUtil {
         }
 
         // Add option to clear saved sorted order
-        settingList.add(new ButtonSetting(context.getString(R.string.clear_saved), new View.OnClickListener() {
+        settingList.add(new ButtonSetting(context.getResources().getString(R.string.clear_saved), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Logger.debug("WidgetsUtil clearSettings.onClick");
@@ -303,7 +303,7 @@ public class WidgetsUtil {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 MainService.setWasSpringboardSaved(false);
                                 settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, "");
-                                Toast.makeText(context, context.getString(R.string.list_cleared), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, context.getResources().getString(R.string.list_cleared), Toast.LENGTH_SHORT).show();
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
             }
@@ -550,7 +550,7 @@ public class WidgetsUtil {
         try {
             return String.valueOf(packageManager.getApplicationLabel(packageManager.getApplicationInfo(pkg, 0)));
         } catch (PackageManager.NameNotFoundException e) {
-            return context.getString(R.string.unknown);
+            return context.getResources().getString(R.string.unknown);
         }
     }
 
@@ -635,9 +635,9 @@ public class WidgetsUtil {
         //Notify user
         if (showToast) {
             if (saveLocal)
-                Toast.makeText(context, context.getString(R.string.list_saved), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.list_saved), Toast.LENGTH_SHORT).show();
             else
-                Toast.makeText(context, context.getString(R.string.saved), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.saved), Toast.LENGTH_SHORT).show();
         }
     }
 

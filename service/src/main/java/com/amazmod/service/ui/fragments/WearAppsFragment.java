@@ -425,7 +425,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             } else if (resultCode == RESULT_FIRST_USER) {
                 Logger.trace("WearAppsFragment onActivityResult RESULT_FIRST_USER");
                 if (isAmazModUninstall) {
-                    Toast.makeText(mContext, mContext.getString(R.string.revoke_device_admin_before_uninstall), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.revoke_device_admin_before_uninstall), Toast.LENGTH_LONG).show();
                     isAmazModUninstall = false;
                 }
             }
