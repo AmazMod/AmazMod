@@ -98,8 +98,8 @@
     <string name="fully_charged">Fully Charged</string>
     <string name="charged_in">Charged in</string>
     <string name="remaining">Remaining</string>
-    <string name="amazmod_updated">"AmazMod \nUpdated"</string>
-    <string name="install_finished">"Install \nfinished"</string>
+    <string name="amazmod_updated">"AmazMod Updated"</string>
+    <string name="install_finished">"Install Finished"</string>
     <string name="installing_apk">Installing APK</string>
     <string name="removing">REMOVING</string>
     <string name="muting">MUTING</string>
