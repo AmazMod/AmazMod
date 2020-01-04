@@ -17,6 +17,7 @@
         <new>New option to enable/disable notification sound on Verge</new>
         <new>(Service) Ability to collect and save XDrip+ transmitted data</new>
         <new>Ability to override system's current weather forecast (OpenWeatherMap)</new>
+        <new>Service now supports translations (language is set based on phone app)</new>
         <new>Translation additions. App is almost fully translatable.</new>
         <bugfix>Fix missing Google Assistant notification</bugfix>
         <bugfix>Filemanager and App list now use case insensitive sort order</bugfix>
