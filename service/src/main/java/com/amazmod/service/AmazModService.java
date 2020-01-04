@@ -98,7 +98,7 @@ public class AmazModService extends Application {
         if (languageCodes.length > 1) {
             return new Locale(languageCodes[0], languageCodes[1]);
         } else {
-            return new Locale(languageCode);
+            return new Locale(languageCode, languageCode.toUpperCase());
         }
     }
 }
