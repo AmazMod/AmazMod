@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.GridViewPagerAdapter;
-import com.amazmod.service.events.HourlyChime;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
