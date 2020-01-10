@@ -98,9 +98,9 @@
     <string name="pref_enable_notifications_summary">Deixar que AmazMod s\'encarregue de totes les notificacions.</string>
     <string name="pref_enable_notifications">Notificacions push</string>
     <string name="pref_filter_notifications_by_packages">Aplicacions seleccionades</string>
-    <string name="pref_filter_notifications_by_packages_summary">Only notifications from these apps will be sent to watch.</string>
-    <string name="pref_battery_background_sync_interval">Battery background sync interval</string>
-    <string name="pref_battery_background_sync_interval_summary">Set background battery sync interval.</string>
+    <string name="pref_filter_notifications_by_packages_summary">Només les notificacions d\'aquestes aplicacions seràn enviades al rellotge.</string>
+    <string name="pref_battery_background_sync_interval">Interval de sincronització de la batería en segon pla</string>
+    <string name="pref_battery_background_sync_interval_summary">Establir l\'interval de sincronització de la bateria en segon pla.</string>
     <string name="pref_battery_chart_time_interval">Battery chart time range</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Alerta de bateria del rellotge</string>
