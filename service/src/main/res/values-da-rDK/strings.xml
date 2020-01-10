@@ -94,7 +94,7 @@
     <string name="waiting_battery_data">Afveter battridata…</string>
     <string name="fully_charged">Fuldt opladt</string>
     <string name="charged_in">Charged in</string>
-    <string name="remaining">Remaining</string>
+    <string name="remaining">Tilbageværende</string>
     <string name="amazmod_updated">AmazMod opdateret</string>
     <string name="install_finished">Installation færdig</string>
     <string name="installing_apk">Installerer APK</string>
