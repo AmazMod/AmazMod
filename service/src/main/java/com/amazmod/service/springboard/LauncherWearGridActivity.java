@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.GridViewPagerAdapter;
-import com.amazmod.service.events.HourlyChime;
 import com.amazmod.service.support.ActivityFinishRunnable;
 import com.amazmod.service.support.HorizontalGridViewPager;
 import com.amazmod.service.ui.fragments.WearAppsFragment;
@@ -136,6 +135,7 @@ public class LauncherWearGridActivity extends Activity {
         final ArrayList<Fragment> fragList = new ArrayList<>();
 
         switch (mode) {
+
             case APPS:
                 fragList.add(WearAppsFragment.newInstance());
                 break;

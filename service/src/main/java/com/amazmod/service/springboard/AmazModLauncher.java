@@ -170,7 +170,7 @@ public class AmazModLauncher extends AbstractPlugin {
         appmenu = view.findViewById(R.id.launcher_appmenu);
 
         version.setText(String.valueOf(BuildConfig.VERSION_CODE));
-        mHeader.setText("Apps");
+        mHeader.setText(mContext.getResources().getString(R.string.apps));
         flashLight.setImageResource(R.drawable.baseline_highlight_white_24);
         settings.setImageResource(R.drawable.outline_settings_white_24);
         messages.setImageResource(R.drawable.notify_icon_24);
@@ -281,11 +281,11 @@ public class AmazModLauncher extends AbstractPlugin {
                     if (wakeLockScreenOn.isHeld())
                         wakeLockScreenOn.release();
                     isWakeLockEnabled = false;
-                    Toast.makeText(mContext, "KeepAwake: Disabled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.keep_awake_disabled), Toast.LENGTH_SHORT).show();
                 } else {
                     wakeLockDim.acquire(60*60*1000L /*1 hour*/);
                     isWakeLockEnabled = true;
-                    Toast.makeText(mContext, "KeepAwake (Dim): Enabled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.keep_awake_dim_enabled), Toast.LENGTH_SHORT).show();
                 }
                 items.get(1).state = isWakeLockEnabled;
                 keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
@@ -299,7 +299,7 @@ public class AmazModLauncher extends AbstractPlugin {
                 if (!wakeLockScreenOn.isHeld()) {
                     wakeLockScreenOn.acquire(60*60*1000L /*1 hour*/);
                     isWakeLockEnabled = true;
-                    Toast.makeText(mContext, "KeepAwake (ScreenOn): Enabled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.keep_awake_screen_on_enabled), Toast.LENGTH_SHORT).show();
                     items.get(1).state = isWakeLockEnabled;
                     keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
                 }
@@ -319,7 +319,7 @@ public class AmazModLauncher extends AbstractPlugin {
         mHeader.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                Toast.makeText(mContext, "Reloading Apps…", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.reloading_apps), Toast.LENGTH_SHORT).show();
                 widgetSettings.set(Constants.PREF_HIDDEN_APPS, "[]");
                 loadApps(false);
                 return true;
@@ -578,7 +578,7 @@ public class AmazModLauncher extends AbstractPlugin {
                             getSSID();
                 } else {
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, "Wi-Fi Disconnected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.wifi_disconnected), Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -607,7 +607,7 @@ public class AmazModLauncher extends AbstractPlugin {
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.COMPLETED) && flag) {
                     flag = false;
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, "Wi-Fi Connected to:\n" + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.wifi_connected_to)+ " " + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -619,18 +619,23 @@ public class AmazModLauncher extends AbstractPlugin {
 
     private void onItemClick(final int itemChosen) {
 
-        final String name = appInfoList.get(itemChosen).getAppName();
+        String name = appInfoList.get(itemChosen).getAppName();
         final String version = appInfoList.get(itemChosen).getVersionName();
         //Log.d(Constants.TAG, "AmazModLauncher onClick itemChosen: " + itemChosen);
+        if (name.equals("File Manager")){
+            name = mContext.getResources().getString(R.string.file_manager);
+        }
+        if (name.equals("App Manager")){
+            name = mContext.getResources().getString(R.string.app_manager);
+        }
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.opening)+" "+ name, Toast.LENGTH_SHORT).show();
 
-        Toast.makeText(mContext, "Opening: " + appInfoList.get(itemChosen).getAppName(), Toast.LENGTH_SHORT).show();
-
-        if (MANAGE_APPS.equals(name) && MENU_ENTRY.equals(version)) {
+        if (MANAGE_APPS.equals(appInfoList.get(itemChosen).getAppName()) && MENU_ENTRY.equals(version)) {
 
             intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.APPS);
             mContext.startActivity(intent);
 
-        } else if (MANAGE_FILES.equals(name) && MENU_ENTRY.equals(version)) {
+        } else if (MANAGE_FILES.equals(appInfoList.get(itemChosen).getAppName()) && MENU_ENTRY.equals(version)) {
 
             intent.putExtra(LauncherWearGridActivity.MODE, LauncherWearGridActivity.FILES);
             mContext.startActivity(intent);
@@ -659,7 +664,7 @@ public class AmazModLauncher extends AbstractPlugin {
             Collections.sort(hiddenAppsList);
             String pref = new Gson().toJson(hiddenAppsList);
             widgetSettings.set(Constants.PREF_HIDDEN_APPS, pref);
-            Toast.makeText(mContext, appInfoList.get(itemChosen).getAppName() + " hidden!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, appInfoList.get(itemChosen).getAppName() +" "+ mContext.getResources().getString(R.string.hidden), Toast.LENGTH_SHORT).show();
             //refreshList();
             appInfoList.remove(itemChosen);
             mAdapter.notifyDataSetChanged();

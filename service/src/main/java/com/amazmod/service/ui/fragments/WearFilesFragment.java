@@ -64,7 +64,7 @@ public class WearFilesFragment extends Fragment {
     private File mCurrentDir;
     private Stack<File> mHistory;
 
-    private static final String REFRESH = "Refresh";
+    //private static final String REFRESH = "Refresh";
     private static final String PARENT_DIR = "..";
 
     private static final String APK_MIME = "application/vnd.android.package-archive";
@@ -124,7 +124,7 @@ public class WearFilesFragment extends Fragment {
             mCurrentDir = getPreviousDir();
             loadFiles(mCurrentDir);
 
-        } else if (REFRESH.equals(fileName) && REFRESH.equals(filePath)) {
+        } else if (getResources().getString(R.string.refresh).equals(fileName) && getResources().getString(R.string.refresh).equals(filePath)) {
 
             if (!(fileInfoList == null))
                 fileInfoList.clear();
@@ -154,7 +154,7 @@ public class WearFilesFragment extends Fragment {
         Logger.info("WearFilesFragment onLongClick filePath: " + filePath);
 
         if (!(PARENT_DIR.equals(fileName) && PARENT_DIR.equals(filePath))
-                && !(REFRESH.equals(fileName) && REFRESH.equals(filePath))) {
+                && !(getResources().getString(R.string.refresh).equals(fileName) && getResources().getString(R.string.refresh).equals(filePath))) {
 
             File file = new File (filePath);
             if (file.exists()) {
@@ -208,7 +208,7 @@ public class WearFilesFragment extends Fragment {
         mHeader.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                showToast("Free space: " + formatBytes(getFreeSpace(mCurrentDir.getPath())));
+                showToast(getString(R.string.free_space)+": " + formatBytes(getFreeSpace(mCurrentDir.getPath())));
                 return true;
             }
         });
@@ -307,7 +307,7 @@ public class WearFilesFragment extends Fragment {
                 i.setDataAndType(fileUri, mimeType);
                 getActivity().startActivity(i);
             } catch (ActivityNotFoundException e) {
-                showToast(String.format("No app found to handle %s!", mimeType));
+                showToast(String.format(getString(R.string.no_app_found)+" %s!", mimeType));
             }
         } else {
             showToast("Unknown file type!");
@@ -368,7 +368,7 @@ public class WearFilesFragment extends Fragment {
 
         }
 
-        fileInfo = new AppInfo(REFRESH, "Reload files", REFRESH, "0", refreshDrawable);
+        fileInfo = new AppInfo(getResources().getString(R.string.refresh), getResources().getString(R.string.reload_files), getResources().getString(R.string.refresh), "0", refreshDrawable);
         appInfoList.add(fileInfo);
 
         return appInfoList;
@@ -511,7 +511,7 @@ public class WearFilesFragment extends Fragment {
                 .setMessage(getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        showToast("Please wait until installation finishes…");
+                        showToast(getString(R.string.please_wait_installation));
                         if (file.toString().contains("service-")) {
                             //DeviceUtil.systemPutAdb(mContext,"screen_off_timeout", "200000");
                             new ExecCommand("adb shell settings put system screen_off_timeout 200000");
@@ -568,12 +568,12 @@ public class WearFilesFragment extends Fragment {
                                 if (!(fileInfoList == null))
                                     fileInfoList.clear();
                                 loadFiles(mCurrentDir);
-                                showToast("Deleted!");
+                                showToast(getString(R.string.deleted)+"!");
                             } else
-                                showToast("Error deleting!");
+                                showToast(getString(R.string.error_deleting)+"!");
                         } catch (Exception ex) {
                             Logger.error(ex,"WearFilesFragment deleteFile Exception" + ex.getMessage());
-                            showToast("Error deleting!");
+                            showToast(getString(R.string.error_deleting)+"!");
                         }
                     }
                 })

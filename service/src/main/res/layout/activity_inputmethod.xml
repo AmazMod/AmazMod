@@ -28,7 +28,7 @@
             android:textAlignment="center"
             android:textColor="#FFFFFFFF"
             android:textSize="16sp"
-            tools:text="Input Methods" />
+            tools:text="@string/input_methods" />
 
         <ScrollView
             android:id="@+id/radio_scrollview"
@@ -71,7 +71,7 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:textAlignment="center"
-                    tools:text="Button" />
+                    tools:text="@string/button" />
 
             </LinearLayout>
         </ScrollView>

@@ -16,7 +16,7 @@
         android:textAllCaps="true"
         android:textColor="@color/text"
         android:visibility="gone"
-        tools:text="Sending"
+        tools:text="@string/sending"
         tools:visibility="visible" />
 
     <android.support.wearable.view.DelayedConfirmationView
@@ -168,7 +168,7 @@
                     android:paddingRight="2dp"
                     android:textColor="@color/text"
                     android:textStyle="bold"
-                    tools:text="Title" />
+                    tools:text="@string/title" />
 
                 <TextView
                     android:id="@+id/fragment_custom_notification_time"

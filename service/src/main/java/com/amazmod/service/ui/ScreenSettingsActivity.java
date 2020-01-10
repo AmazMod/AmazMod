@@ -39,10 +39,11 @@ public class ScreenSettingsActivity extends Activity {
     private int densityChosen, fontSizeChosen, invertedChoosen;
     private int initialFontSize = 99, initialDensity = 99;
 
+    /* Now use string from array.xml
     private String[] densities = {"Normal", "Low", "High", "Unknown"};
     private String[] fontSizes = {"Small", "Normal", "Big", "Huge"};
     private String[] inverted = {"No", "Yes"};
-
+    */
     private String[] labels = { "(238)", "(248)", "(148)", "",
                                 "(0.90f)", "(1.00f)", "(1.18f)", "(1.30f)",
                                 "(Off)", "(On)"};
@@ -85,9 +86,9 @@ public class ScreenSettingsActivity extends Activity {
         } else
             defaultDensity = "238";
 
-        setAdapter(densitySpinner, densities, 0);
-        setAdapter(fontSpinner, fontSizes, 1);
-        setAdapter(invertedSpinner, inverted, 2);
+        setAdapter(densitySpinner, getResources().getStringArray(R.array.densities), 0);
+        setAdapter(fontSpinner, getResources().getStringArray(R.array.fontSizes), 1);
+        setAdapter(invertedSpinner, getResources().getStringArray(R.array.inverted), 2);
 
         getCurrentDensity();
         getCurrentFontScale();
@@ -107,12 +108,12 @@ public class ScreenSettingsActivity extends Activity {
 
     private void setLabels() {
 
-        header.setText("Screen Settings");
-        message.setText("Changing Font Size will restart watch");
-        densityLabel.setText("Density:");
-        fontSizeLabel.setText("Font:");
-        invertedLabel.setText("Inverted:");
-        save.setText("Save");
+        header.setText(getString(R.string.screen_settings));
+        message.setText(getString(R.string.screen_setting_summary));
+        densityLabel.setText(getString(R.string.density));
+        fontSizeLabel.setText(getString(R.string.font));
+        invertedLabel.setText(getString(R.string.inverted));
+        save.setText(getString(R.string.save));
 
         header.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18.0f);
         message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14.0f);
@@ -172,7 +173,7 @@ public class ScreenSettingsActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f);
-                ((TextView) parent.getChildAt(0)).setText(densities[position]);
+                ((TextView) parent.getChildAt(0)).setText(getResources().getStringArray(R.array.densities)[position]);
                 Logger.debug("ScreenSettingsActivity udpateContent Density: " + parent.getItemAtPosition(position));
                 densityChosen = position;
             }
@@ -189,7 +190,7 @@ public class ScreenSettingsActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f);
-                ((TextView) parent.getChildAt(0)).setText(fontSizes[position]);
+                ((TextView) parent.getChildAt(0)).setText(getResources().getStringArray(R.array.fontSizes)[position]);
                 Logger.debug("ScreenSettingsActivity updateContent Font: " + parent.getItemAtPosition(position));
                 fontSizeChosen = position;
             }
@@ -206,7 +207,7 @@ public class ScreenSettingsActivity extends Activity {
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 ((TextView) parent.getChildAt(0)).setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16.0f);
-                ((TextView) parent.getChildAt(0)).setText(inverted[position]);
+                ((TextView) parent.getChildAt(0)).setText(getResources().getStringArray(R.array.inverted)[position]);
                 Logger.debug("ScreenSettingsActivity updateContent Inverted: " + parent.getItemAtPosition(position));
                 if (invertedChoosen != position) {
                     invertedChoosen = position;
@@ -275,7 +276,7 @@ public class ScreenSettingsActivity extends Activity {
 
         if (initialFontSize != 99) {
             fontSpinner.setSelection(initialFontSize);
-            fontSizes[initialFontSize] = fontSizes[initialFontSize] + " *";
+            getResources().getStringArray(R.array.fontSizes)[initialFontSize] = getResources().getStringArray(R.array.fontSizes)[initialFontSize] + " *";
         }
     }
 
@@ -317,7 +318,7 @@ public class ScreenSettingsActivity extends Activity {
 
         mVibrator.vibrate(50);
         //getResources().getConfiguration().setTo(config);
-        Toast.makeText(mContext, "Watch will restart\nto apply changes ;)", Toast.LENGTH_LONG).show();
+        Toast.makeText(mContext, getString(R.string.restart_needed), Toast.LENGTH_LONG).show();
 
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -346,7 +347,7 @@ public class ScreenSettingsActivity extends Activity {
         } else
             initialDensity = 3;
 
-        densities[initialDensity] = densities[initialDensity] + " *";
+        getResources().getStringArray(R.array.densities)[initialDensity] = getResources().getStringArray(R.array.densities)[initialDensity] + " *";
         densitySpinner.setSelection(initialDensity);
 
     }
@@ -371,7 +372,7 @@ public class ScreenSettingsActivity extends Activity {
             invertedChoosen = 0;
         }
 
-        inverted[invertedChoosen] = inverted[invertedChoosen] + " *";
+        getResources().getStringArray(R.array.inverted)[invertedChoosen] = getResources().getStringArray(R.array.inverted)[invertedChoosen] + " *";
         invertedSpinner.setSelection(invertedChoosen);
 
     }

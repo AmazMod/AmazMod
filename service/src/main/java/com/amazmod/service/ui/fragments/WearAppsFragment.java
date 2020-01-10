@@ -73,7 +73,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
     private boolean isAmazModUninstall;
 
     private final int UNINSTALL_REQUEST_CODE = 1;
-    private static final String REFRESH = "Refresh";
+    //private static final String REFRESH = "Refresh";
 
     @Override
     public void onAttach(Activity activity) {
@@ -125,7 +125,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
         final int itemChosen = viewHolder.getPosition();
         Logger.info("WearAppsFragment onClick itemChosen: " + itemChosen);
-        if (appInfoList.get(itemChosen).getAppName().equals(REFRESH)) {
+        if (appInfoList.get(itemChosen).getAppName().equals(getResources().getString(R.string.refresh))) {
 
             appInfoList.clear();
             mAdapter.clear();
@@ -194,7 +194,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 }
 
                 sortAppInfo(appInfoList);
-                AppInfo close = new AppInfo(REFRESH, "Reload apps", "", "0", drawable);
+                AppInfo close = new AppInfo(getResources().getString(R.string.refresh), getString(R.string.reload_apps), "", "0", drawable);
                 appInfoList.add(close);
                 WearAppsFragment.this.appInfoList = appInfoList;
                 return appInfoList;
@@ -405,7 +405,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Logger.trace("WearAppsFragment onActivityResult RESULT_OK");
-                Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + "uninstalled successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + getString(R.string.uninstalled_successfully), Toast.LENGTH_SHORT).show();
                 scrollView.post(new Runnable() {
                     public void run() {
                         Logger.trace("WearAppsFragment onActivityResult scrollToTop");
@@ -425,7 +425,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             } else if (resultCode == RESULT_FIRST_USER) {
                 Logger.trace("WearAppsFragment onActivityResult RESULT_FIRST_USER");
                 if (isAmazModUninstall) {
-                    Toast.makeText(mContext, "Please first revoke \"Device Admin\" before uninstalling AmazMod", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.revoke_device_admin_before_uninstall), Toast.LENGTH_LONG).show();
                     isAmazModUninstall = false;
                 }
             }

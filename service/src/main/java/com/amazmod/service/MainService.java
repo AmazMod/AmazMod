@@ -823,7 +823,7 @@ public class MainService extends Service implements Transporter.DataListener {
         count++;
         Logger.debug("MainService lowPower count: " + count);
         if (count < 2) {
-            Toast.makeText(context, "lowPower: true", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.low_power) +": "+ getString(R.string.true_), Toast.LENGTH_SHORT).show();
             BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
             Logger.info("MainService lowPower disable BT");
             btmgr.disable();
@@ -852,7 +852,7 @@ public class MainService extends Service implements Transporter.DataListener {
             }
 
         } else if (count >= 3) {
-            Toast.makeText(context, "lowPower: false", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.low_power) +": "+ getString(R.string.false_), Toast.LENGTH_SHORT).show();
             //btmgr.enable();
             //slptClockClient.disableSlpt();
             slptClockClient.disableLowBattery();
@@ -1199,24 +1199,24 @@ public class MainService extends Service implements Transporter.DataListener {
 
                             if (apk.exists()) {
                                 if (apkFile.contains("service-")) {
-                                    showConfirmationWearActivity("Service Update", "0");
+                                    showConfirmationWearActivity(getString(R.string.service_update), "0");
                                     //DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
                                     new ExecCommand("adb shell settings put system screen_off_timeout 200000");
                                     Thread.sleep(1000);
                                     new ExecCommand("adb install -r -d " + apkFile);
 
                                 } else {
-                                    showConfirmationWearActivity("Installing APK", "0");
+                                    showConfirmationWearActivity(getString(R.string.installing_apk), "0");
                                     myWakeLock = DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
                                 }
 
                             } else {
                                 code = -1;
-                                errorMsg = String.format("%s not found!", apkFile);
+                                errorMsg = String.format("%s" + getString(R.string.not_found), apkFile);
                             }
 
                         } else if (command.contains("install_amazmod_update ")){
-                            showConfirmationWearActivity("Service update", "0");
+                            showConfirmationWearActivity(getString(R.string.service_update), "0");
                             DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
 
                         } else {
@@ -1234,7 +1234,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                             } else {
                                 if (command.contains("AmazMod-service-") && command.contains("adb install -r")) {
-                                    showConfirmationWearActivity("Service update", "0");
+                                    showConfirmationWearActivity(getString(R.string.service_update), "0");
                                     Thread.sleep(3000);
                                 }
                                 ExecCommand execCommand = new ExecCommand(command);

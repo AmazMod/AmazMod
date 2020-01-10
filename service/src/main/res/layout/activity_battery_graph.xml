@@ -49,7 +49,7 @@
                 android:layout_marginTop="4dp"
                 android:gravity="center"
                 android:textSize="16dp"
-                tools:text="5 day(s)" />
+                tools:text="@string/five_day" />
         </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart

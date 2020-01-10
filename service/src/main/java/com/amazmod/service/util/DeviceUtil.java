@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
+import com.amazmod.service.R;
 import com.amazmod.service.receiver.PackageReceiver;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
@@ -458,7 +459,7 @@ public class DeviceUtil {
     public static void systemPutAdb(Context context, String name, String value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -468,7 +469,7 @@ public class DeviceUtil {
     public static void systemPutString(Context context, String name, String value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -482,7 +483,7 @@ public class DeviceUtil {
     public static void systemPutInt(Context context, String name, int value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -500,7 +501,7 @@ public class DeviceUtil {
     public static void systemPutFloat(Context context, String name, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }

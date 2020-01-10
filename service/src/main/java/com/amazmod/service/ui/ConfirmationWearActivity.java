@@ -113,7 +113,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
 
         if (isRunning) {
 
-            restartText.setText("Tap to Close");
+            restartText.setText(getString(R.string.tap_to_close));
             hideConfirm();
 
         } else {
@@ -148,7 +148,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
             Logger.debug("ConfirmationWearActivity onTimerFinished paramMode: " + paramMode + " | paramPkg: " + paramPkg);
 
             isRunning = true;
-            restartText.setText("Please wait…");
+            restartText.setText(getString(R.string.please_wait));
             hideConfirm();
 
             //DeviceUtil.killBackgroundTasks(this, false);
@@ -209,7 +209,7 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
     private void finishConfirmationActivity(){
         Logger.debug("ConfirmationWearActivity finishConfirmationActivity paramMode: " + paramMode);
 
-        restartText.setText("Please wait…");
+        restartText.setText(getString(R.string.please_wait));
 
         if (isRunning && (Constants.INSTALL.equals(paramMode) || Constants.DELETE.equals(paramMode))) {
 
@@ -289,13 +289,13 @@ public class ConfirmationWearActivity extends Activity implements DelayedConfirm
                 mHandler.postDelayed(delayedDensity, 3500);
             }
 
-            restartText.setText(String.format("Continuing in %ss…", paramTime));
+            restartText.setText(String.format(getString(R.string.continuing_in) + " %ss…", paramTime));
             delayedConfirmationView.setPressed(false);
             delayedConfirmationView.start();
             delayedConfirmationView.setListener(this);
 
         } else
-            restartText.setText("Please wait, it may\ntake a while…");
+            restartText.setText(getString(R.string.please_wait_may_take_a_while));
 
     }
 
