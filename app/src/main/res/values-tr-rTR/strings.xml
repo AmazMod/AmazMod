@@ -222,12 +222,12 @@
     <string name="failed_to_send_command">Sending command to watch failed</string>
     <string name="command_sent">Sending command to watch was successful</string>
     <string name="execute_shell_command">Execute a shell command</string>
-    <string name="run">Run</string>
-    <string name="shell_command_sent">Command sent</string>
+    <string name="run">Çalıştır</string>
+    <string name="shell_command_sent">Komut gönderildi</string>
     <string name="adb_clear_command_sent">Clearing all running ADB processes</string>
     <string name="cant_send_shell_command">Can\'t send command</string>
-    <string name="install">Install</string>
-    <string name="apk_install_started_title">APK install</string>
+    <string name="install">Yükle</string>
+    <string name="apk_install_started_title">APK kuruldu</string>
     <string name="apk_install_started">The installation is performed in the background.\nWhen it is finished, launcher will be restarted on watch.</string>
     <string name="cant_start_apk_install">Can\'t start apk install</string>
     <string name="reboot">Reboot</string>
