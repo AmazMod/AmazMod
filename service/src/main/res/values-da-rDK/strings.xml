@@ -119,7 +119,7 @@
     <string name="content">Indhold</string>
     <string name="button">Knap</string>
     <string name="changing_font_warning">Ændringer af skrifttype vil genstarte uret</string>
-    <string name="notification_time">Notification Time</string>
+    <string name="notification_time">Notifikationsvarighed</string>
     <string name="continuing_in_3sec">Fortsætter om 3 s…</string>
     <string name="user_files">Brugerfiler</string>
     <string name="apps">Apps</string>
