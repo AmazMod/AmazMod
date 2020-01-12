@@ -130,7 +130,7 @@
     <string name="package_name">Nome do Pacote</string>
     <string name="title">Título</string>
     <string name="sending">Enviando</string>
-    <string name="hourly_chime">Hourly Chime</string>
+    <string name="hourly_chime">Toque notificação de hora</string>
     <string name="refresh">Atualizar</string>
     <string name="clear">Limpar</string>
     <string name="reload_apps">Recarregar apps</string>
