@@ -292,8 +292,84 @@ public class WidgetsActivity extends BaseAppCompatActivity{
 
                     if (pkg != null && name != null && activity != null) {
                         // Change names that confuse users
-                        if (name.equals("天气")) {
-                            name = "Weather";
+                        if (activity.equals("com.amazmod.service.springboard.AmazModLauncher")) {
+                            name = "AmazMod";
+                        }
+                        if (activity.equals("com.huami.watch.weather.WeatherWidgetView")) {
+                            name = getResources().getString(R.string.widget_weather);
+                        }
+                        if (activity.equals("com.huami.watch.health.widget.StepLauncherView")) {
+                            name = getResources().getString(R.string.widget_step);
+                        }
+                        if (activity.equals("com.huami.watch.deskclock.countdown.CountdownWidget")) {
+                            name = getResources().getString(R.string.widget_countdown);
+                        }
+                        if (activity.equals("com.huami.watch.deskclock.stopwatch.StopWatchWidget")) {
+                            name = getResources().getString(R.string.widget_stopwatch);
+                        }
+                        if (activity.equals("watch.huami.com.mediaplayer.widget.MusicLauncerView")) {
+                            name = getResources().getString(R.string.widget_music);
+                        }
+                        if (activity.equals("com.huami.watch.health.widget.SleepWidgetView")) {
+                            name = getResources().getString(R.string.widget_sleep);
+                        }
+                        if (activity.equals("com.huami.watch.hmcalendar.widget.CalendarLauncherView")) {
+                            name = getResources().getString(R.string.widget_calendar);
+                        }
+                        if (activity.equals("com.huami.watch.compass.CompassWidgetView")) {
+                            name = getResources().getString(R.string.widget_compass);
+                        }
+                        if (activity.equals("com.huami.watch.health.widget.HeartLauncherView")) {
+                            name = getResources().getString(R.string.widget_heart);
+                        }
+                        if (activity.equals("com.huami.watch.hmdevices.widget.HmDeviceFindLauncherView")) {
+                            name = getResources().getString(R.string.widget_find_phone);
+                        }
+                        if (activity.equals("com.huami.btcall.widget.BtCallWidget")) {
+                            name = getResources().getString(R.string.widget_call);
+                        }
+                        if (activity.equals("com.huami.watch.newsport.widget.SportHistoryWidget")) {
+                            name = getResources().getString(R.string.widget_activity);
+                        }
+                        if (activity.equals("com.huami.watch.weather.WeatherWidgetView") || activity.equals("com.huami.watch.weather.Everest2WeatherWidgetView")) {
+                            name = getResources().getString(R.string.widget_weather);
+                        }
+                        if (activity.equals("com.huami.watch.deskclock.AlarmClockWidget")) {
+                            name = getResources().getString(R.string.widget_alarm);
+                        }
+                        if (activity.equals("com.huami.watch.newsport.motionstate.widget.SportMotionStateWidget")) {
+                            name = getResources().getString(R.string.widget_exercise_state);
+                        }
+                        if (activity.equals("com.huami.watch.newsport.widget.SportWidget")) {
+                            name = getResources().getString(R.string.widget_sport);
+                        }
+                        if (activity.equals("com.alipay.android.hmwatch.hmwidget.PayCodeView")) {
+                            name = getResources().getString(R.string.widget_alipay);
+                        }
+                        if (activity.equals("com.huami.watch.ximalayasound.XimalayaLauncherView")) {
+                            name = getResources().getString(R.string.widget_ximalaya);
+                        }
+                        if (activity.equals("com.huami.watch.location.ui.widget.LocationWidget")) {
+                            name = getResources().getString(R.string.widget_location);
+                        }
+                        if (activity.equals("com.huami.watch.wallet.ui.widget.WalletWidget")) {
+                            name = getResources().getString(R.string.widget_wallet);
+                        }
+                        if (activity.equals("com.huami.watch.compass.BarAltitudeWidgetView")) {
+                            name = getResources().getString(R.string.widget_barometer);
+                        }
+                        if (activity.equals("com.huami.watch.pin.PinWidgetView")) {
+                            name = getResources().getString(R.string.widget_miui_unlock);
+                        }
+                        if (pkg.equals("com.huami.watch.hmtvhelper")) {
+                            name = getResources().getString(R.string.widget_mi_box_remote);
+                        }
+                        //Todo: Should be hidden because do nothing
+                        if (activity.equals("#WIDGET_ONLY")) {
+                            name = "#WIDGET_ONLY";
+                        }
+                        if (activity.equals("ard")) {
+                            name = getResources().getString(R.string.widget_hm_tv);
                         }
                         widgetsList.add(createAppInfo(pkg, name, position, enabled, activity));
                     }
