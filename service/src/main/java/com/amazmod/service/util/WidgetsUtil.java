@@ -303,6 +303,7 @@ public class WidgetsUtil {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 MainService.setWasSpringboardSaved(false);
                                 settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, "");
+                                DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, "");
                                 Toast.makeText(context, context.getResources().getString(R.string.list_cleared), Toast.LENGTH_SHORT).show();
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
