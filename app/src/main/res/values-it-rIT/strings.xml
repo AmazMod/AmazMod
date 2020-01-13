@@ -413,4 +413,30 @@ seguire il tema di sistema (beta).</string>
     <string name="no_widgets_found">Nessun widget trovato</string>
     <string name="intro_description_grant_access">Concedi accesso</string>
     <string name="intro_description_get_started">Iniziamo</string>
+    <!-- Strings used for widget list start -->
+    <string name="widget_step">Passi</string>
+    <string name="widget_countdown">Conto alla rovescia</string>
+    <string name="widget_stopwatch">Cronometro</string>
+    <string name="widget_music">Musica</string>
+    <string name="widget.sleep">Sonno</string>
+    <string name="widget_calendar">Calendario</string>
+    <string name="widget_compass">Bussola</string>
+    <string name="widget_heart">Battiti</string>
+    <string name="widget_find_phone">Trova il mio telefono</string>
+    <string name="widget_call">Chiamata</string>
+    <string name="widget_activity">Attività</string>
+    <string name="widget_weather">Meteo</string>
+    <string name="widget_alarm">Sveglia</string>
+    <string name="widget_exercise_state">Stato dell\'esercizio</string>
+    <string name="widget_sport">Sport</string>
+    <string name="widget_alipay">Alipay</string>
+    <string name="widget_ximalaya">Ximalaya</string>
+    <string name="widget_location">Localizzazione</string>
+    <string name="widget_wallet">Portafogli</string>
+    <string name="widget_barometer">Barometro</string>
+    <string name="widget_miui_unlock">Sblocco MIUI</string>
+    <string name="widget_mi_box_remote">Telecomando Mi Box</string>
+    <string name="widget_hm_tv">TV HM</string>
+    <string name="widget_main_activity">Attività principale</string>
+    <!-- Strings used for widget list end -->
 </resources>

@@ -12,9 +12,9 @@
         <item name="flashlight">Baterka</item>
         <item name="qr_code">QR kód</item>
         <item name="clean_memory">Vyčistit paměť</item>
-        <item name="enable_lpm">Enable L.P.M.</item>
-        <item name="revoke_admin">Revoke Device Admin</item>
-        <item name="set_admin">Set Device Admin</item>
+        <item name="enable_lpm">Zapnout L.P.M.</item>
+        <item name="revoke_admin">Aktivovat správce zařízení</item>
+        <item name="set_admin">Nastavit správce zařízení</item>
         <item name="restart_launcher">Restartovat spouštěč</item>
         <item name="clear_launcher_settings">Smazat nastavení spouštěče</item>
         <item name="reboot">Restartovat</item>
@@ -22,11 +22,11 @@
         <item name="enter_recovery">Vstoupit do Recovery</item>
         <item name="units">Jednotky</item>
         <item name="disconnect_alert_ios">Upozornit při odpojení (iOS)</item>
-        <item name="away_alert_ios">Away Alert (iOS)</item>
+        <item name="away_alert_ios">Upozornění nečinnosti (iOS)</item>
         <item name="notifications_screenon">Zapnout obrazovku při oznámení</item>
         <item name="change_input_method">Změnit vstupní metodu</item>
         <item name="device_info">Info o zařízení</item>
-        <item name="hourly_chime">Hourly Chime</item>
+        <item name="hourly_chime">Zvonkohra</item>
     </string-array>
     <string-array name="densities">
         <item name="normal">Normální</item>
