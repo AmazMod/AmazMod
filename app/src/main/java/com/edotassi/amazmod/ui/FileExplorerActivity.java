@@ -309,8 +309,11 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
         // New filepicker
         if (lastPath == null || lastPath.isEmpty())
-            lastPath = Environment.getExternalStorageDirectory().getPath();
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                lastPath = Environment.getExternalStorageState();
+            } else {
+                lastPath = Environment.getExternalStorageDirectory().getPath();
+            }
         final ArrayList<File> files = new ArrayList<>();
 
         ChooserDialog chooserDialog;
