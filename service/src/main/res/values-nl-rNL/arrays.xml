@@ -11,37 +11,37 @@
         <item name="wifi_panel">Wifi paneel</item>
         <item name="flashlight">Zaklamp</item>
         <item name="qr_code">QR-code</item>
-        <item name="clean_memory">Clean Memory</item>
+        <item name="clean_memory">Schoon geheugen op</item>
         <item name="enable_lpm">Enable L.P.M.</item>
         <item name="revoke_admin">Apparaatbeheer intrekken</item>
-        <item name="set_admin">Set Device Admin</item>
-        <item name="restart_launcher">Restart Launcher</item>
+        <item name="set_admin">Apparaat Admin</item>
+        <item name="restart_launcher">Herstart launcher</item>
         <item name="clear_launcher_settings">Clear Launcher Settings</item>
         <item name="reboot">Herstarten</item>
         <item name="enter_fastboot">Enter Fastboot</item>
         <item name="enter_recovery">Enter Recovery</item>
-        <item name="units">Units</item>
+        <item name="units">Eenheden</item>
         <item name="disconnect_alert_ios">Disconnect Alert (iOS)</item>
         <item name="away_alert_ios">Away Alert (iOS)</item>
         <item name="notifications_screenon">Notifications ScreenOn</item>
-        <item name="change_input_method">Change Input Method</item>
-        <item name="device_info">Device Info</item>
+        <item name="change_input_method">Invoermethode wijzigen</item>
+        <item name="device_info">Toestelinformatie</item>
         <item name="hourly_chime">Hourly Chime</item>
     </string-array>
     <string-array name="densities">
-        <item name="normal">Normal</item>
-        <item name="low">Low</item>
-        <item name="high">High</item>
-        <item name="unknown">Unknown</item>
+        <item name="normal">Normaal</item>
+        <item name="low">Laag</item>
+        <item name="high">Hoog</item>
+        <item name="unknown">Onbekend</item>
     </string-array>
     <string-array name="fontSizes">
-        <item name="small">Small</item>
-        <item name="normal">Normal</item>
-        <item name="big">Big</item>
-        <item name="huge">Huge</item>
+        <item name="small">Klein</item>
+        <item name="normal">Normaal</item>
+        <item name="big">Groot</item>
+        <item name="huge">Enorm</item>
     </string-array>
     <string-array name="inverted">
-        <item name="no">No</item>
-        <item name="yes">Yes</item>
+        <item name="no">Neen</item>
+        <item name="yes">Ja</item>
     </string-array>
 </resources>
