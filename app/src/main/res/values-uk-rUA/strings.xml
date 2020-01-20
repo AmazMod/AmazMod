@@ -439,9 +439,9 @@
     <string name="widget_location">Місцезнаходження</string>
     <string name="widget_wallet">Гаманець</string>
     <string name="widget_barometer">Барометр</string>
-    <string name="widget_miui_unlock">MIUI Unlock</string>
-    <string name="widget_mi_box_remote">Mi Box Remote</string>
-    <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_main_activity">MainActivity</string>
+    <string name="widget_miui_unlock">Розблокування MIUI</string>
+    <string name="widget_mi_box_remote">Пульт Mi Box</string>
+    <string name="widget_hm_tv">HM ТВ</string>
+    <string name="widget_main_activity">Основна дія</string>
     <!-- Strings used for widget list end -->
 </resources>
