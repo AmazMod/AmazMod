@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -18,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RemoteViews;
+
+import androidx.core.app.NotificationCompat;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
@@ -122,10 +125,10 @@ public class NotificationFactory {
                 notificationData.setIcon(new int[]{});
                 Logger.error("Failed to get bitmap from {} notification", notificationPackage);
             }
-            extractImagesFromNotification(statusBarNotification, notificationData);
+            extractImagesFromNotification(context, statusBarNotification, notificationData);
 
         } else {
-            addMapBitmap(statusBarNotification, notificationData);
+            addMapBitmap(context, statusBarNotification, notificationData);
         }
 
         notificationData.setId(statusBarNotification.getId());
@@ -140,10 +143,10 @@ public class NotificationFactory {
         return notificationData;
     }
 
-    private static void extractImagesFromNotification(StatusBarNotification statusBarNotification, NotificationData notificationData) {
+    private static void extractImagesFromNotification(Context context, StatusBarNotification statusBarNotification, NotificationData notificationData) {
 
         if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_LARGE_ICON, Constants.PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT)) {
-            extractLargeIcon(statusBarNotification, notificationData);
+            extractLargeIcon(context, statusBarNotification, notificationData);
         }
 
         if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_IMAGES, Constants.PREF_NOTIFICATIONS_IMAGES_DEFAULT)) {
@@ -151,22 +154,48 @@ public class NotificationFactory {
         }
     }
 
-    private static void extractLargeIcon(StatusBarNotification statusBarNotification, NotificationData notificationData) {
+    private static void extractLargeIcon(Context context, StatusBarNotification statusBarNotification, NotificationData notificationData) {
         Logger.trace("notification key: {}", statusBarNotification.getKey());
+        Bundle bundle = statusBarNotification.getNotification().extras;
         try {
-            Bundle bundle = statusBarNotification.getNotification().extras;
-            Bitmap largeIcon = (Bitmap) bundle.get(Notification.EXTRA_LARGE_ICON);
-            if (largeIcon != null) {
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                largeIcon.compress(Bitmap.CompressFormat.PNG, 80, stream);
-                byte[] byteArray = stream.toByteArray();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Icon getLargeIcon = bundle.getParcelable(NotificationCompat.EXTRA_LARGE_ICON);
+                Drawable icon;
+                if (getLargeIcon != null) {
+                    icon = getLargeIcon.loadDrawable(context);
+                    Bitmap largeIconNew = Bitmap.createBitmap(icon.getIntrinsicWidth(), icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(largeIconNew);
+                    icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                    icon.draw(canvas);
 
-                notificationData.setLargeIcon(byteArray);
-                notificationData.setLargeIconWidth(largeIcon.getWidth());
-                notificationData.setLargeIconHeight(largeIcon.getHeight());
-                Logger.trace("largeIcon found key: {}", statusBarNotification.getKey());
-            } else
-                Logger.warn("notification key: {} null largeIcon!", statusBarNotification.getKey());
+                    if (largeIconNew.getWidth() > 48) {
+                        largeIconNew = Bitmap.createScaledBitmap(largeIconNew, 48, 48, true);
+                    }
+                    int width = largeIconNew.getWidth();
+                    int height = largeIconNew.getHeight();
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    largeIconNew.compress(Bitmap.CompressFormat.PNG, 80, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    notificationData.setLargeIcon(byteArray);
+                    notificationData.setLargeIconWidth(width);
+                    notificationData.setLargeIconHeight(height);
+                    Logger.trace("api29 largeIcon found key: {}", statusBarNotification.getKey());
+                } else
+                    Logger.warn("api29 notification key: {} null largeIcon!", statusBarNotification.getKey());
+            } else {
+                Bitmap largeIcon = (Bitmap) bundle.get(Notification.EXTRA_LARGE_ICON);
+                if (largeIcon != null) {
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    largeIcon.compress(Bitmap.CompressFormat.PNG, 80, stream);
+                    byte[] byteArray = stream.toByteArray();
+
+                    notificationData.setLargeIcon(byteArray);
+                    notificationData.setLargeIconWidth(largeIcon.getWidth());
+                    notificationData.setLargeIconHeight(largeIcon.getHeight());
+                    Logger.trace("largeIcon found key: {}", statusBarNotification.getKey());
+                } else
+                    Logger.warn("notification key: {} null largeIcon!", statusBarNotification.getKey());
+            }
         } catch (Exception exception) {
             Logger.error(exception, exception.getMessage());
         }
@@ -213,27 +242,50 @@ public class NotificationFactory {
         notificationData.setPictureHeight(bitmap.getHeight());
     }
 
-    private static void addMapBitmap(StatusBarNotification statusBarNotification, NotificationData notificationData) {
+    private static void addMapBitmap(Context context, StatusBarNotification statusBarNotification, NotificationData notificationData) {
         Logger.trace("notification key: {}", statusBarNotification.getKey());
         try {
             Bundle bundle = statusBarNotification.getNotification().extras;
-            Bitmap bitmap = (Bitmap) bundle.get(Notification.EXTRA_LARGE_ICON);
-            if (bitmap != null) {
-                if (bitmap.getWidth() > 48) {
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
-                }
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-                int[] intArray = new int[width * height];
-                bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                Icon getBitmapNew = bundle.getParcelable(NotificationCompat.EXTRA_LARGE_ICON);
+                Drawable icon;
+                if (getBitmapNew != null) {
+                    icon = getBitmapNew.loadDrawable(context);
+                    Bitmap bitmapNew = Bitmap.createBitmap(icon.getIntrinsicWidth(), icon.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bitmapNew);
+                    icon.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                    icon.draw(canvas);
 
-                notificationData.setIcon(intArray);
-                notificationData.setIconWidth(width);
-                notificationData.setIconHeight(height);
+                    if (bitmapNew.getWidth() > 48) {
+                        bitmapNew = Bitmap.createScaledBitmap(bitmapNew, 48, 48, true);
+                    }
+                    int width = bitmapNew.getWidth();
+                    int height = bitmapNew.getHeight();
+                    int[] intArray = new int[width * height];
+                    bitmapNew.getPixels(intArray, 0, width, 0, 0, width, height);
+                    notificationData.setIcon(intArray);
+                    notificationData.setIconWidth(width);
+                    notificationData.setIconHeight(height);
+                    Logger.trace("api29 largeIcon found key: {}", statusBarNotification.getKey());
+                } else
+                    Logger.warn("api29 notification key: {} null largeIcon!", statusBarNotification.getKey());
+            } else {
+                Bitmap bitmap = (Bitmap) bundle.get(Notification.EXTRA_LARGE_ICON);
+                if (bitmap != null) {
+                    if (bitmap.getWidth() > 48) {
+                        bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
+                    }
+                    int width = bitmap.getWidth();
+                    int height = bitmap.getHeight();
+                    int[] intArray = new int[width * height];
+                    bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
-            } else
-                Logger.warn("notification key: {} null largeIcon!", statusBarNotification.getKey());
-
+                    notificationData.setIcon(intArray);
+                    notificationData.setIconWidth(width);
+                    notificationData.setIconHeight(height);
+                } else
+                    Logger.warn("notification key: {} null largeIcon!", statusBarNotification.getKey());
+            }
         } catch (Exception exception) {
             Logger.error(exception, exception.getMessage());
         }
