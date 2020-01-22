@@ -170,6 +170,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private static JobScheduler jobScheduler;
     private static char overlayLauncherPosition;
     private static boolean notificationArrived;
+    private boolean isWeatherData = false;
 
     private static final long BATTERY_SYNC_INTERVAL = 60*60*1000L; //One hour
     private static final int BATTERY_JOB_ID = 0;
@@ -596,6 +597,8 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Weather data
         if (weather_data != null && !weather_data.equals("")) {
+            isWeatherData = true;
+            Logger.debug("weather data is NOT null");
             try {
                 // Check if correct form of JSON
                 JSONObject json_data = new JSONObject(weather_data);
@@ -674,13 +677,19 @@ public class MainService extends Service implements Transporter.DataListener {
 
                 // Update data
                 DeviceUtil.systemPutString(context, "WeatherInfo", system_json_data.toString().replaceAll("\\\\/","/"));
+                settingsManager.putString(Constants.WEATHER_INFO, system_json_data.toString().replaceAll("\\\\/","/"));
                 Logger.debug("Updating phone's data, weather info saved: " + system_json_data.toString().replaceAll("\\\\/","/"));
                 DeviceUtil.systemPutString(context, "WeatherCheckedSummary", system_json_data_short.toString());
+                settingsManager.putString(Constants.WEATHER_CHECKED_SUMMARY, system_json_data_short.toString());
                 Logger.debug("Updating phone's data, weather summary saved: " + system_json_data_short.toString());
             } catch (JSONException e) {
                 //default
                 Logger.error("Updating phone's data, weather error: " + e.toString());
             }
+        }
+        if (weather_data == null){
+            isWeatherData = false;
+            Logger.debug("weather data is null");
         }
 
         // Phone Battery Alert
@@ -1719,10 +1728,19 @@ public class MainService extends Service implements Transporter.DataListener {
                     super.onChange(selfChange);
                     Logger.debug("MainService registerSpringBoardMonitor onChange");
 
-                    if (!wasSpringboardSaved)
+                    if (!wasSpringboardSaved) {
                         // Update widgets list
                         WidgetsUtil.syncWidgets(context);
-                    else
+
+                        //Update custom weather
+                        if(isWeatherData) {
+                            String weatherInfo = settingsManager.getString(Constants.WEATHER_INFO, "");
+                            String weatherCheckedSummary = settingsManager.getString(Constants.WEATHER_CHECKED_SUMMARY, "");
+                            DeviceUtil.systemPutString(context, "WeatherInfo", weatherInfo);
+                            DeviceUtil.systemPutString(context, "WeatherCheckedSummary", weatherCheckedSummary);
+                            Logger.debug("Force update custom weather: " + weatherInfo + "###" + weatherCheckedSummary);
+                        }
+                    } else
                         wasSpringboardSaved = false;
                 }
 

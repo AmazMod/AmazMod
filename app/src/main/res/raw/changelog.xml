@@ -3,7 +3,6 @@
         date="Unreleased"
         versionCode="218"
         versionName="v1.1.9 (218)">
-        <new>Now Service can be translated!</new>
         <new>Add setting to use colored icon for custom UI notification</new>
         <new>Now dark theme will follow system theme setting (beta)</new>
         <new>Watch widgets can now be reordered directly from the phone</new>
@@ -19,6 +18,7 @@
         <new>Ability to override system's current weather forecast (OpenWeatherMap)</new>
         <new>Service now supports translations (language is set based on phone app)</new>
         <new>Translation additions. App is almost fully translatable.</new>
+        <bugfix>Fix some problems with Android 10</bugfix>
         <bugfix>Fix missing Google Assistant notification</bugfix>
         <bugfix>Filemanager and App list now use case insensitive sort order</bugfix>
         <bugfix>Calendar data fixes</bugfix>
