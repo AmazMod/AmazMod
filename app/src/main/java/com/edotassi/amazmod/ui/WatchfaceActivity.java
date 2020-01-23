@@ -285,7 +285,8 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onClick(View v) {
                 // Save new events as last send
                 Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
-
+                Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, watchface_weather_api_input.getText().toString());
+                Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, watchface_weather_city_input.getText().toString());
                 alarmWatchfaceIntent.putExtra("refresh", true);
                 sendBroadcast(alarmWatchfaceIntent);
 
