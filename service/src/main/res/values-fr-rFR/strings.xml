@@ -65,10 +65,10 @@
     <string name="keep_awake_dim_enabled">KeepAwake (Dim): Enabled</string>
     <string name="keep_awake_screen_on_enabled">KeepAwake (ScreenOn): Enabled</string>
     <string name="reloading_apps">Rechargement des applications…</string>
-    <string name="list_saved">List Saved</string>
+    <string name="list_saved">Liste sauvegardée</string>
     <string name="opening">Opening:</string>
-    <string name="hidden">hidden!</string>
-    <string name="screen_settings">Screen Settings</string>
+    <string name="hidden">(masqué)!</string>
+    <string name="screen_settings">Paramètres de l\'écran</string>
     <string name="screen_setting_summary">Changing Font Size will restart watch</string>
     <string name="density">Density:</string>
     <string name="font">Font:</string>
