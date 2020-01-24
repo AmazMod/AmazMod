@@ -439,5 +439,8 @@ seguir el tema de sistema (beta).</string>
     <string name="widget_mi_box_remote">Control Mi Box</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>
+    <string name="notification_replies_confirm_removal">Please, confirm</string>
+    <string name="notification_replies_cancel_removal">Reply Removed</string>
+    <string name="undo">UNDO</string>
     <!-- Strings used for widget list end -->
 </resources>
