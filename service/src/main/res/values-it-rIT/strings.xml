@@ -136,7 +136,7 @@
     <string name="reload_apps">Ricarica app</string>
     <string name="reload_files">Ricarica i file</string>
     <string name="clear_saved">Pulisci Salvati</string>
-    <string name="service_update">Aggiornamento Service</string>
+    <string name="service_update">Aggiornamento \nService</string>
     <string name="file_manager">Gestore File</string>
     <string name="app_manager">Gestore App</string>
     <string name="not_found">non trovato!</string>
