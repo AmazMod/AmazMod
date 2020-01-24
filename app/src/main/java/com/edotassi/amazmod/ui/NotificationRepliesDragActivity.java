@@ -3,6 +3,7 @@ package com.edotassi.amazmod.ui;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.InputType;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.NotificationRepliesAdapter;
 import com.edotassi.amazmod.helpers.DynamicEventsHelper;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.tinylog.Logger;
 
@@ -24,6 +26,8 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private NotificationRepliesAdapter mAdapter;
+
+    private FloatingActionButton fabButton;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -40,6 +44,7 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
 
         ButterKnife.bind(this);
 
+        fabButton = findViewById(R.id.activity_notification_replies_add);
 
         mRecyclerView = findViewById(R.id.activity_notification_replies_list);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -63,6 +68,20 @@ public class NotificationRepliesDragActivity extends BaseAppCompatActivity {
         mAdapter = new NotificationRepliesAdapter(this, androidItemTouchHelper);
         mRecyclerView.setAdapter(mAdapter);
 
+
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)  && recyclerView.canScrollVertically(-1)  && newState==RecyclerView.SCROLL_STATE_IDLE ) {
+                    fabButton.hide();
+                }else{
+                    fabButton.show();
+                }
+            }
+        });
     }
 
     @Override

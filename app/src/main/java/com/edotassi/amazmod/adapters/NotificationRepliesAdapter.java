@@ -100,12 +100,8 @@ public class NotificationRepliesAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public void onItemMove(final int initialPosition, final int finalPosition) {
-
-
         if (initialPosition < mList.size() && finalPosition < mList.size()) {
-
             if (initialPosition < finalPosition) {
-
                 for (int i = initialPosition; i < finalPosition; i++) {
                     Collections.swap(mList, i, i + 1);
                 }
@@ -113,11 +109,8 @@ public class NotificationRepliesAdapter extends RecyclerView.Adapter<RecyclerVie
                 for (int i = initialPosition; i > finalPosition; i--) {
                     Collections.swap(mList, i, i - 1);
                 }
-
             }
-
             notifyItemMoved(initialPosition, finalPosition);
-
         }
 
         new Thread(() -> {
@@ -148,18 +141,21 @@ public class NotificationRepliesAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
     public void removeItem(final int position) {
-        Snackbar.make(mActivity.findViewById(R.id.activity_notification), mActivity.getString(R.string.notification_replies_confirm_removal), 2500)
-                .setAction(mActivity.getString(R.string.remove), new View.OnClickListener() {
+        Reply item = mList.get(position);
+        mList.remove(position);
+        notifyItemRemoved(position);
+        Snackbar.make(mActivity.findViewById(R.id.activity_notification), mActivity.getString(R.string.notification_replies_cancel_removal), 5000)
+                .setAction(mActivity.getString(R.string.undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mList.remove(position);
-                        notifyItemRemoved(position);
+                        mList.add(position, item);
+                        notifyItemInserted(position);
                     }
                 }).addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
             @Override
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 super.onDismissed(transientBottomBar, event);
-                notifyItemChanged(position);
+                //Put here what to do if snackbar is dismissed
             }
         }).show();
     }

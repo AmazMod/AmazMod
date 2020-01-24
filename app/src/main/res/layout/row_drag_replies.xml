@@ -11,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:padding="1dp"
-        android:background="@android:color/background_light"
-        android:elevation="2dp"
+        android:elevation="4dp"
+        android:background="?android:attr/colorBackground"
         android:orientation="horizontal">
 
         <TextView
@@ -38,7 +37,6 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight=".80"
-                android:textColor="@color/colorPrimaryDark"
                 android:gravity="start|center"
                 android:textSize="16sp" />
 
@@ -49,8 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".10"
                 android:contentDescription="@string/button_description"
-                android:src="@drawable/outline_pencil_24"
-                tools:src="@drawable/outline_pencil_24" />
+                android:src="@drawable/outline_pencil_24" />
 
             <ImageButton
                 android:id="@+id/row_replies_delete"
@@ -59,8 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".10"
                 android:contentDescription="@string/button_description"
-                android:src="@drawable/outline_delete_24_black"
-                tools:src="@drawable/outline_delete_24_black" />
+                android:src="@drawable/outline_delete_24"/>
         </LinearLayout>
 
     </LinearLayout>
