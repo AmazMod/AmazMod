@@ -53,6 +53,8 @@ public class Constants {
     public static final String PREF_BATTERY_GRAPH_DAYS = "pref_battery_graph_days";
     public static final String PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER = "pref_amazmod_official_widgets_order";
     public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
+    public static final String WEATHER_INFO = "weather_info";
+    public static final String WEATHER_CHECKED_SUMMARY = "weather_checked_summary";
 
     public static final String CUSTOM_WATCHFACE_DATA = "CustomWatchfaceData";
 

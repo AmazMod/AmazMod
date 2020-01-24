@@ -375,14 +375,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // 5d every 3h forecast URL (OpenWeatherMap)
-        String url ="https://api.openweathermap.org/data/2.5/forecast?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
+        String weekUrl ="https://api.openweathermap.org/data/2.5/forecast?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
         //Logger.debug("WatchfaceDataReceiver get weather data url: "+ url);
+
+        // Call current weather data URL (OpenWeatherMap)
+        String todayUrl ="https://api.openweathermap.org/data/2.5/weather?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
 
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, weekUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -536,66 +539,111 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         // relate weather id to huami's weather code
                                         // https://openweathermap.org/weather-conditions
                                         // TODO relate weather provider's weather ID to huami's weather code better than now
-                                        if ( weather_id < 300 ){
+                                        if ( weather_id < 211 ){
                                             //200	Thunderstorm	thunderstorm with light rain
                                             //201	Thunderstorm	thunderstorm with rain
                                             //202	Thunderstorm	thunderstorm with heavy rain
                                             //210	Thunderstorm	light thunderstorm
+                                            weather_id = 10;
+                                        }else if( weather_id < 300 ){
                                             //211	Thunderstorm	thunderstorm
                                             //212	Thunderstorm	heavy thunderstorm
                                             //221	Thunderstorm	ragged thunderstorm
                                             //230	Thunderstorm	thunderstorm with light drizzle
                                             //231	Thunderstorm	thunderstorm with drizzle
                                             //232	Thunderstorm	thunderstorm with heavy drizzle
-                                            weather_id = 10;
-                                        }else if( weather_id < 400 ){
+                                            weather_id = 6;
+
+                                        }else if( weather_id < 312 ){
                                             //300	Drizzle	light intensity drizzle
                                             //301	Drizzle	drizzle
                                             //302	Drizzle	heavy intensity drizzle
                                             //310	Drizzle	light intensity drizzle rain
                                             //311	Drizzle	drizzle rain
+                                            weather_id = 5;
+                                        }else if( weather_id < 400 ){
                                             //312	Drizzle	heavy intensity drizzle rain
                                             //313	Drizzle	shower rain and drizzle
                                             //314	Drizzle	heavy shower rain and drizzle
                                             //321	Drizzle	shower drizzle
-                                            weather_id = 5;
-                                        }else if( weather_id < 600 ){
+                                            weather_id = 6;
+
+                                        }else if( weather_id < 501 ){
                                             //500	Rain	light rain
+                                            weather_id = 7;
+                                        }else if( weather_id < 502 ){
                                             //501	Rain	moderate rain
+                                            weather_id = 8;
+                                        }else if( weather_id < 504 ){
                                             //502	Rain	heavy intensity rain
                                             //503	Rain	very heavy rain
+                                            weather_id = 9;
+                                        }else if( weather_id < 512 ){
                                             //504	Rain	extreme rain
                                             //511	Rain	freezing rain
+                                            weather_id = 11;
+                                        }else if( weather_id < 522 ){
                                             //520	Rain	light intensity shower rain
                                             //521	Rain	shower rain
+                                            weather_id = 5;
+                                        }else if( weather_id < 532 ){
                                             //522	Rain	heavy intensity shower rain
                                             //531	Rain	ragged shower rain
-                                            weather_id = 8;
-                                        }else if( weather_id < 700 ){
+                                            weather_id = 6;
+
+                                        }else if( weather_id < 601 ){
                                             //600	Snow	light snow
+                                            weather_id = 15;
+                                        }else if( weather_id < 602 ){
                                             //601	Snow	Snow
+                                            weather_id = 16;
+                                        }else if( weather_id < 611 ){
                                             //602	Snow	Heavy snow
+                                            weather_id = 17;
+                                        }else if( weather_id < 612 ){
                                             //611	Snow	Sleet
                                             //612	Snow	Light shower sleet
                                             //613	Snow	Shower sleet
+                                            weather_id = 12;
+                                        }else if( weather_id < 617 ){
                                             //615	Snow	Light rain and snow
                                             //616	Snow	Rain and snow
+                                            weather_id = 13;
+                                        }else if( weather_id < 621 ){
                                             //620	Snow	Light shower snow
+                                            weather_id = 15;
+                                        }else if( weather_id < 622 ){
                                             //621	Snow	Shower snow
-                                            //622	Snow	Heavy shower snow
                                             weather_id = 16;
-                                        }else if( weather_id < 800 ){
+                                        }else if( weather_id < 623 ){
+                                            //622	Snow	Heavy shower snow
+                                            weather_id = 17;
+
+                                        }else if( weather_id < 730 ){
                                             //701	Mist	mist
                                             //711	Smoke	Smoke
                                             //721	Haze	Haze
+                                            weather_id = 4;
+                                        }else if( weather_id < 740 ){
                                             //731	Dust	sand/ dust whirls
+                                            weather_id = 19;
+                                        }else if( weather_id < 750 ){
                                             //741	Fog	fog
+                                            weather_id = 3;
+                                        }else if( weather_id < 760 ){
                                             //751	Sand	sand
+                                            weather_id = 20;
+                                        }else if( weather_id < 762 ){
                                             //761	Dust	dust
+                                            weather_id = 19;
+                                        }else if( weather_id < 780 ){
                                             //762	Ash	volcanic ash
                                             //771	Squall	squalls
+                                            weather_id = 20;
+                                        }else if( weather_id < 800 ){
                                             //781	Tornado	tornado
-                                            weather_id = 3;
+                                            weather_id = 21;
+
                                         }else if( weather_id < 802 ){
                                             //800	Clear	clear sky
                                             //801	Clouds	few clouds: 11-25%
