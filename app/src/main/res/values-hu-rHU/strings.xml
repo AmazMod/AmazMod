@@ -440,8 +440,8 @@ a rendszertéma követése helyett (beta).</string>
     <string name="widget_mi_box_remote">Mi TV Távirányító</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>
-    <string name="notification_replies_confirm_removal">Please, confirm</string>
-    <string name="notification_replies_cancel_removal">Reply Removed</string>
-    <string name="undo">UNDO</string>
+    <string name="notification_replies_confirm_removal">Erősítsd meg</string>
+    <string name="notification_replies_cancel_removal">Válasz eltávolítva</string>
+    <string name="undo">VISSZAVON</string>
     <!-- Strings used for widget list end -->
 </resources>
