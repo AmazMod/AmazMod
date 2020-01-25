@@ -131,13 +131,13 @@
     <string name="title">Název</string>
     <string name="sending">Odesílání</string>
     <string name="hourly_chime">Zvonkohra</string>
-    <string name="refresh">Refresh</string>
-    <string name="clear">Clear</string>
-    <string name="reload_apps">Reload apps</string>
-    <string name="reload_files">Reload files</string>
-    <string name="clear_saved">Clear Saved</string>
-    <string name="service_update">Service Update</string>
-    <string name="file_manager">File Manager</string>
-    <string name="app_manager">App Manager</string>
-    <string name="not_found">not found!</string>
+    <string name="refresh">Obnovit</string>
+    <string name="clear">Vyčistit</string>
+    <string name="reload_apps">Znovu načíst aplikace</string>
+    <string name="reload_files">Znovu načíst soubory</string>
+    <string name="clear_saved">Vymazat uložené</string>
+    <string name="service_update">Aktualizace služby</string>
+    <string name="file_manager">Správce souborů</string>
+    <string name="app_manager">Správce aplikací</string>
+    <string name="not_found">nenalezeno!</string>
 </resources>
