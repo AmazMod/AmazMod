@@ -70,7 +70,7 @@
     <string name="hidden">paslēpts!</string>
     <string name="screen_settings">Ekrāna Iestatījumi</string>
     <string name="screen_setting_summary">Changing Font Size will restart watch</string>
-    <string name="density">Density:</string>
+    <string name="density">Blīvums:</string>
     <string name="font">Font:</string>
     <string name="inverted">Inverted:</string>
     <string name="save">Save</string>
@@ -115,11 +115,11 @@
     <string name="widgets">Widgets</string>
     <string name="clear_saved_order">Clear Saved Order</string>
     <string name="write_settings_permission_required">Write Settings Permission Required!</string>
-    <string name="five_day">5 day(s)</string>
-    <string name="content">Content</string>
-    <string name="button">Button</string>
-    <string name="changing_font_warning">Changing Font Size will restart watch</string>
-    <string name="notification_time">Notification Time</string>
+    <string name="five_day">5 dienas</string>
+    <string name="content">Saturs</string>
+    <string name="button">Poga</string>
+    <string name="changing_font_warning">Nomainot Fonta Lielumu atsāknēs pulksteni</string>
+    <string name="notification_time">Paziņojumu Laiks</string>
     <string name="continuing_in_3sec">Continuing in 3s…</string>
     <string name="user_files">User Files</string>
     <string name="apps">Apps</string>
@@ -137,7 +137,7 @@
     <string name="reload_files">Reload files</string>
     <string name="clear_saved">Clear Saved</string>
     <string name="service_update">Service Update</string>
-    <string name="file_manager">File Manager</string>
-    <string name="app_manager">App Manager</string>
-    <string name="not_found">not found!</string>
+    <string name="file_manager">Failu Pārvaldnieks</string>
+    <string name="app_manager">Lietotņu Pārvaldnieks</string>
+    <string name="not_found">nav atrasts!</string>
 </resources>
