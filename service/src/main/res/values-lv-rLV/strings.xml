@@ -120,10 +120,10 @@
     <string name="button">Poga</string>
     <string name="changing_font_warning">Nomainot Fonta Lielumu atsāknēs pulksteni</string>
     <string name="notification_time">Paziņojumu Laiks</string>
-    <string name="continuing_in_3sec">Continuing in 3s…</string>
-    <string name="user_files">User Files</string>
-    <string name="apps">Apps</string>
-    <string name="five_minutes">5 minutes</string>
+    <string name="continuing_in_3sec">Turpinās pēc 3s...</string>
+    <string name="user_files">Lietotāja Faili</string>
+    <string name="apps">Lietotnes</string>
+    <string name="five_minutes">5 minūtes</string>
     <string name="tap_button_to_cancel">Tap button to cancel</string>
     <string name="list_items">List Items</string>
     <string name="restarting_in_3sec">Restarting in 3s…</string>
