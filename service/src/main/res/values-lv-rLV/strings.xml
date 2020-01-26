@@ -28,15 +28,15 @@
     <string name="phone_connection_alert">Savienojuma paziņojums</string>
     <string name="phone_battery_alert">Tālruņa Baterijas Paziņojums</string>
     <string name="watch_battery_alert">Pulksteņa Baterijas Paziņojums</string>
-    <string name="device_owner">Please enable Device Admin as instructed</string>
+    <string name="device_owner">Lūdzu, iespējojiet ierīces administratoru, kā norādīts</string>
     <!-- Strings used by AdminReceiver start -->
     <string name="device_admin">Ierīces Administrators</string>
-    <string name="device_admin_description">Grant lock screen access</string>
-    <string name="admin_receiver_status">AmazMod Device Admin: %1$s</string>
+    <string name="device_admin_description">Piešķiriet piekļuvi bloķēšanas ekrānam</string>
+    <string name="admin_receiver_status">AmazMod Ierīces Administrators: %1$s</string>
     <string name="enabled">iespējots</string>
     <string name="disabled">atspējots</string>
-    <string name="admin_receiver_status_disable_warning">AmazMod will not be able to lock screen after closing replies.</string>
-    <string name="revoke_device_admin_before_uninstall">Please first revoke \"Device Admin\" before uninstalling AmazMod</string>
+    <string name="admin_receiver_status_disable_warning">Pēc atbilžu aizvēršanas AmazMod nevarēs bloķēt ekrānu.</string>
+    <string name="revoke_device_admin_before_uninstall">Pirms AmazMod atinstalēšanas, vispirms atsauc “Ierīces Administrators\"</string>
     <!-- Strings used by AdminReceiver end -->
     <string name="silence_application">KLUSUMS</string>
     <string name="notifications">Paziņojumi</string>
@@ -44,10 +44,10 @@
     <string name="unknown">Nezināms</string>
     <string name="saved">Saglabāts</string>
     <string name="default_icon"></string>
-    <string name="error_loading">Unable to load springboard pages. Please try opening the Amazfit app on your phone, rearranging and enabling/disabling widget pages in the settings, then tap to reload</string>
-    <string name="tap_to_cancel">TAP TO CANCEL</string>
-    <string name="watch_battery">Watch\'s battery is under %s</string>
-    <string name="phone_battery">Phones\'s battery is under %s</string>
+    <string name="error_loading">Nevar ielādēt springboard lapas. Lūdzu, mēģiniet tālrunī atvērt lietotni Amazfit, pārkārtot un iespējot/atspējot logrīku lapas iestatījumos, pēc tam pieskarieties, lai pārlādētu</string>
+    <string name="tap_to_cancel">PIESPIED, LAI ATCELTU</string>
+    <string name="watch_battery">Pulksteņa akumulators ir zem %s</string>
+    <string name="phone_battery">Tālruņa akumulators ir zem %s</string>
     <string name="wifi_connected_to">Wi-Fi Savienots ar:</string>
     <string name="wifi_connected">Wi-Fi Savienots</string>
     <string name="wifi_disconnected">Wi-Fi Atvienots</string>
@@ -55,9 +55,9 @@
     <string name="false_">nepatiess</string>
     <string name="updated">Atjaunots</string>
     <string name="low_power">zemaUzlāde</string>
-    <string name="restart_needed">Watch will restart to apply changes ;)</string>
+    <string name="restart_needed">Pulkstenis atsāknēsies, lai ieviestu izmaiņas;)</string>
     <string name="something_went_wrong">Kaut kas nogāja greizi</string>
-    <string name="killing_background_process">Killing background processes…</string>
+    <string name="killing_background_process">Apstādina fona procesus…</string>
     <string name="uninstalled_successfully">uninstalled successfully!</string>
     <string name="list_cleared">List Cleared</string>
     <string name="keep_awake_disabled">KeepAwake: Disabled</string>
@@ -135,8 +135,8 @@
     <string name="clear">Notīrīt</string>
     <string name="reload_apps">Pārlādēt Lietotnes</string>
     <string name="reload_files">Pārlādēt Failus</string>
-    <string name="clear_saved">Clear Saved</string>
-    <string name="service_update">Service Update</string>
+    <string name="clear_saved">Notīrīt Saglabāts</string>
+    <string name="service_update">\"Service\" atjaunināšana</string>
     <string name="file_manager">Failu Pārvaldnieks</string>
     <string name="app_manager">Lietotņu Pārvaldnieks</string>
     <string name="not_found">nav atrasts!</string>
