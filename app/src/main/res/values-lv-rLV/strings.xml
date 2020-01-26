@@ -15,11 +15,11 @@
     <string name="brightness">Spilgtums</string>
     <string name="tweaking">Tweaking</string>
     <string name="widgets">Logrīki</string>
-    <string name="watchface">GreatFit / Calendar</string>
-    <string name="stats">Stats</string>
-    <string name="changelog">Changelog</string>
-    <string name="rate_app">Rate App</string>
-    <string name="enable">Enable</string>
+    <string name="watchface">GreatFit / Kalendārs</string>
+    <string name="stats">Statistika</string>
+    <string name="changelog">Izmaiņu žurnāls</string>
+    <string name="rate_app">Novērtēt aplikāciju</string>
+    <string name="enable">Iespējot</string>
     <string name="cancel">Cancel</string>
     <string name="select_unselect_all">Select/Unselect all</string>
     <string name="show_system_apps">Show system apps</string>
