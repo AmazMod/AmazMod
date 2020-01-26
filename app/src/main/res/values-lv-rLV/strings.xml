@@ -24,7 +24,7 @@
     <string name="select_unselect_all">Select/Unselect all</string>
     <string name="show_system_apps">Rādīt sistēmas lietotnes</string>
     <string name="replies">Atbildes</string>
-    <string name="installed_apps">Installed applications</string>
+    <string name="installed_apps">Instalētās Lietotnes</string>
     <string name="last_read">Last read</string>
     <string name="remaining_battery">Remaining battery</string>
     <string name="full_battery_in">Pilnībā uzlādēts pēc</string>
