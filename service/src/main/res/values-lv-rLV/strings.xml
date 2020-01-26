@@ -3,8 +3,8 @@
 <resources>
     <string name="last_charge">Since full charge</string>
     <string name="last_charge_no_info">Waiting for full charge</string>
-    <string name="close">Close</string>
-    <string name="reply">Reply</string>
+    <string name="close">Aizvērt</string>
+    <string name="reply">Atbildēt</string>
     <string name="close_button">Close&#160;&#160;&#160;</string>
     <string name="send_button">&#160;&#160;&#160;Send</string>
     <string name="sending_3sec">Sending in 3s…</string>
@@ -53,7 +53,7 @@
     <string name="wifi_disconnected">Wi-Fi disconnected</string>
     <string name="true_">true</string>
     <string name="false_">false</string>
-    <string name="updated">Updated</string>
+    <string name="updated">Atjaunots</string>
     <string name="low_power">lowPower</string>
     <string name="restart_needed">Watch will restart to apply changes ;)</string>
     <string name="something_went_wrong">Something went wrong</string>
@@ -67,8 +67,8 @@
     <string name="reloading_apps">Reloading Apps…</string>
     <string name="list_saved">List Saved</string>
     <string name="opening">Opening:</string>
-    <string name="hidden">hidden!</string>
-    <string name="screen_settings">Screen Settings</string>
+    <string name="hidden">paslēpts!</string>
+    <string name="screen_settings">Ekrāna Iestatījumi</string>
     <string name="screen_setting_summary">Changing Font Size will restart watch</string>
     <string name="density">Density:</string>
     <string name="font">Font:</string>
@@ -89,20 +89,20 @@
     <string name="proceeding_in_3s">Proceeding in 3s…</string>
     <string name="last_20_values">Last 20 Values [%sd]</string>
     <string name="close_list">[Close List]</string>
-    <string name="battery">Battery</string>
+    <string name="battery">Baterija</string>
     <string name="no_battery_data">No Battery data yet…</string>
     <string name="waiting_battery_data">Waiting for battery data…</string>
-    <string name="fully_charged">Fully Charged</string>
+    <string name="fully_charged">Pilnībā Uzlādēts</string>
     <string name="charged_in">Charged in</string>
-    <string name="remaining">Remaining</string>
+    <string name="remaining">Atlicis</string>
     <string name="amazmod_updated">AmazMod Updated</string>
     <string name="install_finished">Install Finished</string>
     <string name="installing_apk">Installing APK</string>
     <string name="removing">REMOVING</string>
     <string name="muting">MUTING</string>
     <string name="sending_reply">SENDING REPLY</string>
-    <string name="deleted">Deleted</string>
-    <string name="muted">Muted</string>
+    <string name="deleted">Izdzēsts</string>
+    <string name="muted">Apklusināts</string>
     <string name="reply_sent">Reply Sent</string>
     <string name="free_space">Free space</string>
     <string name="no_app_found">No app found to handle</string>
