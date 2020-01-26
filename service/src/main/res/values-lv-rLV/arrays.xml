@@ -7,41 +7,41 @@
         <item name="reorder_widgets">Pārkārtot Logrīkus</item>
         <item name="screen_settings">Ekrāna Iestatījumi</item>
         <item name="battery_graph">Baterijas Diagramma</item>
-        <item name="wifi_toggle">Wi-Fi Toggle</item>
-        <item name="wifi_panel">Wi-Fi Panel</item>
-        <item name="flashlight">Flashlight</item>
-        <item name="qr_code">QR code</item>
-        <item name="clean_memory">Clean Memory</item>
-        <item name="enable_lpm">Enable L.P.M.</item>
-        <item name="revoke_admin">Revoke Device Admin</item>
-        <item name="set_admin">Set Device Admin</item>
-        <item name="restart_launcher">Restart Launcher</item>
+        <item name="wifi_toggle">Wi-Fi Slēdzis</item>
+        <item name="wifi_panel">Wi-Fi Vadība</item>
+        <item name="flashlight">Lukturītis</item>
+        <item name="qr_code">QR kods</item>
+        <item name="clean_memory">Notīrīt atmiņu</item>
+        <item name="enable_lpm">Iespējot L.P.M.</item>
+        <item name="revoke_admin">Atsaukt Ierīces Administratoru</item>
+        <item name="set_admin">Iestatīt Ierīces Administratoru</item>
+        <item name="restart_launcher">Atsāknēt Palaidēju</item>
         <item name="clear_launcher_settings">Clear Launcher Settings</item>
-        <item name="reboot">Reboot</item>
+        <item name="reboot">Atsāknēt</item>
         <item name="enter_fastboot">Enter Fastboot</item>
         <item name="enter_recovery">Enter Recovery</item>
-        <item name="units">Units</item>
+        <item name="units">Vienības</item>
         <item name="disconnect_alert_ios">Disconnect Alert (iOS)</item>
         <item name="away_alert_ios">Away Alert (iOS)</item>
         <item name="notifications_screenon">Notifications ScreenOn</item>
-        <item name="change_input_method">Change Input Method</item>
-        <item name="device_info">Device Info</item>
-        <item name="hourly_chime">Hourly Chime</item>
+        <item name="change_input_method">Mainīt Ievades Metodi</item>
+        <item name="device_info">Ierīces informācija</item>
+        <item name="hourly_chime">Stundas paziņojums</item>
     </string-array>
     <string-array name="densities">
-        <item name="normal">Normal</item>
-        <item name="low">Low</item>
-        <item name="high">High</item>
-        <item name="unknown">Unknown</item>
+        <item name="normal">Normāls</item>
+        <item name="low">Zems</item>
+        <item name="high">Augsts</item>
+        <item name="unknown">Nezināms</item>
     </string-array>
     <string-array name="fontSizes">
-        <item name="small">Small</item>
-        <item name="normal">Normal</item>
-        <item name="big">Big</item>
-        <item name="huge">Huge</item>
+        <item name="small">Mazs</item>
+        <item name="normal">Normāls</item>
+        <item name="big">Liels</item>
+        <item name="huge">Milzīgs</item>
     </string-array>
     <string-array name="inverted">
-        <item name="no">No</item>
-        <item name="yes">Yes</item>
+        <item name="no">Nē</item>
+        <item name="yes">Jā</item>
     </string-array>
 </resources>
