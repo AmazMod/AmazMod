@@ -28,7 +28,7 @@
     <string name="phone_connection_alert">Savienojuma paziņojums</string>
     <string name="phone_battery_alert">Tālruņa Baterijas Paziņojums</string>
     <string name="watch_battery_alert">Pulksteņa Baterijas Paziņojums</string>
-    <string name="device_owner">Lūdzu, iespējojiet ierīces administratoru, kā norādīts</string>
+    <string name="device_owner">Lūdzu, iespējo Ierīces Administratoru, kā norādīts</string>
     <!-- Strings used by AdminReceiver start -->
     <string name="device_admin">Ierīces Administrators</string>
     <string name="device_admin_description">Piešķiriet piekļuvi bloķēšanas ekrānam</string>
@@ -108,7 +108,7 @@
     <string name="no_app_found">Nav lietotnes ar ko rīkoties</string>
     <string name="please_wait_installation">Lūdzu, uzgaidiet, līdz instalēšana tiek pabeigta…</string>
     <string name="error_deleting">Kļūda dzēšot</string>
-    <string name="low_power_mode_warning">Are you sure? Low Power Mode (LPM) disables Bluetooth and touchscreen until the watch is restarted (press and hold power button) or battery goes below 5% and watch is charged again.</string>
+    <string name="low_power_mode_warning">Vai tu esi pārliecināts? Zema enerģijas patēriņa režīms (LPM) atspējo Bluetooth un skārienekrānu, līdz pulkstenis tiek restartēts (nospiediet un turiet barošanas pogu) vai akumulatora uzlādes līmenis ir mazāks par 5%, un pulkstenis tiek uzlādēts no jauna.</string>
     <string name="reload_items">Pārlādēt vienumus</string>
     <string name="clear_all_items">Notīrīt visus vienumus</string>
     <string name="save_order">Saglabāt kārtību</string>
