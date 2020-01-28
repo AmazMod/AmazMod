@@ -92,7 +92,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     private static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
 
     // data parameters
-    int battery, expire;
+    int battery;
+    long expire;
     String alarm, calendar_events, weather_data;
 
     /**
@@ -134,7 +135,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // Set data expiration
-        this.expire = (int) (new Date()).getTime() + 2*Integer.parseInt(context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX)])*60*1000;
+        Date date = new Date();
+        long milliseconds = date.getTime();
+        this.expire = milliseconds + 2*Integer.parseInt(context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_INTERVAL_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX)])*60*1000;
 
         if (intent.getAction() == null) {
             if (!Watch.isInitialized()) {
@@ -167,8 +170,6 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             }
 
             // Save update time in milliseconds
-            Date date = new Date();
-            Long milliseconds = date.getTime();
             Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
         } else {
             // Other actions

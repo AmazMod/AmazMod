@@ -65,7 +65,7 @@ public class AmazModService extends Application {
 
     private void setupLogger() {
         level = "error";
-        if (BuildConfig.VERSION_NAME.toLowerCase().contains("dev"))
+        //if (BuildConfig.VERSION_NAME.toLowerCase().contains("dev"))
             level = "trace";
         //System.out.println("D/AmazMod AmazModService Tinylog configured debug: " + DEBUG + " level: " + level);
         Configuration.set("writerLogcat", "logcat");

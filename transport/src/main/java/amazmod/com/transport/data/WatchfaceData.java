@@ -18,7 +18,8 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public static final String WEATHER_DATA = "weather_data";
 
 
-    private int battery, expire;
+    private int battery;
+    private long expire;
     private String alarm;
     private String calendar_events;
     private String weather_data;
@@ -29,7 +30,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
     protected WatchfaceData(Parcel in) {
         battery = in.readInt();
         alarm = in.readString();
-        expire = in.readInt();
+        expire = in.readLong();
         calendar_events = in.readString();
         weather_data = in.readString();
     }
@@ -51,7 +52,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
         dataBundle.putInt(BATTERY, battery);
         dataBundle.putString(ALARM, alarm);
-        dataBundle.putInt(EXPIRE, expire);
+        dataBundle.putLong(EXPIRE, expire);
         dataBundle.putString(CALENDAR_EVENTS, calendar_events);
         dataBundle.putString(WEATHER_DATA, weather_data);
 
@@ -63,7 +64,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
         settingsData.setBattery(dataBundle.getInt(BATTERY));
         settingsData.setAlarm(dataBundle.getString(ALARM));
-        settingsData.setExpire(dataBundle.getInt(EXPIRE));
+        settingsData.setExpire(dataBundle.getLong(EXPIRE));
         settingsData.setCalendarEvents(dataBundle.getString(CALENDAR_EVENTS));
         settingsData.setWeatherData(dataBundle.getString(WEATHER_DATA));
 
@@ -91,10 +92,10 @@ public class WatchfaceData extends Transportable implements Parcelable {
         this.alarm = data;
     }
 
-    public int getExpire() {
+    public Long getExpire() {
         return expire;
     }
-    public void setExpire(int data) {
+    public void setExpire(Long data) {
         this.expire = data;
     }
 
@@ -121,7 +122,7 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(battery);
         dest.writeString(alarm);
-        dest.writeInt(expire);
+        dest.writeLong(expire);
         dest.writeString(calendar_events);
         dest.writeString(weather_data);
     }
