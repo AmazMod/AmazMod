@@ -89,6 +89,7 @@
     <string name="activity_watchface_send_weather_data">Enviar dados meteorológicos</string>
     <string name="activity_watchface_weather_options">Opções da Meteorologia</string>
     <string name="activity_watchface_send_weather_units">Unidades meteorológicas</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of current temperature</string>
     <string name="activity_watchface_last_time_sent">Última utilização</string>
     <string name="activity_watchface_data_send">Dados foram enviados</string>
     <string name="activity_watchface_send_data_now">Enviar dados agora</string>
