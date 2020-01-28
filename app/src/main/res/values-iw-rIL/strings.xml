@@ -89,6 +89,7 @@
     <string name="activity_watchface_send_weather_data">שליחת נתוני מזג אוויר</string>
     <string name="activity_watchface_weather_options">אפשרויות מזג אוויר</string>
     <string name="activity_watchface_send_weather_units">יחידות מזג אוויר</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of current temperature</string>
     <string name="activity_watchface_last_time_sent">נשלח בפעם האחרונה</string>
     <string name="activity_watchface_data_send">המידע נשלח</string>
     <string name="activity_watchface_send_data_now">שלח עכשיו</string>
