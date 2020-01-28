@@ -89,9 +89,9 @@
     <string name="activity_watchface_send_weather_data">发送天气数据</string>
     <string name="activity_watchface_weather_options">天气选项</string>
     <string name="activity_watchface_send_weather_units">天气单位</string>
-    <string name="activity_watchface_weather_real_feel">显示“体感温度”代替当前气温</string>
+    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
     <string name="activity_watchface_last_time_sent">最后发送时间</string>
-    <string name="activity_watchface_data_send">数据已发送</string>
+    <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">立即发送数据</string>
     <string name="activity_stats_notifications_total">全部</string>
     <string name="activity_stats_notifications_in_the_last_hour">最近一个小时</string>
