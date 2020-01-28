@@ -89,8 +89,9 @@
     <string name="activity_watchface_send_weather_data">Wetterdaten senden</string>
     <string name="activity_watchface_weather_options">Wetter-Optionen</string>
     <string name="activity_watchface_send_weather_units">Wettereinheiten</string>
+    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
     <string name="activity_watchface_last_time_sent">Zuletzt gesendet</string>
-    <string name="activity_watchface_data_send">Bewegungsdaten senden</string>
+    <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Daten jetzt senden</string>
     <string name="activity_stats_notifications_total">Gesamt</string>
     <string name="activity_stats_notifications_in_the_last_hour">In der letzten Stunde</string>
@@ -438,8 +439,8 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="widget_mi_box_remote">Mi Box Fernbedienung</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hauptaktivität</string>
-    <string name="notification_replies_confirm_removal">Please, confirm</string>
-    <string name="notification_replies_cancel_removal">Reply Removed</string>
-    <string name="undo">UNDO</string>
+    <string name="notification_replies_confirm_removal">Bitte bestätigen</string>
+    <string name="notification_replies_cancel_removal">Antwort entfernt</string>
+    <string name="undo">RÜCKGÄNGIG</string>
     <!-- Strings used for widget list end -->
 </resources>

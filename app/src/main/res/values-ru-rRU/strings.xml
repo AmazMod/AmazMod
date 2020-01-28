@@ -89,6 +89,7 @@
     <string name="activity_watchface_send_weather_data">Отправлять данные о погоде</string>
     <string name="activity_watchface_weather_options">Настройки погоды</string>
     <string name="activity_watchface_send_weather_units">Единицы измерения для погоды</string>
+    <string name="activity_watchface_weather_real_feel">"Ощущается как"</string>
     <string name="activity_watchface_last_time_sent">Время последней отправки</string>
     <string name="activity_watchface_data_send">Данные отправлены</string>
     <string name="activity_watchface_send_data_now">Отправить данные сейчас</string>
