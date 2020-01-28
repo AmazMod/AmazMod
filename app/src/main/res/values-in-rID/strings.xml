@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">Kirim data cuaca</string>
     <string name="activity_watchface_weather_options">Pilihan cuaca</string>
     <string name="activity_watchface_send_weather_units">Unit cuaca</string>
-    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of actual temperature</string>
     <string name="activity_watchface_last_time_sent">Terakhir kali dikirim</string>
     <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Mengirim data sekarang</string>
