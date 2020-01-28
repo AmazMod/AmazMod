@@ -89,6 +89,7 @@
     <string name="activity_watchface_send_weather_data">Trimite date meteo</string>
     <string name="activity_watchface_weather_options">Opțiuni meteo</string>
     <string name="activity_watchface_send_weather_units">Unitate meteo</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of current temperature</string>
     <string name="activity_watchface_last_time_sent">Ultima trimitere</string>
     <string name="activity_watchface_data_send">Datele au fost trimite</string>
     <string name="activity_watchface_send_data_now">Trimite data acum</string>
