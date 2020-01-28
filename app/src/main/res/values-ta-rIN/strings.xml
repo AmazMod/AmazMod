@@ -89,6 +89,7 @@
     <string name="activity_watchface_send_weather_data">வானிலை தரவை அனுப்பவும்</string>
     <string name="activity_watchface_weather_options">வானிலை விருப்பங்கள்</string>
     <string name="activity_watchface_send_weather_units">வானிலை அலகுகள்</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of current temperature</string>
     <string name="activity_watchface_last_time_sent">கடைசியாக அனுப்பப்பட்டது</string>
     <string name="activity_watchface_data_send">தரவு அனுப்பப்பட்டது</string>
     <string name="activity_watchface_send_data_now">தரவை இப்போது அனுப்புங்கள்</string>
