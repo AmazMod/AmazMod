@@ -21,27 +21,27 @@
         <item name="enter_fastboot">进入 fastboot 模式</item>
         <item name="enter_recovery">进入recovery模式</item>
         <item name="units">单位</item>
-        <item name="disconnect_alert_ios">Disconnect Alert (iOS)</item>
-        <item name="away_alert_ios">Away Alert (iOS)</item>
-        <item name="notifications_screenon">Notifications ScreenOn</item>
-        <item name="change_input_method">Change Input Method</item>
-        <item name="device_info">Device Info</item>
-        <item name="hourly_chime">Hourly Chime</item>
+        <item name="disconnect_alert_ios">断开连接提醒 (iOS)</item>
+        <item name="away_alert_ios">离线提醒 (iOS)</item>
+        <item name="notifications_screenon">通知屏幕开启</item>
+        <item name="change_input_method">更改输入法</item>
+        <item name="device_info">设备信息</item>
+        <item name="hourly_chime">整点报时</item>
     </string-array>
     <string-array name="densities">
-        <item name="normal">Normal</item>
-        <item name="low">Low</item>
-        <item name="high">High</item>
-        <item name="unknown">Unknown</item>
+        <item name="normal">标准</item>
+        <item name="low">低</item>
+        <item name="high">高</item>
+        <item name="unknown">未知</item>
     </string-array>
     <string-array name="fontSizes">
-        <item name="small">Small</item>
-        <item name="normal">Normal</item>
-        <item name="big">Big</item>
-        <item name="huge">Huge</item>
+        <item name="small">小</item>
+        <item name="normal">标准</item>
+        <item name="big">大</item>
+        <item name="huge">超大</item>
     </string-array>
     <string-array name="inverted">
-        <item name="no">No</item>
-        <item name="yes">Yes</item>
+        <item name="no">否</item>
+        <item name="yes">是</item>
     </string-array>
 </resources>
