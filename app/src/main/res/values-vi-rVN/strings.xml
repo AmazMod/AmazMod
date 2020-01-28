@@ -89,6 +89,7 @@
     <string name="activity_watchface_send_weather_data">Gửi dữ liệu thời tiết</string>
     <string name="activity_watchface_weather_options">Tùy chọn thời tiết</string>
     <string name="activity_watchface_send_weather_units">Đơn vị thời tiết</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of current temperature</string>
     <string name="activity_watchface_last_time_sent">Sử dụng lần cuối</string>
     <string name="activity_watchface_data_send">Dữ liệu đã được gửi</string>
     <string name="activity_watchface_send_data_now">Gửi dữ liệu ngay bây giờ</string>
