@@ -89,9 +89,9 @@
     <string name="activity_watchface_send_weather_data">Brak danych o pogodzie</string>
     <string name="activity_watchface_weather_options">Pokaż opcje pogody</string>
     <string name="activity_watchface_send_weather_units">Jednostki pogodowe</string>
-    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of current temperature</string>
+    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
     <string name="activity_watchface_last_time_sent">Ostatnio wysłane</string>
-    <string name="activity_watchface_data_send">Dane wysłano</string>
+    <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Wyślij nowe dane</string>
     <string name="activity_stats_notifications_total">Łącznie</string>
     <string name="activity_stats_notifications_in_the_last_hour">W ciągu ostatniej godziny</string>
