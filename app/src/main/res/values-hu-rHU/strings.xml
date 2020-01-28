@@ -91,7 +91,7 @@
     <string name="activity_watchface_send_weather_units">Időjárás egységek</string>
     <string name="activity_watchface_weather_real_feel">"Feels like"</string>
     <string name="activity_watchface_last_time_sent">Utoljára küldve</string>
-    <string name="activity_watchface_data_send">Data sent</string>
+    <string name="activity_watchface_data_send">Adat elküldve</string>
     <string name="activity_watchface_send_data_now">Adatküldés most</string>
     <string name="activity_stats_notifications_total">Összesen</string>
     <string name="activity_stats_notifications_in_the_last_hour">Az utóbbi órában</string>
