@@ -69,6 +69,8 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     Spinner send_watchface_data_interval;
     @BindView(R.id.send_watchface_data_calendar_events_days)
     Spinner send_watchface_data_calendar_events_days;
+    @BindView(R.id.weather_real_feel_switch)
+    Switch watchface_weather_real_feel_switch;
     @BindView(R.id.watchface_sync_now_button)
     Button watchface_sync_now_button;
     @BindView(R.id.watchface_last_sync)
@@ -106,6 +108,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     boolean send_on_battery_change;
     boolean send_on_alarm_change;
     boolean send_weather_data;
+    boolean weather_real_feel;
 
     private Context mContext;
     private int initialInterval;
@@ -137,6 +140,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         send_on_alarm_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE);
         send_data_calendar_events_days_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX);
         send_weather_data = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA);
+        weather_real_feel = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL);
 
         //Restore calendar source data from preferences
         String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
@@ -272,6 +276,13 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 // Auto-generated method stub
+            }
+        });
+        // real feel
+        watchface_weather_real_feel_switch.setChecked(weather_real_feel);
+        watchface_weather_real_feel_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, isChecked);
             }
         });
 

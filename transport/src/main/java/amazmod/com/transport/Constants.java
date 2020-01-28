@@ -166,6 +166,7 @@ public class Constants {
     public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_API = "preference.watchface.send.weather.data.api";
     public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_CITY = "preference.watchface.send.weather.data.city";
     public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX = "preference.watchface.send.weather.data.units.index";
+    public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = "preference.watchface.send.weather.data.real.feel";
 
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
@@ -174,6 +175,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA = false;
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = false;
 
     public static final String PREF_CALENDAR_SOURCE_LOCAL = "local";
     public static final String PREF_CALENDAR_SOURCE_ICS = "ics";

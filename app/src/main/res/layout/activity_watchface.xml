@@ -214,7 +214,7 @@
 
                 <EditText
                     android:id="@+id/watchface_ics_url_edittext"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
@@ -265,7 +265,7 @@
             android:id="@+id/watchface_weather_api_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="14dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:ems="10"
@@ -281,7 +281,7 @@
             android:id="@+id/watchface_weather_city_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="14dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:ems="10"
@@ -297,14 +297,25 @@
             android:id="@+id/watchface_weather_units"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="14dp"
             android:layout_marginEnd="8dp"
             android:entries="@array/pref_watchface_weather_units_entries"
             android:prompt="@string/activity_watchface_send_weather_units"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/watchface_weather_city_input" />
+
+        <Switch
+            android:id="@+id/weather_real_feel_switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="@string/activity_watchface_weather_real_feel"
+            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_units" />
 
         <TextView
             android:id="@+id/watchface_last_sync"
@@ -317,7 +328,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="?android:attr/colorForeground"
             android:text="@string/activity_watchface_last_time_sent"
-            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_units"  />
+            app:layout_constraintTop_toBottomOf="@+id/weather_real_feel_switch"  />
 
         <Button
             android:id="@+id/watchface_sync_now_button"

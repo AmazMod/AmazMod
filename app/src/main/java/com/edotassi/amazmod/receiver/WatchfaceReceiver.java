@@ -355,7 +355,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     public void getWeatherData(Context context) {
         Integer units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
         String language = "en"; // TODO add the selected language code here
-        boolean show_feels_like = false; // TODO add in to options "Show read feel instead of current temperature"
+        boolean show_feels_like = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL);
 
         // Get saved API ID
         String appid = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, "-");
