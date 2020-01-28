@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">Pošli údaje o počasí</string>
     <string name="activity_watchface_weather_options">Možnosti počasie</string>
     <string name="activity_watchface_send_weather_units">Jednotky počasia</string>
-    <string name="activity_watchface_weather_real_feel">"Pocitovo"</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of actual temperature</string>
     <string name="activity_watchface_last_time_sent">Čas posledného odoslania</string>
     <string name="activity_watchface_data_send">Odoslané údaje</string>
     <string name="activity_watchface_send_data_now">Odoslať údaje teraz</string>
