@@ -166,11 +166,13 @@ public class MainService extends Service implements Transporter.DataListener {
     private static boolean isStandardAlertEnabled;
     private static boolean isSpringboardObserverEnabled;
     private static boolean wasSpringboardSaved;
+    private static boolean isWeatherObserverEnabled;
+    private static boolean wasWeatherSaved;
+    private static long custom_weather_expire = 0L;
     private static WidgetSettings settings;
     private static JobScheduler jobScheduler;
     private static char overlayLauncherPosition;
     private static boolean notificationArrived;
-    private boolean isWeatherData = false;
 
     private static final long BATTERY_SYNC_INTERVAL = 60*60*1000L; //One hour
     private static final int BATTERY_JOB_ID = 0;
@@ -186,6 +188,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private SlptClockClient slptClockClient;
     private ContentObserver phoneConnectionObserver;
     private ContentObserver springboardObserver;
+    private ContentObserver weatherObserver;
 
     private boolean watchBatteryAlreadyAlerted;
     private boolean phoneBatteryAlreadyAlerted;
@@ -373,6 +376,11 @@ public class MainService extends Service implements Transporter.DataListener {
             registerSpringBoardMonitor(true);
         Logger.debug("MainService isSpringboardObserverEnabled: "+isSpringboardObserverEnabled);
 
+        // Register weather observer
+        isWeatherObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_KEEP_WEATHER, true);
+        if (isWeatherObserverEnabled)
+            registerWeatherMonitor(true);
+
         // Set battery db record JobService if watch never synced with phone
         String defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
         long timeSinceLastBatterySync = System.currentTimeMillis() - settings.get(Constants.PREF_DATE_LAST_BATTERY_SYNC, 0);
@@ -409,6 +417,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Unregister content observers
         registerConnectionMonitor(false);
         registerSpringBoardMonitor(false);
+        registerWeatherMonitor(false);
 
         // Disconnect transporters
         if (transporterGeneral.isTransportServiceConnected()) {
@@ -474,7 +483,7 @@ public class MainService extends Service implements Transporter.DataListener {
             xdrip( db.getString("Data") );
         }
 
-        //Flag used by OverlayLauncher
+        // Flag used by OverlayLauncher
         if (Transport.INCOMING_NOTIFICATION.equals(action) || "add".equals(action))
             notificationArrived = true;
 
@@ -548,9 +557,11 @@ public class MainService extends Service implements Transporter.DataListener {
         WatchfaceData watchfaceData = WatchfaceData.fromDataBundle(watchface.getDataBundle());
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
-        int expire = watchfaceData.getExpire();
+        Long expire = watchfaceData.getExpire();
         String calendarEvents = watchfaceData.getCalendarEvents();
         String weather_data = watchfaceData.getWeatherData();
+
+        // Logs
         Logger.debug("Updating phone's data, battery:" + phoneBattery);
         Logger.debug("Updating phone's data, alarm:" + phoneAlarm);
         Logger.debug("Updating phone's data, expire:" + expire);
@@ -597,8 +608,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Weather data
         if (weather_data != null && !weather_data.equals("")) {
-            isWeatherData = true;
-            Logger.debug("weather data is NOT null");
+
             try {
                 // Check if correct form of JSON
                 JSONObject json_data = new JSONObject(weather_data);
@@ -628,8 +638,10 @@ public class MainService extends Service implements Transporter.DataListener {
                     system_json_data.put("temp", json_data.getString("temp"));
                     system_json_data_short.put("temp", json_data.getString("temp"));
                 }
-                if (json_data.has("weatherCode"))
-                    system_json_data_short.put("weatherCode", json_data.getInt("weatherCode"));
+                if (json_data.has("weatherCode")){
+                    system_json_data.put("weatherCode", json_data.getInt("weatherCode"));
+                    system_json_data_short.put("weatherCodeFrom", json_data.getInt("weatherCode"));
+                }
                 if (json_data.has("forecasts"))
                     system_json_data.put("forecasts", json_data.getJSONArray("forecasts"));
                 if (json_data.has("sd"))
@@ -652,7 +664,6 @@ public class MainService extends Service implements Transporter.DataListener {
                     system_json_data.put("dt", json_data.getInt("dt"));
 
                 // TODO Currently not updated
-                //"weatherCode":3", (in both system variables)
                 // aqi":-1,
                 // "aqiLevel":0,
                 // "pm25":-1,
@@ -682,14 +693,19 @@ public class MainService extends Service implements Transporter.DataListener {
                 DeviceUtil.systemPutString(context, "WeatherCheckedSummary", system_json_data_short.toString());
                 settingsManager.putString(Constants.WEATHER_CHECKED_SUMMARY, system_json_data_short.toString());
                 Logger.debug("Updating phone's data, weather summary saved: " + system_json_data_short.toString());
+                // Save that data have been updated
+                wasWeatherSaved = true;
+                // Save data expiration time (used when saving weather)
+                custom_weather_expire = expire;
             } catch (JSONException e) {
-                //default
+                // default
                 Logger.error("Updating phone's data, weather error: " + e.toString());
+                // Disable weather data update
+                wasWeatherSaved = false;
             }
-        }
-        if (weather_data == null){
-            isWeatherData = false;
-            Logger.debug("weather data is null");
+        }else{
+            // Disable weather data update
+            wasWeatherSaved = false;
         }
 
         // Phone Battery Alert
@@ -904,6 +920,15 @@ public class MainService extends Service implements Transporter.DataListener {
         settings.set(Constants.PREF_AMAZMOD_KEEP_WIDGET, iPCA);
         if (isSpringboardObserverEnabled != iPCA)
             registerSpringBoardMonitor(iPCA);
+
+        //TODO Toggle AmazMod keep weather setting
+        /*
+        iPCA = settingsData.isAmazModKeepWeather();
+        settings.reload();
+        settings.set(Constants.PREF_AMAZMOD_KEEP_WEATHER, iPCA);
+        if (isWeatherObserverEnabled != iPCA)
+            registerWeatherMonitor(iPCA);
+         */
 
         //Toggle OverlayLauncher service
         iPCA = settingsData.isOverlayLauncher();
@@ -1731,15 +1756,6 @@ public class MainService extends Service implements Transporter.DataListener {
                     if (!wasSpringboardSaved) {
                         // Update widgets list
                         WidgetsUtil.syncWidgets(context);
-
-                        //Update custom weather
-                        if(isWeatherData) {
-                            String weatherInfo = settingsManager.getString(Constants.WEATHER_INFO, "");
-                            String weatherCheckedSummary = settingsManager.getString(Constants.WEATHER_CHECKED_SUMMARY, "");
-                            DeviceUtil.systemPutString(context, "WeatherInfo", weatherInfo);
-                            DeviceUtil.systemPutString(context, "WeatherCheckedSummary", weatherCheckedSummary);
-                            Logger.debug("Force update custom weather: " + weatherInfo + "###" + weatherCheckedSummary);
-                        }
                     } else
                         wasSpringboardSaved = false;
                 }
@@ -1763,6 +1779,68 @@ public class MainService extends Service implements Transporter.DataListener {
         }
 
         isSpringboardObserverEnabled = status;
+    }
+
+    // Weather update monitor/register
+    private void registerWeatherMonitor(boolean status) {
+        Logger.debug("MainService registerWeatherMonitor status: " + status);
+
+        // Register
+        if (status) {
+            // Check if defined already
+            if (weatherObserver != null)
+                return;
+
+            // Boolean to avoid self-caused re-run loop (default value here)
+            wasWeatherSaved = false;
+
+            // function that runs when the system variable is changed
+            weatherObserver = new ContentObserver(new Handler()) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    super.onChange(selfChange);
+                    Logger.debug("MainService registerWeatherMonitor onChange");
+
+                    // Check if Amazmod just changed the value
+                    if (!wasWeatherSaved) {
+                        // Update custom weather
+                        String weatherInfo = settingsManager.getString(Constants.WEATHER_INFO, "");
+                        String weatherCheckedSummary = settingsManager.getString(Constants.WEATHER_CHECKED_SUMMARY, "");
+
+                        // Check if data are up-to-date
+                        if(!weatherInfo.isEmpty() && !weatherCheckedSummary.isEmpty() && System.currentTimeMillis()<=custom_weather_expire ){
+                            wasWeatherSaved = true;
+                            // TODO system data need to be updated and not overwrite (in order to keep data that we don't save)
+                            DeviceUtil.systemPutString(context, "WeatherInfo", weatherInfo);
+                            DeviceUtil.systemPutString(context, "WeatherCheckedSummary", weatherCheckedSummary);
+                            Logger.debug("Force update custom weather: " + weatherInfo + "###" + weatherCheckedSummary);
+                        }else{
+                            Logger.debug("Force update custom weather: saved data empty or expired");
+                            //Logger.debug("Force update custom weather, system time:" + System.currentTimeMillis() + ", data expiration:" + custom_weather_expire);
+                        }
+                    } else
+                        wasWeatherSaved = false;
+                }
+
+                @Override
+                public boolean deliverSelfNotifications() {
+                    return true;
+                }
+            };
+
+            // Observe changes in the WeatherInfo system variable
+            ContentResolver contentResolver = getContentResolver();
+            Uri setting = Settings.System.getUriFor("WeatherInfo");
+            contentResolver.registerContentObserver(setting, true, weatherObserver);
+
+            // Unregister
+        } else {
+            if (weatherObserver != null)
+                getContentResolver().unregisterContentObserver(weatherObserver);
+            weatherObserver = null;
+        }
+
+        isWeatherObserverEnabled = status;
     }
 
     private void setOverlayLauncher(boolean status){
