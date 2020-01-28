@@ -89,6 +89,7 @@
     <string name="activity_watchface_send_weather_data">Manar informació del temps</string>
     <string name="activity_watchface_weather_options">Opcions del temps</string>
     <string name="activity_watchface_send_weather_units">Unitats del temps</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of current temperature</string>
     <string name="activity_watchface_last_time_sent">Última vegada enviat</string>
     <string name="activity_watchface_data_send">Les dades es van enviar</string>
     <string name="activity_watchface_send_data_now">Enviar dades ara</string>
