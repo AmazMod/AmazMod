@@ -377,20 +377,39 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         // 5d every 3h forecast URL (OpenWeatherMap)
         String weekUrl ="https://api.openweathermap.org/data/2.5/forecast?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
-        //Logger.debug("WatchfaceDataReceiver get weather data url: "+ url);
-
         // Call current weather data URL (OpenWeatherMap)
         String todayUrl ="https://api.openweathermap.org/data/2.5/weather?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
 
+        // UV API (requires searchType == 0)
+        // String uvUrl ="https://api.openweathermap.org/data/2.5/uvi?"+search+"&appid="+appid;
+
+        // Load update times
+        Date date = new Date();
+        long milliseconds = date.getTime();
+        long last_week_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, 0);
+        Date week_update_date = new Date(last_week_weather_update);
+
+        // Pick API to call
+        String apiUrl;
+        if ( date.getDate() != week_update_date.getDate() || milliseconds-last_week_weather_update > 8*60*60*1000 ){// New day or 8h passed
+            // Update week forecast
+            apiUrl = weekUrl;
+        }else{
+            // Get current weather
+            apiUrl = todayUrl;
+        }
+
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(context);
-
         // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, weekUrl,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, apiUrl,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Logger.debug("WatchfaceDataReceiver weather data: " + response);
+
+                        // Get last last current weather update time
+                        long last_current_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, 0);
 
                         // Extract data
                         try {
@@ -401,7 +420,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // {"coord":{"lon":-0.17,"lat":51.47},
                             // "weather":[{"id":800,"main":"Clear","description":"clear sky","icon":"01n"}],
                             // "base":"stations",
-                            // "main":{"temp":7.89,"pressure":1009,"humidity":87,"temp_min":6.67,"temp_max":9},
+                            // "main":{"temp":3.71,"feels_like":-3.07,"temp_min":3,"temp_max":4,"pressure":1009,"humidity":87,"temp_min":6.67,"temp_max":9},
                             // "visibility":10000,
                             // "wind":{"speed":5.1,"deg":250},
                             // "clouds":{"all":9},
@@ -445,11 +464,12 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // "temp":28, "time":1531292274457, "uv":"Strong",
                             // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
 
-                            // TODO or break them and send it to standard format (like WeatherInfo), this way we can also change provider
+                            // Standard format (WeatherInfo) is send to watch
                             Double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max, speed;
                             Integer weather_id_from, weather_id_to;
                             String pressure, humidity, tempUnit, city, clouds;
                             int weather_id, visibility, sunrise, sunset, deg;
+                            String[] directions = {"N","NE", "E", "SE", "S", "SW", "W", "NW","N/A"};
 
                             tempUnit = (units==0?"K":(units==1?"C":"F"));
                             new_weather_info.put("tempUnitNo",units);
@@ -458,6 +478,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // Get current time
                             Date date = new Date();
 
+                            // Extract forecast data [FORECAST API]
                             if (weather_data.has("list")) {
                                 JSONArray list = weather_data.getJSONArray("list");
 
@@ -479,9 +500,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                     JSONObject item = list.getJSONObject(i); // each saved instance (every 3h)
                                     int tmp_dayofmonth;
                                     if (item.has("dt")) {
-                                        temp_dt = item.getLong("dt"); // pull
+                                        temp_dt = item.getLong("dt")*1000; // pull
                                         //new_weather_info.put("dt",temp_dt); // save
-                                        tmp_dayofmonth = new Date(temp_dt * 1000).getDate();
+                                        tmp_dayofmonth = new Date(temp_dt).getDate();
                                     }else
                                         tmp_dayofmonth = dayofmonth;
 
@@ -520,13 +541,16 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         tmp_temp_max = Double.parseDouble(main.getString("temp_max"));
 
                                         // save
-                                        if ( i == 0 ) {
+                                        if ( i == 0 && temp_dt > last_current_weather_update ) {
                                             new_weather_info.put("tempFormatted", Math.round(temp) + "º" + tempUnit);
                                             new_weather_info.put("temp", (show_feels_like)?Math.round(feels_like):Math.round(temp));
                                             new_weather_info.put("tempMin", Math.round(tmp_temp_min));
                                             new_weather_info.put("tempMax", Math.round(tmp_temp_max));
                                             new_weather_info.put("pressure", pressure);
                                             new_weather_info.put("sd", humidity);
+
+                                            // Update current weather time
+                                            Prefs.putLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, temp_dt);
                                         }
                                     }
 
@@ -535,162 +559,14 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         // pull
                                         JSONArray weather = item.getJSONArray("weather");
                                         JSONObject weather1 = weather.getJSONObject(0);
-                                        weather_id = weather1.getInt("id");
-
-                                        // relate weather id to huami's weather code
-                                        // https://openweathermap.org/weather-conditions
-                                        // TODO relate weather provider's weather ID to huami's weather code better than now
-                                        if ( weather_id < 211 ){
-                                            //200	Thunderstorm	thunderstorm with light rain
-                                            //201	Thunderstorm	thunderstorm with rain
-                                            //202	Thunderstorm	thunderstorm with heavy rain
-                                            //210	Thunderstorm	light thunderstorm
-                                            weather_id = 10;
-                                        }else if( weather_id < 300 ){
-                                            //211	Thunderstorm	thunderstorm
-                                            //212	Thunderstorm	heavy thunderstorm
-                                            //221	Thunderstorm	ragged thunderstorm
-                                            //230	Thunderstorm	thunderstorm with light drizzle
-                                            //231	Thunderstorm	thunderstorm with drizzle
-                                            //232	Thunderstorm	thunderstorm with heavy drizzle
-                                            weather_id = 6;
-
-                                        }else if( weather_id < 312 ){
-                                            //300	Drizzle	light intensity drizzle
-                                            //301	Drizzle	drizzle
-                                            //302	Drizzle	heavy intensity drizzle
-                                            //310	Drizzle	light intensity drizzle rain
-                                            //311	Drizzle	drizzle rain
-                                            weather_id = 5;
-                                        }else if( weather_id < 400 ){
-                                            //312	Drizzle	heavy intensity drizzle rain
-                                            //313	Drizzle	shower rain and drizzle
-                                            //314	Drizzle	heavy shower rain and drizzle
-                                            //321	Drizzle	shower drizzle
-                                            weather_id = 6;
-
-                                        }else if( weather_id < 501 ){
-                                            //500	Rain	light rain
-                                            weather_id = 7;
-                                        }else if( weather_id < 502 ){
-                                            //501	Rain	moderate rain
-                                            weather_id = 8;
-                                        }else if( weather_id < 504 ){
-                                            //502	Rain	heavy intensity rain
-                                            //503	Rain	very heavy rain
-                                            weather_id = 9;
-                                        }else if( weather_id < 512 ){
-                                            //504	Rain	extreme rain
-                                            //511	Rain	freezing rain
-                                            weather_id = 11;
-                                        }else if( weather_id < 522 ){
-                                            //520	Rain	light intensity shower rain
-                                            //521	Rain	shower rain
-                                            weather_id = 5;
-                                        }else if( weather_id < 532 ){
-                                            //522	Rain	heavy intensity shower rain
-                                            //531	Rain	ragged shower rain
-                                            weather_id = 6;
-
-                                        }else if( weather_id < 601 ){
-                                            //600	Snow	light snow
-                                            weather_id = 15;
-                                        }else if( weather_id < 602 ){
-                                            //601	Snow	Snow
-                                            weather_id = 16;
-                                        }else if( weather_id < 611 ){
-                                            //602	Snow	Heavy snow
-                                            weather_id = 17;
-                                        }else if( weather_id < 612 ){
-                                            //611	Snow	Sleet
-                                            //612	Snow	Light shower sleet
-                                            //613	Snow	Shower sleet
-                                            weather_id = 12;
-                                        }else if( weather_id < 617 ){
-                                            //615	Snow	Light rain and snow
-                                            //616	Snow	Rain and snow
-                                            weather_id = 13;
-                                        }else if( weather_id < 621 ){
-                                            //620	Snow	Light shower snow
-                                            weather_id = 15;
-                                        }else if( weather_id < 622 ){
-                                            //621	Snow	Shower snow
-                                            weather_id = 16;
-                                        }else if( weather_id < 623 ){
-                                            //622	Snow	Heavy shower snow
-                                            weather_id = 17;
-
-                                        }else if( weather_id < 730 ){
-                                            //701	Mist	mist
-                                            //711	Smoke	Smoke
-                                            //721	Haze	Haze
-                                            weather_id = 4;
-                                        }else if( weather_id < 740 ){
-                                            //731	Dust	sand/ dust whirls
-                                            weather_id = 19;
-                                        }else if( weather_id < 750 ){
-                                            //741	Fog	fog
-                                            weather_id = 3;
-                                        }else if( weather_id < 760 ){
-                                            //751	Sand	sand
-                                            weather_id = 20;
-                                        }else if( weather_id < 762 ){
-                                            //761	Dust	dust
-                                            weather_id = 19;
-                                        }else if( weather_id < 780 ){
-                                            //762	Ash	volcanic ash
-                                            //771	Squall	squalls
-                                            weather_id = 20;
-                                        }else if( weather_id < 800 ){
-                                            //781	Tornado	tornado
-                                            weather_id = 21;
-
-                                        }else if( weather_id < 802 ){
-                                            //800	Clear	clear sky
-                                            //801	Clouds	few clouds: 11-25%
-                                            weather_id = 0;
-                                        }else if( weather_id < 804 ){
-                                            //802	Clouds	scattered clouds: 25-50%
-                                            //803	Clouds	broken clouds: 51-84%
-                                            weather_id = 1;
-                                        }else if( weather_id < 900 ){
-                                            //804	Clouds	overcast clouds: 85-100%
-                                            weather_id = 2;
-                                        }
-
-                                        // Load weather icons
-                                        /*
-                                        "sunny", //0
-                                        "cloudy", //1
-                                        "overcast", //2
-                                        "fog", //3
-                                        "smog", //4
-                                        "shower", //5
-                                        "thunder_shower", //6
-                                        "light_rain", //7
-                                        "moderate_rain", //8
-                                        "heavy_rain", //9
-                                        "rainstorm", //10
-                                        "torrential_rain", //11
-                                        "sleet", //12
-                                        "freezing_rain", //13
-                                        "hail", //14
-                                        "light_snow", //15
-                                        "moderate_snow", //16
-                                        "heavy_snow", //17
-                                        "snowstorm", //18
-                                        "dust", //19
-                                        "blowing_sand", //20
-                                        "sand_storm", //21
-                                        "unknown" //22
-                                        */
+                                        weather_id = getHuamiWeatherCode(weather1.getInt("id"));
 
                                         // save
                                         if ( i == 0 )
                                             new_weather_info.put("weatherCode",weather_id);
                                     }
 
-                                    if (item.has("clouds") && i == 0 ) {
+                                    if (item.has("clouds") && i == 0 && temp_dt > last_current_weather_update ) {
                                         // pull
                                         JSONObject cloudsObj = item.getJSONObject("clouds");
                                         clouds = cloudsObj.getInt("all")+"%";
@@ -698,13 +574,12 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         new_weather_info.put("clouds",clouds);
                                     }
 
-                                    if (item.has("wind") && i == 0 ) {
+                                    if (item.has("wind") && i == 0 && temp_dt > last_current_weather_update ) {
                                         // pull
                                         JSONObject wind = item.getJSONObject("wind");
                                         speed = Double.parseDouble(wind.getString("speed"))*(units==2?1:3.6); // convert m/s to km/h (x3.6)
                                         deg = wind.getInt("deg");
                                         // save
-                                        String[] directions = {"N","NE", "E", "SE", "S", "SW", "W", "NW","N/A"};
                                         Integer direction_index = (deg + 45/2) / 45;
                                         new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
                                         new_weather_info.put("windDirectionUnit","º");
@@ -753,17 +628,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 // save forecast
                                 new_weather_info.put("forecasts",forecasts);
                             }
-
-                            /*
-                            // Only on current weather API and not in the forecast
-                            if (weather_data.has("visibility")){
-                                // pull
-                                visibility = weather_data.getInt("visibility");
-                                // save
-                                new_weather_info.put("visibility",visibility);
-                            }
-                            */
-
+                            // [FORECAST API]
                             if (weather_data.has("city")) {
                                 JSONObject sys = weather_data.getJSONObject("city");
 
@@ -781,11 +646,99 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 }
                             }
 
+                            // [CURRENT weather API] Only on current weather API and not in the forecast
+                            if (weather_data.has("visibility")){
+                                // Visibility
+                                // pull
+                                visibility = weather_data.getInt("visibility");
+                                // save
+                                new_weather_info.put("visibility",visibility);
+                            }
+                            // [CURRENT weather API]
+                            if (weather_data.has("main")) {
+                                // pull
+                                JSONObject main = weather_data.getJSONObject("main");
+                                temp = Double.parseDouble(main.getString("temp"));
+                                feels_like = Double.parseDouble(main.getString("feels_like"));
+                                pressure = main.getInt("pressure")+"hPa";
+                                humidity = main.getInt("humidity")+"%";
+                                tmp_temp_min = Double.parseDouble(main.getString("temp_min"));
+                                tmp_temp_max = Double.parseDouble(main.getString("temp_max"));
+                                // save
+                                new_weather_info.put("tempFormatted", Math.round(temp) + "º" + tempUnit);
+                                new_weather_info.put("temp", (show_feels_like)?Math.round(feels_like):Math.round(temp));
+                                new_weather_info.put("tempMin", Math.round(tmp_temp_min));
+                                new_weather_info.put("tempMax", Math.round(tmp_temp_max));
+                                new_weather_info.put("pressure", pressure);
+                                new_weather_info.put("sd", humidity);
+                            }
+                            // [CURRENT weather API]
+                            if (weather_data.has("weather")) {
+                                // pull
+                                JSONArray weather = weather_data.getJSONArray("weather");
+                                JSONObject weather1 = weather.getJSONObject(0);
+                                weather_id = getHuamiWeatherCode(weather1.getInt("id"));
+                                // save
+                                new_weather_info.put("weatherCode",weather_id);
+                            }
+                            // [CURRENT weather API]
+                            if (weather_data.has("clouds") ) {
+                                // pull
+                                JSONObject cloudsObj = weather_data.getJSONObject("clouds");
+                                clouds = cloudsObj.getInt("all")+"%";
+                                // save
+                                new_weather_info.put("clouds",clouds);
+                            }
+                            // [CURRENT weather API]
+                            if (weather_data.has("wind") ) {
+                                // pull
+                                JSONObject wind = weather_data.getJSONObject("wind");
+                                speed = Double.parseDouble(wind.getString("speed"))*(units==2?1:3.6); // convert m/s to km/h (x3.6)
+                                deg = wind.getInt("deg");
+                                // save
+                                int direction_index = (deg + 45/2) / 45;
+                                new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
+                                new_weather_info.put("windDirectionUnit","º");
+                                new_weather_info.put("windDirectionValue",deg+"");
+                                new_weather_info.put("windSpeedUnit", (units==2?"m/h":"km/h") );
+                                new_weather_info.put("windSpeedValue",Math.round(speed));
+                                new_weather_info.put("windStrength",Math.round(speed)+(units==2?"m/h":"km/h"));
+                            }
+                            // [CURRENT weather API]
+                            if (weather_data.has("name")){
+                                city = weather_data.getString("name"); // pull
+                                new_weather_info.put("city",city); // save
+                            }
+                            // [CURRENT weather API]
+                            if (weather_data.has("sys")) {
+                                JSONObject sys = weather_data.getJSONObject("sys");
+
+                                if (sys.has("sunrise")) {
+                                    sunrise = sys.getInt("sunrise"); // pull
+                                    new_weather_info.put("sunrise",sunrise); // save
+                                }
+                                if (sys.has("sunset")) {
+                                    sunset = sys.getInt("sunset"); // pull
+                                    new_weather_info.put("sunset", sunset);
+                                }
+                            }
+
                             new_weather_info.put("time", date.getTime() ); // save current time in milliseconds
 
                             // save data to send
                             WatchfaceReceiver.this.weather_data = new_weather_info.toString();
                             Logger.debug("WatchfaceDataReceiver JSON weather data found: "+ WatchfaceReceiver.this.weather_data);
+
+                            // save update time
+                            if (weather_data.has("list")) {
+                                // [FORECAST API]
+                                // Save week weather update time
+                                Prefs.putLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, date.getTime());
+                            }else{
+                                // [CURRENT weather API]
+                                // Save current weather update time
+                                Prefs.putLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, date.getTime());
+                            }
                         }
                         catch (Exception e) {
                             Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
@@ -805,6 +758,154 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
+
+    private int getHuamiWeatherCode(int weather_id) {
+        // Openweathermap icons:
+        // https://openweathermap.org/weather-conditions
+
+        // Huami weather icons:
+        /*
+        "sunny", //0
+        "cloudy", //1
+        "overcast", //2
+        "fog", //3
+        "smog", //4
+        "shower", //5
+        "thunder_shower", //6
+        "light_rain", //7
+        "moderate_rain", //8
+        "heavy_rain", //9
+        "rainstorm", //10
+        "torrential_rain", //11
+        "sleet", //12
+        "freezing_rain", //13
+        "hail", //14
+        "light_snow", //15
+        "moderate_snow", //16
+        "heavy_snow", //17
+        "snowstorm", //18
+        "dust", //19
+        "blowing_sand", //20
+        "sand_storm", //21
+        "unknown" //22
+        */
+
+        // relate weather provider's weather ID to huami's weather code better than now
+        if ( weather_id < 211 ){
+            //200	Thunderstorm	thunderstorm with light rain
+            //201	Thunderstorm	thunderstorm with rain
+            //202	Thunderstorm	thunderstorm with heavy rain
+            //210	Thunderstorm	light thunderstorm
+            return 10;
+        }else if( weather_id < 300 ){
+            //211	Thunderstorm	thunderstorm
+            //212	Thunderstorm	heavy thunderstorm
+            //221	Thunderstorm	ragged thunderstorm
+            //230	Thunderstorm	thunderstorm with light drizzle
+            //231	Thunderstorm	thunderstorm with drizzle
+            //232	Thunderstorm	thunderstorm with heavy drizzle
+            return 6;
+        }else if( weather_id < 312 ){
+            //300	Drizzle	light intensity drizzle
+            //301	Drizzle	drizzle
+            //302	Drizzle	heavy intensity drizzle
+            //310	Drizzle	light intensity drizzle rain
+            //311	Drizzle	drizzle rain
+            return 5;
+        }else if( weather_id < 400 ){
+            //312	Drizzle	heavy intensity drizzle rain
+            //313	Drizzle	shower rain and drizzle
+            //314	Drizzle	heavy shower rain and drizzle
+            //321	Drizzle	shower drizzle
+            return 6;
+        }else if( weather_id < 501 ){
+            //500	Rain	light rain
+            return 7;
+        }else if( weather_id < 502 ){
+            //501	Rain	moderate rain
+            return 8;
+        }else if( weather_id < 504 ){
+            //502	Rain	heavy intensity rain
+            //503	Rain	very heavy rain
+            return 9;
+        }else if( weather_id < 512 ){
+            //504	Rain	extreme rain
+            //511	Rain	freezing rain
+            return 11;
+        }else if( weather_id < 522 ){
+            //520	Rain	light intensity shower rain
+            //521	Rain	shower rain
+            return 5;
+        }else if( weather_id < 532 ){
+            //522	Rain	heavy intensity shower rain
+            //531	Rain	ragged shower rain
+            return 6;
+        }else if( weather_id < 601 ){
+            //600	Snow	light snow
+            return 15;
+        }else if( weather_id < 602 ){
+            //601	Snow	Snow
+            return 16;
+        }else if( weather_id < 611 ){
+            //602	Snow	Heavy snow
+            return 17;
+        }else if( weather_id < 612 ){
+            //611	Snow	Sleet
+            //612	Snow	Light shower sleet
+            //613	Snow	Shower sleet
+            return 12;
+        }else if( weather_id < 617 ){
+            //615	Snow	Light rain and snow
+            //616	Snow	Rain and snow
+            return 13;
+        }else if( weather_id < 621 ){
+            //620	Snow	Light shower snow
+            return 15;
+        }else if( weather_id < 622 ){
+            //621	Snow	Shower snow
+            return 16;
+        }else if( weather_id < 623 ){
+            //622	Snow	Heavy shower snow
+            return 17;
+        }else if( weather_id < 730 ){
+            //701	Mist	mist
+            //711	Smoke	Smoke
+            //721	Haze	Haze
+            return 4;
+        }else if( weather_id < 740 ){
+            //731	Dust	sand/ dust whirls
+            return 19;
+        }else if( weather_id < 750 ){
+            //741	Fog	fog
+            return 3;
+        }else if( weather_id < 760 ){
+            //751	Sand	sand
+            return 20;
+        }else if( weather_id < 762 ){
+            //761	Dust	dust
+            return 19;
+        }else if( weather_id < 780 ){
+            //762	Ash	volcanic ash
+            //771	Squall	squalls
+            return 20;
+        }else if( weather_id < 800 ){
+            //781	Tornado	tornado
+            return 21;
+        }else if( weather_id < 802 ){
+            //800	Clear	clear sky
+            //801	Clouds	few clouds: 11-25%
+            return 0;
+        }else if( weather_id < 804 ){
+            //802	Clouds	scattered clouds: 25-50%
+            //803	Clouds	broken clouds: 51-84%
+            return 1;
+        }else if( weather_id < 900 ){
+            //804	Clouds	overcast clouds: 85-100%
+            return 2;
+        }else{
+            return 22;
+        }
     }
 
     // CALENDAR Instances
