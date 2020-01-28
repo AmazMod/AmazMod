@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">Надіслати дані про погоду</string>
     <string name="activity_watchface_weather_options">Опції погоди</string>
     <string name="activity_watchface_send_weather_units">Одиниці вимірювання для погоди</string>
-    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
+    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of actual temperature</string>
     <string name="activity_watchface_last_time_sent">Час останнього надсилання</string>
     <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Надіслати зараз</string>
