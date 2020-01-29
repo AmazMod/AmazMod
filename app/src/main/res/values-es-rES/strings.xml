@@ -140,8 +140,8 @@
     <string name="pref_notifications_enable_ungroup_summary">Se separarán las notificaciones del mismo remitente
 (Aunque no podrás sincronizarlas).</string>
     <string name="pref_filters">Filtros de notificaciones</string>
-    <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware para control de música</string>
-    <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de musica mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
+    <string name="pref_enable_music_control_with_hardware_button">Habilitar control de música por hardware</string>
+    <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de música mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
     <string name="pref_phone_connect_disconnect_alert">Alerta de Des/Conexión del teléfono</string>
     <string name="pref_phone_connect_disconnect_alert_summary">El reloj vibrará y mostrará el estado de conexión del teléfono cuando se conecte/desconecte.</string>
     <string name="intro_title_1">¡Bienvenido a AmazMod!</string>
@@ -162,10 +162,10 @@
     <string name="pref_notifications_inverted_theme">Tema Claro</string>
     <string name="pref_notifications_inverted_theme_summary">Habilita fondo claro con texto oscuro.</string>
     <string name="pref_font_size">Tamaño de letra</string>
-    <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificacionesn del Ui personalizado.</string>
+    <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificaciones del UI personalizada.</string>
     <string name="notifications_font_size">Tamaño de letra</string>
     <string name="device_not_connected">Ningún dispositivo conectado</string>
-    <string name="device_connected">fue conectado</string>
+    <string name="device_connected">conectado</string>
     <string name="pref_enable_persistent_notification">Notificación persistente</string>
     <string name="pref_enable_persistent_notification_summary">Establece una notificación persistente para evitar que AmazMod sea parado mientras se ejecuta en segundo plano. Habilita esto si Amazmod se para constantemente.</string>
     <string name="pref_enable_persistent_notification_device_settings">Ajustes de notificación persistente</string>
@@ -181,11 +181,11 @@
     <string name="activity_permissions_open_settings">Abrir ajustes de la app</string>
     <string name="enabled">habilitado</string>
     <string name="disabled">deshabilitado</string>
-    <string name="activity_files_extras">Respaldar ajustes</string>
-    <string name="activity_files_backup_title">Respaldar y restaurar</string>
-    <string name="activity_files_permission">Permiso para escribir</string>
-    <string name="activity_files_date_last_backup">Fecha del último respaldo</string>
-    <string name="activity_files_backup">Respaldar</string>
+    <string name="activity_files_extras">Ajustes de copia de seguridad</string>
+    <string name="activity_files_backup_title">Copia de seguridad y Restauración</string>
+    <string name="activity_files_permission">Permiso de escritura</string>
+    <string name="activity_files_date_last_backup">Fecha de la última copia</string>
+    <string name="activity_files_backup">Guardar</string>
     <string name="activity_files_restore">Restaurar</string>
     <string name="never">Nunca</string>
     <string name="activity_files_backup_obs">IMPORTANTE: Copia de seguridad se guarda en almacenamiento interno y se eliminará si se desinstala la aplicación:</string>
@@ -197,12 +197,12 @@
     <string name="activity_files_backup_error">AmazMod no puede escribir archivos, por favor conceda permiso primero.</string>
     <string name="activity_files_backup_downloads">La copia de seguridad se guardó en la carpeta Downloads:</string>
     <string name="activity_files_file_error">¡Error de archivo!</string>
-    <string name="activity_files_backup_ok">Respaldo realizado</string>
-    <string name="activity_files_backup_failed">¡Fallo de respaldo!</string>
+    <string name="activity_files_backup_ok">¡Copia de seguridad hecha!</string>
+    <string name="activity_files_backup_failed">¡Error en la copia de seguridad!</string>
     <string name="activity_files_no_write_permission">Error: ¡Sin permisos de escritura!</string>
     <string name="activity_files_restore_ok">Restauración realizada. Saliendo…</string>
     <string name="activity_files_restore_failed">¡Fallo al restaurar!</string>
-    <string name="activity_files_backup_not_found">¡No se encontró la copia de seguridad!</string>
+    <string name="activity_files_backup_not_found">¡No se encontró ninguna copia de seguridad!</string>
     <string name="pref_disable_standard_notifications">Deshabilitar notificaciones estándar</string>
     <string name="pref_disable_standard_notifications_summary">No se enviarán las notificaciones estándar (stock) al reloj.</string>
     <string name="activity_tweaking_brightness">Ten en cuenta que el Brillo Automático en el reloj debe estar deshabilitado para que funcione</string>
