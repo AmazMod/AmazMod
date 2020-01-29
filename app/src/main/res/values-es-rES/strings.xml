@@ -3,7 +3,7 @@
 <resources>
     <string name="settings">Ajustes</string>
     <string name="notifications">Notificación enviada</string>
-    <string name="notifications_options">Opciones de notificación</string>
+    <string name="notifications_options">Opciones de notificaciones</string>
     <string name="charts">Gráficas</string>
     <string name="customui">Opciones de notificaciones de interfaz de usuario personalizada</string>
     <string name="others">Otros</string>
@@ -15,7 +15,7 @@
     <string name="brightness">Brillo</string>
     <string name="tweaking">Mejoras</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">GreatFit / Calendario</string>
+    <string name="watchface">GreatFit/Calendario</string>
     <string name="stats">Estadísticas</string>
     <string name="changelog">Historial de cambios</string>
     <string name="rate_app">Puntúa la App</string>
@@ -34,12 +34,12 @@
     <string name="download">Descargar</string>
     <string name="deleting">Eliminando</string>
     <string name="cant_delete_file">No se ha podido eliminar el archivo</string>
-    <string name="add_new_reply">Añadir respuesta</string>
+    <string name="add_new_reply">Añadir una nueva respuesta</string>
     <string name="enter_the_text_you_want_as_an_answer">Escribe la respuesta deseada</string>
     <string name="file_not_exists">El archivo no existe</string>
-    <string name="cant_uplaod_directory">No se puede cargar el directorio</string>
+    <string name="cant_uplaod_directory">No se puede cargar la carpeta</string>
     <string name="sending">Enviando</string>
-    <string name="wait">Por favor, espere</string>
+    <string name="wait">Espera, por favor</string>
     <string name="file_choose_title">Elige uno o más archivos</string>
     <string name="cant_upload_file">No se ha podido cargar el archivo</string>
     <string name="cant_download_file">No se ha podido descargar el archivo</string>
@@ -89,9 +89,9 @@
     <string name="activity_watchface_send_weather_data">Enviar datos del clima</string>
     <string name="activity_watchface_weather_options">Opciones del clima</string>
     <string name="activity_watchface_send_weather_units">Unidades del clima</string>
-    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
-    <string name="activity_watchface_last_time_sent">Último envio</string>
-    <string name="activity_watchface_data_send">Data sent</string>
+    <string name="activity_watchface_weather_real_feel">Mostrar \"sensación real\" en vez de \"temperatura actual\"</string>
+    <string name="activity_watchface_last_time_sent">Último envío</string>
+    <string name="activity_watchface_data_send">Datos enviados</string>
     <string name="activity_watchface_send_data_now">Enviar los datos ahora</string>
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Durante la última hora</string>
@@ -110,14 +110,14 @@
     <string name="pref_battery_phone_alert_summary">Establece el nivel de batería del teléfono en el cual quieres recibir una alerta. Deberás activar la opción \"Enviar datos del teléfono\" en GreatFit/Calendario.</string>
     <string name="pref_notifications_replies_summary">Añade respuestas personalizadas.</string>
     <string name="pref_notifications_replies">Notificación para respuesta</string>
-    <string name="pref_private_notifications_summary">El contenido de la notificación se ocultará (y también el panel de respuestas).</string>
+    <string name="pref_private_notifications_summary">El contenido de las notificaciones se ocultará (y también el panel de respuestas).</string>
     <string name="pref_private_notifications">Contenido de notificación privado</string>
-    <string name="pref_enable_notifications_when_screen_on_summary">Enviar notificaciones al reloj con pantalla encendida.</string>
-    <string name="pref_enable_notifications_when_screen_on">Enviar cuando la pantalla está activada</string>
+    <string name="pref_enable_notifications_when_screen_on_summary">Enviar notificaciones al reloj, cuando la pantalla esté encendida.</string>
+    <string name="pref_enable_notifications_when_screen_on">Enviar cuando la pantalla esté encendida</string>
     <string name="pref_notifications_enable_custom_ui">Notificaciones de UI Personalizadas</string>
-    <string name="pref_notifications_enable_custom_ui_summary">Notificaciones con la capacidad de responder.</string>
+    <string name="pref_notifications_enable_custom_ui_summary">Notificaciones con opción de respuesta.</string>
     <string name="pref_enable_maps_notification">Notificaciones de mapas</string>
-    <string name="pref_enable_maps_notification_summary">Habilita notificaciones de Google Maps.</string>
+    <string name="pref_enable_maps_notification_summary">Habilitar notificaciones de Google Maps.</string>
     <string name="pref_notification_enable_sound">Sonido de notificaciones</string>
     <string name="pref_notification_enable_sound_summary">Habilita sonido de notificaciones para las notificaciones con UI personalizada. Para usar un sonido personalizado, copia tu mp3 con el nombre \"amazmod_notification.mp3\" en la carpeta \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Presentación de Bienvenida</string>
@@ -140,8 +140,8 @@
     <string name="pref_notifications_enable_ungroup_summary">Se separarán las notificaciones del mismo remitente
 (Aunque no podrás sincronizarlas).</string>
     <string name="pref_filters">Filtros de notificaciones</string>
-    <string name="pref_enable_music_control_with_hardware_button">Habilitar hardware para control de música</string>
-    <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de musica mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
+    <string name="pref_enable_music_control_with_hardware_button">Habilitar control de música por hardware</string>
+    <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de música mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
     <string name="pref_phone_connect_disconnect_alert">Alerta de Des/Conexión del teléfono</string>
     <string name="pref_phone_connect_disconnect_alert_summary">El reloj vibrará y mostrará el estado de conexión del teléfono cuando se conecte/desconecte.</string>
     <string name="intro_title_1">¡Bienvenido a AmazMod!</string>
@@ -162,10 +162,10 @@
     <string name="pref_notifications_inverted_theme">Tema Claro</string>
     <string name="pref_notifications_inverted_theme_summary">Habilita fondo claro con texto oscuro.</string>
     <string name="pref_font_size">Tamaño de letra</string>
-    <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificacionesn del Ui personalizado.</string>
+    <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificaciones del UI personalizada.</string>
     <string name="notifications_font_size">Tamaño de letra</string>
     <string name="device_not_connected">Ningún dispositivo conectado</string>
-    <string name="device_connected">fue conectado</string>
+    <string name="device_connected">conectado</string>
     <string name="pref_enable_persistent_notification">Notificación persistente</string>
     <string name="pref_enable_persistent_notification_summary">Establece una notificación persistente para evitar que AmazMod sea parado mientras se ejecuta en segundo plano. Habilita esto si Amazmod se para constantemente.</string>
     <string name="pref_enable_persistent_notification_device_settings">Ajustes de notificación persistente</string>
@@ -181,11 +181,11 @@
     <string name="activity_permissions_open_settings">Abrir ajustes de la app</string>
     <string name="enabled">habilitado</string>
     <string name="disabled">deshabilitado</string>
-    <string name="activity_files_extras">Respaldar ajustes</string>
-    <string name="activity_files_backup_title">Respaldar y restaurar</string>
-    <string name="activity_files_permission">Permiso para escribir</string>
-    <string name="activity_files_date_last_backup">Fecha del último respaldo</string>
-    <string name="activity_files_backup">Respaldar</string>
+    <string name="activity_files_extras">Ajustes de copia de seguridad</string>
+    <string name="activity_files_backup_title">Copia de seguridad y Restauración</string>
+    <string name="activity_files_permission">Permiso de escritura</string>
+    <string name="activity_files_date_last_backup">Fecha de la última copia</string>
+    <string name="activity_files_backup">Guardar</string>
     <string name="activity_files_restore">Restaurar</string>
     <string name="never">Nunca</string>
     <string name="activity_files_backup_obs">IMPORTANTE: Copia de seguridad se guarda en almacenamiento interno y se eliminará si se desinstala la aplicación:</string>
@@ -197,12 +197,12 @@
     <string name="activity_files_backup_error">AmazMod no puede escribir archivos, por favor conceda permiso primero.</string>
     <string name="activity_files_backup_downloads">La copia de seguridad se guardó en la carpeta Downloads:</string>
     <string name="activity_files_file_error">¡Error de archivo!</string>
-    <string name="activity_files_backup_ok">Respaldo realizado</string>
-    <string name="activity_files_backup_failed">¡Fallo de respaldo!</string>
+    <string name="activity_files_backup_ok">¡Copia de seguridad hecha!</string>
+    <string name="activity_files_backup_failed">¡Error en la copia de seguridad!</string>
     <string name="activity_files_no_write_permission">Error: ¡Sin permisos de escritura!</string>
     <string name="activity_files_restore_ok">Restauración realizada. Saliendo…</string>
     <string name="activity_files_restore_failed">¡Fallo al restaurar!</string>
-    <string name="activity_files_backup_not_found">¡No se encontró la copia de seguridad!</string>
+    <string name="activity_files_backup_not_found">¡No se encontró ninguna copia de seguridad!</string>
     <string name="pref_disable_standard_notifications">Deshabilitar notificaciones estándar</string>
     <string name="pref_disable_standard_notifications_summary">No se enviarán las notificaciones estándar (stock) al reloj.</string>
     <string name="activity_tweaking_brightness">Ten en cuenta que el Brillo Automático en el reloj debe estar deshabilitado para que funcione</string>
@@ -226,7 +226,7 @@
     <string name="execute_shell_command">Ejecutar un comando shell</string>
     <string name="run">Ejecutar</string>
     <string name="shell_command_sent">Comando enviado</string>
-    <string name="adb_clear_command_sent">Limpiando todos los procesos ADB</string>
+    <string name="adb_clear_command_sent">Cerrando todos los procesos ADB</string>
     <string name="cant_send_shell_command">No se puede enviar el comando</string>
     <string name="install">Instalar</string>
     <string name="apk_install_started_title">Instalar APK</string>
@@ -234,8 +234,8 @@
     <string name="cant_start_apk_install">No se puede instalar la apk</string>
     <string name="reboot">Reiniciar</string>
     <string name="restart_launcher">Reiniciar el Launcher</string>
-    <string name="enable_apps_list">Habilitar la lista de aplicaciones</string>
-    <string name="disable_apps_list">Deshabilitar la lista de aplicaciones</string>
+    <string name="enable_apps_list">Activar Applist</string>
+    <string name="disable_apps_list">Desactivar Applist</string>
     <string name="no_service_info_1">No se pudo conectar con el Servicio de AmazMod en el reloj. Si todavía no has instalado el Servicio, sigue las siguientes instrucciones:</string>
     <string name="no_service_info_2">1) Descarga la última versión aquí:</string>
     <string name="no_service_info_3">2) Instala la apk del Servicio en el reloj</string>
@@ -244,7 +244,7 @@
     <string name="revoke_admin">Revocar privilegios de aministrador</string>
     <string name="enable_lpm_content">Esta función es todavía experimental, una vez habilitado, para desactivarlo, tienes que reiniciar el reloj</string>
     <string name="continue_label">Continuar</string>
-    <string name="pref_file_extras">Respaldar y restaurar ajustes</string>
+    <string name="pref_file_extras">Ajustes de copia de seguridad</string>
     <string name="pref_file_extras_summary">Copia de seguridad de los ajustes de AmazMod.</string>
     <string name="reboot_bootloader">Entrar en fastboot</string>
     <string name="set_admin">Habilitar admin</string>
@@ -257,7 +257,7 @@
     <string name="privacy_policy">Política de Privacidad</string>
     <string name="cant_check_service_updates">No se puede comprobar las actualizaciones de service.apk</string>
     <string name="new_update_available">¡Nueva actualización disponible!</string>
-    <string name="new_service_update_available">Disponible la versión %s del servicio de AmazMod</string>
+    <string name="new_service_update_available">Disponible la versión %s del Servicio de AmazMod</string>
     <string name="update">Actualizar</string>
     <string name="download_in_progress">Descarga en curso</string>
     <string name="download_failed">Error de descarga</string>
@@ -273,12 +273,12 @@
     <string name="view_files">Ver</string>
     <string name="delete_all">Borrar todo</string>
     <string name="pref_enable_update_notification">Notificación de actualización</string>
-    <string name="pref_enable_update_notification_summary">Obtener una notificación cuando haya una nueva versión del servicio de Amazmod para el reloj.</string>
+    <string name="pref_enable_update_notification_summary">Obtener una notificación cuando haya una nueva versión del Servicio de Amazmod para el reloj.</string>
     <string name="extract">Extraer</string>
     <string name="compress">Comprimir</string>
     <string name="delete_folder_and_contents">\"%1$s\" es una carpeta. ¿Quieres borrarla así como todo su contenido de forma recursiva?</string>
     <string name="screenshot">Captura de pantalla</string>
-    <string name="clear_adb">Limpiar ADB</string>
+    <string name="clear_adb">Cerrar ADB</string>
     <string name="pref_notifications_enable_delay">Retardo de respuesta</string>
     <string name="pref_notifications_enable_delay_summary">Retraso de la cuenta antes de enviar una respuesta.</string>
     <string name="file_uploader">Cargador de archivos</string>
@@ -440,8 +440,8 @@ seguir el tema de sistema (beta).</string>
     <string name="widget_mi_box_remote">Control Mi Box</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>
-    <string name="notification_replies_confirm_removal">Please, confirm</string>
-    <string name="notification_replies_cancel_removal">Reply Removed</string>
-    <string name="undo">UNDO</string>
+    <string name="notification_replies_confirm_removal">Confirma, por favor</string>
+    <string name="notification_replies_cancel_removal">Respuesta eliminada</string>
+    <string name="undo">DESHACER</string>
     <!-- Strings used for widget list end -->
 </resources>

@@ -5,7 +5,7 @@
         <item name="app_manager">מנהל ישומים</item>
         <item name="files_manager">סייר קבצים</item>
         <item name="reorder_widgets">סידור הוויג\'טים</item>
-        <item name="screen_settings">Screen הגדרות</item>
+        <item name="screen_settings">הגדרות תצוגה</item>
         <item name="battery_graph">גרף סוללה</item>
         <item name="wifi_toggle">מתג הWifi</item>
         <item name="wifi_panel">לוח בקרת Wifi</item>

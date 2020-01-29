@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">Send weather data</string>
     <string name="activity_watchface_weather_options">Weather options</string>
     <string name="activity_watchface_send_weather_units">Hava durumu birimi</string>
-    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
+    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
     <string name="activity_watchface_last_time_sent">En son gönderme</string>
     <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Verileri şimdi gönder</string>

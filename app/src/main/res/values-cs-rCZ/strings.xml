@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">Odeslat údaje o počasí</string>
     <string name="activity_watchface_weather_options">Možnosti počasí</string>
     <string name="activity_watchface_send_weather_units">Jednotky počasí</string>
-    <string name="activity_watchface_weather_real_feel">"Feels like"</string>
+    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
     <string name="activity_watchface_last_time_sent">Poslední odeslání</string>
     <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Odeslat data</string>
