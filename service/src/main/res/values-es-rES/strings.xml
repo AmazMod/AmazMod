@@ -6,9 +6,9 @@
     <string name="close">Cerrar</string>
     <string name="reply">Responder</string>
     <string name="close_button">Cerrar&#160;&#160;&#160;</string>
-    <string name="send_button">&#160;&#160;&#160;Enviado</string>
+    <string name="send_button">Enviar&#160;&#160;&#160;</string>
     <string name="sending_3sec">Enviando en 3s…</string>
-    <string name="hint">Escriba aquí la respuesta</string>
+    <string name="hint">Escribe aquí la respuesta</string>
     <string name="load_apps">Cargar Apps</string>
     <string name="hint_apps">Toca el botón para mostrar las apps instaladas</string>
     <string name="hint_type">Escribe aquí</string>
