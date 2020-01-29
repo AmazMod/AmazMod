@@ -89,9 +89,9 @@
     <string name="activity_watchface_send_weather_data">发送天气数据</string>
     <string name="activity_watchface_weather_options">天气选项</string>
     <string name="activity_watchface_send_weather_units">天气单位</string>
-    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of actual temperature</string>
+    <string name="activity_watchface_weather_real_feel">显示“体感温度”代替实际气温</string>
     <string name="activity_watchface_last_time_sent">最后发送时间</string>
-    <string name="activity_watchface_data_send">Data sent</string>
+    <string name="activity_watchface_data_send">数据已发送</string>
     <string name="activity_watchface_send_data_now">立即发送数据</string>
     <string name="activity_stats_notifications_total">全部</string>
     <string name="activity_stats_notifications_in_the_last_hour">最近一个小时</string>
@@ -434,7 +434,7 @@
     <string name="widget_barometer">气压计</string>
     <string name="widget_miui_unlock">MIUI 解锁</string>
     <string name="widget_mi_box_remote">小米盒子遥控</string>
-    <string name="widget_hm_tv">HM TV</string>
+    <string name="widget_hm_tv">华米TV</string>
     <string name="widget_main_activity">主要活动</string>
     <string name="notification_replies_confirm_removal">请确认</string>
     <string name="notification_replies_cancel_removal">回复已删除</string>
