@@ -86,8 +86,8 @@
     <string name="sleep_time">休眠时间：</string>
     <string name="free_ram">剩余内存空间：</string>
     <string name="not_connected">未连接</string>
-    <string name="proceeding_in_3s">Proceeding in 3s…</string>
-    <string name="last_20_values">Last 20 Values [%sd]</string>
+    <string name="proceeding_in_3s">3秒内进行...</string>
+    <string name="last_20_values">最近20个值 [%sd]</string>
     <string name="close_list">[Close List]</string>
     <string name="battery">Battery</string>
     <string name="no_battery_data">No Battery data yet…</string>
