@@ -226,7 +226,7 @@
     <string name="execute_shell_command">Ejecutar un comando shell</string>
     <string name="run">Ejecutar</string>
     <string name="shell_command_sent">Comando enviado</string>
-    <string name="adb_clear_command_sent">Limpiando todos los procesos ADB</string>
+    <string name="adb_clear_command_sent">Cerrando todos los procesos ADB</string>
     <string name="cant_send_shell_command">No se puede enviar el comando</string>
     <string name="install">Instalar</string>
     <string name="apk_install_started_title">Instalar APK</string>
@@ -234,8 +234,8 @@
     <string name="cant_start_apk_install">No se puede instalar la apk</string>
     <string name="reboot">Reiniciar</string>
     <string name="restart_launcher">Reiniciar el Launcher</string>
-    <string name="enable_apps_list">Habilitar la lista de aplicaciones</string>
-    <string name="disable_apps_list">Deshabilitar la lista de aplicaciones</string>
+    <string name="enable_apps_list">Activar Applist</string>
+    <string name="disable_apps_list">Desactivar Applist</string>
     <string name="no_service_info_1">No se pudo conectar con el Servicio de AmazMod en el reloj. Si todavía no has instalado el Servicio, sigue las siguientes instrucciones:</string>
     <string name="no_service_info_2">1) Descarga la última versión aquí:</string>
     <string name="no_service_info_3">2) Instala la apk del Servicio en el reloj</string>
@@ -244,7 +244,7 @@
     <string name="revoke_admin">Revocar privilegios de aministrador</string>
     <string name="enable_lpm_content">Esta función es todavía experimental, una vez habilitado, para desactivarlo, tienes que reiniciar el reloj</string>
     <string name="continue_label">Continuar</string>
-    <string name="pref_file_extras">Respaldar y restaurar ajustes</string>
+    <string name="pref_file_extras">Ajustes de copia de seguridad</string>
     <string name="pref_file_extras_summary">Copia de seguridad de los ajustes de AmazMod.</string>
     <string name="reboot_bootloader">Entrar en fastboot</string>
     <string name="set_admin">Habilitar admin</string>
@@ -257,7 +257,7 @@
     <string name="privacy_policy">Política de Privacidad</string>
     <string name="cant_check_service_updates">No se puede comprobar las actualizaciones de service.apk</string>
     <string name="new_update_available">¡Nueva actualización disponible!</string>
-    <string name="new_service_update_available">Disponible la versión %s del servicio de AmazMod</string>
+    <string name="new_service_update_available">Disponible la versión %s del Servicio de AmazMod</string>
     <string name="update">Actualizar</string>
     <string name="download_in_progress">Descarga en curso</string>
     <string name="download_failed">Error de descarga</string>
@@ -273,12 +273,12 @@
     <string name="view_files">Ver</string>
     <string name="delete_all">Borrar todo</string>
     <string name="pref_enable_update_notification">Notificación de actualización</string>
-    <string name="pref_enable_update_notification_summary">Obtener una notificación cuando haya una nueva versión del servicio de Amazmod para el reloj.</string>
+    <string name="pref_enable_update_notification_summary">Obtener una notificación cuando haya una nueva versión del Servicio de Amazmod para el reloj.</string>
     <string name="extract">Extraer</string>
     <string name="compress">Comprimir</string>
     <string name="delete_folder_and_contents">\"%1$s\" es una carpeta. ¿Quieres borrarla así como todo su contenido de forma recursiva?</string>
     <string name="screenshot">Captura de pantalla</string>
-    <string name="clear_adb">Limpiar ADB</string>
+    <string name="clear_adb">Cerrar ADB</string>
     <string name="pref_notifications_enable_delay">Retardo de respuesta</string>
     <string name="pref_notifications_enable_delay_summary">Retraso de la cuenta antes de enviar una respuesta.</string>
     <string name="file_uploader">Cargador de archivos</string>
