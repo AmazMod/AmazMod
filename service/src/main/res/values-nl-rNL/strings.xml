@@ -26,19 +26,19 @@
     <string name="phone_disconnected">Telefoonverbinding verbroken</string>
     <string name="phone_connected">Telefoon verbonden</string>
     <string name="phone_connection_alert">Verbindingsalarm</string>
-    <string name="phone_battery_alert">Phone Battery Alert</string>
-    <string name="watch_battery_alert">Watch Battery Alert</string>
+    <string name="phone_battery_alert">Batterij alarm</string>
+    <string name="watch_battery_alert">Batterij alarm</string>
     <string name="device_owner">Please enable Device Admin as instructed</string>
     <!-- Strings used by AdminReceiver start -->
     <string name="device_admin">Apparaat Admin</string>
     <string name="device_admin_description">Grant lock screen access</string>
-    <string name="admin_receiver_status">AmazMod Device Admin: %1$s</string>
+    <string name="admin_receiver_status">AmazMod Apparaatbeheerder: %1$s</string>
     <string name="enabled">ingeschakeld</string>
     <string name="disabled">uitgeschakeld</string>
     <string name="admin_receiver_status_disable_warning">AmazMod will not be able to lock screen after closing replies.</string>
     <string name="revoke_device_admin_before_uninstall">Please first revoke \"Device Admin\" before uninstalling AmazMod</string>
     <!-- Strings used by AdminReceiver end -->
-    <string name="silence_application">MUTE</string>
+    <string name="silence_application">DEMPEN</string>
     <string name="notifications">Meldingen</string>
     <string name="clear_notifications">Alles wissen</string>
     <string name="unknown">Onbekend</string>
@@ -48,15 +48,15 @@
     <string name="tap_to_cancel">KLIK OM TE ANNULEREN</string>
     <string name="watch_battery">Watch\'s battery is under %s</string>
     <string name="phone_battery">Phones\'s battery is under %s</string>
-    <string name="wifi_connected_to">Wi-Fi Connected to:</string>
-    <string name="wifi_connected">Wi-Fi connected</string>
-    <string name="wifi_disconnected">Wi-Fi disconnected</string>
+    <string name="wifi_connected_to">Wi-Fi verbonden met:</string>
+    <string name="wifi_connected">Wi-Fi verbonden</string>
+    <string name="wifi_disconnected">Wi-Fi verbroken</string>
     <string name="true_">waar</string>
     <string name="false_">onwaar</string>
     <string name="updated">Bijgewerkt</string>
     <string name="low_power">lowPower</string>
     <string name="restart_needed">Watch will restart to apply changes ;)</string>
-    <string name="something_went_wrong">Something went wrong</string>
+    <string name="something_went_wrong">Er ging iets mis.</string>
     <string name="killing_background_process">Killing background processes…</string>
     <string name="uninstalled_successfully">Verwijderen gelukt!</string>
     <string name="list_cleared">Lijst gewist</string>
