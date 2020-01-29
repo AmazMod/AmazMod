@@ -34,12 +34,12 @@
     <string name="download">Descargar</string>
     <string name="deleting">Eliminando</string>
     <string name="cant_delete_file">No se ha podido eliminar el archivo</string>
-    <string name="add_new_reply">Añadir respuesta</string>
+    <string name="add_new_reply">Añadir una nueva respuesta</string>
     <string name="enter_the_text_you_want_as_an_answer">Escribe la respuesta deseada</string>
     <string name="file_not_exists">El archivo no existe</string>
-    <string name="cant_uplaod_directory">No se puede cargar el directorio</string>
+    <string name="cant_uplaod_directory">No se puede cargar la carpeta</string>
     <string name="sending">Enviando</string>
-    <string name="wait">Por favor, espere</string>
+    <string name="wait">Espera, por favor</string>
     <string name="file_choose_title">Elige uno o más archivos</string>
     <string name="cant_upload_file">No se ha podido cargar el archivo</string>
     <string name="cant_download_file">No se ha podido descargar el archivo</string>
@@ -90,7 +90,7 @@
     <string name="activity_watchface_weather_options">Opciones del clima</string>
     <string name="activity_watchface_send_weather_units">Unidades del clima</string>
     <string name="activity_watchface_weather_real_feel">Mostrar \"sensación real\" en vez de \"temperatura actual\"</string>
-    <string name="activity_watchface_last_time_sent">Último envio</string>
+    <string name="activity_watchface_last_time_sent">Último envío</string>
     <string name="activity_watchface_data_send">Datos enviados</string>
     <string name="activity_watchface_send_data_now">Enviar los datos ahora</string>
     <string name="activity_stats_notifications_total">Total</string>
