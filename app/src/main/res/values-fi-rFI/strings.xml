@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">Lähetä säätietoja</string>
     <string name="activity_watchface_weather_options">Sää asetukset</string>
     <string name="activity_watchface_send_weather_units">Sää yksiköt</string>
-    <string name="activity_watchface_weather_real_feel">Show \"read feel\" instead of actual temperature</string>
+    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
     <string name="activity_watchface_last_time_sent">Edellinen Lähetysaika</string>
     <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Lähetä tiedot</string>
