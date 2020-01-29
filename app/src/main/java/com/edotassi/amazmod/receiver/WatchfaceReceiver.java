@@ -11,9 +11,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.CalendarContract;
 import android.provider.Settings;
@@ -31,6 +35,7 @@ import com.android.volley.toolbox.Volley;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.FilesUtil;
+import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.watch.Watch;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -90,6 +95,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     private static Intent alarmWatchfaceIntent;
     private static PendingIntent pendingIntent;
     private static WatchfaceReceiver mReceiver = new WatchfaceReceiver();
+    private static LocationManager mLocationManager;
+    static Double last_known_latitude;
+    static Double last_known_longitude;
 
     // data parameters
     int battery;
@@ -217,6 +225,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         Watch.get().sendWatchfaceData(watchfaceData);
+        Logger.info("Data has been send to watch");
     }
 
     public static void startWatchfaceReceiver(Context context) {
@@ -230,11 +239,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             return;
         }
 
-        // update as interval
+        // Calculate next update time
         int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
-
         AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
-
         long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
         if (delay < 0) delay = 0;
 
@@ -276,7 +283,33 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             IntentFilter ifilter = new IntentFilter(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED);
             context.registerReceiver(WatchfaceReceiver.mReceiver, ifilter);
         }
+
+        // Ask for location updates
+        if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Logger.error("WatchfaceDataReceiver location updates not initialized because permissions are not given.");
+        }else{
+            int LOCATION_REFRESH_DISTANCE = 10 * 1000;//in m, = 10km
+            long LOCATION_REFRESH_TIME = ((long) syncInterval * 60000L);// in milliseconds
+            //LocationManager.GPS_PROVIDER or LocationManager.NETWORK_PROVIDER
+            mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME, LOCATION_REFRESH_DISTANCE, mLocationListener);
+        }
     }
+
+    private static final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+            last_known_latitude = location.getLatitude();
+            last_known_longitude = location.getLongitude();
+            Logger.error("WatchfaceDataReceiver location updated: "+last_known_latitude+","+last_known_longitude);
+        }
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) { }
+        @Override
+        public void onProviderEnabled(String provider) { }
+        @Override
+        public void onProviderDisabled(String provider) { }
+    };
 
     public void onDestroy(Context context) {
         // Unregister if any receiver
@@ -353,22 +386,39 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     }
 
     public void getWeatherData(Context context) {
-        Integer units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
+        int units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
         String language = "en"; // TODO add the selected language code here
         boolean show_feels_like = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL);
-
+        int searchType = Prefs.getInt(Constants.PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO, Constants.PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO);
         // Get saved API ID
         String appid = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, "-");
 
-        int searchType = 1; // TODO add option in settings (first code the GPS)
         // 0: by location, 1: by City/Country
         String search;
-
         if (searchType == 0) {
             // Search by location
-            double latitude = 51.4655561; // TODO get this from GPS
-            double longitude = -0.1726452; // TODO get this from GPS
-            search = "lat=" + latitude + "&lon=" + longitude;
+
+            if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                Logger.error("WatchfaceDataReceiver location updates not initialized because permissions are not given.");
+            }else{
+                Location getLastLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+                if (getLastLocation != null) {
+                    Double currentLongitude = getLastLocation.getLongitude();
+                    Double currentLatitude = getLastLocation.getLatitude();
+                    last_known_latitude = currentLatitude;
+                    last_known_longitude = currentLongitude;
+                    Logger.debug("WatchfaceDataReceiver last location: " + currentLongitude + "," + currentLatitude);
+                }
+            }
+
+            if (last_known_latitude != null && last_known_longitude != null){
+                search = "lat=" + last_known_latitude + "&lon=" + last_known_longitude;
+            }else{
+                Logger.error("WatchfaceDataReceiver data not acquired because location is not available.");
+                // send data
+                sendnewdata();
+                return;
+            }
         }else{
             // Search by city-country
             String city_country = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, "-");

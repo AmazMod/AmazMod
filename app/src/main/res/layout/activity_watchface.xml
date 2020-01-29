@@ -276,22 +276,77 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/watchface_weather_settings" />
-
-        <EditText
-            android:id="@+id/watchface_weather_city_input"
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/watchface_weather_location_radio_group"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:enabled="true"
-            android:inputType="textAutoCorrect"
-            tools:ignore="Autofill"
-            android:hint="City name, country code"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_api_input" />
+            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_api_input">
+
+            <RadioButton
+                android:id="@+id/watchface_weather_location_gps_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location by GPS" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="20dp">
+
+                <TextView
+                    android:id="@+id/watchface_gps_permission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/permission"
+                    android:textAlignment="textStart"
+                    android:textColor="#333333" />
+
+                <TextView
+                    android:id="@+id/watchface_gps_permission_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:text="@string/enabled"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="true"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/watchface_weather_location_manual_radiobutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manual location" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="20dp">
+
+                <EditText
+                    android:id="@+id/watchface_weather_city_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:enabled="true"
+                    android:inputType="textAutoCorrect"
+                    tools:ignore="Autofill"
+                    android:hint="City name, country code" />
+            </LinearLayout>
+        </RadioGroup>
 
         <Spinner
             android:id="@+id/watchface_weather_units"
@@ -303,7 +358,7 @@
             android:prompt="@string/activity_watchface_send_weather_units"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_city_input" />
+            app:layout_constraintTop_toBottomOf="@+id/watchface_weather_location_radio_group" />
 
         <Switch
             android:id="@+id/weather_real_feel_switch"
