@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">Verstuur weergegevens</string>
     <string name="activity_watchface_weather_options">Weer opties</string>
     <string name="activity_watchface_send_weather_units">Weer eenheden</string>
-    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
+    <string name="activity_watchface_weather_real_feel">Toon gevoelstemperatuur</string>
     <string name="activity_watchface_last_time_sent">Laatst verzonden om</string>
     <string name="activity_watchface_data_send">Verstuurde gegevens</string>
     <string name="activity_watchface_send_data_now">Verstuur data nu</string>
@@ -439,8 +439,8 @@ het systeemthema (beta).</string>
     <string name="widget_mi_box_remote">Mi TV Afstandbediening</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hoofdactiviteit</string>
-    <string name="notification_replies_confirm_removal">Please, confirm</string>
-    <string name="notification_replies_cancel_removal">Reply Removed</string>
-    <string name="undo">UNDO</string>
+    <string name="notification_replies_confirm_removal">Bevestigen</string>
+    <string name="notification_replies_cancel_removal">Antwoord verwijderd</string>
+    <string name="undo">ONGEDAAN MAKEN</string>
     <!-- Strings used for widget list end -->
 </resources>

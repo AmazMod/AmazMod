@@ -7,14 +7,14 @@
         <item name="reorder_widgets">Reordenar Widgets</item>
         <item name="screen_settings">Ajustes de Pantalla</item>
         <item name="battery_graph">Gráfica de batería</item>
-        <item name="wifi_toggle">Botón de Wi-Fi</item>
+        <item name="wifi_toggle">Wi-Fi On/Off</item>
         <item name="wifi_panel">Panel de Wi-Fi</item>
         <item name="flashlight">Linterna</item>
         <item name="qr_code">Código QR</item>
         <item name="clean_memory">Borrar Memoria</item>
-        <item name="enable_lpm">Habilitar modo bajo consumo.</item>
-        <item name="revoke_admin">Revocar Administrador de Dispositivo</item>
-        <item name="set_admin">Establecer Administrador de Dispositivo</item>
+        <item name="enable_lpm">Habilitar modo bajo consumo</item>
+        <item name="revoke_admin">Revocar Admin</item>
+        <item name="set_admin">Establecer Admin</item>
         <item name="restart_launcher">Reiniciar el Launcher</item>
         <item name="clear_launcher_settings">Borrar Ajustes del Launcher</item>
         <item name="reboot">Reiniciar</item>
@@ -24,7 +24,7 @@
         <item name="disconnect_alert_ios">Alerta de Desconexión (iOS)</item>
         <item name="away_alert_ios">Alerta de Lejanía (iOS)</item>
         <item name="notifications_screenon">Pantalla On en Notificaciones</item>
-        <item name="change_input_method">Cambiar Método de Entrada</item>
+        <item name="change_input_method">Teclado</item>
         <item name="device_info">Info de Dispositivo</item>
         <item name="hourly_chime">Señal horaria</item>
     </string-array>

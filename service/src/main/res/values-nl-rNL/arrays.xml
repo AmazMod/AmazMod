@@ -16,7 +16,7 @@
         <item name="revoke_admin">Apparaatbeheer intrekken</item>
         <item name="set_admin">Apparaat Admin</item>
         <item name="restart_launcher">Herstart launcher</item>
-        <item name="clear_launcher_settings">Clear Launcher Settings</item>
+        <item name="clear_launcher_settings">Instellingen wissen</item>
         <item name="reboot">Herstarten</item>
         <item name="enter_fastboot">Enter Fastboot</item>
         <item name="enter_recovery">Enter Recovery</item>
@@ -26,7 +26,7 @@
         <item name="notifications_screenon">Notifications ScreenOn</item>
         <item name="change_input_method">Invoermethode wijzigen</item>
         <item name="device_info">Toestelinformatie</item>
-        <item name="hourly_chime">Hourly Chime</item>
+        <item name="hourly_chime">Klokslag elk uur</item>
     </string-array>
     <string-array name="densities">
         <item name="normal">Normaal</item>

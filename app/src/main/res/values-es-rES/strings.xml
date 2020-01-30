@@ -310,7 +310,7 @@
     <string name="test">Prueba</string>
     <string name="watchface_remote_ics_file">Archivo ICS remoto</string>
     <string name="watchface_built_in_calendar">Calendario</string>
-    <string name="watchface_events_found">Encontrados %s eventos</string>
+    <string name="watchface_events_found">%s eventos encontrados</string>
     <string name="permission">Permisos</string>
     <string name="success">Completado</string>
     <string name="error">Error</string>
@@ -360,7 +360,7 @@ seguir el tema de sistema (beta).</string>
     <string name="image_description">Imágen</string>
     <string name="amazmod_service">Servicio Amazmod</string>
     <string name="product_model">Modelo de producto</string>
-    <string name="product_name">Nombre del producto</string>
+    <string name="product_name">Nombre</string>
     <string name="serial_number">Nº de serie</string>
     <string name="build_id">Id de pantalla del compilado</string>
     <string name="build_model">Modelo del compilado de Huami</string>
@@ -369,14 +369,14 @@ seguir el tema de sistema (beta).</string>
     <string name="rename_file">Renombrar archivo</string>
     <string name="type_file_name">Escribe el nombre del archivo</string>
     <string name="new_folder">Nueva capreta</string>
-    <string name="pref_amazmod_overlay_launcher">Launcher de superposición de notificaciones</string>
+    <string name="pref_amazmod_overlay_launcher">Acceso directo a notificaciones</string>
     <string name="pref_amazmod_overlay_launcher_summary">Abre la lista de notificaciones del UI personalizado mediante un botón (se mostrará brevemente al encenderse la pantalla y podrás deslizarlo tanto a derechas como izquierdas).</string>
     <string name="pref_amazmod_hourly_chime">Señal horaria</string>
     <string name="pref_amazmod_hourly_chime_summary">Activa una corta vibración, con el sonido de un Casio en el Verge. Respeta el modo No Molestar del reloj.</string>
     <string name="file_not_found">¡No se encontró el archivo!</string>
     <string name="pref_battery_full_alert">Aviso de batería del reloj cargada</string>
     <string name="pref_battery_full_alert_summary">Recibir una notificación cuando el reloj está completamente cargado.</string>
-    <string name="pref_heartrate_chart">Gráfica de ritmo cardíaco</string>
+    <string name="pref_heartrate_chart">Gráfica de RC</string>
     <string name="pref_heartrate_nodata">No hay datos para mostrar.</string>
     <string name="pref_heartrate_chart_summary">Mostrar la gráfica del ritmo cardíaco en la pantalla principal de AmazMod.</string>
     <string name="pref_log_lines_shown">Líneas de registro mostradas</string>
@@ -384,7 +384,7 @@ seguir el tema de sistema (beta).</string>
     <string name="pref_enable_internet_companion">Habilitar Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Habilita AmazfitInternetCompanion (sólo es útil si tienes una aplicación en el reloj que usa esto).</string>
     <string name="ota_test_title">Prueba OTA</string>
-    <string name="type_service_number">Número del Servicio</string>
+    <string name="type_service_number">Versión del Servicio</string>
     <string name="activity_batter_no_data">Sin datos de batería</string>
     <string name="export_battery">Exportar</string>
     <string name="battery_export_success">Datos de batería exportados a la carpeta de AmazMod con el nombre %s</string>
@@ -393,8 +393,8 @@ seguir el tema de sistema (beta).</string>
     <string name="batter_error_export">No se pueden exportar los datos</string>
     <string name="batter_data_request">Solicitar nuevos datos de batería</string>
     <string name="batter_data_export">Exportar datos de batería</string>
-    <string name="app_options">Opciones de App</string>
-    <string name="notification_options">Opciones de notificación</string>
+    <string name="app_options">Opciones de la App</string>
+    <string name="notification_options">Opciones de las notificaciones</string>
     <string name="notification_options_description">No mostrar notificaciones que contengan los siguientes textos (uno por línea):</string>
     <string name="and">y</string>
     <plurals name="day">
