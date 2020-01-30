@@ -89,9 +89,9 @@
     <string name="activity_watchface_send_weather_data">Brak danych o pogodzie</string>
     <string name="activity_watchface_weather_options">Pokaż opcje pogody</string>
     <string name="activity_watchface_send_weather_units">Jednostki pogodowe</string>
-    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
+    <string name="activity_watchface_weather_real_feel">Pokaż \"odczuwalną\" zamiast aktualnej temperatury</string>
     <string name="activity_watchface_last_time_sent">Ostatnio wysłane</string>
-    <string name="activity_watchface_data_send">Data sent</string>
+    <string name="activity_watchface_data_send">Dane wysłane</string>
     <string name="activity_watchface_send_data_now">Wyślij nowe dane</string>
     <string name="activity_stats_notifications_total">Łącznie</string>
     <string name="activity_stats_notifications_in_the_last_hour">W ciągu ostatniej godziny</string>
@@ -444,8 +444,8 @@
     <string name="widget_mi_box_remote">Mi Tv Pilot</string>
     <string name="widget_hm_tv">TV HM</string>
     <string name="widget_main_activity">Moja aktywność</string>
-    <string name="notification_replies_confirm_removal">Please, confirm</string>
-    <string name="notification_replies_cancel_removal">Reply Removed</string>
-    <string name="undo">UNDO</string>
+    <string name="notification_replies_confirm_removal">Proszę potwierdzić</string>
+    <string name="notification_replies_cancel_removal">Usunięto Odpowiedź</string>
+    <string name="undo">COFNIJ</string>
     <!-- Strings used for widget list end -->
 </resources>
