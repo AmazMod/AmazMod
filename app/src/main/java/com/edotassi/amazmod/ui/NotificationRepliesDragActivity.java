@@ -3,7 +3,6 @@ package com.edotassi.amazmod.ui;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.InputType;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

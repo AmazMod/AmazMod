@@ -7,10 +7,10 @@ public class AppInfo {
     private String appName;
     private String packageName;
     private String versionName;
-    private String activity;
+
     private Drawable icon;
     private boolean enabled;
-    private int position;
+
 
     public String getAppName() { return appName; }
 
@@ -50,18 +50,6 @@ public class AppInfo {
         this.enabled = enabled;
     }
 
-    // For widgets list
-    public int getPosition() {
-        return position;
-    }
-    public void setPosition(int position) {
-        this.position = position;
-    }
-    public void setActivity(String activity) {
-        this.activity = activity;
-    }
-    public String getActivity() {
-        return this.activity;
-    }
+
 
 }

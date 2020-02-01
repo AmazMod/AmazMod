@@ -21,11 +21,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:mpb_progressStyle="circular" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activity_widgets_selector_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
