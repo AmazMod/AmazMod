@@ -6,9 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DynamicEventsHelper extends ItemTouchHelper.Callback {
 
     private DynamicEventsCallback callback;
+    private boolean canSwipe;
 
     public DynamicEventsHelper(DynamicEventsCallback callback) {
         this.callback = callback;
+        this.canSwipe = true;
+    }
+
+    public DynamicEventsHelper(DynamicEventsCallback callback, boolean canSwipe) {
+        this.callback = callback;
+        this.canSwipe = canSwipe;
     }
 
     @Override
@@ -27,9 +34,11 @@ public class DynamicEventsHelper extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-
         int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-        int swipeFlags = ItemTouchHelper.END | ItemTouchHelper.START;
+        int swipeFlags = 0;
+        if (this.canSwipe) {
+            swipeFlags = ItemTouchHelper.END | ItemTouchHelper.START;
+        }
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 

@@ -90,8 +90,9 @@ public class WidgetsActivity extends BaseAppCompatActivity{
             public void removeItem(int position) {
                 //mAdapter.removeItem(position);
             }
+
         };
-        ItemTouchHelper androidItemTouchHelper = new ItemTouchHelper(new DynamicEventsHelper(callback));
+        ItemTouchHelper androidItemTouchHelper = new ItemTouchHelper(new DynamicEventsHelper(callback,false));
         androidItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         mAdapter = new WidgetsAdapter(this, androidItemTouchHelper);
