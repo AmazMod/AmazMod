@@ -667,7 +667,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isMapsNotification(byte filterResult, String notificationPackage) {
-        return ((filterResult == Constants.FILTER_ONGOING) && notificationPackage.contains("android.apps.maps") /*&& !Screen.isDrivingMode(this)*/);
+        return ((filterResult == Constants.FILTER_ONGOING) && notificationPackage.contains("android.apps.maps") && !Screen.isDrivingMode(this));
     }
 
     private boolean isPackageAllowed(String packageName) {
