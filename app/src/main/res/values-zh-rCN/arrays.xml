@@ -56,4 +56,9 @@
         <item>否</item>
         <item>谢谢！</item>
     </string-array>
+    <string-array name="filter_level">
+        <item>Title</item>
+        <item>Contents</item>
+        <item>Both</item>
+    </string-array>
 </resources>
