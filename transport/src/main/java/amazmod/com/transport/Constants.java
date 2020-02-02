@@ -40,6 +40,7 @@ public class Constants {
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages.filters";
+    public static final String PREF_ENABLED_TITLE_ONLY_FILTERS = "pref.enabled.title-only.filters";
     public static final String PREF_ENABLE_NOTIFICATIONS = "preference.enable.notifications";
     public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
     public static final String PREF_NOTIFICATIONS_REPLIES = "preference.amazmodservice.replies";

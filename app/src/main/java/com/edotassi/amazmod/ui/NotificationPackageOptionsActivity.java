@@ -4,19 +4,23 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
 
+import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -40,6 +44,9 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.appinfo_icon)
     ImageView appIcon;
+
+    @BindView(R.id.title_only_switch)
+    Switch titleOnlySwitch;
 
     @BindView(R.id.silenced_until)
     EditText silenced_until;
@@ -78,6 +85,14 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
                 filter_edittext.setText(app.getFilter());
                 silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
+                boolean titleOnlyFilter = Prefs.getBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, false);
+                // Set title only filter
+                titleOnlySwitch.setChecked(titleOnlyFilter);
+                titleOnlySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Prefs.putBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, isChecked);
+                    }
+                });
             } catch (PackageManager.NameNotFoundException e) {
 
                 //Toast.makeText(this, "Package " + packageName + "not found", Toast.LENGTH_SHORT).show();

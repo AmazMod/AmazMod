@@ -414,6 +414,7 @@ follow the system theme (beta).</string>
     <string name="no_widgets_found">No widgets found</string>
     <string name="intro_description_grant_access">Grant Access</string>
     <string name="intro_description_get_started">Get Started</string>
+    <string name="filter_title_only">Apply filter only to the title</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Step</string>
     <string name="widget_countdown">Countdown</string>

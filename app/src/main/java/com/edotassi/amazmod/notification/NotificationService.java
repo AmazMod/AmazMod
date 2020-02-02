@@ -732,11 +732,10 @@ public class NotificationService extends NotificationListenerService {
                 Logger.debug("isPackageFiltered: Checking if '{}' contains '{}'", notificationText, filter);
                 if (!filter.isEmpty()) {
                     filter = filter.toLowerCase();
-                    if (notificationTitle.toLowerCase().contains(filter)) {
+                    if (Prefs.getBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, false) && notificationTitle.toLowerCase().contains(filter)) {
                         Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE ('{}') contains '{}'", packageName, notificationTitle, filter);
                         return true;
-                    }
-                    if (notificationText.toLowerCase().contains(filter)) {
+                    } if (!Prefs.getBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, false) && notificationText.toLowerCase().contains(filter)) {
                         Logger.debug("isPackageFiltered: Package '{}' filterered because CONTENTS ('{}') contains '{}'", packageName, notificationText, filter);
                         return true;
                     }
