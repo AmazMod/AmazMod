@@ -40,7 +40,6 @@ public class Constants {
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages.filters";
-    public static final String PREF_ENABLED_TITLE_ONLY_FILTERS = "pref.enabled.title-only.filters";
     public static final String PREF_ENABLE_NOTIFICATIONS = "preference.enable.notifications";
     public static final String PREF_DISABLE_NOTIFICATIONS_REPLIES = "preference.amazmodservice.enable.replies";
     public static final String PREF_NOTIFICATIONS_REPLIES = "preference.amazmodservice.replies";
@@ -172,6 +171,7 @@ public class Constants {
     public static final String PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC = "preference.time.last.current.weather.data.sync";
     public static final String PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC = "preference.time.last.week.weather.data.sync";
     public static final String PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = "preference.watchface.weather.data.location.radio";
+    public static final String PREF_FILTER_LEVEL_INDEX = "preference.filter.level.index";
 
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
@@ -182,6 +182,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = false;
     public static final int PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = 0;
+    public static final int PREF_DEFAULT_FILTER_LEVEL_INDEX = 0;
 
     public static final String PREF_CALENDAR_SOURCE_LOCAL = "local";
     public static final String PREF_CALENDAR_SOURCE_ICS = "ics";

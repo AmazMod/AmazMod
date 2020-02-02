@@ -288,4 +288,9 @@
         <item>512</item>
         <item>1024</item>
     </string-array>
+    <string-array name="filter_level">
+        <item>Title</item>
+        <item>Contents</item>
+        <item>Both</item>
+    </string-array>
 </resources>

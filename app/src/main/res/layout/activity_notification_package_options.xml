@@ -99,24 +99,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/filter_level"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/filter_title_only"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="8dp"
+        android:entries="@array/filter_level"
+        android:prompt="@string/filter_level"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edittext_filter" />
-
-    <Switch
-        android:id="@+id/title_only_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:text=""
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf = "@+id/edittext_filter" />
 
     <TextView
         android:id="@+id/textView13"
@@ -128,7 +121,7 @@
         android:text="@string/activity_packageoptions_muted_until"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/filter_level" />
 
     <Button
         android:id="@+id/cancel_button"

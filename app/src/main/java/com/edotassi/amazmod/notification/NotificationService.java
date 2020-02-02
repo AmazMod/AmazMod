@@ -730,13 +730,19 @@ public class NotificationService extends NotificationListenerService {
             String[] filters = app.getFilter().split("\\r?\\n");
             for (String filter : filters) {
                 Logger.debug("isPackageFiltered: Checking if '{}' contains '{}'", notificationText, filter);
+                int filter_level = Prefs.getInt(Constants.PREF_FILTER_LEVEL_INDEX, 0);
                 if (!filter.isEmpty()) {
                     filter = filter.toLowerCase();
-                    if (Prefs.getBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, false) && notificationTitle.toLowerCase().contains(filter)) {
+                    if (filter_level == 0 && notificationTitle.toLowerCase().contains(filter)) {
                         Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE ('{}') contains '{}'", packageName, notificationTitle, filter);
                         return true;
-                    } if (!Prefs.getBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, false) && notificationText.toLowerCase().contains(filter)) {
+                    }
+                    if (filter_level == 1 && notificationText.toLowerCase().contains(filter)) {
                         Logger.debug("isPackageFiltered: Package '{}' filterered because CONTENTS ('{}') contains '{}'", packageName, notificationText, filter);
+                        return true;
+                    }
+                    if (filter_level == 2 && (notificationTitle.toLowerCase().contains(filter) || notificationText.toLowerCase().contains(filter))) {
+                        Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE or CONTENTS ('{}') contains '{}'", packageName, notificationTitle, notificationText, filter);
                         return true;
                     }
                 }

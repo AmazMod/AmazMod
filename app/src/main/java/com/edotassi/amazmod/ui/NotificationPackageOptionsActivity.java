@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -45,8 +48,8 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
     @BindView(R.id.appinfo_icon)
     ImageView appIcon;
 
-    @BindView(R.id.title_only_switch)
-    Switch titleOnlySwitch;
+    @BindView(R.id.filter_level)
+    Spinner filterLevel;
 
     @BindView(R.id.silenced_until)
     EditText silenced_until;
@@ -56,6 +59,7 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_notification_package_options);
+        int filter_level_index;
 
         try {
             if (getSupportActionBar() != null)
@@ -85,14 +89,19 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
                 filter_edittext.setText(app.getFilter());
                 silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
-                boolean titleOnlyFilter = Prefs.getBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, false);
-                // Set title only filter
-                titleOnlySwitch.setChecked(titleOnlyFilter);
-                titleOnlySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        Prefs.putBoolean(Constants.PREF_ENABLED_TITLE_ONLY_FILTERS, isChecked);
+                // Set filter level
+                filter_level_index = Prefs.getInt(Constants.PREF_FILTER_LEVEL_INDEX, Constants.PREF_DEFAULT_FILTER_LEVEL_INDEX);
+                filterLevel.setSelection(filter_level_index);
+                filterLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        Prefs.putInt(Constants.PREF_FILTER_LEVEL_INDEX, pos);
                     }
-                });
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // Auto-generated method stub
+                        }
+                    });
+
             } catch (PackageManager.NameNotFoundException e) {
 
                 //Toast.makeText(this, "Package " + packageName + "not found", Toast.LENGTH_SHORT).show();
