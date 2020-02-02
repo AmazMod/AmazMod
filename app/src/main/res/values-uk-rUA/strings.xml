@@ -421,6 +421,7 @@
     <string name="no_widgets_found">Віджетів не знайдено</string>
     <string name="intro_description_grant_access">Надати доступ</string>
     <string name="intro_description_get_started">Розпочати</string>
+    <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Крок</string>
     <string name="widget_countdown">Зворотній відлік</string>

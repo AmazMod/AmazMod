@@ -418,6 +418,7 @@
     <string name="no_widgets_found">Nici un widget găsit</string>
     <string name="intro_description_grant_access">Acordează acces</string>
     <string name="intro_description_get_started">Începe</string>
+    <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Step</string>
     <string name="widget_countdown">Countdown</string>

@@ -416,6 +416,7 @@ het systeemthema (beta).</string>
     <string name="no_widgets_found">Geen widgets gevonden</string>
     <string name="intro_description_grant_access">Toegang verlenen</string>
     <string name="intro_description_get_started">Aan de slag</string>
+    <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Stap</string>
     <string name="widget_countdown">Aftellen</string>

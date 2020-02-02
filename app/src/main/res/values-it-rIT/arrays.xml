@@ -56,4 +56,9 @@
         <item>No</item>
         <item>Grazie</item>
     </string-array>
+    <string-array name="filter_level">
+        <item>Titolo</item>
+        <item>Contenuto</item>
+        <item>Entrambi</item>
+    </string-array>
 </resources>
