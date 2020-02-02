@@ -413,6 +413,7 @@
     <string name="no_widgets_found">找不到部件</string>
     <string name="intro_description_grant_access">授予访问权限</string>
     <string name="intro_description_get_started">开始使用吧！</string>
+    <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">步数</string>
     <string name="widget_countdown">倒计时</string>
