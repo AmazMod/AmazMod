@@ -56,4 +56,9 @@
         <item>Ні</item>
         <item>Дякуємо</item>
     </string-array>
+    <string-array name="filter_level">
+        <item>Title</item>
+        <item>Contents</item>
+        <item>Both</item>
+    </string-array>
 </resources>
