@@ -415,6 +415,7 @@
     <string name="no_widgets_found">Nenhum widget encontrado</string>
     <string name="intro_description_grant_access">Grant Access</string>
     <string name="intro_description_get_started">Get Started</string>
+    <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Passo</string>
     <string name="widget_countdown">Contagem regressiva</string>
