@@ -89,7 +89,7 @@
     <string name="activity_watchface_send_weather_data">发送天气数据</string>
     <string name="activity_watchface_weather_options">天气选项</string>
     <string name="activity_watchface_send_weather_units">天气单位</string>
-    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
+    <string name="activity_watchface_weather_real_feel">显示“体感温度”代替实际气温</string>
     <string name="activity_watchface_last_time_sent">最后发送时间</string>
     <string name="activity_watchface_data_send">数据已发送</string>
     <string name="activity_watchface_send_data_now">立即发送数据</string>
@@ -134,10 +134,12 @@
     <string name="pref_enable_voice_apps_summary">语音通话信息通知将会被发送到手表端.</string>
     <string name="pref_enable_local_only">本地通知</string>
     <string name="pref_enable_local_only_summary">没有用户操作的通知将被发送到手表 (比如 谷歌天气预告)。可能还需要取消分组。</string>
-    <string name="pref_enable_notifications_when_locked">当手机端锁定时启用</string>
+    <string name="pref_enable_notifications_when_locked">当手机锁定时发送通知</string>
     <string name="pref_enable_notifications_when_locked_summary">锁屏状态允许通知</string>
     <string name="pref_notifications_enable_ungroup">取消对通知的分组</string>
-    <string name="pref_notifications_enable_ungroup_summary">来自同来源的通知将被单独显示 (您将无法同步它们).</string>
+    <string name="pref_notifications_enable_ungroup_summary">来自相同来源的通知将被单独显示 (您将无法同步它们).</string>
+    <string name="pref_disable_notifications_when_driving">驾驶模式时屏蔽通知</string>
+    <string name="pref_disable_notifications_when_driving_summary">当手机处于驾驶模式时，不发送通知至手表。</string>
     <string name="pref_filters">通知过滤器</string>
     <string name="pref_enable_music_control_with_hardware_button">启用物理按键控制音乐</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(实验性) 启用物理按键的音乐控制。按下最下方按钮播放/暂停音乐。长按切换下一首歌。</string>

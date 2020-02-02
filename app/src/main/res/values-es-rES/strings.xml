@@ -134,11 +134,12 @@
     <string name="pref_enable_voice_apps_summary">Las llamadas de voz de Messenger enviarán notificaciones al reloj.</string>
     <string name="pref_enable_local_only">Notificaciones locales</string>
     <string name="pref_enable_local_only_summary">Las notificaciones sin acciones de usuario serán enviadas a ver (por ejemplo, informes meteorológicos de Google). Puede necesitar Desagrupar = ON.</string>
-    <string name="pref_enable_notifications_when_locked">Habilitar con teléfono bloqueado</string>
+    <string name="pref_enable_notifications_when_locked">Send when phone is locked</string>
     <string name="pref_enable_notifications_when_locked_summary">Enviar notificaciones al reloj si la pantalla está encendida pero el teléfono está bloqueado.</string>
     <string name="pref_notifications_enable_ungroup">Desagrupar notificaciones</string>
-    <string name="pref_notifications_enable_ungroup_summary">Se separarán las notificaciones del mismo remitente
-(Aunque no podrás sincronizarlas).</string>
+    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them though).</string>
+    <string name="pref_disable_notifications_when_driving">Block notifications when driving</string>
+    <string name="pref_disable_notifications_when_driving_summary">Do not send notifications to watch if phone is in driving mode.</string>
     <string name="pref_filters">Filtros de notificaciones</string>
     <string name="pref_enable_music_control_with_hardware_button">Habilitar control de música por hardware</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL) Habilita el control de música mediante los botones. Presiona el botón inferior para reproducir/pausar. Pulsación larga para cambiar a la siguiente canción.</string>
@@ -382,7 +383,7 @@ seguir el tema de sistema (beta).</string>
     <string name="pref_log_lines_shown">Líneas de registro mostradas</string>
     <string name="pref_log_lines_shown_summary">Número de líneas de texto mostradas en la vista de Registros.</string>
     <string name="pref_enable_internet_companion">Habilitar Amazfit Internet Companion</string>
-    <string name="pref_enable_internet_companion_summary">Habilita AmazfitInternetCompanion (sólo es útil si tienes una aplicación en el reloj que usa esto).</string>
+    <string name="pref_enable_internet_companion_summary">Habilita Amazfit Internet Companion (sólo es útil si tienes una aplicación en el reloj que usa esto).</string>
     <string name="ota_test_title">Prueba OTA</string>
     <string name="type_service_number">Versión del Servicio</string>
     <string name="activity_batter_no_data">Sin datos de batería</string>

@@ -134,10 +134,12 @@
     <string name="pref_enable_voice_apps_summary">Κατά τις φωνητικές κλήσεις του Messenger θα προωθείται ειδοποίηση στο ρολόι.</string>
     <string name="pref_enable_local_only">Τοπικές ειδοποιήσεις</string>
     <string name="pref_enable_local_only_summary">Αποστολή ειδοποιήσεων χωρίς ενέργειες χρήστη (πχ. Δελτίο καιρού της Google). Μπορεί επίσης να πρέπει να ενεργοποιήσετε την κατάργηση ομαδοποίησης ειδοποιήσεων.</string>
-    <string name="pref_enable_notifications_when_locked">Ενεργοποίηση όταν το τηλέφωνο είναι κλειδωμένο</string>
+    <string name="pref_enable_notifications_when_locked">Send when phone is locked</string>
     <string name="pref_enable_notifications_when_locked_summary">Προώθηση ειδοποιήσεων στο ρολόι όταν η οθόνη είναι ανοιχτή αλλά το τηλέφωνο κλειδωμένο.</string>
     <string name="pref_notifications_enable_ungroup">Κατάργηση ομαδοποίησης ειδοποιήσεων</string>
-    <string name="pref_notifications_enable_ungroup_summary">Οι ειδοποιήσεις από τον ίδιο αποστολέα θα διαχωρίζονται (όμως δεν θα μπορεί να γίνει συγχρονισμός).</string>
+    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them though).</string>
+    <string name="pref_disable_notifications_when_driving">Block notifications when driving</string>
+    <string name="pref_disable_notifications_when_driving_summary">Do not send notifications to watch if phone is in driving mode.</string>
     <string name="pref_filters">Φίλτρα ειδοποιήσεων</string>
     <string name="pref_enable_music_control_with_hardware_button">Ενεργοποίηση υλικού για έλεγχο μουσικής</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(ΠΕΙΡΑΜΑΤΙΚΟ) Ενεργοποιήσετε τον έλεγχο της μουσικής μέσω των κουμπιών. Πιέστε το κάτω κουμπί για αναπαραγωγή/παύση της μουσικής. Παρατεταμένο πάτημα για να παραλείψετε το επόμενο τραγούδι.</string>

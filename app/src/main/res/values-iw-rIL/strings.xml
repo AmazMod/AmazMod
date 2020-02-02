@@ -134,10 +134,12 @@
     <string name="pref_enable_voice_apps_summary">התראות שיחות קוליות ישלחו לשעון.</string>
     <string name="pref_enable_local_only">התראות אפליקציות מובנות</string>
     <string name="pref_enable_local_only_summary">התראות ללא התערבות משתמש ישלחו לשעון ( תחזית, התראות קופצות וכו\'). יש צורך לאפשר פיצול התראות.</string>
-    <string name="pref_enable_notifications_when_locked">הפעל כאשר הטלפון נעול</string>
+    <string name="pref_enable_notifications_when_locked">אפשר שליחה כשהטלפון נעול</string>
     <string name="pref_enable_notifications_when_locked_summary">שליחת התראות לשעון כאשר המסך מופעל אך הטלפון נעול.</string>
     <string name="pref_notifications_enable_ungroup">פיצול התראות</string>
     <string name="pref_notifications_enable_ungroup_summary">התראות מאותו השולח יפוצלו (לא תוכלו לסנכרן אותן).</string>
+    <string name="pref_disable_notifications_when_driving">חסימת התראות בנהיגה</string>
+    <string name="pref_disable_notifications_when_driving_summary">אל תשלח התראות לשעון כאשר הטלפון במצב נהיגה.</string>
     <string name="pref_filters">מסנני התראות</string>
     <string name="pref_enable_music_control_with_hardware_button">הפעל שליטה במוסיקה</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(ניסיוני!) הפעל בקרת מוסיקה באמצעות לחצני חומרה. לחץ על הלחצן התחתון כדי להפעיל/להשהות מוסיקה. לחץ לחיצה ארוכה כדי לדלג לשיר הבא.</string>

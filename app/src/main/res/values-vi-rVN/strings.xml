@@ -134,10 +134,12 @@
     <string name="pref_enable_voice_apps_summary">Cuộc gọi thoại trên Messenger sẽ gửi thông báo để xem.</string>
     <string name="pref_enable_local_only">Thông báo địa phương</string>
     <string name="pref_enable_local_only_summary">Thông báo không có hành động của người dùng sẽ được gửi để xem (ví dụ: báo cáo thời tiết của Google). Cũng có thể cần hủy nhóm.</string>
-    <string name="pref_enable_notifications_when_locked">Bật khi điện thoại bị khóa</string>
+    <string name="pref_enable_notifications_when_locked">Gửi khi điện thoại bị khóa</string>
     <string name="pref_enable_notifications_when_locked_summary">Gửi thông báo để xem nếu màn hình bật nhưng điện thoại bị khóa.</string>
     <string name="pref_notifications_enable_ungroup">Thông báo nhóm</string>
-    <string name="pref_notifications_enable_ungroup_summary">Thông báo của cùng một người sẽ được tách ra (bạn sẽ không thể gửi dữ liệu).</string>
+    <string name="pref_notifications_enable_ungroup_summary">Thông báo từ cùng một người gửi sẽ được tách ra (mặc dù bạn sẽ không thể đồng bộ hóa chúng).</string>
+    <string name="pref_disable_notifications_when_driving">Chặn thông báo khi lái xe</string>
+    <string name="pref_disable_notifications_when_driving_summary">Không gửi thông báo để xem nếu điện thoại ở chế độ lái xe.</string>
     <string name="pref_filters">Lọc thông báo</string>
     <string name="pref_enable_music_control_with_hardware_button">Cho phép điều khiển nhạc phần cứng</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(TRẢI NGHIỆM!) Kích hoạt điều khiển nhạc bằng phím cứng. Bấm nút dưới cùng để phát/tạm dừng nhạc. Bấm để bỏ qua bài hát tiếp theo.</string>
