@@ -134,10 +134,12 @@
     <string name="pref_enable_voice_apps_summary">Le chiamate vocali di Messenger invieranno notifiche sull\'orologio.</string>
     <string name="pref_enable_local_only">Notifiche locali</string>
     <string name="pref_enable_local_only_summary">Le notifiche che non richiedono azioni verranno inviate all\'orologio (es. Notifiche meteo di Google). Può richiedere di attivare la separazione notifiche.</string>
-    <string name="pref_enable_notifications_when_locked">Abilita quando il telefono è bloccato</string>
+    <string name="pref_enable_notifications_when_locked">Send when phone is locked</string>
     <string name="pref_enable_notifications_when_locked_summary">Invia le notifiche all\'orologio se lo schermo del telefono è acceso ma bloccato.</string>
     <string name="pref_notifications_enable_ungroup">Separazione notifiche</string>
-    <string name="pref_notifications_enable_ungroup_summary">Le notifiche dello stesso mittente saranno separate (non sarà possibile sincronizzarle).</string>
+    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them though).</string>
+    <string name="pref_disable_notifications_when_driving">Block notifications when driving</string>
+    <string name="pref_disable_notifications_when_driving_summary">Do not send notifications to watch if phone is in driving mode.</string>
     <string name="pref_filters">Filtro notifiche</string>
     <string name="pref_enable_music_control_with_hardware_button">Attiva il controllo hardware musicale</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(SPERIMENTALE!) Valido solo per Stratos! Premi il pulsante in basso per riprodurre / mettere in pausa la musica. Premi a lungo per saltare alla canzone successiva</string>
