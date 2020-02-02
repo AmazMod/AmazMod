@@ -1154,6 +1154,12 @@ public class MainService extends Service implements Transporter.DataListener {
             int result = file.delete() ? Transport.RESULT_OK : Transport.RESULT_UNKNOW_ERROR;
 
             resultDeleteFileData.setResult(result);
+
+            // if music file
+            if ( file.getName().toLowerCase().endsWith(".mp3") || file.getName().toLowerCase().endsWith(".m4a") ){
+                Logger.debug("Music file, informing MediaStore's Content Provider: "+Uri.fromFile(file));
+                getContentResolver().delete(Uri.fromFile(file), null, null);
+            }
         } catch (SecurityException securityException) {
             resultDeleteFileData.setResult(Transport.RESULT_PERMISSION_DENIED);
         } catch (Exception ex) {
@@ -1175,6 +1181,15 @@ public class MainService extends Service implements Transporter.DataListener {
             randomAccessFile.seek(position);
             randomAccessFile.write(requestUploadFileChunkData.getBytes());
             randomAccessFile.close();
+
+            // Check is file transfer has finished (last chunk less than the others)
+            if ( requestUploadFileChunkData.getSize() < requestUploadFileChunkData.getConstantChunkSize() ){
+                // if music file
+                if ( file.getName().toLowerCase().endsWith(".mp3") || file.getName().toLowerCase().endsWith(".m4a") ){
+                    Logger.debug("Music file, informing MediaStore's Content Provider: "+Uri.fromFile(file));
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
+                }
+            }
         } catch (Exception ex) {
             Logger.error(ex.getMessage());
         }
