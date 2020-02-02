@@ -150,36 +150,36 @@ public class NotificationService extends NotificationListenerService {
 
         if (!isPackageAllowed(notificationPackage)) {
             Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_PACKAGE));
-            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_PACKAGE);
+            checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_PACKAGE);
             return;
         }
 
         if (isPackageSilenced(notificationPackage)) {
             Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SILENCE));
-            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_SILENCE);
+            checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_SILENCE);
             return;
         }
 
         if (isPackageFiltered(statusBarNotification)) {
             Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_TEXT));
-            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_TEXT);
+            checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_TEXT);
             return;
         }
 
         if (isNotificationsDisabled()) {
             Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_NOTIFICATIONS_DISABLED));
-            checkFilter(notificationPackage, notificationTxt, Constants.FILTER_NOTIFICATIONS_DISABLED);
+            checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_NOTIFICATIONS_DISABLED);
             return;
         }
 
         if (isNotificationsDisabledWhenScreenOn()) {
             if (!Screen.isDeviceLocked(this)) {
                 Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SCREENON));
-                checkFilter(notificationPackage, notificationTxt, Constants.FILTER_SCREENON);
+                checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_SCREENON);
                 return;
             } else if (!isNotificationsEnabledWhenScreenLocked()) {
                 Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SCREENLOCKED));
-                checkFilter(notificationPackage, notificationTxt, Constants.FILTER_SCREENLOCKED);
+                checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_SCREENLOCKED);
                 return;
             }
         }
@@ -253,7 +253,7 @@ public class NotificationService extends NotificationListenerService {
 
             } else { //Blocked
                 Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) filterResult));
-                checkFilter(notificationPackage, notificationTxt, filterResult);
+                checkAndLog(notificationPackage, notificationTxt, filterResult);
             }
         }
     }
@@ -630,7 +630,9 @@ public class NotificationService extends NotificationListenerService {
     private boolean isNotificationsDisabled() {
         return !Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS, Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS) ||
                 (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DND, false) &&
-                        Screen.isDNDActive(this, getContentResolver()));
+                        Screen.isDNDActive(this, getContentResolver())) ||
+                (Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_WHEN_DRIVING, true) &&
+                Screen.isDrivingMode(this));
     }
 
     private boolean isNotificationsDisabledWhenScreenOn() {
@@ -665,7 +667,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private boolean isMapsNotification(byte filterResult, String notificationPackage) {
-        return ((filterResult == Constants.FILTER_ONGOING) && notificationPackage.contains("android.apps.maps"));
+        return ((filterResult == Constants.FILTER_ONGOING) && notificationPackage.contains("android.apps.maps") /*&& !Screen.isDrivingMode(this)*/);
     }
 
     private boolean isPackageAllowed(String packageName) {
@@ -747,7 +749,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     //Avoid flooding of Notifications log by repeating/ongoing blocked notifications
-    private void checkFilter(String notificationPackage, String notificationTxt, byte filter) {
+    private void checkAndLog(String notificationPackage, String notificationTxt, byte filter) {
         Logger.trace("package: {} filter: {}", notificationPackage, Character.toString((char) (byte) filter));
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTimeRepeatingArrived > REPEATING_BLOCK_INTERVAL || (!notificationTxt.equals(lastNotificationTxt)) || filter != lastFilter) {

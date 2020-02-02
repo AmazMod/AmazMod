@@ -2,11 +2,12 @@ package com.edotassi.amazmod.util;
 
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
+import android.app.UiModeManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 
 import com.pixplicity.easyprefs.library.Prefs;
@@ -14,7 +15,6 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
-import java.util.prefs.Preferences;
 
 import amazmod.com.transport.Constants;
 
@@ -152,5 +152,15 @@ public class Screen {
         return isVerge;
     }
 
-
+    public static boolean isDrivingMode(Context context) {
+        UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+        boolean is_in_driving_mode = false;
+        try {
+            is_in_driving_mode = (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_CAR);
+        } catch (NullPointerException e){
+            // empty
+        }
+        Logger.info("Is device in driving mode? : " + is_in_driving_mode);
+        return is_in_driving_mode;
+    }
 }
