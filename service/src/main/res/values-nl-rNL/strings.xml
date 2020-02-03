@@ -54,7 +54,7 @@
     <string name="true_">waar</string>
     <string name="false_">onwaar</string>
     <string name="updated">Bijgewerkt</string>
-    <string name="low_power">lowPower</string>
+    <string name="low_power">lage batterij</string>
     <string name="restart_needed">Watch will restart to apply changes ;)</string>
     <string name="something_went_wrong">Er ging iets mis.</string>
     <string name="killing_background_process">Killing background processes…</string>
@@ -76,11 +76,11 @@
     <string name="save">Opslaan</string>
     <string name="minutes">minuten</string>
     <string name="one_day">Eén dag</string>
-    <string name="block_app">BLOCK APP</string>
+    <string name="block_app">BLOKK APP</string>
     <string name="tap_to_close">Tik om te sluiten</string>
     <string name="please_wait">Even geduld…</string>
     <string name="continuing_in">Doorgaan in</string>
-    <string name="restarting_in">Restarting in</string>
+    <string name="restarting_in">Herstarten</string>
     <string name="please_wait_may_take_a_while">Please wait, it may take a while…</string>
     <string name="up_time">Actief:</string>
     <string name="sleep_time">Slaaptijd:</string>
@@ -125,7 +125,7 @@
     <string name="apps">Apps</string>
     <string name="five_minutes">5 minuten</string>
     <string name="tap_button_to_cancel">Tik om te annuleren</string>
-    <string name="list_items">List Items</string>
+    <string name="list_items">Oplijsten</string>
     <string name="restarting_in_3sec">Herstarten over 3s…</string>
     <string name="package_name">Pakketnaam</string>
     <string name="title">Titel</string>
