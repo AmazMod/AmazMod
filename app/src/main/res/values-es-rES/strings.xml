@@ -417,7 +417,7 @@ seguir el tema de sistema (beta).</string>
     <string name="no_widgets_found">No se encontraron widgets</string>
     <string name="intro_description_grant_access">Dar acceso</string>
     <string name="intro_description_get_started">Iniciar</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_level">Nivel de filtro</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Paso</string>
     <string name="widget_countdown">Temporizador</string>

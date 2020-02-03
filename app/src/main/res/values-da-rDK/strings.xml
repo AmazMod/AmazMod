@@ -416,7 +416,7 @@ stedet for følge systemtemaet (beta).</string>
     <string name="no_widgets_found">Ingen widget\'er fundet</string>
     <string name="intro_description_grant_access">Tildel adgang</string>
     <string name="intro_description_get_started">Komme i gang</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_level">Filterniveau</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Trin</string>
     <string name="widget_countdown">Nedtælling</string>
