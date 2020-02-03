@@ -58,7 +58,7 @@
     </string-array>
     <string-array name="filter_level">
         <item>כותרת</item>
-        <item>תכנים</item>
+        <item>מכילים</item>
         <item>שניהם</item>
     </string-array>
 </resources>
