@@ -422,7 +422,7 @@ Urobte príkaz shell \"</string>
     <string name="no_widgets_found">Nenašli sme žiadne widgety</string>
     <string name="intro_description_grant_access">Povoliť prístup</string>
     <string name="intro_description_get_started">Začať</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_level">Úroveň filtra</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Krok</string>
     <string name="widget_countdown">Odpočítavanie</string>
