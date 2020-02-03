@@ -134,11 +134,11 @@
     <string name="pref_enable_voice_apps_summary">Powiadomienia o połączeniach głosowych Messengera.</string>
     <string name="pref_enable_local_only">Lokalne powiadomienia</string>
     <string name="pref_enable_local_only_summary">Powiadomienia są przesyłane bez działania użytkownika (np. Prognozy pogody Google). Może być konieczne rozgrupowanie = WŁ.</string>
-    <string name="pref_enable_notifications_when_locked">Send when phone is locked</string>
+    <string name="pref_enable_notifications_when_locked">Wyślij gdy telefon jest zablokowany</string>
     <string name="pref_enable_notifications_when_locked_summary">Wysyłaj powiadomienia do zegarka, kiedy ekran jest włączony, ale telefon zablokowany.</string>
     <string name="pref_notifications_enable_ungroup">Rozgrupuj powiadomienia</string>
-    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them though).</string>
-    <string name="pref_disable_notifications_when_driving">Block notifications when driving</string>
+    <string name="pref_notifications_enable_ungroup_summary">Powiadomienia od tego samego nadawcy będą rozdzielane (więc nie będziesz mógł ich synchronizować).</string>
+    <string name="pref_disable_notifications_when_driving">Pokazuj powiadomienia podczas synchronizacji</string>
     <string name="pref_disable_notifications_when_driving_summary">Do not send notifications to watch if phone is in driving mode.</string>
     <string name="pref_filters">Filtr powiadomień</string>
     <string name="pref_enable_music_control_with_hardware_button">Włącz sprzętową kontrolę muzyki</string>
