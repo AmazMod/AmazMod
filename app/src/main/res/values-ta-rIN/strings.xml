@@ -21,7 +21,7 @@
     <string name="rate_app">செயலி மதிப்பீடு</string>
     <string name="enable">இயக்கு</string>
     <string name="cancel">ரத்து செய்</string>
-    <string name="select_unselect_all">Select/Unselect all</string>
+    <string name="select_unselect_all">தேர்ந்தெடுக்கவும் / அனைத்தையும்</string>
     <string name="show_system_apps">சாதனப் செயலிகளை காண்பி</string>
     <string name="replies">பதில்கள்</string>
     <string name="installed_apps">நிறுவப்பட்ட செயலிகள்</string>

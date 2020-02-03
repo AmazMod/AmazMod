@@ -418,7 +418,7 @@ a rendszertéma követése helyett (beta).</string>
     <string name="no_widgets_found">Nem található widget</string>
     <string name="intro_description_grant_access">Hozzáférést megad</string>
     <string name="intro_description_get_started">Láss neki</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_level">Szűrési szint</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Lépés</string>
     <string name="widget_countdown">Visszaszámlálás</string>
