@@ -182,7 +182,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = false;
     public static final int PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = 0;
-    public static final int PREF_DEFAULT_FILTER_LEVEL_INDEX = 0;
+    public static final int PREF_DEFAULT_FILTER_LEVEL_INDEX = 2;
 
     public static final String PREF_CALENDAR_SOURCE_LOCAL = "local";
     public static final String PREF_CALENDAR_SOURCE_ICS = "ics";

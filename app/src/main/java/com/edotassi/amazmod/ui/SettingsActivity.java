@@ -321,6 +321,9 @@ public class SettingsActivity extends BaseAppCompatActivity {
             public Object then(@NonNull Task<Void> task) throws Exception {
                 final String str;
                 if (task.isSuccessful()) {
+                    if (!currentLocaleLanguage.equals(LocaleUtils.getLanguage())){
+                        Watch.get().executeShellCommand("adb shell am force-stop com.amazmod.service");
+                    }
                     str = getResources().getString(R.string.settings_applied);
                     if (sync) {
                         Snacky.builder()

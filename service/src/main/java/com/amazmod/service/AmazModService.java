@@ -15,6 +15,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.tinylog.Logger;
 import org.tinylog.configuration.Configuration;
 
+import java.io.File;
 import java.util.Locale;
 
 public class AmazModService extends Application {
@@ -83,6 +84,11 @@ public class AmazModService extends Application {
 
         if (language == null)
                 return;
+        if (language.contains("iw")) {
+            if (!new File("/system/font/NotoSansHebrew*.ttf").exists())
+            language = "en_EN";
+            Logger.debug("Amazmod locale: Hebrew font is missing, setting english language");
+        }
 
         Resources res = getContext().getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
