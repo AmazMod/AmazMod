@@ -85,11 +85,19 @@ public class AmazModService extends Application {
         if (language == null)
                 return;
         if (language.contains("iw")) {
-            if (!new File("/system/font/NotoSansHebrew*.ttf").exists())
-            language = "en_EN";
-            Logger.debug("Amazmod locale: Hebrew font is missing, setting english language");
+            if (!new File("/system/fonts/NotoSansHebrew-Regular.ttf").exists()) {
+                language = "en_EN";
+                Logger.debug("Amazmod locale: Hebrew font is missing, setting english language");
+            } else
+                Logger.debug("Amazmod locale: Hebrew font exist, setting Hebrew language");
         }
-
+        if (language.contains("ar")) {
+            if (!new File("/system/fonts/NotoSansArabic-Regular.ttf").exists()) {
+                language = "en_EN";
+                Logger.debug("Amazmod locale: Arabic font is missing, setting english language");
+            } else
+                Logger.debug("Amazmod locale: Arabic font exist, setting Hebrew language");
+        }
         Resources res = getContext().getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         android.content.res.Configuration conf = res.getConfiguration();

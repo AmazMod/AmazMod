@@ -172,6 +172,7 @@ public class Constants {
     public static final String PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC = "preference.time.last.week.weather.data.sync";
     public static final String PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = "preference.watchface.weather.data.location.radio";
     public static final String PREF_FILTER_LEVEL_INDEX = "preference.filter.level.index";
+    public static final String REQUEST_SELF_RELOAD = "request.self.reload";
 
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
@@ -183,6 +184,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = false;
     public static final int PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = 0;
     public static final int PREF_DEFAULT_FILTER_LEVEL_INDEX = 2;
+    public static final boolean DEFAULT_REQUEST_SELF_RELOAD = false;
 
     public static final String PREF_CALENDAR_SOURCE_LOCAL = "local";
     public static final String PREF_CALENDAR_SOURCE_ICS = "ics";

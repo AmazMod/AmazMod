@@ -29,6 +29,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DEFAULT_LOCALE = "default_locale";
     public static final String DISABLE_DELAY = "disable_reply_delay";
     public static final String AMAZMOD_KEEP_WIDGET = "amazmod_keep_widget";
+    public static final String REQUEST_SELF_RELOAD = "request_self_reload";
     public static final String AMAZMOD_OVERLAY_LAUNCHER = "amazmod_overlay_launcher";
     public static final String AMAZMOD_HOURLY_CHIME = "amazmod_hourly_chime";
     public static final String AMAZMOD_HEARTRATE_DATA = "amazmod_heartrate_data";
@@ -55,6 +56,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private String defaultLocale;
     private boolean disableDelay;
     private boolean amazModKeepWidget;
+    private boolean requestSelfReload;
     private boolean overlayLauncher;
     private boolean hourlyChime;
     private boolean heartrateData;
@@ -84,6 +86,7 @@ public class SettingsData extends Transportable implements Parcelable {
         defaultLocale = in.readString();
         disableDelay = in.readByte() != 0;
         amazModKeepWidget = in.readByte() != 0;
+        requestSelfReload = in.readByte() != 0;
         heartrateData = in.readByte() != 0;
         overlayLauncher = in.readByte() != 0;
         hourlyChime = in.readByte() != 0;
@@ -124,6 +127,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
         dataBundle.putBoolean(AMAZMOD_KEEP_WIDGET, amazModKeepWidget);
+        dataBundle.putBoolean(REQUEST_SELF_RELOAD, requestSelfReload);
         dataBundle.putBoolean(AMAZMOD_OVERLAY_LAUNCHER, overlayLauncher);
         dataBundle.putBoolean(AMAZMOD_HOURLY_CHIME, hourlyChime);
         dataBundle.putBoolean(AMAZMOD_HEARTRATE_DATA, heartrateData);
@@ -155,6 +159,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
         settingsData.setAmazModKeepWidget(dataBundle.getBoolean(AMAZMOD_KEEP_WIDGET));
+        settingsData.setRequestSelfReload(dataBundle.getBoolean(REQUEST_SELF_RELOAD));
         settingsData.setOverlayLauncher(dataBundle.getBoolean(AMAZMOD_OVERLAY_LAUNCHER));
         settingsData.setHourlyChime(dataBundle.getBoolean(AMAZMOD_HOURLY_CHIME));
         settingsData.setHeartrateData(dataBundle.getBoolean(AMAZMOD_HEARTRATE_DATA));
@@ -272,6 +277,8 @@ public class SettingsData extends Transportable implements Parcelable {
         return amazModKeepWidget;
     }
 
+    public boolean isRequestSelfReload() { return requestSelfReload; }
+
     public boolean isOverlayLauncher() {
         return overlayLauncher;
     }
@@ -286,6 +293,10 @@ public class SettingsData extends Transportable implements Parcelable {
 
     public void setAmazModKeepWidget(boolean amazModKeepWidget) {
         this.amazModKeepWidget = amazModKeepWidget;
+    }
+
+    public void setRequestSelfReload(boolean requestSelfReload) {
+        this.requestSelfReload = requestSelfReload;
     }
 
     public void setOverlayLauncher(boolean overlayLauncher) {
@@ -389,6 +400,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeString(defaultLocale);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
         dest.writeByte((byte) (amazModKeepWidget ? 1 : 0));
+        dest.writeByte((byte) (requestSelfReload ? 1 : 0));
         dest.writeByte((byte) (hourlyChime ? 1 : 0));
         dest.writeByte((byte) (heartrateData ? 1 : 0));
         dest.writeInt(batteryWatchAlert);

@@ -165,6 +165,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private static boolean isPhoneConnectionAlertEnabled;
     private static boolean isStandardAlertEnabled;
     private static boolean isSpringboardObserverEnabled;
+    private static boolean requestSelfReload;
     private static boolean wasSpringboardSaved;
     private static boolean isWeatherObserverEnabled;
     private static boolean wasWeatherSaved;
@@ -920,6 +921,14 @@ public class MainService extends Service implements Transporter.DataListener {
         settings.set(Constants.PREF_AMAZMOD_KEEP_WIDGET, iPCA);
         if (isSpringboardObserverEnabled != iPCA)
             registerSpringBoardMonitor(iPCA);
+
+        //Request self reload to update languages string
+        iPCA = settingsData.isRequestSelfReload();
+        Logger.debug("MainService SyncSettings isRequestSelfReload: {}", iPCA);
+        settings.reload();
+        settings.set(Constants.REQUEST_SELF_RELOAD, iPCA);
+        if (requestSelfReload != iPCA)
+            DeviceUtil.killBackgroundTasks(context, iPCA);
 
         //TODO Toggle AmazMod keep weather setting
         /*

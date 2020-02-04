@@ -246,6 +246,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY);
         final boolean amazModKeepWidget = Prefs.getBoolean(Constants.PREF_AMAZMOD_KEEP_WIDGET,
                 Constants.PREF_DEFAULT_AMAZMOD_KEEP_WIDGET);
+        final boolean requestSelfReload = Prefs.getBoolean(Constants.REQUEST_SELF_RELOAD,
+                Constants.DEFAULT_REQUEST_SELF_RELOAD);
         final boolean overlayLauncher = Prefs.getBoolean(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER,
                 Constants.PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER);
         final boolean hourlyChime = Prefs.getBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME,
@@ -309,6 +311,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setDefaultLocale(Locale.getDefault().toString());
         settingsData.setDisableDelay(disableNotificationsDelay);
         settingsData.setAmazModKeepWidget(amazModKeepWidget);
+        settingsData.setRequestSelfReload(requestSelfReload);
         settingsData.setOverlayLauncher(overlayLauncher);
         settingsData.setHourlyChime(hourlyChime);
         settingsData.setHeartrateData(heartrateData);
@@ -321,8 +324,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
             public Object then(@NonNull Task<Void> task) throws Exception {
                 final String str;
                 if (task.isSuccessful()) {
-                    if (!currentLocaleLanguage.equals(LocaleUtils.getLanguage())){
-                        Watch.get().executeShellCommand("adb shell am force-stop com.amazmod.service");
+                    if (!currentLocaleLanguage.equals(LocaleUtils.getLanguage())) {
+                        Prefs.putBoolean(Constants.REQUEST_SELF_RELOAD, true);
                     }
                     str = getResources().getString(R.string.settings_applied);
                     if (sync) {
@@ -417,9 +420,11 @@ public class SettingsActivity extends BaseAppCompatActivity {
     //Set locale and set flag used to activity refresh
     public void applyLocale() {
         if (currentLocaleLanguage.equals(LocaleUtils.getLanguage())) {
+            Prefs.putBoolean(Constants.REQUEST_SELF_RELOAD, false);
             return;
         }
         reloadMainActivity();
+        Prefs.putBoolean(Constants.REQUEST_SELF_RELOAD, true);
     }
 
     private boolean isChannelBlocked() {
