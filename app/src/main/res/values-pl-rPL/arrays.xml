@@ -57,8 +57,8 @@
         <item>Dziękujemy</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>Nazwa</item>
+        <item>Zawartość</item>
+        <item>Oba</item>
     </string-array>
 </resources>
