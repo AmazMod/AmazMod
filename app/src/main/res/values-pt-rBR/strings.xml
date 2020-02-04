@@ -134,12 +134,12 @@
     <string name="pref_enable_voice_apps_summary">Chamadas de voz enviarão notificações para o relógio.</string>
     <string name="pref_enable_local_only">Notificações Locais</string>
     <string name="pref_enable_local_only_summary">Notificações sem ações de usuário serão enviadas para o relógio (por exemplo, relatórios do Google Weather). Pode precisar da opção de desagrupar estar ligada.</string>
-    <string name="pref_enable_notifications_when_locked">Send when phone is locked</string>
+    <string name="pref_enable_notifications_when_locked">Enviar quando o telefone estiver bloqueado</string>
     <string name="pref_enable_notifications_when_locked_summary">Envia notificações se a tela do celular está ligada mas ele está bloqueado.</string>
     <string name="pref_notifications_enable_ungroup">Desagrupar Notificações</string>
-    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them though).</string>
-    <string name="pref_disable_notifications_when_driving">Block notifications when driving</string>
-    <string name="pref_disable_notifications_when_driving_summary">Do not send notifications to watch if phone is in driving mode.</string>
+    <string name="pref_notifications_enable_ungroup_summary">As notificações do mesmo remetente serão separadas (você não será capaz de sincronizá-las).</string>
+    <string name="pref_disable_notifications_when_driving">Bloquear notificações enquanto dirige</string>
+    <string name="pref_disable_notifications_when_driving_summary">Não enviar notificações para o relógio se o telefone estiver no modo de condução.</string>
     <string name="pref_filters">Filtro de notificações</string>
     <string name="pref_enable_music_control_with_hardware_button">Habilitar controle de música por hardware</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(EXPERIMENTAL!) Habilitar controle de música por botão físico. Aperte o botão inferior para tocar/pausar a música. Segure para pular para a próxima música.</string>
