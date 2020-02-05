@@ -69,10 +69,8 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
     static class ViewHolder {
 
-        @BindView(R.id.row_appinfo_handler)
-        TextView appInfoHandler;
         @BindView(R.id.row_appinfo_button)
-        TextView appInfoButton;
+        ImageView appInfoButton;
         @BindView(R.id.row_appinfo_icon)
         ImageView appInfoIcon;
         @BindView(R.id.row_app_info_appname)
