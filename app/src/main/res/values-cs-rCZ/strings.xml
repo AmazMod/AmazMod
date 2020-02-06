@@ -423,7 +423,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="no_widgets_found">Nebyly nalezeny žádné widgety</string>
     <string name="intro_description_grant_access">Povolit přístup</string>
     <string name="intro_description_get_started">Začínáme</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_level">Úroveň filtru</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Krok</string>
     <string name="widget_countdown">Odpočet</string>
