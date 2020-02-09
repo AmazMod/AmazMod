@@ -23,7 +23,7 @@
         <item name="units">Unités</item>
         <item name="disconnect_alert_ios">Alerte de déconnexion (iOS)</item>
         <item name="away_alert_ios">Alerte d\'absence (iOS)</item>
-        <item name="notifications_screenon">Notifications ScreenOn</item>
+        <item name="notifications_screenon">Notifications envoyées</item>
         <item name="change_input_method">Modifier le mode de saisie</item>
         <item name="device_info">Infos de l\'appareil</item>
         <item name="hourly_chime">Sonnerie pour chaque heure</item>
