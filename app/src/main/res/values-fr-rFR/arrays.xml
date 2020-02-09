@@ -57,8 +57,8 @@
         <item>Merci</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>Titre</item>
+        <item>Contenus</item>
+        <item>Les deux</item>
     </string-array>
 </resources>
