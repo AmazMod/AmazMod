@@ -416,7 +416,7 @@ suivre le thème système (bêta).</string>
     <string name="no_widgets_found">Aucun widget trouvé</string>
     <string name="intro_description_grant_access">Accorder l\'accès</string>
     <string name="intro_description_get_started">Pour commencer</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_level">Niveau de filtre</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Step</string>
     <string name="widget_countdown">Countdown</string>
