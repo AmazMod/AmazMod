@@ -155,7 +155,7 @@
     <string name="activity_menu_revoke_admin">Отозвать права администратора устройства</string>
     <string name="activity_menu_grant_admin">Предоставить права администратора устройства</string>
     <string name="activity_menu_restart_launcher">Перезапустить лаунчер</string>
-    <string name="activity_menu_clear_launcher">Очистить настройки лончера</string>
+    <string name="activity_menu_clear_launcher">Очистить настройки лаунчера</string>
     <string name="activity_menu_reboot">Перезагрузка</string>
     <string name="activity_menu_reboot_recovery">Перезагрузить в Recovery</string>
     <string name="activity_menu_reboot_fastboot">Перезагрузить в Fastboot</string>
