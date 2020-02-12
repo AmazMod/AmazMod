@@ -145,7 +145,7 @@
     <string name="activity_menu_files_mamager">Tiedostonhallinta</string>
     <string name="activity_menu_reorder_widgets">Järjestä widgetit uudelleen</string>
     <string name="activity_menu_screen_settings">Näytön asetukset</string>
-    <string name="activity_menu_battery_graph">Battery Graph</string>
+    <string name="activity_menu_battery_graph">Akkutaulukko</string>
     <string name="activity_menu_wifi_toggle">Toggle Wifi</string>
     <string name="activity_menu_wifi_panel">Wifi Panel</string>
     <string name="activity_menu_flashlight">Flashlight</string>
