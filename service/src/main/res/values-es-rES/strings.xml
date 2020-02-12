@@ -141,7 +141,7 @@
     <string name="app_manager">Gestor de Apps</string>
     <string name="not_found">¡No encontrado!</string>
     <string name="action_undefined">No action defined</string>
-    <string name="activity_menu_apps_mamager">Apps Manager</string>
+    <string name="activity_menu_apps_mamager">Administrador de Apps</string>
     <string name="activity_menu_files_mamager">Files Manager</string>
     <string name="activity_menu_reorder_widgets">Reorder Widgets</string>
     <string name="activity_menu_screen_settings">Screen Settings</string>
