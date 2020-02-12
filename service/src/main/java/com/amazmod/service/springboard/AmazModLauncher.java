@@ -20,7 +20,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.os.Vibrator;
-import android.provider.Settings;
 import android.support.wearable.view.CircledImageView;
 import android.support.wearable.view.WearableListView;
 import android.util.Log;
@@ -31,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazmod.service.AmazModService;
 import com.amazmod.service.BuildConfig;
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
@@ -189,11 +187,11 @@ public class AmazModLauncher extends AbstractPlugin {
                 Log.e(Constants.TAG, "AmazModLauncher getView exception: " + e.getMessage());
             }
             Log.d(Constants.TAG, "AmazModLauncher getView addItem: " + mItems[i]);
-            items.add(new MenuItems(mImagesOn[i], mImagesOff[i], mItems[i], state));
+            items.add(new MenuItems(mItems[i], mImagesOn[i], mImagesOff[i], state));
         }
 
-        wifiToggle.setImageResource(items.get(0).state ? items.get(0).iconResOn : items.get(0).iconResOff);
-        keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
+        wifiToggle.setImageResource(items.get(0).getIcon());
+        keepAwake.setImageResource(items.get(1).getIcon());
 
         intent = new Intent(mContext, LauncherWearGridActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -262,13 +260,13 @@ public class AmazModLauncher extends AbstractPlugin {
             @Override
             public void onClick(View v) {
                 if (wfmgr.isWifiEnabled()) {
-                    items.get(0).state = false;
+                    items.get(0).setState(false);
                     wfmgr.setWifiEnabled(false);
                 } else {
-                    items.get(0).state = true;
+                    items.get(0).setState(true);
                     wfmgr.setWifiEnabled(true);
                 }
-                wifiToggle.setImageResource(items.get(0).state ? items.get(0).iconResOn : items.get(0).iconResOff);
+                wifiToggle.setImageResource(items.get(0).getIcon());
             }
         });
 
@@ -287,8 +285,8 @@ public class AmazModLauncher extends AbstractPlugin {
                     isWakeLockEnabled = true;
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.keep_awake_dim_enabled), Toast.LENGTH_SHORT).show();
                 }
-                items.get(1).state = isWakeLockEnabled;
-                keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
+                items.get(1).setState(isWakeLockEnabled);
+                keepAwake.setImageResource(items.get(1).getIcon());
             }
         });
 
@@ -300,8 +298,8 @@ public class AmazModLauncher extends AbstractPlugin {
                     wakeLockScreenOn.acquire(60*60*1000L /*1 hour*/);
                     isWakeLockEnabled = true;
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.keep_awake_screen_on_enabled), Toast.LENGTH_SHORT).show();
-                    items.get(1).state = isWakeLockEnabled;
-                    keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
+                    items.get(1).setState(isWakeLockEnabled);
+                    keepAwake.setImageResource(items.get(1).getIcon());
                 }
 
                 return true;
@@ -416,12 +414,12 @@ public class AmazModLauncher extends AbstractPlugin {
                 state = false;
                 Log.d(Constants.TAG, "AmazModLauncher refreshView exception: " + e.getMessage());
             }
-            items.get(i).state = state;
-            Log.d(Constants.TAG, "AmazModLauncher refreshView item:" + items.get(i).title + " state: " + items.get(i).state);
+            items.get(i).setState(state);
+            Log.d(Constants.TAG, "AmazModLauncher refreshView item:" + items.get(i).getTitle() + " state: " + items.get(i).getState());
         }
 
-        wifiToggle.setImageResource(items.get(0).state ? items.get(0).iconResOn : items.get(0).iconResOff);
-        keepAwake.setImageResource(items.get(1).state ? items.get(1).iconResOn : items.get(1).iconResOff);
+        wifiToggle.setImageResource(items.get(0).getIcon());
+        keepAwake.setImageResource(items.get(1).getIcon());
     }
 
     private void refreshMessages() {

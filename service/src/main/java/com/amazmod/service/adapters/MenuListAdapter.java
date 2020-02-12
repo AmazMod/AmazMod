@@ -40,9 +40,9 @@ public class MenuListAdapter extends WearableListView.Adapter {
 		ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
 		final MenuItems item = items.get(position);
 		TextView textView = itemViewHolder.mItemTextView;
-		textView.setText(item.title);
+		textView.setText(item.getTitle());
 		CircledImageView mImageView = itemViewHolder.mCircledImageView;
-		mImageView.setImageResource(item.state ? item.iconResOn : item.iconResOff);
+		mImageView.setImageResource(item.getIcon());
 		if (position == 1) {
             mImageView.animate().scaleX(SCALE).scaleY(SCALE).translationX(X_TRANSLATION).alpha(PARTIAL_ALPHA).setDuration(50L);
             textView.animate().scaleX(SCALE).scaleY(SCALE).translationX(X_TRANSLATION).alpha(PARTIAL_ALPHA).setDuration(50L);
