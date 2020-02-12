@@ -140,11 +140,11 @@
     <string name="file_manager">File Manager</string>
     <string name="app_manager">App Manager</string>
     <string name="not_found">not found!</string>
-    <string name="action_undefined">No action defined</string>
-    <string name="activity_menu_apps_mamager">Apps Manager</string>
-    <string name="activity_menu_files_mamager">Files Manager</string>
-    <string name="activity_menu_reorder_widgets">Reorder Widgets</string>
-    <string name="activity_menu_screen_settings">Screen Settings</string>
+    <string name="action_undefined">Ei määritettyä toimintoa</string>
+    <string name="activity_menu_apps_mamager">Sovellusten hallinta</string>
+    <string name="activity_menu_files_mamager">Tiedostonhallinta</string>
+    <string name="activity_menu_reorder_widgets">Järjestä widgetit uudelleen</string>
+    <string name="activity_menu_screen_settings">Näytön asetukset</string>
     <string name="activity_menu_battery_graph">Battery Graph</string>
     <string name="activity_menu_wifi_toggle">Toggle Wifi</string>
     <string name="activity_menu_wifi_panel">Wifi Panel</string>
