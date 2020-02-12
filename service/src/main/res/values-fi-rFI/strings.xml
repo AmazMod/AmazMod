@@ -148,9 +148,9 @@
     <string name="activity_menu_battery_graph">Akkutaulukko</string>
     <string name="activity_menu_wifi_toggle">Toggle Wifi</string>
     <string name="activity_menu_wifi_panel">Wifi Panel</string>
-    <string name="activity_menu_flashlight">Flashlight</string>
-    <string name="activity_menu_qrcode">QR Code</string>
-    <string name="activity_menu_clean_memory">Clean Memory</string>
+    <string name="activity_menu_flashlight">Taskulamppu</string>
+    <string name="activity_menu_qrcode">QR-koodi</string>
+    <string name="activity_menu_clean_memory">Tyhjennä muisti</string>
     <string name="activity_menu_lpm">Enable Low Power Mode</string>
     <string name="activity_menu_revoke_admin">Revoke Device Admin Permission</string>
     <string name="activity_menu_grant_admin">Grant Device Admin Permission</string>
