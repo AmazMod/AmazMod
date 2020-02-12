@@ -156,14 +156,14 @@
     <string name="activity_menu_grant_admin">Eszközadmin engedély megadása</string>
     <string name="activity_menu_restart_launcher">Launcher újraindítás</string>
     <string name="activity_menu_clear_launcher">Launcher beállítások törlése</string>
-    <string name="activity_menu_reboot">Reboot</string>
-    <string name="activity_menu_reboot_recovery">Reboot to Recovery</string>
-    <string name="activity_menu_reboot_fastboot">Reboot to Fastboot</string>
-    <string name="activity_menu_units">Units</string>
-    <string name="activity_menu_anti_lost">Disconnect Alert (iOS)</string>
-    <string name="activity_menu_away_alert">Away Alert (iOS)</string>
-    <string name="activity_menu_screenon">Notification ScreenOn</string>
-    <string name="activity_menu_input_method">Change Input Method</string>
-    <string name="activity_menu_device_info">Device Info</string>
-    <string name="activity_menu_hourly_chime">Hourly Chime</string>
+    <string name="activity_menu_reboot">Újraindítás</string>
+    <string name="activity_menu_reboot_recovery">Újraindítás Recovery módba</string>
+    <string name="activity_menu_reboot_fastboot">Újraindítás Fastboot módba</string>
+    <string name="activity_menu_units">Egységek</string>
+    <string name="activity_menu_anti_lost">Leválási figyelmeztetés (iOS)</string>
+    <string name="activity_menu_away_alert">Távolodás-riasztás (iOS)</string>
+    <string name="activity_menu_screenon">Értesítések képernyő BE</string>
+    <string name="activity_menu_input_method">Beviteli mód váltás</string>
+    <string name="activity_menu_device_info">Eszköz infó</string>
+    <string name="activity_menu_hourly_chime">Óránként h.jelzés</string>
 </resources>
