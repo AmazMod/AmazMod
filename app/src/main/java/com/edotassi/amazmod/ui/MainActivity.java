@@ -31,6 +31,7 @@ import com.edotassi.amazmod.ui.fragment.BatteryChartFragment;
 import com.edotassi.amazmod.ui.fragment.HeartRateChartFragment;
 import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
+import com.edotassi.amazmod.ui.fragment.WeatherFragment;
 import com.edotassi.amazmod.util.Screen;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -57,6 +58,7 @@ public class MainActivity extends BaseAppCompatActivity
     private WatchInfoFragment watchInfoFragment = new WatchInfoFragment();
     private BatteryChartFragment batteryChartFragment = new BatteryChartFragment();
     private HeartRateChartFragment heartRateChartFragment = new HeartRateChartFragment();
+    private WeatherFragment weatherFragment = new WeatherFragment();
     private SilencedApplicationsFragment silencedApplicationsFragment = new SilencedApplicationsFragment();
     public static boolean systemThemeIsDark = false;
 
@@ -64,6 +66,7 @@ public class MainActivity extends BaseAppCompatActivity
         add(batteryChartFragment);
         add(silencedApplicationsFragment);
         add(heartRateChartFragment);
+        add(weatherFragment);
         add(watchInfoFragment);
     }};
 
@@ -189,12 +192,17 @@ public class MainActivity extends BaseAppCompatActivity
                 .getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_DEFAULT_BATTERY_CHART);
         boolean showHeartRateChart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_HEARTRATE_CHART, Constants.PREF_DEFAULT_HEARTRATE_CHART);
+        boolean showWeatherCard = ( PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA) &&
+                !PreferenceManager.getDefaultSharedPreferences(this)
+                        .getString(Constants.PREF_WEATHER_LAST_DATA, "").isEmpty());
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
         for (Card card : cards) {
             if ((card instanceof BatteryChartFragment && !showBatteryChart) ||
-                    (card instanceof HeartRateChartFragment && !showHeartRateChart)) {
+                    (card instanceof HeartRateChartFragment && !showHeartRateChart) ||
+                    (card instanceof WeatherFragment && !showWeatherCard)) {
                 continue;
             }
             fragmentTransaction.add(R.id.main_activity_cards, card, card.getName());

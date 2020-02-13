@@ -174,6 +174,9 @@ public class Constants {
     public static final String PREF_FILTER_LEVEL_INDEX = "preference.filter.level.index";
     public static final String REQUEST_SELF_RELOAD = "request.self.reload";
 
+
+    public static final String PREF_WEATHER_LAST_DATA = "preference.weather.last.data";
+
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX = 2;

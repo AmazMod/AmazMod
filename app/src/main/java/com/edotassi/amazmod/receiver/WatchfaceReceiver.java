@@ -163,14 +163,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
             calendar_events = (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source))? getCalendarEvents(context) : getICSCalendarEvents(context);
 
+            // Weather
+            boolean isWeatherEnabled = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA);
+
             // Check if new data
-            if (Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0)!=battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm) || calendar_events!=null) {
+            if ( isWeatherEnabled || Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0) != battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm) || calendar_events != null) {
                 Logger.debug("WatchfaceDataReceiver sending data to phone");
 
                 // If weather data are enabled, run the weather code
-                if (Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA))
+                if (isWeatherEnabled)
                     getWeatherData(context);
-                // Else, send the data directly
+                // Else, send data directly
                 else
                     sendnewdata();
             }else{
@@ -301,7 +304,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         public void onLocationChanged(final Location location) {
             last_known_latitude = location.getLatitude();
             last_known_longitude = location.getLongitude();
-            Logger.error("WatchfaceDataReceiver location updated: "+last_known_latitude+","+last_known_longitude);
+            Logger.debug("WatchfaceDataReceiver location updated: "+last_known_latitude+","+last_known_longitude);
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
@@ -397,7 +400,6 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         String search;
         if (searchType == 0) {
             // Search by location
-
             if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 Logger.error("WatchfaceDataReceiver location updates not initialized because permissions are not given.");
             }else{
@@ -514,16 +516,20 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // "temp":28, "time":1531292274457, "uv":"Strong",
                             // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
 
+                            // Save some of the data to display to main page card
+                            JSONObject last_weather_data = new JSONObject();
+
                             // Standard format (WeatherInfo) is send to watch
                             Double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max, speed;
                             Integer weather_id_from, weather_id_to;
-                            String pressure, humidity, tempUnit, city, clouds;
+                            String pressure, humidity, tempUnit, city, clouds, country, lon, lat, description;
                             int weather_id, visibility, sunrise, sunset, deg;
                             String[] directions = {"N","NE", "E", "SE", "S", "SW", "W", "NW","N/A"};
 
                             tempUnit = (units==0?"K":(units==1?"C":"F"));
                             new_weather_info.put("tempUnitNo",units);
                             new_weather_info.put("tempUnit",tempUnit);
+                            last_weather_data.put("tempUnit",tempUnit);
 
                             // Get current time
                             Date date = new Date();
@@ -628,7 +634,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         // pull
                                         JSONObject wind = item.getJSONObject("wind");
                                         speed = Double.parseDouble(wind.getString("speed"))*(units==2?1:3.6); // convert m/s to km/h (x3.6)
-                                        deg = wind.getInt("deg");
+                                        if (wind.has("deg"))
+                                            deg = wind.getInt("deg");
+                                        else
+                                            deg = 0;
                                         // save
                                         Integer direction_index = (deg + 45/2) / 45;
                                         new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
@@ -721,6 +730,11 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 new_weather_info.put("tempMax", Math.round(tmp_temp_max));
                                 new_weather_info.put("pressure", pressure);
                                 new_weather_info.put("sd", humidity);
+
+                                last_weather_data.put("temperature", Math.round(temp));
+                                last_weather_data.put("real_feel", Math.round(feels_like));
+                                last_weather_data.put("humidity", humidity);
+                                last_weather_data.put("pressure", main.getInt("pressure")+" hPa");
                             }
                             // [CURRENT weather API]
                             if (weather_data.has("weather")) {
@@ -728,8 +742,15 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 JSONArray weather = weather_data.getJSONArray("weather");
                                 JSONObject weather1 = weather.getJSONObject(0);
                                 weather_id = getHuamiWeatherCode(weather1.getInt("id"));
+
+                                description = "N/A";
+                                if (weather1.has("description"))
+                                    description = weather1.getString("description"); // pull
+
                                 // save
                                 new_weather_info.put("weatherCode",weather_id);
+                                last_weather_data.put("code", weather_id);
+                                last_weather_data.put("description", description);
                             }
                             // [CURRENT weather API]
                             if (weather_data.has("clouds") ) {
@@ -738,13 +759,19 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 clouds = cloudsObj.getInt("all")+"%";
                                 // save
                                 new_weather_info.put("clouds",clouds);
+                                last_weather_data.put("clouds", clouds);
                             }
                             // [CURRENT weather API]
                             if (weather_data.has("wind") ) {
                                 // pull
                                 JSONObject wind = weather_data.getJSONObject("wind");
                                 speed = Double.parseDouble(wind.getString("speed"))*(units==2?1:3.6); // convert m/s to km/h (x3.6)
-                                deg = wind.getInt("deg");
+
+                                if (wind.has("deg"))
+                                    deg = wind.getInt("deg");
+                                else
+                                    deg = 0;
+
                                 // save
                                 int direction_index = (deg + 45/2) / 45;
                                 new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
@@ -753,11 +780,13 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 new_weather_info.put("windSpeedUnit", (units==2?"m/h":"km/h") );
                                 new_weather_info.put("windSpeedValue",Math.round(speed));
                                 new_weather_info.put("windStrength",Math.round(speed)+(units==2?"m/h":"km/h"));
+                                last_weather_data.put("wind",Math.round(speed)+" "+(units==2?"m/h":"km/h"));
                             }
                             // [CURRENT weather API]
                             if (weather_data.has("name")){
                                 city = weather_data.getString("name"); // pull
                                 new_weather_info.put("city",city); // save
+                                last_weather_data.put("city",city);
                             }
                             // [CURRENT weather API]
                             if (weather_data.has("sys")) {
@@ -771,7 +800,25 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                     sunset = sys.getInt("sunset"); // pull
                                     new_weather_info.put("sunset", sunset);
                                 }
+                                if (sys.has("country")) {
+                                    country = sys.getString("country"); // pull
+                                    last_weather_data.put("country", country);
+                                }
                             }
+                            // [CURRENT weather API]
+                            if (weather_data.has("coord")) {
+                                JSONObject coord = weather_data.getJSONObject("coord");
+
+                                if (coord.has("lon")) {
+                                    lon = coord.getString("lon"); // pull
+                                    last_weather_data.put("lon",lon);
+                                }
+                                if (coord.has("lat")) {
+                                    lat = coord.getString("lat"); // pull
+                                    last_weather_data.put("lat", lat);
+                                }
+                            }
+
 
                             new_weather_info.put("time", date.getTime() ); // save current time in milliseconds
 
@@ -788,6 +835,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 // [CURRENT weather API]
                                 // Save current weather update time
                                 Prefs.putLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, date.getTime());
+                                Prefs.putString(Constants.PREF_WEATHER_LAST_DATA, last_weather_data.toString());
                             }
                         }
                         catch (Exception e) {
