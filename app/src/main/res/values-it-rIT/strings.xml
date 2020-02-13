@@ -446,4 +446,10 @@ seguire il tema di sistema (beta).</string>
     <string name="notification_replies_cancel_removal">Risposta rimossa</string>
     <string name="undo">ANNULLA</string>
     <!-- Strings used for widget list end -->
+    <!-- Strings used for weather card -->
+    <string name="humidity">Umidità:</string>
+    <string name="pressure">Pressione:</string>
+    <string name="wind">Vento:</string>
+    <string name="clouds">Nuvole:</string>
+    <string name="real_feel">T° Percepita:</string>
 </resources>

@@ -447,4 +447,10 @@ seguir el tema de sistema (beta).</string>
     <string name="notification_replies_cancel_removal">Respuesta eliminada</string>
     <string name="undo">DESHACER</string>
     <!-- Strings used for widget list end -->
+    <!-- Strings used for weather card -->
+    <string name="humidity">Humedad:</string>
+    <string name="pressure">Presión:</string>
+    <string name="wind">Viento:</string>
+    <string name="clouds">Nubes:</string>
+    <string name="real_feel">Sensación real:</string>
 </resources>

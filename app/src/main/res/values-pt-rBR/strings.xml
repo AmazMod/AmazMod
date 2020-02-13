@@ -445,4 +445,10 @@
     <string name="notification_replies_cancel_removal">Resposta Removida</string>
     <string name="undo">DESFAZER</string>
     <!-- Strings used for widget list end -->
+    <!-- Strings used for weather card -->
+    <string name="humidity">Umidade:</string>
+    <string name="pressure">Pressão:</string>
+    <string name="wind">Vento:</string>
+    <string name="clouds">Nuvens:</string>
+    <string name="real_feel">Sensação Real:</string>
 </resources>
