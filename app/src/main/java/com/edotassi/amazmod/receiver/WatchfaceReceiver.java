@@ -35,7 +35,7 @@ import com.android.volley.toolbox.Volley;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.util.FilesUtil;
-import com.edotassi.amazmod.util.Permissions;
+import com.edotassi.amazmod.util.LocaleUtils;
 import com.edotassi.amazmod.watch.Watch;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -75,6 +75,7 @@ import java.util.concurrent.ExecutionException;
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.WatchfaceData;
 
+import static com.edotassi.amazmod.util.LocaleUtils.getLanguage;
 import static java.lang.System.currentTimeMillis;
 
 public class WatchfaceReceiver extends BroadcastReceiver {
@@ -390,7 +391,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
     public void getWeatherData(Context context) {
         int units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
-        String language = "en"; // TODO add the selected language code here
+        String language = LocaleUtils.getLocaleCode();//"en"; // TODO add the selected language code here
+        Logger.error("WatchfaceDataReceiver language: "+language);
         boolean show_feels_like = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL);
         int searchType = Prefs.getInt(Constants.PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO, Constants.PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO);
         // Get saved API ID
