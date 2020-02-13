@@ -88,15 +88,13 @@ public class WeatherFragment extends Card {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        //heartrateChart.setNoDataText(getString(R.string.pref_heartrate_nodata));
-
         updateCard();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //Log.d(Constants.TAG, "HeartRateChartFragment onResume");
+        updateCard();
     }
 
     @Override
