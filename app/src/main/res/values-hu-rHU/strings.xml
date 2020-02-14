@@ -449,9 +449,9 @@ a rendszertéma követése helyett (beta).</string>
     <string name="undo">VISSZAVON</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
+    <string name="humidity">Páratartalom:</string>
+    <string name="pressure">Nyomás:</string>
+    <string name="wind">Szél:</string>
+    <string name="clouds">Felhőzet:</string>
+    <string name="real_feel">Valós érzet:</string>
 </resources>
