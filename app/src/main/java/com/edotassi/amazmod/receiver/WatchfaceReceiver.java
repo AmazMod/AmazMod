@@ -615,7 +615,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
                                         // save
                                         if ( i == 0 && temp_dt > last_current_weather_update ) {
-                                            new_weather_info.put("tempFormatted", Math.round(temp) + "º" + tempUnit);
+                                            new_weather_info.put("tempFormatted", Math.round(temp) + "°" + tempUnit);
                                             new_weather_info.put("temp", (show_feels_like)?Math.round(feels_like):Math.round(temp));
                                             new_weather_info.put("tempMin", Math.round(tmp_temp_min));
                                             new_weather_info.put("tempMax", Math.round(tmp_temp_max));
@@ -658,7 +658,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         // save
                                         Integer direction_index = (deg + 45/2) / 45;
                                         new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
-                                        new_weather_info.put("windDirectionUnit","º");
+                                        new_weather_info.put("windDirectionUnit","°");
                                         new_weather_info.put("windDirectionValue",deg+"");
                                         new_weather_info.put("windSpeedUnit", (units==2?"m/h":"km/h") );
                                         new_weather_info.put("windSpeedValue",Math.round(speed));
@@ -1182,10 +1182,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 ext_data.put(CALENDAR_DATA_PARAM_EXTENDED_DATA_ALL_DAY, all_day);
                 event.put(CALENDAR_EXTENDED_DATA_INDEX, ext_data);
 
-                Logger.debug("WatchfaceDataReceiver getCalendarEvents jsonEvents: " + event);
-
                 events.put(event);
             }
+            Logger.debug("WatchfaceDataReceiver getCalendarEvents found " + events.length() + " events");
             jsonEvents = root.toString();
         } catch (JSONException e) {
             Logger.debug("WatchfaceDataReceiver calendar events: failed to make JSON", e);

@@ -649,8 +649,12 @@ public class MainService extends Service implements Transporter.DataListener {
                     system_json_data.put("sd", json_data.getString("sd"));
                 if (json_data.has("windDirection"))
                     system_json_data.put("windDirection", json_data.getString("windDirection"));
+                // Direction angle symbol is different after transfer, so we save the proper one (it doesn't matter anyway)
+                system_json_data.put("windDirectionUnit", "°");
+                /*
                 if (json_data.has("windDirectionUnit"))
-                    system_json_data.put("windDirectionUnit", json_data.getString("windDirectionUnit"));
+                    system_json_data.put("windDirectionUnit", json_data.getString("windDirectionUnit"));//°
+                 */
                 if (json_data.has("windDirectionValue"))
                     system_json_data.put("windDirectionValue", json_data.getString("windDirectionValue"));
                 if (json_data.has("windSpeedUnit"))
