@@ -452,9 +452,9 @@
     <string name="undo">בטל</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
+    <string name="humidity">לחות:</string>
+    <string name="pressure">לחץ:</string>
+    <string name="wind">רוח:</string>
+    <string name="clouds">עננים:</string>
+    <string name="real_feel">\"מרגיש כמו\":</string>
 </resources>
