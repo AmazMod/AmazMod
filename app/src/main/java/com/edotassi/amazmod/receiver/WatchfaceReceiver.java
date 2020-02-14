@@ -75,7 +75,6 @@ import java.util.concurrent.ExecutionException;
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.WatchfaceData;
 
-import static com.edotassi.amazmod.util.LocaleUtils.getLanguage;
 import static java.lang.System.currentTimeMillis;
 
 public class WatchfaceReceiver extends BroadcastReceiver {
@@ -391,12 +390,19 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
     public void getWeatherData(Context context) {
         int units = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX); // 0:Kelvin, 1: metric, 2: Imperial
-        String language = LocaleUtils.getLocaleCode();//"en"; // TODO add the selected language code here
-        Logger.error("WatchfaceDataReceiver language: "+language);
+        String language = LocaleUtils.getLocaleCode();
+        //Logger.debug("WatchfaceDataReceiver language: "+language);
         boolean show_feels_like = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL);
         int searchType = Prefs.getInt(Constants.PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO, Constants.PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO);
+
         // Get saved API ID
-        String appid = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, "-");
+        String default_appid = "e2cac022c6c3adaf75b05674522d49b1";
+        String appid = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, default_appid).trim();
+        if (appid.length()!=32) {
+            //e2cac022c6c3adaf75b05674522d49b1
+            appid = default_appid;
+            Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, "key was invalid");
+        }
 
         // 0: by location, 1: by City/Country
         String search;
@@ -441,7 +447,15 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         Date date = new Date();
         long milliseconds = date.getTime();
         long last_week_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, 0);
+        long last_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, 0);
         Date week_update_date = new Date(last_week_weather_update);
+
+        // Limit default API users to 1 request per hour
+        if( appid.equals(default_appid) && milliseconds-last_weather_update < 60*60*1000) {
+            // Send data without weather
+            sendnewdata();
+            return;
+        }
 
         // Pick API to call
         String apiUrl;
@@ -850,7 +864,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Logger.debug("WatchfaceDataReceiver get weather data failed: "+ error.toString());
+                Logger.debug("WatchfaceDataReceiver get weather data request failed: "+ error.toString());
                 // Send data but weather will be null
                 sendnewdata();
             }
