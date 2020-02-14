@@ -57,8 +57,8 @@
         <item>Благодарим ви</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>Заглавие</item>
+        <item>Съдържание</item>
+        <item>И двете</item>
     </string-array>
 </resources>
