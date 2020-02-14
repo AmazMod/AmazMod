@@ -456,5 +456,5 @@
     <string name="pressure">לחץ:</string>
     <string name="wind">רוח:</string>
     <string name="clouds">עננים:</string>
-    <string name="real_feel">Real feel:</string>
+    <string name="real_feel">\"מרגיש כמו\":</string>
 </resources>
