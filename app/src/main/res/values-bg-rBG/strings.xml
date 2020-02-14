@@ -144,9 +144,9 @@
     <string name="pref_enable_music_control_with_hardware_button">Активиране на хардуерно управление на музиката</string>
     <string name="pref_enable_music_control_with_hardware_button_summary">(експериментално) Активиране на контрола на музиката с хардуерните бутони. Натиснете долния бутон за пускане/паузиране на музиката. Продължително натискане за да прескочи те към следващата песен.</string>
     <string name="pref_phone_connect_disconnect_alert">Сигнал за свързване/прекъсване на телефона</string>
-    <string name="pref_phone_connect_disconnect_alert_summary">Watch will vibrate and show phone\'s connection status when it connects/disconnects.</string>
+    <string name="pref_phone_connect_disconnect_alert_summary">Часовника ще вибрира и ще показва състоянието на връзката на телефона, когато се свързва/прекъсва.</string>
     <string name="intro_title_1">Добре дошли в AmazMod!</string>
-    <string name="intro_description_1">Please follow this presentation to learn how to install the service app on watch and grant app access to Notifications on phone.</string>
+    <string name="intro_description_1">Моля, следвайте тази презентация, за да научите как да инсталирате приложението за услуги на часовник и да предоставите достъп на приложението до Известия от телефона.</string>
     <string name="intro_title_permissions">Access to Notifications</string>
     <string name="intro_description_permissions">AmazMod се нуждае от достъп до известия, за да могат да бъдат изпратени до часовника ви, моля, докоснете бутона по-долу, за да предоставите достъп до известията, след което се върнете към презентацията.</string>
     <string name="intro_label_grant_permissions">Please grant access to notifications before proceeding.</string>
