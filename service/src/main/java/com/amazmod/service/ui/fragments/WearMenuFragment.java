@@ -688,13 +688,13 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
                 Logger.debug("WearMenuFragment getSSID action: " + intent.getAction());
                 Logger.debug("WearMenuFragment getSSID connected: " + intent.getBooleanExtra(WifiManager.EXTRA_SUPPLICANT_CONNECTED, false));
 
-                if (wifiInfo.getSupplicantState().equals(SupplicantState.ASSOCIATED))
+                if (wifiInfo.getSupplicantState().equals(SupplicantState.ASSOCIATING))
                     flag = true;
 
                 if (wifiInfo.getSupplicantState().equals(SupplicantState.COMPLETED) && flag) {
                     flag = false;
                     vibrator.vibrate(100);
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.wifi_connected_to) + " " + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.wifi_connected_to) + "\n" + wifiInfo.getSSID(), Toast.LENGTH_SHORT).show();
                 }
             }
         };

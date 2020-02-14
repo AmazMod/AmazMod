@@ -272,7 +272,7 @@
             android:enabled="true"
             android:inputType="textUri"
             tools:ignore="Autofill"
-            android:hint="API key (openweathermap)"
+            android:hint="@string/api_key_openweathermap"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/watchface_weather_settings" />
@@ -291,7 +291,7 @@
                 android:id="@+id/watchface_weather_location_gps_radiobutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location by GPS" />
+                android:text="@string/location_by_gps" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -325,7 +325,7 @@
                 android:id="@+id/watchface_weather_location_manual_radiobutton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Manual location" />
+                android:text="@string/manual_location" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -344,7 +344,7 @@
                     android:enabled="true"
                     android:inputType="textAutoCorrect"
                     tools:ignore="Autofill"
-                    android:hint="City name, country code" />
+                    android:hint="@string/city_name_country_code" />
             </LinearLayout>
         </RadioGroup>
 

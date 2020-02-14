@@ -13,6 +13,7 @@
         <new>(Service) Improved widget-reorder UI with a save button</new>
         <new>Ability to export battery graph history (long press the graph)</new>
         <new>Added Hourly chime feature (a vibration every hour)</new>
+        <new>Now notification filter can be used for title, content only or both two as before</new>
         <new>New option to enable/disable notification sound on Verge</new>
         <new>(Service) Ability to collect and save XDrip+ transmitted data</new>
         <new>New accurate weather forecast data (based on OpenWeatherMap)</new>

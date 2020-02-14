@@ -23,6 +23,7 @@ import android.provider.CalendarContract;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Time;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -75,7 +76,6 @@ import java.util.concurrent.ExecutionException;
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.WatchfaceData;
 
-import static com.edotassi.amazmod.util.LocaleUtils.getLanguage;
 import static java.lang.System.currentTimeMillis;
 
 public class WatchfaceReceiver extends BroadcastReceiver {
@@ -851,6 +851,15 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Logger.debug("WatchfaceDataReceiver get weather data failed: "+ error.toString());
+                if (error.toString().contains("ClientError")) {
+                    Toast.makeText(context, context.getString(R.string.weather_city_error), Toast.LENGTH_LONG).show();
+                }
+                if (error.toString().contains("NoConnectionError")) {
+                    Toast.makeText(context, context.getString(R.string.weather_connection_error), Toast.LENGTH_LONG).show();
+                }
+                if (error.toString().contains("AuthFailureError")) {
+                    Toast.makeText(context, context.getString(R.string.weather_api_error), Toast.LENGTH_LONG).show();
+                }
                 // Send data but weather will be null
                 sendnewdata();
             }
