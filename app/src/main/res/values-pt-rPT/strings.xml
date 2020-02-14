@@ -446,9 +446,9 @@
     <string name="undo">DESFAZER</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
+    <string name="humidity">Humidade:</string>
+    <string name="pressure">Pressão</string>
+    <string name="wind">Vento:</string>
+    <string name="clouds">Nuvens</string>
+    <string name="real_feel">Sensação térmica:</string>
 </resources>
