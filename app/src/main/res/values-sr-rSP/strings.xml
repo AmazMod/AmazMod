@@ -450,9 +450,9 @@ follow the system theme (beta).</string>
     <string name="undo">ОПОЗОВИ</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
+    <string name="humidity">Влажност:</string>
+    <string name="pressure">Притисак:</string>
+    <string name="wind">Ветар:</string>
+    <string name="clouds">Облаци:</string>
+    <string name="real_feel">Стваран осећај:</string>
 </resources>
