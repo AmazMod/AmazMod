@@ -452,9 +452,9 @@
     <string name="undo">ОТМЕНА</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
+    <string name="humidity">Влажность:</string>
+    <string name="pressure">Давление:</string>
+    <string name="wind">Ветер:</string>
+    <string name="clouds">Облачность:</string>
+    <string name="real_feel">По ощущениям:</string>
 </resources>
