@@ -165,5 +165,5 @@
     <string name="activity_menu_screenon">Benachrichtigung Bildschirm an</string>
     <string name="activity_menu_input_method">Eingabemethode ändern</string>
     <string name="activity_menu_device_info">Geräteinfo</string>
-    <string name="activity_menu_hourly_chime">Stündliche Klingelton</string>
+    <string name="activity_menu_hourly_chime">Stündlicher Klingelton</string>
 </resources>
