@@ -452,11 +452,11 @@ seguir el tema de sistema (beta).</string>
     <string name="wind">Viento:</string>
     <string name="clouds">Nubes:</string>
     <string name="real_feel">Sensación real:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="weather_city_error">Error en la ubicación introducida</string>
+    <string name="weather_connection_error">Sin conexión a internet</string>
+    <string name="weather_api_error">Error en la clave API introducida</string>
+    <string name="location_by_gps">Ubicación por GPS</string>
+    <string name="manual_location">Ubicación manual</string>
+    <string name="city_name_country_code">Ciudad, CÓDIGO PAÍS</string>
+    <string name="api_key_openweathermap">Clave API (openweathermap)</string>
 </resources>

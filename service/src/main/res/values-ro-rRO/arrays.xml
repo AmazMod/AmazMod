@@ -2,18 +2,18 @@
 <resources>
     <string-array name="densities">
         <item name="normal">Normal</item>
-        <item name="low">Low</item>
-        <item name="high">High</item>
-        <item name="unknown">Unknown</item>
+        <item name="low">Scăzută</item>
+        <item name="high">Înaltă</item>
+        <item name="unknown">Necunoscută</item>
     </string-array>
     <string-array name="fontSizes">
-        <item name="small">Small</item>
+        <item name="small">Mic</item>
         <item name="normal">Normal</item>
-        <item name="big">Big</item>
-        <item name="huge">Huge</item>
+        <item name="big">Mare</item>
+        <item name="huge">Enorm</item>
     </string-array>
     <string-array name="inverted">
-        <item name="no">No</item>
-        <item name="yes">Yes</item>
+        <item name="no">Nu</item>
+        <item name="yes">Da</item>
     </string-array>
 </resources>

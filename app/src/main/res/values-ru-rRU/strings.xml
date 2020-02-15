@@ -456,11 +456,11 @@
     <string name="wind">Ветер:</string>
     <string name="clouds">Облачность:</string>
     <string name="real_feel">По ощущениям:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="weather_city_error">Что-то не так с указанным местоположением</string>
+    <string name="weather_connection_error">Отсутствует подключение к Интернету</string>
+    <string name="weather_api_error">Что-то не так с указанным API</string>
+    <string name="location_by_gps">Координаты по GPS</string>
+    <string name="manual_location">Ручной ввод местоположения</string>
+    <string name="city_name_country_code">Название города, код страны</string>
+    <string name="api_key_openweathermap">API ключ (openweathermap)</string>
 </resources>

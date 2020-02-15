@@ -445,11 +445,11 @@
     <string name="undo">KUMOA</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
+    <string name="humidity">Kosteus:</string>
+    <string name="pressure">Paine:</string>
+    <string name="wind">Tuuli:</string>
+    <string name="clouds">Pilvet:</string>
+    <string name="real_feel">Tuntuu kuin:</string>
     <string name="weather_city_error">Something is wrong with inputted location</string>
     <string name="weather_connection_error">Miss internet connection</string>
     <string name="weather_api_error">Something is wrong with inputted API</string>

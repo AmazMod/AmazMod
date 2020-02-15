@@ -453,11 +453,11 @@ a rendszertéma követése helyett (beta).</string>
     <string name="wind">Szél:</string>
     <string name="clouds">Felhőzet:</string>
     <string name="real_feel">Valós érzet:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="weather_city_error">Valami nincs rendben a megadott helyszínnel</string>
+    <string name="weather_connection_error">Nincs internet kapcsolat</string>
+    <string name="weather_api_error">Valami nincs rendben a bevitt API-val</string>
+    <string name="location_by_gps">Helyszín GPS által</string>
+    <string name="manual_location">Manuális helyszín</string>
+    <string name="city_name_country_code">Város név, országkód</string>
+    <string name="api_key_openweathermap">API kulcs (openweathermap)</string>
 </resources>
