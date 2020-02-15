@@ -43,10 +43,10 @@
     <string name="unknown">Necunoscută</string>
     <string name="saved">Salvat</string>
     <string name="default_icon"></string>
-    <string name="error_loading">Unable to load springboard pages. Please try opening the Amazfit app on your phone, rearranging and enabling/disabling widget pages in the settings, then tap to reload</string>
+    <string name="error_loading">Imposibil de încărcat paginile de lansare. Încercați să deschideți aplicația Amazfit pe telefonul dvs., rearanjarea și activarea/dezactivarea paginilor widget din setări, apoi atingeți pentru a reîncărca</string>
     <string name="tap_to_cancel">APASĂ PENTRU A ANULA</string>
-    <string name="watch_battery">Watch\'s battery is under %s</string>
-    <string name="phone_battery">Phones\'s battery is under %s</string>
+    <string name="watch_battery">Bateria ceasului este sub %s</string>
+    <string name="phone_battery">Bateria telefonului este sub %s</string>
     <string name="wifi_connected_to">Se Conectează Wi-Fi-ul:</string>
     <string name="wifi_connected">Wi-Fi conectat</string>
     <string name="wifi_disconnected">Wi-Fi deconectat</string>
@@ -54,7 +54,7 @@
     <string name="false_">fals</string>
     <string name="updated">Actualizat</string>
     <string name="low_power">putereMică</string>
-    <string name="restart_needed">Watch will restart to apply changes ;)</string>
+    <string name="restart_needed">Ceasul va reporni pentru a aplica schimbările ;)</string>
     <string name="something_went_wrong">A apărut o eroare</string>
     <string name="killing_background_process">Ștergem procesoarele de fundal…</string>
     <string name="uninstalled_successfully">dezinstalat cu succes!</string>
@@ -68,7 +68,7 @@
     <string name="opening">Se deschide:</string>
     <string name="hidden">ascuns!</string>
     <string name="screen_settings">Setări de Ecran</string>
-    <string name="screen_setting_summary">Changing Font Size will restart watch</string>
+    <string name="screen_setting_summary">Schimbarea Mărimei Font-ului va reporni ceasul</string>
     <string name="density">Densitate:</string>
     <string name="font">Font:</string>
     <string name="inverted">Inversat:</string>
@@ -80,13 +80,13 @@
     <string name="please_wait">Vă rog așteptați…</string>
     <string name="continuing_in">Se continuă in</string>
     <string name="restarting_in">Repornire în</string>
-    <string name="please_wait_may_take_a_while">Please wait, it may take a while…</string>
+    <string name="please_wait_may_take_a_while">Vă rog să așteptați, poate dura o vreme…</string>
     <string name="up_time">Uptime:</string>
     <string name="sleep_time">OrădeDormit:</string>
     <string name="free_ram">RAM Rămas:</string>
     <string name="not_connected">neconectat</string>
     <string name="proceeding_in_3s">Se procedează în 3s…</string>
-    <string name="last_20_values">Last 20 Values [%sd]</string>
+    <string name="last_20_values">Ultimele 20 de Valori [%sd]</string>
     <string name="close_list">[Închide Lista]</string>
     <string name="battery">Bateria</string>
     <string name="no_battery_data">Nu există date despre Baterie încă…</string>
@@ -104,7 +104,7 @@
     <string name="muted">Muțit</string>
     <string name="reply_sent">Răspuns Trimis</string>
     <string name="free_space">Spațiu liber</string>
-    <string name="no_app_found">No app found to handle</string>
+    <string name="no_app_found">Nici o aplicație găsită pentru a avea de-a face</string>
     <string name="please_wait_installation">Vă rugăm să așteptați până când instalația se finalizează…</string>
     <string name="error_deleting">Eroarea se ștergere</string>
     <string name="low_power_mode_warning">Esti sigur? Low Power Mode (LPM) dezactivează Bluetooth și touchscreen până ce ceasul este repornit (țineți apăsat butonul) sau bateria este sub 5% și ceasul este încărcat din nou.</string>
