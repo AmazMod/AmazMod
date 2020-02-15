@@ -458,11 +458,11 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="wind">Vítr:</string>
     <string name="clouds">Mraky:</string>
     <string name="real_feel">Pocitová teplota:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="weather_city_error">Zadané umístění není v pořádku</string>
+    <string name="weather_connection_error">Žádné připojení k internetu</string>
+    <string name="weather_api_error">S API není něco v pořádku</string>
+    <string name="location_by_gps">Lokalizace polohy pomocí GPS</string>
+    <string name="manual_location">Manuální lokalizace polohy</string>
+    <string name="city_name_country_code">Název města, kód země</string>
+    <string name="api_key_openweathermap">klíč API (openweathermap)</string>
 </resources>
