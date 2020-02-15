@@ -170,7 +170,7 @@ public class WeatherFragment extends Card {
 
         // Write the last time data were taken
         Date lastDate = new Date(Prefs.getLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, 0L));
-        SimpleDateFormat format = new SimpleDateFormat("EEEE h:mm a", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("EEEE H:mm", Locale.getDefault());
         last_read.setText( format.format(lastDate) );
     }
 }
