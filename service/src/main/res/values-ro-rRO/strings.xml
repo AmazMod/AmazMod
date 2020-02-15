@@ -57,8 +57,8 @@
     <string name="restart_needed">Watch will restart to apply changes ;)</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="killing_background_process">Killing background processes…</string>
-    <string name="uninstalled_successfully">uninstalled successfully!</string>
-    <string name="list_cleared">List Cleared</string>
+    <string name="uninstalled_successfully">dezinstalat cu succes!</string>
+    <string name="list_cleared">Lista a fost curățata</string>
     <string name="keep_awake_disabled">KeepAwake: Disabled</string>
     <string name="keep_awake_enabled">KeepAwake: Enabled</string>
     <string name="keep_awake_dim_enabled">KeepAwake (Dim): Enabled</string>
@@ -66,7 +66,7 @@
     <string name="reloading_apps">Reloading Apps…</string>
     <string name="list_saved">List Saved</string>
     <string name="opening">Opening:</string>
-    <string name="hidden">hidden!</string>
+    <string name="hidden">ascuns!</string>
     <string name="screen_settings">Screen Settings</string>
     <string name="screen_setting_summary">Changing Font Size will restart watch</string>
     <string name="density">Density:</string>
@@ -121,11 +121,11 @@
     <string name="notification_time">Notification Time</string>
     <string name="continuing_in_3sec">Continuing in 3s…</string>
     <string name="user_files">User Files</string>
-    <string name="apps">Apps</string>
-    <string name="five_minutes">5 minutes</string>
+    <string name="apps">Aplicaţii</string>
+    <string name="five_minutes">5 minute</string>
     <string name="tap_button_to_cancel">Tap button to cancel</string>
     <string name="list_items">List Items</string>
-    <string name="restarting_in_3sec">Restarting in 3s…</string>
+    <string name="restarting_in_3sec">Repornește în 3s…</string>
     <string name="package_name">Package Name</string>
     <string name="title">Titlu</string>
     <string name="sending">Se trimite</string>
