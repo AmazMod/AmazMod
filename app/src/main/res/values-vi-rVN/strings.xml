@@ -448,7 +448,7 @@
     <string name="clouds">Mây:</string>
     <string name="real_feel">Cảm giác thật:</string>
     <string name="weather_city_error">Có gì đó không đúng với vị trí nhập</string>
-    <string name="weather_connection_error">Miss internet connection</string>
+    <string name="weather_connection_error">Miss kết nối internet</string>
     <string name="weather_api_error">Đã xảy ra lỗi với API đã nhập</string>
     <string name="location_by_gps">Vị trí bằng GPS</string>
     <string name="manual_location">Vị trí thủ công</string>
