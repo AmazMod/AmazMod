@@ -66,6 +66,8 @@ public class WeatherFragment extends Card {
     TextView real_feel;
     @BindView(R.id.card_weather_image)
     ImageView weather_image;
+    @BindView(R.id.card_weather_big_image)
+    ImageView weather_big_image;
 
     //private Context mContext;
 
@@ -106,13 +108,13 @@ public class WeatherFragment extends Card {
     int[] weatherIcons = new int[]{
             R.drawable.sunny, //0
             R.drawable.cloudy, //1
-            R.drawable.cloudy,//overcast, //2
+            R.drawable.overcast, //2
             R.drawable.fog, //..
             R.drawable.fog,//smog,
             R.drawable.shower,
             R.drawable.thunder_shower,
-            R.drawable.shower,//light_rain,
-            R.drawable.shower,//moderate_rain,
+            R.drawable.light_rain,
+            R.drawable.moderate_rain,
             R.drawable.heavy_rain,
             R.drawable.heavy_rain,//rainstorm,
             R.drawable.heavy_rain,//torrential_rain,
@@ -120,11 +122,11 @@ public class WeatherFragment extends Card {
             R.drawable.freezing_rain,
             R.drawable.freezing_rain,//hail,
             R.drawable.light_snow,
-            R.drawable.light_snow,//moderate_snow,
+            R.drawable.moderate_snow,
             R.drawable.heavy_snow,
             R.drawable.heavy_snow,//snowstorm,
             R.drawable.dust,
-            R.drawable.dust,//blowing_sand, //..
+            R.drawable.blowing_sand, //..
             R.drawable.sand_storm, //21
             R.drawable.unknown //22
     };
@@ -148,8 +150,10 @@ public class WeatherFragment extends Card {
                 humidity.setText(last_data.getString("humidity"));
             if (last_data.has("pressure"))
                 pressure.setText(last_data.getString("pressure"));
-            if (last_data.has("code"))
+            if (last_data.has("code")){
                 weather_image.setImageResource( weatherIcons[last_data.getInt("code")] );
+                weather_big_image.setImageResource( weatherIcons[last_data.getInt("code")] );
+            }
             if (last_data.has("description"))
                 status.setText(FilesUtil.capitalise(last_data.getString("description")));
             if (last_data.has("clouds"))
