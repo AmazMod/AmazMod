@@ -156,10 +156,10 @@
     <string name="activity_menu_restart_launcher">Перезавантажити лаунчер</string>
     <string name="activity_menu_clear_launcher">Скинути налаштування лаунчера</string>
     <string name="activity_menu_reboot">Перезавантажити</string>
-    <string name="activity_menu_reboot_recovery">Reboot to Recovery</string>
-    <string name="activity_menu_reboot_fastboot">Reboot to Fastboot</string>
-    <string name="activity_menu_units">Units</string>
-    <string name="activity_menu_anti_lost">Disconnect Alert (iOS)</string>
+    <string name="activity_menu_reboot_recovery">Перезавантаження в режимі відновлення</string>
+    <string name="activity_menu_reboot_fastboot">Перезавантаження у Fastboot</string>
+    <string name="activity_menu_units">Одиниці виміру</string>
+    <string name="activity_menu_anti_lost">Сповіщення про від\'єднання (iOS)</string>
     <string name="activity_menu_away_alert">Away Alert (iOS)</string>
     <string name="activity_menu_screenon">Notification ScreenOn</string>
     <string name="activity_menu_input_method">Change Input Method</string>
