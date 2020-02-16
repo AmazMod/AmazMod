@@ -155,14 +155,14 @@
     <string name="activity_menu_grant_admin">Przydziel Uprawnienia Administratora Urządzenia</string>
     <string name="activity_menu_restart_launcher">Restart Launchera</string>
     <string name="activity_menu_clear_launcher">Wyczyść Ustawienia Launchera</string>
-    <string name="activity_menu_reboot">Reboot</string>
-    <string name="activity_menu_reboot_recovery">Reboot to Recovery</string>
-    <string name="activity_menu_reboot_fastboot">Reboot to Fastboot</string>
-    <string name="activity_menu_units">Units</string>
-    <string name="activity_menu_anti_lost">Disconnect Alert (iOS)</string>
-    <string name="activity_menu_away_alert">Away Alert (iOS)</string>
-    <string name="activity_menu_screenon">Notification ScreenOn</string>
-    <string name="activity_menu_input_method">Change Input Method</string>
-    <string name="activity_menu_device_info">Device Info</string>
-    <string name="activity_menu_hourly_chime">Hourly Chime</string>
+    <string name="activity_menu_reboot">Urochom ponownie</string>
+    <string name="activity_menu_reboot_recovery">Uruchomienie Ponownie w Trybie Recovery</string>
+    <string name="activity_menu_reboot_fastboot">Uruchomienie Ponownie w Trybie Fastboot</string>
+    <string name="activity_menu_units">Jednostki</string>
+    <string name="activity_menu_anti_lost">Rozłączenie Powiadomień (iOS)</string>
+    <string name="activity_menu_away_alert">Powiadomienia w Trybie Nieobecności (iOS)</string>
+    <string name="activity_menu_screenon">Ekran Powiadomień </string>
+    <string name="activity_menu_input_method">Zmień Rodzaj Wprowadzania</string>
+    <string name="activity_menu_device_info">Informacje o Urządzaniu</string>
+    <string name="activity_menu_hourly_chime">Dzwonek Cogodzinny</string>
 </resources>
