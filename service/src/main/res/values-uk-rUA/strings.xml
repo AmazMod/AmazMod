@@ -162,7 +162,7 @@
     <string name="activity_menu_anti_lost">Сповіщення про від\'єднання (iOS)</string>
     <string name="activity_menu_away_alert">Сповіщення про відсутність (iOS)</string>
     <string name="activity_menu_screenon">Увімк. екран при надходженні сповіщень</string>
-    <string name="activity_menu_input_method">Change Input Method</string>
-    <string name="activity_menu_device_info">Device Info</string>
-    <string name="activity_menu_hourly_chime">Hourly Chime</string>
+    <string name="activity_menu_input_method">Змінити метод введення</string>
+    <string name="activity_menu_device_info">Інформація про пристрій</string>
+    <string name="activity_menu_hourly_chime">Щогодинний сигнал</string>
 </resources>
