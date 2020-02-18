@@ -442,7 +442,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         String todayUrl ="https://api.openweathermap.org/data/2.5/weather?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
         // UV API (requires searchType == 0)
         String uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?appid="+appid+"&";//+"&lat={lat}&lon={lon}&cnt={cnt}
-
+        // Polution API
+        //https://api.waqi.info/mapq/bounds/?bounds=54.50,-6.08,54.67,-5.76
+        
         // Load update times
         Date date = new Date();
         long milliseconds = date.getTime();
@@ -899,7 +901,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 // [FORECAST API]
                                 // Save week weather update time
                                 Prefs.putLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, date.getTime());
-                            }else if(new_weather_info.has("uvIndex")){
+                            }else if(weather_data.has("uv")){
                                 // [UV API]
                                 // Save UV weather update time
                                 Prefs.putLong(Constants.PREF_TIME_LAST_UV_WEATHER_DATA_SYNC, date.getTime());
