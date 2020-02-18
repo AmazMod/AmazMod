@@ -310,6 +310,17 @@ public class MainService extends Service implements Transporter.DataListener {
         notificationReplyFilter.addAction(Constants.INTENT_ACTION_REPLY);
         LocalBroadcastManager.getInstance(context).registerReceiver(notificationReplyReceiver, notificationReplyFilter);
 
+        //Reboot launcher if language was change to update amazmod widget locate
+        if (settings.get(Constants.REQUEST_SELF_RELOAD, true)) {
+            new ExecCommand(ExecCommand.ADB, "adb shell am force-stop com.huami.watch.launcher");
+            Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
+            if (launchIntent != null) {
+                startActivity(launchIntent);
+                Logger.debug("isRequestSelfReload: is rebooting launcher and reload AmazMod to apply new locate ");
+                settings.set(Constants.REQUEST_SELF_RELOAD, false);
+            }
+        }
+
         // Start OverlayLauncher
         if (settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false))
             setOverlayLauncher(true);

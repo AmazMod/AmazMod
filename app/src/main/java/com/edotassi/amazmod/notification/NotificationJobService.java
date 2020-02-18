@@ -389,9 +389,9 @@ public class NotificationJobService extends JobService implements TransportServi
                     result = "failed";
 
                 if (task.getException() != null) {
-                    Log.e(Constants.TAG, "processCustomNotificationPosted throw: " + task.getException().toString());
+                    Logger.error( "processCustomNotificationPosted throw: " + task.getException().toString());
                     if (AmazModApplication.isWatchConnected && retries < 4) {
-                        Log.d(Constants.TAG, "processCustomNotificationPosted try: " + retries);
+                        Logger.debug("processCustomNotificationPosted try: " + retries);
                         retries++;
                         processCustomNotificationPosted(uuid, mode);
                     } else {
@@ -403,17 +403,17 @@ public class NotificationJobService extends JobService implements TransportServi
                     throw task.getException();
                     }
 
-                Log.i(Constants.TAG, "processCustomNotificationPosted result: " + result);
+                Logger.info("processCustomNotificationPosted result: " + result);
 
                 if (result.toLowerCase().contains("ok")) {
-                    Log.d(Constants.TAG, "processCustomNotificationPosted OK");
+                    Logger.debug("processCustomNotificationPosted OK");
                     NotificationStore.removeCustomNotification(uuid);
                     NotificationStore.removeNotificationBundle(uuid);
                     jobFinished(params, false);
 
                 } else {
                     if (AmazModApplication.isWatchConnected && retries < 4) {
-                        Log.d(Constants.TAG, "processCustomNotificationPosted try: " + retries);
+                        Logger.debug("processCustomNotificationPosted try: " + retries);
                         retries++;
                         processCustomNotificationPosted(uuid, mode);
                     } else {

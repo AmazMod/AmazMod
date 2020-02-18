@@ -99,7 +99,7 @@ public class FragmentUtil {
     }
 
     public void setFontLocale(TextView b, String locale) {
-        //Log.i(Constants.TAG, "FragmentUtil setFontLocale Button: " + locale);
+        //Logger.info("FragmentUtil setFontLocale Button: " + locale);
         if (locale.contains("iw")) {
             Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
             b.setTypeface(face);

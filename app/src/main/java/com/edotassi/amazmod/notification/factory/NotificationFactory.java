@@ -411,7 +411,7 @@ public class NotificationFactory {
                         // Store the actual string
                         String t = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(parcel).toString().trim();
                         text.add(t);
-                        //Log.d(Constants.TAG, "NotificationService extractText " + counter + " t: " + t);
+                        //Logger.debug("NotificationService extractText " + counter + " t: " + t);
                         //counter++;
                     }
                 }

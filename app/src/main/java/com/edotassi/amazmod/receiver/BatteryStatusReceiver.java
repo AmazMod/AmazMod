@@ -124,7 +124,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         batteryStatusEntity.setLevel(batteryData.getLevel());
         batteryStatusEntity.setDateLastCharge(batteryData.getDateLastCharge());
 
-        //Log.d(Constants.TAG,"TransportService batteryStatus: " + batteryStatus.toString());
+        //Logger.debug("TransportService batteryStatus: " + batteryStatus.toString());
 
         try {
             BatteryStatusEntity storeBatteryStatusEntity = SQLite

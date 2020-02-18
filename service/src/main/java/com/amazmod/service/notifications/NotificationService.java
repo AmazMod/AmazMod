@@ -203,13 +203,13 @@ public class NotificationService {
             //Icon ic = new Icon(Icon.T);
             FieldUtils.writeField(notification, "mSmallIcon", null, true);
         } catch (Exception ex) {
-            Log.d(Constants.TAG, "write field failed");
+            Logger.debug("write field failed");
         }
         */
 
         notificationManager.notify(notificationData.getId(), notification);
 
-        //Log.d("Notifiche", "postWithStandardUI: " + notificationSpec.getKey() + " " + notificationSpec.getId() + " " + notificationSpec.getPkg());
+        //Logger.debug("Notifiche", "postWithStandardUI: " + notificationSpec.getKey() + " " + notificationSpec.getId() + " " + notificationSpec.getPkg());
 
         //  Utils.BitmapExtender bitmapExtender = Utils.retrieveAppIcon(context, notificationSpec.getPkg());
         // if (bitmapExtender != null) {
@@ -285,14 +285,14 @@ public class NotificationService {
         StatusBarNotificationData statusBarNotificationData = dataBundle.getParcelable("data");
 
         if (statusBarNotificationData == null) {
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "statsBarNotificationData == null");
+            Logger.debug("statsBarNotificationData == null");
         } else {
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "statusBarNotificationData:");
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "pkg: " + statusBarNotificationData.pkg);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "id: " + statusBarNotificationData.id);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "groupKey: " + statusBarNotificationData.groupKey);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "key: " + statusBarNotificationData.key);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "tag: " + statusBarNotificationData.tag);
+            Logger.debug("statusBarNotificationData:");
+            Logger.debug("pkg: " + statusBarNotificationData.pkg);
+            Logger.debug("id: " + statusBarNotificationData.id);
+            Logger.debug("groupKey: " + statusBarNotificationData.groupKey);
+            Logger.debug("key: " + statusBarNotificationData.key);
+            Logger.debug("tag: " + statusBarNotificationData.tag);
         }
 
         Intent intent = new Intent(context, MainActivity.class);

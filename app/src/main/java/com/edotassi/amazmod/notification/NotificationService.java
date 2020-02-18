@@ -188,7 +188,7 @@ public class NotificationService extends NotificationListenerService {
 
         Logger.debug("onNotificationPosted notificationPackage: " + notificationPackage + " / filterResult: " + ((char) (byte) filterResult));
 
-        //Log.d(Constants.TAG, "Filters: U=" + (filterResult == Constants.FILTER_UNGROUP) +" C="+ (filterResult == Constants.FILTER_CONTINUE) +" K="+ (filterResult == Constants.FILTER_LOCALOK) );
+        //Logger.debug("Filters: U=" + (filterResult == Constants.FILTER_UNGROUP) +" C="+ (filterResult == Constants.FILTER_CONTINUE) +" K="+ (filterResult == Constants.FILTER_LOCALOK) );
         if (filterResult == Constants.FILTER_CONTINUE ||
                 filterResult == Constants.FILTER_UNGROUP ||
                 filterResult == Constants.FILTER_LOCALOK) {
@@ -196,7 +196,7 @@ public class NotificationService extends NotificationListenerService {
             StatusBarNotification sbn = null;
 
             if (filterResult == Constants.FILTER_UNGROUP && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
-                //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup01 key: " + statusBarNotification.getKey()
+                //Logger.debug("NotificationService onNotificationPosted ungroup01 key: " + statusBarNotification.getKey()
                 //        + " \\ id: " + statusBarNotification.getId());
                 int nextId = statusBarNotification.getId() + newUID();
                 sbn = new StatusBarNotification(notificationPackage, "", nextId,
@@ -205,7 +205,7 @@ public class NotificationService extends NotificationListenerService {
                         statusBarNotification.getPostTime());
 
                 if (grouped_notifications.containsKey(statusBarNotification.getId())) {
-                    //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup02 id exists: " + statusBarNotification.getId()
+                    //Logger.debug("NotificationService onNotificationPosted ungroup02 id exists: " + statusBarNotification.getId()
                     //        + " \\ nextId: " + nextId);
                     // Get array
                     int[] grouped = grouped_notifications.get(statusBarNotification.getId());
@@ -216,11 +216,11 @@ public class NotificationService extends NotificationListenerService {
                         System.arraycopy(grouped, 0, newArray, 0, grouped.length);
                         newArray[newArray.length - 1] = nextId;
                         grouped_notifications.put(statusBarNotification.getId(), newArray);
-                        //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup03 id exists newArray: " + Arrays.toString(newArray));
+                        //Logger.debug("NotificationService onNotificationPosted ungroup03 id exists newArray: " + Arrays.toString(newArray));
                     } else
                         Logger.error("grouped: could not create array");
                 } else {
-                    //Log.d(Constants.TAG, "NotificationService onNotificationPosted ungroup04 new id: " + statusBarNotification.getId()
+                    //Logger.debug("NotificationService onNotificationPosted ungroup04 new id: " + statusBarNotification.getId()
                     //        + " \\ nextId: " + nextId);
                     // New in array
                     grouped_notifications.put(statusBarNotification.getId(), new int[]{nextId});
@@ -268,7 +268,7 @@ public class NotificationService extends NotificationListenerService {
         String key = statusBarNotification.getKey();
 
         Logger.debug("onNotificationRemoved notificationRemoved: {}", key);
-        //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup00 key: " + key);
+        //Logger.debug("NotificationService onNotificationRemoved ungroup00 key: " + key);
 
         if (!Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS, Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS)
                 || (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
@@ -307,24 +307,24 @@ public class NotificationService extends NotificationListenerService {
                 @Override
                 public void onResultBack(DataTransportResult dataTransportResult) {
                     log.d(dataTransportResult.toString());
-                    Log.d(Constants.TAG, "NotificationService onNotificationRemoved id: " + statusBarNotification.getId());
+                    Logger.debug("NotificationService onNotificationRemoved id: " + statusBarNotification.getId());
                 }
             });
             */
 
             if (grouped_notifications.containsKey(statusBarNotification.getId())) {
-                //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup01 key: " + statusBarNotification.getKey()
+                //Logger.debug("NotificationService onNotificationRemoved ungroup01 key: " + statusBarNotification.getKey()
                 //        + " \\ id: " + statusBarNotification.getId());
                 // Initial array
                 int[] grouped = grouped_notifications.get(statusBarNotification.getId());
-                //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup02 key: " + statusBarNotification.getKey()
+                //Logger.debug("NotificationService onNotificationRemoved ungroup02 key: " + statusBarNotification.getKey()
                 //        + " \\ grouped: " + Arrays.toString(grouped));
                 // Loop each notification in group
                 assert grouped != null;
                 for (int groupedId : grouped) {
                     //int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
                     jobId = groupedId + newUID();
-                    //Log.d(Constants.TAG, "NotificationService onNotificationRemoved ungroup i: " + groupedId);
+                    //Logger.debug("NotificationService onNotificationRemoved ungroup i: " + groupedId);
 
                     dataBundle = new DataBundle();
                     StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
@@ -494,12 +494,12 @@ public class NotificationService extends NotificationListenerService {
 
     private int isRinging() {
 
-        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_IN_CALL = " + AudioManager.MODE_IN_CALL);
-        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_IN_COMMUNICATION = " + AudioManager.MODE_IN_COMMUNICATION);
-        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_RINGTONE = " + AudioManager.MODE_RINGTONE);
-        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_CURRENT = " + AudioManager.MODE_CURRENT);
-        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_INVALID = " + AudioManager.MODE_INVALID);
-        //Log.d(Constants.TAG, "NotificationJobService isRinging AudioManager.MODE_NORMAL = " + AudioManager.MODE_NORMAL);
+        //Logger.debug("NotificationJobService isRinging AudioManager.MODE_IN_CALL = " + AudioManager.MODE_IN_CALL);
+        //Logger.debug("NotificationJobService isRinging AudioManager.MODE_IN_COMMUNICATION = " + AudioManager.MODE_IN_COMMUNICATION);
+        //Logger.debug("NotificationJobService isRinging AudioManager.MODE_RINGTONE = " + AudioManager.MODE_RINGTONE);
+        //Logger.debug("NotificationJobService isRinging AudioManager.MODE_CURRENT = " + AudioManager.MODE_CURRENT);
+        //Logger.debug("NotificationJobService isRinging AudioManager.MODE_INVALID = " + AudioManager.MODE_INVALID);
+        //Logger.debug("NotificationJobService isRinging AudioManager.MODE_NORMAL = " + AudioManager.MODE_NORMAL);
 
         final int mode = getAudioManagerMode();
         if (AudioManager.MODE_IN_CALL == mode) {
@@ -802,11 +802,11 @@ public class NotificationService extends NotificationListenerService {
             NotificationWear notificationWear = getNotificationWear(statusBarNotification);
             if (notificationWear != null) {
                 reply(notificationWear, statusBarNotification.getKey(), reply);
-                Log.d(Constants.TAG, "NotificationService replyToNotificationLocal sent reply: " + notificationId);
+                Logger.debug("NotificationService replyToNotificationLocal sent reply: " + notificationId);
             }
             else {
                 replyToNotification(statusBarNotification, reply);
-                Log.d(Constants.TAG, "NotificationService replyToNotificationLocal sent replyToNotification: " + notificationId);
+                Logger.debug("NotificationService replyToNotificationLocal sent replyToNotification: " + notificationId);
             }
             */
 
@@ -863,7 +863,7 @@ public class NotificationService extends NotificationListenerService {
                 || ((mode == 2) && ((counter < 3) && isRinging() != AudioManager.MODE_IN_COMMUNICATION))
                 || ((mode == 3) && (counter < 3))) {
             long timeSinceLastNotification = (System.currentTimeMillis() - lastTimeNotificationSent);
-            //Log.d(Constants.TAG, "NotificationService handleCall timeSinceLastNotification: " + timeSinceLastNotification);
+            //Logger.debug("NotificationService handleCall timeSinceLastNotification: " + timeSinceLastNotification);
 
             if (timeSinceLastNotification > VOICE_INTERVAL) {
 
@@ -872,7 +872,7 @@ public class NotificationService extends NotificationListenerService {
                 final String key = statusBarNotification.getKey();
                 final PackageManager pm = getApplicationContext().getPackageManager();
 
-                //Log.d(Constants.TAG, "NotificationService handleCall notificationPackage: " + notificationPackage);
+                //Logger.debug("NotificationService handleCall notificationPackage: " + notificationPackage);
 
                 ApplicationInfo ai;
                 try {
@@ -883,7 +883,7 @@ public class NotificationService extends NotificationListenerService {
                 }
                 final String applicationName = (String) (ai != null ? pm.getApplicationLabel(ai) : "(unknown)");
 
-                //Log.d(Constants.TAG, "NotificationService handleCall applicationName: " + applicationName);
+                //Logger.debug("NotificationService handleCall applicationName: " + applicationName);
 
                 notificationData.setText(notificationData.getText() + "\n" + applicationName);
                 notificationData.setVibration(getDefaultVibration());

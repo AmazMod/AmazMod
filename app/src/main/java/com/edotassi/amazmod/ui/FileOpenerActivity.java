@@ -215,7 +215,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             if (dir.isDirectory()) {
                 String[] children = dir.list();
                 for (String child : children) {
-                    //Log.d(Constants.TAG, "FileOpenerActivity deleteWorkDir child: " + child);
+                    //Logger.debug("FileOpenerActivity deleteWorkDir child: " + child);
                     boolean success = deleteWorkDir(new File(dir, child));
                     if (!success)
                         return false;

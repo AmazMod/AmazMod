@@ -94,7 +94,7 @@ public class WearInfoFragment extends Fragment {
 
         StringBuilder dateDiff = new StringBuilder("  ");
 
-        //Log.d(Constants.TAG, "AmazModWidget updateTimeSinceLastChargeDate data: " + battery + " / " + lastChargeDate );
+        //Logger.debug("AmazModWidget updateTimeSinceLastChargeDate data: " + battery + " / " + lastChargeDate );
         if (lastChargeDate != 0L) {
             long diffInMillies = System.currentTimeMillis() - lastChargeDate;
             List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));

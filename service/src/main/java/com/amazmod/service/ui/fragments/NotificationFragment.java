@@ -274,7 +274,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         }
 
         // Set theme and font size
-        //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
+        //Logger.debug("NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));

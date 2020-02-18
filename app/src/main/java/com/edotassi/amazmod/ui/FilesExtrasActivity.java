@@ -505,7 +505,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
             for (NotificationPreferencesEntity p : apps) {
                 dummy.add(p.getPackageName());
                 filters.put(p.getPackageName(), p.getFilter());
-                //Log.d(Constants.TAG,"FilesExtrasActivity saveAppsDbToPrefs added: " + p.getPackageName());
+                //Logger.debug("FilesExtrasActivity saveAppsDbToPrefs added: " + p.getPackageName());
             }
 
             if (dummy.size() > 0) {

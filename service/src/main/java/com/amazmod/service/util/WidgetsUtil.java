@@ -459,9 +459,9 @@ public class WidgetsUtil {
 
             // Loop through installed apps
             for (ApplicationInfo packageInfo : packages) {
-                //Log.d(TAG, "Installed package :" + packageInfo.packageName);
-                //Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
-                //Log.d(TAG, "Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
+                //Logger.debug("Installed package :" + packageInfo.packageName);
+                //Logger.debug("Source dir : " + packageInfo.sourceDir);
+                //Logger.debug("Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
                 Bundle bundle = packageInfo.metaData;
                 if (bundle == null) continue;
                 try {

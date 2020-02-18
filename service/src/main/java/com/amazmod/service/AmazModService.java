@@ -9,6 +9,7 @@ import android.util.DisplayMetrics;
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
 import com.amazmod.service.settings.SettingsManager;
+import com.amazmod.service.util.DeviceUtil;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -103,6 +104,7 @@ public class AmazModService extends Application {
         android.content.res.Configuration conf = res.getConfiguration();
         conf.locale = getLocaleByLanguageCode(language);
         res.updateConfiguration(conf, dm);
+        DeviceUtil.systemPutString(getContext(), "AmazModLocale", language);
 
         Logger.debug("Amazmod locale set:"+getLocaleByLanguageCode(language));
     }

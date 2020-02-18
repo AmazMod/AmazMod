@@ -69,7 +69,7 @@ public class HeartRateChartFragment extends Card {
     @Override
     public void onResume() {
         super.onResume();
-        //Log.d(Constants.TAG, "HeartRateChartFragment onResume");
+        //Logger.debug("HeartRateChartFragment onResume");
     }
 
     @Override

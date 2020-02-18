@@ -8,7 +8,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
-import android.util.Log;
+
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 
@@ -65,7 +66,7 @@ public class Action implements Parcelable {
         ArrayList<RemoteInput> actualInputs = new ArrayList<>();
 
         for (RemoteInputParcel input : remoteInputs) {
-            Log.i(Constants.TAG, "Action RemoteInput: " + input.getLabel());
+            Logger.info("Action RemoteInput: " + input.getLabel());
             bundle.putCharSequence(input.getResultKey(), msg);
             RemoteInput.Builder builder = new RemoteInput.Builder(input.getResultKey());
             builder.setLabel(input.getLabel());

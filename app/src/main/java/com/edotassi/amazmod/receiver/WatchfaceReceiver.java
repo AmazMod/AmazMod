@@ -203,7 +203,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             }
         }
 
-        //Log.d(Constants.TAG, "WatchfaceDataReceiver onReceive");
+        //Logger.debug("WatchfaceDataReceiver onReceive");
     }
     public void sendnewdata() {
         sendnewdata(true);
@@ -249,7 +249,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
         if (delay < 0) delay = 0;
 
-        //Log.i(Constants.TAG, "WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
+        //Logger.info("WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
 
         // Cancel any other intent
         if (alarmManager != null && pendingIntent != null) {
@@ -355,7 +355,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     AlarmManager.AlarmClockInfo clockInfo = alarmManager.getNextAlarmClock();
                     if (clockInfo != null) {
                         long nextAlarmTime = clockInfo.getTriggerTime();
-                        //Log.d(Constants.TAG, "Next alarm time: " + nextAlarmTime);
+                        //Logger.debug("Next alarm time: " + nextAlarmTime);
                         Date nextAlarmDate = new Date(nextAlarmTime);
                         android.text.format.DateFormat df = new android.text.format.DateFormat();
                         // Format alarm time as e.g. "Fri 06:30"
@@ -1397,7 +1397,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             Logger.debug("WatchfaceDataReceiver getICSCalendarEvents SU: " + vEvent.getSummary().getValue());
                             Logger.debug("WatchfaceDataReceiver getICSCalendarEvents RRULE: " + (Period) po
                                     + " \\ " + ((Period) po).getStart() + " \\ " + ((Period) po).getStart().getTime());
-                            //Log.d(Constants.TAG, "WatchfaceDataReceiver getICSCalendarEvents RRULE: " + (Period) po + " \\ " + ((Period) po).getStart().toString() + " \\ " + ((Period) po).getStart().getTime() + " \\ " + ((Period) po).getEnd().getTime());
+                            //Logger.debug("WatchfaceDataReceiver getICSCalendarEvents RRULE: " + (Period) po + " \\ " + ((Period) po).getStart().toString() + " \\ " + ((Period) po).getStart().getTime() + " \\ " + ((Period) po).getEnd().getTime());
                             vEvent.getStartDate().setDate(new DateTime(((Period) po).getStart()));
                             vEvent.getEndDate().setDate(new DateTime(((Period) po).getEnd()));
                             eventList.add(vEvent);
