@@ -672,8 +672,30 @@ public class MainService extends Service implements Transporter.DataListener {
                 // aqi":-1,
                 // "aqiLevel":0,
                 // "pm25":-1,
-                // "uv":"Weakest",
-                // "uvIndex"
+
+                // New UV values in weather
+                int uvIndex = -1;
+                if (json_data.has("uvIndex")){
+                    uvIndex = json_data.getInt("uvIndex");
+                    system_json_data.put("uvIndex", uvIndex);
+                }
+                if (json_data.has("uv")){
+                    system_json_data.put("uv", json_data.getInt("uv"));
+                }else if(uvIndex > -1){
+                    String uv;
+                    if (uvIndex <= 2) {
+                        uv = "Weakest";
+                    }else if (uvIndex <= 4) {
+                        uv = "Weak";
+                    }else if (uvIndex <= 6) {
+                        uv = "Moderate";
+                    }else if (uvIndex <= 9) {
+                        uv = "Strong";
+                    }else{
+                        uv = "Very strong";
+                    }
+                    system_json_data.put("uv", uv);
+                }
 
                 // New custom values in weather
                 if (json_data.has("tempMin")) // this value doesn't exist by default

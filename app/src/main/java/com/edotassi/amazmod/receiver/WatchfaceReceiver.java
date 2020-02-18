@@ -440,16 +440,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         String weekUrl ="https://api.openweathermap.org/data/2.5/forecast?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
         // Call current weather data URL (OpenWeatherMap)
         String todayUrl ="https://api.openweathermap.org/data/2.5/weather?"+search+"&appid="+appid+"&lang="+language+ (units==0?"":("&units="+(units==1?"metric":"imperial")));
-
         // UV API (requires searchType == 0)
-        // String uvUrl ="https://api.openweathermap.org/data/2.5/uvi?"+search+"&appid="+appid;
+        String uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?appid="+appid+"&";//+"&lat={lat}&lon={lon}&cnt={cnt}
 
         // Load update times
         Date date = new Date();
         long milliseconds = date.getTime();
         long last_week_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, 0);
         long last_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, 0);
+        long last_uv_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_UV_WEATHER_DATA_SYNC, 0);
         Date week_update_date = new Date(last_week_weather_update);
+        Date uv_update_date = new Date(last_uv_weather_update);
 
         // Limit default API users to 1 request per hour
         if( appid.equals(default_appid) && milliseconds-last_weather_update < 60*60*1000) {
@@ -459,13 +460,27 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // Pick API to call
-        String apiUrl;
+        String apiUrl = todayUrl; // Get current weather by default
         if ( date.getDate() != week_update_date.getDate() || milliseconds-last_week_weather_update > 8*60*60*1000 ){// New day or 8h passed
             // Update week forecast
             apiUrl = weekUrl;
-        }else{
-            // Get current weather
-            apiUrl = todayUrl;
+        }else if ( date.getDate() != uv_update_date.getDate() || milliseconds-last_uv_weather_update > 8*60*60*1000 ){// New day or 8h passed
+            // Update UV
+            if ( searchType == 0 )
+                apiUrl = uvUrl+search;
+            else {
+                // Get saved coordinates
+                String last_saved_data = Prefs.getString(Constants.PREF_WEATHER_LAST_DATA, "");
+                // Extract data
+                try {
+                    // Extract data from JSON
+                    JSONObject last_data = new JSONObject(last_saved_data);
+                    if (last_data.has("lon") && last_data.has("lat"))
+                        apiUrl = uvUrl+"lat=" + last_data.getString("lat") + "&lon" + last_data.getString("lon");
+                }catch (Exception e) {
+                    //Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
+                }
+            }
         }
 
         // Instantiate the RequestQueue.
@@ -475,6 +490,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        // if array, place it inside an object
+                        if ( response.trim().substring(0, 1).equals("[") )
+                            response = "{\"uv\":"+response+"}";
+
                         Logger.debug("WatchfaceDataReceiver weather data: " + response);
 
                         // Get last last current weather update time
@@ -522,6 +541,18 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             //      "sunset":1576339022
                             //  }}
 
+                            // Example of UV URL
+                            // [
+                            //      {
+                            //      "lat":54.64,
+                            //      "lon":-5.84,
+                            //      "date_iso":"2020-02-18T12:00:00Z",
+                            //      "date":1582027200,
+                            //      "value":0.84
+                            //      },
+                            //      ...
+                            // ]
+
                             // Data to sent
                             JSONObject new_weather_info = new JSONObject();
                             // Example:
@@ -539,7 +570,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             // Standard format (WeatherInfo) is send to watch
                             Double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max, speed;
                             Integer weather_id_from, weather_id_to;
-                            String pressure, humidity, tempUnit, city, clouds, country, lon, lat, description;
+                            String pressure, humidity, tempUnit, city, clouds, country, lon, lat, description, weather_from, weather_to;
                             int weather_id, visibility, sunrise, sunset, deg;
                             String[] directions = {"N","NE", "E", "SE", "S", "SW", "W", "NW","N/A"};
 
@@ -563,9 +594,11 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 // initialise data
                                 int day = 0;
                                 long temp_dt = 0;
-                                weather_id_from = weather_id_to = 22;
+                                weather_id_from = 22;
+                                weather_id_to = -1;
                                 temp_min = 999.0;
                                 temp_max = -273.0;
+                                weather_from = weather_to = description = "N/A";
 
                                 // Loop in the pulled data
                                 boolean saved = true;
@@ -593,8 +626,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         new_item.put("tempFormatted",Math.round(temp_max)+"º"+tempUnit+"/"+Math.round(temp_min)+"º"+tempUnit);
                                         new_item.put("weatherCodeFrom",weather_id_from);
                                         new_item.put("weatherCodeTo",weather_id_to);
-                                        new_item.put("weatherFrom",weather_id_from);
-                                        new_item.put("weatherTo",weather_id_to);
+                                        new_item.put("weatherFrom",weather_from);
+                                        new_item.put("weatherTo",weather_to);
                                         new_item.put("day",day);
 
                                         forecasts.put(new_item);
@@ -633,10 +666,11 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                         JSONArray weather = item.getJSONArray("weather");
                                         JSONObject weather1 = weather.getJSONObject(0);
                                         weather_id = getHuamiWeatherCode(weather1.getInt("id"));
+                                        description = weather1.getString("description");
 
                                         // save
-                                        if ( i == 0 )
-                                            new_weather_info.put("weatherCode",weather_id);
+                                            if ( i == 0 )
+                                                new_weather_info.put("weatherCode", weather_id);
                                     }
 
                                     if (item.has("clouds") && i == 0 && temp_dt > last_current_weather_update ) {
@@ -672,10 +706,14 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                             temp_min = tmp_temp_min;
                                         if ( tmp_temp_max > temp_max )
                                             temp_max = tmp_temp_max;
-                                        if ( weather_id < weather_id_from )
+                                        if ( weather_id_from == 22 || weather_id > weather_id_from ) {
                                             weather_id_from = weather_id;
-                                        if ( weather_id < 22 && (weather_id_to == 22 || weather_id > weather_id_to) )
+                                            weather_from = description;
+                                        }
+                                        if ( weather_id_to == -1 || weather_id < weather_id_to ) {
                                             weather_id_to = weather_id;
+                                            weather_to = description;
+                                        }
                                         saved = false;
                                     }else{
                                         dayofmonth = tmp_dayofmonth;
@@ -694,8 +732,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                     new_item.put("tempFormatted",Math.round(temp_max)+"º"+tempUnit+"/"+Math.round(temp_min)+"º"+tempUnit);
                                     new_item.put("weatherCodeFrom",weather_id_from);
                                     new_item.put("weatherCodeTo",weather_id_to);
-                                    new_item.put("weatherFrom",weather_id_from);
-                                    new_item.put("weatherTo",weather_id_to);
+                                    new_item.put("weatherFrom",weather_from);
+                                    new_item.put("weatherTo",weather_to);
                                     new_item.put("day",day);
 
                                     forecasts.put(new_item);
@@ -836,6 +874,19 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 }
                             }
 
+                            // [UV weather API]
+                            if (weather_data.has("uv")) {
+                                JSONArray json = weather_data.getJSONArray("uv");
+                                for(int i=0;i<json.length();i++){
+                                    JSONObject item = json.getJSONObject(i);
+                                    if (item.has("date")) {
+                                        if(item.has("value") && ( item.getInt("date")*1000 < date.getTime() )){
+                                            Double uvIndex = Double.parseDouble(item.getString("value"));
+                                            new_weather_info.put("uvIndex",Math.round(uvIndex));
+                                        }
+                                    }
+                                }
+                            }
 
                             new_weather_info.put("time", date.getTime() ); // save current time in milliseconds
 
@@ -848,6 +899,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                                 // [FORECAST API]
                                 // Save week weather update time
                                 Prefs.putLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, date.getTime());
+                            }else if(new_weather_info.has("uvIndex")){
+                                // [UV API]
+                                // Save UV weather update time
+                                Prefs.putLong(Constants.PREF_TIME_LAST_UV_WEATHER_DATA_SYNC, date.getTime());
                             }else{
                                 // [CURRENT weather API]
                                 // Save current weather update time
