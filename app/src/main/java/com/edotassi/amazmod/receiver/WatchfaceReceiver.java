@@ -461,10 +461,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         // Pick API to call
         String apiUrl = todayUrl; // Get current weather by default
-        if ( date.getDate() != week_update_date.getDate() || milliseconds-last_week_weather_update > 8*60*60*1000 ){// New day or 8h passed
+        if ( date.getDate() != week_update_date.getDate() || milliseconds-last_week_weather_update > 6*60*60*1000 ){// New day or 6h passed
             // Update week forecast
             apiUrl = weekUrl;
-        }else if ( date.getDate() != uv_update_date.getDate() || milliseconds-last_uv_weather_update > 8*60*60*1000 ){// New day or 8h passed
+        }else if ( date.getDate() != uv_update_date.getDate() || milliseconds-last_uv_weather_update > 6*60*60*1000 ){// New day or 6h passed
             // Update UV
             if ( searchType == 0 )
                 apiUrl = uvUrl+search;
