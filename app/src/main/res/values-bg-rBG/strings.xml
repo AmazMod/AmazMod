@@ -451,11 +451,11 @@
     <string name="wind">Вятър:</string>
     <string name="clouds">Облаци:</string>
     <string name="real_feel">Усеща се:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
+    <string name="weather_city_error">Нещо не е наред с въведеното местоположение</string>
+    <string name="weather_connection_error">Липсва връзка с интернет</string>
+    <string name="weather_api_error">Нещо не е наред с въведения API</string>
+    <string name="location_by_gps">Местоположение чрез GPS</string>
+    <string name="manual_location">Ръчно зададено местоположение</string>
+    <string name="city_name_country_code">Име на град, код на държава</string>
     <string name="api_key_openweathermap">API key (openweathermap)</string>
 </resources>

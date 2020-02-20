@@ -451,16 +451,16 @@
     <string name="undo">COFNIJ</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="humidity">Wilgotność:</string>
+    <string name="pressure">Ciśnienie:</string>
+    <string name="wind">Wiatr:</string>
+    <string name="clouds">Zachmurzenie:</string>
+    <string name="real_feel">Rzeczywiste uczucie:</string>
+    <string name="weather_city_error">Coś jest nie tak z wprowadzoną lokalizacją</string>
+    <string name="weather_connection_error">Brak połączenia z Internetem</string>
+    <string name="weather_api_error">Coś jest nie tak z wprowadzonym kluczem API</string>
+    <string name="location_by_gps">Lokalizacja przez GPS</string>
+    <string name="manual_location">Lokalizacja ręczna</string>
+    <string name="city_name_country_code">Nazwa miasta, kod kraju</string>
+    <string name="api_key_openweathermap">Klucz API (openweathermap)</string>
 </resources>
