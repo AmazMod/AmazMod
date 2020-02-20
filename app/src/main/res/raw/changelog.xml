@@ -1,8 +1,8 @@
 <changelog>
     <release
-        date="Unreleased"
-        versionCode="218"
-        versionName="v1.1.9 (218)">
+        date="2020-02-20"
+        versionCode="220"
+        versionName="v1.1.9 (220)">
         <new>Add setting to use colored icon for custom UI notification</new>
         <new>Now dark theme will follow system theme setting (beta)</new>
         <new>Watch widgets can now be reordered directly from the phone</new>

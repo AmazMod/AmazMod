@@ -9,15 +9,15 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 218
+        versionCode 220
         versionName "1.1.9"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        if (branch == "master") {
-            setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
-        } else {
+        if (branch == "dev") {
             versionNameSuffix "-" + branch
             setProperty("archivesBaseName", "AmazMod-$project.name")
+        } else {
+            setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
         }
     }
     dataBinding {
