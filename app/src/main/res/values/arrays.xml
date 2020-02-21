@@ -188,6 +188,7 @@
         <item>Celsius (Metric)</item>
         <item>Imperial (Fahrenheit)</item>
     </string-array>
+
     <string-array name="pref_watchface_weather_units_values" translatable="false">
         <item>0</item>
         <item>1</item>
