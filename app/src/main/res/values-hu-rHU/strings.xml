@@ -14,7 +14,7 @@
     <string name="brightness">Fényerő</string>
     <string name="tweaking">Trükkök</string>
     <string name="widgets">Widgetek</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Naptár / Időjárás</string>
     <string name="stats">Statisztikák</string>
     <string name="changelog">Változások</string>
     <string name="rate_app">Alkalmazás értékelése</string>
@@ -460,13 +460,13 @@ a rendszertéma követése helyett (beta).</string>
     <string name="manual_location">Manuális helyszín</string>
     <string name="city_name_country_code">Város név, országkód</string>
     <string name="api_key_openweathermap">API kulcs (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="yes">IGEN</string>
+    <string name="no">NEM</string>
+    <string name="file">Fájl</string>
+    <string name="result">Eredmény</string>
+    <string name="set_active_watchface">Szeretnéd aktív számlapként beállítani?</string>
+    <string name="write_ok">sikeres írás</string>
+    <string name="install_ok">a telepítés elindul</string>
+    <string name="something_goes_wrong">valami nem sikerült</string>
+    <string name="invalid_key">az api kulcs érvénytelen</string>
 </resources>
