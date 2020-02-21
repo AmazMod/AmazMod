@@ -472,6 +472,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="set_active_watchface">Chcete jej nastavit jako aktivní ciferník?</string>
     <string name="write_ok">zápis úspěšný</string>
     <string name="install_ok">instalace se spustí</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="something_goes_wrong">něco se pokazilo</string>
+    <string name="invalid_key">api klíč byl neplatný</string>
 </resources>
