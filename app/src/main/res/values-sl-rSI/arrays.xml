@@ -34,11 +34,6 @@
         <item>50%</item>
         <item>99%</item>
     </string-array>
-    <string-array name="pref_watchface_weather_units_entries">
-        <item>Metric (Kelvin)</item>
-        <item>Celsius (Metric)</item>
-        <item>Imperial (Fahrenheit)</item>
-    </string-array>
     <string-array name="pref_watchface_calendar_events_days">
         <item>Disable</item>
         <item>1 day</item>
@@ -64,5 +59,10 @@
         <item>Title</item>
         <item>Contents</item>
         <item>Both</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metric (Kelvin)</item>
+        <item>Celsius (Metric)</item>
+        <item>Imperial (Fahrenheit)</item>
     </string-array>
 </resources>
