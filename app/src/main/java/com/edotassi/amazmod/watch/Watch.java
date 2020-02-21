@@ -139,7 +139,7 @@ public class Watch {
                             public Object call() throws Exception {
                                 TransportService transportService = Tasks.await(getServiceInstance());
 
-                                long lastChunnkSize = size % Constants.CHUNK_SIZE;
+                                long lastChunkSize = size % Constants.CHUNK_SIZE;
                                 long totalChunks = size / Constants.CHUNK_SIZE;
                                 long startedAt = System.currentTimeMillis();
 
@@ -179,7 +179,7 @@ public class Watch {
                                     operationProgress.update(duration, byteSent, remainTime, progress);
                                 }
 
-                                if (lastChunnkSize > 0) {
+                                if (lastChunkSize > 0) {
                                     RequestDownloadFileChunkData requestDownloadFileChunkData = new RequestDownloadFileChunkData();
                                     requestDownloadFileChunkData.setPath(path);
                                     requestDownloadFileChunkData.setIndex((int) totalChunks);
