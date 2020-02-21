@@ -14,7 +14,7 @@
     <string name="brightness">밝기</string>
     <string name="tweaking">트윅</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">GreatFit / 캘린더</string>
+    <string name="watchface">GreatFit / Calendar / Weather</string>
     <string name="stats">통계</string>
     <string name="changelog">변경 사항</string>
     <string name="rate_app">Rate App</string>
@@ -455,4 +455,13 @@ follow the system theme (beta).</string>
     <string name="manual_location">Manual location</string>
     <string name="city_name_country_code">City name, country code</string>
     <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="file">File</string>
+    <string name="result">Result</string>
+    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
+    <string name="write_ok">write successful</string>
+    <string name="install_ok">install is starting</string>
+    <string name="something_goes_wrong">something goes wrong</string>
+    <string name="invalid_key">api key was invalid</string>
 </resources>
