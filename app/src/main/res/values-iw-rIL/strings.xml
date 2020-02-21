@@ -14,7 +14,7 @@
     <string name="brightness">בהירות</string>
     <string name="tweaking">הגדרות מיוחדות</string>
     <string name="widgets">ווידג\'טים</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / יומן/ מזג אוויר</string>
     <string name="stats">סטטיסטיקה</string>
     <string name="changelog">יומן שינויים</string>
     <string name="rate_app">דרגו את האפליקציה</string>
@@ -463,11 +463,11 @@
     <string name="manual_location">מיקום ידני</string>
     <string name="city_name_country_code">שם עיר, קוד מדינה</string>
     <string name="api_key_openweathermap">מפתח API (מסופק על ידי openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+    <string name="file">קובץ</string>
+    <string name="result">תוצאה</string>
+    <string name="set_active_watchface">האם תרצו לקבוע את העיצוב כפעיל כעת?</string>
     <string name="write_ok">write successful</string>
     <string name="install_ok">install is starting</string>
     <string name="something_goes_wrong">something goes wrong</string>
