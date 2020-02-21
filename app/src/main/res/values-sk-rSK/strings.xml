@@ -14,7 +14,7 @@
     <string name="brightness">Jas</string>
     <string name="tweaking">Ladenie</string>
     <string name="widgets">Widgety</string>
-    <string name="watchface">GreatFit / kalendár</string>
+    <string name="watchface">GreatFit / Kalendár / Počasie</string>
     <string name="stats">Štatistiky</string>
     <string name="changelog">Zoznam zmien</string>
     <string name="rate_app">Ohodnotiť aplikáciu</string>
@@ -464,4 +464,13 @@ Urobte príkaz shell \"</string>
     <string name="manual_location">Manuálne umiestnenie</string>
     <string name="city_name_country_code">Názov mesta, kód krajiny</string>
     <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="yes">ÁNO</string>
+    <string name="no">NIE</string>
+    <string name="file">Súbor</string>
+    <string name="result">Výsledok</string>
+    <string name="set_active_watchface">Chcete ho nastaviť ako aktívny ciferník?</string>
+    <string name="write_ok">zapísané úspešne</string>
+    <string name="install_ok">inštalácia sa začína</string>
+    <string name="something_goes_wrong">niečo sa pokazilo</string>
+    <string name="invalid_key">kľúč Api bol neplatný</string>
 </resources>

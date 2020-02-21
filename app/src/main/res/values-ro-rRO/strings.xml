@@ -14,7 +14,7 @@
     <string name="brightness">Lumină</string>
     <string name="tweaking">Optimizări</string>
     <string name="widgets">Widget-uri</string>
-    <string name="watchface">GreatFit / Calendar</string>
+    <string name="watchface">Greatfit / Calendar / Vremea</string>
     <string name="stats">Statistici</string>
     <string name="changelog">Istoric modificări</string>
     <string name="rate_app">Evaluează aplicația</string>
@@ -460,4 +460,13 @@
     <string name="manual_location">Locație manuală</string>
     <string name="city_name_country_code">Numele orașului, codul tării</string>
     <string name="api_key_openweathermap">Cheie API (deschidehartameteo)</string>
+    <string name="yes">DA</string>
+    <string name="no">NU</string>
+    <string name="file">Fișier</string>
+    <string name="result">Rezultat</string>
+    <string name="set_active_watchface">Ai vrea să-l setezi ca un watchface activ?</string>
+    <string name="write_ok">scris cu success</string>
+    <string name="install_ok">instalația începe</string>
+    <string name="something_goes_wrong">a apărut o problemă</string>
+    <string name="invalid_key">cheia api a fost invalidă</string>
 </resources>

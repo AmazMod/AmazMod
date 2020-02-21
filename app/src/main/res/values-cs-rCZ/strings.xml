@@ -14,7 +14,7 @@
     <string name="brightness">Jas</string>
     <string name="tweaking">Vylepšení</string>
     <string name="widgets">Widgety</string>
-    <string name="watchface">Ciferník</string>
+    <string name="watchface">GreatFit / Kalendář / Počasí</string>
     <string name="stats">Statistika</string>
     <string name="changelog">Přehled změn</string>
     <string name="rate_app">Ohodnotit aplikaci</string>
@@ -465,4 +465,13 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="manual_location">Manuální lokalizace polohy</string>
     <string name="city_name_country_code">Název města, kód země</string>
     <string name="api_key_openweathermap">klíč API (openweathermap)</string>
+    <string name="yes">ANO</string>
+    <string name="no">NE</string>
+    <string name="file">Soubor</string>
+    <string name="result">Výsledek</string>
+    <string name="set_active_watchface">Chcete jej nastavit jako aktivní ciferník?</string>
+    <string name="write_ok">zápis úspěšný</string>
+    <string name="install_ok">instalace se spustí</string>
+    <string name="something_goes_wrong">něco se pokazilo</string>
+    <string name="invalid_key">api klíč byl neplatný</string>
 </resources>

@@ -14,7 +14,7 @@
     <string name="brightness">Helligkeit</string>
     <string name="tweaking">Feinabstimmung</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">GreatFit / Kalender</string>
+    <string name="watchface">GreatFit / Kalender / Wetter</string>
     <string name="stats">Statistiken</string>
     <string name="changelog">Changelog</string>
     <string name="rate_app">Bewerte die Applikation</string>
@@ -458,4 +458,13 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="manual_location">Manueller Standort</string>
     <string name="city_name_country_code">Stadtname, Landesvorwahl</string>
     <string name="api_key_openweathermap">API-Schlüssel (openweathermap)</string>
+    <string name="yes">JA</string>
+    <string name="no">NEIN</string>
+    <string name="file">Datei</string>
+    <string name="result">Ergebnis</string>
+    <string name="set_active_watchface">Möchten Sie es als aktives Zifferblatt einstellen?</string>
+    <string name="write_ok">schreiben erfolgreich</string>
+    <string name="install_ok">Installation startet</string>
+    <string name="something_goes_wrong">Ein Problem ist aufgetreten</string>
+    <string name="invalid_key">API-Schlüssel ungültig</string>
 </resources>
