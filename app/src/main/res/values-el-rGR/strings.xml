@@ -122,9 +122,9 @@
     <string name="pref_run_wizard">Παρουσίαση Καλωσορίσματος</string>
     <string name="pref_run_wizard_summary">Επανεκτέλεση της παρουσίασης καλωσορίσματος.</string>
     <string name="pref_vibration_duration">Διάρκεια δόνησης</string>
-    <string name="pref_vibration_duration_summary">Set vibration duration of notification screen.</string>
+    <string name="pref_vibration_duration_summary">Ορισμός διάρκειας δόνησης ειδοποιήσεων.</string>
     <string name="pref_screen_timeout">Χρονικό όριο οθόνης</string>
-    <string name="pref_screen_timeout_summary">Set duration of notification screen.</string>
+    <string name="pref_screen_timeout_summary">Ορισμός χρονικής διάρκειας εμφάνισης ειδοποίησης.</string>
     <string name="pref_disable_notifications_when_dnd">Σεβασμός λειτουργίας DND</string>
     <string name="pref_disable_notifications_when_dnd_summary">Οι ειδοποιήσεις δεν θα προωθούνται στο ρολόι όταν η λειτουργία Μην Ενοχλείτε (Do Not Disturb) είναι ενεργή.</string>
     <string name="pref_disable_remove_notifications">Διατήρηση ειδοποιήσεων</string>
@@ -136,7 +136,7 @@
     <string name="pref_enable_notifications_when_locked">Αποστολή όταν το τηλέφωνο είναι κλειδωμένο</string>
     <string name="pref_enable_notifications_when_locked_summary">Προώθηση ειδοποιήσεων στο ρολόι όταν η οθόνη είναι ανοιχτή αλλά το τηλέφωνο κλειδωμένο.</string>
     <string name="pref_notifications_enable_ungroup">Κατάργηση ομαδοποίησης ειδοποιήσεων</string>
-    <string name="pref_notifications_enable_ungroup_summary">Notifications from the same sender will be separated (you will not be able to sync them though).</string>
+    <string name="pref_notifications_enable_ungroup_summary">Ειδοποιήσεις από τον ίδιο αποστολέα θα διαχωρίζονται (όμως δεν θα μπορεί να γίνει συγχρονισμός).</string>
     <string name="pref_disable_notifications_when_driving">Διακοπή ειδοποιήσεων κατά την οδήγηση</string>
     <string name="pref_disable_notifications_when_driving_summary">Διακοπή αποστολής ειδοποιήσεων στο ρολόι όσο το τηλέφωνο βρίσκεται σε κατάσταση οδήγησης.</string>
     <string name="pref_filters">Φίλτρα ειδοποιήσεων</string>
@@ -439,7 +439,7 @@
     <string name="widget_barometer">Βαρόμετρο</string>
     <string name="widget_miui_unlock">Ξεκλείδωμα MIUI</string>
     <string name="widget_mi_box_remote">Χειριστήριο Mi Box</string>
-    <string name="widget_hm_tv">HM TV</string>
+    <string name="widget_hm_tv">HM Τηλεόραση</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Παρακαλώ, επιβεβαιώστε</string>
     <string name="notification_replies_cancel_removal">Η Απάντηση Αφαιρέθηκε</string>
@@ -463,7 +463,7 @@
     <string name="file">Αρχείο</string>
     <string name="result">Αποτέλεσμα</string>
     <string name="set_active_watchface">Θα θέλατε να το ορίσετε ως το ενεργό σας καντράν;</string>
-    <string name="write_ok">write successful</string>
+    <string name="write_ok">επιτυχής εγγραφή</string>
     <string name="install_ok">η εγκατάσταση ξεκινά</string>
     <string name="something_goes_wrong">Κάτι πήγε στραβά</string>
     <string name="invalid_key">το κλειδί API δεν ήταν έγκυρο</string>
