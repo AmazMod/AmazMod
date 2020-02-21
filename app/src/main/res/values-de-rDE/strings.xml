@@ -462,7 +462,7 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="no">NEIN</string>
     <string name="file">Datei</string>
     <string name="result">Ergebnis</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
+    <string name="set_active_watchface">Möchten Sie es als aktives Zifferblatt einstellen?</string>
     <string name="write_ok">schreiben erfolgreich</string>
     <string name="install_ok">Installation startet</string>
     <string name="something_goes_wrong">Ein Problem ist aufgetreten</string>
