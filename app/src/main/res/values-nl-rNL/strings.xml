@@ -14,7 +14,7 @@
     <string name="brightness">Helderheid</string>
     <string name="tweaking">Tweaken</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">WatchFace</string>
+    <string name="watchface">GreatFit / Calendar / Weather</string>
     <string name="stats">Stats</string>
     <string name="changelog">Wat is er veranderd</string>
     <string name="rate_app">Beoordeel App</string>
@@ -458,4 +458,13 @@ het systeemthema (beta).</string>
     <string name="manual_location">Manuele locatie</string>
     <string name="city_name_country_code">Stad naam, land code</string>
     <string name="api_key_openweathermap">API-sleutel (openweathermap)</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="file">File</string>
+    <string name="result">Result</string>
+    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
+    <string name="write_ok">write successful</string>
+    <string name="install_ok">install is starting</string>
+    <string name="something_goes_wrong">something goes wrong</string>
+    <string name="invalid_key">api key was invalid</string>
 </resources>
