@@ -402,7 +402,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         if (appid.length()!=32) {
             //e2cac022c6c3adaf75b05674522d49b1
             appid = default_appid;
-            Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, "key was invalid");
+            Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, context.getString(R.string.invalid_key));
         }
 
         // 0: by location, 1: by City/Country
