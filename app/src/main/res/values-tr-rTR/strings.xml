@@ -14,7 +14,7 @@
     <string name="brightness">Parlaklık</string>
     <string name="tweaking">Tweaking</string>
     <string name="widgets">Widgetler</string>
-    <string name="watchface">GreatFit / Takvim</string>
+    <string name="watchface">GreatFit / Calendar / Weather</string>
     <string name="stats">İstatistikler</string>
     <string name="changelog">Sürüm Notları</string>
     <string name="rate_app">Uygulamayı oyla</string>
@@ -458,4 +458,13 @@ follow the system theme (beta).</string>
     <string name="manual_location">Manual location</string>
     <string name="city_name_country_code">City name, country code</string>
     <string name="api_key_openweathermap">API key (openweathermap)</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="file">File</string>
+    <string name="result">Result</string>
+    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
+    <string name="write_ok">write successful</string>
+    <string name="install_ok">install is starting</string>
+    <string name="something_goes_wrong">something goes wrong</string>
+    <string name="invalid_key">api key was invalid</string>
 </resources>
