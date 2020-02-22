@@ -14,7 +14,7 @@
     <string name="brightness">Яскравість</string>
     <string name="tweaking">Інші налаштування</string>
     <string name="widgets">Віджети</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Календар / Погода</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Список змін</string>
     <string name="rate_app">Оцінити додаток</string>
@@ -451,22 +451,22 @@
     <string name="undo">ВІДМІНИТИ</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
+    <string name="humidity">Вологість:</string>
+    <string name="pressure">Тиск:</string>
+    <string name="wind">Вітер:</string>
+    <string name="clouds">Хмарність:</string>
+    <string name="real_feel">Відчувається як:</string>
+    <string name="weather_city_error">Щось не так з введеним розташуванням</string>
+    <string name="weather_connection_error">Втрачено з\'єднання з інтернетом</string>
+    <string name="weather_api_error">Щось не так з введеним API</string>
+    <string name="location_by_gps">Місцезнаходження за GPS</string>
+    <string name="manual_location">Місцезнаходження вручну</string>
+    <string name="city_name_country_code">Назва міста, код країни</string>
+    <string name="api_key_openweathermap">API ключ (openweathermap)</string>
+    <string name="yes">ТАК</string>
+    <string name="no">НІ</string>
+    <string name="file">Файл</string>
+    <string name="result">Результат</string>
     <string name="set_active_watchface">Would you like to set it as active watchface?</string>
     <string name="write_ok">write successful</string>
     <string name="install_ok">install is starting</string>
