@@ -14,7 +14,7 @@
     <string name="brightness">Яркость</string>
     <string name="tweaking">Тонкая настройка</string>
     <string name="widgets">Виджеты</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Календарь / Погода</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Список изменений</string>
     <string name="rate_app">Оценить приложение</string>
@@ -467,9 +467,9 @@
     <string name="no">НЕТ</string>
     <string name="file">Файл</string>
     <string name="result">Результат</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="set_active_watchface">Вы хотите установить его в качестве активного циферблата?</string>
+    <string name="write_ok">запись прошла успешно</string>
+    <string name="install_ok">установка запускается</string>
+    <string name="something_goes_wrong">что-то пошло не так</string>
+    <string name="invalid_key">ключ API недействителен</string>
 </resources>
