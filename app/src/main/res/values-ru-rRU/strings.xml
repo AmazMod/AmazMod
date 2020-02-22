@@ -463,10 +463,10 @@
     <string name="manual_location">Ручной ввод местоположения</string>
     <string name="city_name_country_code">Название города, код страны</string>
     <string name="api_key_openweathermap">API ключ (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
+    <string name="yes">ДА</string>
+    <string name="no">НЕТ</string>
+    <string name="file">Файл</string>
+    <string name="result">Результат</string>
     <string name="set_active_watchface">Would you like to set it as active watchface?</string>
     <string name="write_ok">write successful</string>
     <string name="install_ok">install is starting</string>
