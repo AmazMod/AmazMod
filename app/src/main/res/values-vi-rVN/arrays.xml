@@ -63,6 +63,6 @@
     <string-array name="pref_watchface_weather_units_entries">
         <item>Số liệu (Kelvin)</item>
         <item>Độ C (số liệu)</item>
-        <item>Imperial (Fahrenheit)</item>
+        <item>Hoàng gia (Độ F)</item>
     </string-array>
 </resources>
