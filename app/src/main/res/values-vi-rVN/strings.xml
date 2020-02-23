@@ -14,7 +14,7 @@
     <string name="brightness">Độ sáng</string>
     <string name="tweaking">Tùy chỉnh</string>
     <string name="widgets">Tiện ích</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Lịch / Thời tiết</string>
     <string name="stats">Số liệu thống kê</string>
     <string name="changelog">Thay đổi</string>
     <string name="rate_app">Bình chọn</string>
@@ -454,13 +454,13 @@
     <string name="manual_location">Vị trí thủ công</string>
     <string name="city_name_country_code">Tên thành phố, mã quốc gia</string>
     <string name="api_key_openweathermap">Khóa API (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="yes">Có</string>
+    <string name="no">Không</string>
+    <string name="file">Tập tin</string>
+    <string name="result">Kết quả</string>
+    <string name="set_active_watchface">Bạn có muốn đặt nó làm mặt đồng hồ hoạt động?</string>
+    <string name="write_ok">viết thành công</string>
+    <string name="install_ok">cài đặt đang bắt đầu</string>
+    <string name="something_goes_wrong">có gì đó không ổn</string>
+    <string name="invalid_key">khóa api không hợp lệ</string>
 </resources>
