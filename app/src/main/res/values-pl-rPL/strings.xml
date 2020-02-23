@@ -14,7 +14,7 @@
     <string name="brightness">Jasność</string>
     <string name="tweaking">Poprawki</string>
     <string name="widgets">Widżety</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Kalendarz / Pogoda</string>
     <string name="stats">Stat.</string>
     <string name="changelog">Zmiany</string>
     <string name="rate_app">Oceń aplikację</string>
@@ -463,13 +463,13 @@
     <string name="manual_location">Lokalizacja ręczna</string>
     <string name="city_name_country_code">Nazwa miasta, kod kraju</string>
     <string name="api_key_openweathermap">Klucz API (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="yes">TAK</string>
+    <string name="no">NIE</string>
+    <string name="file">Plik</string>
+    <string name="result">Wynik</string>
+    <string name="set_active_watchface">Czy chcesz ustawić tarczę jako domyślną?</string>
+    <string name="write_ok">zapis udany</string>
+    <string name="install_ok">instalacja uruchamia się</string>
+    <string name="something_goes_wrong">coś poszło nie tak</string>
+    <string name="invalid_key">klucz api jest nieprawidłowy</string>
 </resources>
