@@ -441,6 +441,7 @@
     <string name="widget_barometer">Barometru</string>
     <string name="widget_miui_unlock">Deblochează MIUI</string>
     <string name="widget_mi_box_remote">Telecomandă Mi Box</string>
+    <string name="widget_stress">Stress Level</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">ActivitatePrincipală</string>
     <string name="notification_replies_confirm_removal">Va rugam, să confirmați</string>
