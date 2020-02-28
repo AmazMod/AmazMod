@@ -418,7 +418,7 @@ seguir el tema de sistema (beta).</string>
     <string name="intro_description_get_started">Iniciar</string>
     <string name="filter_level">Nivel de filtro</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Paso</string>
+    <string name="widget_step">Pasos</string>
     <string name="widget_countdown">Temporizador</string>
     <string name="widget_stopwatch">Cronómetro</string>
     <string name="widget_music">Música</string>
