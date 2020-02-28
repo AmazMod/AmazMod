@@ -439,6 +439,7 @@ stedet for følge systemtemaet (beta).</string>
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI-oplåsning</string>
     <string name="widget_mi_box_remote">Mi Box-fjernbetjening</string>
+    <string name="widget_stress">Stress Level</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">HovedAktivitet</string>
     <string name="notification_replies_confirm_removal">Bekræft venligst</string>
