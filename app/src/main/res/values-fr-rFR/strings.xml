@@ -463,9 +463,9 @@ suivre le thème système (bêta).</string>
     <string name="no">NON</string>
     <string name="file">Fichier</string>
     <string name="result">Résultat</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
+    <string name="set_active_watchface">Voulez-vous le définir comme image de cadran ?</string>
+    <string name="write_ok">écriture réussie</string>
+    <string name="install_ok">l\'installation démarre</string>
+    <string name="something_goes_wrong">quelque chose ne va pas</string>
     <string name="invalid_key">api key was invalid</string>
 </resources>
