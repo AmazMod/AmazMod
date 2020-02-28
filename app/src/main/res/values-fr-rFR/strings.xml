@@ -14,7 +14,7 @@
     <string name="brightness">Luminosité</string>
     <string name="tweaking">Peaufiner</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Calendrier / Météo</string>
     <string name="stats">Statistiques</string>
     <string name="changelog">Changelog</string>
     <string name="rate_app">Évaluer l\'application</string>
@@ -439,7 +439,7 @@ suivre le thème système (bêta).</string>
     <string name="widget_barometer">Baromètre</string>
     <string name="widget_miui_unlock">Déverrouillage MIUI</string>
     <string name="widget_mi_box_remote">Télécommande Mi Box</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Niveau de stress</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Activité principale</string>
     <string name="notification_replies_confirm_removal">Veuillez confirmer</string>
@@ -447,22 +447,22 @@ suivre le thème système (bêta).</string>
     <string name="undo">ANNULER</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
+    <string name="humidity">Humidité:</string>
+    <string name="pressure">Pression:</string>
+    <string name="wind">Vent:</string>
+    <string name="clouds">Nuages:</string>
+    <string name="real_feel">Ressenti réel:</string>
+    <string name="weather_city_error">Quelque chose ne va pas avec l\'emplacement indiqué</string>
+    <string name="weather_connection_error">Connexion internet manquante</string>
+    <string name="weather_api_error">Quelque chose ne va pas avec l\'API saisie</string>
+    <string name="location_by_gps">Localisation par GPS</string>
+    <string name="manual_location">Emplacement manuel</string>
+    <string name="city_name_country_code">Nom de la ville, code du pays</string>
+    <string name="api_key_openweathermap">Clé API (openweathermap)</string>
+    <string name="yes">OUI</string>
+    <string name="no">NON</string>
+    <string name="file">Fichier</string>
+    <string name="result">Résultat</string>
     <string name="set_active_watchface">Would you like to set it as active watchface?</string>
     <string name="write_ok">write successful</string>
     <string name="install_ok">install is starting</string>
