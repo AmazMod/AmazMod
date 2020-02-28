@@ -438,7 +438,7 @@
     <string name="widget_barometer">Barômetro</string>
     <string name="widget_miui_unlock">Desbloqueio MIUI</string>
     <string name="widget_mi_box_remote">Controle remoto Mi Box</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Nível de Estresse</string>
     <string name="widget_hm_tv">TV HM</string>
     <string name="widget_main_activity">Atividade Principal</string>
     <string name="notification_replies_confirm_removal">Por favor, confirme</string>
