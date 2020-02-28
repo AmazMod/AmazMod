@@ -439,6 +439,7 @@ suivre le thème système (bêta).</string>
     <string name="widget_barometer">Baromètre</string>
     <string name="widget_miui_unlock">Déverrouillage MIUI</string>
     <string name="widget_mi_box_remote">Télécommande Mi Box</string>
+    <string name="widget_stress">Stress Level</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Activité principale</string>
     <string name="notification_replies_confirm_removal">Veuillez confirmer</string>
