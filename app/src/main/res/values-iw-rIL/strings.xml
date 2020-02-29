@@ -444,7 +444,7 @@
     <string name="widget_barometer">מד לחץ</string>
     <string name="widget_miui_unlock">פתיחת MIUI</string>
     <string name="widget_mi_box_remote">שלט Mi Box</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">רמת הלחץ הנפשי</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">אנא אשרו</string>
