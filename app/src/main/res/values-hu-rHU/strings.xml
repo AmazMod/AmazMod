@@ -441,7 +441,7 @@ a rendszertéma követése helyett (beta).</string>
     <string name="widget_barometer">Légnyomásmérő</string>
     <string name="widget_miui_unlock">MIUI Unlock</string>
     <string name="widget_mi_box_remote">Mi TV Távirányító</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Stressz szint</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Erősítsd meg</string>
