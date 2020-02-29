@@ -435,6 +435,7 @@
     <string name="widget_barometer">Áp kế</string>
     <string name="widget_miui_unlock">Mở khóa MIUI</string>
     <string name="widget_mi_box_remote">Điều khiển Tv</string>
+    <string name="widget_stress">Mức độ căng thẳng</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hoạt động chủ yếu</string>
     <string name="notification_replies_confirm_removal">Vui lòng xác nhận</string>

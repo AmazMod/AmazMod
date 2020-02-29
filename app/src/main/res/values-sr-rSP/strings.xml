@@ -442,6 +442,7 @@ follow the system theme (beta).</string>
     <string name="widget_barometer">Барометар</string>
     <string name="widget_miui_unlock">Откључај MIUI</string>
     <string name="widget_mi_box_remote">Mi Box Даљински</string>
+    <string name="widget_stress">Ниво стреса</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Главна активност</string>
     <string name="notification_replies_confirm_removal">Молимо, потврдите</string>

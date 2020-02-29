@@ -440,6 +440,7 @@ seguir el tema de sistema (beta).</string>
     <string name="widget_barometer">Barómetro</string>
     <string name="widget_miui_unlock">Desbloqueo MIUI</string>
     <string name="widget_mi_box_remote">Control Mi Box</string>
+    <string name="widget_stress">Nivel de Estrés</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Confirma, por favor</string>
