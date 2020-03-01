@@ -269,11 +269,11 @@ public class WidgetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         if (activity.equals("com.huami.watch.pin.PinWidgetView")) {
                             name = mActivity.getResources().getString(R.string.widget_miui_unlock);
                         }
+                        if (activity.equals("com.huami.watch.health.pressure.widget.PressureWidget")) {
+                            name = mActivity.getResources().getString(R.string.widget_stress);
+                        }
                         if (pkg.equals("com.huami.watch.hmtvhelper")) {
                             name = mActivity.getResources().getString(R.string.widget_mi_box_remote);
-                        }
-                        if (pkg.equals("com.huami.watch.health.pressure.widget.PressureWidget")) {
-                            name = mActivity.getResources().getString(R.string.widget_stress);
                         }
                         //Todo: Should be hidden because do nothing
                         if (activity.equals("#WIDGET_ONLY")) {
