@@ -442,6 +442,7 @@ follow the system theme (beta).</string>
     <string name="widget_barometer">Barometrs</string>
     <string name="widget_miui_unlock">MIUI Atbloķēšana</string>
     <string name="widget_mi_box_remote">Mi Tv Pults</string>
+    <string name="widget_stress">Stress Level</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">GalvenāAktivitāte</string>
     <string name="notification_replies_confirm_removal">Lūdzu, apstiprini</string>

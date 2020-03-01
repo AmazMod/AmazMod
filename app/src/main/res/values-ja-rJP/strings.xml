@@ -436,6 +436,7 @@ follow the system theme (beta).</string>
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI Unlock</string>
     <string name="widget_mi_box_remote">Mi Box Remote</string>
+    <string name="widget_stress">Stress Level</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Please, confirm</string>

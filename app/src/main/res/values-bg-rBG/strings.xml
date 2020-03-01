@@ -439,6 +439,7 @@
     <string name="widget_barometer">Барометър</string>
     <string name="widget_miui_unlock">MIUI отключване</string>
     <string name="widget_mi_box_remote">Mi Box Дистанционно</string>
+    <string name="widget_stress">Stress Level</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Основна дейност</string>
     <string name="notification_replies_confirm_removal">Моля потвърдете</string>
