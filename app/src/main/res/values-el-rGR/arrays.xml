@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_battery_chart_range_entries">
-        <item>1 day</item>
-        <item>2 days</item>
-        <item>3 days</item>
-        <item>5 days</item>
-        <item>7 days</item>
-        <item>10 days</item>
-        <item>15 days</item>
+        <item>1 ημέρα</item>
+        <item>2 ημέρες</item>
+        <item>3 ημέρες</item>
+        <item>5 ημέρες</item>
+        <item>7 ημέρες</item>
+        <item>10 ημέρες</item>
+        <item>15 ημέρες</item>
     </string-array>
     <string-array name="pref_watch_battery_alert">
-        <item>Disabled</item>
+        <item>Απενεργοποιημένο</item>
         <item>15%</item>
         <item>20%</item>
         <item>25%</item>
@@ -22,7 +22,7 @@
         <item>99%</item>
     </string-array>
     <string-array name="pref_phone_battery_alert">
-        <item>Disabled</item>
+        <item>Απενεργοποιημένο</item>
         <item>10%</item>
         <item>15%</item>
         <item>20%</item>
