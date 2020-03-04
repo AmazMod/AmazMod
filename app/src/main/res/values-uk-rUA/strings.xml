@@ -444,7 +444,7 @@
     <string name="widget_barometer">Барометр</string>
     <string name="widget_miui_unlock">Розблокування MIUI</string>
     <string name="widget_mi_box_remote">Пульт Mi Box</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Рівень стресу</string>
     <string name="widget_hm_tv">HM ТВ</string>
     <string name="widget_main_activity">Основна дія</string>
     <string name="notification_replies_confirm_removal">Будь ласка, підтвердіть</string>
