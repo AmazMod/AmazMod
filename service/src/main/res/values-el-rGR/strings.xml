@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="last_charge">Since full charge</string>
-    <string name="last_charge_no_info">Waiting for full charge</string>
-    <string name="close">Close</string>
-    <string name="reply">Reply</string>
+    <string name="last_charge_no_info">Αναμονή για την πλήρη φόρτιση</string>
+    <string name="close">Κλείσιμο</string>
+    <string name="reply">Απάντηση</string>
     <string name="close_button">Close&#160;&#160;&#160;</string>
     <string name="send_button">&#160;&#160;&#160;Send</string>
     <string name="sending_3sec">Sending in 3s…</string>
