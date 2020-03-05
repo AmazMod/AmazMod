@@ -444,7 +444,7 @@
     <string name="widget_barometer">Ciśnienie</string>
     <string name="widget_miui_unlock">Odblokowanie MIUI</string>
     <string name="widget_mi_box_remote">Mi Tv Pilot</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Poziom stresu</string>
     <string name="widget_hm_tv">TV HM</string>
     <string name="widget_main_activity">Moja aktywność</string>
     <string name="notification_replies_confirm_removal">Proszę potwierdzić</string>

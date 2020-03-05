@@ -439,7 +439,7 @@ seguire il tema di sistema (beta).</string>
     <string name="widget_barometer">Barometro</string>
     <string name="widget_miui_unlock">Sblocco MIUI</string>
     <string name="widget_mi_box_remote">Telecomando Mi Box</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Livello di stress</string>
     <string name="widget_hm_tv">TV HM</string>
     <string name="widget_main_activity">Attività principale</string>
     <string name="notification_replies_confirm_removal">Per favore, conferma</string>

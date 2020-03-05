@@ -439,7 +439,7 @@
     <string name="widget_barometer">Βαρόμετρο</string>
     <string name="widget_miui_unlock">Ξεκλείδωμα MIUI</string>
     <string name="widget_mi_box_remote">Χειριστήριο Mi Box</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Επίπεδο άγχους</string>
     <string name="widget_hm_tv">HM Τηλεόραση</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Παρακαλώ, επιβεβαιώστε</string>
