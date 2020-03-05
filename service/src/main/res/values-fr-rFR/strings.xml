@@ -146,13 +146,13 @@
     <string name="activity_menu_screen_settings">Réglages de l\'écran</string>
     <string name="activity_menu_battery_graph">Graphique de batterie</string>
     <string name="activity_menu_wifi_toggle">Activer/désactiver le Wifi</string>
-    <string name="activity_menu_wifi_panel">Wifi Panel</string>
+    <string name="activity_menu_wifi_panel">Écran de configuration du Wifi</string>
     <string name="activity_menu_flashlight">Torche</string>
     <string name="activity_menu_qrcode">Code QR</string>
     <string name="activity_menu_clean_memory">Effacer mémoire</string>
     <string name="activity_menu_lpm">Activer le mode d\'économie d\'énergie</string>
-    <string name="activity_menu_revoke_admin">Revoke Device Admin Permission</string>
-    <string name="activity_menu_grant_admin">Grant Device Admin Permission</string>
+    <string name="activity_menu_revoke_admin">Révoquer l\'autorisation d\'administration de l\'appareil</string>
+    <string name="activity_menu_grant_admin">Accorder l\'autorisation d\'administration de l\'appareil</string>
     <string name="activity_menu_restart_launcher">Redémarrer le lanceur</string>
     <string name="activity_menu_clear_launcher">Effacer les paramètres du lanceur</string>
     <string name="activity_menu_reboot">Redémarrer</string>
@@ -161,7 +161,7 @@
     <string name="activity_menu_units">Unités</string>
     <string name="activity_menu_anti_lost">Déconnecter l\'alerte (iOS)</string>
     <string name="activity_menu_away_alert">Alerte d\'absence (iOS)</string>
-    <string name="activity_menu_screenon">Notification ScreenOn</string>
+    <string name="activity_menu_screenon">Allumer l\'écran lors de notifications</string>
     <string name="activity_menu_input_method">Modifier le mode de saisie</string>
     <string name="activity_menu_device_info">Infos de l\'appareil</string>
     <string name="activity_menu_hourly_chime">Alerte d\'heure</string>
