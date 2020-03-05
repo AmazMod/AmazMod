@@ -14,7 +14,7 @@
     <string name="brightness">Kecerahan</string>
     <string name="tweaking">Tweaker</string>
     <string name="widgets">Widget</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Kalendar / Cuaca</string>
     <string name="stats">Statistik</string>
     <string name="changelog">Log Perubahan</string>
     <string name="rate_app">Menilai Aplikasi</string>
@@ -88,9 +88,9 @@
     <string name="activity_watchface_send_weather_data">Kirim data cuaca</string>
     <string name="activity_watchface_weather_options">Pilihan cuaca</string>
     <string name="activity_watchface_send_weather_units">Unit cuaca</string>
-    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
+    <string name="activity_watchface_weather_real_feel">Tampilkan \"rasa sebenarnya\" dibandingkan suhu aktual</string>
     <string name="activity_watchface_last_time_sent">Terakhir kali dikirim</string>
-    <string name="activity_watchface_data_send">Data sent</string>
+    <string name="activity_watchface_data_send">Data terkirim</string>
     <string name="activity_watchface_send_data_now">Mengirim data sekarang</string>
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">Dalam satu jam terakhir</string>
