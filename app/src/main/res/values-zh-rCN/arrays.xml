@@ -56,13 +56,13 @@
         <item>谢谢！</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>标题</item>
+        <item>目录</item>
+        <item>两者都是</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
-        <item>Metric (Kelvin)</item>
-        <item>Celsius (Metric)</item>
+        <item>公制 (克尔文)</item>
+        <item>摄氏度(度量)</item>
         <item>Imperial (Fahrenheit)</item>
     </string-array>
 </resources>

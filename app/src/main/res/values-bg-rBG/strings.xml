@@ -14,7 +14,7 @@
     <string name="brightness">Яркост</string>
     <string name="tweaking">Фина настройка</string>
     <string name="widgets">Джаджи</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Календар / Времето</string>
     <string name="stats">Статистика</string>
     <string name="changelog">Списък на промените</string>
     <string name="rate_app">Оцени приложението</string>
@@ -439,7 +439,7 @@
     <string name="widget_barometer">Барометър</string>
     <string name="widget_miui_unlock">MIUI отключване</string>
     <string name="widget_mi_box_remote">Mi Box Дистанционно</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Нивото На Стреса</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Основна дейност</string>
     <string name="notification_replies_confirm_removal">Моля потвърдете</string>
@@ -459,13 +459,13 @@
     <string name="manual_location">Ръчно зададено местоположение</string>
     <string name="city_name_country_code">Име на град, код на държава</string>
     <string name="api_key_openweathermap">API key (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="yes">Да</string>
+    <string name="no">Няма</string>
+    <string name="file">Файл</string>
+    <string name="result">Резултат</string>
+    <string name="set_active_watchface">Вие ще искате да го настроите като активно и стабилно.</string>
+    <string name="write_ok">напишете успешно</string>
+    <string name="install_ok">инсталацията започва</string>
+    <string name="something_goes_wrong">че нещо не е наред</string>
+    <string name="invalid_key">API ключ е невалиден</string>
 </resources>

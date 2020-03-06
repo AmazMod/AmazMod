@@ -61,8 +61,8 @@
         <item>И двете</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
-        <item>Metric (Kelvin)</item>
-        <item>Celsius (Metric)</item>
-        <item>Imperial (Fahrenheit)</item>
+        <item>Метрика (Келвин)</item>
+        <item>По Целзий (Метрични)</item>
+        <item>Imperial (По Фаренхайт)</item>
     </string-array>
 </resources>
