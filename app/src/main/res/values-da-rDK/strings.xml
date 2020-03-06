@@ -14,7 +14,7 @@
     <string name="brightness">Lysstyrke</string>
     <string name="tweaking">Tilpasning</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Kalender / Vejret</string>
     <string name="stats">Statistik</string>
     <string name="changelog">Ændringslog</string>
     <string name="rate_app">Bedøm app</string>
@@ -439,7 +439,7 @@ stedet for følge systemtemaet (beta).</string>
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI-oplåsning</string>
     <string name="widget_mi_box_remote">Mi Box-fjernbetjening</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Stress-Niveau</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">HovedAktivitet</string>
     <string name="notification_replies_confirm_removal">Bekræft venligst</string>
@@ -447,25 +447,25 @@ stedet for følge systemtemaet (beta).</string>
     <string name="undo">FORTRYD</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="humidity">Luftfugtighed:</string>
+    <string name="pressure">Tryk:</string>
+    <string name="wind">Vind:</string>
+    <string name="clouds">Skyer:</string>
+    <string name="real_feel">Fast føler:</string>
+    <string name="weather_city_error">Der er noget galt med indskrives placering</string>
+    <string name="weather_connection_error">Gå glip af internetforbindelse</string>
+    <string name="weather_api_error">Der er noget galt med indskrives API</string>
+    <string name="location_by_gps">Placering ved hjælp af GPS</string>
+    <string name="manual_location">Manuel placering</string>
+    <string name="city_name_country_code">Byens navn, land-kode</string>
+    <string name="api_key_openweathermap">API-nøgle (openweathermap)</string>
+    <string name="yes">JA</string>
+    <string name="no">INGEN</string>
+    <string name="file">Fil</string>
+    <string name="result">Resultat</string>
+    <string name="set_active_watchface">Kunne du tænke dig at indstille det som aktive watchface?</string>
+    <string name="write_ok">skriv en succes</string>
+    <string name="install_ok">installation er begyndt</string>
+    <string name="something_goes_wrong">noget går galt</string>
+    <string name="invalid_key">api-nøgle var ugyldig,</string>
 </resources>
