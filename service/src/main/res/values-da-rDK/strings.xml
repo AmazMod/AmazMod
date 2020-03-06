@@ -104,7 +104,7 @@
     <string name="muted">Lyd slået fra</string>
     <string name="reply_sent">Svar sendt</string>
     <string name="free_space">Ledig plads</string>
-    <string name="no_app_found">No app found to handle</string>
+    <string name="no_app_found">Ingen app findes til at håndtere</string>
     <string name="please_wait_installation">Afven færdiggørelse af installation…</string>
     <string name="error_deleting">Fejl ved sletning</string>
     <string name="low_power_mode_warning">Sikker? Lav Strømtilstand (LPM) deaktiverer Bluetooth og berøringsskærm, indtil uret genstartes (tryk og hold tænd-/slukknappen), eller batteriet når under 5%, og uret genoplades.</string>
