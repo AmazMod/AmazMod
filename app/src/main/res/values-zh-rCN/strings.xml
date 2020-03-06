@@ -14,7 +14,7 @@
     <string name="brightness">亮度</string>
     <string name="tweaking">调整</string>
     <string name="widgets">小部件</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">极适合/日历</string>
     <string name="stats">统计</string>
     <string name="changelog">更新日志</string>
     <string name="rate_app">为我们的软件评分</string>
@@ -412,7 +412,7 @@
     <string name="no_widgets_found">找不到部件</string>
     <string name="intro_description_grant_access">授予访问权限</string>
     <string name="intro_description_get_started">开始使用吧！</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_level">筛选级别</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">步数</string>
     <string name="widget_countdown">倒计时</string>
@@ -436,7 +436,7 @@
     <string name="widget_barometer">气压计</string>
     <string name="widget_miui_unlock">MIUI 解锁</string>
     <string name="widget_mi_box_remote">小米盒子遥控</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">压力级别</string>
     <string name="widget_hm_tv">华米TV</string>
     <string name="widget_main_activity">主要活动</string>
     <string name="notification_replies_confirm_removal">请确认</string>
@@ -444,25 +444,25 @@
     <string name="undo">撤消</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
-    <string name="manual_location">Manual location</string>
-    <string name="city_name_country_code">City name, country code</string>
-    <string name="api_key_openweathermap">API key (openweathermap)</string>
-    <string name="yes">YES</string>
-    <string name="no">NO</string>
-    <string name="file">File</string>
-    <string name="result">Result</string>
-    <string name="set_active_watchface">Would you like to set it as active watchface?</string>
-    <string name="write_ok">write successful</string>
-    <string name="install_ok">install is starting</string>
-    <string name="something_goes_wrong">something goes wrong</string>
-    <string name="invalid_key">api key was invalid</string>
+    <string name="humidity">湿度：</string>
+    <string name="pressure">压力：</string>
+    <string name="wind">窗口：</string>
+    <string name="clouds">云：</string>
+    <string name="real_feel">真感：</string>
+    <string name="weather_city_error">输入的位置出现错误</string>
+    <string name="weather_connection_error">网络连接失败</string>
+    <string name="weather_api_error">输入的 API 出错了</string>
+    <string name="location_by_gps">GPS 位置</string>
+    <string name="manual_location">手动位置</string>
+    <string name="city_name_country_code">城市名称、国家代码</string>
+    <string name="api_key_openweathermap">API 密钥 (Openweathermap)</string>
+    <string name="yes">是的</string>
+    <string name="no">无</string>
+    <string name="file">文件</string>
+    <string name="result">结果</string>
+    <string name="set_active_watchface">你想要将它设置为活跃的观察面吗？</string>
+    <string name="write_ok">写入成功</string>
+    <string name="install_ok">安装正在开始</string>
+    <string name="something_goes_wrong">出错了</string>
+    <string name="invalid_key">api 密钥无效</string>
 </resources>
