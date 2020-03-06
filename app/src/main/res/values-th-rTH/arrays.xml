@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="pref_battery_chart_range_entries">
-        <item>1 day</item>
-        <item>2 days</item>
-        <item>3 days</item>
-        <item>5 days</item>
-        <item>7 days</item>
-        <item>10 days</item>
-        <item>15 days</item>
+        <item>1 วัน</item>
+        <item>2 วัน</item>
+        <item>3 วัน</item>
+        <item>5 วัน</item>
+        <item>7 วัน</item>
+        <item>อ 10 วันกอน</item>
+        <item>15 วัน</item>
     </string-array>
     <string-array name="pref_watch_battery_alert">
-        <item>Disabled</item>
+        <item>ปิดการใช้งาน</item>
         <item>15%</item>
         <item>20%</item>
         <item>25%</item>
@@ -22,7 +22,7 @@
         <item>99%</item>
     </string-array>
     <string-array name="pref_phone_battery_alert">
-        <item>Disabled</item>
+        <item>ปิดการใช้งาน</item>
         <item>10%</item>
         <item>15%</item>
         <item>20%</item>
@@ -35,34 +35,34 @@
         <item>99%</item>
     </string-array>
     <string-array name="pref_watchface_calendar_events_days">
-        <item>Disable</item>
-        <item>1 day</item>
-        <item>7 days</item>
-        <item>15 days</item>
-        <item>30 days</item>
-        <item>60 days</item>
-        <item>90 days</item>
-        <item>180 days</item>
-        <item>365 days</item>
+        <item>ปิดการใช้งาน</item>
+        <item>1 วัน</item>
+        <item>7 วัน</item>
+        <item>15 วัน</item>
+        <item>30 วัน</item>
+        <item>60 วัน</item>
+        <item>90 วัน</item>
+        <item>180 วัน</item>
+        <item>365 วัน</item>
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
-        <item>Normal</item>
-        <item>Large</item>
-        <item>Huge</item>
+        <item>ธรรมดา</item>
+        <item>ขนาดใหญ่</item>
+        <item>เรื่องใหญ่</item>
     </string-array>
     <string-array name="default_notification_replies">
-        <item>Yes</item>
-        <item>No</item>
-        <item>Thank you</item>
+        <item>ใช่แล้ว</item>
+        <item>ไม่</item>
+        <item>ขอบคุณ</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>หัวเรื่อง</item>
+        <item>เนื้อหา</item>
+        <item>ทั้งสอง</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
-        <item>Metric (Kelvin)</item>
-        <item>Celsius (Metric)</item>
-        <item>Imperial (Fahrenheit)</item>
+        <item>เมตริก The Imperial System(Kelvin)</item>
+        <item>Celsius(เมตริก The Imperial System)</item>
+        <item>จักรวรรดิ์(Fahrenheit)</item>
     </string-array>
 </resources>
