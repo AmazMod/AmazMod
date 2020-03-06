@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="densities">
-        <item name="normal">Normal</item>
-        <item name="low">Low</item>
-        <item name="high">High</item>
-        <item name="unknown">Unknown</item>
+        <item name="normal">عادي</item>
+        <item name="low">منخفضة</item>
+        <item name="high">عالية</item>
+        <item name="unknown">غير معروف</item>
     </string-array>
     <string-array name="fontSizes">
-        <item name="small">Small</item>
-        <item name="normal">Normal</item>
-        <item name="big">Big</item>
-        <item name="huge">Huge</item>
+        <item name="small">صغيرة</item>
+        <item name="normal">عادي</item>
+        <item name="big">كبير</item>
+        <item name="huge">ضخمة</item>
     </string-array>
     <string-array name="inverted">
-        <item name="no">No</item>
-        <item name="yes">Yes</item>
+        <item name="no">لا</item>
+        <item name="yes">نعم</item>
     </string-array>
 </resources>
