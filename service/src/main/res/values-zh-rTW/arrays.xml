@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="densities">
-        <item name="normal">Normal</item>
-        <item name="low">Low</item>
-        <item name="high">High</item>
-        <item name="unknown">Unknown</item>
+        <item name="normal">正常的</item>
+        <item name="low">低</item>
+        <item name="high">高</item>
+        <item name="unknown">未知</item>
     </string-array>
     <string-array name="fontSizes">
-        <item name="small">Small</item>
-        <item name="normal">Normal</item>
-        <item name="big">Big</item>
-        <item name="huge">Huge</item>
+        <item name="small">小</item>
+        <item name="normal">正常的</item>
+        <item name="big">大</item>
+        <item name="huge">巨大的</item>
     </string-array>
     <string-array name="inverted">
-        <item name="no">No</item>
-        <item name="yes">Yes</item>
+        <item name="no">没有</item>
+        <item name="yes">是的</item>
     </string-array>
 </resources>
