@@ -4,9 +4,14 @@ import android.animation.Animator;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -51,14 +56,22 @@ import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.huami.watch.transport.DataBundle;
+import com.huami.watch.transport.TransportDataItem;
+import com.huami.watch.transport.Transporter;
+import com.huami.watch.transport.TransporterClassic;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPReply;
 import org.tinylog.Logger;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -81,7 +94,9 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 
-public class FileExplorerActivity extends BaseAppCompatActivity {
+import static com.huami.watch.transport.TransporterClassic.get;
+
+public class FileExplorerActivity extends BaseAppCompatActivity implements Transporter.DataListener {
 
     @BindView(R.id.activity_file_explorer_list)
     ListView listView;
@@ -97,6 +112,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
 
     @BindView(R.id.activity_file_explorer_fab_upload)
     FloatingActionButton fabUpload;
+
+    @BindView(R.id.activity_file_explorer_fab_ftpupload)
+    FloatingActionButton fabFTPUpload;
 
     @BindView(R.id.activity_file_explorer_swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -120,6 +138,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private boolean transferring = false;
 
     public static boolean continueNotification;
+
+    private Transporter ftpTransporter;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -237,6 +257,22 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                 loadPath(currentPath);
             }
         });
+
+        // Set up FTP transporter listener
+        ftpTransporter = TransporterClassic.get(this, "com.huami.wififtp");
+        ftpTransporter.addDataListener(this);
+        if(!ftpTransporter.isTransportServiceConnected())
+            ftpTransporter.connectTransportService();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(ftpTransporter.isTransportServiceConnected()) {
+            ftpTransporter.disconnectTransportService();
+            ftpTransporter = null;
+        }
     }
 
     @Override
@@ -380,6 +416,70 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
                             files.add(dirFile);
                         }
                     });
+
+        chooserDialog.withOnBackPressedListener(dialog -> chooserDialog.goBack());
+        chooserDialog.build().show();
+
+    }
+
+
+    @OnClick(R.id.activity_file_explorer_fab_ftpupload)
+    public void onFTPUpload() {
+        CloseFabMenu();
+
+        // New filepicker
+        if (lastPath == null || lastPath.isEmpty())
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                lastPath = Environment.getExternalStorageState();
+            } else {
+                lastPath = Environment.getExternalStorageDirectory().getPath();
+            }
+        final ArrayList<File> files = new ArrayList<>();
+
+        ChooserDialog chooserDialog;
+        if (Screen.isDarkTheme() || MainActivity.systemThemeIsDark) {
+            chooserDialog = new ChooserDialog(this, R.style.FileChooserStyle_Dark);
+        } else {
+            chooserDialog = new ChooserDialog(this, R.style.FileChooserStyle_Light);
+        }
+
+        chooserDialog
+                .withResources(R.string.file_choose_title, R.string.select, R.string.cancel)
+                .enableOptions(false)
+                .withStartFile(lastPath)
+                .withFilter(false, false)
+                .enableMultiple(true)
+                .withOnDismissListener(dialog -> {
+                    if (files.isEmpty())
+                        return;
+
+                    uploadFTPFiles(files, currentPath);
+
+                })
+                .withOnBackPressedListener(dialog -> {
+                    files.clear();
+                    dialog.dismiss();
+                })
+                .withOnLastBackPressedListener(dialog -> {
+                    files.clear();
+                    dialog.dismiss();
+                })
+                .withNegativeButtonListener((dialog, which) -> {
+                    files.clear();
+                    dialog.dismiss();
+                })
+                .withChosenListener((dir, dirFile) -> {
+                    lastPath = dir;
+
+                    if (dirFile.isDirectory()) {
+                        chooserDialog.dismiss();
+                        return;
+                    }
+
+                    if (!files.remove(dirFile)) {
+                        files.add(dirFile);
+                    }
+                });
 
         chooserDialog.withOnBackPressedListener(dialog -> chooserDialog.goBack());
         chooserDialog.build().show();
@@ -570,6 +670,229 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
         } else {
             transferring = false;
         }
+    }
+
+    private String FTP_destPath;
+    private File FTP_files;
+    private void uploadFTPFiles(final ArrayList<File> files, final String uploadPath) {
+        if (!(files.size() > 0)) {
+            transferring = false;
+            return;
+        }
+
+        transferring = true;
+        FTP_files = files.get(0);
+        files.remove(0);
+
+        if (!FTP_files.exists()) {
+            fileNotExists();
+            return;
+        }
+        if (FTP_files.isDirectory()) {
+            fileIsDirectory();
+            return;
+        }
+
+        FTP_destPath = uploadPath + "/" + FTP_files.getName();
+        //final long size = file.length();
+
+        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
+        String message = "\"" + FTP_files.getName() + "\"";
+
+        createNotification(getString(R.string.sending) + ", " + getString(R.string.wait), message, R.drawable.ic_wifi_tethering_white_24dp);
+
+        final SnackProgressBar progressBar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + FTP_files.getName() + "\", " + getString(R.string.wait))
+                .setIsIndeterminate(false)
+                .setProgressMax(100)
+                .setAllowUserInput(true)
+                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                    @Override
+                    public void onActionClick() {
+                        snackProgressBarManager.dismissAll();
+                        cancellationTokenSource.cancel();
+                    }
+                })
+                .setShowProgressPercentage(true);
+        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+
+        if(ftpTransporter.isTransportServiceConnected()){
+            Logger.debug("FTP sending start_service action.");
+            ftpTransporter.send("start_service");
+
+            DataBundle dataBundle = new DataBundle();
+            dataBundle.putInt("key_keymgmt", 4);
+            dataBundle.putString("key_ssid", "huami-amazfit-amazmod-4E68");
+            dataBundle.putString("key_pswd", "12345678");
+            ftpTransporter.send("enable_ap", dataBundle);
+
+        }else{
+            Logger.debug("FTP transporter is not connection.");
+        }
+
+        //ftpTransporter = TransporterClassic.get(this, "com.huami.wififtp");
+        /*
+        ftpTransporter.send(new Transporter.DataSendResultCallback() {
+            @Override
+            public void onResultBack(DataTransportResult item) {
+                //
+            }
+        });
+        */
+        /*
+        ftpTransporter.addDataListener(this);
+        ftpTransporter.addChannelListener(new Transporter.ChannelListener() {
+            public void onChannelChanged(boolean available) {
+                Logger.debug("FTP transporter onChannelChanged: " + available);
+                if (!available) {
+                    Logger.debug("FTP transporter close");
+                }
+            }
+        });
+        ftpTransporter.addServiceConnectionListener(new Transporter.ServiceConnectionListener(){
+            @Override
+            public void onServiceConnected(Bundle bundle) {
+                Logger.debug("FTP transporter connected. Sending start_service action.");
+                ftpTransporter.send("start_service");
+            }
+            @Override
+            public void onServiceConnectionFailed(Transporter.ConnectionResult connectionResult) {
+                Logger.debug("FTP transporter connection failed.");
+            }
+            @Override
+            public void onServiceDisconnected(Transporter.ConnectionResult connectionResult) {
+                Logger.debug("FTP transporter disconnected.");
+            }
+        });
+        */
+        //ftpTransporter.connectTransportService();
+    }
+
+    // FTP listener onChange
+    public void onDataReceived(TransportDataItem item) {
+        String action = item.getAction();
+        Logger.debug("FTP transporter action: "+action);
+
+        if ("start_service".equals(action)) {
+            DataBundle dataBundle = new DataBundle();
+            dataBundle.putInt("key_keymgmt", 4);
+            dataBundle.putString("key_ssid", "huami-amazfit-amazmod-4E68");
+            dataBundle.putString("key_pswd", "12345678");
+            ftpTransporter.send("enable_ap", dataBundle);
+
+        } else if ("on_ap_state_changed".equals(action)) {
+            DataBundle data = item.getData();
+            if (data == null || data.getInt("key_new_state") != 13 ){
+                if (data != null)
+                    Logger.debug("FTP key new state: "+data.getInt("key_new_state"));
+                else
+                    Logger.debug("FTP returned item is null");
+                return;
+            }
+
+            // State 13, find and connect to the network
+            WifiConfiguration wc = new WifiConfiguration();
+            wc.SSID = "huami-amazfit-amazmod-4E68";
+            wc.preSharedKey = "12345678";
+            wc.status = WifiConfiguration.Status.ENABLED;
+            wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+            wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+            wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+
+            WifiManager mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            int netId = mWifiManager.addNetwork(wc);
+
+            mWifiManager.disconnect();
+            mWifiManager.enableNetwork(netId, true);
+            mWifiManager.reconnect();
+
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        int seconds_waiting = 0;
+                        int waiting_limit = 60;
+                        //check if connected!
+                        while (!isConnected(FileExplorerActivity.this) && seconds_waiting < waiting_limit) {
+                            // Wait to connect
+                            seconds_waiting++;
+                            Thread.sleep(1000);
+                        }
+
+                        // Within time?
+                        if(seconds_waiting < waiting_limit) {
+                            ftpTransporter.send("enable_ftp");
+                        }else{
+                            Logger.debug("WiFi connection to server could not be established.");
+                        }
+                    } catch (Exception e) {
+                        //empty
+                    }
+                }
+            };
+            t.start();
+
+        } else if ("ftp_on_state_changed".equals(action)) {
+            DataBundle data = item.getData();
+            if (data == null || data.getInt("key_new_state") != 2 ){
+                if (data != null)
+                    Logger.debug("FTP key new state: "+data.getInt("key_new_state"));
+                else
+                    Logger.debug("FTP returned item is null");
+                return;
+            }
+
+            // We create ftp connections
+            FTPClient ftpClient = new FTPClient();
+
+            try {
+                ftpClient.connect("192.168.43.1", 5210);
+                //ftpClient.login("anonymous", "");
+                Logger.debug("FTP connected.");
+
+                // After connection attempt, you should check the reply code to verify success.
+                int reply = ftpClient.getReplyCode();
+                if (!FTPReply.isPositiveCompletion(reply)) {
+                    ftpClient.disconnect();
+                    Logger.debug("FTP server refused connection.");
+                } else {
+                    // Send file to path you need
+                    ftpClient.storeFile(FTP_destPath, new FileInputStream(FTP_files));
+
+                    // Close connection
+                    ftpClient.disconnect();
+                }
+            } catch (IOException e) {
+                if (ftpClient.isConnected()) {
+                    try {
+                        ftpClient.disconnect();
+                    } catch (IOException f) {
+                        // do nothing
+                    }
+                }
+                Logger.debug("FTP connection to server could not be established. Error: " + e.toString());
+            }
+
+            ftpTransporter.send("disable_ftp");
+            //ftpTransporter.disconnectTransportService();
+        } else if ("enable_ftp".equals(action)) {
+            //empty
+        } else if ("disable_ftp".equals(action)) {
+            //empty
+        }
+    }
+
+    public static boolean isConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null)
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED;
     }
 
 
@@ -925,11 +1248,15 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private void ShowFabMenu() {
         isFabOpen = true;
         fabUpload.show();
+        fabFTPUpload.show();
         fabNewFolder.show();
         bgFabMenu.setVisibility(View.VISIBLE);
 
         fabMain.animate().rotation(135f);
         bgFabMenu.animate().alpha(1f);
+        fabFTPUpload.animate()
+                .translationY(-412f)
+                .rotation(0f);
         fabUpload.animate()
                 .translationY(-284f)
                 .rotation(0f);
@@ -941,10 +1268,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity {
     private void CloseFabMenu() {
         isFabOpen = false;
 
-        View[] views = {bgFabMenu, fabNewFolder, fabUpload};
+        View[] views = {bgFabMenu, fabNewFolder, fabUpload, fabFTPUpload};
 
         fabMain.animate().rotation(0f);
         bgFabMenu.animate().alpha(0f);
+        fabFTPUpload.animate()
+                .translationY(0f)
+                .rotation(90f);
         fabUpload.animate()
                 .translationY(0f)
                 .rotation(90f);

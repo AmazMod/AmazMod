@@ -118,6 +118,7 @@ dependencies {
     implementation 'org.tinylog:tinylog-api:2.0.0-M4.3'
     implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
     implementation 'com.android.volley:volley:1.1.0'
+    implementation 'commons-net:commons-net:3.6'
 }
 
 configurations.all {
