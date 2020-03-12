@@ -265,7 +265,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
         });
 
         // Set up FTP transporter listener
-        ftpTransporter = TransporterClassic.get(this, "com.huami.wififtp");
+        ftpTransporter = Transporter.get(this, "com.huami.wififtp");
         ftpTransporter.addDataListener(this);
         if(!ftpTransporter.isTransportServiceConnected())
             ftpTransporter.connectTransportService();
@@ -273,12 +273,15 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-
+        Logger.debug("FTP: disconnect transporter");
         if(ftpTransporter.isTransportServiceConnected()) {
+            ftpTransporter.removeDataListener(this);
             ftpTransporter.disconnectTransportService();
+            Logger.debug("FTP: transporter disconnected");
             ftpTransporter = null;
+
         }
+        super.onDestroy();
     }
 
     @Override
@@ -295,8 +298,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
     @Override
     public boolean onSupportNavigateUp() {
-        if (!transferring)
+        if (!transferring){
             finish();
+        }
         return true;
     }
 
@@ -425,7 +429,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
         chooserDialog.withOnBackPressedListener(dialog -> chooserDialog.goBack());
         chooserDialog.build().show();
-
     }
 
 
@@ -690,7 +693,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
         transferring = true;
         FTP_files = files;
         FTP_file = files.get(0);
-        files.remove(0);
+        //files.remove(0);
 
         if (!FTP_file.exists()) {
             fileNotExists();
@@ -701,41 +704,30 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             return;
         }
 
-        FTP_destPath = uploadPath ;//+ "/" + FTP_file.getName();
+        FTP_destPath = uploadPath+"/"; //+ FTP_file.getName();
         //FTP_file_size = FTP_file.length();
 
-        final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        createNotification(getString(R.string.watch_connecting) + ", " + getString(R.string.wait), "\"" + FTP_file.getName() + "\"", R.drawable.ic_wifi_tethering_white_24dp, false);
 
-        String message = "\"" + FTP_file.getName() + "\"";
-
-        createNotification(getString(R.string.sending) + ", " + getString(R.string.wait), message, R.drawable.ic_wifi_tethering_white_24dp);
-
-        final SnackProgressBar progressBar = new SnackProgressBar(
-                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + FTP_file.getName() + "\", " + getString(R.string.wait))
-                .setIsIndeterminate(false)
-                .setProgressMax(100)
-                .setAllowUserInput(true)
-                .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
-                    @Override
-                    public void onActionClick() {
-                        snackProgressBarManager.dismissAll();
-                        cancellationTokenSource.cancel();
-                    }
-                })
-                .setShowProgressPercentage(true);
-        snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+        final SnackProgressBar connectingSnackbar = new SnackProgressBar(
+                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.watch_connecting))
+                .setIsIndeterminate(true);
+        snackProgressBarManager.show(connectingSnackbar, SnackProgressBarManager.LENGTH_INDEFINITE);
 
         if(ftpTransporter.isTransportServiceConnected()){
-            Logger.debug("FTP sending start_service action.");
+            Logger.debug("FTP: sending enable_ap action.");
             ftpTransporter.send("start_service");
 
             DataBundle dataBundle = new DataBundle();
-            dataBundle.putInt("key_keymgmt", 4);
-            dataBundle.putString("key_ssid", "huami-amazfit-amazmod-4E68");
-            dataBundle.putString("key_pswd", "12345678");
+            dataBundle.putInt("key_keymgmt", 4); // WPA2
+            dataBundle.putString("key_ssid", SSID);
+            dataBundle.putString("key_pswd", pswd);
+            // Enable watch WiFi AP
             ftpTransporter.send("enable_ap", dataBundle);
         }else{
-            Logger.debug("FTP transporter is not connection.");
+            Logger.debug("FTP: transporter is not connected.");
+            transferring = false;
+            snackProgressBarManager.dismissAll();
         }
     }
 
@@ -743,27 +735,32 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     private String SSID = "huami-amazfit-amazmod-4E68";
     private String pswd = "12345678";
     public void onDataReceived(TransportDataItem item) {
+        // Transmitted action
         String action = item.getAction();
-        Logger.debug("FTP transporter action: "+action);
+        Logger.debug("FTP: transporter action: "+action);
 
-        if ("start_service".equals(action)) {
-            DataBundle dataBundle = new DataBundle();
-            dataBundle.putInt("key_keymgmt", 4); // WPA2
-            dataBundle.putString("key_ssid", SSID);
-            dataBundle.putString("key_pswd", pswd);
-            ftpTransporter.send("enable_ap", dataBundle);
+        // Get key_new_state
+        DataBundle data = item.getData();
+        int key_new_state = -1;
+        if (data != null)
+            key_new_state = data.getInt("key_new_state");
+        else
+            return;
 
-        } else if ("on_ap_state_changed".equals(action)) {
-            DataBundle data = item.getData();
-            if (data == null || data.getInt("key_new_state") != 13 ){
-                if (data != null)
-                    Logger.debug("FTP key new state: "+data.getInt("key_new_state"));
+        if ("on_ap_state_changed".equals(action)) {
+            // Watch WiFi AP status changed
+            if (key_new_state != 13 ){
+                if(data.getInt("key_new_state") == 11)
+                    Logger.debug("FTP: watch's WiFi AP disabled");
                 else
-                    Logger.debug("FTP returned item is null");
+                    Logger.debug("FTP: key new state: " + data.getInt("key_new_state"));
+
+                snackProgressBarManager.dismissAll();
                 return;
             }
 
-            // State 13, find and connect to the network
+            // (State 13 watch WiFi AP is on)
+            // Connect to the network
             WifiConfiguration wc = new WifiConfiguration();
             wc.SSID = "\""+SSID+"\"";
             wc.preSharedKey = "\""+pswd+"\"";
@@ -776,19 +773,20 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             //wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
             WifiManager mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-
-            int netId = mWifiManager.addNetwork(wc);
+            int netId = -1;
+            if(mWifiManager!=null)
+                netId = mWifiManager.addNetwork(wc);
 
             if (netId >= 0) {
-                Logger.debug("FTP watch's WiFi AP found: net ID = "+ netId);
+                Logger.debug("FTP: watch's WiFi AP found: net ID = "+ netId);
 
                 // Disconnect from current network
-                mWifiManager.disconnect();
+                //mWifiManager.disconnect();
 
                 // Try to connect to watch network
                 if (mWifiManager.enableNetwork(netId, true)) {
-                    mWifiManager.reconnect();
-                    //mWifiManager.saveConfiguration();
+                    //mWifiManager.reconnect();
+                    mWifiManager.saveConfiguration();
                     //Logger.debug("FTP WiFi connection established. Sending command to enable FTP.");
                     //ftpTransporter.send("enable_ftp");
 
@@ -796,31 +794,53 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         @Override
                         public void run() {
                             try {
-                                Thread.sleep(2500);
-                                Logger.debug("FTP WiFi connection established. Sending command to enable FTP.");
-                                ftpTransporter.send("enable_ftp");
+                                int seconds_waiting = 0;
+                                int waiting_limit = 15;
+                                // Check if connected!
+                                //while (!isConnected(FileExplorerActivity.this) && seconds_waiting < waiting_limit) {
+                                while (!getSSID(FileExplorerActivity.this).equals("\""+SSID+"\"") && seconds_waiting < waiting_limit) {
+                                    Logger.debug("FTP: Waiting for WiFi connection to be established..."+getSSID(FileExplorerActivity.this));
+                                    // Wait to connect
+                                    seconds_waiting++;
+                                    Thread.sleep(1000);
+                                }
+
+                                // Within time?
+                                if(seconds_waiting < waiting_limit) {
+                                    Logger.debug("FTP: WiFi connection established. Sending command to enable FTP.");
+                                    ftpTransporter.send("enable_ftp");
+                                }else{
+                                    Logger.debug("WiFi connection to server could not be established.");
+                                    ftpTransporter.send("disable_ap");
+                                    updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
+                                }
                             } catch (Exception e) {
                                 // failed, close wifi ap
+                                Logger.debug("FTP: WiFi connection thread crashed: "+e.getMessage());
                                 ftpTransporter.send("disable_ap");
+                                updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
                             }
                         }
                     };
 
                     t.start();
                 } else {
-                    Logger.debug("FTP WiFi connection to server could not be established.");
+                    Logger.debug("FTP: WiFi connection to server could not be established.");
                 }
             } else {
-                Logger.debug("FTP watch's WiFi AP not found.");
+                Logger.debug("FTP: watch's WiFi AP not found.");
+                transferring = false;
+                ftpTransporter.send("disable_ap");
+                updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
+                snackProgressBarManager.dismissAll();
             }
 
         } else if ("ftp_on_state_changed".equals(action)) {
-            DataBundle data = item.getData();
-            if (data == null || data.getInt("key_new_state") != 2 ){
-                if (data != null)
-                    Logger.debug("FTP key new state: "+data.getInt("key_new_state"));
+            if (key_new_state != 2 ){
+                if(key_new_state == 1)
+                    Logger.debug("FTP: FTP server disabled");
                 else
-                    Logger.debug("FTP returned item is null");
+                    Logger.debug("FTP: key new state: "+data.getInt("key_new_state"));
 
                 // close wifi ap
                 ftpTransporter.send("disable_ap");
@@ -829,7 +849,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
             // We create ftp connections
             FTPClient ftpClient = new FTPClient();
-
+            int successful = 0;
             try {
                 ftpClient.connect("192.168.43.1", 5210);
                 ftpClient.login("anonymous", "");
@@ -838,77 +858,78 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 int reply = ftpClient.getReplyCode();
                 if (!FTPReply.isPositiveCompletion(reply)) {
                     ftpClient.disconnect();
-                    Logger.debug("FTP server refused connection.");
+                    Logger.debug("FTP: FTP server refused connection.");
+                    transferring = false;
+                    updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
+
+                    snackProgressBarManager.dismissAll();
 
                     // close ftp & wifi ap
                     ftpTransporter.send("disable_ftp");
                     ftpTransporter.send("disable_ap");
                 } else {
-                    Logger.debug("FTP server connection granted.");
+                    Logger.debug("FTP: FTP server connection granted.");
 
                     //If it doesn't exist create it
-                    if(!ftpClient.changeWorkingDirectory(FTP_destPath)){
-                        ftpClient.makeDirectory(FTP_destPath);
-                        ftpClient.changeWorkingDirectory(FTP_destPath);
+                    String relative_path = FTP_destPath.replace("/sdcard","");
+                    if(!ftpClient.changeWorkingDirectory(relative_path)){
+                        Logger.debug("FTP: target path doesn't exit. Creating path: "+relative_path);
+                        ftpClient.makeDirectory(relative_path);
+                        ftpClient.changeWorkingDirectory(relative_path);
                     }
 
-                    // Create an InputStream of the zipped file to be uploaded
-                    BufferedInputStream stream = new BufferedInputStream(new FileInputStream(FTP_file));
+                    snackProgressBarManager.dismissAll();
+
                     ftpClient.setCopyStreamListener(streamListener);
-                    // Store file to server
-                    if(ftpClient.storeFile(FTP_file.getName(), stream)){
-                        Logger.debug("FTP file transfer finished.");
-                    }else{
-                        Logger.debug("FTP file transfer failed: "+ftpClient.getReplyString());
+
+                    // Progress bar
+                    final SnackProgressBar progressBar = new SnackProgressBar(
+                            SnackProgressBar.TYPE_CIRCULAR, getString(R.string.sending) + " \"" + FTP_files.get(0).getName() + "\", " + getString(R.string.wait))
+                            .setIsIndeterminate(false)
+                            .setProgressMax(100)
+                            .setAllowUserInput(true)
+                            /*
+                            .setAction(getString(R.string.cancel), new SnackProgressBar.OnActionClickListener() {
+                                @Override
+                                public void onActionClick() {
+                                    snackProgressBarManager.dismissAll();
+                                    cancellationTokenSource.cancel();
+                                }
+                            })
+                            */
+                            .setShowProgressPercentage(true);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            snackProgressBarManager.show(progressBar, SnackProgressBarManager.LENGTH_INDEFINITE);
+                        }
+                    });
+
+                    // Loop through selected files
+                    int total_files = FTP_files.size();
+                    while (FTP_files.size() > 0) {
+                        FTP_file =  FTP_files.get(0);
+                        // Update data on progressbar
+                        progressBar.setMessage(getString(R.string.sending) + " \"" + FTP_file.getName() + "\", " + getString(R.string.wait));
+                        snackProgressBarManager.setProgress((int) 0);
+
+                        // Create an InputStream of the zipped file to be uploaded
+                        BufferedInputStream stream = new BufferedInputStream(new FileInputStream(FTP_file));
+                        // Store file to server
+                        if (ftpClient.storeFile(FTP_file.getName(), stream)) {
+                            Logger.debug("FTP: file "+(1+total_files-FTP_files.size())+" transfer finished.");
+                            updateNotification(getString(R.string.file_upload_finished), "\"" + FTP_file.getName() + "\"", false);
+                            successful++;
+                        } else {
+                            Logger.debug("FTP: file "+(1+total_files-FTP_files.size())+" transfer failed: " + ftpClient.getReplyString());
+                            updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                        }
+                        FTP_files.remove(0);
                     }
+                    snackProgressBarManager.dismissAll();
                     //Finish up
                     ftpClient.logout();
                     ftpClient.disconnect();
-                    // close ftp & wifi ap
-                    ftpTransporter.send("disable_ftp");
-                    ftpTransporter.send("disable_ap");
-
-                    /*
-                    InputStream input  = new FileInputStream(FTP_file);
-                    OutputStream output = ftpClient.storeFileStream(FTP_file.getName());
-                    if(!FTPReply.isPositiveIntermediate(ftpClient.getReplyCode())) {
-                        input.close();
-                        if(output != null)
-                            output.close();
-                        else
-                            Logger.debug("FTP invalid file output");
-                        ftpClient.logout();
-                        ftpClient.disconnect();
-                        Logger.debug("FTP file transfer failed.");
-                        // close ftp & wifi ap
-                        ftpTransporter.send("disable_ftp");
-                        ftpTransporter.send("disable_ap");
-                    }
-                    ftpClient.setCopyStreamListener(streamListener);
-                    Util.copyStream(input, output);
-                    input.close();
-                    if(output != null)
-                        output.close();
-                    // Must call completePendingCommand() to finish command.
-                    if(!ftpClient.completePendingCommand()) {
-                        ftpClient.logout();
-                        ftpClient.disconnect();
-                        Logger.debug("FTP file transfer finished.");
-                        // close ftp & wifi ap
-                        ftpTransporter.send("disable_ftp");
-                        ftpTransporter.send("disable_ap");
-                    }
-
-                     */
-
-                    // Send file to path you need
-                    //ftpClient.storeFile(FTP_destPath, new FileInputStream(FTP_file));
-                    //ftpClient.setCopyStreamListener(streamListener);
-                    //Logger.debug("FTP file was transferred.");
-
-                    // Close connection
-                    //ftpClient.logout();
-                    //ftpClient.disconnect();
                 }
             } catch (IOException e) {
                 if (ftpClient.isConnected()) {
@@ -918,22 +939,65 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         // do nothing
                     }
                 }
-                Logger.debug("FTP connection to server could not be established. Error: " + e.toString());
-                // close ftp & wifi ap
-                ftpTransporter.send("disable_ftp");
-                ftpTransporter.send("disable_ap");
+                Logger.debug("FTP: connection to server error: " + e.toString());
+                updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
+                snackProgressBarManager.dismissAll();
             }
+            // close ftp & wifi ap
+            ftpTransporter.send("disable_ftp");
+            ftpTransporter.send("disable_ap");
+            transferring = false;
+            if(successful>0){
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        snackProgressBarManager.dismissAll();
+                        loadPath(currentPath);
+                    }
+                });
+            }
+        }else if("on_ap_enable_result".equals(action)){
+            if(key_new_state == 1)
+                Logger.debug("FTP: watch WiFi AP enabled successfully");
+            else
+                Logger.debug("FTP: watch WiFi AP key new state: "+data.getInt("key_new_state"));
         }
     }
 
+    public static boolean isConnected(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+            //Logger.debug("FTP: network info: " + ((networkInfo != null)?networkInfo.getDetailedState():"null"));
+        }
+        return networkInfo != null && networkInfo.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
+    }
+
+    public static String getSSID(Context context) {
+        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService (Context.WIFI_SERVICE);
+        String ssid = "null";
+        if (wifiManager != null) {
+            WifiInfo info = wifiManager.getConnectionInfo ();
+            ssid  = info.getSSID();
+        }
+        return ssid;
+    }
+
+    int prev_percent = 0;
     CopyStreamAdapter streamListener = new CopyStreamAdapter() {
         @Override
         public void bytesTransferred(long totalBytesTransferred, int bytesTransferred, long streamSize) {
             //this method will be called everytime some bytes are transferred
-
             int percent = (int)(totalBytesTransferred*100/FTP_file.length());
+
             // update your progress bar with this percentage
-            Logger.debug("FTP file transfer: "+percent+"%");
+            if (prev_percent != percent) {
+                prev_percent = percent;
+                Logger.debug("FTP: file transfer: " + percent + "%");
+                snackProgressBarManager.setProgress((int) percent);
+                updateNotification(getString(R.string.sending) + ", " + getString(R.string.wait), "\"" + FTP_file.getName() + "\"", (int) percent);
+            }
         }
     };
 
@@ -1522,6 +1586,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     }
 
     private void createNotification(String mode, String message, int icon) {
+        createNotification(mode, message, icon, true);
+    }
+
+    private void createNotification(String mode, String message, int icon, boolean action) {
         continueNotification = true;
         lastUpdate = 0;
         Intent intent = new Intent(getApplicationContext(), FileExplorerActivity.class);
@@ -1547,8 +1615,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 .setOnlyAlertOnce(true)
                 .setOngoing(true)
                 .setContentIntent(pendingIntent)
-                .addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.close), pendingIntentCancel)
                 .setSmallIcon(icon);
+        if(action)
+            mBuilder.addAction(android.R.drawable.ic_menu_close_clear_cancel, getString(R.string.close), pendingIntentCancel);
         notificationManager.notify(NOTIF_ID, mBuilder.build());
     }
 
@@ -1560,10 +1629,28 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 .setSummaryText(smallMessage))
                 .setOnlyAlertOnce(true)
                 //.setContentTitle(getString(R.string.downloading))
-                .setContentText(smallMessage);
-        mBuilder.setProgress(100, (int) progress, false);
+                .setContentText(smallMessage)
+                .setProgress(100, (int) progress, false);
         notificationManager.notify(NOTIF_ID, mBuilder.build());
 
+    }
+
+    private void updateNotification(String message, String smallMessage) {
+        updateNotification(message, smallMessage, true);
+    }
+    private void updateNotification(String message, String smallMessage, boolean ongoing) {
+        //Show/Update notification without progress
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle(mBuilder)
+                .bigText(smallMessage)
+                .setBigContentTitle(message)
+                //.setSummaryText(smallMessage)
+        )
+                .setOnlyAlertOnce(true)
+                .setOngoing(ongoing)
+                //.setContentTitle(getString(R.string.downloading))
+                .setContentText(smallMessage)
+                .setProgress(0, 0, false);
+        notificationManager.notify(NOTIF_ID, mBuilder.build());
     }
 
     private void stopNotification(String message, boolean mustClose) {
