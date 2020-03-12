@@ -72,6 +72,7 @@ import org.apache.commons.net.io.CopyStreamAdapter;
 import org.apache.commons.net.io.Util;
 import org.tinylog.Logger;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -831,8 +832,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
             try {
                 ftpClient.connect("192.168.43.1", 5210);
-                //ftpClient.login("anonymous", "");
-                Logger.debug("FTP connected.");
+                ftpClient.login("anonymous", "");
 
                 // After connection attempt, you should check the reply code to verify success.
                 int reply = ftpClient.getReplyCode();
@@ -852,12 +852,31 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         ftpClient.changeWorkingDirectory(FTP_destPath);
                     }
 
+                    // Create an InputStream of the zipped file to be uploaded
+                    BufferedInputStream stream = new BufferedInputStream(new FileInputStream(FTP_file));
+                    ftpClient.setCopyStreamListener(streamListener);
+                    // Store file to server
+                    if(ftpClient.storeFile(FTP_file.getName(), stream)){
+                        Logger.debug("FTP file transfer finished.");
+                    }else{
+                        Logger.debug("FTP file transfer failed: "+ftpClient.getReplyString());
+                    }
+                    //Finish up
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                    // close ftp & wifi ap
+                    ftpTransporter.send("disable_ftp");
+                    ftpTransporter.send("disable_ap");
+
+                    /*
                     InputStream input  = new FileInputStream(FTP_file);
                     OutputStream output = ftpClient.storeFileStream(FTP_file.getName());
                     if(!FTPReply.isPositiveIntermediate(ftpClient.getReplyCode())) {
                         input.close();
                         if(output != null)
                             output.close();
+                        else
+                            Logger.debug("FTP invalid file output");
                         ftpClient.logout();
                         ftpClient.disconnect();
                         Logger.debug("FTP file transfer failed.");
@@ -879,6 +898,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         ftpTransporter.send("disable_ftp");
                         ftpTransporter.send("disable_ap");
                     }
+
+                     */
 
                     // Send file to path you need
                     //ftpClient.storeFile(FTP_destPath, new FileInputStream(FTP_file));
@@ -902,9 +923,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 ftpTransporter.send("disable_ftp");
                 ftpTransporter.send("disable_ap");
             }
-
-            //ftpTransporter.send("disable_ftp");
-            //ftpTransporter.disconnectTransportService();
         }
     }
 
