@@ -152,6 +152,20 @@ public class Screen {
         return isVerge;
     }
 
+    public static boolean isStratos(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isStratos = Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model);
+        Logger.debug("DeviceUtil isStratos: checking if model " + model + " is an Amazfit Stratos: " + isStratos);
+        return isStratos;
+    }
+
+    public static boolean isPace(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isPace = Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model);
+        Logger.debug("DeviceUtil isPace: checking if model " + model + " is an Amazfit Pace: " + isPace);
+        return isPace;
+    }
+
     public static boolean isDrivingMode(Context context) {
         UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
         boolean is_in_driving_mode = false;
