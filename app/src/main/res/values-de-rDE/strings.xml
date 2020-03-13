@@ -417,18 +417,18 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="intro_description_get_started">Erste Schritte</string>
     <string name="filter_level">Filterstufe</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Daily Overview (Steps)</string>
+    <string name="widget_step">Tagesübersicht (Schritte)</string>
     <string name="widget_countdown">Countdown</string>
     <string name="widget_stopwatch">Stoppuhr</string>
     <string name="widget_music">Musik-Player</string>
     <string name="widget.sleep">Schlaf</string>
     <string name="widget_calendar">Kalender</string>
-    <string name="widget_timeline">Timeline</string>
+    <string name="widget_timeline">Zeitleiste</string>
     <string name="widget_compass">Kompass</string>
-    <string name="widget_heart">Heart rate</string>
+    <string name="widget_heart">Herzfrequenz</string>
     <string name="widget_find_phone">Mein Telefon finden</string>
     <string name="widget_call">Anruf</string>
-    <string name="widget_activity">Activities</string>
+    <string name="widget_activity">Aktivitäten</string>
     <string name="widget_weather">Wetter</string>
     <string name="widget_alarm">Alarm</string>
     <string name="widget_exercise_state">Übungszustand</string>
@@ -441,7 +441,7 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI entsperren</string>
     <string name="widget_mi_box_remote">Mi Box Fernbedienung</string>
-    <string name="widget_mi_tv_remote">Mi TV Remote</string>
+    <string name="widget_mi_tv_remote">Mi TV Fernbedienung</string>
     <string name="widget_stress">Stresspegel</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_always_left">always left</string>
