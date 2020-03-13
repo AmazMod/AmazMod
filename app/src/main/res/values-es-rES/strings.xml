@@ -424,7 +424,7 @@ seguir el tema de sistema (beta).</string>
     <string name="widget_music">Reproductor de Música</string>
     <string name="widget.sleep">Sueño</string>
     <string name="widget_calendar">Calendario</string>
-    <string name="widget_timeline">Cronología</string>
+    <string name="widget_timeline">Eventos Pace Calendar</string>
     <string name="widget_compass">Brújula</string>
     <string name="widget_heart">Ritmo cardíaco</string>
     <string name="widget_find_phone">Buscar teléfono</string>
