@@ -417,7 +417,7 @@ seguire il tema di sistema (beta).</string>
     <string name="intro_description_get_started">Iniziamo</string>
     <string name="filter_level">Livello del filtro</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Daily Overview (Steps)</string>
+    <string name="widget_step">Riepilogo giornaliero (Passi)</string>
     <string name="widget_countdown">Conto alla rovescia</string>
     <string name="widget_stopwatch">Cronometro</string>
     <string name="widget_music">Music Player</string>
