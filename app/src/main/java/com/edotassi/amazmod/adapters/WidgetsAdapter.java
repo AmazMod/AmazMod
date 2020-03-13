@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.ui.WidgetsActivity;
+import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
@@ -66,12 +67,11 @@ public class WidgetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             holder.handle.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    if (androidItemTouchHelper != null) androidItemTouchHelper.startDrag(holder);
+                    if (androidItemTouchHelper != null)
+                        androidItemTouchHelper.startDrag(holder);
                     return true;
                 }
             });
-
-
         }
     }
 
@@ -183,6 +183,9 @@ public class WidgetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         pkg = item.getString("pkg");
                     if (item.has("srl"))
                         position = item.getInt("srl");
+                        // Keep left side positions empty
+                        if(position<3 && Screen.isStratos())
+                            position = 3;
                     if (item.has("enable"))
                         enabled = item.getInt("enable") == 1;
                     if (item.has("cls"))
@@ -202,86 +205,74 @@ public class WidgetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         // Change names that confuse users
                         if (activity.equals("com.amazmod.service.springboard.AmazModLauncher")) {
                             name = "AmazMod";
-                        }
-                        if (activity.equals("com.huami.watch.weather.WeatherWidgetView")) {
-                            name = mActivity.getResources().getString(R.string.widget_weather);
-                        }
-                        if (activity.equals("com.huami.watch.health.widget.StepLauncherView")) {
+                        }else if (activity.equals("com.huami.watch.health.widget.StepLauncherView")) {
                             name = mActivity.getResources().getString(R.string.widget_step);
-                        }
-                        if (activity.equals("com.huami.watch.deskclock.countdown.CountdownWidget")) {
+                            if(Screen.isStratos()){
+                                position = 0;
+                                name = (position+1)+". "+name;
+                            }
+                        }else if (activity.equals("com.huami.watch.deskclock.countdown.CountdownWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_countdown);
-                        }
-                        if (activity.equals("com.huami.watch.deskclock.stopwatch.StopWatchWidget")) {
+                        }else if (activity.equals("com.huami.watch.deskclock.stopwatch.StopWatchWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_stopwatch);
-                        }
-                        if (activity.equals("watch.huami.com.mediaplayer.widget.MusicLauncerView")) {
+                        }else if (activity.equals("watch.huami.com.mediaplayer.widget.MusicLauncerView")) {
                             name = mActivity.getResources().getString(R.string.widget_music);
-                        }
-                        if (activity.equals("com.huami.watch.health.widget.SleepWidgetView")) {
+                        }else if (activity.equals("com.huami.watch.health.widget.SleepWidgetView")) {
                             name = mActivity.getResources().getString(R.string.widget_sleep);
-                        }
-                        if (activity.equals("com.huami.watch.hmcalendar.widget.CalendarLauncherView")) {
+                        }else if (activity.equals("com.huami.watch.hmcalendar.widget.CalendarLauncherView") || activity.equals("com.dinodevs.pacecalendarwidget.widget")) {
                             name = mActivity.getResources().getString(R.string.widget_calendar);
-                        }
-                        if (activity.equals("com.huami.watch.compass.CompassWidgetView")) {
+                        }else if (activity.equals("com.huami.watch.compass.CompassWidgetView")) {
                             name = mActivity.getResources().getString(R.string.widget_compass);
-                        }
-                        if (activity.equals("com.huami.watch.health.widget.HeartLauncherView")) {
+                        }else if (activity.equals("com.huami.watch.health.widget.HeartLauncherView")) {
                             name = mActivity.getResources().getString(R.string.widget_heart);
-                        }
-                        if (activity.equals("com.huami.watch.hmdevices.widget.HmDeviceFindLauncherView")) {
+                        }else if (activity.equals("com.huami.watch.hmdevices.widget.HmDeviceFindLauncherView")) {
                             name = mActivity.getResources().getString(R.string.widget_find_phone);
-                        }
-                        if (activity.equals("com.huami.btcall.widget.BtCallWidget")) {
+                        }else if (activity.equals("com.huami.btcall.widget.BtCallWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_call);
-                        }
-                        if (activity.equals("com.huami.watch.newsport.widget.SportHistoryWidget")) {
+                        }else if (activity.equals("com.huami.watch.newsport.widget.SportHistoryWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_activity);
-                        }
-                        if (activity.equals("com.huami.watch.weather.WeatherWidgetView") || activity.equals("com.huami.watch.weather.Everest2WeatherWidgetView")) {
+                            if(Screen.isStratos()){
+                                position = 1;
+                                name = (position+1)+". "+name;
+                            }
+                        }else if (activity.equals("com.huami.watch.weather.WeatherWidgetView") || activity.equals("com.huami.watch.weather.Everest2WeatherWidgetView")) {
                             name = mActivity.getResources().getString(R.string.widget_weather);
-                        }
-                        if (activity.equals("com.huami.watch.deskclock.AlarmClockWidget")) {
+                        }else if (activity.equals("com.huami.watch.deskclock.AlarmClockWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_alarm);
-                        }
-                        if (activity.equals("com.huami.watch.newsport.motionstate.widget.SportMotionStateWidget")) {
+                        }else if (activity.equals("com.huami.watch.newsport.motionstate.widget.SportMotionStateWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_exercise_state);
-                        }
-                        if (activity.equals("com.huami.watch.newsport.widget.SportWidget")) {
+                        }else if (activity.equals("com.huami.watch.newsport.widget.SportWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_sport);
-                        }
-                        if (activity.equals("com.alipay.android.hmwatch.hmwidget.PayCodeView")) {
+                        }else if (activity.equals("com.huami.watch.newsport.widget.SportLauncherWidget")) {
+                            name = mActivity.getResources().getString(R.string.widget_sport_launcher);
+                            if(Screen.isStratos()){
+                                position = 2;
+                                name = (position+1)+". "+name;
+                            }
+                        }else if (activity.equals("com.alipay.android.hmwatch.hmwidget.PayCodeView")) {
                             name = mActivity.getResources().getString(R.string.widget_alipay);
-                        }
-                        if (activity.equals("com.huami.watch.ximalayasound.XimalayaLauncherView")) {
+                        }else if (activity.equals("com.huami.watch.ximalayasound.XimalayaLauncherView")) {
                             name = mActivity.getResources().getString(R.string.widget_ximalaya);
-                        }
-                        if (activity.equals("com.huami.watch.location.ui.widget.LocationWidget")) {
+                        }else if (activity.equals("com.huami.watch.location.ui.widget.LocationWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_location);
-                        }
-                        if (activity.equals("com.huami.watch.wallet.ui.widget.WalletWidget")) {
+                        }else if (activity.equals("com.huami.watch.wallet.ui.widget.WalletWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_wallet);
-                        }
-                        if (activity.equals("com.huami.watch.compass.BarAltitudeWidgetView")) {
+                        }else if (activity.equals("com.huami.watch.compass.BarAltitudeWidgetView")) {
                             name = mActivity.getResources().getString(R.string.widget_barometer);
-                        }
-                        if (activity.equals("com.huami.watch.pin.PinWidgetView")) {
+                        }else if (activity.equals("com.huami.watch.pin.PinWidgetView")) {
                             name = mActivity.getResources().getString(R.string.widget_miui_unlock);
-                        }
-                        if (activity.equals("com.huami.watch.health.pressure.widget.PressureWidget")) {
+                        }else if (activity.equals("com.huami.watch.health.pressure.widget.PressureWidget")) {
                             name = mActivity.getResources().getString(R.string.widget_stress);
-                        }
-                        if (pkg.equals("com.huami.watch.hmtvhelper")) {
+                        }else if (pkg.equals("com.huami.watch.hmtvhelper")) {
                             name = mActivity.getResources().getString(R.string.widget_mi_box_remote);
-                        }
-                        //Todo: Should be hidden because do nothing
-                        if (activity.equals("#WIDGET_ONLY")) {
-                            name = "#WIDGET_ONLY";
-                        }
-                        if (activity.equals("ard")) {
+                        }else if (pkg.equals("com.huami.watch.hmtvhelper.widget.TvLauncherView")) {
+                            name = mActivity.getResources().getString(R.string.widget_mi_tv_remote);
+                        }else if (activity.equals("ard")) {
                             name = mActivity.getResources().getString(R.string.widget_hm_tv);
+                        }else if (activity.equals("com.dinodevs.pacecalendarwidget.widgetTimeline")) {
+                            name = mActivity.getResources().getString(R.string.widget_timeline);
                         }
+
                         widgetList.add(createWidget(pkg, name, position, enabled, activity));
                     }
                 } catch (Exception e) {
@@ -292,6 +283,7 @@ public class WidgetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             Logger.error("Widgets JSON error");
             Toast.makeText(mActivity.getBaseContext(),R.string.error_loading_widgets,Toast.LENGTH_LONG).show();
         }
+        Collections.sort(widgetList);
         mActivity.hideProgressBar();
         return widgetList;
     }

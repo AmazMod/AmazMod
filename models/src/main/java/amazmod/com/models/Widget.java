@@ -1,6 +1,6 @@
 package amazmod.com.models;
 
-public class Widget {
+public class Widget implements Comparable<Widget>{
 
     private String name;
     private String packageName;
@@ -46,5 +46,10 @@ public class Widget {
 
     public void setActivity(String activity) {
         this.activity = activity;
+    }
+
+    @Override
+    public int compareTo(Widget w) {
+        return (new Integer(getPosition())).compareTo(w.getPosition());
     }
 }
