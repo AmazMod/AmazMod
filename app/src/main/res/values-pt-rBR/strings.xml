@@ -432,7 +432,7 @@
     <string name="widget_alarm">Alarme</string>
     <string name="widget_exercise_state">Estado do exercício</string>
     <string name="widget_sport">Esporte</string>
-    <string name="widget_sport_launcher">Sports Launcher</string>
+    <string name="widget_sport_launcher">Launcher de Esportes</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Localização</string>
@@ -440,10 +440,10 @@
     <string name="widget_barometer">Barômetro</string>
     <string name="widget_miui_unlock">Desbloqueio MIUI</string>
     <string name="widget_mi_box_remote">Controle remoto Mi Box</string>
-    <string name="widget_mi_tv_remote">Mi TV Remote</string>
+    <string name="widget_mi_tv_remote">Controle Mi TV</string>
     <string name="widget_stress">Nível de Estresse</string>
     <string name="widget_hm_tv">TV HM</string>
-    <string name="widget_always_left">always left</string>
+    <string name="widget_always_left">sempre à esquerda</string>
     <string name="widget_main_activity">Atividade Principal</string>
     <string name="notification_replies_confirm_removal">Por favor, confirme</string>
     <string name="notification_replies_cancel_removal">Resposta Removida</string>
