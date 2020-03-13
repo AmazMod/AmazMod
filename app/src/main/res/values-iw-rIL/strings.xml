@@ -422,10 +422,10 @@
     <string name="intro_description_get_started">מתחילים!</string>
     <string name="filter_level">רמת סינון</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Daily Overview (Steps)</string>
+    <string name="widget_step">סקירה יומית (צעדים)</string>
     <string name="widget_countdown">ספירה לאחור</string>
     <string name="widget_stopwatch">שעון עצר</string>
-    <string name="widget_music">Music Player</string>
+    <string name="widget_music">נגן המוזיקה</string>
     <string name="widget.sleep">שינה</string>
     <string name="widget_calendar">לוח שנה</string>
     <string name="widget_timeline">Timeline</string>
