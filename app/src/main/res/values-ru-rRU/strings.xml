@@ -449,7 +449,7 @@
     <string name="widget_mi_tv_remote">Mi TV Пульт</string>
     <string name="widget_stress">Уровень стресса</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">always left</string>
+    <string name="widget_always_left">всегда оставлять</string>
     <string name="widget_main_activity">Основная Активность</string>
     <string name="notification_replies_confirm_removal">Пожалуйста, подтвердите</string>
     <string name="notification_replies_cancel_removal">Ответ удален</string>
