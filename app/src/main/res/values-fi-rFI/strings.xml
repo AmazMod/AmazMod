@@ -427,12 +427,12 @@
     <string name="widget_heart">Syke</string>
     <string name="widget_find_phone">Find my Phone</string>
     <string name="widget_call">Call</string>
-    <string name="widget_activity">Activities</string>
+    <string name="widget_activity">Aktiviteetit</string>
     <string name="widget_weather">Weather</string>
     <string name="widget_alarm">Alarm</string>
     <string name="widget_exercise_state">Exercise State</string>
     <string name="widget_sport">Sport</string>
-    <string name="widget_sport_launcher">Sports Launcher</string>
+    <string name="widget_sport_launcher">Urheilu Launcher</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Location</string>
@@ -440,10 +440,10 @@
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI Unlock</string>
     <string name="widget_mi_box_remote">Mi Box Remote</string>
-    <string name="widget_mi_tv_remote">Mi TV Remote</string>
+    <string name="widget_mi_tv_remote">Mi TV Kaukosäädin</string>
     <string name="widget_stress">Stressi taso</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">always left</string>
+    <string name="widget_always_left">aina vasemmalla</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Ole hyvä ja vahvista</string>
     <string name="notification_replies_cancel_removal">Vastaus poistettu</string>
