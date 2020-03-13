@@ -416,15 +416,15 @@
     <string name="intro_description_get_started">Get Started</string>
     <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Daily Overview (Steps)</string>
+    <string name="widget_step">Päivittäinen Yhteenveto (Askeleet)</string>
     <string name="widget_countdown">Countdown</string>
     <string name="widget_stopwatch">StopWatch</string>
-    <string name="widget_music">Music Player</string>
+    <string name="widget_music">Musiikkisoitin</string>
     <string name="widget.sleep">Sleep</string>
     <string name="widget_calendar">Calendar</string>
-    <string name="widget_timeline">Timeline</string>
+    <string name="widget_timeline">Aikajana</string>
     <string name="widget_compass">Compass</string>
-    <string name="widget_heart">Heart rate</string>
+    <string name="widget_heart">Syke</string>
     <string name="widget_find_phone">Find my Phone</string>
     <string name="widget_call">Call</string>
     <string name="widget_activity">Activities</string>
