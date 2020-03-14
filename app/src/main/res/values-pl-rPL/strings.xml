@@ -449,7 +449,6 @@
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Poziom stresu</string>
     <string name="widget_hm_tv">TV HM</string>
-    <string name="widget_always_left">always left</string>
     <string name="widget_main_activity">Moja aktywność</string>
     <string name="notification_replies_confirm_removal">Proszę potwierdzić</string>
     <string name="notification_replies_cancel_removal">Usunięto Odpowiedź</string>
