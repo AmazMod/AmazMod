@@ -445,7 +445,6 @@ seguir el tema de sistema (beta).</string>
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Nivel de Estrés</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">Siempre a la izquierda</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Confirma, por favor</string>
     <string name="notification_replies_cancel_removal">Respuesta eliminada</string>
