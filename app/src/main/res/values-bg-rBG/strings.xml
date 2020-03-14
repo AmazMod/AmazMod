@@ -444,7 +444,6 @@
     <string name="widget_mi_tv_remote">Mi TV Дистанционно</string>
     <string name="widget_stress">Нивото На Стреса</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">винаги е там</string>
     <string name="widget_main_activity">Основна дейност</string>
     <string name="notification_replies_confirm_removal">Моля потвърдете</string>
     <string name="notification_replies_cancel_removal">Отговорът е премахнат</string>
