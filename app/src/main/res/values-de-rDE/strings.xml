@@ -444,7 +444,6 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="widget_mi_tv_remote">Mi TV Fernbedienung</string>
     <string name="widget_stress">Stresspegel</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">immer links</string>
     <string name="widget_main_activity">Hauptaktivität</string>
     <string name="notification_replies_confirm_removal">Bitte bestätigen</string>
     <string name="notification_replies_cancel_removal">Antwort entfernt</string>
