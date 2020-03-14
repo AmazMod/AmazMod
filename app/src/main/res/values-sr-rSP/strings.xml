@@ -447,7 +447,6 @@ follow the system theme (beta).</string>
     <string name="widget_mi_tv_remote">Ми ТВ даљински</string>
     <string name="widget_stress">Ниво стреса</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">увек лево</string>
     <string name="widget_main_activity">Главна активност</string>
     <string name="notification_replies_confirm_removal">Молимо, потврдите</string>
     <string name="notification_replies_cancel_removal">Одговор уклоњен</string>
