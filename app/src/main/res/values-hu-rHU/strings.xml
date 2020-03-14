@@ -446,7 +446,6 @@ a rendszertéma követése helyett (beta).</string>
     <string name="widget_mi_tv_remote">Mi TV Távirányító</string>
     <string name="widget_stress">Stressz szint</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">always left</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Erősítsd meg</string>
     <string name="notification_replies_cancel_removal">Válasz eltávolítva</string>
