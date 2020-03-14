@@ -443,7 +443,6 @@
     <string name="widget_mi_tv_remote">Mi TV Kaukosäädin</string>
     <string name="widget_stress">Stressi taso</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">aina vasemmalla</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Ole hyvä ja vahvista</string>
     <string name="notification_replies_cancel_removal">Vastaus poistettu</string>
