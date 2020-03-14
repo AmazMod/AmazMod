@@ -440,7 +440,6 @@
     <string name="widget_mi_tv_remote">Điều khiển TV</string>
     <string name="widget_stress">Mức độ căng thẳng</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">luôn luôn để lại</string>
     <string name="widget_main_activity">Hoạt động chủ yếu</string>
     <string name="notification_replies_confirm_removal">Vui lòng xác nhận</string>
     <string name="notification_replies_cancel_removal">Trả lời đã xóa</string>
