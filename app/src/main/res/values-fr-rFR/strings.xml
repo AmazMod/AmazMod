@@ -444,7 +444,6 @@ suivre le thème système (bêta).</string>
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Niveau de stress</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">always left</string>
     <string name="widget_main_activity">Activité principale</string>
     <string name="notification_replies_confirm_removal">Veuillez confirmer</string>
     <string name="notification_replies_cancel_removal">Réponse supprimée</string>
