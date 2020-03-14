@@ -456,7 +456,6 @@
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">مستوى الإجهاد</string>
     <string name="widget_hm_tv">HM التلفزيون</string>
-    <string name="widget_always_left">always left</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">يرجى تأكيد</string>
     <string name="notification_replies_cancel_removal">رد إزالتها</string>
