@@ -441,7 +441,6 @@
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">压力级别</string>
     <string name="widget_hm_tv">华米TV</string>
-    <string name="widget_always_left">always left</string>
     <string name="widget_main_activity">主要活动</string>
     <string name="notification_replies_confirm_removal">请确认</string>
     <string name="notification_replies_cancel_removal">回复已删除</string>
