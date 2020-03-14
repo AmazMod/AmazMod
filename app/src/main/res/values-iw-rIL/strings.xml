@@ -449,7 +449,6 @@
     <string name="widget_mi_tv_remote">שלט Mi</string>
     <string name="widget_stress">רמת הלחץ הנפשי</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">всегда слева</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">אנא אשרו</string>
     <string name="notification_replies_cancel_removal">התגובה בוטלה</string>
