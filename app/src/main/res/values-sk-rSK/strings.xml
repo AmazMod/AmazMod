@@ -450,7 +450,6 @@ Urobte príkaz shell \"</string>
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Úroveň stresu</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">vždy vľavo</string>
     <string name="widget_main_activity">Hlavná aktivita</string>
     <string name="notification_replies_confirm_removal">Prosím, potvrďte</string>
     <string name="notification_replies_cancel_removal">Odpoveď bola odstránená</string>
