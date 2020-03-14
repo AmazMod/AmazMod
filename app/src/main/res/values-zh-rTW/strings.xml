@@ -442,7 +442,6 @@
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">应力水平</string>
     <string name="widget_hm_tv">HM电视</string>
-    <string name="widget_always_left">always left</string>
     <string name="widget_main_activity">重置</string>
     <string name="notification_replies_confirm_removal">请确认</string>
     <string name="notification_replies_cancel_removal">答复中删除</string>
