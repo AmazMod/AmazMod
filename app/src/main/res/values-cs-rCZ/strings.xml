@@ -424,21 +424,23 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="intro_description_get_started">Začínáme</string>
     <string name="filter_level">Úroveň filtru</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Krok</string>
+    <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">Odpočet</string>
     <string name="widget_stopwatch">Stopky</string>
-    <string name="widget_music">Hudba</string>
+    <string name="widget_music">Music Player</string>
     <string name="widget.sleep">Spánek</string>
     <string name="widget_calendar">Kalendář</string>
+    <string name="widget_timeline">Timeline</string>
     <string name="widget_compass">Kompas</string>
-    <string name="widget_heart">Srdce</string>
+    <string name="widget_heart">Heart rate</string>
     <string name="widget_find_phone">Najít můj telefon</string>
     <string name="widget_call">Volání</string>
-    <string name="widget_activity">Aktivity</string>
+    <string name="widget_activity">Activities</string>
     <string name="widget_weather">Počasí</string>
     <string name="widget_alarm">Budík</string>
     <string name="widget_exercise_state">Stav cvičení</string>
     <string name="widget_sport">Sport</string>
+    <string name="widget_sport_launcher">Sports Launcher</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Poloha</string>
@@ -446,6 +448,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="widget_barometer">Barometr</string>
     <string name="widget_miui_unlock">MIUI Unlock</string>
     <string name="widget_mi_box_remote">Mi Box Remote</string>
+    <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Úroveň stresu</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hlavní aktivita</string>

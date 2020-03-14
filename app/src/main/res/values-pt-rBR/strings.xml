@@ -416,21 +416,23 @@
     <string name="intro_description_get_started">Get Started</string>
     <string name="filter_level">Nível do filtro</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Passo</string>
+    <string name="widget_step">Resumo diário (passos)</string>
     <string name="widget_countdown">Contagem regressiva</string>
     <string name="widget_stopwatch">Cronômetro</string>
-    <string name="widget_music">Música</string>
+    <string name="widget_music">Reprodutor de música</string>
     <string name="widget.sleep">Suspender</string>
     <string name="widget_calendar">Calendário</string>
+    <string name="widget_timeline">Linha do tempo</string>
     <string name="widget_compass">Bússola</string>
-    <string name="widget_heart">Coração</string>
+    <string name="widget_heart">Freqüência cardíaca</string>
     <string name="widget_find_phone">Encontrar Meu Telefone</string>
     <string name="widget_call">Chamada</string>
-    <string name="widget_activity">Atividade</string>
+    <string name="widget_activity">Atividades</string>
     <string name="widget_weather">Clima</string>
     <string name="widget_alarm">Alarme</string>
     <string name="widget_exercise_state">Estado do exercício</string>
     <string name="widget_sport">Esporte</string>
+    <string name="widget_sport_launcher">Launcher de Esportes</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Localização</string>
@@ -438,6 +440,7 @@
     <string name="widget_barometer">Barômetro</string>
     <string name="widget_miui_unlock">Desbloqueio MIUI</string>
     <string name="widget_mi_box_remote">Controle remoto Mi Box</string>
+    <string name="widget_mi_tv_remote">Controle Mi TV</string>
     <string name="widget_stress">Nível de Estresse</string>
     <string name="widget_hm_tv">TV HM</string>
     <string name="widget_main_activity">Atividade Principal</string>

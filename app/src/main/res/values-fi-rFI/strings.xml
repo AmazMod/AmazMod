@@ -416,21 +416,23 @@
     <string name="intro_description_get_started">Get Started</string>
     <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Step</string>
+    <string name="widget_step">Päivittäinen Yhteenveto (Askeleet)</string>
     <string name="widget_countdown">Countdown</string>
     <string name="widget_stopwatch">StopWatch</string>
-    <string name="widget_music">Music</string>
+    <string name="widget_music">Musiikkisoitin</string>
     <string name="widget.sleep">Sleep</string>
     <string name="widget_calendar">Calendar</string>
+    <string name="widget_timeline">Aikajana</string>
     <string name="widget_compass">Compass</string>
-    <string name="widget_heart">Heart</string>
+    <string name="widget_heart">Syke</string>
     <string name="widget_find_phone">Find my Phone</string>
     <string name="widget_call">Call</string>
-    <string name="widget_activity">Activity</string>
+    <string name="widget_activity">Aktiviteetit</string>
     <string name="widget_weather">Weather</string>
     <string name="widget_alarm">Alarm</string>
     <string name="widget_exercise_state">Exercise State</string>
     <string name="widget_sport">Sport</string>
+    <string name="widget_sport_launcher">Urheilu Launcher</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Location</string>
@@ -438,6 +440,7 @@
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI Unlock</string>
     <string name="widget_mi_box_remote">Mi Box Remote</string>
+    <string name="widget_mi_tv_remote">Mi TV Kaukosäädin</string>
     <string name="widget_stress">Stressi taso</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">MainActivity</string>

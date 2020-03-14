@@ -417,21 +417,23 @@ suivre le thème système (bêta).</string>
     <string name="intro_description_get_started">Pour commencer</string>
     <string name="filter_level">Niveau de filtre</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Étape</string>
+    <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">Compte à Rebours</string>
     <string name="widget_stopwatch">Chronomètre</string>
-    <string name="widget_music">Musique</string>
+    <string name="widget_music">Music Player</string>
     <string name="widget.sleep">Veille</string>
     <string name="widget_calendar">Calendrier</string>
+    <string name="widget_timeline">Timeline</string>
     <string name="widget_compass">Boussole</string>
-    <string name="widget_heart">Coeur</string>
+    <string name="widget_heart">Heart rate</string>
     <string name="widget_find_phone">Trouver mon téléphone</string>
     <string name="widget_call">Appel</string>
-    <string name="widget_activity">Activité</string>
+    <string name="widget_activity">Activities</string>
     <string name="widget_weather">Météo</string>
     <string name="widget_alarm">Alarme</string>
     <string name="widget_exercise_state">État de l\'exercice</string>
     <string name="widget_sport">Sport</string>
+    <string name="widget_sport_launcher">Sports Launcher</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Localisation</string>
@@ -439,6 +441,7 @@ suivre le thème système (bêta).</string>
     <string name="widget_barometer">Baromètre</string>
     <string name="widget_miui_unlock">Déverrouillage MIUI</string>
     <string name="widget_mi_box_remote">Télécommande Mi Box</string>
+    <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Niveau de stress</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Activité principale</string>

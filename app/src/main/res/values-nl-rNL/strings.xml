@@ -417,21 +417,23 @@ het systeemthema (beta).</string>
     <string name="intro_description_get_started">Aan de slag</string>
     <string name="filter_level">Filterniveau</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Stap</string>
+    <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">Aftellen</string>
     <string name="widget_stopwatch">Stopwatch</string>
-    <string name="widget_music">Muziek</string>
+    <string name="widget_music">Music Player</string>
     <string name="widget.sleep">Slaap</string>
     <string name="widget_calendar">Kalender</string>
+    <string name="widget_timeline">Timeline</string>
     <string name="widget_compass">Kompas</string>
-    <string name="widget_heart">Hart</string>
+    <string name="widget_heart">Heart rate</string>
     <string name="widget_find_phone">Vind mijn telefoon</string>
     <string name="widget_call">Bellen</string>
-    <string name="widget_activity">Activiteit</string>
+    <string name="widget_activity">Activities</string>
     <string name="widget_weather">Weer</string>
     <string name="widget_alarm">Alarm</string>
     <string name="widget_exercise_state">Oefening Staat</string>
     <string name="widget_sport">Sport</string>
+    <string name="widget_sport_launcher">Sports Launcher</string>
     <string name="widget_alipay">AliPay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Locatie</string>
@@ -439,6 +441,7 @@ het systeemthema (beta).</string>
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI ontgrendelen</string>
     <string name="widget_mi_box_remote">Mi TV Afstandbediening</string>
+    <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Stress Niveau</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hoofdactiviteit</string>

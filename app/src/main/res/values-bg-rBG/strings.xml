@@ -417,21 +417,23 @@
     <string name="intro_description_get_started">Започнете</string>
     <string name="filter_level">Ниво на филтър</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Крачка</string>
+    <string name="widget_step">Ежедневен Преглед (Крачки)</string>
     <string name="widget_countdown">Обратно броене</string>
     <string name="widget_stopwatch">Хронометър</string>
-    <string name="widget_music">Музика</string>
+    <string name="widget_music">Музикален плейър</string>
     <string name="widget.sleep">Сън</string>
     <string name="widget_calendar">Календар</string>
+    <string name="widget_timeline">Времева скала</string>
     <string name="widget_compass">Компас</string>
-    <string name="widget_heart">Сърце</string>
+    <string name="widget_heart">Сърдечна честота</string>
     <string name="widget_find_phone">Открий моя телефон</string>
     <string name="widget_call">Повикване</string>
-    <string name="widget_activity">Дейност</string>
+    <string name="widget_activity">Активности</string>
     <string name="widget_weather">Времето</string>
     <string name="widget_alarm">Аларма</string>
     <string name="widget_exercise_state">Състояние за упражнение</string>
     <string name="widget_sport">Спорт</string>
+    <string name="widget_sport_launcher">Спортен Стартер</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Местоположение</string>
@@ -439,6 +441,7 @@
     <string name="widget_barometer">Барометър</string>
     <string name="widget_miui_unlock">MIUI отключване</string>
     <string name="widget_mi_box_remote">Mi Box Дистанционно</string>
+    <string name="widget_mi_tv_remote">Mi TV Дистанционно</string>
     <string name="widget_stress">Нивото На Стреса</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Основна дейност</string>

@@ -423,14 +423,15 @@ Urobte príkaz shell \"</string>
     <string name="intro_description_get_started">Začať</string>
     <string name="filter_level">Úroveň filtra</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Krok</string>
+    <string name="widget_step">Denný Prehľad (Kroky)</string>
     <string name="widget_countdown">Odpočítavanie</string>
     <string name="widget_stopwatch">Stopky</string>
-    <string name="widget_music">Hudba</string>
+    <string name="widget_music">Prehrávač hudby</string>
     <string name="widget.sleep">Spánok</string>
     <string name="widget_calendar">Kalendár</string>
+    <string name="widget_timeline">Časová os</string>
     <string name="widget_compass">Kompas</string>
-    <string name="widget_heart">Srdce</string>
+    <string name="widget_heart">Pulz</string>
     <string name="widget_find_phone">Nájsť telefón</string>
     <string name="widget_call">Volať</string>
     <string name="widget_activity">Aktivity</string>
@@ -438,6 +439,7 @@ Urobte príkaz shell \"</string>
     <string name="widget_alarm">Budík</string>
     <string name="widget_exercise_state">Stav cvičenia</string>
     <string name="widget_sport">Šport</string>
+    <string name="widget_sport_launcher">Športový launcher</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Poloha</string>
@@ -445,6 +447,7 @@ Urobte príkaz shell \"</string>
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI Unlock</string>
     <string name="widget_mi_box_remote">Mi Box Remote</string>
+    <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Úroveň stresu</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hlavná aktivita</string>

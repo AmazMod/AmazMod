@@ -420,21 +420,23 @@ follow the system theme (beta).</string>
     <string name="intro_description_get_started">Get Started</string>
     <string name="filter_level">Ниво филтера</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Корак</string>
+    <string name="widget_step">Дневни Преглед (Кораци)</string>
     <string name="widget_countdown">Одбројавање</string>
     <string name="widget_stopwatch">Штоперица</string>
-    <string name="widget_music">Музика</string>
+    <string name="widget_music">Музички Плејер</string>
     <string name="widget.sleep">Спавање</string>
     <string name="widget_calendar">Календар</string>
+    <string name="widget_timeline">Временска линија</string>
     <string name="widget_compass">Компас</string>
-    <string name="widget_heart">Срце</string>
+    <string name="widget_heart">Откуцаји срца</string>
     <string name="widget_find_phone">Нађи мој телефон</string>
     <string name="widget_call">Позив</string>
-    <string name="widget_activity">Активност</string>
+    <string name="widget_activity">Активности</string>
     <string name="widget_weather">Временска прогноза</string>
     <string name="widget_alarm">Аларм</string>
     <string name="widget_exercise_state">Стање Вежбе</string>
     <string name="widget_sport">Спорт</string>
+    <string name="widget_sport_launcher">Спортски Покретач</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Локација</string>
@@ -442,6 +444,7 @@ follow the system theme (beta).</string>
     <string name="widget_barometer">Барометар</string>
     <string name="widget_miui_unlock">Откључај MIUI</string>
     <string name="widget_mi_box_remote">Mi Box Даљински</string>
+    <string name="widget_mi_tv_remote">Ми ТВ даљински</string>
     <string name="widget_stress">Ниво стреса</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Главна активност</string>

@@ -420,21 +420,23 @@ follow the system theme (beta).</string>
     <string name="intro_description_get_started">Get Started</string>
     <string name="filter_level">Filter level</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Solis</string>
+    <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">Atpakaļskaitīšana</string>
     <string name="widget_stopwatch">Hronometrs</string>
-    <string name="widget_music">Muzika</string>
+    <string name="widget_music">Music Player</string>
     <string name="widget.sleep">Miegs</string>
     <string name="widget_calendar">Kalendārs</string>
+    <string name="widget_timeline">Timeline</string>
     <string name="widget_compass">Kompass</string>
-    <string name="widget_heart">Sirds</string>
+    <string name="widget_heart">Heart rate</string>
     <string name="widget_find_phone">Atrast manu tālruni</string>
     <string name="widget_call">Zvanīt</string>
-    <string name="widget_activity">Aktivitāte</string>
+    <string name="widget_activity">Activities</string>
     <string name="widget_weather">Laika ziņas</string>
     <string name="widget_alarm">Modinātājs</string>
     <string name="widget_exercise_state">Vingrinājuma Stāvoklis</string>
     <string name="widget_sport">Sports</string>
+    <string name="widget_sport_launcher">Sports Launcher</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Atrašanās vietas</string>
@@ -442,6 +444,7 @@ follow the system theme (beta).</string>
     <string name="widget_barometer">Barometrs</string>
     <string name="widget_miui_unlock">MIUI Atbloķēšana</string>
     <string name="widget_mi_box_remote">Mi Tv Pults</string>
+    <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Stress Level</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">GalvenāAktivitāte</string>

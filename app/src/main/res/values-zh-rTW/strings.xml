@@ -415,21 +415,23 @@
     <string name="intro_description_get_started">开始</string>
     <string name="filter_level">过滤器的水平</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">步骤</string>
+    <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">倒计时</string>
     <string name="widget_stopwatch">秒表</string>
-    <string name="widget_music">音乐</string>
+    <string name="widget_music">Music Player</string>
     <string name="widget.sleep">睡眠</string>
     <string name="widget_calendar">日历</string>
+    <string name="widget_timeline">Timeline</string>
     <string name="widget_compass">指南针</string>
-    <string name="widget_heart">心脏</string>
+    <string name="widget_heart">Heart rate</string>
     <string name="widget_find_phone">找到我的电话</string>
     <string name="widget_call">呼叫</string>
-    <string name="widget_activity">活动</string>
+    <string name="widget_activity">Activities</string>
     <string name="widget_weather">天气</string>
     <string name="widget_alarm">报警</string>
     <string name="widget_exercise_state">锻炼状态</string>
     <string name="widget_sport">体育运动</string>
+    <string name="widget_sport_launcher">Sports Launcher</string>
     <string name="widget_alipay">支付宝</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">位置</string>
@@ -437,6 +439,7 @@
     <string name="widget_barometer">晴雨表</string>
     <string name="widget_miui_unlock">小米开锁</string>
     <string name="widget_mi_box_remote">Mi框遥</string>
+    <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">应力水平</string>
     <string name="widget_hm_tv">HM电视</string>
     <string name="widget_main_activity">重置</string>

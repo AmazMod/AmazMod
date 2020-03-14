@@ -429,21 +429,23 @@
     <string name="intro_description_get_started">نبدأ</string>
     <string name="filter_level">تصفية المستوى</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">الخطوة</string>
+    <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">العد التنازلي</string>
     <string name="widget_stopwatch">ساعة توقيت</string>
-    <string name="widget_music">الموسيقى</string>
+    <string name="widget_music">Music Player</string>
     <string name="widget.sleep">النوم</string>
     <string name="widget_calendar">التقويم</string>
+    <string name="widget_timeline">Timeline</string>
     <string name="widget_compass">البوصلة</string>
-    <string name="widget_heart">القلب</string>
+    <string name="widget_heart">Heart rate</string>
     <string name="widget_find_phone">اعثر على هاتفي</string>
     <string name="widget_call">الاتصال</string>
-    <string name="widget_activity">النشاط</string>
+    <string name="widget_activity">Activities</string>
     <string name="widget_weather">الطقس</string>
     <string name="widget_alarm">التنبيه</string>
     <string name="widget_exercise_state">ممارسة الدولة</string>
     <string name="widget_sport">الرياضة</string>
+    <string name="widget_sport_launcher">Sports Launcher</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">الموقع</string>
@@ -451,6 +453,7 @@
     <string name="widget_barometer">مقياس</string>
     <string name="widget_miui_unlock">MIUI فتح</string>
     <string name="widget_mi_box_remote">مي مربع البعيد</string>
+    <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">مستوى الإجهاد</string>
     <string name="widget_hm_tv">HM التلفزيون</string>
     <string name="widget_main_activity">MainActivity</string>
