@@ -446,7 +446,6 @@
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
     <string name="widget_stress">Nivel de Stres</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_always_left">always left</string>
     <string name="widget_main_activity">ActivitatePrincipală</string>
     <string name="notification_replies_confirm_removal">Va rugam, să confirmați</string>
     <string name="notification_replies_cancel_removal">Răspuns Șters</string>
