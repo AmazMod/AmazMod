@@ -443,7 +443,6 @@
     <string name="widget_mi_tv_remote">Comando Mi</string>
     <string name="widget_stress">Nível de stress</string>
     <string name="widget_hm_tv">TV HM</string>
-    <string name="widget_always_left">sempre à esquerda</string>
     <string name="widget_main_activity">MainActivity</string>
     <string name="notification_replies_confirm_removal">Por favor, confirme</string>
     <string name="notification_replies_cancel_removal">Resposta removida</string>
