@@ -444,7 +444,6 @@ seguire il tema di sistema (beta).</string>
     <string name="widget_mi_tv_remote">Telecomando Mi TV</string>
     <string name="widget_stress">Livello di stress</string>
     <string name="widget_hm_tv">TV HM</string>
-    <string name="widget_always_left">sempre a sinistra</string>
     <string name="widget_main_activity">Attività principale</string>
     <string name="notification_replies_confirm_removal">Per favore, conferma</string>
     <string name="notification_replies_cancel_removal">Risposta rimossa</string>
