@@ -8,11 +8,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.net.wifi.WifiNetworkSpecifier;
+import android.net.wifi.WifiNetworkSuggestion;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -734,6 +739,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     // FTP listener onChange
     private String SSID = "huami-amazfit-amazmod-4E68";
     private String pswd = "12345678";
+    WifiManager mWifiManager;
+    ConnectivityManager mConnectivityManager;
     public void onDataReceived(TransportDataItem item) {
         // Transmitted action
         String action = item.getAction();
@@ -761,80 +768,127 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
             // (State 13 watch WiFi AP is on)
             // Connect to the network
-            WifiConfiguration wc = new WifiConfiguration();
-            wc.SSID = "\""+SSID+"\"";
-            wc.preSharedKey = "\""+pswd+"\"";
-            //wc.status = WifiConfiguration.Status.ENABLED;
-            //wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-            //wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-            wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);//4
-            //wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-            //wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-            //wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-
-            WifiManager mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             int netId = -1;
-            if(mWifiManager!=null)
-                netId = mWifiManager.addNetwork(wc);
 
-            if (netId >= 0) {
-                Logger.debug("FTP: watch's WiFi AP found: net ID = "+ netId);
-
-                // Disconnect from current network
-                //mWifiManager.disconnect();
-
-                // Try to connect to watch network
-                if (mWifiManager.enableNetwork(netId, true)) {
-                    //mWifiManager.reconnect();
-                    mWifiManager.saveConfiguration();
-                    //Logger.debug("FTP WiFi connection established. Sending command to enable FTP.");
-                    //ftpTransporter.send("enable_ftp");
-
-                    Thread t = new Thread() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                /*
+                //Should help to connect to wifi without needed to confirm manually
+                WifiNetworkSuggestion.Builder wc = new WifiNetworkSuggestion.Builder();
+                wc.setSsid(SSID);
+                wc.setWpa2Passphrase(pswd);
+                WifiNetworkSuggestion suggestion = wc.build();
+                ArrayList<WifiNetworkSuggestion> list = new ArrayList<>();
+                list.add(suggestion);
+                mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                if (mWifiManager != null)
+                    netId = mWifiManager.addNetworkSuggestions(list);
+                Logger.debug("FTP API29 : watch's WiFi AP found: "+ suggestion);
+                 */
+                WifiNetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
+                        .setSsid(SSID)
+                        .setWpa2Passphrase(pswd)
+                        .build();
+                NetworkRequest request = new NetworkRequest.Builder()
+                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                        .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                        .setNetworkSpecifier(specifier)
+                        .build();
+                Logger.debug("FTP api29 network name: " + specifier);
+                mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                if (mConnectivityManager != null)
+                    mConnectivityManager.requestNetwork(request, new ConnectivityManager.NetworkCallback() {
                         @Override
-                        public void run() {
-                            try {
-                                int seconds_waiting = 0;
-                                int waiting_limit = 15;
-                                // Check if connected!
-                                //while (!isConnected(FileExplorerActivity.this) && seconds_waiting < waiting_limit) {
-                                while (!getSSID(FileExplorerActivity.this).equals("\""+SSID+"\"") && seconds_waiting < waiting_limit) {
-                                    Logger.debug("FTP: Waiting for WiFi connection to be established..."+getSSID(FileExplorerActivity.this));
-                                    // Wait to connect
-                                    seconds_waiting++;
-                                    Thread.sleep(1000);
-                                }
+                        public void onAvailable(@NonNull Network network) {
+                            ftpTransporter.send("enable_ftp");
 
-                                // Within time?
-                                if(seconds_waiting < waiting_limit) {
-                                    Logger.debug("FTP: WiFi connection established. Sending command to enable FTP.");
-                                    ftpTransporter.send("enable_ftp");
-                                }else{
-                                    Logger.debug("WiFi connection to server could not be established.");
-                                    ftpTransporter.send("disable_ap");
-                                    updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
-                                }
-                            } catch (Exception e) {
-                                // failed, close wifi ap
-                                Logger.debug("FTP: WiFi connection thread crashed: "+e.getMessage());
-                                ftpTransporter.send("disable_ap");
-                                updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
-                            }
+                            Logger.debug("FTP api29: watch's WiFi available");
+                            super.onAvailable(network);
                         }
-                    };
 
-                    t.start();
-                } else {
-                    Logger.debug("FTP: WiFi connection to server could not be established.");
-                }
+                        public void onUnavailable() {
+                            transferring = false;
+                            ftpTransporter.send("disable_ap");
+                            Logger.debug("FTP api29: watch's WiFi Unavailable");
+                            updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                            snackProgressBarManager.dismissAll();
+                            super.onUnavailable();
+                        }
+                    });
+
             } else {
-                Logger.debug("FTP: watch's WiFi AP not found.");
-                transferring = false;
-                ftpTransporter.send("disable_ap");
-                updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
-                snackProgressBarManager.dismissAll();
-            }
+                WifiConfiguration wc = new WifiConfiguration();
+                wc.SSID = "\"" + SSID + "\"";
+                wc.preSharedKey = "\"" + pswd + "\"";
+                //wc.status = WifiConfiguration.Status.ENABLED;
+                //wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+                //wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+                wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);//4
+                //wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+                //wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+                //wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
+                mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+                //netId = -1;
+                if (mWifiManager != null)
+                    netId = mWifiManager.addNetwork(wc);
+
+                if (netId >= 0) {
+                    Logger.debug("FTP: watch's WiFi AP found: net ID = " + netId);
+
+                    // Disconnect from current network
+                    //mWifiManager.disconnect();
+                    // Try to connect to watch network
+                    if (mWifiManager.enableNetwork(netId, true)) {
+                        //mWifiManager.reconnect();
+                        mWifiManager.saveConfiguration();
+                        //Logger.debug("FTP WiFi connection established. Sending command to enable FTP.");
+                        //ftpTransporter.send("enable_ftp");
+
+                        Thread t = new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    int seconds_waiting = 0;
+                                    int waiting_limit = 15;
+                                    // Check if connected!
+                                    //while (!isConnected(FileExplorerActivity.this) && seconds_waiting < waiting_limit) {
+                                    while (!getSSID(FileExplorerActivity.this).equals("\"" + SSID + "\"") && seconds_waiting < waiting_limit) {
+                                        Logger.debug("FTP: Waiting for WiFi connection to be established..." + getSSID(FileExplorerActivity.this));
+                                        // Wait to connect
+                                        seconds_waiting++;
+                                        Thread.sleep(1000);
+                                    }
+
+                                    // Within time?
+                                    if (seconds_waiting < waiting_limit) {
+                                        Logger.debug("FTP: WiFi connection established. Sending command to enable FTP.");
+                                        ftpTransporter.send("enable_ftp");
+                                    } else {
+                                        Logger.debug("WiFi connection to server could not be established.");
+                                        ftpTransporter.send("disable_ap");
+                                        updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                                    }
+                                } catch (Exception e) {
+                                    // failed, close wifi ap
+                                    Logger.debug("FTP: WiFi connection thread crashed: " + e.getMessage());
+                                    ftpTransporter.send("disable_ap");
+                                    updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                                }
+                            }
+                        };
+
+                        t.start();
+                    } else {
+                        Logger.debug("FTP: WiFi connection to server could not be established.");
+                    }
+                } else {
+                    Logger.debug("FTP: watch's WiFi AP not found.");
+                    transferring = false;
+                    ftpTransporter.send("disable_ap");
+                    updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                    snackProgressBarManager.dismissAll();
+                }
+            }
         } else if ("ftp_on_state_changed".equals(action)) {
             if (key_new_state != 2 ){
                 if(key_new_state == 1)
@@ -846,7 +900,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 ftpTransporter.send("disable_ap");
                 return;
             }
-
+            Logger.debug("FTP: connected to WiFi: " + getSSID(FileExplorerActivity.this));
             // We create ftp connections
             FTPClient ftpClient = new FTPClient();
             int successful = 0;
@@ -939,6 +993,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         // do nothing
                     }
                 }
+                // TODO: RECONNECT TO WIFI
+                //mConnectivityManager.unregisterNetworkCallback(new ConnectivityManager.NetworkCallback());
+
                 Logger.debug("FTP: connection to server error: " + e.toString());
                 updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
                 snackProgressBarManager.dismissAll();
@@ -1694,5 +1751,4 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_SHORT);
         }
     }
-
 }
