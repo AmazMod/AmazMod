@@ -12,6 +12,7 @@ import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
+import android.net.NetworkSpecifier;
 import android.net.Uri;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -105,6 +106,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 
+import static android.net.ConnectivityManager.*;
 import static com.huami.watch.transport.TransporterClassic.get;
 
 public class FileExplorerActivity extends BaseAppCompatActivity implements Transporter.DataListener {
@@ -741,6 +743,26 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     private String pswd = "12345678";
     WifiManager mWifiManager;
     ConnectivityManager mConnectivityManager;
+
+    NetworkCallback networkCallback = new NetworkCallback() {
+        @Override
+        public void onAvailable(@NonNull Network network) {
+            ftpTransporter.send("enable_ftp");
+            Logger.debug("FTP api29: watch's WiFi available");
+            super.onAvailable(network);
+        }
+
+        @Override
+        public void onUnavailable() {
+            transferring = false;
+            ftpTransporter.send("disable_ap");
+            Logger.debug("FTP api29: watch's WiFi Unavailable");
+            updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+            snackProgressBarManager.dismissAll();
+            super.onUnavailable();
+        }
+    };
+
     public void onDataReceived(TransportDataItem item) {
         // Transmitted action
         String action = item.getAction();
@@ -784,7 +806,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     netId = mWifiManager.addNetworkSuggestions(list);
                 Logger.debug("FTP API29 : watch's WiFi AP found: "+ suggestion);
                  */
-                WifiNetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
+                NetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
                         .setSsid(SSID)
                         .setWpa2Passphrase(pswd)
                         .build();
@@ -794,26 +816,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         .setNetworkSpecifier(specifier)
                         .build();
                 Logger.debug("FTP api29 network name: " + specifier);
+
                 mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 if (mConnectivityManager != null)
-                    mConnectivityManager.requestNetwork(request, new ConnectivityManager.NetworkCallback() {
-                        @Override
-                        public void onAvailable(@NonNull Network network) {
-                            ftpTransporter.send("enable_ftp");
-
-                            Logger.debug("FTP api29: watch's WiFi available");
-                            super.onAvailable(network);
-                        }
-
-                        public void onUnavailable() {
-                            transferring = false;
-                            ftpTransporter.send("disable_ap");
-                            Logger.debug("FTP api29: watch's WiFi Unavailable");
-                            updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
-                            snackProgressBarManager.dismissAll();
-                            super.onUnavailable();
-                        }
-                    });
+                    mConnectivityManager.requestNetwork(request, networkCallback);
 
             } else {
                 WifiConfiguration wc = new WifiConfiguration();
@@ -894,7 +900,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 if(key_new_state == 1)
                     Logger.debug("FTP: FTP server disabled");
                 else
-                    Logger.debug("FTP: key new state: "+data.getInt("key_new_state"));
+                    Logger.debug("FTP: key new state: "+ data.getInt("key_new_state"));
 
                 // close wifi ap
                 ftpTransporter.send("disable_ap");
@@ -984,6 +990,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     //Finish up
                     ftpClient.logout();
                     ftpClient.disconnect();
+                    mConnectivityManager.unregisterNetworkCallback(networkCallback);
                 }
             } catch (IOException e) {
                 if (ftpClient.isConnected()) {
@@ -993,8 +1000,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         // do nothing
                     }
                 }
-                // TODO: RECONNECT TO WIFI
-                //mConnectivityManager.unregisterNetworkCallback(new ConnectivityManager.NetworkCallback());
+                mConnectivityManager.unregisterNetworkCallback(networkCallback);
 
                 Logger.debug("FTP: connection to server error: " + e.toString());
                 updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
@@ -1004,6 +1010,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             ftpTransporter.send("disable_ftp");
             ftpTransporter.send("disable_ap");
             transferring = false;
+            mConnectivityManager.unregisterNetworkCallback(networkCallback);
             if(successful>0){
                 runOnUiThread(new Runnable() {
                     @Override
