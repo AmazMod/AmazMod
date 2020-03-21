@@ -286,7 +286,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             ftpTransporter.disconnectTransportService();
             Logger.debug("FTP: transporter disconnected");
             ftpTransporter = null;
-
         }
         super.onDestroy();
     }
@@ -325,6 +324,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             default:
                 Logger.error("requestCode: {}", requestCode);
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -766,15 +767,16 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     public void onDataReceived(TransportDataItem item) {
         // Transmitted action
         String action = item.getAction();
-        Logger.debug("FTP: transporter action: "+action);
 
         // Get key_new_state
         DataBundle data = item.getData();
-        int key_new_state = -1;
+        int key_new_state;
         if (data != null)
             key_new_state = data.getInt("key_new_state");
-        else
+        else {
+            Logger.debug("FTP: transporter action: "+action+" (without key_new_state)");
             return;
+        }
 
         if ("on_ap_state_changed".equals(action)) {
             // Watch WiFi AP status changed
@@ -782,16 +784,18 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 if(data.getInt("key_new_state") == 11)
                     Logger.debug("FTP: watch's WiFi AP disabled");
                 else
-                    Logger.debug("FTP: key new state: " + data.getInt("key_new_state"));
+                    Logger.debug("FTP: on_ap_state_changed: " + key_new_state);
 
                 snackProgressBarManager.dismissAll();
                 return;
             }
 
             // (State 13 watch WiFi AP is on)
+            Logger.debug("FTP: watch's WiFi AP is enabled");
+
             // Connect to the network
             int netId = -1;
-
+            mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 /*
                 //Should help to connect to wifi without needed to confirm manually
@@ -817,11 +821,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         .build();
                 Logger.debug("FTP api29 network name: " + specifier);
 
-                mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
                 if (mConnectivityManager != null)
                     mConnectivityManager.requestNetwork(request, networkCallback);
 
             } else {
+                networkCallback = null;
+
                 WifiConfiguration wc = new WifiConfiguration();
                 wc.SSID = "\"" + SSID + "\"";
                 wc.preSharedKey = "\"" + pswd + "\"";
@@ -857,9 +863,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                                     int seconds_waiting = 0;
                                     int waiting_limit = 15;
                                     // Check if connected!
-                                    //while (!isConnected(FileExplorerActivity.this) && seconds_waiting < waiting_limit) {
-                                    while (!getSSID(FileExplorerActivity.this).equals("\"" + SSID + "\"") && seconds_waiting < waiting_limit) {
-                                        Logger.debug("FTP: Waiting for WiFi connection to be established..." + getSSID(FileExplorerActivity.this));
+                                    while ((!getSSID(FileExplorerActivity.this).equals("\"" + SSID + "\"") || !isConnected(mConnectivityManager)) && seconds_waiting < waiting_limit) {
+                                        Logger.debug("FTP: Waiting for WiFi connection to be established... (Current wifi:" + getSSID(FileExplorerActivity.this)+", State: "+wifiState(mConnectivityManager)+")");
                                         // Wait to connect
                                         seconds_waiting++;
                                         Thread.sleep(1000);
@@ -867,7 +872,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
                                     // Within time?
                                     if (seconds_waiting < waiting_limit) {
-                                        Logger.debug("FTP: WiFi connection established. Sending command to enable FTP.");
+                                        Logger.debug("FTP: WiFi connection established (Current wifi:" + getSSID(FileExplorerActivity.this)+"). Sending command to enable FTP.");
                                         ftpTransporter.send("enable_ftp");
                                     } else {
                                         Logger.debug("WiFi connection to server could not be established.");
@@ -900,13 +905,15 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 if(key_new_state == 1)
                     Logger.debug("FTP: FTP server disabled");
                 else
-                    Logger.debug("FTP: key new state: "+ data.getInt("key_new_state"));
+                    Logger.debug("FTP: ftp_on_state_changed: "+ key_new_state);
 
-                // close wifi ap
+                // Close wifi ap
                 ftpTransporter.send("disable_ap");
                 return;
             }
-            Logger.debug("FTP: connected to WiFi: " + getSSID(FileExplorerActivity.this));
+
+            Logger.debug("FTP: FTP server enabled (connected to WiFi: " + getSSID(FileExplorerActivity.this)+")");
+
             // We create ftp connections
             FTPClient ftpClient = new FTPClient();
             int successful = 0;
@@ -993,6 +1000,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 }
             } catch (IOException e) {
                 if (ftpClient.isConnected()) {
+                    Logger.debug("FTP: connection to server error, but server is connected... Disconnecting...");
                     try {
                         ftpClient.disconnect();
                     } catch (IOException f) {
@@ -1023,23 +1031,28 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             if(key_new_state == 1)
                 Logger.debug("FTP: watch WiFi AP enabled successfully");
             else
-                Logger.debug("FTP: watch WiFi AP key new state: "+data.getInt("key_new_state"));
+                Logger.debug("FTP: on_ap_enable_result (key_new_state = "+key_new_state+")");
+        }else{
+            Logger.debug("FTP: transporter action: "+action+" (key_new_state = "+key_new_state+")");
         }
     }
 
     private void unregisterConnectionManager(){
-        if (mConnectivityManager != null)
+        if (mConnectivityManager != null && networkCallback != null)
             mConnectivityManager.unregisterNetworkCallback(networkCallback);
     }
 
-    public static boolean isConnected(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
-        if (connectivityManager != null) {
-            networkInfo = connectivityManager.getActiveNetworkInfo();
-            //Logger.debug("FTP: network info: " + ((networkInfo != null)?networkInfo.getDetailedState():"null"));
-        }
+    public static boolean isConnected(ConnectivityManager connectivityManager) {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        Logger.debug("FTP: network info: " + ((networkInfo != null)?networkInfo.getDetailedState():"null"));
+
         return networkInfo != null && networkInfo.getDetailedState() == NetworkInfo.DetailedState.CONNECTED;
+    }
+
+    public static String wifiState(ConnectivityManager connectivityManager) {
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return (networkInfo != null)? networkInfo.getDetailedState().toString() :"null";
     }
 
     public static String getSSID(Context context) {
