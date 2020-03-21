@@ -280,6 +280,8 @@
     <string name="delete_folder_and_contents">\"%1$s\" 是一个文件夹，此操作将删除该文件夹下的全部内容?</string>
     <string name="screenshot">截屏</string>
     <string name="clear_adb">清除 ADB</string>
+    <string name="wifi_ftp_on">Enable watch WiFi/FTP</string>
+    <string name="wifi_ftp_off">Disable watch WiFi/FTP</string>
     <string name="pref_notifications_enable_delay">回复延迟</string>
     <string name="pref_notifications_enable_delay_summary">发送回复前倒计时延迟.</string>
     <string name="file_uploader">文件上传器</string>
