@@ -280,6 +280,8 @@ Urobte príkaz shell \"</string>
     <string name="delete_folder_and_contents">\"%1$s\" je zložka. Odstrániť ju a celý jej obsah?</string>
     <string name="screenshot">Snímok obrazovky</string>
     <string name="clear_adb">Vyčistiť ADB</string>
+    <string name="wifi_ftp_on">Enable watch WiFi/FTP</string>
+    <string name="wifi_ftp_off">Disable watch WiFi/FTP</string>
     <string name="pref_notifications_enable_delay">Oneskorenie odpovede</string>
     <string name="pref_notifications_enable_delay_summary">Oneskorenie pred odoslaním odpovede.</string>
     <string name="file_uploader">Uploader súborov</string>
