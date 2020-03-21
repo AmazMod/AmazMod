@@ -990,7 +990,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     //Finish up
                     ftpClient.logout();
                     ftpClient.disconnect();
-                    mConnectivityManager.unregisterNetworkCallback(networkCallback);
                 }
             } catch (IOException e) {
                 if (ftpClient.isConnected()) {
@@ -1000,17 +999,17 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         // do nothing
                     }
                 }
-                mConnectivityManager.unregisterNetworkCallback(networkCallback);
+                unregisterConnectionManager();
 
                 Logger.debug("FTP: connection to server error: " + e.toString());
                 updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"",false);
                 snackProgressBarManager.dismissAll();
             }
-            // close ftp & wifi ap
+            // Close ftp & wifi ap
             ftpTransporter.send("disable_ftp");
             ftpTransporter.send("disable_ap");
             transferring = false;
-            mConnectivityManager.unregisterNetworkCallback(networkCallback);
+            unregisterConnectionManager();
             if(successful>0){
                 runOnUiThread(new Runnable() {
                     @Override
@@ -1026,6 +1025,11 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             else
                 Logger.debug("FTP: watch WiFi AP key new state: "+data.getInt("key_new_state"));
         }
+    }
+
+    private void unregisterConnectionManager(){
+        if (mConnectivityManager != null)
+            mConnectivityManager.unregisterNetworkCallback(networkCallback);
     }
 
     public static boolean isConnected(Context context) {
