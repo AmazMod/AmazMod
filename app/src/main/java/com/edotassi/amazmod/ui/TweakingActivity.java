@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,6 +40,9 @@ import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.huami.watch.transport.DataBundle;
+import com.huami.watch.transport.TransportDataItem;
+import com.huami.watch.transport.Transporter;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
@@ -63,7 +67,7 @@ import de.mateware.snacky.Snacky;
 
 import static android.graphics.Bitmap.CompressFormat.PNG;
 
-public class TweakingActivity extends BaseAppCompatActivity {
+public class TweakingActivity extends BaseAppCompatActivity implements Transporter.DataListener{
 
     @BindView(R.id.activity_tweaking_seekbar)
     SeekBar brightnessSeekbar;
@@ -88,6 +92,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
 
     private SnackProgressBarManager snackProgressBarManager;
     private Context mContext;
+    private Transporter ftpTransporter;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -160,11 +165,26 @@ public class TweakingActivity extends BaseAppCompatActivity {
         brightnessSeekbar.setProgress(AmazModApplication.currentScreenBrightness);
 
         EventBus.getDefault().register(this);
+
+        // Set up FTP transporter listener
+        ftpTransporter = Transporter.get(this, "com.huami.wififtp");
+        ftpTransporter.addDataListener(this);
+        if(!ftpTransporter.isTransportServiceConnected())
+            ftpTransporter.connectTransportService();
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
+
+        Logger.debug("FTP: disconnect transporter");
+        if(ftpTransporter.isTransportServiceConnected()) {
+            ftpTransporter.removeDataListener(this);
+            ftpTransporter.disconnectTransportService();
+            Logger.debug("FTP: transporter disconnected");
+            ftpTransporter = null;
+        }
+
         super.onDestroy();
     }
 
@@ -378,6 +398,7 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 Logger.error("Returned from CommandHistoryActivity without selecting any command");
             }
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void execCommandInternally(String command) {
@@ -600,4 +621,91 @@ public class TweakingActivity extends BaseAppCompatActivity {
                 });
     }
 
+    @OnClick(R.id.activity_tweaking_wifi_ftp_on)
+    public void enable_wifi_ftp() {
+        String SSID = "huami-amazfit-amazmod-4E68";
+        String pswd = "12345678";
+        if(ftpTransporter.isTransportServiceConnected()) {
+            ftpTransporter.send("start_service");
+            DataBundle dataBundle = new DataBundle();
+            dataBundle.putInt("key_keymgmt", 4); // WPA2
+            dataBundle.putString("key_ssid", SSID);
+            dataBundle.putString("key_pswd", pswd);
+            // Enable watch WiFi AP / FTP
+            ftpTransporter.send("enable_ap", dataBundle);
+            ftpTransporter.send("enable_ftp");
+            // Toast
+            Toast.makeText(mContext, "WiFi    : "+SSID+"\nPassword: "+pswd+"\nFTP     : 192.168.43.1\nPort    : 5210\n\nEnabling WiFi/FTP...", Toast.LENGTH_LONG).show();
+        }else{
+            // Toast
+            Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @OnClick(R.id.activity_tweaking_wifi_ftp_off)
+    public void disable_wifi_ftp() {
+        if(ftpTransporter.isTransportServiceConnected()) {
+            // Close WiFi AP / FTP
+            ftpTransporter.send("disable_ftp");
+            ftpTransporter.send("disable_ap");
+            // Toast
+            Toast.makeText(mContext, "WiFi/FTP closing...", Toast.LENGTH_SHORT).show();
+        }else{
+            // Toast
+            Toast.makeText(mContext, getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onDataReceived(TransportDataItem item) {
+        // Transmitted action
+        String action = item.getAction();
+
+        // Get key_new_state
+        DataBundle data = item.getData();
+        int key_new_state;
+        if (data != null)
+            key_new_state = data.getInt("key_new_state");
+        else {
+            Logger.debug("FTP: transporter action: "+action+" (without key_new_state)");
+            return;
+        }
+
+        if ("on_ap_state_changed".equals(action)) {
+            // Watch WiFi AP status changed
+            if (key_new_state != 13 ){
+                if(data.getInt("key_new_state") == 11)
+                    Logger.debug("FTP: watch's WiFi AP disabled");
+                else
+                    Logger.debug("FTP: on_ap_state_changed: " + key_new_state);
+                return;
+            }
+
+            // (State 13 watch WiFi AP is on)
+            Logger.debug("FTP: watch's WiFi AP is enabled");
+        } else if ("ftp_on_state_changed".equals(action)) {
+            if (key_new_state != 2 ){
+                if(key_new_state == 1)
+                    Logger.debug("FTP: FTP server disabled");
+                else
+                    Logger.debug("FTP: ftp_on_state_changed: "+ key_new_state);
+
+                // Close wifi ap
+                //ftpTransporter.send("disable_ap");
+                return;
+            }
+
+            Logger.debug("FTP: FTP server enabled.");
+
+            // Close ftp & wifi ap
+            //ftpTransporter.send("disable_ftp");
+            //ftpTransporter.send("disable_ap");
+        }else if("on_ap_enable_result".equals(action)){
+            if(key_new_state == 1)
+                Logger.debug("FTP: watch WiFi AP enabled successfully");
+            else
+                Logger.debug("FTP: on_ap_enable_result (key_new_state = "+key_new_state+")");
+        }else{
+            Logger.debug("FTP: transporter action: "+action+" (key_new_state = "+key_new_state+")");
+        }
+    }
 }
