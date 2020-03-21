@@ -279,6 +279,8 @@
     <string name="delete_folder_and_contents">\"%1$s\" مجلد. إزالة جميع المحتويات بشكل متكرر?</string>
     <string name="screenshot">لقطة</string>
     <string name="clear_adb">واضح ADB</string>
+    <string name="wifi_ftp_on">Enable watch WiFi/FTP</string>
+    <string name="wifi_ftp_off">Disable watch WiFi/FTP</string>
     <string name="pref_notifications_enable_delay">تأخير الرد</string>
     <string name="pref_notifications_enable_delay_summary">العد التنازلي تأخير قبل إرسال الرد.</string>
     <string name="file_uploader">رافع الملف</string>
