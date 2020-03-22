@@ -283,6 +283,11 @@
     <string name="wifi_ap_off">Disable WiFi AP</string>
     <string name="ftp_on">Enable FTP server</string>
     <string name="ftp_off">Disable FTP server</string>
+    <string name="wifi_ap_enabling">Enabling WiFi Access Point...</string>
+    <string name="wifi_ap_dissabling">Disabling WiFi Access Point...</string>
+    <string name="ftp_enabling">Enabling FTP server...</string>
+    <string name="ftp_dissabling">Disabling FTP server...</string>
+    <string name="watch_no_wifi">Watch is not connected to WiFi</string>
     <string name="local_ip">Watch\'s local IP</string>
     <string name="pref_notifications_enable_delay">Délai de réponse</string>
     <string name="pref_notifications_enable_delay_summary">Compte à rebours avant d\'envoyer une réponse.</string>
