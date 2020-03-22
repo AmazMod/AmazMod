@@ -20,6 +20,7 @@ import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
+import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.RequestFileUpload;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
@@ -412,7 +413,6 @@ public class TransportService extends Service implements Transporter.DataListene
                 break;
             default:
                 Logger.error("mode not found or null");
-
         }
 
         if (transporter!= null) {
@@ -584,7 +584,20 @@ public class TransportService extends Service implements Transporter.DataListene
                 return null;
             }
         } else {
-            return null;
+            messageClass = OtherData.class;
+            Class[] args = {DataBundle.class};
+
+            try {
+                Constructor eventContructor = messageClass.getDeclaredConstructor(args);
+                Object event = eventContructor.newInstance(transportDataItem.getData());
+
+                Logger.debug("Transport onDataReceived: " + event.toString());
+
+                return event;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
     }
 

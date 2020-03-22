@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
+import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ResultShellCommand;
@@ -25,6 +26,9 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
+import com.huami.watch.transport.DataBundle;
+import com.huami.watch.transport.DataTransportResult;
+import com.huami.watch.transport.Transporter;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -37,6 +41,7 @@ import java.util.concurrent.TimeUnit;
 
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
+import amazmod.com.transport.Transportable;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
@@ -387,5 +392,18 @@ public class Watch {
 
     public interface OperationProgress {
         void update(long duration, long byteSent, long remainingTime, double progress);
+    }
+
+    public Task<OtherData> sendSimpleData(String action) {
+        return sendSimpleData(action, null);
+    }
+
+    public Task<OtherData> sendSimpleData(String action, Transportable data) {
+        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<OtherData>>() {
+            @Override
+            public Task<OtherData> then(@NonNull Task<TransportService> task) throws Exception {
+                return Objects.requireNonNull(task.getResult()).sendWithResult(action, action, data);
+            }
+        });
     }
 }

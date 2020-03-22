@@ -32,6 +32,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -518,6 +522,26 @@ public class DeviceUtil {
         TextView v = toast.getView().findViewById(android.R.id.message);
         if( v != null) v.setGravity(Gravity.CENTER);
         toast.show();
+    }
+
+    // Based on com.huami.wififtp.manager.FTPUtil
+    public static String getLocalIpAddress() {
+        try {
+            Enumeration <NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
+            while ( en.hasMoreElements() ) {
+                Enumeration <InetAddress> enumIpAddress = en.nextElement().getInetAddresses();
+                while (enumIpAddress.hasMoreElements()) {
+                    InetAddress inetAddress = enumIpAddress.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Logger.debug("getLocalIpAddress IpAddress error "+ ex.toString());
+        }
+        //return "192.168.43.1"; // default FTP
+        return "N/A";
     }
 
 }

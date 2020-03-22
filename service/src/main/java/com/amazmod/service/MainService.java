@@ -130,6 +130,7 @@ import amazmod.com.transport.data.WidgetsData;
 
 import static amazmod.com.transport.Constants.WIDGETS_LIST_EMPTY_CODE;
 import static amazmod.com.transport.Constants.WIDGETS_LIST_SAVED_CODE;
+import static com.amazmod.service.util.DeviceUtil.getLocalIpAddress;
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
 
 /**
@@ -137,26 +138,6 @@ import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
  */
 
 public class MainService extends Service implements Transporter.DataListener {
-
-    private ArrayMap<String, Class> messages = new ArrayMap<String, Class>() {{
-        put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
-        put(Transport.SYNC_SETTINGS, SyncSettings.class);
-        put(Transport.INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
-        put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
-        put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
-        put(Transport.BRIGHTNESS, Brightness.class);
-        put(Transport.ENABLE_LOW_POWER, EnableLowPower.class);
-        put(Transport.REVOKE_ADMIN_OWNER, RevokeAdminOwner.class);
-        put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
-        put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
-        put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
-        put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
-        put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
-        put(Transport.WATCHFACE_DATA, Watchface.class);
-        put(Transport.REQUEST_WIDGETS, RequestWidgets.class);
-        put(Transport.DELETE_NOTIFICATION, DeleteNotificationEvent.class);
-    }};
-
     private static Transporter transporterGeneral, transporterNotifications, transporterHuami, transporterXdrip;
 
     private static IntentFilter batteryFilter;
@@ -469,30 +450,54 @@ public class MainService extends Service implements Transporter.DataListener {
         return null;
     }
 
+    private ArrayMap<String, Class> messages = new ArrayMap<String, Class>() {{
+        put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
+        put(Transport.SYNC_SETTINGS, SyncSettings.class);
+        put(Transport.INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
+        put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
+        put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
+        put(Transport.BRIGHTNESS, Brightness.class);
+        put(Transport.ENABLE_LOW_POWER, EnableLowPower.class);
+        put(Transport.REVOKE_ADMIN_OWNER, RevokeAdminOwner.class);
+        put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
+        put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
+        put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
+        put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
+        put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
+        put(Transport.WATCHFACE_DATA, Watchface.class);
+        put(Transport.REQUEST_WIDGETS, RequestWidgets.class);
+        put(Transport.DELETE_NOTIFICATION, DeleteNotificationEvent.class);
+    }};
+
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
-        DataBundle db = transportDataItem.getData();
+
+        if (action == null) {
+            Logger.debug("MainService data received without action.");
+            return;
+        }
 
         Logger.debug("MainService action: {}", action);
-
-        if (action == null)
-            return;
+        DataBundle db = transportDataItem.getData();
 
         // A notification is removed/added
         if (action.equals("del") || action.equals("add")) {
             notificationCounter(action.equals("del") ? -1 : 1);
             settings.reload();
-        }
 
-        // Activate screen if the option is enabled in widget menus
-        if (action.equals("add") && (settings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) == 1)) {
-            acquireWakelock();
-        }
+            // Activate screen if the option is enabled in widget menus
+            if (action.equals("add") && (settings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) == 1)) {
+                acquireWakelock();
+            }
 
-        // Xdrip data
-        if (action.equals("xDrip_synced_SGV_data")) {
+        }else if (action.equals("xDrip_synced_SGV_data")) {
+            // Xdrip data
             xdrip( db.getString("Data") );
+
+        }else if(action.equals(Transport.LOCAL_IP)){
+            // watch's local IP request
+            requestLocalIp();
         }
 
         // Flag used by OverlayLauncher
@@ -500,7 +505,6 @@ public class MainService extends Service implements Transporter.DataListener {
             notificationArrived = true;
 
         Class messageClass = messages.get(action);
-
         if (messageClass != null) {
             Class[] args = new Class[1];
             args[0] = DataBundle.class;
@@ -514,14 +518,8 @@ public class MainService extends Service implements Transporter.DataListener {
             } catch (NoSuchMethodException e) {
                 Logger.debug("MainService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
                 e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
         }
     }
@@ -878,6 +876,17 @@ public class MainService extends Service implements Transporter.DataListener {
         // Send the transmit
         Logger.debug("MainService requestWidgets widgetsData (send): " + widgetsData.getPackages());
         send(Transport.WIDGETS_DATA, widgetsData.toDataBundle());
+    }
+
+    // Request watch's local IP
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestLocalIp() {
+        DataBundle data = new DataBundle();
+        String localIP = getLocalIpAddress();
+        data.putString("ip",localIP);
+        Logger.debug("MainService requestLocalIp: "+localIP);
+        // Send the transmit
+        send(Transport.LOCAL_IP, data);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
