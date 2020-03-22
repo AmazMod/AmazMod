@@ -279,8 +279,11 @@
     <string name="delete_folder_and_contents">Là một thư mục. Xóa nó và tất cả nội dung của nó có đệ quy không?</string>
     <string name="screenshot">Ảnh chụp màn hình</string>
     <string name="clear_adb">Xóa ADB</string>
-    <string name="wifi_ftp_on">Cho phép xem WiFi/FTP</string>
-    <string name="wifi_ftp_off">Vô hiệu hóa xem WiFi/FTP</string>
+    <string name="wifi_ap_on">Enable WiFi AP</string>
+    <string name="wifi_ap_off">Disable WiFi AP</string>
+    <string name="ftp_on">Enable FTP server</string>
+    <string name="ftp_off">Disable FTP server</string>
+    <string name="local_ip">Watch\'s local IP</string>
     <string name="pref_notifications_enable_delay">Trả lời chậm trễ</string>
     <string name="pref_notifications_enable_delay_summary">Đếm ngược thời gian trước khi trả lời.</string>
     <string name="file_uploader">Tải Lên Tập Tin</string>

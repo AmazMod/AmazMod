@@ -281,8 +281,11 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="delete_folder_and_contents">\"%1$s\" je složka. Odstranit ji a celý její obsah?</string>
     <string name="screenshot">Snímek obrazovky</string>
     <string name="clear_adb">Vyčistit ADB</string>
-    <string name="wifi_ftp_on">Enable watch WiFi/FTP</string>
-    <string name="wifi_ftp_off">Disable watch WiFi/FTP</string>
+    <string name="wifi_ap_on">Povolit WiFi AP</string>
+    <string name="wifi_ap_off">Zakázat WiFi AP</string>
+    <string name="ftp_on">Povolit FTP server</string>
+    <string name="ftp_off">Zakázat FTP server</string>
+    <string name="local_ip">Místní IP</string>
     <string name="pref_notifications_enable_delay">Prodleva odeslání</string>
     <string name="pref_notifications_enable_delay_summary">Časová prodleva před odesláním odpovědi.</string>
     <string name="file_uploader">Uploader souborů</string>
