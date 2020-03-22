@@ -279,11 +279,11 @@
     <string name="delete_folder_and_contents">\"%1$s\" היא תיקיה. למחוק אותה ואת כל התוכן בתוכה?</string>
     <string name="screenshot">צילום מסך</string>
     <string name="clear_adb">ניקוי ADB</string>
-    <string name="wifi_ap_on">Enable WiFi AP</string>
-    <string name="wifi_ap_off">Disable WiFi AP</string>
-    <string name="ftp_on">Enable FTP server</string>
-    <string name="ftp_off">Disable FTP server</string>
-    <string name="local_ip">Watch\'s local IP</string>
+    <string name="wifi_ap_on">הפעלת WiFi AP</string>
+    <string name="wifi_ap_off">כיבוי WiFi AP</string>
+    <string name="ftp_on">הפעלת שרת FTP</string>
+    <string name="ftp_off">כיבוי שרת FTP</string>
+    <string name="local_ip">הIP העצמאי של השעון</string>
     <string name="pref_notifications_enable_delay">עיכוב תגובה</string>
     <string name="pref_notifications_enable_delay_summary">ספירה לאחור לפני שליחת מענה להתראה.</string>
     <string name="file_uploader">העלאת קבצים</string>
