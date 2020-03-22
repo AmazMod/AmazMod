@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui;
 
 import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
@@ -745,12 +746,14 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     WifiManager mWifiManager;
     ConnectivityManager mConnectivityManager;
 
+    @TargetApi(29)
     NetworkCallback networkCallback = new NetworkCallback() {
         @Override
         public void onAvailable(@NonNull Network network) {
             ftpTransporter.send("enable_ftp");
             Logger.debug("FTP api29: watch's WiFi available");
             super.onAvailable(network);
+            mConnectivityManager.bindProcessToNetwork(network);
         }
 
         @Override
@@ -816,7 +819,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         .build();
                 NetworkRequest request = new NetworkRequest.Builder()
                         .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                        .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                         .setNetworkSpecifier(specifier)
                         .build();
                 Logger.debug("FTP api29 network name: " + specifier);
