@@ -718,10 +718,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
         createNotification(getString(R.string.watch_connecting) + ", " + getString(R.string.wait), "\"" + FTP_file.getName() + "\"", R.drawable.ic_wifi_tethering_white_24dp, false);
 
-        final SnackProgressBar connectingSnackbar = new SnackProgressBar(
-                SnackProgressBar.TYPE_CIRCULAR, getString(R.string.watch_connecting))
-                .setIsIndeterminate(true);
-        snackProgressBarManager.show(connectingSnackbar, SnackProgressBarManager.LENGTH_INDEFINITE);
+        snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, getString(R.string.watch_connecting)), SnackProgressBarManager.LENGTH_LONG);
 
         if(ftpTransporter.isTransportServiceConnected()){
             Logger.debug("FTP: sending enable_ap action.");
@@ -823,7 +820,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         .build();
                 Logger.debug("FTP api29 network name: " + specifier);
 
-
                 if (mConnectivityManager != null)
                     mConnectivityManager.requestNetwork(request, networkCallback);
 
@@ -842,21 +838,17 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 //wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
 
                 mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                //netId = -1;
                 if (mWifiManager != null)
                     netId = mWifiManager.addNetwork(wc);
 
                 if (netId >= 0) {
                     Logger.debug("FTP: watch's WiFi AP found: net ID = " + netId);
 
-                    // Disconnect from current network
-                    //mWifiManager.disconnect();
+                    //mWifiManager.disconnect(); // Disconnect from current network
                     // Try to connect to watch network
                     if (mWifiManager.enableNetwork(netId, true)) {
                         //mWifiManager.reconnect();
                         mWifiManager.saveConfiguration();
-                        //Logger.debug("FTP WiFi connection established. Sending command to enable FTP.");
-                        //ftpTransporter.send("enable_ftp");
 
                         Thread t = new Thread() {
                             @Override

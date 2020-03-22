@@ -670,7 +670,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                 ftpTransporter.send("enable_ftp");
 
             // Toast message
-            message = ( (wifi<3) ? ( (wifi==0) ? "Disabling" : "Enabling" )+" WiFi Access Point..." + ((ftp<3)?"\n":"") : "" ) + ((ftp<3)? ( (ftp==0) ? "Disabling" : "Enabling" ) + " FTP server..." :""); // todo Translation
+            message = ( (wifi<3) ? ( (wifi==0) ? getString(R.string.wifi_ap_dissabling) : getString(R.string.wifi_ap_enabling) ) + ((ftp<3)?"\n":"") : "" ) + ((ftp<3)? ( (ftp==0) ? getString(R.string.ftp_dissabling) : getString(R.string.ftp_enabling) ) :"");
         }
         // Message
         snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, message), SnackProgressBarManager.LENGTH_LONG);
@@ -760,14 +760,14 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                             if (localIP.equals("N/A"))
                                 localIP = defaultFTPip;
                             localIP = localIP + ":" + defaultPort;
-                            message = "FTP server " + getString(R.string.enabled) + "\n" + "Watch's IP is " + localIP; // todo Translation
+                            message = "FTP server " + getString(R.string.enabled) + ".\n" + getString(R.string.local_ip)+": " + localIP;
                         }else{
                             if (localIP.equals("N/A"))
-                                message = "Watch is not connected to WiFi"; // todo Translation
+                                message = getString(R.string.watch_no_wifi);
                             else if(localIP.equals(defaultFTPip))
-                                message = "Watch's local IP is " + localIP + " (localhost)"; // todo Translation
+                                message = getString(R.string.local_ip)+": " + localIP + " (localhost)";
                             else
-                                message = "Watch's local IP is " + localIP; // todo Translation
+                                message = getString(R.string.local_ip)+": " + localIP;
                         }
                         Logger.debug(TAG+"watch local IP is " + localIP);
                         //Toast.makeText(mContext, "Watch's local IP is " + localIP, Toast.LENGTH_SHORT).show();
