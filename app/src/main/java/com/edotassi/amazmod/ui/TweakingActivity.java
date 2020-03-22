@@ -670,10 +670,10 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                 ftpTransporter.send("enable_ftp");
 
             // Toast message
-            message = ( (wifi<3) ? ( (wifi==0) ? "Disabling" : "WiFi    : "+SSID+"\nPassword: "+pswd+"\n\nEnabling" )+" WiFi AP..."+((ftp<3)?"\n":"") : ((ftp<3)? ( (ftp==0) ? "Disabling" : "Enabling" ) :"") );
+            message = ( (wifi<3) ? ( (wifi==0) ? "Disabling" : "Enabling" )+" WiFi Access Point..." + ((ftp<3)?"\n":"") : "" ) + ((ftp<3)? ( (ftp==0) ? "Disabling" : "Enabling" ) + " FTP server..." :""); // todo Translation
         }
-        // Toast
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        // Message
+        snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, message), SnackProgressBarManager.LENGTH_LONG);
     }
 
     String TAG = "Tweak-menu-FTP: ";
@@ -694,20 +694,30 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         if ("on_ap_state_changed".equals(action)) {
             // Watch WiFi AP status changed
             if (key_new_state != 13 ){
-                if(data.getInt("key_new_state") == 11)
-                    Logger.debug(TAG+"watch's WiFi AP disabled");
-                else
+                if(data.getInt("key_new_state") == 11) {
+                    Logger.debug(TAG + "watch's WiFi AP disabled");
+                    snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, "WiFi Access Point " + getString(R.string.disabled)), SnackProgressBarManager.LENGTH_SHORT);
+                }else
                     Logger.debug(TAG+"on_ap_state_changed: " + key_new_state);
                 return;
             }
 
             // (State 13 watch WiFi AP is on)
             Logger.debug(TAG+"watch's WiFi AP is enabled");
+            // WiFi AP enabled.
+            snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, "WiFi    : "+SSID+"\nPassword: "+pswd)
+                    .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                @Override
+                public void onActionClick() {
+                    snackProgressBarManager.dismissAll();
+                }
+            }), SnackProgressBarManager.LENGTH_INDEFINITE);
         } else if ("ftp_on_state_changed".equals(action)) {
             if (key_new_state != 2 ){
-                if(key_new_state == 1)
-                    Logger.debug(TAG+"FTP server disabled");
-                else
+                if(key_new_state == 1) {
+                    Logger.debug(TAG + "FTP server disabled");
+                    snackProgressBarManager.show(new SnackProgressBar(SnackProgressBar.TYPE_CIRCULAR, "FTP server " + getString(R.string.disabled)), SnackProgressBarManager.LENGTH_SHORT);
+                }else
                     Logger.debug(TAG+"ftp_on_state_changed: "+ key_new_state);
 
                 return;
@@ -736,9 +746,9 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         Watch.get().sendSimpleData(Transport.LOCAL_IP,null).continueWith(new Continuation<OtherData, Object>() {
             @Override
             public Object then(@NonNull Task<OtherData> task) throws Exception {
+                String message = getString(R.string.error);
                 if (task.isSuccessful()) {
                     OtherData returnedData = task.getResult();
-
                     try {
                         if (returnedData == null)
                             throw new NullPointerException("Returned data are null");
@@ -750,15 +760,34 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
                             if (localIP.equals("N/A"))
                                 localIP = defaultFTPip;
                             localIP = localIP + ":" + defaultPort;
+                            message = "FTP server " + getString(R.string.enabled) + "\n" + "Watch's IP is " + localIP; // todo Translation
+                        }else{
+                            if (localIP.equals("N/A"))
+                                message = "Watch is not connected to WiFi"; // todo Translation
+                            else if(localIP.equals(defaultFTPip))
+                                message = "Watch's local IP is " + localIP + " (localhost)"; // todo Translation
+                            else
+                                message = "Watch's local IP is " + localIP; // todo Translation
                         }
                         Logger.debug(TAG+"watch local IP is " + localIP);
-                        Toast.makeText(mContext, "Watch's local IP is " + localIP, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(mContext, "Watch's local IP is " + localIP, Toast.LENGTH_SHORT).show();
                     }catch(Exception e){
                         Logger.debug(TAG+"failed reading IP data: "+e);
                     }
                 } else {
                     Logger.error(task.getException(), "Task sendSimpleData action \"local_ip\" failed");
                 }
+
+                // Show notification
+                SnackProgressBar snackbar = new SnackProgressBar(
+                        SnackProgressBar.TYPE_HORIZONTAL, message)
+                        .setAction(getString(R.string.close), new SnackProgressBar.OnActionClickListener() {
+                            @Override
+                            public void onActionClick() {
+                                snackProgressBarManager.dismissAll();
+                            }
+                        });
+                snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_INDEFINITE);
                 return null;
             }
         });
