@@ -279,6 +279,8 @@
     <string name="delete_folder_and_contents">папка %1$s и все содержимое будет удалено</string>
     <string name="screenshot">Снимок экрана</string>
     <string name="clear_adb">Завершить ADB</string>
+    <string name="wifi_ftp_on">Включить WiFi/FTP на часах</string>
+    <string name="wifi_ftp_off">Выключить WiFi/FTP на часах</string>
     <string name="pref_notifications_enable_delay">Задержка для ответа</string>
     <string name="pref_notifications_enable_delay_summary">Задержка с обратным отсчетом перед отправкой ответа.</string>
     <string name="file_uploader">Загрузчик файлов</string>

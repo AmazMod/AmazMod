@@ -279,6 +279,8 @@
     <string name="delete_folder_and_contents">%1$s는 폴더입니다. 해당 폴더와 내용물을 전부 삭제하시겠습니까?</string>
     <string name="screenshot">스크린샷</string>
     <string name="clear_adb">Clear ADB</string>
+    <string name="wifi_ftp_on">Enable watch WiFi/FTP</string>
+    <string name="wifi_ftp_off">Disable watch WiFi/FTP</string>
     <string name="pref_notifications_enable_delay">답장 지연(딜레이)</string>
     <string name="pref_notifications_enable_delay_summary">Countdown delay before sending a reply.</string>
     <string name="file_uploader">파일 업로더</string>

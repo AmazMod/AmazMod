@@ -279,6 +279,8 @@
     <string name="delete_folder_and_contents">\"%1$s\" jest folderem. Usunąć folder wraz z jego zawartością?</string>
     <string name="screenshot">Zrzut ekranu</string>
     <string name="clear_adb">Wyczyść ADB</string>
+    <string name="wifi_ftp_on">Enable watch WiFi/FTP</string>
+    <string name="wifi_ftp_off">Disable watch WiFi/FTP</string>
     <string name="pref_notifications_enable_delay">Opóźnienie odpowiedzi</string>
     <string name="pref_notifications_enable_delay_summary">Odliczanie opóźnienia przed wysłaniem odpowiedzi.</string>
     <string name="file_uploader">Przesyłanie plików</string>
