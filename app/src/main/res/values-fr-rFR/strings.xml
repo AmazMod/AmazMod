@@ -283,7 +283,7 @@
     <string name="wifi_ap_off">Disable WiFi AP</string>
     <string name="ftp_on">Enable FTP server</string>
     <string name="ftp_off">Disable FTP server</string>
-    <string name="wifi_ap_enabling">Enabling WiFi Access Point...</string>
+    <string name="wifi_ap_enabling">Activation De Point D\'Accès WiFi...</string>
     <string name="wifi_ap_dissabling">Disabling WiFi Access Point...</string>
     <string name="ftp_enabling">Enabling FTP server...</string>
     <string name="ftp_dissabling">Disabling FTP server...</string>
