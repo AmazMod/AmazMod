@@ -482,27 +482,16 @@ public class MainService extends Service implements Transporter.DataListener {
         DataBundle db = transportDataItem.getData();
 
         // A notification is removed/added
-        if (action.equals("del") || action.equals("add")) {
-            notificationCounter(action.equals("del") ? -1 : 1);
-            settings.reload();
-
+        if (action.equals("add")) {
             // Activate screen if the option is enabled in widget menus
-            if (action.equals("add") && (settings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) == 1)) {
+            settings.reload();
+            if (settings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) == 1)
                 acquireWakelock();
-            }
 
-        }else if (action.equals("xDrip_synced_SGV_data")) {
-            // Xdrip data
-            xdrip( db.getString("Data") );
-
-        }else if(action.equals(Transport.LOCAL_IP)){
-            // watch's local IP request
-            requestLocalIp();
-        }
-
-        // Flag used by OverlayLauncher
-        if (Transport.INCOMING_NOTIFICATION.equals(action) || "add".equals(action))
+            // Flag used by OverlayLauncher
             notificationArrived = true;
+        } else if (Transport.INCOMING_NOTIFICATION.equals(action))
+            notificationArrived = true;// Flag used by OverlayLauncher
 
         Class messageClass = messages.get(action);
         if (messageClass != null) {
@@ -521,6 +510,24 @@ public class MainService extends Service implements Transporter.DataListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+
+        // Non-priority functions (keep at the bottom to speed-up notifications)
+        switch (action) {
+            case "del": // A notification is removed
+                notificationCounter(-1);
+                break;
+            case "add": // A notification is added
+                notificationCounter(1);
+                //notificationCounter(action.equals("del") ? -1 : 1);
+                break;
+            case "xDrip_synced_SGV_data": // Xdrip data
+                xdrip( db.getString("Data") );
+                break;
+            case Transport.LOCAL_IP: // watch's local IP request
+                requestLocalIp();
+                break;
+            default:
         }
     }
 
@@ -1751,41 +1758,52 @@ public class MainService extends Service implements Transporter.DataListener {
 
     // Count notifications
     public void notificationCounter(int n) {
-        int notifications = 0;
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                    int notifications = 0;
 
-        // Get already saved data
-        String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
-        if (data == null || data.equals("")) {
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
-        }
+                    // Get already saved data
+                    String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
+                    if (data == null || data.equals("")) {
+                        DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
+                    }
 
-        // Get data
-        try {
-            // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
-            notifications = json_data.getInt("notifications");
-        } catch (JSONException e) {
-            //Nothing, notifications are never saved before
-            Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
-        }
+                    // Get data
+                    try {
+                        // Extract data from JSON
+                        JSONObject json_data = new JSONObject(data);
+                        notifications = json_data.getInt("notifications");
+                    } catch (JSONException e) {
+                        //Nothing, notifications are never saved before
+                        Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
+                    }
 
-        // Update notifications (but always > -1)
-        notifications = (notifications + n > -1) ? notifications + n : 0;
+                    // Update notifications (but always > -1)
+                    notifications = (notifications + n > -1) ? notifications + n : 0;
 
-        Logger.debug("Updating notifications: " + notifications);
+                    Logger.debug("Updating notifications: " + notifications);
 
-        // Save the data
-        try {
-            // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
-            json_data.put("notifications", notifications);
+                    // Save the data
+                    try {
+                        // Extract data from JSON
+                        JSONObject json_data = new JSONObject(data);
+                        json_data.put("notifications", notifications);
 
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
-        } catch (JSONException e) {
-            //default
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
-            Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
-        }
+                        DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
+                    } catch (JSONException e) {
+                        //default
+                        DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
+                        Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
+                    }
+                } catch (Exception e) {
+                    Logger.debug("FTP: WiFi connection thread crashed: " + e.getMessage());
+                }
+            }
+        };
+        t.start();
     }
 
     private void acquireWakelock() {
