@@ -250,8 +250,7 @@ public class NotificationService {
     private void postWithCustomUI(String key) {
 
         Logger.debug("NotificationService postWithCustomUI: " + NotificationStore.getCustomNotificationCount());
-
-        //NotificationStore.setNotificationCount(context);
+        //NotificationStore.setNotificationCount(context); //notifications are already counted in MainService
 
         Intent intent = new Intent(context, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

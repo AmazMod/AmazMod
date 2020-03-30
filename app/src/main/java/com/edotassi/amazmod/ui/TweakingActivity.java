@@ -745,7 +745,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
         // Get watch's local IP
         Watch.get().sendSimpleData(Transport.LOCAL_IP,null).continueWith(new Continuation<OtherData, Object>() {
             @Override
-            public Object then(@NonNull Task<OtherData> task) throws Exception {
+            public Object then(@NonNull Task<OtherData> task) {
                 String message = getString(R.string.error);
                 if (task.isSuccessful()) {
                     OtherData returnedData = task.getResult();

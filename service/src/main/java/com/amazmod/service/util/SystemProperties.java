@@ -184,7 +184,6 @@ public class SystemProperties {
             closeQuietly(reader);
         }
         */
-
     }
 
     private static void closeQuietly(Closeable closeable) {
@@ -261,9 +260,7 @@ public class SystemProperties {
      * @return true if enabled.
      */
     public static boolean isAirplaneModeOn(Context context) {
-
         return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-
     }
 
 }
