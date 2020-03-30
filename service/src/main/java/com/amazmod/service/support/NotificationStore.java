@@ -128,25 +128,7 @@ public class NotificationStore {
     }
 
     public static void setNotificationCount(Context context, int count) {
-        // Stores notificationCount in JSON Object
-        String data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
-
-        // Default value
-        String notification_json = "{\"notifications\":\"" + count+"\"}";
-
-        // Edit data
-        if (data != null) {
-            try {
-                JSONObject json_data = new JSONObject(data);
-                json_data.put("notifications", count);
-                notification_json = json_data.toString();
-            } catch (JSONException e) {
-                Logger.debug("NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
-            }
-        }
-
-        // Update data
-        DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, notification_json);
+        DeviceUtil.notificationCounterSet(context, count);
     }
 
     private static boolean isEmpty() {

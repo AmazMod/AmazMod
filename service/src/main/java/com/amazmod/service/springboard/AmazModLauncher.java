@@ -430,22 +430,7 @@ public class AmazModLauncher extends AbstractPlugin {
     }
 
     private void refreshMessages() {
-        Logger.debug("AmazModLauncher read CustomWatchfaceData");
-        String data = DeviceUtil.systemGetString(mContext, "CustomWatchfaceData");
-        if (data == null || data.equals("")) {
-            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", "{}");
-            notifications = 0;
-            data = "{}";
-        }
-
-        try {
-            JSONObject json_data = new JSONObject(data);
-            notifications = (json_data.has("notifications"))?json_data.getInt("notifications"):0;
-        } catch (JSONException e) {
-            Logger.error("AmazModLauncher refreshMessages JSONException: " + e.getMessage());
-            notifications = 0;
-        }
-
+        notifications = DeviceUtil.notificationCounter(mContext);
         getHost().runTaskOnUI(AmazModLauncher.this, new Runnable() {
             @Override
             public void run() {

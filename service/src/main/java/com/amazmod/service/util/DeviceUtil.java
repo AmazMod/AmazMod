@@ -24,6 +24,8 @@ import com.amazmod.service.R;
 import com.amazmod.service.receiver.PackageReceiver;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -544,4 +546,86 @@ public class DeviceUtil {
         return "N/A";
     }
 
+    // # Notification counter #
+    // Get notification number
+    public static int notificationCounter(Context context) {
+        return notificationCounter(context, 0, false, 0);
+    }
+    // Add/Remove notification
+    public static int notificationCounter(Context context, int n) {
+        return notificationCounter(context, n, false, 0);
+    }
+    // Add/Remove notification with delay or not
+    public static int notificationCounter(Context context, int n, boolean delay) {
+        return notificationCounter(context, n, delay, 0);
+    }
+    // Set notification number
+    public static void notificationCounterSet(Context context, int n) {
+        if ( n > 0 )
+            notificationCounter(context, 0, false, n);
+        else
+            notificationCounter(context, 0, false, -1); // sets counter to 0
+    }
+    // General notifications counter function
+    public static int notificationCounter(Context context, int n, boolean delay, int notifications) {
+        // Get already saved data
+        String old_data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
+        String data = old_data;
+        if (data == null || data.equals("")) {
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, "{}");//default
+            data = "{\"notifications\":" + notifications + "}";
+        }
+
+        // Get data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            if( json_data.has("notifications") && notifications == 0 )
+                notifications = json_data.getInt("notifications");
+        } catch (JSONException e) {
+            // Error
+            Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
+        }
+
+        // Update notifications (but always > -1)
+        notifications = (notifications + n > -1) ? notifications + n : 0;
+
+        Logger.debug("Updating notification counter: " + notifications);
+
+        // Save new notifications
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("notifications", notifications);
+            data = json_data.toString();
+        } catch (JSONException e) {
+            //default
+            Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
+        }
+
+        // Check if data actually need to be updated
+        if (data.equals(old_data))
+            return notifications;
+
+        if (!delay){
+            // Update system value now
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, data);
+        }else{
+            // Update system value after 3 seconds
+            final String last_data = data;
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(3000);
+                        DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, last_data);
+                    } catch (Exception e) {
+                        Logger.debug("Notification counter update thread crashed: " + e.getMessage());
+                    }
+                }
+            };
+            t.start();
+        }
+        return notifications;
+    }
 }

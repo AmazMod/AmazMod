@@ -298,7 +298,7 @@ public class WearNotificationsFragment extends Fragment {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         NotificationStore.removeCustomNotification(key);
-                        NotificationStore.setNotificationCount(mContext);
+                        // NotificationStore.setNotificationCount(mContext); // Updates the notification counter, however a del action is already send.
                         loadNotifications();
                     }
                 })
@@ -344,17 +344,7 @@ public class WearNotificationsFragment extends Fragment {
     }
 
     private void resetNotificationsCounter() {
-        String data = DeviceUtil.systemGetString(mContext, "CustomWatchfaceData");
-        if (data == null || data.equals(""))
-            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", "{}");
-
-        try {
-            JSONObject json_data = new JSONObject(data);
-            json_data.put("notifications", 0);
-            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", json_data.toString());
-        } catch (JSONException e) {
-            Logger.error("AmazModLauncher refreshMessages JSONException: " + e.toString());
-        }
+        DeviceUtil.notificationCounterSet(mContext, 0);
     }
 
     public static WearNotificationsFragment newInstance(boolean animate) {

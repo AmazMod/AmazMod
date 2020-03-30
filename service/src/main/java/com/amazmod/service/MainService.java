@@ -249,7 +249,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
         /*
         try {
-            if (new File("/system/xbin/su").exists()) { //Test for root
+            if (new File("/system/xbin/su").exists()) { // Test for root
                 //Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock;exit");
                 new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_unlock");
                 Logger.debug("Disabling APK_INSTALL WAKELOCK");
@@ -291,7 +291,7 @@ public class MainService extends Service implements Transporter.DataListener {
         notificationReplyFilter.addAction(Constants.INTENT_ACTION_REPLY);
         LocalBroadcastManager.getInstance(context).registerReceiver(notificationReplyReceiver, notificationReplyFilter);
 
-        //Reboot launcher if language was change to update amazmod widget locate
+        // Reboot launcher if language was change to update Amazmod widget locale
         if (settings.get(Constants.REQUEST_SELF_RELOAD, true)) {
             new ExecCommand(ExecCommand.ADB, "adb shell am force-stop com.huami.watch.launcher");
             Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
@@ -481,7 +481,7 @@ public class MainService extends Service implements Transporter.DataListener {
         Logger.debug("MainService action: {}", action);
         DataBundle db = transportDataItem.getData();
 
-        // A notification is removed/added
+        // A stock notification is received
         if (action.equals("add")) {
             // Activate screen if the option is enabled in widget menus
             settings.reload();
@@ -514,13 +514,9 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Non-priority functions (keep at the bottom to speed-up notifications)
         switch (action) {
-            case Transport.DELETE_NOTIFICATION: // A notification is removed
-                notificationCounter(-1);
-                break;
             case "add": // A notification is added
             case Transport.INCOMING_NOTIFICATION:   // Custom notification added
-                notificationCounter(1);
-                //notificationCounter(action.equals("del") ? -1 : 1);
+                DeviceUtil.notificationCounter(context, 1, true);
                 break;
             case "xDrip_synced_SGV_data": // Xdrip data
                 xdrip( db.getString("Data") );
@@ -539,6 +535,9 @@ public class MainService extends Service implements Transporter.DataListener {
         StatusBarNotificationData statusBarNotificationData = deleteNotificationEvent.getDataBundle().getParcelable("data");
         String key = statusBarNotificationData.key;
         Logger.warn("deleteNotification enableCustomUI: {} \\ key: {}", enableCustomUI, key);
+
+        // Update notification Counter
+        DeviceUtil.notificationCounter(context, -1);
 
         // Check if custom notifications are enabled
         if (!enableCustomUI) return;
@@ -591,24 +590,24 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Watchface data
         // Get already saved data
-        String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
-        if (data == null || data.equals("")) {
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
-        }
+        String data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
+        if (data == null || data.equals(""))
+            data = "{}";
+
         // Update the data
         try {
             // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
+            JSONObject json_data = new JSONObject(data); // load existing data to keep any extra parameters
             json_data.put("phoneBattery", phoneBattery);
             json_data.put("phoneAlarm", phoneAlarm);
             json_data.put("updateTime", updateTime);
             json_data.put("expire", expire);
 
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
+            data = json_data.toString();
         } catch (JSONException e) {
-            //default
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\",\"updateTime\":"+updateTime+"}");
+            data = "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\",\"updateTime\":"+updateTime+"}";
         }
+        DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, data);
 
         // Calendar data
         if (calendarEvents != null && !calendarEvents.equals("")) {
@@ -617,16 +616,15 @@ public class MainService extends Service implements Transporter.DataListener {
                 JSONObject json_data = new JSONObject(calendarEvents);
                 json_data.put("updateTime", updateTime);
                 // Update data
-                DeviceUtil.systemPutString(context, "CustomCalendarData", json_data.toString());
+                data =  json_data.toString();
             } catch (JSONException e) {
-                //default
-                DeviceUtil.systemPutString(context, "CustomCalendarData", "{}");
+                data = "{}";//default
             }
+            DeviceUtil.systemPutString(context, "CustomCalendarData", data);
         }
 
         // Weather data
         if (weather_data != null && !weather_data.equals("")) {
-
             try {
                 // Check if correct form of JSON
                 JSONObject json_data = new JSONObject(weather_data);
@@ -787,7 +785,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Try to decode JSON
         try {
             // Extract data from JSON
-            JSONObject json_data = new JSONObject(xdrip_data);
+            //JSONObject json_data = new JSONObject(xdrip_data);
 
             // Update system data
             DeviceUtil.systemPutString(context, "Xdrip", xdrip_data);
@@ -1203,7 +1201,6 @@ public class MainService extends Service implements Transporter.DataListener {
 
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         }
-
     }
 
     // Delete file
@@ -1755,65 +1752,6 @@ public class MainService extends Service implements Transporter.DataListener {
             notificationData.setIcon(new int[]{});
             Logger.error("MainService sendStandardAlert exception: " + e.toString());
         }
-    }
-
-    // Count notifications
-    public void notificationCounter(int n) {
-        int notifications = 0;
-
-        // Get already saved data
-        String old_data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
-        String data = old_data;
-        if (data == null || data.equals("")) {
-            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, "{}");//default
-            data = "{\"notifications\":" + notifications + "}";
-        }
-
-        // Get data
-        try {
-            // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
-            if( json_data.has("notifications") )
-                notifications = json_data.getInt("notifications");
-        } catch (JSONException e) {
-            // Error
-            Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
-        }
-
-        // Update notifications (but always > -1)
-        notifications = (notifications + n > -1) ? notifications + n : 0;
-
-        Logger.debug("Updating notification counter: " + notifications);
-
-        // Save new notifications
-        try {
-            // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
-            json_data.put("notifications", notifications);
-            data = json_data.toString();
-        } catch (JSONException e) {
-            //default
-            Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
-        }
-
-        // Check if data actually need to be updated
-        if (data.equals(old_data))
-            return;
-
-        // Update system value after 5 seconds
-        final String last_data = data;
-        Thread t = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                    DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, last_data);
-                } catch (Exception e) {
-                    Logger.debug("Notification counter update thread crashed: " + e.getMessage());
-                }
-            }
-        };
-        t.start();
     }
 
     private void acquireWakelock() {
