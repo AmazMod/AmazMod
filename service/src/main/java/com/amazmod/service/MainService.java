@@ -514,10 +514,11 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Non-priority functions (keep at the bottom to speed-up notifications)
         switch (action) {
-            case "del": // A notification is removed
+            case Transport.DELETE_NOTIFICATION: // A notification is removed
                 notificationCounter(-1);
                 break;
             case "add": // A notification is added
+            case Transport.INCOMING_NOTIFICATION:   // Custom notification added
                 notificationCounter(1);
                 //notificationCounter(action.equals("del") ? -1 : 1);
                 break;
@@ -1758,48 +1759,57 @@ public class MainService extends Service implements Transporter.DataListener {
 
     // Count notifications
     public void notificationCounter(int n) {
+        int notifications = 0;
+
+        // Get already saved data
+        String old_data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
+        String data = old_data;
+        if (data == null || data.equals("")) {
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, "{}");//default
+            data = "{\"notifications\":" + notifications + "}";
+        }
+
+        // Get data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            if( json_data.has("notifications") )
+                notifications = json_data.getInt("notifications");
+        } catch (JSONException e) {
+            // Error
+            Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
+        }
+
+        // Update notifications (but always > -1)
+        notifications = (notifications + n > -1) ? notifications + n : 0;
+
+        Logger.debug("Updating notification counter: " + notifications);
+
+        // Save new notifications
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("notifications", notifications);
+            data = json_data.toString();
+        } catch (JSONException e) {
+            //default
+            Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
+        }
+
+        // Check if data actually need to be updated
+        if (data.equals(old_data))
+            return;
+
+        // Update system value after 5 seconds
+        final String last_data = data;
         Thread t = new Thread() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(5000);
-                    int notifications = 0;
-
-                    // Get already saved data
-                    String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
-                    if (data == null || data.equals("")) {
-                        DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
-                    }
-
-                    // Get data
-                    try {
-                        // Extract data from JSON
-                        JSONObject json_data = new JSONObject(data);
-                        notifications = json_data.getInt("notifications");
-                    } catch (JSONException e) {
-                        //Nothing, notifications are never saved before
-                        Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
-                    }
-
-                    // Update notifications (but always > -1)
-                    notifications = (notifications + n > -1) ? notifications + n : 0;
-
-                    Logger.debug("Updating notifications: " + notifications);
-
-                    // Save the data
-                    try {
-                        // Extract data from JSON
-                        JSONObject json_data = new JSONObject(data);
-                        json_data.put("notifications", notifications);
-
-                        DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
-                    } catch (JSONException e) {
-                        //default
-                        DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
-                        Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
-                    }
+                    DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, last_data);
                 } catch (Exception e) {
-                    Logger.debug("FTP: WiFi connection thread crashed: " + e.getMessage());
+                    Logger.debug("Notification counter update thread crashed: " + e.getMessage());
                 }
             }
         };
