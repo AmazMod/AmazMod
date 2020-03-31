@@ -247,6 +247,7 @@ public class MainService extends Service implements Transporter.DataListener {
         new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
         Logger.debug("Restore APK_INSTALL screen timeout");
 
+        // Todo get this code to status request and show if user is rooted
         /*
         try {
             if (new File("/system/xbin/su").exists()) { // Test for root
@@ -493,6 +494,7 @@ public class MainService extends Service implements Transporter.DataListener {
         } else if (Transport.INCOMING_NOTIFICATION.equals(action))
             notificationArrived = true;// Flag used by OverlayLauncher
 
+        // Run a function based on requested action
         Class messageClass = messages.get(action);
         if (messageClass != null) {
             Class[] args = new Class[1];
@@ -528,7 +530,7 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-    // Delete Custom Notification
+    // Delete Notification (counter update and delete custom notification)
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void deleteNotification(DeleteNotificationEvent deleteNotificationEvent) {
         boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
@@ -557,17 +559,16 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    // todo I think this is never used (GreatApo)
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void requestDeleteNotification(NotificationKeyData notificationKeyData) {
-
         Logger.warn("requestDeleteNotification key: {}", notificationKeyData.key);
-
         DataBundle dataBundle = new DataBundle();
         dataBundle.putParcelable("notiKey", notificationKeyData);
         sendHuami("del", dataBundle);
     }
 
-    // Watchface/Calendar data (phone battery/alarm)
+    // Phone data (phone battery, phone alarm, calendar events, weather)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void watchface(Watchface watchface) {
         // Data from phone
@@ -625,23 +626,16 @@ public class MainService extends Service implements Transporter.DataListener {
 
         // Weather data
         if (weather_data != null && !weather_data.equals("")) {
+            // TODO Replace with DeviceUtil.updateWeatherData()
             try {
                 // Check if correct form of JSON
                 JSONObject json_data = new JSONObject(weather_data);
 
                 // System data
-                JSONObject system_json_data = new JSONObject(DeviceUtil.systemGetString(context, "WeatherInfo"));
-                // Example:
-                // {"isAlert":true,"isNotification":true,"tempFormatted":"6┬║C","tempUnit":"C","v":1,"weatherCode":3,"aqi":-1,"aqiLevel":0,"city":"Holywood",
-                // "forecasts":[
-                //      {"tempFormatted":"6ºC/4ºC","tempMax":6,"tempMin":4,"weatherCodeFrom":5,"weatherCodeTo":5,"day":1,"weatherFrom":0,"weatherTo":0},
-                //      ...
-                //      {"tempFormatted":"5ºC/1ºC","tempMax":5,"tempMin":1,"weatherCodeFrom":0,"weatherCodeTo":5,"day":7,"weatherFrom":0,"weatherTo":0}],
-                // "pm25":-1,"sd":"87%","temp":6,"time":1575843188054,"uv":"Weakest","uvIndex":"1","weather":5,
-                // "windDirection":"SW","windDirectionUnit":"┬░","windDirectionValue":"225","windSpeedUnit":"km/h","windSpeedValue":"32","windStrength":"32km/h"}
-
-                JSONObject system_json_data_short = new JSONObject(DeviceUtil.systemGetString(context, "WeatherCheckedSummary"));
-                // Example: {"tempUnit":"1","temp":"6","weatherCodeFrom":3}
+                data = DeviceUtil.systemGetString(context, "WeatherInfo");
+                JSONObject system_json_data = new JSONObject((data == null || data.equals(""))?"{}":data);
+                data = DeviceUtil.systemGetString(context, "WeatherCheckedSummary");
+                JSONObject system_json_data_short = new JSONObject((data == null || data.equals(""))?"{}":data);
 
                 // WeatherInfo & WeatherCheckedSummary
                 if (json_data.has("tempUnit"))
@@ -683,7 +677,7 @@ public class MainService extends Service implements Transporter.DataListener {
                 if (json_data.has("dt"))
                     system_json_data.put("dt", json_data.getInt("dt"));
 
-                // TODO Currently not updated
+                // Currently not updated
                 // aqi":-1,
                 // "aqiLevel":0,
                 // "pm25":-1,
@@ -695,7 +689,7 @@ public class MainService extends Service implements Transporter.DataListener {
                     system_json_data.put("uvIndex", uvIndex);
                 }
                 if (json_data.has("uv")){
-                    system_json_data.put("uv", json_data.getInt("uv"));
+                    system_json_data.put("uv", json_data.getString("uv"));
                 }else if(uvIndex > -1){
                     String uv;
                     if (uvIndex <= 2) {
