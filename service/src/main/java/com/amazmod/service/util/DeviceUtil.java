@@ -617,7 +617,7 @@ public class DeviceUtil {
                 @Override
                 public void run() {
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(5000);
                         DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, last_data);
                     } catch (Exception e) {
                         Logger.debug("Notification counter update thread crashed: " + e.getMessage());
@@ -627,5 +627,170 @@ public class DeviceUtil {
             t.start();
         }
         return notifications;
+    }
+
+    // # Weather data #
+    // TODO Add timers (forecast, current, UV, polution) and update only items that are up-to-date
+    public static String updateWeatherData(Context context, String weather_data, String old_weather_data) {
+        try {
+            // Check if correct form of JSON
+            JSONObject json_data = new JSONObject(weather_data);
+            // Check if correct form of JSON
+            JSONObject old_json_data = new JSONObject(old_weather_data);
+
+            // System data
+            String data = DeviceUtil.systemGetString(context, "WeatherInfo");
+            JSONObject system_json_data = new JSONObject((data == null || data.equals(""))?"{}":data);
+            // Example:
+            // {"isAlert":true,"isNotification":true,"tempFormatted":"6┬║C","tempUnit":"C","v":1,"weatherCode":3,"aqi":-1,"aqiLevel":0,"city":"Holywood",
+            // "forecasts":[
+            //      {"tempFormatted":"6ºC/4ºC","tempMax":6,"tempMin":4,"weatherCodeFrom":5,"weatherCodeTo":5,"day":1,"weatherFrom":0,"weatherTo":0},
+            //      ...
+            //      {"tempFormatted":"5ºC/1ºC","tempMax":5,"tempMin":1,"weatherCodeFrom":0,"weatherCodeTo":5,"day":7,"weatherFrom":0,"weatherTo":0}],
+            // "pm25":-1,"sd":"87%","temp":6,"time":1575843188054,"uv":"Weakest","uvIndex":"1","weather":5,
+            // "windDirection":"SW","windDirectionUnit":"┬░","windDirectionValue":"225","windSpeedUnit":"km/h","windSpeedValue":"32","windStrength":"32km/h"}
+
+            data = DeviceUtil.systemGetString(context, "WeatherCheckedSummary");
+            JSONObject system_json_data_short = new JSONObject((data == null || data.equals(""))?"{}":data);
+            // Example: {"tempUnit":"1","temp":"6","weatherCodeFrom":3}
+
+            // WeatherInfo & WeatherCheckedSummary
+            if (json_data.has("tempUnit")){
+                old_json_data.put("tempUnit", json_data.getString("tempUnit"));
+                system_json_data.put("tempUnit", json_data.getString("tempUnit"));
+            }
+            if (json_data.has("tempUnitNo")){
+                old_json_data.put("tempUnitNo", json_data.getString("tempUnitNo"));
+                system_json_data_short.put("tempUnit", json_data.getString("tempUnitNo"));
+            }
+            if (json_data.has("tempFormatted")){
+                old_json_data.put("tempFormatted", json_data.getString("tempFormatted"));
+                system_json_data.put("tempFormatted", json_data.getString("tempFormatted"));
+            }
+            if (json_data.has("temp")) {
+                old_json_data.put("temp", json_data.getString("temp"));
+                system_json_data.put("temp", json_data.getString("temp"));
+                system_json_data_short.put("temp", json_data.getString("temp"));
+            }
+            if (json_data.has("weatherCode")){
+                old_json_data.put("weatherCode", json_data.getInt("weatherCode"));
+                system_json_data.put("weatherCode", json_data.getInt("weatherCode"));
+                system_json_data_short.put("weatherCodeFrom", json_data.getInt("weatherCode"));
+            }
+            if (json_data.has("forecasts")){
+                old_json_data.put("forecasts", json_data.getJSONArray("forecasts"));
+                system_json_data.put("forecasts", json_data.getJSONArray("forecasts"));
+            }
+            if (json_data.has("sd")){
+                old_json_data.put("sd", json_data.getString("sd"));
+                system_json_data.put("sd", json_data.getString("sd"));
+            }
+            if (json_data.has("windDirection")){
+                old_json_data.put("windDirection", json_data.getString("windDirection"));
+                system_json_data.put("windDirection", json_data.getString("windDirection"));
+            }
+            // Direction angle symbol is different after transfer, so we save the proper one (it doesn't matter anyway)
+            old_json_data.put("windDirectionUnit", "°");
+            system_json_data.put("windDirectionUnit", "°");
+            //if (json_data.has("windDirectionUnit"))
+            //        system_json_data.put("windDirectionUnit", json_data.getString("windDirectionUnit"));//°
+
+            if (json_data.has("windDirectionValue")){
+                old_json_data.put("windDirectionValue", json_data.getString("windDirectionValue"));
+                system_json_data.put("windDirectionValue", json_data.getString("windDirectionValue"));
+            }
+            if (json_data.has("windSpeedUnit")){
+                old_json_data.put("windSpeedUnit", json_data.getString("windSpeedUnit"));
+                system_json_data.put("windSpeedUnit", json_data.getString("windSpeedUnit"));
+            }
+            if (json_data.has("windSpeedValue")){
+                old_json_data.put("windSpeedValue", json_data.getString("windSpeedValue"));
+                system_json_data.put("windSpeedValue", json_data.getString("windSpeedValue"));
+            }
+            if (json_data.has("windStrength")){
+                old_json_data.put("windStrength", json_data.getString("windStrength"));
+                system_json_data.put("windStrength", json_data.getString("windStrength"));
+            }
+            if (json_data.has("city")){
+                old_json_data.put("city", json_data.getString("city"));
+                system_json_data.put("city", json_data.getString("city"));
+            }
+            if (json_data.has("dt")) {
+                old_json_data.put("dt", json_data.getInt("dt"));
+                system_json_data.put("dt", json_data.getInt("dt"));
+            }
+            // TODO Currently not updated
+            // aqi":-1,
+            // "aqiLevel":0,
+            // "pm25":-1,
+
+            // New UV values in weather
+            int uvIndex = -1;
+            if (json_data.has("uvIndex")){
+                uvIndex = json_data.getInt("uvIndex");
+                old_json_data.put("uvIndex", uvIndex);
+                system_json_data.put("uvIndex", uvIndex);
+            }
+            if (json_data.has("uv")){
+                system_json_data.put("uv", json_data.getString("uv"));
+            }else if(uvIndex > -1){
+                String uv;
+                if (uvIndex <= 2) {
+                    uv = "Weakest";
+                }else if (uvIndex <= 4) {
+                    uv = "Weak";
+                }else if (uvIndex <= 6) {
+                    uv = "Moderate";
+                }else if (uvIndex <= 9) {
+                    uv = "Strong";
+                }else{
+                    uv = "Very strong";
+                }
+                system_json_data.put("uv", uv);
+            }
+
+            // New custom values in weather (these values don't exist by default)
+            if (json_data.has("tempMin")){
+                old_json_data.put("tempMin", json_data.getString("tempMin"));
+                system_json_data.put("tempMin", json_data.getString("tempMin"));
+            }
+            if (json_data.has("tempMax")){
+                old_json_data.put("tempMax", json_data.getString("tempMax"));
+                system_json_data.put("tempMax", json_data.getString("tempMax"));
+            }
+            if (json_data.has("pressure")){
+                old_json_data.put("pressure", json_data.getString("pressure"));
+                system_json_data.put("pressure", json_data.getString("pressure"));
+            }
+            if (json_data.has("visibility")){
+                old_json_data.put("visibility", json_data.getInt("visibility"));
+                system_json_data.put("visibility", json_data.getInt("visibility"));
+            }
+            if (json_data.has("clouds")){
+                old_json_data.put("clouds", json_data.getString("clouds"));
+                system_json_data.put("clouds", json_data.getString("clouds"));
+            }
+            if (json_data.has("sunrise")){
+                old_json_data.put("sunrise", json_data.getInt("sunrise"));
+                system_json_data.put("sunrise", json_data.getInt("sunrise"));
+            }
+            if (json_data.has("sunset")){
+                old_json_data.put("sunset", json_data.getInt("sunset"));
+                system_json_data.put("sunset", json_data.getInt("sunset"));
+            }
+
+            // Update data
+            DeviceUtil.systemPutString(context, "WeatherInfo", system_json_data.toString().replaceAll("\\\\/","/"));
+            Logger.debug("Updating weather info data saved: " + system_json_data.toString().replaceAll("\\\\/","/"));
+            DeviceUtil.systemPutString(context, "WeatherCheckedSummary", system_json_data_short.toString());
+            Logger.debug("Updating weather summary data saved: " + system_json_data_short.toString());
+            // Data have been updated
+            return system_json_data_short.toString();
+        } catch (JSONException e) {
+            // Default
+            Logger.error("Updating weather data error: " + e.toString());
+            // Data haven't been updated
+            return "";
+        }
     }
 }
