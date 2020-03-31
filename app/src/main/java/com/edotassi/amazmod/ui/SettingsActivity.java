@@ -25,6 +25,7 @@ import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.util.LocaleUtils;
+import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
@@ -39,6 +40,8 @@ import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.SettingsData;
 import de.mateware.snacky.Snacky;
+
+import static android.widget.Toast.makeText;
 
 public class SettingsActivity extends BaseAppCompatActivity {
 
@@ -294,6 +297,19 @@ public class SettingsActivity extends BaseAppCompatActivity {
             SilenceApplicationHelper.disablePackage(packageName);
             Logger.debug("Disable Maps notification");
         }
+        // Check Notification Access if amazmod notification are enabled
+        if (Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS,
+                Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS)) {
+            if (!Permissions.hasNotificationAccess(getApplicationContext())) {
+                Toast notificationAccess = makeText(getApplicationContext(), R.string.miss_notification_access, Toast.LENGTH_LONG);
+                notificationAccess.show();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                } else {
+                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+                }
+            }
+        }
 
         SettingsData settingsData = new SettingsData();
         settingsData.setReplies(replies);
@@ -334,7 +350,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
                                 .setText(str)
                                 .setDuration(Snacky.LENGTH_SHORT)
                                 .build().show();
-                    } else Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
+                    } else makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
                 } else {
                     str = getResources().getString(R.string.settings_cant_be_applied);
                     if (sync) {
@@ -343,7 +359,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
                                 .setText(str)
                                 .setDuration(Snacky.LENGTH_SHORT)
                                 .build().show();
-                    } else Toast.makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
+                    } else makeText(getBaseContext(), str, Toast.LENGTH_SHORT).show();
                 }
                 return null;
             }
