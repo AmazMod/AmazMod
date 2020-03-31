@@ -481,4 +481,5 @@ suivre le thème système (bêta).</string>
     <string name="install_ok">l\'installation démarre</string>
     <string name="something_goes_wrong">quelque chose ne va pas</string>
     <string name="invalid_key">la clé de l\'api est invalide</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>

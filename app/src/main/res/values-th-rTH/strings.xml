@@ -478,4 +478,5 @@
     <string name="install_ok">ติดตั้งจะเริ่ม</string>
     <string name="something_goes_wrong">บางอย่างผิดปกติไป</string>
     <string name="invalid_key">รูปแบบ api กุญแจนไม่ถูกต้อง</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>

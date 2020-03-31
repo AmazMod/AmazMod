@@ -481,4 +481,5 @@
     <string name="install_ok">a iniciar a instalação</string>
     <string name="something_goes_wrong">algo correu mal</string>
     <string name="invalid_key">chave da api era inválida</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>

@@ -478,4 +478,5 @@
     <string name="install_ok">安装正在开始</string>
     <string name="something_goes_wrong">出错了</string>
     <string name="invalid_key">api 密钥无效</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>

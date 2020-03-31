@@ -479,4 +479,5 @@
     <string name="install_ok">安装开始</string>
     <string name="something_goes_wrong">出了什么事</string>
     <string name="invalid_key">api关键是无效的</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>

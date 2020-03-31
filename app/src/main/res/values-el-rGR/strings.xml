@@ -481,4 +481,5 @@
     <string name="install_ok">η εγκατάσταση ξεκινά</string>
     <string name="something_goes_wrong">Κάτι πήγε στραβά</string>
     <string name="invalid_key">το κλειδί API δεν ήταν έγκυρο</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>

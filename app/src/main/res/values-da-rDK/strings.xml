@@ -481,4 +481,5 @@ stedet for følge systemtemaet (beta).</string>
     <string name="install_ok">installation er begyndt</string>
     <string name="something_goes_wrong">noget går galt</string>
     <string name="invalid_key">api-nøgle var ugyldig,</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>
