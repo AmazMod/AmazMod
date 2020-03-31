@@ -486,4 +486,5 @@
     <string name="install_ok">початок встановлення</string>
     <string name="something_goes_wrong">щось пішло не так</string>
     <string name="invalid_key">ключ api недійсний</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>
