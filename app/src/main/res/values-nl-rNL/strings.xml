@@ -481,4 +481,5 @@ het systeemthema (beta).</string>
     <string name="install_ok">installatie starten</string>
     <string name="something_goes_wrong">er gaat iets mis</string>
     <string name="invalid_key">api-sleutel is ongeldig</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>
