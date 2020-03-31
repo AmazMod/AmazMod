@@ -481,4 +481,5 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="install_ok">Installation startet</string>
     <string name="something_goes_wrong">Ein Problem ist aufgetreten</string>
     <string name="invalid_key">API-Schlüssel ungültig</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>
