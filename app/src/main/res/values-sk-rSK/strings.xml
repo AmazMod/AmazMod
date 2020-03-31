@@ -487,4 +487,5 @@ Urobte príkaz shell \"</string>
     <string name="install_ok">inštalácia sa začína</string>
     <string name="something_goes_wrong">niečo sa pokazilo</string>
     <string name="invalid_key">kľúč Api bol neplatný</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>
