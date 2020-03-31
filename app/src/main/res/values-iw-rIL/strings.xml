@@ -486,4 +486,5 @@
     <string name="install_ok">ההתקנה מתחילה</string>
     <string name="something_goes_wrong">משהו השתבש</string>
     <string name="invalid_key">מפתח הAPI לא תקין</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>
