@@ -483,4 +483,5 @@ a rendszertéma követése helyett (beta).</string>
     <string name="install_ok">a telepítés elindul</string>
     <string name="something_goes_wrong">valami nem sikerült</string>
     <string name="invalid_key">az api kulcs érvénytelen</string>
+    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
 </resources>
