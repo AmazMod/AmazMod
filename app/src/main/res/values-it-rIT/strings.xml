@@ -13,7 +13,7 @@
     <string name="sync_settings">Sincronizzazione impostazioni…</string>
     <string name="brightness">Luminosità</string>
     <string name="tweaking">Tweaking</string>
-    <string name="widgets">Widgets</string>
+    <string name="widgets">Widget</string>
     <string name="watchface">GreatFit / Calendario / Meteo</string>
     <string name="stats">Statistiche</string>
     <string name="changelog">Changelog</string>
@@ -481,5 +481,5 @@ seguire il tema di sistema (beta).</string>
     <string name="install_ok">installazione avviata</string>
     <string name="something_goes_wrong">qualcosa è andato storto</string>
     <string name="invalid_key">chiave api non valida</string>
-    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
+    <string name="miss_notification_access">Concedi l\'accesso alle notifiche ad AmazMod per fagli gestire correttamente le notifiche</string>
 </resources>
