@@ -63,6 +63,6 @@
     <string-array name="pref_watchface_weather_units_entries">
         <item>Μετρικό (Κέλβιν)</item>
         <item>Κελσίου (Μετρικό)</item>
-        <item>Imperial (Fahrenheit)</item>
+        <item>Imperial (Φαρενάιτ)</item>
     </string-array>
 </resources>
