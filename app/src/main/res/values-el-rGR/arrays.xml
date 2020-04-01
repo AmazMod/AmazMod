@@ -35,34 +35,34 @@
         <item>99%</item>
     </string-array>
     <string-array name="pref_watchface_calendar_events_days">
-        <item>Disable</item>
-        <item>1 day</item>
-        <item>7 days</item>
-        <item>15 days</item>
-        <item>30 days</item>
-        <item>60 days</item>
-        <item>90 days</item>
-        <item>180 days</item>
-        <item>365 days</item>
+        <item>Απενεργοποίηση</item>
+        <item>1 ημέρα</item>
+        <item>7 ημέρες</item>
+        <item>15 ημέρες</item>
+        <item>30 ημέρες</item>
+        <item>60 ημέρες</item>
+        <item>90 ημέρες</item>
+        <item>180 ημέρες</item>
+        <item>365 ημέρες</item>
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
-        <item>Normal</item>
-        <item>Large</item>
-        <item>Huge</item>
+        <item>Κανονικό</item>
+        <item>Μεγάλο</item>
+        <item>Τεράστιο</item>
     </string-array>
     <string-array name="default_notification_replies">
-        <item>Yes</item>
-        <item>No</item>
-        <item>Thank you</item>
+        <item>Ναι</item>
+        <item>Όχι</item>
+        <item>Σας ευχαριστούμε</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>Τίτλος</item>
+        <item>Περιεχόμενο</item>
+        <item>Και τα δύο</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
-        <item>Metric (Kelvin)</item>
-        <item>Celsius (Metric)</item>
+        <item>Μετρικό (Κέλβιν)</item>
+        <item>Κελσίου (Μετρικό)</item>
         <item>Imperial (Fahrenheit)</item>
     </string-array>
 </resources>
