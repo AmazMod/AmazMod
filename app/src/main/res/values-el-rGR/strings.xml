@@ -443,7 +443,7 @@
     <string name="widget_alarm">Ξυπνητήρι</string>
     <string name="widget_exercise_state">Κατάσταση Άσκησης</string>
     <string name="widget_sport">Αθλητισμός</string>
-    <string name="widget_sport_launcher">Sports Launcher</string>
+    <string name="widget_sport_launcher">Πρόγραμμα εκκίνησης άσκησης</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Τοποθεσία</string>
@@ -451,7 +451,7 @@
     <string name="widget_barometer">Βαρόμετρο</string>
     <string name="widget_miui_unlock">Ξεκλείδωμα MIUI</string>
     <string name="widget_mi_box_remote">Χειριστήριο Mi Box</string>
-    <string name="widget_mi_tv_remote">Mi TV Remote</string>
+    <string name="widget_mi_tv_remote">Τηλεχειριστήριο Mi TV</string>
     <string name="widget_stress">Επίπεδο άγχους</string>
     <string name="widget_hm_tv">HM Τηλεόραση</string>
     <string name="widget_main_activity">MainActivity</string>
@@ -481,5 +481,5 @@
     <string name="install_ok">η εγκατάσταση ξεκινά</string>
     <string name="something_goes_wrong">Κάτι πήγε στραβά</string>
     <string name="invalid_key">το κλειδί API δεν ήταν έγκυρο</string>
-    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
+    <string name="miss_notification_access">Παρακαλώ χορηγήστε στην εφαρμογή AmazMod πρόσβαση στις ειδοποιήσεις για τη σωστή επεξεργασία των ειδοποιήσεων</string>
 </resources>
