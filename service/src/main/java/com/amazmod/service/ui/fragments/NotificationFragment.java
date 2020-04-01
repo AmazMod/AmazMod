@@ -639,8 +639,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, confirmationMessage);
         startActivity(intent);
 
-        NotificationStore.removeCustomNotification(key);
-        NotificationStore.setNotificationCount(mContext);
+        NotificationStore.removeCustomNotification(key, mContext); // Remove custom notification
         if (NotificationWearActivity.MODE_VIEW.equals(mode))
             WearNotificationsFragment.getInstance().loadNotifications();
 

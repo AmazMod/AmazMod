@@ -27,8 +27,6 @@ import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
@@ -297,8 +295,7 @@ public class WearNotificationsFragment extends Fragment {
                 .setMessage(mContext.getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        NotificationStore.removeCustomNotification(key);
-                        // NotificationStore.setNotificationCount(mContext); // Updates the notification counter, however a del action is already send.
+                        NotificationStore.removeCustomNotification(key, mContext); // Remove custom notification
                         loadNotifications();
                     }
                 })

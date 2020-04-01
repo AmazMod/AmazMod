@@ -552,6 +552,10 @@ public class DeviceUtil {
         return notificationCounter(context, 0, false, 0);
     }
     // Add/Remove notification
+    public static int notificationCounter(Context context, int n, String log) {
+        Logger.debug(log);
+        return notificationCounter(context, n);
+    }
     public static int notificationCounter(Context context, int n) {
         return notificationCounter(context, n, false, 0);
     }

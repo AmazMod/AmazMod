@@ -345,7 +345,7 @@ public class MainService extends Service implements Transporter.DataListener {
             transporterXdrip.connectTransportService();
 
 
-        // Any idea what this is????? TODO
+        // This is so we can enable Power Save mode
         slptClockClient = new SlptClockClient();
         slptClockClient.bindService(this, "AmazMod-MainService", new SlptClockClient.Callback() {
             @Override
@@ -551,7 +551,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                     if (key.equals(pair.getValue())) {
                         Logger.warn("deleteNotification removing: {}", pair.getKey());
-                        NotificationStore.removeCustomNotification(pair.getKey());
+                        NotificationStore.removeCustomNotification(pair.getKey(), context);
                     }
                 }
             else
@@ -559,7 +559,6 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-    // todo I think this is never used (GreatApo)
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void requestDeleteNotification(NotificationKeyData notificationKeyData) {
         Logger.warn("requestDeleteNotification key: {}", notificationKeyData.key);
@@ -881,11 +880,11 @@ public class MainService extends Service implements Transporter.DataListener {
     // Request watch's local IP
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestLocalIp() {
-        DataBundle data = new DataBundle();
         String localIP = getLocalIpAddress();
+        Logger.debug("MainService requestLocalIp, local IP: "+localIP);
+        // Send transmit
+        DataBundle data = new DataBundle();
         data.putString("ip",localIP);
-        Logger.debug("MainService requestLocalIp: "+localIP);
-        // Send the transmit
         send(Transport.LOCAL_IP, data);
     }
 
@@ -1000,44 +999,44 @@ public class MainService extends Service implements Transporter.DataListener {
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
     }
 
+    // Reply to notification
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reply(ReplyNotificationEvent event) {
         Logger.debug("MainService reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
-
+        // Send transmit
         DataBundle dataBundle = new DataBundle();
-
-        dataBundle.putString("key", event.getKey());
-        dataBundle.putString("message", event.getMessage());
-
+        dataBundle.putString("key", event.getKey()); // Notification unique key
+        dataBundle.putString("message", event.getMessage()); // Reply message
         send(Transport.REPLY, dataBundle);
     }
 
-
+    // Silence specific app notifications for X minutes
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void silence(SilenceApplicationEvent event) {
         Logger.debug("MainService silence application, package: " + event.getPackageName() + ", minutes: " + event.getMinutes());
-
+        // Send transmit
         DataBundle dataBundle = new DataBundle();
-
-        dataBundle.putString("package", event.getPackageName());
-        dataBundle.putString("minutes", event.getMinutes());
-
+        dataBundle.putString("package", event.getPackageName()); // app pkg
+        dataBundle.putString("minutes", event.getMinutes()); // minutes to stop notifications
         send(Transport.SILENCE, dataBundle);
     }
 
-    // Incoming Notification
+    // Incoming Notification action
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void incomingNotification(IncomingNotificationEvent incomingNotificationEvent) {
-        //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
+        // Create notification data
         NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
 
+        // Set vibration data
         // Changed for RC1
         if (notificationData.getVibration() > 0) {
             Logger.debug("MainService incomingNotification vibration: " + notificationData.getVibration());
         } else notificationData.setVibration(0);
         //notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
-        notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
 
+        // Set notification duration
+        notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
+        // Check if device is locked
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
 
         Logger.debug("MainService incomingNotification: " + notificationData.toString());
@@ -1068,7 +1067,6 @@ public class MainService extends Service implements Transporter.DataListener {
         try {
             b = DeviceUtil.systemGetInt(context, Constants.SCREEN_BRIGHTNESS);
             bm = DeviceUtil.systemGetInt(context, Constants.SCREEN_BRIGHTNESS_MODE);
-
         } catch (Settings.SettingNotFoundException e) {
             Logger.error("MainService requestWatchStatus SettingsNotFoundException: {}" + e.getMessage());
         }
@@ -1105,7 +1103,7 @@ public class MainService extends Service implements Transporter.DataListener {
         Logger.debug("Sync hourly chime to tranport : " + isHourlyChime);
         watchStatusData.setHourlyChime(isHourlyChime?1:0); // 1 = on, 0 = off
 
-        // Send the transmit
+        // Send transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
@@ -1113,43 +1111,39 @@ public class MainService extends Service implements Transporter.DataListener {
     // Battery request
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-
-        settings.reload();
         Intent batteryStatus = context.registerReceiver(null, batteryFilter);
-
-        int status = 0;
-        if (batteryStatus != null) {
-            status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-
-            boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                    status == BatteryManager.BATTERY_STATUS_FULL;
-
-            int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-            boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-            boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
-
-            getBatteryPct(batteryStatus);
-
-            //Get data of last full charge from settings
-            //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
-            if (dateLastCharge == 0) {
-                dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-                Logger.debug("MainService dateLastCharge loaded: " + dateLastCharge);
-            }
-
-            Logger.debug("MainService dateLastCharge: " + dateLastCharge + " | batteryPct: " + Math.round(batteryPct * 100f));
-            cancelPendingJobs(BATTERY_JOB_ID);
-            saveBatteryDb(batteryPct, false);
-
-            batteryData.setLevel(batteryPct);
-            batteryData.setCharging(isCharging);
-            batteryData.setUsbCharge(usbCharge);
-            batteryData.setAcCharge(acCharge);
-            batteryData.setDateLastCharge(dateLastCharge);
-
-            send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
-        } else
+        if (batteryStatus == null) {
             Logger.error("MainService requestBatteryStatus: register receiver error!");
+            return;
+        }
+
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
+        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+
+        getBatteryPct(batteryStatus);
+
+        // Get data of last full charge from settings
+        //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+        if (dateLastCharge == 0) {
+            settings.reload();
+            dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+            Logger.debug("MainService dateLastCharge loaded: " + dateLastCharge);
+        }
+
+        Logger.debug("MainService dateLastCharge: " + dateLastCharge + " | batteryPct: " + Math.round(batteryPct * 100f));
+        cancelPendingJobs(BATTERY_JOB_ID);
+        saveBatteryDb(batteryPct, false);
+
+        batteryData.setLevel(batteryPct);
+        batteryData.setCharging(isCharging);
+        batteryData.setUsbCharge(usbCharge);
+        batteryData.setAcCharge(acCharge);
+        batteryData.setDateLastCharge(dateLastCharge);
+
+        send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
     }
 
     // Set brightness
@@ -1159,7 +1153,9 @@ public class MainService extends Service implements Transporter.DataListener {
         final int brightnessLevel = brightnessData.getLevel();
         Logger.debug("MainService setting brightness to " + brightnessLevel);
 
+        // Save new brightness
         if (brightnessLevel == -1)
+            // Automatic
             DeviceUtil.systemPutInt(context, Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
         else {
             DeviceUtil.systemPutInt(context, Settings.System.SCREEN_BRIGHTNESS_MODE, 0);
@@ -1172,8 +1168,10 @@ public class MainService extends Service implements Transporter.DataListener {
     public void hardwareButton(HardwareButtonEvent hardwareButtonEvent) {
         if (hardwareButtonEvent.getCode() == MusicControlInputListener.KEY_DOWN) {
             if (hardwareButtonEvent.isLongPress()) {
+                // Long Press
                 send(Transport.NEXT_MUSIC);
             } else {
+                // Short press trigger
                 send(Transport.TOGGLE_MUSIC);
             }
         }
@@ -1184,7 +1182,6 @@ public class MainService extends Service implements Transporter.DataListener {
     public void requestDirectory(RequestDirectory requestDirectory) {
         try {
             RequestDirectoryData requestDirectoryData = RequestDirectoryData.fromDataBundle(requestDirectory.getDataBundle());
-
             String path = requestDirectoryData.getPath();
             Logger.debug("path: " + path);
             DirectoryData directoryData = getFilesByPath(path);
@@ -1192,7 +1189,6 @@ public class MainService extends Service implements Transporter.DataListener {
         } catch (Exception ex) {
             DirectoryData directoryData = new DirectoryData();
             directoryData.setResult(Transport.RESULT_UNKNOW_ERROR);
-
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         }
     }
@@ -1206,14 +1202,10 @@ public class MainService extends Service implements Transporter.DataListener {
             RequestDeleteFileData requestDeleteFileData = RequestDeleteFileData.fromDataBundle(requestDeleteFile.getDataBundle());
             File file = new File(requestDeleteFileData.getPath());
             int result = file.delete() ? Transport.RESULT_OK : Transport.RESULT_UNKNOW_ERROR;
-
             resultDeleteFileData.setResult(result);
 
-            // if music file
-            if ( file.getName().toLowerCase().endsWith(".mp3") || file.getName().toLowerCase().endsWith(".m4a") ){
-                Logger.debug("Music file, informing MediaStore's Content Provider: "+Uri.fromFile(file));
-                getContentResolver().delete(Uri.fromFile(file), null, null);
-            }
+            // If music file is deleted, inform MediaStore's Content Provider
+            informMediaProvider(file,true);
         } catch (SecurityException securityException) {
             resultDeleteFileData.setResult(Transport.RESULT_PERMISSION_DENIED);
         } catch (Exception ex) {
@@ -1237,15 +1229,29 @@ public class MainService extends Service implements Transporter.DataListener {
             randomAccessFile.close();
 
             // Check is file transfer has finished (last chunk less than the others)
-            if ( requestUploadFileChunkData.getSize() < requestUploadFileChunkData.getConstantChunkSize() ){
-                // if music file
-                if ( file.getName().toLowerCase().endsWith(".mp3") || file.getName().toLowerCase().endsWith(".m4a") ){
-                    Logger.debug("Music file, informing MediaStore's Content Provider: "+Uri.fromFile(file));
-                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)));
-                }
-            }
+            if ( requestUploadFileChunkData.getSize() < requestUploadFileChunkData.getConstantChunkSize() )
+                informMediaProvider(file,false);
+
         } catch (Exception ex) {
             Logger.error(ex.getMessage());
+        }
+    }
+
+    // Inform MediaStore's Content Provider about music file
+    public void informMediaProvider(File file, boolean delete) {
+        // If music file, inform MediaStore's Content Provider
+        String filename = file.getName().toLowerCase();
+        if ( filename.endsWith(".mp3") || filename.endsWith(".m4a") ) {
+            Uri uri = Uri.fromFile(file);
+            Logger.debug("Music file, informing MediaStore's Content Provider: " + uri);
+
+            if (delete) {
+                // File deleted
+                getContentResolver().delete(uri, null, null);
+            }else{
+                // New File
+                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+            }
         }
     }
 
@@ -1485,7 +1491,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Logger.error("MainService saveBatteryDb exception: " + ex.toString());
         }
 
-        //Update battery level (used in widget)
+        // Update battery level (used in widget)
         if (updateSettings)
             settings.set(Constants.PREF_BATT_LEVEL, Integer.toString(Math.round(batteryPct * 100f)) + "%");
 
@@ -1520,9 +1526,12 @@ public class MainService extends Service implements Transporter.DataListener {
             return FileDataFactory.notFound();
         }
 
+        ArrayList<FileData> filesData = new ArrayList<>();
         File[] files = directory.listFiles();
 
-        ArrayList<FileData> filesData = new ArrayList<>();
+        if(files==null)
+            return FileDataFactory.directoryFromFile(directory, filesData);
+
         for (File file : files) {
             FileData fileData = FileDataFactory.fromFile(file);
             filesData.add(fileData);
@@ -1593,7 +1602,6 @@ public class MainService extends Service implements Transporter.DataListener {
                     Logger.debug("SendHuami result: " + dataTransportResult.toString());
                 }
             });
-
         }
     }
 

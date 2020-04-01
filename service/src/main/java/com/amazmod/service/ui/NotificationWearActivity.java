@@ -273,10 +273,8 @@ public class NotificationWearActivity extends Activity {
         } else if (wasScreenLocked)
             mustLockDevice = true;
 
-        if (specialNotification) {
-            NotificationStore.removeCustomNotification(key);
-            NotificationStore.setNotificationCount(mContext);
-        }
+        if (specialNotification)
+            NotificationStore.removeCustomNotification(key, mContext); // Remove custom notification
     }
 
     private void lock() {
