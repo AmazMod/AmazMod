@@ -225,7 +225,7 @@ public class NotificationJobService extends JobService implements TransportServi
                     }
                 }
 
-            //Check for pensing CustomUI notifications and remove them
+            //Check for pending CustomUI notifications and remove them
             if (NotificationStore.getCustomNotificationCount() > 0)
                 for (ArrayMap.Entry<String, String> pair : NotificationStore.UUIDmap.entrySet()) {
                     Logger.debug("NS.uuid: {} \\ NS.key: {}", pair.getKey(), pair.getValue());
