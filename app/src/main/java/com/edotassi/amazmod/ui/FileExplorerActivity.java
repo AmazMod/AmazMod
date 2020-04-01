@@ -800,16 +800,54 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 /*
                 //Should help to connect to wifi without needed to confirm manually
                 WifiNetworkSuggestion.Builder wc = new WifiNetworkSuggestion.Builder();
-                wc.setSsid(SSID);
-                wc.setWpa2Passphrase(pswd);
+                wc.setSsid("\"" + SSID + "\"");
+                wc.setWpa2Passphrase("\"" + pswd + "\"");
+                wc.setIsAppInteractionRequired(false);
+                wc.setIsUserInteractionRequired(false);
                 WifiNetworkSuggestion suggestion = wc.build();
                 ArrayList<WifiNetworkSuggestion> list = new ArrayList<>();
                 list.add(suggestion);
-                mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
                 if (mWifiManager != null)
                     netId = mWifiManager.addNetworkSuggestions(list);
-                Logger.debug("FTP API29 : watch's WiFi AP found: "+ suggestion);
+
+				if (netId != WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS){
+                    Logger.debug("FTP API29: watch's WiFi AP not found.");
+                    transferring = false;
+                    ftpTransporter.send("disable_ap");
+                    updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                    snackProgressBarManager.dismissAll();
+					return;
+				}
+                Logger.debug("FTP API29: watch's WiFi AP found: "+ suggestion);
+
+                    //Wait for post connection broadcast to one of your suggestions)
+                    IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION);
+                    intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+                    intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
+                    intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+                    intentFilter.addAction(WifiManager.EXTRA_WIFI_STATE);
+
+                    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+                        @Override
+                        public void onReceive(Context context, Intent intent) {
+                            Logger.debug("FTP API29: WiFi connection action: "+intent.getAction());
+                            if (!Objects.requireNonNull(intent.getAction()).equals(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION)) {
+                                Logger.debug("FTP API29: WiFi connection not established established yet.");
+                                return;
+                            }
+                            Logger.debug("FTP API29: WiFi connection established. Sending command to enable FTP.");
+                            ftpTransporter.send("enable_ftp");
+                        }
+                    };
+                    getApplicationContext().registerReceiver(broadcastReceiver, intentFilter);
                  */
+
+                // Open Wifi setting to enable it
+                //Intent turnWifiOn = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                //startActivity(turnWifiOn);
+
                 NetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
                         .setSsid(SSID)
                         .setWpa2Passphrase(pswd)
@@ -818,7 +856,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
                         .setNetworkSpecifier(specifier)
                         .build();
-                Logger.debug("FTP api29 network name: " + specifier);
+                Logger.debug("FTP API29: network name: " + specifier);
 
                 if (mConnectivityManager != null)
                     mConnectivityManager.requestNetwork(request, networkCallback);
