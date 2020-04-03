@@ -478,4 +478,5 @@
     <string name="something_goes_wrong">có gì đó không ổn</string>
     <string name="invalid_key">khóa api không hợp lệ</string>
     <string name="miss_notification_access">Vui lòng cấp quyền truy cập thông báo AmazMod để xử lý thông báo phù hợp</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
