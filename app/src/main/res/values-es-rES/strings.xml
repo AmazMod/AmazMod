@@ -483,4 +483,5 @@ seguir el tema de sistema (beta).</string>
     <string name="something_goes_wrong">Algo ha fallado</string>
     <string name="invalid_key">Clave API inválida</string>
     <string name="miss_notification_access">Para un funcionamiento correcto, concede a AmazMod el acceso a las notificaciones</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
