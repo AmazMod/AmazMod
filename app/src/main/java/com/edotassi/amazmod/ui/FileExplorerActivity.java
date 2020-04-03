@@ -923,6 +923,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                                         updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.device_connected), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
                                         ftpTransporter.send("enable_ftp");
                                     } else {
+                                        transferring = false;
                                         Logger.debug("WiFi connection to server could not be established.");
                                         ftpTransporter.send("disable_ap");
                                         updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
@@ -933,6 +934,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                                     }
                                 } catch (Exception e) {
                                     // failed, close wifi ap
+                                    transferring = false;
                                     Logger.debug("FTP: WiFi connection thread crashed: " + e.getMessage());
                                     ftpTransporter.send("disable_ap");
                                     updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
@@ -967,6 +969,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     Logger.debug("FTP: ftp_on_state_changed: "+ key_new_state);
 
                 // Close wifi ap
+                transferring = false;
                 ftpTransporter.send("disable_ap");
                 return;
             }
