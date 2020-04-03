@@ -701,7 +701,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             updateSnackBarOnUIthreat(getString(R.string.error), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
             return;
         }else if (!mWifiManager.isWifiEnabled()){
-            updateSnackBarOnUIthreat(getString(R.string.error), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
+            updateSnackBarOnUIthreat(getString(R.string.turn_on_wifi), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
             return;
             // Enabling wifi here doesn't work because wifi connects to the default network after requesting to connect to watch
             //wifiManualEnabled = true;
