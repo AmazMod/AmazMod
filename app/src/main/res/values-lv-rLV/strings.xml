@@ -485,4 +485,5 @@ follow the system theme (beta).</string>
     <string name="something_goes_wrong">something goes wrong</string>
     <string name="invalid_key">api key was invalid</string>
     <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
