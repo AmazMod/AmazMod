@@ -488,4 +488,5 @@ Urobte príkaz shell \"</string>
     <string name="something_goes_wrong">niečo sa pokazilo</string>
     <string name="invalid_key">kľúč Api bol neplatný</string>
     <string name="miss_notification_access">Za účelom správneho spracovania upozornení poskytnite prístup k oznámeniu AmazMod</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
