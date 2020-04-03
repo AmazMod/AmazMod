@@ -3,11 +3,12 @@
         date="Unreleased"
         versionCode="220"
         versionName="v1.1.9 (220)">
-        <new>New button on Tweaking menu about WiFi AP and FTP Server</new>
+        <new>New buttons on Tweaking menu about WiFi AP, FTP Server and local IP</new>
         <new>FTP WiFi file transfer!!(Beta)</new>
-        <bugfix>Fix Notification delay with GreatFit based watchface </bugfix>
-        <bugfix>Fix Notification counter</bugfix>
+        <bugfix>Fix Notification delay with GreatFit based watchface</bugfix>
+        <bugfix>Fixes for Notification counter</bugfix>
         <bugfix>Fix Custom UI Verge Sound Notification setting are lost</bugfix>
+        <bugfix>Code clean up and other small fixes</bugfix>
     </release>
     <release
         date="2020-02-20"
