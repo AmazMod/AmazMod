@@ -482,4 +482,5 @@
     <string name="something_goes_wrong">Κάτι πήγε στραβά</string>
     <string name="invalid_key">το κλειδί API δεν ήταν έγκυρο</string>
     <string name="miss_notification_access">Παρακαλώ χορηγήστε στην εφαρμογή AmazMod πρόσβαση στις ειδοποιήσεις για τη σωστή επεξεργασία των ειδοποιήσεων</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
