@@ -482,5 +482,5 @@ seguir el tema de sistema (beta).</string>
     <string name="install_ok">Iniciando instalación</string>
     <string name="something_goes_wrong">Algo ha fallado</string>
     <string name="invalid_key">Clave API inválida</string>
-    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
+    <string name="miss_notification_access">Para un funcionamiento correcto, concede a AmazMod el acceso a las notificaciones</string>
 </resources>

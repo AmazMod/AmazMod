@@ -430,15 +430,15 @@ het systeemthema (beta).</string>
     <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">Aftellen</string>
     <string name="widget_stopwatch">Stopwatch</string>
-    <string name="widget_music">Music Player</string>
+    <string name="widget_music">Muziekspeler</string>
     <string name="widget.sleep">Slaap</string>
     <string name="widget_calendar">Kalender</string>
-    <string name="widget_timeline">Timeline</string>
+    <string name="widget_timeline">Tijdlijn</string>
     <string name="widget_compass">Kompas</string>
-    <string name="widget_heart">Heart rate</string>
+    <string name="widget_heart">Hartslag</string>
     <string name="widget_find_phone">Vind mijn telefoon</string>
     <string name="widget_call">Bellen</string>
-    <string name="widget_activity">Activities</string>
+    <string name="widget_activity">Activiteiten</string>
     <string name="widget_weather">Weer</string>
     <string name="widget_alarm">Alarm</string>
     <string name="widget_exercise_state">Oefening Staat</string>
@@ -451,7 +451,7 @@ het systeemthema (beta).</string>
     <string name="widget_barometer">Barometer</string>
     <string name="widget_miui_unlock">MIUI ontgrendelen</string>
     <string name="widget_mi_box_remote">Mi TV Afstandbediening</string>
-    <string name="widget_mi_tv_remote">Mi TV Remote</string>
+    <string name="widget_mi_tv_remote">Mi TV Afstandbediening</string>
     <string name="widget_stress">Stress Niveau</string>
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Hoofdactiviteit</string>
@@ -481,5 +481,5 @@ het systeemthema (beta).</string>
     <string name="install_ok">installatie starten</string>
     <string name="something_goes_wrong">er gaat iets mis</string>
     <string name="invalid_key">api-sleutel is ongeldig</string>
-    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
+    <string name="miss_notification_access">Toegang verlenen aan AmazMod voor afhandelen van meldingen</string>
 </resources>
