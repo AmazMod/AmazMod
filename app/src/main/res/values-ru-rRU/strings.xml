@@ -487,4 +487,5 @@
     <string name="something_goes_wrong">что-то пошло не так</string>
     <string name="invalid_key">ключ API недействителен</string>
     <string name="miss_notification_access">Пожалуйста, предоставьте AmazMod доступ к уведомлениям для правильной обработки уведомлений</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
