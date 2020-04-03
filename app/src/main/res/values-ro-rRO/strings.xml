@@ -484,4 +484,5 @@
     <string name="something_goes_wrong">a apărut o problemă</string>
     <string name="invalid_key">cheia api a fost invalidă</string>
     <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
