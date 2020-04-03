@@ -489,4 +489,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="something_goes_wrong">něco se pokazilo</string>
     <string name="invalid_key">api klíč byl neplatný</string>
     <string name="miss_notification_access">Za účelem správného zpracování oznámení povolte AmazModu přístup k oznámením</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
