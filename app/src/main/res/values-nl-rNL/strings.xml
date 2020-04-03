@@ -482,4 +482,5 @@ het systeemthema (beta).</string>
     <string name="something_goes_wrong">er gaat iets mis</string>
     <string name="invalid_key">api-sleutel is ongeldig</string>
     <string name="miss_notification_access">Toegang verlenen aan AmazMod voor afhandelen van meldingen</string>
+    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
 </resources>
