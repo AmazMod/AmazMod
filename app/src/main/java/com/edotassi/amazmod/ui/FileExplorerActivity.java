@@ -152,6 +152,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     private boolean isFabOpen;
     private boolean transferring = false;
     private String localIP = "N/A";
+    String defaultFTPip = "192.168.43.1";
 
     public static boolean continueNotification;
 
@@ -975,7 +976,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 if (!localIP.equals("N/A")) {
                     ftpClient.connect(localIP, 5210);
                 } else {
-                    ftpClient.connect("192.168.43.1", 5210);
+                    ftpClient.connect(defaultFTPip, 5210);
                 }
                 ftpClient.login("anonymous", "");
 
@@ -1897,7 +1898,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     dataBundle.putString("key_ssid", SSID);
                     dataBundle.putString("key_pswd", pswd);
 
-                    if (!localIP.equals("N/A")) {
+                    if (!localIP.equals("N/A") && !localIP.equals(defaultFTPip)) {
                         ftpTransporter.send("enable_ftp");
                         Logger.debug("Watch IP found, you are connected on the same WiFi");
                         updateSnackBarOnUIthreat(getString(R.string.watch_same_wifi), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_CIRCULAR);
