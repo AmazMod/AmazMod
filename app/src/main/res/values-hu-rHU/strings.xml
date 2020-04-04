@@ -484,4 +484,5 @@ a rendszertéma követése helyett (beta).</string>
     <string name="something_goes_wrong">valami nem sikerült</string>
     <string name="invalid_key">az api kulcs érvénytelen</string>
     <string name="miss_notification_access">Add meg az AmazMod értesítési hozzáférését a megfelelő értesítések kezeléséhez</string>
+    <string name="turn_on_wifi">Be kell kapcsolnod a WiFi-t</string>
 </resources>

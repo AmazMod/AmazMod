@@ -482,4 +482,5 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="something_goes_wrong">Ein Problem ist aufgetreten</string>
     <string name="invalid_key">API-Schlüssel ungültig</string>
     <string name="miss_notification_access">Bitte geben Sie AmazMod für die bessere Handhabung von Benachrichtigungen die Berichtigung auf Benachrichtigung zuzugreifen</string>
+    <string name="turn_on_wifi">Du musst WLAN auf dem Telefon einschalten</string>
 </resources>
