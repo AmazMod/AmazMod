@@ -47,6 +47,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
 import com.edotassi.amazmod.event.Directory;
+import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.support.DownloadHelper;
@@ -150,6 +151,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     private long currentTime, lastUpdate;
     private boolean isFabOpen;
     private boolean transferring = false;
+    private String localIP = "N/A";
 
     public static boolean continueNotification;
 
@@ -697,10 +699,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     private void uploadFTPFiles(final ArrayList<File> files, final String uploadPath) {
         wifiManualEnabled = false;
         mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (mWifiManager == null){
+        if (mWifiManager == null) {
             updateSnackBarOnUIthreat(getString(R.string.error), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
             return;
-        }else if (!mWifiManager.isWifiEnabled()){
+        } else if (!mWifiManager.isWifiEnabled()) {
             updateSnackBarOnUIthreat(getString(R.string.turn_on_wifi), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
             return;
             // Enabling wifi here doesn't work because wifi connects to the default network after requesting to connect to watch
@@ -727,28 +729,17 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             return;
         }
 
-        FTP_destPath = uploadPath+"/"; //+ FTP_file.getName();
+        FTP_destPath = uploadPath + "/"; //+ FTP_file.getName();
         //FTP_file_size = FTP_file.length();
 
         createNotification(getString(R.string.watch_connecting) + ", " + getString(R.string.wait), "\"" + FTP_file.getName() + "\"", R.drawable.ic_wifi_tethering_white_24dp, false);
 
         updateSnackBarOnUIthreat(getString(R.string.watch_connecting), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_CIRCULAR);
 
-        if(ftpTransporter.isTransportServiceConnected()){
-            Logger.debug("FTP: sending enable_ap action.");
-            ftpTransporter.send("start_service");
+        //Choose how to sent file an go on...
+        getTransferringMethod();
+        updateSnackBarOnUIthreat(getString(R.string.wifi_transfer_method), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_CIRCULAR);
 
-            DataBundle dataBundle = new DataBundle();
-            dataBundle.putInt("key_keymgmt", 4); // WPA2
-            dataBundle.putString("key_ssid", SSID);
-            dataBundle.putString("key_pswd", pswd);
-            // Enable watch WiFi AP
-            ftpTransporter.send("enable_ap", dataBundle);
-        }else{
-            Logger.debug("FTP: transporter is not connected.");
-            transferring = false;
-            updateSnackBarOnUIthreat(getString(R.string.cant_upload_file), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
-        }
     }
 
 
@@ -982,7 +973,11 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             int successful = 0;
             int total_files = FTP_files.size();
             try {
-                ftpClient.connect("192.168.43.1", 5210);
+                if (!localIP.equals("N/A")) {
+                    ftpClient.connect(localIP, 5210);
+                } else {
+                    ftpClient.connect("192.168.43.1", 5210);
+                }
                 ftpClient.login("anonymous", "");
 
                 // After connection attempt, you should check the reply code to verify success.
@@ -1872,5 +1867,52 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             SnackProgressBar snackbar = new SnackProgressBar(SnackProgressBar.TYPE_HORIZONTAL, getString(R.string.shell_command_failed));
             snackProgressBarManager.show(snackbar, SnackProgressBarManager.LENGTH_SHORT);
         }
+    }
+
+    public void getTransferringMethod() {
+        // Get watch's local IP and choose transferring method to use
+        Watch.get().sendSimpleData(Transport.LOCAL_IP, null).continueWith(new Continuation<OtherData, Object>() {
+            @Override
+            public Object then(@NonNull Task<OtherData> task) {
+                if (task.isSuccessful()) {
+                    OtherData returnedData = task.getResult();
+                    try {
+                        if (returnedData == null)
+                            throw new NullPointerException("Returned data are null");
+
+                        DataBundle otherData = returnedData.getOtherData();
+                        localIP = otherData.getString("ip");
+
+                    } catch (Exception e) {
+                        Logger.debug("failed reading IP data: " + e);
+                    }
+                }
+                if (ftpTransporter.isTransportServiceConnected()) {
+                    Logger.debug("FTP: sending enable_ap action.");
+                    ftpTransporter.send("start_service");
+
+                    DataBundle dataBundle = new DataBundle();
+                    dataBundle.putInt("key_keymgmt", 4); // WPA2
+                    dataBundle.putString("key_ssid", SSID);
+                    dataBundle.putString("key_pswd", pswd);
+
+                    if (!localIP.equals("N/A")) {
+                        ftpTransporter.send("enable_ftp");
+                        Logger.debug("Watch IP found, you are connected on the same WiFi");
+                        updateSnackBarOnUIthreat(getString(R.string.watch_same_wifi), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_CIRCULAR);
+                    } else {
+                        // Enable watch WiFi AP
+                        ftpTransporter.send("enable_ap", dataBundle);
+                        Logger.debug("Watch IP in empty, so will go with WiFi AP");
+                        updateSnackBarOnUIthreat(getString(R.string.watch_empty_ip), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_CIRCULAR);
+                    }
+                } else {
+                    Logger.debug("FTP: transporter is not connected.");
+                    transferring = false;
+                    updateSnackBarOnUIthreat(getString(R.string.cant_upload_file), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
+                }
+                return null;
+            }
+        });
     }
 }
