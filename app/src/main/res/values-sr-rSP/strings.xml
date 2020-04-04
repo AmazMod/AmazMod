@@ -485,5 +485,5 @@ follow the system theme (beta).</string>
     <string name="something_goes_wrong">нешто је погрешно</string>
     <string name="invalid_key">api кључ је неважећи</string>
     <string name="miss_notification_access">Молимо дозволите AmazMod приступ обавештењима за правилно поступање са нотификацијама</string>
-    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
+    <string name="turn_on_wifi">Потребно је да укључите WiFi на телефону</string>
 </resources>
