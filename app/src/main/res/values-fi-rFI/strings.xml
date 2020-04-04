@@ -481,5 +481,5 @@
     <string name="something_goes_wrong">jokin meni pieleen</string>
     <string name="invalid_key">api key was invalid</string>
     <string name="miss_notification_access">Myöntäkää AmazModille pääsy ilmoituksiin, taataksesi ilmoitusten toimivuus</string>
-    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
+    <string name="turn_on_wifi">Sinun täytyy kytkeä puhelimen WiFi päälle</string>
 </resources>
