@@ -482,4 +482,5 @@ seguire il tema di sistema (beta).</string>
     <string name="something_goes_wrong">qualcosa è andato storto</string>
     <string name="invalid_key">chiave api non valida</string>
     <string name="miss_notification_access">Concedi l\'accesso alle notifiche ad AmazMod per fagli gestire correttamente le notifiche</string>
+    <string name="turn_on_wifi">È necessario attivare il WiFi del telefono</string>
 </resources>

@@ -487,4 +487,5 @@
     <string name="something_goes_wrong">משהו השתבש</string>
     <string name="invalid_key">מפתח הAPI לא תקין</string>
     <string name="miss_notification_access">אנא אפשרו לAmazMod גישה להתראות לתפעול נכון בהתראות</string>
+    <string name="turn_on_wifi">יש להפעיל את הWiFi במכשיר הסלולרי</string>
 </resources>
