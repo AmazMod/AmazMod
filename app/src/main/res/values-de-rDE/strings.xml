@@ -483,4 +483,7 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="invalid_key">API-Schlüssel ungültig</string>
     <string name="miss_notification_access">Bitte geben Sie AmazMod für die bessere Handhabung von Benachrichtigungen die Berichtigung auf Benachrichtigung zuzugreifen</string>
     <string name="turn_on_wifi">Du musst WLAN auf dem Telefon einschalten</string>
+    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
+    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
+    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
 </resources>
