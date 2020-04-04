@@ -701,7 +701,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             updateSnackBarOnUIthreat(getString(R.string.error), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
             return;
         }else if (!mWifiManager.isWifiEnabled()){
-            updateSnackBarOnUIthreat(getString(R.string.error), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
+            updateSnackBarOnUIthreat(getString(R.string.turn_on_wifi), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
             return;
             // Enabling wifi here doesn't work because wifi connects to the default network after requesting to connect to watch
             //wifiManualEnabled = true;
@@ -816,22 +816,24 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 /*
                 //Should help to connect to wifi without needed to confirm manually
                 WifiNetworkSuggestion.Builder wc = new WifiNetworkSuggestion.Builder();
-                wc.setSsid("\"" + SSID + "\"");
-                wc.setWpa2Passphrase("\"" + pswd + "\"");
-                wc.setIsAppInteractionRequired(false);
+                wc.setSsid(SSID);
+                wc.setWpa2Passphrase(pswd);
+                wc.setIsAppInteractionRequired(true);
                 wc.setIsUserInteractionRequired(false);
+                wc.setPriority(100);
                 WifiNetworkSuggestion suggestion = wc.build();
-                ArrayList<WifiNetworkSuggestion> list = new ArrayList<>();
+                mWifiManager.removeNetworkSuggestions(new ArrayList<WifiNetworkSuggestion>());
+                List<WifiNetworkSuggestion> list = new ArrayList<>();
                 list.add(suggestion);
-
                 if (mWifiManager != null)
                     netId = mWifiManager.addNetworkSuggestions(list);
 
 				if (netId != WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS){
                     Logger.debug("FTP API29: watch's WiFi AP not found.");
                     transferring = false;
-                    ftpTransporter.send("disable_ap");
                     updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                    updateSnackBarOnUIthreat(getString(R.string.cant_upload_file), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
+                    ftpTransporter.send("disable_ap");
                     snackProgressBarManager.dismissAll();
 					return;
 				}
@@ -839,37 +841,35 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
                     //Wait for post connection broadcast to one of your suggestions)
                     IntentFilter intentFilter = new IntentFilter();
-                intentFilter.addAction(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION);
                     intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
                     intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
                     intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-                    intentFilter.addAction(WifiManager.EXTRA_WIFI_STATE);
+                    intentFilter.addAction(WifiManager.EXTRA_NETWORK_INFO);
+                    intentFilter.addAction(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION);
 
                     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
                         @Override
                         public void onReceive(Context context, Intent intent) {
-                            Logger.debug("FTP API29: WiFi connection action: "+intent.getAction());
-                            if (!Objects.requireNonNull(intent.getAction()).equals(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION)) {
+                            String action = intent.getAction();
+                            Logger.debug("FTP API29: WiFi connection action: "+ action);
+                            if (!action.equals(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION)) {
                                 Logger.debug("FTP API29: WiFi connection not established established yet.");
                                 return;
                             }
                             Logger.debug("FTP API29: WiFi connection established. Sending command to enable FTP.");
+                            updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.device_connected), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
                             ftpTransporter.send("enable_ftp");
                         }
                     };
                     getApplicationContext().registerReceiver(broadcastReceiver, intentFilter);
                  */
-
-                // Open Wifi setting to enable it
-                //Intent turnWifiOn = new Intent(Settings.ACTION_WIFI_SETTINGS);
-                //startActivity(turnWifiOn);
-
                 NetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
                         .setSsid(SSID)
                         .setWpa2Passphrase(pswd)
                         .build();
                 NetworkRequest request = new NetworkRequest.Builder()
                         .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                        .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                         .setNetworkSpecifier(specifier)
                         .build();
                 Logger.debug("FTP API29: network name: " + specifier);
@@ -923,6 +923,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                                         updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.device_connected), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
                                         ftpTransporter.send("enable_ftp");
                                     } else {
+                                        transferring = false;
                                         Logger.debug("WiFi connection to server could not be established.");
                                         ftpTransporter.send("disable_ap");
                                         updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
@@ -933,6 +934,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                                     }
                                 } catch (Exception e) {
                                     // failed, close wifi ap
+                                    transferring = false;
                                     Logger.debug("FTP: WiFi connection thread crashed: " + e.getMessage());
                                     ftpTransporter.send("disable_ap");
                                     updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
@@ -967,6 +969,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     Logger.debug("FTP: ftp_on_state_changed: "+ key_new_state);
 
                 // Close wifi ap
+                transferring = false;
                 ftpTransporter.send("disable_ap");
                 return;
             }

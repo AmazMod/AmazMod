@@ -214,7 +214,8 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onWatchStatus(WatchStatus watchStatus) {
         WatchStatusData watchStatusData = watchStatus.getWatchStatusData();
 
-        amazModService.setText(watchStatusData.getAmazModServiceVersion());
+        String amazModServiceVersion = watchStatusData.getAmazModServiceVersion() + ((watchStatusData.getRooted()==1)?" (rooted)":"");
+        amazModService.setText(amazModServiceVersion);
         productModel.setText(watchStatusData.getRoProductModel());
         productName.setText(watchStatusData.getRoProductName());
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
@@ -245,7 +246,7 @@ public class WatchInfoFragment extends Card implements Updater {
             e.printStackTrace();
         }
 
-        // Hourly Chime
+        // Hourly Chime (update if changed from watch menu)
         boolean hourlychime = (watchStatusData.getHourlyChime()>0); // 0 = off, 1 = on
         Prefs.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, hourlychime);
         Logger.debug("WatchInfoFragment WatchData HOURLY_CHIME: " + hourlychime);

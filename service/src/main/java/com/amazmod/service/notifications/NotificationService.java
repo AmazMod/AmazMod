@@ -66,16 +66,27 @@ public class NotificationService {
     }
 
     public void post(final NotificationData notificationSpec) {
-
-        if (DeviceUtil.isDNDActive(context))
+        // Check if DND
+        if (DeviceUtil.isDNDActive(context)){
+            Logger.debug("NotificationService DND is on, notification not shown.");
+            // Todo: Save notification if custom UI (move the DND check before "Handles test notifications")
+            // current problem is that app crashes when you try to load notification list (at NotificationListAdapter.java:38,
+            // error: android.view.InflateException: Binary XML file line #35: Error inflating class androidx.emoji.widget.EmojiTextView
+            // related to row_notification.xml
+            /*
+            if ((enableCustomUI || forceCustom))
+                NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
+            */
             return;
+        }
 
+        // Load notification settings
         boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
-
         boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
+        // Load notification parameters
         boolean forceCustom = notificationSpec.getForceCustom();
         boolean hideReplies = notificationSpec.getHideReplies();
 
@@ -84,9 +95,10 @@ public class NotificationService {
 
         final String key = notificationSpec.getKey();
         final String notificationStoreKey = key + "|" + String.valueOf(System.currentTimeMillis());
-
         Logger.debug("NotificationService notificationSpec.getKey(): " + key);
-        //Handles test notifications
+
+
+        // Handles test notifications
         if (key.contains("amazmod|test|99")) {
             if (notificationSpec.getText().equals("Test Notification")) {
                 if (forceCustom) {

@@ -484,5 +484,5 @@ follow the system theme (beta).</string>
     <string name="install_ok">инсталација почиње</string>
     <string name="something_goes_wrong">нешто је погрешно</string>
     <string name="invalid_key">api кључ је неважећи</string>
-    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
+    <string name="miss_notification_access">Молимо дозволите AmazMod приступ обавештењима за правилно поступање са нотификацијама</string>
 </resources>

@@ -1,5 +1,17 @@
 <changelog>
     <release
+        date="Unreleased"
+        versionCode="220"
+        versionName="v1.1.9 (220)">
+        <new>New buttons on Tweaking menu about WiFi AP, FTP Server and local IP</new>
+        <new>FTP WiFi file transfer!!(Beta)</new>
+        <new>Watch root status in main screen (next Amazmod service version)</new>
+        <bugfix>Fix Notification delay with GreatFit based watchface</bugfix>
+        <bugfix>Fixes for Notification counter</bugfix>
+        <bugfix>Fix Custom UI Verge Sound Notification setting are lost</bugfix>
+        <bugfix>Code clean up and other small fixes</bugfix>
+    </release>
+    <release
         date="2020-02-20"
         versionCode="220"
         versionName="v1.1.9 (220)">
@@ -65,7 +77,7 @@
         date="2019-04-23"
         versionCode="212"
         versionName="v1.1.6 (212)">
-        <new>Faster app installation now is work for NON root user too! (PS amazmod update will be fast from the next update too)</new>
+        <new>Faster app installation now is work for NON root user too! (PS Amazmod update will be fast from the next update too)</new>
         <new>Heart-rate graph added (phone app)</new>
         <new>Screenshots are auto rotated for Verge</new>
         <new>Watch's screen is unlocked before a screenshot</new>
