@@ -483,4 +483,7 @@ seguire il tema di sistema (beta).</string>
     <string name="invalid_key">chiave api non valida</string>
     <string name="miss_notification_access">Concedi l\'accesso alle notifiche ad AmazMod per fagli gestire correttamente le notifiche</string>
     <string name="turn_on_wifi">È necessario attivare il WiFi del telefono</string>
+    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
+    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
+    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
 </resources>
