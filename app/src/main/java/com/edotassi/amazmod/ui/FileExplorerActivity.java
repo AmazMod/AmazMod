@@ -860,7 +860,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                         .build();
                 NetworkRequest request = new NetworkRequest.Builder()
                         .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                        .removeCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
                         .setNetworkSpecifier(specifier)
                         .build();
                 Logger.debug("FTP API29: network name: " + specifier);
@@ -1874,6 +1873,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
         Watch.get().sendSimpleData(Transport.LOCAL_IP, null).continueWith(new Continuation<OtherData, Object>() {
             @Override
             public Object then(@NonNull Task<OtherData> task) {
+                localIP = "N/A";
                 if (task.isSuccessful()) {
                     OtherData returnedData = task.getResult();
                     try {
@@ -1882,6 +1882,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
                         DataBundle otherData = returnedData.getOtherData();
                         localIP = otherData.getString("ip");
+                        Logger.debug("Watch IP is: " + localIP);
 
                     } catch (Exception e) {
                         Logger.debug("failed reading IP data: " + e);
