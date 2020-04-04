@@ -488,7 +488,7 @@
     <string name="invalid_key">ключ API недействителен</string>
     <string name="miss_notification_access">Пожалуйста, предоставьте AmazMod доступ к уведомлениям для правильной обработки уведомлений</string>
     <string name="turn_on_wifi">Вам нужно включить WiFi телефона</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
-    <string name="watch_same_wifi">IP часов обнаружен, вы подключены к той же сети WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="watch_empty_ip">IP-адрес часов пуст, поэтому будет использоваться точка доступа WiFi</string>
+    <string name="watch_same_wifi">IP-адрес часов обнаружен, вы подключены к той же сети WiFi</string>
+    <string name="wifi_transfer_method">Выбор способа передачи WiFi</string>
 </resources>
