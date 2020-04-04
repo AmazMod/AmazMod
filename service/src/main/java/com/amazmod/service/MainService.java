@@ -1073,6 +1073,9 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
 
+        // Check if rooted
+        watchStatusData.setRooted((new File("/system/xbin/su").exists())?1:0);
+
         // Get last heart rates
         final boolean isHeartrateData = settingsManager.getBoolean(Constants.PREF_HEARTRATE_DATA, true);
         if (isHeartrateData) {
@@ -1100,7 +1103,7 @@ public class MainService extends Service implements Transporter.DataListener {
         // Get hourly chime status
         settings.reload();
         boolean isHourlyChime = settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false);
-        Logger.debug("Sync hourly chime to tranport : " + isHourlyChime);
+        Logger.debug("Sync hourly chime to transport : " + isHourlyChime);
         watchStatusData.setHourlyChime(isHourlyChime?1:0); // 1 = on, 0 = off
 
         // Send transmit
