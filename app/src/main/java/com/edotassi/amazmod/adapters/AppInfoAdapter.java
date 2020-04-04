@@ -94,7 +94,6 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         @OnCheckedChanged(R.id.row_appinfo_switch)
         void onSwitchChanged(Switch switchWidget, boolean checked) {
             if (checked != appInfo.isEnabled()) {
-                SilenceApplicationHelper.setPackageEnabled(appInfo.getPackageName(), checked);
                 appInfo.setEnabled(checked);
                 appInfoBridge.onAppInfoStatusChange();
                 appInfoButton.setEnabled(checked);

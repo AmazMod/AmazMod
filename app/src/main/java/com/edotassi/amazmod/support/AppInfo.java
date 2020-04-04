@@ -48,6 +48,7 @@ public class AppInfo {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+        SilenceApplicationHelper.setPackageEnabled(getPackageName(), enabled);
     }
 
 
