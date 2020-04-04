@@ -488,4 +488,7 @@
     <string name="invalid_key">מפתח הAPI לא תקין</string>
     <string name="miss_notification_access">אנא אפשרו לAmazMod גישה להתראות לתפעול נכון בהתראות</string>
     <string name="turn_on_wifi">יש להפעיל את הWiFi במכשיר הסלולרי</string>
+    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
+    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
+    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
 </resources>
