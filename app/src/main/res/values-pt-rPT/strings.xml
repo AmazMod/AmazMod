@@ -483,4 +483,7 @@
     <string name="invalid_key">chave da api era inválida</string>
     <string name="miss_notification_access">Por favor, conceda o acesso a notificações da AmazMod para uma correta gestão das notificações</string>
     <string name="turn_on_wifi">Necessário ativar o Wi-Fi do telefone</string>
+    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
+    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
+    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
 </resources>
