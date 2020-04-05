@@ -1874,7 +1874,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
         Watch.get().sendSimpleData(Transport.LOCAL_IP, null).continueWith(new Continuation<OtherData, Object>() {
             @Override
             public Object then(@NonNull Task<OtherData> task) {
-                localIP = "N/A";
                 if (task.isSuccessful()) {
                     OtherData returnedData = task.getResult();
                     try {
@@ -1888,6 +1887,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     } catch (Exception e) {
                         Logger.debug("failed reading IP data: " + e);
                     }
+                } else {
+                    localIP = "N/A";
                 }
                 if (ftpTransporter.isTransportServiceConnected()) {
                     Logger.debug("FTP: sending enable_ap action.");
