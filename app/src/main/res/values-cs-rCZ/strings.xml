@@ -490,4 +490,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="invalid_key">api klíč byl neplatný</string>
     <string name="miss_notification_access">Za účelem správného zpracování oznámení povolte AmazModu přístup k oznámením</string>
     <string name="turn_on_wifi">Musíte v telefonu zapnout Wi-Fi</string>
+    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
+    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
+    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
 </resources>
