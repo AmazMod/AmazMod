@@ -479,7 +479,7 @@
     <string name="invalid_key">khóa api không hợp lệ</string>
     <string name="miss_notification_access">Vui lòng cấp quyền truy cập thông báo AmazMod để xử lý thông báo phù hợp</string>
     <string name="turn_on_wifi">Bạn cần phải bật Wifi</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
-    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="watch_empty_ip">Xem IP trống, vì vậy sẽ đi với WiFi AP</string>
+    <string name="watch_same_wifi">Xem IP được tìm thấy, bạn được kết nối trên cùng một WiFi</string>
+    <string name="wifi_transfer_method">Chọn phương thức truyền WiFi để sử dụng</string>
 </resources>
