@@ -4,10 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -162,21 +164,24 @@ public class MainActivity extends BaseAppCompatActivity
                 else
                     message = getString(R.string.remove).toUpperCase();
                 snackbar.setAction(message, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                /* intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS); *** This will cause ban from PlayStore! ***
-                                intent.setData(Uri.parse("package:" + packageName));                       *** and it doesn't work with some Samsung phones ***/
-                                    intent.setAction(android.provider.Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-                                    startActivity(intent);
-                                } catch (Exception ex) {
-                                    Logger.error(ex, "MainActivity ignore battery optimization manufacturer: {} exception: {}", Build.MANUFACTURER, ex.getMessage());
-                                }
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            String action = Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS;
+                            if (!"samsung".equals(Build.MANUFACTURER.toLowerCase())) {
+                                action = Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS;
+                                intent.setData(Uri.parse("package:" + packageName));
                             }
-                        });
+                            intent.setAction(action);
+                            startActivity(intent);
+                        } catch (Exception ex) {
+                            Logger.error(ex, "MainActivity ignore battery optimization manufacturer: {} exception: {}", Build.MANUFACTURER, ex.getMessage());
+                        }
+                    }
+                });
 
                 View snackbarView = snackbar.getView();
-                TextView tv= (TextView) snackbarView.findViewById(R.id.snackbar_text);
+                TextView tv = (TextView) snackbarView.findViewById(R.id.snackbar_text);
                 tv.setMaxLines(5);
                 snackbar.show();
             }
@@ -192,7 +197,7 @@ public class MainActivity extends BaseAppCompatActivity
                 .getBoolean(Constants.PREF_BATTERY_CHART, Constants.PREF_DEFAULT_BATTERY_CHART);
         boolean showHeartRateChart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_HEARTRATE_CHART, Constants.PREF_DEFAULT_HEARTRATE_CHART);
-        boolean showWeatherCard = ( PreferenceManager.getDefaultSharedPreferences(this)
+        boolean showWeatherCard = (PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA) &&
                 !PreferenceManager.getDefaultSharedPreferences(this)
                         .getString(Constants.PREF_WEATHER_LAST_DATA, "").isEmpty());
@@ -233,6 +238,19 @@ public class MainActivity extends BaseAppCompatActivity
     public void onResume() {
         super.onResume();
         Logger.debug("MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        Snackbar snackbar = Snackbar
+                .make(drawer, "Donate ??", Snackbar.LENGTH_LONG);
+        snackbar.setAction("DONATE", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent c = new Intent(MainActivity.this, DonationActivity.class);
+                c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(c);
+            }
+        });
+        snackbar.show();
     }
 
     @Override
@@ -363,7 +381,7 @@ public class MainActivity extends BaseAppCompatActivity
                 .buildAndShowDialog(this, isDarkTheme);
     }
 
-    private void isSystemThemeDark () {
+    private void isSystemThemeDark() {
         switch (getResources().getConfiguration().uiMode & android.content.res.Configuration.UI_MODE_NIGHT_MASK) {
             case android.content.res.Configuration.UI_MODE_NIGHT_YES:
                 systemThemeIsDark = true;

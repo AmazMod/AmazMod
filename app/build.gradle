@@ -9,8 +9,8 @@ android {
         applicationId 'com.edotassi.amazmod'
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 220
-        versionName "1.1.9"
+        versionCode 222
+        versionName "1.1.10"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         if (branch == "dev") {
@@ -53,7 +53,7 @@ android {
                     newApkName = "$baseName-$buildType" + ".apk"
                 }
             } else {
-                newApkName =  "$baseName-$buildType-$branch-$versionCode-$formattedDate" + ".apk"
+                newApkName = "$baseName-$buildType-$branch-$versionCode-$formattedDate" + ".apk"
             }
 
             outputFileName = new File(newApkName)
@@ -119,6 +119,7 @@ dependencies {
     implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
     implementation 'com.android.volley:volley:1.1.0'
     implementation 'commons-net:commons-net:3.6'
+    implementation 'com.android.billingclient:billing:2.1.0'
 }
 
 configurations.all {
