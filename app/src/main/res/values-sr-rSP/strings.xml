@@ -486,7 +486,7 @@ follow the system theme (beta).</string>
     <string name="invalid_key">api кључ је неважећи</string>
     <string name="miss_notification_access">Молимо дозволите AmazMod приступ обавештењима за правилно поступање са нотификацијама</string>
     <string name="turn_on_wifi">Потребно је да укључите WiFi на телефону</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
-    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
+    <string name="watch_empty_ip">IP адреса сата је празна, тако да ће ићи са WiFi AP</string>
+    <string name="watch_same_wifi">IP адреса сата је пронађена, повезани сте на исти WiFi</string>
     <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
 </resources>
