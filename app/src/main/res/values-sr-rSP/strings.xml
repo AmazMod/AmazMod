@@ -488,5 +488,5 @@ follow the system theme (beta).</string>
     <string name="turn_on_wifi">Потребно је да укључите WiFi на телефону</string>
     <string name="watch_empty_ip">IP адреса сата је празна, тако да ће ићи са WiFi AP</string>
     <string name="watch_same_wifi">IP адреса сата је пронађена, повезани сте на исти WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="wifi_transfer_method">Избор WiFi метод преноса користити</string>
 </resources>
