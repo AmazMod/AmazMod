@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,20 +30,29 @@ import org.tinylog.Logger;
 import java.util.Arrays;
 import java.util.List;
 
-public class DonationActivity extends AppCompatActivity implements PurchasesUpdatedListener {
+public class DonationActivity extends BaseAppCompatActivity implements PurchasesUpdatedListener {
 
     BillingClient billingClient;
     Button loadProductButton;
     RecyclerView recyclerViewProducts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setTitle(R.string.support_us);
+        } catch (NullPointerException exception) {
+            Logger.error(exception, "AboutActivity onCreate exception: {}", exception.getMessage());
+        }
+
         setContentView(R.layout.activity_donation);
-        
+
         setupBillingClient();
 
-        loadProductButton = (Button)findViewById(R.id.donation_actibity_btnload);
-        recyclerViewProducts = (RecyclerView)findViewById(R.id.donation_activity_products);
+        loadProductButton = (Button) findViewById(R.id.donation_actibity_btnload);
+        recyclerViewProducts = (RecyclerView) findViewById(R.id.donation_activity_products);
 
         recyclerViewProducts.setHasFixedSize(true);
         recyclerViewProducts.setLayoutManager(new LinearLayoutManager(this));
@@ -50,31 +60,41 @@ public class DonationActivity extends AppCompatActivity implements PurchasesUpda
         loadProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (billingClient.isReady()) {
-                    SkuDetailsParams params = SkuDetailsParams.newBuilder()
-                            .setSkusList(Arrays.asList("coffee","beer","donors","hall_of_fame"))
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(params, new SkuDetailsResponseListener() {
-                        @Override
-                        public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> list) {
-                            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
-                                loadProductToRecyclerView(list);
-                            }else{
-                                Toast.makeText(DonationActivity.this, "Cannot query available products!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }else{
-                    Toast.makeText(DonationActivity.this, "Billing client not ready!!", Toast.LENGTH_SHORT).show();
-                }
+                loadSkuDetails();
             }
         });
 
     }
 
+    private void loadSkuDetails() {
+        if (billingClient.isReady()) {
+            SkuDetailsParams params = SkuDetailsParams.newBuilder()
+                    .setSkusList(Arrays.asList("coffee", "beer", "donors", "hall_of_fame"))
+                    .setType(BillingClient.SkuType.INAPP)
+                    .build();
+            billingClient.querySkuDetailsAsync(params, new SkuDetailsResponseListener() {
+                @Override
+                public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> list) {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        loadProductToRecyclerView(list);
+                    } else {
+                        Toast.makeText(DonationActivity.this, "Cannot query available products!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            Toast.makeText(DonationActivity.this, "Billing client not ready!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+
     private void loadProductToRecyclerView(List<SkuDetails> list) {
-        DonateProductsAdapter adapter = new DonateProductsAdapter(this,list,billingClient);
+        DonateProductsAdapter adapter = new DonateProductsAdapter(this, list, billingClient);
         recyclerViewProducts.setAdapter(adapter);
     }
 
@@ -83,9 +103,10 @@ public class DonationActivity extends AppCompatActivity implements PurchasesUpda
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK){
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     Toast.makeText(DonationActivity.this, "Success to connect Billing", Toast.LENGTH_SHORT).show();
-                }else{
+                    loadSkuDetails();
+                } else {
                     Toast.makeText(DonationActivity.this, "Failed to connect to Billing. Error " + billingResult.getResponseCode(), Toast.LENGTH_SHORT).show();
                     Logger.debug("Failed to connect to billing. Error " + billingResult.getResponseCode() + " : " + billingResult.getDebugMessage());
                 }
@@ -102,7 +123,7 @@ public class DonationActivity extends AppCompatActivity implements PurchasesUpda
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> list) {
         //Here, if user Taps BUY, we get the data
         int items = 0;
-        if (list != null){
+        if (list != null) {
             items = list.size();
         }
         Toast.makeText(this, "Purchased " + items + " item(s)", Toast.LENGTH_SHORT).show();

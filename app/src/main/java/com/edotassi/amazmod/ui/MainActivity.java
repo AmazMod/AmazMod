@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -39,7 +38,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
-import com.pixplicity.easyprefs.library.Prefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -293,65 +291,70 @@ public class MainActivity extends BaseAppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
+        Intent intent;
         switch (item.getItemId()) {
             case R.id.nav_settings:
-                Intent a = new Intent(this, SettingsActivity.class);
-                a.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(a);
+                intent = new Intent(this, SettingsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 if (getIntent().getBooleanExtra("REFRESH", true)) {
                     recreate();
                     getIntent().putExtra("REFRESH", false);
                 }
-                return true;
+                break;
 
             case R.id.nav_faq:
-                Intent faqIntent = new Intent(this, FaqActivity.class);
-                faqIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(faqIntent);
-                return true;
+                intent = new Intent(this, FaqActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
 
-            case R.id.nav_abount:
-                Intent b = new Intent(this, AboutActivity.class);
-                b.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(b);
-                return true;
+            case R.id.nav_about:
+                intent = new Intent(this, AboutActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
 
             case R.id.nav_tweaking:
                 Intent c = new Intent(this, TweakingActivity.class);
                 c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(c);
-                return true;
+                break;
 
             case R.id.nav_file_explorer:
-                Intent fileExplorerIntent = new Intent(this, FileExplorerActivity.class);
-                fileExplorerIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(fileExplorerIntent);
-                return true;
+                intent = new Intent(this, FileExplorerActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
 
             case R.id.nav_watchface:
-                Intent e = new Intent(this, WatchfaceActivity.class);
-                e.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(e);
-                return true;
+                intent = new Intent(this, WatchfaceActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
 
             case R.id.nav_widgets:
-                Intent f = new Intent(this, WidgetsActivity.class);
-                f.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(f);
-                return true;
+                intent = new Intent(this, WidgetsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
 
             case R.id.nav_stats:
-                Intent d = new Intent(this, StatsActivity.class);
-                d.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(d);
-                return true;
+                intent = new Intent(this, StatsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
 
             case R.id.nav_changelog:
                 showChangelog(false);
-                return true;
-        }
+                break;
 
+            case R.id.nav_support_us:
+                intent = new Intent(MainActivity.this, DonationActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                break;
+        }
         return true;
     }
 

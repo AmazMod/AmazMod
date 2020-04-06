@@ -485,4 +485,5 @@ follow the system theme (beta).</string>
     <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
     <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
     <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="support_us">Support us</string>
 </resources>
