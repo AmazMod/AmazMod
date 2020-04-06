@@ -42,6 +42,7 @@ public class DonateProductsAdapter extends RecyclerView.Adapter<DonateProductsAd
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.textProductName.setText(skuDetailsList.get(position).getTitle());
         holder.textProductDescription.setText(skuDetailsList.get(position).getDescription());
+        holder.textProductPrice.setText(skuDetailsList.get(position).getPrice());
 
         holder.setiDonateProductClickListener(new IDonateProductClickListener() {
             @Override
@@ -63,7 +64,7 @@ public class DonateProductsAdapter extends RecyclerView.Adapter<DonateProductsAd
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textProductName;
         TextView textProductDescription;
-        Button donateButton;
+        TextView textProductPrice;
 
         IDonateProductClickListener iDonateProductClickListener;
 
@@ -75,7 +76,7 @@ public class DonateProductsAdapter extends RecyclerView.Adapter<DonateProductsAd
             super(itemView);
             textProductName = (TextView)itemView.findViewById(R.id.row_donate_product_name);
             textProductDescription = (TextView)itemView.findViewById(R.id.row_donate_product_description);
-            donateButton = (Button)itemView.findViewById(R.id.row_donate_button);
+            textProductPrice = (TextView)itemView.findViewById(R.id.row_donate_product_price);
             itemView.setOnClickListener(this);
         }
 

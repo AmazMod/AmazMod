@@ -52,7 +52,7 @@ public class DonationActivity extends AppCompatActivity implements PurchasesUpda
             public void onClick(View v) {
                 if (billingClient.isReady()) {
                     SkuDetailsParams params = SkuDetailsParams.newBuilder()
-                            .setSkusList(Arrays.asList("coffee","beer"))
+                            .setSkusList(Arrays.asList("coffee","beer","donors","hall_of_fame"))
                             .setType(BillingClient.SkuType.INAPP)
                             .build();
                     billingClient.querySkuDetailsAsync(params, new SkuDetailsResponseListener() {
