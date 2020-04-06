@@ -52,7 +52,7 @@ public class DonationActivity extends AppCompatActivity implements PurchasesUpda
             public void onClick(View v) {
                 if (billingClient.isReady()) {
                     SkuDetailsParams params = SkuDetailsParams.newBuilder()
-                            .setSkusList(Arrays.asList("coffee"))
+                            .setSkusList(Arrays.asList("coffee","beer"))
                             .setType(BillingClient.SkuType.INAPP)
                             .build();
                     billingClient.querySkuDetailsAsync(params, new SkuDetailsResponseListener() {
@@ -101,6 +101,10 @@ public class DonationActivity extends AppCompatActivity implements PurchasesUpda
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> list) {
         //Here, if user Taps BUY, we get the data
-        Toast.makeText(this, "Purchased " + list.size() + "item(s)", Toast.LENGTH_SHORT).show();
+        int items = 0;
+        if (list != null){
+            items = list.size();
+        }
+        Toast.makeText(this, "Purchased " + items + " item(s)", Toast.LENGTH_SHORT).show();
     }
 }
