@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.MenuItem;
@@ -23,6 +24,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
@@ -33,11 +36,14 @@ import com.edotassi.amazmod.ui.fragment.HeartRateChartFragment;
 import com.edotassi.amazmod.ui.fragment.SilencedApplicationsFragment;
 import com.edotassi.amazmod.ui.fragment.WatchInfoFragment;
 import com.edotassi.amazmod.ui.fragment.WeatherFragment;
+import com.edotassi.amazmod.update.UpdateDownloader;
+import com.edotassi.amazmod.util.Permissions;
 import com.edotassi.amazmod.util.Screen;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.mikepenz.iconics.context.IconicsLayoutInflater2;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -45,6 +51,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -236,20 +243,54 @@ public class MainActivity extends BaseAppCompatActivity
     public void onResume() {
         super.onResume();
         Logger.debug("MainActivity onResume isWatchConnected: " + AmazModApplication.isWatchConnected());
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        Snackbar snackbar = Snackbar
-                .make(drawer, "Donate ??", Snackbar.LENGTH_LONG);
-        snackbar.setAction("DONATE", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent c = new Intent(MainActivity.this, DonationActivity.class);
-                c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(c);
-            }
-        });
-        snackbar.show();
+        showDonateUI();
     }
+
+    private void showDonateUI() {
+        long lastDonateAlert = PreferenceManager.getDefaultSharedPreferences(this)
+                .getLong(Constants.PREF_LAST_DONATION_ALERT, Constants.PREF_DEFAULT_PREF_LAST_DONATION_ALERT);
+        long days = 1000 * 60 * 60 * 24;
+        //TODO: change LATER to be 7 days
+        long nextDonateAlert = lastDonateAlert + 1000 * 60; // + 7 * days;
+        long now = Calendar.getInstance().getTimeInMillis();
+        Logger.debug("Donate: Now" + now + " // Next " + nextDonateAlert);
+        if (now > nextDonateAlert) {
+            new MaterialDialog.Builder(this)
+                    .canceledOnTouchOutside(false)
+                    .title(R.string.support_us)
+                    .content(R.string.support_us_text)
+                    .positiveText(R.string.donate)
+                    .negativeText(R.string.never)
+                    .neutralText(R.string.later)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @SuppressLint("DefaultLocale")
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Prefs.putLong(Constants.PREF_LAST_DONATION_ALERT, now);
+                            Intent c = new Intent(MainActivity.this, DonationActivity.class);
+                            c.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(c);
+                        }
+                    })
+                    .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            Prefs.putLong(Constants.PREF_LAST_DONATION_ALERT, now);
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            //TODO: update never to be 5 years
+                            Prefs.putLong(Constants.PREF_LAST_DONATION_ALERT, now + 1000 * 60 * 29);// 365 * 5 * days);
+                        }
+                    })
+                    .show();
+        } else {
+            Logger.debug("Will not show Donate UI. It is " + now + " and will show only after " + nextDonateAlert);
+        }
+    }
+
 
     @Override
     public void onPause() {

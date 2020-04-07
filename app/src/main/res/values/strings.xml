@@ -490,4 +490,7 @@ follow the system theme (beta).</string>
     <string name="thanks_donation">Thanks for the Donation 😘</string>
     <string name="activity_donation_select_product">Please select a donation in the list:</string>
     <string name="activity_donation_opencollective">Donate on OpenCollective</string>
+    <string name="donate">Donate</string>
+    <string name="later">Later</string>
+    <string name="support_us_text">Would you like to Support AmazMod development? AmazMod is free and will always be but donations help us to buy devices to test and improve our beloved software.</string>
 </resources>
