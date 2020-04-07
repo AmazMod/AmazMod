@@ -9,11 +9,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:background="?android:attr/colorBackground"
+        android:elevation="4dp"
+        android:layout_margin="4dp">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -21,11 +24,12 @@
                 android:id="@+id/row_donate_product_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
-                android:textSize="16sp"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 tools:text="TextView" />
 
             <TextView
@@ -33,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="5"
-                android:text="product description"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
                 android:textSize="12sp"
                 android:textStyle="italic" />
 
@@ -44,9 +48,10 @@
             android:text="5.00"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:textSize="24sp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:textSize="18sp"
             android:layout_marginBottom="8dp" />
     </LinearLayout>
 </RelativeLayout>

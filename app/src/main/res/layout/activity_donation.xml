@@ -6,18 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.DonationActivity">
 
+    <TextView
+        android:id="@+id/donation_activity_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/activity_donation_select_product"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/donation_activity_products"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/donation_activity_title"
+        android:layout_margin="8dp"/>
 
     <Button
-        android:id="@+id/donation_actibity_btnload"
-        android:text="Load Products"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/donation_actibity_donate_opencollective"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </Button>
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/activity_donation_opencollective"
+        android:layout_margin="8dp"/>
 </RelativeLayout>

@@ -1,11 +1,11 @@
 package com.edotassi.amazmod.ui;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ActionBar;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,25 +15,26 @@ import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
-import com.android.billingclient.api.PurchaseHistoryRecord;
-import com.android.billingclient.api.PurchaseHistoryResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.DonateProductsAdapter;
-import com.huami.watch.util.Log;
 
 import org.tinylog.Logger;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import amazmod.com.transport.Constants;
 
 public class DonationActivity extends BaseAppCompatActivity implements PurchasesUpdatedListener {
 
     BillingClient billingClient;
-    Button loadProductButton;
+    Button donateButton;
     RecyclerView recyclerViewProducts;
 
     @Override
@@ -51,39 +52,47 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
 
         setupBillingClient();
 
-        loadProductButton = (Button) findViewById(R.id.donation_actibity_btnload);
+        donateButton = (Button) findViewById(R.id.donation_actibity_donate_opencollective);
         recyclerViewProducts = (RecyclerView) findViewById(R.id.donation_activity_products);
 
         recyclerViewProducts.setHasFixedSize(true);
         recyclerViewProducts.setLayoutManager(new LinearLayoutManager(this));
 
-        loadProductButton.setOnClickListener(new View.OnClickListener() {
+        donateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadSkuDetails();
+                String url = Constants.DONATE_URL;
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
             }
         });
-
     }
 
     private void loadSkuDetails() {
         if (billingClient.isReady()) {
             SkuDetailsParams params = SkuDetailsParams.newBuilder()
-                    .setSkusList(Arrays.asList("coffee", "beer", "donors", "hall_of_fame"))
+                    .setSkusList(Arrays.asList(Constants.DONATE_SKU_LIST))
                     .setType(BillingClient.SkuType.INAPP)
                     .build();
             billingClient.querySkuDetailsAsync(params, new SkuDetailsResponseListener() {
                 @Override
                 public void onSkuDetailsResponse(BillingResult billingResult, List<SkuDetails> list) {
                     if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                        //Sort SKU items by price
+                        Collections.sort(list, new Comparator<SkuDetails>() {
+                            public int compare(SkuDetails o1, SkuDetails o2) {
+                                return (int) (o1.getPriceAmountMicros() -  o2.getPriceAmountMicros());
+                            }
+                        });
                         loadProductToRecyclerView(list);
                     } else {
-                        Toast.makeText(DonationActivity.this, "Cannot query available products!", Toast.LENGTH_SHORT).show();
+                        Logger.error("Cannot query available products!");
                     }
                 }
             });
         } else {
-            Toast.makeText(DonationActivity.this, "Billing client not ready!!", Toast.LENGTH_SHORT).show();
+            Logger.error("Billing client not ready!!");
         }
     }
 
@@ -104,17 +113,16 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    Toast.makeText(DonationActivity.this, "Success to connect Billing", Toast.LENGTH_SHORT).show();
+                    Logger.debug("Success to connect Billing");
                     loadSkuDetails();
                 } else {
-                    Toast.makeText(DonationActivity.this, "Failed to connect to Billing. Error " + billingResult.getResponseCode(), Toast.LENGTH_SHORT).show();
-                    Logger.debug("Failed to connect to billing. Error " + billingResult.getResponseCode() + " : " + billingResult.getDebugMessage());
+                    Logger.error("Failed to connect to billing. Error " + billingResult.getResponseCode() + " : " + billingResult.getDebugMessage());
                 }
             }
 
             @Override
             public void onBillingServiceDisconnected() {
-                Toast.makeText(DonationActivity.this, "You are disconnected from Billing", Toast.LENGTH_SHORT).show();
+                Logger.debug("You are disconnected from Billing");
             }
         });
     }
@@ -123,9 +131,13 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> list) {
         //Here, if user Taps BUY, we get the data
         int items = 0;
+        String message = getString(R.string.no_donation);
         if (list != null) {
             items = list.size();
+            message = getString(R.string.thanks_donation);
+        }else{
+
         }
-        Toast.makeText(this, "Purchased " + items + " item(s)", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
