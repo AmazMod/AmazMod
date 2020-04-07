@@ -11,9 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.billingclient.api.AcknowledgePurchaseParams;
+import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingResult;
+import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.ConsumeResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
@@ -34,6 +38,8 @@ import amazmod.com.transport.Constants;
 public class DonationActivity extends BaseAppCompatActivity implements PurchasesUpdatedListener {
 
     BillingClient billingClient;
+    AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
+    ConsumeResponseListener consumeResponseListener;
     Button donateButton;
     RecyclerView recyclerViewProducts;
 
@@ -108,12 +114,29 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
     }
 
     private void setupBillingClient() {
+        consumeResponseListener = new ConsumeResponseListener() {
+            @Override
+            public void onConsumeResponse(BillingResult billingResult, String s) {
+                //TODO
+                Toast.makeText(DonationActivity.this, "onConsumeResponse " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage() + " // " + s, Toast.LENGTH_SHORT).show();
+            }
+        };
+
         billingClient = BillingClient.newBuilder(this).setListener(this).enablePendingPurchases().build();
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
             public void onBillingSetupFinished(BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                     Logger.debug("Success to connect Billing");
+
+                    //Consume all purchases not consumed yet
+                    Purchase.PurchasesResult pr = billingClient.queryPurchases(BillingClient.SkuType.INAPP);
+                    List<Purchase> pList = pr.getPurchasesList();
+                    for (Purchase iitem : pList) {
+                        consume(iitem);
+                    }
+
+                    //List available products
                     loadSkuDetails();
                 } else {
                     Logger.error("Failed to connect to billing. Error " + billingResult.getResponseCode() + " : " + billingResult.getDebugMessage());
@@ -125,19 +148,57 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
                 Logger.debug("You are disconnected from Billing");
             }
         });
+        acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
+            @Override
+            public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
+                //TODO
+                Toast.makeText(DonationActivity.this, "onAcknowledgePurchaseResponse: " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 
     @Override
     public void onPurchasesUpdated(BillingResult billingResult, @Nullable List<Purchase> list) {
-        //Here, if user Taps BUY, we get the data
-        int items = 0;
-        String message = getString(R.string.no_donation);
-        if (list != null) {
-            items = list.size();
-            message = getString(R.string.thanks_donation);
-        }else{
-
+        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
+                && list != null) {
+            for (Purchase purchase : list) {
+                handlePurchase(purchase);
+            }
+        } else if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.USER_CANCELED) {
+            // Handle an error caused by a user cancelling the purchase flow.
+            Toast.makeText(this, getString(R.string.no_donation), Toast.LENGTH_SHORT).show();
+        } else {
+            // Handle any other error codes.
+            Toast.makeText(this, "onPurchasesUpdated " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void handlePurchase(Purchase purchase) {
+        if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+            // Grant entitlement to the user.
+            //...
+            Toast.makeText(this, getString(R.string.thanks_donation), Toast.LENGTH_SHORT).show();
+            // Acknowledge the purchase if it hasn't already been acknowledged.
+            if (!purchase.isAcknowledged()) {
+                /*
+                AcknowledgePurchaseParams acknowledgePurchaseParams =
+                        AcknowledgePurchaseParams.newBuilder()
+                                .setPurchaseToken(purchase.getPurchaseToken())
+                                .build();
+                billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
+                 */
+                consume(purchase);
+            }
+        }else{
+            Toast.makeText(this, "handlePurchase Code: " + purchase.getPurchaseState() + " // " + purchase.getDeveloperPayload(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    void consume(Purchase purchase ){
+        ConsumeParams consumeParams = ConsumeParams.newBuilder()
+                .setPurchaseToken(purchase.getPurchaseToken())
+                .build();
+        billingClient.consumeAsync(consumeParams, consumeResponseListener);
     }
 }
