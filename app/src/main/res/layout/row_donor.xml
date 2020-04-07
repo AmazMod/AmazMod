@@ -20,7 +20,7 @@
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_gravity="center"
-            android:src="@drawable/gift_outline" />
+            android:src="@drawable/incognito" />
 
         <TextView
             android:id="@+id/row_donor_name"
@@ -29,6 +29,14 @@
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/row_donor_role"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="14sp"
+            android:textStyle="italic" />
 
     </LinearLayout>
 </RelativeLayout>

@@ -63,7 +63,8 @@ public class DonorsActivity extends BaseAppCompatActivity {
 
     public void listDonors() {
         //String donorsURL = "https://opencollective.com/amazmod-33/members/all.json";
-        String donorsURL = "https://opencollective.com/amazmod-33/members/all.json?TierId=7058";
+        String donorsURL = "https://opencollective.com/amazmod-33/members/users.json";
+        //String donorsURL = "https://opencollective.com/amazmod-33/members/all.json?TierId=7058";
 
         Request request = new Request.Builder()
                 .url(donorsURL)

@@ -45,9 +45,13 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.textDonorName.setText(donorsList.get(position).name);
-        new DownloadImageTask(holder.textDonorPicture)
-                .execute(donorsList.get(position).image);
+        DonorsActivity.Donor donor = donorsList.get(position);
+        holder.textDonorName.setText(donor.name);
+        holder.textDonorRole.setText(donor.role);
+        if (donor.image != null) {
+            new DownloadImageTask(holder.textDonorPicture)
+                    .execute(donor.image);
+        }
     }
 
     @Override
@@ -57,12 +61,14 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textDonorName;
+        TextView textDonorRole;
         ImageView textDonorPicture;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            textDonorName = (TextView)itemView.findViewById(R.id.row_donor_name);
-            textDonorPicture = (ImageView)itemView.findViewById(R.id.row_donor_avatar);
+            textDonorName = itemView.findViewById(R.id.row_donor_name);
+            textDonorRole = itemView.findViewById(R.id.row_donor_role);
+            textDonorPicture = itemView.findViewById(R.id.row_donor_avatar);
         }
     }
 
