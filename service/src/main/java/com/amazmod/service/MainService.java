@@ -1208,7 +1208,8 @@ public class MainService extends Service implements Transporter.DataListener {
             resultDeleteFileData.setResult(result);
 
             // If music file is deleted, inform MediaStore's Content Provider
-            informMediaProvider(file,true);
+            if(result == Transport.RESULT_OK)
+                informMediaProvider(file,true);
         } catch (SecurityException securityException) {
             resultDeleteFileData.setResult(Transport.RESULT_PERMISSION_DENIED);
         } catch (Exception ex) {
@@ -1242,18 +1243,22 @@ public class MainService extends Service implements Transporter.DataListener {
 
     // Inform MediaStore's Content Provider about music file
     public void informMediaProvider(File file, boolean delete) {
+        // todo Music files are not shown in the music app
         // If music file, inform MediaStore's Content Provider
         String filename = file.getName().toLowerCase();
         if ( filename.endsWith(".mp3") || filename.endsWith(".m4a") ) {
             Uri uri = Uri.fromFile(file);
             Logger.debug("Music file, informing MediaStore's Content Provider: " + uri);
-
-            if (delete) {
-                // File deleted
-                getContentResolver().delete(uri, null, null);
-            }else{
-                // New File
-                sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+            try {
+                if (delete) {
+                    // File deleted
+                    getContentResolver().delete(uri, null, null);
+                }else{
+                    // New File
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+                }
+            } catch (Exception ex) {
+                Logger.warn("Music file, informing MediaStore's Content Provider error: "+ex);
             }
         }
     }
