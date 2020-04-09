@@ -163,8 +163,11 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="notifications_screen_timeout">Képernyő időtúllépés</string>
     <string name="pref_notifications_inverted_theme">Világos téma</string>
     <string name="pref_notifications_inverted_theme_summary">Világos háttéren sötét szövegű téma bekapcsolása.</string>
+    <string name="pref_font_title_size">Font title size</string>
+    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
     <string name="pref_font_size">Font méret</string>
     <string name="pref_font_size_summary">Válaszd ki a Egyéni felület értesítéseinél használt betűméretet.</string>
+    <string name="notifications_font_title_size">Font Title Size</string>
     <string name="notifications_font_size">Font méret</string>
     <string name="device_not_connected">Nincs csatlakoztatva eszköz</string>
     <string name="device_connected">csatlakozva</string>
