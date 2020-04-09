@@ -162,8 +162,11 @@
     <string name="notifications_screen_timeout">螢幕逾時</string>
     <string name="pref_notifications_inverted_theme">淺色主題</string>
     <string name="pref_notifications_inverted_theme_summary">启用光的背景暗的文本的主题。</string>
+    <string name="pref_font_title_size">Font title size</string>
+    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
     <string name="pref_font_size">字型大小</string>
     <string name="pref_font_size_summary">选择字体大小使用CustomUI通知。</string>
+    <string name="notifications_font_title_size">Font Title Size</string>
     <string name="notifications_font_size">字體大小</string>
     <string name="device_not_connected">沒有連接裝置</string>
     <string name="device_connected">已連線</string>
