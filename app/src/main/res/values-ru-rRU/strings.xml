@@ -161,11 +161,11 @@
     <string name="notifications_screen_timeout">Время отключения экрана</string>
     <string name="pref_notifications_inverted_theme">Светлая тема</string>
     <string name="pref_notifications_inverted_theme_summary">Включить тему со светлым фоном с тёмным текстом.</string>
-    <string name="pref_font_title_size">Font title size</string>
-    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
+    <string name="pref_font_title_size">Размер шрифта заголовка</string>
+    <string name="pref_font_title_size_summary">Выберите размер шрифта, используемый в заголовке пользовательских уведомлений.</string>
     <string name="pref_font_size">Размер шрифта</string>
     <string name="pref_font_size_summary">Выберите размер шрифта, используемый в пользовательских уведомлениях.</string>
-    <string name="notifications_font_title_size">Font Title Size</string>
+    <string name="notifications_font_title_size">Размер шрифта заголовка</string>
     <string name="notifications_font_size">Размер шрифта</string>
     <string name="device_not_connected">Нет подключенных устройств</string>
     <string name="device_connected">подключено</string>
