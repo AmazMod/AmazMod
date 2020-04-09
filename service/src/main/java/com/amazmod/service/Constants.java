@@ -34,6 +34,7 @@ public class Constants {
     public static final String PREF_DATE_LAST_BATTERY_SYNC = "pref_battery_date_last_sync";
     public static final String PREF_NOTIFICATIONS_SCREEN_ON = "pref_notifications_screen_on";
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "pref_notifications_inverted_theme";
+    public static final String PREF_NOTIFICATIONS_FONT_TITLE_SIZE = "pref_notifications_font_title_size";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "pref_notifications_font_size";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "pref_notification_screenon";
     public static final String PREF_SHAKE_TO_DISMISS_GRAVITY = "pref_shake_to_dismiss_gravity";
@@ -66,6 +67,7 @@ public class Constants {
     public static final boolean PREF_DEFAULT_NOTIFICATION_ENABLE_SOUND = false;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = true;
+    public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_TITLE_SIZE = "n";
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_DELAY = false;

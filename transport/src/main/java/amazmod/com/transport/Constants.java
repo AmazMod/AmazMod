@@ -46,6 +46,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_VIBRATION = "preference.amazmodservice.vibration";
     public static final String PREF_NOTIFICATIONS_SCREEN_TIMEOUT = "preference.amazmodservice.screen.timeout";
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "preference.amazmodservice.inverted.theme";
+    public static final String PREF_NOTIFICATIONS_FONT_TITLE_SIZE = "preference.amazmodservice.font.title.size";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "preference.amazmodservice.font.size";
     public static final String PREF_BATTERY_CHART = "preference.battery.chart";
     public static final String PREF_HEARTRATE_CHART = "preference.heartrate.chart";
@@ -96,6 +97,7 @@ public class Constants {
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
+    public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_TITLE_SIZE = "n";
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_ENABLE_NOTIFICATIONS = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;

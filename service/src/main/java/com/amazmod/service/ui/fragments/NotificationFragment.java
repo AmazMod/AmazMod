@@ -286,8 +286,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         } else
             rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
-        time.setTextSize(util.getFontSizeSP());
-        title.setTextSize(util.getFontSizeSP());
+        time.setTextSize(util.getFontTitleSizeSP());
+        title.setTextSize(util.getFontTitleSizeSP());
         text.setTextSize(util.getFontSizeSP());
 
         util.setFontLocale(title, util.getDefaultLocale());

@@ -137,6 +137,16 @@
         <ListPreference
             android:defaultValue="n"
             android:dependency="preference.notifications.enable.custom.ui"
+            android:dialogTitle="@string/notifications_font_title_size"
+            android:entries="@array/pref_amazmodservice_font_size_entries"
+            android:entryValues="@array/pref_amazmodservice_font_size_values"
+            android:key="preference.amazmodservice.font.title.size"
+            android:summary="@string/pref_font_title_size_summary"
+            android:title="@string/pref_font_title_size" />
+
+        <ListPreference
+            android:defaultValue="n"
+            android:dependency="preference.notifications.enable.custom.ui"
             android:dialogTitle="@string/notifications_font_size"
             android:entries="@array/pref_amazmodservice_font_size_entries"
             android:entryValues="@array/pref_amazmodservice_font_size_values"
