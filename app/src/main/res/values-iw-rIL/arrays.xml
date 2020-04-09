@@ -47,11 +47,11 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>רגיל</item>
-        <item>Medium</item>
-        <item>Large</item>
-        <item>Bigger</item>
-        <item>Almost Huge</item>
-        <item>Huge</item>
+        <item>בינוני</item>
+        <item>גדול</item>
+        <item>יותר גדול</item>
+        <item>כמעט ענקי</item>
+        <item>ענקי</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>כן</item>
