@@ -47,11 +47,11 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normál</item>
-        <item>Medium</item>
-        <item>Large</item>
+        <item>Közepes</item>
+        <item>Nagy</item>
         <item>Bigger</item>
-        <item>Almost Huge</item>
-        <item>Huge</item>
+        <item>Majdnem hatalmas</item>
+        <item>Óriási</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>Igen</item>
