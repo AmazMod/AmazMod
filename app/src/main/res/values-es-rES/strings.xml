@@ -166,7 +166,7 @@
     <string name="pref_font_title_size_summary">Selecciona el tamaño de la fuente a usarse en las notificaciones de UI Personalizada</string>
     <string name="pref_font_size">Tamaño de letra</string>
     <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificaciones del UI personalizada.</string>
-    <string name="notifications_font_title_size">Font Title Size</string>
+    <string name="notifications_font_title_size">Tamaño de fuente</string>
     <string name="notifications_font_size">Tamaño de letra</string>
     <string name="device_not_connected">Ningún dispositivo conectado</string>
     <string name="device_connected">conectado</string>
