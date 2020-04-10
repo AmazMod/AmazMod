@@ -47,7 +47,10 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Нормальный</item>
+        <item>Средний</item>
         <item>Большой</item>
+        <item>Крупнее</item>
+        <item>Почти огромный</item>
         <item>Огромный</item>
     </string-array>
     <string-array name="default_notification_replies">

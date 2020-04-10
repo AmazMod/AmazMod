@@ -35,7 +35,7 @@
         <item>%99</item>
     </string-array>
     <string-array name="pref_watchface_calendar_events_days">
-        <item>Disable</item>
+        <item>Kapalı</item>
         <item>1 gün</item>
         <item>7 gün</item>
         <item>15 gün</item>
@@ -47,8 +47,11 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
+        <item>Orta</item>
         <item>Büyük</item>
-        <item>Çok Büyük</item>
+        <item>Daha Büyük</item>
+        <item>Neredeyse Kocaman</item>
+        <item>Kocaman</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>Evet</item>
@@ -56,13 +59,13 @@
         <item>Teşekkürler</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>Başlık</item>
+        <item>İçindekiler</item>
+        <item>Her ikisi</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
-        <item>Metric (Kelvin)</item>
-        <item>Celsius (Metric)</item>
-        <item>Imperial (Fahrenheit)</item>
+        <item>Metrik (Kelvin)</item>
+        <item>Santigrat (Metrik)</item>
+        <item>İngiliz Standardı (Fahrenheit)</item>
     </string-array>
 </resources>

@@ -47,7 +47,10 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normale</item>
+        <item>Medio</item>
         <item>Grande</item>
+        <item>Più grande</item>
+        <item>Quasi Enorme</item>
         <item>Enorme</item>
     </string-array>
     <string-array name="default_notification_replies">

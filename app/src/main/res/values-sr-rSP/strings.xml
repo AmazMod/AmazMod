@@ -161,8 +161,11 @@
     <string name="notifications_screen_timeout">Screen timeout</string>
     <string name="pref_notifications_inverted_theme">Light theme</string>
     <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme.</string>
+    <string name="pref_font_title_size">Величина наслова фонта</string>
+    <string name="pref_font_title_size_summary">Одаберите величину наслова фонта која се користи у CustomUI нотификацијама.</string>
     <string name="pref_font_size">Font size</string>
     <string name="pref_font_size_summary">Select font size used in CustomUI notifications.</string>
+    <string name="notifications_font_title_size">Величина наслова фонта</string>
     <string name="notifications_font_size">Font Size</string>
     <string name="device_not_connected">No device connected</string>
     <string name="device_connected">was connected</string>

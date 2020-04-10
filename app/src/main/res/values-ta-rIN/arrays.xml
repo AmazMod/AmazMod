@@ -50,8 +50,11 @@ alert_on_charged_level_99
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>இயல்பு</item>
-        <item>பெரிய</item>
-        <item>மிகப்பெரிய</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>ஆம்</item>
