@@ -161,11 +161,11 @@
     <string name="notifications_screen_timeout">Näytön aikakatkaisu</string>
     <string name="pref_notifications_inverted_theme">Vaalea teema</string>
     <string name="pref_notifications_inverted_theme_summary">Käytä vaalea tausta, tumma teksti teemaa.</string>
-    <string name="pref_font_title_size">Font title size</string>
-    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
+    <string name="pref_font_title_size">Otsikon Fontin Koko</string>
+    <string name="pref_font_title_size_summary">Valitse otsikon fonttikoko CustomUI ilmoituksissa.</string>
     <string name="pref_font_size">Fonttikoko</string>
     <string name="pref_font_size_summary">Valitse CustomUI ilmoitusten fonttikoko.</string>
-    <string name="notifications_font_title_size">Font Title Size</string>
+    <string name="notifications_font_title_size">Otsikon Fontin Koko</string>
     <string name="notifications_font_size">Fontin koko</string>
     <string name="device_not_connected">Ei laitteita yhdistettynä</string>
     <string name="device_connected">oli yhteydessä</string>
@@ -488,4 +488,16 @@
     <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
     <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
     <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="support_us">Tue meitä</string>
+    <string name="no_donation">Sinä peruutit lahjoituksen 😢</string>
+    <string name="thanks_donation">Kiitos Lahjoituksesta 😘</string>
+    <string name="activity_donation_select_product">Valitse lahjoitus luettelosta:</string>
+    <string name="activity_donation_opencollective">Lahjoita OpenCollectivella</string>
+    <string name="donate">Lahjoita</string>
+    <string name="later">Myöhemmin</string>
+    <string name="support_us_text">Haluaisitko Tukea AmazModin kehitystä? AmazMod on ilmainen ja tulee aina olemaan, mutta lahjoitukset auttavat meitä ostamaan laitteita testattavaksi ja parantamaan rakasta ohjelmistoa.</string>
+    <string name="donors">Lahjoittajat</string>
+    <string name="activity_view_donors">Näytä lahjoittajat</string>
+    <string name="donors_hall_of_fame">Lahjoittajien Hall of Fame</string>
+    <string name="donors_disclaimer_google">Vastuuvapauslauseke: Google ei anna käyttöön luottamuksellisia käyttäjätietoja, kuten sähköpostiosoitetta tai nimiä. Emme voi lisätä listalle niitä, jotka lahjoittivat Google InApp ostojen välityksellä, vain ne, jotka käyttivät OpenCollectivea. Haluamme kiittää kaikkia, jotka lahjoittavat!!!</string>
 </resources>

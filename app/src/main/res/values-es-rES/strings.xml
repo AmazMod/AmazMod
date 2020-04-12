@@ -162,11 +162,11 @@
     <string name="notifications_screen_timeout">Tiempo de espera de pantalla</string>
     <string name="pref_notifications_inverted_theme">Tema Claro</string>
     <string name="pref_notifications_inverted_theme_summary">Habilita fondo claro con texto oscuro.</string>
-    <string name="pref_font_title_size">Font title size</string>
-    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
+    <string name="pref_font_title_size">Tamaño de fuente</string>
+    <string name="pref_font_title_size_summary">Selecciona el tamaño de la fuente a usarse en las notificaciones de UI Personalizada</string>
     <string name="pref_font_size">Tamaño de letra</string>
     <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificaciones del UI personalizada.</string>
-    <string name="notifications_font_title_size">Font Title Size</string>
+    <string name="notifications_font_title_size">Tamaño de fuente</string>
     <string name="notifications_font_size">Tamaño de letra</string>
     <string name="device_not_connected">Ningún dispositivo conectado</string>
     <string name="device_connected">conectado</string>
@@ -490,4 +490,16 @@ seguir el tema de sistema (beta).</string>
     <string name="watch_empty_ip">El reloj no tiene IP, se usará la IP del WiFi AP</string>
     <string name="watch_same_wifi">IP del reloj encontrada, reloj conectado a la misma red WiFi</string>
     <string name="wifi_transfer_method">Eligiendo el método de transferencia WiFi a usar</string>
+    <string name="support_us">Ayúdanos</string>
+    <string name="no_donation">Has cancelado la Donación 😢</string>
+    <string name="thanks_donation">Gracias por la Donación 😘</string>
+    <string name="activity_donation_select_product">Por favor, selecciona de la lista el tipo de Donación:</string>
+    <string name="activity_donation_opencollective">Donar en OpenCollective</string>
+    <string name="donate">Donar</string>
+    <string name="later">Más tarde</string>
+    <string name="support_us_text">¿Te gustaría Ayudar en el desarrollo de AmazMod? AmazMod es y será siempre gratis, pero las donaciones nos ayudan a comprar nuevos dispositivos para mejorar nuestro querido software</string>
+    <string name="donors">Donantes</string>
+    <string name="activity_view_donors">Ver Donantes</string>
+    <string name="donors_hall_of_fame">Salón de la Fama de Donantes</string>
+    <string name="donors_disclaimer_google">Aviso: Google no proporciona acceso a ningún dato confidencial de usuario, como direcciones de correo o nombres. Por ello, no podemos listar aquellos que donaron mediante la aplicación de Compras de Google, sólo aquellos que lo hicieron mediante OpenCollective. ¡¡¡Quisiéramos agradecer a todos los que han donado!!!</string>
 </resources>

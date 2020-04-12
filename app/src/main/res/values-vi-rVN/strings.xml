@@ -485,4 +485,16 @@
     <string name="watch_empty_ip">Đồng hồ không có IP, sẽ lấy từ Wifi</string>
     <string name="watch_same_wifi">Đã thấy IP trên đồng hồ, bạn được kết nối cùng mạng Wifi</string>
     <string name="wifi_transfer_method">Chọn phương thức truyền qua WiFi để sử dụng</string>
+    <string name="support_us">Hỗ trợ chúng tôi</string>
+    <string name="no_donation">Bạn đã hủy bỏ Đóng góp 😢</string>
+    <string name="thanks_donation">Cảm ơn sự đóng góp 😘</string>
+    <string name="activity_donation_select_product">Vui lòng chọn một đóng góp trong danh sách:</string>
+    <string name="activity_donation_opencollective">Đóng góp cho tập thể mở</string>
+    <string name="donate">Quyên góp</string>
+    <string name="later">Sau</string>
+    <string name="support_us_text">Bạn có muốn hỗ trợ phát triển AmazMod? AmazMod là miễn phí và sẽ luôn như vậy nhưng đóng góp giúp chúng tôi mua các thiết bị để kiểm tra và cải thiện phần mềm yêu thích của chúng tôi.</string>
+    <string name="donors">Nhà tài trợ</string>
+    <string name="activity_view_donors">Xem các nhà tài trợ</string>
+    <string name="donors_hall_of_fame">Nhà tài trợ danh vọng</string>
+    <string name="donors_disclaimer_google">Tuyên bố miễn trừ trách nhiệm: Google không cung cấp quyền truy cập vào bất kỳ thông tin người dùng bí mật nào, chẳng hạn như địa chỉ email hoặc tên. Chúng tôi không thể liệt kê những người đã quyên góp bằng Google mất tiền mua hàng tại đây, chỉ những người đã sử dụng OpenCollective. Chúng tôi xin cảm ơn bất cứ ai quyên góp!!!</string>
 </resources>

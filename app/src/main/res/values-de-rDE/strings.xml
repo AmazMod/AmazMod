@@ -489,4 +489,16 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="watch_empty_ip">IP nicht vorhanden, es wird WLAN-AP verwendet</string>
     <string name="watch_same_wifi">Beobachte gefundene IP, du bist mit demselben WLAN verbunden</string>
     <string name="wifi_transfer_method">Auswahl der zu verwendenden WLAN-Übertragungsmethode</string>
+    <string name="support_us">Unterstütze uns</string>
+    <string name="no_donation">Sie haben die Spende storniert 😢</string>
+    <string name="thanks_donation">Danke für die Spende 😘</string>
+    <string name="activity_donation_select_product">Bitte eine Spende in der Liste auswählen:</string>
+    <string name="activity_donation_opencollective">Spenden an OpenCollective</string>
+    <string name="donate">Spenden</string>
+    <string name="later">Später</string>
+    <string name="support_us_text">Möchten Sie die Entwicklung von AmazMod unterstützen? AmazMod ist kostenlos und wird es immer sein. Aber Spenden helfen uns, Geräte zu kaufen, um unsere geliebte Software zu testen und zu verbessern.</string>
+    <string name="donors">Spender</string>
+    <string name="activity_view_donors">Spender anzeigen</string>
+    <string name="donors_hall_of_fame">Ruhmeshalle der Spender</string>
+    <string name="donors_disclaimer_google">Haftungsausschluss: Google bietet keinen Zugriff auf vertrauliche Benutzerinformationen wie E-Mail-Adresse oder Namen. Wir können hier nicht diejenigen auflisten, die mit Google InApp-Einkäufe gespendet haben, sondern nur diejenigen, die OpenCollective verwendet haben. Wir möchten uns bei allen bedanken, die spenden !!!</string>
 </resources>

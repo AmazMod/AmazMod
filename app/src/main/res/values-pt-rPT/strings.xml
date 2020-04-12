@@ -489,4 +489,16 @@
     <string name="watch_empty_ip">Sem IP no relógio, a continuar no WIFI AP</string>
     <string name="watch_same_wifi">IP do relógio descoberto, está ligado ao mesmo WIFI</string>
     <string name="wifi_transfer_method">Escolhido o método de transferência por WIFI</string>
+    <string name="support_us">Apoia-nos</string>
+    <string name="no_donation">Cancelou a doação 😭</string>
+    <string name="thanks_donation">Obrigado pela doação 😘</string>
+    <string name="activity_donation_select_product">Por favor selecione uma doação da lista:</string>
+    <string name="activity_donation_opencollective">Doação do OpenCollective</string>
+    <string name="donate">Doação</string>
+    <string name="later">Mais tarde</string>
+    <string name="support_us_text">Gostava de dar suporte ao desenvolvimento do AmazMod? O AmazMod é grátis e sempre será mas as doações ajudam nos a comprar novos dispositivos para melhorar e testar o nosso amado software.</string>
+    <string name="donors">Doadores</string>
+    <string name="activity_view_donors">Ver doadores</string>
+    <string name="donors_hall_of_fame">Quadro de honra doadores</string>
+    <string name="donors_disclaimer_google">Disclaimer: o Google não fornece acesso a nenhuma informação confidencial do usuário, como endereço de e-mail ou nomes. Nós não podemos listar aqueles que doaram usando o Google InApp Compras aqui, apenas aqueles que usaram o OpenCollective. Gostaríamos de agradecer a qualquer um que doa !!!</string>
 </resources>

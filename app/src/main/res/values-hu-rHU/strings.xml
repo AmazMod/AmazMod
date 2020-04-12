@@ -491,4 +491,16 @@ a rendszertéma követése helyett (beta).</string>
     <string name="watch_empty_ip">Óra IP cím üres, így a WiFi AP-vel megy</string>
     <string name="watch_same_wifi">Óra IP található, így azonos Wifi-re van csatlakozva</string>
     <string name="wifi_transfer_method">Válaszd használatra a Wifi átviteli módot</string>
+    <string name="support_us">Támogass minket</string>
+    <string name="no_donation">Visszavontad az adományt 😢</string>
+    <string name="thanks_donation">Köszönjük az adományt 😘</string>
+    <string name="activity_donation_select_product">Válassz ki egy adományt a listából:</string>
+    <string name="activity_donation_opencollective">Adomány az OpenCollective oldalán</string>
+    <string name="donate">Támogatás</string>
+    <string name="later">Később</string>
+    <string name="support_us_text">Támogatnád az AmazMod fejlesztését? Az AmazMod ingyenes és az is marad, ám az adományok segítik az eszközök beszerzését szeretett szoftverünk tesztelésére és fejlesztésére.</string>
+    <string name="donors">Támogatók</string>
+    <string name="activity_view_donors">Támogatóink</string>
+    <string name="donors_hall_of_fame">Támogatói Hírességek Csarnoka</string>
+    <string name="donors_disclaimer_google">Nyilatkozat: A Google nem biztosít hozzáférést olyan bizalmas felhasználói adatokhoz, mint pl. az email cím vagy a név. Nem sorolhatjuk fel itt az appon belül vásárlókat, viszont az OpenCollective-et használókat igen. Szeretnénk köszönetet mondani mindenki adományáért!!!</string>
 </resources>

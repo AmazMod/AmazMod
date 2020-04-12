@@ -495,4 +495,16 @@ Urobte príkaz shell \"</string>
     <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
     <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
     <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="support_us">Podporte nás</string>
+    <string name="no_donation">Môžete zrušiť Darovanie 😢</string>
+    <string name="thanks_donation">Vďaka za Dar 😘</string>
+    <string name="activity_donation_select_product">Prosím, vyberte dar v zozname:</string>
+    <string name="activity_donation_opencollective">Darovať na OpenCollective</string>
+    <string name="donate">Darovať</string>
+    <string name="later">Neskôr</string>
+    <string name="support_us_text">Chceli by ste podporovať vývoj AmazModu? AmazMod je zadarmo a vždy bude, ale dary nám pomáhajú kupovať zariadenia na testovanie a vylepšovanie nášho milovaného softvéru.</string>
+    <string name="donors">Darcovia</string>
+    <string name="activity_view_donors">Zobraziť Darcov</string>
+    <string name="donors_hall_of_fame">Darcovia Sieň Slávy</string>
+    <string name="donors_disclaimer_google">Zrieknutie sa zodpovednosti: Spoločnosť Google neposkytuje prístup k žiadnym dôverným informáciám používateľa, ako je e-mailová adresa alebo mená. Tu nemôžeme uviesť tých, ktorí darovali pomocou nákupov Google InApp, iba tých, ktorí používali OpenCollective. Chceli by sme sa poďakovať každému, kto daruje!!!</string>
 </resources>

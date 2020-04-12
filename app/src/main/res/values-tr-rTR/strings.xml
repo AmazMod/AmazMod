@@ -488,4 +488,16 @@
     <string name="watch_empty_ip">Saat IP\'si boş, yani WiFi AP olarak devam edilecek</string>
     <string name="watch_same_wifi">Saat IP\'si bulundu, aynı WiFi\'ye bağlısınız</string>
     <string name="wifi_transfer_method">WiFi aktarma yöntemi seçiliyor</string>
+    <string name="support_us">Bizi destekleyin</string>
+    <string name="no_donation">Bağışı iptal ettiniz 😢</string>
+    <string name="thanks_donation">Bağış için teşekkürler 😘</string>
+    <string name="activity_donation_select_product">Lütfen listeden bir bağış seçeneği seçin:</string>
+    <string name="activity_donation_opencollective">OpenCollective üstünden bağış yapın</string>
+    <string name="donate">Bağış yap</string>
+    <string name="later">Daha sonra</string>
+    <string name="support_us_text">AmazMod ürün geliştirmesini desteklemek istiyor musunuz? AmazonMod ücretsizdir ve her zaman öyle olacak. Fakat, bağışlar sayesinde yazılımımızı test etmek ve geliştirmek için cihaz satın alabilmekteyiz.</string>
+    <string name="donors">Bağışcılar</string>
+    <string name="activity_view_donors">Bağışcıları gör</string>
+    <string name="donors_hall_of_fame">Bağışcı onur listesi</string>
+    <string name="donors_disclaimer_google">Feragatname: Google, e-posta adresi veya adları gibi herhangi bir gizli kullanıcı bilgisine erişim saglamaz. Google InApp satın alımlarını kullanarak yapılan bağışları burada listeleyememekteyiz, sadece OpenCollective \'i kullananları listeleyebiliriz. Bağış yapan herkese teşekkür ederiz!!!</string>
 </resources>

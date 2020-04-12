@@ -161,11 +161,11 @@
     <string name="notifications_screen_timeout">Tempo de tela acesa</string>
     <string name="pref_notifications_inverted_theme">Tema Claro</string>
     <string name="pref_notifications_inverted_theme_summary">Habilitar tema claro.</string>
-    <string name="pref_font_title_size">Font title size</string>
-    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
+    <string name="pref_font_title_size">Tamanho da fonte do título</string>
+    <string name="pref_font_title_size_summary">Selecione o tamanho da fonte do título nas notificações personalizadas.</string>
     <string name="pref_font_size">Tamanho da fonte</string>
     <string name="pref_font_size_summary">Escolha o tamanho da fonte usado nas notificações personalizadas.</string>
-    <string name="notifications_font_title_size">Font Title Size</string>
+    <string name="notifications_font_title_size">Tamanho da fonte do título</string>
     <string name="notifications_font_size">Tamanho da Fonte</string>
     <string name="device_not_connected">Nenhum dispositivo conectado</string>
     <string name="device_connected">estava conectado</string>
@@ -484,8 +484,20 @@
     <string name="something_goes_wrong">algo deu errado</string>
     <string name="invalid_key">chave da api era inválida</string>
     <string name="miss_notification_access">Por favor, conceda ao AmazMod acesso ao adequado tratamento das notificações</string>
-    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
+    <string name="turn_on_wifi">Você precisa ativar o WiFi do telefone</string>
     <string name="watch_empty_ip">IP do relógio vazio, continuaremos com o WiFi</string>
     <string name="watch_same_wifi">IP do relógio encontrado, você está conectado ao mesmo WIFI</string>
     <string name="wifi_transfer_method">Escolhendo o método de transferência WiFi</string>
+    <string name="support_us">Apoie-nos</string>
+    <string name="no_donation">Você cancelou a Doação 😢</string>
+    <string name="thanks_donation">Obrigado pela doação 😘</string>
+    <string name="activity_donation_select_product">Por favor selecione uma doação da lista:</string>
+    <string name="activity_donation_opencollective">Doar no OpenCollective</string>
+    <string name="donate">Doar</string>
+    <string name="later">Depois</string>
+    <string name="support_us_text">Você gostaria de apoiar o desenvolvimento do AmazMod? AmazMod é grátis e sempre será mas doações nos ajudam a comprar aparelhos para testar e melhorar nosso amado software.</string>
+    <string name="donors">Doadores</string>
+    <string name="activity_view_donors">Ver Doadores</string>
+    <string name="donors_hall_of_fame">Hall da Fama de Doadores</string>
+    <string name="donors_disclaimer_google">Importante: o Google não fornece acesso a nenhuma informação confidencial do usuário, como endereço de e-mail ou nomes. Nós não conseguimos listar aqueles que doaram usando as compras dentro do aplicativo pelo Google aqui, apenas aqueles que doaram pelo OpenCollective. Gostaríamos de agradecer a qualquer um que doa !!!</string>
 </resources>
