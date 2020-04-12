@@ -249,9 +249,8 @@ public class MainActivity extends BaseAppCompatActivity
     private void showDonateUI() {
         long lastDonateAlert = PreferenceManager.getDefaultSharedPreferences(this)
                 .getLong(Constants.PREF_LAST_DONATION_ALERT, Constants.PREF_DEFAULT_PREF_LAST_DONATION_ALERT);
-        long days = 1000 * 60 * 60 * 24;
-        //TODO: change LATER to be 7 days
-        long nextDonateAlert = lastDonateAlert + 1000 * 60; // + 7 * days;
+        long day = 1000 * 60 * 60 * 24;
+        long nextDonateAlert = lastDonateAlert + 7 * day;
         long now = Calendar.getInstance().getTimeInMillis();
         Logger.debug("Donate: Now" + now + " // Next " + nextDonateAlert);
         if (now > nextDonateAlert) {
@@ -281,8 +280,8 @@ public class MainActivity extends BaseAppCompatActivity
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            //TODO: update never to be 5 years
-                            Prefs.putLong(Constants.PREF_LAST_DONATION_ALERT, now + 1000 * 60 * 29);// 365 * 5 * days);
+                            //Never = 5 years
+                            Prefs.putLong(Constants.PREF_LAST_DONATION_ALERT, now + 365 * 5 * day);
                         }
                     })
                     .show();

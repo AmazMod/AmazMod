@@ -24,10 +24,12 @@ import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.DonateProductsAdapter;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.tinylog.Logger;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -194,15 +196,13 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
             Toast.makeText(this, getString(R.string.thanks_donation), Toast.LENGTH_SHORT).show();
             // Acknowledge the purchase if it hasn't already been acknowledged.
             if (!purchase.isAcknowledged()) {
-                /*
-                AcknowledgePurchaseParams acknowledgePurchaseParams =
-                        AcknowledgePurchaseParams.newBuilder()
-                                .setPurchaseToken(purchase.getPurchaseToken())
-                                .build();
-                billingClient.acknowledgePurchase(acknowledgePurchaseParams, acknowledgePurchaseResponseListener);
-                 */
                 consume(purchase);
             }
+            //If user donates, doesn't ask for donation for the next 90 days
+            long day = 1000 * 60 * 60 * 24;
+            long now = Calendar.getInstance().getTimeInMillis();
+            Prefs.putLong(Constants.PREF_LAST_DONATION_ALERT, now + 90 * day);
+
         }else{
             Toast.makeText(this, "Purchase Code: " + purchase.getPurchaseState() + " // " + purchase.getDeveloperPayload(), Toast.LENGTH_SHORT).show();
         }
