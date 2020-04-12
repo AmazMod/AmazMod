@@ -499,6 +499,6 @@ seguire il tema di sistema (beta).</string>
     <string name="support_us_text">Vuoi supportare lo sviluppo di AmazMod? AmazMod è gratuito e lo sarà sempre ma le donazioni ci aiutano a comprare dispositivi per testare e migliorare il nostro amato software.</string>
     <string name="donors">Donatori</string>
     <string name="activity_view_donors">Visualizza donatori</string>
-    <string name="donors_hall_of_fame">Donors Hall of Fame</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_hall_of_fame">Hall of Fame dei donatori</string>
+    <string name="donors_disclaimer_google">Avviso: Google non fornisce accesso a informazioni riservate degli utenti, come l\'indirizzo email o i nomi. Non possiamo elencare coloro che hanno donato utilizzando qui gli acquisti in app di Google, ma solo quelli che hanno usato OpenCollective. Vorremmo ringraziare chiunque abbia donato!!!</string>
 </resources>
