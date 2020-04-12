@@ -505,5 +505,5 @@
     <string name="donors">תורמים</string>
     <string name="activity_view_donors">הצגת התורמים</string>
     <string name="donors_hall_of_fame">היכל התהילה</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_disclaimer_google">הצהרה: Google אינה מאפשרת גישה למידע חסוי אודות המשתמשים כגון אימיילים ו/או שמות. אנחנו לא יכולים להציג את אלו אשר תרמו באמצעות תשלום דרך Google, אלא רק אלו אשר תרמו באמצעות OpenCollective. נרצה להודות מקרב לב לכל אלו אשר תרמו!!!</string>
 </resources>
