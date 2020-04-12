@@ -16,16 +16,17 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
-
     <application
-        android:requestLegacyExternalStorage="true"
         android:name=".AmazModApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.DonorsActivity"></activity>
+        <activity android:name=".ui.DonationActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:configChanges="orientation|screenSize"
@@ -33,6 +34,7 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -91,7 +93,6 @@
             android:name=".ui.FileOpenerActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask">
-
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -250,6 +251,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${enableCrashReporting}" />

@@ -72,6 +72,7 @@ public class Constants {
     public static final String PREF_AMAZMOD_HOURLY_CHIME = "preference.amazmod.hourly.chime";
     public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
     public static final String PREF_COMMAND_HISTORY = "preference.command.history";
+    public static final String PREF_LAST_DONATION_ALERT = "preference.lastdonationalert";
 
     public static final String PREF_ENABLE_MAPS_NOTIFICATION = "preference.enable.maps.notification";
     public static final boolean PREF_ENABLE_MAPS_NOTIFICATION_DEFAULT = false;
@@ -90,6 +91,7 @@ public class Constants {
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
     public static final Boolean PREF_NOTIFICATION_SCHEDULER_DEFAULT = false;
     public static final boolean PREF_AMAZMOD_DARK_THEME_DEFAULT = false;
+    public static final long PREF_DEFAULT_PREF_LAST_DONATION_ALERT = 0;
 
     public static final Boolean PREF_DEFAULT_BATTERY_CHART = true;
     public static final Boolean PREF_DEFAULT_HEARTRATE_CHART = true;
@@ -213,5 +215,7 @@ public class Constants {
 
     public static final int SNACKBAR_LONG10 = 10000;
 
+    public static final String[] DONATE_SKU_LIST = {"thank_you","coffee", "beer"};
+    public static final String DONATE_URL = "https://opencollective.com/amazmod-33/donate";
 
 }

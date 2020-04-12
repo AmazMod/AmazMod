@@ -43,6 +43,7 @@ import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 
@@ -263,15 +264,6 @@ public class AboutActivity extends BaseAppCompatActivity implements TransportSer
 
     @OnLongClick(R.id.amazmod_logo)
     public boolean onAmazmodLogoLongClick() {
-        /* Deprecated
-        boolean enabled = !Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false);
-        Prefs.putBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, enabled);
-        Toast.makeText(this, "Developer mode enabled: " + enabled, Toast.LENGTH_SHORT).show();
-        version.setText(BuildConfig.VERSION_NAME);
-        version.append(" (Build " + BuildConfig.VERSION_CODE + ")");
-        if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
-            version.append(" - dev");
-        } */
         NotificationService.cancelPendingJobs();
         Toast.makeText(this, "All pending jobs cancelled!", Toast.LENGTH_SHORT).show();
         return true;
