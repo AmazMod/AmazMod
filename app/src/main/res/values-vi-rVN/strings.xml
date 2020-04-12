@@ -494,7 +494,7 @@
     <string name="later">Sau</string>
     <string name="support_us_text">Bạn có muốn hỗ trợ phát triển AmazMod? AmazMod là miễn phí và sẽ luôn như vậy nhưng đóng góp giúp chúng tôi mua các thiết bị để kiểm tra và cải thiện phần mềm yêu thích của chúng tôi.</string>
     <string name="donors">Nhà tài trợ</string>
-    <string name="activity_view_donors">View Donors</string>
-    <string name="donors_hall_of_fame">Donors Hall of Fame</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="activity_view_donors">Xem các nhà tài trợ</string>
+    <string name="donors_hall_of_fame">Nhà tài trợ danh vọng</string>
+    <string name="donors_disclaimer_google">Tuyên bố miễn trừ trách nhiệm: Google không cung cấp quyền truy cập vào bất kỳ thông tin người dùng bí mật nào, chẳng hạn như địa chỉ email hoặc tên. Chúng tôi không thể liệt kê những người đã quyên góp bằng Google mất tiền mua hàng tại đây, chỉ những người đã sử dụng OpenCollective. Chúng tôi xin cảm ơn bất cứ ai quyên góp!!!</string>
 </resources>
