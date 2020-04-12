@@ -492,4 +492,16 @@ follow the system theme (beta).</string>
     <string name="watch_empty_ip">IP адреса сата је празна, тако да ће ићи са WiFi AP</string>
     <string name="watch_same_wifi">IP адреса сата је пронађена, повезани сте на исти WiFi</string>
     <string name="wifi_transfer_method">Избор WiFi метод преноса користити</string>
+    <string name="support_us">Support us</string>
+    <string name="no_donation">You cancelled the Donation 😢</string>
+    <string name="thanks_donation">Thanks for the Donation 😘</string>
+    <string name="activity_donation_select_product">Please select a donation in the list:</string>
+    <string name="activity_donation_opencollective">Donate on OpenCollective</string>
+    <string name="donate">Donate</string>
+    <string name="later">Later</string>
+    <string name="support_us_text">Would you like to Support AmazMod development? AmazMod is free and will always be but donations help us to buy devices to test and improve our beloved software.</string>
+    <string name="donors">Donors</string>
+    <string name="activity_view_donors">View Donors</string>
+    <string name="donors_hall_of_fame">Donors Hall of Fame</string>
+    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
 </resources>
