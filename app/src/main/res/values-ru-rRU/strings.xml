@@ -494,9 +494,9 @@
     <string name="watch_empty_ip">IP-адрес часов пуст, поэтому будет использоваться точка доступа WiFi</string>
     <string name="watch_same_wifi">IP-адрес часов обнаружен, вы подключены к той же сети WiFi</string>
     <string name="wifi_transfer_method">Выбор способа передачи WiFi</string>
-    <string name="support_us">Support us</string>
-    <string name="no_donation">You cancelled the Donation 😢</string>
-    <string name="thanks_donation">Thanks for the Donation 😘</string>
+    <string name="support_us">Поддержите нас</string>
+    <string name="no_donation">Вы отменили пожертвование 😢</string>
+    <string name="thanks_donation">Спасибо за пожертвование 😘</string>
     <string name="activity_donation_select_product">Please select a donation in the list:</string>
     <string name="activity_donation_opencollective">Donate on OpenCollective</string>
     <string name="donate">Donate</string>
