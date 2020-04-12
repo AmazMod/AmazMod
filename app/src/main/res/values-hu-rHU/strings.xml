@@ -163,8 +163,11 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="notifications_screen_timeout">Képernyő időtúllépés</string>
     <string name="pref_notifications_inverted_theme">Világos téma</string>
     <string name="pref_notifications_inverted_theme_summary">Világos háttéren sötét szövegű téma bekapcsolása.</string>
+    <string name="pref_font_title_size">Cím betűméret</string>
+    <string name="pref_font_title_size_summary">A CustomUI értesítéseinél használt betűméret kiválasztása.</string>
     <string name="pref_font_size">Font méret</string>
     <string name="pref_font_size_summary">Válaszd ki a Egyéni felület értesítéseinél használt betűméretet.</string>
+    <string name="notifications_font_title_size">Cím betűméret</string>
     <string name="notifications_font_size">Font méret</string>
     <string name="device_not_connected">Nincs csatlakoztatva eszköz</string>
     <string name="device_connected">csatlakozva</string>
@@ -485,7 +488,7 @@ a rendszertéma követése helyett (beta).</string>
     <string name="invalid_key">az api kulcs érvénytelen</string>
     <string name="miss_notification_access">Add meg az AmazMod értesítési hozzáférését a megfelelő értesítések kezeléséhez</string>
     <string name="turn_on_wifi">Be kell kapcsolnod a WiFi-t</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
-    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="watch_empty_ip">Óra IP cím üres, így a WiFi AP-vel megy</string>
+    <string name="watch_same_wifi">Óra IP található, így azonos Wifi-re van csatlakozva</string>
+    <string name="wifi_transfer_method">Válaszd használatra a Wifi átviteli módot</string>
 </resources>

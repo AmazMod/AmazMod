@@ -161,8 +161,11 @@
     <string name="notifications_screen_timeout">Temps d\'espera de la pantalla</string>
     <string name="pref_notifications_inverted_theme">Tema clar</string>
     <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme.</string>
+    <string name="pref_font_title_size">Font title size</string>
+    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
     <string name="pref_font_size">Mida de la lletra</string>
     <string name="pref_font_size_summary">Select font size used in CustomUI notifications.</string>
+    <string name="notifications_font_title_size">Font Title Size</string>
     <string name="notifications_font_size">Mida de lletra</string>
     <string name="device_not_connected">Cap dispositiu connectat</string>
     <string name="device_connected">dispositiu connectat</string>

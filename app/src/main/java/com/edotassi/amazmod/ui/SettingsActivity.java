@@ -237,6 +237,8 @@ public class SettingsActivity extends BaseAppCompatActivity {
                 Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
         final boolean enableInvertedTheme = Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_INVERTED_THEME,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME);
+        final String fontTitleSize = Prefs.getString(Constants.PREF_NOTIFICATIONS_FONT_TITLE_SIZE,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_TITLE_SIZE);
         final String fontSize = Prefs.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         final boolean disableNotificationsScreenOn = Prefs.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_SCREENON,
@@ -320,6 +322,7 @@ public class SettingsActivity extends BaseAppCompatActivity {
         settingsData.setDisableNotifications(disableNotifications);
         settingsData.setDisableNotificationReplies(disableNotificationReplies);
         settingsData.setInvertedTheme(enableInvertedTheme);
+        settingsData.setFontTitleSize(fontTitleSize);
         settingsData.setFontSize(fontSize);
         settingsData.setDisableNotificationScreenOn(disableNotificationsScreenOn);
         settingsData.setPhoneConnectionAlert(phoneConnection);

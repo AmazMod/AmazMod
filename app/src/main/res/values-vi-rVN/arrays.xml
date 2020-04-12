@@ -47,7 +47,10 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Bình thường</item>
+        <item>Trung bình</item>
         <item>Lớn</item>
+        <item>Lớn hơn</item>
+        <item>Gần như rất lớn</item>
         <item>Rất lớn</item>
     </string-array>
     <string-array name="default_notification_replies">

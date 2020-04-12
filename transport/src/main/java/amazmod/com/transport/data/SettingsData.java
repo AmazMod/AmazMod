@@ -20,6 +20,7 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String DISABLE_NOTIFICATION_REPLIES = "disable_notification_replies";
     public static final String ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "enable_hardware_keys_music_control";
     public static final String ENABLE_INVERTED_THEME = "enable_inverted_theme";
+    public static final String FONT_TITLE_SIZE = "font_title_size";
     public static final String FONT_SIZE = "font_size";
     public static final String DISABLE_NOTIFICATION_SCREENON = "disable_notification_screenon";
     public static final String SHAKE_TO_DISMISS_GRAVITY = "shake_to_dismiss_gravity";
@@ -47,6 +48,7 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean disableNotificationsReplies;
     private boolean enableHardwareKeysMusicControl;
     private boolean enableInvertedTheme;
+    private String fontTitleSize;
     private String fontSize;
     private boolean disableNotificationsScreenOn;
     private int shakeToDismissGravity;
@@ -77,6 +79,7 @@ public class SettingsData extends Transportable implements Parcelable {
         disableNotificationsReplies = in.readByte() != 0;
         enableHardwareKeysMusicControl = in.readByte() != 0;
         enableInvertedTheme = in.readByte() != 0;
+        fontTitleSize = in.readString();
         fontSize = in.readString();
         disableNotificationsScreenOn = in.readByte() != 0;
         shakeToDismissGravity = in.readInt();
@@ -118,6 +121,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(DISABLE_NOTIFICATION_REPLIES, disableNotificationsReplies);
         dataBundle.putBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, enableHardwareKeysMusicControl);
         dataBundle.putBoolean(ENABLE_INVERTED_THEME, enableInvertedTheme);
+        dataBundle.putString(FONT_TITLE_SIZE, fontTitleSize);
         dataBundle.putString(FONT_SIZE, fontSize);
         dataBundle.putBoolean(DISABLE_NOTIFICATION_SCREENON, disableNotificationsScreenOn);
         dataBundle.putInt(SHAKE_TO_DISMISS_GRAVITY, shakeToDismissGravity);
@@ -150,6 +154,7 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setDisableNotificationReplies(dataBundle.getBoolean(DISABLE_NOTIFICATION_REPLIES));
         settingsData.setEnableHardwareKeysMusicControl(dataBundle.getBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL));
         settingsData.setInvertedTheme(dataBundle.getBoolean(ENABLE_INVERTED_THEME));
+        settingsData.setFontTitleSize(dataBundle.getString(FONT_TITLE_SIZE));
         settingsData.setFontSize(dataBundle.getString(FONT_SIZE));
         settingsData.setDisableNotificationScreenOn(dataBundle.getBoolean(DISABLE_NOTIFICATION_SCREENON));
         settingsData.setShakeToDismissGravity(dataBundle.getInt(SHAKE_TO_DISMISS_GRAVITY));
@@ -247,6 +252,14 @@ public class SettingsData extends Transportable implements Parcelable {
 
     public void setInvertedTheme(boolean enableInvertedTheme) {
         this.enableInvertedTheme = enableInvertedTheme;
+    }
+
+    public String getFontTitleSize() {
+        return fontTitleSize;
+    }
+
+    public void setFontTitleSize(String fontTitleSize) {
+        this.fontTitleSize = fontTitleSize;
     }
 
     public String getFontSize() {
@@ -391,6 +404,7 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (disableNotificationsReplies ? 1 : 0));
         dest.writeByte((byte) (enableHardwareKeysMusicControl ? 1 : 0));
         dest.writeByte((byte) (enableInvertedTheme ? 1 : 0));
+        dest.writeString(fontTitleSize);
         dest.writeString(fontSize);
         dest.writeByte((byte) (disableNotificationsScreenOn ? 1 : 0));
         dest.writeInt(shakeToDismissGravity);

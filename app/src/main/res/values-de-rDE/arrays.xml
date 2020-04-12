@@ -47,7 +47,10 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
+        <item>Mittel</item>
         <item>Groß</item>
+        <item>Größer</item>
+        <item>Fast riesig</item>
         <item>Riesig</item>
     </string-array>
     <string-array name="default_notification_replies">

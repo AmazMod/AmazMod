@@ -47,8 +47,11 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Κανονικό</item>
-        <item>Μεγάλο</item>
-        <item>Τεράστιο</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>Ναι</item>

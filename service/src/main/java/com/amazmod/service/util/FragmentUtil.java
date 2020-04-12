@@ -26,13 +26,16 @@ import amazmod.com.models.Reply;
 
 public class FragmentUtil {
     private static final float FONT_SIZE_NORMAL = 14.0f;
+    private static final float FONT_SIZE_MEDIUM = 16.0f;
     private static final float FONT_SIZE_LARGE = 18.0f;
+    private static final float FONT_SIZE_MORE_LARGE = 20.0f;
     private static final float FONT_SIZE_HUGE = 22.0f;
+    private static final float FONT_SIZE_MORE_HUGE = 24.0f;
 
     private Context mContext;
     private SettingsManager settingsManager;
     private LinearLayout.LayoutParams params;
-    private float fontSizeSP;
+    private float fontTitleSizeSP, fontSizeSP;
     private String defaultLocale;
 
     public FragmentUtil(Context context) {
@@ -43,23 +46,54 @@ public class FragmentUtil {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        fontTitleSizeSP = getFontTitleSize();
+
         fontSizeSP = getFontSize();
 
 
         defaultLocale = getDefaultLocaleSettings();
     }
 
+    private float getFontTitleSize() {
+        String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_TITLE_SIZE,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_TITLE_SIZE);
+        switch (fontSize) {
+            case "m":
+                return FONT_SIZE_MEDIUM;
+            case "l":
+                return FONT_SIZE_LARGE;
+            case "ml":
+                return FONT_SIZE_MORE_LARGE;
+            case "h":
+                return FONT_SIZE_HUGE;
+            case "mh":
+                return FONT_SIZE_MORE_HUGE;
+            default:
+                return FONT_SIZE_NORMAL;
+        }
+    }
+
     private float getFontSize() {
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         switch (fontSize) {
+            case "m":
+                return FONT_SIZE_MEDIUM;
             case "l":
                 return FONT_SIZE_LARGE;
+            case "ml":
+                return FONT_SIZE_MORE_LARGE;
             case "h":
                 return FONT_SIZE_HUGE;
+            case "mh":
+                return FONT_SIZE_MORE_HUGE;
             default:
                 return FONT_SIZE_NORMAL;
         }
+    }
+
+    public float getFontTitleSizeSP() {
+        return fontTitleSizeSP;
     }
 
     public float getFontSizeSP() {

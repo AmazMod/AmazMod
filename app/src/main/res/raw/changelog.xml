@@ -3,6 +3,7 @@
         date="Unreleased"
         versionCode="220"
         versionName="v1.1.9 (220)">
+        <new>Split title and content font size and add new intermediate value</new>
         <new>New buttons on Tweaking menu about WiFi AP, FTP Server and local IP</new>
         <new>FTP WiFi file transfer!!(Beta)</new>
         <new>Watch root status in main screen (next Amazmod service version)</new>
