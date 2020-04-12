@@ -504,6 +504,6 @@
     <string name="support_us_text">Бажаєте підтримати розробку AmazMod? AmazMod є безкоштовним, але пожертвування допоможуть нам придбати пристрої для тестування та покращення нашого улюбленого програмного забезпечення.</string>
     <string name="donors">Благодійники</string>
     <string name="activity_view_donors">Переглянути благодійників</string>
-    <string name="donors_hall_of_fame">Donors Hall of Fame</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_hall_of_fame">Зала слави благодійників</string>
+    <string name="donors_disclaimer_google">Відмова від відповідальності: Google не надає доступу до будь-якої конфіденційної інформації, такої як адреса електронної пошти чи імена. Ми не можемо перелічити тих, хто пожертвував через Google InApp покупки тут, тільки тих, хто користувався OpenCollective. Ми хотіли б подякувати кожному, хто пожертвував!!!</string>
 </resources>
