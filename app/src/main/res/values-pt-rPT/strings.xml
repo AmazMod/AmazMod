@@ -500,5 +500,5 @@
     <string name="donors">Doadores</string>
     <string name="activity_view_donors">Ver doadores</string>
     <string name="donors_hall_of_fame">Quadro de honra doadores</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_disclaimer_google">Disclaimer: o Google não fornece acesso a nenhuma informação confidencial do usuário, como endereço de e-mail ou nomes. Nós não podemos listar aqueles que doaram usando o Google InApp Compras aqui, apenas aqueles que usaram o OpenCollective. Gostaríamos de agradecer a qualquer um que doa !!!</string>
 </resources>
