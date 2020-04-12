@@ -495,9 +495,9 @@
     <string name="activity_donation_opencollective">OpenCollective üstünden bağış yapın</string>
     <string name="donate">Bağış yap</string>
     <string name="later">Daha sonra</string>
-    <string name="support_us_text">Would you like to Support AmazMod development? AmazMod is free and will always be but donations help us to buy devices to test and improve our beloved software.</string>
+    <string name="support_us_text">AmazMod ürün geliştirmesini desteklemek istiyor musunuz? AmazonMod ücretsizdir ve her zaman öyle olacak. Fakat, bağışlar sayesinde yazılımımızı test etmek ve geliştirmek için cihaz satın alabilmekteyiz.</string>
     <string name="donors">Bağışcılar</string>
     <string name="activity_view_donors">Bağışcıları gör</string>
     <string name="donors_hall_of_fame">Bağışcı onur listesi</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_disclaimer_google">Feragatname: Google, e-posta adresi veya adları gibi herhangi bir gizli kullanıcı bilgisine erişim saglamaz. Google InApp satın alımlarını kullanarak yapılan bağışları burada listeleyememekteyiz, sadece OpenCollective \'i kullananları listeleyebiliriz. Bağış yapan herkese teşekkür ederiz!!!</string>
 </resources>
