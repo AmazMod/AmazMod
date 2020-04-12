@@ -494,16 +494,16 @@
     <string name="watch_empty_ip">השעון ללא כתובת IP, מתחברים דרך AP לWiFi</string>
     <string name="watch_same_wifi">נמצאה כתובת IP של השעון, מחוברים לאותה הרשת</string>
     <string name="wifi_transfer_method">בחירת תצורת WiFi לשימוש</string>
-    <string name="support_us">תמיכה בAmazMod</string>
+    <string name="support_us">תמיכה בפרוייקט</string>
     <string name="no_donation">ביטלתם את התרומה 😢</string>
     <string name="thanks_donation">תודה על התרומה 😘</string>
     <string name="activity_donation_select_product">אנא בחרו את התרומה מתוך הרשימה:</string>
     <string name="activity_donation_opencollective">תרומה דרך OenCollective</string>
-    <string name="donate">תרומה</string>
+    <string name="donate">תרמו</string>
     <string name="later">מאוחר יותר</string>
     <string name="support_us_text">תרצו לתמוך בפיתוח AmazMod? האפליקציה היא בחינם ותמיד תהיה, אך תמיכה תעזור ברכישת שעונים נוספים ופיתוח AmazMod עבורם, שיפור ויעול האפליקציה המגניבה שלנו.</string>
-    <string name="donors">תורמים</string>
-    <string name="activity_view_donors">הצגת התורמים</string>
+    <string name="donors">תומכים</string>
+    <string name="activity_view_donors">הצגת התומכים</string>
     <string name="donors_hall_of_fame">היכל התהילה</string>
     <string name="donors_disclaimer_google">הצהרה: Google אינה מאפשרת גישה למידע חסוי אודות המשתמשים כגון אימיילים ו/או שמות. אנחנו לא יכולים להציג את אלו אשר תרמו באמצעות תשלום דרך Google, אלא רק אלו אשר תרמו באמצעות OpenCollective. נרצה להודות מקרב לב לכל אלו אשר תרמו!!!</string>
 </resources>
