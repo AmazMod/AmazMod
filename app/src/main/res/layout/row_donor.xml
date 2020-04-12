@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -9,34 +8,52 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:layout_weight="1"
         android:background="?android:attr/colorBackground"
         android:elevation="4dp"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/row_donor_avatar"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/incognito" />
 
-        <TextView
-            android:id="@+id/row_donor_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/row_donor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/row_donor_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/row_donor_role"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="14sp"
-            android:textStyle="italic" />
+            android:id="@+id/row_donor_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textSize="24sp"
+            android:text="15 USD"
+            android:gravity="center"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </RelativeLayout>

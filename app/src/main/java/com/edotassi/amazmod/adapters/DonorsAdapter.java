@@ -19,6 +19,7 @@ import com.edotassi.amazmod.Interface.IDonateProductClickListener;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.DonationActivity;
 import com.edotassi.amazmod.ui.DonorsActivity;
+import com.squareup.picasso.Picasso;
 
 import org.tinylog.Logger;
 
@@ -48,10 +49,14 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
         DonorsActivity.Donor donor = donorsList.get(position);
         holder.textDonorName.setText(donor.name);
         holder.textDonorRole.setText(donor.role);
-        if (donor.image != null) {
-            new DownloadImageTask(holder.textDonorPicture)
-                    .execute(donor.image);
-        }
+        holder.textDonorAmount.setText(String.valueOf(donor.totalAmountDonated));
+        Picasso.get()
+                .load(donor.image)
+                .placeholder(R.drawable.account_circle)
+                //.error(R.drawable.incognito)
+                .resize(128, 128)
+                .centerCrop()
+                .into(holder.textDonorPicture);
     }
 
     @Override
@@ -62,6 +67,7 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView textDonorName;
         TextView textDonorRole;
+        TextView textDonorAmount;
         ImageView textDonorPicture;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -69,31 +75,7 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
             textDonorName = itemView.findViewById(R.id.row_donor_name);
             textDonorRole = itemView.findViewById(R.id.row_donor_role);
             textDonorPicture = itemView.findViewById(R.id.row_donor_avatar);
-        }
-    }
-
-    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            Bitmap mIcon11 = null;
-            try {
-                InputStream in = new java.net.URL(urldisplay).openStream();
-                mIcon11 = BitmapFactory.decodeStream(in);
-            } catch (Exception e) {
-                Logger.error("Error", e.getMessage());
-                e.printStackTrace();
-            }
-            return mIcon11;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            bmImage.setImageBitmap(result);
+            textDonorAmount = itemView.findViewById(R.id.row_donor_amount);
         }
     }
 }

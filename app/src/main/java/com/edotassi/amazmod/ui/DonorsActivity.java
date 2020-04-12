@@ -1,28 +1,25 @@
 package com.edotassi.amazmod.ui;
 
+import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.adapters.DonateProductsAdapter;
 import com.edotassi.amazmod.adapters.DonorsAdapter;
 import com.google.gson.Gson;
 
 import org.tinylog.Logger;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,8 +47,8 @@ public class DonorsActivity extends BaseAppCompatActivity {
         textTitle = findViewById(R.id.activity_donors_title);
         recyclerViewDonorList = (RecyclerView) findViewById(R.id.activity_donors_list);
         recyclerViewDonorList.setHasFixedSize(true);
-        //recyclerViewDonorList.setLayoutManager(new LinearLayoutManager(this));
-        recyclerViewDonorList.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerViewDonorList.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerViewDonorList.setLayoutManager(new GridLayoutManager(this, 2));
         listDonors();
     }
 
@@ -85,7 +82,19 @@ public class DonorsActivity extends BaseAppCompatActivity {
                         Donor[] d = new Gson().fromJson(json, Donor[].class);
                         donors = Arrays.asList(d);
 
-                        DonorsAdapter adapter = new DonorsAdapter(DonorsActivity.this, donors);
+                        //Sort Donors by total amount
+                        Collections.sort(donors, new Comparator<Donor>() {
+                            public int compare(Donor o1, Donor o2) {
+                                return (int) (o2.totalAmountDonated - o1.totalAmountDonated);
+                            }
+                        });
+
+                        Predicate<Donor> byRole = donor -> donor.role.equals("BACKER");
+
+                        List<Donor> filtered = donors.stream().filter(byRole)
+                                .collect(Collectors.toList());
+
+                        DonorsAdapter adapter = new DonorsAdapter(DonorsActivity.this, filtered);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
