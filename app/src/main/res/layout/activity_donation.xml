@@ -15,19 +15,49 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/activity_donation_progress"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/donation_activity_title"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="347dp"
+        android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        app:mpb_progressStyle="circular"
+        android:layout_centerInParent="true"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/donation_activity_products"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/donation_activity_bottom"
         android:layout_below="@id/donation_activity_title"
-        android:layout_above="@id/donation_actibity_donate_opencollective"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp"
+        android:visibility="gone"/>
 
-    <Button
-        android:id="@+id/donation_actibity_donate_opencollective"
+    <LinearLayout
+        android:id="@+id/donation_activity_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/activity_donation_opencollective"
-        android:layout_margin="8dp"/>
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/donation_activity_donate_opencollective"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/activity_donation_opencollective" />
+        <Button
+            android:id="@+id/donation_activity_donate_view_donors"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_height="match_parent"
+            android:text="@string/activity_view_donors" />
+    </LinearLayout>
 </RelativeLayout>

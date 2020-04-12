@@ -262,14 +262,6 @@ public class AboutActivity extends BaseAppCompatActivity implements TransportSer
         }
     }
 
-
-    @OnClick(R.id.amazmod_logo)
-    public void onLogoClick(){
-        Intent i = new Intent(this, DonorsActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
-    }
-
     @OnLongClick(R.id.amazmod_logo)
     public boolean onAmazmodLogoLongClick() {
         NotificationService.cancelPendingJobs();

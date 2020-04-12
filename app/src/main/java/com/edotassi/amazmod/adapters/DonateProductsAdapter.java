@@ -33,7 +33,7 @@ public class DonateProductsAdapter extends RecyclerView.Adapter<DonateProductsAd
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(donationActivity.getBaseContext())
+        View itemView = LayoutInflater.from(donationActivity)
                 .inflate(R.layout.row_donate_item, parent,false);
         return new MyViewHolder(itemView);
     }

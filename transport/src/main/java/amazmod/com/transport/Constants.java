@@ -215,7 +215,7 @@ public class Constants {
 
     public static final int SNACKBAR_LONG10 = 10000;
 
-    public static final String[] DONATE_SKU_LIST = {"thank_you","coffee", "beer", "donors", "hall_of_fame"};
+    public static final String[] DONATE_SKU_LIST = {"thank_you","coffee", "beer"};
     public static final String DONATE_URL = "https://opencollective.com/amazmod-33/donate";
 
 }

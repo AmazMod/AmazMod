@@ -39,7 +39,7 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(donorsActivity.getBaseContext())
+        View itemView = LayoutInflater.from(donorsActivity)
                 .inflate(R.layout.row_donor, parent,false);
         return new MyViewHolder(itemView);
     }
@@ -49,7 +49,7 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
         DonorsActivity.Donor donor = donorsList.get(position);
         holder.textDonorName.setText(donor.name);
         holder.textDonorRole.setText(donor.role);
-        holder.textDonorAmount.setText(String.valueOf(donor.totalAmountDonated));
+        holder.textDonorAmount.setText(donor.currency + " " + String.valueOf(donor.totalAmountDonated));
         Picasso.get()
                 .load(donor.image)
                 .placeholder(R.drawable.account_circle)

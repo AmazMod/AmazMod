@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
@@ -34,13 +33,15 @@ import java.util.Comparator;
 import java.util.List;
 
 import amazmod.com.transport.Constants;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class DonationActivity extends BaseAppCompatActivity implements PurchasesUpdatedListener {
 
     BillingClient billingClient;
     AcknowledgePurchaseResponseListener acknowledgePurchaseResponseListener;
     ConsumeResponseListener consumeResponseListener;
-    Button donateButton;
+    Button donateButton, donorsButton;
+    MaterialProgressBar materialProgressBar;
     RecyclerView recyclerViewProducts;
 
     @Override
@@ -58,8 +59,10 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
 
         setupBillingClient();
 
-        donateButton = (Button) findViewById(R.id.donation_actibity_donate_opencollective);
-        recyclerViewProducts = (RecyclerView) findViewById(R.id.donation_activity_products);
+        donateButton = findViewById(R.id.donation_activity_donate_opencollective);
+        donorsButton = findViewById(R.id.donation_activity_donate_view_donors);
+        materialProgressBar = findViewById(R.id.activity_donation_progress);
+        recyclerViewProducts = findViewById(R.id.donation_activity_products);
 
         recyclerViewProducts.setHasFixedSize(true);
         recyclerViewProducts.setLayoutManager(new LinearLayoutManager(this));
@@ -73,6 +76,16 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
                 startActivity(i);
             }
         });
+
+        donorsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(DonationActivity.this, DonorsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
+
     }
 
     private void loadSkuDetails() {
@@ -111,6 +124,8 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
     private void loadProductToRecyclerView(List<SkuDetails> list) {
         DonateProductsAdapter adapter = new DonateProductsAdapter(this, list, billingClient);
         recyclerViewProducts.setAdapter(adapter);
+        materialProgressBar.setVisibility(View.GONE);
+        recyclerViewProducts.setVisibility(View.VISIBLE);
     }
 
     private void setupBillingClient() {
@@ -118,7 +133,7 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
             @Override
             public void onConsumeResponse(BillingResult billingResult, String s) {
                 //TODO
-                Toast.makeText(DonationActivity.this, "onConsumeResponse " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage() + " // " + s, Toast.LENGTH_SHORT).show();
+                Logger.debug("onConsumeResponse " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage() + " // " + s);
             }
         };
 
@@ -151,8 +166,7 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
         acknowledgePurchaseResponseListener = new AcknowledgePurchaseResponseListener() {
             @Override
             public void onAcknowledgePurchaseResponse(BillingResult billingResult) {
-                //TODO
-                Toast.makeText(DonationActivity.this, "onAcknowledgePurchaseResponse: " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+                Logger.debug("onAcknowledgePurchaseResponse: " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage());
             }
         };
     }
@@ -169,7 +183,7 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
             Toast.makeText(this, getString(R.string.no_donation), Toast.LENGTH_SHORT).show();
         } else {
             // Handle any other error codes.
-            Toast.makeText(this, "onPurchasesUpdated " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error " + billingResult.getResponseCode() + ": " + billingResult.getDebugMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -190,7 +204,7 @@ public class DonationActivity extends BaseAppCompatActivity implements Purchases
                 consume(purchase);
             }
         }else{
-            Toast.makeText(this, "handlePurchase Code: " + purchase.getPurchaseState() + " // " + purchase.getDeveloperPayload(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Purchase Code: " + purchase.getPurchaseState() + " // " + purchase.getDeveloperPayload(), Toast.LENGTH_SHORT).show();
         }
     }
 
