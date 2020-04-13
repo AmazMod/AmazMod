@@ -408,7 +408,7 @@
     <string name="app_options">Tùy chọn ứng dụng</string>
     <string name="notification_options">Tùy chọn thông báo</string>
     <string name="notification_options_description">Không hiển thị thông báo có chứa các văn bản sau(một dòng trên mỗi dòng):</string>
-    <string name="inverted_notification_options_description">Chỉ hiển thị thông báo có chứa các văn bản sau (một trên mỗi dòng):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">và</string>
     <plurals name="day">
         <item quantity="other">ngày</item>
