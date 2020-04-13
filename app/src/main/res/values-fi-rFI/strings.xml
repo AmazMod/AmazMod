@@ -408,6 +408,7 @@
     <string name="app_options">App Options</string>
     <string name="notification_options">Ilmoitusasetukset</string>
     <string name="notification_options_description">Älä näytä ilmoituksia, jotka sisältävät seuraavat tekstit (yksi rivillä):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">ja</string>
     <plurals name="day">
         <item quantity="one">päivä</item>
