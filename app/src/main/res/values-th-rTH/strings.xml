@@ -409,6 +409,7 @@
     <string name="app_options">แอพตัวเลือก</string>
     <string name="notification_options">การแจ้งให้ทราบทางเลือก</string>
     <string name="notification_options_description">ไม่ต้องแสดงการแจ้งให้ทราบต่อไปนี้ส่งข้อความ(คนต่อบรรทัด):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">แล้ว</string>
     <plurals name="day">
         <item quantity="other">วัน</item>
