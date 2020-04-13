@@ -408,7 +408,7 @@
     <string name="app_options">Опції додатку</string>
     <string name="notification_options">Опції сповіщень</string>
     <string name="notification_options_description">Не показувати сповіщення, що містять наступний текст (один на рядок):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Показувати лише сповіщення, що містять наступний текст (один на рядок):</string>
     <string name="and">та</string>
     <plurals name="day">
         <item quantity="one">день</item>
@@ -507,5 +507,5 @@
     <string name="activity_view_donors">Переглянути благодійників</string>
     <string name="donors_hall_of_fame">Зала слави благодійників</string>
     <string name="donors_disclaimer_google">Відмова від відповідальності: Google не надає доступу до будь-якої конфіденційної інформації, такої як адреса електронної пошти чи імена. Ми не можемо перелічити тих, хто пожертвував через Google InApp покупки тут, тільки тих, хто користувався OpenCollective. Ми хотіли б подякувати кожному, хто пожертвував!!!</string>
-    <string name="filter_as_whitelist">Whitelist</string>
+    <string name="filter_as_whitelist">Білий список</string>
 </resources>

@@ -47,11 +47,11 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normální</item>
-        <item>Medium</item>
-        <item>Large</item>
-        <item>Bigger</item>
-        <item>Almost Huge</item>
-        <item>Huge</item>
+        <item>Střední</item>
+        <item>Velké</item>
+        <item>Větší</item>
+        <item>Téměř obrovské</item>
+        <item>Obrovské</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>Ano</item>
