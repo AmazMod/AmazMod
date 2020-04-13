@@ -181,7 +181,7 @@ public class Constants {
 
     public static final int NOTIFICATION_FILTER_TITLE = 0;
     public static final int NOTIFICATION_FILTER_CONTENTS = 1;
-    public static final int NOTIFICATION_FILTER_BOTH = 3;
+    public static final int NOTIFICATION_FILTER_BOTH = 2;
 
     public static final String PREF_WEATHER_LAST_DATA = "preference.weather.last.data";
 

@@ -95,15 +95,18 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
                 filter_edittext.setText(app.getFilter());
                 silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
-                filter_description.setText(getResources().getString(R.string.notification_options_description));
-                // Inverted Filter
+                // Whitelist Filter
+                if (app.isWhitelist()) {
+                    filter_description.setText(getResources().getString(R.string.whitelist_notification_options_description));
+                } else
+                    filter_description.setText(getResources().getString(R.string.notification_options_description));
                 whitelistSwitch.setChecked(app.isWhitelist());
                 whitelistSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         app.setWhitelist(isChecked);
                         Logger.debug("set filter as whitelist: " + isChecked);
                         if (isChecked) {
-                            filter_description.setText(getResources().getString(R.string.inverted_notification_options_description));
+                            filter_description.setText(getResources().getString(R.string.whitelist_notification_options_description));
                         } else
                             filter_description.setText(getResources().getString(R.string.notification_options_description));
                     }
