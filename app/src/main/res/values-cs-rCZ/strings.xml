@@ -504,10 +504,10 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="activity_donation_opencollective">Darovat na OpenCollective</string>
     <string name="donate">Darovat</string>
     <string name="later">Později</string>
-    <string name="support_us_text">Would you like to Support AmazMod development? AmazMod is free and will always be but donations help us to buy devices to test and improve our beloved software.</string>
-    <string name="donors">Donors</string>
-    <string name="activity_view_donors">View Donors</string>
-    <string name="donors_hall_of_fame">Donors Hall of Fame</string>
+    <string name="support_us_text">Chcete podpořit vývoj aplikace AmazMod? AmazMod je zdarma a vždy bude ale dary nám pomáhají na nákup zařízení pro testování a vylepšování našeho milovaného softwaru.</string>
+    <string name="donors">Dárci</string>
+    <string name="activity_view_donors">Zobrazit dárce</string>
+    <string name="donors_hall_of_fame">Dárcovská síň slávy</string>
     <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
     <string name="filter_as_whitelist">Whitelist</string>
 </resources>
