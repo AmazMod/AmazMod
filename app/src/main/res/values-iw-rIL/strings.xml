@@ -408,7 +408,7 @@
     <string name="app_options">אפשרויות</string>
     <string name="notification_options">הגדרת התראות</string>
     <string name="notification_options_description">אין להציג התראות אשר מכילות את המילים הבאות (מילה אחת בשורה):</string>
-    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">ו</string>
     <plurals name="day">
         <item quantity="one">יום</item>
