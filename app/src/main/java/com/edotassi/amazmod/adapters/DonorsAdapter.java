@@ -53,7 +53,7 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
         holder.textDonorAmount.setText(donor.currency + " " + String.valueOf(donor.totalAmountDonated));
         Picasso.get()
                 .load(donor.image)
-                .placeholder(R.drawable.account_circle)
+                .placeholder(R.drawable.account_box)
                 .resize(128, 128)
                 .centerCrop()
                 .transform(new CircleTransform(10,0))
