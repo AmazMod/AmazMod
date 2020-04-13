@@ -409,6 +409,7 @@ stedet for følge systemtemaet (beta).</string>
     <string name="app_options">App-indstilllinger</string>
     <string name="notification_options">Notifikationsindstillinger</string>
     <string name="notification_options_description">Vis ikke notifikationer indeholdende flg. tekster (én pr. linje):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">og</string>
     <plurals name="day">
         <item quantity="one">dag</item>
