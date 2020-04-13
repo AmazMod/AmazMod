@@ -498,4 +498,5 @@
     <string name="activity_view_donors">View Donors</string>
     <string name="donors_hall_of_fame">Donors Hall of Fame</string>
     <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>
