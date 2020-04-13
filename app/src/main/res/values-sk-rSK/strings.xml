@@ -409,6 +409,7 @@ Urobte príkaz shell \"</string>
     <string name="app_options">Možnosti aplikácie</string>
     <string name="notification_options">Možnosti upozornení</string>
     <string name="notification_options_description">Nezobrazovať oznámenie obsahujúce nasledujúce texty (jeden na riadok):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">a</string>
     <plurals name="day">
         <item quantity="one">deň</item>
