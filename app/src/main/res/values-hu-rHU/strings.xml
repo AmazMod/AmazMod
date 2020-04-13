@@ -411,7 +411,7 @@ a rendszertéma követése helyett (beta).</string>
     <string name="app_options">App lehetőségek</string>
     <string name="notification_options">Értesítési lehetőségek</string>
     <string name="notification_options_description">Ne jelenítse meg a következő szövegeket tartalmazó értesítéseket (soronként egy):</string>
-    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">és</string>
     <plurals name="day">
         <item quantity="one">nap</item>
