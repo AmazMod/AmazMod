@@ -409,6 +409,7 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="app_options">App-Optionen</string>
     <string name="notification_options">Benachrichtigungsoptionen</string>
     <string name="notification_options_description">Keine Benachrichtigungen anzeigen, die folgende Texte enthalten (eine pro Zeile):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">und</string>
     <plurals name="day">
         <item quantity="one">Tag</item>
