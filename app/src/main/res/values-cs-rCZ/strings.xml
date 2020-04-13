@@ -164,10 +164,10 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_notifications_inverted_theme">Světlé téma</string>
     <string name="pref_notifications_inverted_theme_summary">Aktivujte světlé pozadí a tmavým textem.</string>
     <string name="pref_font_title_size">Velikost písma nadpisu</string>
-    <string name="pref_font_title_size_summary">Select font title size used in CustomUI notifications.</string>
+    <string name="pref_font_title_size_summary">Vyberte velikost písma použitého v záhlaví ve vlastních oznámeních (CustomUI).</string>
     <string name="pref_font_size">Velikost písma</string>
     <string name="pref_font_size_summary">Vyberte velikost písma použitá ve vlastních oznámeních (CustomUI).</string>
-    <string name="notifications_font_title_size">Font Title Size</string>
+    <string name="notifications_font_title_size">Velikost písma v záhlaví</string>
     <string name="notifications_font_size">Velikost písma</string>
     <string name="device_not_connected">Není připojeno žádné zařízení</string>
     <string name="device_connected">byl připojen</string>
@@ -494,9 +494,9 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="invalid_key">api klíč byl neplatný</string>
     <string name="miss_notification_access">Za účelem správného zpracování oznámení povolte AmazModu přístup k oznámením</string>
     <string name="turn_on_wifi">Musíte v telefonu zapnout Wi-Fi</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
+    <string name="watch_empty_ip">IP adresa hodinek je prázdná, takže bude použit přístupový bod WiFi</string>
     <string name="watch_same_wifi">IP hodinek nalezena, jste připojeni na stejné WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="wifi_transfer_method">Volba způsobu přenosu WiFi</string>
     <string name="support_us">Podpořte nás</string>
     <string name="no_donation">Zrušili jste Dar 😢</string>
     <string name="thanks_donation">Děkujeme za Dar 😘</string>
@@ -508,6 +508,6 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="donors">Dárci</string>
     <string name="activity_view_donors">Zobrazit dárce</string>
     <string name="donors_hall_of_fame">Dárcovská síň slávy</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
-    <string name="filter_as_whitelist">Whitelist</string>
+    <string name="donors_disclaimer_google">Zřeknutí se odpovědnosti: Google neposkytuje přístup k důvěrným informacím uživatele, jako je e-mailová adresa nebo jména. Zde nemůžeme uvést ty, kdo se rozhodli darovat pomocí Google InApp Purchases, ale pouze ty, kteří k darování použíli OpenCollective. Děkujeme každému, kdo nás podporuje!!!</string>
+    <string name="filter_as_whitelist">Seznam povolených</string>
 </resources>
