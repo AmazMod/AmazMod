@@ -409,6 +409,7 @@
     <string name="app_options">Опции за приложения</string>
     <string name="notification_options">Настройки за известия</string>
     <string name="notification_options_description">Не показвайте известия, съдържащи следните текстове (по един на ред):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">и</string>
     <plurals name="day">
         <item quantity="one">ден</item>
