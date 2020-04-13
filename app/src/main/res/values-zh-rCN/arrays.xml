@@ -47,11 +47,11 @@
     </string-array>
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>正常</item>
-        <item>Medium</item>
-        <item>Large</item>
-        <item>Bigger</item>
-        <item>Almost Huge</item>
-        <item>Huge</item>
+        <item>中等</item>
+        <item>大号</item>
+        <item>较大</item>
+        <item>超大</item>
+        <item>特大</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>是</item>
