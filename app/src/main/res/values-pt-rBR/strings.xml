@@ -408,7 +408,7 @@
     <string name="app_options">Opções do App</string>
     <string name="notification_options">Opções de Notificação</string>
     <string name="notification_options_description">Não mostrar notificações contendo os seguintes textos (um por linha):</string>
-    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">e</string>
     <plurals name="day">
         <item quantity="one">dia</item>
