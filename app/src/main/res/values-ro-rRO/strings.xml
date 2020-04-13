@@ -408,7 +408,7 @@
     <string name="app_options">Opțiuni aplicație</string>
     <string name="notification_options">Opțiuni Notificări</string>
     <string name="notification_options_description">Nu arăta notificări care conțin următoarele texte (unul pe linie):</string>
-    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">și</string>
     <plurals name="day">
         <item quantity="one">zi</item>
