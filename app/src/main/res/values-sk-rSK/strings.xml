@@ -507,4 +507,5 @@ Urobte príkaz shell \"</string>
     <string name="activity_view_donors">Zobraziť Darcov</string>
     <string name="donors_hall_of_fame">Darcovia Sieň Slávy</string>
     <string name="donors_disclaimer_google">Zrieknutie sa zodpovednosti: Spoločnosť Google neposkytuje prístup k žiadnym dôverným informáciám používateľa, ako je e-mailová adresa alebo mená. Tu nemôžeme uviesť tých, ktorí darovali pomocou nákupov Google InApp, iba tých, ktorí používali OpenCollective. Chceli by sme sa poďakovať každému, kto daruje!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>
