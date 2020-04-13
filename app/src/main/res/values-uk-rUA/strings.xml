@@ -506,4 +506,5 @@
     <string name="activity_view_donors">Переглянути благодійників</string>
     <string name="donors_hall_of_fame">Зала слави благодійників</string>
     <string name="donors_disclaimer_google">Відмова від відповідальності: Google не надає доступу до будь-якої конфіденційної інформації, такої як адреса електронної пошти чи імена. Ми не можемо перелічити тих, хто пожертвував через Google InApp покупки тут, тільки тих, хто користувався OpenCollective. Ми хотіли б подякувати кожному, хто пожертвував!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>
