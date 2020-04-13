@@ -409,6 +409,7 @@
     <string name="app_options">应用选项</string>
     <string name="notification_options">通知选项</string>
     <string name="notification_options_description">不显示包含下列文本的通知(每行一个关键词):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">和</string>
     <plurals name="day">
         <item quantity="other">天</item>
