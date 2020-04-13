@@ -150,10 +150,10 @@
     <string name="intro_description_permissions">AmazMod necesita acceso a las notificaciones para que pueda enviarlas al reloj, por favor, toca el botón de abajo para permitir acceso a las notificaciones, después, vuelve a la presentación.</string>
     <string name="intro_label_grant_permissions">Por favor antes de empezar concede permiso a las notificaciones.</string>
     <string name="intro_title_2">Instalar app del servicio en el reloj</string>
-    <string name="intro_description_2">Por favor descarga la APK de servicio de AmazMod desde la página web AmazMod e instálala en el reloj. Puede utilizar adb (todas las plataformas), APKInstaller o Amazfit Tool para instalarla, si tu PC usa Windows.</string>
+    <string name="intro_description_2">Por favor descarga la APK de servicio de AmazMod desde la página web AmazMod e instálala en el reloj. Puedes utilizar adb (todas las plataformas), APKInstaller o Amazfit Tool para instalarla, si tu PC usa Windows.</string>
     <string name="intro_title_3">Reiniciar dispositivos</string>
     <string name="intro_description_3">Reinicia tanto reloj como teléfono. Sabrás si funciona cuando veas datos en la casilla de información del reloj.</string>
-    <string name="intro_title_4">¡Todo listo!</string>
+    <string name="intro_title_4">¡Hecho!</string>
     <string name="intro_description_4">Ahora puedes ir a ajustes de AmazMod y elegir las aplicaciones de las cuales quieres recibir notificaciones y añadir respuestas personalizadas.\n\nDisfruta usando AmazMod! \u2661</string>
     <string name="watch_is_connected">Conectado</string>
     <string name="watch_disconnected">Desconectado</string>
@@ -164,7 +164,7 @@
     <string name="pref_font_title_size">Tamaño de fuente</string>
     <string name="pref_font_title_size_summary">Selecciona el tamaño de la fuente a usarse en las notificaciones de UI Personalizada</string>
     <string name="pref_font_size">Tamaño de letra</string>
-    <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificaciones del UI personalizada.</string>
+    <string name="pref_font_size_summary">Selecciona el tamaño de letra a utilizar en las notificaciones del UI Personalizada.</string>
     <string name="notifications_font_title_size">Tamaño de fuente</string>
     <string name="notifications_font_size">Tamaño de letra</string>
     <string name="device_not_connected">Ningún dispositivo conectado</string>
