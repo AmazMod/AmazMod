@@ -408,6 +408,7 @@
     <string name="app_options">Ustawienia aplikacji</string>
     <string name="notification_options">Opcje powiadomień</string>
     <string name="notification_options_description">Nie wyświetlaj powiadomień zawierających tekst (jeden w linii):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">oraz</string>
     <plurals name="day">
         <item quantity="one">dzień</item>
