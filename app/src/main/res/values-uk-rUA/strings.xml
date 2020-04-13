@@ -408,6 +408,7 @@
     <string name="app_options">Опції додатку</string>
     <string name="notification_options">Опції сповіщень</string>
     <string name="notification_options_description">Не показувати сповіщення, що містять наступний текст (один на рядок):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">та</string>
     <plurals name="day">
         <item quantity="one">день</item>
