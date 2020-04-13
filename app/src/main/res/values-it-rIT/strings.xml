@@ -501,4 +501,5 @@ seguire il tema di sistema (beta).</string>
     <string name="activity_view_donors">Visualizza donatori</string>
     <string name="donors_hall_of_fame">Hall of Fame dei donatori</string>
     <string name="donors_disclaimer_google">Avviso: Google non fornisce accesso a informazioni riservate degli utenti, come l\'indirizzo email o i nomi. Non possiamo elencare coloro che hanno donato utilizzando qui gli acquisti in app di Google, ma solo quelli che hanno usato OpenCollective. Vorremmo ringraziare chiunque abbia donato!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>
