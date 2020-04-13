@@ -409,7 +409,7 @@
     <string name="app_options">Επιλογές Εφαρμογής</string>
     <string name="notification_options">Επιλογές Ειδοποιήσεων</string>
     <string name="notification_options_description">Να μην εμφανίζονται ειδοποιήσεις που περιέχουν τα ακόλουθα κείμενα (ένα ανά γραμμή):</string>
-    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">και</string>
     <plurals name="day">
         <item quantity="one">ημέρα</item>
