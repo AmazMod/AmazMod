@@ -410,6 +410,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="app_options">Možnosti aplikace</string>
     <string name="notification_options">Nastavení oznámení</string>
     <string name="notification_options_description">Nezobrazovat oznámení obsahující následující texty (jeden na řádek):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">a</string>
     <plurals name="day">
         <item quantity="one">den</item>
