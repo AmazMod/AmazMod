@@ -504,6 +504,6 @@ follow the system theme (beta).</string>
     <string name="donors">Донатори</string>
     <string name="activity_view_donors">Погледај Донаторе</string>
     <string name="donors_hall_of_fame">Донаторска дворана славних</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_disclaimer_google">Напомена: Google не даје приступа било каквим поверљивим информацијама корисника, попут е-маил адресе или имена. Ми не можемо набројати оне који су донирали преко InApp куповине у Google овде, само они који су користили OpenCollective. Желимо да се захвалимо свима који су донирали!!!</string>
     <string name="filter_as_whitelist">Бела листа</string>
 </resources>
