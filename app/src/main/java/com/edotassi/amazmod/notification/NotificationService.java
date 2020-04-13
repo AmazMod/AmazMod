@@ -730,7 +730,7 @@ public class NotificationService extends NotificationListenerService {
             String[] filters = app.getFilter().split("\\r?\\n");
             for (String filter : filters) {
                 Logger.debug("isPackageFiltered: Checking if '{}' contains '{}'", notificationText, filter);
-                int filter_level = Prefs.getInt(Constants.PREF_FILTER_LEVEL_INDEX, 0);
+                int filter_level = app.getFilterLevel();
                 if (!filter.isEmpty()) {
                     filter = filter.toLowerCase();
                     if (filter_level == Constants.NOTIFICATION_FILTER_TITLE && notificationTitle.toLowerCase().contains(filter)) {

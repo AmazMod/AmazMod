@@ -17,13 +17,11 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity_Table;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
-import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
 
-import amazmod.com.transport.Constants;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -65,7 +63,6 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_notification_package_options);
-        int filter_level_index;
 
         try {
             if (getSupportActionBar() != null)
@@ -112,11 +109,10 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                     }
                 });
                 // Set filter level
-                filter_level_index = Prefs.getInt(Constants.PREF_FILTER_LEVEL_INDEX, Constants.PREF_DEFAULT_FILTER_LEVEL_INDEX);
-                filterLevel.setSelection(filter_level_index);
+                filterLevel.setSelection(app.getFilterLevel());
                 filterLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        Prefs.putInt(Constants.PREF_FILTER_LEVEL_INDEX, pos);
+                        app.setFilterLevel(pos);
                     }
                         @Override
                         public void onNothingSelected(AdapterView<?> arg0) {
@@ -164,6 +160,7 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         app.setPackageName(packageInfo.packageName);
         app.setFilter(filter_edittext.getText().toString());
         app.setWhitelist(whitelistSwitch.isChecked());
+        app.setFilterLevel(app.getFilterLevel());
         if (insert) {
             Logger.debug("STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
             FlowManager

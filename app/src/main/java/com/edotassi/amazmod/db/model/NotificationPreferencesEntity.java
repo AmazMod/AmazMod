@@ -21,6 +21,9 @@ public class NotificationPreferencesEntity {
     @Column
     private boolean whitelist;
 
+    @Column
+    private int filterLevel;
+
     public String getPackageName() {
         return packageName;
     }
@@ -51,6 +54,14 @@ public class NotificationPreferencesEntity {
 
     public void setWhitelist(boolean whitelist) {
         this.whitelist = whitelist;
+    }
+
+    public int getFilterLevel() {
+        return filterLevel;
+    }
+
+    public void setFilterLevel(int filterLevel) {
+        this.filterLevel = filterLevel;
     }
 }
 

@@ -3,6 +3,8 @@
         date="Unreleased"
         versionCode="220"
         versionName="v1.1.9 (220)">
+        <new>Add "Support us" menu, your chance to show us some love!</new>
+        <new>Add whitelist filter, and now any app can use different filter setting</new>
         <new>Split title and content font size and add new intermediate value</new>
         <new>New buttons on Tweaking menu about WiFi AP, FTP Server and local IP</new>
         <new>FTP WiFi file transfer!!(Beta)</new>
