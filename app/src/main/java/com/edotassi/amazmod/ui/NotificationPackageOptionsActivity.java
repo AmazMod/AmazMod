@@ -141,7 +141,7 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         }
         app.setPackageName(packageInfo.packageName);
         app.setFilter(filter_edittext.getText().toString());
-        app.setWhitelist(false);
+        app.setWhitelist(whitelistSwitch.isChecked());
         if (insert) {
             Logger.debug("STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
             FlowManager

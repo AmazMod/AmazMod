@@ -19,6 +19,7 @@ import com.edotassi.amazmod.Interface.IDonateProductClickListener;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.DonationActivity;
 import com.edotassi.amazmod.ui.DonorsActivity;
+import com.edotassi.amazmod.util.picasso.CircleTransform;
 import com.squareup.picasso.Picasso;
 
 import org.tinylog.Logger;
@@ -53,9 +54,9 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHold
         Picasso.get()
                 .load(donor.image)
                 .placeholder(R.drawable.account_circle)
-                //.error(R.drawable.incognito)
                 .resize(128, 128)
                 .centerCrop()
+                .transform(new CircleTransform(10,0))
                 .into(holder.textDonorPicture);
     }
 

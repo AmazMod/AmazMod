@@ -179,6 +179,9 @@ public class Constants {
     public static final String PREF_FILTER_LEVEL_INDEX = "preference.filter.level.index";
     public static final String REQUEST_SELF_RELOAD = "request.self.reload";
 
+    public static final int NOTIFICATION_FILTER_TITLE = 0;
+    public static final int NOTIFICATION_FILTER_CONTENTS = 1;
+    public static final int NOTIFICATION_FILTER_BOTH = 3;
 
     public static final String PREF_WEATHER_LAST_DATA = "preference.weather.last.data";
 
