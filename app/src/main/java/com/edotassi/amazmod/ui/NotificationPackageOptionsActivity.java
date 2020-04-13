@@ -36,6 +36,12 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
     @BindView(R.id.edittext_filter)
     EditText filter_edittext;
 
+    @BindView(R.id.whitelist_switch)
+    Switch whitelistSwitch;
+
+    @BindView(R.id.filter_description)
+    TextView filter_description;
+
     @BindView(R.id.activity_notifopts_appinfo_appname)
     TextView appname_edittext;
 
@@ -89,6 +95,19 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
                 filter_edittext.setText(app.getFilter());
                 silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
+                filter_description.setText(getResources().getString(R.string.notification_options_description));
+                // Inverted Filter
+                whitelistSwitch.setChecked(app.isWhitelist());
+                whitelistSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        app.setWhitelist(isChecked);
+                        Logger.debug("set filter as whitelist: " + isChecked);
+                        if (isChecked) {
+                            filter_description.setText(getResources().getString(R.string.inverted_notification_options_description));
+                        } else
+                            filter_description.setText(getResources().getString(R.string.notification_options_description));
+                    }
+                });
                 // Set filter level
                 filter_level_index = Prefs.getInt(Constants.PREF_FILTER_LEVEL_INDEX, Constants.PREF_DEFAULT_FILTER_LEVEL_INDEX);
                 filterLevel.setSelection(filter_level_index);

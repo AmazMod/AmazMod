@@ -735,19 +735,19 @@ public class NotificationService extends NotificationListenerService {
                     filter = filter.toLowerCase();
                     if (filter_level == Constants.NOTIFICATION_FILTER_TITLE && notificationTitle.toLowerCase().contains(filter)) {
                         Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE ('{}') contains '{}'", packageName, notificationTitle, filter);
-                        return true;
+                        return !app.isWhitelist();
                     }
                     if (filter_level == Constants.NOTIFICATION_FILTER_CONTENTS && notificationText.toLowerCase().contains(filter)) {
                         Logger.debug("isPackageFiltered: Package '{}' filterered because CONTENTS ('{}') contains '{}'", packageName, notificationText, filter);
-                        return true;
+                        return !app.isWhitelist();
                     }
                     if (filter_level == Constants.NOTIFICATION_FILTER_BOTH && (notificationTitle.toLowerCase().contains(filter) || notificationText.toLowerCase().contains(filter))) {
                         Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE or CONTENTS ('{}') contains '{}'", packageName, notificationTitle, notificationText, filter);
-                        return true;
+                        return !app.isWhitelist();
                     }
                 }
             }
-            return false;
+            return app.isWhitelist();
         } else {
             return false;
         }

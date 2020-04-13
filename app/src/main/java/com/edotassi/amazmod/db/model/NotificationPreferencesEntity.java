@@ -53,3 +53,4 @@ public class NotificationPreferencesEntity {
         this.whitelist = whitelist;
     }
 }
+
