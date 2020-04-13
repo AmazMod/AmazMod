@@ -408,7 +408,7 @@
     <string name="app_options">אפשרויות</string>
     <string name="notification_options">הגדרת התראות</string>
     <string name="notification_options_description">אין להציג התראות אשר מכילות את המילים הבאות (מילה אחת בשורה):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">הציגת התראות אשר מכילות את המילים הבאות בלבד (מילה אחת לשורה):</string>
     <string name="and">ו</string>
     <plurals name="day">
         <item quantity="one">יום</item>
@@ -507,5 +507,5 @@
     <string name="activity_view_donors">הצגת התומכים</string>
     <string name="donors_hall_of_fame">היכל התהילה</string>
     <string name="donors_disclaimer_google">הצהרה: Google אינה מאפשרת גישה למידע חסוי אודות המשתמשים כגון אימיילים ו/או שמות. אנחנו לא יכולים להציג את אלו אשר תרמו באמצעות תשלום דרך Google, אלא רק אלו אשר תרמו באמצעות OpenCollective. נרצה להודות מקרב לב לכל אלו אשר תרמו!!!</string>
-    <string name="filter_as_whitelist">Whitelist</string>
+    <string name="filter_as_whitelist">רשימה לבנה</string>
 </resources>
