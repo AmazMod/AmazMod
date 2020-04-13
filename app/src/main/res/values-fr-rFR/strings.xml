@@ -409,6 +409,7 @@ suivre le thème système (bêta).</string>
     <string name="app_options">Options de l\'App</string>
     <string name="notification_options">Options des notifications</string>
     <string name="notification_options_description">Ne pas afficher les notifications contenant les textes suivants (un par ligne) :</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">et</string>
     <plurals name="day">
         <item quantity="one">jour</item>
