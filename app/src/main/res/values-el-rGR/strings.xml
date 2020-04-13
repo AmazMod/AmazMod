@@ -409,6 +409,7 @@
     <string name="app_options">Επιλογές Εφαρμογής</string>
     <string name="notification_options">Επιλογές Ειδοποιήσεων</string>
     <string name="notification_options_description">Να μην εμφανίζονται ειδοποιήσεις που περιέχουν τα ακόλουθα κείμενα (ένα ανά γραμμή):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">και</string>
     <plurals name="day">
         <item quantity="one">ημέρα</item>
@@ -501,4 +502,5 @@
     <string name="activity_view_donors">Προβολή Χορηγών</string>
     <string name="donors_hall_of_fame">Hall of Fame δωρητών</string>
     <string name="donors_disclaimer_google">Αποποίηση ευθυνών: Η Google δεν παρέχει πρόσβαση σε εμπιστευτικές πληροφορίες χρηστών, όπως διεύθυνση ηλεκτρονικού ταχυδρομείου ή ονόματα. Δεν μπορούμε να απαριθμήσουμε εκείνους που δώρισαν μέσω του Google InApp Purchases εδώ, μόνο εκείνους που χρησιμοποίησαν το OpenCollective. Θα θέλαμε να ευχαριστήσουμε όποιον δωρίζει!!!</string>
+    <string name="filter_as_whitelist">Λίστα επιτρεπόμενων</string>
 </resources>

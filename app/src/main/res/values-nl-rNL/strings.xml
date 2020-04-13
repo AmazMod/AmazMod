@@ -409,6 +409,7 @@ het systeemthema (beta).</string>
     <string name="app_options">App opties</string>
     <string name="notification_options">Meldingsopties</string>
     <string name="notification_options_description">Meldingen met de volgende teksten niet weergeven (één per regel):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">en</string>
     <plurals name="day">
         <item quantity="one">dag</item>
@@ -501,4 +502,5 @@ het systeemthema (beta).</string>
     <string name="activity_view_donors">View Donors</string>
     <string name="donors_hall_of_fame">Donors Hall of Fame</string>
     <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>

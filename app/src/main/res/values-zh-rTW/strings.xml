@@ -410,6 +410,7 @@
     <string name="app_options">程序的选择</string>
     <string name="notification_options">通知的选择</string>
     <string name="notification_options_description">不会显示通知含有下列文本(每行一个):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">和</string>
     <plurals name="day">
         <item quantity="other">天</item>
@@ -499,4 +500,5 @@
     <string name="activity_view_donors">View Donors</string>
     <string name="donors_hall_of_fame">Donors Hall of Fame</string>
     <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>

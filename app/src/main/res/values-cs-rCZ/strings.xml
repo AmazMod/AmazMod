@@ -410,6 +410,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="app_options">Možnosti aplikace</string>
     <string name="notification_options">Nastavení oznámení</string>
     <string name="notification_options_description">Nezobrazovat oznámení obsahující následující texty (jeden na řádek):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">a</string>
     <plurals name="day">
         <item quantity="one">den</item>
@@ -508,4 +509,5 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="activity_view_donors">View Donors</string>
     <string name="donors_hall_of_fame">Donors Hall of Fame</string>
     <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>

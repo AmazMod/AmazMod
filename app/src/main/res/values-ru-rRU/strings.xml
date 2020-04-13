@@ -408,6 +408,7 @@
     <string name="app_options">Параметры приложения</string>
     <string name="notification_options">Параметры уведомлений</string>
     <string name="notification_options_description">Не показывать уведомления, содержащие следующие строки (по одной в строке):</string>
+    <string name="whitelist_notification_options_description">Показывать только уведомления, содержащие следующие строки (по одному в строке):</string>
     <string name="and">и</string>
     <plurals name="day">
         <item quantity="one">день</item>
@@ -506,4 +507,5 @@
     <string name="activity_view_donors">Смотреть спонсоров</string>
     <string name="donors_hall_of_fame">Зал славы спонсоров</string>
     <string name="donors_disclaimer_google">Отказ от ответственности: Google не предоставляет доступа к конфиденциальной информации пользователя, такой как адрес электронной почты или имена. Мы не можем перечислить тех, кто пожертвовал через Google InApp Purchases, только тех, кто использовал OpenCollective. Мы хотели бы поблагодарить всех, кто пожертвовал!!!</string>
+    <string name="filter_as_whitelist">Белый список</string>
 </resources>

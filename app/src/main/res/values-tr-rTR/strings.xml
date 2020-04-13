@@ -408,6 +408,7 @@
     <string name="app_options">Uylama Seçenekleri</string>
     <string name="notification_options">Bildirim Şeçenekleri</string>
     <string name="notification_options_description">Takip eden metinleri içeren bildirimleri gösterme (her satıra bir adet):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">ve</string>
     <plurals name="day">
         <item quantity="one">gün</item>
@@ -500,4 +501,5 @@
     <string name="activity_view_donors">Bağışcıları gör</string>
     <string name="donors_hall_of_fame">Bağışcı onur listesi</string>
     <string name="donors_disclaimer_google">Feragatname: Google, e-posta adresi veya adları gibi herhangi bir gizli kullanıcı bilgisine erişim saglamaz. Google InApp satın alımlarını kullanarak yapılan bağışları burada listeleyememekteyiz, sadece OpenCollective \'i kullananları listeleyebiliriz. Bağış yapan herkese teşekkür ederiz!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>
