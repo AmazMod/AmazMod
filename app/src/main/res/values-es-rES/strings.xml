@@ -410,6 +410,7 @@ seguir el tema de sistema (beta).</string>
     <string name="app_options">Opciones de la App</string>
     <string name="notification_options">Opciones de las notificaciones</string>
     <string name="notification_options_description">No mostrar notificaciones que contengan los siguientes textos (uno por línea):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">y</string>
     <plurals name="day">
         <item quantity="one">día</item>
