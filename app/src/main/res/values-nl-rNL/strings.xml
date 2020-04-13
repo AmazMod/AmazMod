@@ -409,6 +409,7 @@ het systeemthema (beta).</string>
     <string name="app_options">App opties</string>
     <string name="notification_options">Meldingsopties</string>
     <string name="notification_options_description">Meldingen met de volgende teksten niet weergeven (één per regel):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">en</string>
     <plurals name="day">
         <item quantity="one">dag</item>
