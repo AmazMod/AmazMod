@@ -502,5 +502,5 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="activity_view_donors">Spender anzeigen</string>
     <string name="donors_hall_of_fame">Ruhmeshalle der Spender</string>
     <string name="donors_disclaimer_google">Haftungsausschluss: Google bietet keinen Zugriff auf vertrauliche Benutzerinformationen wie E-Mail-Adresse oder Namen. Wir können hier nicht diejenigen auflisten, die mit Google InApp-Einkäufe gespendet haben, sondern nur diejenigen, die OpenCollective verwendet haben. Wir möchten uns bei allen bedanken, die spenden !!!</string>
-    <string name="filter_as_whitelist">Erlaubt</string>
+    <string name="filter_as_whitelist">Ausnahmeliste</string>
 </resources>
