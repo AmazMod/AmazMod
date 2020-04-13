@@ -408,6 +408,7 @@
     <string name="app_options">Uylama Seçenekleri</string>
     <string name="notification_options">Bildirim Şeçenekleri</string>
     <string name="notification_options_description">Takip eden metinleri içeren bildirimleri gösterme (her satıra bir adet):</string>
+    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">ve</string>
     <plurals name="day">
         <item quantity="one">gün</item>
