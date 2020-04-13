@@ -408,7 +408,7 @@
     <string name="app_options">Параметры приложения</string>
     <string name="notification_options">Параметры уведомлений</string>
     <string name="notification_options_description">Не показывать уведомления, содержащие следующие строки (по одной в строке):</string>
-    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">и</string>
     <plurals name="day">
         <item quantity="one">день</item>
