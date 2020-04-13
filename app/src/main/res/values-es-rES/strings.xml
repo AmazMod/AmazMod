@@ -502,4 +502,5 @@ seguir el tema de sistema (beta).</string>
     <string name="activity_view_donors">Ver Donantes</string>
     <string name="donors_hall_of_fame">Salón de la Fama de Donantes</string>
     <string name="donors_disclaimer_google">Aviso: Google no proporciona acceso a ningún dato confidencial de usuario, como direcciones de correo o nombres. Por ello, no podemos listar aquellos que donaron mediante la aplicación de Compras de Google, sólo aquellos que lo hicieron mediante OpenCollective. ¡¡¡Quisiéramos agradecer a todos los que han donado!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>
