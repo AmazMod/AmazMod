@@ -503,4 +503,5 @@ a rendszertéma követése helyett (beta).</string>
     <string name="activity_view_donors">Támogatóink</string>
     <string name="donors_hall_of_fame">Támogatói Hírességek Csarnoka</string>
     <string name="donors_disclaimer_google">Nyilatkozat: A Google nem biztosít hozzáférést olyan bizalmas felhasználói adatokhoz, mint pl. az email cím vagy a név. Nem sorolhatjuk fel itt az appon belül vásárlókat, viszont az OpenCollective-et használókat igen. Szeretnénk köszönetet mondani mindenki adományáért!!!</string>
+    <string name="filter_as_whitelist">Whitelist</string>
 </resources>
