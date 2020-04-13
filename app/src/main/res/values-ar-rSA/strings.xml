@@ -409,7 +409,7 @@
     <string name="app_options">خيارات التطبيق</string>
     <string name="notification_options">خيارات الإعلام</string>
     <string name="notification_options_description">لا تظهر الإخطارات التي تحتوي على النصوص التالية (واحد في كل سطر):</string>
-    <string name="inverted_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
     <string name="and">و</string>
     <plurals name="day">
         <item quantity="zero">أيام</item>
