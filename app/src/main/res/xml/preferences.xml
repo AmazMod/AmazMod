@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false"
     android:title="@string/settings">
-    <PreferenceCategory android:title="@string/main_options">
-        <SwitchPreference
+
+    <com.bytehamster.lib.preferencesearch.SearchPreference
+        android:key="searchPreference" />
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="@string/main_options">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:key="preference.amazmod.keep.widget"
             android:summary="@string/pref_amazmod_keep_widget_summary"
             android:title="@string/pref_amazmod_keep_widget" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="preference.amazmod.overlay.launcher"
             android:summary="@string/pref_amazmod_overlay_launcher_summary"
@@ -16,40 +27,48 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/notifications_options">
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="@string/notifications_options">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:key="preference.enable.notifications"
             android:summary="@string/pref_enable_notifications_summary"
             android:title="@string/pref_enable_notifications" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:dependency="preference.enable.notifications"
             android:key="preference.notifications.enable.custom.ui"
             android:summary="@string/pref_notifications_enable_custom_ui_summary"
             android:title="@string/pref_notifications_enable_custom_ui" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.enable.notifications"
             android:key="preference.enable.maps.notification"
             android:summary="@string/pref_enable_maps_notification_summary"
             android:title="@string/pref_enable_maps_notification" />
 
-        <Preference
+        <DropDownPreference
+            app:iconSpaceReserved="false"
             android:dependency="preference.enable.notifications"
             android:disableDependentsState="true"
             android:summary="@string/pref_filter_notifications_by_packages_summary"
             android:title="@string/pref_filter_notifications_by_packages">
             <intent
+                app:iconSpaceReserved="false"
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.NotificationPackagesSelectorActivity"
                 android:targetPackage="com.edotassi.amazmod" />
-        </Preference>
+        </DropDownPreference>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:dependency="preference.enable.notifications"
             android:key="preference.notification.scheduler"
             android:summary="@string/pref_use_notification_scheduler_summary"
@@ -57,10 +76,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:iconSpaceReserved="false"
         android:key="preference.customUI"
         android:title="@string/customui">
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:disableDependentsState="true"
@@ -68,39 +89,45 @@
             android:summary="@string/pref_private_notifications_summary"
             android:title="@string/pref_private_notifications" />
 
-        <Preference
+        <DropDownPreference
+            app:iconSpaceReserved="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.replies"
             android:summary="@string/pref_notifications_replies_summary"
             android:title="@string/pref_notifications_replies">
             <intent
+                app:iconSpaceReserved="false"
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.NotificationRepliesDragActivity"
                 android:targetPackage="com.edotassi.amazmod" />
-        </Preference>
+        </DropDownPreference>
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.notification.enable.sound"
             android:summary="@string/pref_notification_enable_sound_summary"
             android:title="@string/pref_notification_enable_sound" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.notification.colored.icon"
             android:summary="@string/pref_notifications_colored_icon_summary"
             android:title="@string/pref_notifications_colored_icon" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.notification.largeicon"
             android:summary="@string/pref_notifications_show_large_icon_summary"
             android:title="@string/pref_notifications_show_large_icon" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.notification.images"
@@ -108,6 +135,7 @@
             android:title="@string/pref_notifications_enable_images" />
 
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="7000"
             android:dependency="preference.notifications.enable.custom.ui"
             android:dialogTitle="@string/notifications_screen_timeout"
@@ -118,6 +146,7 @@
             android:title="@string/pref_screen_timeout" />
 
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="300"
             android:dependency="preference.notifications.enable.custom.ui"
             android:dialogTitle="@string/pref_vibration_duration"
@@ -127,7 +156,8 @@
             android:summary="@string/pref_vibration_duration_summary"
             android:title="@string/pref_vibration_duration" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.inverted.theme"
@@ -135,6 +165,7 @@
             android:title="@string/pref_notifications_inverted_theme" />
 
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="n"
             android:dependency="preference.notifications.enable.custom.ui"
             android:dialogTitle="@string/notifications_font_title_size"
@@ -145,6 +176,7 @@
             android:title="@string/pref_font_title_size" />
 
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="n"
             android:dependency="preference.notifications.enable.custom.ui"
             android:dialogTitle="@string/notifications_font_size"
@@ -154,14 +186,16 @@
             android:summary="@string/pref_font_size_summary"
             android:title="@string/pref_font_size" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.disable.screenon"
             android:summary="@string/pref_notifications_disable_screenon_summary"
             android:title="@string/pref_notifications_disable_screenon" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.notifications.enable.custom.ui"
             android:key="preference.amazmodservice.enable.delay"
@@ -169,8 +203,12 @@
             android:title="@string/pref_notifications_enable_delay" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_filters">
-        <SwitchPreference
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="@string/pref_filters">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.enable.notifications"
             android:disableDependentsState="true"
@@ -178,21 +216,24 @@
             android:summary="@string/pref_enable_notifications_when_screen_on_summary"
             android:title="@string/pref_enable_notifications_when_screen_on" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:dependency="preference.enable.notifications.when.screen.on"
             android:key="preference.notifications.enable.when.locked"
             android:summary="@string/pref_enable_notifications_when_locked_summary"
             android:title="@string/pref_enable_notifications_when_locked" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.enable.notifications"
             android:key="preference.disable.notifications.when.dnd"
             android:summary="@string/pref_disable_notifications_when_dnd_summary"
             android:title="@string/pref_disable_notifications_when_dnd" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.enable.notifications"
             android:disableDependentsState="false"
@@ -200,7 +241,8 @@
             android:summary="@string/pref_disable_remove_notifications_summary"
             android:title="@string/pref_disable_remove_notifications" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.enable.notifications"
             android:disableDependentsState="false"
@@ -208,7 +250,8 @@
             android:summary="@string/pref_enable_voice_apps_summary"
             android:title="@string/pref_enable_voice_apps" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.enable.notifications"
             android:disableDependentsState="false"
@@ -216,7 +259,8 @@
             android:summary="@string/pref_enable_local_only_summary"
             android:title="@string/pref_enable_local_only" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:dependency="preference.enable.notifications"
             android:disableDependentsState="false"
@@ -224,7 +268,8 @@
             android:summary="@string/pref_notifications_enable_ungroup_summary"
             android:title="@string/pref_notifications_enable_ungroup" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:dependency="preference.enable.notifications"
             android:key="preference.disable.notifications.when.driving"
@@ -232,14 +277,19 @@
             android:title="@string/pref_disable_notifications_when_driving" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/charts">
-        <SwitchPreference
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="@string/charts">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:disableDependentsState="false"
             android:key="preference.battery.chart"
             android:summary="@string/pref_battery_chart_summary"
             android:title="@string/pref_battery_chart" />
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="60"
             android:dependency="preference.battery.chart"
             android:dialogTitle="@string/pref_battery_background_sync_interval"
@@ -249,6 +299,7 @@
             android:summary="@string/pref_battery_background_sync_interval_summary"
             android:title="@string/pref_battery_background_sync_interval" />
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="5"
             android:dependency="preference.battery.chart"
             android:dialogTitle="@string/pref_battery_chart_time_interval"
@@ -257,7 +308,8 @@
             android:key="preference.battery.chart.range"
             android:summary="@string/pref_battery_chart_time_interval_summary"
             android:title="@string/pref_battery_chart_time_interval" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:disableDependentsState="false"
             android:key="preference.heartrate.chart"
@@ -266,13 +318,18 @@
     </PreferenceCategory>
 
 
-    <PreferenceCategory android:title="@string/alerts">
-        <SwitchPreference
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="@string/alerts">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="preference.phone.connect.disconnect.alert"
             android:summary="@string/pref_phone_connect_disconnect_alert_summary"
             android:title="@string/pref_phone_connect_disconnect_alert" />
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="0"
             android:dependency="preference.battery.chart"
             android:dialogTitle="@string/pref_battery_watch_alert"
@@ -281,12 +338,14 @@
             android:key="preference.battery.watch.alert"
             android:summary="@string/pref_battery_watch_alert_summary"
             android:title="@string/pref_battery_watch_alert" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:key="preference.battery.full.alert"
             android:summary="@string/pref_battery_full_alert_summary"
             android:title="@string/pref_battery_full_alert" />
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="0"
             android:dialogTitle="@string/pref_battery_phone_alert"
             android:entries="@array/pref_phone_battery_alert"
@@ -294,26 +353,33 @@
             android:key="preference.battery.phone.alert"
             android:summary="@string/pref_battery_phone_alert_summary"
             android:title="@string/pref_battery_phone_alert" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="preference.phone.connection.alert.standard.notification"
             android:summary="@string/pref_phone_connect_alert_standard_notification_summary"
             android:title="@string/pref_phone_connect_alert_standard_notification" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="preference.amazmod.hourly.chime"
             android:summary="@string/pref_amazmod_hourly_chime_summary"
             android:title="@string/pref_amazmod_hourly_chime" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/logs">
-        <SwitchPreference
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        android:title="@string/logs">
+
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:disableDependentsState="false"
             android:key="preference.logs.logtofile"
             android:summary="@string/pref_log_to_file_summary"
             android:title="@string/pref_log_to_file" />
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="ERROR"
             android:dependency="preference.logs.logtofile"
             android:dialogTitle="@string/pref_log_to_file_level"
@@ -323,6 +389,7 @@
             android:summary="@string/pref_log_to_file_level_summary"
             android:title="@string/pref_log_to_file_level" />
         <ListPreference
+            app:iconSpaceReserved="false"
             android:defaultValue="256"
             android:dependency="preference.logs.logtofile"
             android:dialogTitle="@string/pref_log_lines_shown"
@@ -334,71 +401,85 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        app:iconSpaceReserved="false"
         android:key="preference.others"
         android:title="@string/others">
         <!-- Disabled
-        <SwitchPreference
+        <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="preference.enable.hw.keys.music.control"
             android:title="@string/pref_enable_music_control_with_hardware_button"
             android:summary="@string/pref_enable_music_control_with_hardware_button_summary" />
         -->
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:key="preference.amazmod.dark_theme"
             android:summary="@string/pref_amazmod_darktheme_summary"
             android:title="@string/pref_amazmod_dark_theme" />
 
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:key="preference.enable.persistent.notification"
             android:summary="@string/pref_enable_persistent_notification_summary"
             android:title="@string/pref_enable_persistent_notification" />
-        <Preference
+        <DropDownPreference
+            app:iconSpaceReserved="false"
             android:key="preference.persistent.notification.device.settings"
             android:summary="@string/pref_enable_persistent_notification_device_settings_summary"
             android:title="@string/pref_enable_persistent_notification_device_settings" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="true"
             android:key="preference.enable.update.notification"
             android:summary="@string/pref_enable_update_notification_summary"
             android:title="@string/pref_enable_update_notification" />
-        <SwitchPreference
+        <SwitchPreferenceCompat
+            app:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="preference.enable.internet.companion"
             android:summary="@string/pref_enable_internet_companion_summary"
             android:title="@string/pref_enable_internet_companion" />
-        <Preference
+        <DropDownPreference
+            app:iconSpaceReserved="false"
             android:summary="@string/pref_choose_language_summary"
             android:title="@string/pref_choose_language">
             <intent
+                app:iconSpaceReserved="false"
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.ChooseLanguageActivity"
                 android:targetPackage="com.edotassi.amazmod" />
-        </Preference>
-        <Preference
+        </DropDownPreference>
+        <DropDownPreference
+            app:iconSpaceReserved="false"
             android:summary="@string/pref_file_extras_summary"
             android:title="@string/pref_file_extras">
             <intent
+                app:iconSpaceReserved="false"
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.FilesExtrasActivity"
                 android:targetPackage="com.edotassi.amazmod" />
-        </Preference>
-        <Preference
+        </DropDownPreference>
+        <DropDownPreference
+            app:iconSpaceReserved="false"
             android:summary="@string/pref_check_permissions_summary"
             android:title="@string/pref_check_permissions">
             <intent
+                app:iconSpaceReserved="false"
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.CheckPermissionsActivity"
                 android:targetPackage="com.edotassi.amazmod" />
-        </Preference>
-        <Preference
+        </DropDownPreference>
+        <DropDownPreference
+            app:iconSpaceReserved="false"
             android:summary="@string/pref_run_wizard_summary"
             android:title="@string/pref_run_wizard">
             <intent
+                app:iconSpaceReserved="false"
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.MainIntroActivity"
                 android:targetPackage="com.edotassi.amazmod" />
-        </Preference>
+        </DropDownPreference>
     </PreferenceCategory>
 
     <!--
@@ -417,7 +498,7 @@
                 android:dependency="preference.amazmodservice.enable"
                 android:key="preference.screen.nightscout"
                 android:title="@string/nightscout">
-                <SwitchPreference
+                <SwitchPreferenceCompat
                     android:defaultValue="false"
                     android:key="preference.nightscout.enabled"
                     android:summary="@string/pref_nightscout_enable_summary"
@@ -437,4 +518,4 @@
             </PreferenceScreen>
         </PreferenceScreen>
         -->
-</PreferenceScreen>
+</androidx.preference.PreferenceScreen>

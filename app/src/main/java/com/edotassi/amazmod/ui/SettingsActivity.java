@@ -6,12 +6,12 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
+
+import android.os.Handler;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +19,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceFragmentCompat;
 
+import com.bytehamster.lib.preferencesearch.SearchConfiguration;
+import com.bytehamster.lib.preferencesearch.SearchPreference;
+import com.bytehamster.lib.preferencesearch.SearchPreferenceActionView;
+import com.bytehamster.lib.preferencesearch.SearchPreferenceResult;
+import com.bytehamster.lib.preferencesearch.SearchPreferenceResultListener;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.notification.PersistentNotification;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
@@ -35,6 +44,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.tinylog.Logger;
 
 import java.util.Locale;
+import java.util.Objects;
 
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
@@ -43,9 +53,16 @@ import de.mateware.snacky.Snacky;
 
 import static android.widget.Toast.makeText;
 
-public class SettingsActivity extends BaseAppCompatActivity {
+public class SettingsActivity extends BaseAppCompatActivity implements SearchPreferenceResultListener {
 
     private static final String STATE_CURRENT_LOCALE_LANGUAGE = "STATE_CURRENT_LOCALE_LANGUAGE";
+    private static final String KEY_SEARCH_QUERY = "search_query";
+    private static final String KEY_SEARCH_ENABLED = "search_enabled";
+    private MyPreferenceFragment myPreferenceFragment;
+    private SearchPreferenceActionView searchPreferenceActionView;
+    private MenuItem searchPreferenceMenuItem;
+    private String savedInstanceSearchQuery;
+    private boolean savedInstanceSearchEnabled;
 
     private boolean currentBatteryChart;
     private boolean currentHeartRateChart;
@@ -62,7 +79,6 @@ public class SettingsActivity extends BaseAppCompatActivity {
         finish();
         return true;
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,16 +112,80 @@ public class SettingsActivity extends BaseAppCompatActivity {
         currentLogLevel = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT);
         currentDarkTheme = Prefs.getBoolean(Constants.PREF_AMAZMOD_DARK_THEME, Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
 
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new MyPreferenceFragment())
-                .commit();
-
         if (savedInstanceState != null) {
+            savedInstanceSearchQuery = savedInstanceState.getString(KEY_SEARCH_QUERY);
+            savedInstanceSearchEnabled = savedInstanceState.getBoolean(KEY_SEARCH_ENABLED);
             currentLocaleLanguage = savedInstanceState.getString(STATE_CURRENT_LOCALE_LANGUAGE);
         } else {
             currentLocaleLanguage = LocaleUtils.getLanguage();
         }
+
+        myPreferenceFragment = new MyPreferenceFragment();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, myPreferenceFragment)
+                .commit();
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_settings, menu);
+        searchPreferenceMenuItem = menu.findItem(R.id.search);
+        searchPreferenceActionView = (SearchPreferenceActionView) searchPreferenceMenuItem.getActionView();
+        SearchConfiguration searchConfiguration = searchPreferenceActionView.getSearchConfiguration();
+        searchConfiguration.index(R.xml.preferences);
+
+        searchConfiguration.useAnimation(
+                findViewById(android.R.id.content).getWidth() - getSupportActionBar().getHeight() / 2,
+                -getSupportActionBar().getHeight() / 2,
+                findViewById(android.R.id.content).getWidth(),
+                findViewById(android.R.id.content).getHeight(),
+                getResources().getColor(R.color.colorPrimary, getTheme()));
+
+        searchPreferenceActionView.setActivity(this);
+        final MenuItem searchPreferenceMenuItem = menu.findItem(R.id.search);
+        searchPreferenceMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                searchPreferenceActionView.cancelSearch();
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+        });
+
+        if (savedInstanceSearchEnabled) {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    // If we do not use a handler here, it will not be possible
+                    // to use the menuItem after dismissing the searchView
+                    searchPreferenceMenuItem.expandActionView();
+                    searchPreferenceActionView.setQuery(savedInstanceSearchQuery, false);
+                }
+            });
+        }
+        return true;
+    }
+
+    @Override
+    public void onSearchResultClicked(@NonNull final SearchPreferenceResult result) {
+        searchPreferenceActionView.cancelSearch();
+        searchPreferenceMenuItem.collapseActionView();
+        result.highlight(myPreferenceFragment);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!searchPreferenceActionView.cancelSearch()) {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     protected void onStart() {
@@ -115,14 +195,11 @@ public class SettingsActivity extends BaseAppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(KEY_SEARCH_QUERY, searchPreferenceActionView.getQuery().toString());
+        outState.putBoolean(KEY_SEARCH_ENABLED, !searchPreferenceActionView.isIconified());
+        searchPreferenceActionView.cancelSearch();
         outState.putString(STATE_CURRENT_LOCALE_LANGUAGE, currentLocaleLanguage);
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_settings, menu);
-        return true;
     }
 
     @Override
@@ -369,12 +446,27 @@ public class SettingsActivity extends BaseAppCompatActivity {
         });
     }
 
-    public static class MyPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(final Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    private static final String LOG_TAG = "PreferenceActivity";
 
-            addPreferencesFromResource(R.xml.preferences);
+    public static class MyPreferenceFragment extends PreferenceFragmentCompat  implements
+            SharedPreferences.OnSharedPreferenceChangeListener {
+        SearchPreference searchPreference;
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            setPreferencesFromResource(R.xml.preferences, rootKey);
+            searchPreference = (SearchPreference) findPreference("searchPreference");
+            SearchConfiguration config = Objects.requireNonNull(searchPreference).getSearchConfiguration();
+            config.setActivity((AppCompatActivity) Objects.requireNonNull(getActivity()));
+            config.setFragmentContainerViewId(android.R.id.content);
+
+            config.index(R.xml.preferences).addBreadcrumb(getString(R.string.settings));
+            config.setBreadcrumbsEnabled(true);
+            config.setHistoryEnabled(true);
+            config.setFuzzySearchEnabled(true);
+
+            Logger.debug(LOG_TAG+" onCreatePreferences");
+
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
 
             // Check if Maps is installed
             Package maps = Package.getPackage("com.google.android.apps.maps");
@@ -433,6 +525,24 @@ public class SettingsActivity extends BaseAppCompatActivity {
             Preference darkThemeDefault = getPreferenceScreen().findPreference(Constants.PREF_AMAZMOD_DARK_THEME);
             darkThemeDefault.setDefaultValue(Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
         }
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        }
+        @Override
+        public void onStop() {
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            super.onStop();
+
+        }
+
+        @Override
+        public void onDestroy() {
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+            super.onDestroy();
+        }
+
     }
 
     //Set locale and set flag used to activity refresh

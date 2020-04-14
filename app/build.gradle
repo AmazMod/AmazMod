@@ -119,8 +119,10 @@ dependencies {
     implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
     implementation 'com.android.volley:volley:1.1.0'
     implementation 'commons-net:commons-net:3.6'
-    implementation 'com.android.billingclient:billing:2.1.0'
+    implementation 'com.android.billingclient:billing:2.2.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'com.github.ByteHamster:SearchPreference:v2.0.0'
 }
 
 configurations.all {
