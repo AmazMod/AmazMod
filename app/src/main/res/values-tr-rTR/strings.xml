@@ -502,4 +502,8 @@
     <string name="donors_hall_of_fame">Bağışcı onur listesi</string>
     <string name="donors_disclaimer_google">Feragatname: Google, e-posta adresi veya adları gibi herhangi bir gizli kullanıcı bilgisine erişim saglamaz. Google InApp satın alımlarını kullanarak yapılan bağışları burada listeleyememekteyiz, sadece OpenCollective \'i kullananları listeleyebiliriz. Bağış yapan herkese teşekkür ederiz!!!</string>
     <string name="filter_as_whitelist">Whitelist</string>
+    <string name="searchpreference_found">FOUND! -&gt;</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_results">No results</string>
 </resources>
