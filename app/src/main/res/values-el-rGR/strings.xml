@@ -503,4 +503,8 @@
     <string name="donors_hall_of_fame">Hall of Fame δωρητών</string>
     <string name="donors_disclaimer_google">Αποποίηση ευθυνών: Η Google δεν παρέχει πρόσβαση σε εμπιστευτικές πληροφορίες χρηστών, όπως διεύθυνση ηλεκτρονικού ταχυδρομείου ή ονόματα. Δεν μπορούμε να απαριθμήσουμε εκείνους που δώρισαν μέσω του Google InApp Purchases εδώ, μόνο εκείνους που χρησιμοποίησαν το OpenCollective. Θα θέλαμε να ευχαριστήσουμε όποιον δωρίζει!!!</string>
     <string name="filter_as_whitelist">Λίστα επιτρεπόμενων</string>
+    <string name="searchpreference_found">FOUND! -&gt;</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_results">No results</string>
 </resources>
