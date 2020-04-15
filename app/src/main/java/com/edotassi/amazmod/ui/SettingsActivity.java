@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
@@ -44,10 +43,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.tinylog.Logger;
 
 import java.util.Locale;
-import java.util.Objects;
 
 import amazmod.com.transport.Constants;
-import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.SettingsData;
 import de.mateware.snacky.Snacky;
 
@@ -144,6 +141,7 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
                 getResources().getColor(R.color.colorPrimary, getTheme()));
 
         searchPreferenceActionView.setActivity(this);
+
         final MenuItem searchPreferenceMenuItem = menu.findItem(R.id.search);
         searchPreferenceMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             @Override
@@ -174,9 +172,20 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
 
     @Override
     public void onSearchResultClicked(@NonNull final SearchPreferenceResult result) {
+        myPreferenceFragment = new MyPreferenceFragment();
         searchPreferenceActionView.cancelSearch();
         searchPreferenceMenuItem.collapseActionView();
-        result.highlight(myPreferenceFragment);
+        result.highlight(myPreferenceFragment, getResources().getColor(R.color.colorCharging, getTheme()));
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, myPreferenceFragment).addToBackStack("MyPreferenceFragment")
+                .commit(); // Allow to navigate back to search
+        new Handler().post(new Runnable() { // Allow fragment to get created
+            @Override
+            public void run() {
+                myPreferenceFragment.onSearchResultClicked(result);
+            }
+        });
     }
 
     @Override
@@ -195,10 +204,10 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        outState.putString(STATE_CURRENT_LOCALE_LANGUAGE, currentLocaleLanguage);
         outState.putString(KEY_SEARCH_QUERY, searchPreferenceActionView.getQuery().toString());
         outState.putBoolean(KEY_SEARCH_ENABLED, !searchPreferenceActionView.isIconified());
         searchPreferenceActionView.cancelSearch();
-        outState.putString(STATE_CURRENT_LOCALE_LANGUAGE, currentLocaleLanguage);
         super.onSaveInstanceState(outState);
     }
 
@@ -455,8 +464,8 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.preferences, rootKey);
             searchPreference = (SearchPreference) findPreference("searchPreference");
-            SearchConfiguration config = Objects.requireNonNull(searchPreference).getSearchConfiguration();
-            config.setActivity((AppCompatActivity) Objects.requireNonNull(getActivity()));
+            SearchConfiguration config = searchPreference.getSearchConfiguration();
+            config.setActivity((BaseAppCompatActivity) getActivity());
             config.setFragmentContainerViewId(android.R.id.content);
 
             config.index(R.xml.preferences).addBreadcrumb(getString(R.string.settings));
@@ -489,9 +498,14 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
                 vergeNotificationSound.setEnabled(true);
             } else {
                 vergeNotificationSoundSetting.setEnabled(false);
+                vergeNotificationSoundSetting.setDefaultValue(Constants.PREF_DEFAULT_NOTIFICATION_SOUND);
+
+                /* ##### Can't hide setting because it always show on search result and get F.C. on click if is disabled ######
+
                 vergeNotificationSoundSetting.setShouldDisableView(true);
                 PreferenceCategory customUI = (PreferenceCategory) findPreference("preference.customUI");
                 customUI.removePreference(vergeNotificationSoundSetting);
+                */
             }
 
             // Persistent Notification Settings
@@ -524,6 +538,14 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
 
             Preference darkThemeDefault = getPreferenceScreen().findPreference(Constants.PREF_AMAZMOD_DARK_THEME);
             darkThemeDefault.setDefaultValue(Constants.PREF_AMAZMOD_DARK_THEME_DEFAULT);
+        }
+
+        private void onSearchResultClicked(SearchPreferenceResult result) {
+            if (result.getResourceFile() == R.xml.preferences) {
+                searchPreference.setVisible(true); // Do not allow to click search multiple times
+                scrollToPreference(result.getKey());
+                findPreference(result.getKey()).setTitle(getString(R.string.searchpreference_found)+ " " + findPreference(result.getKey()).getTitle());
+            }
         }
 
         @Override
