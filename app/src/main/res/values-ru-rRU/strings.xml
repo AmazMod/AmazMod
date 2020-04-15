@@ -508,4 +508,8 @@
     <string name="donors_hall_of_fame">Зал славы спонсоров</string>
     <string name="donors_disclaimer_google">Отказ от ответственности: Google не предоставляет доступа к конфиденциальной информации пользователя, такой как адрес электронной почты или имена. Мы не можем перечислить тех, кто пожертвовал через Google InApp Purchases, только тех, кто использовал OpenCollective. Мы хотели бы поблагодарить всех, кто пожертвовал!!!</string>
     <string name="filter_as_whitelist">Белый список</string>
+    <string name="searchpreference_found">FOUND! -&gt;</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_results">No results</string>
 </resources>
