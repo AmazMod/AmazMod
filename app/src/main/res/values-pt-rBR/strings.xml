@@ -502,4 +502,8 @@
     <string name="donors_hall_of_fame">Hall da Fama de Doadores</string>
     <string name="donors_disclaimer_google">Importante: o Google não fornece acesso a nenhuma informação confidencial do usuário, como endereço de e-mail ou nomes. Nós não conseguimos listar aqueles que doaram usando as compras dentro do aplicativo pelo Google aqui, apenas aqueles que doaram pelo OpenCollective. Gostaríamos de agradecer a qualquer um que doa !!!</string>
     <string name="filter_as_whitelist">Whitelist</string>
+    <string name="searchpreference_found">FOUND! -&gt;</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_results">No results</string>
 </resources>
