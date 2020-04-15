@@ -503,8 +503,8 @@ seguire il tema di sistema (beta).</string>
     <string name="donors_hall_of_fame">Hall of Fame dei donatori</string>
     <string name="donors_disclaimer_google">Avviso: Google non fornisce accesso a informazioni riservate degli utenti, come l\'indirizzo email o i nomi. Non possiamo elencare coloro che hanno donato utilizzando qui gli acquisti in app di Google, ma solo quelli che hanno usato OpenCollective. Vorremmo ringraziare chiunque abbia donato!!!</string>
     <string name="filter_as_whitelist">Lista consentiti</string>
-    <string name="searchpreference_found">FOUND! -&gt;</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_results">No results</string>
+    <string name="searchpreference_found">TROVATO! -&gt;</string>
+    <string name="searchpreference_search">Cerca…</string>
+    <string name="searchpreference_clear_history">Cancella cronologia</string>
+    <string name="searchpreference_no_results">Nessun risultato</string>
 </resources>
