@@ -53,7 +53,7 @@ public class AppDatabase {
         }
     }
 
-    @Migration(version = 9, database = AppDatabase.class)
+    @Migration(version = 10, database = AppDatabase.class)
     public static class AddFilterLevel extends AlterTableMigration<NotificationPreferencesEntity> {
 
         public AddFilterLevel(Class<NotificationPreferencesEntity> table) {
