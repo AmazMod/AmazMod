@@ -500,4 +500,8 @@
     <string name="donors_hall_of_fame">捐助者名人堂</string>
     <string name="donors_disclaimer_google">免责声明：Google 不提供对任何用户隐私信息( 如电子邮件地址或名称) 的访问。 我们不能列出那些使用 Google InApp Purchases 捐赠的人，只能列出那些使用 OpenCollective捐赠的人。 感谢所有捐赠者!!!</string>
     <string name="filter_as_whitelist">白名单</string>
+    <string name="searchpreference_found">FOUND! -&gt;</string>
+    <string name="searchpreference_search">Search…</string>
+    <string name="searchpreference_clear_history">Clear history</string>
+    <string name="searchpreference_no_results">No results</string>
 </resources>

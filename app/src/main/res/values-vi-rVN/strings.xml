@@ -499,4 +499,8 @@
     <string name="donors_hall_of_fame">Nhà tài trợ danh vọng</string>
     <string name="donors_disclaimer_google">Tuyên bố miễn trừ trách nhiệm: Google không cung cấp quyền truy cập vào bất kỳ thông tin người dùng bí mật nào, chẳng hạn như địa chỉ email hoặc tên. Chúng tôi không thể liệt kê những người đã quyên góp bằng Google mất tiền mua hàng tại đây, chỉ những người đã sử dụng OpenCollective. Chúng tôi xin cảm ơn bất cứ ai quyên góp!!!</string>
     <string name="filter_as_whitelist">Danh sách trắng</string>
+    <string name="searchpreference_found">TÌM</string>
+    <string name="searchpreference_search">Tìm kiếm…</string>
+    <string name="searchpreference_clear_history">Xóa lược sử</string>
+    <string name="searchpreference_no_results">Không có kết quả</string>
 </resources>
