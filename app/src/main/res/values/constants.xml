@@ -3,7 +3,7 @@
     <string name="app_name" translatable="false">AmazMod</string>
     <string name="file_opener_name" translatable="false">AmazMod - Send to Watch</string>
     <string name="notifications_service_name" translatable="false">AmazModNotificationsService</string>
-    <string name="activity_about_project_maintainer_value" translatable="false">\AmazMod team</string>
+    <string name="activity_about_project_maintainer_value" translatable="false">\@Edotassi</string>
     <string name="activity_about_devs_value" translatable="false">\@lfomartins, \@GreatApo, \@diotto, \@fcaronte</string>
     <string name="activity_about_recruiters_value" translatable="false">https://appurl.io/OP67fKuNK</string>
     <string name="activity_about_email" translatable="false">amazfit.amazmod@gmail.com</string>
