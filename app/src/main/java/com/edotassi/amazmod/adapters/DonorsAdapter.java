@@ -1,8 +1,5 @@
 package com.edotassi.amazmod.adapters;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,19 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.billingclient.api.BillingClient;
-import com.android.billingclient.api.BillingFlowParams;
-import com.android.billingclient.api.SkuDetails;
-import com.edotassi.amazmod.Interface.IDonateProductClickListener;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.ui.DonationActivity;
 import com.edotassi.amazmod.ui.DonorsActivity;
 import com.edotassi.amazmod.util.picasso.CircleTransform;
 import com.squareup.picasso.Picasso;
 
-import org.tinylog.Logger;
-
-import java.io.InputStream;
 import java.util.List;
 
 public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.MyViewHolder> {

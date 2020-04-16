@@ -19,7 +19,6 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiNetworkSpecifier;
-import android.net.wifi.WifiNetworkSuggestion;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -68,7 +67,6 @@ import com.google.gson.reflect.TypeToken;
 import com.huami.watch.transport.DataBundle;
 import com.huami.watch.transport.TransportDataItem;
 import com.huami.watch.transport.Transporter;
-import com.huami.watch.transport.TransporterClassic;
 import com.obsez.android.lib.filechooser.ChooserDialog;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
@@ -77,20 +75,16 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.io.CopyStreamAdapter;
-import org.apache.commons.net.io.Util;
 import org.tinylog.Logger;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CancellationException;
@@ -108,8 +102,7 @@ import butterknife.OnClick;
 import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 
-import static android.net.ConnectivityManager.*;
-import static com.huami.watch.transport.TransporterClassic.get;
+import static android.net.ConnectivityManager.NetworkCallback;
 
 public class FileExplorerActivity extends BaseAppCompatActivity implements Transporter.DataListener {
 

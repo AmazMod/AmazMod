@@ -581,19 +581,19 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     }
 
     private void connected() {
-        isConnected.setTextColor(getResources().getColor(R.color.colorCharging));
+        isConnected.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
         isConnected.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
     }
 
     private void disconnected() {
-        isConnected.setTextColor(getResources().getColor(R.color.colorAccent));
+        isConnected.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
         isConnected.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
     }
 
     private void connecting() {
-        isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light));
+        isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light, getTheme()));
         isConnected.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchProgress.setVisibility(View.VISIBLE);
     }

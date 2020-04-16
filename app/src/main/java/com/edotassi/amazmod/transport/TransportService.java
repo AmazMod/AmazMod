@@ -11,9 +11,9 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 
-import androidx.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
+import androidx.preference.PreferenceManager;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.event.BatteryStatus;

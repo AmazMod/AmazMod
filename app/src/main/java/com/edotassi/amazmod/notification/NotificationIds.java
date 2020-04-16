@@ -5,13 +5,13 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Build;
-import androidx.core.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.core.app.NotificationCompat;
 
 import com.edotassi.amazmod.R;
 
@@ -184,13 +184,10 @@ public class NotificationIds {
     @SuppressLint("NewApi")
     private void detectExpandedNotificationsIds(android.app.Notification n, Context context)
     {
-        if(Build.VERSION.SDK_INT >= 16)
-        {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ViewGroup localView = (ViewGroup) inflater.inflate(n.bigContentView.getLayoutId(), null);
-            n.bigContentView.reapply(context, localView);
-            recursiveDetectNotificationsIds(localView);
-        }
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ViewGroup localView = (ViewGroup) inflater.inflate(n.bigContentView.getLayoutId(), null);
+        n.bigContentView.reapply(context, localView);
+        recursiveDetectNotificationsIds(localView);
     }
 
 }

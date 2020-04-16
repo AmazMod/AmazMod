@@ -1,7 +1,6 @@
 package com.edotassi.amazmod.ui;
 
 import android.os.Bundle;
-import androidx.appcompat.app.ActionBar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.fragment.language.LanguageInfo;

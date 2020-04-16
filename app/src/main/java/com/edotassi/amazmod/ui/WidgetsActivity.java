@@ -1,56 +1,25 @@
 package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Switch;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.adapters.NotificationRepliesAdapter;
 import com.edotassi.amazmod.adapters.WidgetsAdapter;
-import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.helpers.DynamicEventsHelper;
-import com.edotassi.amazmod.support.AppInfo;
-import com.edotassi.amazmod.support.ThemeHelper;
-import com.edotassi.amazmod.watch.Watch;
-import com.google.android.gms.tasks.Continuation;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tinylog.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import amazmod.com.transport.data.WidgetsData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
-
-import static amazmod.com.transport.Constants.WIDGETS_LIST_EMPTY_CODE;
-import static amazmod.com.transport.Constants.WIDGETS_LIST_SAVED_CODE;
 
 public class WidgetsActivity extends BaseAppCompatActivity{
 

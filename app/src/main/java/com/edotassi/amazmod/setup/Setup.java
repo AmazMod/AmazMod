@@ -19,7 +19,6 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 

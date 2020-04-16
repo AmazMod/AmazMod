@@ -6,14 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.RemoteInput;
 
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
-
-import amazmod.com.transport.Constants;
 
 public class Action implements Parcelable {
 

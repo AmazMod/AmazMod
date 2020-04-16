@@ -225,18 +225,15 @@ public class NotificationUtils {
         CharSequence chars = extras.getCharSequence(Notification.EXTRA_BIG_TEXT);
         if(!TextUtils.isEmpty(chars))
             return chars.toString();
-        else if(!VersionUtils.isJellyBeanMR2())
-            return getExtended(v);
         else
-            return getMessage(extras);
+            return getExtended(v);
     }
 
     @SuppressLint("NewApi")
     public static ViewGroup getMessageView(Context context, Notification n) {
         Logger.debug("NotificationUtils Getting message view..");
         RemoteViews views = null;
-        if (Build.VERSION.SDK_INT >= 16)
-            views = n.bigContentView;
+        views = n.bigContentView;
         if (views == null)
             views = n.contentView;
         if (views == null)
@@ -351,9 +348,7 @@ public class NotificationUtils {
     {
         RemoteViews view = null;
 
-        if(Build.VERSION.SDK_INT >= 16) {
-            view = n.bigContentView;
-        }
+        view = n.bigContentView;
         if (view == null) {
             view = n.contentView;
         }

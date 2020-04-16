@@ -10,9 +10,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 
-import androidx.preference.PreferenceManager;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.preference.PreferenceManager;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;

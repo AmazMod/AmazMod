@@ -43,7 +43,6 @@ import amazmod.com.transport.Transport;
 import amazmod.com.transport.data.NotificationData;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 
@@ -157,7 +156,7 @@ public class AboutActivity extends BaseAppCompatActivity implements TransportSer
         notificationData.setHideButtons(false);
 
         try {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_foreground);
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_launcher_foreground, getTheme());
             Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());

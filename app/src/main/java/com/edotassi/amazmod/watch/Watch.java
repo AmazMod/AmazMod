@@ -17,7 +17,6 @@ import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.event.WatchStatus;
-import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.PermissionsHelper;
 import com.edotassi.amazmod.transport.TransportService;
@@ -26,9 +25,6 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
-import com.huami.watch.transport.DataBundle;
-import com.huami.watch.transport.DataTransportResult;
-import com.huami.watch.transport.Transporter;
 
 import java.io.File;
 import java.io.RandomAccessFile;

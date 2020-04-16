@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.support.AppInfo;
-import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity;
 
 import java.util.List;

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import androidx.core.os.ConfigurationCompat;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.ConfigurationCompat;
 
 import com.pixplicity.easyprefs.library.Prefs;
 

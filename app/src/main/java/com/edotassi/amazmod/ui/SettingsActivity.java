@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.Menu;
@@ -391,11 +390,7 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
             if (!Permissions.hasNotificationAccess(getApplicationContext())) {
                 Toast notificationAccess = makeText(getApplicationContext(), R.string.miss_notification_access, Toast.LENGTH_LONG);
                 notificationAccess.show();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                } else {
-                    startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                }
+                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
             }
         }
 

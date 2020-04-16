@@ -426,11 +426,11 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     private void checkCalendarPermission() {
         if (Permissions.hasPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)){
             watchface_permission_status.setText(getResources().getString(R.string.enabled).toUpperCase());
-            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorCharging));
+            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
             calendar_choose_button.setEnabled(watchface_source_local_radiobutton.isEnabled());
         } else {
             watchface_permission_status.setText(getResources().getString(R.string.disabled).toUpperCase());
-            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorAccent));
+            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             watchface_permission_status.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -448,10 +448,10 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     private void checkLocationPermission() {
         if (Permissions.hasPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)){
             watchface_gps_permission_status.setText(getResources().getString(R.string.enabled).toUpperCase());
-            watchface_gps_permission_status.setTextColor(getResources().getColor(R.color.colorCharging));
+            watchface_gps_permission_status.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
         } else {
             watchface_gps_permission_status.setText(getResources().getString(R.string.disabled).toUpperCase());
-            watchface_gps_permission_status.setTextColor(getResources().getColor(R.color.colorAccent));
+            watchface_gps_permission_status.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             watchface_gps_permission_status.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -569,7 +569,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         // Transform calendar info to item list for list adapter and initialize listeners.
         for (Map.Entry<String, List<CalendarInfo>> entry : calendarsInfo.entrySet()) {
             items.add(new CheckableAdapter.Item(entry.getKey(),
-                    getResources().getColor(R.color.calendar_chooser_account)));
+                    getResources().getColor(R.color.calendar_chooser_account, getTheme())));
             for (final CalendarInfo info : entry.getValue()) {
                 if (selectAll) {
                     selectedCalendarIds.add(info.id());

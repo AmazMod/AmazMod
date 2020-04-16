@@ -20,7 +20,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.CalendarContract;
-import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.Time;
 import android.widget.Toast;
@@ -347,45 +346,30 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         String nextAlarm = "--";
 
         // Proper way to do it (Lollipop +)
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            try {
-                // First check for regular alarm
-                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                if (alarmManager != null) {
-                    AlarmManager.AlarmClockInfo clockInfo = alarmManager.getNextAlarmClock();
-                    if (clockInfo != null) {
-                        long nextAlarmTime = clockInfo.getTriggerTime();
-                        //Logger.debug("Next alarm time: " + nextAlarmTime);
-                        Date nextAlarmDate = new Date(nextAlarmTime);
-                        android.text.format.DateFormat df = new android.text.format.DateFormat();
-                        // Format alarm time as e.g. "Fri 06:30"
-                        nextAlarm = df.format("EEE HH:mm", nextAlarmDate).toString();
-                    }
+        try {
+            // First check for regular alarm
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null) {
+                AlarmManager.AlarmClockInfo clockInfo = alarmManager.getNextAlarmClock();
+                if (clockInfo != null) {
+                    long nextAlarmTime = clockInfo.getTriggerTime();
+                    //Logger.debug("Next alarm time: " + nextAlarmTime);
+                    Date nextAlarmDate = new Date(nextAlarmTime);
+                    android.text.format.DateFormat df = new android.text.format.DateFormat();
+                    // Format alarm time as e.g. "Fri 06:30"
+                    nextAlarm = df.format("EEE HH:mm", nextAlarmDate).toString();
                 }
-                // Just to be sure
-                if (nextAlarm.isEmpty()) {
-                    nextAlarm = "--";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                // Alarm already set to --
             }
-        } else {
-            // Legacy way
-            try {
-                nextAlarm = Settings.System.getString(context.getContentResolver(), Settings.System.NEXT_ALARM_FORMATTED);
-
-                if (nextAlarm.equals("")) {
-                    nextAlarm = "--";
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            // Just to be sure
+            if (nextAlarm.isEmpty()) {
+                nextAlarm = "--";
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Alarm already set to --
         }
-
         // Log next alarm
         // Logger.debug(Constants.TAG, "WatchfaceDataReceiver next alarm: " + nextAlarm);
-
         return nextAlarm;
     }
 

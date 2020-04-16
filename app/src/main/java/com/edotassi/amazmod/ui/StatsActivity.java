@@ -43,14 +43,9 @@ import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.tinylog.Logger;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
