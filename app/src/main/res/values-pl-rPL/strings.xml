@@ -437,7 +437,7 @@
     <string name="filter_level">Poziom filtrów</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Daily Overview (Steps)</string>
-    <string name="widget_countdown">Odliczanie</string>
+    <string name="widget_countdown">Minutnik</string>
     <string name="widget_stopwatch">Stoper</string>
     <string name="widget_music">Odtwarzacz muzyki</string>
     <string name="widget.sleep">Sen</string>
