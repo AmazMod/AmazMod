@@ -161,7 +161,7 @@
     <string name="notifications_screen_timeout">Wygaszenie ekranu</string>
     <string name="pref_notifications_inverted_theme">Jasny motyw</string>
     <string name="pref_notifications_inverted_theme_summary">Włącz jasne tło przy ciemnym motywie tekstu.</string>
-    <string name="pref_font_title_size">Font title size</string>
+    <string name="pref_font_title_size">Rozmiar czcionki</string>
     <string name="pref_font_title_size_summary">Ustaw rozmiar czcionki powiadomień systemowych.</string>
     <string name="pref_font_size">Rozmiar czcionki</string>
     <string name="pref_font_size_summary">Ustaw rozmiar czcionki systemowych powiadomień.</string>
@@ -408,7 +408,7 @@
     <string name="app_options">Ustawienia aplikacji</string>
     <string name="notification_options">Opcje powiadomień</string>
     <string name="notification_options_description">Nie wyświetlaj powiadomień zawierających tekst (jeden w linii):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">Pokaż tylko powiadomienia zawierające następujące wyrazy (po jednym w wierszu):</string>
     <string name="and">oraz</string>
     <plurals name="day">
         <item quantity="one">dzień</item>
@@ -436,8 +436,8 @@
     <string name="intro_description_get_started">Get Started</string>
     <string name="filter_level">Poziom filtrów</string>
     <!-- Strings used for widget list start -->
-    <string name="widget_step">Daily Overview (Steps)</string>
-    <string name="widget_countdown">Odliczanie</string>
+    <string name="widget_step">Dzienny przegląd (Kroki)</string>
+    <string name="widget_countdown">Minutnik</string>
     <string name="widget_stopwatch">Stoper</string>
     <string name="widget_music">Odtwarzacz muzyki</string>
     <string name="widget.sleep">Sen</string>
@@ -452,7 +452,7 @@
     <string name="widget_alarm">Alarm</string>
     <string name="widget_exercise_state">Stan ćwiczeń</string>
     <string name="widget_sport">Sport</string>
-    <string name="widget_sport_launcher">Sports Launcher</string>
+    <string name="widget_sport_launcher">Najczęściej używane działania</string>
     <string name="widget_alipay">Alipay</string>
     <string name="widget_ximalaya">Ximalaya</string>
     <string name="widget_location">Położenie</string>
@@ -460,7 +460,7 @@
     <string name="widget_barometer">Ciśnienie</string>
     <string name="widget_miui_unlock">Odblokowanie MIUI</string>
     <string name="widget_mi_box_remote">Mi Tv Pilot</string>
-    <string name="widget_mi_tv_remote">Mi TV Remote</string>
+    <string name="widget_mi_tv_remote">Mi TV Pilot</string>
     <string name="widget_stress">Poziom stresu</string>
     <string name="widget_hm_tv">TV HM</string>
     <string name="widget_main_activity">Moja aktywność</string>
@@ -490,26 +490,26 @@
     <string name="install_ok">instalacja uruchamia się</string>
     <string name="something_goes_wrong">coś poszło nie tak</string>
     <string name="invalid_key">klucz api jest nieprawidłowy</string>
-    <string name="miss_notification_access">Please grant AmazMod notification access for proper notifications handling</string>
-    <string name="turn_on_wifi">You need to turn ON phone WiFi</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
+    <string name="miss_notification_access">Przyznaj dostęp do powiadomień AmazMod dla prawidłowej obsługi powiadomień</string>
+    <string name="turn_on_wifi">Musisz włączyć Wi-Fi w telefonie</string>
+    <string name="watch_empty_ip">IP na zegarku jest pusty, skorzystaj z IP WIFI</string>
     <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
     <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
-    <string name="support_us">Support us</string>
+    <string name="support_us">Wspomóż nas</string>
     <string name="no_donation">You cancelled the Donation 😢</string>
     <string name="thanks_donation">Thanks for the Donation 😘</string>
     <string name="activity_donation_select_product">Please select a donation in the list:</string>
     <string name="activity_donation_opencollective">Donate on OpenCollective</string>
-    <string name="donate">Donate</string>
-    <string name="later">Later</string>
+    <string name="donate">Wesprzyj</string>
+    <string name="later">Później</string>
     <string name="support_us_text">Would you like to Support AmazMod development? AmazMod is free and will always be but donations help us to buy devices to test and improve our beloved software.</string>
     <string name="donors">Donors</string>
     <string name="activity_view_donors">View Donors</string>
     <string name="donors_hall_of_fame">Donors Hall of Fame</string>
     <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
-    <string name="filter_as_whitelist">Whitelist</string>
+    <string name="filter_as_whitelist">Biała lista</string>
     <string name="searchpreference_found">FOUND! -&gt;</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_results">No results</string>
+    <string name="searchpreference_search">Szukaj…</string>
+    <string name="searchpreference_clear_history">Wyczyść historię</string>
+    <string name="searchpreference_no_results">Brak wyników</string>
 </resources>

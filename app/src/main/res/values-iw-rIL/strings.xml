@@ -508,8 +508,8 @@
     <string name="donors_hall_of_fame">היכל התהילה</string>
     <string name="donors_disclaimer_google">הצהרה: Google אינה מאפשרת גישה למידע חסוי אודות המשתמשים כגון אימיילים ו/או שמות. אנחנו לא יכולים להציג את אלו אשר תרמו באמצעות תשלום דרך Google, אלא רק אלו אשר תרמו באמצעות OpenCollective. נרצה להודות מקרב לב לכל אלו אשר תרמו!!!</string>
     <string name="filter_as_whitelist">רשימה לבנה</string>
-    <string name="searchpreference_found">FOUND! -&gt;</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_results">No results</string>
+    <string name="searchpreference_found">מצאתי! &gt;</string>
+    <string name="searchpreference_search">חפש…</string>
+    <string name="searchpreference_clear_history">נקה היסטוריה</string>
+    <string name="searchpreference_no_results">אין תוצאות</string>
 </resources>
