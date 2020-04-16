@@ -506,8 +506,8 @@ follow the system theme (beta).</string>
     <string name="donors_hall_of_fame">Донаторска дворана славних</string>
     <string name="donors_disclaimer_google">Напомена: Google не даје приступа било каквим поверљивим информацијама корисника, попут е-маил адресе или имена. Ми не можемо набројати оне који су донирали преко InApp куповине у Google овде, само они који су користили OpenCollective. Желимо да се захвалимо свима који су донирали!!!</string>
     <string name="filter_as_whitelist">Бела листа</string>
-    <string name="searchpreference_found">FOUND! -&gt;</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_results">No results</string>
+    <string name="searchpreference_found">Пронашли! -&gt;</string>
+    <string name="searchpreference_search">Претрага…</string>
+    <string name="searchpreference_clear_history">Обриши историју</string>
+    <string name="searchpreference_no_results">Нема резултата</string>
 </resources>
