@@ -7,7 +7,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId 'com.edotassi.amazmod'
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 225
         versionName "1.1.10"
