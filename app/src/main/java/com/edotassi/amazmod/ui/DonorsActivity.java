@@ -110,23 +110,28 @@ public class DonorsActivity extends BaseAppCompatActivity {
                 });
     }
 
-    private List<Donor> onlyBackers(List<Donor> originalList){
-        Predicate<Donor> byRole = donor -> donor.role.equals("BACKER");
+    private List<Donor> onlyBackers(List<Donor> originalList) {
+        //This code is faster and optimized for Java 8 but needs, at least, Android N (api 25)
+        // Predicate<Donor> byRole = donor -> donor.role.equals("BACKER");
+        //Predicate<Donor> byAmount = donor -> donor.totalAmountDonated > 0;
+        //List<Donor> filtered = originalList.stream().filter(byRole).filter(byAmount)
+        //        .collect(Collectors.toList());
 
-        Predicate<Donor> byAmount = donor -> donor.totalAmountDonated > 0;
+        //Code compatible with Java 7
+        List<Donor> filtered = new ArrayList<>();
 
-        List<Donor> filtered = originalList.stream().filter(byRole).filter(byAmount)
-                .collect(Collectors.toList());
-
+        for (Donor donor : originalList) {
+            if (donor.role.equals("BACKER") & donor.totalAmountDonated > 0) {
+                filtered.add(donor);
+            }
+        }
         return filtered;
     }
 
-    private List<Donor> removeDuplicates(List<Donor> originalList){
-        List<Donor> listDonor = new ArrayList<Donor>();
-        for (Donor donor: originalList)
-        {
-            if (!listDonor.contains(donor))
-            {
+    private List<Donor> removeDuplicates(List<Donor> originalList) {
+        List<Donor> listDonor = new ArrayList<>();
+        for (Donor donor : originalList) {
+            if (!listDonor.contains(donor)) {
                 listDonor.add(donor);
             }
         }
@@ -152,6 +157,7 @@ public class DonorsActivity extends BaseAppCompatActivity {
         public String github;
         public String website;
         public String currency;
+
         Donor() {
             // no-args constructor
         }
