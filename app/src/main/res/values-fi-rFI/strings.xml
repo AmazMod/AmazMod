@@ -502,8 +502,8 @@
     <string name="donors_hall_of_fame">Lahjoittajien Hall of Fame</string>
     <string name="donors_disclaimer_google">Vastuuvapauslauseke: Google ei anna käyttöön luottamuksellisia käyttäjätietoja, kuten sähköpostiosoitetta tai nimiä. Emme voi lisätä listalle niitä, jotka lahjoittivat Google InApp ostojen välityksellä, vain ne, jotka käyttivät OpenCollectivea. Haluamme kiittää kaikkia, jotka lahjoittavat!!!</string>
     <string name="filter_as_whitelist">Sallittu-lista</string>
-    <string name="searchpreference_found">FOUND! -&gt;</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_results">No results</string>
+    <string name="searchpreference_found">LÖYTYI! -&gt;</string>
+    <string name="searchpreference_search">Hae…</string>
+    <string name="searchpreference_clear_history">Tyhjennä historia</string>
+    <string name="searchpreference_no_results">Ei tuloksia</string>
 </resources>
