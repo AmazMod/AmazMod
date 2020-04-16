@@ -14,10 +14,10 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 
+import androidx.preference.PreferenceManager;
 import androidx.collection.ArrayMap;
 import androidx.core.app.NotificationCompat;
 
