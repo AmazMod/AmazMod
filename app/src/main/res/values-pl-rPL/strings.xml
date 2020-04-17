@@ -493,11 +493,11 @@
     <string name="miss_notification_access">Przyznaj dostęp do powiadomień AmazMod dla prawidłowej obsługi powiadomień</string>
     <string name="turn_on_wifi">Musisz włączyć Wi-Fi w telefonie</string>
     <string name="watch_empty_ip">IP na zegarku jest pusty, skorzystaj z IP WIFI</string>
-    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="watch_same_wifi">Znaleziono IP zegarka, zegarek podłączony do tej samej sieci Wi-Fi</string>
+    <string name="wifi_transfer_method">Wybór metody transferu WiFi</string>
     <string name="support_us">Wspomóż nas</string>
-    <string name="no_donation">You cancelled the Donation 😢</string>
-    <string name="thanks_donation">Thanks for the Donation 😘</string>
+    <string name="no_donation">Anulowałeś darowiznę 😢</string>
+    <string name="thanks_donation">Dzięki za darowiznę 😘</string>
     <string name="activity_donation_select_product">Please select a donation in the list:</string>
     <string name="activity_donation_opencollective">Donate on OpenCollective</string>
     <string name="donate">Wesprzyj</string>
