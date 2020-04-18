@@ -253,6 +253,13 @@ public class SystemProperties {
         return isVerge;
     }
 
+    public static boolean isStratos3(){
+        String model = getSystemProperty("ro.build.huami.model");
+        boolean isStratos3 = Arrays.asList(Constants.BUILD_STRATOS_3_MODELS).contains(model);
+        Logger.debug("isStratos3: checking if model " + model + " is an Amazfit Stratos 3: " + isStratos3);
+        return isStratos3;
+    }
+
     /**
      * Gets the state of Airplane Mode.
      *

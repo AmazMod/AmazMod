@@ -105,6 +105,7 @@ public class Constants {
     public static final String[] BUILD_PACE_MODELS = {"A1602", "A1612"};
     public static final String[] BUILD_STRATOS_MODELS = {"A1609", "A1619"};
     public static final String[] BUILD_VERGE_MODELS = {"A1801", "A1811"};
+    public static final String[] BUILD_STRATOS_3_MODELS = {"A1928", "A1929"};
 
     public static final String WIDGET_ORDER_IN = "springboard_widget_order_in";
     public static final String WIDGET_ORDER_OUT = "springboard_widget_order_out";
