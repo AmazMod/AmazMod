@@ -521,9 +521,11 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
             } else {
                 // Remove link to notification channel system settings
                 persistentNotificationDeviceSettingsPreference.setEnabled(false);
+                /* ##### Can't hide setting because it always show on search result and get F.C. on click if is disabled ######
                 persistentNotificationDeviceSettingsPreference.setShouldDisableView(true);
                 PreferenceCategory categoryOthers = (PreferenceCategory) findPreference("preference.others");
                 categoryOthers.removePreference(persistentNotificationDeviceSettingsPreference);
+                 */
             }
 
             // Disable phone battery alert option, if watchface battery data are off
@@ -536,10 +538,13 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
         }
 
         private void onSearchResultClicked(SearchPreferenceResult result) {
+
             if (result.getResourceFile() == R.xml.preferences) {
-                searchPreference.setVisible(true); // Do not allow to click search multiple times
-                scrollToPreference(result.getKey());
-                findPreference(result.getKey()).setTitle(getString(R.string.searchpreference_found)+ " " + findPreference(result.getKey()).getTitle());
+                searchPreference.setVisible(true); // Put as true to avoid UI problems (Do not allow to click search multiple times)
+                String searchResult = result.getKey();
+                scrollToPreference(searchResult);
+                result.highlight(this, getResources().getColor(R.color.colorCharging));
+                findPreference(searchResult).setTitle(getString(R.string.searchpreference_found)+ " " + findPreference(searchResult).getTitle());
             }
         }
 
