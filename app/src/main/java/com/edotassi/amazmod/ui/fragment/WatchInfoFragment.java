@@ -270,7 +270,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void isConnected() {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.colorCharging));
+        isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), getContext().getTheme()));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.VISIBLE);
@@ -278,7 +278,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void disconnected() {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
+        isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), getContext().getTheme()));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.GONE);

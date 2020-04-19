@@ -543,7 +543,7 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
                 searchPreference.setVisible(true); // Put as true to avoid UI problems (Do not allow to click search multiple times)
                 String searchResult = result.getKey();
                 scrollToPreference(searchResult);
-                result.highlight(this, getResources().getColor(R.color.colorCharging));
+                result.highlight(this, (getResources().getColor((R.color.colorCharging), getContext().getTheme())));
                 findPreference(searchResult).setTitle(getString(R.string.searchpreference_found)+ " " + findPreference(searchResult).getTitle());
             }
         }
