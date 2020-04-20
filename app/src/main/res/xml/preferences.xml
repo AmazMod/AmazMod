@@ -424,14 +424,9 @@
             android:title="@string/pref_enable_persistent_notification" />
         <DropDownPreference
             app:iconSpaceReserved="false"
-            android:key="preference.persistent.notification.device.settings"
+            android:key="preference.persistent.notification.goto.device.settings"
             android:summary="@string/pref_enable_persistent_notification_device_settings_summary"
             android:title="@string/pref_enable_persistent_notification_device_settings">
-        <intent
-            app:iconSpaceReserved="false"
-            android:action="android.intent.action.VIEW"
-            android:targetClass="Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS"
-            android:targetPackage="Settings.EXTRA_APP_PACKAGE, getActivity().getPackageName()" />
         </DropDownPreference>
         <SwitchPreferenceCompat
             app:iconSpaceReserved="false"

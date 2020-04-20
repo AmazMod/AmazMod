@@ -474,7 +474,7 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
 
             // Check if Maps is installed
             Package maps = Package.getPackage("com.google.android.apps.maps");
-            Preference mapsSetting = getPreferenceScreen().findPreference("preference.enable.maps.notification");
+            Preference mapsSetting = getPreferenceScreen().findPreference(Constants.PREF_ENABLE_MAPS_NOTIFICATION);
             if (null != maps) {
                 mapsSetting.setEnabled(true);
                 Logger.debug("Google Maps is installed");
@@ -486,25 +486,12 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
             }
 
             // Enable Notification Sound if Verge Only
-            Preference vergeNotificationSoundSetting = getPreferenceScreen().findPreference("preference.notification.enable.sound");
-            if (Screen.isVerge()) {
-                Preference vergeNotificationSound = getPreferenceScreen().findPreference(Constants.PREF_NOTIFICATION_ENABLE_SOUND);
-                vergeNotificationSound.setDefaultValue(Constants.PREF_DEFAULT_NOTIFICATION_SOUND);
-                vergeNotificationSound.setEnabled(true);
-            } else {
-                vergeNotificationSoundSetting.setEnabled(false);
-                vergeNotificationSoundSetting.setDefaultValue(Constants.PREF_DEFAULT_NOTIFICATION_SOUND);
-
-                /* ##### Can't hide setting because it always show on search result and get F.C. on click if is disabled ######
-
-                vergeNotificationSoundSetting.setShouldDisableView(true);
-                PreferenceCategory customUI = (PreferenceCategory) findPreference("preference.customUI");
-                customUI.removePreference(vergeNotificationSoundSetting);
-                */
-            }
+            Preference vergeNotificationSound = getPreferenceScreen().findPreference(Constants.PREF_NOTIFICATION_ENABLE_SOUND);
+            vergeNotificationSound.setDefaultValue(Constants.PREF_DEFAULT_NOTIFICATION_SOUND);
+            vergeNotificationSound.setEnabled(Screen.isVerge());
 
             // Persistent Notification Settings
-            Preference persistentNotificationDeviceSettingsPreference = getPreferenceScreen().findPreference("preference.persistent.notification.device.settings");
+            Preference persistentNotificationDeviceSettingsPreference = getPreferenceScreen().findPreference("preference.persistent.notification.goto.device.settings");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 Prefs.putBoolean(Constants.PREF_ENABLE_PERSISTENT_NOTIFICATION, true);
                 Preference persistentNotificationPreference =
