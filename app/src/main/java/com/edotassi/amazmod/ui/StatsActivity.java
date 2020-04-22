@@ -49,6 +49,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
 
@@ -83,6 +84,8 @@ public class StatsActivity extends BaseAppCompatActivity {
     TextView notificationsTotal;
     @BindView(R.id.activity_stats_logs_content)
     TextView logsContentEditText;
+    @BindView(R.id.activity_stats_location_logs)
+    TextView locationLogsContent;
 
     @BindView(R.id.activity_stats_open_notifications_log)
     Button openNotificationsLogButton;
@@ -146,12 +149,13 @@ public class StatsActivity extends BaseAppCompatActivity {
                     }
                 });
 
-        //Make text scrollable inside ScrollView if needed
+        // Make text scrollable inside ScrollView if needed
         logsContentEditText.setMovementMethod(new ScrollingMovementMethod());
         rootLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 logsContentEditText.getParent().requestDisallowInterceptTouchEvent(false);
+                locationLogsContent.getParent().requestDisallowInterceptTouchEvent(false);
                 return false;
             }
         });
@@ -164,6 +168,14 @@ public class StatsActivity extends BaseAppCompatActivity {
             }
         });
 
+        locationLogsContent.setMovementMethod(new ScrollingMovementMethod());
+        locationLogsContent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                locationLogsContent.getParent().requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -172,6 +184,7 @@ public class StatsActivity extends BaseAppCompatActivity {
 
         loadStats();
         loadLogs();
+        loadLocationLogs();
     }
 
     @SuppressLint("CheckResult")
@@ -250,6 +263,24 @@ public class StatsActivity extends BaseAppCompatActivity {
         } else
             Logger.error("error reading log file");
 
+    }
+
+    private void loadLocationLogs(){
+        // Retrieve saved location data [milliseconds, latitude, longitude, watch_status]
+        Set<String> saved_data = Prefs.getStringSet(Constants.PREF_LOCATION_GPS_DATA, null);
+
+        if( saved_data == null ){
+            locationLogsContent.setText("N/A");
+            return;
+        }
+
+        String log = "";
+        for(String line : saved_data){
+            log = log + "\n" + line;
+        }
+
+        locationLogsContent.setText(log);
+        locationLogsContent.setMovementMethod(new ScrollingMovementMethod());
     }
 
     @SuppressLint("CheckResult")
