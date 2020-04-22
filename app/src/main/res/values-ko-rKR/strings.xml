@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">AmazMod의 로그를 amazmod.log 파일에 저장합니다.</string>
     <string name="pref_log_to_file_level">로그 수준</string>
     <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit 배터리 부족</string>
     <string name="notification_low_battery_description">시계의 배터리가 %s 미만입니다.</string>
     <string name="notification_watch_charged">Amazfit이 완전히 충전됨</string>
