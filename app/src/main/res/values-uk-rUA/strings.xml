@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Зберегти журнали AmazMod до amazmod.log</string>
     <string name="pref_log_to_file_level">Рівень журналювання</string>
     <string name="pref_log_to_file_level_summary">Оберіть рівень детальності для записів в журнал.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Низький заряд батареї</string>
     <string name="notification_low_battery_description">Заряд батареї годинника нижче %s</string>
     <string name="notification_watch_charged">Батарею повністю заряджено</string>
