@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Gem AmazMod-logger i amazmod.log</string>
     <string name="pref_log_to_file_level">Logningsniveau</string>
     <string name="pref_log_to_file_level_summary">Vælg det detaljeringsniveau, der skal gemmes i logfilen.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit lavt batteriniveau</string>
     <string name="notification_low_battery_description">Urbatteriniveau faldet til under %s</string>
     <string name="notification_watch_charged">Amazfit er fuldt opladet</string>
