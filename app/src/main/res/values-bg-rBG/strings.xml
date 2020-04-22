@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Запазете регистрационните файлове на AmazMod в amazmod.log</string>
     <string name="pref_log_to_file_level">Ниво на запис за дневника</string>
     <string name="pref_log_to_file_level_summary">Изберете нивото на детайлност, което да се съхранява в лог файла.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit ниска батерия</string>
     <string name="notification_low_battery_description">Батерията на часовника е под %s</string>
     <string name="notification_watch_charged">Amazfit е напълно зареден</string>
