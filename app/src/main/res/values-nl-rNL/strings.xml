@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Sla Amazmod log op in amazmod.log</string>
     <string name="pref_log_to_file_level">Logboekniveau</string>
     <string name="pref_log_to_file_level_summary">Selecteer detailniveau dat in logboek wordt opgeslagen.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit batterij bijna leeg</string>
     <string name="notification_low_battery_description">Batterij van horloge is minder dan %s</string>
     <string name="notification_watch_charged">Amazfit is volledig opgeladen</string>
