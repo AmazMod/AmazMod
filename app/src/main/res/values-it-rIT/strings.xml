@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Salva i log di AmazMod su amazmod.log</string>
     <string name="pref_log_to_file_level">Livello di Log</string>
     <string name="pref_log_to_file_level_summary">Seleziona il livello di dettaglio da memorizzare nel file di log.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Batteria Amazfit bassa</string>
     <string name="notification_low_battery_description">La batteria dell\'orologio è scesa sotto al %s</string>
     <string name="notification_watch_charged">Amazfit completamente carico</string>
