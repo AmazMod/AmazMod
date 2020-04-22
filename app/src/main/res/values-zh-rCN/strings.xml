@@ -352,6 +352,7 @@
     <string name="pref_log_to_file_summary">将 AmazMod 日志保存到 amazmod.log</string>
     <string name="pref_log_to_file_level">日志级别</string>
     <string name="pref_log_to_file_level_summary">选择要存储在日志文件中的详细信息级别.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit 电量不足</string>
     <string name="notification_low_battery_description">手表的电量低于 %s</string>
     <string name="notification_watch_charged">Amazfit 充电完成</string>
