@@ -184,6 +184,7 @@ public class Constants {
     public static final int NOTIFICATION_FILTER_BOTH = 2;
 
     public static final String PREF_WEATHER_LAST_DATA = "preference.weather.last.data";
+    public static final String PREF_LOCATION_GPS_DATA = "preference.location.gps.data";
 
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
