@@ -353,6 +353,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="pref_log_to_file_summary">Uložit logy AmazModu do amazmod.log</string>
     <string name="pref_log_to_file_level">Úrovně logu</string>
     <string name="pref_log_to_file_level_summary">Vyberte míru podrobností, které mají být uloženy v log souboru.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit nízký stav baterie</string>
     <string name="notification_low_battery_description">Baterie hodinek je nižší než %s</string>
     <string name="notification_watch_charged">Amazfit je plně nabitý</string>
