@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">ช่วย AmazMod ปูมบันทึกกา amazmod.ปูมบันทึก</string>
     <string name="pref_log_to_file_level">ระดับของปูมบันทึก</string>
     <string name="pref_log_to_file_level_summary">เลือกประดับของรายละเอียดที่จะถูกจัดเก็บไว้ในแฟ้มปูมบันทึก.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit แบตเตอรีอ่อน comment</string>
     <string name="notification_low_battery_description">ดูเป็นแบตเตอรี่ทิ้งไว้ทางด้านล่า %s</string>
     <string name="notification_watch_charged">Amazfit คือชาร์จเต็มที่</string>
