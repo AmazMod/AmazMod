@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">حفظ AmazMod سجلات amazmod.سجل</string>
     <string name="pref_log_to_file_level">سجل مستوى</string>
     <string name="pref_log_to_file_level_summary">تحديد مستوى التفاصيل ليتم تخزينها في ملف السجل.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit البطارية منخفضة</string>
     <string name="notification_low_battery_description">مشاهدة بطارية انخفض إلى أقل من %s</string>
     <string name="notification_watch_charged">Amazfit مشحونة بالكامل</string>
