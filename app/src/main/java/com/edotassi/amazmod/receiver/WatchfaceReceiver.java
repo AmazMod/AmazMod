@@ -319,8 +319,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             Set<String> saved_data = Prefs.getStringSet(Constants.PREF_LOCATION_GPS_DATA, null);
 
             // Save new values
-            saved_data.add("[time: "+milliseconds+", lat: "+last_known_latitude+", lon:"+last_known_longitude+", watch: "+1+"]");
-            Prefs.putStringSet(Constants.PREF_LOCATION_GPS_DATA, saved_data);
+            if (saved_data != null) {
+                saved_data.add("[time: " + milliseconds + ", lat: " + last_known_latitude + ", lon:" + last_known_longitude + ", watch: " + 1 + "]");
+                Prefs.putStringSet(Constants.PREF_LOCATION_GPS_DATA, saved_data);
+            }
         }
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) { }
