@@ -352,6 +352,7 @@
     <string name="pref_log_to_file_summary">將 AmazMod 日誌保存到 amazmod. log</string>
     <string name="pref_log_to_file_level">記錄層級</string>
     <string name="pref_log_to_file_level_summary">选择的详细程度可以储存在登录文件。</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">手錶電量不足</string>
     <string name="notification_low_battery_description">手錶的電池下降到 %s 以下</string>
     <string name="notification_watch_charged">手錶已充滿電</string>

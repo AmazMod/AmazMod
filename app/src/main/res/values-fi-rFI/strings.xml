@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Tallenna AmazMod lokit amazmod.log tiedostoon</string>
     <string name="pref_log_to_file_level">Lokitaso</string>
     <string name="pref_log_to_file_level_summary">Valitse lokitiedoston yksityiskohtaisuus.</string>
+    <string name="location_tracker">Sijainnin seuranta</string>
     <string name="notification_low_battery">Amazfit akun varaus matala</string>
     <string name="notification_low_battery_description">Kellon akun varaus on laskenut alle %s</string>
     <string name="notification_watch_charged">Amazfit on ladattu täyteen</string>

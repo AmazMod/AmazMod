@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Saglabājiet AmazMod žurnālus vietnē amazmod.log</string>
     <string name="pref_log_to_file_level">Žurnāla Līmenis</string>
     <string name="pref_log_to_file_level_summary">Atlasiet detalizācijas līmeni, kas jāsaglabā žurnāla failā.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit zema uzlāde</string>
     <string name="notification_low_battery_description">Pulksteņa baterija nokritusi zem %s</string>
     <string name="notification_watch_charged">Amazfit ir pilnībā uzlādēts</string>

@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Lưu nhật ký AmazMod vào amzmod.log</string>
     <string name="pref_log_to_file_level">Mức Nhật ký</string>
     <string name="pref_log_to_file_level_summary">Chọn mức độ chi tiêt sẽ được lưu trữ trong tệp nhật ký.</string>
+    <string name="location_tracker">Theo dõi vị trí</string>
     <string name="notification_low_battery">Amzfit pin yếu</string>
     <string name="notification_low_battery_description">Pin đồng hồ giảm xuống dưới 15%</string>
     <string name="notification_watch_charged">Pin đã sạc đầy</string>

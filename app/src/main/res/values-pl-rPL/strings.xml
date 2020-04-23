@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Zapisz dzienniki AmazMod do amazmod.log</string>
     <string name="pref_log_to_file_level">Poziom dziennika</string>
     <string name="pref_log_to_file_level_summary">Ustaw poziom detali jaki ma być przechowywany w dzienniku.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit ma słaba baterię</string>
     <string name="notification_low_battery_description">Bateria zegarka spadła poniżej %s</string>
     <string name="notification_watch_charged">Amazfit jest naładowany</string>

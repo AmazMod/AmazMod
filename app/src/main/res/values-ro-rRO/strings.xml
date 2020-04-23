@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Salvează istoric AmazMod în amazmod.log</string>
     <string name="pref_log_to_file_level">Nivel istoric</string>
     <string name="pref_log_to_file_level_summary">Selectează nivelul de detaliere istoric ce va fi salvat în fișier.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Baterie descărcată Amazfit</string>
     <string name="notification_low_battery_description">Bateria ceasului este sub %s</string>
     <string name="notification_watch_charged">Amazfit este încărcat complet</string>

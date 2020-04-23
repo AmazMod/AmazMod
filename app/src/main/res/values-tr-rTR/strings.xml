@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">AmazMod günlüklerini amazmod.log dosyasına kaydet</string>
     <string name="pref_log_to_file_level">Günlük Kayıt Seviyesi</string>
     <string name="pref_log_to_file_level_summary">Log dosyasını kaydedilecek ayrıntı seviyesini seç.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit batarya zayıf</string>
     <string name="notification_low_battery_description">Saatin bataryası %s \'ın altına düştü</string>
     <string name="notification_watch_charged">Amazfit batarya doldu</string>

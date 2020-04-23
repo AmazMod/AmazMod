@@ -351,6 +351,7 @@
     <string name="pref_log_to_file_summary">Guarda els registres d\'AmazMod a amazmod.log</string>
     <string name="pref_log_to_file_level">Nivell del registre</string>
     <string name="pref_log_to_file_level_summary">Select the level of detail to be stored in the log file.</string>
+    <string name="location_tracker">Location Tracker</string>
     <string name="notification_low_battery">Amazfit bateria baixa</string>
     <string name="notification_low_battery_description">La bateria del rellotge ha baixat per sota de %s</string>
     <string name="notification_watch_charged">Bateria completament carregada</string>
