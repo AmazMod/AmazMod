@@ -352,7 +352,7 @@
     <string name="pref_log_to_file_summary">将 AmazMod 日志保存到 amazmod.log</string>
     <string name="pref_log_to_file_level">日志级别</string>
     <string name="pref_log_to_file_level_summary">选择要存储在日志文件中的详细信息级别.</string>
-    <string name="location_tracker">Location Tracker</string>
+    <string name="location_tracker">定位追踪器</string>
     <string name="notification_low_battery">Amazfit 电量不足</string>
     <string name="notification_low_battery_description">手表的电量低于 %s</string>
     <string name="notification_watch_charged">Amazfit 充电完成</string>
@@ -410,7 +410,7 @@
     <string name="app_options">应用选项</string>
     <string name="notification_options">通知选项</string>
     <string name="notification_options_description">不显示包含下列文本的通知(每行一个关键词):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="whitelist_notification_options_description">仅显示包含以下文字内容的消息（每行一个关键词）：</string>
     <string name="and">和</string>
     <plurals name="day">
         <item quantity="other">天</item>
@@ -501,8 +501,8 @@
     <string name="donors_hall_of_fame">捐助者名人堂</string>
     <string name="donors_disclaimer_google">免责声明：Google 不提供对任何用户隐私信息( 如电子邮件地址或名称) 的访问。 我们不能列出那些使用 Google InApp Purchases 捐赠的人，只能列出那些使用 OpenCollective捐赠的人。 感谢所有捐赠者!!!</string>
     <string name="filter_as_whitelist">白名单</string>
-    <string name="searchpreference_found">FOUND! -&gt;</string>
-    <string name="searchpreference_search">Search…</string>
-    <string name="searchpreference_clear_history">Clear history</string>
-    <string name="searchpreference_no_results">No results</string>
+    <string name="searchpreference_found">找到了！ -&gt;</string>
+    <string name="searchpreference_search">搜索…</string>
+    <string name="searchpreference_clear_history">清除历史记录</string>
+    <string name="searchpreference_no_results">无结果</string>
 </resources>
