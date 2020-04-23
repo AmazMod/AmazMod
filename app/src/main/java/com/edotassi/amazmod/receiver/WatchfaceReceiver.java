@@ -451,7 +451,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         // UV API (requires searchType == 0)
         String uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?appid="+appid[2]+"&";//+"&lat={lat}&lon={lon}&cnt={cnt}
         // Pollution API
-        //https://api.waqi.info/mapq/bounds/?bounds=54.50,-6.08,54.67,-5.76
+        // https://api.waqi.info/mapq/bounds/?bounds=54.50,-6.08,54.67,-5.76
 
         // Load update times
         Date date = new Date();
@@ -511,9 +511,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 // Extract data from JSON
                 JSONObject last_data = new JSONObject(last_saved_data);
                 if (last_data.has("lon") && last_data.has("lat"))
-                    apiUrls[2] = uvUrl + "lat=" + last_data.getString("lat") + "&lon" + last_data.getString("lon");
+                    apiUrls[2] = uvUrl + "lat=" + last_data.getString("lat") + "&lon=" + last_data.getString("lon");
             }catch (Exception e) {
-                //Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
+                // Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
             }
         }
 
