@@ -9,10 +9,13 @@
         <new>Split title and content font size and add new intermediate value</new>
         <new>New buttons on Tweaking menu about WiFi AP, FTP Server and local IP</new>
         <new>FTP WiFi file transfer!!(Beta)</new>
-        <new>Watch root status in main screen (next Amazmod service version)</new>
-        <bugfix>Fix Notification delay with GreatFit based watchface</bugfix>
+        <new>Weather provider code improved</new>
+        <new>Watch's root status in main screen</new>
+        <new>New location tracker in logs</new>
+        <bugfix>Fix Notification delay with GreatFit based watchfaces</bugfix>
         <bugfix>Fixes for Notification counter</bugfix>
         <bugfix>Fix Custom UI Verge Sound Notification setting are lost</bugfix>
+        <bugfix>Fix for weather UV when using manual location</bugfix>
         <bugfix>Code clean up and other small fixes</bugfix>
     </release>
     <release
