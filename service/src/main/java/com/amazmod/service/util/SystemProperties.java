@@ -233,31 +233,26 @@ public class SystemProperties {
     }
 
     public static boolean isPace(){
-        String model = getSystemProperty("ro.build.huami.model");
-        boolean isPace = Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model);
-        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isPace);
-        return isPace;
+        return checkIfModel(Constants.BUILD_PACE_MODELS, "Pace");
     }
 
     public static boolean isStratos(){
-        String model = getSystemProperty("ro.build.huami.model");
-        boolean isStratos = Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model);
-        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isStratos);
-        return isStratos;
+        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos");
     }
 
     public static boolean isVerge(){
-        String model = getSystemProperty("ro.build.huami.model");
-        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
-        Logger.debug("isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
-        return isVerge;
+        return checkIfModel(Constants.BUILD_VERGE_MODELS, "Verge");
     }
 
     public static boolean isStratos3(){
+        return checkIfModel(Constants.BUILD_STRATOS_3_MODELS, "Stratos 3");
+    }
+
+    public static boolean checkIfModel(String[] targetModels, String Name){
         String model = getSystemProperty("ro.build.huami.model");
-        boolean isStratos3 = Arrays.asList(Constants.BUILD_STRATOS_3_MODELS).contains(model);
-        Logger.debug("isStratos3: checking if model " + model + " is an Amazfit Stratos 3: " + isStratos3);
-        return isStratos3;
+        boolean check = Arrays.asList(targetModels).contains(model);
+        Logger.debug("[System Properties] Current model (" + model + ") is " + ((check)?"":"NOT ") + "a " + Name);
+        return check;
     }
 
     /**
