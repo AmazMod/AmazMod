@@ -167,7 +167,7 @@ object Weather {
                 systemJsonData.put("uv", uvIndexToString(uvIndex))
             }
 
-            // New custom values in weather (these values don't exist by default)
+            // New custom values in weather (these values don't exist by default in most watches)
             if (json_data.has("tempMin")) {
                 systemJsonData.put("tempMin", json_data.getString("tempMin"))
             }
@@ -200,6 +200,21 @@ object Weather {
                     systemJsonDataMCU.put("sunsetHour", cal.get(Calendar.HOUR))
                     systemJsonDataMCU.put("sunsetMin", cal.get(Calendar.MINUTE))
                 }
+            }
+            if (json_data.has("actual_temp")) {
+                systemJsonData.put("actual_temp", json_data.getInt("actual_temp"))
+            }
+            if (json_data.has("real_feel")) {
+                systemJsonData.put("real_feel", json_data.getString("real_feel"))
+            }
+            if (json_data.has("country")) {
+                systemJsonData.put("country", json_data.getString("country")) // country code
+            }
+            if (json_data.has("lat")) {
+                systemJsonData.put("lat", json_data.getString("lat")) // latitude
+            }
+            if (json_data.has("lon")) {
+                systemJsonData.put("lon", json_data.getString("lon")) // longitude
             }
 
             // Update data

@@ -91,9 +91,6 @@ public class Weather_API {
             // "temp":28, "time":1531292274457, "uv":"Strong",
             // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
 
-            // Save some of the data to display to main page card
-            JSONObject last_weather_data = new JSONObject();
-
             // Standard format (WeatherInfo) is send to watch
             Double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max, speed;
             Integer weather_id_from, weather_id_to;
@@ -104,7 +101,6 @@ public class Weather_API {
             tempUnit = (units==0?"K":(units==1?"C":"F"));
             new_weather_info.put("tempUnitNo",units);
             new_weather_info.put("tempUnit",tempUnit);
-            last_weather_data.put("tempUnit",tempUnit);
 
             // Get current time
             Date date = new Date();
@@ -310,13 +306,10 @@ public class Weather_API {
                 new_weather_info.put("temp", (show_feels_like)?Math.round(feels_like):Math.round(temp));
                 new_weather_info.put("tempMin", Math.round(tmp_temp_min));
                 new_weather_info.put("tempMax", Math.round(tmp_temp_max));
-                new_weather_info.put("pressure", pressure);
+                new_weather_info.put("pressure", pressure); // hPa
                 new_weather_info.put("sd", humidity);
-
-                last_weather_data.put("temperature", Math.round(temp));
-                last_weather_data.put("real_feel", Math.round(feels_like));
-                last_weather_data.put("humidity", humidity);
-                last_weather_data.put("pressure", main.getInt("pressure")+" hPa");
+                new_weather_info.put("actual_temp", Math.round(temp)); // New value
+                new_weather_info.put("real_feel", Math.round(feels_like)); // New value
             }
             // [CURRENT weather API]
             if (weather_data.has("weather")) {
@@ -327,12 +320,11 @@ public class Weather_API {
 
                 description = "N/A";
                 if (weather1.has("description"))
-                    description = weather1.getString("description"); // pull
+                    description = weather1.getString("description");
 
                 // save
                 new_weather_info.put("weatherCode",weather_id);
-                last_weather_data.put("code", weather_id);
-                last_weather_data.put("description", description);
+                new_weather_info.put("weatherDescription", description); // New value
             }
             // [CURRENT weather API]
             if (weather_data.has("clouds") ) {
@@ -341,7 +333,6 @@ public class Weather_API {
                 clouds = cloudsObj.getInt("all")+"%";
                 // save
                 new_weather_info.put("clouds",clouds);
-                last_weather_data.put("clouds", clouds);
             }
             // [CURRENT weather API]
             if (weather_data.has("wind") ) {
@@ -362,29 +353,23 @@ public class Weather_API {
                 new_weather_info.put("windSpeedUnit", (units==2?"m/h":"km/h") );
                 new_weather_info.put("windSpeedValue",Math.round(speed));
                 new_weather_info.put("windStrength",Math.round(speed)+(units==2?"m/h":"km/h"));
-                last_weather_data.put("wind",Math.round(speed)+" "+(units==2?"m/h":"km/h"));
             }
             // [CURRENT weather API]
             if (weather_data.has("name")){
-                city = weather_data.getString("name"); // pull
-                new_weather_info.put("city",city); // save
-                last_weather_data.put("city",city);
+                new_weather_info.put("city", weather_data.getString("name"));
             }
             // [CURRENT weather API]
             if (weather_data.has("sys")) {
                 JSONObject sys = weather_data.getJSONObject("sys");
 
                 if (sys.has("sunrise")) {
-                    sunrise = sys.getInt("sunrise"); // pull
-                    new_weather_info.put("sunrise",sunrise); // save
+                    new_weather_info.put("sunrise", sys.getInt("sunrise"));
                 }
                 if (sys.has("sunset")) {
-                    sunset = sys.getInt("sunset"); // pull
-                    new_weather_info.put("sunset", sunset);
+                    new_weather_info.put("sunset", sys.getInt("sunset"));
                 }
                 if (sys.has("country")) {
-                    country = sys.getString("country"); // pull
-                    last_weather_data.put("country", country);
+                    new_weather_info.put("country", sys.getString("country")); // New value
                 }
             }
             // [CURRENT weather API]
@@ -392,12 +377,10 @@ public class Weather_API {
                 JSONObject coord = weather_data.getJSONObject("coord");
 
                 if (coord.has("lon")) {
-                    lon = coord.getString("lon"); // pull
-                    last_weather_data.put("lon",lon);
+                    new_weather_info.put("lon", coord.getString("lon")); // New value
                 }
                 if (coord.has("lat")) {
-                    lat = coord.getString("lat"); // pull
-                    last_weather_data.put("lat", lat);
+                    new_weather_info.put("lat", coord.getString("lat")); // New value
                 }
             }
 
@@ -409,7 +392,7 @@ public class Weather_API {
                     if (item.has("date")) {
                         if(item.has("value") && ( item.getInt("date")*1000 < date.getTime() )){
                             Double uvIndex = Double.parseDouble(item.getString("value"));
-                            new_weather_info.put("uvIndex",Math.round(uvIndex));
+                            new_weather_info.put("uvIndex", Math.round(uvIndex));
                         }
                     }
                 }
