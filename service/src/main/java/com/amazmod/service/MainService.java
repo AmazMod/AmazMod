@@ -75,6 +75,7 @@ import com.amazmod.service.util.ExecCommand;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
+import com.amazmod.service.weather.Weather;
 import com.huami.watch.notification.data.NotificationKeyData;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
@@ -247,7 +248,6 @@ public class MainService extends Service implements Transporter.DataListener {
         new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
         Logger.debug("Restore APK_INSTALL screen timeout");
 
-        // Todo get this code to status request and show if user is rooted
         /*
         try {
             if (new File("/system/xbin/su").exists()) { // Test for root
@@ -570,20 +570,22 @@ public class MainService extends Service implements Transporter.DataListener {
     // Phone data (phone battery, phone alarm, calendar events, weather)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void watchface(Watchface watchface) {
+
         // Data from phone
         WatchfaceData watchfaceData = WatchfaceData.fromDataBundle(watchface.getDataBundle());
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
-        Long expire = watchfaceData.getExpire();
         String calendarEvents = watchfaceData.getCalendarEvents();
         String weather_data = watchfaceData.getWeatherData();
+        Long expire = watchfaceData.getExpire();
 
         // Logs
-        Logger.debug("Updating phone's data, battery:" + phoneBattery);
-        Logger.debug("Updating phone's data, alarm:" + phoneAlarm);
-        Logger.debug("Updating phone's data, expire:" + expire);
-        Logger.debug("Updating phone's data, events:" + calendarEvents);
-        Logger.debug("Updating phone's data, weather data:" + weather_data);
+        String local_log_tag = "[New phone data] ";
+        Logger.debug(local_log_tag+ " incoming battery data: " + phoneBattery);
+        Logger.debug(local_log_tag+ " incoming alarm data:" + phoneAlarm);
+        Logger.debug(local_log_tag+ " incoming calendar events:" + calendarEvents);
+        Logger.debug(local_log_tag+ " incoming weather data:" + weather_data);
+        Logger.debug(local_log_tag+ " data will expire at:" + expire);
 
         // Update Time
         long updateTime = Calendar.getInstance().getTimeInMillis();
@@ -621,126 +623,25 @@ public class MainService extends Service implements Transporter.DataListener {
                 data = "{}";//default
             }
             DeviceUtil.systemPutString(context, "CustomCalendarData", data);
+            Logger.debug(local_log_tag+ " Calendar data were updated.");
         }
 
         // Weather data
         if (weather_data != null && !weather_data.equals("")) {
-            // TODO Replace with DeviceUtil.updateWeatherData()
-            try {
-                // Check if correct form of JSON
-                JSONObject json_data = new JSONObject(weather_data);
-
-                // System data
-                data = DeviceUtil.systemGetString(context, "WeatherInfo");
-                JSONObject system_json_data = new JSONObject((data == null || data.equals(""))?"{}":data);
-                data = DeviceUtil.systemGetString(context, "WeatherCheckedSummary");
-                JSONObject system_json_data_short = new JSONObject((data == null || data.equals(""))?"{}":data);
-
-                // WeatherInfo & WeatherCheckedSummary
-                if (json_data.has("tempUnit"))
-                    system_json_data.put("tempUnit", json_data.getString("tempUnit"));
-                if (json_data.has("tempUnitNo"))
-                    system_json_data_short.put("tempUnit", json_data.getString("tempUnitNo"));
-                if (json_data.has("tempFormatted"))
-                    system_json_data.put("tempFormatted", json_data.getString("tempFormatted"));
-                if (json_data.has("temp")) {
-                    system_json_data.put("temp", json_data.getString("temp"));
-                    system_json_data_short.put("temp", json_data.getString("temp"));
-                }
-                if (json_data.has("weatherCode")){
-                    system_json_data.put("weatherCode", json_data.getInt("weatherCode"));
-                    system_json_data_short.put("weatherCodeFrom", json_data.getInt("weatherCode"));
-                }
-                if (json_data.has("forecasts"))
-                    system_json_data.put("forecasts", json_data.getJSONArray("forecasts"));
-                if (json_data.has("sd"))
-                    system_json_data.put("sd", json_data.getString("sd"));
-                if (json_data.has("windDirection"))
-                    system_json_data.put("windDirection", json_data.getString("windDirection"));
-                // Direction angle symbol is different after transfer, so we save the proper one (it doesn't matter anyway)
-                system_json_data.put("windDirectionUnit", "°");
-                /*
-                if (json_data.has("windDirectionUnit"))
-                    system_json_data.put("windDirectionUnit", json_data.getString("windDirectionUnit"));//°
-                 */
-                if (json_data.has("windDirectionValue"))
-                    system_json_data.put("windDirectionValue", json_data.getString("windDirectionValue"));
-                if (json_data.has("windSpeedUnit"))
-                    system_json_data.put("windSpeedUnit", json_data.getString("windSpeedUnit"));
-                if (json_data.has("windSpeedValue"))
-                    system_json_data.put("windSpeedValue", json_data.getString("windSpeedValue"));
-                if (json_data.has("windStrength"))
-                    system_json_data.put("windStrength", json_data.getString("windStrength"));
-                if (json_data.has("city"))
-                    system_json_data.put("city", json_data.getString("city"));
-                if (json_data.has("dt"))
-                    system_json_data.put("dt", json_data.getInt("dt"));
-
-                // Currently not updated
-                // aqi":-1,
-                // "aqiLevel":0,
-                // "pm25":-1,
-
-                // New UV values in weather
-                int uvIndex = -1;
-                if (json_data.has("uvIndex")){
-                    uvIndex = json_data.getInt("uvIndex");
-                    system_json_data.put("uvIndex", uvIndex);
-                }
-                if (json_data.has("uv")){
-                    system_json_data.put("uv", json_data.getString("uv"));
-                }else if(uvIndex > -1){
-                    String uv;
-                    if (uvIndex <= 2) {
-                        uv = "Weakest";
-                    }else if (uvIndex <= 4) {
-                        uv = "Weak";
-                    }else if (uvIndex <= 6) {
-                        uv = "Moderate";
-                    }else if (uvIndex <= 9) {
-                        uv = "Strong";
-                    }else{
-                        uv = "Very strong";
-                    }
-                    system_json_data.put("uv", uv);
-                }
-
-                // New custom values in weather
-                if (json_data.has("tempMin")) // this value doesn't exist by default
-                    system_json_data.put("tempMin", json_data.getString("tempMin"));
-                if (json_data.has("tempMax")) // this value doesn't exist by default
-                    system_json_data.put("tempMax", json_data.getString("tempMax"));
-                if (json_data.has("pressure")) // this value doesn't exist by default
-                    system_json_data.put("pressure", json_data.getString("pressure"));
-                if (json_data.has("visibility")) // this value doesn't exist by default
-                    system_json_data.put("visibility", json_data.getInt("visibility"));
-                if (json_data.has("clouds")) // this value doesn't exist by default
-                    system_json_data.put("clouds", json_data.getString("clouds"));
-                if (json_data.has("sunrise")) // this value doesn't exist by default
-                    system_json_data.put("sunrise", json_data.getInt("sunrise"));
-                if (json_data.has("sunset")) // this value doesn't exist by default
-                    system_json_data.put("sunset", json_data.getInt("sunset"));
-
-                // Update data
-                DeviceUtil.systemPutString(context, "WeatherInfo", system_json_data.toString().replaceAll("\\\\/","/"));
-                settingsManager.putString(Constants.WEATHER_INFO, system_json_data.toString().replaceAll("\\\\/","/"));
-                Logger.debug("Updating phone's data, weather info saved: " + system_json_data.toString().replaceAll("\\\\/","/"));
-                DeviceUtil.systemPutString(context, "WeatherCheckedSummary", system_json_data_short.toString());
-                settingsManager.putString(Constants.WEATHER_CHECKED_SUMMARY, system_json_data_short.toString());
-                Logger.debug("Updating phone's data, weather summary saved: " + system_json_data_short.toString());
-                // Save that data have been updated
+            wasWeatherSaved = false; // Default value
+            // Update system weather data
+            String save_value = Weather.updateWeatherData(context, weather_data);
+            if(!save_value.equals(Weather.DATA_HAVE_NOT_UPDATE)) {
+                // Save new data
+                settingsManager.putString(Constants.WEATHER_INFO, save_value);
+                // Save that Amazmod just updated the system value (used when overwriting system weather values)
                 wasWeatherSaved = true;
-                // Save data expiration time (used when saving weather)
+                // Save the expiration time (used when overwriting system weather values)
                 custom_weather_expire = expire;
-            } catch (JSONException e) {
-                // default
-                Logger.error("Updating phone's data, weather error: " + e.toString());
-                // Disable weather data update
-                wasWeatherSaved = false;
+                Logger.debug(local_log_tag+ " Weather data were updated.");
+            }else{
+                Logger.debug(local_log_tag+ " Weather data were NOT updated.");
             }
-        }else{
-            // Disable weather data update
-            wasWeatherSaved = false;
         }
 
         // Phone Battery Alert
@@ -1845,24 +1746,29 @@ public class MainService extends Service implements Transporter.DataListener {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
-                    Logger.debug("MainService registerWeatherMonitor onChange");
+                    //Logger.debug("MainService registerWeatherMonitor onChange");
 
                     // Check if Amazmod just changed the value
                     if (!wasWeatherSaved) {
                         // Update custom weather
-                        String weatherInfo = settingsManager.getString(Constants.WEATHER_INFO, "");
-                        String weatherCheckedSummary = settingsManager.getString(Constants.WEATHER_CHECKED_SUMMARY, "");
+                        String weather_data = settingsManager.getString(Constants.WEATHER_INFO, "");
 
                         // Check if data are up-to-date
-                        if(!weatherInfo.isEmpty() && !weatherCheckedSummary.isEmpty() && System.currentTimeMillis()<=custom_weather_expire ){
-                            wasWeatherSaved = true;
-                            // TODO system data need to be updated and not overwrite (in order to keep data that we don't save)
-                            DeviceUtil.systemPutString(context, "WeatherInfo", weatherInfo);
-                            DeviceUtil.systemPutString(context, "WeatherCheckedSummary", weatherCheckedSummary);
-                            Logger.debug("Force update custom weather: " + weatherInfo + "###" + weatherCheckedSummary);
+                        if(!weather_data.isEmpty() && System.currentTimeMillis()<=custom_weather_expire ){
+
+                            // Update system weather data
+                            String save_value = Weather.updateWeatherData(context, weather_data);
+                            if(!save_value.equals(Weather.DATA_HAVE_NOT_UPDATE)) {
+                                // Save new data
+                                settingsManager.putString(Constants.WEATHER_INFO, save_value);
+                                // Save that Amazmod just updated the system value (used when overwriting system weather values)
+                                wasWeatherSaved = true;
+                                Logger.debug("[Weather Data Monitor] Weather data were overwritten.");
+                            }else{
+                                Logger.debug("[Weather Data Monitor]  Weather data were NOT overwritten.");
+                            }
                         }else{
-                            Logger.debug("Force update custom weather: saved data empty or expired");
-                            //Logger.debug("Force update custom weather, system time:" + System.currentTimeMillis() + ", data expiration:" + custom_weather_expire);
+                            Logger.debug("[Weather Data Monitor]  Weather data were NOT overwritten since saved data have expire.");
                         }
                     } else
                         wasWeatherSaved = false;
@@ -1876,7 +1782,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
             // Observe changes in the WeatherInfo system variable
             ContentResolver contentResolver = getContentResolver();
-            Uri setting = Settings.System.getUriFor("WeatherInfo");
+            Uri setting = Settings.System.getUriFor( Weather.getWeatherMonitorParameter() );
             contentResolver.registerContentObserver(setting, true, weatherObserver);
 
             // Unregister

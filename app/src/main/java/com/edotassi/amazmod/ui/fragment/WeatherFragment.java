@@ -17,6 +17,7 @@ import com.edotassi.amazmod.util.FilesUtil;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONObject;
+import org.tinylog.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -128,30 +129,30 @@ public class WeatherFragment extends Card {
 
             if (last_data.has("tempUnit"))
                 temperature_sign.setText("°"+last_data.getString("tempUnit"));
-            if (last_data.has("temperature"))
-                temperature.setText(last_data.getString("temperature"));
+            if (last_data.has("actual_temp"))
+                temperature.setText(last_data.getString("actual_temp"));
             if (last_data.has("real_feel") && last_data.has("tempUnit"))
                 real_feel.setText(last_data.getString("real_feel")+"°"+last_data.getString("tempUnit"));
             if (last_data.has("humidity"))
                 humidity.setText(last_data.getString("humidity"));
             if (last_data.has("pressure"))
                 pressure.setText(last_data.getString("pressure"));
-            if (last_data.has("code")){
-                weather_image.setImageResource( weatherIcons[last_data.getInt("code")] );
-                weather_big_image.setImageResource( weatherIcons[last_data.getInt("code")] );
+            if (last_data.has("weatherCode")){
+                weather_image.setImageResource( weatherIcons[last_data.getInt("weatherCode")] );
+                weather_big_image.setImageResource( weatherIcons[last_data.getInt("weatherCode")] );
             }
-            if (last_data.has("description"))
-                status.setText(FilesUtil.capitalise(last_data.getString("description")));
+            if (last_data.has("weatherDescription"))
+                status.setText(FilesUtil.capitalise(last_data.getString("weatherDescription")));
             if (last_data.has("clouds"))
                 cloud.setText(last_data.getString("clouds"));
-            if (last_data.has("wind"))
-                wind.setText(last_data.getString("wind"));
+            if (last_data.has("windStrength"))
+                wind.setText(last_data.getString("windStrength"));
             if (last_data.has("city") && last_data.has("country"))
                 location.setText(last_data.getString("city") +", "+ last_data.getString("country"));
             if (last_data.has("lon") && last_data.has("lat"))
                 coordinates.setText("("+last_data.getString("lat") +", "+ last_data.getString("lon")+")");
         }catch (Exception e) {
-            //Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
+            Logger.error("[Weather Card] JSON weather data failed: "+ e.getMessage());
         }
 
         // Write the last time data were taken

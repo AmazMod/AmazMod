@@ -210,6 +210,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         this.weather_data = Weather_API.join_data(this.weather_data, this.weather_forecast_data, this.weather_uv_data);
         Logger.debug("WatchfaceDataReceiver JSON weather data found: "+ WatchfaceReceiver.this.weather_data);
 
+        // Save weather data for first page use
+        Prefs.putString(Constants.PREF_WEATHER_LAST_DATA, this.weather_data.toString());
+        Prefs.putLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, new Date().getTime());
+
         sendnewdata(true);
     }
 
@@ -470,30 +474,6 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             return;
         }
 
-        // Pick API to call
-        /*
-        String apiUrl = todayUrl; // Get current weather by default
-        if ( date.getDate() != week_update_date.getDate() || milliseconds-last_week_weather_update > 6*60*60*1000 ){// New day or 6h passed
-            // Update week forecast
-            apiUrl = weekUrl;
-        }else if ( date.getDate() != uv_update_date.getDate() || milliseconds-last_uv_weather_update > 6*60*60*1000 ){// New day or 6h passed
-            // Update UV
-            if ( searchType == 0 )
-                apiUrl = uvUrl+search;
-            else {
-                // Get saved coordinates
-                String last_saved_data = Prefs.getString(Constants.PREF_WEATHER_LAST_DATA, "");
-                // Extract data
-                try {
-                    // Extract data from JSON
-                    JSONObject last_data = new JSONObject(last_saved_data);
-                    if (last_data.has("lon") && last_data.has("lat"))
-                        apiUrl = uvUrl+"lat=" + last_data.getString("lat") + "&lon" + last_data.getString("lon");
-                }catch (Exception e) {
-                    //Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
-                }
-            }
-        }*/
         // APIs to call
         String[] apiUrls = new String[3];
         // Current weather API
@@ -564,25 +544,16 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     public void save_weather_response(JSONObject weather_data) {
         // Save data
         if( weather_data!=null ) {
-            Date date = new Date();
-
-            // Save data & update time
+            // Save data
             if (weather_data.has("forecasts")) {
                 // [FORECAST API]
                 this.weather_forecast_data = weather_data;
-                // Save week weather update time
-                Prefs.putLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, date.getTime());
             }else if(weather_data.has("uvIndex")){
                 // [UV API]
                 this.weather_uv_data = weather_data;
-                // Save UV weather update time
-                Prefs.putLong(Constants.PREF_TIME_LAST_UV_WEATHER_DATA_SYNC, date.getTime());
             }else{
                 // [CURRENT weather API]
                 this.weather_data = weather_data;
-                // Save current weather update time
-                Prefs.putLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, date.getTime());
-                //Prefs.putString(Constants.PREF_WEATHER_LAST_DATA, last_weather_data.toString());
             }
         }
 

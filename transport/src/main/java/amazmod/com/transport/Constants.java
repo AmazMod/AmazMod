@@ -173,8 +173,6 @@ public class Constants {
     public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX = "preference.watchface.send.weather.data.units.index";
     public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = "preference.watchface.send.weather.data.real.feel";
     public static final String PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC = "preference.time.last.current.weather.data.sync";
-    public static final String PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC = "preference.time.last.week.weather.data.sync";
-    public static final String PREF_TIME_LAST_UV_WEATHER_DATA_SYNC = "preference.time.last.uv.weather.data.sync";
     public static final String PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = "preference.watchface.weather.data.location.radio";
     public static final String PREF_FILTER_LEVEL_INDEX = "preference.filter.level.index";
     public static final String REQUEST_SELF_RELOAD = "request.self.reload";
