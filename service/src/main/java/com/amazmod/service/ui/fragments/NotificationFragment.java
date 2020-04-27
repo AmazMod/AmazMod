@@ -267,9 +267,12 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
     }
 
     private void setTheme() {
-        // Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
-        if (SystemProperties.isVerge() || SystemProperties.isStratos3()) {
+        // Adjust minimum height based on device (so that reply button stays at the bottom of screen)
+        if (SystemProperties.isVerge()) {
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
+            replies_layout.setMinimumHeight(px);
+        }else if (SystemProperties.isStratos3()) {
+            int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
             replies_layout.setMinimumHeight(px);
         }
 
@@ -290,9 +293,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         title.setTextSize(util.getFontTitleSizeSP());
         text.setTextSize(util.getFontSizeSP());
 
-        // Set font (to handle Hebrew)
         // Code changed to identify special languages (eg Hebrew)
-        // For locale based change (eg. en, it ...), set second parameter to: util.getDefaultLocale(), and edit setFontLocale()
         util.setFontLocale(title, notificationData.getTitle());
         util.setFontLocale(text, notificationData.getText());
     }
