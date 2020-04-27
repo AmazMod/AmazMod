@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.edotassi.amazmod.R
 import com.edotassi.amazmod.ui.DonorsActivity
-import com.edotassi.amazmod.ui.DonorsActivity.Donor
+import com.edotassi.amazmod.ui.model.Donor
 import com.edotassi.amazmod.util.picasso.CircleTransform
 import com.squareup.picasso.Picasso
 

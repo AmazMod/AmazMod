@@ -210,10 +210,11 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         this.weather_data = Weather_API.join_data(this.weather_data, this.weather_forecast_data, this.weather_uv_data);
         Logger.debug("WatchfaceDataReceiver JSON weather data found: "+ WatchfaceReceiver.this.weather_data);
 
-        // Save weather data for first page use
-        Prefs.putString(Constants.PREF_WEATHER_LAST_DATA, this.weather_data.toString());
-        Prefs.putLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, new Date().getTime());
-
+        if (this.weather_data != null) {
+            // Save weather data for first page use
+            Prefs.putString(Constants.PREF_WEATHER_LAST_DATA, this.weather_data.toString());
+            Prefs.putLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, new Date().getTime());
+        }
         sendnewdata(true);
     }
 
