@@ -12,6 +12,8 @@
         <new>Weather provider improvements (code improvements, Stratos 3 support)</new>
         <new>Watch's root status in main screen</new>
         <new>New location tracker in logs</new>
+        <new>Hebrew and Arabic support on custom notification list</new>
+        <new>Stratos 3 support improvements (UI adjustments)</new>
         <bugfix>Fix Notification delay with GreatFit based watchfaces</bugfix>
         <bugfix>Fixes for Notification counter</bugfix>
         <bugfix>Fix Custom UI Verge Sound Notification setting are lost</bugfix>

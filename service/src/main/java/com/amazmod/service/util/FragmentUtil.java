@@ -51,7 +51,6 @@ public class FragmentUtil {
 
         fontSizeSP = getFontSize();
 
-
         defaultLocale = getDefaultLocaleSettings();
     }
 
@@ -133,28 +132,28 @@ public class FragmentUtil {
         return defaultLocale;
     }
 
-    public void setFontLocale(TextView b, String locale) {
-        // Old code to change font based on locale: if (locale.contains("iw")) {}
+    public void setFontLocale(TextView b) {
+        // Old code to change font based on locale:
+        if (defaultLocale.contains("iw") || defaultLocale.contains("ar")) {
+            Logger.debug("[Notification Fragment] Element font changed to Hebrew/Arabic.");
+            Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
+            b.setTypeface(face);
+        }
+    }
 
+    public void setFontLocale(TextView b, String locale) {
         // Logger.debug("[Notification Fragment] Testing element characters.");
 
         // Identify Hebrew language
-        if (!new File("/system/fonts/NotoSansHebrew-Regular.ttf").exists()) { // if system font is available, no need to change language
-            // Hebrew character patterns
-            String unicode_iw_pattern = ".*[\u0590-\u05FF].*"; // The standard Hebrew unicode block
-            String unicode_iw_with_precomposed_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E].*"; // With precomposed characters
-            // Check text if
-            if(locale.matches(unicode_iw_pattern) || locale.matches(unicode_iw_with_precomposed_pattern)){
-                Logger.debug("[Notification Fragment] Element font changed to Hebrew.");
-                Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
-                b.setTypeface(face);
-                return;
-            }
-        }
+        //String unicode_iw_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E].*"; // Hebrew character pattern (With precomposed characters)
+        //String unicode_ar_pattern = ".*[\u0600-\u06FF].*"; // Arabic character pattern
+        String unicode_iwar_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E\u0600-\u06FF].*"; // Hebrew & Arabic characters pattern
 
-        // Identify Arabic language
-        if (!new File("/system/fonts/NotoSansArabic-Regular.ttf").exists()) {
-            // TODO
+        // Identify Hebrew or Arabic characters
+        if(locale.matches(unicode_iwar_pattern)){
+            Logger.debug("[Notification Fragment] Element font changed to Hebrew/Arabic.");
+            Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
+            b.setTypeface(face);
         }
     }
 

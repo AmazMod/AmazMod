@@ -17,6 +17,7 @@ import androidx.emoji.widget.EmojiTextView;
 
 import com.amazmod.service.R;
 import com.amazmod.service.support.NotificationInfo;
+import com.amazmod.service.util.FragmentUtil;
 
 import org.tinylog.Logger;
 
@@ -26,11 +27,15 @@ public class NotificationListAdapter extends WearableListView.Adapter {
     private final List<NotificationInfo> items;
     private final LayoutInflater mInflater;
     private Context mContext;
+    private FragmentUtil util;
 
     public NotificationListAdapter(Context context, List<NotificationInfo> items) {
         mInflater = LayoutInflater.from(context);
         this.items = items;
         mContext = context;
+
+        // Load FragmentUtil because for font change function is needed
+        util = new FragmentUtil(mContext);
     }
 
     @Override
@@ -41,12 +46,18 @@ public class NotificationListAdapter extends WearableListView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull WearableListView.ViewHolder viewHolder, int position) {
         //System.out.println("MenuListAdapter onBindViewHodler position: " + position);
+
+        // Populate notification
         ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
         final NotificationInfo item = items.get(position);
         populateNotificationIcon(itemViewHolder.notificationIcon,itemViewHolder.notificationIconBadge,item);
         itemViewHolder.notificationTitle.setText(item.getNotificationTitle());
         itemViewHolder.notificationContentPreview.setText(item.getNotificationText());
         itemViewHolder.notificationTime.setText(item.getNotificationTime());
+
+        // Code changed to identify special languages (eg Hebrew)
+        util.setFontLocale(itemViewHolder.notificationTitle, item.getNotificationTitle());
+        util.setFontLocale(itemViewHolder.notificationContentPreview, item.getNotificationText());
     }
 
     @Override
