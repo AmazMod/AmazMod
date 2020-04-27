@@ -41,12 +41,11 @@ public class SystemProperties {
 
     private static final Class<?> SP = getSystemPropertiesClass();
 
-    /**
-     * Get the value for the given key.
-     */
+    // Get the value for the given key.
     public static String get(String key) {
         try {
-            return (String) SP.getMethod("get", String.class).invoke(null, key);
+            Class<?> SystemProperties = Class.forName("android.os.SystemProperties");
+            return (String) SP.getMethod("get", String.class).invoke(SystemProperties, key);
         } catch (Exception e) {
             return null;
         }
@@ -249,7 +248,8 @@ public class SystemProperties {
     }
 
     public static boolean checkIfModel(String[] targetModels, String Name){
-        String model = getSystemProperty("ro.build.huami.model");
+        // String model = getSystemProperty("ro.build.huami.model");
+        String model = get("ro.build.huami.model");
         boolean check = Arrays.asList(targetModels).contains(model);
         Logger.debug("[System Properties] Current model (" + model + ") is " + ((check)?"":"NOT ") + "a " + Name);
         return check;
@@ -264,5 +264,4 @@ public class SystemProperties {
     public static boolean isAirplaneModeOn(Context context) {
         return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
     }
-
 }
