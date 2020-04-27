@@ -90,6 +90,7 @@ public class NotificationService {
         boolean forceCustom = notificationSpec.getForceCustom();
         boolean hideReplies = notificationSpec.getHideReplies();
 
+        // Replies on/off
         if (disableNotificationReplies || hideReplies)
             disableNotificationReplies = true;
 
@@ -171,6 +172,7 @@ public class NotificationService {
                 .setExtras(bundle)
                 .setVibrate(new long[]{notificationData.getVibration()});
 
+        // Connection / Disconnection message (custom icon)
         if (notificationData.getKey().contains("amazmod|test|9979")) {
             if (notificationData.getText().equals(context.getResources().getString(R.string.phone_disconnected))) {
                 builder.setSmallIcon(R.drawable.ic_outline_phonelink_erase_inverted);

@@ -135,7 +135,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             util = new FragmentUtil(mContext);
             disableDelay = util.getDisableDelay();
 
-            //Load preferences
+            // Load preferences
             boolean disableNotificationText = util.getDisableNotificationText();
             final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
             final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
@@ -188,7 +188,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                     }
                 });
 
-                //Mute related stuff
+                // Mute related stuff
                 muteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -248,12 +248,12 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
         delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
 
-        //Buttons
+        // Buttons
         deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
         replyButton = getActivity().findViewById(R.id.fragment_notification_reply_button);
         muteButton = getActivity().findViewById(R.id.fragment_notification_mute_button);
 
-        //Replies view
+        // Replies view
         replies_layout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
         repliesEditTextContainer = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_container);
@@ -261,20 +261,20 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         replyEditClose = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_close);
         replyEditSend = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_reply);
 
-        //Mute view
+        // Mute view
         muteListView = getActivity().findViewById(R.id.fragment_mute_list);
 
     }
 
     private void setTheme() {
-        //Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
-        if (SystemProperties.isVerge()) {
+        // Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
+        if (SystemProperties.isVerge() || SystemProperties.isStratos3()) {
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
             replies_layout.setMinimumHeight(px);
         }
 
         // Set theme and font size
-        //Logger.debug("NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
+        // Logger.debug("NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));
@@ -290,8 +290,11 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         title.setTextSize(util.getFontTitleSizeSP());
         text.setTextSize(util.getFontSizeSP());
 
-        util.setFontLocale(title, util.getDefaultLocale());
-        util.setFontLocale(text, util.getDefaultLocale());
+        // Set font (to handle Hebrew)
+        // Code changed to identify special languages (eg Hebrew)
+        // For locale based change (eg. en, it ...), set second parameter to: util.getDefaultLocale(), and edit setFontLocale()
+        util.setFontLocale(title, notificationData.getTitle());
+        util.setFontLocale(text, notificationData.getText());
     }
 
     private void hideContent() {

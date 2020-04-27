@@ -836,7 +836,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
         if (language == null)
             return;
-        
+
         if (language.contains("iw")) {
             if (!new File("/system/fonts/NotoSansHebrew-Regular.ttf").exists()) {
                 language = "en_EN";

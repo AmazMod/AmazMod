@@ -56,7 +56,6 @@ public class Constants {
     public static final String PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER = "pref_amazmod_official_widgets_order";
     public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
     public static final String WEATHER_INFO = "weather_info";
-    public static final String WEATHER_CHECKED_SUMMARY = "weather_checked_summary";
     public static final String REQUEST_SELF_RELOAD = "request_self_reload";
 
     public static final String CUSTOM_WATCHFACE_DATA = "CustomWatchfaceData";

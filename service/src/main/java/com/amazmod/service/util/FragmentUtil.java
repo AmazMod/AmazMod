@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.tinylog.Logger;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,10 +134,27 @@ public class FragmentUtil {
     }
 
     public void setFontLocale(TextView b, String locale) {
-        //Logger.info("FragmentUtil setFontLocale Button: " + locale);
-        if (locale.contains("iw")) {
-            Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
-            b.setTypeface(face);
+        // Old code to change font based on locale: if (locale.contains("iw")) {}
+
+        // Logger.debug("[Notification Fragment] Testing element characters.");
+
+        // Identify Hebrew language
+        if (!new File("/system/fonts/NotoSansHebrew-Regular.ttf").exists()) { // if system font is available, no need to change language
+            // Hebrew character patterns
+            String unicode_iw_pattern = ".*[\u0590-\u05FF].*"; // The standard Hebrew unicode block
+            String unicode_iw_with_precomposed_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E].*"; // With precomposed characters
+            // Check text if
+            if(locale.matches(unicode_iw_pattern) || locale.matches(unicode_iw_with_precomposed_pattern)){
+                Logger.debug("[Notification Fragment] Element font changed to Hebrew.");
+                Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
+                b.setTypeface(face);
+                return;
+            }
+        }
+
+        // Identify Arabic language
+        if (!new File("/system/fonts/NotoSansArabic-Regular.ttf").exists()) {
+            // TODO
         }
     }
 
