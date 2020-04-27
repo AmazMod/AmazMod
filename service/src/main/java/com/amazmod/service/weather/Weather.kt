@@ -26,7 +26,7 @@ object Weather {
     fun updateWeatherData(context: Context, new_weather_data: String, clear_previous_values: Boolean = false, expire: Long? = null): String {
         try {
             // Check if correct form of JSON
-            val json_data = JSONObject(new_weather_data)
+            val jsonData = JSONObject(new_weather_data)
 
             // Check if watch is Stratos 3
             var mcu = isStratos3()
@@ -79,14 +79,14 @@ object Weather {
             // Check if new data have expired
             if (expire != null) {
                 if (systemJsonData.has("time")) {
-                    val systemDataTimestamp = json_data.getLong("time")
+                    val systemDataTimestamp = jsonData.getLong("time")
                     if (systemDataTimestamp > expire) return DATA_HAVE_EXPIRED
                 }
             }
 
             // WeatherInfo & WeatherCheckedSummary
-            if (json_data.has("tempUnit")) {
-                val tempUnit = json_data.getString("tempUnit")
+            if (jsonData.has("tempUnit")) {
+                val tempUnit = jsonData.getString("tempUnit")
                 systemJsonData.put("tempUnit", tempUnit)
                 systemJsonDataShort.put("tempUnit", temperatureStringToUnit(tempUnit))
                 if(mcu)
@@ -95,126 +95,129 @@ object Weather {
             /*if (json_data.has("tempUnitNo")){
                 system_json_data_short.put("tempUnit", json_data.getString("tempUnitNo"));
             }*/
-            if (json_data.has("tempFormatted")) {
-                systemJsonData.put("tempFormatted", json_data.getString("tempFormatted"))
+            if (jsonData.has("tempFormatted")) {
+                systemJsonData.put("tempFormatted", jsonData.getString("tempFormatted"))
             }
-            if (json_data.has("temp")) {
-                systemJsonData.put("temp", json_data.getString("temp"))
-                systemJsonDataShort.put("temp", json_data.getString("temp"))
+            if (jsonData.has("temp")) {
+                systemJsonData.put("temp", jsonData.getString("temp"))
+                systemJsonDataShort.put("temp", jsonData.getString("temp"))
                 if(mcu)
-                    systemJsonDataMCU.put("currentTemp", json_data.getString("temp"))
+                    systemJsonDataMCU.put("currentTemp", jsonData.getString("temp"))
             }
-            if (json_data.has("weatherCode")) {
-                systemJsonData.put("weatherCode", json_data.getInt("weatherCode"))
-                systemJsonDataShort.put("weatherCodeFrom", json_data.getInt("weatherCode"))
+            if (jsonData.has("weatherCode")) {
+                systemJsonData.put("weatherCode", jsonData.getInt("weatherCode"))
+                systemJsonDataShort.put("weatherCodeFrom", jsonData.getInt("weatherCode"))
                 if(mcu)
-                    systemJsonDataMCU.put("currentAir", json_data.getInt("weatherCode"))
+                    systemJsonDataMCU.put("currentAir", jsonData.getInt("weatherCode"))
             }
-            if (json_data.has("forecasts")) {
-                systemJsonData.put("forecasts", json_data.getJSONArray("forecasts"))
+            if (jsonData.has("forecasts")) {
+                systemJsonData.put("forecasts", jsonData.getJSONArray("forecasts"))
                 if (mcu)
-                    systemJsonDataMCU.put("data", json_data.getJSONArray("forecasts")) // These data are wrong but are fixed with string replace before save
+                    systemJsonDataMCU.put("data", jsonData.getJSONArray("forecasts")) // These data are wrong but are fixed with string replace before save
             }
-            if (json_data.has("sd")) { // Humidity
-                systemJsonData.put("sd", json_data.getString("sd"))
+            if (jsonData.has("sd")) { // Humidity
+                systemJsonData.put("sd", jsonData.getString("sd"))
                 if(mcu)
-                    systemJsonDataMCU.put("humidityStr", json_data.getString("sd"))
+                    systemJsonDataMCU.put("humidityStr", jsonData.getString("sd"))
             }
-            if (json_data.has("windDirection")) {
-                systemJsonData.put("windDirection", json_data.getString("windDirection"))
+            if (jsonData.has("windDirection")) {
+                systemJsonData.put("windDirection", jsonData.getString("windDirection"))
             }
             // Direction angle symbol is different after transfer, so we save the proper one (it doesn't matter anyway)
             systemJsonData.put("windDirectionUnit", "°")
 
-            if (json_data.has("windDirectionValue")) {
-                systemJsonData.put("windDirectionValue", json_data.getString("windDirectionValue"))
+            if (jsonData.has("windDirectionValue")) {
+                systemJsonData.put("windDirectionValue", jsonData.getString("windDirectionValue"))
             }
-            if (json_data.has("windSpeedUnit")) {
-                systemJsonData.put("windSpeedUnit", json_data.getString("windSpeedUnit"))
+            if (jsonData.has("windSpeedUnit")) {
+                systemJsonData.put("windSpeedUnit", jsonData.getString("windSpeedUnit"))
             }
-            if (json_data.has("windSpeedValue")) {
-                systemJsonData.put("windSpeedValue", json_data.getString("windSpeedValue"))
+            if (jsonData.has("windSpeedValue")) {
+                systemJsonData.put("windSpeedValue", jsonData.getString("windSpeedValue"))
             }
-            if (json_data.has("windStrength")) {
-                systemJsonData.put("windStrength", json_data.getString("windStrength"))
+            if (jsonData.has("windStrength")) {
+                systemJsonData.put("windStrength", jsonData.getString("windStrength"))
             }
-            if (json_data.has("city")) {
-                systemJsonData.put("city", json_data.getString("city"))
+            if (jsonData.has("city")) {
+                systemJsonData.put("city", jsonData.getString("city"))
                 if(mcu)
-                    systemJsonDataMCU.put("location", json_data.getString("city"))
+                    systemJsonDataMCU.put("location", jsonData.getString("city"))
             }
-            if (json_data.has("time")) {
-                systemJsonData.put("time", json_data.getLong("time"))
+            if (jsonData.has("time")) {
+                systemJsonData.put("time", jsonData.getLong("time"))
                 if(mcu)
-                    systemJsonDataMCU.put("timestamp", json_data.getLong("time"))
+                    systemJsonDataMCU.put("timestamp", jsonData.getLong("time"))
             }
 
-            // TODO Currently not updated
-            // aqi":-1, "aqiLevel":0, "pm25":-1,
-            // MCU: "AQIStr":"","AQIValue":-1,
+            // Pollution
+            if (jsonData.has("pm25")) {
+                systemJsonData.put("pm25", jsonData.getInt("pm25"))
+                if(mcu)
+                    systemJsonDataMCU.put("AQIValue", jsonData.getInt("pm25"))
+            }
 
             // New UV values in weather
             var uvIndex = -1
-            if (json_data.has("uvIndex")) {
-                uvIndex = json_data.getInt("uvIndex")
+            if (jsonData.has("uvIndex")) {
+                uvIndex = jsonData.getInt("uvIndex")
                 systemJsonData.put("uvIndex", uvIndex)
                 if(mcu)
                     systemJsonDataMCU.put("currentUVI", uvIndex)
             }
-            if (json_data.has("uv")) {
-                systemJsonData.put("uv", json_data.getString("uv"))
+            if (jsonData.has("uv")) {
+                systemJsonData.put("uv", jsonData.getString("uv"))
             } else if (uvIndex > -1) {
                 systemJsonData.put("uv", uvIndexToString(uvIndex))
             }
 
             // New custom values in weather (these values don't exist by default in most watches)
-            if (json_data.has("tempMin")) {
-                systemJsonData.put("tempMin", json_data.getString("tempMin"))
+            if (jsonData.has("tempMin")) {
+                systemJsonData.put("tempMin", jsonData.getString("tempMin"))
             }
-            if (json_data.has("tempMax")) {
-                systemJsonData.put("tempMax", json_data.getString("tempMax"))
+            if (jsonData.has("tempMax")) {
+                systemJsonData.put("tempMax", jsonData.getString("tempMax"))
             }
-            if (json_data.has("pressure")) {
-                systemJsonData.put("pressure", json_data.getString("pressure"))
+            if (jsonData.has("pressure")) {
+                systemJsonData.put("pressure", jsonData.getString("pressure"))
             }
-            if (json_data.has("visibility")) {
-                systemJsonData.put("visibility", json_data.getInt("visibility"))
+            if (jsonData.has("visibility")) {
+                systemJsonData.put("visibility", jsonData.getInt("visibility"))
             }
-            if (json_data.has("clouds")) {
-                systemJsonData.put("clouds", json_data.getString("clouds"))
+            if (jsonData.has("clouds")) {
+                systemJsonData.put("clouds", jsonData.getString("clouds"))
             }
-            if (json_data.has("sunrise")) {
-                systemJsonData.put("sunrise", json_data.getInt("sunrise"))
+            if (jsonData.has("sunrise")) {
+                systemJsonData.put("sunrise", jsonData.getInt("sunrise"))
                 if(mcu){
                     val cal = Calendar.getInstance()
-                    cal.timeInMillis = json_data.getInt("sunrise")*1000L
+                    cal.timeInMillis = jsonData.getInt("sunrise")*1000L
                     systemJsonDataMCU.put("sunriseHour", cal.get(Calendar.HOUR))
                     systemJsonDataMCU.put("sunriseMin", cal.get(Calendar.MINUTE))
                 }
             }
-            if (json_data.has("sunset")) {
-                systemJsonData.put("sunset", json_data.getInt("sunset"))
+            if (jsonData.has("sunset")) {
+                systemJsonData.put("sunset", jsonData.getInt("sunset"))
                 if(mcu){
                     val cal = Calendar.getInstance()
-                    cal.timeInMillis = json_data.getInt("sunset")*1000L
+                    cal.timeInMillis = jsonData.getInt("sunset")*1000L
                     systemJsonDataMCU.put("sunsetHour", cal.get(Calendar.HOUR))
                     systemJsonDataMCU.put("sunsetMin", cal.get(Calendar.MINUTE))
                 }
             }
-            if (json_data.has("actual_temp")) {
-                systemJsonData.put("actual_temp", json_data.getInt("actual_temp"))
+            if (jsonData.has("actual_temp")) {
+                systemJsonData.put("actual_temp", jsonData.getInt("actual_temp"))
             }
-            if (json_data.has("real_feel")) {
-                systemJsonData.put("real_feel", json_data.getString("real_feel"))
+            if (jsonData.has("real_feel")) {
+                systemJsonData.put("real_feel", jsonData.getString("real_feel"))
             }
-            if (json_data.has("country")) {
-                systemJsonData.put("country", json_data.getString("country")) // country code
+            if (jsonData.has("country")) {
+                systemJsonData.put("country", jsonData.getString("country")) // country code
             }
-            if (json_data.has("lat")) {
-                systemJsonData.put("lat", json_data.getString("lat")) // latitude
+            if (jsonData.has("lat")) {
+                systemJsonData.put("lat", jsonData.getString("lat")) // latitude
             }
-            if (json_data.has("lon")) {
-                systemJsonData.put("lon", json_data.getString("lon")) // longitude
+            if (jsonData.has("lon")) {
+                systemJsonData.put("lon", jsonData.getString("lon")) // longitude
             }
 
             // Update data

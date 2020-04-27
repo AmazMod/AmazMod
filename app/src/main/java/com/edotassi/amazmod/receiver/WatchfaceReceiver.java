@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.CalendarContract;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.text.format.Time;
 import android.widget.Toast;
 
@@ -305,6 +306,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             long LOCATION_REFRESH_TIME = ((long) syncInterval * 60000L);// in milliseconds
             //LocationManager.GPS_PROVIDER or LocationManager.NETWORK_PROVIDER
             mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            assert mLocationManager != null;
             mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_REFRESH_TIME, LOCATION_REFRESH_DISTANCE, mLocationListener);
         }
     }
@@ -380,7 +382,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     Date nextAlarmDate = new Date(nextAlarmTime);
                     android.text.format.DateFormat df = new android.text.format.DateFormat();
                     // Format alarm time as e.g. "Fri 06:30"
-                    nextAlarm = df.format("EEE HH:mm", nextAlarmDate).toString();
+                    nextAlarm = DateFormat.format("EEE HH:mm", nextAlarmDate).toString();
                 }
             }
             // Just to be sure
@@ -419,7 +421,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // 0: by location, 1: by City/Country
-        String search;
+        String search, searchUV = "", search_pul = "";
         if (searchType == 0) {
             // Search by location
             if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -437,6 +439,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
             if (last_known_latitude != null && last_known_longitude != null){
                 search = "lat=" + last_known_latitude + "&lon=" + last_known_longitude;
+                searchUV = search;
+                search_pul = (last_known_latitude-1)+","+(last_known_longitude-1)+","+(last_known_latitude+1)+","+(last_known_longitude+1);
             }else{
                 Logger.error("WatchfaceDataReceiver data not acquired because location is not available.");
                 // send data
@@ -447,6 +451,22 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             // Search by city-country
             String city_country = Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, "-");
             search = "q="+city_country;
+
+            // Get saved coordinates
+            String last_saved_data = Prefs.getString(Constants.PREF_WEATHER_LAST_DATA, "");
+            // Extract data
+            try {
+                // Extract data from JSON
+                JSONObject last_data = new JSONObject(last_saved_data);
+                if (last_data.has("lon") && last_data.has("lat")){
+                    last_known_latitude = Double.parseDouble(last_data.getString("lat"));
+                    last_known_longitude = Double.parseDouble(last_data.getString("lon"));
+                    searchUV = "lat=" + last_known_latitude + "&lon=" + last_known_longitude;
+                    search_pul = (last_known_latitude-1)+","+(last_known_longitude-1)+","+(last_known_latitude+1)+","+(last_known_longitude+1);
+                }
+            }catch (Exception e) {
+                // Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
+            }
         }
 
         // 5d every 3h forecast URL (OpenWeatherMap)
@@ -456,17 +476,12 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         // UV API (requires searchType == 0)
         String uvUrl = "https://api.openweathermap.org/data/2.5/uvi/forecast?appid="+appid[2]+"&";//+"&lat={lat}&lon={lon}&cnt={cnt}
         // Pollution API
-        // https://api.waqi.info/mapq/bounds/?bounds=54.50,-6.08,54.67,-5.76
+        String pollution = "https://api.waqi.info/mapq/bounds/?bounds=";//+lat,lol,lat,lon
 
         // Load update times
         Date date = new Date();
         long milliseconds = date.getTime();
         long last_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, 0);
-
-        //long last_week_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_WEEK_WEATHER_DATA_SYNC, 0);
-        //long last_uv_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_UV_WEATHER_DATA_SYNC, 0);
-        //Date week_update_date = new Date(last_week_weather_update);
-        //Date uv_update_date = new Date(last_uv_weather_update);
 
         // Limit default API users to 1 request per hour
         if( !user_appid.equals(appid[0]) && milliseconds-last_weather_update < 60*60*1000) {
@@ -476,27 +491,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // APIs to call
-        String[] apiUrls = new String[3];
+        String[] apiUrls = new String[4];
         // Current weather API
         apiUrls[0] = todayUrl;
         // Week forecast API
         apiUrls[1] = weekUrl;
-        // UV API
-        if ( searchType == 0 )
-            apiUrls[2] = uvUrl+search;
-        else {
-            // Get saved coordinates
-            String last_saved_data = Prefs.getString(Constants.PREF_WEATHER_LAST_DATA, "");
-            // Extract data
-            try {
-                // Extract data from JSON
-                JSONObject last_data = new JSONObject(last_saved_data);
-                if (last_data.has("lon") && last_data.has("lat"))
-                    apiUrls[2] = uvUrl + "lat=" + last_data.getString("lat") + "&lon=" + last_data.getString("lon");
-            }catch (Exception e) {
-                // Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
-            }
-        }
+        // UV/Pollution API
+        if ( !searchUV.isEmpty() )
+            apiUrls[2] = uvUrl + searchUV;
+        // Pollution API
+        if ( !search_pul.isEmpty() )
+            apiUrls[3] = pollution + search_pul;
 
         this.pending_requests = apiUrls.length;
 
@@ -515,7 +520,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            JSONObject weather_data = Weather_API.weather_server_data(response, units, show_feels_like);
+                            JSONObject weather_data = Weather_API.weather_server_data(response, units, show_feels_like, last_known_latitude, last_known_longitude);
                             save_weather_response(weather_data);
                         }
                     }, new Response.ErrorListener() {
@@ -531,8 +536,8 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                         Toast.makeText(context, context.getString(R.string.weather_api_error), Toast.LENGTH_LONG).show();
                     }
                     Logger.debug("WatchfaceDataReceiver get weather data request failed: " + error.toString());
-                    // Send data but weather will be null
-                    sendnewdata();
+
+                    pending_requests = pending_requests - 1;
                 }
             });
 

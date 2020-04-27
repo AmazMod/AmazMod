@@ -13,12 +13,12 @@ import amazmod.com.transport.Constants;
 
 public class Weather_API {
 
-    public static JSONObject weather_server_data(String response, int units, boolean show_feels_like) {
+    public static JSONObject weather_server_data(String response, int units, boolean show_feels_like, Double latitude, Double longitude) {
         Logger.debug("WatchfaceDataReceiver weather data: " + response);
 
-        // If response is an array, wrap it inside an object (UV case)
+        // If response is an array, wrap it inside an object (UV & Pollution cases)
         if ( response.trim().substring(0, 1).equals("[") )
-            response = "{\"uv\":"+response+"}";
+            response = "{\"uv-pollution\":"+response+"}";
 
         // Get last last current weather update time
         long last_current_weather_update = Prefs.getLong(Constants.PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC, 0);
@@ -41,7 +41,7 @@ public class Weather_API {
             // "clouds":{"all":9},
             // "dt":1575674895,
             // "sys":{"type":1,"id":1502,"country":"GB","sunrise":1575618606,"sunset":1575647601},
-            // "timezone":0,"id":6690602,"name":"Battersea","cod":200}
+            // "timezone":0,"id":111111,"name":"Battersea","cod":200}
 
             // Example of forecast URL
             // {"cod":"200","message":0,"cnt":40,
@@ -58,24 +58,36 @@ public class Weather_API {
             //      ...
             // ],
             // "city":{
-            //      "id":2646670,
+            //      "id":1111,
             //      "name":"Somewhere",
             //      "coord":{"lat":00.000,"lon":-0.000},
             //      "country":"GB",
-            //      "population":13109,
+            //      "population":10000,
             //      "timezone":0,
-            //      "sunrise":1576312722,
-            //      "sunset":1576339022
+            //      "sunrise":1500000000,
+            //      "sunset":1000000000
             //  }}
 
             // Example of UV URL
             // [
             //      {
-            //      "lat":54.64,
+            //      "lat":00.00,
             //      "lon":-5.84,
             //      "date_iso":"2020-02-18T12:00:00Z",
             //      "date":1582027200,
             //      "value":0.84
+            //      },
+            //      ...
+            // ]
+
+            // Example of Pollution URL
+            // [
+            //      {
+            //      "lat":00.00,
+            //      "lon":-0.00,
+            //      "city":"Somewhere","idx":41111,"stamp":1588010400,
+            //      "pol":"pm25","x":"3160","aqi":"29",
+            //      "tz":"+01:00","utime":"2020-04-27 19:00:00","img":"_C_W2ckrNSUssLlFwTs0rKUoFAA"
             //      },
             //      ...
             // ]
@@ -92,8 +104,8 @@ public class Weather_API {
             // "weather":0, "windDirection":"NW", "windStrength":"7.4km/h"}
 
             // Standard format (WeatherInfo) is send to watch
-            Double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max, speed;
-            Integer weather_id_from, weather_id_to;
+            double temp, feels_like, temp_min, temp_max, tmp_temp_min, tmp_temp_max, speed;
+            int weather_id_from, weather_id_to;
             String pressure, humidity, tempUnit, city, clouds, country, lon, lat, description, weather_from, weather_to;
             int weather_id, visibility, sunrise, sunset, deg;
             String[] directions = {"N","NE", "E", "SE", "S", "SW", "W", "NW","N/A"};
@@ -213,8 +225,8 @@ public class Weather_API {
                         else
                             deg = 0;
                         // save
-                        Integer direction_index = (deg + 45/2) / 45;
-                        new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
+                        int direction_index = (deg + 45/2) / 45;
+                        new_weather_info.put("windDirection", directions[Math.min(direction_index, 8)] );
                         new_weather_info.put("windDirectionUnit","°");
                         new_weather_info.put("windDirectionValue",deg+"");
                         new_weather_info.put("windSpeedUnit", (units==2?"m/h":"km/h") );
@@ -347,7 +359,7 @@ public class Weather_API {
 
                 // save
                 int direction_index = (deg + 45/2) / 45;
-                new_weather_info.put("windDirection", directions[(direction_index<8)?direction_index:8] );
+                new_weather_info.put("windDirection", directions[Math.min(direction_index, 8)] );
                 new_weather_info.put("windDirectionUnit","º");
                 new_weather_info.put("windDirectionValue",deg+"");
                 new_weather_info.put("windSpeedUnit", (units==2?"m/h":"km/h") );
@@ -384,15 +396,34 @@ public class Weather_API {
                 }
             }
 
-            // [UV weather API]
-            if (weather_data.has("uv")) {
-                JSONArray json = weather_data.getJSONArray("uv");
+            // [UV/Pollution weather API]
+            if (weather_data.has("uv-pollution")) {
+                Double distance = -1.0;
+                JSONArray json = weather_data.getJSONArray("uv-pollution");
                 for(int i=0;i<json.length();i++){
                     JSONObject item = json.getJSONObject(i);
+
+                    // UV
                     if (item.has("date")) {
                         if(item.has("value") && ( item.getInt("date")*1000 < date.getTime() )){
-                            Double uvIndex = Double.parseDouble(item.getString("value"));
+                            double uvIndex = Double.parseDouble(item.getString("value"));
                             new_weather_info.put("uvIndex", Math.round(uvIndex));
+                        }
+                    }
+
+                    // Pollution
+                    if (item.has("aqi") && item.has("pol") && latitude!=null && longitude!=null) {
+                        if (item.getString("pol").equals("pm25") && item.has("lat") && item.has("lon")) {
+                            // Calculate station distance
+                            Double tempDistance = getDistanceFromLatLonInKm(latitude,longitude,item.getDouble("lat"),item.getDouble("lon"));
+
+                            // Save the closest station
+                            if( distance < 0 || tempDistance < distance ) {
+                                distance = tempDistance;
+
+                                int aqi = Integer.parseInt(item.getString("pm25"));
+                                new_weather_info.put("pm25", aqi);
+                            }
                         }
                     }
                 }
@@ -441,7 +472,21 @@ public class Weather_API {
         return current;
     }
 
-    public static int getHuamiWeatherCode(int weather_id) {
+    private static Double getDistanceFromLatLonInKm(Double lat1, Double lon1, Double lat2, Double lon2) {
+        // Haversine formula
+        Double R = 6371.0; // Radius of the earth in km
+        Double dLat = deg2rad(lat2-lat1);  // Convert degrees to radian
+        Double dLon = deg2rad(lon2-lon1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        Double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+    }
+
+    private static Double deg2rad(Double deg) {
+        return deg * (Math.PI/180);
+    }
+
+    private static int getHuamiWeatherCode(int weather_id) {
         // Openweathermap icons:
         // https://openweathermap.org/weather-conditions
 
