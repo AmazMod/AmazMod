@@ -836,19 +836,19 @@ public class AmazModLauncher extends AbstractPlugin {
 
         if (language == null)
             return;
+        
         if (language.contains("iw")) {
             if (!new File("/system/fonts/NotoSansHebrew-Regular.ttf").exists()) {
                 language = "en_EN";
                 Logger.debug("Amazmod locale: Hebrew font is missing, setting english language");
             } else
-                Logger.debug("Amazmod locale: Hebrew font exist, setting Hebrew language");
-        }
-        if (language.contains("ar")) {
+                Logger.debug("Amazmod locale: Hebrew font exist, setting language as normal");
+        }else if (language.contains("ar")) {
             if (!new File("/system/fonts/NotoSansArabic-Regular.ttf").exists()) {
                 language = "en_EN";
                 Logger.debug("Amazmod locale: Arabic font is missing, setting english language");
             } else
-                Logger.debug("Amazmod locale: Arabic font exist, setting Hebrew language");
+                Logger.debug("Amazmod locale: Arabic font exist, setting language as normal");
         }
         Resources res = mContext.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
