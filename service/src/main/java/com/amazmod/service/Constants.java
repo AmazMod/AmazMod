@@ -108,5 +108,5 @@ public class Constants {
 
     public static final String WIDGET_ORDER_IN = "springboard_widget_order_in";
     public static final String WIDGET_ORDER_OUT = "springboard_widget_order_out";
-
+    public static final String LONG_KEY_SETTINGS = "long_key_settings";
 }

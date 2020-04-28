@@ -111,6 +111,19 @@
                     android:textAlignment="center" />
 
                 <Button
+                    android:id="@+id/wear_apps_info_buttonQuickLaunch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    tools:text="Button"
+                    android:textAlignment="center" />
+
+                <Button
                     android:id="@+id/wear_apps_info_buttonClose"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
