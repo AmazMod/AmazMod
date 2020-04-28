@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.ui.card.Card;
@@ -55,6 +56,8 @@ public class WeatherFragment extends Card {
     ImageView weather_image;
     @BindView(R.id.card_weather_big_image)
     ImageView weather_big_image;
+    @BindView(R.id.card_weather)
+    CardView card_weather;
 
     //private Context mContext;
 
@@ -92,7 +95,7 @@ public class WeatherFragment extends Card {
     }
 
     // Weather icons
-    int[] weatherIcons = new int[]{
+    private int[] weatherIcons = new int[]{
             R.drawable.sunny, //0
             R.drawable.cloudy, //1
             R.drawable.overcast, //2
@@ -118,9 +121,14 @@ public class WeatherFragment extends Card {
             R.drawable.unknown //22
     };
 
-    public void updateCard() {
-
+    private void updateCard() {
         String last_saved_data = Prefs.getString(Constants.PREF_WEATHER_LAST_DATA, "");
+        //Logger.debug("[Weather Card] JSON weather data: {}", last_saved_data);
+
+        if( last_saved_data == null || last_saved_data.isEmpty() ) {
+            card_weather.setVisibility(View.GONE);
+            return;
+        }
 
         // Extract data
         try {
@@ -133,8 +141,8 @@ public class WeatherFragment extends Card {
                 temperature.setText(last_data.getString("actual_temp"));
             if (last_data.has("real_feel") && last_data.has("tempUnit"))
                 real_feel.setText(last_data.getString("real_feel")+"°"+last_data.getString("tempUnit"));
-            if (last_data.has("humidity"))
-                humidity.setText(last_data.getString("humidity"));
+            if (last_data.has("sd")) // humidity
+                humidity.setText(last_data.getString("sd"));
             if (last_data.has("pressure"))
                 pressure.setText(last_data.getString("pressure"));
             if (last_data.has("weatherCode")){
@@ -152,7 +160,9 @@ public class WeatherFragment extends Card {
             if (last_data.has("lon") && last_data.has("lat"))
                 coordinates.setText("("+last_data.getString("lat") +", "+ last_data.getString("lon")+")");
         }catch (Exception e) {
-            Logger.error("[Weather Card] JSON weather data failed: "+ e.getMessage());
+            Logger.error("[Weather Card] JSON weather data failed: {}", e.getMessage());
+            card_weather.setVisibility(View.GONE);
+            return;
         }
 
         // Write the last time data were taken

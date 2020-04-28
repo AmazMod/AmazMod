@@ -14,7 +14,7 @@ import amazmod.com.transport.Constants;
 public class Weather_API {
 
     public static JSONObject weather_server_data(String response, int units, boolean show_feels_like, Double latitude, Double longitude) {
-        Logger.debug("WatchfaceDataReceiver weather data: " + response);
+        Logger.debug("[Weather API] weather data: " + response);
 
         // If response is an array, wrap it inside an object (UV & Pollution cases)
         if ( response.trim().substring(0, 1).equals("[") )
@@ -147,7 +147,7 @@ public class Weather_API {
                     }else
                         tmp_dayofmonth = dayofmonth;
 
-                    //Logger.debug("WatchfaceDataReceiver JSON weather date: "+ tmp_dayofmonth +" - "+ dayofmonth);
+                    //Logger.debug("[Weather API] JSON weather date: "+ tmp_dayofmonth +" - "+ dayofmonth);
 
                     // New day
                     if ( tmp_dayofmonth != dayofmonth && i != 0 ){
@@ -298,44 +298,56 @@ public class Weather_API {
             // [CURRENT weather API] Only on current weather API and not in the forecast
             if (weather_data.has("visibility")){
                 // Visibility
-                // pull
                 visibility = weather_data.getInt("visibility");
-                // save
                 new_weather_info.put("visibility",visibility);
             }
             // [CURRENT weather API]
             if (weather_data.has("main")) {
-                // pull
                 JSONObject main = weather_data.getJSONObject("main");
-                temp = Double.parseDouble(main.getString("temp"));
-                feels_like = Double.parseDouble(main.getString("feels_like"));
-                pressure = main.getInt("pressure")+"hPa";
-                humidity = main.getInt("humidity")+"%";
-                tmp_temp_min = Double.parseDouble(main.getString("temp_min"));
-                tmp_temp_max = Double.parseDouble(main.getString("temp_max"));
-                // save
-                new_weather_info.put("tempFormatted", Math.round(temp) + "º" + tempUnit);
-                new_weather_info.put("temp", (show_feels_like)?Math.round(feels_like):Math.round(temp));
-                new_weather_info.put("tempMin", Math.round(tmp_temp_min));
-                new_weather_info.put("tempMax", Math.round(tmp_temp_max));
-                new_weather_info.put("pressure", pressure); // hPa
-                new_weather_info.put("sd", humidity);
-                new_weather_info.put("actual_temp", Math.round(temp)); // New value
-                new_weather_info.put("real_feel", Math.round(feels_like)); // New value
+                if (main.has("temp")){
+                    temp = Double.parseDouble(main.getString("temp"));
+                    new_weather_info.put("actual_temp", Math.round(temp)); // New value
+                    new_weather_info.put("tempFormatted", Math.round(temp) + "º" + tempUnit);
+                    new_weather_info.put("temp", Math.round(temp));
+                }
+                if (main.has("feels_like")){
+                    feels_like = Double.parseDouble(main.getString("feels_like"));
+                    new_weather_info.put("real_feel", Math.round(feels_like)); // New value
+                    if (show_feels_like)
+                        new_weather_info.put("temp", Math.round(feels_like));
+                }
+                if (main.has("pressure")){
+                    pressure = main.getInt("pressure")+"hPa";
+                    new_weather_info.put("pressure", pressure); // hPa
+                }
+                if (main.has("humidity")){
+                    humidity = main.getInt("humidity")+"%";
+                    new_weather_info.put("sd", humidity);
+                }
+                if (main.has("temp_min")){
+                    tmp_temp_min = Double.parseDouble(main.getString("temp_min"));
+                    new_weather_info.put("tempMin", Math.round(tmp_temp_min));
+                }
+                if (main.has("temp_max")){
+                    tmp_temp_max = Double.parseDouble(main.getString("temp_max"));
+                    new_weather_info.put("tempMax", Math.round(tmp_temp_max));
+                }
             }
             // [CURRENT weather API]
             if (weather_data.has("weather")) {
                 // pull
                 JSONArray weather = weather_data.getJSONArray("weather");
                 JSONObject weather1 = weather.getJSONObject(0);
-                weather_id = Weather_API.getHuamiWeatherCode(weather1.getInt("id"));
+                weather_id = 22;
+                if (weather1.has("id"))
+                    weather_id = Weather_API.getHuamiWeatherCode(weather1.getInt("id"));
 
                 description = "N/A";
                 if (weather1.has("description"))
                     description = weather1.getString("description");
 
                 // save
-                new_weather_info.put("weatherCode",weather_id);
+                new_weather_info.put("weatherCode", weather_id);
                 new_weather_info.put("weatherDescription", description); // New value
             }
             // [CURRENT weather API]
@@ -389,13 +401,12 @@ public class Weather_API {
                 JSONObject coord = weather_data.getJSONObject("coord");
 
                 if (coord.has("lon")) {
-                    new_weather_info.put("lon", coord.getString("lon")); // New value
+                    new_weather_info.put("lon", coord.getDouble("lon")); // New value
                 }
                 if (coord.has("lat")) {
-                    new_weather_info.put("lat", coord.getString("lat")); // New value
+                    new_weather_info.put("lat", coord.getDouble("lat")); // New value
                 }
             }
-
             // [UV/Pollution weather API]
             if (weather_data.has("uv-pollution")) {
                 Double distance = -1.0;
@@ -418,28 +429,28 @@ public class Weather_API {
                             Double tempDistance = getDistanceFromLatLonInKm(latitude,longitude,item.getDouble("lat"),item.getDouble("lon"));
 
                             // Save the closest station
-                            if( distance < 0 || tempDistance < distance ) {
+                            if( (distance < 0 || tempDistance < distance) && !item.getString("aqi").equals("-") ) {
                                 distance = tempDistance;
 
-                                int aqi = Integer.parseInt(item.getString("pm25"));
+                                int aqi = Integer.parseInt(item.getString("aqi"));
                                 new_weather_info.put("pm25", aqi);
                             }
                         }
                     }
                 }
             }
-
+            //Logger.debug("[Weather API] JSON new weather data: {}", new_weather_info.toString());
             new_weather_info.put("time", date.getTime() ); // save current time in milliseconds
         }
         catch (Exception e) {
-            Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
+            Logger.error("[Weather API] JSON weather data failed: {}", e.getMessage());
         }
 
         return new_weather_info;
     }
 
     // Merge 2nd and 3rd object in first
-    public static JSONObject join_data(JSONObject current, JSONObject forecast, JSONObject uv) {
+    public static JSONObject join_data(JSONObject current, JSONObject forecast, JSONObject uv, JSONObject pollution) {
         // Add forecast to current weather data
         if (forecast!=null) {
             try {
@@ -455,7 +466,7 @@ public class Weather_API {
                 if(forecast.has("sunset"))
                     current.put("sunset", forecast.getInt("sunset"));
             }catch (Exception e) {
-                Logger.error("WatchfaceDataReceiver JSON weather forecast data save to current data failed: "+ e.getMessage());
+                Logger.error("[Weather API Join] JSON weather forecast data save to current data failed: {}", e.getMessage());
             }
         }
 
@@ -465,7 +476,17 @@ public class Weather_API {
                 if(uv.has("uvIndex"))
                     current.put("uvIndex", uv.getInt("uvIndex"));
             }catch (Exception e) {
-                Logger.error("WatchfaceDataReceiver JSON weather uv data save to current data failed: "+ e.getMessage());
+                Logger.error("[Weather API Join] JSON weather uv data save to current data failed: {}", e.getMessage());
+            }
+        }
+
+        // Add pollution data to current weather data
+        if(pollution!=null){
+            try {
+                if(pollution.has("pm25"))
+                    current.put("pm25", pollution.getInt("pm25"));
+            }catch (Exception e) {
+                Logger.error("[Weather API Join] JSON weather pollution data save to current data failed: {}", e.getMessage());
             }
         }
 

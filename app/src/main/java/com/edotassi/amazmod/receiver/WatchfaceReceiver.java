@@ -105,7 +105,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     int battery;
     long expire;
     String alarm, calendar_events;
-    JSONObject weather_data, weather_uv_data, weather_forecast_data;
+    JSONObject weather_data, weather_uv_data, weather_forecast_data, weather_pollution_data;
 
     /**
      * Info for single calendar entry in system. This entry can belong to any account - this
@@ -141,7 +141,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         refresh = intent.getBooleanExtra("refresh", false);
 
         if (!Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA)) {
-            Logger.debug("WatchfaceDataReceiver send data is off");
+            Logger.debug("[WatchfaceDataReceiver] send data is off");
             return;
         }
 
@@ -171,7 +171,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
             // Check if new data
             if ( isWeatherEnabled || Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0) != battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm) || calendar_events != null) {
-                Logger.debug("WatchfaceDataReceiver sending data to phone");
+                Logger.debug("[WatchfaceDataReceiver] sending data to phone");
 
                 // If weather data are enabled, run the weather code
                 if (isWeatherEnabled)
@@ -180,14 +180,14 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 else
                     sendnewdata();
             }else{
-                Logger.debug("WatchfaceDataReceiver sending data to phone (no new data)");
+                Logger.debug("[WatchfaceDataReceiver] sending data to phone (no new data)");
             }
 
             // Save update time in milliseconds
             Prefs.putLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, milliseconds);
         } else {
             // Other actions
-            Logger.debug("WatchfaceDataReceiver onReceive :"+intent.getAction());
+            Logger.debug("[WatchfaceDataReceiver] onReceive :"+intent.getAction());
             // If battery/alarm was changed
             if( (intent.getAction().equals(Intent.ACTION_BATTERY_CHANGED) && Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE))
                     || (intent.getAction().equals(AlarmManager.ACTION_NEXT_ALARM_CLOCK_CHANGED) && Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE) )){
@@ -197,7 +197,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
                 if (Prefs.getInt(Constants.PREF_WATCHFACE_LAST_BATTERY, 0)!=battery || !Prefs.getString(Constants.PREF_WATCHFACE_LAST_ALARM, "").equals(alarm)) {
                     // New data = update
-                    Logger.debug("WatchfaceDataReceiver sending data to phone (battery/alarm onchange)");
+                    Logger.debug("[WatchfaceDataReceiver] sending data to phone (battery/alarm onchange)");
 
                     // Send data
                     sendnewdata(false);
@@ -205,11 +205,11 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             }
         }
 
-        //Logger.debug("WatchfaceDataReceiver onReceive");
+        //Logger.debug("[WatchfaceDataReceiver] onReceive");
     }
     public void sendnewdata() {
-        this.weather_data = Weather_API.join_data(this.weather_data, this.weather_forecast_data, this.weather_uv_data);
-        Logger.debug("WatchfaceDataReceiver JSON weather data found: "+ WatchfaceReceiver.this.weather_data);
+        this.weather_data = Weather_API.join_data(this.weather_data, this.weather_forecast_data, this.weather_uv_data, this.weather_pollution_data);
+        Logger.debug("[WatchfaceDataReceiver] JSON weather data found: "+ WatchfaceReceiver.this.weather_data);
 
         if (this.weather_data != null) {
             // Save weather data for first page use
@@ -249,7 +249,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         // Stop if data send is off
         if (!send_data) {
-            Logger.debug("WatchfaceDataReceiver send data is off");
+            Logger.debug("[WatchfaceDataReceiver] send data is off");
             return;
         }
 
@@ -259,7 +259,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
         if (delay < 0) delay = 0;
 
-        //Logger.info("WatchfaceDataReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
+        //Logger.info("[WatchfaceDataReceiver] times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastWatchfaceDataSend + " = "+delay);
 
         // Cancel any other intent
         if (alarmManager != null && pendingIntent != null) {
@@ -276,7 +276,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + delay,
                         (long) syncInterval * 60000L, pendingIntent);
         } catch (NullPointerException e) {
-            Logger.error("WatchfaceDataReceiver setRepeating exception: " + e.toString());
+            Logger.error("[WatchfaceDataReceiver] setRepeating exception: " + e.toString());
         }
 
         // Unregister if any receiver
@@ -300,7 +300,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         // Ask for location updates
         if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Logger.error("WatchfaceDataReceiver location updates not initialized because permissions are not given.");
+            Logger.error("[WatchfaceDataReceiver] location updates not initialized because permissions are not given.");
         }else{
             int LOCATION_REFRESH_DISTANCE = 10 * 1000;//in m, = 10km
             long LOCATION_REFRESH_TIME = ((long) syncInterval * 60000L);// in milliseconds
@@ -317,7 +317,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         public void onLocationChanged(final Location location) {
             last_known_latitude = location.getLatitude();
             last_known_longitude = location.getLongitude();
-            Logger.debug("WatchfaceDataReceiver location updated: "+last_known_latitude+","+last_known_longitude);
+            Logger.debug("[WatchfaceDataReceiver] location updated: "+last_known_latitude+","+last_known_longitude);
 
             Date date = new Date();
             long milliseconds = date.getTime();
@@ -394,7 +394,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             // Alarm already set to --
         }
         // Log next alarm
-        // Logger.debug(Constants.TAG, "WatchfaceDataReceiver next alarm: " + nextAlarm);
+        // Logger.debug(Constants.TAG, "[WatchfaceDataReceiver] next alarm: " + nextAlarm);
         return nextAlarm;
     }
 
@@ -425,7 +425,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         if (searchType == 0) {
             // Search by location
             if ( Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission( android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                Logger.error("WatchfaceDataReceiver location updates not initialized because permissions are not given.");
+                Logger.error("[WatchfaceDataReceiver] location updates not initialized because permissions are not given.");
             }else{
                 Location getLastLocation = mLocationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
                 if (getLastLocation != null) {
@@ -433,7 +433,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     Double currentLatitude = getLastLocation.getLatitude();
                     last_known_latitude = currentLatitude;
                     last_known_longitude = currentLongitude;
-                    Logger.debug("WatchfaceDataReceiver last location: " + currentLatitude + "," + currentLongitude);
+                    Logger.debug("[WatchfaceDataReceiver] last location: " + currentLatitude + "," + currentLongitude);
                 }
             }
 
@@ -442,7 +442,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 searchUV = search;
                 search_pul = (last_known_latitude-1)+","+(last_known_longitude-1)+","+(last_known_latitude+1)+","+(last_known_longitude+1);
             }else{
-                Logger.error("WatchfaceDataReceiver data not acquired because location is not available.");
+                Logger.error("[WatchfaceDataReceiver] data not acquired because location is not available.");
                 // send data
                 sendnewdata();
                 return;
@@ -465,7 +465,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     search_pul = (last_known_latitude-1)+","+(last_known_longitude-1)+","+(last_known_latitude+1)+","+(last_known_longitude+1);
                 }
             }catch (Exception e) {
-                // Logger.error("WatchfaceDataReceiver JSON weather data failed: "+ e.getMessage());
+                // Logger.error("[WatchfaceDataReceiver] JSON weather data failed: "+ e.getMessage());
             }
         }
 
@@ -535,7 +535,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     if (error.toString().contains("AuthFailureError")) {
                         Toast.makeText(context, context.getString(R.string.weather_api_error), Toast.LENGTH_LONG).show();
                     }
-                    Logger.debug("WatchfaceDataReceiver get weather data request failed: " + error.toString());
+                    Logger.debug("[WatchfaceDataReceiver] get weather data request failed: " + error.toString());
 
                     pending_requests = pending_requests - 1;
                 }
@@ -557,6 +557,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             }else if(weather_data.has("uvIndex")){
                 // [UV API]
                 this.weather_uv_data = weather_data;
+            }else if(weather_data.has("pm25")){
+                // [Pollution API]
+                this.weather_pollution_data = weather_data;
             }else{
                 // [CURRENT weather API]
                 this.weather_data = weather_data;
@@ -644,7 +647,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         if (Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(
                 Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             //Permissions error
-            Logger.debug("WatchfaceDataReceiver calendar info: permissions error");
+            Logger.debug("[WatchfaceDataReceiver] calendar info: permissions error");
             return info;
         }
 
@@ -676,7 +679,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         // Check if calendar read permission is granted
         if (Build.VERSION.SDK_INT >= 23 && context.checkSelfPermission(Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             //Permissions error
-            Logger.debug("WatchfaceDataReceiver calendar events: permissions error");
+            Logger.debug("[WatchfaceDataReceiver] calendar events: permissions error");
             return null;
         }
 
@@ -684,7 +687,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
         if (cur == null) {
             // Disabled
-            Logger.debug("WatchfaceDataReceiver calendar events: disabled");
+            Logger.debug("[WatchfaceDataReceiver] calendar events: disabled");
             Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
             return "{\"events\":[]}";
         }
@@ -722,17 +725,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
                 events.put(event);
             }
-            Logger.debug("WatchfaceDataReceiver getCalendarEvents found " + events.length() + " events");
+            Logger.debug("[WatchfaceDataReceiver] getCalendarEvents found " + events.length() + " events");
             jsonEvents = root.toString();
         } catch (JSONException e) {
-            Logger.debug("WatchfaceDataReceiver calendar events: failed to make JSON", e);
+            Logger.debug("[WatchfaceDataReceiver] calendar events: failed to make JSON", e);
             return null;
         }
 
         // Check if there are new data
         if (Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "").equals(jsonEvents)) {
             // No new data, no update
-            Logger.debug("WatchfaceDataReceiver calendar events: no new data");
+            Logger.debug("[WatchfaceDataReceiver] calendar events: no new data");
             return null;
         }
         // Save new events as last send
@@ -778,7 +781,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     private String getICSCalendarEvents(Context context) {
 
         int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, default_calendar_days));
-        Logger.debug("WatchfaceDataReceiver getICSCalendarEvents calendar_events_days: " + calendar_events_days);
+        Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents calendar_events_days: " + calendar_events_days);
         String jsonEvents = "{\"events\":[]}";
         String lastEvents = Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
         boolean isEmptyEvents = false;
@@ -805,7 +808,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     result = true;
                     if (oldFile.exists() && !refresh) {
                         if (!isEmptyEvents && (oldFile.length() == newFile.length())) {
-                            Logger.info("WatchfaceDataReceiver getICSCalendarEvents ICS file did not change, returning...");
+                            Logger.info("[WatchfaceDataReceiver] getICSCalendarEvents ICS file did not change, returning...");
                             return null;
                         } else {
                             result = oldFile.delete();
@@ -816,10 +819,10 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                         result = newFile.renameTo(oldFile);
 
                     if (!result) {
-                        Logger.warn("WatchfaceActivity checkICSFile error moving newFile: " + newFile.getAbsolutePath());
+                        Logger.warn("[WatchfaceDataReceiver] checkICSFile error moving newFile: " + newFile.getAbsolutePath());
                         return null;
                     } else {
-                        Logger.debug("WatchfaceDataReceiver getICSCalendarEvents getting ics data");
+                        Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents getting ics data");
                         System.setProperty("net.fortuna.ical4j.timezone.cache.impl", MapTimeZoneCache.class.getName());
                         FileInputStream in = new FileInputStream(context.getFilesDir() + File.separator + "calendar.ics");
                         CalendarBuilder builder = new CalendarBuilder();
@@ -827,19 +830,19 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     }
 
                 } else {
-                    Logger.warn("WatchfaceDataReceiver getICSCalendarEvents error retrieving newFile");
+                    Logger.warn("[WatchfaceDataReceiver] getICSCalendarEvents error retrieving newFile");
                 }
             } catch (InterruptedException | ExecutionException | IOException | ParserException e) {
                 Logger.error(e.getLocalizedMessage(), e);
             }
         } else {
-            Logger.warn("WatchfaceDataReceiver getICSCalendarEvents icsURL is empty");
+            Logger.warn("[WatchfaceDataReceiver] getICSCalendarEvents icsURL is empty");
             return null;
         }
 
         // Run query
         if (calendar != null) {
-            Logger.debug("WatchfaceDataReceiver getICSCalendarEvents listing events");
+            Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents listing events");
 
             // create a period for the filter starting now with a duration of calendar_events_days + 1
             java.util.Calendar today = java.util.Calendar.getInstance();
@@ -857,17 +860,17 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 VEvent event = (VEvent) o;
 
                 if (event.getProperty("SUMMARY") != null)
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event SU: " + event.getProperty("SUMMARY").getValue());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event SU: " + event.getProperty("SUMMARY").getValue());
                 if (event.getProperty("DESCRIPTION") != null)
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event DC: " + event.getProperty("DESCRIPTION").getValue());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event DC: " + event.getProperty("DESCRIPTION").getValue());
                 if (event.getProperty("DTSTART") != null)
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event DS: " + event.getProperty("DTSTART").getValue());
-                Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event SD: " + event.getStartDate().getDate().getTime());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event DS: " + event.getProperty("DTSTART").getValue());
+                Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event SD: " + event.getStartDate().getDate().getTime());
                 if (event.getProperty("DTEND") != null)
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event DE: " + event.getProperty("DTEND").getValue());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event DE: " + event.getProperty("DTEND").getValue());
                 if (event.getProperty("LOCATION") != null)
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event LO: " + event.getProperty("LOCATION").getValue());
-                //Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event: " + event.getProperty("URL").getValue());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event LO: " + event.getProperty("LOCATION").getValue());
+                //Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event: " + event.getProperty("URL").getValue());
 
                 if (event.getProperty("RRULE") != null) {
                     PeriodList list = event.calculateRecurrenceSet(period);
@@ -875,14 +878,14 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                     for (Object po : list) {
                         try {
                             VEvent vEvent = (VEvent) event.copy();
-                            Logger.debug("WatchfaceDataReceiver getICSCalendarEvents SU: " + vEvent.getSummary().getValue());
-                            Logger.debug("WatchfaceDataReceiver getICSCalendarEvents RRULE: " + (Period) po
+                            Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents SU: " + vEvent.getSummary().getValue());
+                            Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents RRULE: " + (Period) po
                                     + " \\ " + ((Period) po).getStart() + " \\ " + ((Period) po).getStart().getTime());
-                            //Logger.debug("WatchfaceDataReceiver getICSCalendarEvents RRULE: " + (Period) po + " \\ " + ((Period) po).getStart().toString() + " \\ " + ((Period) po).getStart().getTime() + " \\ " + ((Period) po).getEnd().getTime());
+                            //Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents RRULE: " + (Period) po + " \\ " + ((Period) po).getStart().toString() + " \\ " + ((Period) po).getStart().getTime() + " \\ " + ((Period) po).getEnd().getTime());
                             vEvent.getStartDate().setDate(new DateTime(((Period) po).getStart()));
                             vEvent.getEndDate().setDate(new DateTime(((Period) po).getEnd()));
                             eventList.add(vEvent);
-                            Logger.debug("WatchfaceDataReceiver getICSCalendarEvents SD: " + vEvent.getStartDate().getDate());
+                            Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents SD: " + vEvent.getStartDate().getDate());
                         } catch (Exception e) {
                             Logger.error(e.getLocalizedMessage(), e);
                         }
@@ -909,12 +912,12 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                 VEvent event = (VEvent) o;
 
                 if (event.getSummary() != null)
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event SU: " + event.getSummary().getValue());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event SU: " + event.getSummary().getValue());
                 if (event.getDescription() != null)
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event DC: " + event.getDescription().getValue());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event DC: " + event.getDescription().getValue());
                 if (event.getStartDate() != null) {
-                    Logger.debug("WatchfaceDataReceiver getICSCalendarEvents event DS: " + event.getStartDate().getValue());
-                    Logger.debug( "WatchfaceDataReceiver getICSCalendarEvents event SD: " + event.getStartDate().getDate().getTime());
+                    Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents event DS: " + event.getStartDate().getValue());
+                    Logger.debug( "[WatchfaceDataReceiver] getICSCalendarEvents event SD: " + event.getStartDate().getDate().getTime());
                 }
 
                 String title = event.getSummary().getValue();
@@ -948,7 +951,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             // Check if there are new data
             if (Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "").equals(jsonEvents)) {
                 // No new data, no update
-                Logger.debug("WatchfaceDataReceiver calendar events: no new data");
+                Logger.debug("[WatchfaceDataReceiver] calendar events: no new data");
                 return null;
             }
             // Save new events as last send
@@ -957,7 +960,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             return jsonEvents;
 
         } else {
-            Logger.warn("WatchfaceDataReceiver getICSCalendarEvents calendar is null");
+            Logger.warn("[WatchfaceDataReceiver] getICSCalendarEvents calendar is null");
             return null;
         }
     }
@@ -991,9 +994,9 @@ public class WatchfaceReceiver extends BroadcastReceiver {
                             result = newFile.renameTo(oldFile);
 
                         if (result)
-                            Logger.debug("WatchfaceDataReceiver countICSEvents ics file successfully updated");
+                            Logger.debug("[WatchfaceDataReceiver] countICSEvents ics file successfully updated");
                         else
-                            Logger.debug("WatchfaceDataReceiver countICSEvents ics file was not updated");
+                            Logger.debug("[WatchfaceDataReceiver] countICSEvents ics file was not updated");
                     }
                 } catch (InterruptedException | ExecutionException e) {
                     Logger.error(e, e.getLocalizedMessage());
@@ -1014,7 +1017,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
             if (calendar == null)
                 return 0;
         }
-        Logger.debug("WatchfaceDataReceiver countICSEvents listing events");
+        Logger.debug("[WatchfaceDataReceiver] countICSEvents listing events");
 
         // create a period for the filter starting now with a duration of calendar_events_days + 1
         java.util.Calendar today = java.util.Calendar.getInstance();
