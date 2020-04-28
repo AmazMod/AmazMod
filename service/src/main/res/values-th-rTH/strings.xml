@@ -15,6 +15,8 @@
     <string name="empty">ว่าง</string>
     <string name="clear_data">ล้างข้อมูล</string>
     <string name="uninstall">ถอนการติดตั้ง</string>
+    <string name="quick_launch">Quick Launch</string>
+    <string name="quick_launch_description">App can be launched from watchface screen using bottom button (long press)!</string>
     <string name="clear_app_data">ล้างข้อมูล</string>
     <string name="install_app">ติดตั้งแอพ</string>
     <string name="delete">ลบ</string>
