@@ -15,6 +15,8 @@
     <string name="empty">Vazio</string>
     <string name="clear_data">Limpar Dados</string>
     <string name="uninstall">Desinstalar</string>
+    <string name="quick_launch">Início rápido</string>
+    <string name="quick_launch_description">O aplicativo pode ser executado a partir da tela usando o botão inferior (toque longo)!</string>
     <string name="clear_app_data">Limpar dados do app</string>
     <string name="install_app">Instalar App</string>
     <string name="delete">Excluir</string>

@@ -15,6 +15,8 @@
     <string name="empty">Prázdne</string>
     <string name="clear_data">Vymazať údaje</string>
     <string name="uninstall">Odinštalovať</string>
+    <string name="quick_launch">Rýchle spustenie</string>
+    <string name="quick_launch_description">Aplikáciu je možné spustiť z obrazovky hodiniek pomocou spodného tlačidla (dlhé stlačenie)!</string>
     <string name="clear_app_data">Vymazanie dát aplikácie</string>
     <string name="install_app">Nainštalovať aplikáciu</string>
     <string name="delete">Vymazať</string>

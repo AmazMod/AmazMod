@@ -15,6 +15,8 @@
     <string name="empty">Vide</string>
     <string name="clear_data">Effacer les données</string>
     <string name="uninstall">Désinstaller</string>
+    <string name="quick_launch">Quick Launch</string>
+    <string name="quick_launch_description">App can be launched from watchface screen using bottom button (long press)!</string>
     <string name="clear_app_data">Effacer les données de l\'application</string>
     <string name="install_app">Installer l\'application</string>
     <string name="delete">Effacer</string>

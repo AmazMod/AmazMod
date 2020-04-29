@@ -15,6 +15,8 @@
     <string name="empty">Tukšs</string>
     <string name="clear_data">Notīrīt Datus</string>
     <string name="uninstall">Atinstalēt</string>
+    <string name="quick_launch">Quick Launch</string>
+    <string name="quick_launch_description">App can be launched from watchface screen using bottom button (long press)!</string>
     <string name="clear_app_data">Notīrīt Lietotnes Datus</string>
     <string name="install_app">Instalēt Lietotni</string>
     <string name="delete">Dzēst</string>

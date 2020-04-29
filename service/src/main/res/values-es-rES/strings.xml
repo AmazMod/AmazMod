@@ -15,6 +15,8 @@
     <string name="empty">Vacío</string>
     <string name="clear_data">Borrar Datos</string>
     <string name="uninstall">Desinstalar</string>
+    <string name="quick_launch">Inicio rápido</string>
+    <string name="quick_launch_description">La app se puede lanzar desde el watchface utilizando el botón inferior (pulsación larga)</string>
     <string name="clear_app_data">Borrar Datos de Apps</string>
     <string name="install_app">Instalar App</string>
     <string name="delete">Eliminar</string>
