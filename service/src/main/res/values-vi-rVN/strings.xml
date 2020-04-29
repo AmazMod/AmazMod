@@ -15,8 +15,8 @@
     <string name="empty">Trống</string>
     <string name="clear_data">Xóa dữ liệu</string>
     <string name="uninstall">Gỡ cài đặt</string>
-    <string name="quick_launch">Quick Launch</string>
-    <string name="quick_launch_description">App can be launched from watchface screen using bottom button (long press)!</string>
+    <string name="quick_launch">Khởi động nhanh</string>
+    <string name="quick_launch_description">Ứng dụng có thể được khởi chạy từ màn hình watchface bằng nút dưới cùng (nhấn và giữ)!</string>
     <string name="clear_app_data">Xoá dữ liệu ứng dụng</string>
     <string name="install_app">Cài đặt ứng dụng</string>
     <string name="delete">Xóa</string>
