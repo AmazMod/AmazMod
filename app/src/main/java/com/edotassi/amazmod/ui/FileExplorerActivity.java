@@ -132,6 +132,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
     private NotificationManagerCompat notificationManager;
     private NotificationCompat.Builder mBuilder;
+    private NetworkCallback networkCallback;
+    private WifiManager mWifiManager;
+    private ConnectivityManager mConnectivityManager;
 
     private static final int FILE_UPLOAD_CODE = 1;
     private static final int NOTIF_ID = 0;
@@ -726,34 +729,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
     }
 
-
-    @TargetApi(29)
-    NetworkCallback networkCallback = new NetworkCallback() {
-        @Override
-        public void onAvailable(@NonNull Network network) {
-            updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.device_connected), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
-            ftpTransporter.send("enable_ftp");
-            Logger.debug("FTP api29: watch's WiFi available");
-            super.onAvailable(network);
-            mConnectivityManager.bindProcessToNetwork(network);
-        }
-
-        @Override
-        public void onUnavailable() {
-            transferring = false;
-            ftpTransporter.send("disable_ap");
-            Logger.debug("FTP api29: watch's WiFi Unavailable");
-            updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
-            updateSnackBarOnUIthreat(getString(R.string.cant_upload_file), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
-            super.onUnavailable();
-        }
-    };
-
     // FTP listener onChange
     private String SSID = "huami-amazfit-amazmod-4E68";
     private String pswd = "12345678";
-    WifiManager mWifiManager;
-    ConnectivityManager mConnectivityManager;
 
     public void onDataReceived(TransportDataItem item) {
         // Transmitted action
@@ -784,75 +762,11 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.enabled), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
 
             // Connect to the network
-            int netId = -1;
-            if (mConnectivityManager == null)
-                mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                /*
-                //Should help to connect to wifi without needed to confirm manually
-                WifiNetworkSuggestion.Builder wc = new WifiNetworkSuggestion.Builder();
-                wc.setSsid(SSID);
-                wc.setWpa2Passphrase(pswd);
-                wc.setIsAppInteractionRequired(true);
-                wc.setIsUserInteractionRequired(false);
-                wc.setPriority(100);
-                WifiNetworkSuggestion suggestion = wc.build();
-                mWifiManager.removeNetworkSuggestions(new ArrayList<WifiNetworkSuggestion>());
-                List<WifiNetworkSuggestion> list = new ArrayList<>();
-                list.add(suggestion);
-                if (mWifiManager != null)
-                    netId = mWifiManager.addNetworkSuggestions(list);
-
-				if (netId != WifiManager.STATUS_NETWORK_SUGGESTIONS_SUCCESS){
-                    Logger.debug("FTP API29: watch's WiFi AP not found.");
-                    transferring = false;
-                    updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
-                    updateSnackBarOnUIthreat(getString(R.string.cant_upload_file), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
-                    ftpTransporter.send("disable_ap");
-                    snackProgressBarManager.dismissAll();
-					return;
-				}
-                Logger.debug("FTP API29: watch's WiFi AP found: "+ suggestion);
-
-                    //Wait for post connection broadcast to one of your suggestions)
-                    IntentFilter intentFilter = new IntentFilter();
-                    intentFilter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-                    intentFilter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-                    intentFilter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-                    intentFilter.addAction(WifiManager.EXTRA_NETWORK_INFO);
-                    intentFilter.addAction(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION);
-
-                    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            String action = intent.getAction();
-                            Logger.debug("FTP API29: WiFi connection action: "+ action);
-                            if (!action.equals(WifiManager.ACTION_WIFI_NETWORK_SUGGESTION_POST_CONNECTION)) {
-                                Logger.debug("FTP API29: WiFi connection not established established yet.");
-                                return;
-                            }
-                            Logger.debug("FTP API29: WiFi connection established. Sending command to enable FTP.");
-                            updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.device_connected), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
-                            ftpTransporter.send("enable_ftp");
-                        }
-                    };
-                    getApplicationContext().registerReceiver(broadcastReceiver, intentFilter);
-                 */
-                NetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
-                        .setSsid(SSID)
-                        .setWpa2Passphrase(pswd)
-                        .build();
-                NetworkRequest request = new NetworkRequest.Builder()
-                        .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                        .setNetworkSpecifier(specifier)
-                        .build();
-                Logger.debug("FTP API29: network name: " + specifier);
-
-                if (mConnectivityManager != null)
-                    mConnectivityManager.requestNetwork(request, networkCallback);
+                newApiWifiConnection();
             } else {
                 networkCallback = null;
-
+                int netId = -1;
                 WifiConfiguration wc = new WifiConfiguration();
                 wc.SSID = "\"" + SSID + "\"";
                 wc.preSharedKey = "\"" + pswd + "\"";
@@ -1116,11 +1030,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 snackProgressBarManager.setProgress(progress);
             }
         });
-    }
-
-    private void unregisterConnectionManager() {
-        if (mConnectivityManager != null && networkCallback != null)
-            mConnectivityManager.unregisterNetworkCallback(networkCallback);
     }
 
     public static boolean isConnected(ConnectivityManager connectivityManager) {
@@ -1905,6 +1814,49 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 return null;
             }
         });
+    }
+    @TargetApi(29)
+    public void newApiWifiConnection() {
+        //This is used to connect to WiFi AP on api >=29
+        networkCallback = new NetworkCallback() {
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.device_connected), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
+                ftpTransporter.send("enable_ftp");
+                Logger.debug("FTP api29: watch's WiFi available");
+                super.onAvailable(network);
+                mConnectivityManager.bindProcessToNetwork(network);
+            }
+
+            @Override
+            public void onUnavailable() {
+                transferring = false;
+                ftpTransporter.send("disable_ap");
+                Logger.debug("FTP api29: watch's WiFi Unavailable");
+                updateNotification(getString(R.string.cant_upload_file), "\"" + FTP_file.getName() + "\"", false);
+                updateSnackBarOnUIthreat(getString(R.string.cant_upload_file), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
+                super.onUnavailable();
+            }
+        };
+
+        if (mConnectivityManager == null)
+            mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        final NetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
+                .setSsid(SSID)
+                .setWpa2Passphrase(pswd)
+                .build();
+        final NetworkRequest request = new NetworkRequest.Builder()
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
+                .setNetworkSpecifier(specifier)
+                .build();
+
+        mConnectivityManager.requestNetwork(request, networkCallback);
+    }
+
+    private void unregisterConnectionManager() {
+        if (mConnectivityManager != null && networkCallback != null)
+            mConnectivityManager.unregisterNetworkCallback(networkCallback);
     }
 
     public void ftpTransporterConnect() {
