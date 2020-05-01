@@ -547,7 +547,7 @@ public class MainService extends Service implements Transporter.DataListener {
         if (key != null) {
             if (NotificationStore.getCustomNotificationCount() > 0)
                 for (ArrayMap.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
-                    Logger.warn("deleteNotification NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
+                    //Logger.warn("deleteNotification NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
 
                     if (key.equals(pair.getValue())) {
                         Logger.warn("deleteNotification removing: {}", pair.getKey());

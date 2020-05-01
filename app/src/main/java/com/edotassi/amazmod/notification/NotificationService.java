@@ -117,10 +117,9 @@ public class NotificationService extends NotificationListenerService {
 
         startPersistentNotification();
 
-        //Cancel all pending jobs to keep service running, then schedule a new one
+        // Cancel all pending jobs to keep service running, then schedule a new one
         cancelPendingJobs(0);
         scheduleJob(0, 0, null);
-
     }
 
     @Override
@@ -138,7 +137,6 @@ public class NotificationService extends NotificationListenerService {
 
     @Override
     public void onNotificationPosted(StatusBarNotification statusBarNotification) {
-        Logger.debug("onNotificationPosted notificationPosted: " + statusBarNotification.getKey());
 
         String notificationPackage = statusBarNotification.getPackageName();
 
@@ -149,55 +147,50 @@ public class NotificationService extends NotificationListenerService {
         }
 
         if (!isPackageAllowed(notificationPackage)) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_PACKAGE));
+            //Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_PACKAGE));
+            Logger.debug("[Notification Blocked] Notifications from {} are blocked.", notificationPackage);
             checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_PACKAGE);
             return;
-        }
-
-        if (isPackageSilenced(notificationPackage)) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SILENCE));
+        }else if (isPackageSilenced(notificationPackage)) {
+            //Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SILENCE));
+            Logger.debug("[Notification Blocked] Notifications from {} are currently silenced.",notificationPackage);
             checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_SILENCE);
             return;
-        }
-
-        if (isPackageFiltered(statusBarNotification)) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_TEXT));
+        }else if (isPackageFiltered(statusBarNotification)) {
+            //Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_TEXT));
+            Logger.debug("[Notification Blocked] Notifications from {} was blocked because of content filters.", notificationPackage);
             checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_TEXT);
             return;
-        }
-
-        if (isNotificationsDisabled()) {
-            Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_NOTIFICATIONS_DISABLED));
+        }else if (isNotificationsDisabled()) {
+            Logger.debug("[Notification Blocked] All notifications are disabled (disabled, DND, Driving etc). {}", notificationPackage);
             checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_NOTIFICATIONS_DISABLED);
             return;
-        }
-
-        if (isNotificationsDisabledWhenScreenOn()) {
+        }else if (isNotificationsDisabledWhenScreenOn()) {
             if (!Screen.isDeviceLocked(this)) {
-                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SCREENON));
+                Logger.debug("[Notification Blocked] Device is unlocked. {}", notificationPackage);
                 checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_SCREENON);
                 return;
             } else if (!isNotificationsEnabledWhenScreenLocked()) {
-                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) Constants.FILTER_SCREENLOCKED));
+                Logger.debug("[Notification Blocked] Device is in lock-screen. {}", notificationPackage);
                 checkAndLog(notificationPackage, notificationTxt, Constants.FILTER_SCREENLOCKED);
                 return;
             }
         }
 
+        Logger.debug("[New Notification] Notification is posted: " + statusBarNotification.getKey());
+
         byte filterResult = filter(statusBarNotification);
 
-        Logger.debug("onNotificationPosted notificationPackage: " + notificationPackage + " / filterResult: " + ((char) (byte) filterResult));
+        Logger.debug("[New Notification] pkg: {}, filterResult: {}", notificationPackage, ((char) (byte) filterResult));
 
-        //Logger.debug("Filters: U=" + (filterResult == Constants.FILTER_UNGROUP) +" C="+ (filterResult == Constants.FILTER_CONTINUE) +" K="+ (filterResult == Constants.FILTER_LOCALOK) );
-        if (filterResult == Constants.FILTER_CONTINUE ||
-                filterResult == Constants.FILTER_UNGROUP ||
-                filterResult == Constants.FILTER_LOCALOK) {
+        // Logger.debug("Filters: U=" + (filterResult == Constants.FILTER_UNGROUP) +" C="+ (filterResult == Constants.FILTER_CONTINUE) +" K="+ (filterResult == Constants.FILTER_LOCALOK) );
+        if (filterResult == Constants.FILTER_CONTINUE || filterResult == Constants.FILTER_UNGROUP || filterResult == Constants.FILTER_LOCALOK) {
 
             StatusBarNotification sbn = null;
 
+            // Check if notification is in group
             if (filterResult == Constants.FILTER_UNGROUP && Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_UNGROUP, false)) {
-                //Logger.debug("NotificationService onNotificationPosted ungroup01 key: " + statusBarNotification.getKey()
-                //        + " \\ id: " + statusBarNotification.getId());
+                //Logger.debug("NotificationService onNotificationPosted ungroup01 key: " + statusBarNotification.getKey() + " \\ id: " + statusBarNotification.getId());
                 int nextId = statusBarNotification.getId() + newUID();
                 sbn = new StatusBarNotification(notificationPackage, "", nextId,
                         statusBarNotification.getTag(), 0, 0, 0,
@@ -205,8 +198,7 @@ public class NotificationService extends NotificationListenerService {
                         statusBarNotification.getPostTime());
 
                 if (grouped_notifications.containsKey(statusBarNotification.getId())) {
-                    //Logger.debug("NotificationService onNotificationPosted ungroup02 id exists: " + statusBarNotification.getId()
-                    //        + " \\ nextId: " + nextId);
+                    //Logger.debug("NotificationService onNotificationPosted ungroup02 id exists: " + statusBarNotification.getId() + " \\ nextId: " + nextId);
                     // Get array
                     int[] grouped = grouped_notifications.get(statusBarNotification.getId());
                     // Define the new array
@@ -220,161 +212,160 @@ public class NotificationService extends NotificationListenerService {
                     } else
                         Logger.error("grouped: could not create array");
                 } else {
-                    //Logger.debug("NotificationService onNotificationPosted ungroup04 new id: " + statusBarNotification.getId()
-                    //        + " \\ nextId: " + nextId);
+                    //Logger.debug("NotificationService onNotificationPosted ungroup04 new id: " + statusBarNotification.getId() + " \\ nextId: " + nextId);
                     // New in array
                     grouped_notifications.put(statusBarNotification.getId(), new int[]{nextId});
                 }
             }
 
-            if (sbn == null){
+            if (sbn == null)
                 sbn = statusBarNotification;
-            }
 
-            if (isCustomUIEnabled()) {
+            // Select between Standard UI and Custom UI notifications
+            if (isCustomUIEnabled())
                 sendNotificationWithCustomUI(filterResult, sbn);
-            } else {
+            else
                 sendNotificationWithStandardUI(filterResult, sbn);
-            }
 
-            Logger.debug("onNotificationPosted sent: " + notificationPackage + " / " + ((char) (byte) filterResult));
+            //Logger.debug("onNotificationPosted sent: " + notificationPackage + " / " + ((char) (byte) filterResult));
             storeForStats(notificationPackage, filterResult);
 
         } else {
-            Logger.debug("onNotificationPosted: " + notificationPackage + " / " + ((char) (byte) filterResult));
-
-            if (isRingingNotification(filterResult, notificationPackage)) { //Messenger voice call notifications
-                Logger.debug("onNotificationPosted isRingingNotification: " + ((char) (byte) filterResult));
+            if (isRingingNotification(filterResult, notificationPackage)) { // Messenger voice call notifications
+                Logger.debug("[Ringing Notification] New notifications is a ringing notification: " + ((char) (byte) filterResult));
                 handleCall(statusBarNotification, notificationPackage);
 
-            } else if (isMapsNotification(filterResult, notificationPackage)) { //Maps notification
-                Logger.debug("onNotificationPosted isMapsNotification: " + ((char) (byte) filterResult));
+            } else if (isMapsNotification(filterResult, notificationPackage)) { // Maps notification
+                Logger.debug("[Maps Notification] New notifications is a MapsNotification: " + ((char) (byte) filterResult));
                 mapNotification(statusBarNotification);
 
-            } else { //Blocked
-                Logger.debug("onNotificationPosted blocked: " + notificationPackage + " / " + ((char) (byte) filterResult));
+            } else { // Blocked
+                Logger.debug("[New Notification] New notifications is blocked. (pkg: {}, marked as: {})",notificationPackage, ((char) (byte) filterResult));
                 checkAndLog(notificationPackage, notificationTxt, filterResult);
             }
         }
     }
 
-    //Remove notification from watch if it was removed from phone
+    // Remove notification from watch if it was removed from phone
     @Override
     public void onNotificationRemoved(final StatusBarNotification statusBarNotification) {
-        if (statusBarNotification == null) {
+        if (statusBarNotification == null)
             return;
-        }
 
         String key = statusBarNotification.getKey();
 
-        Logger.debug("onNotificationRemoved notificationRemoved: {}", key);
-        //Logger.debug("NotificationService onNotificationRemoved ungroup00 key: " + key);
-
+        // Check settings
         if (!Prefs.getBoolean(Constants.PREF_ENABLE_NOTIFICATIONS, Constants.PREF_DEFAULT_ENABLE_NOTIFICATIONS)
                 || (Prefs.getBoolean(Constants.PREF_DISABLE_REMOVE_NOTIFICATIONS, false))) {
-            Logger.debug("onNotificationRemoved returning due to Settings");
+            Logger.debug("[Notification Remove] Notification wont be removed due to current settings. (key: {})", key);
             return;
         }
 
-        if (isPackageAllowed(statusBarNotification.getPackageName())
+
+        if (!(isPackageAllowed(statusBarNotification.getPackageName())
                 //&& (!NotificationCompat.isGroupSummary(statusBarNotification.getNotification()))
-                && ((statusBarNotification.getNotification().flags & Notification.FLAG_ONGOING_EVENT) != Notification.FLAG_ONGOING_EVENT)) {
+                && ((statusBarNotification.getNotification().flags & Notification.FLAG_ONGOING_EVENT) != Notification.FLAG_ONGOING_EVENT))) {
+            Logger.debug("[Notification Remove] App {} is ignored: P || G || O", statusBarNotification.getPackageName());
+            return;
+        }
 
-            /*
-            * Disabled while testing JobScheduler
-            *
-            //Connect transporter
-            Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
-            notificationTransporter.connectTransportService();
-            */
+        //Logger.debug("[Notification Remove] key {}", key);
 
-            DataBundle dataBundle = new DataBundle();
-            dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
+        /*
+        * Disabled while testing JobScheduler
+        *
+        // Connect transporter
+        if(!isJobSchedulerEnabled())
+        Transporter notificationTransporter = TransporterClassic.get(this, "com.huami.action.notification");
+        notificationTransporter.connectTransportService();
+        */
 
-            String uuid = newKey(key);
-            NotificationStore.addRemovedNotification(uuid, dataBundle);
-            int id = NotificationJobService.NOTIFICATION_REMOVED;
-            int jobId = statusBarNotification.getId() + newUID();
+        DataBundle dataBundle = new DataBundle();
+        dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
-            scheduleJob(id, jobId, uuid);
+        String uuid = newKey(key);
+        NotificationStore.addRemovedNotification(uuid, dataBundle);
+        int id = NotificationJobService.NOTIFICATION_REMOVED;
+        int jobId = statusBarNotification.getId() + newUID();
 
-            Logger.info("onNotificationRemoved jobScheduled: " + jobId + " \\ uuid: " + uuid);
+        scheduleJob(id, jobId, uuid);
 
-            /*
-            * Disabled while testing JobScheduler
-            *
-            notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
-                @Override
-                public void onResultBack(DataTransportResult dataTransportResult) {
-                    log.d(dataTransportResult.toString());
-                    Logger.debug("NotificationService onNotificationRemoved id: " + statusBarNotification.getId());
-                }
-            });
-            */
+        Logger.debug("[Notification Remove] Remove scheduled. key {}, jobId: {}, uuid: {}", key, jobId, uuid);
+        //Logger.info("onNotificationRemoved jobScheduled: " + jobId + " \\ uuid: " + uuid);
 
-            if (grouped_notifications.containsKey(statusBarNotification.getId())) {
-                //Logger.debug("NotificationService onNotificationRemoved ungroup01 key: " + statusBarNotification.getKey()
-                //        + " \\ id: " + statusBarNotification.getId());
-                // Initial array
-                int[] grouped = grouped_notifications.get(statusBarNotification.getId());
-                //Logger.debug("NotificationService onNotificationRemoved ungroup02 key: " + statusBarNotification.getKey()
-                //        + " \\ grouped: " + Arrays.toString(grouped));
-                // Loop each notification in group
-                assert grouped != null;
-                for (int groupedId : grouped) {
-                    //int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
-                    jobId = groupedId + newUID();
-                    //Logger.debug("NotificationService onNotificationRemoved ungroup i: " + groupedId);
-
-                    dataBundle = new DataBundle();
-                    StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
-                            groupedId, statusBarNotification.getTag(), 0, 0, 0,
-                            statusBarNotification.getNotification(), statusBarNotification.getUser(),
-                            statusBarNotification.getPostTime());
-                    dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
-
-                    uuid = newKey(statusBarNotification.getKey());
-                    NotificationStore.addRemovedNotification(uuid, dataBundle);
-
-                    scheduleJob(id, jobId, uuid);
-
-                    Logger.info("onNotificationRemoved ungroup jobScheduled: " + jobId + " \\ uuid: " + uuid);
-
-                    /*
-                    * Disabled while testing JobScheduler
-                    *
-                    notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
-                        @Override
-                        public void onResultBack(DataTransportResult dataTransportResult) {
-                            log.d(dataTransportResult.toString());
-                        }
-                    });
-                    */
-                }
-                grouped_notifications.remove(statusBarNotification.getId());
+        /*
+        * Disabled while testing JobScheduler
+        *
+        notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
+            @Override
+            public void onResultBack(DataTransportResult dataTransportResult) {
+                log.d(dataTransportResult.toString());
+                Logger.debug("NotificationService onNotificationRemoved id: " + statusBarNotification.getId());
             }
+        });
+        */
 
-            /*
-            * Disabled while testing JobScheduler
-            *
-            //Disconnect transporter to avoid leaking
-            notificationTransporter.disconnectTransportService();
-            */
+        // Check if notification is grouped
+        if (grouped_notifications.containsKey(statusBarNotification.getId())) {
+            //Logger.debug("NotificationService onNotificationRemoved ungroup01 key: " + statusBarNotification.getKey() + " \\ id: " + statusBarNotification.getId());
+            // Initial array
+            int[] grouped = grouped_notifications.get(statusBarNotification.getId());
+            //Logger.debug("NotificationService onNotificationRemoved ungroup02 key: " + statusBarNotification.getKey()  + " \\ grouped: " + Arrays.toString(grouped));
 
-            //Reset time of last notification when notification is removed
-            if (lastTimeNotificationArrived > 0) {
-                lastTimeNotificationArrived = 0;
+            // Loop each notification in group
+            assert grouped != null;
+            for (int groupedId : grouped) {
+                //int nextId = abs((int) (long) (statusBarNotification.getId() % 10000L)) + i;
+                jobId = groupedId + newUID();
+                //Logger.debug("NotificationService onNotificationRemoved ungroup i: " + groupedId);
+
+                dataBundle = new DataBundle();
+                StatusBarNotification sbn = new StatusBarNotification(statusBarNotification.getPackageName(), "",
+                        groupedId, statusBarNotification.getTag(), 0, 0, 0,
+                        statusBarNotification.getNotification(), statusBarNotification.getUser(),
+                        statusBarNotification.getPostTime());
+                dataBundle.putParcelable("data", StatusBarNotificationData.from(this, sbn, false));
+
+                uuid = newKey(statusBarNotification.getKey());
+                NotificationStore.addRemovedNotification(uuid, dataBundle);
+
+                scheduleJob(id, jobId, uuid);
+
+                Logger.info("onNotificationRemoved ungroup jobScheduled: " + jobId + " \\ uuid: " + uuid);
+
+                /*
+                * Disabled while testing JobScheduler
+                *
+                notificationTransporter.send("del", dataBundle, new Transporter.DataSendResultCallback() {
+                    @Override
+                    public void onResultBack(DataTransportResult dataTransportResult) {
+                        log.d(dataTransportResult.toString());
+                    }
+                });
+                */
             }
-            if (lastTimeNotificationSent > 0) {
-                lastTimeNotificationSent = 0;
-            }
-        } else
-            Logger.debug("onNotificationRemoved ignored: P || G || O");
+            grouped_notifications.remove(statusBarNotification.getId());
+        }
+
+        /*
+        * Disabled while testing JobScheduler
+        *
+        //Disconnect transporter to avoid leaking
+        notificationTransporter.disconnectTransportService();
+        */
+
+        //Reset time of last notification when notification is removed
+        if (lastTimeNotificationArrived > 0) {
+            lastTimeNotificationArrived = 0;
+        }
+        if (lastTimeNotificationSent > 0) {
+            lastTimeNotificationSent = 0;
+        }
     }
 
     private void sendNotificationWithCustomUI(byte filterResult, StatusBarNotification statusBarNotification) {
-        final String uuid = newKey(statusBarNotification.getKey());
-        Logger.debug("sendNotificationWithCustomdUI uuid: " + uuid + " \\ filterResult: " + filterResult);
+        Logger.debug("[Custom UI Notification]  pkg: " + statusBarNotification.getPackageName() + " \\ filterResult: " + filterResult);
+
         NotificationData notificationData = NotificationFactory.fromStatusBarNotification(this, statusBarNotification);
         notificationsAvailableToReply.put(notificationData.getKey(), statusBarNotification);
 
@@ -382,38 +373,44 @@ public class NotificationService extends NotificationListenerService {
         notificationData.setHideButtons(true);
         notificationData.setForceCustom(false);
 
+        // Hide replies
         if (filterResult == Constants.FILTER_LOCALOK)
             notificationData.setHideReplies(true);
         else
             notificationData.setHideReplies(false);
 
         if (isJobSchedulerEnabled()) {
+            // Schedule Notification
+            final String uuid = newKey(statusBarNotification.getKey());
             NotificationStore.addCustomNotification(uuid, notificationData);
             int id = NotificationJobService.NOTIFICATION_POSTED_CUSTOM_UI;
             int jobId = statusBarNotification.getId() + newUID();
             scheduleJob(id, jobId, uuid);
             Logger.info("sendNotificationWithCustomUI jobScheduled: " + jobId + " \\ uuid: " + uuid);
         } else {
+            // Send notification directly
             Watch.get().postNotification(notificationData);
             Logger.info("sendNotificationWithCustomUI sent without schedule: " + statusBarNotification.getKey());
         }
     }
 
     private void sendNotificationWithStandardUI(byte filterResult, StatusBarNotification statusBarNotification) {
-
-        String uuid = newKey(statusBarNotification.getKey());
-        int notificationId = statusBarNotification.getId();
-        Logger.debug("sendNotificationWithStandardUI uuid: " + uuid + " \\ filterResult: " + filterResult);
         DataBundle dataBundle = new DataBundle();
-        int id = NotificationJobService.NOTIFICATION_POSTED_STANDARD_UI;
-        int jobId = notificationId + newUID();
         dataBundle.putParcelable("data", StatusBarNotificationData.from(this, statusBarNotification, false));
 
         if (isJobSchedulerEnabled()) {
+            // Schedule Notification
+            String uuid = newKey(statusBarNotification.getKey());
+            //Logger.debug("sendNotificationWithStandardUI uuid: " + uuid + " \\ filterResult: " + filterResult);
+            int notificationId = statusBarNotification.getId();
+            int id = NotificationJobService.NOTIFICATION_POSTED_STANDARD_UI;
+            int jobId = notificationId + newUID();
             NotificationStore.addStandardNotification(uuid, dataBundle);
             scheduleJob(id, jobId, uuid);
             Logger.info("sendNotificationWithStandardUI jobScheduled: " + jobId + " \\ uuid: " + uuid);
+
         } else {
+            // Send notification directly
             TransportService.sendWithTransporterHuami("add", dataBundle);
             Logger.info("sendNotificationWithStandardUI: " + dataBundle.toString());
         }
@@ -452,7 +449,7 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private String newKey(String key) {
-        return key + "|" + String.valueOf(System.currentTimeMillis());
+        return key + "|" + System.currentTimeMillis();
     }
 
     private void cancelPendingJobs(int id) {
@@ -488,12 +485,11 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private int getDefaultVibration() {
-        return Integer.valueOf(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION));
+        return Integer.parseInt(Prefs.getString(Constants.PREF_NOTIFICATIONS_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATIONS_VIBRATION));
 
     }
 
     private int isRinging() {
-
         //Logger.debug("NotificationJobService isRinging AudioManager.MODE_IN_CALL = " + AudioManager.MODE_IN_CALL);
         //Logger.debug("NotificationJobService isRinging AudioManager.MODE_IN_COMMUNICATION = " + AudioManager.MODE_IN_COMMUNICATION);
         //Logger.debug("NotificationJobService isRinging AudioManager.MODE_RINGTONE = " + AudioManager.MODE_RINGTONE);
@@ -516,66 +512,65 @@ public class NotificationService extends NotificationListenerService {
     }
 
     private byte filter(StatusBarNotification statusBarNotification) {
-        if (notificationTimeGone == null) {
+        if (notificationTimeGone == null)
             notificationTimeGone = new ArrayMap<>();
-        }
+
         String notificationPackage = statusBarNotification.getPackageName();
         String notificationId = statusBarNotification.getKey();
         Notification notification = statusBarNotification.getNotification();
         String text = "";
-        int flags = 0;
         boolean localAllowed = false;
         boolean whitelistedApp = false;
 
-        if (!isPackageAllowed(notificationPackage)) {
-            return Constants.FILTER_PACKAGE;
-        }
-
         NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender(notification);
-        List<NotificationCompat.Action> actions = wearableExtender.getActions();
+        //List<NotificationCompat.Action> actions = wearableExtender.getActions();
 
         if (NotificationCompat.isGroupSummary(notification)) {
-            Logger.debug("filter isGroupSummary: " + notificationPackage);
+            //Logger.debug("filter isGroupSummary: " + notificationPackage);
             if (Arrays.binarySearch(APP_WHITELIST, notificationPackage) < 0) {
-                Logger.debug("filter: notification blocked FLAG_GROUP_SUMMARY");
+                Logger.debug("[Marked] Notification marked as FLAG_GROUP_SUMMARY");
                 return Constants.FILTER_GROUP;
-            } else whitelistedApp = true;
+            } else {
+                Logger.debug("[Marked] Notification NOT marked as FLAG_GROUP_SUMMARY because it's whitelisted");
+                whitelistedApp = true;
+            }
         }
 
         if ((notification.flags & Notification.FLAG_ONGOING_EVENT) == Notification.FLAG_ONGOING_EVENT) {
-            Logger.debug("filter: notification blocked FLAG_ONGOING_EVENT");
+            Logger.debug("[Marked] Notification marked as FLAG_ONGOING_EVENT");
             return Constants.FILTER_ONGOING;
         }
 
         if (NotificationCompat.getLocalOnly(notification)) {
-            Logger.debug("filter: getLocalOnly: " + notificationPackage);
+            //Logger.debug("filter: getLocalOnly: " + notificationPackage);
             if ((!Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY, false) && !whitelistedApp) ||
                     ((Arrays.binarySearch(APP_WHITELIST, notificationPackage) >= 0) && !whitelistedApp)) {
-                Logger.debug("filter: notification blocked because is LocalOnly");
+                Logger.debug("[Marked] Notification marked as LOCAL_ONLY");
                 return Constants.FILTER_LOCAL;
             } else if (!whitelistedApp) {
+                Logger.debug("[Marked] Notification marked as LOCAL_OK");
                 localAllowed = true;
             }
         }
 
         CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
-        if (bigText != null) {
+        if (bigText != null)
             text = bigText.toString();
-        }
-        Logger.debug("filter: notificationPackage: " + notificationPackage + " \\ text: " + text);
 
-        if (notificationTimeGone.containsKey(notificationId)) {
+        //Logger.debug("filter: notificationPackage: " + notificationPackage + " \\ text: " + text);
+
+        if ( notificationTimeGone.containsKey(notificationId) ) {
             String previousText = notificationTimeGone.get(notificationId);
-            if ((previousText != null) && (previousText.equals(text)) && (!notificationPackage.equals("com.microsoft.office.outlook"))
+            if ( (previousText != null) && (previousText.equals(text)) && (!notificationPackage.equals("com.microsoft.office.outlook"))
                     && ((System.currentTimeMillis() - lastTimeNotificationArrived) < BLOCK_INTERVAL)) {
-                Logger.debug("filter: blocked text");
+                Logger.debug("[Marked] Notification blocked as REPEATED (same text)");
                 //Logger.debug("notification blocked by key: %s, id: %s, flags: %s, time: %s", notificationId, statusBarNotification.getId(), statusBarNotification.getNotification().flags, (System.currentTimeMillis() - statusBarNotification.getPostTime()));
                 return Constants.FILTER_BLOCK;
             } else {
                 notificationTimeGone.put(notificationId, text);
                 lastTimeNotificationArrived = System.currentTimeMillis();
-                Logger.debug("filter: allowed1: " + notificationPackage);
-                //Logger.debug("notification allowed");
+                Logger.debug("[Marked] Notification marked as allowed.");
+                //Logger.debug("filter: allowed1: " + notificationPackage);
                 if (localAllowed) return Constants.FILTER_LOCALOK;
                     //else if (whitelistedApp) return returnFilterResult(Constants.FILTER_CONTINUE);
                 else return Constants.FILTER_UNGROUP;
@@ -583,48 +578,13 @@ public class NotificationService extends NotificationListenerService {
         }
 
         notificationTimeGone.put(notificationId, text);
-        Logger.debug("filter: allowed2: " + notificationPackage);
 
-        if (localAllowed) {
+        if (localAllowed)
             return Constants.FILTER_LOCALOK;
-        }
 
+        // Notification passes all checks
+        //Logger.debug("[Marked] Notification not marked.");
         return Constants.FILTER_CONTINUE;
-
-        /* Disabled because it is blocking some notifications
-        NotficationSentEntity notificationSentEntity = SQLite
-                .select()
-                .from(NotficationSentEntity.class)
-                .where(NotficationSentEntity_Table.id.eq(notificationId))
-                .querySingle();
-
-        log.d("NotificationService filter notificationPackage: " + notificationPackage
-                + " / notificationId:" + notificationId + " / notificationSentEntity: " + notificationSentEntity);
-
-        if (notificationSentEntity == null) {
-            NotficationSentEntity notficationSentEntity = new NotficationSentEntity();
-            notficationSentEntity.setDate(System.currentTimeMillis());
-            notficationSentEntity.setId(notificationId);
-            notficationSentEntity.setPackageName(notificationPackage);
-
-            try {
-                FlowManager.getModelAdapter(NotficationSentEntity.class).insert(notficationSentEntity);
-            } catch (Exception ex) {
-                log.e(ex,"NotificationService notificationSentEntity exception: " + ex.toString());
-                Crashlytics.logException(ex);
-            }
-
-            notificationTimeGone.put(notificationId, text);
-
-            if (localAllowed) {
-                return returnFilterResult(Constants.FILTER_LOCALOK);
-            } else {
-                return returnFilterResult(Constants.FILTER_CONTINUE);
-            }
-        } else {
-            return returnFilterResult(Constants.FILTER_BLOCK);
-        }
-        */
     }
 
     private boolean isNotificationsDisabled() {
@@ -694,6 +654,7 @@ public class NotificationService extends NotificationListenerService {
         return app != null && app.getSilenceUntil() > SilenceApplicationHelper.getCurrentTimeSeconds();
     }
 
+    // Filter notification content
     private boolean isPackageFiltered(StatusBarNotification statusBarNotification) {
         String packageName = statusBarNotification.getPackageName();
         NotificationPreferencesEntity app = SQLite
@@ -701,61 +662,62 @@ public class NotificationService extends NotificationListenerService {
                 .from(NotificationPreferencesEntity.class)
                 .where(NotificationPreferencesEntity_Table.packageName.eq(packageName))
                 .querySingle();
-        if (app != null && app.getFilter() != null) {
-            String notificationText = "";
-            CharSequence text = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
-            CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
 
-            CharSequence title = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TITLE);
-            CharSequence bigTitle = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TITLE_BIG);
-
-            String notificationTitle = "";
-
-            if (bigTitle != null) {
-                notificationTitle = bigTitle.toString();
-            } else {
-                if (title != null && !title.toString().isEmpty()) {
-                    notificationTitle = title.toString();
-                }
-            }
-
-            if (bigText != null) {
-                notificationText = bigText.toString();
-            } else {
-                if (text != null && !text.toString().isEmpty()) {
-                    notificationText = text.toString();
-                }
-            }
-
-            String[] filters = app.getFilter().split("\\r?\\n");
-            for (String filter : filters) {
-                Logger.debug("isPackageFiltered: Checking if '{}' contains '{}'", notificationText, filter);
-                int filter_level = app.getFilterLevel();
-                if (!filter.isEmpty()) {
-                    filter = filter.toLowerCase();
-                    if (filter_level == Constants.NOTIFICATION_FILTER_TITLE && notificationTitle.toLowerCase().contains(filter)) {
-                        Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE ('{}') contains '{}'", packageName, notificationTitle, filter);
-                        return !app.isWhitelist();
-                    }
-                    if (filter_level == Constants.NOTIFICATION_FILTER_CONTENTS && notificationText.toLowerCase().contains(filter)) {
-                        Logger.debug("isPackageFiltered: Package '{}' filterered because CONTENTS ('{}') contains '{}'", packageName, notificationText, filter);
-                        return !app.isWhitelist();
-                    }
-                    if (filter_level == Constants.NOTIFICATION_FILTER_BOTH && (notificationTitle.toLowerCase().contains(filter) || notificationText.toLowerCase().contains(filter))) {
-                        Logger.debug("isPackageFiltered: Package '{}' filterered because TITLE or CONTENTS ('{}') contains '{}'", packageName, notificationTitle, notificationText, filter);
-                        return !app.isWhitelist();
-                    }
-                }
-            }
-            return app.isWhitelist();
-        } else {
+        // Check if app exists and if it has filters
+        if (app == null || app.getFilter() == null || app.getFilter().isEmpty())
             return false;
+
+        // Title text
+        String notificationTitle = "";
+        CharSequence bigTitle = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TITLE_BIG);
+        if (bigTitle != null) {
+            notificationTitle = bigTitle.toString();
+        } else {
+            CharSequence title = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TITLE);
+            if (title != null && !title.toString().isEmpty()) {
+                notificationTitle = title.toString();
+            }
         }
+
+        // Content text
+        String notificationText = "";
+        CharSequence bigText = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_BIG_TEXT);
+        if (bigText != null) {
+            notificationText = bigText.toString();
+        } else {
+            CharSequence text = (statusBarNotification.getNotification().extras).getCharSequence(Notification.EXTRA_TEXT);
+            if (text != null && !text.toString().isEmpty()) {
+                notificationText = text.toString();
+            }
+        }
+
+        // Get filters
+        String[] filters = app.getFilter().split("\\r?\\n");
+        // Get filter level (both, title, text)
+        int filter_level = app.getFilterLevel();
+        for (String filter : filters) {
+            //Logger.debug("isPackageFiltered: Checking if '{}' contains '{}'", notificationText, filter);
+            if (!filter.isEmpty()) {
+                filter = filter.toLowerCase();
+                // Check based on filter level / mode
+                if (filter_level == Constants.NOTIFICATION_FILTER_BOTH && (notificationTitle.toLowerCase().contains(filter) || notificationText.toLowerCase().contains(filter))) {
+                    Logger.debug("isPackageFiltered: Package '{}' filtered because TITLE or CONTENTS ('{}') contains '{}'", packageName, notificationTitle, notificationText, filter);
+                    return !app.isWhitelist();
+                }else if (filter_level == Constants.NOTIFICATION_FILTER_TITLE && notificationTitle.toLowerCase().contains(filter)) {
+                    Logger.debug("isPackageFiltered: Package '{}' filtered because TITLE ('{}') contains '{}'", packageName, notificationTitle, filter);
+                    return !app.isWhitelist();
+                }else if (filter_level == Constants.NOTIFICATION_FILTER_CONTENTS && notificationText.toLowerCase().contains(filter)) {
+                    Logger.debug("isPackageFiltered: Package '{}' filtered because CONTENTS ('{}') contains '{}'", packageName, notificationText, filter);
+                    return !app.isWhitelist();
+                }
+            }
+        }
+        return app.isWhitelist();
     }
 
     //Avoid flooding of Notifications log by repeating/ongoing blocked notifications
     private void checkAndLog(String notificationPackage, String notificationTxt, byte filter) {
-        Logger.trace("package: {} filter: {}", notificationPackage, Character.toString((char) (byte) filter));
+        //Logger.trace("package: {} filter: {}", notificationPackage, Character.toString((char) (byte) filter));
         long currentTime = System.currentTimeMillis();
         if (currentTime - lastTimeRepeatingArrived > REPEATING_BLOCK_INTERVAL || (!notificationTxt.equals(lastNotificationTxt)) || filter != lastFilter) {
             lastTimeRepeatingArrived = currentTime;
@@ -819,31 +781,30 @@ public class NotificationService extends NotificationListenerService {
 
         final String notificationPackage = statusBarNotification.getPackageName();
 
-        Logger.debug("mapNotification package: {} key: {}", notificationPackage, statusBarNotification.getKey());
-
         NotificationData notificationData = NotificationFactory.getMapNotification(this, statusBarNotification);
 
-        if (notificationData != null) {
+        if (notificationData == null) {
+            Logger.error("[Map Notification] Null notification data (pkg: {})",notificationPackage);
+            return;
+        }
 
-            final String txt = notificationData.getText();
+        Logger.debug("[Map Notification] package: {} key: {}", notificationPackage, statusBarNotification.getKey());
 
-            if ( !txt.equals(lastTxt) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL)) {
+        final String txt = notificationData.getText();
 
-                notificationData.setVibration(getDefaultVibration());
-                lastTxt = txt;
+        if ( !txt.equals(lastTxt) || ((System.currentTimeMillis() - lastTimeNotificationSent) > MAPS_INTERVAL)) {
+            // Set vibration
+            notificationData.setVibration(getDefaultVibration());
+            lastTxt = txt;
 
-                TransportService.sendWithTransporterNotifications(Transport.INCOMING_NOTIFICATION, notificationData.toDataBundle(new DataBundle()));
+            TransportService.sendWithTransporterNotifications(Transport.INCOMING_NOTIFICATION, notificationData.toDataBundle(new DataBundle()));
 
-                lastTimeNotificationSent = System.currentTimeMillis();
-                storeForStats(notificationPackage, Constants.FILTER_MAPS);
-                Logger.debug("mapNotification maps lastTxt: " + lastTxt);
-
-            } else
-                Logger.warn("same text or too soon");
+            lastTimeNotificationSent = System.currentTimeMillis();
+            storeForStats(notificationPackage, Constants.FILTER_MAPS);
+            //Logger.debug("mapNotification maps lastTxt: " + lastTxt);
 
         } else
-            Logger.error("null notificationData");
-
+            Logger.warn("same text or too soon");
     }
 
 

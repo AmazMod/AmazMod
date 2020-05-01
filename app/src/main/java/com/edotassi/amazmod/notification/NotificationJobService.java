@@ -50,6 +50,10 @@ public class NotificationJobService extends JobService implements TransportServi
         if (id == 0)
             keepNotificationServiceRunning();
 
+        Logger.debug("onStartJob id: {}, mode: {}, uuid: {}", id, (mode==NOTIFICATION_POSTED_STANDARD_UI)?"standard notification":((mode==NOTIFICATION_POSTED_CUSTOM_UI)?"custom notification":"remove"), uuid);
+
+        // Notification counting is not used here
+        /*
         int std = 0, cst = 0, rmv = 0;
         try {
             std = NotificationStore.getStandardNotificationCount();
@@ -59,52 +63,51 @@ public class NotificationJobService extends JobService implements TransportServi
             Logger.error(ex,"onStartJob NotificationStore NullPointerException: {}", ex.getMessage());
             NotificationStore notificationStore = new NotificationStore();
         }
+        Logger.debug("onStartJob Notifications counter: {}, {}, {} (standard, custom, remove)", std, cst, rmv);
+         */
 
-        Logger.debug("onStartJob id: " + id + " \\ mode: " + mode + " \\ uuid: " + uuid);
-        Logger.debug("onStartJob std#: " + std + " \\ cst#: " + cst +  " \\ rmv#: " + rmv);
+        if (uuid == null) {
+            Logger.error("onStartJob error: null uuid!");
+            return true;
+        }
 
         int delay = 300;
+        if ( (TransportService.isTransporterHuamiAvailable() && TransportService.isTransporterNotificationsAvailable()) ||
+                (mode == NOTIFICATION_POSTED_STANDARD_UI && TransportService.isTransporterHuamiAvailable()) ||
+                (mode == NOTIFICATION_POSTED_CUSTOM_UI && TransportService.isTransporterNotificationsAvailable()) )
+            delay = 0;
+        else
+            Logger.debug("The required transporter is not available. Request will wait for 300ms. (Amazfit: {}, Huami: {}) ", TransportService.isTransporterNotificationsAvailable(), TransportService.isTransporterHuamiAvailable());
 
-        if (uuid != null) {
+        final Handler handler = new Handler();
 
-            Logger.debug("onStartJob transporterNotifications.isAvailable: " + TransportService.isTransporterNotificationsAvailable());
-            Logger.debug("onStartJob transporterHuami.isAvailable: " + TransportService.isTransporterHuamiAvailable());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
 
-            if (TransportService.isTransporterNotificationsAvailable() && TransportService.isTransporterHuamiAvailable())
-                delay = 0;
+                switch (mode) {
 
-            final Handler handler = new Handler();
+                    case NOTIFICATION_POSTED_STANDARD_UI:
+                        jobParams.put(uuid, params);
+                        processStandardNotificationPosted(uuid);
+                        break;
 
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
+                    case NOTIFICATION_POSTED_CUSTOM_UI:
+                        jobParams.put(uuid, params);
+                        processCustomNotificationPosted(uuid);
+                        break;
 
-                    switch (mode) {
+                    case NOTIFICATION_REMOVED:
+                        jobParams.put(uuid, params);
+                        processNotificationRemoved(uuid);
+                        break;
 
-                        case NOTIFICATION_POSTED_STANDARD_UI:
-                            jobParams.put(uuid, params);
-                            processStandardNotificationPosted(uuid);
-                            break;
+                    default:
+                        Logger.error("onStartJob error: NOTIFICATION_MODE not found!");
 
-                        case NOTIFICATION_POSTED_CUSTOM_UI:
-                            jobParams.put(uuid, params);
-                            processCustomNotificationPosted(uuid);
-                            break;
-
-                        case NOTIFICATION_REMOVED:
-                            jobParams.put(uuid, params);
-                            processNotificationRemoved(uuid);
-                            break;
-
-                        default:
-                            Logger.error("onStartJob error: NOTIFICATION_MODE not found!");
-
-                    }
                 }
-            }, delay + 1);
-
-        } else
-            Logger.error("onStartJob error: null uuid!");
+            }
+        }, delay + 1);
 
         return true;
     }
@@ -146,6 +149,7 @@ public class NotificationJobService extends JobService implements TransportServi
 
         DataBundle dataBundle = NotificationStore.getStandardNotification(uuid);
 
+        // Check if transporter is connected
         if (TransportService.isTransporterHuamiConnected()) {
             Logger.info("processStandardNotificationPosted transport already connected");
             AmazModApplication.setWatchConnected(true);
@@ -158,7 +162,6 @@ public class NotificationJobService extends JobService implements TransportServi
         Logger.info("processStandardNotificationPosted transporterHuami.isAvailable: " + TransportService.isTransporterHuamiAvailable());
 
         if (dataBundle != null) {
-
             TransportService.sendWithTransporterHuami("add", uuid, dataBundle, this);
 
             /*
@@ -184,7 +187,6 @@ public class NotificationJobService extends JobService implements TransportServi
                 }
             }
             */
-
         } else {
             if (pendingJobs.containsKey(uuid)) {
                 pendingJobs.remove(uuid);
@@ -194,7 +196,6 @@ public class NotificationJobService extends JobService implements TransportServi
                 NotificationStore.removeStandardNotification(uuid);
             jobFinished(params, false);
         }
-
     }
 
     public void processNotificationRemoved(final String uuid) {
@@ -270,34 +271,11 @@ public class NotificationJobService extends JobService implements TransportServi
         Logger.info("processNotificationRemoved transporterHuami.isAvailable: " + TransportService.isTransporterHuamiAvailable());
 
         if (dataBundle != null) {
-
+            // Send del action with Huami's transporter
             TransportService.sendWithTransporterHuami("del", uuid, dataBundle, this);
-
-            /*
-            result = dataTransportResult == null ? "" : dataTransportResult.toString();
-
-            if (result.toLowerCase().contains("ok")) {
-                Logger.debug("processNotificationRemoved OK");
-                NotificationStore.removeRemovedNotification(uuid);
-                if (pendingJobs.containsKey(uuid))
-                    pendingJobs.remove(uuid);
-                jobFinished(params, false);
-            } else {
-                Logger.debug("processNotificationRemoved try: " + retries);
-                if (AmazModApplication.isWatchConnected() && retries < 4) {
-                    retries++;
-                    SystemClock.sleep(300);
-                    processNotificationRemoved(uuid, mode);
-                } else {
-                    Logger.debug("processNotificationRemoved rescheduling…");
-                    retries = 0;
-                    pendingJobs.put(uuid, params);
-                    jobFinished(params, true);
-                }
-            }
-            */
-
         } else {
+            // Remove notification form saved lists
+            //removeFromArrayMaps(uuid);
             if (pendingJobs.containsKey(uuid)) {
                 pendingJobs.remove(uuid);
                 jobParams.remove(uuid);
@@ -309,15 +287,26 @@ public class NotificationJobService extends JobService implements TransportServi
 
     }
 
-    private void processCustomNotificationPosted(final String uuid) {
+    public void removeFromArrayMaps(String uuid){
+        removeFromArrayMaps(uuid, params);
+    }
 
+    public void removeFromArrayMaps(String uuid, JobParameters params) {
+        // Remove notification form saved lists
+        if (pendingJobs.containsKey(uuid)) {
+            pendingJobs.remove(uuid);
+            jobParams.remove(uuid);
+        }
+        if (NotificationStore.removedNotifications.containsKey(uuid))
+            NotificationStore.removeRemovedNotification(uuid);
+        jobFinished(params, false);
+    }
+
+    private void processCustomNotificationPosted(final String uuid) {
         Logger.debug("processCustomNotificationPosted uuid: " + uuid);
 
-        NotificationData notificationData = NotificationStore.getCustomNotification(uuid);
-
-        if (TransportService.isTransporterNotificationsConnected()) {
-            Logger.info("processCustomNotificationPosted isTransportServiceConnected: true");
-        } else {
+        // Check transporter
+        if (!TransportService.isTransporterNotificationsConnected()) {
             Logger.warn("processCustomNotificationPosted isTransportServiceConnected = false, connecting...");
             TransportService.connectTransporterNotifications();
             AmazModApplication.setWatchConnected(false);
@@ -326,8 +315,9 @@ public class NotificationJobService extends JobService implements TransportServi
         boolean isTransportConnected = TransportService.isTransporterNotificationsConnected();
 
         if (!isTransportConnected) {
+            // Change watch status TODO this if below needs to be a function, it is in other parts too
             if (AmazModApplication.isWatchConnected() || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                AmazModApplication.setWatchConnected(false);
+                // AmazModApplication.setWatchConnected(false); //that is already false from above
                 EventBus.getDefault().removeAllStickyEvents();
                 EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
             }
@@ -336,97 +326,26 @@ public class NotificationJobService extends JobService implements TransportServi
 
         Logger.info("processCustomNotificationPosted transporterNotifications.isAvailable: " + TransportService.isTransporterNotificationsAvailable());
 
+        // Get notification
+        NotificationData notificationData = NotificationStore.getCustomNotification(uuid);
+
+        // Check if notification is empty
         if (notificationData != null) {
 
             DataBundle dataBundle = new DataBundle();
             notificationData.toDataBundle(dataBundle);
             TransportService.sendWithTransporterNotifications(Transport.INCOMING_NOTIFICATION, uuid, dataBundle, this);
 
-            /*
-            result = dataTransportResult == null ? "" : dataTransportResult.toString();
-
-            if (result.toLowerCase().contains("ok")) {
-                Logger.debug("processCustomNotificationPosted OK");
-                NotificationStore.removeCustomNotification(uuid);
-                if (pendingJobs.containsKey(uuid))
-                    pendingJobs.remove(uuid);
-                if (mode == NOTIFICATION_POSTED_CUSTOM_UI)
-                    NotificationStore.removeNotificationBundle(uuid);
-                jobFinished(params, false);
-            } else {
-                Logger.debug("processCustomNotificationPosted try: " + retries);
-                if (AmazModApplication.isWatchConnected() && retries < 4) {
-                    retries++;
-                    SystemClock.sleep(300);
-                    processCustomNotificationPosted(uuid, mode);
-                } else {
-                    retries = 0;
-                    pendingJobs.put(uuid, params);
-                    Logger.debug("processCustomNotificationPosted rescheduling…");
-                    jobFinished(params, true);
-                }
-            }
-            */
-
         } else {
             if (pendingJobs.containsKey(uuid)) {
                 pendingJobs.remove(uuid);
                 jobParams.remove(uuid);
             }
-            if (NotificationStore.customNotifications.containsKey(uuid)) {
+            if (NotificationStore.customNotifications.containsKey(uuid))
                 NotificationStore.removeCustomNotification(uuid);
-            }
+
             jobFinished(params, false);
         }
-
-        /*
-        Watch.get().postNotification(notificationData).continueWith(new Continuation<Void, Object>() {
-            @Override
-            public Object then(@NonNull Task<Void> task) throws Exception {
-                if (task.isSuccessful())
-                    result = "ok";
-                else
-                    result = "failed";
-
-                if (task.getException() != null) {
-                    Logger.error( "processCustomNotificationPosted throw: " + task.getException().toString());
-                    if (AmazModApplication.isWatchConnected && retries < 4) {
-                        Logger.debug("processCustomNotificationPosted try: " + retries);
-                        retries++;
-                        processCustomNotificationPosted(uuid, mode);
-                    } else {
-                        retries = 0;
-                        NotificationStore.removeCustomNotification(uuid);
-                        NotificationStore.removeNotificationBundle(uuid);
-                        jobFinished(params, false);
-                    }
-                    throw task.getException();
-                    }
-
-                Logger.info("processCustomNotificationPosted result: " + result);
-
-                if (result.toLowerCase().contains("ok")) {
-                    Logger.debug("processCustomNotificationPosted OK");
-                    NotificationStore.removeCustomNotification(uuid);
-                    NotificationStore.removeNotificationBundle(uuid);
-                    jobFinished(params, false);
-
-                } else {
-                    if (AmazModApplication.isWatchConnected && retries < 4) {
-                        Logger.debug("processCustomNotificationPosted try: " + retries);
-                        retries++;
-                        processCustomNotificationPosted(uuid, mode);
-                    } else {
-                        retries = 0;
-                        NotificationStore.removeCustomNotification(uuid);
-                        NotificationStore.removeNotificationBundle(uuid);
-                        jobFinished(params, false);
-                    }
-                }
-                return null;
-            }
-        });
-        */
     }
 
     @Override
@@ -462,14 +381,12 @@ public class NotificationJobService extends JobService implements TransportServi
             }
         } else
             Logger.error("null JobParameters!");
-
     }
 
     private void removeNotification(int mode, String uuid) {
         Logger.debug("id: {} mode: {} uuid: {}", params.getJobId(), mode, uuid);
 
         switch (mode) {
-
             case NOTIFICATION_POSTED_STANDARD_UI:
                 NotificationStore.removeStandardNotification(uuid);
                 break;
@@ -491,7 +408,6 @@ public class NotificationJobService extends JobService implements TransportServi
         Logger.debug("id: {} mode: {} uuid: {}", params.getJobId(), mode, uuid);
 
         switch (mode) {
-
             case NOTIFICATION_POSTED_STANDARD_UI:
                 processStandardNotificationPosted(uuid);
                 break;
@@ -512,6 +428,5 @@ public class NotificationJobService extends JobService implements TransportServi
     @Override
     public void onFailure(String error, String uuid) {
         Logger.debug("uuid: {} error: {}", uuid, error);
-
     }
 }

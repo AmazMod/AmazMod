@@ -167,7 +167,8 @@ public class Screen {
         } catch (NullPointerException e){
             // empty
         }
-        Logger.info("Is device in driving mode? : " + is_in_driving_mode);
+        if(is_in_driving_mode)
+            Logger.info("Is device in driving mode? : " + is_in_driving_mode);
         return is_in_driving_mode;
     }
 }
