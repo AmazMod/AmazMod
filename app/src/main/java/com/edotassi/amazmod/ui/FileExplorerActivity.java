@@ -270,6 +270,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 loadPath(currentPath);
             }
         });
+
+        // Connect wifi FTP transporter
+        ftpTransporterConnect();
     }
 
     @Override
@@ -683,7 +686,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     private boolean wifiManualEnabled;
 
     private void uploadFTPFiles(final ArrayList<File> files, final String uploadPath) {
-        ftpTransporterConnect();
         wifiManualEnabled = false;
         mWifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         if (mWifiManager == null) {
@@ -760,6 +762,10 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             // (State 13 watch WiFi AP is on)
             Logger.debug("FTP: watch's WiFi AP is enabled");
             updateSnackBarOnUIthreat("WiFi Access Point " + getString(R.string.enabled), SnackProgressBarManager.LENGTH_LONG, SnackProgressBar.TYPE_HORIZONTAL);
+
+            // Connect to the network
+            if (mConnectivityManager == null)
+                mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
             // Connect to the network
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -1815,6 +1821,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             }
         });
     }
+
     @TargetApi(29)
     public void newApiWifiConnection() {
         //This is used to connect to WiFi AP on api >=29
@@ -1838,9 +1845,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 super.onUnavailable();
             }
         };
-
-        if (mConnectivityManager == null)
-            mConnectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         final NetworkSpecifier specifier = new WifiNetworkSpecifier.Builder()
                 .setSsid(SSID)
