@@ -318,7 +318,7 @@ Urobte príkaz shell \"</string>
     <string name="pref_enable_delete_button_on">Tlačidlo Odstrániť bude pod obsahom oznámenia</string>
     <string name="pref_enable_delete_button_off">Tlačidlo Odstrániť bude na 4 obrazovke keď v oznámení potiahnete prstom doľava</string>
     <string name="activity_packageoptions_unmute">Zrušiť stlmenie</string>
-    <string name="activity_packageoptions_muted_until">Tlmené až do:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Hlavné možnosti</string>
     <string name="watchface_calendar_source">Zdroj kalendár</string>
     <string name="test">Test</string>
@@ -408,9 +408,9 @@ Urobte príkaz shell \"</string>
     <string name="batter_data_request">Vyžaduje nové dáta batérie</string>
     <string name="batter_data_export">Export údajov o batérii</string>
     <string name="app_options">Možnosti aplikácie</string>
-    <string name="notification_options">Možnosti upozornení</string>
-    <string name="notification_options_description">Nezobrazovať oznámenie obsahujúce nasledujúce texty (jeden na riadok):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">a</string>
     <plurals name="day">
         <item quantity="one">deň</item>
@@ -436,7 +436,8 @@ Urobte príkaz shell \"</string>
     <string name="no_widgets_found">Nenašli sme žiadne widgety</string>
     <string name="intro_description_grant_access">Povoliť prístup</string>
     <string name="intro_description_get_started">Začať</string>
-    <string name="filter_level">Úroveň filtra</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Denný Prehľad (Kroky)</string>
     <string name="widget_countdown">Odpočítavanie</string>
