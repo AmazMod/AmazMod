@@ -59,9 +59,9 @@
         <item>谢谢你</item>
     </string-array>
     <string-array name="filter_level">
-        <item>标题</item>
-        <item>内容</item>
-        <item>既</item>
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
         <item>指标(Kelvin)</item>
