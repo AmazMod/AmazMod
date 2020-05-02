@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Verwijder knop zal onder de notificatie getoond worden</string>
     <string name="pref_enable_delete_button_off">Swipe links naar het vierde scherm voor de verwijder knop bij een notificatie</string>
     <string name="activity_packageoptions_unmute">Dempen uit</string>
-    <string name="activity_packageoptions_muted_until">Gedempt tot:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Belangrijkste opties</string>
     <string name="watchface_calendar_source">Agendabron</string>
     <string name="test">Test</string>
@@ -408,9 +408,9 @@ het systeemthema (beta).</string>
     <string name="batter_data_request">Vraag nieuwe batterijgegevens op</string>
     <string name="batter_data_export">Exporteer batterijgegevens</string>
     <string name="app_options">App opties</string>
-    <string name="notification_options">Meldingsopties</string>
-    <string name="notification_options_description">Meldingen met de volgende teksten niet weergeven (één per regel):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">en</string>
     <plurals name="day">
         <item quantity="one">dag</item>
@@ -430,7 +430,8 @@ het systeemthema (beta).</string>
     <string name="no_widgets_found">Geen widgets gevonden</string>
     <string name="intro_description_grant_access">Toegang verlenen</string>
     <string name="intro_description_get_started">Aan de slag</string>
-    <string name="filter_level">Filterniveau</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">Aftellen</string>
