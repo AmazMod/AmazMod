@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Il tasto per eliminare la notifica sarà mostrato sotto il suo contenuto</string>
     <string name="pref_enable_delete_button_off">Il tasto per eliminare la notifica sarà nella quarta schermata facendo swipe a sinistra sulla notifica</string>
     <string name="activity_packageoptions_unmute">Non Silenziare</string>
-    <string name="activity_packageoptions_muted_until">Silenziato fino al:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Opzioni Principali</string>
     <string name="watchface_calendar_source">Sorgente calendario</string>
     <string name="test">Prova</string>
@@ -408,9 +408,9 @@ seguire il tema di sistema (beta).</string>
     <string name="batter_data_request">Richiedi nuovi dati batteria</string>
     <string name="batter_data_export">Esporta dati batteria</string>
     <string name="app_options">Opzioni App</string>
-    <string name="notification_options">Opzioni di notifica</string>
-    <string name="notification_options_description">Non mostrare notifiche che contengono i seguenti testi (uno per riga):</string>
-    <string name="whitelist_notification_options_description">Mostra solo notifiche contenente i seguenti testi (uno per riga):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">e</string>
     <plurals name="day">
         <item quantity="one">giorno</item>
@@ -430,7 +430,8 @@ seguire il tema di sistema (beta).</string>
     <string name="no_widgets_found">Nessun widget trovato</string>
     <string name="intro_description_grant_access">Concedi accesso</string>
     <string name="intro_description_get_started">Iniziamo</string>
-    <string name="filter_level">Livello del filtro</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Riepilogo giornaliero (Passi)</string>
     <string name="widget_countdown">Conto alla rovescia</string>
