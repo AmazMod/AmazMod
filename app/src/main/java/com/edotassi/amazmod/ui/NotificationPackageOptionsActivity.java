@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -58,6 +59,10 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
     @BindView(R.id.silenced_until)
     EditText silenced_until;
 
+    @BindView(R.id.cancel_button)
+    Button cancel_button;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +82,11 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         Intent intent = getIntent();
         String packageName = intent.getStringExtra("app");
 
+        if (packageName == null) {
+            finish();
+            return;
+        }
+
         app = loadApp(packageName);
         if (app == null) {
             //Toast.makeText(this, "Package " + packageName + "is not enabled", Toast.LENGTH_SHORT).show();
@@ -91,7 +101,13 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                 appVersion.setText(packageInfo.versionName);
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
                 filter_edittext.setText(app.getFilter());
-                silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
+
+                // Check if app is muted
+                if( app.getSilenceUntil() > 0 )
+                    silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
+                else
+                    cancel_button.setEnabled(false);
+
                 // Whitelist Filter
                 if (app.isWhitelist()) {
                     filter_description.setText(getResources().getString(R.string.whitelist_notification_options_description));
@@ -108,6 +124,7 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
                             filter_description.setText(getResources().getString(R.string.notification_options_description));
                     }
                 });
+
                 // Set filter level
                 filterLevel.setSelection(app.getFilterLevel());
                 filterLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

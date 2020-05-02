@@ -316,7 +316,7 @@
     <string name="pref_enable_delete_button_on">Delete button will be shown below notification content</string>
     <string name="pref_enable_delete_button_off">Delete button will be in the 4th screen when swiping left on notification</string>
     <string name="activity_packageoptions_unmute">Unmute</string>
-    <string name="activity_packageoptions_muted_until">Muted Until:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Main options</string>
     <string name="watchface_calendar_source">Calendar Source</string>
     <string name="test">Test</string>
@@ -407,9 +407,9 @@ follow the system theme (beta).</string>
     <string name="batter_data_request">Request new battery data</string>
     <string name="batter_data_export">Export battery data</string>
     <string name="app_options">App Options</string>
-    <string name="notification_options">Notification Options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts (one per line):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">and</string>
     <plurals name="day">
         <item quantity="one">day</item>
@@ -429,7 +429,8 @@ follow the system theme (beta).</string>
     <string name="no_widgets_found">No widgets found</string>
     <string name="intro_description_grant_access">Grant Access</string>
     <string name="intro_description_get_started">Get Started</string>
-    <string name="filter_level">Filter level</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">Countdown</string>

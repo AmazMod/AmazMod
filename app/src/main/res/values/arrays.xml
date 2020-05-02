@@ -312,9 +312,9 @@
     </string-array>
 
     <string-array name="filter_level">
-        <item>Title</item>
-        <item>Contents</item>
-        <item>Both</item>
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
     </string-array>
 
     <string-array name="pref_watchface_weather_units_entries">

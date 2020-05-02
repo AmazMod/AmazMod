@@ -432,7 +432,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     public void onFTPUpload() {
         CloseFabMenu();
 
-        // New filepicker
+        // New file picker
         if (lastPath == null || lastPath.isEmpty())
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 lastPath = Environment.getExternalStorageState();

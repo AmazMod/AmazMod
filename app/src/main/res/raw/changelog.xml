@@ -15,6 +15,7 @@
         <new>New location tracker in logs</new>
         <new>Hebrew and Arabic support on custom notification list</new>
         <new>Stratos 3 support improvements (UI adjustments, updated transporter libs)</new>
+        <new>UI improvements (App notification menu)</new>new>
         <bugfix>Fix Notification delay with GreatFit based watchfaces</bugfix>
         <bugfix>Fixes for Notification counter</bugfix>
         <bugfix>Fix Custom UI Verge Sound Notification setting are lost</bugfix>
