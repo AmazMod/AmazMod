@@ -59,9 +59,9 @@
         <item>ขอบคุณ</item>
     </string-array>
     <string-array name="filter_level">
-        <item>หัวเรื่อง</item>
-        <item>เนื้อหา</item>
-        <item>ทั้งสอง</item>
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
         <item>เมตริก The Imperial System(Kelvin)</item>
