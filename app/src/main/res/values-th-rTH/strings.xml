@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">ลบปุ่มจะถูกแสดงการแจ้งให้ทราบทางด้านล่าเนื้อหา</string>
     <string name="pref_enable_delete_button_off">ลบปุ่มจะต้องอยู่ที่ 4 หน้าจอเมื่อ swiping บการแจ้งให้ทราบ</string>
     <string name="activity_packageoptions_unmute">เปิดเสียง</string>
-    <string name="activity_packageoptions_muted_until">ตัดเสียงจนถึง:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">หลักตัวเลือก</string>
     <string name="watchface_calendar_source">ปฏิทินแหล่งข่าว</string>
     <string name="test">ทดสอบ</string>
@@ -408,9 +408,9 @@
     <string name="batter_data_request">การร้องขอบใหม่แบตเตอรี่ข้อมูล</string>
     <string name="batter_data_export">ส่งออกข้อมูลของแบตเตอรี่</string>
     <string name="app_options">แอพตัวเลือก</string>
-    <string name="notification_options">การแจ้งให้ทราบทางเลือก</string>
-    <string name="notification_options_description">ไม่ต้องแสดงการแจ้งให้ทราบต่อไปนี้ส่งข้อความ(คนต่อบรรทัด):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">แล้ว</string>
     <plurals name="day">
         <item quantity="other">วัน</item>
@@ -427,7 +427,8 @@
     <string name="no_widgets_found">ไม่พบวิดเจ็ต</string>
     <string name="intro_description_grant_access">แกรนท์ใช้งาน</string>
     <string name="intro_description_get_started">จะเริ่ม</string>
-    <string name="filter_level">ตัวกรองระดับ</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Daily Overview (Steps)</string>
     <string name="widget_countdown">การนับเวลาถอยหลัง</string>
