@@ -59,9 +59,9 @@
         <item>Teşekkürler</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Başlık</item>
-        <item>İçindekiler</item>
-        <item>Her ikisi</item>
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
         <item>Metrik (Kelvin)</item>
