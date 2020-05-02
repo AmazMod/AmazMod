@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Se mostrará el botón Eliminar al final del contenido de la notificación</string>
     <string name="pref_enable_delete_button_off">El botón Eliminar aparecerá en la 4ª pantalla al deslizar la notificación hacia la izquierda</string>
     <string name="activity_packageoptions_unmute">No silenciar</string>
-    <string name="activity_packageoptions_muted_until">App is muted until:</string>
+    <string name="activity_packageoptions_muted_until">La aplicación está silenciada hasta:</string>
     <string name="main_options">Opciones principales</string>
     <string name="watchface_calendar_source">Fuente de Calendario</string>
     <string name="test">Prueba</string>
@@ -408,9 +408,9 @@ seguir el tema de sistema (beta).</string>
     <string name="batter_data_request">Solicitar nuevos datos de batería</string>
     <string name="batter_data_export">Exportar datos de batería</string>
     <string name="app_options">Opciones de la App</string>
-    <string name="notification_options">App notification options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
+    <string name="notification_options">Opciones de notificación de aplicación</string>
+    <string name="notification_options_description">No mostrar notificaciones que contengan los siguientes textos:\n(escribir uno por línea)</string>
+    <string name="whitelist_notification_options_description">Mostrar solo las notificaciones que contengan los siguientes textos:\n(escribir uno por línea)</string>
     <string name="and">y</string>
     <plurals name="day">
         <item quantity="one">día</item>
@@ -430,8 +430,8 @@ seguir el tema de sistema (beta).</string>
     <string name="no_widgets_found">No se encontraron widgets</string>
     <string name="intro_description_grant_access">Dar acceso</string>
     <string name="intro_description_get_started">Iniciar</string>
-    <string name="filter_mode">Filter mode:</string>
-    <string name="filter_level">Filter level:</string>
+    <string name="filter_mode">Modo de filtro:</string>
+    <string name="filter_level">Nivel de filtro:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Resumen Diario (Pasos)</string>
     <string name="widget_countdown">Temporizador</string>
