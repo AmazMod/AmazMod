@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">לחצן מחיקה יוצג בתחתית התוכן בהתראה</string>
     <string name="pref_enable_delete_button_off">הלחצן \'מחק\' יופיע במסך הרביעי כאשר תבצע החלקה שמאלה על ההתראה</string>
     <string name="activity_packageoptions_unmute">בטל השתקה</string>
-    <string name="activity_packageoptions_muted_until">השתק עד:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">אופציות עיקריות</string>
     <string name="watchface_calendar_source">מקור לוח שנה</string>
     <string name="test">בדיקה</string>
@@ -407,9 +407,9 @@
     <string name="batter_data_request">בקשת נתוני סוללה חדשים</string>
     <string name="batter_data_export">ייצוא מידע על הסוללה</string>
     <string name="app_options">אפשרויות</string>
-    <string name="notification_options">הגדרת התראות</string>
-    <string name="notification_options_description">אין להציג התראות אשר מכילות את המילים הבאות (מילה אחת בשורה):</string>
-    <string name="whitelist_notification_options_description">הציגת התראות אשר מכילות את המילים הבאות בלבד (מילה אחת לשורה):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">ו</string>
     <plurals name="day">
         <item quantity="one">יום</item>
@@ -435,7 +435,8 @@
     <string name="no_widgets_found">לא נמצאו וויג\'טים</string>
     <string name="intro_description_grant_access">הענקת גישה</string>
     <string name="intro_description_get_started">מתחילים!</string>
-    <string name="filter_level">רמת סינון</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">סקירה יומית (צעדים)</string>
     <string name="widget_countdown">ספירה לאחור</string>
