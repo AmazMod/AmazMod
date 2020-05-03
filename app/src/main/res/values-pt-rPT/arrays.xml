@@ -59,9 +59,9 @@
         <item>Obrigado</item>
     </string-array>
     <string-array name="filter_level">
-        <item>Filter notification\'s title</item>
-        <item>Filter notification\'s contents</item>
-        <item>Filter both title and content</item>
+        <item>Título da notificação do filtro</item>
+        <item>Conteúdo da notificação do filtro</item>
+        <item>Filtrar título e conteúdo</item>
     </string-array>
     <string-array name="pref_watchface_weather_units_entries">
         <item>Métrico (Kelvin)</item>
