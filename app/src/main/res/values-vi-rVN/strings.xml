@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Nút xóa sẽ được hiển thị bên dưới nội dung thông báo</string>
     <string name="pref_enable_delete_button_off">Nút xóa sẽ ở màn hình thứ 4 khi vuốt trái trên thông báo</string>
     <string name="activity_packageoptions_unmute">Bỏ chặn</string>
-    <string name="activity_packageoptions_muted_until">Tắt tiếng cho đến</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Tải Lên Tập Tin</string>
     <string name="watchface_calendar_source">Nguồn dữ liệu lịch</string>
     <string name="test">Kiểm tra</string>
@@ -407,9 +407,9 @@
     <string name="batter_data_request">Yêu cầu dữ liệu pin mới</string>
     <string name="batter_data_export">Xuất dữ liệu pin</string>
     <string name="app_options">Tùy chọn ứng dụng</string>
-    <string name="notification_options">Tùy chọn thông báo</string>
-    <string name="notification_options_description">Không hiển thị thông báo có chứa các văn bản sau(một dòng trên mỗi dòng):</string>
-    <string name="whitelist_notification_options_description">Chỉ hiển thị thông báo có chứa các văn bản sau (một trên mỗi dòng):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">và</string>
     <plurals name="day">
         <item quantity="other">ngày</item>
@@ -426,7 +426,8 @@
     <string name="no_widgets_found">Không tìm thấy các tiện ích</string>
     <string name="intro_description_grant_access">Cấp phép truy cập</string>
     <string name="intro_description_get_started">Bắt đầu</string>
-    <string name="filter_level">Cấp lọc</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Tổng quan hàng ngày (Các bước)</string>
     <string name="widget_countdown">Đếm ngược</string>

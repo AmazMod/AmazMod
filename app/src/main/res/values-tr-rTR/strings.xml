@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Silme butonu bildirim içeriğinin altında gösterilecek</string>
     <string name="pref_enable_delete_button_off">Silme butonu, bildirimlerde sola kaydırırken 4. ekranda olacak</string>
     <string name="activity_packageoptions_unmute">Sesli</string>
-    <string name="activity_packageoptions_muted_until">Şu zamana kadar sesiz:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Ana şeçenekler</string>
     <string name="watchface_calendar_source">Takvim kaynağı</string>
     <string name="test">Test</string>
@@ -407,9 +407,9 @@
     <string name="batter_data_request">Yeni pil verisini iste</string>
     <string name="batter_data_export">Pil verisini dışa aktar</string>
     <string name="app_options">Uylama Seçenekleri</string>
-    <string name="notification_options">Bildirim Şeçenekleri</string>
-    <string name="notification_options_description">Takip eden metinleri içeren bildirimleri gösterme (her satıra bir adet):</string>
-    <string name="whitelist_notification_options_description">Sadece takip eden textleri bildirimlerde göster (her satıra bir adet):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">ve</string>
     <plurals name="day">
         <item quantity="one">gün</item>
@@ -429,7 +429,8 @@
     <string name="no_widgets_found">Widget bulunamadı</string>
     <string name="intro_description_grant_access">Erişim izni ver</string>
     <string name="intro_description_get_started">Kullanmaya Başla</string>
-    <string name="filter_level">Seviyeleri filtrele</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Günlük özet (Adımlar)</string>
     <string name="widget_countdown">Geri Sayım</string>

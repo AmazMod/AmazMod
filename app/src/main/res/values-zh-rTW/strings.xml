@@ -318,7 +318,7 @@
     <string name="pref_enable_delete_button_on">\"刪除\" 按鈕將顯示在通知內容下方</string>
     <string name="pref_enable_delete_button_off">當在通知上向左滑動時, \"刪除\" 按鈕將位於第4個畫面中</string>
     <string name="activity_packageoptions_unmute">取消靜音</string>
-    <string name="activity_packageoptions_muted_until">靜音直到:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">主要選項</string>
     <string name="watchface_calendar_source">日曆來源</string>
     <string name="test">測試</string>
@@ -409,9 +409,9 @@
     <string name="batter_data_request">请求新电池的数据</string>
     <string name="batter_data_export">出口电池的数据</string>
     <string name="app_options">程序的选择</string>
-    <string name="notification_options">通知的选择</string>
-    <string name="notification_options_description">不会显示通知含有下列文本(每行一个):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">和</string>
     <plurals name="day">
         <item quantity="other">天</item>
@@ -428,7 +428,8 @@
     <string name="no_widgets_found">没有找到的部件</string>
     <string name="intro_description_grant_access">授予访问权限</string>
     <string name="intro_description_get_started">开始</string>
-    <string name="filter_level">过滤器的水平</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">每日概觀（步驟）</string>
     <string name="widget_countdown">倒计时</string>

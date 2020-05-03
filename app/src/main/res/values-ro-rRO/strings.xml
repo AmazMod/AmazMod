@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Butonul de ștergere va fi arătat mai jos în contextul notificărilor</string>
     <string name="pref_enable_delete_button_off">Butonul de ștergere va fi în al 4-lea ecran când glisați în stânga pe notificare</string>
     <string name="activity_packageoptions_unmute">Unmute</string>
-    <string name="activity_packageoptions_muted_until">Mut Până:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Opțiuni principale</string>
     <string name="watchface_calendar_source">Sursă Calendar</string>
     <string name="test">Test</string>
@@ -407,9 +407,9 @@
     <string name="batter_data_request">Solicită date noi despre baterie</string>
     <string name="batter_data_export">Exportă date baterie</string>
     <string name="app_options">Opțiuni aplicație</string>
-    <string name="notification_options">Opțiuni Notificări</string>
-    <string name="notification_options_description">Nu arăta notificări care conțin următoarele texte (unul pe linie):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">și</string>
     <plurals name="day">
         <item quantity="one">zi</item>
@@ -432,7 +432,8 @@
     <string name="no_widgets_found">Nici un widget găsit</string>
     <string name="intro_description_grant_access">Acordează acces</string>
     <string name="intro_description_get_started">Începe</string>
-    <string name="filter_level">Nivel de filtrare</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Prezentare Generală Zilnică (Pasuri)</string>
     <string name="widget_countdown">Numărătoarea inversă</string>

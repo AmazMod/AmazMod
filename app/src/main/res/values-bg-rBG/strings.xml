@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Бутонът за изтриване ще бъде показан под съдържанието на известията</string>
     <string name="pref_enable_delete_button_off">Бутонът за изтриване ще бъде на 4-ти екран, когато плъзнете наляво при известяване</string>
     <string name="activity_packageoptions_unmute">Включи звука</string>
-    <string name="activity_packageoptions_muted_until">Заглушено до:</string>
+    <string name="activity_packageoptions_muted_until">App is muted until:</string>
     <string name="main_options">Основни опции</string>
     <string name="watchface_calendar_source">Източник на Календара</string>
     <string name="test">Тест</string>
@@ -408,9 +408,9 @@
     <string name="batter_data_request">Поискайте нови данни за батерията</string>
     <string name="batter_data_export">Експорт на данни за батерията</string>
     <string name="app_options">Опции за приложения</string>
-    <string name="notification_options">Настройки за известия</string>
-    <string name="notification_options_description">Не показвайте известия, съдържащи следните текстове (по един на ред):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">App notification options</string>
+    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
+    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">и</string>
     <plurals name="day">
         <item quantity="one">ден</item>
@@ -430,7 +430,8 @@
     <string name="no_widgets_found">Няма намерени уиджити</string>
     <string name="intro_description_grant_access">Предоставяне на достъп</string>
     <string name="intro_description_get_started">Започнете</string>
-    <string name="filter_level">Ниво на филтър</string>
+    <string name="filter_mode">Filter mode:</string>
+    <string name="filter_level">Filter level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Ежедневен Преглед (Крачки)</string>
     <string name="widget_countdown">Обратно броене</string>

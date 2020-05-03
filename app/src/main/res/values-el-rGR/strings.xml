@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Το κουμπί διαγραφής θα εμφανίζεται κάτω από το περιεχόμενο της ειδοποίησης</string>
     <string name="pref_enable_delete_button_off">Το κουμπί διαγραφής θα είναι στην 4η οθόνη, σύρετε προς τα αριστερά καθώς βρίσκεστε στην ειδοποίηση</string>
     <string name="activity_packageoptions_unmute">Κατάργηση σίγασης</string>
-    <string name="activity_packageoptions_muted_until">Σίγαση μέχρι:</string>
+    <string name="activity_packageoptions_muted_until">Η εφαρμογή είναι σε σίγαση μέχρι:</string>
     <string name="main_options">Κύριες ρυθμίσεις</string>
     <string name="watchface_calendar_source">Πηγή δεδομένων ημερολογίου</string>
     <string name="test">Δοκιμή</string>
@@ -408,9 +408,9 @@
     <string name="batter_data_request">Ζητήστε νέα δεδομένα μπαταρίας</string>
     <string name="batter_data_export">Εξαγωγή δεδομένων μπαταρίας</string>
     <string name="app_options">Επιλογές Εφαρμογής</string>
-    <string name="notification_options">Επιλογές Ειδοποιήσεων</string>
-    <string name="notification_options_description">Να μην εμφανίζονται ειδοποιήσεις που περιέχουν τα ακόλουθα κείμενα (ένα ανά γραμμή):</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts (one per line):</string>
+    <string name="notification_options">Επιλογές ειδοποιήσεων</string>
+    <string name="notification_options_description">Να μην εμφανίζονται ειδοποιήσεις που περιέχουν τα ακόλουθα κείμενα (ένα ανά γραμμή)</string>
+    <string name="whitelist_notification_options_description">Να εμφανίζονται ειδοποιήσεις που περιέχουν τα ακόλουθα κείμενα (ένα ανά γραμμή)</string>
     <string name="and">και</string>
     <plurals name="day">
         <item quantity="one">ημέρα</item>
@@ -430,7 +430,8 @@
     <string name="no_widgets_found">Δεν βρέθηκαν widgets</string>
     <string name="intro_description_grant_access">Παραχώρηση Πρόσβασης</string>
     <string name="intro_description_get_started">Ξεκινήστε</string>
-    <string name="filter_level">Επίπεδο φίλτρου</string>
+    <string name="filter_mode">Λειτουργία φίλτρου:</string>
+    <string name="filter_level">Επίπεδο φίλτρου:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Καθημερινή Επισκόπηση (Βήματα)</string>
     <string name="widget_countdown">Αντίστροφη μέτρηση</string>
