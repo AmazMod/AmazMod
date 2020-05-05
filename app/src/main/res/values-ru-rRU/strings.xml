@@ -407,7 +407,7 @@
     <string name="batter_data_request">Запросить новые данные батареи</string>
     <string name="batter_data_export">Экспорт данных батареи</string>
     <string name="app_options">Параметры приложения</string>
-    <string name="notification_options">Параметры уведомлений для приложения</string>
+    <string name="notification_options">Параметры уведомлений приложения</string>
     <string name="notification_options_description">Не показывать уведомления, содержащие следующий текст:\n(по одному в строке)</string>
     <string name="whitelist_notification_options_description">Показывать только уведомления, содержащие следующий текст:\n(по одному в строке)</string>
     <string name="and">и</string>
@@ -435,7 +435,7 @@
     <string name="no_widgets_found">Виджеты не найдены</string>
     <string name="intro_description_grant_access">Разрешить доступ</string>
     <string name="intro_description_get_started">Начать работу</string>
-    <string name="filter_mode">Режим фильтра:</string>
+    <string name="filter_mode">Режим фильтрации:</string>
     <string name="filter_level">Уровень фильтрации:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Ежедневный Обзор (Шаги)</string>
