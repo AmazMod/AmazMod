@@ -213,6 +213,7 @@ public class Constants {
 
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 
+    public static final String[] BUILD_STRATOS_3_MODELS = {"A1928", "A1929"};
     public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
     public static final String[] BUILD_STRATOS_MODELS = {"A1609", "A1619"};
     public static final String[] BUILD_PACE_MODELS = {"A1602", "A1612"};

@@ -138,6 +138,13 @@ public class Screen {
         return dndEnabled;
     }
 
+    public static boolean isStratos3(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isStratos3 = Arrays.asList(Constants.BUILD_STRATOS_3_MODELS).contains(model);
+        Logger.debug("DeviceUtil isStratos 3: checking if model " + model + " is an Amazfit Stratos 3: " + isStratos3);
+        return isStratos3;
+    }
+
     public static boolean isVerge(){
         String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
         boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);

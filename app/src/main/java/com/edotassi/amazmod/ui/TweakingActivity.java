@@ -159,6 +159,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
             }
         });
         boolean autoBrightness = (AmazModApplication.currentScreenBrightnessMode == Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
+        autoBrightnessSwitch.setEnabled(Screen.isStratos3());
         autoBrightnessSwitch.setChecked(autoBrightness);
         brightnessSeekbar.setEnabled(!autoBrightness);
         brightnessEditText.setEnabled(!autoBrightness);
