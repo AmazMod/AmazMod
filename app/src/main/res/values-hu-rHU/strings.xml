@@ -319,7 +319,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_enable_delete_button_on">A Töröl gomb megjelenik az értesítés tartalma alatt</string>
     <string name="pref_enable_delete_button_off">A Töröl gomb a 4. képernyőn lesz, amikor elhúzod az értesítést balra</string>
     <string name="activity_packageoptions_unmute">Némítás ki</string>
-    <string name="activity_packageoptions_muted_until">Az app némítva, mig:</string>
+    <string name="activity_packageoptions_muted_until">Az app némítva, míg:</string>
     <string name="main_options">Főbb lehetőségek</string>
     <string name="watchface_calendar_source">Naptár forrás</string>
     <string name="test">Teszt</string>
