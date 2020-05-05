@@ -15,8 +15,8 @@
     <string name="empty">Порожньо</string>
     <string name="clear_data">Очистити дані</string>
     <string name="uninstall">Видалити</string>
-    <string name="quick_launch">Quick Launch</string>
-    <string name="quick_launch_description">App can be launched from watchface screen using bottom button (long press)!</string>
+    <string name="quick_launch">Швидкий запуск</string>
+    <string name="quick_launch_description">Додаток можна запустити з екрану годинника за допомогою нижньої кнопки (довге натискання)!</string>
     <string name="clear_app_data">Очистити дані додатків</string>
     <string name="install_app">Встановити додаток</string>
     <string name="delete">Видалити</string>
