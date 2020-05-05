@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Кнопка видалення буде показана під змістом сповіщення</string>
     <string name="pref_enable_delete_button_off">Кнопка видалення буде на четвертому екрані, коли проводите вліво від сповіщення</string>
     <string name="activity_packageoptions_unmute">Увімкнути звук</string>
-    <string name="activity_packageoptions_muted_until">App is muted until:</string>
+    <string name="activity_packageoptions_muted_until">Сповіщення додатку вимкнені до:</string>
     <string name="main_options">Основні налаштування</string>
     <string name="watchface_calendar_source">Джерело календаря</string>
     <string name="test">Тест</string>
@@ -407,9 +407,9 @@
     <string name="batter_data_request">Запит нових даних батареї</string>
     <string name="batter_data_export">Експорт даних батареї</string>
     <string name="app_options">Опції додатку</string>
-    <string name="notification_options">App notification options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
+    <string name="notification_options">Параметри сповіщень додатку</string>
+    <string name="notification_options_description">Не показувати сповіщення, що містять наступний текст:\n(один на рядок)</string>
+    <string name="whitelist_notification_options_description">Показувати лише сповіщення, що містять наступний текст:\n(один на рядок)</string>
     <string name="and">та</string>
     <plurals name="day">
         <item quantity="one">день</item>
@@ -435,8 +435,8 @@
     <string name="no_widgets_found">Віджетів не знайдено</string>
     <string name="intro_description_grant_access">Надати доступ</string>
     <string name="intro_description_get_started">Розпочати</string>
-    <string name="filter_mode">Filter mode:</string>
-    <string name="filter_level">Filter level:</string>
+    <string name="filter_mode">Режим фільтру:</string>
+    <string name="filter_level">Рівень фільтрації:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Щоденний Огляд (Кроки)</string>
     <string name="widget_countdown">Зворотній відлік</string>
