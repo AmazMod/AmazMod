@@ -319,7 +319,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="pref_enable_delete_button_on">A Töröl gomb megjelenik az értesítés tartalma alatt</string>
     <string name="pref_enable_delete_button_off">A Töröl gomb a 4. képernyőn lesz, amikor elhúzod az értesítést balra</string>
     <string name="activity_packageoptions_unmute">Némítás ki</string>
-    <string name="activity_packageoptions_muted_until">App is muted until:</string>
+    <string name="activity_packageoptions_muted_until">Az app némítva, míg:</string>
     <string name="main_options">Főbb lehetőségek</string>
     <string name="watchface_calendar_source">Naptár forrás</string>
     <string name="test">Teszt</string>
@@ -410,9 +410,9 @@ a rendszertéma követése helyett (beta).</string>
     <string name="batter_data_request">Új akku adatok lekérése</string>
     <string name="batter_data_export">Akku adat export</string>
     <string name="app_options">App lehetőségek</string>
-    <string name="notification_options">App notification options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
+    <string name="notification_options">Értesítési beállítások</string>
+    <string name="notification_options_description">Ne jelenítse meg a következő szövegeket tartalmazó értesítéseket:\n(soronként egy)</string>
+    <string name="whitelist_notification_options_description">Csak a következő szövegeket tartalmazó értesítéseket jelenítse meg:\n(soronként egy)</string>
     <string name="and">és</string>
     <plurals name="day">
         <item quantity="one">nap</item>
@@ -432,8 +432,8 @@ a rendszertéma követése helyett (beta).</string>
     <string name="no_widgets_found">Nem található widget</string>
     <string name="intro_description_grant_access">Hozzáférést megad</string>
     <string name="intro_description_get_started">Láss neki</string>
-    <string name="filter_mode">Filter mode:</string>
-    <string name="filter_level">Filter level:</string>
+    <string name="filter_mode">Szűrő mód:</string>
+    <string name="filter_level">Szűrési szint:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Napi áttekintés (lépés)</string>
     <string name="widget_countdown">Visszaszámlálás</string>

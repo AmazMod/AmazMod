@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Taste zum Löschen von Mitteilungen steht direkt unterhalb Mitteilungstext</string>
     <string name="pref_enable_delete_button_off">Löschtaste befindet sich im 4. Bildschirm wenn Sie in den Mitteilungen nach links wischen</string>
     <string name="activity_packageoptions_unmute">Stummschaltung aufheben</string>
-    <string name="activity_packageoptions_muted_until">App is muted until:</string>
+    <string name="activity_packageoptions_muted_until">App ist stummgeschaltet bis:</string>
     <string name="main_options">Hauptoptionen</string>
     <string name="watchface_calendar_source">Kalenderquelle</string>
     <string name="test">Test</string>
@@ -408,9 +408,9 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="batter_data_request">Aktuelle Akkudaten anfordern</string>
     <string name="batter_data_export">Akkudaten exportieren</string>
     <string name="app_options">App-Optionen</string>
-    <string name="notification_options">App notification options</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
+    <string name="notification_options">App-Benachrichtigungsoptionen</string>
+    <string name="notification_options_description">Keine Benachrichtigungen anzeigen, die die folgenden Texte enthalten:\n(eine pro Zeile schreiben)</string>
+    <string name="whitelist_notification_options_description">Nur Benachrichtigungen anzeigen, die die folgenden Texte enthalten:\n(eine pro Zeile schreiben)</string>
     <string name="and">und</string>
     <plurals name="day">
         <item quantity="one">Tag</item>
@@ -430,8 +430,8 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="no_widgets_found">Keine Widgets gefunden</string>
     <string name="intro_description_grant_access">Zugriff gewähren</string>
     <string name="intro_description_get_started">Erste Schritte</string>
-    <string name="filter_mode">Filter mode:</string>
-    <string name="filter_level">Filter level:</string>
+    <string name="filter_mode">Filtermodus:</string>
+    <string name="filter_level">Filter-Level:</string>
     <!-- Strings used for widget list start -->
     <string name="widget_step">Tagesübersicht (Schritte)</string>
     <string name="widget_countdown">Countdown</string>
