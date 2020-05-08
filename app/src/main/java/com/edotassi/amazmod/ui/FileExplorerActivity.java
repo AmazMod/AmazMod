@@ -1862,7 +1862,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
     private void unregisterConnectionManager() {
         if (mConnectivityManager != null && networkCallback != null)
-            mConnectivityManager.unregisterNetworkCallback(networkCallback);
+            try {
+                mConnectivityManager.unregisterNetworkCallback(networkCallback);
+                networkCallback = null;
+                mConnectivityManager.bindProcessToNetwork(null);
+            } catch (Exception e) {
+                Logger.debug("unregisterConnectionManager: " + e);
+            }
     }
 
     public void ftpTransporterConnect() {
