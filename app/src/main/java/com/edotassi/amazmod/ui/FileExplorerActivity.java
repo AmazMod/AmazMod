@@ -72,6 +72,7 @@ import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
 
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.commons.net.io.CopyStreamAdapter;
@@ -897,7 +898,8 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     ftpTransporter.send("disable_ap");
                 } else {
                     Logger.debug("FTP: FTP server connection granted.");
-
+                    // Set FTP transferred as BINARY to avoid corrupted file
+                    ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
                     //If it doesn't exist create it
                     String relative_path = FTP_destPath.replace("/sdcard", "");
                     if (!ftpClient.changeWorkingDirectory(relative_path)) {
