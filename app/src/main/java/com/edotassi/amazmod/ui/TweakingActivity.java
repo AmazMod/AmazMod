@@ -159,11 +159,18 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
             }
         });
         boolean autoBrightness = (AmazModApplication.currentScreenBrightnessMode == Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
-        autoBrightnessSwitch.setEnabled(Screen.isStratos3());
-        autoBrightnessSwitch.setChecked(autoBrightness);
-        brightnessSeekbar.setEnabled(!autoBrightness);
-        brightnessEditText.setEnabled(!autoBrightness);
-        updateBrightnessButton.setEnabled(!autoBrightness);
+        if(Screen.isStratos3()) {
+            autoBrightnessSwitch.setChecked(false);
+            autoBrightnessSwitch.setEnabled(false);
+            brightnessSeekbar.setEnabled(true);
+            brightnessEditText.setEnabled(true);
+            updateBrightnessButton.setEnabled(true);
+        } else {
+            autoBrightnessSwitch.setChecked(autoBrightness);
+            brightnessSeekbar.setEnabled(!autoBrightness);
+            brightnessEditText.setEnabled(!autoBrightness);
+            updateBrightnessButton.setEnabled(!autoBrightness);
+        }
         brightnessSeekbar.setProgress(AmazModApplication.currentScreenBrightness);
 
         EventBus.getDefault().register(this);
