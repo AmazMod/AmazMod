@@ -1,8 +1,8 @@
 <changelog>
     <release
-        date="Unreleased"
-        versionCode="220"
-        versionName="v1.1.9 (220)">
+        date="2020-05-10"
+        versionCode="226"
+        versionName="v1.2">
         <new>Add search bar on settings menu</new>
         <new>Add "Support us" menu, your chance to show us some love!</new>
         <new>Add whitelist filter, and now any app can use different filter setting</new>
