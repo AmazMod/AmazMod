@@ -317,7 +317,7 @@
     <string name="pref_enable_delete_button_on">Przycisk skasuj wyświetli się poniżej powiadomień</string>
     <string name="pref_enable_delete_button_off">Przycisk skasuj jest na 4 ekranie kiedy przesuwasz powiadomienia</string>
     <string name="activity_packageoptions_unmute">Włącz dźwięk</string>
-    <string name="activity_packageoptions_muted_until">App is muted until:</string>
+    <string name="activity_packageoptions_muted_until">Aplikacja jest wyciszona do:</string>
     <string name="main_options">Główne opcje</string>
     <string name="watchface_calendar_source">Źródło kalendarza</string>
     <string name="test">Test</string>
@@ -351,7 +351,7 @@
     <string name="pref_log_to_file_summary">Zapisz dzienniki AmazMod do amazmod.log</string>
     <string name="pref_log_to_file_level">Poziom dziennika</string>
     <string name="pref_log_to_file_level_summary">Ustaw poziom detali jaki ma być przechowywany w dzienniku.</string>
-    <string name="location_tracker">Location Tracker</string>
+    <string name="location_tracker">Śledzenie lokalizacji</string>
     <string name="notification_low_battery">Amazfit ma słaba baterię</string>
     <string name="notification_low_battery_description">Bateria zegarka spadła poniżej %s</string>
     <string name="notification_watch_charged">Amazfit jest naładowany</string>
@@ -407,7 +407,7 @@
     <string name="batter_data_request">Pobierz nowe dane baterii</string>
     <string name="batter_data_export">Eksport danych baterii</string>
     <string name="app_options">Ustawienia aplikacji</string>
-    <string name="notification_options">App notification options</string>
+    <string name="notification_options">Opcje powiadomień</string>
     <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
     <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
     <string name="and">oraz</string>
