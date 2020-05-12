@@ -1,0 +1,137 @@
+#page title
+page_title                                : AmazMod – The missing link for your Amazfit smartwatches                                           # Automatically populates with app name if not set and if iOS app ID is set. Otherwise enter manually.
+
+# App Info
+# ios_app_id                                : 1234793120                                # Required. Enter iOS app ID to automatically populate name, price and icons (e.g. 718043190).
+
+#appstore_link                             :                                           # Automatically populates if not set and if iOS app ID is set. Otherwise enter manually.
+playstore_link                            : https://play.google.com/store/apps/details?id=com.edotassi.amazmod                                          # Enter Google Play Store URL.
+#presskit_download_link                    : https://AmazMod.com                                          # Enter a link to downloadable file or (e.g. public Dropbox link to a .zip file). 
+                                                                                      # Or upload your press kit file to assets and set path accordingly (e.g. "assets/your_press_kit.zip").
+
+app_icon                                  : assets/appicon.png                      # Automatically populates if not set and if iOS app ID is set.  Otherwise enter path to icon file manually.
+app_name                                  : AmazMod                                          # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+#app_price                                :                                           # Automatically populates if not set and if iOS app ID is set.  Otherwise enter manually.
+app_description                           : AmazMod is an additional application for your Amazfit watches - it can entirely replace the notification system, multi-lingual support, a file manager, own callendar support with selected watchfaces, advanced tweaking section, weather provider and much MUCH more! Make your Amazfit Amazing!
+
+enable_smart_app_banner                   : false                                      # Set to true to show a smart app banner at top of page on mobile devices.
+
+
+
+# Information About Yourself
+your_name                                 : AmazMod team                                
+your_link                                 : https://amazmod.com
+#your_city                                 : Planet Earth                       
+email_address                             : amazmod.amazfit@gmail.com
+facebook_username                         :                                           
+instagram_username                        : 
+twitter_username                          : AmazMod
+github_username                           : Amazmod
+youtube_username                          : AmazMod
+
+
+
+# Feature List                            Edit, add or remove features to be presented.
+features                                  :
+
+  - title                                 : Settings
+    description                           : Set pre-defined responces, font sizing, DND, Private content, images, timeouts, filtering, set it as you want!
+    fontawesome_icon_name                 : cog
+    
+  - title                                 : Tweaking
+    description                           : WiFi control, common settings control, entering Fastboot, screenshots and a direct adb executable command!
+    fontawesome_icon_name                 : sliders-h
+
+  - title                                 : File explorer
+    description                           : Wireless file transfer, both from the smartphone side and from the app! built-in text reading abilities, watchfaces detection and installation!
+    fontawesome_icon_name                 : folder-open
+
+  - title                                 : Widgets
+    description                           : Re-order the widgets order on your watch as YOU want, as much as YOU want.
+    fontawesome_icon_name                 : th-large
+
+  - title                                 : GreatFit / Calendar / Weather
+    description                           : Calendar ICS support, own weather provider with personal openweather key (registration needed), full GreatFit© integration support!
+    fontawesome_icon_name                 : calendar-alt
+  
+  - title                                 : Stats / Logs
+    description                           : Collect Smartphone/watch side logs for support, and send them over for a review.
+    fontawesome_icon_name                 : file-alt
+
+  - title                                 : Changelog
+    description                           : The new and awesome stuff we've added, and the even better new bugs, hidden all-over!
+    fontawesome_icon_name                 : plus-square
+
+  - title                                 : Watch-side Service
+    description                           : A launcher interface for most settings, built-in file explorer on the watch, direct notification drawer access, this will be your 2nd most important widget!
+    fontawesome_icon_name                 : info-circle
+
+  - title                                 : # New Feature Title
+    description                           : # New Feature Description
+    fontawesome_icon_name                 : # Enter Font Awesome icon name (e.g. star). Find icons on fontawesome.com/icons.
+
+
+
+# Theme Settings
+topbar_color                              : "#000000"
+topbar_transparency                       : 0.1
+topbar_title_color                        : "#ffffff"
+
+cover_image                               : assets/topbackgroung.png                    # Replace with alternative image path or image URL.
+cover_overlay_color                       : "#363b3d"
+cover_overlay_transparency                : 0.8
+
+device_color                              : black                                     # Set to: blue, black, yellow, coral or white.
+
+body_background_color                     : "#ffffff"
+
+link_color                                : "#1d63ea"
+
+app_title_color                           : "#ffffff"
+app_price_color                           : "#ffffff"
+app_description_color                     : "#ffffff"
+
+feature_title_color                       : "#000000"
+feature_text_color                        : "#666666"
+
+feature_icons_foreground_color            : "#1d63ea"
+feature_icons_background_color            : "#e6e6e6"
+
+social_icons_foreground_color             : "#666666"
+social_icons_background_color             : "#e6e6e6"
+
+footer_text_color                         : "#666666"
+
+
+
+
+
+
+
+
+
+
+
+
+
+####################################################
+### Jekyll Configuration. No need to touch this. ###
+####################################################
+
+# Set the Sass partials directory, as we're using @imports
+sass:
+  style: :compressed # You might prefer to minify using :compressed
+
+# Exclude these files from your production _site
+exclude:
+  - LICENSE
+  - README.md
+  - CNAME
+
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# Markdown rendering
+markdown: kramdown
