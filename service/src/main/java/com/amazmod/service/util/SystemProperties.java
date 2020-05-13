@@ -29,6 +29,7 @@ import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -232,7 +233,7 @@ public class SystemProperties {
     }
 
     public static boolean isPace(){
-        return checkIfModel(Constants.BUILD_PACE_MODELS, "Pace");
+        return checkIfModel(Constants.BUILD_PACE_MODELS, "Pace") || new File("/system/.pace_hybrid").exists();
     }
 
     public static boolean isStratos(){
