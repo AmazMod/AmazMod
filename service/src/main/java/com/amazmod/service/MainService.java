@@ -988,7 +988,10 @@ public class MainService extends Service implements Transporter.DataListener {
                 while (cur.moveToNext()) {
                     // Get the field values
                     // example: utc_time=1528485660, time_zone=0, heart_rate=96
-                    long utc_time = cur.getLong(0);
+                    long utc_time;
+                    if(SystemProperties.isStratos3()) {
+                        utc_time = (cur.getLong(0)) * 1000;
+                    } else utc_time = cur.getLong(0);
                     //int time_zone = cur.getInt(1);
                     int heart_rate = cur.getInt(2);
 
