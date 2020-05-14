@@ -237,7 +237,7 @@ public class SystemProperties {
     }
 
     public static boolean isStratos(){
-        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos");
+        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos") && !isPace();
     }
 
     public static boolean isVerge(){
