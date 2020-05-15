@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/android:api-28-alpha
+      - image: circleci/android:api-29
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -17,15 +17,22 @@ jobs:
           name: Accept Licences
           command: (echo y; echo y; echo y; echo y; echo y; echo y) | sdkmanager --licenses
       - run:
+          name: Extract KeyStore
+          command: |
+            pwd
+            ls -la .circleci/
+            openssl enc -aes-256-cbc -pbkdf2 -d -in .circleci/circle-artifact.bin -out amazmod.jks -iv $AMAZMOD_CRYPT_IV -K $AMAZMOD_CRYPT_PASS
+            keytool -list -keystore amazmod.jks -storepass $AMAZMOD_KEY_PASS
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run Tests and Lints
-          command: ./gradlew lint test
+      #- run:
+      #    name: Run Tests and Lints
+      #    command: ./gradlew lint test
       - run:
           name: Build debug APK for Phone App
           command: ./gradlew :app:assembleDebug
@@ -41,8 +48,8 @@ jobs:
       - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
           path: app/build/reports
           destination: reports
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
+      #- store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+      #    path: app/build/test-results
       - persist_to_workspace:
           root: persist
           paths:
@@ -50,7 +57,7 @@ jobs:
   
   github-release:
     docker:
-      - image: cibuilds/github:0.12.1
+      - image: cibuilds/github:0.13.0
     steps:
       - attach_workspace:
           at: ./apks
