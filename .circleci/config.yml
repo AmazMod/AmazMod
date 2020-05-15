@@ -19,10 +19,8 @@ jobs:
       - run:
           name: Extract KeyStore
           command: |
-            pwd
-            ls -la .circleci/
-            openssl enc -aes-256-cbc -pbkdf2 -d -in .circleci/circle-artifact.bin -out amazmod.jks -iv $AMAZMOD_CRYPT_IV -K $AMAZMOD_CRYPT_PASS
-            keytool -list -keystore amazmod.jks -storepass $AMAZMOD_KEY_PASS
+            openssl enc -aes-256-cbc -pbkdf2 -d -in .circleci/circle-artifact.bin -out circle-artifact.tar -iv $AMAZMOD_CRYPT_IV -K $AMAZMOD_CRYPT_PASS
+            tar xf circle-artifact.tar
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -34,8 +32,8 @@ jobs:
       #    name: Run Tests and Lints
       #    command: ./gradlew lint test
       - run:
-          name: Build debug APK for Phone App
-          command: ./gradlew :app:assembleDebug
+          name: Build Release APK for Phone App
+          command: ./gradlew :app:assembleRelease
       - run:
           name: Build debug APK for Watch Service
           command: ./gradlew :service:assembleDebug
