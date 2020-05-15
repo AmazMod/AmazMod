@@ -26,6 +26,11 @@ android {
     dataBinding {
         enabled = true
     }
+
+    signingConfigs {
+        release
+    }
+
     buildTypes {
         all {
             minifyEnabled false
@@ -33,6 +38,7 @@ android {
         }
         release {
             manifestPlaceholders = [enableCrashReporting: "true"]
+            signingConfig signingConfigs.release
         }
         debug {
             manifestPlaceholders = [enableCrashReporting: "false"]
@@ -140,4 +146,25 @@ configurations.all {
     }
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
     resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+}
+
+
+def Properties props = new Properties()
+def propFile = new File('signing.properties')
+if (propFile.canRead()){
+    props.load(new FileInputStream(propFile))
+
+    if (props!=null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+            props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+    } else {
+        println 'signing.properties found but some entries are missing'
+        android.buildTypes.release.signingConfig = null
+    }
+}else {
+    println 'signing.properties not found'
+    android.buildTypes.release.signingConfig = null
 }
