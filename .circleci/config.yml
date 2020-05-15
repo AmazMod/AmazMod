@@ -10,14 +10,11 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      #      - run:
-      #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-      #         command: sudo chmod +x ./gradlew
       - run:
           name: Accept Licences
           command: (echo y; echo y; echo y; echo y; echo y; echo y) | sdkmanager --licenses
       - run:
-          name: Extract KeyStore
+          name: Extract Build Artifacts
           command: |
             openssl enc -aes-256-cbc -pbkdf2 -d -in .circleci/circle-artifact.bin -out circle-artifact.tar -iv $AMAZMOD_CRYPT_IV -K $AMAZMOD_CRYPT_PASS
             tar xf circle-artifact.tar
@@ -28,26 +25,26 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      #- run:
-      #    name: Run Tests and Lints
-      #    command: ./gradlew lint test
+      - run:
+          name: Run Tests and Lints
+          command: ./gradlew lint test
       - run:
           name: Build Release APK for Phone App
           command: ./gradlew :app:assembleRelease
       - run:
           name: Build debug APK for Watch Service
-          command: ./gradlew :service:assembleDebug
+          command: ./gradlew :service:assembleRelease
       - run:
           name: Move APKs to temp folder
           command: |
             mkdir -p persist/apks
             mv app/build/outputs/apk/release/*.apk persist/apks/
-            mv service/build/outputs/apk/debug/*.apk persist/apks/
-      #- store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
-      #    path: app/build/reports
-      #    destination: reports
-      #- store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-      #    path: app/build/test-results
+            mv service/build/outputs/apk/release/*.apk persist/apks/
+      - store_artifacts: # for display in Artifacts: https://circleci.com/docs/2.0/artifacts/
+          path: app/build/reports
+          destination: reports
+      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: app/build/test-results
       - persist_to_workspace:
           root: persist
           paths:
