@@ -356,11 +356,13 @@ public class WatchInfoFragment extends Card implements Updater {
     }
     private void connecting(boolean withService) {
         if(withService) {
+            // Connecting to service
             isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
             isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         }else{
+            // Connecting to official API
             isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
-            isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase()+" (without service)");
+            isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting_no_service)).toUpperCase());
         }
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
@@ -373,6 +375,7 @@ public class WatchInfoFragment extends Card implements Updater {
             }
         });
     }
+
     @Override
     public void updateCheckFailed() {
         if (getActivity() != null && getContext() != null) {
