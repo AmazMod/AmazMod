@@ -395,10 +395,23 @@ public class Watch {
     }
 
     public Task<OtherData> sendSimpleData(String action, Transportable data) {
+        return sendSimpleData(action, action, data, TransportService.TRANSPORT_AMAZMOD);
+    }
+
+    // Send data with custom transporter
+    public Task<OtherData> sendSimpleData(String action, char transporter) {
+        return sendSimpleData(action, action, null, transporter);
+    }
+
+    public Task<OtherData> sendSimpleData(String action, String replyAction, char transporter) {
+        return sendSimpleData(action, replyAction, null, transporter);
+    }
+
+    public Task<OtherData> sendSimpleData(String action, String replyAction, Transportable data, char transporter) {
         return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<OtherData>>() {
             @Override
             public Task<OtherData> then(@NonNull Task<TransportService> task) throws Exception {
-                return Objects.requireNonNull(task.getResult()).sendWithResult(action, action, data);
+                return Objects.requireNonNull(task.getResult()).sendWithResult(action, replyAction, data, transporter);
             }
         });
     }

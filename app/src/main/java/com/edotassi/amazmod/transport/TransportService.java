@@ -72,7 +72,8 @@ public class TransportService extends Service implements Transporter.DataListene
     private static Transporter  transporterAmazMod,         // Used with generic data (in/out)
                                 transporterNotifications,   // Used to send Custom UI notifications to watch (out)
                                 transporterHuami,           // Used with Standard UI notifications (out)
-                                transporterCompanion,       // Used with watch/companion data (out)
+                                transporterCompanion,       // Used with watch/companion data (in/out)
+                                transporterSync,            // Used with sync (in/out)
                                 transporterHealth,          // Used to pull data (in/out)
                                 transporter;                // Used with AmazfitInternetCompanion (in/out)
 
@@ -80,11 +81,12 @@ public class TransportService extends Service implements Transporter.DataListene
     private LocalBinder localBinder = new LocalBinder();
     private TransportListener transportListener;
 
-    private static final char TRANSPORT_AMAZMOD = 'A';
-    private static final char TRANSPORT_NOTIFICATIONS = 'N';
-    private static final char TRANSPORT_HUAMI = 'H';
-    private static final char TRANSPORT_COMPANION = 'C';
-    private static final char TRANSPORT_HEALTH = 'D';
+    public static final char TRANSPORT_AMAZMOD = 'A';
+    public static final char TRANSPORT_NOTIFICATIONS = 'N';
+    public static final char TRANSPORT_HUAMI = 'H';
+    public static final char TRANSPORT_COMPANION = 'C';
+    public static final char TRANSPORT_HEALTH = 'D';
+    public static final char TRANSPORTER_SYNC = 'S';
 
     public static String model;
 
@@ -152,7 +154,7 @@ public class TransportService extends Service implements Transporter.DataListene
         // Huami Companion Transporter
         transporterCompanion = TransporterClassic.get(this, "com.huami.watch.companion");
         if (!transporterCompanion.isTransportServiceConnected()) {
-            //transporterCompanion.addDataListener(this);  // Listen for data
+            transporterCompanion.addDataListener(this);  // Listen for data
             transporterCompanion.connectTransportService();
             AmazModApplication.setWatchConnected(false);
         }
@@ -385,7 +387,12 @@ public class TransportService extends Service implements Transporter.DataListene
         return sendWithResult(action, actionResult, null);
     }
 
+
     public <T> Task<T> sendWithResult(final String action, final String actionResult, final Transportable transportable) {
+        return sendWithResult(action, actionResult, transportable, TRANSPORT_AMAZMOD);
+    }
+
+    public <T> Task<T> sendWithResult(final String action, final String actionResult, final Transportable transportable, char transporter) {
         final TaskCompletionSource<T> taskCompletionSource = new TaskCompletionSource<>();
         //Logger.trace("sendWithResult action: {}", action);
 
@@ -395,7 +402,7 @@ public class TransportService extends Service implements Transporter.DataListene
                 Logger.trace("Sending data with action {} with result action: {}", action, actionResult);
                 pendingResults.put(actionResult, taskCompletionSource);
 
-                send(action, transportable, null);
+                send(transporter, action, transportable, null);
 
                 try {
                     Logger.trace("Data with action {} were send. Waiting for reply...", action);

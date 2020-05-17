@@ -23,6 +23,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.setup.Setup;
@@ -38,6 +39,7 @@ import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.huami.watch.transport.DataBundle;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.tingyik90.snackprogressbar.SnackProgressBar;
 import com.tingyik90.snackprogressbar.SnackProgressBarManager;
@@ -46,6 +48,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -61,6 +64,10 @@ import butterknife.ButterKnife;
 import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+
+import static amazmod.com.transport.Transport.OFFICIAL_REPLY_DEVICE_INFO;
+import static amazmod.com.transport.Transport.OFFICIAL_REQUEST_DEVICE_INFO;
+import static com.edotassi.amazmod.util.Screen.getModelName;
 
 public class WatchInfoFragment extends Card implements Updater {
 
@@ -138,22 +145,25 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onResume() {
         super.onResume();
 
-        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
+        int syncInterval = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
         if (System.currentTimeMillis() - timeLastSync > (syncInterval * 30000L)) {
             connecting();
             timeLastSync = System.currentTimeMillis();
 
+            // Try to connect to Amazmod service on watch
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<WatchStatus> task) {
                     if (task.isSuccessful()) {
+                        // Successful reply from service
                         AmazModApplication.setWatchConnected(true);
-                        isConnected();
+                        connected();
                         watchStatus = task.getResult();
                         refresh(watchStatus);
                         String serviceVersionString = watchStatus.getWatchStatusData().getAmazModServiceVersion();
                         Logger.debug("WatchInfoFragment serviceVersionString: " + serviceVersionString);
-                        serviceVersion = Integer.valueOf(serviceVersionString.split("-")[0]);
+
+                        serviceVersion = Integer.parseInt(serviceVersionString.split("-")[0]);
                         Logger.debug("WatchInfoFragment serviceVersion: " + serviceVersion);
                         if (Prefs.getBoolean(Constants.PREF_ENABLE_UPDATE_NOTIFICATION, Constants.PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION)) {
                             Logger.debug("Checking for OTA updates");
@@ -162,22 +172,78 @@ public class WatchInfoFragment extends Card implements Updater {
                             Logger.debug("OTA update check disabled");
                         }
                     } else {
+                        // No reply from service
                         Logger.debug("WatchInfoFragment isWatchConnected = false");
-                        AmazModApplication.setWatchConnected(false);
-                        if (getActivity() != null) {
-                            try {
-                                Snacky
-                                        .builder()
-                                        .setActivity(getActivity())
-                                        .setText(R.string.failed_load_watch_status)
-                                        .setDuration(Snacky.LENGTH_SHORT)
-                                        .build()
-                                        .show();
-                            } catch (Exception e) {
-                                Logger.error("WatchInfoFragment onResume exception: " + e.toString());
+                        connecting(false);
+
+                        // Try to connect to the watch through the official API
+                        Watch.get().sendSimpleData(OFFICIAL_REQUEST_DEVICE_INFO, OFFICIAL_REPLY_DEVICE_INFO,TransportService.TRANSPORT_COMPANION).continueWith(new Continuation<OtherData, Object>() {
+                            @Override
+                            public Object then(@NonNull Task<OtherData> task) {
+                                if (task.isSuccessful()) {
+                                    // Successful reply from official API
+                                    AmazModApplication.setWatchConnected(true);
+                                    connected();
+
+                                    OtherData returnedData = task.getResult();
+                                    try {
+                                        if (returnedData == null)
+                                            throw new NullPointerException("Returned data are null");
+
+                                        DataBundle otherData = returnedData.getOtherData();
+                                        JSONObject jSONObject = new JSONObject(otherData.getString("DeviceInfo"));
+                                        // "AndroidDID":"xxx", "CPUID":"xxx", "LANGUAGE":"en_US", "REGION":"US", "BUILDTYPE":"user", "SN":"xxx", "IS_BOUND":true, "IS_OVERSEA_EDITION":false, "Model":"A1609", "BuildNum":0, "IsExperienceMode":false
+                                        Logger.debug("Returned data: " + jSONObject.toString());
+
+                                        // Get watch info
+                                        WatchStatusData watchStatusData = new WatchStatusData();
+                                        watchStatusData.setAmazModServiceVersion("No service found");
+                                        watchStatusData.setRoBuildDescription("N/A");
+                                        watchStatusData.setRoBuildDisplayId("N/A");
+                                        watchStatusData.setRoBuildHuamiModel("N/A");
+                                        // Get model
+                                        if (jSONObject.has("Model")) {
+                                            String model = jSONObject.getString("Model");
+                                            watchStatusData.setRoBuildHuamiModel(model);
+                                            watchStatusData.setRoProductModel( getModelName(model) );
+                                        }else{
+                                            watchStatusData.setRoBuildHuamiModel("N/A");
+                                            watchStatusData.setRoProductModel("N/A");
+                                        }
+
+                                        watchStatus = new WatchStatus(watchStatusData.toDataBundle());
+                                        refresh(watchStatus);
+
+                                        // Get SN
+                                        if (jSONObject.has("SN"))
+                                            watchStatusData.setRoSerialno(jSONObject.getString("SN"));
+                                        else
+                                            watchStatusData.setRoSerialno("N/A");
+
+                                    }catch(Exception e){
+                                        Logger.debug("Failed to read official device data: "+e);
+                                    }
+                                }else{
+                                    Logger.debug("Could not get official device info");
+                                    AmazModApplication.setWatchConnected(false);
+                                    if (getActivity() != null) {
+                                        try {
+                                            Snacky
+                                                    .builder()
+                                                    .setActivity(getActivity())
+                                                    .setText(R.string.failed_load_watch_status)
+                                                    .setDuration(Snacky.LENGTH_SHORT)
+                                                    .build()
+                                                    .show();
+                                        } catch (Exception e) {
+                                            Logger.error("WatchInfoFragment onResume exception: " + e.toString());
+                                        }
+                                    }
+                                    disconnected();
+                                }
+                                return null;
                             }
-                        }
-                        disconnected();
+                        });
                     }
                     return null;
                 }
@@ -269,8 +335,8 @@ public class WatchInfoFragment extends Card implements Updater {
         return true;
     }
 
-    private void isConnected() {
-        isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), getContext().getTheme()));
+    private void connected() {
+        isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), Objects.requireNonNull(getContext()).getTheme()));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.VISIBLE);
@@ -278,7 +344,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void disconnected() {
-        isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), getContext().getTheme()));
+        isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.GONE);
@@ -286,8 +352,16 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void connecting() {
-        isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
-        isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
+        connecting(true);
+    }
+    private void connecting(boolean withService) {
+        if(withService) {
+            isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
+            isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
+        }else{
+            isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
+            isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase()+" (without service)");
+        }
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
         noService.setVisibility(View.GONE);

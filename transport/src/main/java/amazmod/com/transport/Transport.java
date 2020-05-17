@@ -46,6 +46,10 @@ public class Transport {
     public static final String SILENCE = "silence";
     public static final String LOCAL_IP = "request_local_IP";
 
+    // Official API actions
+    public static final String OFFICIAL_REQUEST_DEVICE_INFO = "com.huami.watch.companion.transport.RequestDeviceInfo";
+    public static final String OFFICIAL_REPLY_DEVICE_INFO = "com.huami.watch.companion.transport.SyncDeviceInfo";
+
     public static final String HTTP_REQUEST = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_REQUEST";
     public static final String HTTP_PINGBACK = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_PINGBACK";
     public static final String HTTP_RESULT = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_RESULT";
