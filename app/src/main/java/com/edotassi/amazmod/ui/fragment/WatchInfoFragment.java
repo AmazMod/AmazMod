@@ -192,6 +192,7 @@ public class WatchInfoFragment extends Card implements Updater {
 
                                         DataBundle otherData = returnedData.getOtherData();
                                         JSONObject jSONObject = new JSONObject(otherData.getString("DeviceInfo"));
+                                        // Response example
                                         // "AndroidDID":"xxx", "CPUID":"xxx", "LANGUAGE":"en_US", "REGION":"US", "BUILDTYPE":"user", "SN":"xxx", "IS_BOUND":true, "IS_OVERSEA_EDITION":false, "Model":"A1609", "BuildNum":0, "IsExperienceMode":false
                                         Logger.debug("Returned data: " + jSONObject.toString());
 
