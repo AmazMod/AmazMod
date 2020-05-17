@@ -201,6 +201,7 @@ public class WatchInfoFragment extends Card implements Updater {
                                         watchStatusData.setRoBuildDescription("N/A");
                                         watchStatusData.setRoBuildDisplayId("N/A");
                                         watchStatusData.setRoBuildHuamiModel("N/A");
+                                        watchStatusData.setRoProductName("N/A");
                                         // Get model
                                         if (jSONObject.has("Model")) {
                                             String model = jSONObject.getString("Model");
@@ -210,16 +211,14 @@ public class WatchInfoFragment extends Card implements Updater {
                                             watchStatusData.setRoBuildHuamiModel("N/A");
                                             watchStatusData.setRoProductModel("N/A");
                                         }
-
-                                        watchStatus = new WatchStatus(watchStatusData.toDataBundle());
-                                        refresh(watchStatus);
-
                                         // Get SN
                                         if (jSONObject.has("SN"))
                                             watchStatusData.setRoSerialno(jSONObject.getString("SN"));
                                         else
                                             watchStatusData.setRoSerialno("N/A");
 
+                                        watchStatus = new WatchStatus(watchStatusData.toDataBundle());
+                                        refresh(watchStatus);
                                     }catch(Exception e){
                                         Logger.debug("Failed to read official device data: "+e);
                                     }
@@ -288,6 +287,7 @@ public class WatchInfoFragment extends Card implements Updater {
         displayId.setText(watchStatusData.getRoBuildDisplayId());
         buildDescription.setText(watchStatusData.getRoBuildDescription());
         serialNo.setText(watchStatusData.getRoSerialno());
+        Logger.debug("WatchInfoFragment WatchData SN: " + watchStatusData.getRoSerialno());
         //Removed unused and unnecessary watchData
         //productDevice.setText(watchStatusData.getRoProductDevice());
         //productManufacter.setText(watchStatusData.getRoProductManufacter());
@@ -298,18 +298,22 @@ public class WatchInfoFragment extends Card implements Updater {
         //Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
-        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + String.valueOf(AmazModApplication.currentScreenBrightness));
-        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + String.valueOf(AmazModApplication.currentScreenBrightness));
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + AmazModApplication.currentScreenBrightness);
+        Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS: " + AmazModApplication.currentScreenBrightness);
 
         // Heart Rate Bar Chart
-        Logger.debug("WatchInfoFragment WatchData HEART RATES: " + watchStatusData.getLastHeartRates());
         String lastHeartRates = watchStatusData.getLastHeartRates();
-        try {
-            HeartRateChartFragment f = (HeartRateChartFragment) getActivity().getSupportFragmentManager().findFragmentByTag("heart-rate-chart");
-            f.updateChart(lastHeartRates);
-        }catch(NullPointerException e) {
-            // HeartRate fragment card not found!
-            e.printStackTrace();
+        if ( lastHeartRates!=null && !lastHeartRates.isEmpty() ){
+            Logger.debug("WatchInfoFragment WatchData HEART RATES: " + lastHeartRates);
+            try {
+                HeartRateChartFragment f = (HeartRateChartFragment) getActivity().getSupportFragmentManager().findFragmentByTag("heart-rate-chart");
+                f.updateChart(lastHeartRates);
+            }catch(NullPointerException e) {
+                // HeartRate fragment card not found!
+                e.printStackTrace();
+            }
+        }else{
+            Logger.debug("WatchInfoFragment WatchData HEART RATES: null or empty");
         }
 
         // Hourly Chime (update if changed from watch menu)
