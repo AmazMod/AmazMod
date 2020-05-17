@@ -158,6 +158,7 @@
     <string name="watch_is_connected">Conectado</string>
     <string name="watch_disconnected">Desconectado</string>
     <string name="watch_connecting">Conectando…</string>
+    <string name="watch_connecting_no_service">Connecting without service…</string>
     <string name="notifications_screen_timeout">Tiempo de espera de pantalla</string>
     <string name="pref_notifications_inverted_theme">Tema Claro</string>
     <string name="pref_notifications_inverted_theme_summary">Habilita fondo claro con texto oscuro.</string>
