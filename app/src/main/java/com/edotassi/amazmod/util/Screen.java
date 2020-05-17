@@ -166,6 +166,23 @@ public class Screen {
         return isPace;
     }
 
+    public static String getModelName(String model){
+        if(Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model)) // Pace
+            return "Amazfit Pace";
+
+        else if(Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model)) // Stratos
+            return "Amazfit Stratos";
+
+        else if(Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model)) // Verge
+            return "Amazfit Verge";
+
+        else if(Arrays.asList(Constants.BUILD_STRATOS_3_MODELS).contains(model)) // Stratos 3
+            return "Amazfit Stratos 3";
+
+        else
+            return "Unknown";
+    }
+
     public static boolean isDrivingMode(Context context) {
         UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
         boolean is_in_driving_mode = false;

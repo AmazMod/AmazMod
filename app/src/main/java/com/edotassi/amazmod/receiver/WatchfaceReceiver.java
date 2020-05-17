@@ -254,7 +254,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
         }
 
         // Calculate next update time
-        int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
+        int syncInterval = Integer.parseInt(Prefs.getString(Constants.PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL, context.getResources().getStringArray(R.array.pref_watchface_background_sync_interval_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX]));
         AmazModApplication.timeLastWatchfaceDataSend = Prefs.getLong(Constants.PREF_TIME_LAST_WATCHFACE_DATA_SYNC, 0L);
         long delay = ((long) syncInterval * 60000L) - (currentTimeMillis() - AmazModApplication.timeLastWatchfaceDataSend);
         if (delay < 0) delay = 0;
@@ -327,7 +327,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
             // Save new values
             if (saved_data != null) {
-                saved_data.add("[time: " + milliseconds + ", lat: " + last_known_latitude + ", lon:" + last_known_longitude + ", watch: " + 1 + "]");
+                saved_data.add("[time: " + milliseconds + ", lat: " + last_known_latitude + ", lon:" + last_known_longitude + ", watch: " + AmazModApplication.isWatchConnected() + "]");
                 Prefs.putStringSet(Constants.PREF_LOCATION_GPS_DATA, saved_data);
             }
         }
@@ -592,7 +592,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
     private static Cursor getCalendarEventsCursor(Context context) {
         // Get days to look for events
-        int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, context.getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX]));
+        int calendar_events_days = Integer.parseInt(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, context.getResources().getStringArray(R.array.pref_watchface_calendar_events_days_values)[Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX]));
         if (calendar_events_days == 0) {
             return null;
         }
@@ -780,7 +780,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
 
     private String getICSCalendarEvents(Context context) {
 
-        int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, default_calendar_days));
+        int calendar_events_days = Integer.parseInt(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, default_calendar_days));
         Logger.debug("[WatchfaceDataReceiver] getICSCalendarEvents calendar_events_days: " + calendar_events_days);
         String jsonEvents = "{\"events\":[]}";
         String lastEvents = Prefs.getString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
@@ -970,7 +970,7 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     }
 
     public static int countICSEvents(Context context, boolean update, net.fortuna.ical4j.model.Calendar calendar) {
-        int calendar_events_days = Integer.valueOf(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, default_calendar_days));
+        int calendar_events_days = Integer.parseInt(Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_EVENTS_DAYS, default_calendar_days));
         String icsURL = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_ICS_URL, "");
 
         if (calendar_events_days == 0 || icsURL.isEmpty()) return 0;
