@@ -68,15 +68,16 @@ public class Setup {
                     }
 
                     @Override
-                    public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    public void onResponse(@NonNull Call call, @NonNull Response response) {
                         try {
+                            assert response.body() != null;
                             String json = response.body().string();
                             Properties data = new Gson().fromJson(json, Properties.class);
-                            int betaVersionCode = Integer.valueOf(data.getProperty("betaVersionCode"));
-                            int latestVersionValue = Integer.valueOf(data.getProperty("release"));
+                            int betaVersionCode = Integer.parseInt(data.getProperty("betaVersionCode"));
+                            int latestVersionValue = Integer.parseInt(data.getProperty("release"));
                             Logger.info("checkServiceUpdate: checking if application VERSION_CODE (" + BuildConfig.VERSION_CODE + ") is greater or equals " + betaVersionCode);
                             if (BuildConfig.VERSION_CODE >= betaVersionCode){
-                                latestVersionValue = Integer.valueOf(data.getProperty("beta"));
+                                latestVersionValue = Integer.parseInt(data.getProperty("beta"));
                                 Logger.info("checkServiceUpdate: will use BETA service available " +  latestVersionValue);
                             }else{
                                 Logger.info("checkServiceUpdate: will use RELEASE service available " +  latestVersionValue);

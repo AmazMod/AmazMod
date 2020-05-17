@@ -118,8 +118,6 @@ public class MainActivity extends BaseAppCompatActivity
             widgets.setVisible(false);
         }
          */
-
-
         EventBus.getDefault().register(this);
 
         Logger.debug("MainActivity onCreate isWatchConnected: " + AmazModApplication.isWatchConnected());
@@ -130,10 +128,11 @@ public class MainActivity extends BaseAppCompatActivity
         boolean firstStart = PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(Constants.PREF_KEY_FIRST_START, Constants.PREF_DEFAULT_KEY_FIRST_START);
 
-        //Get Locales
-        Locale currentLocale = getResources().getConfiguration().locale;
-
+        // Change locale
         if (firstStart) {
+            //Get Locales
+            Locale currentLocale = getResources().getConfiguration().locale;
+
             //set locale to avoid app refresh after using Settings for the first time
             Logger.debug("MainActivity firstStart locales: " + AmazModApplication.defaultLocale + " / " + currentLocale);
             Resources res = getResources();
@@ -149,7 +148,6 @@ public class MainActivity extends BaseAppCompatActivity
         setupCards();
 
         Setup.run(getApplicationContext());
-
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent();
@@ -401,7 +399,6 @@ public class MainActivity extends BaseAppCompatActivity
             if (AmazModApplication.isWatchConnected() != itc.getWatchStatus()) {
                 AmazModApplication.setWatchConnected(itc.getWatchStatus());
                 watchInfoFragment.onResume();
-                //watchInfoFragment.onResume();
             }
         } else {
             AmazModApplication.setWatchConnected(false);
