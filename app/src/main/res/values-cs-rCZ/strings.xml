@@ -160,7 +160,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="watch_is_connected">Připojeno</string>
     <string name="watch_disconnected">Odpojeno</string>
     <string name="watch_connecting">Připojování..</string>
-    <string name="watch_connecting_no_service">Connecting without service…</string>
+    <string name="watch_connecting_no_service">Připojení bez služby…</string>
     <string name="notifications_screen_timeout">Časový limit obrazovky</string>
     <string name="pref_notifications_inverted_theme">Světlé téma</string>
     <string name="pref_notifications_inverted_theme_summary">Aktivujte světlé pozadí a tmavým textem.</string>
