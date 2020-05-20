@@ -158,6 +158,7 @@
     <string name="watch_is_connected">Verbonden</string>
     <string name="watch_disconnected">Verbinding verbroken</string>
     <string name="watch_connecting">Bezig met verbinden…</string>
+    <string name="watch_connecting_no_service">Connecting without service…</string>
     <string name="notifications_screen_timeout">Scherm timeout</string>
     <string name="pref_notifications_inverted_theme">Licht thema</string>
     <string name="pref_notifications_inverted_theme_summary">Schakel lichte achtergrond met donkere tekst thema in.</string>

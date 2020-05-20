@@ -158,6 +158,7 @@
     <string name="watch_is_connected">연결됨</string>
     <string name="watch_disconnected">연결 해제됨</string>
     <string name="watch_connecting">연결중...</string>
+    <string name="watch_connecting_no_service">Connecting without service…</string>
     <string name="notifications_screen_timeout">화면 자동 꺼짐</string>
     <string name="pref_notifications_inverted_theme">밝은 테마</string>
     <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme.</string>

@@ -158,6 +158,7 @@
     <string name="watch_is_connected">Connected</string>
     <string name="watch_disconnected">Disconnected</string>
     <string name="watch_connecting">Connecting…</string>
+    <string name="watch_connecting_no_service">Повезивање без сервиса…</string>
     <string name="notifications_screen_timeout">Screen timeout</string>
     <string name="pref_notifications_inverted_theme">Light theme</string>
     <string name="pref_notifications_inverted_theme_summary">Enable light background with dark text theme.</string>
