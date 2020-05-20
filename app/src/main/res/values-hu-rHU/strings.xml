@@ -160,7 +160,7 @@ Használd örömmel az AmazMod-ot! ♡\"</string>
     <string name="watch_is_connected">Csatlakozva</string>
     <string name="watch_disconnected">Leválasztva</string>
     <string name="watch_connecting">Csatlakozás…</string>
-    <string name="watch_connecting_no_service">Csatlakozás szolgált. nélkül…</string>
+    <string name="watch_connecting_no_service">Connecting without service…</string>
     <string name="notifications_screen_timeout">Képernyő időtúllépés</string>
     <string name="pref_notifications_inverted_theme">Világos téma</string>
     <string name="pref_notifications_inverted_theme_summary">Világos háttéren sötét szövegű téma bekapcsolása.</string>
