@@ -209,6 +209,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             }
         }).subscribeOn(Schedulers.computation())
                 .observeOn(Schedulers.single())
+                .doOnError(error -> Logger.error(error.getMessage()))
                 .subscribe(new Consumer<List<AppInfo>>() {
                     @Override
                     public void accept(final List<AppInfo> appInfoList) throws Exception {
