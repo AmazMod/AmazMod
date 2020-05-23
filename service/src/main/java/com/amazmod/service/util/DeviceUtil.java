@@ -59,12 +59,7 @@ public class DeviceUtil {
                 // If password is not set in the settings, the inKeyguardRestrictedInputMode() returns false,
                 // so we need to check if screen on for this case
                 PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-                    isLocked = !powerManager.isInteractive();
-                } else {
-                    //noinspection deprecation
-                    isLocked = !powerManager.isScreenOn();
-                }
+                isLocked = !powerManager.isInteractive();
             }
         } catch (NullPointerException e) {
             Logger.error(e, "iDeviceLocked exception: {}",  e.getMessage());
