@@ -237,7 +237,7 @@ public class SystemProperties {
     }
 
     public static boolean isStratos(){
-        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos") && !isPace();
+        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos") && !new File("/system/.pace_hybrid").exists();
     }
 
     public static boolean isVerge(){
