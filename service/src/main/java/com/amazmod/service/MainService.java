@@ -133,6 +133,7 @@ import static amazmod.com.transport.Constants.WIDGETS_LIST_EMPTY_CODE;
 import static amazmod.com.transport.Constants.WIDGETS_LIST_SAVED_CODE;
 import static com.amazmod.service.util.DeviceUtil.getLocalIpAddress;
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
+import static com.amazmod.service.util.SystemProperties.isStratos3;
 
 /**
  * Created by edoardotassinari on 04/04/18.
@@ -950,18 +951,19 @@ public class MainService extends Service implements Transporter.DataListener {
         // Get watch info
         watchStatusData.setAmazModServiceVersion(BuildConfig.VERSION_NAME);
         //watchStatusData.setRoBuildDate(SystemProperties.get(WatchStatusData.RO_BUILD_DATE, "-"));
-        watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
-        watchStatusData.setRoBuildDisplayId(SystemProperties.get(WatchStatusData.RO_BUILD_DISPLAY_ID, "-"));
-        watchStatusData.setRoBuildHuamiModel(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_MODEL, "-"));
         //watchStatusData.setRoBuildHuamiNumber(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_NUMBER, "-"));
         //watchStatusData.setRoProductDevice(SystemProperties.get(WatchStatusData.RO_PRODUCT_DEVICE, "-"));
         //watchStatusData.setRoProductManufacter(SystemProperties.get(WatchStatusData.RO_PRODUCT_MANUFACTER, "-"));
-        watchStatusData.setRoProductModel(SystemProperties.get(WatchStatusData.RO_PRODUCT_MODEL, "-"));
-        watchStatusData.setRoProductName(SystemProperties.get(WatchStatusData.RO_PRODUCT_NAME, "-"));
         //watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
-        watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         //watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
-
+        watchStatusData.setRoBuildHuamiModel(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_MODEL, "-"));
+        if (!isStratos3()) { // todo reduce data until we fix Stratos 3 connection
+            watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
+            watchStatusData.setRoBuildDisplayId(SystemProperties.get(WatchStatusData.RO_BUILD_DISPLAY_ID, "-"));
+            watchStatusData.setRoProductModel(SystemProperties.get(WatchStatusData.RO_PRODUCT_MODEL, "-"));
+            watchStatusData.setRoProductName(SystemProperties.get(WatchStatusData.RO_PRODUCT_NAME, "-"));
+        }
+        watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         // Get brightness
         int b = 0;
         int bm = Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
@@ -975,13 +977,14 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData.setScreenBrightnessMode(bm);
 
         // Check if rooted
-        watchStatusData.setRooted((new File("/system/xbin/su").exists())?1:0);
+        if( new File("/system/xbin/su").exists() )
+            watchStatusData.setRooted(1);
 
         // Get last heart rates
         final boolean isHeartrateData = settingsManager.getBoolean(Constants.PREF_HEARTRATE_DATA, true);
         if (isHeartrateData) {
             Cursor cur = null;
-            String heartrates = "";
+            String heartRates = "";
             try {
                 cur = getContentResolver().query(Uri.parse("content://com.huami.watch.health.heartdata"), null, null, null, "utc_time ASC");
                 // Use the cursor to step through the returned records
@@ -989,26 +992,30 @@ public class MainService extends Service implements Transporter.DataListener {
                     // Get the field values
                     // example: utc_time=1528485660, time_zone=0, heart_rate=96
                     long utc_time;
-                    if(SystemProperties.isStratos3()) {
+                    if(isStratos3())
                         utc_time = (cur.getLong(0)) * 1000;
-                    } else utc_time = cur.getLong(0);
+                    else
+                        utc_time = cur.getLong(0);
                     //int time_zone = cur.getInt(1);
                     int heart_rate = cur.getInt(2);
 
-                    heartrates += utc_time + "," + heart_rate + ",";
+                    heartRates += utc_time + "," + heart_rate + ",";
                 }
                 cur.close();
             } catch (SecurityException e) {
                 //Getting data error
             }
-            watchStatusData.setLastHeartRates(heartrates);
+
+            if(!heartRates.equals("")) // send only if there are data
+                watchStatusData.setLastHeartRates(heartRates);
         }
 
         // Get hourly chime status
         settings.reload();
         boolean isHourlyChime = settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false);
         Logger.debug("Sync hourly chime to transport : " + isHourlyChime);
-        watchStatusData.setHourlyChime(isHourlyChime?1:0); // 1 = on, 0 = off
+        if(isHourlyChime) // send only if there are data
+            watchStatusData.setHourlyChime(1); // 1 = on, 0 = off
 
         // Send transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());

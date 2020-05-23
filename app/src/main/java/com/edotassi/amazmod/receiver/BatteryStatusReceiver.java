@@ -90,7 +90,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
             Logger.info("BatteryStatusReceiver times: " + SystemClock.elapsedRealtime() + " / " + AmazModApplication.timeLastSync);
 
-            if (delay < 0) delay = 0;
+            if (delay < 60000) delay = 60000; // 1 min delay because it may be triggered when you open the app
 
             try {
                 if (alarmManager != null)

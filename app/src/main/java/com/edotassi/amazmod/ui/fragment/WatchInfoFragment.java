@@ -282,7 +282,11 @@ public class WatchInfoFragment extends Card implements Updater {
 
         String amazModServiceVersion = watchStatusData.getAmazModServiceVersion() + ((watchStatusData.getRooted()==1)?" (rooted)":"");
         amazModService.setText(amazModServiceVersion);
-        productModel.setText(watchStatusData.getRoProductModel());
+        // Set product name based on product code (if name is null)
+        if( watchStatusData.getRoProductModel().equals("N/A") && !watchStatusData.getRoBuildHuamiModel().equals("N/A") )
+            productModel.setText(getModelName(watchStatusData.getRoBuildHuamiModel()));
+        else
+            productModel.setText(watchStatusData.getRoProductModel());
         productName.setText(watchStatusData.getRoProductName());
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
         displayId.setText(watchStatusData.getRoBuildDisplayId());

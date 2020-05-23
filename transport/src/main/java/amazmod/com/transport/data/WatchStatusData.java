@@ -30,6 +30,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     public static final String LAST_HEART_RATES = "watch.last_heart_rates";
     public static final String HOURLY_CHIME = "watch.hourly_chime";
     public static final String ROOTED = "watch.rooted";
+    private static final String NA = "N/A";
 
 
     private String amazModServiceVersion;
@@ -199,7 +200,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     //}
 
     public String getRoProductModel() {
-        return roProductModel;
+        return nullToNA(roProductModel);
     }
 
     public void setRoProductModel(String roProductModel) {
@@ -207,7 +208,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     }
 
     public String getRoProductName() {
-        return roProductName;
+        return nullToNA(roProductName);
     }
 
     public void setRoProductName(String roProductName) {
@@ -223,7 +224,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     //}
 
     public String getRoSerialno() {
-        return roSerialno;
+        return nullToNA(roSerialno);
     }
 
     public void setRoSerialno(String roSerialno) {
@@ -239,7 +240,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     //}
 
     public String getRoBuildDescription() {
-        return roBuildDescription;
+        return nullToNA(roBuildDescription);
     }
 
     public void setRoBuildDescription(String roBuildDescription) {
@@ -247,7 +248,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     }
 
     public String getRoBuildDisplayId() {
-        return roBuildDisplayId;
+        return nullToNA(roBuildDisplayId);
     }
 
     public void setRoBuildDisplayId(String roBuildDisplayId) {
@@ -255,7 +256,7 @@ public class WatchStatusData extends Transportable implements Parcelable {
     }
 
     public String getRoBuildHuamiModel() {
-        return roBuildHuamiModel;
+        return nullToNA(roBuildHuamiModel);
     }
 
     public void setRoBuildHuamiModel(String roBuildHuamiModel) {
@@ -317,4 +318,14 @@ public class WatchStatusData extends Transportable implements Parcelable {
         this.hourlyChime = hourlyChime;
     }
 
+    // If string is Null then set it as N/A
+    private String nullToNA() {
+        return nullToNA(null);
+    }
+    private String nullToNA(String string) {
+        if(string!=null)
+            return string;
+        else
+            return NA;
+    }
 }
