@@ -40,21 +40,9 @@ public class BootBroadcastReceiver extends BroadcastReceiver {
             context.startService(new Intent(context, TransportService.class));
         }
 
+        // Initiate receivers after boot
         BatteryStatusReceiver.startBatteryReceiver(context);
-
-        /* Deprecated??
-        *
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent alarmBatteryIntent = new Intent(context, BatteryStatusReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmBatteryIntent, 0);
-
-        if (alarmManager != null)
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, 0, AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-        else
-            System.out.println("E/AmazMod BootBroadcastReceiver null alarmManager!");
-        *
-        */
-
+        WatchfaceReceiver.startWatchfaceReceiver(context);
     }
 
 }
