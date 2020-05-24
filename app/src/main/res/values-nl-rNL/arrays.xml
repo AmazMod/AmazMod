@@ -48,10 +48,10 @@
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normaal</item>
         <item>Medium</item>
-        <item>Large</item>
-        <item>Bigger</item>
-        <item>Almost Huge</item>
-        <item>Huge</item>
+        <item>Groot</item>
+        <item>Groter</item>
+        <item>Bijna enorm</item>
+        <item>Enorm</item>
     </string-array>
     <string-array name="default_notification_replies">
         <item>Ja</item>
