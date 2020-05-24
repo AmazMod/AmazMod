@@ -153,7 +153,7 @@ public class MainActivity extends BaseAppCompatActivity
             Intent intent = new Intent();
             String packageName = getPackageName();
             PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+            if (pm != null && !pm.isIgnoringBatteryOptimizations(packageName)) {
                 Snackbar snackbar = Snackbar
                         .make(drawer, R.string.battery_optimization_warning,
                                 Constants.SNACKBAR_LONG10);

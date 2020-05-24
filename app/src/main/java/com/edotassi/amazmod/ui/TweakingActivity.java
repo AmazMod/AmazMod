@@ -378,7 +378,7 @@ public class TweakingActivity extends BaseAppCompatActivity implements Transport
             View view = this.getCurrentFocus();
             if (view != null) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             }
         } catch (Exception ex) {
             Logger.error(ex);

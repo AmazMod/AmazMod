@@ -263,7 +263,7 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
                                 .getActivity(c, mPendingIntentId, mStartActivity,
                                         PendingIntent.FLAG_CANCEL_CURRENT);
                         AlarmManager mgr = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
-                        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+                        if (mgr != null) mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
                         //kill the application
                         System.exit(0);
                     } else {
