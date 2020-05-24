@@ -15,6 +15,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import amazmod.com.transport.Constants;
 
@@ -48,7 +49,7 @@ public class Screen {
         // First we check the locked state
         try {
             KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
-            boolean inKeyguardRestrictedInputMode = keyguardManager.inKeyguardRestrictedInputMode();
+            boolean inKeyguardRestrictedInputMode = keyguardManager != null && keyguardManager.inKeyguardRestrictedInputMode();
 
             if (inKeyguardRestrictedInputMode) {
                 isLocked = true;
@@ -57,7 +58,7 @@ public class Screen {
                 // If password is not set in the settings, the inKeyguardRestrictedInputMode() returns false,
                 // so we need to check if screen on for this case
                 PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                isLocked = !powerManager.isInteractive();
+                if (powerManager != null) isLocked = !powerManager.isInteractive();
             }
         } catch (NullPointerException e) {
             Logger.error("iDeviceLocked exception: " + e.toString());
@@ -104,7 +105,7 @@ public class Screen {
 
             NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             try {
-                int i = mNotificationManager.getCurrentInterruptionFilter();
+                int i = Objects.requireNonNull(mNotificationManager).getCurrentInterruptionFilter();
                 switch (i) {
                     case NotificationManager.INTERRUPTION_FILTER_UNKNOWN:
                         Logger.info(TAG_LOCAL+"DnD highSDK: Unknown");
