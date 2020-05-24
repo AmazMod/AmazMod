@@ -219,7 +219,7 @@ public class WearNotificationsFragment extends Fragment {
 
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
-            public List<NotificationInfo> call() throws Exception {
+            public List<NotificationInfo> call() {
                 Logger.debug("WearNotificationsFragment loadNotifications call");
 
                 List<NotificationInfo> notificationInfoList = new ArrayList<>();
@@ -244,7 +244,7 @@ public class WearNotificationsFragment extends Fragment {
                 .observeOn(Schedulers.single())
                 .subscribe(new Consumer<List<NotificationInfo>>() {
                     @Override
-                    public void accept(final List<NotificationInfo> notificationInfoList) throws Exception {
+                    public void accept(final List<NotificationInfo> notificationInfoList) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

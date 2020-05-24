@@ -224,7 +224,7 @@ public class WearFilesFragment extends Fragment {
 
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
-            public List<AppInfo> call() throws Exception {
+            public List<AppInfo> call() {
                 Logger.info( "WearFilesFragment loadFiles call");
 
                 List<AppInfo> appInfoList = getFilesList(file);
@@ -237,7 +237,7 @@ public class WearFilesFragment extends Fragment {
                 .observeOn(Schedulers.single())
                 .subscribe(new Consumer<List<AppInfo>>() {
                     @Override
-                    public void accept(final List<AppInfo> appInfoList) throws Exception {
+                    public void accept(final List<AppInfo> appInfoList) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

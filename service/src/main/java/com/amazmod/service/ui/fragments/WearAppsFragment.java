@@ -186,7 +186,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
-            public List<AppInfo> call() throws Exception {
+            public List<AppInfo> call() {
                 Logger.info("WearAppsFragment loadApps call");
                 List<PackageInfo> packageInfoList = mContext.getPackageManager().getInstalledPackages(0);
 
@@ -212,7 +212,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 .doOnError(error -> Logger.error(error.getMessage()))
                 .subscribe(new Consumer<List<AppInfo>>() {
                     @Override
-                    public void accept(final List<AppInfo> appInfoList) throws Exception {
+                    public void accept(final List<AppInfo> appInfoList) {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
