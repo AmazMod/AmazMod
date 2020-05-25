@@ -170,6 +170,6 @@
     <string name="uvindex_weakest">Muy débil</string>
     <string name="uvindex_weak">Débil</string>
     <string name="uvindex_moderate">Moderado</string>
-    <string name="uvindex_strong">Fuerte</string>
-    <string name="uvindex_verystrong">Muy fuerte</string>
+    <string name="uvindex_strong">Alto</string>
+    <string name="uvindex_verystrong">Muy alto</string>
 </resources>
