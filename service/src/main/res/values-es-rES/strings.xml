@@ -167,9 +167,9 @@
     <string name="activity_menu_input_method">Teclado</string>
     <string name="activity_menu_device_info">Info de Dispositivo</string>
     <string name="activity_menu_hourly_chime">Señal horaria</string>
-    <string name="uvindex_weakest">Weakest</string>
-    <string name="uvindex_weak">Weak</string>
-    <string name="uvindex_moderate">Moderate</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
+    <string name="uvindex_weakest">Muy débil</string>
+    <string name="uvindex_weak">Débil</string>
+    <string name="uvindex_moderate">Moderado</string>
+    <string name="uvindex_strong">Alto</string>
+    <string name="uvindex_verystrong">Muy alto</string>
 </resources>

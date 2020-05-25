@@ -167,9 +167,9 @@
     <string name="activity_menu_input_method">Zmeniť metódu vstupu</string>
     <string name="activity_menu_device_info">Informácie o zariadení</string>
     <string name="activity_menu_hourly_chime">Zvonkohra</string>
-    <string name="uvindex_weakest">Weakest</string>
-    <string name="uvindex_weak">Weak</string>
-    <string name="uvindex_moderate">Moderate</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
+    <string name="uvindex_weakest">Najslabšie</string>
+    <string name="uvindex_weak">Slabé</string>
+    <string name="uvindex_moderate">Stredné</string>
+    <string name="uvindex_strong">Silné</string>
+    <string name="uvindex_verystrong">Veľmi silné</string>
 </resources>

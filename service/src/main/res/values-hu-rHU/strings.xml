@@ -167,9 +167,9 @@
     <string name="activity_menu_input_method">Beviteli mód váltás</string>
     <string name="activity_menu_device_info">Eszköz infó</string>
     <string name="activity_menu_hourly_chime">Óránként h.jelzés</string>
-    <string name="uvindex_weakest">Weakest</string>
-    <string name="uvindex_weak">Weak</string>
-    <string name="uvindex_moderate">Moderate</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
+    <string name="uvindex_weakest">Leggyengébb</string>
+    <string name="uvindex_weak">Gyenge</string>
+    <string name="uvindex_moderate">Mérsékelt</string>
+    <string name="uvindex_strong">Erős</string>
+    <string name="uvindex_verystrong">Nagyon erős</string>
 </resources>
