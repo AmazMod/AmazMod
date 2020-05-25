@@ -170,6 +170,6 @@
     <string name="uvindex_weakest">Heikoin</string>
     <string name="uvindex_weak">Heikko</string>
     <string name="uvindex_moderate">Kohtalainen</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
+    <string name="uvindex_strong">Voimakas</string>
+    <string name="uvindex_verystrong">Erittäin voimakas</string>
 </resources>
