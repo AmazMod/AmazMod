@@ -167,4 +167,9 @@
     <string name="activity_menu_input_method">Cambia Metodo Immissione</string>
     <string name="activity_menu_device_info">Info Dispositivo</string>
     <string name="activity_menu_hourly_chime">Segnale Orario</string>
+    <string name="uvindex_weakest">Weakest</string>
+    <string name="uvindex_weak">Weak</string>
+    <string name="uvindex_moderate">Moderate</string>
+    <string name="uvindex_strong">Strong</string>
+    <string name="uvindex_verystrong">Very strong</string>
 </resources>
