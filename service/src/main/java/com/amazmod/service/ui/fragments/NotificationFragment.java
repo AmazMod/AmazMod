@@ -408,6 +408,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             final View row = inflater.inflate(R.layout.row_reply, repliesListView, false);
             EmojiTextView replyView = row.findViewById(R.id.row_reply_text);
             replyView.setText(reply.getValue());
+            // Set language to hebrew or arabic if needed
+            util.setFontLocale(replyView, reply.getValue());
             if (enableInvertedTheme) {
                 replyView.setTextColor(getResources().getColor(R.color.black));
                 replyView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.send, 0, 0, 0);
