@@ -167,4 +167,9 @@
     <string name="activity_menu_input_method">Змінити метод введення</string>
     <string name="activity_menu_device_info">Інформація про пристрій</string>
     <string name="activity_menu_hourly_chime">Щогодинний сигнал</string>
+    <string name="uvindex_weakest">Weakest</string>
+    <string name="uvindex_weak">Weak</string>
+    <string name="uvindex_moderate">Moderate</string>
+    <string name="uvindex_strong">Strong</string>
+    <string name="uvindex_verystrong">Very strong</string>
 </resources>
