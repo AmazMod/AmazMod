@@ -167,4 +167,9 @@
     <string name="activity_menu_input_method">Alterar Método de Entrada</string>
     <string name="activity_menu_device_info">Informações do dispositivo</string>
     <string name="activity_menu_hourly_chime">Toque de Hora</string>
+    <string name="uvindex_weakest">Weakest</string>
+    <string name="uvindex_weak">Weak</string>
+    <string name="uvindex_moderate">Moderate</string>
+    <string name="uvindex_strong">Strong</string>
+    <string name="uvindex_verystrong">Very strong</string>
 </resources>

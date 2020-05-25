@@ -167,4 +167,9 @@
     <string name="activity_menu_input_method">เปลี่ยนวิธีการนำเข้าข้อมูล</string>
     <string name="activity_menu_device_info">ข้อมูลอุปกรณ์</string>
     <string name="activity_menu_hourly_chime">ทุกชั่วโมง Event Recurs By Days ฆังที่</string>
+    <string name="uvindex_weakest">Weakest</string>
+    <string name="uvindex_weak">Weak</string>
+    <string name="uvindex_moderate">Moderate</string>
+    <string name="uvindex_strong">Strong</string>
+    <string name="uvindex_verystrong">Very strong</string>
 </resources>
