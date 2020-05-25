@@ -49,7 +49,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             // Send battery request and wait for answer
             Watch.get().getBatteryStatus().continueWith(new Continuation<BatteryStatus, Object>() {
                 @Override
-                public Object then(@NonNull Task<BatteryStatus> task) throws Exception {
+                public Object then(@NonNull Task<BatteryStatus> task) {
                     Logger.trace("BatteryStatusReceiver onReceive getBatteryStatus");
                     if (task.isSuccessful()) {
                         BatteryStatus batteryStatus = task.getResult();

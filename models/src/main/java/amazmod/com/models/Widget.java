@@ -50,6 +50,6 @@ public class Widget implements Comparable<Widget>{
 
     @Override
     public int compareTo(Widget w) {
-        return (new Integer(getPosition())).compareTo(w.getPosition());
+        return Integer.compare(getPosition(), w.getPosition());
     }
 }
