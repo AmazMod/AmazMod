@@ -70,8 +70,10 @@ public class Setup {
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
                         try {
-                            assert response.body() != null;
-                            String json = response.body().string();
+                            String json = null;
+                            if (response.body() != null) {
+                                json = response.body().string();
+                            }
                             Properties data = new Gson().fromJson(json, Properties.class);
                             int betaVersionCode = Integer.parseInt(data.getProperty("betaVersionCode"));
                             int latestVersionValue = Integer.parseInt(data.getProperty("release"));
