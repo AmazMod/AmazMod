@@ -22,6 +22,7 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import amazmod.com.models.Reply;
 
@@ -148,9 +149,11 @@ public class FragmentUtil {
         //String unicode_iw_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E].*"; // Hebrew character pattern (With precomposed characters)
         //String unicode_ar_pattern = ".*[\u0600-\u06FF].*"; // Arabic character pattern
         String unicode_iwar_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E\u0600-\u06FF].*"; // Hebrew & Arabic characters pattern
+        Pattern p = Pattern.compile(unicode_iwar_pattern, Pattern.MULTILINE); // Multiline search
 
         // Identify Hebrew or Arabic characters
-        if(locale.matches(unicode_iwar_pattern)){
+        //if(locale.matches(unicode_iwar_pattern)){
+        if(p.matcher(locale).find()){
             Logger.debug("[Notification Fragment] Element font changed to Hebrew/Arabic.");
             Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
