@@ -167,4 +167,9 @@
     <string name="activity_menu_input_method">Modifier le mode de saisie</string>
     <string name="activity_menu_device_info">Infos de l\'appareil</string>
     <string name="activity_menu_hourly_chime">Alerte d\'heure</string>
+    <string name="uvindex_weakest">Weakest</string>
+    <string name="uvindex_weak">Weak</string>
+    <string name="uvindex_moderate">Moderate</string>
+    <string name="uvindex_strong">Strong</string>
+    <string name="uvindex_verystrong">Very strong</string>
 </resources>
