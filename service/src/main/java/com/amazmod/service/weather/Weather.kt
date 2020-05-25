@@ -2,6 +2,7 @@ package com.amazmod.service.weather
 
 import android.content.Context
 import android.provider.Settings
+import com.amazmod.service.R
 import com.amazmod.service.util.SystemProperties.isStratos3
 import org.json.JSONException
 import org.json.JSONObject
@@ -167,7 +168,7 @@ object Weather {
             if (jsonData.has("uv")) {
                 systemJsonData.put("uv", jsonData.getString("uv"))
             } else if (uvIndex > -1) {
-                systemJsonData.put("uv", uvIndexToString(uvIndex))
+                systemJsonData.put("uv", uvIndexToString(uvIndex, context))
             }
 
             // New custom values in weather (these values don't exist by default in most watches)
@@ -247,14 +248,13 @@ object Weather {
         }
     }
 
-    private fun uvIndexToString(uvIndex: Int): String {
-        // TODO Translation
+    private fun uvIndexToString(uvIndex: Int, context: Context): String {
         return when {
-            uvIndex <= 2 -> "Weakest"
-            uvIndex <= 4 -> "Weak"
-            uvIndex <= 6 -> "Moderate"
-            uvIndex <= 9 -> "Strong"
-            else -> "Very strong"
+            uvIndex <= 2 -> context.getString(R.string.uvindex_weakest)
+            uvIndex <= 4 -> context.getString(R.string.uvindex_weak)
+            uvIndex <= 6 -> context.getString(R.string.uvindex_moderate)
+            uvIndex <= 9 -> context.getString(R.string.uvindex_strong)
+            else -> context.getString(R.string.uvindex_verystrong)
         }
     }
 
