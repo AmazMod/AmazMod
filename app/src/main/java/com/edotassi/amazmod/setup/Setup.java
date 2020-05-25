@@ -63,16 +63,20 @@ public class Setup {
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        Logger.debug("checkServiceUpdate: failed to check for updates");
+                        Logger.error(e, "checkServiceUpdate: failed to check for updates");
                         updater.updateCheckFailed();
                     }
 
                     @Override
                     public void onResponse(@NonNull Call call, @NonNull Response response) {
                         try {
-                            String json = null;
+                            String json;
                             if (response.body() != null) {
                                 json = response.body().string();
+                            } else {
+                                Logger.error("checkServiceUpdate: failed to check for updates: response.body() is null");
+                                updater.updateCheckFailed();
+                                return;
                             }
                             Properties data = new Gson().fromJson(json, Properties.class);
                             int betaVersionCode = Integer.parseInt(data.getProperty("betaVersionCode"));
