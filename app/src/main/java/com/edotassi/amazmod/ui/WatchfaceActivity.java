@@ -364,7 +364,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             }
         });
 
-        binding.watchfaceSourceLocalChooseButton.setOnClickListener(new View.OnClickListener() {
+        calendar_choose_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseCalendars();
