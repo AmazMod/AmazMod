@@ -11,8 +11,8 @@ import com.edotassi.amazmod.R
 import com.edotassi.amazmod.adapters.NotificationRepliesAdapter
 import com.edotassi.amazmod.helpers.DynamicEventsHelper
 import com.edotassi.amazmod.helpers.DynamicEventsHelper.DynamicEventsCallback
-import com.edotassi.amazmod.helpers.KtLogger
 import kotlinx.android.synthetic.main.activity_notification_replies.*
+import org.tinylog.kotlin.Logger
 
 class NotificationRepliesDragActivity : BaseAppCompatActivity() {
 
@@ -26,7 +26,7 @@ class NotificationRepliesDragActivity : BaseAppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.setTitle(R.string.replies)
         } catch (exception: NullPointerException) {
-            KtLogger.error("AboutActivity onCreate exception: " + exception.message)
+            Logger.error("AboutActivity onCreate exception: " + exception.message)
         }
         val mLayoutManager = LinearLayoutManager(this)
         mLayoutManager.orientation = LinearLayoutManager.VERTICAL

@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.billingclient.api.*
 import com.edotassi.amazmod.R
 import com.edotassi.amazmod.adapters.DonateProductsAdapter
-import com.edotassi.amazmod.helpers.KtLogger
 import com.pixplicity.easyprefs.library.Prefs
 import kotlinx.android.synthetic.main.activity_donation.*
+import org.tinylog.kotlin.Logger
 import java.util.*
 
 class DonationActivity : BaseAppCompatActivity(), PurchasesUpdatedListener {
@@ -26,7 +26,7 @@ class DonationActivity : BaseAppCompatActivity(), PurchasesUpdatedListener {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.setTitle(R.string.support_us)
         } catch (exception: NullPointerException) {
-            KtLogger.error(exception, "AboutActivity onCreate exception: {}", exception.message)
+            Logger.error(exception, "AboutActivity onCreate exception: {}", exception.message)
         }
         setContentView(R.layout.activity_donation)
         setupBillingClient()
@@ -56,11 +56,11 @@ class DonationActivity : BaseAppCompatActivity(), PurchasesUpdatedListener {
                     list.sortWith(Comparator { o1, o2 -> (o1.priceAmountMicros - o2.priceAmountMicros).toInt() })
                     loadProductToRecyclerView(list)
                 } else {
-                    KtLogger.error("Cannot query available products!")
+                    Logger.error("Cannot query available products!")
                 }
             }
         } else {
-            KtLogger.error("Billing client not ready!!")
+            Logger.error("Billing client not ready!!")
         }
     }
 
@@ -78,13 +78,13 @@ class DonationActivity : BaseAppCompatActivity(), PurchasesUpdatedListener {
 
     private fun setupBillingClient() {
         consumeResponseListener = ConsumeResponseListener { billingResult, s -> //TODO
-            KtLogger.debug("onConsumeResponse " + billingResult.responseCode + ": " + billingResult.debugMessage + " // " + s)
+            Logger.debug("onConsumeResponse " + billingResult.responseCode + ": " + billingResult.debugMessage + " // " + s)
         }
         billingClient = BillingClient.newBuilder(this).setListener(this).enablePendingPurchases().build()
         billingClient.startConnection(object : BillingClientStateListener {
             override fun onBillingSetupFinished(billingResult: BillingResult) {
                 if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                    KtLogger.debug("Success to connect Billing")
+                    Logger.debug("Success to connect Billing")
 
                     //Consume all purchases not consumed yet
                     val pr = billingClient.queryPurchases(BillingClient.SkuType.INAPP)
@@ -96,15 +96,15 @@ class DonationActivity : BaseAppCompatActivity(), PurchasesUpdatedListener {
                     //List available products
                     loadSkuDetails()
                 } else {
-                    KtLogger.error("Failed to connect to billing. Error " + billingResult.responseCode + " : " + billingResult.debugMessage)
+                    Logger.error("Failed to connect to billing. Error " + billingResult.responseCode + " : " + billingResult.debugMessage)
                 }
             }
 
             override fun onBillingServiceDisconnected() {
-                KtLogger.debug("You are disconnected from Billing")
+                Logger.debug("You are disconnected from Billing")
             }
         })
-        acknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener { billingResult -> KtLogger.debug("onAcknowledgePurchaseResponse: " + billingResult.responseCode + ": " + billingResult.debugMessage) }
+        acknowledgePurchaseResponseListener = AcknowledgePurchaseResponseListener { billingResult -> Logger.debug("onAcknowledgePurchaseResponse: " + billingResult.responseCode + ": " + billingResult.debugMessage) }
     }
 
     override fun onPurchasesUpdated(billingResult: BillingResult, list: List<Purchase>?) {
