@@ -378,7 +378,7 @@
     <string name="product_model">產品型號</string>
     <string name="product_name">產品名稱</string>
     <string name="serial_number">序號</string>
-    <string name="build_id">建立显示id</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">建立华密模型</string>
     <string name="build_description">建立的描述</string>
     <string name="rename_folder">資料夾重新命名</string>
