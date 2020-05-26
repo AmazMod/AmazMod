@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.databinding.ActivityChooseLanguageBinding;
 import com.edotassi.amazmod.ui.fragment.language.LanguageInfo;
 import com.edotassi.amazmod.util.LocaleUtils;
 
@@ -24,16 +23,19 @@ import java.util.List;
 import java.util.Objects;
 
 import amazmod.com.transport.Constants;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class ChooseLanguageActivity extends BaseAppCompatActivity {
 
-    private ActivityChooseLanguageBinding binding;
+    @BindView(R.id.picker)
+    RadioGroup radioGroup;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityChooseLanguageBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_choose_language);
+        ButterKnife.bind(this);
 
         ActionBar supportActionBar = Objects.requireNonNull(getSupportActionBar());
         supportActionBar.setDisplayHomeAsUpEnabled(true);
@@ -63,11 +65,11 @@ public class ChooseLanguageActivity extends BaseAppCompatActivity {
             radioButtonView.setTag(model.getCode());
             radioButtonView.setGravity(Gravity.CENTER_VERTICAL);
             radioButtonView.setPadding(padding, padding, padding, padding);
-            binding.picker.addView(radioButtonView);
-            if (model.getCode().equalsIgnoreCase(currentLanguage)) binding.picker.check(i);
+            radioGroup.addView(radioButtonView);
+            if (model.getCode().equalsIgnoreCase(currentLanguage)) radioGroup.check(i);
         }
-        binding.picker.setOnCheckedChangeListener((group, checkedId) -> {
-            String tag = (String) binding.picker.getChildAt(checkedId).getTag();
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            String tag = (String) radioGroup.getChildAt(checkedId).getTag();
             Logger.debug("Selected: " + tag);
             LocaleUtils.persist(tag);
         });

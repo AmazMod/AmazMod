@@ -25,7 +25,6 @@ import androidx.annotation.Nullable;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
-import com.edotassi.amazmod.databinding.ActivityFileOpenerBinding;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.support.ShellCommandHelper;
@@ -51,12 +50,17 @@ import java.util.concurrent.CancellationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.mateware.snacky.Snacky;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class FileOpenerActivity extends BaseAppCompatActivity {
 
-
-    private ActivityFileOpenerBinding binding;
+    @BindView(R.id.activity_file_opner_progress)
+    MaterialProgressBar watchProgress;
+    @BindView(R.id.isConnected)
+    TextView isConnected;
 
     private SnackProgressBarManager snackProgressBarManager;
 
@@ -89,8 +93,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityFileOpenerBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_file_opener);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -99,6 +102,8 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             //TODO log to crashlitics
         }
         getSupportActionBar().setTitle(R.string.file_uploader);
+
+        ButterKnife.bind(this);
 
         snackProgressBarManager = new SnackProgressBarManager(this.findViewById(android.R.id.content))
                 .setProgressBarColor(ThemeHelper.getThemeColorAccentId(this))
@@ -576,20 +581,20 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     }
 
     private void connected() {
-        binding.isConnected.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
-        binding.isConnected.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
-        binding.activityFileOpenerProgress.setVisibility(View.GONE);
+        isConnected.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
+        isConnected.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
+        watchProgress.setVisibility(View.GONE);
     }
 
     private void disconnected() {
-        binding.isConnected.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
-        binding.isConnected.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
-        binding.activityFileOpenerProgress.setVisibility(View.GONE);
+        isConnected.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+        isConnected.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
+        watchProgress.setVisibility(View.GONE);
     }
 
     private void connecting() {
-        binding.isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light, getTheme()));
-        binding.isConnected.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
-        binding.activityFileOpenerProgress.setVisibility(View.VISIBLE);
+        isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light, getTheme()));
+        isConnected.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
+        watchProgress.setVisibility(View.VISIBLE);
     }
 }

@@ -13,14 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.WidgetsAdapter;
-import com.edotassi.amazmod.databinding.ActivityWidgetBinding;
 import com.edotassi.amazmod.helpers.DynamicEventsHelper;
 
 import org.tinylog.Logger;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
+
 public class WidgetsActivity extends BaseAppCompatActivity{
 
-    private ActivityWidgetBinding binding;
+    @BindView(R.id.activity_widgets_selector_progress)
+    MaterialProgressBar materialProgressBar;
 
     private RecyclerView mRecyclerView;
     private WidgetsAdapter mAdapter;
@@ -29,8 +33,7 @@ public class WidgetsActivity extends BaseAppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityWidgetBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_widget);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,6 +41,8 @@ public class WidgetsActivity extends BaseAppCompatActivity{
         } catch (NullPointerException exception) {
             Logger.error("Exception: " + exception.getMessage());
         }
+
+        ButterKnife.bind(this);
 
         mRecyclerView = findViewById(R.id.activity_widgets_selector_list);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -64,12 +69,12 @@ public class WidgetsActivity extends BaseAppCompatActivity{
     }
 
     public void showProgressBar(){
-        binding.activityWidgetsSelectorProgress.setVisibility(View.VISIBLE);
+        materialProgressBar.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
     }
 
     public void hideProgressBar(){
-        binding.activityWidgetsSelectorProgress.setVisibility(View.GONE);
+        materialProgressBar.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
