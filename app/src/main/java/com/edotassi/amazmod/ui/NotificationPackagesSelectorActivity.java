@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +18,6 @@ import androidx.appcompat.widget.SearchView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.AppInfoAdapter;
-import com.edotassi.amazmod.databinding.ActivityNotificationPackagesSelectorBinding;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.AppInfo;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
@@ -28,21 +28,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
         implements AppInfoAdapter.Bridge, SearchView.OnQueryTextListener {
 
-    private ActivityNotificationPackagesSelectorBinding binding;
-/*
-    @BindView(R.id.activity_notification_packages_selector_list)
+    @BindView(R.id.package_list)
     ListView listView;
-    @BindView(R.id.activity_notification_packages_selector_progress)
+    @BindView(R.id.progress_bar)
     MaterialProgressBar materialProgressBar;
-*/
+
     private List<AppInfo> appInfoList;
     private AppInfoAdapter appInfoAdapter;
 
@@ -53,18 +54,17 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityNotificationPackagesSelectorBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_notification_packages_selector);
 
         ActionBar actionBar = Objects.requireNonNull(getSupportActionBar());
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle(R.string.installed_apps);
 
-
+        ButterKnife.bind(this);
 
         appInfoAdapter = new AppInfoAdapter(
                 this, R.layout.row_appinfo, new ArrayList<>());
-        binding.packageList.setAdapter(appInfoAdapter);
+        listView.setAdapter(appInfoAdapter);
 
         loadApps(showSystemApps, null);
     }
@@ -140,8 +140,8 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
 
     @SuppressLint("CheckResult")
     private void loadApps(final boolean showSystemApps, @Nullable String searchQueryText) {
-        binding.progressBar.setVisibility(View.VISIBLE);
-        binding.packageList.setVisibility(View.GONE);
+        materialProgressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.GONE);
 
         Single.fromCallable(() -> {
             //List installed packages and create a list of appInfo based on them
@@ -168,8 +168,8 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
                     appInfoAdapter.addAll(appInfoList);
                     appInfoAdapter.notifyDataSetChanged();
 
-                    binding.progressBar.setVisibility(View.GONE);
-                    binding.packageList.setVisibility(View.VISIBLE);
+                    materialProgressBar.setVisibility(View.GONE);
+                    listView.setVisibility(View.VISIBLE);
                 });
     }
 
