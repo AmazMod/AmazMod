@@ -378,7 +378,7 @@ Vychutnejte si používání AmazModu! ♡\"</string>
     <string name="product_model">Model produktu</string>
     <string name="product_name">Název produktu</string>
     <string name="serial_number">Sériové číslo</string>
-    <string name="build_id">Zobrazit ID sestavení</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">model Huami sestavení</string>
     <string name="build_description">Popis sestavení</string>
     <string name="rename_folder">Přejmenovat složku</string>
