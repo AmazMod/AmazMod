@@ -306,7 +306,7 @@ public class BatteryChartFragment extends Card {
         final List<Entry> yPredictValues = new ArrayList<>();
 
         //Cast number of days shown in chart from Preferences
-        final int days = Integer.valueOf(PreferenceManager.getDefaultSharedPreferences(getContext())
+        final int days = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(getContext())
                 .getString(Constants.PREF_BATTERY_CHART_TIME_INTERVAL, Constants.PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL));
 
         Calendar calendar = Calendar.getInstance();
@@ -322,67 +322,41 @@ public class BatteryChartFragment extends Card {
                 .where(BatteryStatusEntity_Table.date.greaterThan(lowX))
                 .queryList();
 
-        if (batteryReadList.size() > 0) {
-            BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
-            Date lastDate = new Date(lastEntity.getDate());
-            if (lastDateChart != lastEntity.getDate() || lastDateChart == 0) {
-                lastDateChart = lastEntity.getDate();
-                sendNewRequest = false;
-            } else {
-                sendNewRequest = true;
-            }
+        // No data in the database
+        if (batteryReadList.size() <= 0)
+            return;
 
-            long lastChargeDate = lastEntity.getDateLastCharge();
-            StringBuilder dateDiff = new StringBuilder();
-            String append = Integer.toString(Math.round(lastEntity.getLevel() * 100f)) + "% / ";
-            dateDiff.append(append);
-            if (lastChargeDate != 0) {
-                long diffInMillis = System.currentTimeMillis() - lastChargeDate;
-                List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
-                Collections.reverse(units);
-                long millisRest = diffInMillis;
-                for (TimeUnit unit : units) {
-                    long diff = unit.convert(millisRest, TimeUnit.MILLISECONDS);
-                    long diffInMillisForUnit = unit.toMillis(diff);
-                    millisRest = millisRest - diffInMillisForUnit;
-                    if (unit.equals(TimeUnit.DAYS) && diff != 0) {
-                        append = diff + "d : ";
-                        dateDiff.append(append);
-                    } else if (unit.equals(TimeUnit.HOURS) && diff != 0) {
-                        append = diff + "h : ";
-                        dateDiff.append(append);
-                    } else if (unit.equals(TimeUnit.MINUTES)) {
-                        append = diff + "m ";
-                        dateDiff.append(append);
-                        break;
-                    }
-                }
-                dateDiff.append(getResources().getText(R.string.last_charge));
-            } else dateDiff.append(getResources().getText(R.string.last_charge_no_info));
-            batteryTv.setText(dateDiff.toString());
-
-            Logger.debug("BatteryChart updateChart defaultLocale: " + AmazModApplication.defaultLocale);
-            String time = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
-            String date = DateFormat.getDateInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
-
-            Calendar calendarLastDate = Calendar.getInstance();
-            calendarLastDate.setTime(lastDate);
-            Calendar calendarToday = Calendar.getInstance();
-            calendarToday.setTime(new Date());
-
-            String textDate = getResources().getText(R.string.last_read) + ": ";
-            textDate += time;
-            if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
-                textDate += " " + date;
-            }
-            lastRead.setText(textDate);
+        BatteryStatusEntity lastEntity = batteryReadList.get(batteryReadList.size() - 1);
+        Date lastDate = new Date( lastEntity.getDate() );
+        if (lastDateChart != lastEntity.getDate() || lastDateChart == 0) {
+            lastDateChart = lastEntity.getDate();
+            sendNewRequest = false;
+        } else {
+            sendNewRequest = true;
         }
+
+        Logger.debug("BatteryChart updateChart defaultLocale: " + AmazModApplication.defaultLocale);
+        String time = DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
+        String date = DateFormat.getDateInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
+
+        Calendar calendarLastDate = Calendar.getInstance();
+        calendarLastDate.setTime(lastDate);
+        Calendar calendarToday = Calendar.getInstance();
+        calendarToday.setTime(new Date());
+
+        String textDate = getResources().getText(R.string.last_read) + ": ";
+        textDate += time;
+        if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
+            textDate += " " + date;
+        }
+        lastRead.setText(textDate);
 
         BatteryStatusEntity prevRead = null;
 
         int primaryColor = ContextCompat.getColor(mContext, R.color.colorPrimary);
         int chargingColor = ContextCompat.getColor(mContext, R.color.colorCharging);
         int predictionColor = ContextCompat.getColor(mContext, R.color.colorPrediction);
+        long lastChargeDate = 0; // initial value
 
         for (int i = 0; i < batteryReadList.size(); i++) {
             BatteryStatusEntity read = batteryReadList.get(i);
@@ -394,14 +368,50 @@ public class BatteryChartFragment extends Card {
 
                 int lineColor = level > prevLevel ? chargingColor : primaryColor;
                 colors.add(lineColor);
+
+                // Save last full charge value
+                if ( level > 98 )
+                    lastChargeDate = read.getDateLastCharge();
             }
 
             prevRead = read;
         }
 
-        if (yValues.size() == 0) {
+        // Check for wrong data
+        if (yValues.size() == 0)
             return;
-        }
+
+        // Show current battery and last time full charged
+        if ( lastChargeDate == 0 )
+            lastChargeDate = lastEntity.getDateLastCharge();
+        StringBuilder dateDiff = new StringBuilder();
+        String append = Math.round(lastEntity.getLevel() * 100f) + "% / ";
+        dateDiff.append(append);
+        if (lastChargeDate != 0) {
+            long diffInMillis = System.currentTimeMillis() - lastChargeDate;
+            List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
+            Collections.reverse(units);
+            long millisRest = diffInMillis;
+            for (TimeUnit unit : units) {
+                long diff = unit.convert(millisRest, TimeUnit.MILLISECONDS);
+                long diffInMillisForUnit = unit.toMillis(diff);
+                millisRest = millisRest - diffInMillisForUnit;
+                if (unit.equals(TimeUnit.DAYS) && diff != 0) {
+                    append = diff + "d : ";
+                    dateDiff.append(append);
+                } else if (unit.equals(TimeUnit.HOURS) && diff != 0) {
+                    append = diff + "h : ";
+                    dateDiff.append(append);
+                } else if (unit.equals(TimeUnit.MINUTES)) {
+                    append = diff + "m ";
+                    dateDiff.append(append);
+                    break;
+                }
+            }
+            dateDiff.append(getResources().getText(R.string.last_charge));
+        } else dateDiff.append(getResources().getText(R.string.last_charge_no_info));
+        batteryTv.setText(dateDiff.toString());
+
 
         // PREDICT BATTERY, calculate values
         // Get last charging point
@@ -439,35 +449,35 @@ public class BatteryChartFragment extends Card {
             float y2 = yValues.get(yValues.size() - 1).getY();
 
             float target_time;
-            float remaininf_now_diff;
-            String textDate;
+            float remaining_now_diff;
+            //String textDate;
             if (charging) {
                 // Future time that battery will be 100%
                 target_time = x2 + (x2 - x1) / (y2 - y1) * (100 - y2);
 
                 textDate = lastRead.getText() + ", " + getResources().getText(R.string.full_battery_in) + ": ";
-                remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
-                int count = (int) (remaininf_now_diff / 60);
-                int count1 = (int) (remaininf_now_diff % 60);
-                if((int) remaininf_now_diff / 60 == 0)
-                    textDate += ((int) remaininf_now_diff % 60) + " " + getResources().getQuantityString(R.plurals.minute, count1);
+                remaining_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
+                int count = (int) (remaining_now_diff / 60);
+                int count1 = (int) (remaining_now_diff % 60);
+                if((int) remaining_now_diff / 60 == 0)
+                    textDate += ((int) remaining_now_diff % 60) + " " + getResources().getQuantityString(R.plurals.minute, count1);
                 else
-                    textDate += ((int) remaininf_now_diff / 60) + " " + getResources().getQuantityString(R.plurals.hour, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 60) + " " + getResources().getQuantityString(R.plurals.minute, count1);
+                    textDate += ((int) remaining_now_diff / 60) + " " + getResources().getQuantityString(R.plurals.hour, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaining_now_diff % 60) + " " + getResources().getQuantityString(R.plurals.minute, count1);
             } else {
                 // Future time that battery will be 0%
                 target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
                 textDate = lastRead.getText() + ", " + getResources().getText(R.string.remaining_battery) + ": ";
-                remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
-                int count = (int) (remaininf_now_diff / 24);
-                int count1 = (int) (remaininf_now_diff % 24);
-                if((int) remaininf_now_diff / 24 == 0)
-                    textDate += ((int) remaininf_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
+                remaining_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
+                int count = (int) (remaining_now_diff / 24);
+                int count1 = (int) (remaining_now_diff % 24);
+                if((int) remaining_now_diff / 24 == 0)
+                    textDate += ((int) remaining_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
                 else
-                    textDate += ((int) remaininf_now_diff / 24) + " " + getResources().getQuantityString(R.plurals.day, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
+                    textDate += ((int) remaining_now_diff / 24) + " " + getResources().getQuantityString(R.plurals.day, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaining_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
             }
 
-            if (remaininf_now_diff > 0) {
+            if (remaining_now_diff > 0) {
                 yPredictValues.add(new Entry(target_time, (charging) ? 100 : 0));
 
                 // Expand graph's range

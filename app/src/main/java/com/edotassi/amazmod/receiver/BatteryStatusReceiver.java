@@ -18,10 +18,13 @@ import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity;
 import com.edotassi.amazmod.db.model.BatteryStatusEntity_Table;
 import com.edotassi.amazmod.event.BatteryStatus;
+import com.edotassi.amazmod.event.OtherData;
+import com.edotassi.amazmod.transport.TransportService;
 import com.edotassi.amazmod.ui.MainActivity;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
+import com.huami.watch.transport.DataBundle;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -30,6 +33,8 @@ import org.tinylog.Logger;
 
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.BatteryData;
+
+import static amazmod.com.transport.Transport.OFFICIAL_SYNC_BATTERY;
 
 public class BatteryStatusReceiver extends BroadcastReceiver {
 
@@ -46,7 +51,8 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             if (!Watch.isInitialized())
                 Watch.init(context);
 
-            // Send battery request and wait for answer
+            // Send battery request and wait for answer (request to Amazmod service)
+            /*
             Watch.get().getBatteryStatus().continueWith(new Continuation<BatteryStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<BatteryStatus> task) {
@@ -60,6 +66,42 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
                             Logger.error("null batteryStatus!");
                     } else {
                         Logger.error(task.getException(), "failed reading battery status");
+                    }
+                    return null;
+                }
+            });*/
+
+
+            // Send battery request and wait for answer (official API)
+            Watch.get().sendSimpleData(OFFICIAL_SYNC_BATTERY, OFFICIAL_SYNC_BATTERY, TransportService.TRANSPORT_COMPANION).continueWith(new Continuation<OtherData, Object>() {
+                @Override
+                public Object then(@NonNull Task<OtherData> task) {
+                    if (task.isSuccessful()) {
+                        // Successful reply from official API
+                        OtherData returnedData = task.getResult();
+                        if (returnedData == null)
+                            throw new NullPointerException("Returned data are null");
+
+                        // Convert official data to Amazmod data
+                        DataBundle otherData = returnedData.getOtherData();
+                        BatteryData batteryData = new BatteryData();
+                        batteryData.setLevel( otherData.getInt("BatteryLevel")/100f );
+                        batteryData.setCharging( otherData.getBoolean("BatteryIsCharging") );
+                        batteryData.setUsbCharge(false);
+                        batteryData.setAcCharge(false);
+                        if (otherData.getInt("BatteryLevel") > 98)
+                            batteryData.setDateLastCharge(otherData.getLong("ChargingTime", Long.MIN_VALUE));
+                        else
+                            batteryData.setDateLastCharge(0);
+
+                        //otherData.getInt("ChargingIntervalDays", -1)
+
+                        BatteryStatus batteryStatus = new BatteryStatus( batteryData.toDataBundle() );
+
+                        updateBattery( batteryStatus );
+                        batteryAlert(batteryStatus, context);
+                    }else{
+                        Logger.debug("Could not get official battery info");
                     }
                     return null;
                 }
