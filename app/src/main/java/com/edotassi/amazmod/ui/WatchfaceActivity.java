@@ -303,7 +303,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         // Test calendar ICS file
         binding.watchfaceTestIcsButton.setOnClickListener(v -> checkICSFile());
 
-        calendar_choose_button.setOnClickListener(new View.OnClickListener() {
+        binding.watchfaceSourceLocalChooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 chooseCalendars();
