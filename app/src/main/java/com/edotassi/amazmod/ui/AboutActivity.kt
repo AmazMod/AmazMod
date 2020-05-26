@@ -21,11 +21,9 @@ import androidx.core.view.LayoutInflaterCompat
 import butterknife.OnLongClick
 import com.edotassi.amazmod.BuildConfig
 import com.edotassi.amazmod.R
-import com.edotassi.amazmod.helpers.KtLogger
 import com.edotassi.amazmod.notification.NotificationService
 import com.edotassi.amazmod.transport.TransportService
 import com.edotassi.amazmod.transport.TransportService.DataTransportResultCallback
-import com.edotassi.amazmod.ui.AboutActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.huami.watch.notification.data.StatusBarNotificationData
@@ -35,6 +33,7 @@ import com.mikepenz.iconics.context.IconicsLayoutInflater2
 import com.pixplicity.easyprefs.library.Prefs
 import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_about.*
+import org.tinylog.kotlin.Logger
 import java.util.*
 
 class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
@@ -52,7 +51,7 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.setTitle(R.string.about)
         } catch (exception: NullPointerException) {
-            KtLogger.error(exception, "AboutActivity onCreate exception: {}", exception.message)
+            Logger.error(exception, "AboutActivity onCreate exception: {}", exception.message)
         }
         activity_about_version.text = BuildConfig.VERSION_NAME
         activity_about_version.append(" (Build ${BuildConfig.VERSION_CODE} )")
@@ -102,7 +101,7 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
                 sendNotificationWithStandardUI(notificationData)
                 return
             }
-            else -> KtLogger.debug("AboutActivity sendTestMessage: something went wrong...")
+            else -> Logger.debug("AboutActivity sendTestMessage: something went wrong...")
         }
         notificationData.id = 999
         notificationData.key = "amazmod|test|999"
@@ -126,7 +125,7 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
             notificationData.iconHeight = height
         } catch (e: Exception) {
             notificationData.icon = intArrayOf()
-            KtLogger.error("AboutActivity notificationData Failed to get bitmap $e")
+            Logger.error("AboutActivity notificationData Failed to get bitmap $e")
         }
         TransportService.sendWithTransporterNotifications(Transport.INCOMING_NOTIFICATION, null, notificationData.toDataBundle(), this)
     }
@@ -227,6 +226,6 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
                 .setText(error.toUpperCase())
                 .setDuration(Snacky.LENGTH_SHORT)
                 .build().show()
-        KtLogger.error(error)
+        Logger.error(error)
     }
 }

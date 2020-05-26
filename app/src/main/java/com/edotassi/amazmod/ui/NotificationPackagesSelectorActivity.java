@@ -39,9 +39,9 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
         implements AppInfoAdapter.Bridge, SearchView.OnQueryTextListener {
 
-    @BindView(R.id.activity_notification_packages_selector_list)
+    @BindView(R.id.package_list)
     ListView listView;
-    @BindView(R.id.activity_notification_packages_selector_progress)
+    @BindView(R.id.progress_bar)
     MaterialProgressBar materialProgressBar;
 
     private List<AppInfo> appInfoList;
