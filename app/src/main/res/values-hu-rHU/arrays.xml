@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 nap</item>
+        <item>2 nap</item>
+        <item>3 nap</item>
+        <item>5 nap</item>
+        <item>7 nap</item>
+        <item>10 nap</item>
+        <item>15 nap</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Letiltva</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Letiltva</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Letiltva</item>
+        <item>1 nap</item>
+        <item>7 nap</item>
+        <item>15 nap</item>
+        <item>30 nap</item>
+        <item>60 nap</item>
+        <item>90 nap</item>
+        <item>180 nap</item>
+        <item>365 nap</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normál</item>
+        <item>Közepes</item>
+        <item>Nagy</item>
+        <item>Nagyobb</item>
+        <item>Majdnem hatalmas</item>
+        <item>Óriási</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Igen</item>
+        <item>Nem</item>
+        <item>Köszönöm</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Értesítési szűrő neve</item>
+        <item>Értesítési szűrő tartalma</item>
+        <item>Szűr címre és tartalomra is</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metrikus (Kelvin)</item>
+        <item>Metrikus (Celsius)</item>
+        <item>Angolszász (Fahrenheit)</item>
+    </string-array>
+</resources>

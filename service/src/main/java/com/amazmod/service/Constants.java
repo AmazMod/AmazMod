@@ -26,6 +26,7 @@ public class Constants {
     public static final String PREF_NOTIFICATION_VIBRATION = "pref_notification_vibration";
     public static final String PREF_NOTIFICATION_CUSTOM_REPLIES = "pref_notification_custom_replies";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "pref_notifications_enable_custom_ui";
+    public static final String PREF_NOTIFICATION_ENABLE_SOUND = "pref_notification_enable_sound";
     public static final String PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "pref_enable_hardware_keys_music_control";
     public static final String PREF_DATE_LAST_CHARGE = "pref_battery_date_last_charge";
     public static final String PREF_BATT_LEVEL = "pref_battery_level";
@@ -33,6 +34,7 @@ public class Constants {
     public static final String PREF_DATE_LAST_BATTERY_SYNC = "pref_battery_date_last_sync";
     public static final String PREF_NOTIFICATIONS_SCREEN_ON = "pref_notifications_screen_on";
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "pref_notifications_inverted_theme";
+    public static final String PREF_NOTIFICATIONS_FONT_TITLE_SIZE = "pref_notifications_font_title_size";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "pref_notifications_font_size";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "pref_notification_screenon";
     public static final String PREF_SHAKE_TO_DISMISS_GRAVITY = "pref_shake_to_dismiss_gravity";
@@ -40,8 +42,10 @@ public class Constants {
     public static final String PREF_PHONE_CONNECTION_ALERT = "pref_phone_connection_alert";
     public static final String PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "pref_phone_connection_alert_standard_notification";
     public static final String PREF_DISABLE_DELAY = "pref_notification_delay";
-    public static final String PREF_AMAZMOD_FIRST_WIDGET = "pref_amazmod_first_widget";
+    public static final String PREF_AMAZMOD_KEEP_WIDGET = "pref_amazmod_keep_widget";
+    public static final String PREF_AMAZMOD_KEEP_WEATHER = "pref_amazmod_keep_weather";
     public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "pref_amazmod_overlay_launcher";
+    public static final String PREF_AMAZMOD_HOURLY_CHIME = "pref_amazmod_hourly_chime";
     public static final String PREF_HEARTRATE_DATA = "pref_amazmod_heartrate_data";
     public static final String PREF_BATTERY_WATCH_ALERT = "pref_battery_watch_alert";
     public static final String PREF_BATTERY_PHONE_ALERT = "pref_battery_phone_alert";
@@ -51,14 +55,18 @@ public class Constants {
     public static final String PREF_BATTERY_GRAPH_DAYS = "pref_battery_graph_days";
     public static final String PREF_AMAZMOD_OFFICIAL_WIDGETS_ORDER = "pref_amazmod_official_widgets_order";
     public static final String PREF_DEFAULT_LOCALE = "pref_default_locale";
+    public static final String WEATHER_INFO = "weather_info";
+    public static final String REQUEST_SELF_RELOAD = "request_self_reload";
 
     public static final String CUSTOM_WATCHFACE_DATA = "CustomWatchfaceData";
 
     public static final int PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT = 10 * 1000;
     public static final int PREF_DEFAULT_NOTIFICATION_VIBRATION = 350;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATION_ENABLE_SOUND = false;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = true;
+    public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_TITLE_SIZE = "n";
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_SCREENON = false;
     public static final boolean PREF_DEFAULT_DISABLE_DELAY = false;
@@ -96,8 +104,9 @@ public class Constants {
     public static final String[] BUILD_PACE_MODELS = {"A1602", "A1612"};
     public static final String[] BUILD_STRATOS_MODELS = {"A1609", "A1619"};
     public static final String[] BUILD_VERGE_MODELS = {"A1801", "A1811"};
+    public static final String[] BUILD_STRATOS_3_MODELS = {"A1928", "A1929"};
 
     public static final String WIDGET_ORDER_IN = "springboard_widget_order_in";
     public static final String WIDGET_ORDER_OUT = "springboard_widget_order_out";
-
+    public static final String LONG_KEY_SETTINGS = "long_key_settings";
 }

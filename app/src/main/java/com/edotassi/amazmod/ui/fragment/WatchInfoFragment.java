@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.preference.PreferenceManager;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -29,6 +29,7 @@ import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.support.ShellCommandHelper;
 import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.transport.TransportService;
+import com.edotassi.amazmod.ui.SettingsActivity;
 import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
@@ -213,7 +214,8 @@ public class WatchInfoFragment extends Card implements Updater {
     public void onWatchStatus(WatchStatus watchStatus) {
         WatchStatusData watchStatusData = watchStatus.getWatchStatusData();
 
-        amazModService.setText(watchStatusData.getAmazModServiceVersion());
+        String amazModServiceVersion = watchStatusData.getAmazModServiceVersion() + ((watchStatusData.getRooted()==1)?" (rooted)":"");
+        amazModService.setText(amazModServiceVersion);
         productModel.setText(watchStatusData.getRoProductModel());
         productName.setText(watchStatusData.getRoProductName());
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
@@ -243,6 +245,11 @@ public class WatchInfoFragment extends Card implements Updater {
             // HeartRate fragment card not found!
             e.printStackTrace();
         }
+
+        // Hourly Chime (update if changed from watch menu)
+        boolean hourlychime = (watchStatusData.getHourlyChime()>0); // 0 = off, 1 = on
+        Prefs.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, hourlychime);
+        Logger.debug("WatchInfoFragment WatchData HOURLY_CHIME: " + hourlychime);
     }
 
     @OnLongClick(R.id.watchIconView)
@@ -263,7 +270,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void isConnected() {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.colorCharging));
+        isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), getContext().getTheme()));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.VISIBLE);
@@ -271,7 +278,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void disconnected() {
-        isConnectedTV.setTextColor(getResources().getColor(R.color.colorAccent));
+        isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), getContext().getTheme()));
         isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
         watchDetail.setVisibility(View.GONE);
@@ -284,8 +291,14 @@ public class WatchInfoFragment extends Card implements Updater {
         watchDetail.setVisibility(View.GONE);
         watchProgress.setVisibility(View.VISIBLE);
         noService.setVisibility(View.GONE);
+        isConnectedTV.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                SettingsActivity.restartApplication(getContext());
+                return true;
+            }
+        });
     }
-
     @Override
     public void updateCheckFailed() {
         if (getActivity() != null && getContext() != null) {

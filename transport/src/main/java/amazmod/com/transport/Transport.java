@@ -12,6 +12,9 @@ public class Transport {
     public static final String NAME_NOTIFICATION = "com.edotassi.amazmod.notification";
     public static final String NAME_INTERNET = "com.kieronquinn.app.amazfitinternetcompanion";
 
+    public static final String NAME_HUAMI_NOTIFICATION = "com.huami.action.notification";
+    public static final String NAME_XDRIP = "com.eveningoutpost.dexdrip.wearintegration";
+
     public static final String INCOMING_NOTIFICATION = "incoming_notification";
     public static final String DELETE_NOTIFICATION = "del";
     public static final String REQUEST_WATCHSTATUS = "request_watchstatus";
@@ -27,6 +30,7 @@ public class Transport {
     public static final String REVOKE_ADMIN_OWNER = "revoke_admin_owner";
     public static final String WATCHFACE_DATA = "watchface_data";
     public static final String REQUEST_WIDGETS = "request_widgets";
+    public static final String XDRIP_DATA = "xDrip_synced_SGV_data";
 
     public static final String WATCH_STATUS = "watch_status";
     public static final String BATTERY_STATUS = "battery_status";
@@ -40,6 +44,7 @@ public class Transport {
     public static final String RESULT_SHELL_COMMAND = "result_shell_command";
     public static final String FILE_UPLOAD = "file_upload";
     public static final String SILENCE = "silence";
+    public static final String LOCAL_IP = "request_local_IP";
 
     public static final String HTTP_REQUEST = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_REQUEST";
     public static final String HTTP_PINGBACK = "com.huami.watch.companion.transport.amazfitcommunication.HTTP_PINGBACK";

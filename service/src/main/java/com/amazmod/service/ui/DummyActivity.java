@@ -54,19 +54,19 @@ public class DummyActivity extends Activity implements DelayedConfirmationView.D
 
             switch (appTag) {
                 case Constants.MY_APP:
-                    paramText = "AmazMod Updated";
-                    continueText = String.format("Continuing in %ss…", paramTime);
+                    paramText = getString(R.string.amazmod_updated);
+                    continueText = String.format(getString(R.string.continuing_in) + " %ss…", paramTime);
                     break;
 
                 case Constants.OTHER_APP:
-                    paramText = "Install finished";
-                    continueText = String.format("Restarting in %ss…", paramTime);
+                    paramText = getString(R.string.install_finished);
+                    continueText = String.format(getString(R.string.restarting_in) + " %ss…", paramTime);
                     break;
 
                 default:
                     if (appTag.contains(".apk")) {
-                        paramText = "Installing APK";
-                        continueText = String.format("Continuing in %ss…", paramTime);
+                        paramText = getString(R.string.installing_apk);
+                        continueText = String.format(getString(R.string.continuing_in) + " %ss…", paramTime);
                     } else
                         finish();
             }

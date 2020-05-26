@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 день</item>
+        <item>2 дні</item>
+        <item>3дні</item>
+        <item>5 днів</item>
+        <item>7днів</item>
+        <item>10 днів</item>
+        <item>15 днів</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Вимкнено</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Вимкнено</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Вимкнути</item>
+        <item>1 день</item>
+        <item>7днів</item>
+        <item>15 днів</item>
+        <item>30 днів</item>
+        <item>60 днів</item>
+        <item>90 днів</item>
+        <item>180 днів</item>
+        <item>365 днів</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Нормальний</item>
+        <item>Середній</item>
+        <item>Великий</item>
+        <item>Більший</item>
+        <item>Майже Величезний</item>
+        <item>Величезний</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Так</item>
+        <item>Ні</item>
+        <item>Дякуємо</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Фільтр заголовків сповіщень</item>
+        <item>Фільтр вмісту сповіщень</item>
+        <item>Фільтрувати заголовок і вміст</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Метрична (Кельвіни)</item>
+        <item>Метрична (Цельсій)</item>
+        <item>Англійська (Фаренгейт)</item>
+    </string-array>
+</resources>

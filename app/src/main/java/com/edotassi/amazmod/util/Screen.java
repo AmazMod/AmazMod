@@ -2,11 +2,12 @@ package com.edotassi.amazmod.util;
 
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
+import android.app.UiModeManager;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.PowerManager;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 
 import com.pixplicity.easyprefs.library.Prefs;
@@ -14,7 +15,6 @@ import com.pixplicity.easyprefs.library.Prefs;
 import org.tinylog.Logger;
 
 import java.util.Arrays;
-import java.util.prefs.Preferences;
 
 import amazmod.com.transport.Constants;
 
@@ -29,9 +29,7 @@ public class Screen {
 
         boolean isScreenOn = false;
         try {
-            isScreenOn = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH
-                    ? powerManager.isInteractive()
-                    : powerManager.isScreenOn();
+            isScreenOn = powerManager.isInteractive();
         } catch (NullPointerException e) {
             Logger.error(TAG_LOCAL+"isInteractive exception: " + e.toString());
         }
@@ -59,12 +57,7 @@ public class Screen {
                 // If password is not set in the settings, the inKeyguardRestrictedInputMode() returns false,
                 // so we need to check if screen on for this case
                 PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-                    isLocked = !powerManager.isInteractive();
-                } else {
-                    //no inspection deprecation
-                    isLocked = !powerManager.isScreenOn();
-                }
+                isLocked = !powerManager.isInteractive();
             }
         } catch (NullPointerException e) {
             Logger.error("iDeviceLocked exception: " + e.toString());
@@ -145,6 +138,13 @@ public class Screen {
         return dndEnabled;
     }
 
+    public static boolean isStratos3(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isStratos3 = Arrays.asList(Constants.BUILD_STRATOS_3_MODELS).contains(model);
+        Logger.debug("DeviceUtil isStratos 3: checking if model " + model + " is an Amazfit Stratos 3: " + isStratos3);
+        return isStratos3;
+    }
+
     public static boolean isVerge(){
         String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
         boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
@@ -152,5 +152,30 @@ public class Screen {
         return isVerge;
     }
 
+    public static boolean isStratos(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isStratos = Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model);
+        Logger.debug("DeviceUtil isStratos: checking if model " + model + " is an Amazfit Stratos: " + isStratos);
+        return isStratos;
+    }
 
+    public static boolean isPace(){
+        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
+        boolean isPace = Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model);
+        Logger.debug("DeviceUtil isPace: checking if model " + model + " is an Amazfit Pace: " + isPace);
+        return isPace;
+    }
+
+    public static boolean isDrivingMode(Context context) {
+        UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+        boolean is_in_driving_mode = false;
+        try {
+            is_in_driving_mode = (uiModeManager.getCurrentModeType() == Configuration.UI_MODE_TYPE_CAR);
+        } catch (NullPointerException e){
+            // empty
+        }
+        if(is_in_driving_mode)
+            Logger.info("Is device in driving mode? : " + is_in_driving_mode);
+        return is_in_driving_mode;
+    }
 }

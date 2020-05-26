@@ -212,11 +212,91 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
                 android:text="@string/screenshot"
                 app:layout_constraintEnd_toStartOf="@id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_set_admin"
-                tools:text="SCREENSHOT" />
+                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_set_admin"/>
+
+            <Button
+                android:id="@+id/activity_tweaking_clear_adb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/clear_adb"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline2"
+                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_revoke_admin" />
+
+
+            <Button
+                android:id="@+id/activity_tweaking_wifi_ap_on"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="@string/wifi_ap_on"
+                app:layout_constraintEnd_toStartOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_screenshot"/>
+
+            <Button
+                android:id="@+id/activity_tweaking_wifi_ap_off"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/wifi_ap_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline2"
+                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_clear_adb" />
+
+            <Button
+                android:id="@+id/activity_tweaking_ftp_on"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="@string/ftp_on"
+                app:layout_constraintEnd_toStartOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_wifi_ap_on"/>
+
+            <Button
+                android:id="@+id/activity_tweaking_ftp_off"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/ftp_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/guideline2"
+                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_wifi_ap_off" />
+
+            <Button
+                android:id="@+id/activity_tweaking_watch_local_ip"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="@string/local_ip"
+                app:layout_constraintEnd_toStartOf="@id/guideline2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/activity_tweaking_ftp_on"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

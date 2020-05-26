@@ -15,10 +15,12 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String VIBRATION = "vibration";
     public static final String SCREEN_TIMEOUT = "screen_timeout";
     public static final String NOTIFICATIONS_CUSTOM_UI = "notifications_custom_ui";
+    public static final String NOTIFICATION_SOUND = "notification_sound";
     public static final String DISABLE_NOTIFICATIONS = "disable_notifications";
     public static final String DISABLE_NOTIFICATION_REPLIES = "disable_notification_replies";
     public static final String ENABLE_HARDWARE_KEYS_MUSIC_CONTROL = "enable_hardware_keys_music_control";
     public static final String ENABLE_INVERTED_THEME = "enable_inverted_theme";
+    public static final String FONT_TITLE_SIZE = "font_title_size";
     public static final String FONT_SIZE = "font_size";
     public static final String DISABLE_NOTIFICATION_SCREENON = "disable_notification_screenon";
     public static final String SHAKE_TO_DISMISS_GRAVITY = "shake_to_dismiss_gravity";
@@ -27,8 +29,10 @@ public class SettingsData extends Transportable implements Parcelable {
     public static final String PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION = "phone_connection_alert_standard_notification";
     public static final String DEFAULT_LOCALE = "default_locale";
     public static final String DISABLE_DELAY = "disable_reply_delay";
-    public static final String AMAZMOD_FIRST_WIDGET = "amazmod_first_widget";
+    public static final String AMAZMOD_KEEP_WIDGET = "amazmod_keep_widget";
+    public static final String REQUEST_SELF_RELOAD = "request_self_reload";
     public static final String AMAZMOD_OVERLAY_LAUNCHER = "amazmod_overlay_launcher";
+    public static final String AMAZMOD_HOURLY_CHIME = "amazmod_hourly_chime";
     public static final String AMAZMOD_HEARTRATE_DATA = "amazmod_heartrate_data";
     public static final String BATTERY_WATCH_ALERT = "battery_watch_alert";
     public static final String BATTERY_PHONE_ALERT = "battery_phone_alert";
@@ -39,10 +43,12 @@ public class SettingsData extends Transportable implements Parcelable {
     private int vibration;
     private int screenTimeout;
     private boolean notificationsCustomUi;
+    private boolean notificationSound;
     private boolean disableNotifications;
     private boolean disableNotificationsReplies;
     private boolean enableHardwareKeysMusicControl;
     private boolean enableInvertedTheme;
+    private String fontTitleSize;
     private String fontSize;
     private boolean disableNotificationsScreenOn;
     private int shakeToDismissGravity;
@@ -51,8 +57,10 @@ public class SettingsData extends Transportable implements Parcelable {
     private boolean phoneConnectionAlertStandardNotification;
     private String defaultLocale;
     private boolean disableDelay;
-    private boolean amazModFirstWidget;
+    private boolean amazModKeepWidget;
+    private boolean requestSelfReload;
     private boolean overlayLauncher;
+    private boolean hourlyChime;
     private boolean heartrateData;
     private int batteryWatchAlert;
     private int batteryPhoneAlert;
@@ -66,10 +74,12 @@ public class SettingsData extends Transportable implements Parcelable {
         vibration = in.readInt();
         screenTimeout = in.readInt();
         notificationsCustomUi = in.readByte() != 0;
+        notificationSound = in.readByte() != 0;
         disableNotifications = in.readByte() != 0;
         disableNotificationsReplies = in.readByte() != 0;
         enableHardwareKeysMusicControl = in.readByte() != 0;
         enableInvertedTheme = in.readByte() != 0;
+        fontTitleSize = in.readString();
         fontSize = in.readString();
         disableNotificationsScreenOn = in.readByte() != 0;
         shakeToDismissGravity = in.readInt();
@@ -78,9 +88,11 @@ public class SettingsData extends Transportable implements Parcelable {
         phoneConnectionAlertStandardNotification = in.readByte() != 0;
         defaultLocale = in.readString();
         disableDelay = in.readByte() != 0;
-        amazModFirstWidget = in.readByte() != 0;
+        amazModKeepWidget = in.readByte() != 0;
+        requestSelfReload = in.readByte() != 0;
         heartrateData = in.readByte() != 0;
         overlayLauncher = in.readByte() != 0;
+        hourlyChime = in.readByte() != 0;
         batteryWatchAlert = in.readInt();
         batteryPhoneAlert = in.readInt();
         logLines = in.readInt();
@@ -104,10 +116,12 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putInt(VIBRATION, vibration);
         dataBundle.putInt(SCREEN_TIMEOUT, screenTimeout);
         dataBundle.putBoolean(NOTIFICATIONS_CUSTOM_UI, notificationsCustomUi);
+        dataBundle.putBoolean(NOTIFICATION_SOUND, notificationSound);
         dataBundle.putBoolean(DISABLE_NOTIFICATIONS, disableNotifications);
         dataBundle.putBoolean(DISABLE_NOTIFICATION_REPLIES, disableNotificationsReplies);
         dataBundle.putBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, enableHardwareKeysMusicControl);
         dataBundle.putBoolean(ENABLE_INVERTED_THEME, enableInvertedTheme);
+        dataBundle.putString(FONT_TITLE_SIZE, fontTitleSize);
         dataBundle.putString(FONT_SIZE, fontSize);
         dataBundle.putBoolean(DISABLE_NOTIFICATION_SCREENON, disableNotificationsScreenOn);
         dataBundle.putInt(SHAKE_TO_DISMISS_GRAVITY, shakeToDismissGravity);
@@ -116,8 +130,10 @@ public class SettingsData extends Transportable implements Parcelable {
         dataBundle.putBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, phoneConnectionAlertStandardNotification);
         dataBundle.putString(DEFAULT_LOCALE, defaultLocale);
         dataBundle.putBoolean(DISABLE_DELAY, disableDelay);
-        dataBundle.putBoolean(AMAZMOD_FIRST_WIDGET, amazModFirstWidget);
+        dataBundle.putBoolean(AMAZMOD_KEEP_WIDGET, amazModKeepWidget);
+        dataBundle.putBoolean(REQUEST_SELF_RELOAD, requestSelfReload);
         dataBundle.putBoolean(AMAZMOD_OVERLAY_LAUNCHER, overlayLauncher);
+        dataBundle.putBoolean(AMAZMOD_HOURLY_CHIME, hourlyChime);
         dataBundle.putBoolean(AMAZMOD_HEARTRATE_DATA, heartrateData);
         dataBundle.putInt(BATTERY_WATCH_ALERT, batteryWatchAlert);
         dataBundle.putInt(BATTERY_PHONE_ALERT, batteryPhoneAlert);
@@ -133,10 +149,12 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setScreenTimeout(dataBundle.getInt(SCREEN_TIMEOUT));
         settingsData.setVibration(dataBundle.getInt(VIBRATION));
         settingsData.setNotificationsCustomUi(dataBundle.getBoolean(NOTIFICATIONS_CUSTOM_UI));
+        settingsData.setNotificationSound(dataBundle.getBoolean(NOTIFICATION_SOUND));
         settingsData.setDisableNotifications(dataBundle.getBoolean(DISABLE_NOTIFICATIONS));
         settingsData.setDisableNotificationReplies(dataBundle.getBoolean(DISABLE_NOTIFICATION_REPLIES));
         settingsData.setEnableHardwareKeysMusicControl(dataBundle.getBoolean(ENABLE_HARDWARE_KEYS_MUSIC_CONTROL));
         settingsData.setInvertedTheme(dataBundle.getBoolean(ENABLE_INVERTED_THEME));
+        settingsData.setFontTitleSize(dataBundle.getString(FONT_TITLE_SIZE));
         settingsData.setFontSize(dataBundle.getString(FONT_SIZE));
         settingsData.setDisableNotificationScreenOn(dataBundle.getBoolean(DISABLE_NOTIFICATION_SCREENON));
         settingsData.setShakeToDismissGravity(dataBundle.getInt(SHAKE_TO_DISMISS_GRAVITY));
@@ -145,8 +163,10 @@ public class SettingsData extends Transportable implements Parcelable {
         settingsData.setPhoneConnectionAlertStandardNotification(dataBundle.getBoolean(PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION));
         settingsData.setDefaultLocale(dataBundle.getString(DEFAULT_LOCALE));
         settingsData.setDisableDelay(dataBundle.getBoolean(DISABLE_DELAY));
-        settingsData.setAmazModFirstWidget(dataBundle.getBoolean(AMAZMOD_FIRST_WIDGET));
+        settingsData.setAmazModKeepWidget(dataBundle.getBoolean(AMAZMOD_KEEP_WIDGET));
+        settingsData.setRequestSelfReload(dataBundle.getBoolean(REQUEST_SELF_RELOAD));
         settingsData.setOverlayLauncher(dataBundle.getBoolean(AMAZMOD_OVERLAY_LAUNCHER));
+        settingsData.setHourlyChime(dataBundle.getBoolean(AMAZMOD_HOURLY_CHIME));
         settingsData.setHeartrateData(dataBundle.getBoolean(AMAZMOD_HEARTRATE_DATA));
         settingsData.setBatteryWatchAlert(dataBundle.getInt(BATTERY_WATCH_ALERT));
         settingsData.setBatteryPhoneAlert(dataBundle.getInt(BATTERY_PHONE_ALERT));
@@ -194,6 +214,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.notificationsCustomUi = notificationsCustomUi;
     }
 
+    public boolean isNotificationSound() {
+        return notificationSound;
+    }
+
+    public void setNotificationSound(boolean notificationSound) {
+        this.notificationSound = notificationSound;
+    }
+
     public boolean isDisableNotifications() {
         return disableNotifications;
     }
@@ -226,6 +254,14 @@ public class SettingsData extends Transportable implements Parcelable {
         this.enableInvertedTheme = enableInvertedTheme;
     }
 
+    public String getFontTitleSize() {
+        return fontTitleSize;
+    }
+
+    public void setFontTitleSize(String fontTitleSize) {
+        this.fontTitleSize = fontTitleSize;
+    }
+
     public String getFontSize() {
         return fontSize;
     }
@@ -250,24 +286,38 @@ public class SettingsData extends Transportable implements Parcelable {
         this.disableDelay = disableDelay;
     }
 
-    public boolean isAmazModFirstWidget() {
-        return amazModFirstWidget;
+    public boolean isAmazModKeepWidget() {
+        return amazModKeepWidget;
     }
+
+    public boolean isRequestSelfReload() { return requestSelfReload; }
 
     public boolean isOverlayLauncher() {
         return overlayLauncher;
+    }
+
+    public boolean isHourlyChime() {
+        return hourlyChime;
     }
 
     public boolean isHeartrateData() {
         return heartrateData;
     }
 
-    public void setAmazModFirstWidget(boolean amazModFirstWidget) {
-        this.amazModFirstWidget = amazModFirstWidget;
+    public void setAmazModKeepWidget(boolean amazModKeepWidget) {
+        this.amazModKeepWidget = amazModKeepWidget;
+    }
+
+    public void setRequestSelfReload(boolean requestSelfReload) {
+        this.requestSelfReload = requestSelfReload;
     }
 
     public void setOverlayLauncher(boolean overlayLauncher) {
         this.overlayLauncher = overlayLauncher;
+    }
+
+    public void setHourlyChime(boolean hourlyChime) {
+        this.hourlyChime = hourlyChime;
     }
 
     public void setHeartrateData(boolean heartrateData) {
@@ -349,10 +399,12 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeInt(vibration);
         dest.writeInt(screenTimeout);
         dest.writeByte((byte) (notificationsCustomUi ? 1 : 0));
+        dest.writeByte((byte) (notificationSound ? 1 : 0));
         dest.writeByte((byte) (disableNotifications ? 1 : 0));
         dest.writeByte((byte) (disableNotificationsReplies ? 1 : 0));
         dest.writeByte((byte) (enableHardwareKeysMusicControl ? 1 : 0));
         dest.writeByte((byte) (enableInvertedTheme ? 1 : 0));
+        dest.writeString(fontTitleSize);
         dest.writeString(fontSize);
         dest.writeByte((byte) (disableNotificationsScreenOn ? 1 : 0));
         dest.writeInt(shakeToDismissGravity);
@@ -361,8 +413,9 @@ public class SettingsData extends Transportable implements Parcelable {
         dest.writeByte((byte) (phoneConnectionAlertStandardNotification ? 1 : 0));
         dest.writeString(defaultLocale);
         dest.writeByte((byte) (disableDelay ? 1 : 0));
-        dest.writeByte((byte) (amazModFirstWidget ? 1 : 0));
-        dest.writeByte((byte) (0)); // TODO - Replace this old option with a new one (compatibility)
+        dest.writeByte((byte) (amazModKeepWidget ? 1 : 0));
+        dest.writeByte((byte) (requestSelfReload ? 1 : 0));
+        dest.writeByte((byte) (hourlyChime ? 1 : 0));
         dest.writeByte((byte) (heartrateData ? 1 : 0));
         dest.writeInt(batteryWatchAlert);
         dest.writeInt(batteryWatchAlert);

@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 tools:text="Last read: --:--"
-                android:textAlignment="textEnd"
+                android:textAlignment="textStart"
                 android:textSize="12sp"
                 android:textStyle="italic"
                 app:layout_constraintStart_toStartOf="@+id/textView2"

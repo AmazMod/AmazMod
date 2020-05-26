@@ -24,5 +24,7 @@
         android:id="@+id/activity_notification_packages_selector_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:divider="@null"
+        android:dividerHeight="0dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

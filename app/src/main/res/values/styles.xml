@@ -24,7 +24,7 @@
         <!-- Customize your theme here. -->
         <!--<item name="colorPrimary">@color/colorPrimary</item>-->
         <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
         <item name="android:textColorHighlight">@color/text_light_opaque</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="android:windowBackground">@color/background</item>
@@ -50,7 +50,7 @@
 
     <style name="AlertDialogStyleDark" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
         <item name="android:buttonBarButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
         <item name="android:textColorHighlight">@color/text_light_opaque</item>
         <item name="android:colorBackground">@color/background</item>
         <item name="android:windowBackground">@color/background</item>
@@ -59,7 +59,7 @@
     <!-- Dark theme for android-file-chooser -->
     <style name="FileChooserStyle_Dark" parent="FileChooserStyle">
         <item name="android:textColorHighlight">@color/text_light_opaque</item>
-        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccentDark</item>
         <item name="fileChooserDialogStyle">@style/FileChooserDialogStyle_Dark</item>
         <item name="fileChooserListItemStyle">@style/FileChooserListItemStyle_Dark</item>
         <item name="fileChooserPathViewStyle">@style/FileChooserPathViewStyle_Dark</item>
@@ -78,7 +78,7 @@
     </style>
 
     <style name="FileChooserButtonStyle_Dark" parent="FileChooserButtonStyle">
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorAccentDark</item>
     </style>
 
     <style name="FileChooserListItemStyle_Dark" parent="FileChooserListItemStyle">

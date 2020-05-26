@@ -74,6 +74,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     private String key, mode, notificationKey, selectedReply, selectedSilenceTime;
     private boolean enableInvertedTheme, disableDelay;
+    public static boolean keyboardIsEnable = false;
 
     private Context mContext;
     private FragmentUtil util;
@@ -134,7 +135,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
             util = new FragmentUtil(mContext);
             disableDelay = util.getDisableDelay();
 
-            //Load preferences
+            // Load preferences
             boolean disableNotificationText = util.getDisableNotificationText();
             final boolean notificationHasHideReplies = NotificationStore.getHideReplies(key);
             final boolean notificationHasForceCustom = NotificationStore.getForceCustom(key);
@@ -187,7 +188,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                     }
                 });
 
-                //Mute related stuff
+                // Mute related stuff
                 muteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -247,12 +248,12 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         delayedConfirmationView = getActivity().findViewById(R.id.fragment_notification_delayedview);
         delayedConfirmationViewBottom = getActivity().findViewById(R.id.fragment_notification_delayedview_bottom);
 
-        //Buttons
+        // Buttons
         deleteButton = getActivity().findViewById(R.id.fragment_delete_button);
         replyButton = getActivity().findViewById(R.id.fragment_notification_reply_button);
         muteButton = getActivity().findViewById(R.id.fragment_notification_mute_button);
 
-        //Replies view
+        // Replies view
         replies_layout = getActivity().findViewById(R.id.fragment_custom_notification_replies_layout);
         repliesListView = getActivity().findViewById(R.id.fragment_reply_list);
         repliesEditTextContainer = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_container);
@@ -260,20 +261,23 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         replyEditClose = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_close);
         replyEditSend = getActivity().findViewById(R.id.fragment_notifications_replies_edittext_button_reply);
 
-        //Mute view
+        // Mute view
         muteListView = getActivity().findViewById(R.id.fragment_mute_list);
 
     }
 
     private void setTheme() {
-        //Increase minimum height so reply button stays at the Verges bottom of screen, just as on Pace and Stratos
+        // Adjust minimum height based on device (so that reply button stays at the bottom of screen)
         if (SystemProperties.isVerge()) {
             int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 72, getResources().getDisplayMetrics());
+            replies_layout.setMinimumHeight(px);
+        }else if (SystemProperties.isStratos3()) {
+            int px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getResources().getDisplayMetrics());
             replies_layout.setMinimumHeight(px);
         }
 
         // Set theme and font size
-        //Log.d(Constants.TAG, "NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
+        // Logger.debug("NotificationActivity enableInvertedTheme: " + enableInvertedTheme + " / fontSize: " + fontSize);
         if (enableInvertedTheme) {
             rootLayout.setBackgroundColor(getResources().getColor(R.color.white));
             time.setTextColor(getResources().getColor(R.color.black));
@@ -285,12 +289,13 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         } else
             rootLayout.setBackgroundColor(getResources().getColor(R.color.black));
 
-        time.setTextSize(util.getFontSizeSP());
-        title.setTextSize(util.getFontSizeSP());
+        time.setTextSize(util.getFontTitleSizeSP());
+        title.setTextSize(util.getFontTitleSizeSP());
         text.setTextSize(util.getFontSizeSP());
 
-        util.setFontLocale(title, util.getDefaultLocale());
-        util.setFontLocale(text, util.getDefaultLocale());
+        // Code changed to identify special languages (eg Hebrew)
+        util.setFontLocale(title, notificationData.getTitle());
+        util.setFontLocale(text, notificationData.getText());
     }
 
     private void hideContent() {
@@ -434,6 +439,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                 repliesEditTextContainer.setVisibility(View.VISIBLE);
                 ((NotificationWearActivity) getActivity()).stopTimerFinish();
                 ((NotificationWearActivity) getActivity()).setKeyboardVisible(true);
+                keyboardIsEnable = true;
+                Logger.debug("keyboard IS visible");
 
                 replyEditSend.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -450,6 +457,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
                         scrollView.setVisibility(View.VISIBLE);
                         repliesEditTextContainer.setVisibility(View.GONE);
                         ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
+                        keyboardIsEnable = false;
+                        Logger.debug("keyboard NOT visible");
                         ((NotificationWearActivity) getActivity()).startTimerFinish();
                     }
                 });
@@ -473,7 +482,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         for (final Integer silence : silenceList) {
             final View row = inflater.inflate(R.layout.row_mute, muteListView, false);
             EmojiTextView muteView = row.findViewById(R.id.row_mute_value);
-            muteView.setText(String.format("%s minutes", silence.toString()));
+            muteView.setText(String.format("%s " + getString(R.string.minutes), silence.toString()));
             if (enableInvertedTheme) {
                 muteView.setTextColor(getResources().getColor(R.color.black));
             }
@@ -492,7 +501,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         //Create a Item for Muting App for One Day
         final View row_day = inflater.inflate(R.layout.row_mute, muteListView, false);
         EmojiTextView muteView = row_day.findViewById(R.id.row_mute_value);
-        muteView.setText("One Day");
+        muteView.setText(getString(R.string.one_day));
         if (enableInvertedTheme) {
             muteView.setTextColor(getResources().getColor(R.color.black));
         }
@@ -510,11 +519,11 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         //Create a Item for BLOCKING APP (Removes it From List of Apps)
         final View row_block = inflater.inflate(R.layout.row_mute, muteListView, false);
         muteView = row_block.findViewById(R.id.row_mute_value);
-        muteView.setText("BLOCK APP");
+        muteView.setText(R.string.block_app);
         if (enableInvertedTheme)
             muteView.setTextColor(getResources().getColor(R.color.dark_red));
         else
-            muteView.setTextColor(getResources().getColor(R.color.red));
+            muteView.setTextColor(getResources().getColor(R.color.red_a200));
         muteView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -533,6 +542,8 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
     private void sendReply(View v) {
         ((NotificationWearActivity) getActivity()).setKeyboardVisible(false);
+        keyboardIsEnable = false;
+        Logger.debug("keyboard NOT visible");
         sendCommand(ACTION_REPLY, v);
     }
 
@@ -546,15 +557,15 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         switch (action) {
             case ACTION_DELETE:
                 delayedConfirmationView.setTotalTimeMs(1500);
-                confirmationMessage = "REMOVING";
+                confirmationMessage = getString(R.string.removing);
                 break;
             case ACTION_MUTE:
                 delayedConfirmationView.setTotalTimeMs(3000);
-                confirmationMessage = "MUTING";
+                confirmationMessage = getString(R.string.muting);
                 break;
             case ACTION_REPLY:
                 delayedConfirmationView.setTotalTimeMs(3000);
-                confirmationMessage = "SENDING REPLY";
+                confirmationMessage = getString(R.string.sending_reply);
                 break;
             default:
                 return;
@@ -614,13 +625,13 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
 
         switch (action) {
             case ACTION_DELETE:
-                confirmationMessage = "Deleted!";
+                confirmationMessage = getString(R.string.deleted)+"!";
                 break;
             case ACTION_MUTE:
-                confirmationMessage = "Muted!";
+                confirmationMessage = getString(R.string.muted)+"!";
                 break;
             case ACTION_REPLY:
-                confirmationMessage = "Reply Sent!";
+                confirmationMessage = getString(R.string.reply_sent)+"!";
                 break;
             default:
                 return;
@@ -632,8 +643,7 @@ public class NotificationFragment extends Fragment implements DelayedConfirmatio
         intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE, confirmationMessage);
         startActivity(intent);
 
-        NotificationStore.removeCustomNotification(key);
-        NotificationStore.setNotificationCount(mContext);
+        NotificationStore.removeCustomNotification(key, mContext); // Remove custom notification
         if (NotificationWearActivity.MODE_VIEW.equals(mode))
             WearNotificationsFragment.getInstance().loadNotifications();
 

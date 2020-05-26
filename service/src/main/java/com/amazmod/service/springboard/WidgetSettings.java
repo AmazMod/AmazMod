@@ -107,7 +107,7 @@ public class WidgetSettings {
 
     public long get(String key, long defvalue) {
         //this.load();
-        //Log.d(Constants.TAG, "WidgetSettings get lastChargeDate: " + key);
+        //Logger.debug("WidgetSettings get lastChargeDate: " + key);
         return this.getLong(key, defvalue);
     }
 
@@ -126,7 +126,7 @@ public class WidgetSettings {
         int value;
         try {
             value = this.data.getInt(key);
-            //Log.d(Constants.TAG, "WidgetSettings getInt: " + value);
+            //Logger.debug("WidgetSettings getInt: " + value);
         } catch (JSONException e) {
             value = defvalue;
             Logger.debug("WidgetSettings getInt exception: " + e.toString());
@@ -149,7 +149,7 @@ public class WidgetSettings {
         long value;
         try {
             value = this.data.getLong(key);
-            //Log.d(Constants.TAG, "WidgetSettings getLong: " + value);
+            //Logger.debug("WidgetSettings getLong: " + value);
         } catch (JSONException e) {
             value = defvalue;
             Logger.debug("WidgetSettings getLong exception: " + e.toString());

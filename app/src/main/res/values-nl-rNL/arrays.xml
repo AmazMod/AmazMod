@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 dag</item>
+        <item>2 dagen</item>
+        <item>3 dagen</item>
+        <item>5 dagen</item>
+        <item>7 dagen</item>
+        <item>10 dagen</item>
+        <item>15 dagen</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Uitgeschakeld</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Uitgeschakeld</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Uitgeschakeld</item>
+        <item>1 dag</item>
+        <item>7 dagen</item>
+        <item>15 dagen</item>
+        <item>30 dagen</item>
+        <item>60 dagen</item>
+        <item>90 dagen</item>
+        <item>180 dagen</item>
+        <item>365 dagen</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normaal</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Ja</item>
+        <item>Nee</item>
+        <item>Bedankt</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metrisch (Kelvin)</item>
+        <item>Celsius (Metrisch)</item>
+        <item>Imperial (Fahrenheit)</item>
+    </string-array>
+</resources>

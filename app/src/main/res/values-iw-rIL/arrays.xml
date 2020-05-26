@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>יום אחד</item>
+        <item>יומיים</item>
+        <item>שלושה ימים</item>
+        <item>חמישה ימים</item>
+        <item>שבוע</item>
+        <item>עשרה ימים</item>
+        <item>15 יום</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>מבוטל</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>מבוטל</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>השבת</item>
+        <item>יום אחד</item>
+        <item>שבוע</item>
+        <item>15 יום</item>
+        <item>30 יום</item>
+        <item>60 יום</item>
+        <item>90 יום</item>
+        <item>180 יום</item>
+        <item>365 ימים</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>רגיל</item>
+        <item>בינוני</item>
+        <item>גדול</item>
+        <item>יותר גדול</item>
+        <item>כמעט ענקי</item>
+        <item>ענקי</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>כן</item>
+        <item>לא</item>
+        <item>תודה רבה</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>סינון לפי כותרת ההתראה</item>
+        <item>סינון לפי תוכן ההתראה</item>
+        <item>סינון כותרת ותוכן</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>קלוין</item>
+        <item>צלזיוס</item>
+        <item>פרנהייט</item>
+    </string-array>
+</resources>

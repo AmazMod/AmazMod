@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="densities">
+        <item name="normal">Normal</item>
+        <item name="low">Düşük</item>
+        <item name="high">Yüksek</item>
+        <item name="unknown">Bilinmiyor</item>
+    </string-array>
+    <string-array name="fontSizes">
+        <item name="small">Küçük</item>
+        <item name="normal">Normal</item>
+        <item name="big">Büyük</item>
+        <item name="huge">Çok Büyük</item>
+    </string-array>
+    <string-array name="inverted">
+        <item name="no">HAYIR</item>
+        <item name="yes">Evet</item>
+    </string-array>
+</resources>

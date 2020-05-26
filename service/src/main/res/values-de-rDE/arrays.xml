@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="densities">
+        <item name="normal">Normal</item>
+        <item name="low">Niedrig</item>
+        <item name="high">Hoch</item>
+        <item name="unknown">Unbekannt</item>
+    </string-array>
+    <string-array name="fontSizes">
+        <item name="small">Klein</item>
+        <item name="normal">Normal</item>
+        <item name="big">Groß</item>
+        <item name="huge">Sehr groß</item>
+    </string-array>
+    <string-array name="inverted">
+        <item name="no">Nein</item>
+        <item name="yes">Ja</item>
+    </string-array>
+</resources>

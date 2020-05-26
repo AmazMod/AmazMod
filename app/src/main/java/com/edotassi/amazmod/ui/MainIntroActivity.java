@@ -2,7 +2,6 @@ package com.edotassi.amazmod.ui;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -65,6 +64,7 @@ public class MainIntroActivity extends IntroActivity {
         setButtonBackVisible(showBack);
         setButtonNextVisible(showNext);
         setButtonCtaVisible(getStartedEnabled);
+        setButtonCtaLabel(R.string.intro_description_get_started);
         setButtonCtaTintMode(BUTTON_CTA_TINT_MODE_TEXT);
 
         // Slides
@@ -103,15 +103,11 @@ public class MainIntroActivity extends IntroActivity {
                     .background(R.color.background_1)
                     .backgroundDark(R.color.background_dark_1)
                     .scrollable(scrollable)
-                    .buttonCtaLabel("Grant Access")
+                    .buttonCtaLabel(R.string.intro_description_grant_access)
                     .buttonCtaClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                            } else {
-                                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-                            }
+                            startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
                         }
                     })
                     .build();

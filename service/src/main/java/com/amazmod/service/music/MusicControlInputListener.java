@@ -78,7 +78,7 @@ public class MusicControlInputListener {
                         short code = byteBuffer.getShort(10);
                         short value = byteBuffer.getShort(12);
 
-                        //Log.d(Constants.TAG, "timeS: " + timeS + ", timeMS: " + timeMS + ", type: " + type + ", code: " + code + ", value: " + value);
+                        //Logger.debug("timeS: " + timeS + ", timeMS: " + timeMS + ", type: " + type + ", code: " + code + ", value: " + value);
 
                         if (type != TYPE_KEYBOARD) {
                             continue;

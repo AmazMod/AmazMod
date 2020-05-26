@@ -172,10 +172,10 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
 
         if (Permissions.hasPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             filesPermission.setText(this.ENABLED.toUpperCase());
-            filesPermission.setTextColor(getResources().getColor(R.color.colorCharging));
+            filesPermission.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
         } else {
             filesPermission.setText(this.DISABLED.toUpperCase());
-            filesPermission.setTextColor(getResources().getColor(R.color.colorAccent));
+            filesPermission.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
         }
 
         final String timeLastSave = Prefs.getString(Constants.PREF_TIME_LAST_SAVE, "null");
@@ -188,15 +188,15 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
         if (checkBackupFile()) {
             if (useFiles) {
                 file.setText(this.DATA.toUpperCase());
-                file.setTextColor(getResources().getColor(R.color.colorCharging));
+                file.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
             } else if (useDownloads) {
                 file.setText(this.DOWNLOADS.toUpperCase());
-                file.setTextColor(getResources().getColor(R.color.colorCharging));
+                file.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
             }
 
         } else {
             file.setText(this.NONE.toUpperCase());
-            file.setTextColor(getResources().getColor(R.color.colorAccent));
+            file.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
         }
 
         if (checkWriteDirectory()) {
@@ -505,7 +505,7 @@ public class FilesExtrasActivity extends BaseAppCompatActivity {
             for (NotificationPreferencesEntity p : apps) {
                 dummy.add(p.getPackageName());
                 filters.put(p.getPackageName(), p.getFilter());
-                //Log.d(Constants.TAG,"FilesExtrasActivity saveAppsDbToPrefs added: " + p.getPackageName());
+                //Logger.debug("FilesExtrasActivity saveAppsDbToPrefs added: " + p.getPackageName());
             }
 
             if (dummy.size() > 0) {

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 день</item>
+        <item>2 дня</item>
+        <item>3 дня</item>
+        <item>5 дней</item>
+        <item>7 дней</item>
+        <item>10 дней</item>
+        <item>15 дней</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Отключено</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Отключено</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Отключено</item>
+        <item>1 день</item>
+        <item>7 дней</item>
+        <item>15 дней</item>
+        <item>30 дней</item>
+        <item>60 дней</item>
+        <item>90 дней</item>
+        <item>180 дней</item>
+        <item>365 дней</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Нормальный</item>
+        <item>Средний</item>
+        <item>Большой</item>
+        <item>Крупнее</item>
+        <item>Почти огромный</item>
+        <item>Огромный</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Да</item>
+        <item>Нет</item>
+        <item>Спасибо</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Фильтровать заголовки уведомлений</item>
+        <item>Фильтровать содержимое уведомлений</item>
+        <item>Фильтровать и заголовок, и содержимое</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Метрическая (Кельвин)</item>
+        <item>Метрическая (Цельсий)</item>
+        <item>Имперская (Фаренгейт)</item>
+    </string-array>
+</resources>

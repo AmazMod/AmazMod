@@ -94,7 +94,7 @@ public class WearInfoFragment extends Fragment {
 
         StringBuilder dateDiff = new StringBuilder("  ");
 
-        //Log.d(Constants.TAG, "AmazModWidget updateTimeSinceLastChargeDate data: " + battery + " / " + lastChargeDate );
+        //Logger.debug("AmazModWidget updateTimeSinceLastChargeDate data: " + battery + " / " + lastChargeDate );
         if (lastChargeDate != 0L) {
             long diffInMillies = System.currentTimeMillis() - lastChargeDate;
             List<TimeUnit> units = new ArrayList<>(EnumSet.allOf(TimeUnit.class));
@@ -113,8 +113,8 @@ public class WearInfoFragment extends Fragment {
                     break;
                 }
             }
-            dateDiff.append("\n").append(mContext.getResources().getText(R.string.last_charge));
-        } else dateDiff.append(mContext.getResources().getText(R.string.last_charge_no_info));
+            dateDiff.append("\n").append(mContext.getResources().getString(R.string.last_charge));
+        } else dateDiff.append(mContext.getResources().getString(R.string.last_charge_no_info));
 
         timeSLC = dateDiff.toString();
 
@@ -154,13 +154,13 @@ public class WearInfoFragment extends Fragment {
                 long sleepRealtime = SystemClock.elapsedRealtime() - SystemClock.uptimeMillis();
                 String ip = getIP();
 
-                upTime.setText("Uptime: " + formatInterval(elapsedRealtime, false));
-                sleepTime.setText("SleepTime: " + formatInterval(sleepRealtime, false));
-                memory.setText("Free RAM: " + freeRAM + "MB");
+                upTime.setText(getString(R.string.up_time) +" "+ formatInterval(elapsedRealtime, false));
+                sleepTime.setText(getString(R.string.sleep_time) +" "+ formatInterval(sleepRealtime, false));
+                memory.setText(getString(R.string.free_ram)+" "+ freeRAM + "MB");
                 if ((ip != null) && (!ip.equals("0.0.0.0")))
                     currentIP.setText("IP: " + ip);
                 else
-                    currentIP.setText("IP: (not connected)");
+                    currentIP.setText("IP: (" + getString(R.string.not_connected) +")");
             } catch (Exception ex) {
                 Logger.error("WearInfoFragment showInfo exception: " + ex.toString());
             }

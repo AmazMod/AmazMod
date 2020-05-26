@@ -1,51 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/row_handle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="12dp"
-        android:text="☰"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="HardcodedText" />
+        android:layout_margin="4dp"
+        android:elevation="4dp"
+        android:background="?android:attr/colorBackground"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/row_replies_value"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:padding="16dp"
-        tools:text="TextView"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/row_replies_delete"
-        app:layout_constraintStart_toEndOf="@+id/row_handle"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/row_handle"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            android:textSize="24sp"
+            android:gravity="center"
+            android:text="☰" />
 
-    <ImageButton
-        android:id="@+id/row_replies_delete"
-        style="?attr/buttonBarButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/outline_delete_24"
-        android:contentDescription="@string/button_description" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/row_replies_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight=".80"
+                android:gravity="start|center"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/row_replies_edit"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".10"
+                android:contentDescription="@string/button_description"
+                android:src="@drawable/outline_pencil_24" />
+
+            <ImageButton
+                android:id="@+id/row_replies_delete"
+                style="?attr/buttonBarButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".10"
+                android:contentDescription="@string/button_description"
+                android:src="@drawable/outline_delete_24"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

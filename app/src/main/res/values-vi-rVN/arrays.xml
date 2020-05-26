@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 ngày</item>
+        <item>2 ngày</item>
+        <item>3 ngày</item>
+        <item>5 ngày</item>
+        <item>7 ngày</item>
+        <item>10 ngày</item>
+        <item>15 ngày</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Đã tắt</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Tắt</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Tắt</item>
+        <item>1 ngày</item>
+        <item>7 ngày</item>
+        <item>15 ngày</item>
+        <item>30 ngày</item>
+        <item>60 ngày</item>
+        <item>90 ngày</item>
+        <item>180 ngày</item>
+        <item>365 ngày</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Bình thường</item>
+        <item>Trung bình</item>
+        <item>Lớn</item>
+        <item>Lớn hơn</item>
+        <item>Gần như rất lớn</item>
+        <item>Rất lớn</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Đồng ý</item>
+        <item>Không</item>
+        <item>Cảm ơn</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Tiêu đề thông báo của bộ lọc</item>
+        <item>Lọc nội dung thông báo</item>
+        <item>Lọc cả tiêu đề và nội dung</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Số liệu (Kelvin)</item>
+        <item>Độ C (số liệu)</item>
+        <item>Hoàng gia (Độ F)</item>
+    </string-array>
+</resources>

@@ -35,7 +35,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/light_grey"
                     android:textSize="20sp"
-                    tools:text="Screen Settings" />
+                    tools:text="@string/screen_settings" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -55,7 +55,7 @@
                         android:textAlignment="center"
                         android:textColor="#FFFFFFFF"
                         android:textSize="16sp"
-                        tools:text="Font:" />
+                        tools:text="@string/font" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -105,7 +105,7 @@
                         android:textAlignment="center"
                         android:textColor="#FFFFFFFF"
                         android:textSize="16sp"
-                        tools:text="Density:" />
+                        tools:text="@string/density" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -156,7 +156,7 @@
                         android:textAlignment="center"
                         android:textColor="#FFFFFFFF"
                         android:textSize="16sp"
-                        tools:text="Inverted:" />
+                        tools:text="@string/inverted" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -201,7 +201,7 @@
                     android:textAlignment="center"
                     android:textColor="#FFFFFFFF"
                     android:textSize="14sp"
-                    tools:text="Changing Font Size will restart watch" />
+                    tools:text="@string/changing_font_warning" />
 
                 <Button
                     android:id="@+id/activity_screen_settings_button_save"
@@ -224,7 +224,7 @@
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
-                    tools:text="Save" />
+                    tools:text="@string/save" />
 
             </LinearLayout>
 

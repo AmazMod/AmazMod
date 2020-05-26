@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.support.AppInfo;
-import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity;
 
 import java.util.List;
@@ -55,8 +54,9 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         viewHolder.appInfoVersionName.setText(currentAppInfo.getVersionName());
         viewHolder.appInfoPackageName.setText(currentAppInfo.getPackageName());
         viewHolder.appInfoSwitch.setChecked(currentAppInfo.isEnabled());
+        viewHolder.appInfoButton.setEnabled(currentAppInfo.isEnabled());
 
-        viewHolder.appInfoHandler.setOnClickListener(view -> {
+        viewHolder.appInfoButton.setOnClickListener(view -> {
             if (currentAppInfo.isEnabled()) {
                 Intent intent = new Intent(context, NotificationPackageOptionsActivity.class);
                 intent.putExtra("app", currentAppInfo.getPackageName());
@@ -68,8 +68,8 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
 
     static class ViewHolder {
 
-        @BindView(R.id.row_appinfo_handler)
-        TextView appInfoHandler;
+        @BindView(R.id.row_appinfo_button)
+        ImageView appInfoButton;
         @BindView(R.id.row_appinfo_icon)
         ImageView appInfoIcon;
         @BindView(R.id.row_app_info_appname)
@@ -93,9 +93,9 @@ public class AppInfoAdapter extends ArrayAdapter<AppInfo> {
         @OnCheckedChanged(R.id.row_appinfo_switch)
         void onSwitchChanged(Switch switchWidget, boolean checked) {
             if (checked != appInfo.isEnabled()) {
-                SilenceApplicationHelper.setPackageEnabled(appInfo.getPackageName(), checked);
                 appInfo.setEnabled(checked);
                 appInfoBridge.onAppInfoStatusChange();
+                appInfoButton.setEnabled(checked);
             }
         }
     }

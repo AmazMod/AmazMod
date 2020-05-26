@@ -62,13 +62,14 @@ public class HeartRateChartFragment extends Card {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        heartrateChart.setNoDataText(getString(R.string.pref_heartrate_nodata));
 
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //Log.d(Constants.TAG, "HeartRateChartFragment onResume");
+        //Logger.debug("HeartRateChartFragment onResume");
     }
 
     @Override
@@ -110,7 +111,6 @@ public class HeartRateChartFragment extends Card {
         heartrateChart.getXAxis().setTextColor(themeForegroundColor);
         heartrateChart.getAxisLeft().setTextColor(themeForegroundColor);
         heartrateChart.getAxisRight().setDrawLabels(false);
-
         BarData data = new BarData(set);
         data.setBarWidth(0.9f); // set custom bar width
         data.setValueTextColor(themeForegroundColor);

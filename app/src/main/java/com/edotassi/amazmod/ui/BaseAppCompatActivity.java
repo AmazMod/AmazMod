@@ -15,8 +15,10 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (Screen.isDarkTheme()) {
+        if (Screen.isDarkTheme() || MainActivity.systemThemeIsDark) {
             setTheme(R.style.AppThemeDark);
+        } else {
+            setTheme(R.style.AppTheme);
         }
     }
 

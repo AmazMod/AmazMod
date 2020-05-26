@@ -13,12 +13,16 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public static final String EXTRA = "watchface";
     public static final String BATTERY = "battery";
     public static final String ALARM = "alarm";
+    public static final String EXPIRE = "expire";
     public static final String CALENDAR_EVENTS = "calendar_events";
+    public static final String WEATHER_DATA = "weather_data";
 
 
     private int battery;
+    private long expire;
     private String alarm;
     private String calendar_events;
+    private String weather_data;
 
     public WatchfaceData() {
     }
@@ -26,7 +30,9 @@ public class WatchfaceData extends Transportable implements Parcelable {
     protected WatchfaceData(Parcel in) {
         battery = in.readInt();
         alarm = in.readString();
+        expire = in.readLong();
         calendar_events = in.readString();
+        weather_data = in.readString();
     }
 
     public static final Creator<WatchfaceData> CREATOR = new Creator<WatchfaceData>() {
@@ -46,7 +52,9 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
         dataBundle.putInt(BATTERY, battery);
         dataBundle.putString(ALARM, alarm);
+        dataBundle.putLong(EXPIRE, expire);
         dataBundle.putString(CALENDAR_EVENTS, calendar_events);
+        dataBundle.putString(WEATHER_DATA, weather_data);
 
         return dataBundle;
     }
@@ -56,7 +64,9 @@ public class WatchfaceData extends Transportable implements Parcelable {
 
         settingsData.setBattery(dataBundle.getInt(BATTERY));
         settingsData.setAlarm(dataBundle.getString(ALARM));
+        settingsData.setExpire(dataBundle.getLong(EXPIRE));
         settingsData.setCalendarEvents(dataBundle.getString(CALENDAR_EVENTS));
+        settingsData.setWeatherData(dataBundle.getString(WEATHER_DATA));
 
         return settingsData;
     }
@@ -82,11 +92,25 @@ public class WatchfaceData extends Transportable implements Parcelable {
         this.alarm = data;
     }
 
+    public Long getExpire() {
+        return expire;
+    }
+    public void setExpire(Long data) {
+        this.expire = data;
+    }
+
     public String getCalendarEvents() {
         return calendar_events;
     }
     public void setCalendarEvents(String data) {
         this.calendar_events = data;
+    }
+
+    public String getWeatherData() {
+        return weather_data;
+    }
+    public void setWeatherData(String data) {
+        this.weather_data = data;
     }
 
     @Override
@@ -98,6 +122,8 @@ public class WatchfaceData extends Transportable implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(battery);
         dest.writeString(alarm);
+        dest.writeLong(expire);
         dest.writeString(calendar_events);
+        dest.writeString(weather_data);
     }
 }

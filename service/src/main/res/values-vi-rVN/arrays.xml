@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="densities">
+        <item name="normal">Bình thường</item>
+        <item name="low">Thấp</item>
+        <item name="high">Cao</item>
+        <item name="unknown">Không xác định</item>
+    </string-array>
+    <string-array name="fontSizes">
+        <item name="small">Nhỏ</item>
+        <item name="normal">Bình thường</item>
+        <item name="big">Lớn</item>
+        <item name="huge">Rất lớn</item>
+    </string-array>
+    <string-array name="inverted">
+        <item name="no">Không</item>
+        <item name="yes">Đồng ý</item>
+    </string-array>
+</resources>

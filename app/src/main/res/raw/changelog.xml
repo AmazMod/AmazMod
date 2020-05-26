@@ -1,5 +1,59 @@
 <changelog>
     <release
+        date="2020-05-10"
+        versionCode="226"
+        versionName="v1.2">
+        <new>Add search bar on settings menu</new>
+        <new>Add "Support us" menu, your chance to show us some love!</new>
+        <new>Add whitelist filter, and now any app can use different filter setting</new>
+        <new>Split title and content font size and add new intermediate value</new>
+        <new>New buttons on Tweaking menu about WiFi AP, FTP Server and local IP</new>
+        <new>FTP WiFi file transfer!!(Beta)</new>
+        <new>Weather provider improvements (code improvements, Stratos 3 support)</new>
+        <new>Pollution data (AQI-PM25) added in weather provider (based on aqicn.org)</new>
+        <new>Watch's root status in main screen</new>
+        <new>New location tracker in logs</new>
+        <new>Hebrew and Arabic support on custom notification list</new>
+        <new>Stratos 3 support improvements (UI adjustments, updated transporter libs)</new>
+        <new>UI improvements (App notification menu)</new>new>
+        <bugfix>Fix Notification delay with GreatFit based watchfaces</bugfix>
+        <bugfix>Fixes for Notification counter</bugfix>
+        <bugfix>Fix Custom UI Verge Sound Notification setting are lost</bugfix>
+        <bugfix>Fix for weather UV when using manual location</bugfix>
+        <bugfix>Code clean up and other small fixes</bugfix>
+    </release>
+    <release
+        date="2020-02-20"
+        versionCode="220"
+        versionName="v1.1.9 (220)">
+        <new>Add setting to use colored icon for custom UI notification</new>
+        <new>Now dark theme will follow system theme setting (beta)</new>
+        <new>Watch widgets can now be reordered directly from the phone</new>
+        <new>Add "Clear ADB" button on tweaking menu to avoid to much adb processes keep running</new>
+        <new>Monitor widgets option on to force apply the selected order while Amazfit app tries to revert it</new>
+        <new>Ability to select the calendar accounts from which data are extracted</new>
+        <new>(Service) Incoming notifications will only vibrate while you type (to avoid losing your message)</new>
+        <new>(Service) Improved widget-reorder UI with a save button</new>
+        <new>Ability to export battery graph history (long press the graph)</new>
+        <new>Added Hourly chime feature (a vibration every hour)</new>
+        <new>Now notification filter can be used for title, content only or both two as before</new>
+        <new>New option to enable/disable notification sound on Verge</new>
+        <new>(Service) Ability to collect and save XDrip+ transmitted data</new>
+        <new>New accurate weather forecast data (based on OpenWeatherMap)</new>
+        <new>New weather card in main screen</new>
+        <new>Enable/Disable notification forwarding while driving (phone in driving mode)</new>
+        <new>Music files show up directly after transfer to watch (mp3, m4a)</new>
+        <new>Service now supports translations (language is set based on phone app)</new>
+        <new>Translation additions. App is almost fully translatable.</new>
+        <bugfix>Fix some problems with Android 10</bugfix>
+        <bugfix>Fix missing Google Assistant notification</bugfix>
+        <bugfix>Filemanager and App list now use case insensitive sort order</bugfix>
+        <bugfix>Calendar data fixes</bugfix>
+        <bugfix>Small fix on Dark theme text visibilities and other graphical adjustments</bugfix>
+        <bugfix>Widgets list will show all installed widgets</bugfix>
+        <bugfix>(Service) Code cleanup</bugfix>
+    </release>
+    <release
         date="2019-08-17"
         versionCode="217"
         versionName="v1.1.8 (217)">
@@ -34,7 +88,7 @@
         date="2019-04-23"
         versionCode="212"
         versionName="v1.1.6 (212)">
-        <new>Faster app installation now is work for NON root user too! (PS amazmod update will be fast from the next update too)</new>
+        <new>Faster app installation now is work for NON root user too! (PS Amazmod update will be fast from the next update too)</new>
         <new>Heart-rate graph added (phone app)</new>
         <new>Screenshots are auto rotated for Verge</new>
         <new>Watch's screen is unlocked before a screenshot</new>

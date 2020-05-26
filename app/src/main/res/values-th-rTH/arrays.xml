@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 วัน</item>
+        <item>2 วัน</item>
+        <item>3 วัน</item>
+        <item>5 วัน</item>
+        <item>7 วัน</item>
+        <item>อ 10 วันกอน</item>
+        <item>15 วัน</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>ปิดการใช้งาน</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>ปิดการใช้งาน</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>ปิดการใช้งาน</item>
+        <item>1 วัน</item>
+        <item>7 วัน</item>
+        <item>15 วัน</item>
+        <item>30 วัน</item>
+        <item>60 วัน</item>
+        <item>90 วัน</item>
+        <item>180 วัน</item>
+        <item>365 วัน</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>ธรรมดา</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>ใช่แล้ว</item>
+        <item>ไม่</item>
+        <item>ขอบคุณ</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>เมตริก The Imperial System(Kelvin)</item>
+        <item>Celsius(เมตริก The Imperial System)</item>
+        <item>จักรวรรดิ์(Fahrenheit)</item>
+    </string-array>
+</resources>

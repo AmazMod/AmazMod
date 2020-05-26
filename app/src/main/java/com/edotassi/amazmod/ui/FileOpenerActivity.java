@@ -82,6 +82,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     private static String inputFileName = null;
     private static String workDir;
     private static String result = "";
+    private static String resultString = "";
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -215,7 +216,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
             if (dir.isDirectory()) {
                 String[] children = dir.list();
                 for (String child : children) {
-                    //Log.d(Constants.TAG, "FileOpenerActivity deleteWorkDir child: " + child);
+                    //Logger.debug("FileOpenerActivity deleteWorkDir child: " + child);
                     boolean success = deleteWorkDir(new File(dir, child));
                     if (!success)
                         return false;
@@ -237,7 +238,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                 .canceledOnTouchOutside(false)
                 .title(title)
                 .customView(R.layout.dialog_file_opener, false)
-                .positiveText("OK")
+                .positiveText(R.string.ok)
                 .negativeText(R.string.cancel)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -313,28 +314,31 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
         switch (result) {
             case WRITE_OK:
-                title = "Success!";
+                title = getString(R.string.success) + "!";
+                resultString = getResources().getString(R.string.write_ok);
                 break;
 
             case INSTALL_OK:
-                title = "Success!";
+                title = getString(R.string.success) + "!";
+                resultString = getResources().getString(R.string.install_ok);
                 break;
 
             default:
-                title = "Error!";
+                title = getString(R.string.success) + "!";
+                resultString = getResources().getString(R.string.something_goes_wrong);
                 break;
 
         }
 
-        msg = msg = "File: " + inputFileName + "\nResult: " + result;
+        msg = getResources().getString(R.string.file) + ": " + inputFileName + "\n" + getResources().getString(R.string.result) + ": " + resultString;
 
         if (result.equals(WRITE_OK)){
-            msg += "\n\nWould you like to set it as active watchface?";
+            msg += "\n\n" + getResources().getString(R.string.set_active_watchface);
             new MaterialDialog.Builder(this)
                     .canceledOnTouchOutside(false)
                     .title(title)
                     .content(msg)
-                    .positiveText("YES")
+                    .positiveText(getResources().getString(R.string.yes))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -342,7 +346,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                             finish();
                         }
                     })
-                    .negativeText("NO")
+                    .negativeText(getResources().getString(R.string.no))
                     .onNegative(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -358,7 +362,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                     .canceledOnTouchOutside(false)
                     .title(title)
                     .content(msg)
-                    .positiveText("OK")
+                    .positiveText(getResources().getString(R.string.ok))
                     .onPositive(new MaterialDialog.SingleButtonCallback() {
                         @Override
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
@@ -577,19 +581,19 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
     }
 
     private void connected() {
-        isConnected.setTextColor(getResources().getColor(R.color.colorCharging));
+        isConnected.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
         isConnected.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
     }
 
     private void disconnected() {
-        isConnected.setTextColor(getResources().getColor(R.color.colorAccent));
+        isConnected.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
         isConnected.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         watchProgress.setVisibility(View.GONE);
     }
 
     private void connecting() {
-        isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light));
+        isConnected.setTextColor(getResources().getColor(R.color.mi_text_color_secondary_light, getTheme()));
         isConnected.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         watchProgress.setVisibility(View.VISIBLE);
     }

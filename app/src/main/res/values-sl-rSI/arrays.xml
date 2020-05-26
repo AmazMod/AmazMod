@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 dan</item>
+        <item>2 dni</item>
+        <item>3 dni</item>
+        <item>5 dni</item>
+        <item>7 dni</item>
+        <item>10 dni</item>
+        <item>15 dni</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Onemogočeno</item>
+        <item>15%</item>
+        <item>20 %</item>
+        <item>25 %</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40 %</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Onemogočeno</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20 %</item>
+        <item>25 %</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40 %</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Onemogoči</item>
+        <item>1 dan</item>
+        <item>7 dni</item>
+        <item>15 dni</item>
+        <item>30 dni</item>
+        <item>60 dni</item>
+        <item>90 dni</item>
+        <item>180 dni</item>
+        <item>365 dni</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normalno</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Da</item>
+        <item>Ne</item>
+        <item>Hvala</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metrično (Kelvin)</item>
+        <item>Celzij (Metrično)</item>
+        <item>Imperial (Fahrenheit)</item>
+    </string-array>
+</resources>

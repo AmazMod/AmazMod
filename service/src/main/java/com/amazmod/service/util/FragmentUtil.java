@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 
 import org.tinylog.Logger;
 
+import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +27,16 @@ import amazmod.com.models.Reply;
 
 public class FragmentUtil {
     private static final float FONT_SIZE_NORMAL = 14.0f;
+    private static final float FONT_SIZE_MEDIUM = 16.0f;
     private static final float FONT_SIZE_LARGE = 18.0f;
+    private static final float FONT_SIZE_MORE_LARGE = 20.0f;
     private static final float FONT_SIZE_HUGE = 22.0f;
+    private static final float FONT_SIZE_MORE_HUGE = 24.0f;
 
     private Context mContext;
     private SettingsManager settingsManager;
     private LinearLayout.LayoutParams params;
-    private float fontSizeSP;
+    private float fontTitleSizeSP, fontSizeSP;
     private String defaultLocale;
 
     public FragmentUtil(Context context) {
@@ -43,23 +47,53 @@ public class FragmentUtil {
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        fontTitleSizeSP = getFontTitleSize();
+
         fontSizeSP = getFontSize();
 
-
         defaultLocale = getDefaultLocaleSettings();
+    }
+
+    private float getFontTitleSize() {
+        String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_TITLE_SIZE,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_TITLE_SIZE);
+        switch (fontSize) {
+            case "m":
+                return FONT_SIZE_MEDIUM;
+            case "l":
+                return FONT_SIZE_LARGE;
+            case "ml":
+                return FONT_SIZE_MORE_LARGE;
+            case "h":
+                return FONT_SIZE_HUGE;
+            case "mh":
+                return FONT_SIZE_MORE_HUGE;
+            default:
+                return FONT_SIZE_NORMAL;
+        }
     }
 
     private float getFontSize() {
         String fontSize = settingsManager.getString(Constants.PREF_NOTIFICATIONS_FONT_SIZE,
                 Constants.PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE);
         switch (fontSize) {
+            case "m":
+                return FONT_SIZE_MEDIUM;
             case "l":
                 return FONT_SIZE_LARGE;
+            case "ml":
+                return FONT_SIZE_MORE_LARGE;
             case "h":
                 return FONT_SIZE_HUGE;
+            case "mh":
+                return FONT_SIZE_MORE_HUGE;
             default:
                 return FONT_SIZE_NORMAL;
         }
+    }
+
+    public float getFontTitleSizeSP() {
+        return fontTitleSizeSP;
     }
 
     public float getFontSizeSP() {
@@ -98,9 +132,26 @@ public class FragmentUtil {
         return defaultLocale;
     }
 
+    public void setFontLocale(TextView b) {
+        // Old code to change font based on locale:
+        if (defaultLocale.contains("iw") || defaultLocale.contains("ar")) {
+            Logger.debug("[Notification Fragment] Element font changed to Hebrew/Arabic.");
+            Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
+            b.setTypeface(face);
+        }
+    }
+
     public void setFontLocale(TextView b, String locale) {
-        //Log.i(Constants.TAG, "FragmentUtil setFontLocale Button: " + locale);
-        if (locale.contains("iw")) {
+        // Logger.debug("[Notification Fragment] Testing element characters.");
+
+        // Identify Hebrew language
+        //String unicode_iw_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E].*"; // Hebrew character pattern (With precomposed characters)
+        //String unicode_ar_pattern = ".*[\u0600-\u06FF].*"; // Arabic character pattern
+        String unicode_iwar_pattern = ".*[\u0590-\u05FF\uFB2A-\uFB4E\u0600-\u06FF].*"; // Hebrew & Arabic characters pattern
+
+        // Identify Hebrew or Arabic characters
+        if(locale.matches(unicode_iwar_pattern)){
+            Logger.debug("[Notification Fragment] Element font changed to Hebrew/Arabic.");
             Typeface face = Typeface.createFromAsset(mContext.getAssets(), "fonts/DroidSansFallback.ttf");
             b.setTypeface(face);
         }

@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -23,7 +24,9 @@ import androidx.annotation.Nullable;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.adapters.CheckableAdapter;
 import com.edotassi.amazmod.receiver.WatchfaceReceiver;
+import com.edotassi.amazmod.receiver.WatchfaceReceiver.CalendarInfo;
 import com.edotassi.amazmod.util.FilesUtil;
 import com.edotassi.amazmod.util.Permissions;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -38,8 +41,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import amazmod.com.transport.Constants;
@@ -55,10 +63,14 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     Switch send_on_battery_change_switch;
     @BindView(R.id.send_on_alarm_change_switch)
     Switch send_on_alarm_change_switch;
+    @BindView(R.id.send_weather_data_switch)
+    Switch send_weather_data_switch;
     @BindView(R.id.send_watchface_data_interval)
     Spinner send_watchface_data_interval;
     @BindView(R.id.send_watchface_data_calendar_events_days)
     Spinner send_watchface_data_calendar_events_days;
+    @BindView(R.id.weather_real_feel_switch)
+    Switch watchface_weather_real_feel_switch;
     @BindView(R.id.watchface_sync_now_button)
     Button watchface_sync_now_button;
     @BindView(R.id.watchface_last_sync)
@@ -76,14 +88,36 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     Button watchface_test_ics_button;
     @BindView(R.id.watchface_ics_url_edittext)
     EditText watchface_ics_url_edittext;
+    @BindView(R.id.watchface_source_local_choose_button)
+    Button calendar_choose_button;
+
+    @BindView(R.id.watchface_weather_api_input)
+    EditText watchface_weather_api_input;
+    @BindView(R.id.watchface_weather_location_radio_group)
+    RadioGroup watchface_weather_location_radio;
+    @BindView(R.id.watchface_weather_location_gps_radiobutton)
+    RadioButton watchface_weather_location_gps_radiobutton;
+    @BindView(R.id.watchface_weather_location_manual_radiobutton)
+    RadioButton watchface_weather_location_manual_radiobutton;
+    @BindView(R.id.watchface_gps_permission_status)
+    TextView watchface_gps_permission_status;
+    @BindView(R.id.watchface_weather_city_input)
+    EditText watchface_weather_city_input;
+    @BindView(R.id.watchface_weather_units)
+    Spinner watchface_weather_units;
 
 
     boolean send_data;
     int send_data_interval_index;
     int send_data_calendar_events_days_index;
     int send_data_interval;
+    int watchface_weather_units_index;
+
     boolean send_on_battery_change;
     boolean send_on_alarm_change;
+    boolean send_weather_data;
+    boolean weather_real_feel;
+    int watchface_weather_location_radio_index;
 
     private Context mContext;
     private int initialInterval;
@@ -114,19 +148,9 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         send_on_battery_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_BATTERY_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE);
         send_on_alarm_change = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_ALARM_CHANGE, Constants.PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE);
         send_data_calendar_events_days_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX);
-
-        //Restore calendar source data from preferences
-        String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
-        final String url = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_ICS_URL, "");
-        if (!url.isEmpty())
-            watchface_ics_url_edittext.setText(url);
-        if (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source)) {
-            watchface_source_local_radiobutton.setChecked(true);
-            changeWidgetsStatus(false);
-        } else {
-            watchface_ics_calendar_radiobutton.setChecked(true);
-            changeWidgetsStatus(true);
-        }
+        send_weather_data = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA);
+        weather_real_feel = Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL);
+        watchface_weather_location_radio_index = Prefs.getInt(Constants.PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO, Constants.PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO);
 
         // Send data on/off
         send_data_swich.setChecked(send_data);
@@ -139,6 +163,7 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                 WatchfaceActivity.this.send_watchface_data_calendar_events_days.setEnabled(isChecked);
                 WatchfaceActivity.this.send_on_battery_change_switch.setEnabled(isChecked);
                 WatchfaceActivity.this.send_on_alarm_change_switch.setEnabled(isChecked);
+                WatchfaceActivity.this.send_weather_data_switch.setEnabled(isChecked);
                 WatchfaceActivity.this.watchface_sync_now_button.setEnabled(isChecked);
             }
         });
@@ -207,6 +232,58 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         });
         send_on_alarm_change_switch.setEnabled(send_data);
 
+        // weather data
+        send_weather_data_switch.setChecked(send_weather_data);
+        send_weather_data_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA, isChecked);
+            }
+        });
+        send_weather_data_switch.setEnabled(send_data);
+
+        // weather API
+        watchface_weather_api_input.setText(Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, ""));
+        watchface_weather_api_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, watchface_weather_api_input.getText().toString());
+                }
+            }
+        });
+        // city,country
+        watchface_weather_city_input.setText(Prefs.getString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, ""));
+        watchface_weather_city_input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, watchface_weather_city_input.getText().toString());
+                }
+            }
+        });
+        watchface_weather_units_index = Prefs.getInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, Constants.PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX);
+        watchface_weather_units.setSelection(watchface_weather_units_index);
+        watchface_weather_units.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Prefs.putInt(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX, pos);
+
+                // Show found local events
+                showFoundBuildInCalendarEvents();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // Auto-generated method stub
+            }
+        });
+        // real feel
+        watchface_weather_real_feel_switch.setChecked(weather_real_feel);
+        watchface_weather_real_feel_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Prefs.putBoolean(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL, isChecked);
+            }
+        });
+
         // Last time read
         watchface_last_sync.setText(lastTimeRead());
 
@@ -217,7 +294,8 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             public void onClick(View v) {
                 // Save new events as last send
                 Prefs.putString(Constants.PREF_WATCHFACE_LAST_CALENDAR_EVENTS, "");
-
+                Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_API, watchface_weather_api_input.getText().toString());
+                Prefs.putString(Constants.PREF_WATCHFACE_SEND_WEATHER_DATA_CITY, watchface_weather_city_input.getText().toString());
                 alarmWatchfaceIntent.putExtra("refresh", true);
                 sendBroadcast(alarmWatchfaceIntent);
 
@@ -233,6 +311,18 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         });
         watchface_sync_now_button.setEnabled(send_data);
 
+        //Restore calendar source data from preferences
+        String calendar_source = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_SOURCE, Constants.PREF_CALENDAR_SOURCE_LOCAL);
+        final String url = Prefs.getString(Constants.PREF_WATCHFACE_CALENDAR_ICS_URL, "");
+        if (!url.isEmpty())
+            watchface_ics_url_edittext.setText(url);
+        if (Constants.PREF_CALENDAR_SOURCE_LOCAL.equals(calendar_source)) {
+            watchface_source_local_radiobutton.setChecked(true);
+            changeWidgetsStatus(false);
+        } else {
+            watchface_ics_calendar_radiobutton.setChecked(true);
+            changeWidgetsStatus(true);
+        }
         // Calendar Source selection
         watchface_calendar_radio_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -251,6 +341,21 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
         // Show found local events
         showFoundBuildInCalendarEvents();
 
+        // Weather location selection
+        if ( watchface_weather_location_radio_index == 0 )
+            watchface_weather_location_gps_radiobutton.setChecked(true);
+        else
+            watchface_weather_location_manual_radiobutton.setChecked(true);
+        watchface_weather_location_radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == watchface_weather_location_gps_radiobutton.getId())
+                    Prefs.putInt(Constants.PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO, 0);
+                else
+                    Prefs.putInt(Constants.PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO, 1);
+            }
+        });
+
         // Test calendar ICS file
         watchface_test_ics_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -259,12 +364,19 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
             }
         });
 
+        calendar_choose_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                chooseCalendars();
+            }
+        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
         checkCalendarPermission();
+        checkLocationPermission();
     }
 
     @Override
@@ -314,11 +426,33 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     private void checkCalendarPermission() {
         if (Permissions.hasPermission(getApplicationContext(), Manifest.permission.READ_CALENDAR)){
             watchface_permission_status.setText(getResources().getString(R.string.enabled).toUpperCase());
-            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorCharging));
+            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
+            calendar_choose_button.setEnabled(watchface_source_local_radiobutton.isEnabled());
         } else {
             watchface_permission_status.setText(getResources().getString(R.string.disabled).toUpperCase());
-            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorAccent));
+            watchface_permission_status.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             watchface_permission_status.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
+                    intent.addCategory(Intent.CATEGORY_DEFAULT);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+            });
+            calendar_choose_button.setEnabled(false);
+        }
+    }
+
+
+    private void checkLocationPermission() {
+        if (Permissions.hasPermission(getApplicationContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION)){
+            watchface_gps_permission_status.setText(getResources().getString(R.string.enabled).toUpperCase());
+            watchface_gps_permission_status.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
+        } else {
+            watchface_gps_permission_status.setText(getResources().getString(R.string.disabled).toUpperCase());
+            watchface_gps_permission_status.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+            watchface_gps_permission_status.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + getPackageName()));
@@ -349,6 +483,8 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
     private void changeWidgetsStatus(boolean state){
         watchface_test_ics_button.setEnabled(state);
         watchface_ics_url_edittext.setEnabled(state);
+        calendar_choose_button.setEnabled(!state && Permissions.hasPermission(
+                getApplicationContext(), Manifest.permission.READ_CALENDAR));
     }
 
     private void checkICSFile() {
@@ -417,6 +553,55 @@ public class WatchfaceActivity extends BaseAppCompatActivity {
                     .content(R.string.invalid_url)
                     .show();
         }
+    }
+
+    private void chooseCalendars() {
+        Map<String, List<CalendarInfo>> calendarsInfo =
+                WatchfaceReceiver.getCalendarsInfo(this);
+
+        List<CheckableAdapter.Item> items = new ArrayList<>();
+        final Set<String> selectedCalendarIds = Prefs.getStringSet(
+                Constants.PREF_WATCHFACE_CALENDARS_IDS, new HashSet<>());
+
+        // If there was no settings stored yet, select all calendars.
+        boolean selectAll = selectedCalendarIds.isEmpty();
+
+        // Transform calendar info to item list for list adapter and initialize listeners.
+        for (Map.Entry<String, List<CalendarInfo>> entry : calendarsInfo.entrySet()) {
+            items.add(new CheckableAdapter.Item(entry.getKey(),
+                    getResources().getColor(R.color.calendar_chooser_account, getTheme())));
+            for (final CalendarInfo info : entry.getValue()) {
+                if (selectAll) {
+                    selectedCalendarIds.add(info.id());
+                }
+
+                items.add(new CheckableAdapter.CheckableItem(info.name(), info.color()) {
+
+                    @Override
+                    public void setChecked(boolean checked) {
+                        if (checked) {
+                            selectedCalendarIds.add(info.id());
+                        } else {
+                            selectedCalendarIds.remove(info.id());
+                        }
+                    }
+
+                    @Override
+                    public boolean isChecked() {
+                        return selectedCalendarIds.contains(info.id());
+                    }
+                });
+            }
+        }
+
+
+        new AlertDialog.Builder(this)
+                .setAdapter(new CheckableAdapter(items), null)
+                .setOnDismissListener(dialog -> {
+                        Prefs.putStringSet(Constants.PREF_WATCHFACE_CALENDARS_IDS,
+                                selectedCalendarIds);
+                        showFoundBuildInCalendarEvents();})
+                .create().show();
     }
 
 }

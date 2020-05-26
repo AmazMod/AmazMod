@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 ημέρα</item>
+        <item>2 ημέρες</item>
+        <item>3 ημέρες</item>
+        <item>5 ημέρες</item>
+        <item>7 ημέρες</item>
+        <item>10 ημέρες</item>
+        <item>15 ημέρες</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Απενεργοποιημένο</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Απενεργοποιημένο</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Απενεργοποίηση</item>
+        <item>1 ημέρα</item>
+        <item>7 ημέρες</item>
+        <item>15 ημέρες</item>
+        <item>30 ημέρες</item>
+        <item>60 ημέρες</item>
+        <item>90 ημέρες</item>
+        <item>180 ημέρες</item>
+        <item>365 ημέρες</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Κανονικό</item>
+        <item>Μεσαίο</item>
+        <item>Μεγάλο</item>
+        <item>Bigger</item>
+        <item>Σχεδόν Τεράστιο</item>
+        <item>Τεράστιο</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Ναι</item>
+        <item>Όχι</item>
+        <item>Σας ευχαριστούμε</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Φιλτράρισμα ειδοποιήσεων</item>
+        <item>Φιλτράρισμα περιεχομένου ειδοποιήσεων</item>
+        <item>Φιλτράρισμα τίτλου και περιεχομένου</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Μετρικό (Κέλβιν)</item>
+        <item>Κελσίου (Μετρικό)</item>
+        <item>Imperial (Φαρενάιτ)</item>
+    </string-array>
+</resources>

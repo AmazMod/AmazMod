@@ -17,6 +17,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
+import android.provider.Settings;
 import android.support.wearable.view.WearableListView;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ import org.tinylog.Logger;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -51,6 +53,8 @@ import io.reactivex.schedulers.Schedulers;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_FIRST_USER;
 import static android.app.Activity.RESULT_OK;
+import static com.amazmod.service.Constants.LONG_KEY_SETTINGS;
+import static com.amazmod.service.util.SystemProperties.isStratos;
 
 public class WearAppsFragment extends Fragment implements WearableListView.ClickListener {
 
@@ -59,7 +63,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     private RelativeLayout wearAppsFrameLayout;
 	private WearableListView listView;
-	private Button buttonClose, buttonClear, buttonUninstall;
+	private Button buttonClose, buttonClear, buttonUninstall, buttonQuickLaunch;
     private TextView mHeader, appName, appPackage, appVersion, appSize;
     private ImageView appIcon;
     private ProgressBar progressBar;
@@ -71,15 +75,18 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     private int appChosen = 0;
     private boolean isAmazModUninstall;
+    private boolean isStratos;
 
     private final int UNINSTALL_REQUEST_CODE = 1;
-    private static final String REFRESH = "Refresh";
+    //private static final String REFRESH = "Refresh";
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
         Logger.info("WearAppsFragment onAttach context: " + mContext);
+
+        this.isStratos = isStratos();
     }
 
     @Override
@@ -125,7 +132,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
         final int itemChosen = viewHolder.getPosition();
         Logger.info("WearAppsFragment onClick itemChosen: " + itemChosen);
-        if (appInfoList.get(itemChosen).getAppName().equals(REFRESH)) {
+        if (appInfoList.get(itemChosen).getAppName().equals(getResources().getString(R.string.refresh))) {
 
             appInfoList.clear();
             mAdapter.clear();
@@ -159,6 +166,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         buttonClose = getActivity().findViewById(R.id.wear_apps_info_buttonClose);
         buttonClear = getActivity().findViewById(R.id.wear_apps_info_buttonClear);
         buttonUninstall = getActivity().findViewById(R.id.wear_apps_info_buttonUninstall);
+        buttonQuickLaunch = getActivity().findViewById(R.id.wear_apps_info_buttonQuickLaunch);
 
         wearAppsFrameLayout.setVisibility(View.GONE);
         infoView.setVisibility(View.GONE);
@@ -194,7 +202,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 }
 
                 sortAppInfo(appInfoList);
-                AppInfo close = new AppInfo(REFRESH, "Reload apps", "", "0", drawable);
+                AppInfo close = new AppInfo(getResources().getString(R.string.refresh), getString(R.string.reload_apps), "", "0", drawable);
                 appInfoList.add(close);
                 WearAppsFragment.this.appInfoList = appInfoList;
                 return appInfoList;
@@ -237,6 +245,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         setButtonTheme(buttonClose, getResources().getString(R.string.close));
         setButtonTheme(buttonClear, getResources().getString(R.string.clear_data));
         setButtonTheme(buttonUninstall, getResources().getString(R.string.uninstall));
+        setButtonTheme(buttonQuickLaunch, getResources().getString(R.string.quick_launch));
         listView.setGreedyTouchMode(false);
 
         final String pkgName = appInfoList.get(itemChosen).getPackageName();
@@ -280,6 +289,22 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 clearPackage(mContext, pkgName);
             }
         });
+
+        // Check if app is in the quick launch list
+        if(isStratos && quickLaunchApk.contains(pkgName)) {
+            // Enable quick launch button
+            buttonQuickLaunch.setVisibility(View.VISIBLE);
+            buttonQuickLaunch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Logger.info("WearAppsFragment showAppInfo buttonClear");
+                    quickLaunchPackage(mContext, pkgName);
+                }
+            });
+        }else{
+            // Disable launch button
+            buttonQuickLaunch.setVisibility(View.GONE);
+        }
 
         wearAppsFrameLayout.setVisibility(View.GONE);
         listView.setVisibility(View.GONE);
@@ -325,7 +350,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         Collections.sort(appInfoList, new Comparator<AppInfo>() {
             @Override
             public int compare(AppInfo o1, AppInfo o2) {
-                return o1.getAppName().compareTo(o2.getAppName());
+                return o1.getAppName().compareToIgnoreCase(o2.getAppName());
             }
         });
     }
@@ -405,7 +430,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Logger.trace("WearAppsFragment onActivityResult RESULT_OK");
-                Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + "uninstalled successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + getString(R.string.uninstalled_successfully), Toast.LENGTH_SHORT).show();
                 scrollView.post(new Runnable() {
                     public void run() {
                         Logger.trace("WearAppsFragment onActivityResult scrollToTop");
@@ -425,7 +450,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             } else if (resultCode == RESULT_FIRST_USER) {
                 Logger.trace("WearAppsFragment onActivityResult RESULT_FIRST_USER");
                 if (isAmazModUninstall) {
-                    Toast.makeText(mContext, "Please first revoke \"Device Admin\" before uninstalling AmazMod", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.revoke_device_admin_before_uninstall), Toast.LENGTH_LONG).show();
                     isAmazModUninstall = false;
                 }
             }
@@ -443,6 +468,39 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         new ExecCommand(ExecCommand.ADB, command);
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+    }
+
+    // Quick launch apps list
+    List<String> quickLaunchApk = Arrays.asList(
+            "com.amazmod.service",
+            "me.micrusa.amaztimer",
+            "com.dinodevs.pacecalendarwidget"
+    );
+    // Quick launch commands list, relative to the above apps
+    List<String> quickLaunchCommands = Arrays.asList(
+            "#Intent;launchFlags=0x10000000;component=com.amazmod.service/.springboard.LauncherWearGridActivity;c.mode=N;end", // TODO N: Message List, A: Apps, S: Settings, I: Info, F: Flashlight, B: Files
+            "#Intent;launchFlags=0x10000000;component=me.micrusa.amaztimer/.AmazTimer;end", // Interval timer
+            "#Intent;launchFlags=0x10000000;component=com.dinodevs.pacecalendarwidget/.Calendar;end" // Calendar
+            //"#Intent;launchFlags=0x10000000;component=com.dinodevs.pacecalendarwidget/.Timeline;end" // Timeline
+    );
+
+    public void quickLaunchPackage(Context context, String packageName) {
+        Logger.info("WearAppsFragment quickLaunchPackage packageName: " + packageName);
+        // Get app position in the list
+        int pos = quickLaunchApk.indexOf(packageName);
+        // Get command to save
+        final String command = quickLaunchCommands.get(pos);
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle(getResources().getString(R.string.quick_launch))
+                .setMessage(getResources().getString(R.string.confirmation))
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Save quick launch command
+                        Settings.System.putString(context.getContentResolver(), LONG_KEY_SETTINGS, command);
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.quick_launch_description), Toast.LENGTH_SHORT).show();
                     }})
                 .setNegativeButton(android.R.string.no, null).show();
     }

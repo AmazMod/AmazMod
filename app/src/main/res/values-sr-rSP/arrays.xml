@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 дан</item>
+        <item>2 дана</item>
+        <item>3 дана</item>
+        <item>5 дана</item>
+        <item>7 дана</item>
+        <item>10 дана</item>
+        <item>15 дана</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Онемогућено</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Онемогућено</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Онемогући</item>
+        <item>1 дан</item>
+        <item>7 дана</item>
+        <item>15 дана</item>
+        <item>30 дана</item>
+        <item>60 дана</item>
+        <item>90 дана</item>
+        <item>180 дана</item>
+        <item>365 дана</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Нормално</item>
+        <item>Средње</item>
+        <item>Велико</item>
+        <item>Веће</item>
+        <item>Скоро Огроман</item>
+        <item>Огроман</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Да</item>
+        <item>Не</item>
+        <item>Хвала</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metric (Kelvin)</item>
+        <item>Celsius (Metric)</item>
+        <item>Imperial (Fahrenheit)</item>
+    </string-array>
+</resources>

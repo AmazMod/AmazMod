@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 deň</item>
+        <item>2 dni</item>
+        <item>3 dni</item>
+        <item>5 dní</item>
+        <item>7 dní</item>
+        <item>10 dní</item>
+        <item>15 dní</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Vypnuté</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40 %</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Vypnuté</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Vypnuté</item>
+        <item>1 deň</item>
+        <item>7 dní</item>
+        <item>15 dní</item>
+        <item>30 dní</item>
+        <item>60 dní</item>
+        <item>90 dní</item>
+        <item>180 dní</item>
+        <item>365 dní</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normálny</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Áno</item>
+        <item>Nie</item>
+        <item>Ďakujeme</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter upozornení Nadpis</item>
+        <item>Filter upozornení obsah</item>
+        <item>Filtrovať nadpis aj obsah</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metrika (Kelvin)</item>
+        <item>Celzia (Metrické)</item>
+        <item>Imperial (Celzia)</item>
+    </string-array>
+</resources>

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
-import androidx.core.os.ConfigurationCompat;
 
 import androidx.annotation.NonNull;
+import androidx.core.os.ConfigurationCompat;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -43,7 +43,22 @@ public class LocaleUtils {
         } else {
             return new Locale(languageCode);
         }
+    }
 
+    public static String getLocaleCode() {
+        String currentLanguage = getPersistedData(Locale.getDefault().getLanguage());
+        System.out.println("D/AmazMod LocaleUtils getLocale currentLanguage: " + currentLanguage);
+        if (currentLanguage.equals(Constants.PREF_LANGUAGE_AUTO)){
+            //currentLanguage = Locale.getDefault().getLanguage(); // Didn't work on some phones while the whole app needed to be killed on others
+            currentLanguage = ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0).getLanguage();
+        }
+
+        String[] languageCodes = currentLanguage.split("-r");
+        if (languageCodes.length > 1) {
+            return languageCodes[0];
+        } else {
+            return currentLanguage;
+        }
     }
 
     // Save new language

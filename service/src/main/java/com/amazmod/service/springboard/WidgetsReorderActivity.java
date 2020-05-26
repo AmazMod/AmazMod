@@ -1,5 +1,6 @@
 package com.amazmod.service.springboard;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,12 +13,12 @@ import com.amazmod.service.helper.SimpleItemTouchHelperCallback;
 import com.amazmod.service.springboard.settings.SpringboardWidgetAdapter;
 import com.amazmod.service.util.WidgetsUtil;
 
-public class WidgetsReorderActivity extends AppCompatActivity {
+public class WidgetsReorderActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.onStateNotSaved();
+        //this.onStateNotSaved(); <- this is unsupported if extend Activity instead of AppCompatActivity but with Activity can use different language setting
 
         WidgetsUtil.loadWidgetList(this);
         SpringboardWidgetAdapter adapter = WidgetsUtil.getAdapter(this);

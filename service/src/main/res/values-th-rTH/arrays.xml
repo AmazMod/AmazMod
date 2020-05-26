@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="densities">
+        <item name="normal">ปกติ</item>
+        <item name="low">ตํ่า</item>
+        <item name="high">สูง</item>
+        <item name="unknown">ไม่รู้จัก</item>
+    </string-array>
+    <string-array name="fontSizes">
+        <item name="small">เล็ก</item>
+        <item name="normal">ปกติ</item>
+        <item name="big">ใหญ่</item>
+        <item name="huge">ใหญ่​มาก</item>
+    </string-array>
+    <string-array name="inverted">
+        <item name="no">ไม่</item>
+        <item name="yes">ใช่</item>
+    </string-array>
+</resources>

@@ -45,11 +45,26 @@ public class NotificationStore {
         keyMap.put(key, notificationData.getKey());
     }
 
+    public static void removeCustomNotification(String key, Context context) {
+        NotificationData notificationData = NotificationStore.getCustomNotification(key);
+        // Updates the notification counter only if del action is not send (NotificationData is null)
+        if (notificationData == null)
+            DeviceUtil.notificationCounter(context, -1,"NotificationWearActivity notification is null (del action will not be send)");
+        else{
+            // Remove custom notification
+            sendRequestDeleteNotification(key, notificationData);
+            customNotifications.remove(key);
+            keyMap.remove(key);
+        }
+    }
+
+    /*// Not used
     public static void removeCustomNotification(String key) {
         sendRequestDeleteNotification(key);
         customNotifications.remove(key);
-        keyMap.remove((key));
+        keyMap.remove(key);
     }
+    */
 
     public static String getKey(String key) {
         NotificationData notificationData = customNotifications.get(key);
@@ -128,46 +143,29 @@ public class NotificationStore {
     }
 
     public static void setNotificationCount(Context context, int count) {
-        // Stores notificationCount in JSON Object
-        String data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
-
-        // Default value
-        if (data == null) {
-            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, "{\"notifications\":\"" + count+"\"}");
-            return;
-        }
-
-        // Populate
-        try {
-            JSONObject json_data = new JSONObject(data);
-            json_data.put("notifications", count);
-            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, json_data.toString());
-        } catch (JSONException e) {
-            String notification_json = "{\"notifications\":\"" + count+"\"}";
-            Logger.debug("NotificationStore setNotificationCount: JSONException/invalid JSON: " + e.toString() + " - JSON defined to: " + notification_json);
-            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, notification_json);
-        }
+        DeviceUtil.notificationCounterSet(context, count);
     }
 
     private static boolean isEmpty() {
         return getCustomNotificationCount() == 0;
     }
 
+    // Send notification delete
     private static void sendRequestDeleteNotification(String key) {
-
+        sendRequestDeleteNotification(key, customNotifications.get(key));
+    }
+    private static void sendRequestDeleteNotification(String key, NotificationData notificationData) {
         Logger.debug("NotificationStore sendRequestDeleteNotification key: {} ", key);
 
-        NotificationData notificationData = customNotifications.get(key);
+        if (notificationData == null)
+            return;
 
-        if (notificationData != null) {
-            String pkg = key.split("\\|")[1];
-            Logger.debug("NotificationStore sendRequestDeleteNotification pkg: {} ", pkg);
+        String pkg = key.split("\\|")[1];
+        // Logger.debug("NotificationStore sendRequestDeleteNotification pkg: {} ", pkg);
 
-            //NotificationKeyData from(String pkg, int id, String tag, String key, String targetPkg)
-            NotificationKeyData notificationKeyData = NotificationKeyData.from(pkg, notificationData.getId(),
-                    null, notificationData.getKey(), null);
-            EventBus.getDefault().post(notificationKeyData);
-        }
+        // NotificationKeyData from(String pkg, int id, String tag, String key, String targetPkg)
+        NotificationKeyData notificationKeyData = NotificationKeyData.from(pkg, notificationData.getId(),null, notificationData.getKey(), null);
+        EventBus.getDefault().post(notificationKeyData);
     }
 
 }

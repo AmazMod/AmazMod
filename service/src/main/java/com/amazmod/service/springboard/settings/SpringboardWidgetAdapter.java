@@ -60,6 +60,9 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
             } else if (viewType == 3) {
                 //Text Item
                 return new ViewHolder(layoutInflater.inflate(R.layout.springboard_item_preference_text, parent, false));
+            } else if (viewType == 4) {
+                //Button Item
+                return new ViewHolder(layoutInflater.inflate(R.layout.springboard_item_preference_button, parent, false));
             }
         } else
             Logger.error("SpringboardWidgetAdapter onCreateViewHolder: null layoutInflater!");
@@ -74,6 +77,7 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
         if (setting instanceof HeaderSetting) return 0;
         if (setting instanceof IconSetting) return 1;
         if (setting instanceof SwitchSetting) return 2;
+        if (setting instanceof ButtonSetting) return 4;
         else return 3;
     }
 
@@ -137,6 +141,12 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
             holder.subtitle.setText(textSetting.text);
             //And the click listener
             holder.root.setOnClickListener(textSetting.onClickListener);
+        } else if(setting instanceof ButtonSetting) {
+            //TextSetting, just set content
+            ButtonSetting buttonSetting = (ButtonSetting) setting;
+            holder.button.setText(buttonSetting.text);
+            //And the click listener
+            holder.root.setOnClickListener(buttonSetting.onClickListener);
         } else {
             //Icon, setup icon, click listener and title
             IconSetting iconSetting = (IconSetting) setting;
@@ -175,7 +185,7 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
 
     public class ViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         View root;
-        TextView title, subtitle;
+        TextView title, subtitle, button;
         ImageView icon;
         Switch sw;
 
@@ -185,6 +195,7 @@ public class SpringboardWidgetAdapter extends RecyclerView.Adapter<SpringboardWi
             //Set views
             title = itemView.findViewById(R.id.title);
             subtitle = itemView.findViewById(R.id.subtitle);
+            button = itemView.findViewById(R.id.button);
             icon = itemView.findViewById(R.id.icon);
             sw = itemView.findViewById(R.id.sw);
             root = itemView;

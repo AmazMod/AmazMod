@@ -9,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.wearable.view.BoxInsetLayout;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
@@ -28,8 +27,6 @@ import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.util.DeviceUtil;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
@@ -59,7 +56,8 @@ public class WearNotificationsFragment extends Fragment {
 
     private static boolean animate = false;
 
-    private static final String REFRESH = "Refresh";
+    //private static final String REFRESH = "Refresh";
+    //private static final String CLEAR = "Clear";
     public static final String ANIMATE = "animate";
 
 
@@ -115,12 +113,24 @@ public class WearNotificationsFragment extends Fragment {
 
         Logger.info("WearNotificationsFragment onClick position: " + position);
 
-        if (REFRESH.equals(notificationInfoList.get(position).getNotificationTitle())) {
+        if (getResources().getString(R.string.refresh).equals(notificationInfoList.get(position).getNotificationTitle())) {
 
             notificationInfoList.clear();
             mAdapter.clear();
             loadNotifications();
 
+        } else if (getResources().getString(R.string.clear).equals(notificationInfoList.get(position).getNotificationTitle())) {
+
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(mContext.getResources().getString(R.string.clear_notifications))
+                    .setMessage(mContext.getResources().getString(R.string.confirmation))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            NotificationStore.clear();
+                            resetNotificationsCounter();
+                            getActivity().finish();
+                        }})
+                    .setNegativeButton(android.R.string.no, null).show();
         } else
             showNotification(position);
     }
@@ -129,7 +139,7 @@ public class WearNotificationsFragment extends Fragment {
 
         Logger.info("WearNotificationsFragment onLongClick position: " + position);
 
-        if (!REFRESH.equals(notificationInfoList.get(position).getNotificationTitle()))
+        if (!getResources().getString(R.string.refresh).equals(notificationInfoList.get(position).getNotificationTitle()))
             deleteNotification(position);
     }
 
@@ -205,6 +215,7 @@ public class WearNotificationsFragment extends Fragment {
         progressBar.setVisibility(View.VISIBLE);
 
         final Drawable drawable = mContext.getResources().getDrawable(R.drawable.outline_refresh_white_24);
+        final Drawable clear = mContext.getResources().getDrawable(R.drawable.outline_clear_all_white_24);
 
         Flowable.fromCallable(new Callable<List<NotificationInfo>>() {
             @Override
@@ -220,7 +231,10 @@ public class WearNotificationsFragment extends Fragment {
                 }
 
                 if (!notificationInfoList.isEmpty())
-                    notificationInfoList.add(new NotificationInfo(REFRESH, "Reload items","", drawable, null, "", "0"));
+                    notificationInfoList.add(new NotificationInfo(getResources().getString(R.string.refresh), getString(R.string.reload_items),"", drawable, null, "", "0"));
+
+                if (!notificationInfoList.isEmpty())
+                    notificationInfoList.add(new NotificationInfo(getResources().getString(R.string.clear), getString(R.string.clear_all_items),"", clear, null, "", "0"));
 
                 sortNotifications(notificationInfoList);
                 WearNotificationsFragment.this.notificationInfoList = notificationInfoList;
@@ -281,8 +295,7 @@ public class WearNotificationsFragment extends Fragment {
                 .setMessage(mContext.getResources().getString(R.string.confirmation))
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        NotificationStore.removeCustomNotification(key);
-                        NotificationStore.setNotificationCount(mContext);
+                        NotificationStore.removeCustomNotification(key, mContext); // Remove custom notification
                         loadNotifications();
                     }
                 })
@@ -328,17 +341,7 @@ public class WearNotificationsFragment extends Fragment {
     }
 
     private void resetNotificationsCounter() {
-        String data = DeviceUtil.systemGetString(mContext, "CustomWatchfaceData");
-        if (data == null || data.equals(""))
-            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", "{}");
-
-        try {
-            JSONObject json_data = new JSONObject(data);
-            json_data.put("notifications", 0);
-            DeviceUtil.systemPutString(mContext, "CustomWatchfaceData", json_data.toString());
-        } catch (JSONException e) {
-            Logger.error("AmazModLauncher refreshMessages JSONException: " + e.toString());
-        }
+        DeviceUtil.notificationCounterSet(mContext, 0);
     }
 
     public static WearNotificationsFragment newInstance(boolean animate) {

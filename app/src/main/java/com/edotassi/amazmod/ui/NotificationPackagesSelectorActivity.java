@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.widget.SearchView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.SearchView;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.AppInfoAdapter;
@@ -193,9 +193,9 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
             } else if (!o1.isEnabled() && o2.isEnabled()) {
                 return 1;
             } else if ((!o1.isEnabled() && !o2.isEnabled()) || (o1.isEnabled() && o2.isEnabled())) {
-                return o1.getAppName().compareTo(o2.getAppName());
+                return o1.getAppName().compareToIgnoreCase(o2.getAppName());
             }
-            return o1.getAppName().compareTo(o2.getAppName());
+            return o1.getAppName().compareToIgnoreCase(o2.getAppName());
         });
     }
 

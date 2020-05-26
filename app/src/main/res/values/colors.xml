@@ -3,6 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentDark">#3F66B5</color>
     <color name="colorCharging">#00E676</color>
     <color name="colorPrediction">#e6000f</color>
 
@@ -21,5 +22,7 @@
     <color name="overlay_dark">#90000000</color>
     <color name="li_row_background_tint_light">#40111111</color>
     <color name="li_row_selector_light">#40eeeeee</color>
+
+    <color name="calendar_chooser_account">#ff7f7f7f</color>
 
 </resources>

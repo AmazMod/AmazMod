@@ -28,11 +28,15 @@ public class Constants {
     public static final String SHELL_COMMAND_EXTRACT = "busybox tar xvzf \"%s\" -C \"%s\"";
     public static final String SHELL_COMMAND_REMOVE_RECURSIVELY = "rm -rf \"%s\"";
     public static final String SHELL_COMMAND_SCREENSHOT = "adb shell screencap";
+    public static final String SHELL_COMMAND_CLEAR_ADB = "adb kill-server";
 
     public static final String FILE_LOG_BUNDLE = "/sdcard/log_bundle.log.gz";
     public static final String SHELL_COMMAND_LOG_BUNDLE = "adb shell logcat -d -v long | gzip > " + FILE_LOG_BUNDLE;
 
     public static final String FAQ_URL = "https://github.com/edotassi/AmazMod/blob/dev/FAQ.md";
+
+    public static final String WIDGETS_LIST_SAVED_CODE = "widgets_saved";
+    public static final String WIDGETS_LIST_EMPTY_CODE = "I_want_no_widgets";
 
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES = "pref.enabled.notifications.packages";
     public static final String PREF_ENABLED_NOTIFICATIONS_PACKAGES_FILTERS = "pref.enabled.notifications.packages.filters";
@@ -42,6 +46,7 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_VIBRATION = "preference.amazmodservice.vibration";
     public static final String PREF_NOTIFICATIONS_SCREEN_TIMEOUT = "preference.amazmodservice.screen.timeout";
     public static final String PREF_NOTIFICATIONS_INVERTED_THEME = "preference.amazmodservice.inverted.theme";
+    public static final String PREF_NOTIFICATIONS_FONT_TITLE_SIZE = "preference.amazmodservice.font.title.size";
     public static final String PREF_NOTIFICATIONS_FONT_SIZE = "preference.amazmodservice.font.size";
     public static final String PREF_BATTERY_CHART = "preference.battery.chart";
     public static final String PREF_HEARTRATE_CHART = "preference.heartrate.chart";
@@ -54,6 +59,7 @@ public class Constants {
     public static final String PREF_BATTERY_PHONE_ALERT = "preference.battery.phone.alert";
     public static final String PREF_ENABLE_NOTIFATIONS_WHEN_SCREEN_ON = "preference.enable.notifications.when.screen.on";
     public static final String PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI = "preference.notifications.enable.custom.ui";
+    public static final String PREF_NOTIFICATION_ENABLE_SOUND = "preference.notification.enable.sound";
     public static final String PREF_KEY_FIRST_START = "preference.key.first.start";
     public static final String PREF_LANGUAGE = "preference.language";
     public static final String PREF_DISABLE_NOTIFICATIONS_SCREENON = "preference.amazmodservice.disable.screenon";
@@ -62,11 +68,17 @@ public class Constants {
     public static final String PREF_ENABLE_UPDATE_NOTIFICATION = "preference.enable.update.notification";
     public static final String PREF_ENABLE_DEVELOPER_MODE = "preference.enable.developer.mode";
     public static final String PREF_NOTIFICATIONS_ENABLE_DELAY = "preference.amazmodservice.enable.delay";
-    public static final String PREF_AMAZMOD_FIRST_WIDGET = "preference.amazmod.first.widget";
+    public static final String PREF_AMAZMOD_KEEP_WIDGET = "preference.amazmod.keep.widget";
     public static final String PREF_AMAZMOD_OVERLAY_LAUNCHER = "preference.amazmod.overlay.launcher";
+    public static final String PREF_AMAZMOD_HOURLY_CHIME = "preference.amazmod.hourly.chime";
     public static final String PREF_AMAZMOD_DARK_THEME = "preference.amazmod.dark_theme";
     public static final String PREF_COMMAND_HISTORY = "preference.command.history";
+    public static final String PREF_LAST_DONATION_ALERT = "preference.lastdonationalert";
 
+    public static final String PREF_ENABLE_MAPS_NOTIFICATION = "preference.enable.maps.notification";
+    public static final boolean PREF_ENABLE_MAPS_NOTIFICATION_DEFAULT = false;
+    public static final String PREF_NOTIFICATIONS_COLORED_ICON = "preference.notification.colored.icon";
+    public static final boolean PREF_NOTIFICATIONS_COLORED_ICON_DEFAULT = true;
     public static final String PREF_NOTIFICATIONS_LARGE_ICON = "preference.notification.largeicon";
     public static final boolean PREF_NOTIFICATIONS_LARGE_ICON_DEFAULT = true;
     public static final String PREF_NOTIFICATIONS_IMAGES = "preference.notification.images";
@@ -80,16 +92,19 @@ public class Constants {
     public static final String PREF_NOTIFICATION_SCHEDULER = "preference.notification.scheduler";
     public static final Boolean PREF_NOTIFICATION_SCHEDULER_DEFAULT = false;
     public static final boolean PREF_AMAZMOD_DARK_THEME_DEFAULT = false;
+    public static final long PREF_DEFAULT_PREF_LAST_DONATION_ALERT = 0;
 
     public static final Boolean PREF_DEFAULT_BATTERY_CHART = true;
     public static final Boolean PREF_DEFAULT_HEARTRATE_CHART = true;
     public static final String PREF_DEFAULT_NOTIFICATIONS_REPLIES = "[]";
     public static final String PREF_DEFAULT_NOTIFICATIONS_VIBRATION = "300";
     public static final String PREF_DEFAULT_NOTIFICATIONS_SCREEN_TIMEOUT = "7000";
+    public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_TITLE_SIZE = "n";
     public static final String PREF_DEFAULT_NOTIFICATIONS_FONT_SIZE = "n";
     public static final boolean PREF_DEFAULT_ENABLE_NOTIFICATIONS = true;
     public static final boolean PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_CUSTOM_UI = false;
+    public static final boolean PREF_DEFAULT_NOTIFICATION_SOUND = false;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_INVERTED_THEME = false;
     public static final boolean PREF_DEFAULT_KEY_FIRST_START = true;
     public static final String PREF_DEFAULT_BATTERY_CHART_TIME_INTERVAL = "5";
@@ -102,10 +117,12 @@ public class Constants {
     public static final String PREF_DEFAULT_COMMAND_HISTORY = "[]";
     public static final boolean PREF_DEFAULT_ENABLE_UPDATE_NOTIFICATION = true;
     public static final boolean PREF_DEFAULT_NOTIFICATIONS_ENABLE_DELAY = true;
-    public static final boolean PREF_DEFAULT_AMAZMOD_FIRST_WIDGET = true;
+    public static final boolean PREF_DEFAULT_AMAZMOD_KEEP_WIDGET = true;
     public static final boolean PREF_DEFAULT_AMAZMOD_OVERLAY_LAUNCHER = false;
+    public static final boolean PREF_DEFAULT_AMAZMOD_HOURLY_CHIME = false;
 
     public static final String PREF_DISABLE_NOTIFICATIONS_WHEN_DND = "preference.disable.notifications.when.dnd";
+    public static final String PREF_DISABLE_NOTIFICATIONS_WHEN_DRIVING = "preference.disable.notifications.when.driving";
     public static final String PREF_DISABLE_REMOVE_NOTIFICATIONS = "preference.disable.remove.notifications";
     public static final String PREF_NOTIFICATIONS_ENABLE_VOICE_APPS = "preference.notifications.enable.voice.apps";
     public static final String PREF_NOTIFICATIONS_ENABLE_LOCAL_ONLY = "preference.notifications.enable.local.only";
@@ -138,6 +155,7 @@ public class Constants {
 
     public static final String PREF_WATCHFACE_BACKGROUND_SYNC_INTERVAL = "preference.watchface.background.sync.interval";
     public static final String PREF_WATCHFACE_CALENDAR_EVENTS_DAYS = "preference.watchface.calendar.events.days";
+    public static final String PREF_WATCHFACE_CALENDARS_IDS = "preference.watchface.calendars.ids";
     public static final String PREF_WATCHFACE_LAST_CALENDAR_EVENTS = "preference.watchface.last.calendar.events.days";
     public static final String PREF_WATCHFACE_LAST_BATTERY = "preference.watchface.last.battery";
     public static final String PREF_WATCHFACE_LAST_ALARM = "preference.watchface.last.alarm";
@@ -149,12 +167,34 @@ public class Constants {
     public static final String PREF_WATCHFACE_SEND_ALARM_CHANGE = "preference.watchface.send.alarm.change";
     public static final String PREF_WATCHFACE_CALENDAR_SOURCE = "preference.watchface.calendar.source";
     public static final String PREF_WATCHFACE_CALENDAR_ICS_URL = "preference.watchface.calendar.ics.url";
+    public static final String PREF_WATCHFACE_SEND_WEATHER_DATA = "preference.watchface.send.weather.data";
+    public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_API = "preference.watchface.send.weather.data.api";
+    public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_CITY = "preference.watchface.send.weather.data.city";
+    public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX = "preference.watchface.send.weather.data.units.index";
+    public static final String PREF_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = "preference.watchface.send.weather.data.real.feel";
+    public static final String PREF_TIME_LAST_CURRENT_WEATHER_DATA_SYNC = "preference.time.last.current.weather.data.sync";
+    public static final String PREF_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = "preference.watchface.weather.data.location.radio";
+    public static final String PREF_FILTER_LEVEL_INDEX = "preference.filter.level.index";
+    public static final String REQUEST_SELF_RELOAD = "request.self.reload";
+
+    public static final int NOTIFICATION_FILTER_TITLE = 0;
+    public static final int NOTIFICATION_FILTER_CONTENTS = 1;
+    public static final int NOTIFICATION_FILTER_BOTH = 2;
+
+    public static final String PREF_WEATHER_LAST_DATA = "preference.weather.last.data";
+    public static final String PREF_LOCATION_GPS_DATA = "preference.location.gps.data";
 
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_DATA = true;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_INTERVAL_INDEX = 2;
     public static final int PREF_DEFAULT_WATCHFACE_SEND_DATA_CALENDAR_EVENTS_DAYS_INDEX = 2;
+    public static final int PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_UNITS_INDEX = 1;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_BATTERY_CHANGE = false;
     public static final boolean PREF_DEFAULT_WATCHFACE_SEND_ALARM_CHANGE = false;
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA = false;
+    public static final boolean PREF_DEFAULT_WATCHFACE_SEND_WEATHER_DATA_REAL_FEEL = false;
+    public static final int PREF_DEFAULT_WATCHFACE_WEATHER_DATA_LOCATION_RADIO = 0;
+    public static final int PREF_DEFAULT_FILTER_LEVEL_INDEX = 2;
+    public static final boolean DEFAULT_REQUEST_SELF_RELOAD = false;
 
     public static final String PREF_CALENDAR_SOURCE_LOCAL = "local";
     public static final String PREF_CALENDAR_SOURCE_ICS = "ics";
@@ -173,9 +213,14 @@ public class Constants {
 
     public static final String PERSISTENT_NOTIFICATION_CHANNEL = "com.edotassi.amazmod.persistent.notification.channel";
 
+    public static final String[] BUILD_STRATOS_3_MODELS = {"A1928", "A1929"};
     public static final String[] BUILD_VERGE_MODELS = {"A1811", "A1801"};
+    public static final String[] BUILD_STRATOS_MODELS = {"A1609", "A1619"};
+    public static final String[] BUILD_PACE_MODELS = {"A1602", "A1612"};
 
     public static final int SNACKBAR_LONG10 = 10000;
 
+    public static final String[] DONATE_SKU_LIST = {"thank_you","coffee", "beer"};
+    public static final String DONATE_URL = "https://opencollective.com/amazmod-33/donate";
 
 }

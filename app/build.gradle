@@ -2,22 +2,25 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId 'com.edotassi.amazmod'
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 217
-        versionName "1.1.8"
+        minSdkVersion 23
+        targetSdkVersion 29
+        versionCode 226
+        versionName "1.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        if (branch == "master") {
-            setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
-        } else {
+        if (branch == "dev") {
             versionNameSuffix "-" + branch
             setProperty("archivesBaseName", "AmazMod-$project.name")
+        } else {
+            setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
         }
     }
     dataBinding {
@@ -53,7 +56,7 @@ android {
                     newApkName = "$baseName-$buildType" + ".apk"
                 }
             } else {
-                newApkName =  "$baseName-$buildType-$branch-$versionCode-$formattedDate" + ".apk"
+                newApkName = "$baseName-$buildType-$branch-$versionCode-$formattedDate" + ".apk"
             }
 
             outputFileName = new File(newApkName)
@@ -77,11 +80,12 @@ dependencies {
     implementation project(':models')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.heinrichreimersoftware:material-intro:1.5.8'
-    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -96,7 +100,7 @@ dependencies {
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:4.2.4"
     implementation 'com.github.Raizlabs.DBFlow:dbflow-core:4.2.4'
     implementation 'com.github.Raizlabs.DBFlow:dbflow:4.2.4'
-    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
@@ -114,8 +118,15 @@ dependencies {
     implementation 'com.mindorks.android:prdownloader:0.4.0'
     implementation 'org.mnode.ical4j:ical4j:2.2.3'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
-    implementation 'org.tinylog:tinylog-api:2.0.0-M4.3'
-    implementation 'org.tinylog:tinylog-impl:2.0.0-M4.3'
+    implementation 'org.tinylog:tinylog-api:2.1.1'
+    implementation 'org.tinylog:tinylog-impl:2.1.1'
+    implementation 'com.android.volley:volley:1.1.0'
+    implementation 'commons-net:commons-net:3.6'
+    implementation 'com.android.billingclient:billing:2.2.0'
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'com.github.ByteHamster:SearchPreference:v2.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 configurations.all {

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 நாள்</item>
+        <item>2 நாட்கள்</item>
+        <item>3 நாட்கள்</item>
+        <item>5 நாட்கள்</item>
+        <item>7 நாட்கள்</item>
+        <item>10 நாட்கள்</item>
+        <item>15 நாட்கள்</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>முடக்கப்பட்டது</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%
+
+alert_on_charged_level_99
+கோப்பு: ex_strings. xml</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>முடக்கப்பட்டது</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>முடக்கப்பட்டது</item>
+        <item>1 நாள்</item>
+        <item>7 நாட்கள்</item>
+        <item>15 நாட்கள்</item>
+        <item>30 நாட்கள்</item>
+        <item>60 நாட்கள்</item>
+        <item>90 நாட்கள்</item>
+        <item>180 நாட்கள்</item>
+        <item>365 நாட்கள்</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>இயல்பு</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>ஆம்</item>
+        <item>இல்லை</item>
+        <item>நன்றி</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metric (Kelvin)</item>
+        <item>Celsius (Metric)</item>
+        <item>Imperial (Fahrenheit)</item>
+    </string-array>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="densities">
+        <item name="normal">Нормальный</item>
+        <item name="low">Низкий</item>
+        <item name="high">Высокий</item>
+        <item name="unknown">Неизвестный</item>
+    </string-array>
+    <string-array name="fontSizes">
+        <item name="small">Маленький</item>
+        <item name="normal">Нормальный</item>
+        <item name="big">Большой</item>
+        <item name="huge">Огромный</item>
+    </string-array>
+    <string-array name="inverted">
+        <item name="no">Нет</item>
+        <item name="yes">Да</item>
+    </string-array>
+</resources>

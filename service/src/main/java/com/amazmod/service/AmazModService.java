@@ -3,14 +3,21 @@ package com.amazmod.service;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
+import com.amazmod.service.settings.SettingsManager;
+import com.amazmod.service.util.DeviceUtil;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.tinylog.Logger;
 import org.tinylog.configuration.Configuration;
+
+import java.io.File;
+import java.util.Locale;
 
 public class AmazModService extends Application {
 
@@ -24,6 +31,8 @@ public class AmazModService extends Application {
         mApp = this;
 
         setupLogger();
+
+        setupLanguage();
 
         //EventBus.getDefault().init(this);
         Logger.info("Tinylog configured debug: {} level: {}",
@@ -58,12 +67,54 @@ public class AmazModService extends Application {
 
     private void setupLogger() {
         level = "error";
-        if (BuildConfig.VERSION_NAME.toLowerCase().contains("dev"))
+        //if (BuildConfig.VERSION_NAME.toLowerCase().contains("dev"))
             level = "trace";
         //System.out.println("D/AmazMod AmazModService Tinylog configured debug: " + DEBUG + " level: " + level);
         Configuration.set("writerLogcat", "logcat");
         Configuration.set("writerLogcat.level", level);
         Configuration.set("writerLogcat.tagname", "AmazMod");
         Configuration.set("writerLogcat.format", "{class-name}.{method}(): {message}");
+    }
+
+    private void setupLanguage() {
+        // Load settings
+        SettingsManager settingsManager = new SettingsManager(getContext());
+        // Get phone app language
+        String language = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, null);
+        Logger.debug("Amazmod locale app language: "+language);
+
+        if (language == null)
+                return;
+        if (language.contains("iw")) {
+            if (!new File("/system/fonts/NotoSansHebrew-Regular.ttf").exists()) {
+                language = "en_EN";
+                Logger.debug("Amazmod locale: Hebrew font is missing, setting english language");
+            } else
+                Logger.debug("Amazmod locale: Hebrew font exist, setting Hebrew language");
+        }
+        if (language.contains("ar")) {
+            if (!new File("/system/fonts/NotoSansArabic-Regular.ttf").exists()) {
+                language = "en_EN";
+                Logger.debug("Amazmod locale: Arabic font is missing, setting english language");
+            } else
+                Logger.debug("Amazmod locale: Arabic font exist, setting Hebrew language");
+        }
+        Resources res = getContext().getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        android.content.res.Configuration conf = res.getConfiguration();
+        conf.locale = getLocaleByLanguageCode(language);
+        res.updateConfiguration(conf, dm);
+        DeviceUtil.systemPutString(getContext(), "AmazModLocale", language);
+
+        Logger.debug("Amazmod locale set:"+getLocaleByLanguageCode(language));
+    }
+
+    private static Locale getLocaleByLanguageCode(String languageCode) {
+        String[] languageCodes = languageCode.split("_");
+        if (languageCodes.length > 1) {
+            return new Locale(languageCodes[0], languageCodes[1]);
+        } else {
+            return new Locale(languageCode, languageCode.toUpperCase());
+        }
     }
 }

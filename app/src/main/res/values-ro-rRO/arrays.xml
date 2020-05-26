@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 zi</item>
+        <item>2 zile</item>
+        <item>3 zile</item>
+        <item>5 zile</item>
+        <item>7 zile</item>
+        <item>10 zile</item>
+        <item>15 zile</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Dezactivat</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Dezactivat</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Dezactivare</item>
+        <item>1 zi</item>
+        <item>7 zile</item>
+        <item>15 zile</item>
+        <item>30 zile</item>
+        <item>60 zile</item>
+        <item>90 zile</item>
+        <item>180 zile</item>
+        <item>365 zile</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normal</item>
+        <item>Medie</item>
+        <item>Mare</item>
+        <item>Mai Mare</item>
+        <item>Aproape Uriaș</item>
+        <item>Enorm</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Da</item>
+        <item>Nu</item>
+        <item>Mulțumesc</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Titlul notificării filtrului</item>
+        <item>Filtrează conținutul notificărilor</item>
+        <item>Filtrează atât titlu, cât și conținut</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metric (Kelvin)</item>
+        <item>Celsius (Metric)</item>
+        <item>Imperial (Fehrenheit)</item>
+    </string-array>
+</resources>

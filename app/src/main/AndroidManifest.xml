@@ -6,19 +6,27 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
     <application
         android:name=".AmazModApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.DonorsActivity"></activity>
+        <activity android:name=".ui.DonationActivity" />
         <activity
             android:name=".ui.SplashActivity"
             android:configChanges="orientation|screenSize"
@@ -26,6 +34,7 @@
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -59,7 +68,6 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/notification_packages_selector_searchable" />
         </activity>
-        <activity android:name=".ui.PreferenceActivity" />
         <activity android:name=".ui.NotificationsLogActivity" />
         <activity android:name=".ui.FaqActivity" />
         <activity
@@ -84,7 +92,6 @@
             android:name=".ui.FileOpenerActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask">
-
             <intent-filter android:label="@string/file_opener_name">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -243,6 +250,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="${enableCrashReporting}" />

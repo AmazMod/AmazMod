@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1 den</item>
+        <item>2 dny</item>
+        <item>3 dny</item>
+        <item>5 dní</item>
+        <item>7 dní</item>
+        <item>10 dní</item>
+        <item>15 dní</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>Zakázáno</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>Zakázáno</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99%</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>Zakázat</item>
+        <item>1 den</item>
+        <item>7 dní</item>
+        <item>15 dní</item>
+        <item>30 dní</item>
+        <item>60 dní</item>
+        <item>90 dní</item>
+        <item>180 dní</item>
+        <item>365 dní</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>Normální</item>
+        <item>Střední</item>
+        <item>Velké</item>
+        <item>Větší</item>
+        <item>Téměř obrovské</item>
+        <item>Obrovské</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>Ano</item>
+        <item>Ne</item>
+        <item>Děkujeme</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metrické (Kelvin)</item>
+        <item>Celsia (Metrické)</item>
+        <item>Imperiální (Fahrenheity)</item>
+    </string-array>
+</resources>

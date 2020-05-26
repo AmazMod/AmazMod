@@ -20,7 +20,6 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.BatteryManager;
@@ -34,11 +33,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.collection.ArrayMap;
+import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
 import com.amazmod.service.events.HardwareButtonEvent;
+import com.amazmod.service.events.HourlyChime;
 import com.amazmod.service.events.NightscoutDataEvent;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.events.SilenceApplicationEvent;
@@ -60,6 +61,7 @@ import com.amazmod.service.events.incoming.Watchface;
 import com.amazmod.service.music.MusicControlInputListener;
 import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.receiver.AdminReceiver;
+import com.amazmod.service.receiver.AlarmReceiver;
 import com.amazmod.service.receiver.NotificationReplyReceiver;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.springboard.WidgetSettings;
@@ -67,11 +69,13 @@ import com.amazmod.service.support.BatteryJobService;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.AlertsActivity;
 import com.amazmod.service.ui.ConfirmationWearActivity;
+import com.amazmod.service.ui.fragments.WearMenuFragment;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.ExecCommand;
 import com.amazmod.service.util.FileDataFactory;
 import com.amazmod.service.util.SystemProperties;
 import com.amazmod.service.util.WidgetsUtil;
+import com.amazmod.service.weather.Weather;
 import com.huami.watch.notification.data.NotificationKeyData;
 import com.huami.watch.notification.data.StatusBarNotificationData;
 import com.huami.watch.transport.DataBundle;
@@ -86,6 +90,7 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tinylog.Logger;
@@ -124,6 +129,9 @@ import amazmod.com.transport.data.WatchStatusData;
 import amazmod.com.transport.data.WatchfaceData;
 import amazmod.com.transport.data.WidgetsData;
 
+import static amazmod.com.transport.Constants.WIDGETS_LIST_EMPTY_CODE;
+import static amazmod.com.transport.Constants.WIDGETS_LIST_SAVED_CODE;
+import static com.amazmod.service.util.DeviceUtil.getLocalIpAddress;
 import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
 
 /**
@@ -131,27 +139,7 @@ import static com.amazmod.service.util.FileDataFactory.drawableToBitmap;
  */
 
 public class MainService extends Service implements Transporter.DataListener {
-
-    private ArrayMap<String, Class> messages = new ArrayMap<String, Class>() {{
-        put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
-        put(Transport.SYNC_SETTINGS, SyncSettings.class);
-        put(Transport.INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
-        put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
-        put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
-        put(Transport.BRIGHTNESS, Brightness.class);
-        put(Transport.ENABLE_LOW_POWER, EnableLowPower.class);
-        put(Transport.REVOKE_ADMIN_OWNER, RevokeAdminOwner.class);
-        put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
-        put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
-        put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
-        put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
-        put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
-        put(Transport.WATCHFACE_DATA, Watchface.class);
-        put(Transport.REQUEST_WIDGETS, RequestWidgets.class);
-        put(Transport.DELETE_NOTIFICATION, DeleteNotificationEvent.class);
-    }};
-
-    private static Transporter transporterGeneral, transporterNotifications, transporterHuami;
+    private static Transporter transporterGeneral, transporterNotifications, transporterHuami, transporterXdrip;
 
     private static IntentFilter batteryFilter;
     private static long dateLastCharge;
@@ -159,7 +147,11 @@ public class MainService extends Service implements Transporter.DataListener {
     private static boolean isPhoneConnectionAlertEnabled;
     private static boolean isStandardAlertEnabled;
     private static boolean isSpringboardObserverEnabled;
+    private static boolean requestSelfReload;
     private static boolean wasSpringboardSaved;
+    private static boolean isWeatherObserverEnabled;
+    private static boolean wasWeatherSaved;
+    private static long custom_weather_expire = 0L;
     private static WidgetSettings settings;
     private static JobScheduler jobScheduler;
     private static char overlayLauncherPosition;
@@ -179,6 +171,7 @@ public class MainService extends Service implements Transporter.DataListener {
     private SlptClockClient slptClockClient;
     private ContentObserver phoneConnectionObserver;
     private ContentObserver springboardObserver;
+    private ContentObserver weatherObserver;
 
     private boolean watchBatteryAlreadyAlerted;
     private boolean phoneBatteryAlreadyAlerted;
@@ -192,32 +185,35 @@ public class MainService extends Service implements Transporter.DataListener {
     private static final Handler stdHandler = new Handler();
     private static final Handler cstHandler = new Handler();
 
+    // Standard Notification
     private final Runnable sendStandardNotification = new Runnable() {
         public void run() {
-
             notificationManager.post(notificationData);
-            //Do not vibrate if DND is active
+            // Vibration
+            // Do not vibrate if DND is active
             if (!DeviceUtil.isDNDActive(context)) {
                 new Handler().postDelayed(new Runnable() {
                     public void run() {
                         final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                        if (vibrator == null) return;
+
                         try {
-                            if (vibrator != null) {
-                                vibrator.vibrate(vibrate);
-                            }
+                            vibrator.vibrate(vibrate);
                         } catch (Exception e) {
                             Logger.error("vibrator exception: {}", e.getMessage());
                         }
                     }
                 }, 1000 /* 1s */);
-
             }
+
             isRunning = false;
         }
     };
 
+    // Alert Notification
     private final Runnable sendAlertNotification = new Runnable() {
         public void run() {
+            // Start alert activity
             Intent intent = new Intent(context, AlertsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                     Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
@@ -241,19 +237,20 @@ public class MainService extends Service implements Transporter.DataListener {
         watchStatusData = new WatchStatusData();
         widgetsData = new WidgetsData();
 
-        Logger.debug("MainService onCreate EventBus register");
+        // Register EventBus
         EventBus.getDefault().register(this);
+        Logger.debug("MainService onCreate EventBus register");
 
-        // Initialize widgetSettings
+        // Load settings
         settings = new WidgetSettings(Constants.TAG, context);
-        settings.reload();
 
-        // Restore system settings after service update
-        new ExecCommand("adb shell settings put system screen_off_timeout 14000");
+        // Restore system screen_off setting in case there was a service update
+        new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
         Logger.debug("Restore APK_INSTALL screen timeout");
+
         /*
         try {
-            if (new File("/system/xbin/su").exists()) { //Test for root
+            if (new File("/system/xbin/su").exists()) { // Test for root
                 //Runtime.getRuntime().exec("adb shell echo APK_INSTALL > /sys/power/wake_unlock;exit");
                 new ExecCommand(ExecCommand.ADB, "adb shell echo APK_INSTALL > /sys/power/wake_unlock");
                 Logger.debug("Disabling APK_INSTALL WAKELOCK");
@@ -275,10 +272,12 @@ public class MainService extends Service implements Transporter.DataListener {
         context.registerReceiver(new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                // Get battery
                 Intent batteryStatus = context.registerReceiver(null, batteryFilter);
-                if (batteryStatus != null)
-                    getBatteryPct(batteryStatus);
-                //Update date of last charge if power was disconnected and battery is full
+                // Update battery
+                getBatteryPct(batteryStatus);
+
+                // Update date of last charge
                 if (batteryPct > 0.98) {
                     dateLastCharge = System.currentTimeMillis();
                     settings.set(Constants.PREF_DATE_LAST_CHARGE, dateLastCharge);
@@ -287,124 +286,119 @@ public class MainService extends Service implements Transporter.DataListener {
             }
         }, powerDisconnectedFilter);
 
+        // Register notification reply receiver
         notificationReplyReceiver = new NotificationReplyReceiver();
         IntentFilter notificationReplyFilter = new IntentFilter();
         notificationReplyFilter.addAction(Constants.INTENT_ACTION_REPLY);
         LocalBroadcastManager.getInstance(context).registerReceiver(notificationReplyReceiver, notificationReplyFilter);
 
-        // Start OverlayLauncher
-        if (settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false)) {
-            setOverlayLauncher(true);
+        // Reboot launcher if language was change to update Amazmod widget locale
+        if (settings.get(Constants.REQUEST_SELF_RELOAD, true)) {
+            new ExecCommand(ExecCommand.ADB, "adb shell am force-stop com.huami.watch.launcher");
+            Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.huami.watch.launcher");
+            if (launchIntent != null) {
+                startActivity(launchIntent);
+                Logger.debug("isRequestSelfReload: is rebooting launcher and reload AmazMod to apply new locate ");
+                settings.set(Constants.REQUEST_SELF_RELOAD, false);
+            }
         }
 
-        // Initialize battery alerts
+        // Start OverlayLauncher
+        if (settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false))
+            setOverlayLauncher(true);
+
+        // Check if hourly chime is enable
+        if (settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false) || (WearMenuFragment.chimeEnabled))
+            setHourlyChime(true);
+
+       // Initialize battery alerts
         this.watchBatteryAlreadyAlerted = false;
         this.phoneBatteryAlreadyAlerted = false;
 
-        // When starting AmazMod, defines notification counter as ZERO
+        // Reset notification counter to ZERO (0)
         NotificationStore.setNotificationCount(context, 0);
 
-        //Check transporters
+        // CHECK TRANSPORTERS
+        // Amazmod's
         transporterGeneral = TransporterClassic.get(this, Transport.NAME);
         transporterGeneral.addDataListener(this);
-
-        if (!transporterGeneral.isTransportServiceConnected()) {
-            Logger.debug("MainService onCreate transporterGeneral not connected, connecting...");
+        Logger.debug("MainService onCreate transporterAmazmod "+ (!transporterGeneral.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        if (!transporterGeneral.isTransportServiceConnected())
             transporterGeneral.connectTransportService();
-        } else {
-            Logger.debug("MainService onCreate transporterGeneral already connected");
-        }
-
+        // Amazmod's Notifications
         transporterNotifications = TransporterClassic.get(this, Transport.NAME_NOTIFICATION);
         transporterNotifications.addDataListener(this);
-
-        if (!transporterNotifications.isTransportServiceConnected()) {
-            Logger.debug("MainService onCreate transporterNotifications not connected, connecting...");
+        Logger.debug("MainService onCreate transporterAmazmodNotification "+ (!transporterNotifications.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        if (!transporterNotifications.isTransportServiceConnected())
             transporterNotifications.connectTransportService();
-        } else {
-            Logger.debug("MainService onCreate transporterNotifications already connected");
-        }
-
-        // Catch huami's notifications
+        // Huami's notifications
         transporterHuami = TransporterClassic.get(this, "com.huami.action.notification");
         transporterHuami.addDataListener(this);
-        if (!transporterHuami.isTransportServiceConnected()) {
-            Logger.debug("MainService onCreate transporterHuami not connected, connecting...");
+        Logger.debug("MainService onCreate transporterHuamiNotification "+ (!transporterHuami.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        if (!transporterHuami.isTransportServiceConnected())
             transporterHuami.connectTransportService();
-        } else {
-            Logger.debug("MainService onCreate transportedHuami already connected");
-        }
+        // XDrip data
+        transporterXdrip = TransporterClassic.get(this, "com.eveningoutpost.dexdrip.wearintegration");
+        transporterXdrip.addDataListener(this);
+        Logger.debug("MainService onCreate transporterXdrip "+ (!transporterXdrip.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
+        if (!transporterXdrip.isTransportServiceConnected())
+            transporterXdrip.connectTransportService();
 
+
+        // This is so we can enable Power Save mode
         slptClockClient = new SlptClockClient();
         slptClockClient.bindService(this, "AmazMod-MainService", new SlptClockClient.Callback() {
             @Override
-            public void onServiceConnected() {
-            }
+            public void onServiceConnected() {}
 
             @Override
-            public void onServiceDisconnected() {
-            }
+            public void onServiceDisconnected() {}
         });
 
+        // Isn't this disabled/removed????? TODO
         setupHardwareKeysMusicControl(settingsManager.getBoolean(Constants.PREF_ENABLE_HARDWARE_KEYS_MUSIC_CONTROL, false));
 
         // Register phone connect/disconnect monitor
         isPhoneConnectionAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT, false);
         isStandardAlertEnabled = settingsManager.getBoolean(Constants.PREF_PHONE_CONNECTION_ALERT_STANDARD_NOTIFICATION, false);
-        if (isPhoneConnectionAlertEnabled) {
+        if (isPhoneConnectionAlertEnabled)
             registerConnectionMonitor(true);
-        }
 
-        // Register springboard observer if AmazMod as First Widget is enabled in Preferences
-        isSpringboardObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_FIRST_WIDGET, true);
-        wasSpringboardSaved = false;
-        if (isSpringboardObserverEnabled) {
-            Logger.debug("MainService isSpringboardObserverEnabled: true ");
+        // Register springboard observer
+        isSpringboardObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_KEEP_WIDGET, true);
+        if (isSpringboardObserverEnabled)
             registerSpringBoardMonitor(true);
-        }else{
-            Logger.debug("MainService isSpringboardObserverEnabled: false");
-        }
+        Logger.debug("MainService isSpringboardObserverEnabled: "+isSpringboardObserverEnabled);
+
+        // Register weather observer
+        isWeatherObserverEnabled = settingsManager.getBoolean(Constants.PREF_AMAZMOD_KEEP_WEATHER, true);
+        if (isWeatherObserverEnabled)
+            registerWeatherMonitor(true);
 
         // Set battery db record JobService if watch never synced with phone
         String defaultLocale = settingsManager.getString(Constants.PREF_DEFAULT_LOCALE, "");
         long timeSinceLastBatterySync = System.currentTimeMillis() - settings.get(Constants.PREF_DATE_LAST_BATTERY_SYNC, 0);
         Logger.debug("MainService onCreate defaultLocale: " + defaultLocale);
-        jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
 
         if ((defaultLocale.isEmpty()) || (timeSinceLastBatterySync > BATTERY_SYNC_INTERVAL)) {
-
             Logger.debug("MainService onCreate ***** starting BatteryJobService");
-            ComponentName serviceComponent = new ComponentName(getApplicationContext(), BatteryJobService.class);
-
+            jobScheduler = (JobScheduler) getApplicationContext().getSystemService(JOB_SCHEDULER_SERVICE);
             if (jobScheduler != null) {
-
+                ComponentName serviceComponent = new ComponentName(getApplicationContext(), BatteryJobService.class);
                 cancelPendingJobs(BATTERY_JOB_ID);
                 JobInfo.Builder builder = new JobInfo.Builder(BATTERY_JOB_ID, serviceComponent);
                 builder.setPeriodic(BATTERY_SYNC_INTERVAL);
                 jobScheduler.schedule(builder.build());
-
             } else
                 Logger.error("MainService error staring BatteryJobService: null jobScheduler!");
         }
-/*
-        //Hourly Chime TEST
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        PendingIntent pi = PendingIntent.getService(context, 0, new Intent(context, AlarmManager.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        am.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, pi);
-        MediaPlayer.create(this, R.raw.hourly_chime).start();
-        Logger.debug((Object) "Hourly Chime TEST");
-*/
     }
 
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
 
-        //Unregister receivers
+        // Unregister receivers
         if (notificationReplyReceiver != null) {
             LocalBroadcastManager.getInstance(context).unregisterReceiver(notificationReplyReceiver);
             notificationReplyReceiver = null;
@@ -417,8 +411,9 @@ public class MainService extends Service implements Transporter.DataListener {
         // Unregister content observers
         registerConnectionMonitor(false);
         registerSpringBoardMonitor(false);
+        registerWeatherMonitor(false);
 
-        //Disconnect transporters
+        // Disconnect transporters
         if (transporterGeneral.isTransportServiceConnected()) {
             Logger.debug( "MainService onDestroy transporterGeneral disconnecting...");
             transporterGeneral.disconnectTransportService();
@@ -434,8 +429,13 @@ public class MainService extends Service implements Transporter.DataListener {
             transporterHuami.disconnectTransportService();
             transporterHuami = null;
         }
+        if (transporterXdrip.isTransportServiceConnected()) {
+            Logger.debug("MainService onDestroy transporterXdrip disconnecting...");
+            transporterXdrip.disconnectTransportService();
+            transporterXdrip = null;
+        }
 
-        //Unbind spltClockClient
+        // Unbind spltClockClient
         if (slptClockClient != null)
             slptClockClient.unbindService(this);
 
@@ -451,125 +451,165 @@ public class MainService extends Service implements Transporter.DataListener {
         return null;
     }
 
+    private ArrayMap<String, Class> messages = new ArrayMap<String, Class>() {{
+        put(Constants.ACTION_NIGHTSCOUT_SYNC, NightscoutDataEvent.class);
+        put(Transport.SYNC_SETTINGS, SyncSettings.class);
+        put(Transport.INCOMING_NOTIFICATION, IncomingNotificationEvent.class);
+        put(Transport.REQUEST_WATCHSTATUS, RequestWatchStatus.class);
+        put(Transport.REQUEST_BATTERYSTATUS, RequestBatteryStatus.class);
+        put(Transport.BRIGHTNESS, Brightness.class);
+        put(Transport.ENABLE_LOW_POWER, EnableLowPower.class);
+        put(Transport.REVOKE_ADMIN_OWNER, RevokeAdminOwner.class);
+        put(Transport.REQUEST_DIRECTORY, RequestDirectory.class);
+        put(Transport.REQUEST_DELETE_FILE, RequestDeleteFile.class);
+        put(Transport.REQUEST_UPLOAD_FILE_CHUNK, RequestUploadFileChunk.class);
+        put(Transport.REQUEST_DOWNLOAD_FILE_CHUNK, RequestDownloadFileChunk.class);
+        put(Transport.REQUEST_SHELL_COMMAND, RequestShellCommand.class);
+        put(Transport.WATCHFACE_DATA, Watchface.class);
+        put(Transport.REQUEST_WIDGETS, RequestWidgets.class);
+        put(Transport.DELETE_NOTIFICATION, DeleteNotificationEvent.class);
+    }};
+
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
         String action = transportDataItem.getAction();
 
-        // A notification is removed/added
-        if (action.equals("del") || action.equals("add")) {
-            notificationCounter(action.equals("del") ? -1 : 1);
-            settings.reload();
-        }
-
-        // Activate screen if the option is enabled in widget menus
-        if (action.equals("add") && (settings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) == 1)) {
-            acquireWakelock();
+        if (action == null) {
+            Logger.debug("MainService data received without action.");
+            return;
         }
 
         Logger.debug("MainService action: {}", action);
+        DataBundle db = transportDataItem.getData();
 
-        //Flag used by OverlayLauncher
-        if (Transport.INCOMING_NOTIFICATION.equals(action) || "add".equals(action))
+        // A stock notification is received
+        if (action.equals("add")) {
+            // Activate screen if the option is enabled in widget menus
+            settings.reload();
+            if (settings.get(Constants.PREF_NOTIFICATIONS_SCREEN_ON, 0) == 1)
+                acquireWakelock();
+
+            // Flag used by OverlayLauncher
             notificationArrived = true;
+        } else if (Transport.INCOMING_NOTIFICATION.equals(action))
+            notificationArrived = true;// Flag used by OverlayLauncher
 
+        // Run a function based on requested action
         Class messageClass = messages.get(action);
-
         if (messageClass != null) {
             Class[] args = new Class[1];
             args[0] = DataBundle.class;
 
             try {
                 Constructor eventContructor = messageClass.getDeclaredConstructor(args);
-                Object event = eventContructor.newInstance(transportDataItem.getData());
+                Object event = eventContructor.newInstance(db);
 
                 Logger.debug("MainService onDataReceived: " + event.toString());
                 EventBus.getDefault().post(event);
             } catch (NoSuchMethodException e) {
                 Logger.debug("MainService event mapped with action \"" + action + "\" doesn't have constructor with DataBundle as parameter");
                 e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (Exception ex) {
-                ex.printStackTrace();
             }
+        }
+
+        // Non-priority functions (keep at the bottom to speed-up notifications)
+        switch (action) {
+            case "add": // A notification is added
+            case Transport.INCOMING_NOTIFICATION:   // Custom notification added
+                DeviceUtil.notificationCounter(context, 1, true);
+                break;
+            case "xDrip_synced_SGV_data": // Xdrip data
+                xdrip( db.getString("Data") );
+                break;
+            case Transport.LOCAL_IP: // watch's local IP request
+                requestLocalIp();
+                break;
+            default:
         }
     }
 
+    // Delete Notification (counter update and delete custom notification)
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void deleteNotification(DeleteNotificationEvent deleteNotificationEvent) {
-
+        boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
         StatusBarNotificationData statusBarNotificationData = deleteNotificationEvent.getDataBundle().getParcelable("data");
         String key = statusBarNotificationData.key;
-        boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI, false);
         Logger.warn("deleteNotification enableCustomUI: {} \\ key: {}", enableCustomUI, key);
 
-        if (enableCustomUI) {
+        // Update notification Counter
+        DeviceUtil.notificationCounter(context, -1);
 
-            if (key != null) {
-                if (NotificationStore.getCustomNotificationCount() > 0)
-                    for (ArrayMap.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
-                        Logger.warn("deleteNotification NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
+        // Check if custom notifications are enabled
+        if (!enableCustomUI) return;
 
-                        if (key.equals(pair.getValue())) {
-                            Logger.warn("deleteNotification removing: {}", pair.getKey());
-                            NotificationStore.removeCustomNotification(pair.getKey());
-                        }
+        if (key != null) {
+            if (NotificationStore.getCustomNotificationCount() > 0)
+                for (ArrayMap.Entry<String, String> pair : NotificationStore.keyMap.entrySet()) {
+                    //Logger.warn("deleteNotification NS.key: {} \\ NS.entry: {}", pair.getKey(), pair.getValue());
+
+                    if (key.equals(pair.getValue())) {
+                        Logger.warn("deleteNotification removing: {}", pair.getKey());
+                        NotificationStore.removeCustomNotification(pair.getKey(), context);
                     }
-                else
-                    Logger.warn("deleteNotification empty NotificationStore");
-            }
+                }
+            else
+                Logger.warn("deleteNotification empty NotificationStore");
         }
-
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void requestDeleteNotification(NotificationKeyData notificationKeyData) {
-
         Logger.warn("requestDeleteNotification key: {}", notificationKeyData.key);
-
         DataBundle dataBundle = new DataBundle();
         dataBundle.putParcelable("notiKey", notificationKeyData);
         sendHuami("del", dataBundle);
-
     }
 
-    // Watchface/Calendar data (phone battery/alarm)
+    // Phone data (phone battery, phone alarm, calendar events, weather)
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void watchface(Watchface watchface) {
-        WatchfaceData watchfaceData = WatchfaceData.fromDataBundle(watchface.getDataBundle());
 
         // Data from phone
+        WatchfaceData watchfaceData = WatchfaceData.fromDataBundle(watchface.getDataBundle());
         int phoneBattery = watchfaceData.getBattery();
         String phoneAlarm = watchfaceData.getAlarm();
         String calendarEvents = watchfaceData.getCalendarEvents();
-        Logger.debug("Updating phone's data, battery:" + phoneBattery + ", alarm:" + phoneAlarm + ", events:" + calendarEvents);
+        String weather_data = watchfaceData.getWeatherData();
+        Long expire = watchfaceData.getExpire();
+
+        // Logs
+        String local_log_tag = "[New phone data] ";
+        Logger.debug(local_log_tag+ " incoming battery data: " + phoneBattery);
+        Logger.debug(local_log_tag+ " incoming alarm data:" + phoneAlarm);
+        Logger.debug(local_log_tag+ " incoming calendar events:" + calendarEvents);
+        Logger.debug(local_log_tag+ " incoming weather data:" + weather_data);
+        Logger.debug(local_log_tag+ " data will expire at:" + expire);
 
         // Update Time
         long updateTime = Calendar.getInstance().getTimeInMillis();
 
         // Watchface data
         // Get already saved data
-        String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
-        if (data == null || data.equals("")) {
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
-        }
+        String data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
+        if (data == null || data.equals(""))
+            data = "{}";
+
         // Update the data
         try {
             // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
+            JSONObject json_data = new JSONObject(data); // load existing data to keep any extra parameters
             json_data.put("phoneBattery", phoneBattery);
             json_data.put("phoneAlarm", phoneAlarm);
             json_data.put("updateTime", updateTime);
+            json_data.put("expire", expire);
 
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
+            data = json_data.toString();
         } catch (JSONException e) {
-            //default
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\",\"updateTime\":"+updateTime+"}");
+            data = "{\"phoneBattery\":\"" + phoneBattery + "\",\"phoneAlarm\":\"" + phoneAlarm + "\",\"updateTime\":"+updateTime+"}";
         }
+        DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, data);
 
         // Calendar data
         if (calendarEvents != null && !calendarEvents.equals("")) {
@@ -578,10 +618,29 @@ public class MainService extends Service implements Transporter.DataListener {
                 JSONObject json_data = new JSONObject(calendarEvents);
                 json_data.put("updateTime", updateTime);
                 // Update data
-                DeviceUtil.systemPutString(context, "CustomCalendarData", json_data.toString());
+                data =  json_data.toString();
             } catch (JSONException e) {
-                //default
-                DeviceUtil.systemPutString(context, "CustomCalendarData", "{}");
+                data = "{}";//default
+            }
+            DeviceUtil.systemPutString(context, "CustomCalendarData", data);
+            Logger.debug(local_log_tag+ " Calendar data were updated.");
+        }
+
+        // Weather data
+        if (weather_data != null && !weather_data.equals("")) {
+            wasWeatherSaved = false; // Default value
+            // Update system weather data
+            String save_value = Weather.updateWeatherData(context, weather_data);
+            if(!save_value.equals(Weather.DATA_HAVE_NOT_UPDATE)) {
+                // Save new data
+                settingsManager.putString(Constants.WEATHER_INFO, save_value);
+                // Save that Amazmod just updated the system value (used when overwriting system weather values)
+                wasWeatherSaved = true;
+                // Save the expiration time (used when overwriting system weather values)
+                custom_weather_expire = expire;
+                Logger.debug(local_log_tag+ " Weather data were updated.");
+            }else{
+                Logger.debug(local_log_tag+ " Weather data were NOT updated.");
             }
         }
 
@@ -611,56 +670,123 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
+    // XDrip data
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void xdrip(String xdrip_data) {
+        if(xdrip_data==null || !xdrip_data.equals(""))
+            return;
+
+        // Try to decode JSON
+        try {
+            // Extract data from JSON
+            //JSONObject json_data = new JSONObject(xdrip_data);
+
+            // Update system data
+            DeviceUtil.systemPutString(context, "Xdrip", xdrip_data);
+
+            // If data analysis is needed:
+            /*
+            // Default values
+            String strike = "";
+            String color = "WHITE";
+            String sgv = "--";
+            String delta = "--";
+            String timeago = "--";
+            String phonebattery = "--";
+            String sgv_graph = "false";
+            Long timestamp = Long.valueOf(1);
+            Boolean badvalue = false;
+            Boolean ishigh = false;
+            Boolean islow = false;
+            Boolean isstale = false;
+            Boolean firstdata = false;
+
+            if (json_data.has("sgv"))
+                sgv = json_data.getString("sgv");
+
+            if (json_data.has("delta"))
+                delta = json_data.getString("delta");
+
+            if (json_data.has("date")) {
+                timestamp = Long.valueOf(json_data.getString("date"));
+                //timeago = TimeAgo.using(Long.valueOf(json_data.getString("date")));
+            }
+
+            if (json_data.has("WFGraph"))
+                sgv_graph = json_data.getString("WFGraph");
+
+            if (json_data.has("phone_battery"))
+                phonebattery = json_data.getString("phone_battery");
+
+            if (json_data.has("ishigh"))
+                ishigh = Boolean.valueOf(json_data.getString("ishigh"));
+
+            if (json_data.has("islow"))
+                islow = Boolean.valueOf(json_data.getString("islow"));
+
+            if (json_data.has("isstale"))
+                isstale = Boolean.valueOf(json_data.getString("isstale"));
+
+            if (!isstale && !islow && !ishigh)
+                color="BLACK";
+            else
+                color="WHITE";
+
+            if( System.currentTimeMillis() > timestamp+10*60*1000 )
+                strike = new String(new char[sgv.length()]).replace("\0", "─");
+            else
+                strike = "";
+             */
+        }catch (Exception e) {
+            // Nothing
+        }
+    }
+
     // Request installed widgets
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestWidgets(RequestWidgets requestWidgets) {
-        final PackageManager pm = getPackageManager();
+        // Returned data
+        WidgetsData widgetsData = WidgetsData.fromDataBundle(requestWidgets.getDataBundle());
+        String savedOrder = widgetsData.getPackages();
+        Logger.debug("MainService requestWidgets widgetsData (got): " + savedOrder);
 
-        //WidgetsData widgetsData = WidgetsData.fromDataBundle(requestWidgets.getDataBundle());
-
-        // Get the list of installed apps.
-        List<ApplicationInfo> packages = pm.getInstalledApplications(PackageManager.GET_META_DATA);
-
-        // Found widgets
-        String widgets = "";
-
-        for (ApplicationInfo packageInfo : packages) {
-            //Log.d(TAG, "Installed package :" + packageInfo.packageName);
-            //Log.d(TAG, "Source dir : " + packageInfo.sourceDir);
-            //Log.d(TAG, "Launch Activity :" + pm.getLaunchIntentForPackage(packageInfo.packageName));
-
-            Bundle bundle = packageInfo.metaData;
-            if (bundle == null) continue;
-            try {
-                boolean metaData = bundle.containsKey("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
-                if(metaData) {
-                    // Get info
-                    int id = bundle.getInt("com.huami.watch.launcher.springboard.PASSAGER_TARGET");
-                    String name = packageInfo.loadLabel(pm).toString();
-
-                    //String[] inArray = getResources().getStringArray(id);
-
-                    Resources resources = getApplicationContext().getPackageManager().getResourcesForApplication(packageInfo.packageName);
-                    String[] inArray = resources.getStringArray(id);
-
-                    // Add in widgets
-                    widgets += packageInfo.packageName+"|"+inArray[0]+"|"+name+",";
-                    //inArray[0].split("/")[1]
-
-                    // Log
-                    Logger.debug("Widget found: " + packageInfo.packageName + " - " + inArray[0] +" - "+name );
-                }else
-                    Logger.debug("App: "+packageInfo.packageName+" is not a widget");
-
-            } catch (Exception e) {
-                Logger.error("App: "+packageInfo.packageName+" is not a widget");
+        if (!savedOrder.isEmpty()){
+            // Check is EMPTY code
+            if(savedOrder.equals(WIDGETS_LIST_EMPTY_CODE)){
+                // All widgets are off
+                settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, "");
+                //DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, "");
+                Logger.debug("WidgetsRequest remove PREF_SPRINGBOARD_ORDER");
+            }else{
+                // Save the list here
+                settingsManager.putString(Constants.PREF_SPRINGBOARD_ORDER, savedOrder);
+                DeviceUtil.systemPutString(context, Constants.WIDGET_ORDER_IN, savedOrder);
+                Logger.debug("WidgetsRequest save PREF_SPRINGBOARD_ORDER & widget_order_in: " + savedOrder);
             }
+
+            // Send confirmation that data are saved
+            widgetsData.setPackages(WIDGETS_LIST_SAVED_CODE);
+        }else {
+            // Get widgets list
+            JSONArray widgetsList = WidgetsUtil.getWidgetsLists(getApplicationContext(), true);
+            // Set up data
+            widgetsData.setPackages(widgetsList.toString());
         }
 
-        this.widgetsData.setPackages(widgets);
         // Send the transmit
-        Logger.debug("MainService requestWidgets widgetsData: " + widgetsData.getPackages());
+        Logger.debug("MainService requestWidgets widgetsData (send): " + widgetsData.getPackages());
         send(Transport.WIDGETS_DATA, widgetsData.toDataBundle());
+    }
+
+    // Request watch's local IP
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void requestLocalIp() {
+        String localIP = getLocalIpAddress();
+        Logger.debug("MainService requestLocalIp, local IP: "+localIP);
+        // Send transmit
+        DataBundle data = new DataBundle();
+        data.putString("ip",localIP);
+        send(Transport.LOCAL_IP, data);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -669,7 +795,7 @@ public class MainService extends Service implements Transporter.DataListener {
         count++;
         Logger.debug("MainService lowPower count: " + count);
         if (count < 2) {
-            Toast.makeText(context, "lowPower: true", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.low_power) +": "+ getString(R.string.true_), Toast.LENGTH_SHORT).show();
             BluetoothAdapter btmgr = BluetoothAdapter.getDefaultAdapter();
             Logger.info("MainService lowPower disable BT");
             btmgr.disable();
@@ -698,7 +824,7 @@ public class MainService extends Service implements Transporter.DataListener {
             }
 
         } else if (count >= 3) {
-            Toast.makeText(context, "lowPower: false", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, getString(R.string.low_power) +": "+ getString(R.string.false_), Toast.LENGTH_SHORT).show();
             //btmgr.enable();
             //slptClockClient.disableSlpt();
             slptClockClient.disableLowBattery();
@@ -735,12 +861,29 @@ public class MainService extends Service implements Transporter.DataListener {
         if (isPhoneConnectionAlertEnabled != iPCA)
             registerConnectionMonitor(iPCA);
 
-        //Toggle AmazMod as first widget setting
-        iPCA = settingsData.isAmazModFirstWidget();
+        //Toggle AmazMod keep widget setting
+        iPCA = settingsData.isAmazModKeepWidget();
         settings.reload();
-        settings.set(Constants.PREF_AMAZMOD_FIRST_WIDGET, iPCA);
+        settings.set(Constants.PREF_AMAZMOD_KEEP_WIDGET, iPCA);
         if (isSpringboardObserverEnabled != iPCA)
             registerSpringBoardMonitor(iPCA);
+
+        //Request self reload to update languages string
+        iPCA = settingsData.isRequestSelfReload();
+        Logger.debug("MainService SyncSettings isRequestSelfReload: {}", iPCA);
+        settings.reload();
+        settings.set(Constants.REQUEST_SELF_RELOAD, iPCA);
+        if (requestSelfReload != iPCA)
+            DeviceUtil.killBackgroundTasks(context, iPCA);
+
+        //TODO Toggle AmazMod keep weather setting
+        /*
+        iPCA = settingsData.isAmazModKeepWeather();
+        settings.reload();
+        settings.set(Constants.PREF_AMAZMOD_KEEP_WEATHER, iPCA);
+        if (isWeatherObserverEnabled != iPCA)
+            registerWeatherMonitor(iPCA);
+         */
 
         //Toggle OverlayLauncher service
         iPCA = settingsData.isOverlayLauncher();
@@ -748,47 +891,53 @@ public class MainService extends Service implements Transporter.DataListener {
         if (iPCA != settings.get(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, false))
             setOverlayLauncher(iPCA);
 
+        //Toggle Hourly Chime
+        iPCA = settingsData.isHourlyChime();
+        Logger.debug("SyncSettings isHourlyChime: {}", iPCA);
+        if (iPCA != ((settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false)) || (WearMenuFragment.chimeEnabled)))
+            setHourlyChime(iPCA);
+
         setupHardwareKeysMusicControl(settingsData.isEnableHardwareKeysMusicControl());
     }
 
+    // Reply to notification
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void reply(ReplyNotificationEvent event) {
         Logger.debug("MainService reply to notification, key: " + event.getKey() + ", message: " + event.getMessage());
-
+        // Send transmit
         DataBundle dataBundle = new DataBundle();
-
-        dataBundle.putString("key", event.getKey());
-        dataBundle.putString("message", event.getMessage());
-
+        dataBundle.putString("key", event.getKey()); // Notification unique key
+        dataBundle.putString("message", event.getMessage()); // Reply message
         send(Transport.REPLY, dataBundle);
     }
 
-
+    // Silence specific app notifications for X minutes
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void silence(SilenceApplicationEvent event) {
         Logger.debug("MainService silence application, package: " + event.getPackageName() + ", minutes: " + event.getMinutes());
-
+        // Send transmit
         DataBundle dataBundle = new DataBundle();
-
-        dataBundle.putString("package", event.getPackageName());
-        dataBundle.putString("minutes", event.getMinutes());
-
+        dataBundle.putString("package", event.getPackageName()); // app pkg
+        dataBundle.putString("minutes", event.getMinutes()); // minutes to stop notifications
         send(Transport.SILENCE, dataBundle);
     }
 
-    // Incoming Notification
+    // Incoming Notification action
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void incomingNotification(IncomingNotificationEvent incomingNotificationEvent) {
-        //NotificationSpec notificationSpec = NotificationSpecFactory.getNotificationSpec(MainService.this, incomingNotificationEvent.getDataBundle());
+        // Create notification data
         NotificationData notificationData = NotificationData.fromDataBundle(incomingNotificationEvent.getDataBundle());
 
+        // Set vibration data
         // Changed for RC1
         if (notificationData.getVibration() > 0) {
             Logger.debug("MainService incomingNotification vibration: " + notificationData.getVibration());
         } else notificationData.setVibration(0);
         //notificationData.setVibration(settingsManager.getInt(Constants.PREF_NOTIFICATION_VIBRATION, Constants.PREF_DEFAULT_NOTIFICATION_VIBRATION));
-        notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
 
+        // Set notification duration
+        notificationData.setTimeoutRelock(settingsManager.getInt(Constants.PREF_NOTIFICATION_SCREEN_TIMEOUT, Constants.PREF_DEFAULT_NOTIFICATION_SCREEN_TIMEOUT));
+        // Check if device is locked
         notificationData.setDeviceLocked(DeviceUtil.isDeviceLocked(context));
 
         Logger.debug("MainService incomingNotification: " + notificationData.toString());
@@ -819,12 +968,14 @@ public class MainService extends Service implements Transporter.DataListener {
         try {
             b = DeviceUtil.systemGetInt(context, Constants.SCREEN_BRIGHTNESS);
             bm = DeviceUtil.systemGetInt(context, Constants.SCREEN_BRIGHTNESS_MODE);
-
         } catch (Settings.SettingNotFoundException e) {
             Logger.error("MainService requestWatchStatus SettingsNotFoundException: {}" + e.getMessage());
         }
         watchStatusData.setScreenBrightness(b);
         watchStatusData.setScreenBrightnessMode(bm);
+
+        // Check if rooted
+        watchStatusData.setRooted((new File("/system/xbin/su").exists())?1:0);
 
         // Get last heart rates
         final boolean isHeartrateData = settingsManager.getBoolean(Constants.PREF_HEARTRATE_DATA, true);
@@ -850,7 +1001,13 @@ public class MainService extends Service implements Transporter.DataListener {
             watchStatusData.setLastHeartRates(heartrates);
         }
 
-        // Send the transmit
+        // Get hourly chime status
+        settings.reload();
+        boolean isHourlyChime = settings.get(Constants.PREF_AMAZMOD_HOURLY_CHIME, false);
+        Logger.debug("Sync hourly chime to transport : " + isHourlyChime);
+        watchStatusData.setHourlyChime(isHourlyChime?1:0); // 1 = on, 0 = off
+
+        // Send transmit
         Logger.debug("MainService requestWatchStatus watchStatusData: " + watchStatusData.toString());
         send(Transport.WATCH_STATUS, watchStatusData.toDataBundle());
     }
@@ -858,44 +1015,39 @@ public class MainService extends Service implements Transporter.DataListener {
     // Battery request
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void requestBatteryStatus(RequestBatteryStatus requestBatteryStatus) {
-
-        settings.reload();
         Intent batteryStatus = context.registerReceiver(null, batteryFilter);
-
-        int status = 0;
-        if (batteryStatus != null) {
-            status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-
-            boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                    status == BatteryManager.BATTERY_STATUS_FULL;
-
-            int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
-            boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
-            boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
-
-            getBatteryPct(batteryStatus);
-
-
-            //Get data of last full charge from settings
-            //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
-            if (dateLastCharge == 0) {
-                dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
-                Logger.debug("MainService dateLastCharge loaded: " + dateLastCharge);
-            }
-
-            Logger.debug("MainService dateLastCharge: " + dateLastCharge + " | batteryPct: " + Math.round(batteryPct * 100f));
-            cancelPendingJobs(BATTERY_JOB_ID);
-            saveBatteryDb(batteryPct, false);
-
-            batteryData.setLevel(batteryPct);
-            batteryData.setCharging(isCharging);
-            batteryData.setUsbCharge(usbCharge);
-            batteryData.setAcCharge(acCharge);
-            batteryData.setDateLastCharge(dateLastCharge);
-
-            send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
-        } else
+        if (batteryStatus == null) {
             Logger.error("MainService requestBatteryStatus: register receiver error!");
+            return;
+        }
+
+        int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING || status == BatteryManager.BATTERY_STATUS_FULL;
+        int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+        boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+
+        getBatteryPct(batteryStatus);
+
+        // Get data of last full charge from settings
+        //Use WidgetSettings to share data with Springboard widget (SharedPreferences didn't work)
+        if (dateLastCharge == 0) {
+            settings.reload();
+            dateLastCharge = settings.get(Constants.PREF_DATE_LAST_CHARGE, 0L);
+            Logger.debug("MainService dateLastCharge loaded: " + dateLastCharge);
+        }
+
+        Logger.debug("MainService dateLastCharge: " + dateLastCharge + " | batteryPct: " + Math.round(batteryPct * 100f));
+        cancelPendingJobs(BATTERY_JOB_ID);
+        saveBatteryDb(batteryPct, false);
+
+        batteryData.setLevel(batteryPct);
+        batteryData.setCharging(isCharging);
+        batteryData.setUsbCharge(usbCharge);
+        batteryData.setAcCharge(acCharge);
+        batteryData.setDateLastCharge(dateLastCharge);
+
+        send(Transport.BATTERY_STATUS, batteryData.toDataBundle());
     }
 
     // Set brightness
@@ -905,7 +1057,9 @@ public class MainService extends Service implements Transporter.DataListener {
         final int brightnessLevel = brightnessData.getLevel();
         Logger.debug("MainService setting brightness to " + brightnessLevel);
 
+        // Save new brightness
         if (brightnessLevel == -1)
+            // Automatic
             DeviceUtil.systemPutInt(context, Settings.System.SCREEN_BRIGHTNESS_MODE, 1);
         else {
             DeviceUtil.systemPutInt(context, Settings.System.SCREEN_BRIGHTNESS_MODE, 0);
@@ -918,8 +1072,10 @@ public class MainService extends Service implements Transporter.DataListener {
     public void hardwareButton(HardwareButtonEvent hardwareButtonEvent) {
         if (hardwareButtonEvent.getCode() == MusicControlInputListener.KEY_DOWN) {
             if (hardwareButtonEvent.isLongPress()) {
+                // Long Press
                 send(Transport.NEXT_MUSIC);
             } else {
+                // Short press trigger
                 send(Transport.TOGGLE_MUSIC);
             }
         }
@@ -930,7 +1086,6 @@ public class MainService extends Service implements Transporter.DataListener {
     public void requestDirectory(RequestDirectory requestDirectory) {
         try {
             RequestDirectoryData requestDirectoryData = RequestDirectoryData.fromDataBundle(requestDirectory.getDataBundle());
-
             String path = requestDirectoryData.getPath();
             Logger.debug("path: " + path);
             DirectoryData directoryData = getFilesByPath(path);
@@ -938,10 +1093,8 @@ public class MainService extends Service implements Transporter.DataListener {
         } catch (Exception ex) {
             DirectoryData directoryData = new DirectoryData();
             directoryData.setResult(Transport.RESULT_UNKNOW_ERROR);
-
             send(Transport.DIRECTORY, directoryData.toDataBundle());
         }
-
     }
 
     // Delete file
@@ -953,8 +1106,11 @@ public class MainService extends Service implements Transporter.DataListener {
             RequestDeleteFileData requestDeleteFileData = RequestDeleteFileData.fromDataBundle(requestDeleteFile.getDataBundle());
             File file = new File(requestDeleteFileData.getPath());
             int result = file.delete() ? Transport.RESULT_OK : Transport.RESULT_UNKNOW_ERROR;
-
             resultDeleteFileData.setResult(result);
+
+            // If music file is deleted, inform MediaStore's Content Provider
+            if(result == Transport.RESULT_OK)
+                informMediaProvider(file,true);
         } catch (SecurityException securityException) {
             resultDeleteFileData.setResult(Transport.RESULT_PERMISSION_DENIED);
         } catch (Exception ex) {
@@ -976,8 +1132,35 @@ public class MainService extends Service implements Transporter.DataListener {
             randomAccessFile.seek(position);
             randomAccessFile.write(requestUploadFileChunkData.getBytes());
             randomAccessFile.close();
+
+            // Check is file transfer has finished (last chunk less than the others)
+            if ( requestUploadFileChunkData.getSize() < requestUploadFileChunkData.getConstantChunkSize() )
+                informMediaProvider(file,false);
+
         } catch (Exception ex) {
             Logger.error(ex.getMessage());
+        }
+    }
+
+    // Inform MediaStore's Content Provider about music file
+    public void informMediaProvider(File file, boolean delete) {
+        // todo Music files are not shown in the music app
+        // If music file, inform MediaStore's Content Provider
+        String filename = file.getName().toLowerCase();
+        if ( filename.endsWith(".mp3") || filename.endsWith(".m4a") ) {
+            Uri uri = Uri.fromFile(file);
+            Logger.debug("Music file, informing MediaStore's Content Provider: " + uri);
+            try {
+                if (delete) {
+                    // File deleted
+                    getContentResolver().delete(uri, null, null);
+                }else{
+                    // New File
+                    sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, uri));
+                }
+            } catch (Exception ex) {
+                Logger.warn("Music file, informing MediaStore's Content Provider error: "+ex);
+            }
         }
     }
 
@@ -1034,24 +1217,24 @@ public class MainService extends Service implements Transporter.DataListener {
 
                             if (apk.exists()) {
                                 if (apkFile.contains("service-")) {
-                                    showConfirmationWearActivity("Service Update", "0");
+                                    showConfirmationWearActivity(getString(R.string.service_update), "0");
                                     //DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
                                     new ExecCommand("adb shell settings put system screen_off_timeout 200000");
                                     Thread.sleep(1000);
                                     new ExecCommand("adb install -r -d " + apkFile);
 
                                 } else {
-                                    showConfirmationWearActivity("Installing APK", "0");
+                                    showConfirmationWearActivity(getString(R.string.installing_apk), "0");
                                     myWakeLock = DeviceUtil.installApkAdb(context, apk, requestShellCommandData.isReboot());
                                 }
 
                             } else {
                                 code = -1;
-                                errorMsg = String.format("%s not found!", apkFile);
+                                errorMsg = String.format("%s" + getString(R.string.not_found), apkFile);
                             }
 
                         } else if (command.contains("install_amazmod_update ")){
-                            showConfirmationWearActivity("Service update", "0");
+                            showConfirmationWearActivity(getString(R.string.service_update), "0");
                             DeviceUtil.installPackage(context, getPackageName(), command.replace("install_amazmod_update ", ""));
 
                         } else {
@@ -1069,7 +1252,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                             } else {
                                 if (command.contains("AmazMod-service-") && command.contains("adb install -r")) {
-                                    showConfirmationWearActivity("Service update", "0");
+                                    showConfirmationWearActivity(getString(R.string.service_update), "0");
                                     Thread.sleep(3000);
                                 }
                                 ExecCommand execCommand = new ExecCommand(command);
@@ -1188,42 +1371,6 @@ public class MainService extends Service implements Transporter.DataListener {
         }).start();
     }
 
-    // Get battery %
-    private void getBatteryPct(Intent batteryStatus) {
-        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
-        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
-        batteryPct = level / (float) scale;
-
-        // Watch Battery Alert
-        // THIS WAS MOVED TO A PHONE NOTIFICATION
-        /*
-        if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) > 0 ){
-            if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) >= Math.round(batteryPct * 100f) ){
-                if(!watchBatteryAlreadyAlerted) { // Pass only if NOT already alerted
-                    if (isStandardAlertEnabled) {
-                        // Show standard battery alert
-                        sendStandardAlert("watch_battery");
-                    } else {
-                        // Show battery alert
-                        Intent intent = new Intent(context, AlertsActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
-                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                        intent.putExtra("type", "watch_battery");
-                        context.startActivity(intent);
-                    }
-                    watchBatteryAlreadyAlerted = true;
-                }
-            }else{
-                // When battery is above the alert level
-                watchBatteryAlreadyAlerted = false;
-            }
-        }
-        */
-    }
-
     // Save battery to database
     public static boolean saveBatteryDb(float batteryPct, boolean updateSettings) {
         settings.reload();
@@ -1253,7 +1400,7 @@ public class MainService extends Service implements Transporter.DataListener {
             Logger.error("MainService saveBatteryDb exception: " + ex.toString());
         }
 
-        //Update battery level (used in widget)
+        // Update battery level (used in widget)
         if (updateSettings)
             settings.set(Constants.PREF_BATT_LEVEL, Integer.toString(Math.round(batteryPct * 100f)) + "%");
 
@@ -1288,9 +1435,12 @@ public class MainService extends Service implements Transporter.DataListener {
             return FileDataFactory.notFound();
         }
 
+        ArrayList<FileData> filesData = new ArrayList<>();
         File[] files = directory.listFiles();
 
-        ArrayList<FileData> filesData = new ArrayList<>();
+        if(files==null)
+            return FileDataFactory.directoryFromFile(directory, filesData);
+
         for (File file : files) {
             FileData fileData = FileDataFactory.fromFile(file);
             filesData.add(fileData);
@@ -1361,7 +1511,6 @@ public class MainService extends Service implements Transporter.DataListener {
                     Logger.debug("SendHuami result: " + dataTransportResult.toString());
                 }
             });
-
         }
     }
 
@@ -1516,45 +1665,6 @@ public class MainService extends Service implements Transporter.DataListener {
         }
     }
 
-    // Count notifications
-    public void notificationCounter(int n) {
-        int notifications = 0;
-
-        // Get already saved data
-        String data = DeviceUtil.systemGetString(context, "CustomWatchfaceData");
-        if (data == null || data.equals("")) {
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{}");//default
-        }
-
-        // Get data
-        try {
-            // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
-            notifications = json_data.getInt("notifications");
-        } catch (JSONException e) {
-            //Nothing, notifications are never saved before
-            Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
-        }
-
-        // Update notifications (but always > -1)
-        notifications = (notifications + n > -1) ? notifications + n : 0;
-
-        Logger.debug("Updating notifications: " + notifications);
-
-        // Save the data
-        try {
-            // Extract data from JSON
-            JSONObject json_data = new JSONObject(data);
-            json_data.put("notifications", notifications);
-
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", json_data.toString());
-        } catch (JSONException e) {
-            //default
-            DeviceUtil.systemPutString(context, "CustomWatchfaceData", "{\"notifications\":" + notifications + "}");
-            Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
-        }
-    }
-
     private void acquireWakelock() {
         Logger.debug("MainService acquireWakelock");
         PowerManager powerManager = (PowerManager) context.getSystemService(POWER_SERVICE);
@@ -1567,24 +1677,33 @@ public class MainService extends Service implements Transporter.DataListener {
             Logger.error("MainService aquireWakelock null powerManager!");
     }
 
+    // Widgets update monitor/register
     private void registerSpringBoardMonitor(boolean status) {
         Logger.debug("MainService registerSpringBoardMonitor status: " + status);
+
+        // Register
         if (status) {
+            // Check if defined already
             if (springboardObserver != null)
                 return;
-            // if it's enabling observer, sync for a first time
-            WidgetsUtil.loadWidgetList(context);
-            ContentResolver contentResolver = getContentResolver();
-            Uri setting = Settings.System.getUriFor(Constants.WIDGET_ORDER_IN);
+
+            // Save default order
+            String widget_order_in = DeviceUtil.systemGetString(context, Constants.WIDGET_ORDER_IN);
+            WidgetsUtil.saveOfficialAppOrder(context, widget_order_in);
+
+            // Boolean to avoid self-caused re-run loop
+            wasSpringboardSaved = false;
+
             springboardObserver = new ContentObserver(new Handler()) {
                 @Override
                 public void onChange(boolean selfChange) {
                     super.onChange(selfChange);
                     Logger.debug("MainService registerSpringBoardMonitor onChange");
-                    //Set AmazMod as first Widget
-                    if (!wasSpringboardSaved)
+
+                    if (!wasSpringboardSaved) {
+                        // Update widgets list
                         WidgetsUtil.syncWidgets(context);
-                    else
+                    } else
                         wasSpringboardSaved = false;
                 }
 
@@ -1593,20 +1712,96 @@ public class MainService extends Service implements Transporter.DataListener {
                     return true;
                 }
             };
+
+            // Observe changes in the WIDGET_ORDER_IN system variable
+            ContentResolver contentResolver = getContentResolver();
+            Uri setting = Settings.System.getUriFor(Constants.WIDGET_ORDER_IN);
             contentResolver.registerContentObserver(setting, true, springboardObserver);
+
+        // Unregister
         } else {
             if (springboardObserver != null)
                 getContentResolver().unregisterContentObserver(springboardObserver);
             springboardObserver = null;
         }
+
         isSpringboardObserverEnabled = status;
+    }
+
+    // Weather update monitor/register
+    private void registerWeatherMonitor(boolean status) {
+        Logger.debug("MainService registerWeatherMonitor status: " + status);
+
+        // Register
+        if (status) {
+            // Check if defined already
+            if (weatherObserver != null)
+                return;
+
+            // Boolean to avoid self-caused re-run loop (default value here)
+            wasWeatherSaved = false;
+
+            // function that runs when the system variable is changed
+            weatherObserver = new ContentObserver(new Handler()) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    super.onChange(selfChange);
+                    //Logger.debug("MainService registerWeatherMonitor onChange");
+
+                    // Check if Amazmod just changed the value
+                    if (!wasWeatherSaved) {
+                        // Update custom weather
+                        String weather_data = settingsManager.getString(Constants.WEATHER_INFO, "");
+
+                        // Check if data are up-to-date
+                        if(!weather_data.isEmpty() && System.currentTimeMillis()<=custom_weather_expire ){
+
+                            // Update system weather data
+                            String save_value = Weather.updateWeatherData(context, weather_data);
+                            if(!save_value.equals(Weather.DATA_HAVE_NOT_UPDATE)) {
+                                // Save new data
+                                settingsManager.putString(Constants.WEATHER_INFO, save_value);
+                                // Save that Amazmod just updated the system value (used when overwriting system weather values)
+                                wasWeatherSaved = true;
+                                Logger.debug("[Weather Data Monitor] Weather data were overwritten.");
+                            }else{
+                                Logger.debug("[Weather Data Monitor]  Weather data were NOT overwritten.");
+                            }
+                        }else{
+                            Logger.debug("[Weather Data Monitor]  Weather data were NOT overwritten since saved data have expire.");
+                        }
+                    } else
+                        wasWeatherSaved = false;
+                }
+
+                @Override
+                public boolean deliverSelfNotifications() {
+                    return true;
+                }
+            };
+
+            // Observe changes in the WeatherInfo system variable
+            ContentResolver contentResolver = getContentResolver();
+            Uri setting = Settings.System.getUriFor( Weather.getWeatherMonitorParameter() );
+            contentResolver.registerContentObserver(setting, true, weatherObserver);
+
+            // Unregister
+        } else {
+            if (weatherObserver != null)
+                getContentResolver().unregisterContentObserver(weatherObserver);
+            weatherObserver = null;
+        }
+
+        isWeatherObserverEnabled = status;
     }
 
     private void setOverlayLauncher(boolean status){
         Logger.debug("MainService setOverlayLauncher status: {}", status);
 
         final Intent overlayButton = new Intent(context, OverlayLauncher.class);
+
         if (status) {
+            // Register
             startService(overlayButton);
             final IntentFilter screenOnFilter = new IntentFilter(Intent.ACTION_SCREEN_ON);
             screenOnFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -1624,6 +1819,7 @@ public class MainService extends Service implements Transporter.DataListener {
             context.registerReceiver(screenOnReceiver, screenOnFilter);
 
         } else {
+            // Unregister
             if (screenOnReceiver != null) {
                 context.unregisterReceiver(screenOnReceiver);
                 screenOnReceiver = null;
@@ -1631,6 +1827,15 @@ public class MainService extends Service implements Transporter.DataListener {
             context.stopService(overlayButton);
         }
         settings.set(Constants.PREF_AMAZMOD_OVERLAY_LAUNCHER, status);
+    }
+
+    public void setHourlyChime(boolean status){
+        Logger.debug("setHourlyChime status: {}", status);
+
+        HourlyChime.setHourlyChime(context,status);
+        WearMenuFragment.chimeEnabled = status;
+
+        settings.set(Constants.PREF_AMAZMOD_HOURLY_CHIME, status);
     }
 
     private void saveDisconnectionLog() {
@@ -1678,5 +1883,46 @@ public class MainService extends Service implements Transporter.DataListener {
             myWakeLock.release();
             Logger.trace("wakelock released");
         }
+    }
+
+    // Update battery percentage (%)
+    private void getBatteryPct(Intent batteryStatus) {
+        if (batteryStatus == null)
+            return;
+
+        // Get battery data
+        int level = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+        int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+
+        // Update battery value
+        this.batteryPct = level / (float) scale;
+
+        // Watch Battery Alert
+        // THIS WAS MOVED TO A PHONE NOTIFICATION
+        /*
+        if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) > 0 ){
+            if( settingsManager.getInt(Constants.PREF_BATTERY_WATCH_ALERT, 0) >= Math.round(batteryPct * 100f) ){
+                if(!watchBatteryAlreadyAlerted) { // Pass only if NOT already alerted
+                    if (isStandardAlertEnabled) {
+                        // Show standard battery alert
+                        sendStandardAlert("watch_battery");
+                    } else {
+                        // Show battery alert
+                        Intent intent = new Intent(context, AlertsActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                                Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                        intent.putExtra("type", "watch_battery");
+                        context.startActivity(intent);
+                    }
+                    watchBatteryAlreadyAlerted = true;
+                }
+            }else{
+                // When battery is above the alert level
+                watchBatteryAlreadyAlerted = false;
+            }
+        }
+        */
     }
 }

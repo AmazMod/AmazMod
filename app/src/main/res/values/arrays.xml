@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="pref_amazmodservice_shake_to_dismiss_gravity_entries">
+    <string name="pref_amazmodservice_shake_to_dismiss_gravity_entries" translatable="false">
         <item>0.15 g</item>
         <item>0.25 g</item>
         <item>0.5 g</item>
@@ -12,7 +12,8 @@
         <item>3 g</item>
         <item>3.5 g</item>
     </string>
-    <string name="pref_amazmodservice_shake_to_dismiss_gravity_values">
+
+    <string name="pref_amazmodservice_shake_to_dismiss_gravity_values" translatable="false">
         <item>150</item>
         <item>250</item>
         <item>500</item>
@@ -24,21 +25,24 @@
         <item>3000</item>
         <item>3500</item>
     </string>
-    <string name="pref_amazmodserice_shake_to_dismiss_num_of_shakes_entries">
+
+    <string name="pref_amazmodserice_shake_to_dismiss_num_of_shakes_entries" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
     </string>
-    <string name="pref_amazmodserice_shake_to_dismiss_num_of_shakes_values">
+
+    <string name="pref_amazmodserice_shake_to_dismiss_num_of_shakes_values" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>3</item>
         <item>4</item>
         <item>5</item>
     </string>
-    <string-array name="pref_amazmodservice_vibration_entries">
+
+    <string-array name="pref_amazmodservice_vibration_entries" translatable="false">
         <item>0 ms</item>
         <item>100 ms</item>
         <item>200 ms</item>
@@ -46,7 +50,8 @@
         <item>400 ms</item>
         <item>500 ms</item>
     </string-array>
-    <string-array name="pref_amazmodservice_vibration_values">
+
+    <string-array name="pref_amazmodservice_vibration_values" translatable="false">
         <item>0</item>
         <item>100</item>
         <item>200</item>
@@ -54,7 +59,8 @@
         <item>400</item>
         <item>500</item>
     </string-array>
-    <string-array name="pref_amazmodservice_screen_timeout_entries">
+
+    <string-array name="pref_amazmodservice_screen_timeout_entries" translatable="false">
         <item>3 s</item>
         <item>5 s</item>
         <item>7 s</item>
@@ -63,7 +69,8 @@
         <item>15 s</item>
         <item>20 s</item>
     </string-array>
-    <string-array name="pref_amazmodservice_screen_timeout_values">
+
+    <string-array name="pref_amazmodservice_screen_timeout_values" translatable="false">
         <item>3000</item>
         <item>5000</item>
         <item>7000</item>
@@ -72,6 +79,7 @@
         <item>15000</item>
         <item>20000</item>
     </string-array>
+
     <string-array name="pref_battery_chart_range_entries">
         <item>1 day</item>
         <item>2 days</item>
@@ -81,7 +89,8 @@
         <item>10 days</item>
         <item>15 days</item>
     </string-array>
-    <string-array name="pref_battery_chart_range_values">
+
+    <string-array name="pref_battery_chart_range_values" translatable="false">
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -90,7 +99,8 @@
         <item>10</item>
         <item>15</item>
     </string-array>
-    <string-array name="pref_battery_background_sync_interval_entries">
+
+    <string-array name="pref_battery_background_sync_interval_entries" translatable="false">
         <item>15 min</item>
         <item>30 min</item>
         <item>60 min</item>
@@ -99,7 +109,8 @@
         <item>3 h</item>
         <item>4 h</item>
     </string-array>
-    <string-array name="pref_battery_background_sync_interval_values">
+
+    <string-array name="pref_battery_background_sync_interval_values" translatable="false">
         <item>15</item>
         <item>30</item>
         <item>60</item>
@@ -121,7 +132,8 @@
         <item>50%</item>
         <item>99%</item>
     </string-array>
-    <string-array name="pref_watch_battery_alert_values">
+
+    <string-array name="pref_watch_battery_alert_values" translatable="false">
         <item>0</item>
         <item>15</item>
         <item>20</item>
@@ -147,7 +159,8 @@
         <item>50%</item>
         <item>99%</item>
     </string-array>
-    <string-array name="pref_phone_battery_alert_values">
+
+    <string-array name="pref_phone_battery_alert_values" translatable="false">
         <item>0</item>
         <item>10</item>
         <item>15</item>
@@ -161,7 +174,7 @@
         <item>99</item>
     </string-array>
 
-    <string-array name="pref_watchface_background_sync_interval_entries">
+    <string-array name="pref_watchface_background_sync_interval_entries" translatable="false">
         <item>1 min</item>
         <item>5 min</item>
         <item>10 min</item>
@@ -171,7 +184,8 @@
         <item>1 h 30 min</item>
         <item>2 h</item>
     </string-array>
-    <string-array name="pref_watchface_background_sync_interval_values">
+
+    <string-array name="pref_watchface_background_sync_interval_values" translatable="false">
         <item>1</item>
         <item>5</item>
         <item>10</item>
@@ -181,6 +195,13 @@
         <item>90</item>
         <item>120</item>
     </string-array>
+
+    <string-array name="pref_watchface_weather_units_values" translatable="false">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="pref_watchface_calendar_events_days">
         <item>Disable</item>
         <item>1 day</item>
@@ -192,7 +213,8 @@
         <item>180 days</item>
         <item>365 days</item>
     </string-array>
-    <string-array name="pref_watchface_calendar_events_days_values">
+
+    <string-array name="pref_watchface_calendar_events_days_values" translatable="false">
         <item>0</item>
         <item>1</item>
         <item>7</item>
@@ -203,28 +225,39 @@
         <item>180</item>
         <item>365</item>
     </string-array>
+
     <string-array name="pref_amazmodservice_font_size_entries">
         <item>Normal</item>
+        <item>Medium</item>
         <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
         <item>Huge</item>
     </string-array>
-    <string-array name="pref_amazmodservice_font_size_values">
+
+    <string-array name="pref_amazmodservice_font_size_values" translatable="false">
         <item>n</item>
+        <item>m</item>
         <item>l</item>
+        <item>ml</item>
         <item>h</item>
+        <item>mh</item>
     </string-array>
+
     <string-array name="default_notification_replies">
         <item>Yes</item>
         <item>No</item>
         <item>Thank you</item>
     </string-array>
-    <string-array name="default_notification_packages">
+
+    <string-array name="default_notification_packages" translatable="false">
         <item>org.telegram.messenger</item>
         <item>com.whatsapp</item>
         <item>com.google.android.gm</item>
         <item>com.google.android.talk</item>
         <item>com.matusmak.fakenotifications</item>
     </string-array>
+
     <string-array name="languages_array_codes" translatable="false">
         <item>en</item>
         <item>af-rZA</item>
@@ -261,6 +294,7 @@
         <item>zh-rCN</item>
         <item>zh-rTW</item>
     </string-array>
+
     <string-array name="pref_log_to_file_level_entries" translatable="false">
         <item>ERROR</item>
         <item>WARN</item>
@@ -268,11 +302,24 @@
         <item>DEBUG</item>
         <item>TRACE</item>
     </string-array>
+
     <string-array name="pref_log_lines_entries" translatable="false">
         <item>64</item>
         <item>128</item>
         <item>256</item>
         <item>512</item>
         <item>1024</item>
+    </string-array>
+
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>Metric (Kelvin)</item>
+        <item>Celsius (Metric)</item>
+        <item>Imperial (Fahrenheit)</item>
     </string-array>
 </resources>

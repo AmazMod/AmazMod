@@ -11,12 +11,12 @@ import androidx.annotation.NonNull;
 
 import com.edotassi.amazmod.event.BatteryStatus;
 import com.edotassi.amazmod.event.Directory;
+import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.ResultDeleteFile;
 import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.event.WatchStatus;
-import com.edotassi.amazmod.event.Watchface;
 import com.edotassi.amazmod.support.DownloadHelper;
 import com.edotassi.amazmod.support.PermissionsHelper;
 import com.edotassi.amazmod.transport.TransportService;
@@ -37,6 +37,7 @@ import java.util.concurrent.TimeUnit;
 
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.Transport;
+import amazmod.com.transport.Transportable;
 import amazmod.com.transport.data.BrightnessData;
 import amazmod.com.transport.data.NotificationData;
 import amazmod.com.transport.data.RequestDeleteFileData;
@@ -139,7 +140,7 @@ public class Watch {
                             public Object call() throws Exception {
                                 TransportService transportService = Tasks.await(getServiceInstance());
 
-                                long lastChunnkSize = size % Constants.CHUNK_SIZE;
+                                long lastChunkSize = size % Constants.CHUNK_SIZE;
                                 long totalChunks = size / Constants.CHUNK_SIZE;
                                 long startedAt = System.currentTimeMillis();
 
@@ -179,7 +180,7 @@ public class Watch {
                                     operationProgress.update(duration, byteSent, remainTime, progress);
                                 }
 
-                                if (lastChunnkSize > 0) {
+                                if (lastChunkSize > 0) {
                                     RequestDownloadFileChunkData requestDownloadFileChunkData = new RequestDownloadFileChunkData();
                                     requestDownloadFileChunkData.setPath(path);
                                     requestDownloadFileChunkData.setIndex((int) totalChunks);
@@ -363,13 +364,17 @@ public class Watch {
         return taskCompletionSource.getTask();
     }
 
-    public Task<Watchface> sendWatchfaceData(final WatchfaceData watchfaceData) {
-        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<Watchface>>() {
+    public Task<Void> sendWatchfaceData(final WatchfaceData watchfaceData) {
+        final TaskCompletionSource<Void> taskCompletionSource = new TaskCompletionSource<>();
+        getServiceInstance().continueWith(new Continuation<TransportService, Object>() {
             @Override
-            public Task<Watchface> then(@NonNull Task<TransportService> task) throws Exception {
-                return Objects.requireNonNull(task.getResult()).sendWithResult(Transport.WATCHFACE_DATA, Transport.WATCHFACE_DATA, watchfaceData);
+            public Object then(@NonNull Task<TransportService> task) throws Exception {
+                if (task.getResult() != null)
+                    task.getResult().send(Transport.WATCHFACE_DATA, watchfaceData, taskCompletionSource);
+                return null;
             }
         });
+        return taskCompletionSource.getTask();
     }
 
     public Task<ResultWidgets> sendWidgetsData(final WidgetsData widgetsData) {
@@ -383,5 +388,18 @@ public class Watch {
 
     public interface OperationProgress {
         void update(long duration, long byteSent, long remainingTime, double progress);
+    }
+
+    public Task<OtherData> sendSimpleData(String action) {
+        return sendSimpleData(action, null);
+    }
+
+    public Task<OtherData> sendSimpleData(String action, Transportable data) {
+        return getServiceInstance().continueWithTask(new Continuation<TransportService, Task<OtherData>>() {
+            @Override
+            public Task<OtherData> then(@NonNull Task<TransportService> task) throws Exception {
+                return Objects.requireNonNull(task.getResult()).sendWithResult(action, action, data);
+            }
+        });
     }
 }

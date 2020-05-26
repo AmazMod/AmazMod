@@ -1,3 +1,9 @@
 files:
   - source: /app/src/main/res/values/strings.xml
     translation: /app/src/main/res/values-%android_code%/strings.xml
+  - source: /app/src/main/res/values/arrays.xml
+    translation: /app/src/main/res/values-%android_code%/arrays.xml
+  - source: /service/src/main/res/values/strings.xml
+    translation: /service/src/main/res/values-%android_code%/strings.xml
+  - source: /service/src/main/res/values/arrays.xml
+    translation: /service/src/main/res/values-%android_code%/arrays.xml

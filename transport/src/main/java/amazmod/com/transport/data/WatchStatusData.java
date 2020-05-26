@@ -28,6 +28,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
     public static final String SCREEN_BRIGHTNESS = "watch.brightness";
     public static final String SCREEN_BRIGHTNESS_MODE = "watch.brightness_mode";
     public static final String LAST_HEART_RATES = "watch.last_heart_rates";
+    public static final String HOURLY_CHIME = "watch.hourly_chime";
+    public static final String ROOTED = "watch.rooted";
 
 
     private String amazModServiceVersion;
@@ -46,6 +48,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
     private int screenBrightness;
     private int screenBrightnessMode;
     private String lastHeartRates;
+    private int hourlyChime;
+    private int rooted;
 
     public WatchStatusData() {
     }
@@ -67,6 +71,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         screenBrightness = in.readInt();
         screenBrightnessMode = in.readInt();
         lastHeartRates = in.readString();
+        hourlyChime = in.readInt();
+        rooted = in.readInt();
     }
 
     public static final Creator<WatchStatusData> CREATOR = new Creator<WatchStatusData>() {
@@ -99,6 +105,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         dataBundle.putInt(SCREEN_BRIGHTNESS,screenBrightness);
         dataBundle.putInt(SCREEN_BRIGHTNESS_MODE,screenBrightnessMode);
         dataBundle.putString(LAST_HEART_RATES, lastHeartRates);
+        dataBundle.putInt(HOURLY_CHIME, hourlyChime);
+        dataBundle.putInt(ROOTED, rooted);
 
         return dataBundle;
     }
@@ -133,6 +141,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         watchStatusData.setScreenBrightness(dataBundle.getInt(SCREEN_BRIGHTNESS));
         watchStatusData.setScreenBrightnessMode(dataBundle.getInt(SCREEN_BRIGHTNESS_MODE));
         watchStatusData.setLastHeartRates(dataBundle.getString(LAST_HEART_RATES));
+        watchStatusData.setHourlyChime(dataBundle.getInt(HOURLY_CHIME));
+        watchStatusData.setRooted(dataBundle.getInt(ROOTED));
 
         return watchStatusData;
     }
@@ -160,6 +170,8 @@ public class WatchStatusData extends Transportable implements Parcelable {
         dest.writeInt(screenBrightness);
         dest.writeInt(screenBrightnessMode);
         dest.writeString(lastHeartRates);
+        dest.writeInt(hourlyChime);
+        dest.writeInt(rooted);
     }
 
     public String getAmazModServiceVersion() {
@@ -282,6 +294,13 @@ public class WatchStatusData extends Transportable implements Parcelable {
         this.screenBrightnessMode = screenBrightnessMode;
     }
 
+    public void setRooted(int rooted) {
+        this.rooted = rooted;
+    }
+    public int getRooted() {
+        return rooted;
+    }
+
     public String getLastHeartRates() {
         return lastHeartRates;
     }
@@ -289,4 +308,13 @@ public class WatchStatusData extends Transportable implements Parcelable {
     public void setLastHeartRates(String lastHeartRates) {
         this.lastHeartRates = lastHeartRates;
     }
+
+    public int getHourlyChime() {
+        return hourlyChime;
+    }
+
+    public void setHourlyChime(int hourlyChime) {
+        this.hourlyChime = hourlyChime;
+    }
+
 }

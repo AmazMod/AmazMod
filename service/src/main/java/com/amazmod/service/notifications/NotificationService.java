@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Vibrator;
+
 import androidx.core.app.NotificationCompat;
 
 import com.amazmod.service.Constants;
@@ -16,6 +18,7 @@ import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
+import com.amazmod.service.ui.fragments.NotificationFragment;
 import com.amazmod.service.util.DeviceUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -63,50 +66,72 @@ public class NotificationService {
     }
 
     public void post(final NotificationData notificationSpec) {
+        // Check if DND
+        if (DeviceUtil.isDNDActive(context)){
+            Logger.debug("NotificationService DND is on, notification not shown.");
+            // Todo: Save notification if custom UI (move the DND check before "Handles test notifications")
+            // current problem is that app crashes when you try to load notification list (at NotificationListAdapter.java:38,
+            // error: android.view.InflateException: Binary XML file line #35: Error inflating class androidx.emoji.widget.EmojiTextView
+            // related to row_notification.xml
+            /*
+            if ((enableCustomUI || forceCustom))
+                NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
+            */
+            return;
+        }
 
-        if (!DeviceUtil.isDNDActive(context)) {
+        // Load notification settings
+        boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
+                Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
+        boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
+                Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
 
-            boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
-                    Constants.PREF_DEFAULT_NOTIFICATIONS_ENABLE_CUSTOM_UI);
+        // Load notification parameters
+        boolean forceCustom = notificationSpec.getForceCustom();
+        boolean hideReplies = notificationSpec.getHideReplies();
 
-            boolean disableNotificationReplies = settingsManager.getBoolean(Constants.PREF_DISABLE_NOTIFICATIONS_REPLIES,
-                    Constants.PREF_DEFAULT_DISABLE_NOTIFICATIONS_REPLIES);
+        // Replies on/off
+        if (disableNotificationReplies || hideReplies)
+            disableNotificationReplies = true;
 
-            boolean forceCustom = notificationSpec.getForceCustom();
-            boolean hideReplies = notificationSpec.getHideReplies();
+        final String key = notificationSpec.getKey();
+        final String notificationStoreKey = key + "|" + String.valueOf(System.currentTimeMillis());
+        Logger.debug("NotificationService notificationSpec.getKey(): " + key);
 
-            if (disableNotificationReplies || hideReplies) {
-                disableNotificationReplies = true;
-            }
 
-            final String key = notificationSpec.getKey();
-            final String notificationStoreKey = key + "|" + String.valueOf(System.currentTimeMillis());
-
-            Logger.debug("NotificationService notificationSpec.getKey(): " + key);
-            //Handles test notifications
-            if (key.contains("amazmod|test|99")) {
-                if (notificationSpec.getText().equals("Test Notification")) {
-                    if (forceCustom) {
-                        Logger.debug("NotificationService1 notificationSpec.getKey(): " + key);
-                        NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
-                        postWithCustomUI(notificationStoreKey);
-                    } else {
-                        Logger.debug("NotificationService2 notificationSpec.getKey(): " + key);
-                        postWithStandardUI(notificationSpec, hideReplies);
-                    }
-                } else if (key.contains("amazmod|test|9979")) {
-                    Logger.debug("NotificationService3 notificationSpec.getKey(): " + key);
-                    postWithStandardUI(notificationSpec, hideReplies);
-                }
-                //Handles normal notifications
-            } else {
-                Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
-                if (enableCustomUI || forceCustom) {
-                    NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
+        // Handles test notifications
+        if (key.contains("amazmod|test|99")) {
+            if (notificationSpec.getText().equals("Test Notification")) {
+                if (forceCustom) {
+                    Logger.debug("NotificationService1 notificationSpec.getKey(): " + key);
+                    NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
                     postWithCustomUI(notificationStoreKey);
                 } else {
-                    postWithStandardUI(notificationSpec, disableNotificationReplies);
+                    Logger.debug("NotificationService2 notificationSpec.getKey(): " + key);
+                    postWithStandardUI(notificationSpec, hideReplies);
                 }
+            } else if (key.contains("amazmod|test|9979")) {
+                Logger.debug("NotificationService3 notificationSpec.getKey(): " + key);
+                postWithStandardUI(notificationSpec, hideReplies);
+            }
+
+        } else {
+            // Handles normal notifications
+            Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
+            if (enableCustomUI || forceCustom) {
+                NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
+                if (NotificationFragment.keyboardIsEnable) {
+                    final Vibrator mVibrator = (Vibrator) context.getSystemService("vibrator");
+                    if (mVibrator != null) {
+                        mVibrator.vibrate(400);
+                        Logger.debug("keyboard IS visible, vibrate only");
+                    }
+                } else {
+                    Logger.debug("keyboard NOT visible, show full notification");
+                    postWithCustomUI(notificationStoreKey);
+                }
+            } else {
+                postWithStandardUI(notificationSpec, disableNotificationReplies);
             }
         }
     }
@@ -147,6 +172,7 @@ public class NotificationService {
                 .setExtras(bundle)
                 .setVibrate(new long[]{notificationData.getVibration()});
 
+        // Connection / Disconnection message (custom icon)
         if (notificationData.getKey().contains("amazmod|test|9979")) {
             if (notificationData.getText().equals(context.getResources().getString(R.string.phone_disconnected))) {
                 builder.setSmallIcon(R.drawable.ic_outline_phonelink_erase_inverted);
@@ -191,13 +217,13 @@ public class NotificationService {
             //Icon ic = new Icon(Icon.T);
             FieldUtils.writeField(notification, "mSmallIcon", null, true);
         } catch (Exception ex) {
-            Log.d(Constants.TAG, "write field failed");
+            Logger.debug("write field failed");
         }
         */
 
         notificationManager.notify(notificationData.getId(), notification);
 
-        //Log.d("Notifiche", "postWithStandardUI: " + notificationSpec.getKey() + " " + notificationSpec.getId() + " " + notificationSpec.getPkg());
+        //Logger.debug("Notifiche", "postWithStandardUI: " + notificationSpec.getKey() + " " + notificationSpec.getId() + " " + notificationSpec.getPkg());
 
         //  Utils.BitmapExtender bitmapExtender = Utils.retrieveAppIcon(context, notificationSpec.getPkg());
         // if (bitmapExtender != null) {
@@ -238,8 +264,7 @@ public class NotificationService {
     private void postWithCustomUI(String key) {
 
         Logger.debug("NotificationService postWithCustomUI: " + NotificationStore.getCustomNotificationCount());
-
-        NotificationStore.setNotificationCount(context);
+        //NotificationStore.setNotificationCount(context); //notifications are already counted in MainService
 
         Intent intent = new Intent(context, NotificationWearActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
@@ -250,7 +275,6 @@ public class NotificationService {
         intent.putExtra(NotificationWearActivity.MODE, NotificationWearActivity.MODE_ADD);
 
         context.startActivity(intent);
-
     }
 
     private List<Reply> loadReplies() {
@@ -273,14 +297,14 @@ public class NotificationService {
         StatusBarNotificationData statusBarNotificationData = dataBundle.getParcelable("data");
 
         if (statusBarNotificationData == null) {
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "statsBarNotificationData == null");
+            Logger.debug("statsBarNotificationData == null");
         } else {
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "statusBarNotificationData:");
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "pkg: " + statusBarNotificationData.pkg);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "id: " + statusBarNotificationData.id);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "groupKey: " + statusBarNotificationData.groupKey);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "key: " + statusBarNotificationData.key);
-            Log.d(Constants.TAG_NOTIFICATION_MANAGER, "tag: " + statusBarNotificationData.tag);
+            Logger.debug("statusBarNotificationData:");
+            Logger.debug("pkg: " + statusBarNotificationData.pkg);
+            Logger.debug("id: " + statusBarNotificationData.id);
+            Logger.debug("groupKey: " + statusBarNotificationData.groupKey);
+            Logger.debug("key: " + statusBarNotificationData.key);
+            Logger.debug("tag: " + statusBarNotificationData.tag);
         }
 
         Intent intent = new Intent(context, MainActivity.class);

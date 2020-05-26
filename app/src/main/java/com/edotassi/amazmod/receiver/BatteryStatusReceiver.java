@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.SystemClock;
 
 import androidx.annotation.NonNull;
@@ -41,11 +43,10 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         Logger.trace("BatteryStatusReceiver onReceive action: {}", action);
 
         if (action == null) {
-
-            if (!Watch.isInitialized()) {
+            if (!Watch.isInitialized())
                 Watch.init(context);
-            }
 
+            // Send battery request and wait for answer
             Watch.get().getBatteryStatus().continueWith(new Continuation<BatteryStatus, Object>() {
                 @Override
                 public Object then(@NonNull Task<BatteryStatus> task) throws Exception {
@@ -82,7 +83,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         if (isEnabled) {
             Logger.trace("BatteryStatusReceiver enabling receiver");
 
-            int syncInterval = Integer.valueOf(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
+            int syncInterval = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_BACKGROUND_SYNC_INTERVAL, "60"));
             AmazModApplication.timeLastSync = Prefs.getLong(Constants.PREF_TIME_LAST_SYNC, 0L);
 
             long delay = ((long) syncInterval * 60000L) - SystemClock.elapsedRealtime() - AmazModApplication.timeLastSync;
@@ -107,10 +108,10 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
     }
 
     private void updateBattery(BatteryStatus batteryStatus) {
-        Logger.trace("BatteryStatusReceiver updateBattery");
+        //Logger.trace("BatteryStatusReceiver updateBattery");
 
         BatteryData batteryData = batteryStatus.getBatteryData();
-        Logger.debug("level: {} | charging: {} | usb: {} | ac: {} | dataLastCharge: {}",
+        Logger.debug("[Battery] Incoming battery data: [level: {}, charging: {}, usb: {}, ac: {}, dataLastCharge: {}]",
                 batteryData.getLevel(), batteryData.isCharging(), batteryData.isUsbCharge(), batteryData.isAcCharge(), batteryData.getDateLastCharge());
 
         long date = System.currentTimeMillis();
@@ -122,8 +123,9 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         batteryStatusEntity.setLevel(batteryData.getLevel());
         batteryStatusEntity.setDateLastCharge(batteryData.getDateLastCharge());
 
-        //Log.d(Constants.TAG,"TransportService batteryStatus: " + batteryStatus.toString());
+        //Logger.debug("TransportService batteryStatus: " + batteryStatus.toString());
 
+        // Save data
         try {
             BatteryStatusEntity storeBatteryStatusEntity = SQLite
                     .select()
@@ -131,19 +133,19 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
                     .where(BatteryStatusEntity_Table.date.is(date))
                     .querySingle();
 
-            if (storeBatteryStatusEntity == null) {
+            if (storeBatteryStatusEntity == null)
                 FlowManager.getModelAdapter(BatteryStatusEntity.class).insert(batteryStatusEntity);
-            }
+
         } catch (Exception ex) {
             //TODO add crashlitics
-            Logger.error(ex, "TransportService batteryStatus exception: {}", ex.getMessage());
+            Logger.error(ex, "[Battery] Crash while storing data, exception: {}", ex.getMessage());
         }
         // Save time of last sync
         Prefs.putLong(Constants.PREF_TIME_LAST_SYNC, SystemClock.elapsedRealtime());
     }
 
     private void batteryAlert(BatteryStatus batteryStatus, Context context) {
-        Logger.trace("BatteryStatusReceiver batteryAlert");
+        //Logger.trace("BatteryStatusReceiver batteryAlert");
         // User options/data
         int watchBatteryAlert = Integer.parseInt(Prefs.getString(Constants.PREF_BATTERY_WATCH_ALERT,
                 Constants.PREF_DEFAULT_BATTERY_WATCH_ALERT));
@@ -157,11 +159,11 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
         int battery = Math.round(batteryData.getLevel()*100);
         boolean charging = batteryData.isCharging();
 
-        Logger.debug("Battery check watch - level: {}% | charging: {} | limit: {}%", battery, charging, watchBatteryAlert);
+        Logger.debug("[Battery Alert] Check watch battery: [level: {}%, charging: {}, limit: {}%]", battery, charging, watchBatteryAlert);
 
         // Check if low battery
         if (watchBatteryAlert > 0 && watchBatteryAlert > battery && !charging && !alreadyBatteryNotified) {
-            Logger.debug("low watch battery...");
+            Logger.debug("[Battery Alert] low watch battery...");
             // Send notification
             sendNotification(context, ALERT_LOW, watchBatteryAlert);
             Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, true);
@@ -171,7 +173,7 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
             Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_ALREADY_ALERTED, false);
 
         if (batteryFullAlert && battery > 99 && charging && !alreadyChargingNotified) {
-            Logger.debug("watch fully charged...");
+            Logger.debug("[Battery Alert] watch fully charged...");
             // Fully charged notification
             sendNotification(context, ALERT_FULL, 100);
             Prefs.putBoolean(Constants.PREF_BATTERY_WATCH_CHARGED, true);
@@ -183,6 +185,11 @@ public class BatteryStatusReceiver extends BroadcastReceiver {
 
     private void sendNotification(Context context, char alertTye, int level) {
         Logger.trace("BatteryStatusReceiver sendNotification type: {}", alertTye);
+
+        Resources res = context.getResources();
+        Configuration conf = res.getConfiguration();
+        conf.locale = AmazModApplication.defaultLocale;
+        res.updateConfiguration(conf, context.getResources().getDisplayMetrics());
 
         Intent intent = new Intent(context, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);

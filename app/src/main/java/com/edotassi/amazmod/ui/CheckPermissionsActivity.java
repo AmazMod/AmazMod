@@ -4,7 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -86,11 +85,7 @@ public class CheckPermissionsActivity extends BaseAppCompatActivity {
     @OnClick(R.id.activity_permissions_notifications)
     public void openNotificationsAccess() {
         if (!Permissions.hasNotificationAccess(getApplicationContext())) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-            } else {
-                startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-            }
+            startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
         }
     }
 
@@ -111,19 +106,19 @@ public class CheckPermissionsActivity extends BaseAppCompatActivity {
 
             if (Permissions.hasPermission(getApplicationContext(), entry.getKey())){
                 textView.setText(ENABLED.toUpperCase());
-                textView.setTextColor(getResources().getColor(R.color.colorCharging));
+                textView.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
             } else {
                 textView.setText(DISABLED.toUpperCase());
-                textView.setTextColor(getResources().getColor(R.color.colorAccent));
+                textView.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
             }
         }
 
         if (Permissions.hasNotificationAccess(getApplicationContext())){
             permissionNotification.setText(ENABLED.toUpperCase());
-            permissionNotification.setTextColor(getResources().getColor(R.color.colorCharging));
+            permissionNotification.setTextColor(getResources().getColor(R.color.colorCharging, getTheme()));
         } else {
             permissionNotification.setText(DISABLED.toUpperCase());
-            permissionNotification.setTextColor(getResources().getColor(R.color.colorAccent));
+            permissionNotification.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
         }
 
         materialProgressBar.setVisibility(View.GONE);

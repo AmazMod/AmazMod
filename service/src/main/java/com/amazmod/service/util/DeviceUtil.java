@@ -14,13 +14,18 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.view.Gravity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazmod.service.Constants;
 import com.amazmod.service.MainService;
+import com.amazmod.service.R;
 import com.amazmod.service.receiver.PackageReceiver;
 import com.amazmod.service.ui.ConfirmationWearActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -29,6 +34,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 
 import static android.content.Context.ACTIVITY_SERVICE;
@@ -113,7 +122,7 @@ public class DeviceUtil {
         params.setAppPackageName(packageName);
         PackageInstaller.Session session = null;
 
-        new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+        new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
         Logger.debug("Set screen timeout to 3 min to install update");
         /*
         File su = new File("/system/xbin/su");
@@ -456,7 +465,7 @@ public class DeviceUtil {
     public static void systemPutAdb(Context context, String name, String value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -466,7 +475,7 @@ public class DeviceUtil {
     public static void systemPutString(Context context, String name, String value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -480,7 +489,7 @@ public class DeviceUtil {
     public static void systemPutInt(Context context, String name, int value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -498,7 +507,7 @@ public class DeviceUtil {
     public static void systemPutFloat(Context context, String name, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.System.canWrite(context)) {
-                showToast(context, "Write Settings Permission Required!");
+                showToast(context, context.getResources().getString(R.string.write_settings_permission_required));
                 return;
             }
         }
@@ -509,4 +518,118 @@ public class DeviceUtil {
         return Settings.System.getFloat(context.getContentResolver(), name, def);
     }
 
+    public static void centered_toast (Context context, String message) {
+        Toast toast;
+        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        TextView v = toast.getView().findViewById(android.R.id.message);
+        if( v != null) v.setGravity(Gravity.CENTER);
+        toast.show();
+    }
+
+    // Based on com.huami.wififtp.manager.FTPUtil
+    public static String getLocalIpAddress() {
+        try {
+            Enumeration <NetworkInterface> en = NetworkInterface.getNetworkInterfaces();
+            while ( en.hasMoreElements() ) {
+                Enumeration <InetAddress> enumIpAddress = en.nextElement().getInetAddresses();
+                while (enumIpAddress.hasMoreElements()) {
+                    InetAddress inetAddress = enumIpAddress.nextElement();
+                    if (!inetAddress.isLoopbackAddress() && !inetAddress.isLinkLocalAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException ex) {
+            Logger.debug("getLocalIpAddress IpAddress error "+ ex.toString());
+        }
+        //return "192.168.43.1"; // default FTP
+        return "N/A";
+    }
+
+    // # Notification counter #
+    // Get notification number
+    public static int notificationCounter(Context context) {
+        return notificationCounter(context, 0, false, 0);
+    }
+    // Add/Remove notification
+    public static int notificationCounter(Context context, int n, String log) {
+        Logger.debug(log);
+        return notificationCounter(context, n);
+    }
+    public static int notificationCounter(Context context, int n) {
+        return notificationCounter(context, n, false, 0);
+    }
+    // Add/Remove notification with delay or not
+    public static int notificationCounter(Context context, int n, boolean delay) {
+        return notificationCounter(context, n, delay, 0);
+    }
+    // Set notification number
+    public static void notificationCounterSet(Context context, int n) {
+        if ( n > 0 )
+            notificationCounter(context, 0, false, n);
+        else
+            notificationCounter(context, 0, false, -1); // sets counter to 0
+    }
+    // General notifications counter function
+    public static int notificationCounter(Context context, int n, boolean delay, int notifications) {
+        // Get already saved data
+        String old_data = DeviceUtil.systemGetString(context, Constants.CUSTOM_WATCHFACE_DATA);
+        String data = old_data;
+        if (data == null || data.equals("")) {
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, "{}");//default
+            data = "{\"notifications\":" + notifications + "}";
+        }
+
+        // Get data
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            if( json_data.has("notifications") && notifications == 0 )
+                notifications = json_data.getInt("notifications");
+        } catch (JSONException e) {
+            // Error
+            Logger.error(e, "notificationCounter JSONException01: " + e.getMessage());
+        }
+
+        // Update notifications (but always > -1)
+        notifications = (notifications + n > -1) ? notifications + n : 0;
+
+        Logger.debug("Updating notification counter: " + notifications);
+
+        // Save new notifications
+        try {
+            // Extract data from JSON
+            JSONObject json_data = new JSONObject(data);
+            json_data.put("notifications", notifications);
+            data = json_data.toString();
+        } catch (JSONException e) {
+            //default
+            Logger.error(e, "notificationCounter JSONException02: " + e.getMessage());
+        }
+
+        // Check if data actually need to be updated
+        if (data.equals(old_data))
+            return notifications;
+
+        if (!delay){
+            // Update system value now
+            DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, data);
+        }else{
+            // Update system value after 3 seconds
+            final String last_data = data;
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        DeviceUtil.systemPutString(context, Constants.CUSTOM_WATCHFACE_DATA, last_data);
+                    } catch (Exception e) {
+                        Logger.debug("Notification counter update thread crashed: " + e.getMessage());
+                    }
+                }
+            };
+            t.start();
+        }
+        return notifications;
+    }
 }

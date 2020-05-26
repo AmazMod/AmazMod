@@ -41,12 +41,11 @@ public class SystemProperties {
 
     private static final Class<?> SP = getSystemPropertiesClass();
 
-    /**
-     * Get the value for the given key.
-     */
+    // Get the value for the given key.
     public static String get(String key) {
         try {
-            return (String) SP.getMethod("get", String.class).invoke(null, key);
+            Class<?> SystemProperties = Class.forName("android.os.SystemProperties");
+            return (String) SP.getMethod("get", String.class).invoke(SystemProperties, key);
         } catch (Exception e) {
             return null;
         }
@@ -184,7 +183,6 @@ public class SystemProperties {
             closeQuietly(reader);
         }
         */
-
     }
 
     private static void closeQuietly(Closeable closeable) {
@@ -234,24 +232,27 @@ public class SystemProperties {
     }
 
     public static boolean isPace(){
-        String model = getSystemProperty("ro.build.huami.model");
-        boolean isPace = Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model);
-        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isPace);
-        return isPace;
+        return checkIfModel(Constants.BUILD_PACE_MODELS, "Pace");
     }
 
     public static boolean isStratos(){
-        String model = getSystemProperty("ro.build.huami.model");
-        boolean isStratos = Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(model);
-        Logger.debug("isStratos: checking if model " + model + " is an Amazfit Stratos: " + isStratos);
-        return isStratos;
+        return checkIfModel(Constants.BUILD_STRATOS_MODELS, "Stratos");
     }
 
     public static boolean isVerge(){
-        String model = getSystemProperty("ro.build.huami.model");
-        boolean isVerge = Arrays.asList(Constants.BUILD_VERGE_MODELS).contains(model);
-        Logger.debug("isVerge: checking if model " + model + " is an Amazfit Verge: " + isVerge);
-        return isVerge;
+        return checkIfModel(Constants.BUILD_VERGE_MODELS, "Verge");
+    }
+
+    public static boolean isStratos3(){
+        return checkIfModel(Constants.BUILD_STRATOS_3_MODELS, "Stratos 3");
+    }
+
+    public static boolean checkIfModel(String[] targetModels, String Name){
+        // String model = getSystemProperty("ro.build.huami.model");
+        String model = get("ro.build.huami.model");
+        boolean check = Arrays.asList(targetModels).contains(model);
+        Logger.debug("[System Properties] Current model (" + model + ") is " + ((check)?"":"NOT ") + "a " + Name);
+        return check;
     }
 
     /**
@@ -261,9 +262,6 @@ public class SystemProperties {
      * @return true if enabled.
      */
     public static boolean isAirplaneModeOn(Context context) {
-
         return Settings.Global.getInt(context.getContentResolver(), Settings.Global.AIRPLANE_MODE_ON, 0) != 0;
-
     }
-
 }

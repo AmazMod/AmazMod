@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_battery_chart_range_entries">
+        <item>1天</item>
+        <item>2天</item>
+        <item>3天</item>
+        <item>5天</item>
+        <item>7天</item>
+        <item>10天</item>
+        <item>15天</item>
+    </string-array>
+    <string-array name="pref_watch_battery_alert">
+        <item>残疾人</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99％的</item>
+    </string-array>
+    <string-array name="pref_phone_battery_alert">
+        <item>残疾人</item>
+        <item>10%</item>
+        <item>15%</item>
+        <item>20%</item>
+        <item>25%</item>
+        <item>30%</item>
+        <item>35%</item>
+        <item>40%</item>
+        <item>45%</item>
+        <item>50%</item>
+        <item>99％的</item>
+    </string-array>
+    <string-array name="pref_watchface_calendar_events_days">
+        <item>禁用</item>
+        <item>1天</item>
+        <item>7天</item>
+        <item>15天</item>
+        <item>30天</item>
+        <item>60天</item>
+        <item>90天</item>
+        <item>180天</item>
+        <item>365天</item>
+    </string-array>
+    <string-array name="pref_amazmodservice_font_size_entries">
+        <item>正常的</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Bigger</item>
+        <item>Almost Huge</item>
+        <item>Huge</item>
+    </string-array>
+    <string-array name="default_notification_replies">
+        <item>是的</item>
+        <item>没有</item>
+        <item>谢谢你</item>
+    </string-array>
+    <string-array name="filter_level">
+        <item>Filter notification\'s title</item>
+        <item>Filter notification\'s contents</item>
+        <item>Filter both title and content</item>
+    </string-array>
+    <string-array name="pref_watchface_weather_units_entries">
+        <item>指标(Kelvin)</item>
+        <item>摄氏度(度量)</item>
+        <item>帝国(华氏温度)</item>
+    </string-array>
+</resources>

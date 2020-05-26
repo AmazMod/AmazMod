@@ -32,7 +32,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            tools:text="Install finished" />
+            tools:text="@string/install_finished" />
 
         <android.support.wearable.view.DelayedConfirmationView
             android:id="@+id/install_delayed_view"
@@ -43,7 +43,7 @@
             android:src="@mipmap/amazmod_small"
             app:circle_border_color="@color/green"
             app:circle_border_width="16dp"
-            app:circle_color="@color/red"
+            app:circle_color="@color/red_a200"
             app:circle_padding="16dp"
             app:circle_radius="60dp"
             app:update_interval="100"
@@ -67,7 +67,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            tools:text="Restarting in 3s…" />
+            tools:text="@string/restarting_in_3sec" />
 
     </LinearLayout>
 

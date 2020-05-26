@@ -126,6 +126,7 @@ public class SilenceApplicationHelper {
             notifEntity.setFilter(null);
             notifEntity.setSilenceUntil(0);
             notifEntity.setWhitelist(false);
+            notifEntity.setFilterLevel(2);
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity.class)
                     .insert(notifEntity);

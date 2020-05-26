@@ -3,32 +3,34 @@
 [![CircleCI](https://circleci.com/gh/AmazMod/AmazMod/tree/dev.svg?style=svg)](https://circleci.com/gh/AmazMod/AmazMod/tree/dev)
 [![Downloads](https://img.shields.io/github/downloads/AmazMod/AmazMod/total.svg?style=flat)](https://github.com/AmazMod/AmazMod/releases/latest) [![Crowdin](https://d322cqt584bo4o.cloudfront.net/amazmod/localized.svg)](https://crowdin.com/project/amazmod) [![Backers on Open Collective](https://opencollective.com/amazmod-33/amazmoder/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/amazmod-33/tiers/onging-amazmoder/badge.svg)](#sponsors) [![Telegram](https://img.shields.io/badge/Follow%20us%20on-Telegram-blue.svg)](https://t.me/amazmod) [![Twitter](https://img.shields.io/twitter/follow/Amazmod.svg?style=popout)](https://twitter.com/amazmod)
 
-AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace, Stratos and Verge watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
+AmazMod used to be a modified ("modded") Amazfit app, the companion app for Pace, Stratos, Stratos 3 and Verge watches built by Huami, changing and adding some of its features. But it has evolved to its own app that uses the data communication between Amazfit app on phone and the watch to implement its own notifications system and more.
 
 
 ### Some features:  
 * Brand new notifications filter system, with the option to use customized ("canned") replies, show images and more;  
-* Battery/Heart-rate log and other info that can be viewed on the app as a graph;  
-* Control watch's screen brightness ("Auto brightness" on watch must be *off* for this to work);  
-* Option to not send notifications to watch when the phone screen is on;  
+* Battery/Heart-rate log and other info that can be viewed on phone app as a graph;  
+* Control watch's screen brightness from phone ("Auto brightness" on watch must be *off* for this to work);  
+* Option not to send notifications to watch when the smartphone's screen is on;
+* An overlay button for a direct custom notification drawer;
 * Receive messenger call notifications and maps navigation info on watch;
-* File transfer to and from the watch over the air;
+* File transfer to and from the watch over the air directly from smartphone;
 * Built-in File Explorer on the watch with image and text viewing abilities;
-* Shell execution optionality to the watch from the phone;
-* Improved Watch/Smartphone connection tunnel (lower battery usage);
-* Emoji display ability;
+* Shell execution optionality to the watch directly from the phone;
+* Improved watch-smartphone connection tunnel (lower battery usage);
+* Ability to display Emoji in messages;
 * Various functions in watch widget menu (Wifi, Flash Light, QRCode, LPM, Admin, Reboot, Clean Memory);
 * Battery notifications on watch/phone for watch/phone (low battery, fully charged);
-* Re-order watch widgets;
-* Take watch screenshot;
-* Push battery and calendar event data for Watchfaces/Widgets to use them;
+* Re-order watch's widgets directly from phone/watch without limitation in enabled widgets number;
+* Capture a watch screenshot;
+* Push phone's battery, alarms and calendar events data available to Watchfaces/Widgets to use them (eg. [GreatFit](https://github.com/GreatApo/GreatFit), [Calendar Widget](https://github.com/GreatApo/AmazfitPaceCalendarWidget) & [Timeline Widget](https://github.com/GreatApo/Amazfit-Timeline-Widget));
 * Uninstall applications from watch;
+* Hourly chime feature (vibration every hour);
 * More to come.
 
 ### Installation
 
 ###### Download links:
-* Latest AmazMod (for phone) from PlayStore: https://play.google.com/apps/testing/com.edotassi.amazmod
+* Latest AmazMod (for phone) from PlayStore: https://play.google.com/store/apps/details?id=com.edotassi.amazmod
 * Latest service-release.apk (for watch), with optional installer for Windows: https://github.com/edotassi/AmazMod/releases/latest
 or
 https://github.com/edotassi/AmazMod/tree/master/service-releases
@@ -42,7 +44,7 @@ https://github.com/edotassi/AmazMod/tree/master/service-releases
 6. Open AmazMod app on phone and configure it to your needs.
 7. For better power managment, enable Device Admin in the widget menu or in the tweaking section on the phone app, or still use adb and run:`adb shell dpm set-active-admin com.amazmod.service/.receiver.AdminReceiver`
 
-PS: On Verge, you must open AmazMod from the apps list the first time you install it to start the service, then go to the phone App to check connection (make sure you have set AmazMod as first widget in settings to make it permanent). You may need to restart launcher or watch to see the widget properly.
+PS: On Verge, you must open AmazMod from the apps list the first time you install it to start the service, then go to the phone App to check connection (make sure you have set AmazMod as keep widget in settings to make it permanent). You may need to restart launcher or watch to see the widget properly.
 
 ###### Installation steps for minimal set of features (notifications filter only)
 1. Download and install latest AmazMod from Play Store on phone;
@@ -64,6 +66,8 @@ If you want to help by translating the app in your language, take a look at our 
 * How do I install the app on watch?  
 
 You can use adb (all platforms), APKInstaller, Amazfit Tool or the provided installer if you are on Windows. To use adb, you need the binaries on your computer (download them from [Android SDK Platform tools page](https://developer.android.com/studio/releases/platform-tools), you may have them already if your computer runs Linux), then open Terminal/Command Prompt, change to the same folder as service-release.apk and run: `adb install -r service-release.apk`.
+
+Alternatively, you can use the EXE installers provided with each release, that will allow you to use a wizzard for a more convenient installation.
 
 * I do not get notifications  
 

@@ -4,8 +4,14 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.edotassi.amazmod.R;
@@ -29,6 +35,12 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
     @BindView(R.id.edittext_filter)
     EditText filter_edittext;
 
+    @BindView(R.id.whitelist_switch)
+    Switch whitelistSwitch;
+
+    @BindView(R.id.filter_description)
+    TextView filter_description;
+
     @BindView(R.id.activity_notifopts_appinfo_appname)
     TextView appname_edittext;
 
@@ -41,8 +53,15 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
     @BindView(R.id.appinfo_icon)
     ImageView appIcon;
 
+    @BindView(R.id.filter_level)
+    Spinner filterLevel;
+
     @BindView(R.id.silenced_until)
     EditText silenced_until;
+
+    @BindView(R.id.cancel_button)
+    Button cancel_button;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +82,11 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         Intent intent = getIntent();
         String packageName = intent.getStringExtra("app");
 
+        if (packageName == null) {
+            finish();
+            return;
+        }
+
         app = loadApp(packageName);
         if (app == null) {
             //Toast.makeText(this, "Package " + packageName + "is not enabled", Toast.LENGTH_SHORT).show();
@@ -72,12 +96,47 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
             try {
                 packageInfo = getPackageManager().getPackageInfo(packageName, 0);
                 appname_edittext.setText(packageInfo.applicationInfo.loadLabel(getPackageManager()).toString());
-                getSupportActionBar().setTitle("App Options");
+                getSupportActionBar().setTitle(getResources().getString(R.string.app_options));
                 appinfoPackageNameEditText.setText(packageInfo.packageName);
                 appVersion.setText(packageInfo.versionName);
                 appIcon.setImageDrawable(packageInfo.applicationInfo.loadIcon(getPackageManager()));
                 filter_edittext.setText(app.getFilter());
-                silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
+
+                // Check if app is muted
+                if( app.getSilenceUntil() > 0 )
+                    silenced_until.setText(SilenceApplicationHelper.getTimeSecondsReadable(app.getSilenceUntil()));
+                else
+                    cancel_button.setEnabled(false);
+
+                // Whitelist Filter
+                if (app.isWhitelist()) {
+                    filter_description.setText(getResources().getString(R.string.whitelist_notification_options_description));
+                } else
+                    filter_description.setText(getResources().getString(R.string.notification_options_description));
+                whitelistSwitch.setChecked(app.isWhitelist());
+                whitelistSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        app.setWhitelist(isChecked);
+                        Logger.debug("set filter as whitelist: " + isChecked);
+                        if (isChecked) {
+                            filter_description.setText(getResources().getString(R.string.whitelist_notification_options_description));
+                        } else
+                            filter_description.setText(getResources().getString(R.string.notification_options_description));
+                    }
+                });
+
+                // Set filter level
+                filterLevel.setSelection(app.getFilterLevel());
+                filterLevel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        app.setFilterLevel(pos);
+                    }
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // Auto-generated method stub
+                        }
+                    });
+
             } catch (PackageManager.NameNotFoundException e) {
 
                 //Toast.makeText(this, "Package " + packageName + "not found", Toast.LENGTH_SHORT).show();
@@ -117,7 +176,8 @@ public class NotificationPackageOptionsActivity extends BaseAppCompatActivity {
         }
         app.setPackageName(packageInfo.packageName);
         app.setFilter(filter_edittext.getText().toString());
-        app.setWhitelist(false);
+        app.setWhitelist(whitelistSwitch.isChecked());
+        app.setFilterLevel(app.getFilterLevel());
         if (insert) {
             Logger.debug("STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences");
             FlowManager
