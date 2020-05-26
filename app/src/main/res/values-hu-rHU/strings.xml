@@ -379,7 +379,7 @@ a rendszertéma követése helyett (beta).</string>
     <string name="product_model">Termék modell</string>
     <string name="product_name">Termék név</string>
     <string name="serial_number">Sorozatszám</string>
-    <string name="build_id">Build azonosító</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Build Huami modell</string>
     <string name="build_description">Build leírás</string>
     <string name="rename_folder">Mappa átnevezése</string>
