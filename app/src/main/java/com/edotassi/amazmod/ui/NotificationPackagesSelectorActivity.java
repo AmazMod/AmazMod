@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +32,6 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
 public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
         implements AppInfoAdapter.Bridge, SearchView.OnQueryTextListener {
@@ -66,7 +64,7 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
 
         appInfoAdapter = new AppInfoAdapter(
                 this, R.layout.row_appinfo, new ArrayList<>());
-        binding.activityNotificationPackagesSelectorList.setAdapter(appInfoAdapter);
+        binding.packageList.setAdapter(appInfoAdapter);
 
         loadApps(showSystemApps, null);
     }
@@ -142,8 +140,8 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
 
     @SuppressLint("CheckResult")
     private void loadApps(final boolean showSystemApps, @Nullable String searchQueryText) {
-        binding.activityNotificationPackagesSelectorProgress.setVisibility(View.VISIBLE);
-        binding.activityNotificationPackagesSelectorList.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.VISIBLE);
+        binding.packageList.setVisibility(View.GONE);
 
         Single.fromCallable(() -> {
             //List installed packages and create a list of appInfo based on them
@@ -170,8 +168,8 @@ public class NotificationPackagesSelectorActivity extends BaseAppCompatActivity
                     appInfoAdapter.addAll(appInfoList);
                     appInfoAdapter.notifyDataSetChanged();
 
-                    binding.activityNotificationPackagesSelectorProgress.setVisibility(View.GONE);
-                    binding.activityNotificationPackagesSelectorList.setVisibility(View.VISIBLE);
+                    binding.progressBar.setVisibility(View.GONE);
+                    binding.packageList.setVisibility(View.VISIBLE);
                 });
     }
 

@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/activity_notification_packages_selector_progress"
+        android:id="@+id/progress_bar"
         style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -21,7 +21,7 @@
         app:mpb_progressStyle="circular" />
 
     <ListView
-        android:id="@+id/activity_notification_packages_selector_list"
+        android:id="@+id/package_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"

@@ -116,17 +116,17 @@ class NotificationPackageOptionsActivity : BaseAppCompatActivity() {
         if (insert) {
             app = NotificationPreferencesEntity()
         }
-        app!!.packageName = packageInfo!!.packageName
-        app.filter = edittext_filter.text.toString()
-        app.isWhitelist = whitelist_switch.isChecked
-        app.filterLevel = app.filterLevel
+        app!!.packageName = packageInfo.packageName
+        app!!.filter = edittext_filter.text.toString()
+        app!!.isWhitelist = whitelist_switch.isChecked
+        app!!.filterLevel = filter_level.selectedItemPosition
         if (insert) {
-            Logger.debug("STORING " + packageInfo!!.packageName + " in AmazmodDB.NotificationPreferences")
+            Logger.debug("STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences")
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity::class.java)
                     .insert(app)
         } else {
-            Logger.debug("UPDATING " + packageInfo!!.packageName + " in AmazmodDB.NotificationPreferences")
+            Logger.debug("UPDATING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences")
             FlowManager
                     .getModelAdapter(NotificationPreferencesEntity::class.java)
                     .update(app)
