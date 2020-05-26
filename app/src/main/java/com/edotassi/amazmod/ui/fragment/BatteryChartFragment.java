@@ -449,7 +449,10 @@ public class BatteryChartFragment extends Card {
                 remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
                 int count = (int) (remaininf_now_diff / 60);
                 int count1 = (int) (remaininf_now_diff % 60);
-                textDate += ((int) remaininf_now_diff / 60) + " " + getResources().getQuantityString(R.plurals.hour, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 60) + " " + getResources().getQuantityString(R.plurals.minute, count1);
+                if((int) remaininf_now_diff / 60 == 0)
+                    textDate += ((int) remaininf_now_diff % 60) + " " + getResources().getQuantityString(R.plurals.minute, count1);
+                else
+                    textDate += ((int) remaininf_now_diff / 60) + " " + getResources().getQuantityString(R.plurals.hour, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 60) + " " + getResources().getQuantityString(R.plurals.minute, count1);
             } else {
                 // Future time that battery will be 0%
                 target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
@@ -458,11 +461,10 @@ public class BatteryChartFragment extends Card {
                 remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
                 int count = (int) (remaininf_now_diff / 24);
                 int count1 = (int) (remaininf_now_diff % 24);
-                if((int) remaininf_now_diff / 24 == 0){
+                if((int) remaininf_now_diff / 24 == 0)
                     textDate += ((int) remaininf_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
-                }else{
+                else
                     textDate += ((int) remaininf_now_diff / 24) + " " + getResources().getQuantityString(R.plurals.day, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
-                }
             }
 
             if (remaininf_now_diff > 0) {

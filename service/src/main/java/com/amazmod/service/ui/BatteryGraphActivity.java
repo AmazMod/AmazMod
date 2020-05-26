@@ -358,7 +358,10 @@ public class BatteryGraphActivity extends ListActivity {
 
                     textDate = getString(R.string.charged_in)+": ";
                     remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
-                    textDate += ((int) remaininf_now_diff / 60) + "h:" + ((int) remaininf_now_diff % 60) + "m";
+                    if(((int) remaininf_now_diff / 60) == 0)
+                        textDate += ((int) remaininf_now_diff % 60) + "m";
+                    else
+                        textDate += ((int) remaininf_now_diff / 60) + "h:" + ((int) remaininf_now_diff % 60) + "m";
 
                 } else {
                     // Future time that battery will be 0%
@@ -366,8 +369,10 @@ public class BatteryGraphActivity extends ListActivity {
 
                     textDate = getString(R.string.remaining)+": ";
                     remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
-                    textDate += ((int) remaininf_now_diff / 24) + "d:" + ((int) remaininf_now_diff % 24) + "h";
-
+                    if(((int) remaininf_now_diff / 24) == 0)
+                        textDate += ((int) remaininf_now_diff % 24) + "h";
+                    else
+                        textDate += ((int) remaininf_now_diff / 24) + "d:" + ((int) remaininf_now_diff % 24) + "h";
                 }
             }
         }
@@ -461,9 +466,9 @@ public class BatteryGraphActivity extends ListActivity {
                 long diff = unit.convert(millisRest, TimeUnit.MILLISECONDS);
                 long diffInMilliesForUnit = unit.toMillis(diff);
                 millisRest = millisRest - diffInMilliesForUnit;
-                if (unit.equals(TimeUnit.DAYS)) {
+                if (unit.equals(TimeUnit.DAYS) && diff != 0) {
                     dateDiff.append(diff).append("d : ");
-                } else if (unit.equals(TimeUnit.HOURS)) {
+                } else if (unit.equals(TimeUnit.HOURS) && diff != 0) {
                     dateDiff.append(diff).append("h : ");
                 } else if (unit.equals(TimeUnit.MINUTES)) {
                     dateDiff.append(diff).append("min");
