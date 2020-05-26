@@ -345,10 +345,10 @@ public class BatteryChartFragment extends Card {
                     long diff = unit.convert(millisRest, TimeUnit.MILLISECONDS);
                     long diffInMillisForUnit = unit.toMillis(diff);
                     millisRest = millisRest - diffInMillisForUnit;
-                    if (unit.equals(TimeUnit.DAYS)) {
+                    if (unit.equals(TimeUnit.DAYS) && diff != 0) {
                         append = diff + "d : ";
                         dateDiff.append(append);
-                    } else if (unit.equals(TimeUnit.HOURS)) {
+                    } else if (unit.equals(TimeUnit.HOURS) && diff != 0) {
                         append = diff + "h : ";
                         dateDiff.append(append);
                     } else if (unit.equals(TimeUnit.MINUTES)) {
