@@ -376,7 +376,7 @@
     <string name="product_model">Mô hình sản phẩm</string>
     <string name="product_name">Tên sản phẩm</string>
     <string name="serial_number">Số Serial</string>
-    <string name="build_id">ID Xây Dựng Màn Hình</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Xây dựng mô hình Huami</string>
     <string name="build_description">Mô tả dự án</string>
     <string name="rename_folder">Đổi tên thư mục</string>
