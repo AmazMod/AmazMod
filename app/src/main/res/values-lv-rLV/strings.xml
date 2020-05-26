@@ -377,7 +377,7 @@ follow the system theme (beta).</string>
     <string name="product_model">Product model</string>
     <string name="product_name">Produkta nosaukums</string>
     <string name="serial_number">Sērijas nr.</string>
-    <string name="build_id">Build display id</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Build Huami model</string>
     <string name="build_description">Build description</string>
     <string name="rename_folder">Pārsaukt mapi</string>
