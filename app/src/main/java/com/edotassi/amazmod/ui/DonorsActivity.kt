@@ -5,11 +5,11 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.edotassi.amazmod.R
 import com.edotassi.amazmod.adapters.DonorsAdapter
-import com.edotassi.amazmod.helpers.KtLogger
 import com.edotassi.amazmod.ui.model.Donor
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_donors.*
 import okhttp3.*
+import org.tinylog.kotlin.Logger
 import java.io.IOException
 
 class DonorsActivity : BaseAppCompatActivity() {
@@ -19,7 +19,7 @@ class DonorsActivity : BaseAppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.setTitle(R.string.donors)
         } catch (exception: NullPointerException) {
-            KtLogger.error(exception, "AboutActivity onCreate exception: {}", exception.message)
+            Logger.error(exception, "AboutActivity onCreate exception: {}", exception.message)
         }
         setContentView(R.layout.activity_donors)
         activity_donors_list.layoutManager = LinearLayoutManager(this)
@@ -37,12 +37,12 @@ class DonorsActivity : BaseAppCompatActivity() {
         val request = Request.Builder()
                 .url(donorsURL)
                 .build()
-        KtLogger.info("listDonors: checking donors list in OpenCollective")
+        Logger.info("listDonors: checking donors list in OpenCollective")
         val client = OkHttpClient()
         client.newCall(request)
                 .enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
-                        KtLogger.debug("listDonors: failed to check donors")
+                        Logger.debug("listDonors: failed to check donors")
                     }
 
                     @Throws(IOException::class)
