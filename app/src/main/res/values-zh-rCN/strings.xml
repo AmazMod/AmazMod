@@ -377,7 +377,7 @@
     <string name="product_model">产品型号</string>
     <string name="product_name">产品名称</string>
     <string name="serial_number">序列号</string>
-    <string name="build_id">编译版本号</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">华米编译模型</string>
     <string name="build_description">写入注释</string>
     <string name="rename_folder">重命名文件夹</string>
