@@ -956,14 +956,14 @@ public class MainService extends Service implements Transporter.DataListener {
         //watchStatusData.setRoProductManufacter(SystemProperties.get(WatchStatusData.RO_PRODUCT_MANUFACTER, "-"));
         //watchStatusData.setRoRevision(SystemProperties.get(WatchStatusData.RO_REVISION, "-"));
         //watchStatusData.setRoBuildFingerprint(SystemProperties.get(WatchStatusData.RO_BUILD_FINGERPRINT, "-"));
-        watchStatusData.setRoBuildHuamiModel(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_MODEL, "-"));
+        watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
+        watchStatusData.setRoBuildDisplayId(SystemProperties.get(WatchStatusData.RO_BUILD_DISPLAY_ID, "-"));
         if (!isStratos3()) { // todo reduce data until we fix Stratos 3 connection
-            watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
-            watchStatusData.setRoBuildDisplayId(SystemProperties.get(WatchStatusData.RO_BUILD_DISPLAY_ID, "-"));
+            watchStatusData.setRoBuildHuamiModel(SystemProperties.get(WatchStatusData.RO_BUILD_HUAMI_MODEL, "-"));
+            //watchStatusData.setRoBuildDescription(SystemProperties.get(WatchStatusData.RO_BUILD_DESCRIPTION, "-"));
             watchStatusData.setRoProductModel(SystemProperties.get(WatchStatusData.RO_PRODUCT_MODEL, "-"));
             watchStatusData.setRoProductName(SystemProperties.get(WatchStatusData.RO_PRODUCT_NAME, "-"));
         }
-        watchStatusData.setRoSerialno(SystemProperties.get(WatchStatusData.RO_SERIALNO, "-"));
         // Get brightness
         int b = 0;
         int bm = Constants.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
@@ -992,10 +992,7 @@ public class MainService extends Service implements Transporter.DataListener {
                     // Get the field values
                     // example: utc_time=1528485660, time_zone=0, heart_rate=96
                     long utc_time;
-                    if(isStratos3())
-                        utc_time = (cur.getLong(0)) * 1000;
-                    else
-                        utc_time = cur.getLong(0);
+                    utc_time = (cur.getLong(0)) * (isStratos3()?1000:1);
                     //int time_zone = cur.getInt(1);
                     int heart_rate = cur.getInt(2);
 

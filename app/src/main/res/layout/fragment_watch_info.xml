@@ -123,7 +123,7 @@
                             android:textStyle="bold" />
 
                     </TableRow>
-
+                    <!--
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -143,6 +143,7 @@
                             tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
+                    -->
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -203,6 +204,10 @@
                             tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
+                </TableLayout>
+
+
+                <!-- Removed unused and unnecessary watchData
 
                     <TableRow
                         android:layout_width="match_parent"
@@ -223,10 +228,6 @@
                             tools:text="-"
                             android:textStyle="bold" />
                     </TableRow>
-                </TableLayout>
-
-
-                <!-- Removed unused and unnecessary watchData
                 <TextView
                     android:id="@+id/textView5"
                     android:layout_width="match_parent"

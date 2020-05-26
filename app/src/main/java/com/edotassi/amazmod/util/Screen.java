@@ -167,6 +167,21 @@ public class Screen {
         return isPace;
     }
 
+    public static String getModelNoBySerialNo(String serialNo){
+        // Serial is xxxx00000000 and model number is Axxxx
+        return "A"+serialNo.substring(0, 4);
+    }
+
+    public static String[] getWatchInfoBySerialNo(String serialNo){
+        String modelNo = getModelNoBySerialNo(serialNo);
+        return new String[]{modelNo, getModelName(modelNo)};
+    }
+
+    public static String getSerialByModelNo(String modelNo){
+        // Serial is xxxx00000000 and model number is Axxxx
+        return modelNo.substring(1, 5)+"xxxxxxxxxx";
+    }
+
     public static String getModelName(String model){
         if(Arrays.asList(Constants.BUILD_PACE_MODELS).contains(model)) // Pace
             return "Amazfit Pace";

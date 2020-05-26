@@ -69,6 +69,8 @@ import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import static amazmod.com.transport.Transport.OFFICIAL_REPLY_DEVICE_INFO;
 import static amazmod.com.transport.Transport.OFFICIAL_REQUEST_DEVICE_INFO;
 import static com.edotassi.amazmod.util.Screen.getModelName;
+import static com.edotassi.amazmod.util.Screen.getSerialByModelNo;
+import static com.edotassi.amazmod.util.Screen.getWatchInfoBySerialNo;
 
 public class WatchInfoFragment extends Card implements Updater {
 
@@ -82,16 +84,16 @@ public class WatchInfoFragment extends Card implements Updater {
     //TextView productManufacter;
     @BindView(R.id.card_product_model)
     TextView productModel;
-    @BindView(R.id.card_product_name)
-    TextView productName;
+    //@BindView(R.id.card_product_name)
+    //TextView productName;
     //@BindView(R.id.card_revision)
     //TextView revision;
     @BindView(R.id.card_serialno)
     TextView serialNo;
     //@BindView(R.id.card_build_date)
     //TextView buildDate;
-    @BindView(R.id.card_build_description)
-    TextView buildDescription;
+    //@BindView(R.id.card_build_description)
+    //TextView buildDescription;
     @BindView(R.id.card_display_id)
     TextView displayId;
     @BindView(R.id.card_huami_model)
@@ -283,29 +285,39 @@ public class WatchInfoFragment extends Card implements Updater {
 
         String amazModServiceVersion = watchStatusData.getAmazModServiceVersion() + ((watchStatusData.getRooted()==1)?" (rooted)":"");
         amazModService.setText(amazModServiceVersion);
-        // Set product name based on product code (if name is null)
-        if( watchStatusData.getRoProductModel().equals("N/A") && !watchStatusData.getRoBuildHuamiModel().equals("N/A") )
-            productModel.setText(getModelName(watchStatusData.getRoBuildHuamiModel()));
-        else {
-            // Detect amazfit pace when it's running hybrid rom
-            if (Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(watchStatusData.getRoBuildHuamiModel()) && (watchStatusData.getRoSerialno().startsWith("1602") || watchStatusData.getRoSerialno().startsWith("1612"))){
-                watchStatusData.setRoProductModel("Amazfit Pace");
+
+        if ( !watchStatusData.getRoSerialno().equals("N/A") && !watchStatusData.getRoSerialno().isEmpty() ){
+            // Serial found
+            Logger.debug("WatchInfoFragment WatchData SN: " + watchStatusData.getRoSerialno());
+            serialNo.setText( watchStatusData.getRoSerialno() );
+            String[] watchInfo = getWatchInfoBySerialNo( watchStatusData.getRoSerialno() ); // {Model No, Model Name}
+            huamiModel.setText( watchInfo[0] );
+            productModel.setText( watchInfo[1] );
+        }else {
+            if (!watchStatusData.getRoBuildHuamiModel().equals("N/A") && !watchStatusData.getRoBuildHuamiModel().isEmpty()){
+                serialNo.setText( getSerialByModelNo(watchStatusData.getRoBuildHuamiModel()) );
+                huamiModel.setText( watchStatusData.getRoBuildHuamiModel() );
+                productModel.setText( getModelName(watchStatusData.getRoBuildHuamiModel()) ) ;
+            }else{
+                serialNo.setText( watchStatusData.getRoSerialno() );
+                huamiModel.setText( watchStatusData.getRoBuildHuamiModel() );
+                productModel.setText( watchStatusData.getRoProductName() );
             }
-            productModel.setText(watchStatusData.getRoProductModel());
+
         }
-        productName.setText(watchStatusData.getRoProductName());
-        huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
+        // Firmware
         displayId.setText(watchStatusData.getRoBuildDisplayId());
-        buildDescription.setText(watchStatusData.getRoBuildDescription());
-        serialNo.setText(watchStatusData.getRoSerialno());
-        Logger.debug("WatchInfoFragment WatchData SN: " + watchStatusData.getRoSerialno());
+
         //Removed unused and unnecessary watchData
+        //productName.setText(watchStatusData.getRoProductName());
+        //buildDescription.setText(watchStatusData.getRoBuildDescription());
         //productDevice.setText(watchStatusData.getRoProductDevice());
         //productManufacter.setText(watchStatusData.getRoProductManufacter());
         //revision.setText(watchStatusData.getRoRevision());
         //buildDate.setText(watchStatusData.getRoBuildDate());
         //huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
         //fingerprint.setText(watchStatusData.getRoBuildFingerprint());
+
         //Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
@@ -328,9 +340,9 @@ public class WatchInfoFragment extends Card implements Updater {
         }
 
         // Hourly Chime (update if changed from watch menu)
-        boolean hourlychime = (watchStatusData.getHourlyChime()>0); // 0 = off, 1 = on
-        Prefs.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, hourlychime);
-        Logger.debug("WatchInfoFragment WatchData HOURLY_CHIME: " + hourlychime);
+        boolean hourlyChime = (watchStatusData.getHourlyChime()>0); // 0 = off, 1 = on
+        Prefs.putBoolean(Constants.PREF_AMAZMOD_HOURLY_CHIME, hourlyChime);
+        Logger.debug("WatchInfoFragment WatchData HOURLY_CHIME: " + hourlyChime);
     }
 
     @OnLongClick(R.id.watchIconView)
