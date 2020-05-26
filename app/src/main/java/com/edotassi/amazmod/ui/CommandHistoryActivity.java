@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +13,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.CommandHistoryAdapter;
+import com.edotassi.amazmod.databinding.ActivityCommandHistoryBinding;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity;
 import com.edotassi.amazmod.db.model.CommandHistoryEntity_Table;
 import com.edotassi.amazmod.support.CommandHistoryBridge;
@@ -23,13 +23,9 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class CommandHistoryActivity extends BaseAppCompatActivity implements CommandHistoryBridge {
 
-    @BindView(R.id.activity_command_history_list)
-    ListView listView;
+    private ActivityCommandHistoryBinding binding;
 
     private CommandHistoryAdapter commandHistoryAdapter;
 
@@ -37,40 +33,17 @@ public class CommandHistoryActivity extends BaseAppCompatActivity implements Com
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_command_history);
+        binding = ActivityCommandHistoryBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.command_history);
 
-        ButterKnife.bind(this);
-
         commandHistoryAdapter = new CommandHistoryAdapter(this, R.layout.row_commands, new ArrayList<CommandHistoryEntity>());
-        listView.setAdapter(commandHistoryAdapter);
+        binding.activityCommandHistoryList.setAdapter(commandHistoryAdapter);
 
         loadCommandHistory();
     }
-
-    /*:
-    @TODO kept code here so a command can be corrected and run again
-    public void edit(final Reply command, final View v) {
-        new MaterialDialog.Builder(this)
-                .title(R.string.edit_reply)
-                .content(R.string.enter_the_text_you_want_as_an_answer)
-                .inputType(InputType.TYPE_CLASS_TEXT)
-                .input("", command.getValue(), new MaterialDialog.InputCallback() {
-                    @Override
-                    public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
-
-                        command.setValue(input.toString());
-
-                        commandHistoryAdapter.clear();
-                        commandHistoryAdapter.addAll(commandHistoryValues);
-                        commandHistoryAdapter.notifyDataSetChanged();
-
-                        v.setBackgroundColor(Color.TRANSPARENT);
-                    }
-                }).show();
-    }*/
 
     @Override
     public boolean onSupportNavigateUp() {

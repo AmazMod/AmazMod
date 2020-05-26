@@ -15,17 +15,16 @@ import android.os.Process
 import android.service.notification.StatusBarNotification
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.view.LayoutInflaterCompat
-import butterknife.OnLongClick
 import com.edotassi.amazmod.BuildConfig
 import com.edotassi.amazmod.R
 import com.edotassi.amazmod.helpers.KtLogger
 import com.edotassi.amazmod.notification.NotificationService
 import com.edotassi.amazmod.transport.TransportService
 import com.edotassi.amazmod.transport.TransportService.DataTransportResultCallback
-import com.edotassi.amazmod.ui.AboutActivity
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.huami.watch.notification.data.StatusBarNotificationData
@@ -35,6 +34,7 @@ import com.mikepenz.iconics.context.IconicsLayoutInflater2
 import com.pixplicity.easyprefs.library.Prefs
 import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_about.*
+import kotlinx.android.synthetic.main.activity_file_explorer.*
 import java.util.*
 
 class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
@@ -58,6 +58,12 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
         activity_about_version.append(" (Build ${BuildConfig.VERSION_CODE} )")
         if (Prefs.getBoolean(Constants.PREF_ENABLE_DEVELOPER_MODE, false)) {
             activity_about_version.append(" - " + BuildConfig.VERSION_CODE + ":dev")
+        }
+
+        amazmod_logo.setOnLongClickListener {
+            NotificationService.cancelPendingJobs()
+            Toast.makeText(this, "All pending jobs cancelled!", Toast.LENGTH_SHORT).show()
+            return@setOnLongClickListener true
         }
     }
 
@@ -193,13 +199,6 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
         } catch (ex: Exception) {
             ArrayList()
         }
-    }
-
-    @OnLongClick(R.id.amazmod_logo)
-    fun onAmazmodLogoLongClick(): Boolean {
-        NotificationService.cancelPendingJobs()
-        Toast.makeText(this, "All pending jobs cancelled!", Toast.LENGTH_SHORT).show()
-        return true
     }
 
     override fun onSuccess(dataTransportResult: DataTransportResult, key: String) {

@@ -1,23 +1,20 @@
 package com.edotassi.amazmod.ui;
 
 import android.os.Bundle;
-import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.ActivityFaqBinding;
 
 import org.tinylog.Logger;
 
 import amazmod.com.transport.Constants;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class FaqActivity extends BaseAppCompatActivity {
 
-    @BindView(R.id.activity_faq_webview)
-    WebView webView;
+    private ActivityFaqBinding binding;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -28,7 +25,8 @@ public class FaqActivity extends BaseAppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_faq);
+        binding = ActivityFaqBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -38,9 +36,7 @@ public class FaqActivity extends BaseAppCompatActivity {
         }
         getSupportActionBar().setTitle(R.string.faq);
 
-        ButterKnife.bind(this);
-
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl(Constants.FAQ_URL);
+        binding.activityFaqWebview.setWebViewClient(new WebViewClient());
+        binding.activityFaqWebview.loadUrl(Constants.FAQ_URL);
     }
 }
