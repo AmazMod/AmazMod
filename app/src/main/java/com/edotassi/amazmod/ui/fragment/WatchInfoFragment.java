@@ -53,6 +53,7 @@ import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.CancellationException;
 
@@ -285,8 +286,13 @@ public class WatchInfoFragment extends Card implements Updater {
         // Set product name based on product code (if name is null)
         if( watchStatusData.getRoProductModel().equals("N/A") && !watchStatusData.getRoBuildHuamiModel().equals("N/A") )
             productModel.setText(getModelName(watchStatusData.getRoBuildHuamiModel()));
-        else
+        else {
+            // Detect amazfit pace when it's running hybrid rom
+            if (Arrays.asList(Constants.BUILD_STRATOS_MODELS).contains(watchStatusData.getRoBuildHuamiModel()) && (watchStatusData.getRoSerialno().startsWith("1602") || watchStatusData.getRoSerialno().startsWith("1612"))){
+                watchStatusData.setRoProductModel("Amazfit Pace");
+            }
             productModel.setText(watchStatusData.getRoProductModel());
+        }
         productName.setText(watchStatusData.getRoProductName());
         huamiModel.setText(watchStatusData.getRoBuildHuamiModel());
         displayId.setText(watchStatusData.getRoBuildDisplayId());
