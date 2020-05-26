@@ -377,7 +377,7 @@
     <string name="product_model">Модел на продукта</string>
     <string name="product_name">Име на продукта</string>
     <string name="serial_number">Сериен номер</string>
-    <string name="build_id">Id номер на дисплей</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Модел на устройство на Huami</string>
     <string name="build_description">Описание на изграждането</string>
     <string name="rename_folder">Преименувай Папка</string>
