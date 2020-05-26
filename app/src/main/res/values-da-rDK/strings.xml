@@ -377,7 +377,7 @@ stedet for følge systemtemaet (beta).</string>
     <string name="product_model">Produktmodel</string>
     <string name="product_name">Produktnavn</string>
     <string name="serial_number">Serienr.</string>
-    <string name="build_id">Build-ID</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Huami build-model</string>
     <string name="build_description">Build-beskrivelse</string>
     <string name="rename_folder">Omdøb mappe</string>
