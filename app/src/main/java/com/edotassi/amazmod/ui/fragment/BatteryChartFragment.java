@@ -458,7 +458,11 @@ public class BatteryChartFragment extends Card {
                 remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
                 int count = (int) (remaininf_now_diff / 24);
                 int count1 = (int) (remaininf_now_diff % 24);
-                textDate += ((int) remaininf_now_diff / 24) + " " + getResources().getQuantityString(R.plurals.day, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
+                if((int) remaininf_now_diff / 24 == 0){
+                    textDate += ((int) remaininf_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
+                }else{
+                    textDate += ((int) remaininf_now_diff / 24) + " " + getResources().getQuantityString(R.plurals.day, count) + " " + getResources().getText(R.string.and) + " " + ((int) remaininf_now_diff % 24) + " " + getResources().getQuantityString(R.plurals.hour, count1);
+                }
             }
 
             if (remaininf_now_diff > 0) {
