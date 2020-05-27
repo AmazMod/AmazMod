@@ -251,7 +251,7 @@ public class WearFilesFragment extends Fragment {
 
                                 listView.post(new Runnable() {
                                     public void run() {
-                                        Logger.debug( "WearFilesFragment loadFiles scrollToTop");
+                                        Logger.debug("WearFilesFragment loadFiles scrollToTop");
                                         listView.smoothScrollToPosition(0);
                                     }
                                 });
@@ -259,6 +259,8 @@ public class WearFilesFragment extends Fragment {
                             }
                         });
                     }
+                }, throwable -> {
+                        Logger.error("WearFilesFragment: Flowable: subscribeOn: " + throwable.getMessage());
                 });
 
     }
