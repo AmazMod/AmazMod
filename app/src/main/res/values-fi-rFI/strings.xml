@@ -376,7 +376,7 @@
     <string name="product_model">Tuotemalli</string>
     <string name="product_name">Tuotenimi</string>
     <string name="serial_number">Sarjanumero</string>
-    <string name="build_id">Build display id</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Build Huami model</string>
     <string name="build_description">Build description</string>
     <string name="rename_folder">Nimeä kansio uudelleen</string>

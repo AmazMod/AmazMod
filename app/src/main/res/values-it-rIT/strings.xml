@@ -377,7 +377,7 @@ seguire il tema di sistema (beta).</string>
     <string name="product_model">Modello dispositivo</string>
     <string name="product_name">Nome dispositivo</string>
     <string name="serial_number">Numero di serie</string>
-    <string name="build_id">Numero build</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Numero modello Huami</string>
     <string name="build_description">Descrizione versione</string>
     <string name="rename_folder">Rinomina Cartella</string>

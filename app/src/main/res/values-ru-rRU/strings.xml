@@ -376,7 +376,7 @@
     <string name="product_model">Модель продукта</string>
     <string name="product_name">Название продукта</string>
     <string name="serial_number">Серийный номер</string>
-    <string name="build_id">Номер сборки</string>
+    <string name="build_id">Прошивка</string>
     <string name="build_model">Модель устройства Huami</string>
     <string name="build_description">Описание сборки</string>
     <string name="rename_folder">Переименовать папку</string>

@@ -167,9 +167,9 @@
     <string name="activity_menu_input_method">Thay đổi phương thức nhập</string>
     <string name="activity_menu_device_info">Thông tin Thiết bị</string>
     <string name="activity_menu_hourly_chime">Chuông hàng giờ</string>
-    <string name="uvindex_weakest">Weakest</string>
-    <string name="uvindex_weak">Weak</string>
-    <string name="uvindex_moderate">Moderate</string>
-    <string name="uvindex_strong">Strong</string>
-    <string name="uvindex_verystrong">Very strong</string>
+    <string name="uvindex_weakest">Yếu nhất</string>
+    <string name="uvindex_weak">Yếu</string>
+    <string name="uvindex_moderate">Vừa phải</string>
+    <string name="uvindex_strong">Mạnh</string>
+    <string name="uvindex_verystrong">Rất mạnh</string>
 </resources>

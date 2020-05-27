@@ -377,7 +377,7 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="product_model">Produktmodell</string>
     <string name="product_name">Produktbezeichnung</string>
     <string name="serial_number">Seriennummer</string>
-    <string name="build_id">Build-Nr</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Huami-Modell erstellen</string>
     <string name="build_description">Beschreibung erstellen</string>
     <string name="rename_folder">Ordner umbenennen</string>

@@ -376,7 +376,7 @@
     <string name="product_model">דגם המוצר</string>
     <string name="product_name">שם המוצר</string>
     <string name="serial_number">מספר סידורי</string>
-    <string name="build_id">גירסת בילד</string>
+    <string name="build_id">קושחה</string>
     <string name="build_model">דגם הואמי</string>
     <string name="build_description">תיאור הדגם</string>
     <string name="rename_folder">שינוי שם תיקיה</string>

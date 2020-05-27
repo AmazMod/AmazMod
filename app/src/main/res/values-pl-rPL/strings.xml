@@ -376,7 +376,7 @@
     <string name="product_model">Produkt model</string>
     <string name="product_name">Nazwa produktu</string>
     <string name="serial_number">Nr seryjny</string>
-    <string name="build_id">Utwórz identyfikator wyświetlacza</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Build model Huami</string>
     <string name="build_description">Opis kompilacji</string>
     <string name="rename_folder">Zmień nazwę Folderu</string>

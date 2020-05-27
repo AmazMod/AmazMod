@@ -377,7 +377,7 @@ Urobte príkaz shell \"</string>
     <string name="product_model">Model výrobku</string>
     <string name="product_name">Názov produktu</string>
     <string name="serial_number">Sériové číslo</string>
-    <string name="build_id">Číslo zostavenia</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Build Huami model</string>
     <string name="build_description">Popis zostavenia</string>
     <string name="rename_folder">Premenovať priečinok</string>

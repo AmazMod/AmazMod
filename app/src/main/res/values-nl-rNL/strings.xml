@@ -377,7 +377,7 @@ het systeemthema (beta).</string>
     <string name="product_model">Productmodel</string>
     <string name="product_name">Productnaam</string>
     <string name="serial_number">Serienummer</string>
-    <string name="build_id">Scherm build-ID</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Bouw Huami model</string>
     <string name="build_description">Bouwbeschrijving</string>
     <string name="rename_folder">Wijzig mapnaam</string>

@@ -266,6 +266,8 @@ public class WearNotificationsFragment extends Fragment {
                             }
                         });
                     }
+                }, throwable -> {
+                    Logger.error("WearNotificationsFragment: Flowable: subscribeOn: " + throwable.getMessage());
                 });
     }
 

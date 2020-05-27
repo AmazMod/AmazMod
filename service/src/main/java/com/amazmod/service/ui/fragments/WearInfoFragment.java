@@ -104,9 +104,9 @@ public class WearInfoFragment extends Fragment {
                 long diff = unit.convert(millisRest, TimeUnit.MILLISECONDS);
                 long diffInMilliesForUnit = unit.toMillis(diff);
                 millisRest = millisRest - diffInMilliesForUnit;
-                if (unit.equals(TimeUnit.DAYS)) {
+                if (unit.equals(TimeUnit.DAYS) && diff != 0) {
                     dateDiff.append(diff).append("d : ");
-                } else if (unit.equals(TimeUnit.HOURS)) {
+                } else if (unit.equals(TimeUnit.HOURS) && diff != 0) {
                     dateDiff.append(diff).append("h : ");
                 } else if (unit.equals(TimeUnit.MINUTES)) {
                     dateDiff.append(diff).append("m");

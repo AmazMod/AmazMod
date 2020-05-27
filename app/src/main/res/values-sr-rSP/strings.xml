@@ -377,7 +377,7 @@ follow the system theme (beta).</string>
     <string name="product_model">Product model</string>
     <string name="product_name">Product name</string>
     <string name="serial_number">Serial No</string>
-    <string name="build_id">Build display id</string>
+    <string name="build_id">Фирмвер</string>
     <string name="build_model">Build Huami model</string>
     <string name="build_description">Build description</string>
     <string name="rename_folder">Rename Folder</string>
