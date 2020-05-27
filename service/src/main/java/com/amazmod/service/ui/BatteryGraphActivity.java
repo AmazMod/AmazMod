@@ -351,28 +351,28 @@ public class BatteryGraphActivity extends ListActivity {
                 float y2 = yValues.get(size - 1).getY();
 
                 float target_time;
-                float remaininf_now_diff;
+                float remaining_now_diff;
                 if (charging) {
                     // Future time that battery will be 100%
                     target_time = x2 + (x2 - x1) / (y2 - y1) * (100 - y2);
 
                     textDate = getString(R.string.charged_in)+": ";
-                    remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
-                    if(((int) remaininf_now_diff / 60) == 0)
-                        textDate += ((int) remaininf_now_diff % 60) + "m";
+                    remaining_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60);
+                    if(((int) remaining_now_diff / 60) == 0)
+                        textDate += ((int) remaining_now_diff % 60) + "m";
                     else
-                        textDate += ((int) remaininf_now_diff / 60) + "h:" + ((int) remaininf_now_diff % 60) + "m";
+                        textDate += ((int) remaining_now_diff / 60) + "h:" + ((int) remaining_now_diff % 60) + "m";
 
                 } else {
                     // Future time that battery will be 0%
                     target_time = x2 + (x2 - x1) / (y1 - y2) * y2;
 
                     textDate = getString(R.string.remaining)+": ";
-                    remaininf_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
-                    if(((int) remaininf_now_diff / 24) == 0)
-                        textDate += ((int) remaininf_now_diff % 24) + "h";
+                    remaining_now_diff = (target_time - System.currentTimeMillis()) / (1000 * 60 * 60);
+                    if(((int) remaining_now_diff / 24) == 0)
+                        textDate += ((int) remaining_now_diff % 24) + "h";
                     else
-                        textDate += ((int) remaininf_now_diff / 24) + "d:" + ((int) remaininf_now_diff % 24) + "h";
+                        textDate += ((int) remaining_now_diff / 24) + "d:" + ((int) remaining_now_diff % 24) + "h";
                 }
             }
         }
