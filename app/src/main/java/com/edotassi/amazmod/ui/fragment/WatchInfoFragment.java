@@ -269,6 +269,10 @@ public class WatchInfoFragment extends Card implements Updater {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(WatchStatus watchStatus) {
         TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
+        if (TransportService.model.equals("N/A") && !watchStatus.getWatchStatusData().getRoSerialno().isEmpty()) {
+            String[] watchInfo = getWatchInfoBySerialNo(watchStatus.getWatchStatusData().getRoSerialno());
+            TransportService.model = (watchInfo[1]);
+        }
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
                 .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
                 .putString(Constants.PREF_HUAMI_MODEL, watchStatus.getWatchStatusData().getRoBuildHuamiModel())
