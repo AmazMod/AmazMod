@@ -234,6 +234,8 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
                             }
                         });
                     }
+                }, throwable -> {
+                    Logger.error("WearAppsFragment: Flowable: subscribeOn: " + throwable.getMessage());
                 });
 
         listView.setLongClickable(true);
