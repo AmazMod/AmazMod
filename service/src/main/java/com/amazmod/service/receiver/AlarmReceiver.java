@@ -66,7 +66,8 @@ public class AlarmReceiver extends BroadcastReceiver {
             } else {
                 Logger.error("AlarmReceiver null vibrator!");
             }
-            HourlyChime.setHourlyChime(context, true);
         }
+        HourlyChime.setHourlyChime(context, true);
+
     }
 }
