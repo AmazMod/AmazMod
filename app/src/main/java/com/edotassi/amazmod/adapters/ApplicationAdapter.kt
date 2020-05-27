@@ -24,36 +24,7 @@ class ApplicationAdapter(private val mActivity: ApplicationSelectActivity, priva
 
     override fun onBindViewHolder(holder: AppViewHolder, position: Int) {
         val app = appList[position]
-        holder.appInfoAppName.text = app.appName
-        holder.appInfoIcon.setImageDrawable(app.icon)
-        holder.appInfoVersionName.text = app.versionName
-        holder.appInfoPackageName.text = app.packageName
-        holder.appInfoSwitch.isChecked = app.isEnabled
-        holder.appInfoButton.isEnabled = app.isEnabled
-
-        holder.appInfoButton.setOnClickListener {
-            if (app.isEnabled) {
-                val intent = Intent(mActivity, NotificationPackageOptionsActivity::class.java)
-                intent.putExtra("app", app.packageName)
-                mActivity.startActivity(intent)
-            }
-        }
-
-        holder.appInfoSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked != app.isEnabled) {
-                app.isEnabled = isChecked
-                holder.appInfoButton.isEnabled = isChecked
-                /*mActivity.runOnUiThread(Runnable {
-                    // UI code goes here
-                    notifyItemChanged(position)
-                })*/
-                mActivity.application_list.post(Runnable {
-                    notifyItemChanged(position)
-                })
-
-
-            }
-        }
+        holder.setApp(app)
     }
 
     override fun getItemCount(): Int {
@@ -61,11 +32,47 @@ class ApplicationAdapter(private val mActivity: ApplicationSelectActivity, priva
     }
 
     inner class AppViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private lateinit var app : AppInfo
+
         var appInfoButton: ImageView = view.findViewById(R.id.row_appinfo_button)
         var appInfoIcon: ImageView  = view.findViewById(R.id.row_appinfo_icon)
         var appInfoAppName: TextView = view.findViewById(R.id.row_app_info_appname)
         var appInfoPackageName: TextView  = view.findViewById(R.id.row_app_info_package_name)
         var appInfoVersionName: TextView = view.findViewById(R.id.row_appinfo_version)
         var appInfoSwitch: Switch  = view.findViewById(R.id.row_appinfo_switch)
+
+        init {
+            appInfoButton.setOnClickListener {
+                if (app.isEnabled) {
+                    val intent = Intent(mActivity, NotificationPackageOptionsActivity::class.java)
+                    intent.putExtra("app", app.packageName)
+                    mActivity.startActivity(intent)
+                }
+            }
+
+            appInfoSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked != app.isEnabled) {
+                    app.isEnabled = isChecked
+                    appInfoButton.isEnabled = isChecked
+                    mActivity.application_list.post {
+                        notifyItemChanged(this@ApplicationAdapter.appList.indexOf(app))
+                    }
+                }
+            }
+        }
+
+
+        fun setApp(app:AppInfo) {
+            this.app = app
+            appInfoAppName.text = app.appName;
+            appInfoIcon.setImageDrawable(app.icon)
+            appInfoVersionName.text = app.versionName
+            appInfoPackageName.text = app.packageName
+            appInfoSwitch.isChecked = app.isEnabled
+            appInfoButton.isEnabled = app.isEnabled
+
+        }
+
+
     }
 }
