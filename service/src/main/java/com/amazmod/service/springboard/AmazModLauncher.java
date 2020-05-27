@@ -512,6 +512,8 @@ public class AmazModLauncher extends AbstractPlugin {
                             }
                         });
                     }
+                }, throwable -> {
+                    Logger.error("AmazModLauncher: Flowable: subscribeOn: " + throwable.getMessage());
                 });
 
         listView.setLongClickable(true);
