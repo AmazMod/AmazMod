@@ -12,6 +12,8 @@ import com.edotassi.amazmod.R
 import com.edotassi.amazmod.support.AppInfo
 import com.edotassi.amazmod.ui.ApplicationSelectActivity
 import com.edotassi.amazmod.ui.NotificationPackageOptionsActivity
+import kotlinx.android.synthetic.main.activity_application_select.*
+
 
 class ApplicationAdapter(private val mActivity: ApplicationSelectActivity, private val appList: List<AppInfo>) : RecyclerView.Adapter<ApplicationAdapter.AppViewHolder>() {
 
@@ -40,8 +42,16 @@ class ApplicationAdapter(private val mActivity: ApplicationSelectActivity, priva
         holder.appInfoSwitch.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked != app.isEnabled) {
                 app.isEnabled = isChecked
-                notifyItemChanged(position)
                 holder.appInfoButton.isEnabled = isChecked
+                /*mActivity.runOnUiThread(Runnable {
+                    // UI code goes here
+                    notifyItemChanged(position)
+                })*/
+                mActivity.application_list.post(Runnable {
+                    notifyItemChanged(position)
+                })
+
+
             }
         }
     }
