@@ -8,6 +8,13 @@ include_in_header: true
 Here you will find the full changelog of the __public__ __official__ __releases__ of __AmazMod__.
 <br>
 # Latest
+## **Version 1.2.0 / 227**
+## **Service version - 1911**
+### What's New
+#### Last beta 1.1.9/220 deployed to stable release.
+
+<br>
+
 ## **Version 1.1.9 / 220**
 ### What's New
 #### Smartphone side - AmazMod application on your phone:
