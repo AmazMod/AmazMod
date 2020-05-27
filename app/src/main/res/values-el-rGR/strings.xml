@@ -377,7 +377,7 @@
     <string name="product_model">Μοντέλο προϊόντος</string>
     <string name="product_name">Όνομα προϊόντος</string>
     <string name="serial_number">Σειριακός αριθμός</string>
-    <string name="build_id">Firmware</string>
+    <string name="build_id">Υλικολογισμικό</string>
     <string name="build_model">Μοντέλο κατασκευής Huami</string>
     <string name="build_description">Περιγραφή κατασκευής</string>
     <string name="rename_folder">Μετονομασία Φακέλου</string>
