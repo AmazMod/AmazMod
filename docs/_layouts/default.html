@@ -57,7 +57,9 @@
                             <h1 style="text-align:center">Supported devices:</h1>
                         </div>
                         <div class="supportedevices" style="width:relative;">
-                            <img title="Amazfit Stratos 3, Amazfit Stratos, Amazfit Verge and Amazfit Pace"  class="devices" src="assets/allwatchessmall.png" a href="https://github.com/edotassi/AmazMod/releases/latest" style="width:100%;">
+                            {% if site.service_link %}
+                            <a class="devices" href="{{site.service_link}}"><img title="Amazfit Stratos 3, Amazfit Stratos, Amazfit Verge and Amazfit Pace" src="assets/allwatchessmallservice.png" style="width:100%;"></a>
+                            {% endif %}
                         </div>
                     </div>
                    
