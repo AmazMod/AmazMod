@@ -376,7 +376,7 @@
     <string name="product_model">Modelul produsului</string>
     <string name="product_name">Numele produsului</string>
     <string name="serial_number">Serie</string>
-    <string name="build_id">ID afișaj</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Model Huami</string>
     <string name="build_description">Descriere construcție</string>
     <string name="rename_folder">Redenumiţi dosarul</string>

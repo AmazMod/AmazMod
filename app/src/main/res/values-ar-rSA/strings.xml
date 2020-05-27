@@ -377,7 +377,7 @@
     <string name="product_model">نموذج المنتج</string>
     <string name="product_name">اسم المنتج</string>
     <string name="serial_number">المسلسل لا</string>
-    <string name="build_id">بناء عرض معرف</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">بناء نموذج Huami</string>
     <string name="build_description">بناء الوصف</string>
     <string name="rename_folder">إعادة تسمية المجلد</string>

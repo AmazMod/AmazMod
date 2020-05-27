@@ -377,7 +377,7 @@ suivre le thème système (bêta).</string>
     <string name="product_model">Modèle de produit</string>
     <string name="product_name">Nom du produit</string>
     <string name="serial_number">N° série</string>
-    <string name="build_id">Attribut de compilation</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Modèle de compilation Huami</string>
     <string name="build_description">Description de la compilation</string>
     <string name="rename_folder">Renommer le dossier</string>

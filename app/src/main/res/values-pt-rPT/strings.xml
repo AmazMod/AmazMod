@@ -377,7 +377,7 @@
     <string name="product_model">Modelo do produto</string>
     <string name="product_name">Nome do produto</string>
     <string name="serial_number">Número de série</string>
-    <string name="build_id">Id da compilação</string>
+    <string name="build_id">Firmware</string>
     <string name="build_model">Compilação modelo Huami</string>
     <string name="build_description">Descrição da compilação</string>
     <string name="rename_folder">Renomear pasta</string>
