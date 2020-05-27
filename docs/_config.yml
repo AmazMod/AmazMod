@@ -6,6 +6,7 @@ page_title                                : AmazMod – The missing link for you
 
 #appstore_link                             :                                           # Automatically populates if not set and if iOS app ID is set. Otherwise enter manually.
 playstore_link                            : https://play.google.com/store/apps/details?id=com.edotassi.amazmod                                          # Enter Google Play Store URL.
+service_link                               : https://github.com/edotassi/AmazMod/releases/latest   #Github latest stable release link
 #presskit_download_link                    : https://AmazMod.com                                          # Enter a link to downloadable file or (e.g. public Dropbox link to a .zip file). 
                                                                                       # Or upload your press kit file to assets and set path accordingly (e.g. "assets/your_press_kit.zip").
 
