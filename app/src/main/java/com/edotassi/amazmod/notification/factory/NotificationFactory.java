@@ -92,7 +92,7 @@ public class NotificationFactory {
         }
 
         if (isNormalNotification) {
-            boolean transferIcon = !isStratos3(); // Do not send icons on Stratos 3
+            boolean transferIcon = true; // todo add option or !isStratos3(); // Do not send icons on Stratos 3
             if (transferIcon) {
                 String notificationPackage = statusBarNotification.getPackageName();
                 try {
