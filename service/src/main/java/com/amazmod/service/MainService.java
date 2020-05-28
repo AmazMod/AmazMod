@@ -246,7 +246,8 @@ public class MainService extends Service implements Transporter.DataListener {
         settings = new WidgetSettings(Constants.TAG, context);
 
         // Restore system screen_off setting in case there was a service update
-        new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
+        //new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
+        DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
         Logger.debug("Restore APK_INSTALL screen timeout");
 
         /*
@@ -1225,8 +1226,8 @@ public class MainService extends Service implements Transporter.DataListener {
                             if (apk.exists()) {
                                 if (apkFile.contains("service-")) {
                                     showConfirmationWearActivity(getString(R.string.service_update), "0");
-                                    //DeviceUtil.systemPutAdb(context,"screen_off_timeout", "200000");
-                                    new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                                    //new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                                    DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 200000);
                                     Thread.sleep(1000);
                                     new ExecCommand("adb install -r -d " + apkFile);
 

@@ -117,7 +117,8 @@ public class DeviceUtil {
         params.setAppPackageName(packageName);
         PackageInstaller.Session session = null;
 
-        new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
+        //new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 200000");
+        DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 200000);
         Logger.debug("Set screen timeout to 3 min to install update");
         /*
         File su = new File("/system/xbin/su");

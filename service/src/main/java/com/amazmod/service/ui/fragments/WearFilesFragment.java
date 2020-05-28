@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.os.StatFs;
+import android.provider.Settings;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -515,8 +516,8 @@ public class WearFilesFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         showToast(getString(R.string.please_wait_installation));
                         if (file.toString().contains("service-")) {
-                            //DeviceUtil.systemPutAdb(mContext,"screen_off_timeout", "200000");
-                            new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                            //new ExecCommand("adb shell settings put system screen_off_timeout 200000");
+                            DeviceUtil.systemPutInt(mContext, Settings.System.SCREEN_OFF_TIMEOUT, 200000);
                             sleep(1000);
                             new ExecCommand("adb install -r " + file.getAbsolutePath());
                         } else {
