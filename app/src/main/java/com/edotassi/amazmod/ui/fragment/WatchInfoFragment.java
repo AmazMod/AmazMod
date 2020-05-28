@@ -268,51 +268,56 @@ public class WatchInfoFragment extends Card implements Updater {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void refresh(WatchStatus watchStatus) {
-        TransportService.model = watchStatus.getWatchStatusData().getRoProductModel();
-        if (TransportService.model.equals("N/A") && !watchStatus.getWatchStatusData().getRoSerialno().isEmpty()) {
-            String[] watchInfo = getWatchInfoBySerialNo(watchStatus.getWatchStatusData().getRoSerialno());
-            TransportService.model = (watchInfo[1]);
+        WatchStatusData watchStatusData = watchStatus.getWatchStatusData();
+
+        // Tweak returned data
+        if ( !watchStatusData.getRoSerialno().equals("N/A") && !watchStatusData.getRoSerialno().isEmpty() ){
+            // Serial number found
+            Logger.debug("Get model code name & name based on serial number" );
+            // Get model code name & name based on serial number (no need for those data + correct name for Pace with Hybrid ROM)
+            String[] watchInfo = getWatchInfoBySerialNo( watchStatusData.getRoSerialno() ); // = {Model No, Model Name}
+            watchStatusData.setRoBuildHuamiModel( watchInfo[0] );
+            watchStatusData.setRoProductModel( watchInfo[1] );
+        }else if ( !watchStatusData.getRoBuildHuamiModel().equals("N/A") && !watchStatusData.getRoBuildHuamiModel().isEmpty() ){
+            Logger.debug("Get serial & name based on name code");
+            // Get part of the serial number based on model code
+            watchStatusData.setRoSerialno( getSerialByModelNo(watchStatusData.getRoBuildHuamiModel()) );
+            // Get watch name based on code name
+            watchStatusData.setRoProductModel( getModelName(watchStatusData.getRoBuildHuamiModel()) );
         }
+
+        Logger.debug("Model code name & name: {}, {} ", watchStatusData.getRoBuildHuamiModel(), watchStatusData.getRoProductModel());
+
+        // Update watch name on the persistent notification
+        TransportService.model = watchStatusData.getRoProductModel();
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
                 .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
-                .putString(Constants.PREF_HUAMI_MODEL, watchStatus.getWatchStatusData().getRoBuildHuamiModel())
+                .putString(Constants.PREF_HUAMI_MODEL, watchStatusData.getRoBuildHuamiModel())
                 .apply();
+
+        // Update watch info card values
         try {
-            onWatchStatus(watchStatus);
+            onWatchStatus(watchStatusData);
         } catch (NullPointerException e) {
             Logger.error("WatchInfoFragment refresh exception: {}", e.toString());
         }
     }
 
-    public void onWatchStatus(WatchStatus watchStatus) {
-        WatchStatusData watchStatusData = watchStatus.getWatchStatusData();
+    public void onWatchStatus(WatchStatusData watchStatusData) {
+        // Populate watch info card
 
+        // Amazmod service version and root status
         String amazModServiceVersion = watchStatusData.getAmazModServiceVersion() + ((watchStatusData.getRooted()==1)?" (rooted)":"");
         amazModService.setText(amazModServiceVersion);
-
-        if ( !watchStatusData.getRoSerialno().equals("N/A") && !watchStatusData.getRoSerialno().isEmpty() ){
-            // Serial found
-            Logger.debug("WatchInfoFragment WatchData SN: " + watchStatusData.getRoSerialno());
-            serialNo.setText( watchStatusData.getRoSerialno() );
-            String[] watchInfo = getWatchInfoBySerialNo( watchStatusData.getRoSerialno() ); // {Model No, Model Name}
-            huamiModel.setText( watchInfo[0] );
-            productModel.setText( watchInfo[1] );
-        }else {
-            if (!watchStatusData.getRoBuildHuamiModel().equals("N/A") && !watchStatusData.getRoBuildHuamiModel().isEmpty()){
-                serialNo.setText( getSerialByModelNo(watchStatusData.getRoBuildHuamiModel()) );
-                huamiModel.setText( watchStatusData.getRoBuildHuamiModel() );
-                productModel.setText( getModelName(watchStatusData.getRoBuildHuamiModel()) ) ;
-            }else{
-                serialNo.setText( watchStatusData.getRoSerialno() );
-                huamiModel.setText( watchStatusData.getRoBuildHuamiModel() );
-                productModel.setText( watchStatusData.getRoProductName() );
-            }
-
-        }
+        // Serial number
+        serialNo.setText( watchStatusData.getRoSerialno() );
+        // Watch model code
+        huamiModel.setText( watchStatusData.getRoBuildHuamiModel() );
+        // Watch model Name
+        productModel.setText( watchStatusData.getRoProductModel() );
         // Firmware
         displayId.setText(watchStatusData.getRoBuildDisplayId());
-
-        //Removed unused and unnecessary watchData
+        // Removed unused and unnecessary watchData
         //productName.setText(watchStatusData.getRoProductName());
         //buildDescription.setText(watchStatusData.getRoBuildDescription());
         //productDevice.setText(watchStatusData.getRoProductDevice());
@@ -322,7 +327,7 @@ public class WatchInfoFragment extends Card implements Updater {
         //huamiNumber.setText(watchStatusData.getRoBuildHuamiNumber());
         //fingerprint.setText(watchStatusData.getRoBuildFingerprint());
 
-        //Log the values received from watch brightness
+        // Log the values received from watch brightness
         AmazModApplication.currentScreenBrightness = watchStatusData.getScreenBrightness();
         AmazModApplication.currentScreenBrightnessMode = watchStatusData.getScreenBrightnessMode();
         Logger.debug("WatchInfoFragment WatchData SCREEN_BRIGHTNESS_MODE: " + AmazModApplication.currentScreenBrightness);
