@@ -33,9 +33,12 @@ import android.widget.Toast;
 
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.AppInfoAdapter;
+import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.support.AppInfo;
 import com.amazmod.service.util.ExecCommand;
+import com.huami.watch.transport.DataBundle;
 
+import org.greenrobot.eventbus.EventBus;
 import org.tinylog.Logger;
 
 import java.lang.reflect.Method;
@@ -415,7 +418,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         System.err.println("old sdk");
         return false; */
 
-        //Check if was package is AmazMod service
+        //Check if package is AmazMod service
         if (packageName.equals("com.amazmod.service"))
             isAmazModUninstall = true;
 
@@ -452,8 +455,10 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             } else if (resultCode == RESULT_FIRST_USER) {
                 Logger.trace("WearAppsFragment onActivityResult RESULT_FIRST_USER");
                 if (isAmazModUninstall) {
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.revoke_device_admin_before_uninstall), Toast.LENGTH_LONG).show();
                     isAmazModUninstall = false;
+                    //Toast.makeText(mContext, mContext.getResources().getString(R.string.revoke_device_admin_before_uninstall), Toast.LENGTH_LONG).show();
+                    EventBus.getDefault().post(new RevokeAdminOwner(new DataBundle()));
+                    new ExecCommand(ExecCommand.ADB, "adb uninstall com.amazmod.service");
                 }
             }
         }
