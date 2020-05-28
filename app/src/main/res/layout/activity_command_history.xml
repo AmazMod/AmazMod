@@ -3,20 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/activity_command_history_list"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/command_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--<android.support.design.widget.FloatingActionButton
-        android:id="@+id/activity_command_history_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/outline_add_white_24" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

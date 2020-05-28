@@ -21,7 +21,6 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_application_select.*
-import org.tinylog.kotlin.Logger
 import java.util.*
 
 class ApplicationSelectActivity : BaseAppCompatActivity(), SearchView.OnQueryTextListener {
@@ -29,17 +28,13 @@ class ApplicationSelectActivity : BaseAppCompatActivity(), SearchView.OnQueryTex
     private var selectedAll = false
     private var showSystemApps = false
     private lateinit var appList: List<AppInfo>
-    private lateinit var adapter : ApplicationAdapter
+    private lateinit var adapter: ApplicationAdapter
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        try {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-            supportActionBar!!.setTitle(R.string.installed_apps)
-        } catch (exception: NullPointerException) {
-            Logger.error(exception, "AboutActivity onCreate exception: {}", exception.message)
-        }
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setTitle(R.string.installed_apps)
         setContentView(R.layout.activity_application_select)
         application_list.layoutManager = LinearLayoutManager(this)
         listApplications(showSystemApps, null)
