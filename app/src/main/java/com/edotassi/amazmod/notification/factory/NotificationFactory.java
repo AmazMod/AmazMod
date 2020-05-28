@@ -38,6 +38,7 @@ import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.NotificationData;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.edotassi.amazmod.util.Screen.isStratos3;
 
 public class NotificationFactory {
 
@@ -73,14 +74,14 @@ public class NotificationFactory {
             text = bigText.toString();
         }
 
-        //Use EXTRA_TEXT_LINES instead, if it exists
+        // Use EXTRA_TEXT_LINES instead, if it exists
         CharSequence[] lines = bundle.getCharSequenceArray(Notification.EXTRA_TEXT_LINES);
         if ((lines != null) && (lines.length > 0)) {
             text += "\n*Extra lines:\n" + lines[Math.min(lines.length - 1, 0)].toString();
             Logger.debug("NotificationFactory EXTRA_TEXT_LINES exists");
         }
 
-        //Maybe use android.bigText instead?
+        // Maybe use android.bigText instead?
         if (bundle.getCharSequence(Notification.EXTRA_BIG_TEXT) != null) {
             try {
                 text = bundle.getCharSequence(Notification.EXTRA_BIG_TEXT).toString();
@@ -91,42 +92,46 @@ public class NotificationFactory {
         }
 
         if (isNormalNotification) {
-            String notificationPackage = statusBarNotification.getPackageName();
-            try {
-                int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
-                PackageManager manager = context.getPackageManager();
-                Resources resources = manager.getResourcesForApplication(notificationPackage);
-                Drawable icon;
-                if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_COLORED_ICON, Constants.PREF_NOTIFICATIONS_COLORED_ICON_DEFAULT)) {
-                    Logger.debug("Use colored icon");
-                    icon = manager.getApplicationIcon(notificationPackage);
-                } else {
-                    Logger.debug("Use statusbar icon");
-                    icon = resources.getDrawable(notification.icon);
-                }
-                Drawable drawable = icon;
-                Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-                Canvas canvas = new Canvas(bitmap);
-                drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-                drawable.draw(canvas);
+            boolean transferIcon = !isStratos3(); // Do not send icons on Stratos 3
+            if (transferIcon) {
+                String notificationPackage = statusBarNotification.getPackageName();
+                try {
+                    int iconId = bundle.getInt(Notification.EXTRA_SMALL_ICON);
+                    PackageManager manager = context.getPackageManager();
+                    Resources resources = manager.getResourcesForApplication(notificationPackage);
+                    Drawable icon;
+                    if (Prefs.getBoolean(Constants.PREF_NOTIFICATIONS_COLORED_ICON, Constants.PREF_NOTIFICATIONS_COLORED_ICON_DEFAULT)) {
+                        Logger.debug("Use colored icon");
+                        icon = manager.getApplicationIcon(notificationPackage);
+                    } else {
+                        Logger.debug("Use statusbar icon");
+                        icon = resources.getDrawable(notification.icon);
+                    }
+                    Drawable drawable = icon;
+                    Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bitmap);
+                    drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+                    drawable.draw(canvas);
 
-                if (bitmap.getWidth() > 48) {
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
-                }
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
-                int[] intArray = new int[width * height];
-                bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
+                    if (bitmap.getWidth() > 48) {
+                        bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
+                    }
+                    int width = bitmap.getWidth();
+                    int height = bitmap.getHeight();
+                    int[] intArray = new int[width * height];
+                    bitmap.getPixels(intArray, 0, width, 0, 0, width, height);
 
-                notificationData.setIcon(intArray);
-                notificationData.setIconWidth(width);
-                notificationData.setIconHeight(height);
-            } catch (Exception e) {
-                notificationData.setIcon(new int[]{});
-                Logger.error("Failed to get bitmap from {} notification", notificationPackage);
+                    notificationData.setIcon(intArray);
+                    notificationData.setIconWidth(width);
+                    notificationData.setIconHeight(height);
+                } catch (Exception e) {
+                    notificationData.setIcon(new int[]{});
+                    Logger.error("Failed to get bitmap from {} notification", notificationPackage);
+                }
+                extractImagesFromNotification(context, statusBarNotification, notificationData);
+            }else{
+                Logger.debug("Notification icon will not be transferred");
             }
-            extractImagesFromNotification(context, statusBarNotification, notificationData);
-
         } else {
             addMapBitmap(context, statusBarNotification, notificationData);
         }
