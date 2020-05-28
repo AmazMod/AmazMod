@@ -29,6 +29,7 @@ class ApplicationSelectActivity : BaseAppCompatActivity(), SearchView.OnQueryTex
     private var selectedAll = false
     private var showSystemApps = false
     private lateinit var appList: List<AppInfo>
+    private lateinit var adapter : ApplicationAdapter
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,8 +73,13 @@ class ApplicationSelectActivity : BaseAppCompatActivity(), SearchView.OnQueryTex
                 }
     }
 
+    fun sortRecyclerView() {
+        sortAppInfo(appList)
+        this.adapter.notifyDataSetChanged()
+    }
+
     private fun loadApplicationsToRecyclerView(list: List<AppInfo>) {
-        val adapter = ApplicationAdapter(this, list)
+        this.adapter = ApplicationAdapter(this, list)
         application_list.adapter = adapter
         application_list.visibility = View.VISIBLE
         progress_bar.visibility = View.GONE
