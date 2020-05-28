@@ -64,10 +64,6 @@
                 android:action="android.intent.action.VIEW"
                 android:targetClass="com.edotassi.amazmod.ui.ApplicationSelectActivity"
                 android:targetPackage="com.edotassi.amazmod" />
-            <!--
-                android:targetClass="com.edotassi.amazmod.ui.ApplicationSelectActivity"
-                android:targetClass="com.edotassi.amazmod.ui.NotificationPackagesSelectorActivity"
-            -->
         </DropDownPreference>
 
         <SwitchPreferenceCompat
