@@ -140,9 +140,9 @@ public class Screen {
     }
 
     public static boolean isStratos3(){
-        String model = Prefs.getString(Constants.PREF_HUAMI_MODEL, "-");
-        boolean isStratos3 = Arrays.asList(Constants.BUILD_STRATOS_3_MODELS).contains(model);
-        Logger.debug("DeviceUtil isStratos 3: checking if model " + model + " is an Amazfit Stratos 3: " + isStratos3);
+        String model = Prefs.getString(Constants.PREF_WATCH_MODEL, "-");
+        boolean isStratos3 = model.contains("Amazfit Stratos 3");
+        Logger.debug("DeviceUtil isStratos 3: checking if model is an Amazfit Stratos 3: " + isStratos3);
         return isStratos3;
     }
 

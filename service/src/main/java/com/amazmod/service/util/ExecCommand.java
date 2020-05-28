@@ -193,6 +193,13 @@ public class ExecCommand {
                     count++;
                 }
                 output = readBuffer.toString();
+                if (output.toLowerCase().contains("fail")) {
+                    // TODO: 28/05/2020 get context to show error toast message and avoid to use adb command
+                    //Toast.makeText(context, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
+                    //DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
+                    new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
+                    Logger.debug("apk install failed to update AmazMod, reset screen timeout to stock value");
+                }
                 outputSem.release();
             } catch (IOException e) {
                 Logger.error(e, "ExecCommand OutputError.run exception: {}", e.getMessage());

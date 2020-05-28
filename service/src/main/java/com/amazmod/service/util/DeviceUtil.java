@@ -239,7 +239,6 @@ public class DeviceUtil {
         if(!apk.exists()){
             Logger.error("File not found!");
         } else {
-
             PackageReceiver.setIsAmazModInstall(true);
             final String installScript = copyScriptFile(context, "install_apk.sh").getAbsolutePath();
             final String busyboxPath = installBusybox(context);
