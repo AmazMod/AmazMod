@@ -134,7 +134,7 @@ class ApplicationSelectActivity : BaseAppCompatActivity(), SearchView.OnQueryTex
         return if (searchQueryText == null || searchQueryText.isEmpty()) {
             Single.just(appInfoList)
         } else Observable.fromIterable(appInfoList)
-                .filter { appInfo: AppInfo -> appInfo.appName.toLowerCase().contains(searchQueryText.toLowerCase()) }
+                .filter { appInfo: AppInfo -> appInfo.appName.toLowerCase(Locale.getDefault()).contains(searchQueryText.toLowerCase(Locale.getDefault())) }
                 .toList()
     }
 

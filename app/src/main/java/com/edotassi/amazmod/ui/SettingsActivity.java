@@ -19,7 +19,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.bytehamster.lib.preferencesearch.SearchConfiguration;
@@ -421,7 +420,7 @@ public class SettingsActivity extends BaseAppCompatActivity implements SearchPre
 
         Watch.get().syncSettings(settingsData).continueWith(new Continuation<Void, Object>() {
             @Override
-            public Object then(@NonNull Task<Void> task) throws Exception {
+            public Object then(@NonNull Task<Void> task) {
                 final String str;
                 if (task.isSuccessful()) {
                     if (!currentLocaleLanguage.equals(LocaleUtils.getLanguage())) {

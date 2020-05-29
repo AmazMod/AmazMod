@@ -33,7 +33,6 @@ import com.amazmod.service.events.incoming.RevokeAdminOwner;
 import com.amazmod.service.models.MenuItems;
 import com.amazmod.service.springboard.LauncherWearGridActivity;
 import com.amazmod.service.springboard.WidgetSettings;
-import com.amazmod.service.springboard.WidgetsReorderActivity;
 import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.ExecCommand;
 import com.huami.watch.transport.DataBundle;

@@ -7,7 +7,6 @@ import android.service.notification.StatusBarNotification;
 
 import org.tinylog.Logger;
 
-import java.util.Iterator;
 import java.util.Set;
 
 public class NotificationListener extends NotificationListenerService {

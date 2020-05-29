@@ -291,7 +291,7 @@ public class StatsActivity extends BaseAppCompatActivity {
         Flowable
                 .fromCallable(new Callable<StatsResult>() {
                     @Override
-                    public StatsResult call() throws Exception {
+                    public StatsResult call() {
 
                         long total = SQLite
                                 .selectCountOf()
@@ -337,7 +337,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                 .subscribeOn(Schedulers.computation())
                 .subscribe(new Consumer<StatsResult>() {
                     @Override
-                    public void accept(final StatsResult result) throws Exception {
+                    public void accept(final StatsResult result) {
                         StatsActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -400,7 +400,7 @@ public class StatsActivity extends BaseAppCompatActivity {
 
         Watch.get().executeShellCommand(command, true, false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
-            public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+            public Object then(@NonNull Task<ResultShellCommand> task) {
 
                 snackProgressBarManager.dismissAll();
 
@@ -439,7 +439,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                 .listDirectory(requestDirectoryData)
                 .continueWith(new Continuation<Directory, Object>() {
                     @Override
-                    public Object then(@NonNull Task<Directory> task) throws Exception {
+                    public Object then(@NonNull Task<Directory> task) {
                         if (task.isSuccessful()) {
 
                             Directory directory = task.getResult();
@@ -527,7 +527,7 @@ public class StatsActivity extends BaseAppCompatActivity {
                 }, cancellationTokenSource.getToken())
                 .continueWith(new Continuation<Void, Object>() {
                     @Override
-                    public Object then(@NonNull Task<Void> task) throws Exception {
+                    public Object then(@NonNull Task<Void> task) {
                         snackProgressBarManager.dismissAll();
                         if (task.isSuccessful()) {
                             SnackProgressBar snackbar = new SnackProgressBar(

@@ -6,8 +6,6 @@ import android.os.Parcelable;
 
 import com.huami.watch.transport.DataBundle;
 
-import java.util.ArrayList;
-
 import amazmod.com.transport.Transportable;
 
 public class DirectoryData extends Transportable implements Parcelable {

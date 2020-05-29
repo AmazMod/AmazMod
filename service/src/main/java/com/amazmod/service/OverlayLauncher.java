@@ -2,7 +2,6 @@ package com.amazmod.service;
 
 import android.annotation.SuppressLint;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -16,7 +15,6 @@ import android.view.View.OnTouchListener;
 import android.view.WindowManager;
 
 import com.amazmod.service.springboard.LauncherWearGridActivity;
-import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.SystemProperties;
 
 import org.tinylog.Logger;

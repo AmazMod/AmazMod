@@ -980,7 +980,7 @@ public class MainService extends Service implements Transporter.DataListener {
             try {
                 cur = getContentResolver().query(Uri.parse("content://com.huami.watch.health.heartdata"), null, null, null, "utc_time ASC");
                 // Use the cursor to step through the returned records
-                while (cur.moveToNext()) {
+                while (cur != null && cur.moveToNext()) {
                     // Get the field values
                     // example: utc_time=1528485660, time_zone=0, heart_rate=96
                     long utc_time;
@@ -990,7 +990,7 @@ public class MainService extends Service implements Transporter.DataListener {
 
                     heartRates += utc_time + "," + heart_rate + ",";
                 }
-                cur.close();
+                if(cur != null) cur.close();
             } catch (SecurityException e) {
                 //Getting data error
             }

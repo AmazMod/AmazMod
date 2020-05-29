@@ -3,7 +3,6 @@ package com.amazmod.service.music;
         import android.content.Context;
         import android.os.PowerManager;
 
-        import com.amazmod.service.Constants;
         import com.amazmod.service.events.HardwareButtonEvent;
 
         import org.tinylog.Logger;
@@ -13,16 +12,12 @@ package com.amazmod.service.music;
         import java.io.FileNotFoundException;
         import java.nio.ByteBuffer;
         import java.nio.ByteOrder;
-        import java.nio.file.Path;
-        import java.nio.file.Paths;
         import java.util.concurrent.Callable;
         import java.util.concurrent.ExecutorService;
         import java.util.concurrent.Executors;
         import java.util.concurrent.FutureTask;
 
         import org.greenrobot.eventbus.EventBus;
-        import org.greenrobot.eventbus.Subscribe;
-        import org.greenrobot.eventbus.ThreadMode;
 
         import static android.content.Context.POWER_SERVICE;
 

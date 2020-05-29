@@ -131,7 +131,7 @@ public class HeartRateChartFragment extends Card {
         textDate += DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
         if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH) ) {
             // add date
-            textDate += " " + DateFormat.getDateInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);;
+            textDate += " " + DateFormat.getDateInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
         }
         heartrate_lastRead.setText(textDate);
     }

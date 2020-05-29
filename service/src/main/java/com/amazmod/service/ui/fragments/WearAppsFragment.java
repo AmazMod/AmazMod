@@ -377,7 +377,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
             getPackageSizeInfo.invoke(pm, pkgName,
                     new IPackageStatsObserver.Stub() {
                         @Override
-                        public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) throws RemoteException {
+                        public void onGetStatsCompleted(PackageStats pStats, boolean succeeded) {
                             final String size = Formatter.formatFileSize(mContext, pStats.codeSize + pStats.cacheSize + pStats.dataSize);
                             appInfo.setSize(size);
                             Logger.info("WearAppsFragment pkgName: " + pkgName + " codeSize: "

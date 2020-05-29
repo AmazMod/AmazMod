@@ -137,7 +137,7 @@ public class NotificationsLogActivity extends BaseAppCompatActivity {
                 .observeOn(Schedulers.single())
                 .subscribe(new Consumer<List<NotificationEntity>>() {
                     @Override
-                    public void accept(final List<NotificationEntity> notificationEntities) throws Exception {
+                    public void accept(final List<NotificationEntity> notificationEntities) {
                         NotificationsLogActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {

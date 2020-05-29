@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -31,7 +30,6 @@ import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class WidgetsUtil {

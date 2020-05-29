@@ -47,8 +47,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.io.File;
@@ -475,7 +473,7 @@ public class AmazModLauncher extends AbstractPlugin {
 
         Flowable.fromCallable(new Callable<List<AppInfo>>() {
             @Override
-            public List<AppInfo> call() throws Exception {
+            public List<AppInfo> call() {
                 Logger.info("AmazModLauncher loadApps call");
                 List<PackageInfo> packageInfoList = mContext.getPackageManager().getInstalledPackages(0);
 
@@ -502,7 +500,7 @@ public class AmazModLauncher extends AbstractPlugin {
                 .observeOn(Schedulers.single())
                 .subscribe(new Consumer<List<AppInfo>>() {
                     @Override
-                    public void accept(final List<AppInfo> appInfoList) throws Exception {
+                    public void accept(final List<AppInfo> appInfoList) {
                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {

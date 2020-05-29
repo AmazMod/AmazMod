@@ -18,7 +18,6 @@ import com.google.gson.reflect.TypeToken;
 
 import org.tinylog.Logger;
 
-import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;

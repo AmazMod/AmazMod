@@ -55,7 +55,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
                 mp.start();
             }
-            final Vibrator mVibrator = (Vibrator) context.getSystemService("vibrator");
+            final Vibrator mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
             if (mVibrator != null) {
                 mVibrator.vibrate(200);
                 new Handler().postDelayed(new Runnable() {

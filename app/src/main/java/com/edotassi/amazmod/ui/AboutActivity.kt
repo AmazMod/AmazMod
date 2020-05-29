@@ -223,7 +223,7 @@ class AboutActivity : BaseAppCompatActivity(), DataTransportResultCallback {
     override fun onFailure(error: String, key: String) {
         Snacky.builder()
                 .setActivity(this@AboutActivity)
-                .setText(error.toUpperCase())
+                .setText(error.toUpperCase(Locale.getDefault()))
                 .setDuration(Snacky.LENGTH_SHORT)
                 .build().show()
         Logger.error(error)

@@ -15,7 +15,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.util.ExecCommand;
 

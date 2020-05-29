@@ -135,7 +135,7 @@ public class WidgetsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         // Get widgets
         Watch.get().sendWidgetsData(widgetsData).continueWith(new Continuation<ResultWidgets, Object>() {
             @Override
-            public Object then(@NonNull Task<ResultWidgets> task) throws Exception {
+            public Object then(@NonNull Task<ResultWidgets> task) {
                 if (task.isSuccessful()) {
                     ResultWidgets returedData = task.getResult();
                     WidgetsData widgetsData = returedData.getWidgetsData();

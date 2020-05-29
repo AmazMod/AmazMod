@@ -24,7 +24,6 @@ import com.amazmod.service.util.WidgetsUtil;
 
 import org.tinylog.Logger;
 
-import java.io.IOException;
 import java.util.List;
 
 public class DummyActivity extends Activity implements DelayedConfirmationView.DelayedConfirmationListener {

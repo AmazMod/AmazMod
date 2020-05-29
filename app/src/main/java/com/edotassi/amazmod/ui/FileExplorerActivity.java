@@ -614,7 +614,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 }
             }, cancellationTokenSource.getToken()).continueWith(new Continuation<Void, Object>() {
                 @Override
-                public Object then(@NonNull Task<Void> task) throws Exception {
+                public Object then(@NonNull Task<Void> task) {
                     snackProgressBarManager.dismissAll();
                     if (task.isSuccessful()) {
                         //if there are no more files to upload, reload (or show information)
@@ -1235,7 +1235,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             Watch.get().deleteFile(requestDeleteFileData)
                     .continueWithTask(new Continuation<ResultDeleteFile, Task<Void>>() {
                         @Override
-                        public Task<Void> then(@NonNull Task<ResultDeleteFile> task) throws Exception {
+                        public Task<Void> then(@NonNull Task<ResultDeleteFile> task) {
                             snackProgressBarManager.dismissAll();
 
                             boolean success = task.isSuccessful();
@@ -1333,7 +1333,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     }, cancellationTokenSource.getToken())
                     .continueWith(new Continuation<Void, Object>() {
                         @Override
-                        public Object then(@NonNull Task<Void> task) throws Exception {
+                        public Object then(@NonNull Task<Void> task) {
                             snackProgressBarManager.dismissAll();
                             if (task.isSuccessful()) {
                                 SnackProgressBar snackbar = new SnackProgressBar(
@@ -1407,7 +1407,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     .executeShellCommand(ShellCommandHelper.getApkInstall(fileData.getPath()))
                     .continueWith(new Continuation<ResultShellCommand, Object>() {
                         @Override
-                        public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+                        public Object then(@NonNull Task<ResultShellCommand> task) {
                             snackProgressBarManager.dismissAll();
                             if (task.getResult() != null)
                                 if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {
@@ -1508,7 +1508,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                 .listDirectory(requestDirectoryData)
                 .continueWith(new Continuation<Directory, Object>() {
                     @Override
-                    public Object then(@NonNull Task<Directory> task) throws Exception {
+                    public Object then(@NonNull Task<Directory> task) {
                         if (task.isSuccessful()) {
                             currentPath = path;
 
@@ -1633,7 +1633,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
         Watch.get().executeShellCommand(command, true, false).continueWith(new Continuation<ResultShellCommand, Object>() {
             @Override
-            public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+            public Object then(@NonNull Task<ResultShellCommand> task) {
 
                 snackProgressBarManager.dismissAll();
 

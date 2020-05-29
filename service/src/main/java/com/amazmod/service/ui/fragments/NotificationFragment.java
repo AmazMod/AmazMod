@@ -34,10 +34,8 @@ import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.events.ReplyNotificationEvent;
 import com.amazmod.service.events.SilenceApplicationEvent;
-import com.amazmod.service.settings.SettingsManager;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
-import com.amazmod.service.util.DeviceUtil;
 import com.amazmod.service.util.FragmentUtil;
 import com.amazmod.service.util.SystemProperties;
 

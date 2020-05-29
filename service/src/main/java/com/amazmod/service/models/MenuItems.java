@@ -1,8 +1,6 @@
 package com.amazmod.service.models;
 
 
-import com.amazmod.service.springboard.LauncherWearGridActivity;
-
 public class MenuItems {
 
 	public static final int ACTION_UNDEFINED = 0;
@@ -136,10 +134,6 @@ public class MenuItems {
 	}
 
 	public boolean executeCustomFunction(){
-		if (this.getActionType() == ACTION_CUSTOM){
-			return true;
-		}else{
-			return false;
-		}
+		return this.getActionType() == ACTION_CUSTOM;
 	}
 }

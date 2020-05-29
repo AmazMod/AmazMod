@@ -53,7 +53,6 @@ import org.tinylog.Logger;
 
 import java.io.File;
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.CancellationException;
 

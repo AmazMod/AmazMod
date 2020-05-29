@@ -1,6 +1,5 @@
 package com.edotassi.amazmod.util;
 
-import com.edotassi.amazmod.receiver.WatchfaceReceiver;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import org.json.JSONArray;

@@ -408,7 +408,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
 
         Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
             @Override
-            public Object then(@NonNull Task<WatchStatus> task) throws Exception {
+            public Object then(@NonNull Task<WatchStatus> task) {
                 if (task.isSuccessful()) {
                     Logger.debug("FileOpenerActivity checkConnection isWatchConnected = true");
                     connected();
@@ -543,7 +543,7 @@ public class FileOpenerActivity extends BaseAppCompatActivity {
                 .executeShellCommand(ShellCommandHelper.getApkInstall(destPath), false, true)
                 .continueWith(new Continuation<ResultShellCommand, Object>() {
                     @Override
-                    public Object then(@NonNull Task<ResultShellCommand> task) throws Exception {
+                    public Object then(@NonNull Task<ResultShellCommand> task) {
                         snackProgressBarManager.dismissAll();
                         if (task.getResult() != null)
                             if (task.isSuccessful() && (task.getResult().getResultShellCommandData().getResult() == 0)) {

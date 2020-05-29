@@ -2,8 +2,6 @@ package com.amazmod.service.springboard;
 
 import android.content.Context;
 
-import com.amazmod.service.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.tinylog.Logger;

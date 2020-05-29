@@ -1,17 +1,13 @@
 package com.amazmod.service.support;
 
 import android.content.Context;
-import android.provider.Settings;
 
 import androidx.collection.ArrayMap;
 
-import com.amazmod.service.Constants;
 import com.amazmod.service.util.DeviceUtil;
 import com.huami.watch.notification.data.NotificationKeyData;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tinylog.Logger;
 
 import java.util.Set;
@@ -29,11 +25,7 @@ public class NotificationStore {
     }
 
     public static NotificationData getCustomNotification(String key) {
-        NotificationData notificationData = customNotifications.get(key);
-        if (notificationData == null)
-            return null;
-        else
-            return notificationData;
+        return customNotifications.get(key);
     }
 
     public static int getCustomNotificationCount() {
