@@ -1,5 +1,13 @@
 <changelog>
     <release
+        date="2020-05-30"
+        versionCode="228"
+        versionName="v1.2.1">
+        <new>Better Stratos 3 compatibility</new>
+        <bugfix>Fixed screen on bug in service v1911</bugfix>
+    </release>
+
+    <release
         date="2020-05-10"
         versionCode="226"
         versionName="v1.2">
