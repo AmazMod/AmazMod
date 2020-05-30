@@ -22,9 +22,9 @@ class DonateProductsAdapter(var donationActivity: DonationActivity, var skuDetai
         holder.textProductName.text = skuDetailsList[position].title
         holder.textProductDescription.text = skuDetailsList[position].description
         holder.textProductPrice.text = skuDetailsList[position].price
-        holder.setiDonateProductClickListener(IDonateProductClickListener { view, position ->
+        holder.setiDonateProductClickListener(IDonateProductClickListener { _, p ->
             val billingFlowParams = BillingFlowParams.newBuilder()
-                    .setSkuDetails(skuDetailsList[position])
+                    .setSkuDetails(skuDetailsList[p])
                     .build()
             billingClient.launchBillingFlow(donationActivity, billingFlowParams)
         })

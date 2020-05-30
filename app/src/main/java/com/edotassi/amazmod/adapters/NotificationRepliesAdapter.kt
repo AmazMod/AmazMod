@@ -41,7 +41,7 @@ class NotificationRepliesAdapter(private val mActivity: NotificationRepliesDragA
             val mReply = mList[i]
             viewHolder.setReply(mReply)
             viewHolder.value.text = mReply.value
-            viewHolder.handle.setOnTouchListener { view, motionEvent ->
+            viewHolder.handle.setOnTouchListener { _, _ ->
                 androidItemTouchHelper?.startDrag(viewHolder)
                 true
             }
@@ -91,8 +91,7 @@ class NotificationRepliesAdapter(private val mActivity: NotificationRepliesDragA
     fun save() {
         Logger.debug("Saving order to preferences")
         val gson = Gson()
-        var repliesJson: String? = "[]"
-        repliesJson = gson.toJson(mList)
+        var repliesJson = gson.toJson(mList)
         Prefs.putString(Constants.PREF_NOTIFICATIONS_REPLIES, repliesJson)
     }
 
@@ -130,7 +129,7 @@ class NotificationRepliesAdapter(private val mActivity: NotificationRepliesDragA
                 .title(R.string.edit_reply)
                 .content(R.string.enter_the_text_you_want_as_an_answer)
                 .inputType(InputType.TYPE_CLASS_TEXT)
-                .input("", item!!.value) { dialog: MaterialDialog?, input: CharSequence ->
+                .input("", item!!.value) { _: MaterialDialog?, input: CharSequence ->
                     item.value = input.toString()
                     notifyItemChanged(posicao)
                 }.show()
