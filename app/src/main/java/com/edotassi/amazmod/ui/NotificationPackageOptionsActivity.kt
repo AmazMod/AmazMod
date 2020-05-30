@@ -61,7 +61,7 @@ class NotificationPackageOptionsActivity : BaseAppCompatActivity() {
                 } else
                     filter_description.text = resources.getString(R.string.notification_options_description)
                 whitelist_switch.isChecked = app!!.isWhitelist
-                whitelist_switch.setOnCheckedChangeListener { buttonView, isChecked ->
+                whitelist_switch.setOnCheckedChangeListener { _, isChecked ->
                     app!!.isWhitelist = isChecked
                     Logger.debug("set filter as whitelist: $isChecked")
                     if (isChecked) {
@@ -88,7 +88,7 @@ class NotificationPackageOptionsActivity : BaseAppCompatActivity() {
                 finish()
             }
         }
-        cancel_button.setOnClickListener { v: View? ->
+        cancel_button.setOnClickListener {
             app!!.silenceUntil = 0
             silenced_until.setText("")
         }
@@ -110,16 +110,16 @@ class NotificationPackageOptionsActivity : BaseAppCompatActivity() {
         updatePackage(app)
     }
 
-    private fun updatePackage(app: NotificationPreferencesEntity?) {
-        var app = app
+    private fun updatePackage(application: NotificationPreferencesEntity?) {
+        var app = application
         val insert = app == null
         if (insert) {
             app = NotificationPreferencesEntity()
         }
         app!!.packageName = packageInfo.packageName
-        app!!.filter = edittext_filter.text.toString()
-        app!!.isWhitelist = whitelist_switch.isChecked
-        app!!.filterLevel = filter_level.selectedItemPosition
+        app.filter = edittext_filter.text.toString()
+        app.isWhitelist = whitelist_switch.isChecked
+        app.filterLevel = filter_level.selectedItemPosition
         if (insert) {
             Logger.debug("STORING " + packageInfo.packageName + " in AmazmodDB.NotificationPreferences")
             FlowManager

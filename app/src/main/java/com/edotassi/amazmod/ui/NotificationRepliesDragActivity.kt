@@ -60,7 +60,7 @@ class NotificationRepliesDragActivity : BaseAppCompatActivity() {
                     .title(R.string.add_new_reply)
                     .content(R.string.enter_the_text_you_want_as_an_answer)
                     .inputType(InputType.TYPE_CLASS_TEXT)
-                    .input("", "") { dialog, input -> mAdapter.addItem(input.toString()) }.show()
+                    .input("", "") { _, input -> mAdapter.addItem(input.toString()) }.show()
         }
     }
 

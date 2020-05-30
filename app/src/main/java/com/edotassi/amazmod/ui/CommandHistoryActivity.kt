@@ -52,7 +52,7 @@ class CommandHistoryActivity : BaseAppCompatActivity(), CommandHistoryBridge {
                     .content(R.string.cannot_be_undone)
                     .positiveText(R.string.ok)
                     .negativeText(R.string.cancel)
-                    .onPositive { dialog, which ->
+                    .onPositive { _, _ ->
                         Delete.table(CommandHistoryEntity::class.java)
                         loadCommandHistory()
                     }.show()
