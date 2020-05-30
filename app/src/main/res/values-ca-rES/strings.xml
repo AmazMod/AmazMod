@@ -352,7 +352,7 @@
     <string name="pref_log_to_file_summary">Guarda els registres d\'AmazMod a amazmod.log</string>
     <string name="pref_log_to_file_level">Nivell del registre</string>
     <string name="pref_log_to_file_level_summary">Seleccionar el nivell de detall que es guardarà al fitxer de registre.</string>
-    <string name="location_tracker">Location Tracker</string>
+    <string name="location_tracker">Seguiment de l\'ubicació</string>
     <string name="notification_low_battery">Amazfit bateria baixa</string>
     <string name="notification_low_battery_description">La bateria del rellotge ha baixat per sota de %s</string>
     <string name="notification_watch_charged">Bateria completament carregada</string>
@@ -360,11 +360,11 @@
     <string name="statsandlogs">Estadístiques / Registres</string>
     <string name="clear_log">Esborra registre</string>
     <string name="send_log">Enviar registre</string>
-    <string name="battery_optimization_warning">AmazMod is under battery optimization. We recommend removing it from there so no notifications are lost.</string>
-    <string name="remove">REMOVE</string>
-    <string name="grant">GRANT</string>
-    <string name="no_storage_permission">AmazMod has no Storage Permission, please grant it.</string>
-    <string name="generate_bundle">Generate Log Bundle</string>
+    <string name="battery_optimization_warning">AmazMod està sota l\'optimització de bateria. Us recomanem que l\'elimineu des d\'allà, així que no es perdin les notificacions.</string>
+    <string name="remove">ELIMINAR</string>
+    <string name="grant">ASSEGURAR</string>
+    <string name="no_storage_permission">AmazMod no té permís d\'emmagatzematge. Si us plau, dona-li permís.</string>
+    <string name="generate_bundle">Generar paquet de Registre</string>
     <string name="set_watchface">Estableix Watchface</string>
     <string name="pref_amazmod_darktheme_summary">L\'app es reiniciarà per utilizar manualment l\'ús del tema fosc en lloc d\'utilitzar el tema del sistema (beta).</string>
     <string name="pref_amazmod_dark_theme">Forçar el tema fosc</string>
@@ -392,8 +392,8 @@
     <string name="pref_battery_full_alert_summary">Rep una notificació quan el rellotge està totalment carregat.</string>
     <string name="pref_heartrate_chart">Gràfic de la freqüència cardíaca</string>
     <string name="pref_heartrate_nodata">Sense dades disponibles.</string>
-    <string name="pref_heartrate_chart_summary">Show heart rate chart in AmazMod main screen.</string>
-    <string name="pref_log_lines_shown">Log lines shown</string>
+    <string name="pref_heartrate_chart_summary">Mostra gràfic de freqüencia cardíaca a la pantalla principal d\'AmazMod.</string>
+    <string name="pref_log_lines_shown">Mostra les línies de registre</string>
     <string name="pref_log_lines_shown_summary">Number of text lines shown in the Logs view.</string>
     <string name="pref_enable_internet_companion">Enable Amazfit Internet Companion</string>
     <string name="pref_enable_internet_companion_summary">Enables the AmazfitInternetCompanion transporter (it is only useful if you have an app on watch that uses this).</string>
