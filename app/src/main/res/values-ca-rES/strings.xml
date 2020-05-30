@@ -14,7 +14,7 @@
     <string name="brightness">Brillantor</string>
     <string name="tweaking">Millores</string>
     <string name="widgets">Widgets</string>
-    <string name="watchface">GreatFit / Calendar / Weather</string>
+    <string name="watchface">GreatFit / Calendari / Meteo</string>
     <string name="stats">Estadístiques</string>
     <string name="changelog">Registre de canvis</string>
     <string name="rate_app">Valora l\'aplicació</string>
@@ -39,7 +39,7 @@
     <string name="cant_uplaod_directory">No es pot carregar el directori</string>
     <string name="sending">Enviant</string>
     <string name="wait">espereu</string>
-    <string name="file_choose_title">Choose one or more file</string>
+    <string name="file_choose_title">Selecciona un o més fitxers</string>
     <string name="cant_upload_file">No es pot carregar el fitxer</string>
     <string name="cant_download_file">No pot descarregar el fitxer</string>
     <string name="file_upload_canceled">Càrrega de fitxers cancel·lada</string>
@@ -88,7 +88,7 @@
     <string name="activity_watchface_send_weather_data">Manar informació del temps</string>
     <string name="activity_watchface_weather_options">Opcions del temps</string>
     <string name="activity_watchface_send_weather_units">Unitats del temps</string>
-    <string name="activity_watchface_weather_real_feel">Show \"real feel\" instead of actual temperature</string>
+    <string name="activity_watchface_weather_real_feel">Mostra \"la sensació real\" en comptes de la temperatura actual</string>
     <string name="activity_watchface_last_time_sent">Última vegada enviat</string>
     <string name="activity_watchface_data_send">Data sent</string>
     <string name="activity_watchface_send_data_now">Enviar dades ara</string>
