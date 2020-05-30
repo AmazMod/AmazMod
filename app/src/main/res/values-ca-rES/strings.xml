@@ -384,9 +384,9 @@
     <string name="type_file_name">Introdueix el nom de la carpeta</string>
     <string name="new_folder">Nova carpeta</string>
     <string name="pref_amazmod_overlay_launcher">Notificacions del Overlay Launcher</string>
-    <string name="pref_amazmod_overlay_launcher_summary">Open Custom UI Notifications list using an overlay button on watch (its location is briefly shown when screen goes on and you can swipe it to left or right).</string>
-    <string name="pref_amazmod_hourly_chime">Hourly Chime</string>
-    <string name="pref_amazmod_hourly_chime_summary">Enable a short vibration, with Casio sound on Verge, every hour. It respect watch DND mode.</string>
+    <string name="pref_amazmod_overlay_launcher_summary">Obre la llista de notificacions personalitzades del UI utilitzant un botó virtual al rellotge (la seva localització es mostra breument quan la pantalla apareix i es pot arrosegar a la esquerra o a la dreta).</string>
+    <string name="pref_amazmod_hourly_chime">Campanella horària</string>
+    <string name="pref_amazmod_hourly_chime_summary">Activa una vibració curta, amb el so de Casio al Verge, cada hora. Respecta la modalitat DND (no molestar).</string>
     <string name="file_not_found">File not found!</string>
     <string name="pref_battery_full_alert">Full watch battery alert</string>
     <string name="pref_battery_full_alert_summary">Get a notification when watch is fully charged.</string>
