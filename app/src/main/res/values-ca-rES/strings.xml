@@ -90,7 +90,7 @@
     <string name="activity_watchface_send_weather_units">Unitats del temps</string>
     <string name="activity_watchface_weather_real_feel">Mostra \"la sensació real\" en comptes de la temperatura actual</string>
     <string name="activity_watchface_last_time_sent">Última vegada enviat</string>
-    <string name="activity_watchface_data_send">Data sent</string>
+    <string name="activity_watchface_data_send">Dades enviades</string>
     <string name="activity_watchface_send_data_now">Enviar dades ara</string>
     <string name="activity_stats_notifications_total">Total</string>
     <string name="activity_stats_notifications_in_the_last_hour">En l\'última hora</string>
@@ -101,7 +101,7 @@
     <string name="pref_filter_notifications_by_packages_summary">Només les notificacions d\'aquestes aplicacions seràn enviades al rellotge.</string>
     <string name="pref_battery_background_sync_interval">Interval de sincronització de la batería en segon pla</string>
     <string name="pref_battery_background_sync_interval_summary">Establir l\'interval de sincronització de la bateria en segon pla.</string>
-    <string name="pref_battery_chart_time_interval">Battery chart time range</string>
+    <string name="pref_battery_chart_time_interval">Gràfic d\'interval de temp de la bateria</string>
     <string name="pref_battery_chart_time_interval_summary">Set battery chart time range to display.</string>
     <string name="pref_battery_watch_alert">Alerta de bateria del rellotge</string>
     <string name="pref_battery_watch_alert_summary">Set watch\'s battery level bellow which you will get a battery notification.</string>
