@@ -409,25 +409,25 @@
     <string name="batter_data_export">Exporta dades de bateria</string>
     <string name="app_options">Opcions de l\'App</string>
     <string name="notification_options">Opcions de notificació de l\'App</string>
-    <string name="notification_options_description">Do not show notifications containing the following texts:\n(write one per line)</string>
-    <string name="whitelist_notification_options_description">Show only notifications containing the following texts:\n(write one per line)</string>
-    <string name="and">and</string>
+    <string name="notification_options_description">No mostrar notificacions que continguin els següents textos:\n(escriure un per línia)</string>
+    <string name="whitelist_notification_options_description">Mostrar només notificacions que continguin els següents textos:\n(escriure un per línia)</string>
+    <string name="and">i</string>
     <plurals name="day">
         <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="other">díes</item>
     </plurals>
     <plurals name="hour">
         <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="other">hores</item>
     </plurals>
     <plurals name="minute">
         <item quantity="one">minute</item>
-        <item quantity="other">minutes</item>
+        <item quantity="other">minuts</item>
     </plurals>
-    <string name="widgets_changed">Widgets changed</string>
-    <string name="problem_sending_data">Problem sending data</string>
-    <string name="error_loading_widgets">Error loading widgets</string>
-    <string name="no_widgets_found">No widgets found</string>
+    <string name="widgets_changed">Widgets canviats</string>
+    <string name="problem_sending_data">Problema enviant dades</string>
+    <string name="error_loading_widgets">Error carregant widgets</string>
+    <string name="no_widgets_found">No s\'han trobat widgets</string>
     <string name="intro_description_grant_access">Permetre l\'accés</string>
     <string name="intro_description_get_started">Començar</string>
     <string name="filter_mode">Mode de filtre:</string>
@@ -462,7 +462,7 @@
     <string name="widget_hm_tv">HM TV</string>
     <string name="widget_main_activity">Activitat principal</string>
     <string name="notification_replies_confirm_removal">Si us plau, confirma</string>
-    <string name="notification_replies_cancel_removal">Resposte eliminada</string>
+    <string name="notification_replies_cancel_removal">Resposta eliminada</string>
     <string name="undo">DESFER</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
