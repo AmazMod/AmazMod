@@ -458,23 +458,23 @@
     <string name="widget_miui_unlock">Desbloquear MIUI</string>
     <string name="widget_mi_box_remote">Mi Box Remote</string>
     <string name="widget_mi_tv_remote">Mi TV Remote</string>
-    <string name="widget_stress">Stress Level</string>
+    <string name="widget_stress">Nivell D\'Estrès</string>
     <string name="widget_hm_tv">HM TV</string>
-    <string name="widget_main_activity">MainActivity</string>
-    <string name="notification_replies_confirm_removal">Please, confirm</string>
-    <string name="notification_replies_cancel_removal">Reply Removed</string>
-    <string name="undo">UNDO</string>
+    <string name="widget_main_activity">Activitat principal</string>
+    <string name="notification_replies_confirm_removal">Si us plau, confirma</string>
+    <string name="notification_replies_cancel_removal">Resposte eliminada</string>
+    <string name="undo">DESFER</string>
     <!-- Strings used for widget list end -->
     <!-- Strings used for weather card -->
-    <string name="humidity">Humidity:</string>
-    <string name="pressure">Pressure:</string>
-    <string name="wind">Wind:</string>
-    <string name="clouds">Clouds:</string>
-    <string name="real_feel">Real feel:</string>
-    <string name="weather_city_error">Something is wrong with inputted location</string>
-    <string name="weather_connection_error">Miss internet connection</string>
-    <string name="weather_api_error">Something is wrong with inputted API</string>
-    <string name="location_by_gps">Location by GPS</string>
+    <string name="humidity">Humitat:</string>
+    <string name="pressure">Pressió:</string>
+    <string name="wind">Vent:</string>
+    <string name="clouds">Núvols:</string>
+    <string name="real_feel">Sensació Real:</string>
+    <string name="weather_city_error">Alguna cosa està malament amb l\'ubicació introduïda</string>
+    <string name="weather_connection_error">Connexió a Internet perduda</string>
+    <string name="weather_api_error">Alguna cosa està malament amb l\'API introduïda</string>
+    <string name="location_by_gps">Ubicació establerta pel GPS</string>
     <string name="manual_location">Manual location</string>
     <string name="city_name_country_code">City name, country code</string>
     <string name="api_key_openweathermap">API key (openweathermap)</string>
