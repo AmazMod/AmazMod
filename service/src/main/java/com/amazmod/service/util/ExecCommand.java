@@ -1,6 +1,9 @@
 package com.amazmod.service.util;
 
+import android.content.Context;
 import android.os.Environment;
+import android.provider.Settings;
+import android.widget.Toast;
 
 import com.amazmod.service.AmazModService;
 
@@ -168,7 +171,21 @@ public class ExecCommand {
     public int getResult() { return this.result; }
 
     private class OutputReader extends Thread {
+
+        private Context context;
+
         OutputReader() {
+            context = null;
+            try {
+                outputSem = new Semaphore(1);
+                outputSem.acquire();
+            } catch (InterruptedException e) {
+                Logger.error(e, "ExecCommand OutputReader exception: {}", e.getMessage());
+            }
+        }
+        // TODO: Start using this OutputReader with context instead of the other one
+        OutputReader(Context paramContext) {
+            context = paramContext;
             try {
                 outputSem = new Semaphore(1);
                 outputSem.acquire();
@@ -194,10 +211,12 @@ public class ExecCommand {
                 }
                 output = readBuffer.toString();
                 if (output.toLowerCase().contains("fail")) {
-                    // TODO: 28/05/2020 get context to show error toast message and avoid to use adb command
-                    //Toast.makeText(context, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
-                    //DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
-                    new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
+                    if(context != null){
+                        Toast.makeText(context, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
+                        DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
+                    } else {
+                        new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
+                    }
                     Logger.debug("apk install failed to update AmazMod, reset screen timeout to stock value");
                 }
                 outputSem.release();
