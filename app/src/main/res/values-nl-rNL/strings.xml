@@ -494,9 +494,9 @@ het systeemthema (beta).</string>
     <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
     <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
     <string name="support_us">Steun ons</string>
-    <string name="no_donation">You cancelled the Donation 😢</string>
-    <string name="thanks_donation">Thanks for the Donation 😘</string>
-    <string name="activity_donation_select_product">Please select a donation in the list:</string>
+    <string name="no_donation">Gift geannuleerd 😢</string>
+    <string name="thanks_donation">Bedankt voor de gift! 😘</string>
+    <string name="activity_donation_select_product">Selecteer een gift:</string>
     <string name="activity_donation_opencollective">Doneer op OpenCollective</string>
     <string name="donate">Doneren</string>
     <string name="later">Later</string>
