@@ -16,7 +16,7 @@
     <string name="clear_data">Gegevens wissen</string>
     <string name="uninstall">Deinstalleren</string>
     <string name="quick_launch">Snelstarten</string>
-    <string name="quick_launch_description">App can be launched from watchface screen using bottom button (long press)!</string>
+    <string name="quick_launch_description">App kan gelanceerd worden vanaf het watchface scherm mbv de onderste knop (lang drukken)!</string>
     <string name="clear_app_data">App-gegevens wissen</string>
     <string name="install_app">App installeren</string>
     <string name="delete">Verwijderen</string>
