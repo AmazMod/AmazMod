@@ -19,7 +19,7 @@
         tools:text="CONNECTING"/>
 
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/activity_file_opner_progress"
+        android:id="@+id/progress_bar"
         style="@style/Widget.MaterialProgressBar.ProgressBar.Horizontal"
         android:layout_width="48dp"
         android:layout_height="48dp"

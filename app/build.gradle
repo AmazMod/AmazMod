@@ -23,8 +23,11 @@ android {
             setProperty("archivesBaseName", "AmazMod-$project.name-$versionCode")
         }
     }
-    dataBinding {
-        enabled = true
+    buildFeatures{
+        // Enable Data Binding
+        // dataBinding = true
+        // Enable View Binding
+        viewBinding = true
     }
 
     signingConfigs {
