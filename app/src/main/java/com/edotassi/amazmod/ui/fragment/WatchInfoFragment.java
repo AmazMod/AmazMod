@@ -23,6 +23,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.FragmentWatchInfoBinding;
 import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.WatchStatus;
@@ -59,9 +60,6 @@ import java.util.concurrent.CancellationException;
 import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.ResultShellCommandData;
 import amazmod.com.transport.data.WatchStatusData;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnLongClick;
 import de.mateware.snacky.Snacky;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
@@ -74,7 +72,7 @@ import static com.edotassi.amazmod.util.Screen.getWatchInfoBySerialNo;
 public class WatchInfoFragment extends Card implements Updater {
 
     private SnackProgressBarManager snackProgressBarManager;
-
+/*
     @BindView(R.id.card_amazmodservice)
     TextView amazModService;
     //@BindView(R.id.card_product_device)
@@ -114,6 +112,8 @@ public class WatchInfoFragment extends Card implements Updater {
     @BindView(R.id.card_watch_progress)
     MaterialProgressBar watchProgress;
 
+    */
+    private FragmentWatchInfoBinding binding;
     private long timeLastSync = 0L;
     private static WatchStatus watchStatus;
     private static int serviceVersion;
@@ -122,17 +122,17 @@ public class WatchInfoFragment extends Card implements Updater {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater layoutInflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = layoutInflater.inflate(R.layout.fragment_watch_info, container, false);
-        ButterKnife.bind(this, view);
+        binding = FragmentWatchInfoBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        binding.watchIconView.setOnLongClickListener(v -> onWatchIconLongClick());
+
         return view;
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         EventBus.getDefault().register(this);
-
         if (getActivity() != null) {
             snackProgressBarManager = new SnackProgressBarManager(getActivity().findViewById(android.R.id.content))
                     .setProgressBarColor(ThemeHelper.getThemeColorAccentId(getActivity()))
@@ -307,15 +307,15 @@ public class WatchInfoFragment extends Card implements Updater {
 
         // Amazmod service version and root status
         String amazModServiceVersion = watchStatusData.getAmazModServiceVersion() + ((watchStatusData.getRooted()==1)?" (rooted)":"");
-        amazModService.setText(amazModServiceVersion);
+        binding.cardAmazmodservice.setText(amazModServiceVersion);
         // Serial number
-        serialNo.setText( watchStatusData.getRoSerialno() );
+        binding.cardSerialno.setText( watchStatusData.getRoSerialno() );
         // Watch model code
-        huamiModel.setText( watchStatusData.getRoBuildHuamiModel() );
+        binding.cardHuamiModel.setText( watchStatusData.getRoBuildHuamiModel() );
         // Watch model Name
-        productModel.setText( watchStatusData.getRoProductModel() );
+        binding.cardProductModel.setText( watchStatusData.getRoProductModel() );
         // Firmware
-        displayId.setText(watchStatusData.getRoBuildDisplayId());
+        binding.cardDisplayId.setText(watchStatusData.getRoBuildDisplayId());
         // Removed unused and unnecessary watchData
         //productName.setText(watchStatusData.getRoProductName());
         //buildDescription.setText(watchStatusData.getRoBuildDescription());
@@ -353,8 +353,8 @@ public class WatchInfoFragment extends Card implements Updater {
         Logger.debug("WatchInfoFragment WatchData HOURLY_CHIME: " + hourlyChime);
     }
 
-    @OnLongClick(R.id.watchIconView)
-    public boolean onWatchIconLongClick() {
+
+    private boolean onWatchIconLongClick() {
         new MaterialDialog.Builder(getContext())
                 .title(R.string.ota_test_title)
                 .content(R.string.type_service_number)
@@ -371,19 +371,19 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void connected() {
-        isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), Objects.requireNonNull(getContext()).getTheme()));
-        isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
-        watchProgress.setVisibility(View.GONE);
-        watchDetail.setVisibility(View.VISIBLE);
-        noService.setVisibility(View.GONE);
+        binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), Objects.requireNonNull(getContext()).getTheme()));
+        binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
+        binding.cardWatchProgress.setVisibility(View.GONE);
+        binding.cardWatchDetail.setVisibility(View.VISIBLE);
+        binding.cardWatchNoService.setVisibility(View.GONE);
     }
 
     private void disconnected() {
-        isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
-        isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
-        watchProgress.setVisibility(View.GONE);
-        watchDetail.setVisibility(View.GONE);
-        noService.setVisibility(View.VISIBLE);
+        binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
+        binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
+        binding.cardWatchProgress.setVisibility(View.GONE);
+        binding.cardWatchDetail.setVisibility(View.GONE);
+        binding.cardWatchNoService.setVisibility(View.VISIBLE);
     }
 
     private void connecting() {
@@ -392,17 +392,17 @@ public class WatchInfoFragment extends Card implements Updater {
     private void connecting(boolean withService) {
         if(withService) {
             // Connecting to service
-            isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
-            isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
+            binding.isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
+            binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         }else{
             // Connecting to official API
-            isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
-            isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting_no_service)).toUpperCase());
+            binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
+            binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting_no_service)).toUpperCase());
         }
-        watchDetail.setVisibility(View.GONE);
-        watchProgress.setVisibility(View.VISIBLE);
-        noService.setVisibility(View.GONE);
-        isConnectedTV.setOnLongClickListener(new View.OnLongClickListener() {
+        binding.cardWatchDetail.setVisibility(View.GONE);
+        binding.cardWatchProgress.setVisibility(View.VISIBLE);
+        binding.cardWatchNoService.setVisibility(View.GONE);
+        binding.isConnectedTV.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 SettingsActivity.restartApplication(getContext());
@@ -427,6 +427,7 @@ public class WatchInfoFragment extends Card implements Updater {
     public void updateAvailable(final int version) {
         if (getActivity() != null && getContext() != null) {
             getActivity().runOnUiThread(new Runnable() {
+                @SuppressLint("StringFormatInvalid")
                 @Override
                 public void run() {
                     new MaterialDialog.Builder(getContext())

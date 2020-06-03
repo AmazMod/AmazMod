@@ -6,16 +6,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.FragmentHeartrateChartBinding;
 import com.edotassi.amazmod.support.ThemeHelper;
 import com.edotassi.amazmod.ui.card.Card;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -30,18 +29,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class HeartRateChartFragment extends Card {
 
-    @BindView(R.id.card_heartrate_last_read)
-    TextView heartrate_lastRead;
-
-    @BindView(R.id.heartrate_chart)
-    BarChart heartrateChart;
-
     //private Context mContext;
+    private FragmentHeartrateChartBinding binding;
 
     @Override
     public void onAttach(Activity activity) {
@@ -52,17 +43,15 @@ public class HeartRateChartFragment extends Card {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_heartrate_chart, container, false);
-
-        ButterKnife.bind(this, view);
-
+        binding = FragmentHeartrateChartBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        heartrateChart.setNoDataText(getString(R.string.pref_heartrate_nodata));
+        binding.heartrateChart.setNoDataText(getString(R.string.pref_heartrate_nodata));
 
     }
 
@@ -86,7 +75,7 @@ public class HeartRateChartFragment extends Card {
         String[] parts = lastHeartRates.split(",");
 
         // Check if there are actual data
-        if(parts.length<2)
+        if (parts.length < 2)
             return;
 
         // Create chart entries
@@ -96,7 +85,7 @@ public class HeartRateChartFragment extends Card {
             // code for: time, heart-rate
             // entries.add(new BarEntry(Integer.parseInt(parts[i]), Integer.parseInt(parts[i+1])));
             // code for: i, heart-rate
-            entries.add(new BarEntry(i, Integer.parseInt(parts[i+1])));
+            entries.add(new BarEntry(i, Integer.parseInt(parts[i + 1])));
         }
 
         BarDataSet set = new BarDataSet(entries, getResources().getString(R.string.heartrate_chart_title));
@@ -104,23 +93,23 @@ public class HeartRateChartFragment extends Card {
 
         Description description = new Description();
         description.setText("");
-        heartrateChart.setDescription(description);
+        binding.heartrateChart.setDescription(description);
         final int themeForegroundColor = ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext()));
 
-        heartrateChart.getXAxis().setDrawLabels(false);
-        heartrateChart.getXAxis().setTextColor(themeForegroundColor);
-        heartrateChart.getAxisLeft().setTextColor(themeForegroundColor);
-        heartrateChart.getAxisRight().setDrawLabels(false);
+        binding.heartrateChart.getXAxis().setDrawLabels(false);
+        binding.heartrateChart.getXAxis().setTextColor(themeForegroundColor);
+        binding.heartrateChart.getAxisLeft().setTextColor(themeForegroundColor);
+        binding.heartrateChart.getAxisRight().setDrawLabels(false);
         BarData data = new BarData(set);
         data.setBarWidth(0.9f); // set custom bar width
         data.setValueTextColor(themeForegroundColor);
-        heartrateChart.setData(data);
-        heartrateChart.setFitBars(true); // make the x-axis fit exactly all bars
-        heartrateChart.getLegend().setEnabled(false); // hide legend
-        heartrateChart.invalidate(); // refresh
+        binding.heartrateChart.setData(data);
+        binding.heartrateChart.setFitBars(true); // make the x-axis fit exactly all bars
+        binding.heartrateChart.getLegend().setEnabled(false); // hide legend
+        binding.heartrateChart.invalidate(); // refresh
 
         // Write the last time data were taken
-        Date lastDate = new Date(Long.parseLong(parts[parts.length-2])*1000);
+        Date lastDate = new Date(Long.parseLong(parts[parts.length - 2]) * 1000);
         Logger.debug("WatchHeartRateFragment lastDate: " + lastDate);
         Calendar calendarLastDate = Calendar.getInstance();
         calendarLastDate.setTime(lastDate);
@@ -129,10 +118,10 @@ public class HeartRateChartFragment extends Card {
         String textDate = getResources().getText(R.string.last_read) + ": ";
         // add time
         textDate += DateFormat.getTimeInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
-        if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH) ) {
+        if (calendarLastDate.get(Calendar.DAY_OF_MONTH) != calendarToday.get(Calendar.DAY_OF_MONTH)) {
             // add date
             textDate += " " + DateFormat.getDateInstance(DateFormat.SHORT, AmazModApplication.defaultLocale).format(lastDate);
         }
-        heartrate_lastRead.setText(textDate);
+        binding.cardHeartrateLastRead.setText(textDate);
     }
 }
