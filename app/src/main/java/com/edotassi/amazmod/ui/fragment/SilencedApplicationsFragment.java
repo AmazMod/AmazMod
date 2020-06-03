@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.SilencedApplicationsAdapter;
+import com.edotassi.amazmod.databinding.FragmentSilencedAppsBinding;
 import com.edotassi.amazmod.db.model.NotificationPreferencesEntity;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 import com.edotassi.amazmod.ui.card.Card;
@@ -21,13 +22,9 @@ import org.tinylog.Logger;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+public class SilencedApplicationsFragment extends Card {
 
-public class SilencedApplicationsFragment extends Card implements SilencedApplicationsAdapter.Bridge {
-
-    @BindView(R.id.fragment_silenced_apps_grid)
-    GridView silencedApplicationsView;
+    private FragmentSilencedAppsBinding binding;
 
     private SilencedApplicationsAdapter silencedApplicationsAdapter;
     private Context mContext;
@@ -42,11 +39,11 @@ public class SilencedApplicationsFragment extends Card implements SilencedApplic
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        card = inflater.inflate(R.layout.fragment_silenced_apps, container, false);
+        binding = FragmentSilencedAppsBinding.inflate(getLayoutInflater());
+        card = binding.getRoot(); //inflater.inflate(R.layout.fragment_silenced_apps, container, false);
 
-        ButterKnife.bind(this, card);
         silencedApplicationsAdapter = new SilencedApplicationsAdapter(this, R.layout.item_silenced_app, new ArrayList<NotificationPreferencesEntity>());
-        silencedApplicationsView.setAdapter(silencedApplicationsAdapter);
+        binding.fragmentSilencedAppsGrid.setAdapter(silencedApplicationsAdapter);
         updateSilencedApps();
         return card;
     }
@@ -70,7 +67,7 @@ public class SilencedApplicationsFragment extends Card implements SilencedApplic
         return "silenced-apps";
     }
 
-    private void updateSilencedApps(){
+    public void updateSilencedApps(){
         if (SilenceApplicationHelper.getSilencedApplicationsCount() > 0) {
             card.setVisibility(View.VISIBLE);
         }else{
@@ -79,10 +76,5 @@ public class SilencedApplicationsFragment extends Card implements SilencedApplic
         silencedApplicationsAdapter.clear();
         silencedApplicationsAdapter.addAll(SilenceApplicationHelper.listSilencedApplications());
         silencedApplicationsAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onSilencedApplicationStatusChange() {
-        updateSilencedApps();
     }
 }
