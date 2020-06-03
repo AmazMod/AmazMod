@@ -101,7 +101,6 @@ public class AmazModLauncher extends AbstractPlugin {
     private static final String MANAGE_FILES = "File Manager";
     private static final String MENU_ENTRY = "MENU ENTRY";
     private static final String[] HIDDEN_APPS = {   "amazmod",
-                                                    "watchdroid",
                                                     "touchone",
                                                     "watchface"};
 

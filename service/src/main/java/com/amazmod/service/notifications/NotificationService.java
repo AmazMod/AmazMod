@@ -66,19 +66,6 @@ public class NotificationService {
     }
 
     public void post(final NotificationData notificationSpec) {
-        // Check if DND
-        if (DeviceUtil.isDNDActive(context)){
-            Logger.debug("NotificationService DND is on, notification not shown.");
-            // Todo: Save notification if custom UI (move the DND check before "Handles test notifications")
-            // current problem is that app crashes when you try to load notification list (at NotificationListAdapter.java:38,
-            // error: android.view.InflateException: Binary XML file line #35: Error inflating class androidx.emoji.widget.EmojiTextView
-            // related to row_notification.xml
-            /*
-            if ((enableCustomUI || forceCustom))
-                NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
-            */
-            return;
-        }
 
         // Load notification settings
         boolean enableCustomUI = settingsManager.getBoolean(Constants.PREF_NOTIFICATIONS_ENABLE_CUSTOM_UI,
@@ -98,6 +85,13 @@ public class NotificationService {
         final String notificationStoreKey = key + "|" + String.valueOf(System.currentTimeMillis());
         Logger.debug("NotificationService notificationSpec.getKey(): " + key);
 
+        // Check if DND
+        if (DeviceUtil.isDNDActive(context)) {
+            Logger.debug("NotificationService DND is on, notification not shown.");
+            if ((enableCustomUI || forceCustom))
+                NotificationStore.addCustomNotification(notificationStoreKey, notificationSpec);
+            return;
+        }
 
         // Handles test notifications
         if (key.contains("amazmod|test|99")) {
@@ -121,7 +115,7 @@ public class NotificationService {
             if (enableCustomUI || forceCustom) {
                 NotificationStore.addCustomNotification(notificationStoreKey , notificationSpec);
                 if (NotificationFragment.keyboardIsEnable) {
-                    final Vibrator mVibrator = (Vibrator) context.getSystemService("vibrator");
+                    final Vibrator mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
                     if (mVibrator != null) {
                         mVibrator.vibrate(400);
                         Logger.debug("keyboard IS visible, vibrate only");

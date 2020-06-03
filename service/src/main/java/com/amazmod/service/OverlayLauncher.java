@@ -160,7 +160,11 @@ public class OverlayLauncher extends Service implements OnTouchListener {
         else {
             params.height = 15;
             params.width = 150;
-            vibration = 10;
+            if (SystemProperties.isStratos3()) {
+                vibration = 25;
+            } else {
+                vibration = 10;
+            }
             overlayColor = OVERLAY_COLOR_TRANSFLECTIVE;
         }
 

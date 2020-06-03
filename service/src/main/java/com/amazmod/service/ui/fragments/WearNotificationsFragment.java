@@ -19,6 +19,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
+
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.NotificationListAdapter;
 import com.amazmod.service.helper.RecyclerTouchListener;
@@ -73,6 +76,11 @@ public class WearNotificationsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         animate = getArguments().getBoolean(ANIMATE);
+
+        // We need to load emoji here too to avoid FC if you get notification during DND
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(mContext);
+        config.setReplaceAll(true);
+        EmojiCompat.init(config);
 
         Logger.info("WearNotificationsFragment onCreate animate: {}", animate);
         instance = this;
