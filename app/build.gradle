@@ -1,10 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
-apply plugin: 'com.jakewharton.butterknife'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt' // required for Kotlin
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -103,8 +102,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"

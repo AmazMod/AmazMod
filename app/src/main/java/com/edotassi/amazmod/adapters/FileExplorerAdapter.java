@@ -1,9 +1,7 @@
 package com.edotassi.amazmod.adapters;
 
-import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.text.format.Formatter;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -14,88 +12,82 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.edotassi.amazmod.R;
+import com.edotassi.amazmod.databinding.RowFileExplorerBinding;
+import com.edotassi.amazmod.ui.FileExplorerActivity;
 
 import java.util.List;
 
 import amazmod.com.transport.data.FileData;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class FileExplorerAdapter extends ArrayAdapter<FileData> {
-
+    private RowFileExplorerBinding binding;
     private Drawable folder;
     private Drawable file;
     private Drawable apk;
     private Drawable image;
     private Drawable watchface;
+    private FileExplorerActivity mActivity;
 
-    public FileExplorerAdapter(Context context, int resource, @NonNull List<FileData> list) {
-        super(context, resource, list);
-
-        folder = context.getDrawable(R.drawable.outline_folder);
-        file = context.getDrawable(R.drawable.outline_insert_drive_file);
-        apk = context.getDrawable(R.drawable.outline_app);
-        image = context.getDrawable(R.drawable.outline_photo);
-        watchface = context.getDrawable(R.drawable.outline_watch);
+    public FileExplorerAdapter(FileExplorerActivity activity, int resource, @NonNull List<FileData> list) {
+        super(activity, resource, list);
+        mActivity = activity;
+        folder = activity.getDrawable(R.drawable.outline_folder);
+        file = activity.getDrawable(R.drawable.outline_insert_drive_file);
+        apk = activity.getDrawable(R.drawable.outline_app);
+        image = activity.getDrawable(R.drawable.outline_photo);
+        watchface = activity.getDrawable(R.drawable.outline_watch);
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        binding = RowFileExplorerBinding.inflate(mActivity.getLayoutInflater());
         View listItem = convertView;
         if (listItem == null) {
-            listItem = LayoutInflater.from(getContext()).inflate(R.layout.row_file_explorer, parent, false);
+            listItem = binding.getRoot();
         }
-
         FileData fileData = getItem(position);
-
-        ViewHolder viewHolder = new ViewHolder(getContext(), folder, file, apk, image, watchface);
-        ButterKnife.bind(viewHolder, listItem);
+        ViewHolder viewHolder = new ViewHolder(mActivity, folder, file, apk, image, watchface);
         viewHolder.sync(fileData);
-
         return listItem;
     }
 
     static class ViewHolder {
-
-        @BindView(R.id.row_file_explorer_file_name)
         TextView fileName;
-
-        @BindView(R.id.row_file_explorer_size)
         TextView size;
-
-        @BindView(R.id.row_file_explorer_icon)
         ImageView icon;
-
-        private Context context;
+        private FileExplorerActivity context;
         private Drawable folder;
         private Drawable file;
         private Drawable apk;
         private Drawable image;
         private Drawable watchface;
 
-        private ViewHolder(Context context, Drawable folder, Drawable file, Drawable apk, Drawable image, Drawable watchface) {
-            this.context = context;
+        private ViewHolder(FileExplorerActivity mActivity, Drawable folder, Drawable file, Drawable apk, Drawable image, Drawable watchface) {
+            this.context = mActivity;
             this.folder = folder;
             this.file = file;
             this.apk = apk;
             this.image = image;
             this.watchface = watchface;
+            fileName = mActivity.findViewById(R.id.row_file_explorer_file_name);
+            size = mActivity.findViewById(R.id.row_file_explorer_size);
+            icon = mActivity.findViewById(R.id.row_file_explorer_icon);
         }
 
         void sync(FileData fileData) {
             fileName.setText(fileData.getName());
             //icon.setImageDrawable(fileData.isDirectory() ? folder : file);
 
-            if(fileData.isDirectory()){
+            if (fileData.isDirectory()) {
                 icon.setImageDrawable(folder);
-            }else if(fileData.getExtention().equals("apk")){
+            } else if (fileData.getExtention().equals("apk")) {
                 icon.setImageDrawable(apk);
-            }else if(fileData.getExtention().equals("wfz")){
+            } else if (fileData.getExtention().equals("wfz")) {
                 icon.setImageDrawable(watchface);
-            }else if(fileData.getExtention().toLowerCase().matches("png|jpeg|jpg|gif|tiff")){
+            } else if (fileData.getExtention().toLowerCase().matches("png|jpeg|jpg|gif|tiff")) {
                 icon.setImageDrawable(image);
-            }else{
+            } else {
                 icon.setImageDrawable(file);
             }
             if (!fileData.isDirectory()) {

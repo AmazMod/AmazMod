@@ -33,7 +33,6 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,7 +62,6 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huami.watch.transport.DataBundle;
@@ -104,28 +102,7 @@ import de.mateware.snacky.Snacky;
 import static android.net.ConnectivityManager.NetworkCallback;
 
 public class FileExplorerActivity extends BaseAppCompatActivity implements Transporter.DataListener {
-/*
-    @BindView(R.id.activity_file_explorer_list)
-    ListView listView;
 
-    @BindView(R.id.activity_file_explorer_fab_bg)
-    View bgFabMenu;
-
-    @BindView(R.id.activity_file_explorer_fab_main)
-    FloatingActionButton fabMain;
-
-    @BindView(R.id.activity_file_explorer_fab_newfolder)
-    FloatingActionButton fabNewFolder;
-
-    @BindView(R.id.activity_file_explorer_fab_upload)
-    FloatingActionButton fabUpload;
-
-    @BindView(R.id.activity_file_explorer_fab_ftpupload)
-    FloatingActionButton fabFTPUpload;
-
-    @BindView(R.id.activity_file_explorer_swipe_refresh_layout)
-    SwipeRefreshLayout swipeRefreshLayout;
-*/
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
 
