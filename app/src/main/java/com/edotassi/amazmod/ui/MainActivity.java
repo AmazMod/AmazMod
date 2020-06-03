@@ -54,7 +54,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import amazmod.com.transport.Constants;
-import butterknife.ButterKnife;
 
 public class MainActivity extends BaseAppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -89,8 +88,6 @@ public class MainActivity extends BaseAppCompatActivity
             setTheme(R.style.AppTheme_NoActionBar);
             setContentView(R.layout.activity_main);
         }
-
-        ButterKnife.bind(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
