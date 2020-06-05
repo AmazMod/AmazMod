@@ -17,9 +17,6 @@ import android.support.wearable.view.SwipeDismissFrameLayout;
 import android.view.MotionEvent;
 import android.view.WindowManager;
 
-import androidx.emoji.bundled.BundledEmojiCompatConfig;
-import androidx.emoji.text.EmojiCompat;
-
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.adapters.GridViewPagerAdapter;
@@ -80,10 +77,6 @@ public class NotificationWearActivity extends Activity {
             finish();
             return;
         }
-
-        EmojiCompat.Config config = new BundledEmojiCompatConfig(this);
-        config.setReplaceAll(true);
-        EmojiCompat.init(config);
 
         this.mContext = this;
 

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import androidx.emoji.bundled.BundledEmojiCompatConfig;
+import androidx.emoji.text.EmojiCompat;
+
 import com.amazmod.service.db.model.BatteryDbEntity;
 import com.amazmod.service.db.model.BatteryDbEntity_Table;
 import com.amazmod.service.settings.SettingsManager;
@@ -33,6 +36,8 @@ public class AmazModService extends Application {
         setupLogger();
 
         setupLanguage();
+
+        loadEmoji();
 
         //EventBus.getDefault().init(this);
         Logger.info("Tinylog configured debug: {} level: {}",
@@ -74,6 +79,13 @@ public class AmazModService extends Application {
         Configuration.set("writerLogcat.level", level);
         Configuration.set("writerLogcat.tagname", "AmazMod");
         Configuration.set("writerLogcat.format", "{class-name}.{method}(): {message}");
+    }
+
+    private void loadEmoji() {
+        // We need to load emoji here too to avoid FC if you get notification during DND
+        EmojiCompat.Config config = new BundledEmojiCompatConfig(getContext());
+        config.setReplaceAll(true);
+        EmojiCompat.init(config);
     }
 
     private void setupLanguage() {
