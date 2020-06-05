@@ -1,7 +1,6 @@
 package com.edotassi.amazmod.ui;
 
 import android.animation.Animator;
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -33,6 +32,7 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,7 +45,6 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.edotassi.amazmod.R;
 import com.edotassi.amazmod.adapters.FileExplorerAdapter;
-import com.edotassi.amazmod.databinding.ActivityFileExplorerBinding;
 import com.edotassi.amazmod.event.Directory;
 import com.edotassi.amazmod.event.OtherData;
 import com.edotassi.amazmod.event.ResultDeleteFile;
@@ -62,6 +61,7 @@ import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.huami.watch.transport.DataBundle;
@@ -97,11 +97,36 @@ import amazmod.com.transport.data.FileData;
 import amazmod.com.transport.data.RequestDeleteFileData;
 import amazmod.com.transport.data.RequestDirectoryData;
 import amazmod.com.transport.data.ResultShellCommandData;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnItemClick;
 import de.mateware.snacky.Snacky;
 
 import static android.net.ConnectivityManager.NetworkCallback;
 
 public class FileExplorerActivity extends BaseAppCompatActivity implements Transporter.DataListener {
+
+    @BindView(R.id.activity_file_explorer_list)
+    ListView listView;
+
+    @BindView(R.id.activity_file_explorer_fab_bg)
+    View bgFabMenu;
+
+    @BindView(R.id.activity_file_explorer_fab_main)
+    FloatingActionButton fabMain;
+
+    @BindView(R.id.activity_file_explorer_fab_newfolder)
+    FloatingActionButton fabNewFolder;
+
+    @BindView(R.id.activity_file_explorer_fab_upload)
+    FloatingActionButton fabUpload;
+
+    @BindView(R.id.activity_file_explorer_fab_ftpupload)
+    FloatingActionButton fabFTPUpload;
+
+    @BindView(R.id.activity_file_explorer_swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private FileExplorerAdapter fileExplorerAdapter;
     private SnackProgressBarManager snackProgressBarManager;
@@ -129,8 +154,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     public static boolean continueNotification;
 
     private Transporter ftpTransporter;
-
-    private ActivityFileExplorerBinding binding;
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -169,8 +192,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
         Logger.debug("currentPath = {} source = {}", currentPath, intent.getStringExtra(SOURCE));
 
-        binding = ActivityFileExplorerBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_file_explorer);
 
         try {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -179,12 +201,14 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             Logger.error("onCreate exception: " + ex.getMessage());
         }
 
+        ButterKnife.bind(this);
+
         fileExplorerAdapter = new FileExplorerAdapter(this, R.layout.row_file_explorer, new ArrayList<>());
-        binding.activityFileExplorerList.setAdapter(fileExplorerAdapter);
+        listView.setAdapter(fileExplorerAdapter);
 
         loadPath(currentPath);
 
-        registerForContextMenu(binding.activityFileExplorerList);
+        registerForContextMenu(listView);
 
         snackProgressBarManager = new SnackProgressBarManager(findViewById(android.R.id.content))
                 // (optional) set the view which will animate with SnackProgressBar e.g. FAB when CoordinatorLayout is not used
@@ -211,7 +235,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                     }
                 });
 
-        binding.activityFileExplorerList.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int lastFirstVisibleItem = 0;
 
             @Override
@@ -223,24 +247,24 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             public void onScroll(AbsListView view, int firstVisibleItem,
                                  int visibleItemCount, int totalItemCount) {
 
-                int topRowVerticalPosition = (binding.activityFileExplorerList == null || binding.activityFileExplorerList.getChildCount() == 0) ?
-                        0 : binding.activityFileExplorerList.getChildAt(0).getTop();
-                binding.activityFileExplorerSwipeRefreshLayout.setEnabled((topRowVerticalPosition >= 0));
+                int topRowVerticalPosition = (listView == null || listView.getChildCount() == 0) ?
+                        0 : listView.getChildAt(0).getTop();
+                swipeRefreshLayout.setEnabled((topRowVerticalPosition >= 0));
 
                 if (lastFirstVisibleItem < firstVisibleItem) {
-                    binding.activityFileExplorerFabMain.hide();
+                    fabMain.hide();
                 }
                 if (lastFirstVisibleItem > firstVisibleItem) {
-                    binding.activityFileExplorerFabMain.show();
+                    fabMain.show();
                 }
                 lastFirstVisibleItem = firstVisibleItem;
 
             }
         });
 
-        binding.activityFileExplorerSwipeRefreshLayout.setColorSchemeColors(ThemeHelper.getThemeColorAccent(this));
+        swipeRefreshLayout.setColorSchemeColors(ThemeHelper.getThemeColorAccent(this));
 
-        binding.activityFileExplorerSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 Logger.debug("onRefresh");
@@ -250,38 +274,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
         // Connect wifi FTP transporter
         ftpTransporterConnect();
-
-        //Clicking in an item at listbox
-        binding.activityFileExplorerList.setOnItemClickListener((parent, view, position, id) -> {
-            onItemClick(position);
-        });
-
-        //Clicking in Upload Button
-        binding.activityFileExplorerFabUpload.setOnClickListener(v -> {
-            onUploadClick();
-        });
-
-        //Clicking in Ftp Upload Button
-        binding.activityFileExplorerFabFtpupload.setOnClickListener(v -> {
-            onFTPUploadClick();
-        });
-
-        //Clicking in Main Button (show/hide FAB)
-        binding.activityFileExplorerFabMain.setOnClickListener(v -> {
-            fabMainClick();
-        });
-
-        //Clicking background (outside fab)
-        binding.activityFileExplorerFabBg.setOnClickListener(v -> {
-            CloseFabMenu();
-        });
-
-        //Clicking in new folder button
-        binding.activityFileExplorerFabNewfolder.setOnClickListener(v -> {
-            fabNewFolderClick();
-        });
-
-
     }
 
     @Override
@@ -339,15 +331,28 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     }
 
 
-    private void onItemClick(int position) {
+    @OnItemClick(R.id.activity_file_explorer_list)
+    public void onItemClick(int position) {
         FileData fileData = fileExplorerAdapter.getItem(position);
         if (fileData != null && fileData.isDirectory()) {
             loadPath(fileData.getPath());
         }
     }
 
-    public void onUploadClick() {
+    @OnClick(R.id.activity_file_explorer_fab_upload)
+    public void onUpload() {
         CloseFabMenu();
+
+        /* Old filepicker
+        Intent i = new Intent(this, FilePickerActivity.class);
+
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, true);
+        i.putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, false);
+        i.putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_FILE);
+        i.putExtra(FilePickerActivity.EXTRA_START_PATH, Environment.getExternalStorageDirectory().getPath());
+
+        startActivityForResult(i, FILE_UPLOAD_CODE); */
+
         // New filepicker
         if (lastPath == null || lastPath.isEmpty())
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -426,7 +431,9 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
         chooserDialog.build().show();
     }
 
-    private void onFTPUploadClick() {
+
+    @OnClick(R.id.activity_file_explorer_fab_ftpupload)
+    public void onFTPUpload() {
         CloseFabMenu();
 
         // New file picker
@@ -488,6 +495,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
     }
 
+    @OnClick(R.id.activity_file_explorer_fab_main)
     public void fabMainClick() {
         if (!isFabOpen)
             ShowFabMenu();
@@ -495,6 +503,12 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
             CloseFabMenu();
     }
 
+    @OnClick(R.id.activity_file_explorer_fab_bg)
+    public void fabMenuClick() {
+        CloseFabMenu();
+    }
+
+    @OnClick(R.id.activity_file_explorer_fab_newfolder)
     public void fabNewFolderClick() {
         CloseFabMenu();
         new MaterialDialog.Builder(this)
@@ -1184,7 +1198,6 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
         execCommandAndReload(extractCmd);
     }
 
-    @SuppressLint("StringFormatInvalid")
     private void deleteFolder(int index) {
         final FileData fileData = fileExplorerAdapter.getItem(index);
         new MaterialDialog.Builder(this)
@@ -1419,20 +1432,20 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
 
     private void ShowFabMenu() {
         isFabOpen = true;
-        binding.activityFileExplorerFabUpload.show();
-        binding.activityFileExplorerFabFtpupload.show();
-        binding.activityFileExplorerFabNewfolder.show();
-        binding.activityFileExplorerFabBg.setVisibility(View.VISIBLE);
+        fabUpload.show();
+        fabFTPUpload.show();
+        fabNewFolder.show();
+        bgFabMenu.setVisibility(View.VISIBLE);
 
-        binding.activityFileExplorerFabMain.animate().rotation(135f);
-        binding.activityFileExplorerFabBg.animate().alpha(1f);
-        binding.activityFileExplorerFabFtpupload.animate()
+        fabMain.animate().rotation(135f);
+        bgFabMenu.animate().alpha(1f);
+        fabFTPUpload.animate()
                 .translationY(-412f)
                 .rotation(0f);
-        binding.activityFileExplorerFabUpload.animate()
+        fabUpload.animate()
                 .translationY(-284f)
                 .rotation(0f);
-        binding.activityFileExplorerFabNewfolder.animate()
+        fabNewFolder.animate()
                 .translationY(-156f)
                 .rotation(0f);
     }
@@ -1440,22 +1453,17 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     private void CloseFabMenu() {
         isFabOpen = false;
 
-        View[] views = {
-                binding.activityFileExplorerFabBg,
-                binding.activityFileExplorerFabNewfolder,
-                binding.activityFileExplorerFabUpload,
-                binding.activityFileExplorerFabFtpupload
-        };
+        View[] views = {bgFabMenu, fabNewFolder, fabUpload, fabFTPUpload};
 
-        binding.activityFileExplorerFabMain.animate().rotation(0f);
-        binding.activityFileExplorerFabBg.animate().alpha(0f);
-        binding.activityFileExplorerFabFtpupload.animate()
+        fabMain.animate().rotation(0f);
+        bgFabMenu.animate().alpha(0f);
+        fabFTPUpload.animate()
                 .translationY(0f)
                 .rotation(90f);
-        binding.activityFileExplorerFabUpload.animate()
+        fabUpload.animate()
                 .translationY(0f)
                 .rotation(90f);
-        binding.activityFileExplorerFabNewfolder.animate()
+        fabNewFolder.animate()
                 .translationY(0f)
                 .rotation(90f).setListener(new FabAnimatorListener(views));
     }
@@ -1539,7 +1547,7 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
                                     fileExplorerAdapter.clear();
                                     fileExplorerAdapter.addAll(filesData);
                                     fileExplorerAdapter.notifyDataSetChanged();
-                                    binding.activityFileExplorerFabMain.show();
+                                    fabMain.show();
 
                                     taskCompletionSource.setResult(null);
 
@@ -1571,13 +1579,13 @@ public class FileExplorerActivity extends BaseAppCompatActivity implements Trans
     }
 
     private void stateLoading() {
-        binding.activityFileExplorerSwipeRefreshLayout.setRefreshing(true);
-        binding.activityFileExplorerList.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(true);
+        listView.setVisibility(View.GONE);
     }
 
     private void stateReady() {
-        binding.activityFileExplorerSwipeRefreshLayout.setRefreshing(false);
-        binding.activityFileExplorerList.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
+        listView.setVisibility(View.VISIBLE);
     }
 
     private String getParentDirectoryPath(String path) {
