@@ -67,7 +67,7 @@ public class NotificationJobService extends JobService implements TransportServi
          */
 
         if (uuid == null) {
-            Logger.error("onStartJob error: null uuid!");
+            Logger.debug("onStartJob error: null uuid!"); //Not needed to be show as error
             return true;
         }
 

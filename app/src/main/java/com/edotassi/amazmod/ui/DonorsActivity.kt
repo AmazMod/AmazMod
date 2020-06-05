@@ -47,7 +47,7 @@ class DonorsActivity : BaseAppCompatActivity() {
 
                     @Throws(IOException::class)
                     override fun onResponse(call: Call, response: Response) {
-                        val json = response.body()?.string()
+                        val json = response.body?.string()
                         val d: Array<Donor> = Gson().fromJson(json, Array<Donor>::class.java)
                         val donors = listOf(*d)
                             .onlyBackers()

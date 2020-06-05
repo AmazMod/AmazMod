@@ -91,11 +91,11 @@ dependencies {
     implementation 'com.heinrichreimersoftware:material-intro:1.5.8'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0' //Can't update because theme need adjustment to work on new version
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation "androidx.recyclerview:recyclerview:1.1.0"
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation files('../libs/huami_libs.jar')
@@ -103,40 +103,40 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.mikepenz:iconics-core:3.0.4@aar'
     implementation 'com.mikepenz:google-material-typeface:3.0.1.2.original@aar'
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    kapt 'com.jakewharton:butterknife-compiler:10.1.0'
+    implementation 'com.jakewharton:butterknife:10.2.1'
+    kapt 'com.jakewharton:butterknife-compiler:10.2.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
-    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-core:17.4.3'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.6'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
-    implementation 'me.zhanghai.android.materialprogressbar:library:1.4.2'
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
     implementation 'com.github.MFlisar:changelog:1.1.5'
     implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.github.hedzr:android-file-chooser:master-SNAPSHOT'
     implementation 'com.github.matecode:Snacky:1.1.4'
     implementation 'com.github.tingyik90:snackprogressbar:5.0'
-    implementation 'com.karumi:dexter:5.0.0'
-    implementation 'org.apache.commons:commons-lang3:3.7'
-    implementation 'commons-io:commons-io:2.6'
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
+    implementation 'com.karumi:dexter:6.1.2'
+    implementation 'org.apache.commons:commons-lang3:3.10'
+    implementation 'commons-io:commons-io:2.7' //It show a fake new version
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2'
     implementation 'com.mindorks.android:prdownloader:0.4.0'
     implementation 'org.mnode.ical4j:ical4j:2.2.3'
-    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'org.slf4j:slf4j-simple:1.7.30'
     implementation "org.tinylog:tinylog-api:${tinylog_version}"
     implementation "org.tinylog:tinylog-api-kotlin:${tinylog_version}"
     implementation "org.tinylog:tinylog-impl:${tinylog_version}"
     implementation 'com.android.volley:volley:1.1.0'
-    implementation 'commons-net:commons-net:3.6'
-    implementation 'com.android.billingclient:billing:2.2.0'
+    implementation 'commons-net:commons-net:3.6' //It show a fake new version
+    implementation 'com.android.billingclient:billing:2.2.1'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.github.ByteHamster:SearchPreference:v2.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
