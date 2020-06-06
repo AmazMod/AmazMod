@@ -94,7 +94,7 @@ public class HeartRateChartFragment extends Card {
         Description description = new Description();
         description.setText("");
         binding.heartrateChart.setDescription(description);
-        final int themeForegroundColor = ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext()));
+        final int themeForegroundColor = ThemeHelper.getThemeForegroundColor(requireContext());
 
         binding.heartrateChart.getXAxis().setDrawLabels(false);
         binding.heartrateChart.getXAxis().setTextColor(themeForegroundColor);

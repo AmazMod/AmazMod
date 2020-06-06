@@ -25,22 +25,32 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <com.amazmod.service.springboard.AlwaysMarqueeTextView
+        <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
+            android:textAlignment="viewStart"
+            android:marqueeRepeatLimit ="marquee_forever"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:scrollHorizontally="true"
             android:singleLine="true"
             android:textColor="@android:color/white"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             tools:text="Title" />
 
-        <com.amazmod.service.springboard.AlwaysMarqueeTextView
+        <TextView
             android:id="@+id/subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:singleLine="true"
+            android:textAlignment="viewStart"
+            android:marqueeRepeatLimit ="marquee_forever"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:scrollHorizontally="true"
             tools:text="Subtitle\nMulti row" />
     </LinearLayout>
 </LinearLayout>

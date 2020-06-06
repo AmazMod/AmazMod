@@ -58,6 +58,7 @@ import static android.app.Activity.RESULT_FIRST_USER;
 import static android.app.Activity.RESULT_OK;
 import static com.amazmod.service.Constants.LONG_KEY_SETTINGS;
 import static com.amazmod.service.util.SystemProperties.isStratos;
+import static com.amazmod.service.util.SystemProperties.isStratos3;
 
 public class WearAppsFragment extends Fragment implements WearableListView.ClickListener {
 
@@ -78,7 +79,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
 
     private int appChosen = 0;
     private boolean isAmazModUninstall;
-    private boolean isStratos;
+    private boolean isStratos, isStratos3;
 
     private final int UNINSTALL_REQUEST_CODE = 1;
     //private static final String REFRESH = "Refresh";
@@ -90,6 +91,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         Logger.info("WearAppsFragment onAttach context: " + mContext);
 
         this.isStratos = isStratos();
+        this.isStratos3 = isStratos3();
     }
 
     @Override
@@ -296,7 +298,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         });
 
         // Check if app is in the quick launch list
-        if(isStratos && quickLaunchApk.contains(pkgName)) {
+        if((isStratos || isStratos3) && quickLaunchApk.contains(pkgName)) {
             // Enable quick launch button
             buttonQuickLaunch.setVisibility(View.VISIBLE);
             buttonQuickLaunch.setOnClickListener(new View.OnClickListener() {

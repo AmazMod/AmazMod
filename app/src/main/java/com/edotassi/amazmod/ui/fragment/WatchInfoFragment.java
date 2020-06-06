@@ -371,7 +371,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void connected() {
-        binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), Objects.requireNonNull(getContext()).getTheme()));
+        binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorCharging), requireContext().getTheme()));
         binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_is_connected)).toUpperCase());
         binding.cardWatchProgress.setVisibility(View.GONE);
         binding.cardWatchDetail.setVisibility(View.VISIBLE);
@@ -379,7 +379,7 @@ public class WatchInfoFragment extends Card implements Updater {
     }
 
     private void disconnected() {
-        binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
+        binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), requireContext().getTheme()));
         binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_disconnected)).toUpperCase());
         binding.cardWatchProgress.setVisibility(View.GONE);
         binding.cardWatchDetail.setVisibility(View.GONE);
@@ -392,11 +392,11 @@ public class WatchInfoFragment extends Card implements Updater {
     private void connecting(boolean withService) {
         if(withService) {
             // Connecting to service
-            binding.isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
+            binding.isConnectedTV.setTextColor(ThemeHelper.getThemeForegroundColor(requireContext()));
             binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting)).toUpperCase());
         }else{
             // Connecting to official API
-            binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), Objects.requireNonNull(getContext()).getTheme()));
+            binding.isConnectedTV.setTextColor(getResources().getColor((R.color.colorAccent), requireContext().getTheme()));
             binding.isConnectedTV.setText(((String) getResources().getText(R.string.watch_connecting_no_service)).toUpperCase());
         }
         binding.cardWatchDetail.setVisibility(View.GONE);

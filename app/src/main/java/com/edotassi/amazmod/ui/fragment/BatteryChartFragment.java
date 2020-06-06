@@ -531,7 +531,7 @@ public class BatteryChartFragment extends Card {
         xAxis.setTextSize(8);
         xAxis.setAxisMinimum(lowX);
         xAxis.setAxisMaximum(highX);
-        xAxis.setTextColor(ThemeHelper.getThemeForegroundColor(Objects.requireNonNull(getContext())));
+        xAxis.setTextColor(ThemeHelper.getThemeForegroundColor(requireContext()));
 
         final Calendar now = Calendar.getInstance();
         final SimpleDateFormat simpleDateFormatHours = new SimpleDateFormat("HH");
