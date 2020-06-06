@@ -30,10 +30,10 @@ jobs:
           command: ./gradlew lint test --no-daemon
       - run:
           name: Build Release APK for Phone App
-          command: ./gradlew :app:assembleRelease
+          command: ./gradlew :app:assembleRelease --no-daemon
       - run:
           name: Build debug APK for Watch Service
-          command: ./gradlew :service:assembleRelease --stacktrace --scan
+          command: ./gradlew :service:assembleRelease --no-daemon
       - run:
           name: Move APKs to temp folder
           command: |
