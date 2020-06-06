@@ -27,7 +27,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests and Lints
-          command: ./gradlew --no-daemon lint test
+          command: ./gradlew lint test
       - run:
           name: Build Release APK for Phone App
           command: ./gradlew --no-daemon :app:assembleRelease
