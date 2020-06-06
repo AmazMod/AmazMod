@@ -1,11 +1,11 @@
 # Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
-version: 2.1
+version: 2
 jobs:
   build:
     docker:
       - image: circleci/android:api-29
     environment:
-      JVM_OPTS: -Xmx3584m -Xms1536m
+      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - restore_cache:
@@ -27,13 +27,13 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests and Lints
-          command: ./gradlew lint test --no-daemon
+          command: ./gradlew lint test
       - run:
           name: Build Release APK for Phone App
-          command: ./gradlew :app:assembleRelease --no-daemon
+          command: ./gradlew :app:assembleRelease
       - run:
           name: Build debug APK for Watch Service
-          command: ./gradlew :service:assembleRelease --no-daemon
+          command: ./gradlew :service:assembleRelease
       - run:
           name: Move APKs to temp folder
           command: |
@@ -73,7 +73,7 @@ jobs:
               -prerelease \
               ${VERSION} ./apks/apks/
 workflows:
-  version: 2.1
+  version: 2
   dev:
     jobs:
       - build:
