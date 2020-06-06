@@ -5,7 +5,8 @@ jobs:
     docker:
       - image: circleci/android:api-29
     environment:
-      JVM_OPTS: -Xmx4g
+      # from https://discuss.circleci.com/t/circle-ci-v2-and-android-memory-issues/11207
+      JVM_OPTS: -Xmx2048m -XX:ParallelGCThreads=2 -XX:ConcGCThreads=2 -XX:ParallelGCThreads=2 -Djava.util.concurrent.ForkJoinPool.common.parallelism=2
     steps:
       - checkout
       - restore_cache:
