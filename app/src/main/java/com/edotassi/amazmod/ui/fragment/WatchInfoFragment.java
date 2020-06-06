@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui.fragment;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -152,6 +153,12 @@ public class WatchInfoFragment extends Card implements Updater {
             connecting();
             timeLastSync = System.currentTimeMillis();
 
+            // Don't try to connect if bluetooth is disabled
+            if (!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+                AmazModApplication.setWatchConnected(false);
+                disconnected();
+                return;
+            }
             // Try to connect to Amazmod service on watch
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override
