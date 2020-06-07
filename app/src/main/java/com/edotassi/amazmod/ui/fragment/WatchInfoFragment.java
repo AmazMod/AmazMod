@@ -153,12 +153,6 @@ public class WatchInfoFragment extends Card implements Updater {
             connecting();
             timeLastSync = System.currentTimeMillis();
 
-            // Don't try to connect if bluetooth is disabled
-            if (!BluetoothAdapter.getDefaultAdapter().isEnabled()){
-                AmazModApplication.setWatchConnected(false);
-                disconnected();
-                return;
-            }
             // Try to connect to Amazmod service on watch
             Watch.get().getStatus().continueWith(new Continuation<WatchStatus, Object>() {
                 @Override

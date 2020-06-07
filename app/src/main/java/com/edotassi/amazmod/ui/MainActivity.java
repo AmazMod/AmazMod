@@ -1,6 +1,7 @@
 package com.edotassi.amazmod.ui;
 
 import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -182,6 +183,12 @@ public class MainActivity extends BaseAppCompatActivity
                 tv.setMaxLines(5);
                 snackbar.show();
             }
+        }
+
+        // Ask to enable bluetooth if not enabled
+        if (!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, 1);
         }
     }
 
