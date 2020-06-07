@@ -312,6 +312,8 @@ public class StatsActivity extends BaseAppCompatActivity {
                             }
                         });
                     }
+                }, throwable -> {
+                    Logger.error(throwable.toString());
                 });
     }
 

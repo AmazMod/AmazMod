@@ -20,6 +20,8 @@ import com.pixplicity.easyprefs.library.Prefs;
 import com.raizlabs.android.dbflow.sql.language.Delete;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.tinylog.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -135,6 +137,8 @@ public class NotificationsLogActivity extends BaseAppCompatActivity {
                             }
                         });
                     }
+                }, throwable -> {
+                    Logger.error(throwable.toString());
                 });
     }
 }
