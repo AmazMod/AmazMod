@@ -207,6 +207,7 @@ public class Constants {
 
     public static final String PREF_LANGUAGE_AUTO = "auto";
     public static final int REQUEST_CODE_INTRO = 1;
+    public static final int REQUEST_CODE_BLUETOOTH = 2;
 
     public static final String LOGFILE = "amazmod.log";
     public static final String FILE_PROVIDER = "com.edotassi.amazmod.provider";

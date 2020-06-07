@@ -188,7 +188,7 @@ public class MainActivity extends BaseAppCompatActivity
         // Ask to enable bluetooth if not enabled
         if (!BluetoothAdapter.getDefaultAdapter().isEnabled()){
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, 1);
+            startActivityForResult(enableBtIntent, Constants.REQUEST_CODE_BLUETOOTH);
         }
     }
 
