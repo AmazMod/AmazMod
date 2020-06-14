@@ -523,12 +523,10 @@ public class AmazModLauncher extends AbstractPlugin {
     private boolean isHiddenApp(String packageName) {
 
         boolean result = false;
-        if (StringUtils.indexOfAny(packageName, HIDDEN_APPS) >= 0)
+        if (StringUtils.indexOfAny(packageName, HIDDEN_APPS) >= 0
+                || hiddenAppsList.contains(packageName)
+                || mContext.getPackageManager().getLaunchIntentForPackage(packageName) == null)
             result = true;
-        else {
-            if (hiddenAppsList.contains(packageName))
-                result = true;
-        }
 
         Logger.info("AmazModLauncher isHiddenApp packageName: " + packageName + " \\ result: " + result);
         return result;
