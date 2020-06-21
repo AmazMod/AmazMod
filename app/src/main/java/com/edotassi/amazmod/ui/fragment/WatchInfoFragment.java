@@ -37,6 +37,7 @@ import com.edotassi.amazmod.ui.card.Card;
 import com.edotassi.amazmod.update.UpdateDownloader;
 import com.edotassi.amazmod.update.Updater;
 import com.edotassi.amazmod.util.Permissions;
+import com.edotassi.amazmod.util.Screen;
 import com.edotassi.amazmod.watch.Watch;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Continuation;
@@ -291,7 +292,7 @@ public class WatchInfoFragment extends Card implements Updater {
         // Update watch name on the persistent notification
         TransportService.model = watchStatusData.getRoProductModel();
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
+                .putString(Constants.PREF_WATCH_MODEL, Screen.getModelName(watchStatusData.getRoBuildHuamiModel()))
                 .putString(Constants.PREF_HUAMI_MODEL, watchStatusData.getRoBuildHuamiModel())
                 .putString(Constants.PREF_SERIALNO, watchStatusData.getRoSerialno())
                 .apply();
