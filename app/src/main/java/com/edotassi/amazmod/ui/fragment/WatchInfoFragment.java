@@ -293,6 +293,7 @@ public class WatchInfoFragment extends Card implements Updater {
         PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
                 .putString(Constants.PREF_WATCH_MODEL, TransportService.model)
                 .putString(Constants.PREF_HUAMI_MODEL, watchStatusData.getRoBuildHuamiModel())
+                .putString(Constants.PREF_SERIALNO, watchStatusData.getRoSerialno())
                 .apply();
 
         // Update watch info card values
