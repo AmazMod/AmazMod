@@ -3,6 +3,7 @@ package com.edotassi.amazmod.transport;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.Service;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -467,6 +468,17 @@ public class TransportService extends Service implements Transporter.DataListene
                 persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
             }
             Logger.warn("Transporter is not connected");
+            return;
+        }
+
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            if (AmazModApplication.isWatchConnected() || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
+                AmazModApplication.setWatchConnected(false);
+                EventBus.getDefault().removeAllStickyEvents();
+                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
+                persistentNotification.updatePersistentNotification(AmazModApplication.isWatchConnected());
+            }
+            Logger.warn("[TransportService: send] Bluetooth is not enabled");
             return;
         }
 
