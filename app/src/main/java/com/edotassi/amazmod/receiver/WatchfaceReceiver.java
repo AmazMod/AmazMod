@@ -3,6 +3,8 @@ package com.edotassi.amazmod.receiver;
 import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
 import android.content.BroadcastReceiver;
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -139,6 +141,11 @@ public class WatchfaceReceiver extends BroadcastReceiver {
     public void onReceive(final Context context, Intent intent) {
 
         refresh = intent.getBooleanExtra("refresh", false);
+
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            Logger.debug("[WatchfaceDataReceiver] bluetooth disabled, returning");
+            return;
+        }
 
         if (!Prefs.getBoolean(Constants.PREF_WATCHFACE_SEND_DATA, Constants.PREF_DEFAULT_WATCHFACE_SEND_DATA)) {
             Logger.debug("[WatchfaceDataReceiver] send data is off");
