@@ -2,6 +2,7 @@ package com.amazmod.service.util;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.Settings;
 import android.widget.Toast;
 
@@ -172,10 +173,11 @@ public class ExecCommand {
 
     private class OutputReader extends Thread {
 
-        private Context context;
+        private Runnable failRunnable;
+        private Handler handler;
 
         OutputReader() {
-            context = null;
+            handler = null;
             try {
                 outputSem = new Semaphore(1);
                 outputSem.acquire();
@@ -185,7 +187,13 @@ public class ExecCommand {
         }
         // TODO: Start using this OutputReader with context instead of the other one
         OutputReader(Context paramContext) {
-            context = paramContext;
+            if(paramContext != null){
+                failRunnable = () -> {
+                    Toast.makeText(paramContext, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
+                    DeviceUtil.systemPutInt(paramContext, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
+                };
+            }
+            handler = new Handler();
             try {
                 outputSem = new Semaphore(1);
                 outputSem.acquire();
@@ -213,9 +221,8 @@ public class ExecCommand {
 
                 output = readBuffer.toString();
                 if (output.toLowerCase().contains("fail")) {
-                    if(context != null){
-                        Toast.makeText(context, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
-                        DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
+                    if(handler != null){
+                        handler.post(failRunnable);
                     } else {
                         new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
                     }
