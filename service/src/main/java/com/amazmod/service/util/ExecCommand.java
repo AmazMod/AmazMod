@@ -205,20 +205,18 @@ public class ExecCommand {
         public void run() {
             try {
                 StringBuilder readBuffer = new StringBuilder();
-                try (BufferedReader isr = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-                    String buff;
-                    int count = 0;
-                    while ((buff = isr.readLine()) != null) {
-                        if (count > 0)
-                            readBuffer.append("\n");
+                BufferedReader isr = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                String buff;
+                int count = 0;
+                while ((buff = isr.readLine()) != null) {
+                    if (count > 0)
+                        readBuffer.append("\n");
 
-                        readBuffer.append(buff);
-                        //System.out.println(buff);
-                        Logger.info("ExecCommand OutputReader.run buff: {} line: {}", buff, count);
-                        count++;
-                    }
+                    readBuffer.append(buff);
+                    //System.out.println(buff);
+                    Logger.info("ExecCommand OutputReader.run buff: {} line: {}", buff, count);
+                    count++;
                 }
-
                 output = readBuffer.toString();
                 if (output.toLowerCase().contains("fail")) {
                     if(handler != null){
@@ -248,11 +246,10 @@ public class ExecCommand {
         public void run() {
             try {
                 StringBuilder readBuffer = new StringBuilder();
-                try (BufferedReader isr = new BufferedReader(new InputStreamReader(p.getErrorStream()))) {
-                    String buff;
-                    while ((buff = isr.readLine()) != null) {
-                        readBuffer.append(buff);
-                    }
+                BufferedReader isr = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+                String buff;
+                while ((buff = isr.readLine()) != null) {
+                    readBuffer.append(buff);
                 }
                 error = readBuffer.toString();
                 errorSem.release();
