@@ -2,6 +2,7 @@ package com.edotassi.amazmod.notification;
 
 import android.app.job.JobParameters;
 import android.app.job.JobService;
+import android.bluetooth.BluetoothAdapter;
 import android.content.ComponentName;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -258,6 +259,12 @@ public class NotificationJobService extends JobService implements TransportServi
         Logger.debug("processNotificationRemoved uuid: " + uuid + " \\ try: " + retries);
 
         DataBundle dataBundle = NotificationStore.getRemovedNotification(uuid);
+
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            AmazModApplication.setWatchConnected(false);
+            Logger.warn("Bluetooth is disabled");
+            return;
+        }
 
         if (TransportService.isTransporterHuamiConnected()) {
             Logger.info("processNotificationRemoved transport already connected");

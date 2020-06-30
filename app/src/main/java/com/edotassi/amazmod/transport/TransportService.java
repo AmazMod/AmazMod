@@ -564,16 +564,6 @@ public class TransportService extends Service implements Transporter.DataListene
 
     public static void getDataTransportResult(char mode, String action, final String uuid, DataBundle dataBundle, final DataTransportResultCallback callback) {
 
-        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
-            if (AmazModApplication.isWatchConnected() || (EventBus.getDefault().getStickyEvent(IsWatchConnectedLocal.class) == null)) {
-                AmazModApplication.setWatchConnected(false);
-                EventBus.getDefault().removeAllStickyEvents();
-                EventBus.getDefault().postSticky(new IsWatchConnectedLocal(AmazModApplication.isWatchConnected()));
-            }
-            Logger.warn("Bluetooth is not enabled");
-            return;
-        }
-
         // Get appropriate transporter based on mode
         Transporter t = getTransporter(mode, action);
 
