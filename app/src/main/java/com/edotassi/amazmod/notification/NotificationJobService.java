@@ -150,6 +150,12 @@ public class NotificationJobService extends JobService implements TransportServi
 
         DataBundle dataBundle = NotificationStore.getStandardNotification(uuid);
 
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            AmazModApplication.setWatchConnected(false);
+            Logger.warn("Bluetooth is disabled");
+            return;
+        }
+
         // Check if transporter is connected
         if (TransportService.isTransporterHuamiConnected()) {
             Logger.info("processStandardNotificationPosted transport already connected");
@@ -311,6 +317,12 @@ public class NotificationJobService extends JobService implements TransportServi
 
     private void processCustomNotificationPosted(final String uuid) {
         Logger.debug("processCustomNotificationPosted uuid: " + uuid);
+
+        if(!BluetoothAdapter.getDefaultAdapter().isEnabled()){
+            AmazModApplication.setWatchConnected(false);
+            Logger.warn("Bluetooth is disabled");
+            return;
+        }
 
         // Check transporter
         if (!TransportService.isTransporterNotificationsConnected()) {
