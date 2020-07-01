@@ -437,7 +437,7 @@ public class WearAppsFragment extends Fragment implements WearableListView.Click
         if (requestCode == UNINSTALL_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Logger.trace("WearAppsFragment onActivityResult RESULT_OK");
-                Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + getString(R.string.uninstalled_successfully), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, appInfoList.get(appChosen).getAppName() + " " + getString(R.string.uninstalled_successfully), Toast.LENGTH_SHORT).show();
                 scrollView.post(new Runnable() {
                     public void run() {
                         Logger.trace("WearAppsFragment onActivityResult scrollToTop");
