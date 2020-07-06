@@ -46,8 +46,7 @@ public class SystemProperties {
     // Get the value for the given key.
     public static String get(String key) {
         try {
-            Class<?> SystemProperties = Class.forName("android.os.SystemProperties");
-            return (String) SP.getMethod("get", String.class).invoke(SystemProperties, key);
+            return (String) SP.getMethod("get", String.class).invoke(null, key);
         } catch (Exception e) {
             return null;
         }
