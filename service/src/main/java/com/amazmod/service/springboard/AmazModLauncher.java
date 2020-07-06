@@ -619,7 +619,7 @@ public class AmazModLauncher extends AbstractPlugin {
         if (name.equals("App Manager")){
             name = mContext.getResources().getString(R.string.app_manager);
         }
-        Toast.makeText(mContext, mContext.getResources().getString(R.string.opening)+" "+ name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.opening)+ " " + name, Toast.LENGTH_SHORT).show();
 
         if (MANAGE_APPS.equals(appInfoList.get(itemChosen).getAppName()) && MENU_ENTRY.equals(version)) {
 
@@ -655,7 +655,7 @@ public class AmazModLauncher extends AbstractPlugin {
             Collections.sort(hiddenAppsList);
             String pref = new Gson().toJson(hiddenAppsList);
             widgetSettings.set(Constants.PREF_HIDDEN_APPS, pref);
-            Toast.makeText(mContext, appInfoList.get(itemChosen).getAppName() +" "+ mContext.getResources().getString(R.string.hidden), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, appInfoList.get(itemChosen).getAppName() + " " + mContext.getResources().getString(R.string.hidden), Toast.LENGTH_SHORT).show();
             //refreshList();
             appInfoList.remove(itemChosen);
             mAdapter.notifyDataSetChanged();
