@@ -252,7 +252,12 @@ public class SystemProperties {
     public static boolean checkIfModel(String[] targetModels, String Name){
         // String model = getSystemProperty("ro.build.huami.model");
         // String model = get("ro.build.huami.model");
-        String model = getModelNoBySerialNo(get(WatchStatusData.RO_SERIALNO));
+        String model;
+        String serial = get(WatchStatusData.RO_SERIALNO, "-");
+        if(!serial.equals("-"))
+            model = getModelNoBySerialNo(serial);
+        else
+            model = get("ro.build.huami.model");
         boolean check = Arrays.asList(targetModels).contains(model);
         Logger.debug("[System Properties] Current model (" + model + ") is " + ((check)?"":"NOT ") + "a " + Name);
         return check;
