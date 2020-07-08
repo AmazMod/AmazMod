@@ -31,11 +31,14 @@ public class accelerometer implements SensorEventListener {
     public void registerListener(Context context){
         Logger.debug("Registering accelerometer listener...");
         SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST);
+        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_FASTEST, 10 * 1000 * 1000 /*10s in us*/);
         handler = new Handler(context.getMainLooper());
         handler.postDelayed(new Runnable(){
             public void run(){
-                handler.postDelayed(this, 10 * 1000);
+                if(!sleepStore.isTracking())
+                    return; //If not tracking anymore stop loop to avoid it keep running
+                handler.postDelayed(this, 10 * 1000 /*10s per float, as saa requests*/);
                 if(sleepStore.isSuspended())
                     return;
                 sleepStore.addMaxData(current_max_data, current_max_raw_data);
@@ -52,7 +55,7 @@ public class accelerometer implements SensorEventListener {
                     sleepService.send(sleepData.toDataBundle(new DataBundle()));
                 }
             }
-        }, 10 * 1000 /*10s, as saa requests*/);
+        }, 10 * 1000 + 10 /*Leave some ms for batching to save first data*/);
     }
 
     public void unregisterListener(Context context){
