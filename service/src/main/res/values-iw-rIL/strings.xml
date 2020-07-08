@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">בינוני</string>
     <string name="uvindex_strong">חזק</string>
     <string name="uvindex_verystrong">חזק מאוד</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_dismiss">Dismiss</string>
 </resources>
