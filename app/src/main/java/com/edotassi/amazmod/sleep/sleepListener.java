@@ -20,7 +20,7 @@ public class sleepListener implements Transporter.DataListener {
 
     private Context context;
 
-    private static sleepListener getInstance(){
+    public static sleepListener getInstance(){
         if(instance == null)
             instance = new sleepListener();
         return instance;
@@ -31,10 +31,12 @@ public class sleepListener implements Transporter.DataListener {
     }
 
     public static void register(Context context){
+        Logger.debug("Registering sleepListener to sleepTransporter...");
         sleepTransporter = Transporter.get(context, Transport.NAME_SLEEP);
         sleepTransporter.addDataListener(getInstance());
         if(!sleepTransporter.isTransportServiceConnected())
             sleepTransporter.connectTransportService();
+        getInstance().setContext(context);
     }
 
     public static void unregister(){
@@ -42,6 +44,7 @@ public class sleepListener implements Transporter.DataListener {
         if(sleepTransporter.isTransportServiceConnected())
             sleepTransporter.disconnectTransportService();
         sleepTransporter = null;
+        instance = null;
     }
 
     @Override
@@ -50,15 +53,16 @@ public class sleepListener implements Transporter.DataListener {
             return;
         SleepData sleepData = new SleepData();
         sleepData.fromDataBundle(transportDataItem.getData());
+        Logger.debug("sleep: Received action " + sleepData.getAction() + " from watch");
         sleepUtils.broadcast(context, sleepData);
     }
 
     public static void send(DataBundle dataBundle) {
         if(!BluetoothAdapter.getDefaultAdapter().isEnabled())
             return;
-        if (!sleepTransporter.isTransportServiceConnected()) {
+        if (!sleepTransporter.isTransportServiceConnected())
             sleepTransporter.connectTransportService();
-        }
+
         String action = Transport.SLEEP_DATA;
 
         if (dataBundle != null) {

@@ -175,7 +175,6 @@ public class TransportService extends Service implements Transporter.DataListene
             startInternetCompanion(getApplicationContext());
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_ENABLE_SLEEP_AS_ANDROID, false))
             sleepListener.register(this);
-
     }
 
     @Override
@@ -292,6 +291,8 @@ public class TransportService extends Service implements Transporter.DataListene
             transporterHealth.disconnectTransportService();
             transporterHealth = null;
         }
+
+        sleepListener.unregister();
     }
 
     public static void connectTransporterAmazMod(){

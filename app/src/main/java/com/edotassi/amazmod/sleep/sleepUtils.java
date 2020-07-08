@@ -4,6 +4,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
+import org.tinylog.Logger;
+
 import amazmod.com.transport.data.SleepData;
 import static amazmod.com.transport.data.SleepData.actions;
 
@@ -18,15 +20,20 @@ public class sleepUtils {
                 intent.putExtra("MAX_DATA", sleepData.getMax_data());
                 intent.putExtra("MAX_RAW_DATA", sleepData.getMax_raw_data());
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.DATA_UPDATE"));
+                Logger.debug("sleep: Received accelerometer update");
+                break;
             case actions.ACTION_HRDATA_UPDATE:
                 intent.putExtra("DATA", sleepData.getHrdata());
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.HR_DATA_UPDATE"));
+                Logger.debug("sleep: Received hr update");
                 break;
             case actions.ACTION_SNOOZE_FROM_WATCH:
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.SNOOZE_FROM_WATCH"));
+                Logger.debug("sleep: Received snooze");
                 break;
             case actions.ACTION_DISMISS_FROM_WATCH:
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.DISMISS_FROM_WATCH"));
+                Logger.debug("sleep: Received dismiss");
                 break;
             default:
                 break;

@@ -9,6 +9,8 @@ import android.content.Intent;
 import com.edotassi.amazmod.AmazModApplication;
 import com.huami.watch.transport.DataBundle;
 
+import org.tinylog.Logger;
+
 import java.util.Objects;
 
 import amazmod.com.transport.data.SleepData;
@@ -66,7 +68,11 @@ public class broadcastReceiver extends BroadcastReceiver {
             default:
                 break;
         }
-        if(sleepData.getAction() != -1)
+        if(sleepData.getAction() != -1) {
             sleepListener.send(sleepData.toDataBundle(new DataBundle()));
+            Logger.debug("sleep: Detected intent \"" + intent.getAction() + "\", sending action " + sleepData.getAction());
+        } else {
+            Logger.debug("sleep: broadcastReceiver: Received unknown intent: " + intent.getAction());
+        }
     }
 }
