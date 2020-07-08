@@ -516,4 +516,5 @@ Urobte príkaz shell \"</string>
     <string name="searchpreference_search">Vyhľadávanie…</string>
     <string name="searchpreference_clear_history">Vymazať históriu</string>
     <string name="searchpreference_no_results">Žiadne výsledky</string>
+    <string name="enable_sleep">Enable Sleep As Android</string>
 </resources>
