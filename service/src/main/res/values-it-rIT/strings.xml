@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">Moderato</string>
     <string name="uvindex_strong">Forte</string>
     <string name="uvindex_verystrong">Molto forte</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_dismiss">Dismiss</string>
 </resources>
