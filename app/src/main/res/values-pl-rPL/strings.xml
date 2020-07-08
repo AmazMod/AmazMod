@@ -515,4 +515,5 @@
     <string name="searchpreference_search">Szukaj…</string>
     <string name="searchpreference_clear_history">Wyczyść historię</string>
     <string name="searchpreference_no_results">Brak wyników</string>
+    <string name="enable_sleep">Enable Sleep As Android</string>
 </resources>
