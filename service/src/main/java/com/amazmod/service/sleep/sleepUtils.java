@@ -16,7 +16,7 @@ public class sleepUtils {
         int length = objectArray.length;;
         float[] finalArray = new float[length];
         for(int i =0; i < length; i++) {
-            finalArray[i] = Float.parseFloat((String) objectArray[i]);
+            finalArray[i] = (float) objectArray[i];
         }
         return finalArray;
     }
