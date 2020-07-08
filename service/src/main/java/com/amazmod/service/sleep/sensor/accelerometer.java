@@ -30,7 +30,7 @@ public class accelerometer implements SensorEventListener {
 
     public void registerListener(Context context){
         SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 3 * 1000 /*3s TODO needs testing to get best value with no high consumption and accurate results*/);
+        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST);
         Looper.prepareMainLooper();
         handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable(){
@@ -41,6 +41,16 @@ public class accelerometer implements SensorEventListener {
                 sleepStore.addMaxData(current_max_data, current_max_raw_data);
                 current_max_data = 0;
                 current_max_raw_data = 0;
+
+                if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize() / 10){
+                    SleepData sleepData = new SleepData();
+                    sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
+                    sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
+                    sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
+                    sleepStore.resetMaxData();
+                    Logger.debug("Sending sleep accelerometer data to phone...");
+                    sleepService.send(sleepData.toDataBundle(new DataBundle()));
+                }
             }
         }, 10 * 1000 /*10s, as saa requests*/);
     }
@@ -70,16 +80,6 @@ public class accelerometer implements SensorEventListener {
         lastX = x;
         lastY = y;
         lastZ = z;
-
-        if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize() / 10){
-            SleepData sleepData = new SleepData();
-            sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
-            sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
-            sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
-            sleepStore.resetMaxData();
-            Logger.debug("Sending sleep accelerometer data to phone...");
-            sleepService.send(sleepData.toDataBundle(new DataBundle()));
-        }
     }
 
     @Override
