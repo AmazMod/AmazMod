@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Vibrator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -27,12 +28,13 @@ import static amazmod.com.transport.data.SleepData.actions;
 
 public class alarmActivity extends Activity {
 
-    public static String INTENT_CLOSE = "com.amazmod.alarm.action.close";
+    public static final String INTENT_CLOSE = "com.amazmod.alarm.action.close";
 
     private TextView time;
     private Button snooze, dismiss;
 
     private Handler timeHandler;
+    private Vibrator vibrator;
 
     LocalBroadcastManager mLocalBroadcastManager;
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
@@ -50,13 +52,21 @@ public class alarmActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         init();
+        //Get delay from saa's extra
+        //TODO Make a good vibration pattern or extract from huami patterns, this one is random
+        long[] VIBRATION_PATTERN = new long[]{
+                getIntent().getIntExtra("DELAY", 0), //Get delay from saa's extra
+                200, 100, 300, 200, 400, 300, 500, 400, 600, 500, 700, 600, 1000, 500, 1000, 500, 1000, 500
+                //TODO Make a good vibration pattern or extract from huami patterns, this one is random
+        };
         //Create broadcast receiver to finish activity when received signal
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter mIntentFilter = new IntentFilter();
         mIntentFilter.addAction(INTENT_CLOSE);
         mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, mIntentFilter);
         setupTime();
-
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        vibrator.vibrate(VIBRATION_PATTERN, 200 /*It will get cancelled after closing activity*/);
     }
 
     private void setupTime(){
@@ -79,11 +89,15 @@ public class alarmActivity extends Activity {
             SleepData sleepData = new SleepData();
             sleepData.setAction(actions.ACTION_SNOOZE_FROM_WATCH);
             sleepService.send(sleepData.toDataBundle(new DataBundle()));
+            vibrator.cancel();
+            finish();
         });
         dismiss.setOnClickListener(view -> {
             SleepData sleepData = new SleepData();
             sleepData.setAction(actions.ACTION_DISMISS_FROM_WATCH);
             sleepService.send(sleepData.toDataBundle(new DataBundle()));
+            vibrator.cancel();
+            finish();
         });
     }
 
@@ -92,5 +106,6 @@ public class alarmActivity extends Activity {
         if (timeHandler != null)
             timeHandler.removeCallbacksAndMessages(null);
         timeHandler = null;
+        vibrator.cancel();
     }
 }

@@ -64,6 +64,7 @@ public class sleepService extends Service implements Transporter.DataListener {
                 break;
             case actions.ACTION_START_ALARM:
                 Intent alarmIntent = new Intent(this, alarmActivity.class);
+                alarmIntent.putExtra("DELAY", sleepData.getDelay());
                 alarmIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(alarmIntent);
                 break;
