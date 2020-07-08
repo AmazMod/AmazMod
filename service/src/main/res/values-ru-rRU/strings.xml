@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">Умеренный</string>
     <string name="uvindex_strong">Сильный</string>
     <string name="uvindex_verystrong">Очень сильный</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_dismiss">Dismiss</string>
 </resources>
