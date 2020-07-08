@@ -510,5 +510,5 @@
     <string name="searchpreference_search">Search…</string>
     <string name="searchpreference_clear_history">Clear history</string>
     <string name="searchpreference_no_results">No results</string>
-    <string name="enable_sleep">Enable Sleep As Android</string>
+    <string name="enable_sleep">Ενεργοποίηση του Sleep As Android</string>
 </resources>
