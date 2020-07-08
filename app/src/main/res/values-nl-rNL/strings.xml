@@ -510,5 +510,5 @@ het systeemthema (beta).</string>
     <string name="searchpreference_search">Zoeken…</string>
     <string name="searchpreference_clear_history">Geschiedenis wissen</string>
     <string name="searchpreference_no_results">Geen resultaten</string>
-    <string name="enable_sleep">Enable Sleep As Android</string>
+    <string name="enable_sleep">Slaapstand als Android inschakelen</string>
 </resources>
