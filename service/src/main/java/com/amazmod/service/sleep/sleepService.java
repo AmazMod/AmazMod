@@ -83,8 +83,8 @@ public class sleepService extends Service implements Transporter.DataListener {
                 break;
             default:
                 break;
-
         }
+        Logger.debug("sleep: Received data with action " + sleepData.getAction());
     }
 
     public static void send(DataBundle dataBundle) {

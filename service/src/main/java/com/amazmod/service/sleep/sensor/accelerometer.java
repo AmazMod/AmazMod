@@ -31,8 +31,7 @@ public class accelerometer implements SensorEventListener {
     public void registerListener(Context context){
         SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_FASTEST);
-        Looper.prepareMainLooper();
-        handler = new Handler(Looper.getMainLooper());
+        handler = new Handler(context.getMainLooper());
         handler.postDelayed(new Runnable(){
             public void run(){
                 handler.postDelayed(this, 10 * 1000);
