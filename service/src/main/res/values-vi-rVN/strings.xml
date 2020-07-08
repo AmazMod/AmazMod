@@ -172,7 +172,7 @@
     <string name="uvindex_moderate">Vừa phải</string>
     <string name="uvindex_strong">Mạnh</string>
     <string name="uvindex_verystrong">Rất mạnh</string>
-    <string name="alarm">Alarm</string>
-    <string name="alarm_snooze">Snooze</string>
-    <string name="alarm_dismiss">Dismiss</string>
+    <string name="alarm">Báo thức</string>
+    <string name="alarm_snooze">Báo lại</string>
+    <string name="alarm_dismiss">Bỏ qua</string>
 </resources>
