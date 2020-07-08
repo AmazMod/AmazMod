@@ -174,5 +174,5 @@
     <string name="uvindex_verystrong">Zeer sterk</string>
     <string name="alarm">Alarm</string>
     <string name="alarm_snooze">Snooze</string>
-    <string name="alarm_dismiss">Dismiss</string>
+    <string name="alarm_dismiss">Sluiten</string>
 </resources>
