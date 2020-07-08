@@ -6,7 +6,10 @@ import android.os.Vibrator;
 import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.sleep.sensor.sensorsStore;
 
+import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.LinkedList;
+import java.util.Locale;
 
 import amazmod.com.transport.data.NotificationData;
 
@@ -32,12 +35,16 @@ public class sleepUtils {
     public static void postNotification(String title, String text, Context context){
         NotificationService notificationService = new NotificationService(context);
         NotificationData notificationData = new NotificationData();
+        notificationData.setId(1834);
+        notificationData.setKey("amazmod|SAA");
         notificationData.setTitle(title);
         notificationData.setText(text);
-        notificationData.setHideButtons(true);
+        notificationData.setTime(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));
         notificationData.setForceCustom(false);
+        notificationData.setHideButtons(true);
         notificationData.setHideReplies(true);
         //notificationData.setIcon(); TODO Set sleep as android icon
+
         notificationService.post(notificationData);
     }
 
