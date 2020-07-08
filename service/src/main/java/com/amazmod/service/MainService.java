@@ -56,6 +56,7 @@ import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.receiver.AdminReceiver;
 import com.amazmod.service.receiver.NotificationReplyReceiver;
 import com.amazmod.service.settings.SettingsManager;
+import com.amazmod.service.sleep.sleepService;
 import com.amazmod.service.springboard.WidgetSettings;
 import com.amazmod.service.support.BatteryJobService;
 import com.amazmod.service.support.NotificationStore;
@@ -336,6 +337,8 @@ public class MainService extends Service implements Transporter.DataListener {
         Logger.debug("MainService onCreate transporterXdrip "+ (!transporterXdrip.isTransportServiceConnected()?"not connected, connecting...": "already connected") );
         if (!transporterXdrip.isTransportServiceConnected())
             transporterXdrip.connectTransportService();
+        //Sleep as android data
+        startService(new Intent(this, sleepService.class));
 
 
         // This is so we can enable Power Save mode
@@ -427,6 +430,7 @@ public class MainService extends Service implements Transporter.DataListener {
             transporterXdrip.disconnectTransportService();
             transporterXdrip = null;
         }
+        stopService(new Intent(this, sleepService.class));
 
         // Unbind spltClockClient
         if (slptClockClient != null)

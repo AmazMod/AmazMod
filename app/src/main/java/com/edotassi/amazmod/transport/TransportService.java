@@ -33,6 +33,7 @@ import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
 import com.edotassi.amazmod.notification.NotificationService;
 import com.edotassi.amazmod.notification.PersistentNotification;
+import com.edotassi.amazmod.sleep.sleepListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.android.gms.tasks.Tasks;
@@ -172,6 +173,9 @@ public class TransportService extends Service implements Transporter.DataListene
         // Amazfit Internet Companion
         if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_ENABLE_INTERNET_COMPANION, false))
             startInternetCompanion(getApplicationContext());
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_ENABLE_SLEEP_AS_ANDROID, false))
+            sleepListener.register(this);
+
     }
 
     @Override
