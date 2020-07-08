@@ -510,5 +510,5 @@ dem System-Theme (Beta) zu folgen.</string>
     <string name="searchpreference_search">Suche…</string>
     <string name="searchpreference_clear_history">Verlauf löschen</string>
     <string name="searchpreference_no_results">Keine Treffer</string>
-    <string name="enable_sleep">Enable Sleep As Android</string>
+    <string name="enable_sleep">Sleep As Android aktivieren</string>
 </resources>
