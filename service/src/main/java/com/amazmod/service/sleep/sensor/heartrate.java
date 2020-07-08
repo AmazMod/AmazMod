@@ -19,6 +19,7 @@ public class heartrate implements SensorEventListener {
     private int currentAccuracy = 2;
 
     public void registerListener(Context context){
+        Logger.debug("Registering hr sensor...");
         SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 5 * 60 * 1000 /*5m*/);
     }

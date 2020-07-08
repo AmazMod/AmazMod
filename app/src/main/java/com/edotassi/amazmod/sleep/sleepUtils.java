@@ -6,6 +6,8 @@ import android.content.Intent;
 
 import org.tinylog.Logger;
 
+import java.util.Arrays;
+
 import amazmod.com.transport.data.SleepData;
 import static amazmod.com.transport.data.SleepData.actions;
 
@@ -20,12 +22,12 @@ public class sleepUtils {
                 intent.putExtra("MAX_DATA", sleepData.getMax_data());
                 intent.putExtra("MAX_RAW_DATA", sleepData.getMax_raw_data());
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.DATA_UPDATE"));
-                Logger.debug("sleep: Received accelerometer update");
+                Logger.debug("sleep: Received accelerometer update. MAX_DATA: \"" + Arrays.toString(sleepData.getMax_data()) + "\", MAX_RAW_DATA: \"" + Arrays.toString(sleepData.getMax_raw_data()) + "\"");
                 break;
             case actions.ACTION_HRDATA_UPDATE:
                 intent.putExtra("DATA", sleepData.getHrdata());
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.HR_DATA_UPDATE"));
-                Logger.debug("sleep: Received hr update");
+                Logger.debug("sleep: Received hr update: " + sleepData.getHrdata()[0]);
                 break;
             case actions.ACTION_SNOOZE_FROM_WATCH:
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.SNOOZE_FROM_WATCH"));
