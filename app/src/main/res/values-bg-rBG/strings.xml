@@ -510,4 +510,5 @@
     <string name="searchpreference_search">Търсене…</string>
     <string name="searchpreference_clear_history">Изчистване на хронологията</string>
     <string name="searchpreference_no_results">Няма резултати</string>
+    <string name="enable_sleep">Enable Sleep As Android</string>
 </resources>
