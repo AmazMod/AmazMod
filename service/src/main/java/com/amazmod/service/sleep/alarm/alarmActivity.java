@@ -52,8 +52,6 @@ public class alarmActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         init();
-        //Get delay from saa's extra
-        //TODO Make a good vibration pattern or extract from huami patterns, this one is random
         long[] VIBRATION_PATTERN = new long[]{
                 getIntent().getIntExtra("DELAY", 0), //Get delay from saa's extra
                 200, 100, 300, 200, 400, 300, 500, 400, 600, 500, 700, 600, 1000, 500, 1000, 500, 1000, 500

@@ -22,15 +22,11 @@ public class sleepUtils {
     }
 
     public static void startTracking(Context context){
-        sensorsStore.getAccelerometer().registerListener(context);
-        sensorsStore.getHrSensor().registerListener(context);
-        sleepStore.setTracking(true);
+        sleepStore.setTracking(true, context);
     }
 
     public static void stopTracking(Context context){
-        sensorsStore.getAccelerometer().unregisterListener(context);
-        sensorsStore.getHrSensor().unregisterListener(context);
-        sleepStore.setTracking(false);
+        sleepStore.setTracking(false, context);
     }
 
     public static void postNotification(String title, String text, Context context){

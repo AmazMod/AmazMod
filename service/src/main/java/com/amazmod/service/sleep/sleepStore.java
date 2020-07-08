@@ -1,5 +1,9 @@
 package com.amazmod.service.sleep;
 
+import android.content.Context;
+
+import com.amazmod.service.sleep.sensor.sensorsStore;
+
 import java.util.LinkedList;
 
 public class sleepStore {
@@ -13,8 +17,15 @@ public class sleepStore {
         return isTracking;
     }
 
-    public static void setTracking(boolean isTracking) {
+    public static void setTracking(boolean isTracking, Context context) {
         sleepStore.isTracking = isTracking;
+        if(isTracking){
+            sensorsStore.getAccelerometer().registerListener(context);
+            sensorsStore.getHrSensor().registerListener(context);
+        } else {
+            sensorsStore.getAccelerometer().unregisterListener(context);
+            sensorsStore.getHrSensor().unregisterListener(context);
+        }
     }
 
     public static void addMaxData(float max_data, float max_raw_data){
@@ -43,9 +54,15 @@ public class sleepStore {
         return batchSize;
     }
 
-    public static void setSuspended(boolean IsSuspended){
+    public static void setSuspended(boolean IsSuspended, Context context){
         isSuspended = IsSuspended;
-        //TODO Stop/Start sensors here
+        if(IsSuspended){
+            sensorsStore.getAccelerometer().unregisterListener(context);
+            sensorsStore.getHrSensor().unregisterListener(context);
+        } else {
+            sensorsStore.getAccelerometer().registerListener(context);
+            sensorsStore.getHrSensor().registerListener(context);
+        }
     }
 
     public static boolean isSuspended(){
