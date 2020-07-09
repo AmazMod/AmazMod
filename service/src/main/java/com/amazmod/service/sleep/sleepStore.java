@@ -17,14 +17,16 @@ public class sleepStore {
         return isTracking;
     }
 
-    public static void setTracking(boolean isTracking, Context context) {
-        sleepStore.isTracking = isTracking;
-        if(isTracking){
+    public static void setTracking(boolean IsTracking, Context context) {
+        isTracking = IsTracking;
+        if(IsTracking){
             sensorsStore.getAccelerometer().registerListener(context);
             sensorsStore.getHrSensor().registerListener(context);
+            isSuspended = false;
         } else {
             sensorsStore.getAccelerometer().unregisterListener(context);
             sensorsStore.getHrSensor().unregisterListener(context);
+            batchSize = 120;
         }
     }
 
