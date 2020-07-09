@@ -509,4 +509,5 @@
     <string name="searchpreference_search">Hae…</string>
     <string name="searchpreference_clear_history">Tyhjennä historia</string>
     <string name="searchpreference_no_results">Ei tuloksia</string>
+    <string name="enable_sleep">Enable Sleep As Android</string>
 </resources>

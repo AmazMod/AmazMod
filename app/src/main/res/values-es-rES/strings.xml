@@ -510,4 +510,5 @@ seguir el tema de sistema (beta).</string>
     <string name="searchpreference_search">Buscar…</string>
     <string name="searchpreference_clear_history">Borrar historial</string>
     <string name="searchpreference_no_results">Sin resultados</string>
+    <string name="enable_sleep">Habilitar Dormir como Android</string>
 </resources>

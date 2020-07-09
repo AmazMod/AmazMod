@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">Střední</string>
     <string name="uvindex_strong">Silný</string>
     <string name="uvindex_verystrong">Velmi silný</string>
+    <string name="alarm">Budík</string>
+    <string name="alarm_snooze">Odložit</string>
+    <string name="alarm_dismiss">Zrušit</string>
 </resources>

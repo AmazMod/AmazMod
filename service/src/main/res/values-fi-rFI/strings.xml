@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">Kohtalainen</string>
     <string name="uvindex_strong">Voimakas</string>
     <string name="uvindex_verystrong">Erittäin voimakas</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_dismiss">Dismiss</string>
 </resources>
