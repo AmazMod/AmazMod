@@ -69,7 +69,7 @@ public class alarmActivity extends Activity {
         mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, mIntentFilter);
         setupTime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        vibrator.vibrate(VIBRATION_PATTERN, 0, VIBRATION_ATTRIBUTES);
+        vibrator.vibrate(VIBRATION_PATTERN, 1, VIBRATION_ATTRIBUTES);
     }
 
     private void setupTime() {
