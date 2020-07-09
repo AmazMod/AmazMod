@@ -51,6 +51,9 @@ public class sleepUtils {
     public static void startHint(int repeat, Context context){
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = new long[]{0, 10, 10}; //TODO Create a better pattern for this hint
-        v.vibrate(pattern, repeat);
+        if(repeat > 0)
+            v.vibrate(pattern, repeat);
+        else
+            v.vibrate(pattern, -1); //If repeat == 0 or -1 don't repeat it
     }
 }
