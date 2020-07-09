@@ -45,7 +45,7 @@ public class broadcastReceiver extends BroadcastReceiver {
                 break;
             case "com.urbandroid.sleep.watch.SET_BATCH_SIZE":
                 sleepData.setAction(actions.ACTION_SET_BATCH_SIZE);
-                sleepData.setBatchsize(intent.getLongExtra("SIZE", 120));
+                sleepData.setBatchsize(intent.getLongExtra("SIZE", 12));
                 break;
             case "com.urbandroid.sleep.watch.START_ALARM":
                 sleepData.setAction(actions.ACTION_START_ALARM);

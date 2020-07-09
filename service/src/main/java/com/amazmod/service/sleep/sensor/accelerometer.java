@@ -45,7 +45,7 @@ public class accelerometer implements SensorEventListener {
                 current_max_data = 0;
                 current_max_raw_data = 0;
 
-                if(sleepStore.getInstance().getMaxData().size() >= sleepStore.getInstance().getBatchSize() / 10){
+                if(sleepStore.getInstance().getMaxData().size() >= sleepStore.getInstance().getBatchSize()){
                     SleepData sleepData = new SleepData();
                     sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
                     sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getInstance().getMaxData()));

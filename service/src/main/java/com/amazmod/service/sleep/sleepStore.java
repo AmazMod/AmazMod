@@ -15,7 +15,7 @@ public class sleepStore {
         return instance;
     }
 
-    private long batchSize = 120;
+    private long batchSize = 12;
     private boolean isSuspended;
     private boolean isTracking;
     private LinkedList<Float> acc_max_data = new LinkedList<>();
@@ -34,7 +34,7 @@ public class sleepStore {
         } else {
             sensorsStore.getAccelerometer().unregisterListener(context);
             sensorsStore.getHrSensor().unregisterListener(context);
-            batchSize = 120;
+            batchSize = 12;
         }
     }
 
