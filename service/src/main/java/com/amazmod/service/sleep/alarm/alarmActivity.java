@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.AudioAttributes;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,6 +31,8 @@ public class alarmActivity extends Activity {
 
     public static final String INTENT_CLOSE = "com.amazmod.alarm.action.close";
 
+    private static final AudioAttributes VIBRATION_ATTRIBUTES = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT).build();
+
     private TextView time;
     private Button snooze, dismiss;
 
@@ -54,8 +57,7 @@ public class alarmActivity extends Activity {
         init();
         long[] VIBRATION_PATTERN = new long[]{
                 getIntent().getIntExtra("DELAY", 0), //Get delay from saa's extra
-                200, 100, 300, 200, 400, 300, 500, 400, 600, 500, 700, 600, 1000, 500, 1000, 500, 1000, 500
-                //TODO Make a good vibration pattern or extract from huami patterns, this one is random
+                200, 100, 200, 100, 200, 100, 0, 400
         };
         //Create broadcast receiver to finish activity when received signal
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
@@ -64,7 +66,7 @@ public class alarmActivity extends Activity {
         mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, mIntentFilter);
         setupTime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        vibrator.vibrate(VIBRATION_PATTERN, 200 /*It will get cancelled after closing activity*/);
+        vibrator.vibrate(VIBRATION_PATTERN, 1, VIBRATION_ATTRIBUTES);
     }
 
     private void setupTime(){
