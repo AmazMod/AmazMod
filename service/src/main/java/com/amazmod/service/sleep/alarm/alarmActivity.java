@@ -40,12 +40,14 @@ public class alarmActivity extends Activity {
     private Handler timeHandler;
     private Vibrator vibrator;
 
+    PowerManager.WakeLock wakeLock = null;
+
     LocalBroadcastManager mLocalBroadcastManager;
     BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(INTENT_CLOSE))
+            if (intent.getAction().equals(INTENT_CLOSE))
                 stop();
         }
     };
@@ -55,15 +57,7 @@ public class alarmActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         init();
-        //Wake the screen
-        PowerManager.WakeLock wakeLock = null;
-        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
-                | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                | PowerManager.ON_AFTER_RELEASE, "AmazMod: Sleep As Android is waking the screen");
-
-        wakeLock.acquire(1 /*1 seconds*/);
-
+        setWakeLock();
         long[] VIBRATION_PATTERN = new long[]{
                 getIntent().getIntExtra("DELAY", 0), //Get delay from saa's extra
                 200, 100, 200, 100, 200, 100, 0, 400
@@ -78,7 +72,7 @@ public class alarmActivity extends Activity {
         vibrator.vibrate(VIBRATION_PATTERN, 1, VIBRATION_ATTRIBUTES);
     }
 
-    private void setupTime(){
+    private void setupTime() {
         timeHandler = new Handler(Looper.getMainLooper());
         timeHandler.postDelayed(new Runnable() {
             @Override
@@ -89,7 +83,7 @@ public class alarmActivity extends Activity {
         }, 10);
     }
 
-    private void init(){
+    private void init() {
         time = findViewById(R.id.alarm_time);
         snooze = findViewById(R.id.alarm_snooze);
         dismiss = findViewById(R.id.alarm_dismiss);
@@ -103,17 +97,33 @@ public class alarmActivity extends Activity {
             timeHandler.removeCallbacksAndMessages(null);
         timeHandler = null;
         vibrator.cancel();
+        releaseWakeLock();
     }
 
-    private void stop(int action){
+    private void stop(int action) {
         SleepData sleepData = new SleepData();
         sleepData.setAction(action);
         sleepService.send(sleepData.toDataBundle(new DataBundle()));
         stop();
     }
 
-    private void stop(){
+    private void stop() {
         vibrator.cancel();
         finish();
+    }
+
+    private void setWakeLock() {
+        //Wake the screen
+        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                | PowerManager.ON_AFTER_RELEASE, "AmazMod: Sleep As Android is waking the screen");
+
+        wakeLock.acquire();
+    }
+
+    private void releaseWakeLock() {
+        if (wakeLock != null && wakeLock.isHeld())
+            wakeLock.release();
     }
 }
