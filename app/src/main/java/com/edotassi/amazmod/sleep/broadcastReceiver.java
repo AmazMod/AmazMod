@@ -21,13 +21,15 @@ public class broadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         SleepData sleepData = new SleepData();
         sleepData.setAction(-1);
+        Logger.debug("Received intent with action: " + Objects.requireNonNull(intent.getAction()));
         switch(Objects.requireNonNull(intent.getAction())){
             case "com.urbandroid.sleep.watch.CHECK_CONNECTED":
                 if(AmazModApplication.isWatchConnected() && BluetoothAdapter.getDefaultAdapter().isEnabled()){
+                    Logger.debug("Sleep check connected returning true");
                     Intent newIntent = new Intent();
                     newIntent.setComponent(new ComponentName(sleepUtils.PACKAGE, "com.urbandroid.sleep.watch.CONFIRM_CONNECTED"));
                     context.sendBroadcast(newIntent);
-                }
+                } else Logger.debug("Sleep check connected returning false");
                 break;
             case "com.urbandroid.sleep.watch.START_TRACKING":
                 sleepData.setAction(actions.ACTION_START_TRACKING);

@@ -27,7 +27,7 @@ public class sleepUtils {
             case actions.ACTION_HRDATA_UPDATE:
                 intent.putExtra("DATA", sleepData.getHrdata());
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.HR_DATA_UPDATE"));
-                Logger.debug("sleep: Received hr update: " + sleepData.getHrdata()[0]);
+                Logger.debug("sleep: Received hr update: \"" + Arrays.toString(sleepData.getHrdata()) + "\"");
                 break;
             case actions.ACTION_SNOOZE_FROM_WATCH:
                 intent.setComponent(new ComponentName(PACKAGE, "com.urbandroid.sleep.watch.SNOOZE_FROM_WATCH"));
