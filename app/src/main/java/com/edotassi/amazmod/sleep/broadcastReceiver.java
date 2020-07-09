@@ -63,6 +63,7 @@ public class broadcastReceiver extends BroadcastReceiver {
                 sleepData.setText(intent.getStringExtra("TEXT"));
                 break;
             case "com.urbandroid.sleep.watch.HINT":
+                Logger.debug("Sending " + intent.getIntExtra("REPEAT", -1) + " hints");
                 sleepData.setAction(actions.ACTION_HINT);
                 sleepData.setRepeat(intent.getIntExtra("REPEAT", -1));
                 break;
