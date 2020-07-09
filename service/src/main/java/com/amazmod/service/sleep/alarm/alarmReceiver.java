@@ -25,6 +25,7 @@ public class alarmReceiver extends BroadcastReceiver {
         Intent alarmIntent = new Intent(context, alarmReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        cancelAlarm(context);
         if(alarmManager != null)
             alarmManager.set(AlarmManager.RTC_WAKEUP, timestamp, pendingIntent);
     }

@@ -45,9 +45,8 @@ public class alarmActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals(INTENT_CLOSE)){
-                finish();
-            }
+            if(intent.getAction().equals(INTENT_CLOSE))
+                stop();
         }
     };
 
@@ -94,20 +93,8 @@ public class alarmActivity extends Activity {
         time = findViewById(R.id.alarm_time);
         snooze = findViewById(R.id.alarm_snooze);
         dismiss = findViewById(R.id.alarm_dismiss);
-        snooze.setOnClickListener(view -> {
-            SleepData sleepData = new SleepData();
-            sleepData.setAction(actions.ACTION_SNOOZE_FROM_WATCH);
-            sleepService.send(sleepData.toDataBundle(new DataBundle()));
-            vibrator.cancel();
-            finish();
-        });
-        dismiss.setOnClickListener(view -> {
-            SleepData sleepData = new SleepData();
-            sleepData.setAction(actions.ACTION_DISMISS_FROM_WATCH);
-            sleepService.send(sleepData.toDataBundle(new DataBundle()));
-            vibrator.cancel();
-            finish();
-        });
+        snooze.setOnClickListener(view -> stop(actions.ACTION_SNOOZE_FROM_WATCH));
+        dismiss.setOnClickListener(view -> stop(actions.ACTION_DISMISS_FROM_WATCH));
     }
 
     public void onDestroy() {
@@ -116,5 +103,17 @@ public class alarmActivity extends Activity {
             timeHandler.removeCallbacksAndMessages(null);
         timeHandler = null;
         vibrator.cancel();
+    }
+
+    private void stop(int action){
+        SleepData sleepData = new SleepData();
+        sleepData.setAction(action);
+        sleepService.send(sleepData.toDataBundle(new DataBundle()));
+        stop();
+    }
+
+    private void stop(){
+        vibrator.cancel();
+        finish();
     }
 }

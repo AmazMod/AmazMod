@@ -21,16 +21,15 @@ public class heartrate implements SensorEventListener {
     private int currentValue;
     private float[] currentArray = new float[20];
     private SensorManager sm;
-    private Handler handler;
+    private Thread waitThread = new waitThread();
 
     public void registerListener(Context context){
         Logger.debug("Registering hr sensor...");
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        handler = new Handler();
         register();
     }
 
-    private void register(){
+    public void register(){
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
                 , SensorManager.SENSOR_DELAY_FASTEST, 20 * 1000 * 1000);
     }
@@ -38,7 +37,7 @@ public class heartrate implements SensorEventListener {
     public void unregisterListener(Context context){
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sm.unregisterListener(this);
-        handler.removeCallbacksAndMessages(null); //Stop handler
+        waitThread.interrupt();
     }
 
     @Override
@@ -51,9 +50,10 @@ public class heartrate implements SensorEventListener {
             SleepData sleepData = new SleepData();
             sleepData.setAction(SleepData.actions.ACTION_HRDATA_UPDATE);
             sleepData.setHrdata(currentArray);
+            currentArray = new float[20];
             sleepService.send(sleepData.toDataBundle(new DataBundle()));
             sm.unregisterListener(this);
-            handler.postDelayed(this::register, 5 * 60 * 1000 /*Register again in 5m*/);
+            waitThread.start();
             Logger.debug("Sending sleep hr data to phone...");
         }
     }
@@ -66,5 +66,16 @@ public class heartrate implements SensorEventListener {
     private boolean isAccuracyValid(){
         //Disabled for testing purposes
         return true; //currentAccuracy >= 1 && currentAccuracy <= 3;
+    }
+
+    private static class waitThread extends Thread{
+        public void run(){
+            try {
+                Thread.sleep(5 * 60 * 1000);
+            } catch (InterruptedException ignored) {
+                return;
+            }
+            sensorsStore.getHrSensor().register(); //Register sensor after sleep
+        }
     }
 }
