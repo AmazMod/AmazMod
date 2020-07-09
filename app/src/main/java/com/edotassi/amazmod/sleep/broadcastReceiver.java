@@ -15,6 +15,7 @@ import java.util.Objects;
 
 import amazmod.com.transport.data.SleepData;
 import static amazmod.com.transport.data.SleepData.actions;
+import static com.edotassi.amazmod.sleep.sleepUtils.*;
 
 public class broadcastReceiver extends BroadcastReceiver {
     @Override
@@ -26,9 +27,7 @@ public class broadcastReceiver extends BroadcastReceiver {
             case "com.urbandroid.sleep.watch.CHECK_CONNECTED":
                 if(AmazModApplication.isWatchConnected() && BluetoothAdapter.getDefaultAdapter().isEnabled()){
                     Logger.debug("Sleep check connected returning true");
-                    Intent newIntent = new Intent();
-                    newIntent.setComponent(new ComponentName(sleepUtils.PACKAGE, "com.urbandroid.sleep.watch.CONFIRM_CONNECTED"));
-                    context.sendBroadcast(newIntent);
+                    sendIntent("com.urbandroid.sleep.watch.CONFIRM_CONNECTED", context);
                 } else Logger.debug("Sleep check connected returning false");
                 break;
             case "com.urbandroid.sleep.watch.START_TRACKING":
