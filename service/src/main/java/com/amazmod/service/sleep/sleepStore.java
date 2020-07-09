@@ -7,17 +7,25 @@ import com.amazmod.service.sleep.sensor.sensorsStore;
 import java.util.LinkedList;
 
 public class sleepStore {
-    private static long batchSize = 120;
-    private static boolean isSuspended;
-    private static boolean isTracking;
-    private static LinkedList<Float> acc_max_data = new LinkedList<>();
-    private static LinkedList<Float> acc_max_raw_data = new LinkedList<>();
+    private static sleepStore instance;
 
-    public static boolean isTracking() {
+    public static sleepStore getInstance() {
+        if(instance == null)
+            instance = new sleepStore();
+        return instance;
+    }
+
+    private long batchSize = 120;
+    private boolean isSuspended;
+    private boolean isTracking;
+    private LinkedList<Float> acc_max_data = new LinkedList<>();
+    private LinkedList<Float> acc_max_raw_data = new LinkedList<>();
+
+    public boolean isTracking() {
         return isTracking;
     }
 
-    public static void setTracking(boolean IsTracking, Context context) {
+    public void setTracking(boolean IsTracking, Context context) {
         isTracking = IsTracking;
         if(IsTracking){
             sensorsStore.getAccelerometer().registerListener(context);
@@ -30,33 +38,33 @@ public class sleepStore {
         }
     }
 
-    public static void addMaxData(float max_data, float max_raw_data){
+    public void addMaxData(float max_data, float max_raw_data){
         acc_max_data.add(max_data);
         acc_max_raw_data.add(max_raw_data);
     }
 
-    public static LinkedList<Float> getMaxData(){
+    public LinkedList<Float> getMaxData(){
         return acc_max_data;
     }
 
-    public static LinkedList<Float> getMaxRawData(){
+    public LinkedList<Float> getMaxRawData(){
         return acc_max_raw_data;
     }
 
-    public static void resetMaxData(){
+    public void resetMaxData(){
         acc_max_data = new LinkedList<>();
         acc_max_raw_data = new LinkedList<>();
     }
 
-    public static void setBatchSize(long BatchSize){
+    public void setBatchSize(long BatchSize){
         batchSize = BatchSize;
     }
 
-    public static long getBatchSize(){
+    public long getBatchSize(){
         return batchSize;
     }
 
-    public static void setSuspended(boolean IsSuspended, Context context){
+    public void setSuspended(boolean IsSuspended, Context context){
         isSuspended = IsSuspended;
         if(IsSuspended){
             sensorsStore.getAccelerometer().unregisterListener(context);
@@ -67,7 +75,7 @@ public class sleepStore {
         }
     }
 
-    public static boolean isSuspended(){
+    public boolean isSuspended(){
         return isSuspended;
     }
 }

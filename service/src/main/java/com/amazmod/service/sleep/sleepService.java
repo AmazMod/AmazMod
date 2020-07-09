@@ -57,10 +57,10 @@ public class sleepService extends Service implements Transporter.DataListener {
                 sleepUtils.stopTracking(this);
                 break;
             case actions.ACTION_SET_SUSPENDED:
-                sleepStore.setSuspended(sleepData.isSuspended(), this);
+                sleepStore.getInstance().setSuspended(sleepData.isSuspended(), this);
                 break;
             case actions.ACTION_SET_BATCH_SIZE:
-                sleepStore.setBatchSize(sleepData.getBatchsize());
+                sleepStore.getInstance().setBatchSize(sleepData.getBatchsize());
                 break;
             case actions.ACTION_START_ALARM:
                 Intent alarmIntent = new Intent(this, alarmActivity.class);

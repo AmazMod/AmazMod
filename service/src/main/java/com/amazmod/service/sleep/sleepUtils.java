@@ -26,11 +26,11 @@ public class sleepUtils {
     }
 
     public static void startTracking(Context context){
-        sleepStore.setTracking(true, context);
+        sleepStore.getInstance().setTracking(true, context);
     }
 
     public static void stopTracking(Context context){
-        sleepStore.setTracking(false, context);
+        sleepStore.getInstance().setTracking(false, context);
     }
 
     public static void postNotification(String title, String text, Context context){
@@ -57,7 +57,7 @@ public class sleepUtils {
             cancelDelay += x;
         }
         if(repeat > 1) {
-            v.vibrate(pattern, 1);
+            v.vibrate(pattern, 0);
             new Handler().postDelayed(v::cancel, cancelDelay);
         } else
             v.vibrate(pattern, -1); //If repeat == 0 or -1 don't repeat it

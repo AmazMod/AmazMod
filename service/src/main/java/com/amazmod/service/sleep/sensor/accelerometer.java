@@ -36,21 +36,21 @@ public class accelerometer implements SensorEventListener {
         handler = new Handler(context.getMainLooper());
         handler.postDelayed(new Runnable(){
             public void run(){
-                if(!sleepStore.isTracking())
+                if(!sleepStore.getInstance().isTracking())
                     return; //If not tracking anymore stop loop to avoid it keep running
                 handler.postDelayed(this, 10 * 1000 /*10s per float, as saa requests*/);
-                if(sleepStore.isSuspended())
+                if(sleepStore.getInstance().isSuspended())
                     return;
-                sleepStore.addMaxData(current_max_data, current_max_raw_data);
+                sleepStore.getInstance().addMaxData(current_max_data, current_max_raw_data);
                 current_max_data = 0;
                 current_max_raw_data = 0;
 
-                if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize() / 10){
+                if(sleepStore.getInstance().getMaxData().size() >= sleepStore.getInstance().getBatchSize() / 10){
                     SleepData sleepData = new SleepData();
                     sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
-                    sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
-                    sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
-                    sleepStore.resetMaxData();
+                    sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getInstance().getMaxData()));
+                    sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getInstance().getMaxRawData()));
+                    sleepStore.getInstance().resetMaxData();
                     Logger.debug("Sending sleep accelerometer data to phone...");
                     sleepService.send(sleepData.toDataBundle(new DataBundle()));
                 }
@@ -66,7 +66,7 @@ public class accelerometer implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if(sleepStore.isSuspended())
+        if(sleepStore.getInstance().isSuspended())
             return;
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];

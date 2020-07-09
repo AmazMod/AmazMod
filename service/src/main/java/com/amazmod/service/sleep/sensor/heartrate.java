@@ -43,7 +43,7 @@ public class heartrate implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if(sleepStore.isSuspended())
+        if(sleepStore.getInstance().isSuspended())
             return;
         if(isAccuracyValid())
             currentArray[currentValue++] = sensorEvent.values[0];
