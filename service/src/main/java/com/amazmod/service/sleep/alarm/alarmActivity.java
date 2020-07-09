@@ -9,6 +9,7 @@ import android.media.AudioAttributes;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.Vibrator;
 import android.widget.Button;
 import android.widget.TextView;
@@ -55,6 +56,15 @@ public class alarmActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alarm);
         init();
+        //Wake the screen
+        PowerManager.WakeLock wakeLock = null;
+        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
+                | PowerManager.ACQUIRE_CAUSES_WAKEUP
+                | PowerManager.ON_AFTER_RELEASE, "AmazMod: Sleep As Android is waking the screen");
+
+        wakeLock.acquire(1 /*1 seconds*/);
+
         long[] VIBRATION_PATTERN = new long[]{
                 getIntent().getIntExtra("DELAY", 0), //Get delay from saa's extra
                 200, 100, 200, 100, 200, 100, 0, 400
@@ -70,7 +80,6 @@ public class alarmActivity extends Activity {
     }
 
     private void setupTime(){
-        Looper.prepareMainLooper();
         timeHandler = new Handler(Looper.getMainLooper());
         timeHandler.postDelayed(new Runnable() {
             @Override
