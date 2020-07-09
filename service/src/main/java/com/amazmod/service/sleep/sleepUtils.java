@@ -1,6 +1,7 @@
 package com.amazmod.service.sleep;
 
 import android.content.Context;
+import android.os.Handler;
 import android.os.Vibrator;
 
 import com.amazmod.service.notifications.NotificationService;
@@ -51,9 +52,14 @@ public class sleepUtils {
     public static void startHint(int repeat, Context context){
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = new long[]{0, 50, 1000};
-        if(repeat > 1 && repeat < 20)
-            v.vibrate(pattern, repeat);
-        else
+        int cancelDelay = 20;
+        for(long x : pattern){
+            cancelDelay += x;
+        }
+        if(repeat > 1) {
+            v.vibrate(pattern, 1);
+            new Handler().postDelayed(v::cancel, cancelDelay);
+        } else
             v.vibrate(pattern, -1); //If repeat == 0 or -1 don't repeat it
     }
 }
