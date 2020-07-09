@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">Μέτριο</string>
     <string name="uvindex_strong">Δυνατό</string>
     <string name="uvindex_verystrong">Πολύ ισχυρό</string>
+    <string name="alarm">Ξυπνητήρι</string>
+    <string name="alarm_snooze">Αναβολή</string>
+    <string name="alarm_dismiss">Παράβλεψη</string>
 </resources>

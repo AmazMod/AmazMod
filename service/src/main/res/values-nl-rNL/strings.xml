@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">Gemiddeld</string>
     <string name="uvindex_strong">Sterk</string>
     <string name="uvindex_verystrong">Zeer sterk</string>
+    <string name="alarm">Alarm</string>
+    <string name="alarm_snooze">Snooze</string>
+    <string name="alarm_dismiss">Sluiten</string>
 </resources>

@@ -172,4 +172,7 @@
     <string name="uvindex_moderate">Mérsékelt</string>
     <string name="uvindex_strong">Erős</string>
     <string name="uvindex_verystrong">Nagyon erős</string>
+    <string name="alarm">Ébresztő</string>
+    <string name="alarm_snooze">Szundi</string>
+    <string name="alarm_dismiss">Elutasít</string>
 </resources>
