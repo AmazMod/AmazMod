@@ -22,6 +22,7 @@ public class sleepUtils {
                 intent = new Intent("com.urbandroid.sleep.watch.DATA_UPDATE");
                 intent.putExtra("MAX_DATA", sleepData.getMax_data());
                 intent.putExtra("MAX_RAW_DATA", sleepData.getMax_raw_data());
+                sendIntent(intent, context);
                 Logger.debug("sleep: Received accelerometer update. MAX_DATA: \"" + Arrays.toString(sleepData.getMax_data()) + "\", MAX_RAW_DATA: \"" + Arrays.toString(sleepData.getMax_raw_data()) + "\"");
                 break;
             case actions.ACTION_HRDATA_UPDATE:
