@@ -25,31 +25,31 @@ public class sleepService extends Service implements Transporter.DataListener {
 
     private static Transporter sleepTransporter;
 
-    public static Transporter getTransporter(){
+    public static Transporter getTransporter() {
         return sleepTransporter;
     }
 
-    private void registerListener(){
+    private void registerListener() {
         sleepTransporter = Transporter.get(this, Transport.NAME_SLEEP);
         sleepTransporter.addDataListener(this);
-        if(!sleepTransporter.isTransportServiceConnected())
+        if (!sleepTransporter.isTransportServiceConnected())
             sleepTransporter.connectTransportService();
     }
 
-    private void unregisterListener(){
+    private void unregisterListener() {
         sleepTransporter.removeDataListener(this);
-        if(sleepTransporter.isTransportServiceConnected())
+        if (sleepTransporter.isTransportServiceConnected())
             sleepTransporter.disconnectTransportService();
         sleepTransporter = null;
     }
 
     @Override
     public void onDataReceived(TransportDataItem transportDataItem) {
-        if(!transportDataItem.getAction().equals(Transport.SLEEP_DATA))
+        if (!transportDataItem.getAction().equals(Transport.SLEEP_DATA))
             return;
         SleepData sleepData = new SleepData();
         sleepData.fromDataBundle(transportDataItem.getData());
-        switch(sleepData.getAction()){
+        switch (sleepData.getAction()) {
             case actions.ACTION_START_TRACKING:
                 sleepUtils.startTracking(this);
                 break;
@@ -88,8 +88,6 @@ public class sleepService extends Service implements Transporter.DataListener {
     }
 
     public static void send(DataBundle dataBundle) {
-        if(!BluetoothAdapter.getDefaultAdapter().isEnabled())
-            return;
         if (!sleepTransporter.isTransportServiceConnected()) {
             sleepTransporter.connectTransportService();
         }
@@ -103,11 +101,11 @@ public class sleepService extends Service implements Transporter.DataListener {
         }
     }
 
-    public void onCreate(){
+    public void onCreate() {
         registerListener();
     }
 
-    public void onDestroy(){
+    public void onDestroy() {
         unregisterListener();
     }
 
