@@ -173,6 +173,6 @@
     <string name="uvindex_strong">Silny</string>
     <string name="uvindex_verystrong">Bardzo silny</string>
     <string name="alarm">Alarm</string>
-    <string name="alarm_snooze">Snooze</string>
-    <string name="alarm_dismiss">Dismiss</string>
+    <string name="alarm_snooze">Uśpij</string>
+    <string name="alarm_dismiss">Odrzuć</string>
 </resources>

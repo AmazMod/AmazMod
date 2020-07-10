@@ -32,12 +32,12 @@
     <string name="device_owner">Schakel het Apparaat Admin instructies</string>
     <!-- Strings used by AdminReceiver start -->
     <string name="device_admin">Apparaat Admin</string>
-    <string name="device_admin_description">Subsidie vergrendelscherm openen</string>
+    <string name="device_admin_description">Vergrendelscherm toegang</string>
     <string name="admin_receiver_status">AmazMod Apparaatbeheerder: %1$s</string>
     <string name="enabled">ingeschakeld</string>
     <string name="disabled">uitgeschakeld</string>
     <string name="admin_receiver_status_disable_warning">AmazMod niet in staat het scherm te vergrendelen na het sluiten van de antwoorden.</string>
-    <string name="revoke_device_admin_before_uninstall">Gelieve eerst intrekken \"Apparaat Beheer\" voor het verwijderen van AmazMod</string>
+    <string name="revoke_device_admin_before_uninstall">Gelieve eerst admin rechten in te trekken</string>
     <!-- Strings used by AdminReceiver end -->
     <string name="silence_application">DEMPEN</string>
     <string name="notifications">Meldingen</string>
@@ -138,12 +138,12 @@
     <string name="reload_files">Herlaad bestanden</string>
     <string name="clear_saved">Opgeslagen wissen</string>
     <string name="service_update">Service Update</string>
-    <string name="file_manager">Bestandsbeheer</string>
+    <string name="file_manager">Bestands beheer</string>
     <string name="app_manager">App Manager</string>
     <string name="not_found">niet gevonden!</string>
     <string name="action_undefined">Geen actie gedefinieerd</string>
     <string name="activity_menu_apps_mamager">App beheer</string>
-    <string name="activity_menu_files_mamager">Bestandsbeheer</string>
+    <string name="activity_menu_files_mamager">Bestands beheer</string>
     <string name="activity_menu_reorder_widgets">Widgets herschikken</string>
     <string name="activity_menu_screen_settings">Scherminstellingen</string>
     <string name="activity_menu_battery_graph">Accu Grafiek</string>
@@ -151,11 +151,11 @@
     <string name="activity_menu_wifi_panel">Wifi-Paneel</string>
     <string name="activity_menu_flashlight">Zaklamp</string>
     <string name="activity_menu_qrcode">QR Code</string>
-    <string name="activity_menu_clean_memory">Schone Geheugen</string>
-    <string name="activity_menu_lpm">Activeer De Modus Voor Laag Stroomverbruik</string>
-    <string name="activity_menu_revoke_admin">Intrekken Apparaat Admin Toestemming</string>
-    <string name="activity_menu_grant_admin">Subsidie Apparaat Admin Toestemming</string>
-    <string name="activity_menu_restart_launcher">Restart Launcher</string>
+    <string name="activity_menu_clean_memory">Geheugen opschonen</string>
+    <string name="activity_menu_lpm">Energiebesparing</string>
+    <string name="activity_menu_revoke_admin">Admin toestemming intrekken</string>
+    <string name="activity_menu_grant_admin">Admin Toestemming</string>
+    <string name="activity_menu_restart_launcher">Herstart launcher</string>
     <string name="activity_menu_clear_launcher">Duidelijk Launcher Instellingen</string>
     <string name="activity_menu_reboot">Herstarten</string>
     <string name="activity_menu_reboot_recovery">Reboot naar Recovery</string>
