@@ -1,12 +1,18 @@
 package com.amazmod.service.sleep.sensor;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.PowerManager;
 import android.os.SystemClock;
 
+import com.amazmod.service.sleep.alarm.alarmReceiver;
 import com.amazmod.service.sleep.sleepService;
 import com.amazmod.service.sleep.sleepStore;
 import com.amazmod.service.sleep.sleepUtils;
@@ -32,17 +38,23 @@ public class accelerometer implements SensorEventListener {
     private static float lastZ;
     private static long latestSaveBatch;
 
-    public void registerListener(Context context){
+    private Context context;
+    private alarm alarm = new alarm();
+
+    public void registerListener(Context context) {
         Logger.debug("Registering accelerometer listener...");
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 samplingPeriodUs, maxReportLatencyUs);
         latestSaveBatch = SystemClock.elapsedRealtimeNanos();
+        this.context = context;
+        registerAlarm();
     }
 
     public void unregisterListener(){
         if(sm != null)
             sm.unregisterListener(this);
+        alarm.cancelAlarm();
     }
 
     public void setBatchSize(int size){
@@ -53,13 +65,20 @@ public class accelerometer implements SensorEventListener {
         unregisterListener();
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 samplingPeriodUs, maxReportLatencyUs);
-        checkAndSendBatch();
+        registerAlarm();
+        checkAndSendBatch(false);
+    }
+
+    private void registerAlarm(){
+        if(maxReportLatencyUs / 10_000_000 > 2)
+            alarm.register(context); //Register alarm if batch size >2
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sleepStore.isSuspended())
             return;
+        Logger.debug("Received accelerometer values"); //Just for testing
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
         float z = sensorEvent.values[2];
@@ -84,11 +103,11 @@ public class accelerometer implements SensorEventListener {
             current_max_raw_data = 0;
             latestSaveBatch = sensorEvent.timestamp;
 
-            checkAndSendBatch();
+            checkAndSendBatch(true);
         }
     }
 
-    private void checkAndSendBatch(){
+    private void checkAndSendBatch(boolean registerAlarm){
         //Send data if batch reached batch size
         if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize()){
             SleepData sleepData = new SleepData();
@@ -98,11 +117,41 @@ public class accelerometer implements SensorEventListener {
             sleepStore.resetMaxData();
 
             sleepService.send(sleepData.toDataBundle(new DataBundle()));
+            if(registerAlarm)
+                registerAlarm(); //Register alarm for next event
         }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
+    }
+
+    private class alarm extends BroadcastReceiver {
+
+        private AlarmManager alarmManager;
+        private PendingIntent pendingIntent;
+
+        public void register(Context context){
+            Intent alarmIntent = new Intent(context, this.getClass());
+            pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+            alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            if(alarmManager != null)
+                alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                        SystemClock.elapsedRealtime() + (maxReportLatencyUs / 1000) - 4000,
+                        pendingIntent);
+        }
+
+        public void cancelAlarm(){
+            if(alarmManager != null)
+                alarmManager.cancel(pendingIntent);
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AmazMod:accelerometerWakeLock");
+            wakeLock.acquire(5*1000 /*5 seconds*/);
+        }
     }
 }

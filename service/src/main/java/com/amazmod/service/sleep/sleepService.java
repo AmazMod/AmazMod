@@ -92,9 +92,11 @@ public class sleepService extends Service implements Transporter.DataListener {
             sleepTransporter.connectTransportService();
         }
         String action = Transport.SLEEP_DATA;
+        SleepData sleepData = new SleepData();
+        sleepData.fromDataBundle(dataBundle);
 
         if (dataBundle != null) {
-            Logger.debug("Sleep send: " + action);
+            Logger.debug("Sleep send: " + sleepData.getAction());
             sleepTransporter.send(action, dataBundle, dataTransportResult -> Logger.debug("Send result: " + dataTransportResult.toString()));
         } else {
             Logger.error("Sleep send: can't send a sleep action without DataBundle!");
