@@ -45,12 +45,16 @@ public class accelerometer implements SensorEventListener {
             sm.unregisterListener(this);
     }
 
-    public void setBatchSize(int size){
+    public void setBatchSize(int size) {
         if(size >= 5) size = 5; //Avoid too big sensor batching as our device just supports 10k events
         maxReportLatencyUs = size * 10 * 1000 * 1000; //Set latency to batch size in microseconds
         if(sm == null)
             return;
         sm.unregisterListener(this);
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException ignored){
+        }
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 samplingPeriodUs, maxReportLatencyUs);
         checkAndSendBatch();
