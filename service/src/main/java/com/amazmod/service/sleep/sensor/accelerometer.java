@@ -50,6 +50,7 @@ public class accelerometer implements SensorEventListener {
         maxReportLatencyUs = size * 10 * 1000 * 1000; //Set latency to batch size in microseconds
         if(sm == null)
             return;
+        sm.flush(this);
         unregisterListener(false);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 samplingPeriodUs, maxReportLatencyUs);
