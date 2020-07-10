@@ -13,7 +13,7 @@ public class sleepStore {
     private static LinkedList<Float> acc_max_data = new LinkedList<>();
     private static LinkedList<Float> acc_max_raw_data = new LinkedList<>();
 
-    public boolean isTracking() {
+    public static boolean isTracking() {
         return isTracking;
     }
 
@@ -24,7 +24,7 @@ public class sleepStore {
             sensorsStore.getHrSensor().registerListener(context);
             isSuspended = false;
         } else {
-            sensorsStore.getAccelerometer().unregisterListener();
+            sensorsStore.getAccelerometer().unregisterListener(true);
             sensorsStore.getHrSensor().unregisterListener(context);
             batchSize = 1;
         }
@@ -62,7 +62,7 @@ public class sleepStore {
     public static void setSuspended(boolean IsSuspended, Context context){
         isSuspended = IsSuspended;
         if(IsSuspended){
-            sensorsStore.getAccelerometer().unregisterListener();
+            sensorsStore.getAccelerometer().unregisterListener(true);
             sensorsStore.getHrSensor().unregisterListener(context);
         } else {
             sensorsStore.getAccelerometer().registerListener(context);
