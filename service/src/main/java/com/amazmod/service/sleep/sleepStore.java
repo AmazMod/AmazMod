@@ -29,11 +29,11 @@ public class sleepStore {
         isTracking = IsTracking;
         if(IsTracking){
             sensorsStore.getAccelerometer().registerListener(context);
-            //sensorsStore.getHrSensor().registerListener(context);
+            sensorsStore.getHrSensor().registerListener(context);
             isSuspended = false;
         } else {
             sensorsStore.getAccelerometer().unregisterListener(context);
-            //sensorsStore.getHrSensor().unregisterListener(context);
+            sensorsStore.getHrSensor().unregisterListener(context);
             batchSize = 12;
         }
     }
@@ -68,10 +68,10 @@ public class sleepStore {
         isSuspended = IsSuspended;
         if(IsSuspended){
             sensorsStore.getAccelerometer().unregisterListener(context);
-            //sensorsStore.getHrSensor().unregisterListener(context);
+            sensorsStore.getHrSensor().unregisterListener(context);
         } else {
             sensorsStore.getAccelerometer().registerListener(context);
-            //sensorsStore.getHrSensor().registerListener(context);
+            sensorsStore.getHrSensor().registerListener(context);
         }
     }
 
