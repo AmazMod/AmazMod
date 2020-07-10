@@ -19,25 +19,38 @@ import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.abs;
 
 public class accelerometer implements SensorEventListener {
+    private static final int samplingPeriodUs = 1000 * 1000 / 10; //10 values per second
+    private static int maxReportLatencyUs = 10 * 1000 * 1000; //Initial will be 10s
+
+    private SensorManager sm;
     private float current_max_data;
     private float current_max_raw_data;
     private float lastX;
     private float lastY;
     private float lastZ;
-    private long lastTimeSaved;
+
     private int currentValue;
 
     public void registerListener(Context context){
         Logger.debug("Registering accelerometer listener...");
-        SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                1000 * 1000 / 10 /*10 values per second*/, 10 * 1000 * 1000 /*10s in us*/);
-        lastTimeSaved = System.currentTimeMillis();
+                samplingPeriodUs, maxReportLatencyUs);
     }
 
-    public void unregisterListener(Context context){
-        SensorManager sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        sm.unregisterListener(this);
+    public void unregisterListener(){
+        if(sm != null)
+            sm.unregisterListener(this);
+    }
+
+    public void setBatchSize(int size){
+        maxReportLatencyUs = size * 10 * 1000 * 1000; //Set latency to batch size in microseconds
+        if(sm == null)
+            return;
+        checkAndSaveData();
+        unregisterListener();
+        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                samplingPeriodUs, maxReportLatencyUs);
     }
 
     @Override
@@ -60,24 +73,28 @@ public class accelerometer implements SensorEventListener {
         lastY = y;
         lastZ = z;
 
-        if(++currentValue >= 10 && System.currentTimeMillis() >= lastTimeSaved + 10 * 1000){
-            //10 seconds have passed and we got 10 values since last save, save array to batch
+        currentValue++;
+        checkAndSaveData();
+    }
+
+    private void checkAndSaveData(){
+        if(currentValue >= 10){
+            //We got 10 values since last save, save array to batch
             sleepStore.addMaxData(current_max_data, current_max_raw_data);
             current_max_data = 0;
             current_max_raw_data = 0;
-
             currentValue = 0;
-            lastTimeSaved = System.currentTimeMillis();
-
-            if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize()){
-                SleepData sleepData = new SleepData();
-                sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
-                sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
-                sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
-                sleepStore.resetMaxData();
-                Logger.debug("Sending sleep accelerometer data to phone...");
-                sleepService.send(sleepData.toDataBundle(new DataBundle()));
-            }
+        }
+        if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize()){
+            //When array is as big as batch size send it to phone
+            SleepData sleepData = new SleepData();
+            sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
+            sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
+            sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
+            sleepStore.resetMaxData();
+            //Logger.debug("Sending sleep accelerometer data to phone...");
+            //Unneeded logging, it will log on sleepService and phone too
+            sleepService.send(sleepData.toDataBundle(new DataBundle()));
         }
     }
 

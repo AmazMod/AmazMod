@@ -7,7 +7,7 @@ import com.amazmod.service.sleep.sensor.sensorsStore;
 import java.util.LinkedList;
 
 public class sleepStore {
-    private static long batchSize = 12;
+    private static long batchSize = 1;
     private static boolean isSuspended;
     private static boolean isTracking;
     private static LinkedList<Float> acc_max_data = new LinkedList<>();
@@ -24,9 +24,9 @@ public class sleepStore {
             sensorsStore.getHrSensor().registerListener(context);
             isSuspended = false;
         } else {
-            sensorsStore.getAccelerometer().unregisterListener(context);
+            sensorsStore.getAccelerometer().unregisterListener();
             sensorsStore.getHrSensor().unregisterListener(context);
-            batchSize = 12;
+            batchSize = 1;
         }
     }
 
@@ -50,6 +50,7 @@ public class sleepStore {
 
     public static void setBatchSize(long BatchSize){
         batchSize = BatchSize;
+        sensorsStore.getAccelerometer().setBatchSize((int) BatchSize);
     }
 
     public static long getBatchSize(){
@@ -59,7 +60,7 @@ public class sleepStore {
     public static void setSuspended(boolean IsSuspended, Context context){
         isSuspended = IsSuspended;
         if(IsSuspended){
-            sensorsStore.getAccelerometer().unregisterListener(context);
+            sensorsStore.getAccelerometer().unregisterListener();
             sensorsStore.getHrSensor().unregisterListener(context);
         } else {
             sensorsStore.getAccelerometer().registerListener(context);
