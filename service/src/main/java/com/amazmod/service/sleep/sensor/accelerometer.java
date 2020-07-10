@@ -20,8 +20,9 @@ import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.abs;
 
 public class accelerometer implements SensorEventListener {
+    private static final int secondsPerMaxValue = 10;
     private static final int samplingPeriodUs = SensorManager.SENSOR_DELAY_NORMAL;
-    private static int maxReportLatencyUs = 10 * 1000 * 1000; //Initial will be 10s
+    private static int maxReportLatencyUs = secondsPerMaxValue * 1000 * 1000; //Initial value, changes
 
     private SensorManager sm;
     private static float current_max_data;
@@ -76,7 +77,7 @@ public class accelerometer implements SensorEventListener {
         lastZ = z;
 
         //If latest time saving batch was >= 10s ago
-        if(latestSaveBatch - sensorEvent.timestamp >= 10 * 1000) {
+        if(sensorEvent.timestamp - latestSaveBatch >= (long) secondsPerMaxValue * 1_000_000_000 /*To ns*/) {
             //Add current data
             sleepStore.addMaxData(current_max_data, current_max_raw_data);
             current_max_data = 0;
