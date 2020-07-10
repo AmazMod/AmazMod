@@ -52,10 +52,11 @@ public class sleepUtils {
     public static void startHint(int repeat, Context context){
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         long[] pattern = new long[]{0, 50, 1000};
-        int cancelDelay = 20;
+        int cancelDelay = 0;
         for(long x : pattern){
             cancelDelay += x;
         }
+        cancelDelay *= repeat;
         if(repeat > 1) {
             v.vibrate(pattern, 0);
             new Handler().postDelayed(v::cancel, cancelDelay);
