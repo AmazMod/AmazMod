@@ -5,6 +5,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.SystemClock;
 
 import com.amazmod.service.sleep.sleepService;
 import com.amazmod.service.sleep.sleepStore;
@@ -28,22 +29,19 @@ public class accelerometer implements SensorEventListener {
     private static float lastX;
     private static float lastY;
     private static float lastZ;
-
-    private Thread thread = new sendDataThread();
+    private static long latestSaveBatch;
 
     public void registerListener(Context context){
         Logger.debug("Registering accelerometer listener...");
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 samplingPeriodUs, maxReportLatencyUs);
-        thread.start();
+        latestSaveBatch = SystemClock.elapsedRealtimeNanos();
     }
 
-    public void unregisterListener(boolean killThread){
+    public void unregisterListener(){
         if(sm != null)
             sm.unregisterListener(this);
-        if(killThread)
-            thread.interrupt();
     }
 
     public void setBatchSize(int size){
@@ -51,9 +49,10 @@ public class accelerometer implements SensorEventListener {
         if(sm == null)
             return;
         sm.flush(this);
-        unregisterListener(false);
+        unregisterListener();
         sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 samplingPeriodUs, maxReportLatencyUs);
+        checkAndSendBatch();
     }
 
     @Override
@@ -75,36 +74,34 @@ public class accelerometer implements SensorEventListener {
         lastX = x;
         lastY = y;
         lastZ = z;
+
+        //If latest time saving batch was >= 10s ago
+        if(latestSaveBatch - sensorEvent.timestamp >= 10 * 1000) {
+            //Add current data
+            sleepStore.addMaxData(current_max_data, current_max_raw_data);
+            current_max_data = 0;
+            current_max_raw_data = 0;
+            latestSaveBatch = sensorEvent.timestamp;
+
+            checkAndSendBatch();
+        }
+    }
+
+    private void checkAndSendBatch(){
+        //Send data if batch reached batch size
+        if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize()){
+            SleepData sleepData = new SleepData();
+            sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
+            sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
+            sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
+            sleepStore.resetMaxData();
+
+            sleepService.send(sleepData.toDataBundle(new DataBundle()));
+        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
 
-    }
-
-    private class sendDataThread extends Thread {
-        public void run(){
-            while(!Thread.currentThread().isInterrupted() && sleepStore.isTracking()){
-                try {
-                    Thread.sleep(maxReportLatencyUs / 1000);
-                } catch (InterruptedException e) {
-                    break;
-                }
-                //Add current data
-                sleepStore.addMaxData(current_max_data, current_max_raw_data);
-                current_max_data = 0;
-                current_max_raw_data = 0;
-                //Check if batch is full to send data
-                if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize()){
-                    SleepData sleepData = new SleepData();
-                    sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
-                    sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
-                    sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
-                    sleepStore.resetMaxData();
-
-                    sleepService.send(sleepData.toDataBundle(new DataBundle()));
-                }
-            }
-        }
     }
 }

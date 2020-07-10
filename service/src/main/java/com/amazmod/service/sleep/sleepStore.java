@@ -24,7 +24,7 @@ public class sleepStore {
             sensorsStore.getHrSensor().registerListener(context);
             isSuspended = false;
         } else {
-            sensorsStore.getAccelerometer().unregisterListener(true);
+            sensorsStore.getAccelerometer().unregisterListener();
             sensorsStore.getHrSensor().unregisterListener(context);
             batchSize = 1;
         }
@@ -62,7 +62,7 @@ public class sleepStore {
     public static void setSuspended(boolean IsSuspended, Context context){
         isSuspended = IsSuspended;
         if(IsSuspended){
-            sensorsStore.getAccelerometer().unregisterListener(true);
+            sensorsStore.getAccelerometer().unregisterListener();
             sensorsStore.getHrSensor().unregisterListener(context);
         } else {
             sensorsStore.getAccelerometer().registerListener(context);
