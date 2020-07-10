@@ -33,6 +33,7 @@ public class alarmActivity extends Activity {
     public static final String INTENT_CLOSE = "com.amazmod.alarm.action.close";
 
     private static final AudioAttributes VIBRATION_ATTRIBUTES = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT).build();
+    private static final long[] VIBRATION_PATTERN = new long[]{0, 200, 100, 200, 100, 200, 100, 0, 400};
 
     private TextView time;
     private Button snooze, dismiss;
@@ -58,10 +59,6 @@ public class alarmActivity extends Activity {
         setContentView(R.layout.activity_alarm);
         init();
         setWakeLock();
-        long[] VIBRATION_PATTERN = new long[]{
-                getIntent().getIntExtra("DELAY", 0), //Get delay from saa's extra
-                200, 100, 200, 100, 200, 100, 0, 400
-        };
         //Create broadcast receiver to finish activity when received signal
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter mIntentFilter = new IntentFilter();
@@ -69,7 +66,8 @@ public class alarmActivity extends Activity {
         mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, mIntentFilter);
         setupTime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        vibrator.vibrate(VIBRATION_PATTERN, 1, VIBRATION_ATTRIBUTES);
+        timeHandler.postDelayed(() -> vibrator.vibrate(VIBRATION_PATTERN, 0, VIBRATION_ATTRIBUTES),
+                getIntent().getIntExtra("DELAY", 0));
     }
 
     private void setupTime() {
@@ -93,10 +91,10 @@ public class alarmActivity extends Activity {
 
     public void onDestroy() {
         super.onDestroy();
+        vibrator.cancel();
         if (timeHandler != null)
             timeHandler.removeCallbacksAndMessages(null);
         timeHandler = null;
-        vibrator.cancel();
         releaseWakeLock();
     }
 
@@ -117,7 +115,7 @@ public class alarmActivity extends Activity {
         PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK
                 | PowerManager.ACQUIRE_CAUSES_WAKEUP
-                | PowerManager.ON_AFTER_RELEASE, "AmazMod: Sleep As Android is waking the screen");
+                | PowerManager.ON_AFTER_RELEASE, "AmazMod:sleepasandroid_alarm");
 
         wakeLock.acquire();
     }
