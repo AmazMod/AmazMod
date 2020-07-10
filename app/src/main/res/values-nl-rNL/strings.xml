@@ -220,7 +220,7 @@
     <string name="file_explorer">Bestand verkenner</string>
     <string name="reading_files_failed">Lezen van bestanden is mislukt</string>
     <string name="activity_about_extras">Extra \'s</string>
-    <string name="revoke_device_owner">Intrekken van admin rechten op horloge</string>
+    <string name="revoke_device_owner">Intrekken admin rechten</string>
     <string name="alerts">Meldingen</string>
     <string name="pref_phone_connect_alert_standard_notification">Gebruik standaard meldingen</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Gebruik standaard meldingen voor meldingen in plaats van een aangepaste volledige scherm UI.</string>
