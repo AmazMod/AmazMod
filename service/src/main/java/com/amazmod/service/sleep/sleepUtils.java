@@ -26,11 +26,11 @@ public class sleepUtils {
     }
 
     public static void startTracking(Context context){
-        sleepStore.getInstance().setTracking(true, context);
+        sleepStore.setTracking(true, context);
     }
 
     public static void stopTracking(Context context){
-        sleepStore.getInstance().setTracking(false, context);
+        sleepStore.setTracking(false, context);
     }
 
     public static void postNotification(String title, String text, Context context){

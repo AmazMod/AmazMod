@@ -19,11 +19,11 @@ import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.abs;
 
 public class accelerometer implements SensorEventListener {
-    private static float current_max_data;
-    private static float current_max_raw_data;
-    private static float lastX;
-    private static float lastY;
-    private static float lastZ;
+    private float current_max_data;
+    private float current_max_raw_data;
+    private float lastX;
+    private float lastY;
+    private float lastZ;
     private long lastTimeSaved;
     private int currentValue;
 
@@ -42,7 +42,7 @@ public class accelerometer implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if(sleepStore.getInstance().isSuspended())
+        if(sleepStore.isSuspended())
             return;
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
@@ -62,19 +62,19 @@ public class accelerometer implements SensorEventListener {
 
         if(++currentValue >= 10 && System.currentTimeMillis() >= lastTimeSaved + 10 * 1000){
             //10 seconds have passed and we got 10 values since last save, save array to batch
-            sleepStore.getInstance().addMaxData(current_max_data, current_max_raw_data);
+            sleepStore.addMaxData(current_max_data, current_max_raw_data);
             current_max_data = 0;
             current_max_raw_data = 0;
 
             currentValue = 0;
             lastTimeSaved = System.currentTimeMillis();
 
-            if(sleepStore.getInstance().getMaxData().size() >= sleepStore.getInstance().getBatchSize()){
+            if(sleepStore.getMaxData().size() >= sleepStore.getBatchSize()){
                 SleepData sleepData = new SleepData();
                 sleepData.setAction(SleepData.actions.ACTION_DATA_UPDATE);
-                sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getInstance().getMaxData()));
-                sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getInstance().getMaxRawData()));
-                sleepStore.getInstance().resetMaxData();
+                sleepData.setMax_data(sleepUtils.linkedToArray(sleepStore.getMaxData()));
+                sleepData.setMax_raw_data(sleepUtils.linkedToArray(sleepStore.getMaxRawData()));
+                sleepStore.resetMaxData();
                 Logger.debug("Sending sleep accelerometer data to phone...");
                 sleepService.send(sleepData.toDataBundle(new DataBundle()));
             }
