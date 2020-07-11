@@ -8,7 +8,7 @@ public class sleepConstants {
 
     //Accelerometer
     public static final int SECS_PER_MAX_VALUE = 10;
-    public static final int SAMPLING_PERIOD_US = 200_000_000; //200ms
+    public static final int SAMPLING_PERIOD_US = 200_000; //200ms
 
     //Other
     public static final int NOTIFICATION_ID = 1834;
