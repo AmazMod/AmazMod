@@ -22,7 +22,7 @@ import static java.lang.StrictMath.abs;
 public class accelerometer implements SensorEventListener {
     private static final int secondsPerMaxValue = 10;
     private static final int samplingPeriodUs = 200_000_000; //200ms
-    private static int maxReportLatencyUs = secondsPerMaxValue * 1000 * 1000; //Initial value, changes
+    private static int maxReportLatencyUs = /*secondsPerMaxValue*/50 * 1000_000;
 
     private SensorManager sm;
     private static float current_max_data;
@@ -43,21 +43,6 @@ public class accelerometer implements SensorEventListener {
     public void unregisterListener(){
         if(sm != null)
             sm.unregisterListener(this);
-    }
-
-    public void setBatchSize(int size) {
-        if(size >= 5) size = 5; //Avoid too big sensor batching as our device just supports 10k events
-        maxReportLatencyUs = size * 10 * 1000 * 1000; //Set latency to batch size in microseconds
-        if(sm == null)
-            return;
-        sm.unregisterListener(this);
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException ignored){
-        }
-        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                samplingPeriodUs, maxReportLatencyUs);
-        checkAndSendBatch();
     }
 
     @Override
@@ -82,7 +67,7 @@ public class accelerometer implements SensorEventListener {
         lastZ = z;
 
         //If latest time saving batch was >= 10s ago
-        if(sensorEvent.timestamp - latestSaveBatch >= (long) secondsPerMaxValue * 1_000_000_000 /*To ns*/) {
+        if(sensorEvent.timestamp - latestSaveBatch >= (long) secondsPerMaxValue * 1_000_000_000 /*To nanos*/) {
             //Add current data
             sleepStore.addMaxData(current_max_data, current_max_raw_data);
             current_max_data = 0;
