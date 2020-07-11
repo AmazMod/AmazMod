@@ -32,7 +32,7 @@ public class heartrate implements SensorEventListener {
     }
 
     public void register(){
-        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        sm.registerListener(this, sm.getDefaultSensor(Sensor.TYPE_HEART_RATE)
                 , SensorManager.SENSOR_DELAY_FASTEST, 20 * 1000 * 1000);
     }
 
