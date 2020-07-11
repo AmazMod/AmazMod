@@ -52,7 +52,7 @@ public class accelerometer {
     }
 
     public void setBatchSize(long size){
-        if(size > 5) size = 4; //Set max size to 4 (40s)
+        if(size > 4) size = 4; //Set max size to 4 (40s)
         maxReportLatencyUs = (int) (size * 10 * 1000_000);
         unregisterListener();
         checkAndSendBatch();
