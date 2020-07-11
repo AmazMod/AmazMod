@@ -37,8 +37,6 @@ public class ButtonListener {
     private PowerManager powerManager;
     PowerManager.WakeLock wakeLock;
 
-
-
     private boolean listening;
 
     Thread thread;

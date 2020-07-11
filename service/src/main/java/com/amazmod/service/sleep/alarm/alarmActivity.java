@@ -18,6 +18,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.amazmod.service.R;
 import com.amazmod.service.sleep.sleepService;
+import com.amazmod.service.util.ButtonListener;
+import com.amazmod.service.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
 
 import java.text.SimpleDateFormat;
@@ -38,6 +40,7 @@ public class alarmActivity extends Activity {
     private TextView time;
     private Button snooze, dismiss;
 
+    private ButtonListener buttonListener = new ButtonListener();
     private Handler timeHandler;
     private Vibrator vibrator;
 
@@ -59,6 +62,7 @@ public class alarmActivity extends Activity {
         setContentView(R.layout.activity_alarm);
         init();
         setWakeLock();
+        setupBtnListener();
         //Create broadcast receiver to finish activity when received signal
         mLocalBroadcastManager = LocalBroadcastManager.getInstance(this);
         IntentFilter mIntentFilter = new IntentFilter();
@@ -96,6 +100,7 @@ public class alarmActivity extends Activity {
             timeHandler.removeCallbacksAndMessages(null);
         timeHandler = null;
         releaseWakeLock();
+        buttonListener.stop();
     }
 
     private void stop(int action) {
@@ -107,6 +112,7 @@ public class alarmActivity extends Activity {
 
     private void stop() {
         vibrator.cancel();
+        buttonListener.stop();
         finish();
     }
 
@@ -123,5 +129,31 @@ public class alarmActivity extends Activity {
     private void releaseWakeLock() {
         if (wakeLock != null && wakeLock.isHeld())
             wakeLock.release();
+    }
+
+    private void setupBtnListener(){
+        Handler btnHandler = new Handler();
+        buttonListener.start(this, keyEvent -> {
+            if ((SystemProperties.isPace() || SystemProperties.isVerge()) && keyEvent.getCode() == ButtonListener.KEY_CENTER)
+                btnHandler.post(() -> dismiss.performClick());
+            if (SystemProperties.isStratos())
+                switch(keyEvent.getCode()){
+                    case ButtonListener.KEY_UP:
+                        dismiss.performClick();
+                        break;
+                    case ButtonListener.KEY_DOWN:
+                        snooze.performClick();
+                        break;
+                }
+            if (SystemProperties.isStratos3())
+                switch(keyEvent.getCode()){
+                    case ButtonListener.S3_KEY_MIDDLE_UP:
+                        dismiss.performClick();
+                        break;
+                    case ButtonListener.S3_KEY_MIDDLE_DOWN:
+                        snooze.performClick();
+                        break;
+                }
+        });
     }
 }
