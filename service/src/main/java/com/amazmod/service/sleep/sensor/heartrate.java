@@ -53,6 +53,7 @@ public class heartrate implements SensorEventListener {
             sleepData.setAction(SleepData.actions.ACTION_HRDATA_UPDATE);
             sleepData.setHrdata(currentArray);
             currentArray = new float[20];
+            currentValue = 0;
             sleepService.send(sleepData.toDataBundle(new DataBundle()));
             sm.unregisterListener(this);
             waitThread.start();
