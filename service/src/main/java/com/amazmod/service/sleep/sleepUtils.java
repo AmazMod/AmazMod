@@ -36,8 +36,8 @@ public class sleepUtils {
     public static void postNotification(String title, String text, Context context){
         NotificationService notificationService = new NotificationService(context);
         NotificationData notificationData = new NotificationData();
-        notificationData.setId(1834);
-        notificationData.setKey("amazmod|SAA");
+        notificationData.setId(sleepConstants.NOTIFICATION_ID);
+        notificationData.setKey(sleepConstants.NOTIFICATION_KEY);
         notificationData.setTitle(title);
         notificationData.setText(text);
         notificationData.setTime(DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault()).format(Calendar.getInstance().getTime()));

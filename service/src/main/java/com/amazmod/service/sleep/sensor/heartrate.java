@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 
+import com.amazmod.service.sleep.sleepConstants;
 import com.amazmod.service.sleep.sleepService;
 import com.amazmod.service.sleep.sleepStore;
 import com.huami.watch.transport.DataBundle;
@@ -16,8 +17,6 @@ import org.tinylog.Logger;
 import amazmod.com.transport.data.SleepData;
 
 public class heartrate implements SensorEventListener {
-
-    private static final int HR_VALUES = 20;
 
     private int currentAccuracy = 2;
     private int currentValue;
@@ -46,9 +45,9 @@ public class heartrate implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sleepStore.isSuspended())
             return;
-        if(isAccuracyValid() && currentValue < HR_VALUES)
+        if(isAccuracyValid() && currentValue < sleepConstants.HR_VALUES)
             currentArray[currentValue++] = sensorEvent.values[0];
-        if(currentValue == HR_VALUES){
+        if(currentValue == sleepConstants.HR_VALUES){
             SleepData sleepData = new SleepData();
             sleepData.setAction(SleepData.actions.ACTION_HRDATA_UPDATE);
             sleepData.setHrdata(currentArray);
@@ -74,7 +73,7 @@ public class heartrate implements SensorEventListener {
     private static class waitThread extends Thread{
         public void run(){
             try {
-                Thread.sleep(5 * 60 * 1000);
+                Thread.sleep(sleepConstants.HR_INTERVAL);
             } catch (InterruptedException ignored) {
                 return;
             }

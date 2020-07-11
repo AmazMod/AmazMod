@@ -1,8 +1,8 @@
 package com.amazmod.service.sleep.sensor;
 
 public class sensorsStore {
-    private static accelerometer accSensor = new accelerometer();
-    private static heartrate hrSensor = new heartrate();
+    private static volatile accelerometer accSensor = new accelerometer();
+    private static volatile heartrate hrSensor = new heartrate();
 
     public static accelerometer getAccelerometer(){
         return accSensor;
