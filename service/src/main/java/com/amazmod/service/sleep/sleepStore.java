@@ -49,7 +49,10 @@ public class sleepStore {
     }
 
     public static void setBatchSize(long BatchSize){
+        long oldBatchSize = batchSize;
         batchSize = BatchSize;
+        if(oldBatchSize != batchSize)
+            sensorsStore.getAccelerometer().setBatchSize(BatchSize);
     }
 
     public static long getBatchSize(){
