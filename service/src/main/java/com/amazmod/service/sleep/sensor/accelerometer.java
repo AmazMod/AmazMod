@@ -22,7 +22,7 @@ import static java.lang.StrictMath.abs;
 public class accelerometer implements SensorEventListener {
     private static final int secondsPerMaxValue = 10;
     private static final int samplingPeriodUs = 200_000_000; //200ms
-    private static int maxReportLatencyUs = /*secondsPerMaxValue*/50 * 1000_000;
+    private static int maxReportLatencyUs = secondsPerMaxValue * 1000_000;
 
     private SensorManager sm;
     private static float current_max_data;
