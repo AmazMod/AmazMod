@@ -62,7 +62,7 @@ public class accelerometer {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sleepStore.isSuspended())
             return;
-        Logger.debug("Received accelerometer values"); //Just for testing
+        Logger.debug("Received accelerometer values with timestamp " + sensorEvent.timestamp + " at time " + SystemClock.elapsedRealtimeNanos()); //Just for testing
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
         float z = sensorEvent.values[2];
