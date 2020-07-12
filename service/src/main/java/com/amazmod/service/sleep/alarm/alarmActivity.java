@@ -1,8 +1,10 @@
 package com.amazmod.service.sleep.alarm;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioAttributes;
@@ -21,6 +23,8 @@ import com.amazmod.service.sleep.sleepService;
 import com.amazmod.service.util.ButtonListener;
 import com.amazmod.service.util.SystemProperties;
 import com.huami.watch.transport.DataBundle;
+
+import org.tinylog.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -91,8 +95,8 @@ public class alarmActivity extends Activity {
         time = findViewById(R.id.alarm_time);
         snooze = findViewById(R.id.alarm_snooze);
         dismiss = findViewById(R.id.alarm_dismiss);
-        snooze.setOnClickListener(view -> stop(actions.ACTION_SNOOZE_FROM_WATCH));
-        dismiss.setOnClickListener(view -> stop(actions.ACTION_DISMISS_FROM_WATCH));
+        snooze.setOnClickListener(view -> showActionDialog(() -> stop(actions.ACTION_SNOOZE_FROM_WATCH)));
+        dismiss.setOnClickListener(view -> showActionDialog(() -> stop(actions.ACTION_DISMISS_FROM_WATCH)));
     }
 
     public void onDestroy() {
@@ -134,6 +138,14 @@ public class alarmActivity extends Activity {
     private void releaseWakeLock() {
         if (wakeLock != null && wakeLock.isHeld())
             wakeLock.release();
+    }
+
+    private void showActionDialog(Runnable runOnFinish){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getResources().getString(R.string.confirmation))
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> runOnFinish.run())
+                .setNegativeButton(android.R.string.no, (dialog, which) -> Logger.info("Clicked no"));
+        builder.show();
     }
 
     private void setupBtnListener(){
