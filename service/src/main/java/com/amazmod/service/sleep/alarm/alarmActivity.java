@@ -42,6 +42,7 @@ public class alarmActivity extends Activity {
 
     private ButtonListener buttonListener = new ButtonListener();
     private Handler timeHandler;
+    private Handler vibratorHandler;
     private Vibrator vibrator;
 
     PowerManager.WakeLock wakeLock = null;
@@ -70,7 +71,8 @@ public class alarmActivity extends Activity {
         mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, mIntentFilter);
         setupTime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        timeHandler.postDelayed(() -> vibrator.vibrate(VIBRATION_PATTERN, 0, VIBRATION_ATTRIBUTES),
+        vibratorHandler = new Handler();
+        vibratorHandler.postDelayed(() -> vibrator.vibrate(VIBRATION_PATTERN, 0, VIBRATION_ATTRIBUTES),
                 getIntent().getIntExtra("DELAY", 0));
     }
 
@@ -98,7 +100,10 @@ public class alarmActivity extends Activity {
         vibrator.cancel();
         if (timeHandler != null)
             timeHandler.removeCallbacksAndMessages(null);
+        if (vibratorHandler != null)
+            vibratorHandler.removeCallbacksAndMessages(null);
         timeHandler = null;
+        vibratorHandler = null;
         releaseWakeLock();
         buttonListener.stop();
     }
