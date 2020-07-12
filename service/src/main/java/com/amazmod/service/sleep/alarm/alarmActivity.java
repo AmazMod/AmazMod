@@ -139,19 +139,19 @@ public class alarmActivity extends Activity {
             if (SystemProperties.isStratos())
                 switch(keyEvent.getCode()){
                     case ButtonListener.KEY_UP:
-                        dismiss.performClick();
+                        btnHandler.post(() -> dismiss.performClick());
                         break;
                     case ButtonListener.KEY_DOWN:
-                        snooze.performClick();
+                        btnHandler.post(() -> snooze.performClick());
                         break;
                 }
             if (SystemProperties.isStratos3())
                 switch(keyEvent.getCode()){
                     case ButtonListener.S3_KEY_MIDDLE_UP:
-                        dismiss.performClick();
+                        btnHandler.post(() -> dismiss.performClick());
                         break;
                     case ButtonListener.S3_KEY_MIDDLE_DOWN:
-                        snooze.performClick();
+                        btnHandler.post(() -> snooze.performClick());
                         break;
                 }
         });
