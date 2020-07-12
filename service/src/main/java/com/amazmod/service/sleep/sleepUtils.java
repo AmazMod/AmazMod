@@ -1,9 +1,13 @@
 package com.amazmod.service.sleep;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Vibrator;
 
+import com.amazmod.service.R;
 import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.sleep.sensor.sensorsStore;
 
@@ -44,7 +48,21 @@ public class sleepUtils {
         notificationData.setForceCustom(false);
         notificationData.setHideButtons(true);
         notificationData.setHideReplies(true);
-        //notificationData.setIcon(); TODO Set sleep as android icon
+
+        // Get and set icon
+        Drawable drawable = context.getResources().getDrawable(R.drawable.ic_sleepasandroid);
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        if (bitmap.getWidth() > 48) //This is not necessary but added in case that we edit icon
+            bitmap = Bitmap.createScaledBitmap(bitmap, 48, 48, true);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int[] intArray = new int[width * height];
+        notificationData.setIcon(intArray);
+        notificationData.setIconWidth(width);
+        notificationData.setIconHeight(height);
 
         notificationService.post(notificationData);
     }
