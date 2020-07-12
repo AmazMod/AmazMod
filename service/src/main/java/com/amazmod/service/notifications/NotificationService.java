@@ -16,6 +16,7 @@ import androidx.core.app.NotificationCompat;
 import com.amazmod.service.Constants;
 import com.amazmod.service.R;
 import com.amazmod.service.settings.SettingsManager;
+import com.amazmod.service.sleep.sleepConstants;
 import com.amazmod.service.support.NotificationStore;
 import com.amazmod.service.ui.NotificationWearActivity;
 import com.amazmod.service.ui.fragments.NotificationFragment;
@@ -109,6 +110,10 @@ public class NotificationService {
                 postWithStandardUI(notificationSpec, hideReplies);
             }
 
+        } else if (key.contains(sleepConstants.NOTIFICATION_KEY)){
+            //Sleep notifications
+            Logger.debug("Received sleep notification");
+            postWithStandardUI(notificationSpec, true);
         } else {
             // Handles normal notifications
             Logger.debug("NotificationService6 notificationSpec.getKey(): " + key);
