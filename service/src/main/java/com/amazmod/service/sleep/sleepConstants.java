@@ -9,6 +9,7 @@ public class sleepConstants {
     //Accelerometer
     public static final int SECS_PER_MAX_VALUE = 10;
     public static final int SAMPLING_PERIOD_US = 200_000; //200ms
+    public static final int MAX_BATCH_SIZE = 4; //Don't increase this because we have 10k events and more can fill it
 
     //Other
     public static final int NOTIFICATION_ID = 1834;

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.hardware.SensorEventListener2;
 import android.hardware.SensorManager;
+import android.os.PowerManager;
 import android.os.SystemClock;
 
 import com.amazmod.service.sleep.sleepConstants;
@@ -24,12 +26,14 @@ public class accelerometer {
     private static int maxReportLatencyUs = sleepConstants.SECS_PER_MAX_VALUE * 1000_000;
 
     private SensorManager sm;
+    private Context context;
     private static float current_max_data;
     private static float current_max_raw_data;
     private static float lastX;
     private static float lastY;
     private static float lastZ;
     private static long latestSaveBatch;
+    private static Thread sendDataThread;
 
     private listener listener;
 
@@ -37,6 +41,9 @@ public class accelerometer {
         Logger.debug("Registering accelerometer listener...");
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         register();
+        this.context = context;
+        sendDataThread = new sendDataThread(sleepStore.getBatchSize());
+        sendDataThread.start();
         latestSaveBatch = SystemClock.elapsedRealtimeNanos();
     }
 
@@ -52,8 +59,10 @@ public class accelerometer {
     }
 
     public void setBatchSize(long size){
-        if(size > 4) size = 4; //Set max size to 4 (40s)
+        if(size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE; //Set max size to 4 (40s)
         maxReportLatencyUs = (int) (size * 10 * 1000_000);
+        sendDataThread = new sendDataThread(size);
+        sendDataThread.start();
         unregisterListener();
         checkAndSendBatch();
         register();
@@ -101,7 +110,7 @@ public class accelerometer {
         }
     }
 
-    private class listener implements SensorEventListener{
+    private class listener implements SensorEventListener, SensorEventListener2 {
         @Override
         public void onSensorChanged(SensorEvent event) {
             accelerometer.this.onSensorChanged(event); //Pass event to the other class
@@ -109,5 +118,36 @@ public class accelerometer {
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {} //Ignore
+
+        @Override
+        public void onFlushCompleted(Sensor sensor) {
+            Logger.debug("Flush completed for sensor " + sensor.getName());
+        }
+    }
+
+    private class sendDataThread extends Thread{
+        private int sleepMillis;
+        private sendDataThread(long batchSize){
+            //Limit batch size because we don't want sensorhal to overwrite values
+            if(batchSize > sleepConstants.MAX_BATCH_SIZE) batchSize = sleepConstants.MAX_BATCH_SIZE;
+
+            this.sleepMillis = (int) batchSize * sleepConstants.SECS_PER_MAX_VALUE * 1000;
+        }
+
+        public void run(){
+            while(!Thread.currentThread().isInterrupted()){
+                try {
+                    Thread.sleep(sleepMillis);
+
+                    PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+                    PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AmazMod:AccelerometerWL");
+                    wakeLock.acquire(4 * 1000); //Wakelock 4s to avoid sleeping while flush
+
+                    sm.flush(listener);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        }
     }
 }
