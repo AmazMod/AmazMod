@@ -1,6 +1,10 @@
 package com.amazmod.service.sleep.sensor;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +13,7 @@ import android.hardware.SensorManager;
 import android.os.PowerManager;
 import android.os.SystemClock;
 
+import com.amazmod.service.sleep.alarm.alarmReceiver;
 import com.amazmod.service.sleep.sleepConstants;
 import com.amazmod.service.sleep.sleepService;
 import com.amazmod.service.sleep.sleepStore;
@@ -33,8 +38,8 @@ public class accelerometer {
     private static float lastY;
     private static float lastZ;
     private static long latestSaveBatch;
-    private static Thread sendDataThread;
 
+    private batchWaker batchWaker = new batchWaker();
     private listener listener;
 
     public void registerListener(Context context) {
@@ -42,8 +47,7 @@ public class accelerometer {
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         register();
         this.context = context;
-        sendDataThread = new sendDataThread(sleepStore.getBatchSize());
-        sendDataThread.start();
+        batchWaker.register(sleepStore.getBatchSize());
         latestSaveBatch = SystemClock.elapsedRealtimeNanos();
     }
 
@@ -56,14 +60,15 @@ public class accelerometer {
     public void unregisterListener(){
         if(sm != null)
             sm.unregisterListener(listener);
+        batchWaker.unregister();
+
     }
 
     public void setBatchSize(long size){
         if(size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE; //Set max size to 4 (40s)
         maxReportLatencyUs = (int) (size * 10 * 1000_000_000);
-        sendDataThread = new sendDataThread(size);
-        sendDataThread.start();
         unregisterListener();
+        batchWaker.register(size);
         checkAndSendBatch();
         register();
     }
@@ -71,7 +76,7 @@ public class accelerometer {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sleepStore.isSuspended())
             return;
-        Logger.debug("Received accelerometer values with timestamp " + sensorEvent.timestamp + " at time " + SystemClock.elapsedRealtimeNanos()); //Just for testing
+        //Logger.debug("Received accelerometer values with timestamp " + sensorEvent.timestamp + " at time " + SystemClock.elapsedRealtimeNanos());
         float x = sensorEvent.values[0];
         float y = sensorEvent.values[1];
         float z = sensorEvent.values[2];
@@ -125,29 +130,30 @@ public class accelerometer {
         }
     }
 
-    private class sendDataThread extends Thread{
-        private int sleepMillis;
-        private sendDataThread(long batchSize){
-            //Limit batch size because we don't want sensorhal to overwrite values
-            if(batchSize > sleepConstants.MAX_BATCH_SIZE) batchSize = sleepConstants.MAX_BATCH_SIZE;
+    private class batchWaker extends BroadcastReceiver {
+        private PendingIntent pendingIntent;
 
-            this.sleepMillis = (int) batchSize * sleepConstants.SECS_PER_MAX_VALUE * 1000;
+        public void register(long batchSize){
+            if(batchSize > sleepConstants.MAX_BATCH_SIZE) batchSize = sleepConstants.MAX_BATCH_SIZE;
+            int interval = (int) batchSize * sleepConstants.SECS_PER_MAX_VALUE * 1000;
+            Intent alarmIntent = new Intent(context, alarmReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         }
 
-        public void run(){
-            while(!Thread.currentThread().isInterrupted()){
-                try {
-                    Thread.sleep(sleepMillis);
+        public void unregister(){
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);
+        }
 
-                    PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-                    PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AmazMod:AccelerometerWL");
-                    wakeLock.acquire(4 * 1000); //Wakelock 4s to avoid sleeping while flush
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AmazMod:AccelerometerWL");
+            wakeLock.acquire(4 * 1000); //Wakelock 4s to avoid sleeping while flush
 
-                    sm.flush(listener);
-                } catch (InterruptedException e) {
-                    break;
-                }
-            }
+            sm.flush(listener);
         }
     }
 }
