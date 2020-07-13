@@ -23,7 +23,7 @@ import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.abs;
 
 public class accelerometer {
-    private static int maxReportLatencyUs = sleepConstants.SECS_PER_MAX_VALUE * 1000_000;
+    private static long maxReportLatencyUs = (long) sleepConstants.SECS_PER_MAX_VALUE * 1000_000_000;
 
     private SensorManager sm;
     private Context context;
@@ -50,7 +50,7 @@ public class accelerometer {
     private void register(){
         listener = new listener();
         sm.registerListener(listener, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                sleepConstants.SAMPLING_PERIOD_US, maxReportLatencyUs);
+                sleepConstants.SAMPLING_PERIOD_US, (int) maxReportLatencyUs);
     }
 
     public void unregisterListener(){
@@ -60,7 +60,7 @@ public class accelerometer {
 
     public void setBatchSize(long size){
         if(size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE; //Set max size to 4 (40s)
-        maxReportLatencyUs = (int) (size * 10 * 1000_000);
+        maxReportLatencyUs = (int) (size * 10 * 1000_000_000);
         sendDataThread = new sendDataThread(size);
         sendDataThread.start();
         unregisterListener();

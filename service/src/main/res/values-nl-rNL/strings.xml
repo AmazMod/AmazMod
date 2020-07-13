@@ -33,7 +33,7 @@
     <!-- Strings used by AdminReceiver start -->
     <string name="device_admin">Apparaat Admin</string>
     <string name="device_admin_description">Vergrendelscherm toegang</string>
-    <string name="admin_receiver_status">AmazMod Apparaatbeheerder: %1$s</string>
+    <string name="admin_receiver_status">AmazMod Apparaatmanager: %1$s</string>
     <string name="enabled">ingeschakeld</string>
     <string name="disabled">uitgeschakeld</string>
     <string name="admin_receiver_status_disable_warning">AmazMod niet in staat het scherm te vergrendelen na het sluiten van de antwoorden.</string>
@@ -142,13 +142,13 @@
     <string name="app_manager">App Manager</string>
     <string name="not_found">niet gevonden!</string>
     <string name="action_undefined">Geen actie gedefinieerd</string>
-    <string name="activity_menu_apps_mamager">App beheer</string>
+    <string name="activity_menu_apps_mamager">App Manager</string>
     <string name="activity_menu_files_mamager">Bestands beheer</string>
     <string name="activity_menu_reorder_widgets">Widgets herschikken</string>
     <string name="activity_menu_screen_settings">Scherminstellingen</string>
-    <string name="activity_menu_battery_graph">Accu Grafiek</string>
+    <string name="activity_menu_battery_graph">Batterij</string>
     <string name="activity_menu_wifi_toggle">Toggle Wifi</string>
-    <string name="activity_menu_wifi_panel">Wifi-Paneel</string>
+    <string name="activity_menu_wifi_panel">Wi-Fi</string>
     <string name="activity_menu_flashlight">Zaklamp</string>
     <string name="activity_menu_qrcode">QR Code</string>
     <string name="activity_menu_clean_memory">Geheugen opschonen</string>
@@ -158,14 +158,14 @@
     <string name="activity_menu_restart_launcher">Herstart launcher</string>
     <string name="activity_menu_clear_launcher">Duidelijk Launcher Instellingen</string>
     <string name="activity_menu_reboot">Herstarten</string>
-    <string name="activity_menu_reboot_recovery">Reboot naar Recovery</string>
-    <string name="activity_menu_reboot_fastboot">Opnieuw opstarten naar de Fastboot</string>
+    <string name="activity_menu_reboot_recovery">Recovery</string>
+    <string name="activity_menu_reboot_fastboot">Fastboot</string>
     <string name="activity_menu_units">Eenheden</string>
     <string name="activity_menu_anti_lost">Koppel Alert (iOS)</string>
     <string name="activity_menu_away_alert">Afstand Alert (iOS)</string>
     <string name="activity_menu_screenon">Kennisgeving ScreenOn</string>
-    <string name="activity_menu_input_method">De Invoermethode Te Wijzigen</string>
-    <string name="activity_menu_device_info">Toestelinformatie</string>
+    <string name="activity_menu_input_method">Invoermethode</string>
+    <string name="activity_menu_device_info">Informatie</string>
     <string name="activity_menu_hourly_chime">Klokslag Op Het Uur</string>
     <string name="uvindex_weakest">Zwakste</string>
     <string name="uvindex_weak">Zwak</string>
