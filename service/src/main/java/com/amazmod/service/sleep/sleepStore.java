@@ -18,16 +18,18 @@ public class sleepStore {
     }
 
     public static void setTracking(boolean IsTracking, Context context) {
-        isTracking = IsTracking;
         if(IsTracking){
-            sensorsStore.getAccelerometer().registerListener(context);
-            sensorsStore.getHrSensor().registerListener(context);
+            if(!isTracking){ //Don't start sensors again if it was listening
+                sensorsStore.getAccelerometer().registerListener(context);
+                sensorsStore.getHrSensor().registerListener(context);
+            }
             isSuspended = false;
         } else {
             sensorsStore.getAccelerometer().unregisterListener();
             sensorsStore.getHrSensor().unregisterListener(context);
             batchSize = 1;
         }
+        isTracking = IsTracking;
     }
 
     public static void addMaxData(float max_data, float max_raw_data){
