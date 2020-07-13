@@ -386,7 +386,7 @@ het systeemthema (beta).</string>
     <string name="new_folder">Nieuwe map</string>
     <string name="pref_amazmod_overlay_launcher">Meldingen Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open aangepaste UI-notificatielijst met een overlay knop op het horloge (de locatie wordt kort getoond wanneer het scherm aan gaat en je kunt het naar links of rechts vegen).</string>
-    <string name="pref_amazmod_hourly_chime">Klokslag elk uur</string>
+    <string name="pref_amazmod_hourly_chime">Uursignaal</string>
     <string name="pref_amazmod_hourly_chime_summary">Activeer elk uur een korte trilling, met Casio geluid op Verge. De \"Niet storen modus\" wordt gerespecteerd.</string>
     <string name="file_not_found">Bestand niet gevonden!</string>
     <string name="pref_battery_full_alert">Alarm bij volle horlogebatterij</string>
