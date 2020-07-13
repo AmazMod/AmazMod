@@ -38,6 +38,7 @@ public class accelerometer {
     private static float lastY;
     private static float lastZ;
     private static long latestSaveBatch;
+    private static long latestSaveBatchSleeping;
 
     private batchWaker batchWaker = new batchWaker();
     private listener listener;
@@ -47,7 +48,7 @@ public class accelerometer {
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         register();
         this.context = context;
-        batchWaker.register(sleepStore.getBatchSize());
+        batchWaker.register(maxReportLatencyUs / (sleepConstants.SECS_PER_MAX_VALUE * 1000_000_000L));
         latestSaveBatch = SystemClock.elapsedRealtimeNanos();
     }
 
@@ -65,12 +66,12 @@ public class accelerometer {
     }
 
     public void setBatchSize(long size){
-        if(size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE; //Set max size to 4 (40s)
+        /*if(size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE; //Set max size to 4 (40s)
         maxReportLatencyUs = (int) (size * 10 * 1000_000_000);
         unregisterListener();
         batchWaker.register(size);
         checkAndSendBatch();
-        register();
+        register();*/
     }
 
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -93,13 +94,20 @@ public class accelerometer {
 
         //If latest time saving batch was >= 10s ago
         if(sensorEvent.timestamp - latestSaveBatch >= (long) sleepConstants.SECS_PER_MAX_VALUE * 1_000_000_000 /*To nanos*/) {
-            //Add current data
-            sleepStore.addMaxData(current_max_data, current_max_raw_data);
-            current_max_data = 0;
-            current_max_raw_data = 0;
+            addData();
             latestSaveBatch = sensorEvent.timestamp;
             checkAndSendBatch();
+        } else if(System.currentTimeMillis() - latestSaveBatchSleeping >= 9 * 1000){
+            addData();
+            latestSaveBatch = sensorEvent.timestamp;
+            latestSaveBatchSleeping = System.currentTimeMillis();
         }
+    }
+
+    private void addData(){
+        sleepStore.addMaxData(current_max_data, current_max_raw_data);
+        current_max_data = 0;
+        current_max_raw_data = 0;
     }
 
     private void checkAndSendBatch(){
@@ -151,7 +159,7 @@ public class accelerometer {
         public void onReceive(Context context, Intent intent) {
             PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
             PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AmazMod:AccelerometerWL");
-            wakeLock.acquire(4 * 1000); //Wakelock 4s to avoid sleeping while flush
+            wakeLock.acquire(2 * 1000); //Wakelock 2s to avoid sleeping while flush
 
             sm.flush(listener);
         }
