@@ -164,8 +164,8 @@
     <string name="activity_menu_anti_lost">Koppel Alert (iOS)</string>
     <string name="activity_menu_away_alert">Afstand Alert (iOS)</string>
     <string name="activity_menu_screenon">Kennisgeving ScreenOn</string>
-    <string name="activity_menu_input_method">De Invoermethode Te Wijzigen</string>
-    <string name="activity_menu_device_info">Toestelinformatie</string>
+    <string name="activity_menu_input_method">Invoermethode</string>
+    <string name="activity_menu_device_info">Informatie</string>
     <string name="activity_menu_hourly_chime">Klokslag Op Het Uur</string>
     <string name="uvindex_weakest">Zwakste</string>
     <string name="uvindex_weak">Zwak</string>
