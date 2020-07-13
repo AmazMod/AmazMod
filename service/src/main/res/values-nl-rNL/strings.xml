@@ -131,7 +131,7 @@
     <string name="package_name">Pakketnaam</string>
     <string name="title">Titel</string>
     <string name="sending">Verzenden</string>
-    <string name="hourly_chime">Klokslag elk uur</string>
+    <string name="hourly_chime">Uursignaal</string>
     <string name="refresh">Vernieuw</string>
     <string name="clear">Wissen</string>
     <string name="reload_apps">Apps opnieuw laden</string>
@@ -166,7 +166,7 @@
     <string name="activity_menu_screenon">Kennisgeving ScreenOn</string>
     <string name="activity_menu_input_method">Invoermethode</string>
     <string name="activity_menu_device_info">Informatie</string>
-    <string name="activity_menu_hourly_chime">Klokslag Op Het Uur</string>
+    <string name="activity_menu_hourly_chime">Uursignaal</string>
     <string name="uvindex_weakest">Zwakste</string>
     <string name="uvindex_weak">Zwak</string>
     <string name="uvindex_moderate">Gemiddeld</string>
