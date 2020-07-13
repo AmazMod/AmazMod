@@ -387,7 +387,7 @@ het systeemthema (beta).</string>
     <string name="pref_amazmod_overlay_launcher">Meldingen Overlay Launcher</string>
     <string name="pref_amazmod_overlay_launcher_summary">Open aangepaste UI-notificatielijst met een overlay knop op het horloge (de locatie wordt kort getoond wanneer het scherm aan gaat en je kunt het naar links of rechts vegen).</string>
     <string name="pref_amazmod_hourly_chime">Uursignaal</string>
-    <string name="pref_amazmod_hourly_chime_summary">Activeer elk uur een korte trilling, met Casio geluid op Verge. De \"Niet storen modus\" wordt gerespecteerd.</string>
+    <string name="pref_amazmod_hourly_chime_summary">Activeer elk uur een signaal (Casio geluid). \"Niet storen-modus\" wordt gerespecteerd.</string>
     <string name="file_not_found">Bestand niet gevonden!</string>
     <string name="pref_battery_full_alert">Alarm bij volle horlogebatterij</string>
     <string name="pref_battery_full_alert_summary">Krijg een melding wanneer het horloge volledig is opgeladen.</string>
@@ -490,9 +490,9 @@ het systeemthema (beta).</string>
     <string name="invalid_key">api-sleutel is ongeldig</string>
     <string name="miss_notification_access">Toegang verlenen aan AmazMod voor afhandelen van meldingen</string>
     <string name="turn_on_wifi">U moet telefoon WiFi inschakelen</string>
-    <string name="watch_empty_ip">Watch IP in empty, so will go with WiFi AP</string>
-    <string name="watch_same_wifi">Watch IP found, you are connected on the same WiFi</string>
-    <string name="wifi_transfer_method">Choosing WiFi transfer method to use</string>
+    <string name="watch_empty_ip">Horlog IP leeg, gebruik WiFi AP</string>
+    <string name="watch_same_wifi">Horloge gevonden; verbonden met zelfde Wi-Fi-netwerk</string>
+    <string name="wifi_transfer_method">Kies gebruikte Wi-Fi methode</string>
     <string name="support_us">Steun ons</string>
     <string name="no_donation">Gift geannuleerd 😢</string>
     <string name="thanks_donation">Bedankt voor de gift! 😘</string>
@@ -500,11 +500,11 @@ het systeemthema (beta).</string>
     <string name="activity_donation_opencollective">Doneer op OpenCollective</string>
     <string name="donate">Doneren</string>
     <string name="later">Later</string>
-    <string name="support_us_text">Would you like to Support AmazMod development? AmazMod is free and will always be but donations help us to buy devices to test and improve our beloved software.</string>
+    <string name="support_us_text">Wilt u de ontwikkeling van AmazMod ondersteunen? AmazMod is gratis en zal altijd zijn maar donaties helpen ons om apparaten te kopen om onze software te testen en te verbeteren.</string>
     <string name="donors">Donateurs</string>
     <string name="activity_view_donors">Bekijk Donateurs</string>
     <string name="donors_hall_of_fame">Donateurs Hall of Fame</string>
-    <string name="donors_disclaimer_google">Disclaimer: Google does not provide access to any confidential user information, such as email address or names. We can\'t list those who donated using Google InApp Purchases here, only those who used OpenCollective. We would like to thank anyone who donates!!!</string>
+    <string name="donors_disclaimer_google">Disclaimer: Google deelt geen vertrouwelijke gegevens zoals e-mailadressen of namen. We kunnen diegenen die gedoneerd hebben oplijsten, alleen degenen die OpenCollective gebruiken. We willen iedereen bedanken die doneert !!!</string>
     <string name="filter_as_whitelist">Whitelist</string>
     <string name="searchpreference_found">GEVONDEN! -&gt;</string>
     <string name="searchpreference_search">Zoeken…</string>
