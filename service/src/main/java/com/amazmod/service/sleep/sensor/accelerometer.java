@@ -28,7 +28,7 @@ import static java.lang.Math.sqrt;
 import static java.lang.StrictMath.abs;
 
 public class accelerometer {
-    private static long maxReportLatencyUs = 3_000_000; //3s
+    private static long maxReportLatencyUs = 2_500_000; //2.5s
 
     private SensorManager sm;
     private static float current_max_data;
@@ -37,7 +37,6 @@ public class accelerometer {
     private static float lastY;
     private static float lastZ;
     private static long latestSaveBatch;
-    private static long latestSaveBatchSleeping;
 
     private listener listener;
 
@@ -89,20 +88,12 @@ public class accelerometer {
 
         //If latest time saving batch was >= 10s ago
         if(sensorEvent.timestamp - latestSaveBatch >= (long) sleepConstants.SECS_PER_MAX_VALUE * 1_000_000_000 /*To nanos*/) {
-            addData();
+            sleepStore.addMaxData(current_max_data, current_max_raw_data);
+            current_max_data = 0;
+            current_max_raw_data = 0;
             latestSaveBatch = sensorEvent.timestamp;
             checkAndSendBatch();
-        } else if(System.currentTimeMillis() - latestSaveBatchSleeping >= 9 * 1000){
-            addData();
-            latestSaveBatch = sensorEvent.timestamp;
-            latestSaveBatchSleeping = System.currentTimeMillis();
         }
-    }
-
-    private void addData(){
-        sleepStore.addMaxData(current_max_data, current_max_raw_data);
-        current_max_data = 0;
-        current_max_raw_data = 0;
     }
 
     private void checkAndSendBatch(){
@@ -118,7 +109,7 @@ public class accelerometer {
         }
     }
 
-    private class listener implements SensorEventListener, SensorEventListener2 {
+    private class listener implements SensorEventListener {
         @Override
         public void onSensorChanged(SensorEvent event) {
             accelerometer.this.onSensorChanged(event); //Pass event to the other class
@@ -126,10 +117,5 @@ public class accelerometer {
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {} //Ignore
-
-        @Override
-        public void onFlushCompleted(Sensor sensor) {
-            Logger.debug("Flush completed for sensor " + sensor.getName());
-        }
     }
 }
