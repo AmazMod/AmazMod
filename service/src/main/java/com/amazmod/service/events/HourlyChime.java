@@ -11,8 +11,8 @@ import org.tinylog.Logger;
 import java.util.Calendar;
 
 public class HourlyChime {
-    public static void setHourlyChime(Context context, Boolean status) {
-        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(NotificationCompat.CATEGORY_ALARM);
+    public static void setHourlyChime(Context context, boolean status) {
+        AlarmManager alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(AlarmReceiver.REQUEST_CODE, AlarmReceiver.CHIME_CODE);
         PendingIntent alarmIntent = PendingIntent.getBroadcast(context, AlarmReceiver.CHIME_CODE, intent, 0);
