@@ -55,7 +55,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 mp.start();
             }
             final Vibrator mVibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            final long[] pattern = new long[]{0, 200, 300, 200};
+            final long[] pattern = new long[]{0, 200, 100, 200};
             if (mVibrator != null) {
                 mVibrator.vibrate(pattern, -1);
             } else {
