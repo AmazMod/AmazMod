@@ -1,21 +1,26 @@
 package com.amazmod.service.sleep;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.preference.PreferenceManager;
 
 import com.amazmod.service.R;
 import com.amazmod.service.notifications.NotificationService;
 import com.amazmod.service.sleep.sensor.sensorsStore;
+
+import org.tinylog.Logger;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.Locale;
 
+import amazmod.com.transport.Constants;
 import amazmod.com.transport.data.NotificationData;
 
 public class sleepUtils {
@@ -80,5 +85,17 @@ public class sleepUtils {
             new Handler().postDelayed(v::cancel, cancelDelay);
         } else
             v.vibrate(pattern, -1); //If repeat == 0 or -1 don't repeat it
+    }
+
+    public static void setSensorsState(boolean enabled, Context context){
+        boolean hrEnabled = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(Constants.PREF_ENABLE_SAA_HEARTRATE, false);
+        if(enabled){
+            sensorsStore.getAccelerometer().registerListener(context);
+            if(hrEnabled) sensorsStore.getHrSensor().registerListener(context);
+        } else {
+            sensorsStore.getAccelerometer().unregisterListener();
+            if(hrEnabled) sensorsStore.getHrSensor().unregisterListener(context);
+        }
     }
 }

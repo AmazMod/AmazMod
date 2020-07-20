@@ -19,14 +19,11 @@ public class sleepStore {
 
     public static void setTracking(boolean IsTracking, Context context) {
         if(IsTracking){
-            if(!isTracking){ //Don't start sensors again if it was listening
-                sensorsStore.getAccelerometer().registerListener(context);
-                sensorsStore.getHrSensor().registerListener(context);
-            }
+            if(!isTracking) //Don't start sensors again if it was listening
+                sleepUtils.setSensorsState(true, context);
             isSuspended = false;
         } else {
-            sensorsStore.getAccelerometer().unregisterListener();
-            sensorsStore.getHrSensor().unregisterListener(context);
+            sleepUtils.setSensorsState(false, context);
             batchSize = 1;
         }
         isTracking = IsTracking;
@@ -63,13 +60,10 @@ public class sleepStore {
 
     public static void setSuspended(boolean IsSuspended, Context context){
         isSuspended = IsSuspended;
-        if(IsSuspended){
-            sensorsStore.getAccelerometer().unregisterListener();
-            sensorsStore.getHrSensor().unregisterListener(context);
-        } else {
-            sensorsStore.getAccelerometer().registerListener(context);
-            sensorsStore.getHrSensor().registerListener(context);
-        }
+        if(IsSuspended)
+            sleepUtils.setSensorsState(false, context);
+        else
+            sleepUtils.setSensorsState(true, context);
     }
 
     public static boolean isSuspended(){

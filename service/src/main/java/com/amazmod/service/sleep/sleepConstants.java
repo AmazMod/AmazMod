@@ -1,15 +1,17 @@
 package com.amazmod.service.sleep;
 
+import android.hardware.SensorManager;
+
 public class sleepConstants {
 
     //HR Sensor
-    public static final int HR_VALUES = 20;
+    public static final int HR_VALUES = 15;
     public static final long HR_INTERVAL = 5 * 60 * 1000; //5m
 
     //Accelerometer
     public static final int SECS_PER_MAX_VALUE = 10;
-    public static final int SAMPLING_PERIOD_US = 200_000_000; //200ms
-    public static final int MAX_BATCH_SIZE = 4; //Don't increase this because we have 10k events and more can fill it
+    public static final int SAMPLING_PERIOD_US = SensorManager.SENSOR_DELAY_NORMAL;
+    public static final int MAX_BATCH_SIZE = 2; //Can be increased to 4 or 5 with proper testing
 
     //Other
     public static final int NOTIFICATION_ID = 1834;
