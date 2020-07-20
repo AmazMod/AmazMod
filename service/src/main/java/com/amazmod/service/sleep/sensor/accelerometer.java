@@ -77,7 +77,7 @@ public class accelerometer {
 
     public void setBatchSize(long size) {
         if (size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE;
-        flushInterval = (int) size * 1000;
+        flushInterval = (int) size * sleepConstants.SECS_PER_MAX_VALUE * 1000;
         flush();
     }
 
