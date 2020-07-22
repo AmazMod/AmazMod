@@ -28,6 +28,7 @@ import com.edotassi.amazmod.event.ResultDownloadFileChunk;
 import com.edotassi.amazmod.event.ResultShellCommand;
 import com.edotassi.amazmod.event.ResultWidgets;
 import com.edotassi.amazmod.event.SilenceApplication;
+import com.edotassi.amazmod.event.TakePicture;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.WatchStatus;
 import com.edotassi.amazmod.event.local.IsWatchConnectedLocal;
@@ -111,6 +112,7 @@ public class TransportService extends Service implements Transporter.DataListene
         put(Transport.FILE_UPLOAD, RequestFileUpload.class);
         put(Transport.SILENCE, SilenceApplication.class);
         put(Transport.WIDGETS_DATA, ResultWidgets.class);
+        put(Transport.TAKE_PICTURE, TakePicture.class);
     }};
 
     private static ArrayMap<String, Object> pendingResults = new ArrayMap<>();

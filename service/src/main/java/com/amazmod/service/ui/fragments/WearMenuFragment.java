@@ -157,6 +157,14 @@ public class WearMenuFragment extends Fragment implements WearableListView.Click
         List<MenuItems> itemList = new ArrayList<>();
         MenuItems item;
 
+        //Camera shutter
+        item = new MenuItems(
+                "Camera shutter", //TODO translation
+                android.R.drawable.ic_menu_camera
+        );
+        item.setActionWearActivity(LauncherWearGridActivity.CAMERA);
+        itemList.add(item);
+
         //Apps Manager
         item = new MenuItems(
                 getResources().getString(R.string.activity_menu_apps_mamager),
