@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import com.amazmod.service.AmazModService;
 import com.amazmod.service.MainService;
 import com.amazmod.service.R;
+import com.amazmod.service.util.ButtonListener;
 import com.huami.watch.transport.Transporter;
 import com.huami.watch.transport.TransporterClassic;
 
@@ -22,8 +24,10 @@ import java.util.ArrayList;
 
 import amazmod.com.transport.Transport;
 
+import static com.amazmod.service.util.SystemProperties.isPace;
 import static com.amazmod.service.util.SystemProperties.isStratos;
 import static com.amazmod.service.util.SystemProperties.isStratos3;
+import static com.amazmod.service.util.SystemProperties.isVerge;
 
 public class WearCameraFragment extends Fragment {
 
@@ -38,6 +42,7 @@ public class WearCameraFragment extends Fragment {
     private View mView;
     private Button takepict, changedelay;
     private int currDelay = -1;
+    private ButtonListener btnListener = new ButtonListener();
 
     @Override
     public void onAttach(Activity activity) {
@@ -99,6 +104,23 @@ public class WearCameraFragment extends Fragment {
         int newIndex = currIndex == (delays.size() - 1) ? 0 : currIndex + 1;
         currDelay = delays.get(newIndex);
         changedelay.setText("Delay: " + currDelay + "s"); //TODO translation
+    }
+
+    private void setupBtnListener(){
+        Handler btnHandler = new Handler();
+        btnListener.start(mContext, keyEvent -> {
+            if((isPace() || isVerge() || isStratos()) && keyEvent.getCode() == ButtonListener.KEY_CENTER) {
+                if (keyEvent.isLongPress())
+                    btnHandler.post(this::updateDelay);
+                else
+                    btnHandler.post(this::takePicture);
+            } else if(isStratos3())
+                if(keyEvent.getCode() == ButtonListener.S3_KEY_UP)
+                    btnHandler.post(this::takePicture);
+                else if(keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_UP
+                        || keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_DOWN)
+                    btnHandler.post(this::updateDelay);
+        });
     }
 
     public static WearCameraFragment newInstance() {
