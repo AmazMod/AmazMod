@@ -95,7 +95,10 @@ public class WearCameraFragment extends Fragment {
 
     private void takePicture(){
         if (!transporter.isTransportServiceConnected()) transporter.connectTransportService();
-        transporter.send(Transport.TAKE_PICTURE);
+        int finalDelay = currDelay * 1000;
+        if(isStratos3() && finalDelay >= 1000)
+            finalDelay -= 1000; //Push 1s before on S3 due to BT delay
+        new Handler().postDelayed(() -> transporter.send(Transport.TAKE_PICTURE), finalDelay + 10);
     }
 
     private void updateDelay(){
