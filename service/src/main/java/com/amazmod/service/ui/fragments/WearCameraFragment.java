@@ -119,15 +119,15 @@ public class WearCameraFragment extends Fragment {
         Handler btnHandler = new Handler();
         btnListener.start(mContext, keyEvent -> {
             if((isPace() || isVerge() || isStratos()) && keyEvent.getCode() == ButtonListener.KEY_CENTER) {
-                if (keyEvent.isLongPress())
+                if (keyEvent.isLongPress() && onForeground)
                     btnHandler.post(this::updateDelay);
                 else
                     btnHandler.post(this::takePicture);
             } else if(isStratos3())
-                if(keyEvent.getCode() == ButtonListener.S3_KEY_UP)
+                if(keyEvent.getCode() == ButtonListener.S3_KEY_UP && onForeground)
                     btnHandler.post(this::takePicture);
-                else if(keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_UP
-                        || keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_DOWN)
+                else if((keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_UP
+                        || keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_DOWN) && onForeground)
                     btnHandler.post(this::updateDelay);
         });
     }
