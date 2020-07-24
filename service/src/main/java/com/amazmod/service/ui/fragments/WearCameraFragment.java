@@ -54,6 +54,7 @@ public class WearCameraFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupBtnListener();
         Logger.info("WearAppsFragment onCreate");
 
     }
@@ -106,7 +107,7 @@ public class WearCameraFragment extends Fragment {
         int currIndex = (currDelay == -1) ? currDelay : delays.indexOf(currDelay);
         int newIndex = currIndex == (delays.size() - 1) ? 0 : currIndex + 1;
         currDelay = delays.get(newIndex);
-        changedelay.setText("Delay: " + currDelay + "s"); //TODO translation
+        changedelay.setText(getResources().getString(R.string.camera_delay) + ": " + currDelay + "s");
     }
 
     private void setupBtnListener(){

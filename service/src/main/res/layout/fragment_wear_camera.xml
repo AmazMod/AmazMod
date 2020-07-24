@@ -7,13 +7,13 @@
     android:background="@color/black"
     android:backgroundTintMode="src_in">
 
-    <!--TODO better icon, add on settings too-->
+    <!--TODO add on settings too-->
 
     <Button
         android:id="@+id/camera_takepict"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@android:drawable/ic_menu_camera"
+        android:background="@drawable/ic_remote_camera"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
