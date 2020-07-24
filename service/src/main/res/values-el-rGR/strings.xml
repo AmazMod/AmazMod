@@ -175,4 +175,6 @@
     <string name="alarm">Ξυπνητήρι</string>
     <string name="alarm_snooze">Αναβολή</string>
     <string name="alarm_dismiss">Παράβλεψη</string>
+    <string name="camera_delay">Delay</string>
+    <string name="camera_shutter">Camera Shutter</string>
 </resources>
