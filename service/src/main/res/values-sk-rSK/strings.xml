@@ -175,4 +175,6 @@
     <string name="alarm">Budík</string>
     <string name="alarm_snooze">Odložiť</string>
     <string name="alarm_dismiss">Zrušiť</string>
+    <string name="camera_delay">Delay</string>
+    <string name="camera_shutter">Camera Shutter</string>
 </resources>
