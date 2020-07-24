@@ -42,6 +42,7 @@ public class WearCameraFragment extends Fragment {
     private View mView;
     private Button takepict, changedelay;
     private int currDelay = -1;
+    private boolean onForeground;
     private ButtonListener btnListener = new ButtonListener();
 
     @Override
@@ -55,6 +56,7 @@ public class WearCameraFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupBtnListener();
+        onForeground = true;
         Logger.info("WearAppsFragment onCreate");
 
     }
@@ -82,6 +84,7 @@ public class WearCameraFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        onForeground = false;
     }
 
     private void init(){
@@ -107,7 +110,9 @@ public class WearCameraFragment extends Fragment {
         int currIndex = (currDelay == -1) ? currDelay : delays.indexOf(currDelay);
         int newIndex = currIndex == (delays.size() - 1) ? 0 : currIndex + 1;
         currDelay = delays.get(newIndex);
-        changedelay.setText(getResources().getString(R.string.camera_delay) + ": " + currDelay + "s");
+        if (onForeground) {
+            changedelay.setText(getResources().getString(R.string.camera_delay) + ": " + currDelay + "s");
+        }
     }
 
     private void setupBtnListener(){
