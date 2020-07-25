@@ -85,6 +85,7 @@ public class WearCameraFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         onForeground = false;
+        btnListener.stop();
     }
 
     private void init(){
