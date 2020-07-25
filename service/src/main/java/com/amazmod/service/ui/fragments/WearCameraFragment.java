@@ -42,7 +42,6 @@ public class WearCameraFragment extends Fragment {
     private View mView;
     private Button takepict, changedelay;
     private int currDelay = -1;
-    private boolean onForeground;
     private ButtonListener btnListener = new ButtonListener();
 
     @Override
@@ -56,7 +55,6 @@ public class WearCameraFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupBtnListener();
-        onForeground = true;
         Logger.info("WearAppsFragment onCreate");
 
     }
@@ -84,7 +82,6 @@ public class WearCameraFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        onForeground = false;
         btnListener.stop();
     }
 
@@ -106,29 +103,28 @@ public class WearCameraFragment extends Fragment {
         new Handler().postDelayed(() -> transporter.send(Transport.TAKE_PICTURE), finalDelay + 10);
     }
 
-    private void updateDelay(){
+    private void updateDelay() {
         //If -1, set to -1 and get increased to 0s, else set current value and increase to next/first value
         int currIndex = (currDelay == -1) ? currDelay : delays.indexOf(currDelay);
         int newIndex = currIndex == (delays.size() - 1) ? 0 : currIndex + 1;
         currDelay = delays.get(newIndex);
-        if (onForeground) {
-            changedelay.setText(getResources().getString(R.string.camera_delay) + ": " + currDelay + "s");
-        }
+        changedelay.setText(getResources().getString(R.string.camera_delay) + ": " + currDelay + "s");
+
     }
 
     private void setupBtnListener(){
         Handler btnHandler = new Handler();
         btnListener.start(mContext, keyEvent -> {
             if((isPace() || isVerge() || isStratos()) && keyEvent.getCode() == ButtonListener.KEY_CENTER) {
-                if (keyEvent.isLongPress() && onForeground)
+                if (keyEvent.isLongPress())
                     btnHandler.post(this::updateDelay);
                 else
                     btnHandler.post(this::takePicture);
             } else if(isStratos3())
-                if(keyEvent.getCode() == ButtonListener.S3_KEY_UP && onForeground)
+                if(keyEvent.getCode() == ButtonListener.S3_KEY_UP)
                     btnHandler.post(this::takePicture);
-                else if((keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_UP
-                        || keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_DOWN) && onForeground)
+                else if(keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_UP
+                        || keyEvent.getCode() == ButtonListener.S3_KEY_MIDDLE_DOWN)
                     btnHandler.post(this::updateDelay);
         });
     }
