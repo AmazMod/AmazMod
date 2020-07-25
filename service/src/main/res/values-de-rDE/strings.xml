@@ -175,4 +175,6 @@
     <string name="alarm">Alarm</string>
     <string name="alarm_snooze">Schlummern</string>
     <string name="alarm_dismiss">Verwerfen</string>
+    <string name="camera_delay">Verzögerung</string>
+    <string name="camera_shutter">Kameraauslöser</string>
 </resources>

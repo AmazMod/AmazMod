@@ -175,4 +175,6 @@
     <string name="alarm">Báo thức</string>
     <string name="alarm_snooze">Báo lại</string>
     <string name="alarm_dismiss">Bỏ qua</string>
+    <string name="camera_delay">Delay</string>
+    <string name="camera_shutter">Camera Shutter</string>
 </resources>
