@@ -175,6 +175,6 @@
     <string name="alarm">Аларм</string>
     <string name="alarm_snooze">Одложи</string>
     <string name="alarm_dismiss">Одбаци</string>
-    <string name="camera_delay">Delay</string>
-    <string name="camera_shutter">Camera Shutter</string>
+    <string name="camera_delay">Кашњење</string>
+    <string name="camera_shutter">Затварача Камере</string>
 </resources>

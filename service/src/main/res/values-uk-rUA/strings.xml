@@ -175,6 +175,6 @@
     <string name="alarm">Будильник</string>
     <string name="alarm_snooze">Відкласти</string>
     <string name="alarm_dismiss">Відмінити</string>
-    <string name="camera_delay">Delay</string>
-    <string name="camera_shutter">Camera Shutter</string>
+    <string name="camera_delay">Затримка</string>
+    <string name="camera_shutter">Затвор камери</string>
 </resources>
