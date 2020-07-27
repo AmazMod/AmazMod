@@ -112,9 +112,9 @@
     <string name="low_power_mode_warning">Bent u zeker? Low Power Mode (LPM) schakelt de Bluetooth en touchscreen tot het horloge opnieuw is ingeschakeld (druk en houd de power-toets) of de batterij gaat onder de 5% en kijken weer opgeladen is.</string>
     <string name="reload_items">Opnieuw laden</string>
     <string name="clear_all_items">Alle items wissen</string>
-    <string name="save_order">Bespaar bestelling</string>
+    <string name="save_order">Opslaan</string>
     <string name="widgets">Widgets</string>
-    <string name="clear_saved_order">Opgeslagen volgorde wissen</string>
+    <string name="clear_saved_order">Wissen</string>
     <string name="write_settings_permission_required">Schrijven Van Instellingen Toestemming Vereist!</string>
     <string name="five_day">5 dag(en)</string>
     <string name="content">Inhoud</string>
@@ -136,7 +136,7 @@
     <string name="clear">Wissen</string>
     <string name="reload_apps">Apps opnieuw laden</string>
     <string name="reload_files">Herlaad bestanden</string>
-    <string name="clear_saved">Opgeslagen wissen</string>
+    <string name="clear_saved">Wissen</string>
     <string name="service_update">Service Update</string>
     <string name="file_manager">Bestands beheer</string>
     <string name="app_manager">App Manager</string>
@@ -156,7 +156,7 @@
     <string name="activity_menu_revoke_admin">Admin toestemming intrekken</string>
     <string name="activity_menu_grant_admin">Admin Toestemming</string>
     <string name="activity_menu_restart_launcher">Herstart launcher</string>
-    <string name="activity_menu_clear_launcher">Duidelijk Launcher Instellingen</string>
+    <string name="activity_menu_clear_launcher">Instellingen wissen</string>
     <string name="activity_menu_reboot">Herstarten</string>
     <string name="activity_menu_reboot_recovery">Recovery</string>
     <string name="activity_menu_reboot_fastboot">Fastboot</string>
