@@ -175,6 +175,6 @@
     <string name="alarm">Alarma</string>
     <string name="alarm_snooze">Posponer</string>
     <string name="alarm_dismiss">Descartar</string>
-    <string name="camera_delay">Delay</string>
-    <string name="camera_shutter">Camera Shutter</string>
+    <string name="camera_delay">Retardo</string>
+    <string name="camera_shutter">Disparador Cámara</string>
 </resources>
