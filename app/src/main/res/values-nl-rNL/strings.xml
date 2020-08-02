@@ -222,7 +222,7 @@
     <string name="activity_about_extras">Extra \'s</string>
     <string name="revoke_device_owner">Intrekken admin rechten</string>
     <string name="alerts">Meldingen</string>
-    <string name="pref_phone_connect_alert_standard_notification">Gebruik standaard meldingen</string>
+    <string name="pref_phone_connect_alert_standard_notification">Standaard meldingen</string>
     <string name="pref_phone_connect_alert_standard_notification_summary">Gebruik standaard meldingen voor meldingen in plaats van een aangepaste volledige scherm UI.</string>
     <string name="enable_low_power">Schakel spaarstand in op je horloge</string>
     <string name="failed_to_send_command">Verzenden opdracht naar horloge is mislukt</string>
