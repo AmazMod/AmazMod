@@ -85,7 +85,7 @@
     <string name="please_wait_may_take_a_while">Wacht, het kan een tijdje duren…</string>
     <string name="up_time">Actief:</string>
     <string name="sleep_time">Slaaptijd:</string>
-    <string name="free_ram">Vrije RAM:</string>
+    <string name="free_ram">RAM:</string>
     <string name="not_connected">niet verbonden</string>
     <string name="proceeding_in_3s">Doorgaan in 3s…</string>
     <string name="last_20_values">Laatste 20 waarden [%sd]</string>
