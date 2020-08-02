@@ -45,7 +45,7 @@
     <string name="unknown">Onbekend</string>
     <string name="saved">Opgeslagen</string>
     <string name="default_icon"></string>
-    <string name="error_loading">Kan niet laden springboard-pagina \' s. Probeer het openen van de Amazfit app op uw telefoon, herschikken en het inschakelen/uitschakelen van de widget-pagina \' s in de instellingen, en tik vervolgens om te herladen</string>
+    <string name="error_loading">Kan springboard-pagina\'s niet laden. Probeer via Amazfit app te herschikken en het inschakelen/uitschakelen van de widget-pagina \' s in instellingen, vervolgens herladen.</string>
     <string name="tap_to_cancel">KLIK OM TE ANNULEREN</string>
     <string name="watch_battery">Horloge batterij is onder %s</string>
     <string name="phone_battery">Telefoons is de batterij onder %s</string>
