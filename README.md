@@ -65,7 +65,11 @@ If you want to help by translating the app in your language, take a look at our 
 
 * How do I install the app on watch?  
 
-You can use adb (all platforms), APKInstaller, Amazfit Tool or the provided installer if you are on Windows. To use adb, you need the binaries on your computer (download them from [Android SDK Platform tools page](https://developer.android.com/studio/releases/platform-tools), you may have them already if your computer runs Linux), then open Terminal/Command Prompt, change to the same folder as service-release.apk and run: `adb install -r service-release.apk`.
+You can use adb (all platforms), APKInstaller, Amazfit Tool or the provided installer if you are on Windows. To use adb, you need the binaries on your computer (download them from [Android SDK Platform tools page](https://developer.android.com/studio/releases/platform-tools), you may have them already if your computer runs Linux), then open Terminal/Command Prompt, change to the same folder as service-release.apk and run: 
+1. `adb install -r service-release.apk`
+2. `adb -d shell monkey -p com.amazmod.service 1 > NUL`
+3. Check your smartwatch screen, the widget should be open
+4. Go to the app in the phone and make it visible
 
 Alternatively, you can use the EXE installers provided with each release, that will allow you to use a wizzard for a more convenient installation.
 
