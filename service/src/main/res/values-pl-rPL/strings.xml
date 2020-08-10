@@ -175,6 +175,6 @@
     <string name="alarm">Alarm</string>
     <string name="alarm_snooze">Uśpij</string>
     <string name="alarm_dismiss">Odrzuć</string>
-    <string name="camera_delay">Delay</string>
-    <string name="camera_shutter">Camera Shutter</string>
+    <string name="camera_delay">Opóźnienie</string>
+    <string name="camera_shutter">Migawka Aparatu</string>
 </resources>
