@@ -118,7 +118,7 @@
     <string name="pref_enable_maps_notification">Notifikasi peta</string>
     <string name="pref_enable_maps_notification_summary">Aktifkan Pemberitahuan Peta Google.</string>
     <string name="pref_notification_enable_sound">Suara pemberitahuan</string>
-    <string name="pref_notification_enable_sound_summary">Enable sound for custom UI notification. To customize the sound put your mp3 renamed as \"amazmod_notification.mp3\" in this folder on verge \"/sdcard/Notifications/\"</string>
+    <string name="pref_notification_enable_sound_summary">Aktifkan suara untuk custom UI notifikasi. Untuk menyesuaikan suara menempatkan mp3 Anda diganti namanya sebagai \"amazmod_notification.mp3\" dalam folder ini di ambang \"/sdcard/Notifications/\"</string>
     <string name="pref_run_wizard">Presentasi Selamat datang</string>
     <string name="pref_run_wizard_summary">Menjalankan presentasi Selamat datang lagi.</string>
     <string name="pref_vibration_duration">Durasi getaran</string>
