@@ -48,21 +48,21 @@ public class WearCameraFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = activity.getBaseContext();
-        Logger.info("WearAppsFragment onAttach context: " + mContext);
+        Logger.info("WearCameraFragment onAttach context: " + mContext);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupBtnListener();
-        Logger.info("WearAppsFragment onCreate");
+        Logger.info("WearCameraFragment onCreate");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        Logger.info("WearAppsFragment onCreateView");
+        Logger.info("WearCameraFragment onCreateView");
         mView = inflater.inflate(R.layout.fragment_wear_camera, container, false);
         return mView;
     }
@@ -109,7 +109,6 @@ public class WearCameraFragment extends Fragment {
         int newIndex = currIndex == (delays.size() - 1) ? 0 : currIndex + 1;
         currDelay = delays.get(newIndex);
         changedelay.setText(getResources().getString(R.string.camera_delay) + ": " + currDelay + "s");
-
     }
 
     private void setupBtnListener(){

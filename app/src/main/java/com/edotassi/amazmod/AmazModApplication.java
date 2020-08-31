@@ -3,6 +3,8 @@ package com.edotassi.amazmod;
 import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
+import android.provider.MediaStore;
 
 import com.edotassi.amazmod.setup.Setup;
 import com.edotassi.amazmod.util.LocaleUtils;
@@ -25,6 +27,7 @@ public class AmazModApplication extends Application {
     public static Locale defaultLocale;
     private static boolean isWatchConnected;
     private static Timestamp timeLastSeen;
+    private static Application mApp;
     //public static int syncInterval;
 
     public static long timeLastSync;
@@ -37,6 +40,8 @@ public class AmazModApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Logger.info("AmazModApplication onCreate");
+
+        mApp = this;
 
         FlowManager.init(this);
 
@@ -67,19 +72,23 @@ public class AmazModApplication extends Application {
         defaultLocale = LocaleUtils.getLocale();
     }
 
-    public static void setWatchConnected(boolean connected){
+    public static Context getContext() {
+        return mApp.getBaseContext().getApplicationContext();
+    }
+
+    public static void setWatchConnected(boolean connected) {
         isWatchConnected = connected;
-        if (connected){
+        if (connected) {
             timeLastSeen = new Timestamp(System.currentTimeMillis());
         }
         Logger.debug("AmazModApplication setWatchConnected - connected: " + connected + " | last seen: " + getTimeLastSeen());
     }
 
-    public static boolean isWatchConnected(){
+    public static boolean isWatchConnected() {
         return isWatchConnected;
     }
 
-    private void setupLogs(){
+    private void setupLogs() {
         String logFile = this.getExternalFilesDir(null) + File.separator + Constants.LOGFILE;
         final boolean isDebug = BuildConfig.VERSION_NAME.toLowerCase().contains("dev");
         String logcatLevel = "error";
@@ -89,20 +98,20 @@ public class AmazModApplication extends Application {
         Configuration.set("writerLogcat.level", logcatLevel);
         Configuration.set("writerLogcat.tagname", "AmazMod");
         Configuration.set("writerLogcat.format", "{class-name}.{method}(): {message}");
-        if (Prefs.getBoolean(Constants.PREF_LOG_TO_FILE,Constants.PREF_LOG_TO_FILE_DEFAULT)) {
-            String level = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL,Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT).toLowerCase();
+        if (Prefs.getBoolean(Constants.PREF_LOG_TO_FILE, Constants.PREF_LOG_TO_FILE_DEFAULT)) {
+            String level = Prefs.getString(Constants.PREF_LOG_TO_FILE_LEVEL, Constants.PREF_LOG_TO_FILE_LEVEL_DEFAULT).toLowerCase();
             Configuration.set("writerFile", "file");
             Configuration.set("writerFile.format", "{date:yyyy-MM-dd HH:mm:ss.SSS} {level|min-size=5} {class-name}.{method}(): {message}");
             Configuration.set("writerFile.file", logFile);
             Configuration.set("writerFile.level", level);
             Logger.info("Logging to {} using the level {}", logFile, level);
-        }else{
+        } else {
             Logger.info("Logging to LOGCAT only with level: {}", logcatLevel.toUpperCase());
         }
     }
 
-    public static String getTimeLastSeen(){
-        DateFormat localizedDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
+    public static String getTimeLastSeen() {
+        DateFormat localizedDateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
         return localizedDateFormat.format(timeLastSeen);
     }
 }
