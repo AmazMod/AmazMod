@@ -19,7 +19,7 @@ import amazmod.com.transport.data.SleepData;
 public class heartrate implements SensorEventListener {
 
     private int currentValue;
-    private float[] currentArray = new float[20];
+    private float[] currentArray = new float[sleepConstants.HR_VALUES];
     private SensorManager sm;
     private Thread waitThread = new waitThread();
 
@@ -44,13 +44,14 @@ public class heartrate implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sleepStore.isSuspended())
             return;
-        if(currentValue < sleepConstants.HR_VALUES)
-            currentArray[currentValue++] = sensorEvent.values[0];
+
+        currentArray[currentValue++] = sensorEvent.values[0];
+
         if(currentValue == sleepConstants.HR_VALUES){
             SleepData sleepData = new SleepData();
             sleepData.setAction(SleepData.actions.ACTION_HRDATA_UPDATE);
             sleepData.setHrdata(currentArray);
-            currentArray = new float[20];
+            currentArray = new float[sleepConstants.HR_VALUES];
             currentValue = 0;
             sleepService.send(sleepData.toDataBundle(new DataBundle()));
             sm.unregisterListener(this);

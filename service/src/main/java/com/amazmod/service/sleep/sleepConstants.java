@@ -5,7 +5,7 @@ import android.hardware.SensorManager;
 public class sleepConstants {
 
     //HR Sensor
-    public static final int HR_VALUES = 15;
+    public static final int HR_VALUES = 10;
     public static final long HR_INTERVAL = 5 * 60 * 1000; //5m
 
     //Accelerometer

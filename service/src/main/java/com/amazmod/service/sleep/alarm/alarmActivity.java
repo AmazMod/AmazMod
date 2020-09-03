@@ -39,14 +39,12 @@ public class alarmActivity extends Activity {
     public static final String INTENT_CLOSE = "com.amazmod.alarm.action.close";
 
     private static final AudioAttributes VIBRATION_ATTRIBUTES = new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT).build();
-    private static final long[] VIBRATION_PATTERN = new long[]{0, 200, 100, 200, 100, 200, 100, 0, 400};
 
     private TextView time;
     private Button snooze, dismiss;
 
     private ButtonListener buttonListener = new ButtonListener();
     private Handler timeHandler;
-    private Handler vibratorHandler;
     private Vibrator vibrator;
 
     PowerManager.WakeLock wakeLock = null;
@@ -75,9 +73,10 @@ public class alarmActivity extends Activity {
         mLocalBroadcastManager.registerReceiver(mBroadcastReceiver, mIntentFilter);
         setupTime();
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-        vibratorHandler = new Handler();
-        vibratorHandler.postDelayed(() -> vibrator.vibrate(VIBRATION_PATTERN, 0, VIBRATION_ATTRIBUTES),
-                getIntent().getIntExtra("DELAY", 0));
+        long[] VIBRATION_PATTERN = new long[]{
+                getIntent().getIntExtra("DELAY", 0),
+                200, 100, 200, 100, 200, 100, 0, 400};
+        vibrator.vibrate(VIBRATION_PATTERN, 0 /*Until cancelled*/, VIBRATION_ATTRIBUTES);
     }
 
     private void setupTime() {
@@ -104,10 +103,7 @@ public class alarmActivity extends Activity {
         vibrator.cancel();
         if (timeHandler != null)
             timeHandler.removeCallbacksAndMessages(null);
-        if (vibratorHandler != null)
-            vibratorHandler.removeCallbacksAndMessages(null);
         timeHandler = null;
-        vibratorHandler = null;
         releaseWakeLock();
         buttonListener.stop();
     }

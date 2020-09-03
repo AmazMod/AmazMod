@@ -74,17 +74,13 @@ public class sleepUtils {
 
     public static void startHint(int repeat, Context context){
         Vibrator v = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = new long[]{0, 50, 1000};
-        int cancelDelay = 0;
-        for(long x : pattern){
-            cancelDelay += x;
+        long[] pattern = new long[repeat * 2 + 1];//new long[]{0, 50, 1000};
+        pattern[0] = 0;
+        if(repeat > 0) {
+            for (int i = 1; i < repeat * 2 + 1; i++)
+                pattern[i] = i % 2 == 0 ? 50 : 1000;
         }
-        cancelDelay *= repeat;
-        if(repeat > 1) {
-            v.vibrate(pattern, 0);
-            new Handler().postDelayed(v::cancel, cancelDelay);
-        } else
-            v.vibrate(pattern, -1); //If repeat == 0 or -1 don't repeat it
+        v.vibrate(pattern, -1);
     }
 
     public static void setSensorsState(boolean enabled, Context context){

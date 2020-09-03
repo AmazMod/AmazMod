@@ -173,26 +173,9 @@ public class ExecCommand {
 
     private class OutputReader extends Thread {
 
-        private Runnable failRunnable;
         private Handler handler;
 
         OutputReader() {
-            handler = null;
-            try {
-                outputSem = new Semaphore(1);
-                outputSem.acquire();
-            } catch (InterruptedException e) {
-                Logger.error(e, "ExecCommand OutputReader exception: {}", e.getMessage());
-            }
-        }
-        // TODO: Start using this OutputReader with context instead of the other one
-        OutputReader(Context paramContext) {
-            if(paramContext != null){
-                failRunnable = () -> {
-                    Toast.makeText(paramContext, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
-                    DeviceUtil.systemPutInt(paramContext, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
-                };
-            }
             handler = new Handler();
             try {
                 outputSem = new Semaphore(1);
@@ -219,8 +202,12 @@ public class ExecCommand {
                 }
                 output = readBuffer.toString();
                 if (output.toLowerCase().contains("fail")) {
-                    if(handler != null){
-                        handler.post(failRunnable);
+                    Context context = AmazModService.getContext();
+                    if(context != null){
+                        handler.post(() -> {
+                            Toast.makeText(context, "Failed to update AmazMod", Toast.LENGTH_LONG).show();
+                            DeviceUtil.systemPutInt(context, Settings.System.SCREEN_OFF_TIMEOUT, 14000);
+                        });
                     } else {
                         new ExecCommand(ExecCommand.ADB, "adb shell settings put system screen_off_timeout 14000");
                     }
@@ -228,7 +215,7 @@ public class ExecCommand {
                 }
                 outputSem.release();
             } catch (IOException e) {
-                Logger.error(e, "ExecCommand OutputError.run exception: {}", e.getMessage());
+                Logger.error(e, "ExecCommand OutputError.run exception: {}", e.toString());
             }
         }
     }

@@ -185,18 +185,14 @@ public class MainService extends Service implements Transporter.DataListener {
             // Vibration
             // Do not vibrate if DND is active
             if (!DeviceUtil.isDNDActive(context)) {
-                new Handler().postDelayed(new Runnable() {
-                    public void run() {
-                        final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                        if (vibrator == null) return;
+                final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                if (vibrator == null) return;
 
-                        try {
-                            vibrator.vibrate(vibrate);
-                        } catch (Exception e) {
-                            Logger.error("vibrator exception: {}", e.getMessage());
-                        }
-                    }
-                }, 1000 /* 1s */);
+                try {
+                    vibrator.vibrate(new long[]{1000 /*1s delay*/, vibrate}, -1);
+                } catch (Exception e) {
+                    Logger.error("vibrator exception: {}", e.getMessage());
+                }
             }
 
             isRunning = false;
