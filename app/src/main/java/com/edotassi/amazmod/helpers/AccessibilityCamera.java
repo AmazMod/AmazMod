@@ -18,12 +18,8 @@ public class AccessibilityCamera extends AccessibilityService {
         @Override
         public void onCreate() {
             super.onCreate();
-        }
 
-        @Override
-        protected void onServiceConnected() {
-            super.onServiceConnected();
-            Logger.debug("AccesibilityCamera service connected");
+            Logger.debug("AccesibilityCamera service created");
 
             AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
             if(nodeInfo == null) return;
@@ -36,6 +32,11 @@ public class AccessibilityCamera extends AccessibilityService {
             }
 
             stopSelf(); //Stop service after taking picture
+        }
+
+        @Override
+        protected void onServiceConnected() {
+            super.onServiceConnected();
         }
 
         @Override
