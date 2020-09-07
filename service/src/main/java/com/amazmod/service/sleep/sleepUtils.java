@@ -84,14 +84,14 @@ public class sleepUtils {
     }
 
     public static void setSensorsState(boolean enabled, Context context){
-        boolean hrEnabled = PreferenceManager.getDefaultSharedPreferences(context)
-                .getBoolean(Constants.PREF_ENABLE_SAA_HEARTRATE, false);
+        /*boolean hrEnabled = PreferenceManager.getDefaultSharedPreferences(context)
+                .getBoolean(Constants.PREF_ENABLE_SAA_HEARTRATE, false);*/
         if(enabled){
             sensorsStore.getAccelerometer().registerListener(context);
-            if(hrEnabled) sensorsStore.getHrSensor().registerListener(context);
+            //if(hrEnabled) sensorsStore.getHrSensor().registerListener(context);
         } else {
             sensorsStore.getAccelerometer().unregisterListener();
-            if(hrEnabled) sensorsStore.getHrSensor().unregisterListener(context);
+            //if(hrEnabled) sensorsStore.getHrSensor().unregisterListener(context);
         }
     }
 }

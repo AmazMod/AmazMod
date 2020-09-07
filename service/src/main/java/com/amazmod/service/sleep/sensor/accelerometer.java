@@ -52,13 +52,15 @@ public class accelerometer {
         Logger.debug("Registering accelerometer listener...");
         sm = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         listener = new listener();
+        //Batching disabled because it doesn't work on any amazfit
         sm.registerListener(listener, sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                sleepConstants.SAMPLING_PERIOD_US, (int) maxReportLatencyUs);
+                sleepConstants.SAMPLING_PERIOD_US);
+                //sleepConstants.SAMPLING_PERIOD_US, (int) maxReportLatencyUs);
         setupHandler();
     }
 
     public void setupHandler() {
-        if (Looper.myLooper() == null) Looper.prepare();
+        /*if (Looper.myLooper() == null) Looper.prepare();
         flushHandler = new Handler(Looper.getMainLooper());
         flushHandler.postDelayed(new Runnable() {
             @Override
@@ -67,18 +69,18 @@ public class accelerometer {
                 if(!sleepStore.isSuspended()) flush();
                 flushHandler.postDelayed(this, flushInterval);
             }
-        }, 10);
+        }, 10);*/
     }
 
     public void unregisterListener() {
         if (sm != null && listener != null) sm.unregisterListener(listener);
-        flushHandler.removeCallbacksAndMessages(null);
+        //flushHandler.removeCallbacksAndMessages(null);
     }
 
     public void setBatchSize(long size) {
-        if (size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE;
+        /*if (size > sleepConstants.MAX_BATCH_SIZE) size = sleepConstants.MAX_BATCH_SIZE;
         flushInterval = (int) size * sleepConstants.SECS_PER_MAX_VALUE * 1000;
-        flush();
+        flush();*/
     }
 
     public void flush() {
