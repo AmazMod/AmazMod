@@ -1,20 +1,16 @@
 package com.edotassi.amazmod.transport;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.os.SystemClock;
-import android.provider.MediaStore;
 import android.view.KeyEvent;
 
-import com.edotassi.amazmod.AmazModApplication;
 import com.edotassi.amazmod.event.NextMusic;
 import com.edotassi.amazmod.event.NotificationReply;
 import com.edotassi.amazmod.event.SilenceApplication;
 import com.edotassi.amazmod.event.TakePicture;
 import com.edotassi.amazmod.event.ToggleMusic;
 import com.edotassi.amazmod.event.local.ReplyToNotificationLocal;
-import com.edotassi.amazmod.helpers.AccessibilityCamera;
 import com.edotassi.amazmod.support.SilenceApplicationHelper;
 
 import org.greenrobot.eventbus.EventBus;
@@ -88,12 +84,8 @@ public class TransportListener {
     public void takePicture(TakePicture takePicture){
         Logger.debug("Received take picture action!");
         try {
-
-            Intent intent = new Intent(AmazModApplication.getContext().getApplicationContext(), AccessibilityCamera.class);
-            AmazModApplication.getContext().startService(intent);
-
-            //Runtime.getRuntime().exec("input keyevent " + KeyEvent.KEYCODE_VOLUME_UP);
-        } catch (Exception e) {
+            Runtime.getRuntime().exec("input keyevent " + KeyEvent.KEYCODE_VOLUME_UP);
+        } catch (IOException e) {
             Logger.error(e);
         }
     }
