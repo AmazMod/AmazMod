@@ -208,6 +208,7 @@ public class NotificationJobService extends JobService implements TransportServi
     public void processNotificationRemoved(final String uuid) {
 
         boolean isNotificationQueued = false;
+        if(NotificationStore.UUIDmap == null) return;
         String key = NotificationStore.UUIDmap.get(uuid);
         Logger.debug("uuid: {} key: {}", uuid, key);
 
